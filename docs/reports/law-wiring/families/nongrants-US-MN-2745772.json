@@ -1526,53 +1526,53 @@
       },
       "reach": {
         "fullPeople": 848,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "countedGroups": 7,
+        "countedPeople": 7,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 848,
+        "open": 855,
         "ended": 0,
         "sample": [
-          "applied|social-security-earliest-claim-age|person_80fb6a3976d15d64",
-          "applied|social-security-earliest-claim-age|person_80fb6b3976d15f17",
-          "applied|social-security-earliest-claim-age|person_80fb6c3976d160ca",
-          "applied|social-security-earliest-claim-age|person_71d531692eec0f40"
+          "applied|social-security-earliest-claim-age|person_e8632f5ae684089f",
+          "applied|social-security-earliest-claim-age|person_5e22dfa1358b64b0",
+          "applied|social-security-earliest-claim-age|person_ffaa76043a08622f",
+          "applied|social-security-earliest-claim-age|person_45066a1b0dbdefad"
         ]
       },
       "reachAtEnd": {
         "fullPeople": 848,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "countedGroups": 7,
+        "countedPeople": 7,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 848,
+        "open": 855,
         "ended": 0,
         "sample": [
-          "applied|social-security-earliest-claim-age|person_80fb6a3976d15d64",
-          "applied|social-security-earliest-claim-age|person_80fb6b3976d15f17",
-          "applied|social-security-earliest-claim-age|person_80fb6c3976d160ca",
-          "applied|social-security-earliest-claim-age|person_71d531692eec0f40"
+          "applied|social-security-earliest-claim-age|person_e8632f5ae684089f",
+          "applied|social-security-earliest-claim-age|person_5e22dfa1358b64b0",
+          "applied|social-security-earliest-claim-age|person_ffaa76043a08622f",
+          "applied|social-security-earliest-claim-age|person_45066a1b0dbdefad"
         ]
       },
       "inPlay": [],
       "applied": {
-        "rows": 848,
+        "rows": 855,
         "withAmount": 0,
         "sample": [
-          "applied|social-security-earliest-claim-age|person_80fb6a3976d15d64",
-          "applied|social-security-earliest-claim-age|person_80fb6b3976d15f17",
-          "applied|social-security-earliest-claim-age|person_80fb6c3976d160ca"
+          "applied|social-security-earliest-claim-age|person_e8632f5ae684089f",
+          "applied|social-security-earliest-claim-age|person_5e22dfa1358b64b0",
+          "applied|social-security-earliest-claim-age|person_ffaa76043a08622f"
         ]
       },
       "readers": {
         "src/core2/modules/retirement-claims.ts:98": 2319,
-        "src/core2/modules/retirement-claims.ts:113": 1650,
+        "src/core2/modules/retirement-claims.ts:117": 1778,
         "src/core2/life.ts:552": 5,
-        "src/core2/modules/jobs.ts:3821": 2
+        "src/core2/modules/jobs.ts:3823": 2
       },
       "openingRow": "law:US:federal:social-security-earliest-claim-age:general:starting",
       "money": {
@@ -1673,7 +1673,7 @@
         "cited": [],
         "controlCited": [],
         "own": {
-          "targets": 848,
+          "targets": 855,
           "among": "reached",
           "pairs": [
             {
@@ -1913,7 +1913,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 15
+      "seconds": 17
     },
     {
       "key": "social-security-full-retirement-age",
@@ -1940,53 +1940,53 @@
       },
       "reach": {
         "fullPeople": 802,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "countedGroups": 121,
+        "countedPeople": 121,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 802,
+        "open": 923,
         "ended": 0,
         "sample": [
-          "applied|social-security-full-retirement-age|person_80fb6a3976d15d64",
-          "applied|social-security-full-retirement-age|person_80fb6b3976d15f17",
-          "applied|social-security-full-retirement-age|person_80fb6c3976d160ca",
-          "applied|social-security-full-retirement-age|person_71d531692eec0f40"
+          "applied|social-security-full-retirement-age|person_e8632e5ae68406ec",
+          "applied|social-security-full-retirement-age|person_a566c00e2f6066f7",
+          "applied|social-security-full-retirement-age|person_a566bf0e2f606544",
+          "applied|social-security-full-retirement-age|person_e4500883d0af65a7"
         ]
       },
       "reachAtEnd": {
         "fullPeople": 802,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "countedGroups": 121,
+        "countedPeople": 121,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 802,
+        "open": 923,
         "ended": 0,
         "sample": [
-          "applied|social-security-full-retirement-age|person_80fb6a3976d15d64",
-          "applied|social-security-full-retirement-age|person_80fb6b3976d15f17",
-          "applied|social-security-full-retirement-age|person_80fb6c3976d160ca",
-          "applied|social-security-full-retirement-age|person_71d531692eec0f40"
+          "applied|social-security-full-retirement-age|person_e8632e5ae68406ec",
+          "applied|social-security-full-retirement-age|person_a566c00e2f6066f7",
+          "applied|social-security-full-retirement-age|person_a566bf0e2f606544",
+          "applied|social-security-full-retirement-age|person_e4500883d0af65a7"
         ]
       },
       "inPlay": [],
       "applied": {
-        "rows": 802,
+        "rows": 923,
         "withAmount": 0,
         "sample": [
-          "applied|social-security-full-retirement-age|person_80fb6a3976d15d64",
-          "applied|social-security-full-retirement-age|person_80fb6b3976d15f17",
-          "applied|social-security-full-retirement-age|person_80fb6c3976d160ca"
+          "applied|social-security-full-retirement-age|person_e8632e5ae68406ec",
+          "applied|social-security-full-retirement-age|person_a566c00e2f6066f7",
+          "applied|social-security-full-retirement-age|person_a566bf0e2f606544"
         ]
       },
       "readers": {
         "src/core2/modules/retirement-claims.ts:98": 2438,
-        "src/core2/modules/retirement-claims.ts:113": 1604,
+        "src/core2/modules/retirement-claims.ts:117": 1846,
         "src/core2/life.ts:552": 5,
-        "src/core2/modules/jobs.ts:3821": 2
+        "src/core2/modules/jobs.ts:3823": 2
       },
       "openingRow": "law:US:federal:social-security-full-retirement-age:general:starting",
       "money": {
@@ -2007,7 +2007,7 @@
         "cited": [],
         "controlCited": [],
         "own": {
-          "targets": 802,
+          "targets": 923,
           "among": "reached",
           "pairs": [
             {
@@ -2108,53 +2108,53 @@
       },
       "reach": {
         "fullPeople": 802,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "countedGroups": 121,
+        "countedPeople": 121,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 802,
+        "open": 923,
         "ended": 0,
         "sample": [
-          "applied|social-security-delayed-credit-age|person_80fb6a3976d15d64",
-          "applied|social-security-delayed-credit-age|person_80fb6b3976d15f17",
-          "applied|social-security-delayed-credit-age|person_80fb6c3976d160ca",
-          "applied|social-security-delayed-credit-age|person_71d531692eec0f40"
+          "applied|social-security-delayed-credit-age|person_e8632e5ae68406ec",
+          "applied|social-security-delayed-credit-age|person_a566c00e2f6066f7",
+          "applied|social-security-delayed-credit-age|person_a566bf0e2f606544",
+          "applied|social-security-delayed-credit-age|person_e4500883d0af65a7"
         ]
       },
       "reachAtEnd": {
         "fullPeople": 802,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "countedGroups": 121,
+        "countedPeople": 121,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 802,
+        "open": 923,
         "ended": 0,
         "sample": [
-          "applied|social-security-delayed-credit-age|person_80fb6a3976d15d64",
-          "applied|social-security-delayed-credit-age|person_80fb6b3976d15f17",
-          "applied|social-security-delayed-credit-age|person_80fb6c3976d160ca",
-          "applied|social-security-delayed-credit-age|person_71d531692eec0f40"
+          "applied|social-security-delayed-credit-age|person_e8632e5ae68406ec",
+          "applied|social-security-delayed-credit-age|person_a566c00e2f6066f7",
+          "applied|social-security-delayed-credit-age|person_a566bf0e2f606544",
+          "applied|social-security-delayed-credit-age|person_e4500883d0af65a7"
         ]
       },
       "inPlay": [],
       "applied": {
-        "rows": 802,
+        "rows": 923,
         "withAmount": 0,
         "sample": [
-          "applied|social-security-delayed-credit-age|person_80fb6a3976d15d64",
-          "applied|social-security-delayed-credit-age|person_80fb6b3976d15f17",
-          "applied|social-security-delayed-credit-age|person_80fb6c3976d160ca"
+          "applied|social-security-delayed-credit-age|person_e8632e5ae68406ec",
+          "applied|social-security-delayed-credit-age|person_a566c00e2f6066f7",
+          "applied|social-security-delayed-credit-age|person_a566bf0e2f606544"
         ]
       },
       "readers": {
         "src/core2/modules/retirement-claims.ts:98": 2438,
-        "src/core2/modules/retirement-claims.ts:113": 1604,
+        "src/core2/modules/retirement-claims.ts:117": 1846,
         "src/core2/life.ts:552": 5,
-        "src/core2/modules/jobs.ts:3821": 2
+        "src/core2/modules/jobs.ts:3823": 2
       },
       "openingRow": "law:US:federal:social-security-delayed-credit-age:general:starting",
       "money": {
@@ -2164,7 +2164,7 @@
         "cited": [],
         "controlCited": [],
         "own": {
-          "targets": 802,
+          "targets": 923,
           "among": "reached",
           "pairs": [],
           "paid": 0,
@@ -2218,7 +2218,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 16
+      "seconds": 18
     },
     {
       "key": "budget-line:socialSecurity",

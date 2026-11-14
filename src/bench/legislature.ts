@@ -98,10 +98,14 @@ export function bodiesOf(core: CoreState, personId: string) {
           seats: number;
           jurisdiction: string;
           level: string;
+          presidesOverBody?: boolean;
         }
       | undefined;
     if (!office || office.seats >= 2) return [];
     if (proposalRight(api, office.kind).mode !== "by-request") return [];
+    // An executive who presides over the board (the place's own county data) is the body's chair,
+    // not an outsider: the bill goes before it in their own name (`seatAct`), never through a member.
+    const presides = office.presidesOverBody === true;
     return (
       offices
         .table("offices")
@@ -125,8 +129,9 @@ export function bodiesOf(core: CoreState, personId: string) {
           title: body.bodyName ?? body.governmentName,
           level: chamber.level,
           kind: chamber.kind,
-          // Sent through a member, never in the executive's own name.
-          byRequest: true,
+          // Sent through a member, never in the executive's own name, unless the executive
+          // presides over this body and puts the bill before it as its chair.
+          ...(presides ? { presides: true } : { byRequest: true }),
           members: roster.map((row) => ({
             key: memberKey(row),
             name: personName(core, memberKey(row)),
