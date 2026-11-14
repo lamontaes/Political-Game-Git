@@ -303,8 +303,7 @@ function officeRecord(
   // to look up, and the offices table takes no empty key.
   if (!officeId.trim()) return undefined;
   return coreAPI(core).moduleState(OFFICES).table("offices").get(officeId) as
-    | { title?: string; seats?: number }
-    | undefined;
+    { title?: string; seats?: number } | undefined;
 }
 
 /** An office's title, from the offices engine's table. */
