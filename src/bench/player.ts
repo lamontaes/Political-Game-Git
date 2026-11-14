@@ -365,7 +365,11 @@ export class BenchPlayer {
         this.clockBound = true;
         continue;
       }
+      // A scene's stop ends the advance on its own; the birthday is kept for
+      // the moment the player goes on from it, so a scene on that morning
+      // does not use up the day's own stop.
       if (
+        packet.kind !== "stop" &&
         packet.at.minuteOfDay >= this.dayStartMinute() &&
         this.comesOfAgeStop(comesOfAge, began, packet.at.date)
       )

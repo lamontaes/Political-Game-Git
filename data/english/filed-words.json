@@ -1,5 +1,5 @@
 {
-  "about": "How a clerk says how many others have filed for an office so far, from the elections engine's filings: a count said as people say it, with its noun. Read by src/english/count-words.ts (filedSaid).",
+  "about": "How a clerk says how many others have filed for an office so far, from the elections engine's filings: a count said as people say it, with its noun. Read by src/english/count-words.ts (filedSaid, after the player has filed; filedSoFarSaid, before).",
   "others": [
     "one other candidate",
     "two other candidates",
@@ -12,5 +12,18 @@
     "nine other candidates",
     "ten other candidates"
   ],
-  "many": "more than ten other candidates"
+  "many": "more than ten other candidates",
+  "soFar": [
+    "one candidate",
+    "two candidates",
+    "three candidates",
+    "four candidates",
+    "five candidates",
+    "six candidates",
+    "seven candidates",
+    "eight candidates",
+    "nine candidates",
+    "ten candidates"
+  ],
+  "manySoFar": "more than ten candidates"
 }
