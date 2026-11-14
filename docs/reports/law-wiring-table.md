@@ -69,9 +69,9 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | State unemployment tax rate                                       | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      | Your office                         |
 | Unemployment insurance program                                    | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | n/a    | yes       | wired      | Issues, Calendar                    |
 | Unemployment weekly maximum                                       | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office, Calendar       |
-| Social Security earliest claim age                                | assistance         | NO     | yes    | part  | yes     | n/a   | NO  | yes     | yes    | yes       | partly     | none                                |
-| Social Security full retirement age                               | assistance         | NO     | yes    | part  | yes     | n/a   | NO  | yes     | yes    | yes       | partly     | none                                |
-| Social Security delayed credit age                                | assistance         | NO     | yes    | part  | yes     | n/a   | NO  | yes     | yes    | yes       | partly     | none                                |
+| Social Security earliest claim age                                | assistance         | yes    | yes    | yes   | yes     | n/a   | NO  | yes     | yes    | yes       | partly     | none                                |
+| Social Security full retirement age                               | assistance         | yes    | yes    | yes   | yes     | n/a   | NO  | yes     | yes    | yes       | partly     | none                                |
+| Social Security delayed credit age                                | assistance         | yes    | yes    | yes   | yes     | n/a   | NO  | yes     | yes    | yes       | partly     | none                                |
 | Social Security tax rate                                          | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      | Issues, Calendar, Your office       |
 | Spending: Social Security                                         | assistance         | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
 | Home energy assistance income limit (percent of the poverty line) | assistance         | yes    | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly     | none                                |
@@ -152,10 +152,10 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Local power: require photo id to vote                             | government         | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired      | none                                |
 | same day voter registration                                       | government         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | Local power: same day voter registration                          | government         | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired      | none                                |
-| State campaign contribution limit: governor                       | government         | part   | yes    | NO    | NO      | part  | NO  | yes     | NO     | NO        | partly     | none                                |
-| State campaign contribution limit: state senate                   | government         | part   | yes    | NO    | NO      | part  | NO  | yes     | NO     | NO        | partly     | none                                |
-| State campaign contribution limit: state house                    | government         | part   | yes    | NO    | NO      | part  | NO  | yes     | NO     | NO        | partly     | none                                |
-| State campaign contribution limit: local                          | government         | part   | yes    | part  | NO      | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
+| State campaign contribution limit: governor races                 | government         | part   | yes    | NO    | NO      | part  | NO  | yes     | NO     | NO        | partly     | none                                |
+| State campaign contribution limit: state senate races             | government         | part   | yes    | NO    | NO      | part  | NO  | yes     | NO     | NO        | partly     | none                                |
+| State campaign contribution limit: state house races              | government         | part   | yes    | NO    | NO      | part  | NO  | yes     | NO     | NO        | partly     | none                                |
+| State campaign contribution limit: local races                    | government         | part   | yes    | part  | NO      | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
 | Federal campaign contribution limit                               | government         | yes    | yes    | NO    | NO      | NO    | NO  | yes     | NO     | NO        | partly     | none                                |
 | ban congressional stock trading                                   | government         | yes    | yes    | NO    | NO      | NO    | n/a | yes     | NO     | NO        | partly     | none                                |
 | ban lobbying after office                                         | government         | yes    | yes    | n/a   | yes     | n/a   | yes | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
@@ -471,22 +471,16 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Social Security earliest claim age** (`social-security-earliest-claim-age`)
 
-- exists: no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA...
-- reach: full people only: no counted group is reached (one model, two tiers)
 - money: its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held
 - web: no researched outcome-web link starts from this law
 
 **Social Security full retirement age** (`social-security-full-retirement-age`)
 
-- exists: no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA...
-- reach: full people only: no counted group is reached (one model, two tiers)
 - money: its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held
 - web: no researched outcome-web link starts from this law
 
 **Social Security delayed credit age** (`social-security-delayed-credit-age`)
 
-- exists: no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA...
-- reach: full people only: no counted group is reached (one model, two tiers)
 - money: its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held
 - web: no researched outcome-web link starts from this law
 
@@ -950,7 +944,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - repeal: A grant reaches no one, so repealing it stops nothing of its own. The state's bill that withdraws it is the same bill route as any law: state legislature, both chambers, the governor. It was run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058). The grants took effect on July 1, 2025 and a second bill unwound them (`docs/reports/dev-tests/2026-11-08.md`). What a town stops doing is graded on the town law.
 - allPlaces: A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law.
 
-**State campaign contribution limit: governor** (`state-contribution-limit-governor`)
+**State campaign contribution limit: governor races** (`state-contribution-limit-governor`)
 
 - exists: no starting row in US-AK, US-AL, US-AS, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA, US-TX...
 - reach: no law-reach row: nothing records who it applies to
@@ -960,7 +954,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
-**State campaign contribution limit: state senate** (`state-contribution-limit-state-senate`)
+**State campaign contribution limit: state senate races** (`state-contribution-limit-state-senate`)
 
 - exists: no starting row in US-AK, US-AL, US-AS, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA, US-TX...
 - reach: no law-reach row: nothing records who it applies to
@@ -970,7 +964,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
-**State campaign contribution limit: state house** (`state-contribution-limit-state-house`)
+**State campaign contribution limit: state house races** (`state-contribution-limit-state-house`)
 
 - exists: no starting row in US-AK, US-AL, US-AS, US-GU, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA...
 - reach: no law-reach row: nothing records who it applies to
@@ -980,7 +974,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
-**State campaign contribution limit: local** (`state-contribution-limit-local`)
+**State campaign contribution limit: local races** (`state-contribution-limit-local`)
 
 - exists: no starting row in US-AK, US-AL, US-AS, US-CO, US-IA, US-IN, US-ME, US-MN, US-MP, US-MS, US-ND, US-NE...
 - reach: full people only: no counted group is reached (one model, two tiers)

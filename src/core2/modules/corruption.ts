@@ -362,6 +362,24 @@ function favorOf(subjectId: string): string {
 }
 
 /**
+ * What the offer wants, on every bribe record a scene reads (offered,
+ * refused, pressed): the favor's kind, and the thing itself, the bill for a
+ * vote or the award for a contract with the spending line it pays from
+ * (contracts.ts subject `contract:<government>:<line>:<date>`).
+ */
+function wantedFacts(subjectId: string): Record<string, string> {
+  if (favorOf(subjectId) === "vote")
+    return { favor: "vote", billId: subjectId };
+  const parts = subjectId.split(":");
+  const line = parts.length >= 4 ? parts[parts.length - 2]! : "";
+  return {
+    favor: "contract",
+    contractId: subjectId,
+    ...(line ? { contractLine: line } : {}),
+  };
+}
+
+/**
  * An offer made to the player's seat is a record the director stages as a
  * scene (`bribe-offer`): who offers, what it asks, and the bill when it is a
  * vote. Both hold the offer; the money moves only if the player takes it.
@@ -385,8 +403,7 @@ function announceOffer(api: CoreAPI, record: CrimeRecord, ask: BribeAsk): void {
     placeId: official.placeId,
     facts: {
       bribeId: record.id,
-      favor: favorOf(ask.subjectId),
-      ...(favorOf(ask.subjectId) === "vote" ? { billId: ask.subjectId } : {}),
+      ...wantedFacts(ask.subjectId),
     },
     source: {
       tag: "SOURCED",
@@ -442,8 +459,7 @@ function afterRefusal(
   if (!offerer?.alive || !official?.alive) return;
   const facts = {
     bribeId: crime.id,
-    favor: favorOf(crime.subjectId),
-    ...(favorOf(crime.subjectId) === "vote" ? { billId: crime.subjectId } : {}),
+    ...wantedFacts(crime.subjectId),
   };
   api.emit({
     id: `${BRIBE_REFUSED}:${crime.id}`,

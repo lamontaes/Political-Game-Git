@@ -18,6 +18,7 @@ import { chamberHeader } from "./ui/chamber.mjs";
 import { personCard } from "./ui/person-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
+import { counterReplies } from "./ui/counter-picks.mjs";
 import {
   ALL,
   filterLaws,
@@ -1596,6 +1597,8 @@ $("talk-leave").addEventListener("click", async () => {
 let filing;
 // The counter's narration has played its beat for this visit.
 let filingNarrated = false;
+// How many times the player asked what else is open at this counter.
+let counterTurn = 0;
 function renderFiling(value) {
   filing = value;
   if (!value) return;
@@ -1628,7 +1631,7 @@ function renderFiling(value) {
   fillTalk({ lines: spokenLines(lines) });
   // No form at the counter (owner, Oct 28, point 31: the rules panel was a
   // dev menu): filing carries the party the player is tied to, from the
-  // record; the platform is SG-SCREENS-filing-platform-from-views.
+  // record, and the platform from the filer's own views.
   const choose = async (choice) => {
     // "All right." is the way out: it walks out as Leave does, never a reply
     // that only clears itself (C13).
@@ -1645,8 +1648,8 @@ function renderFiling(value) {
     renderFiling(await post(`/api/filing/choose?${params}`));
   };
   // Each race told apart before the pick: its seat, its election day and
-  // who holds the seat now, from the contest's records. It says nothing of what the
-  // office does (SG-SCREENS-office-hover-prose: no office-duties bank yet).
+  // who holds the seat now, from the contest's records. What the office does
+  // is the clerk's to say once the race is named.
   const counter = controls.filing;
   const factsOf = (choice) => {
     const seat = value.seats?.[choice.action.contestId];
@@ -1657,22 +1660,18 @@ function renderFiling(value) {
       seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
     ].join(" · ");
   };
-  // The counter offers four replies at most (SG-SCREENS-counter-six-replies),
-  // the races soonest first; every race is a way in from the office's own view
-  // in Travel. Each race is told apart in its own line (its seat, its election
+  // The counter offers four replies at most; an office with more races
+  // asks "What else is open?" among them and the next races follow, soonest
+  // first. Each race is told apart in its own line (its seat, its election
   // day and who holds it now), never in a hover card over the next line
   // (owner, Nov 1: "a terribly designed menu").
   const electionOf = (choice) =>
     value.seats?.[choice.action.contestId]?.electionDate ?? "";
-  const picks = new Set(
-    value.visit.choices
-      .filter((choice) => choice.action.kind === "pick")
-      .sort((x, y) => electionOf(x).localeCompare(electionOf(y)))
-      .slice(0, 4),
+  const { shown: choices, more } = counterReplies(
+    value.visit.choices,
+    electionOf,
+    counterTurn,
   );
-  const choices = value.visit.choices
-    .filter((choice) => choice.action.kind !== "pick" || picks.has(choice))
-    .slice(0, 4);
   // At the counter you can walk out where that is a real choice: not beside
   // a lone "All right." that already ends the visit. Silence is not an answer.
   talkControls({
@@ -1686,6 +1685,19 @@ function renderFiling(value) {
     if (choice.action.kind !== "pick") return;
     buttons[i].append(" ", smallText(factsOf(choice), "reply-facts"));
   });
+  if (more) {
+    const whatElse = makeButton({ textContent: controls.filing.whatElse });
+    whatElse.addEventListener("click", () => {
+      counterTurn += 1;
+      renderFiling(value);
+    });
+    // With the races, ahead of any way out: the way out is always last.
+    buttons.splice(
+      choices.filter((choice) => choice.action.kind === "pick").length,
+      0,
+      whatElse,
+    );
+  }
   fillTalk({ replies: buttons });
   // What the filing asks next is said by the clerk, once, in the talk: no
   // count or status label sits under the dialogue (owner, Nov 14).
@@ -1693,6 +1705,7 @@ function renderFiling(value) {
 }
 async function openFiling(filedWith, contestId) {
   filingNarrated = false;
+  counterTurn = 0;
   closeSheet();
   renderTalk(undefined);
   const opened = await post(
@@ -2724,6 +2737,25 @@ async function playAs(personId) {
   await refresh();
 }
 
+/** An On and Off toggle (the Options pattern): `on()` says which is lit, `set(bool)` changes it. */
+function onOffToggle({ attr, on, set, testid, labels }) {
+  const bar = tabBar({
+    attr,
+    active: on() ? "on" : "off",
+    tabs: ["on", "off"].map((key) => ({
+      key,
+      label: labels[key],
+      onSelect: async () => {
+        await set(key === "on");
+        chooseTab(bar, attr, on() ? "on" : "off");
+      },
+    })),
+  });
+  for (const tab of bar.querySelectorAll(".tab"))
+    tab.dataset.testid = `${testid}-${tab.dataset[attr]}`;
+  return bar;
+}
+
 // ---- The seat as a job, and what stops you (OFFICE-LOCAL) ----
 /**
  * What the player holds as an official, as plate-built nodes for Your office: the seat (office,
@@ -2732,7 +2764,8 @@ async function playAs(personId) {
  */
 async function officeParts() {
   const v = await api(`/api/office?id=${encodeURIComponent(me.id)}`);
-  if (!v.jobs.length) return { seat: [], budget: [], deals: [] };
+  if (!v.jobs.length && !v.stops.length)
+    return { seat: [], stops: [], budget: [], deals: [] };
   const words = controls.officeStops ?? {};
   const labels = controls.officeScreen ?? {};
   const paged = (items, { rows, columns, rowHeight, className }) =>
@@ -2745,6 +2778,36 @@ async function officeParts() {
       gap: 8,
       className,
     });
+  // What stops you: one On and Off switch per kind of vote this seat has. Off, you are away from
+  // that kind of vote: the record has you absent, a bill on your desk waits, nothing is cast for you.
+  const stops = v.stops.length
+    ? [
+        stripSection(
+          1,
+          labels.stops,
+          ...v.stops.map((stop) =>
+            settingRow(
+              stop.key === "meetings" && v.stopsBody
+                ? v.stopsBody
+                : (words.switches?.[stop.key] ?? ""),
+              onOffToggle({
+                attr: "stop",
+                testid: `office-stop-${stop.key}`,
+                labels: controls.options,
+                on: () => stop.on,
+                set: async (wanted) => {
+                  const next = await post(
+                    `/api/office/stops?${new URLSearchParams({ key: stop.key, on: String(wanted) })}`,
+                  );
+                  stop.on =
+                    next.stops.find((s) => s.key === stop.key)?.on ?? wanted;
+                },
+              }),
+            ),
+          ),
+        ),
+      ]
+    : [];
   const seat = [
     ...v.jobs.map((job) =>
       stripSection(
@@ -2874,7 +2937,7 @@ async function officeParts() {
                   `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
                   a.how === "absent"
                     ? (words.absent?.[a.detail] ?? "")
-                    : `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
+                    : `${a.kind === "vote" ? (words.votes?.[a.detail] ?? a.detail) : a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
                 ),
               ),
               { rows: 4, columns: 1, rowHeight: 48, className: "office-paged" },
@@ -2942,7 +3005,7 @@ async function officeParts() {
       ),
     ),
   );
-  return { seat, budget, deals };
+  return { seat, stops, budget, deals };
 }
 
 // ---- The bill on paper: one document, every section clickable ----
@@ -3307,16 +3370,25 @@ async function seatRows() {
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
-    seatResult = r.number
-      ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
-          r.authority?.some((a) => !a.allowed)
-            ? ` · ${r.authority
-                .filter((a) => !a.allowed)
-                .map((a) => controls.authority?.[a.reason] ?? "")
-                .join("; ")}`
-            : ""
-        }`
+    // An executive's bill goes through a member: who was asked and what they said.
+    const askedWord = r.asked
+      ? (r.asked.carried
+          ? controls.seat.askedCarried
+          : controls.seat.askedRefused
+        ).replace("{name}", r.asked.name)
       : "";
+    seatResult = r.asked
+      ? askedWord
+      : r.number
+        ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
+            r.authority?.some((a) => !a.allowed)
+              ? ` · ${r.authority
+                  .filter((a) => !a.allowed)
+                  .map((a) => controls.authority?.[a.reason] ?? "")
+                  .join("; ")}`
+              : ""
+          }`
+        : "";
     openSheet("office");
   };
   for (const body of v.bodies) {
@@ -3514,6 +3586,7 @@ async function seatRows() {
       columns: [
         parts.seat,
         [
+          ...parts.stops,
           ...result,
           ...(desk.length
             ? [
@@ -4207,7 +4280,19 @@ const sheets = {
               ),
               ...sinceLast(latest.totals?.balance, { short: true }),
               ...(books
-                ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
+                ? [
+                    typedRow(
+                      words.savings,
+                      // The opening's estimate until play has replaced it, said
+                      // on the row itself (no note under a figure).
+                      gov.savingsEstimated
+                        ? words.savingsEstimated.replace(
+                            "{amount}",
+                            roundedMoney(books.cashMinor),
+                          )
+                        : roundedMoney(books.cashMinor),
+                    ),
+                  ]
                 : []),
             ),
             ...(gov.executive?.title
@@ -4493,23 +4578,7 @@ const sheets = {
   async options() {
     await controlsReady;
     const labels = controls.options;
-    const toggle = ({ attr, on, set, testid }) => {
-      const bar = tabBar({
-        attr,
-        active: on() ? "on" : "off",
-        tabs: ["on", "off"].map((key) => ({
-          key,
-          label: labels[key],
-          onSelect: async () => {
-            await set(key === "on");
-            chooseTab(bar, attr, on() ? "on" : "off");
-          },
-        })),
-      });
-      for (const tab of bar.querySelectorAll(".tab"))
-        tab.dataset.testid = `${testid}-${tab.dataset[attr]}`;
-      return bar;
-    };
+    const toggle = (spec) => onOffToggle({ ...spec, labels });
     const seeing = document.fullscreenEnabled
       ? [
           settingRow(

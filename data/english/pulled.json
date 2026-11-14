@@ -1,8 +1,105 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {},
+  "pulled": {
+    "conversation.family-answer-ill.name-fell-ill-when": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "conversation.farewell-core.look-after-yourself-player-first": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "conversation.news-back-core.that-s-the-whole-of-it-it-ran-ran": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.ask.folded-polished-keep-law-short": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.ask.polished-keep-law-short": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.belief-words.both-inaugural-a-person-s-land-and-water-are-theirs-family-land-pole-b": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.creed.plain-ina-sta-mourning-core-we-grieve-together-because-we-re-in-this-together": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.oath.plain-ina-mourning-core-i-swore-to-look-after-every-grieving-family-in": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.pledge.plain-ina-sta-all-inflation-core-i-ll-push-congress-to-first-to-and-i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.pledge.polished-ina-sta-mourning-core-i-will-look-after-those-who-are-hurting-before": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.salutation.plain-ina-hopeful-core-i-ve-got-vice-president-vice-president-working-with": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.salutation.polished-ina-hopeful-core-i-thank-vice-president-vice-president-who-will-work": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.salutation.polished-ina-hopeful-core-vice-president-vice-president-and-i-are-ready-to": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.salutation.polished-ina-hopeful-core-with-vice-president-vice-president-here-i-take-up": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.salutation.polished-sta-mourning-core-i-thank-vice-president-vice-president-and-before-anything": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.subject.plain-ina-sta-all-inflation:say-core-the-weekly-shopping": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.to-states.polished-ina-sta-all-core-you-know-hardest-better-than-anyone-here-and-i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.health.ill.i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.health.ill.they": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.health.ill.third": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.moved.home.i.w2": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.moved.home.they.w2": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.moved.home.third.w2": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-again.i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-again.they": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-again.third": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-always.i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-always.they": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-always.third": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.school.elsewhere.i.w3": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.school.elsewhere.they.w3": [
+      "plain-american-spelling-and-phrasing"
+    ]
+  },
   "waiting": {},
   "sample": {
+    "conversation.charge-answer-deflect.that-s-for-the-court-to-sort-out": [
+      "plain-american-reads-stiff"
+    ],
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
     ],
@@ -13,12 +110,93 @@
     "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
       "no-filler"
     ],
+    "opening-speech.close.polished-campaign-speech-if-we-will-be-the-better-for-it-first-side-realm-name": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.context.polished-roads-in-the-years-since-i-took-this-office": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.creed.plain-ina-sta-hopeful-core-i-m-not-here-to-win-one-for-a": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.creed.polished-ina-crisis-core-a-hard-year-with-hardest-is-no-time-for": [
+      "plain-american-reads-stiff"
+    ],
     "opening-speech.creed.polished-ina-sta-hopeful-core-a-free-and-hardworking-people-will-keep-best-moving": [
       "no-stock-phrases"
+    ],
+    "opening-speech.creed.polished-ina-sta-hopeful-core-the-country-wants-results-on-best-not-more-quarrels": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.pledge.polished-ina-sta-all-unemployment-core-i-will-ask-this-congress-to-put-say-unemployment": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.pledge.polished-ina-sta-mourning-core-i-will-carry-on-the-work-on-best-in": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.pledge.polished-ina-sta-policy-core-i-will-set-out-clear-steps-on-hardest-with": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-combative-core-i-greet-speaker-speaker-and-the-congress-and-i": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-hopeful-core-i-greet-speaker-speaker-and-the-members-of-congress": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-hopeful-core-i-greet-speaker-speaker-gladly-and-i-look-forward": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-hopeful-core-i-greet-this-congress-and-speaker-speaker-with-high": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-mourning-core-i-greet-speaker-speaker-and-ask-congress-to-remember": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-mourning-core-i-greet-speaker-speaker-quietly-because-so-many-families": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-mourning-core-i-greet-speaker-speaker-with-a-heavy-heart-because": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-policy-core-i-greet-speaker-speaker-and-my-first-plans-go": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-policy-core-i-greet-speaker-speaker-and-the-congress-whose-help": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-victory-core-i-greet-speaker-speaker-and-the-congress-proud-of": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-ina-victory-core-i-greet-speaker-speaker-and-the-congress-with-thanks": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-sta-combative-core-i-greet-vice-president-vice-president-and-every-member": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-sta-combative-core-i-greet-vice-president-vice-president-and-then-i": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-sta-hopeful-core-i-greet-vice-president-vice-president-and-all-of": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-sta-mourning-core-i-greet-vice-president-vice-president-and-my-thoughts": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-sta-policy-core-i-greet-vice-president-vice-president-and-every-member": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.salutation.polished-sta-victory-core-i-greet-vice-president-vice-president-and-this-chamber": [
+      "plain-american-reads-stiff"
+    ],
+    "opening-speech.unity.polished-ina-combative-core-my-quarrel-is-with-what-has-gone-wrong-not": [
+      "plain-american-reads-stiff"
     ],
     "scene-talk.close-accept.all-right-i-hear-you": ["no-stock-phrases"],
     "scene-talk.close-accept.all-right-i-ll-let-you-go": [
       "alright-in-dialogue"
+    ],
+    "scene-talk.close-accept.all-right-we-ll-sort-out-the-bills-this-week": [
+      "plain-american-reads-stiff"
     ],
     "scene-talk.close-accept.that-s-all-right-i-enjoyed-what-we-got-to-ask-me-again-whenever-you-wa": [
       "alright-in-dialogue"
@@ -33,6 +211,9 @@
       "no-stock-phrases"
     ],
     "scene-talk.follow-accept.it-s-all-right": ["alright-in-dialogue"],
+    "scene-talk.follow-accept.of-course-we-ll-sort-out-the-rest-as-we-go": [
+      "plain-american-reads-stiff"
+    ],
     "scene-talk.follow-press.i-hear-you-but-this-matters-to-the-family-what-s-in-the-way": [
       "no-stock-phrases"
     ],
@@ -40,6 +221,15 @@
       "no-stock-phrases"
     ],
     "scene-talk.follow-thank.i-m-holding-you-to-that-you-know": ["no-filler"],
+    "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over": [
+      "narration-assumes-no-reason"
+    ],
+    "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off": [
+      "narration-assumes-no-reason"
+    ],
+    "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face": [
+      "narration-assumes-no-reason"
+    ],
     "scene-talk.open-greet.deceased-talked-about-you-you-know": ["no-filler"],
     "scene-talk.open-greet.hey-sit-down-for-a-minute-would-you-it-s-not-about-the-bills-well-not-": [
       "no-filler"
@@ -56,6 +246,9 @@
     "scene-talk.reply-agree.well-when-you-put-it-that-way-give-me-the-pen": [
       "no-filler"
     ],
+    "scene-talk.reply-agree.you-can-stay-we-ll-sort-out-the-rest-as-it-comes": [
+      "plain-american-reads-stiff"
+    ],
     "scene-talk.reply-answer.i-hear-you-i-still-think-it-s-the-right-answer": [
       "no-stock-phrases"
     ],
@@ -64,6 +257,9 @@
     ],
     "scene-talk.reply-comfort.i-know-its-a-lot-to-watch-im-all-right-really": [
       "alright-in-dialogue"
+    ],
+    "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying": [
+      "plain-american-reads-stiff"
     ],
     "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself": [
       "no-stock-phrases"
@@ -192,13 +388,13 @@
     ],
     "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge": [
       "conflict-accuse.taken/ask"
-    ],
-    "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it": [
-      "conflict-accuse.witness/ask"
     ]
   },
+  "barred": {},
   "awaitingVerdict": {
     "commitment-names-who-what-why": 0,
+    "narration-assumes-no-reason": 35,
+    "player-never-says-unchosen (pairs)": 0,
     "stake-is-named": 0
   }
 }
