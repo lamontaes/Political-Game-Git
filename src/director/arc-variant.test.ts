@@ -49,6 +49,13 @@ const TYPES = (situationFile as unknown as { types: PurposeType[] }).types;
 const typeOf = (family: string) =>
   TYPES.find((row) => row.key === family) ??
   TYPES.find((row) => row.purpose === family)!;
+// The families where someone asks the player. The door families (the player
+// asks the resident for a signature or a vote) play the asking tree, composed
+// with the resident's standing in door-variants.test.ts.
+const DOOR_FAMILIES = ["ask-signature", "ask-support"];
+const ASKED_OF_PLAYER = Object.entries(FAMILIES).filter(
+  ([family]) => !DOOR_FAMILIES.includes(family),
+);
 const played = (family: string, variant: string): PurposeType => {
   const type = typeOf(family);
   const purpose = FAMILIES[family]!.variants[variant]!.purpose;
@@ -196,7 +203,7 @@ describe("a kind with several arcs", () => {
   });
 
   it("composes every variant whole: a setup, a statement, replies, a close, a tree two deep", () => {
-    for (const [family, row] of Object.entries(FAMILIES))
+    for (const [family, row] of ASKED_OF_PLAYER)
       for (const variant of Object.keys(row.variants)) {
         const talk = compose(family, variant);
         const where = `${family}/${variant}`;
@@ -272,7 +279,7 @@ describe("a kind with several arcs", () => {
   }, 300_000);
 
   it("makes the variants differ in their steps, their replies and their endings, not only their words", () => {
-    for (const [family, row] of Object.entries(FAMILIES)) {
+    for (const [family, row] of ASKED_OF_PLAYER) {
       const names = Object.keys(row.variants);
       const shape = (variant: string) => {
         const talk = compose(family, variant);

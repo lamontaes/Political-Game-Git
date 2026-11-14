@@ -244,6 +244,13 @@ interface VariantRow {
    * leaves every variant open.
    */
   forCause?: { fact: string; is: string };
+  /**
+   * The only cause this variant plays for: the cause's record must carry this
+   * fact with this value (a door's variants play at a door, where the knock's
+   * record says whether a petition circulates, never when someone else asks
+   * the player for the same thing).
+   */
+  onlyFor?: { fact: string; is: string };
   /** The variant's arc; absent for the family's own purpose, whose arc is in purpose-arcs.json. */
   arc?: unknown;
 }
@@ -321,6 +328,12 @@ export interface VariantInput {
   };
   /** The kind of place it is set at (the binding's setting). */
   readonly setting?: string;
+  /**
+   * A return visit (a second knock on the same door): the variant with the
+   * next highest score plays where it scores above nothing, so a resident
+   * with two records raises the other one the second time.
+   */
+  readonly nextDown?: boolean;
 }
 
 export interface VariantScore {
@@ -694,6 +707,8 @@ export function chooseVariant(
     for (const term of row.terms ?? []) read(term.read);
   const scores: VariantScore[] = Object.entries(family.variants)
     .filter(([, row]) => {
+      if (row.onlyFor && input.cause.facts[row.onlyFor.fact] !== row.onlyFor.is)
+        return false;
       const named = row.forCause && input.cause.facts[row.forCause.fact];
       return !named || named === row.forCause!.is;
     })
@@ -711,7 +726,11 @@ export function chooseVariant(
       };
     })
     .sort((a, b) => b.score - a.score || a.variant.localeCompare(b.variant));
-  const best = scores[P.zero]!;
+  const second = scores[P.one];
+  const best =
+    input.nextDown && second && second.score > P.zero
+      ? second
+      : scores[P.zero]!;
   const choice: VariantChoice = {
     variant: best.variant,
     purpose: best.purpose,

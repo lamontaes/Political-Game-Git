@@ -1323,10 +1323,14 @@ function composeBinding(
       };
   }
   // The kind's own arc, or the variant of it the records give this cause. A
-  // scene where the player asks plays the kind's own arc: its variants are
-  // the colleague's ask of the player.
+  // scene where the player asks a colleague plays the kind's own arc: its
+  // variants are the colleague's ask of the player. At a door the resident
+  // is the asker, and the variant is what their own records give them to
+  // talk about (a layoff, a rent notice, an illness in the house); on a
+  // second knock they raise the next record down, so the same door is not
+  // the same scene twice.
   const variant =
-    type.purpose && !type.playerAsks
+    type.purpose && (!type.playerAsks || door)
       ? chooseVariant(core, {
           family: type.purpose,
           askerId,
@@ -1337,6 +1341,7 @@ function composeBinding(
             facts: said,
           },
           setting: binding.setting.kind,
+          ...(door && said.first === "false" ? { nextDown: true } : {}),
         })
       : null;
   // What the records gave the variant, for the lines that say it: every read
@@ -1351,8 +1356,9 @@ function composeBinding(
           sourceRecordIds: [...variant.recordIds],
         };
   // A constituent's own records, worded: the job they lost, the notice on
-  // their rent, the pay under the floor, the relative who is ill.
-  if (variant && type.purpose === "constituent-help")
+  // their rent, the pay under the floor, the relative who is ill. A resident
+  // at their door speaks from the same records.
+  if (variant && (type.purpose === "constituent-help" || door))
     Object.assign(
       facts,
       constituentFacts(

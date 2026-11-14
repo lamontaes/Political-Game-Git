@@ -3199,6 +3199,985 @@
           }
         }
       }
+    },
+    "ask-signature": {
+      "variants": {
+        "plain": {
+          "purpose": "ask-signature",
+          "base": 0.3
+        },
+        "lost-job": {
+          "purpose": "ask-signature.lost-job",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "true"
+          },
+          "terms": [
+            {
+              "read": "laid-off",
+              "weight": 0.9
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "agree",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "promise",
+                  "carries": "lean"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "promise", "press"],
+              "deflect": ["press", "accept"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"],
+              "promise": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "promised-to-look",
+                "label": "You said you would look into it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "asker": ["promise"]
+                }
+              },
+              {
+                "id": "signed",
+                "label": "Signed your petition",
+                "keeps": "none",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "no-signature",
+                "label": "Would not sign",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "rent-notice": {
+          "purpose": "ask-signature.rent-notice",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "true"
+          },
+          "terms": [
+            {
+              "read": "notice-served",
+              "weight": 0.8
+            },
+            {
+              "read": "rent-owed",
+              "weight": 0.4
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "agree",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "promise",
+                  "carries": "lean"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "promise", "press"],
+              "deflect": ["press", "accept"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"],
+              "promise": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "promised-to-look",
+                "label": "You said you would look into it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "asker": ["promise"]
+                }
+              },
+              {
+                "id": "signed",
+                "label": "Signed your petition",
+                "keeps": "none",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "no-signature",
+                "label": "Would not sign",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "sick": {
+          "purpose": "ask-signature.sick",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "true"
+          },
+          "terms": [
+            {
+              "read": "own-illness",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "agree",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "press"],
+              "deflect": ["press", "accept"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "pressed-them",
+                "label": "You pressed someone who was unwell",
+                "keeps": "relationship-strained",
+                "when": {
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "signed",
+                "label": "Signed your petition",
+                "keeps": "none",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "no-signature",
+                "label": "Would not sign",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "caring": {
+          "purpose": "ask-signature.caring",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "true"
+          },
+          "terms": [
+            {
+              "read": "household-illness",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "agree",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "press"],
+              "deflect": ["press", "accept"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "pressed-them",
+                "label": "You pressed someone who was unwell",
+                "keeps": "relationship-strained",
+                "when": {
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "signed",
+                "label": "Signed your petition",
+                "keeps": "none",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "no-signature",
+                "label": "Would not sign",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "knows-you": {
+          "purpose": "ask-signature.knows-you",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "true"
+          },
+          "terms": [
+            {
+              "read": "close",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "agree",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "press"],
+              "deflect": ["press", "accept"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "signed",
+                "label": "Signed your petition",
+                "keeps": "none",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "no-signature",
+                "label": "Would not sign",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ask-support": {
+      "variants": {
+        "plain": {
+          "purpose": "ask-support",
+          "base": 0.3
+        },
+        "lost-job": {
+          "purpose": "ask-support.lost-job",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "false"
+          },
+          "terms": [
+            {
+              "read": "laid-off",
+              "weight": 0.9
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "deflect",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "promise",
+                  "carries": "lean"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "promise", "press"],
+              "deflect": ["press"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"],
+              "promise": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "promised-to-look",
+                "label": "You said you would look into it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "asker": ["promise"]
+                }
+              },
+              {
+                "id": "pledged",
+                "label": "You said you'd vote for them",
+                "keeps": "promise",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "heard-out",
+                "label": "You heard them out and passed",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"],
+                  "asker": ["accept"],
+                  "anyReply": ["ask"]
+                }
+              },
+              {
+                "id": "not-yet",
+                "label": "Not your candidate",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "dodged",
+                "label": "You kept your vote to yourself",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "rent-notice": {
+          "purpose": "ask-support.rent-notice",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "false"
+          },
+          "terms": [
+            {
+              "read": "notice-served",
+              "weight": 0.8
+            },
+            {
+              "read": "rent-owed",
+              "weight": 0.4
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "deflect",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "promise",
+                  "carries": "lean"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "promise", "press"],
+              "deflect": ["press"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"],
+              "promise": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "promised-to-look",
+                "label": "You said you would look into it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "asker": ["promise"]
+                }
+              },
+              {
+                "id": "pledged",
+                "label": "You said you'd vote for them",
+                "keeps": "promise",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "heard-out",
+                "label": "You heard them out and passed",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"],
+                  "asker": ["accept"],
+                  "anyReply": ["ask"]
+                }
+              },
+              {
+                "id": "not-yet",
+                "label": "Not your candidate",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "dodged",
+                "label": "You kept your vote to yourself",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "sick": {
+          "purpose": "ask-support.sick",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "false"
+          },
+          "terms": [
+            {
+              "read": "own-illness",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "deflect",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "pressed-them",
+                "label": "You pressed someone who was unwell",
+                "keeps": "relationship-strained",
+                "when": {
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "pledged",
+                "label": "You said you'd vote for them",
+                "keeps": "promise",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "heard-out",
+                "label": "You heard them out and passed",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"],
+                  "asker": ["accept"],
+                  "anyReply": ["ask"]
+                }
+              },
+              {
+                "id": "not-yet",
+                "label": "Not your candidate",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "dodged",
+                "label": "You kept your vote to yourself",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "caring": {
+          "purpose": "ask-support.caring",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "false"
+          },
+          "terms": [
+            {
+              "read": "household-illness",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "deflect",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "pressed-them",
+                "label": "You pressed someone who was unwell",
+                "keeps": "relationship-strained",
+                "when": {
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "pledged",
+                "label": "You said you'd vote for them",
+                "keeps": "promise",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "heard-out",
+                "label": "You heard them out and passed",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"],
+                  "asker": ["accept"],
+                  "anyReply": ["ask"]
+                }
+              },
+              {
+                "id": "not-yet",
+                "label": "Not your candidate",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "dodged",
+                "label": "You kept your vote to yourself",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "knows-you": {
+          "purpose": "ask-support.knows-you",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "false"
+          },
+          "terms": [
+            {
+              "read": "close",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "deflect",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "pledged",
+                "label": "You said you'd vote for them",
+                "keeps": "promise",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "heard-out",
+                "label": "You heard them out and passed",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"],
+                  "asker": ["accept"],
+                  "anyReply": ["ask"]
+                }
+              },
+              {
+                "id": "not-yet",
+                "label": "Not your candidate",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "dodged",
+                "label": "You kept your vote to yourself",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "same-party": {
+          "purpose": "ask-support.same-party",
+          "base": 0.0,
+          "onlyFor": {
+            "fact": "petition",
+            "is": "false"
+          },
+          "terms": [
+            {
+              "read": "same-party",
+              "weight": 0.35
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "asks": {
+              "yes": "agree",
+              "carried": "deflect",
+              "no": "decline",
+              "relent": ["agree"],
+              "thanks": "thank",
+              "again": [
+                {
+                  "move": "accept",
+                  "carries": "none"
+                },
+                {
+                  "move": "press",
+                  "carries": "lean"
+                }
+              ]
+            },
+            "replies": ["ask", "agree", "decline", "deflect"],
+            "follow": {
+              "ask": ["answer"],
+              "agree": ["thank"],
+              "decline": ["accept", "press"],
+              "deflect": ["press"]
+            },
+            "again": {
+              "answer": ["agree", "decline", "leave"],
+              "press": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "pledged",
+                "label": "You said you'd vote for them",
+                "keeps": "promise",
+                "when": {
+                  "reply": ["agree"]
+                }
+              },
+              {
+                "id": "heard-out",
+                "label": "You heard them out and passed",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"],
+                  "asker": ["accept"],
+                  "anyReply": ["ask"]
+                }
+              },
+              {
+                "id": "not-yet",
+                "label": "Not your candidate",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "dodged",
+                "label": "You kept your vote to yourself",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
     }
   }
 }
