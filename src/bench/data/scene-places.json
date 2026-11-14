@@ -409,7 +409,17 @@
     "filing:venue": ["clerk-counter"],
     "address:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:seat": ["@seatroom", "@office", "council-chamber"],
-    "floor-debate:venue": ["public-meeting-room"]
+    "floor-debate:venue": ["public-meeting-room"],
+    "ask-signature.rent-notice:other-home": [
+      "door-knocking-notice-taped",
+      "@door",
+      "doorstep-entrance"
+    ],
+    "ask-support.rent-notice:other-home": [
+      "door-knocking-notice-taped",
+      "@door",
+      "doorstep-entrance"
+    ]
   },
   "schoolPlacesByAge": [
     {
@@ -526,8 +536,7 @@
     "door-knocking-rowhouse": "A rowhouse front stoop with a few steps and a storm door, neighbors' stoops either side.",
     "door-knocking-mobile-home": "A mobile home's front steps and small deck, a skirted base and a gravel or dirt drive.",
     "door-knocking-farmhouse": "A farmhouse's front or side porch with a screen door, a yard and a barn or field behind.",
-    "door-knocking-notice-taped": "An apartment door with a paper notice taped to it.",
-    "door-knocking-ramp-pill-box": "A front door with a ramp or a railing, and a pharmacy bag by the door."
+    "door-knocking-notice-taped": "A front door, in an apartment building's corridor or at a house, with a paper notice taped to it (the picture shows only that, never anything else about the household)."
   },
   "genericPlaces": {
     "about": "Pictures any kind of scene may fall back to. A scene with no row of its own whose setting resolves to one of these is listed as a stand-in in docs/art/SCENE-PICTURES.md.",
@@ -610,12 +619,5 @@
     "vote-sought",
     "warning"
   ],
-  "wantedScenes": {
-    "ask-signature.rent-notice:other-home": "The door scene wants a door with a paper notice taped to it (door-knocking-notice-taped). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-signature.rent-notice:other-home\" when its id exists.",
-    "ask-support.rent-notice:other-home": "The door scene wants a door with a paper notice taped to it (door-knocking-notice-taped). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-support.rent-notice:other-home\" when its id exists.",
-    "ask-signature.sick:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-signature.sick:other-home\" when its id exists.",
-    "ask-support.sick:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-support.sick:other-home\" when its id exists.",
-    "ask-signature.caring:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-signature.caring:other-home\" when its id exists.",
-    "ask-support.caring:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-support.caring:other-home\" when its id exists."
-  }
+  "wantedScenes": {}
 }
