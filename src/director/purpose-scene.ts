@@ -139,8 +139,8 @@ import {
   meetOfficiant,
   outgoingHolder,
   swornOffice,
-  titleInSentence,
 } from "./swearing-in";
+import { officeInSentence } from "../core2/person-work";
 
 export interface PurposeScene {
   typeKey: string;
@@ -1188,7 +1188,7 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: titleInSentence(said.office),
+      text: officeInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
@@ -1401,7 +1401,10 @@ function composeBinding(
   const sworn = swornOffice(core, moment.causeId);
   if (sworn) {
     const ids = [moment.causeId, sworn.officeId];
-    facts.office = { text: titleInSentence(sworn.title), sourceRecordIds: ids };
+    facts.office = {
+      text: officeInSentence(sworn.title),
+      sourceRecordIds: ids,
+    };
     if (sworn.givesAddress) {
       facts.address = { text: "", sourceRecordIds: ids };
       const stand = inauguralStand(core, askedId);
@@ -1481,7 +1484,7 @@ function composeBinding(
     };
     facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
     facts.office = {
-      text: titleInSentence(door.office),
+      text: officeInSentence(door.office),
       sourceRecordIds: [moment.causeId, door.contestId],
     };
   }

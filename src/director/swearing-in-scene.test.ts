@@ -32,7 +32,8 @@ import {
 } from "./scene-talk";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
 import { WORDS_STOPGAP_HITS } from "./stopgaps";
-import { outgoingHolder, swornOffice, titleInSentence } from "./swearing-in";
+import { outgoingHolder, swornOffice } from "./swearing-in";
+import { officeInSentence } from "../core2/person-work";
 import swearingData from "./data/swearing-in.json" with { type: "json" };
 import { expectUpToFourDifferent } from "./reply-set-check";
 
@@ -242,7 +243,7 @@ function swearIn(at: string, world: World, address: boolean): string {
   expect(talk.gaps, at).toEqual([]);
   expect(talk.narration.length, at).toBeGreaterThan(0);
   expect(talk.state.text, at).toMatch(/swear/i);
-  expect(talk.state.text, at).toContain(titleInSentence(sworn.title));
+  expect(talk.state.text, at).toContain(officeInSentence(sworn.title));
   const root = talk.tree.replies.map((row) => row.line);
   expectUpToFourDifferent(root, at);
   // Nothing a player reads is a record kind, an id or a date.

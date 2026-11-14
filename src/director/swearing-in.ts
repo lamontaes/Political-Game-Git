@@ -53,18 +53,6 @@ export interface SwornOffice {
   readonly givesAddress: boolean;
 }
 
-/**
- * An office's title as it reads inside a sentence: a title written in
- * sentence case ("Council member", "Mayor") is lower case there ("the work of
- * mayor"), one written in title case ("County Commissioner", "U.S. Senator")
- * stays as the office names itself.
- */
-export function titleInSentence(title: string): string {
-  return /^[A-Z][^A-Z]*$/.test(title)
-    ? `${title.charAt(P.zero).toLowerCase()}${title.slice(P.one)}`
-    : title;
-}
-
 export function swornOffice(
   core: Readonly<CoreState>,
   causeId: string,
