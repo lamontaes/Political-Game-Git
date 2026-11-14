@@ -28,7 +28,10 @@ import {
   REPLY_RULE,
 } from "../../src/english/reply-follows";
 import {
+  isSpotKey,
+  judgesSpots,
   lineSubjects,
+  spotSubjects,
   type LineRule,
   type RulePiece,
 } from "../../src/english/line-rules";
@@ -93,6 +96,12 @@ export function subjectsOf(rule: LineRule, source: SubjectSource): Subject[] {
       };
     });
   }
+  // A line in each spot it is said (words machine, part 2): [key, "spot:..."].
+  if (judgesSpots(rule))
+    return spotSubjects(rule, source.pieces, source.ledger).map((subject) => ({
+      id: subject.id,
+      keys: subject.keys,
+    }));
   return lineSubjects(rule, source.pieces, source.ledger).map((piece) => ({
     id: verdictId([piece.key], [piece.text]),
     keys: [piece.key],
@@ -271,10 +280,13 @@ export function foldVerdicts(
     let dropped = 0;
     for (const [id, row] of [...no])
       if (
-        row.keys.some((key) => !text.has(key)) ||
+        // A line in a spot: it goes when the rule no longer judges that line
+        // in that spot in those words (the spot key is no bank line).
+        (row.keys.some(isSpotKey) && !current.has(id)) ||
+        row.keys.some((key) => !isSpotKey(key) && !text.has(key)) ||
         verdictId(
           row.keys,
-          row.keys.map((key) => text.get(key)!),
+          row.keys.map((key) => (isSpotKey(key) ? "" : text.get(key)!)),
         ) !== id
       ) {
         no.delete(id);
