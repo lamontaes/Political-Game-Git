@@ -14,6 +14,8 @@ import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
+import { townSeats } from "../core2/modules/offices";
+import { partyTie } from "../core2/modules/parties";
 import {
   LEGISLATURE_MODULE_ID,
   billOf,
@@ -98,6 +100,13 @@ const STATE_KEY_PREFIX = "US-";
 /** The moves engine's basis for a move to somewhere else in the same state. */
 const STATE_BASIS = "state";
 
+/** The levels of a place's own governments: its city, its town or township, its county. */
+const LOCAL_GOVERNMENTS: ReadonlySet<string> = new Set([
+  "city",
+  "township",
+  "county",
+]);
+
 /** The public-action engine's record of a rally forming (`civic.rally`). */
 const RALLY_EVENT = "civic.rally";
 /** The disasters engine's record of a damaged home's household told what the aid and repairs came to (`HOME_DAMAGED_EVENT`, disasters.ts). */
@@ -106,6 +115,7 @@ import {
   ELECTIONS_MODULE_ID,
   ballot,
   incumbentOf,
+  openContests,
   petitionOf,
 } from "../core2/modules/elections";
 import {
@@ -1394,8 +1404,43 @@ function composeBinding(
   // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
 
   // Joining a party: the party the record names, by its name.
-  if (type.purpose === "party-welcome" && typeof said.party === "string")
+  if (type.purpose === "party-welcome" && typeof said.party === "string") {
     facts.party = { text: said.party, sourceRecordIds: [moment.causeId] };
+    // What the party holds and runs in this place, from the offices' terms and
+    // the open races' filings: the leader's answer to "what do you do here".
+    const api = coreAPI(core as CoreState);
+    const named = said.party.toLowerCase();
+    const held = townSeats(api).find(
+      (row) =>
+        LOCAL_GOVERNMENTS.has(row.office.level) &&
+        (row.holder?.party?.toLowerCase() === named ||
+          (row.holder?.personId
+            ? partyTie(api, row.holder.personId)?.partyId === said.partyId
+            : false)),
+    );
+    const race = openContests(api).find(
+      (contest) =>
+        LOCAL_GOVERNMENTS.has(contest.level) &&
+        ballot(api, contest.id).some(
+          (filing) => filing.party?.toLowerCase() === named,
+        ),
+    );
+    if (held)
+      facts["office-held"] = {
+        text: held.office.title.toLowerCase(),
+        sourceRecordIds: [held.holder!.id],
+      };
+    if (race)
+      facts["race-run"] = {
+        text: race.title.toLowerCase(),
+        sourceRecordIds: [race.id],
+      };
+    if (!held && !race)
+      facts["party-holds-nothing"] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId],
+      };
+  }
   // Taking office (offices.ts): the office by its title in the offices
   // engine's rows, whatever wording the record carries (a contest's title, or
   // an office's id from a dev start); an executive office goes on to an

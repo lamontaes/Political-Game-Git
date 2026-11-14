@@ -4023,13 +4023,15 @@
     },
     "party-welcome": {
       "state": "request",
-      "replies": ["agree", "deflect"],
+      "replies": ["agree", "ask", "deflect"],
       "follow": {
         "agree": ["thank"],
+        "ask": ["answer"],
         "deflect": ["press", "accept"]
       },
       "again": {
-        "press": ["agree", "leave"]
+        "press": ["agree", "leave"],
+        "answer": ["agree", "deflect"]
       },
       "endings": [
         {

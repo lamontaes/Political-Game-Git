@@ -164843,6 +164843,204 @@
         "move": "accept",
         "key": "welcomed"
       }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-the-party-actually-do-around-here",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does the party actually do around here?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-need-from-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you need from me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-hold-the-office-held-seat-and-we-mean-to-keep-it-mostly-that-s-knocking-on-doors-an-evening-of-yours-helps-more-than-you-d-think",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We hold the {office-held} seat, and we mean to keep it. Mostly that's knocking on doors. An evening of yours helps more than you'd think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["office-held"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.our-office-held-seat-is-the-one-we-ve-got-so-we-look-after-it-come-knock-doors-with-us-when-it-s-time-or-chip-in-what-you-can",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Our {office-held} seat is the one we've got, so we look after it. Come knock doors with us when it's time, or chip in what you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["office-held"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-ve-got-somebody-running-for-race-run-this-time-knock-doors-with-them-chip-in-or-just-show-up-at-an-event",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We've got somebody running for {race-run} this time. Knock doors with them, chip in, or just show up at an event.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["race-run"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.right-now-it-s-the-race-run-race-come-out-and-knock-doors-for-our-candidate-or-give-what-you-can",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Right now it's the {race-run} race. Come out and knock doors for our candidate, or give what you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["race-run"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.honestly-we-don-t-hold-anything-around-here-yet-that-s-why-we-need-people-who-ll-knock-doors-and-show-up",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Honestly, we don't hold anything around here yet. That's why we need people who'll knock doors and show up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["party-holds-nothing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.not-much-yet-we-don-t-hold-a-seat-here-if-you-ll-knock-doors-with-me-that-s-where-it-starts",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not much, yet. We don't hold a seat here. If you'll knock doors with me, that's where it starts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["party-holds-nothing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
     }
   ]
 }

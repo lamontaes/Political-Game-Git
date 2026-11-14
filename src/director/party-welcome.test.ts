@@ -65,6 +65,19 @@ it.each(TAGS)(
     expect(result.scene.cause.id, where).toContain("party-joined:");
     expect(talk.narration.length, where).toBeGreaterThan(0);
     expect(talk.tree.replies.length, where).toBeGreaterThanOrEqual(2);
+    // Each answer the player can give is met with the leader's own line; the
+    // question is answered from what the party holds or runs here.
+    const ask = talk.tree.replies.findIndex(
+      (reply) => reply.line.move === "ask",
+    );
+    expect(ask, `${where}: a question is offered`).toBeGreaterThanOrEqual(0);
+    for (const reply of talk.tree.replies)
+      expect(
+        reply.next?.lines.length,
+        `${where}: the leader answers "${reply.line.text}"`,
+      ).toBeGreaterThan(0);
+    const answer = talk.tree.replies[ask]!.next!.lines[0]!.text;
+    expect(answer, `${where}: no unfilled slot`).not.toMatch(/[{}]/);
     const yes = talk.tree.replies.findIndex(
       (reply) => reply.line.move === "agree" || reply.line.move === "promise",
     );
@@ -75,7 +88,7 @@ it.each(TAGS)(
     expect(replyId, where).toBeTruthy();
     expect(core.eventIds.has(replyId!), where).toBe(true);
     process.stdout.write(
-      `PARTY WELCOME ${where}: ${party!.name}\n${talk.narration.map((l) => `Narrator: ${l.text}`).join("\n")}\nleader: ${talk.state.text}\n${talk.tree.replies.map((r) => `  [${r.line.move}] ${r.line.text}`).join("\n")}\nreply record ${replyId}\n`,
+      `PARTY WELCOME ${where}: ${party!.name}\n${talk.narration.map((l) => `Narrator: ${l.text}`).join("\n")}\nleader: ${talk.state.text}\n${talk.tree.replies.map((r) => `  [${r.line.move}] ${r.line.text}\n      leader: ${r.next?.lines.map((l) => l.text).join(" / ")}`).join("\n")}\nreply record ${replyId}\n`,
     );
   },
   600_000,
