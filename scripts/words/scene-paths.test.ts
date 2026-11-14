@@ -28,6 +28,7 @@ const PIECES = [
   piece("no", "I can't this time.", "reply-refuse"),
   piece("press", "Then promise me you'll read the plan.", "follow-plea"),
   piece("read", "I promise I'll read it.", "reply-promise"),
+  piece("skip", "I won't have time to read it.", "reply-refuse"),
 ];
 const said = (key: string, role: SceneTalkLine["role"]): SceneTalkLine =>
   ({
@@ -57,7 +58,13 @@ const talk = (typeKey: string): SceneTalk =>
         [said("yes", "asked"), null],
         [
           said("no", "asked"),
-          node([said("press", "asker")], [[said("read", "asked"), null]]),
+          node(
+            [said("press", "asker")],
+            [
+              [said("read", "asked"), null],
+              [said("skip", "asked"), null],
+            ],
+          ),
         ],
       ],
     ),
@@ -97,13 +104,62 @@ describe("scene paths", () => {
   it("shows what the scene can say after a refusal, where a reason given if asked would be", () => {
     const [refusal] = scenePaths(rule("refuse"), PIECES, [talk("a")]);
     expect(refusal!.keys).toEqual(["set", "ask", "no"]);
-    expect(refusal!.after.map((line) => line.key)).toEqual(["press", "read"]);
+    expect(refusal!.after.map((line) => line.key)).toEqual([
+      "press",
+      "read",
+      "skip",
+    ]);
   });
 
   it("counts the same path in two scenes once", () => {
     const paths = scenePaths(rule("promise"), PIECES, [talk("a"), talk("b")]);
     expect(paths).toHaveLength(2);
     expect(paths.map((p) => p.scenes)).toEqual([2, 2]);
+  });
+
+  const setRule = (sets: "every" | "later", moves?: string): LineRule => ({
+    ...rule("unused"),
+    id: "replies-differ",
+    judges: "set",
+    sets,
+    applies: moves ? { moves } : undefined,
+  });
+
+  it("reads every reply set with the scene before it", () => {
+    const sets = scenePaths(setRule("every"), PIECES, [talk("a")]);
+    expect(
+      sets.map((set) => [set.keys, set.options!.map((line) => line.key)]),
+    ).toEqual([
+      [
+        ["ask", "yes", "no"],
+        ["yes", "no"],
+      ],
+      [
+        ["press", "read", "skip"],
+        ["read", "skip"],
+      ],
+    ]);
+  });
+
+  it("reads only the sets after the first exchange for a later rule, with the first set beside them", () => {
+    const sets = scenePaths(setRule("later"), PIECES, [talk("a")]);
+    expect(sets.map((set) => set.options!.map((line) => line.key))).toEqual([
+      ["read", "skip"],
+    ]);
+    expect(sets[0]!.first!.map((line) => line.key)).toEqual(["yes", "no"]);
+    expect(sets[0]!.keys).toEqual(["press", "yes", "no", "read", "skip"]);
+  });
+
+  it("reads only the sets that answer the lines its applies names", () => {
+    const sets = scenePaths(setRule("every", "^follow-plea$"), PIECES, [
+      talk("a"),
+    ]);
+    expect(sets.map((set) => set.lines.at(-1)!.key)).toEqual(["press"]);
+  });
+
+  it("leaves a set rule with no sets field to its own reader", () => {
+    const { sets: _, ...plain } = setRule("every");
+    expect(scenePaths(plain, PIECES, [talk("a")])).toEqual([]);
   });
 
   it("is only for judged path rules", () => {
