@@ -20,7 +20,7 @@ source: views thread, Nov 14 (Account lead's ruling (c) on views from life, cut 
 
 **What.** A person's stance on a question is their lean on its axis, their faith and degree, and their own circumstances, but not how popular the question is across the country, so a town splits near the middle on questions most of the country favors (term limits, more school spending). Every reader of how popular a question is (`publicOffset`: ballot measures, recalls, officials, the paper) already knows it; voters' own stances do not. It also retires `SG-GOV-budget-line-stance-lean-only`, whose missing term is the country's wish to spend more or less on a line. Seen: polls, door answers and votes on such questions, and the Campaign tab's money raised, which must not move outside its bands.
 
-**Cause.** Measured on the views thread's cut 3b before the Account lead split it out. Adding `popularity(question, seed)` (`src/core2/campaign-views.ts`) to every stance, candidates' included, moved the campaign money totals (`src/core2/campaign-money-calibration.test.ts`, 32 places; bands per hour 75 to 720, mean 72 to 288, median 26 to 125):
+**Cause.** Measured: on the views thread's cut 3b before the Account lead split it out. Adding `popularity(question, seed)` (`src/core2/campaign-views.ts`) to every stance, candidates' included, moved the campaign money totals (`src/core2/campaign-money-calibration.test.ts`, 32 places; bands per hour 75 to 720, mean 72 to 288, median 26 to 125):
 
 | Run seed | Run                                   | Per hour | Mean gift | Median gift | Gifts |
 | -------- | ------------------------------------- | -------- | --------- | ----------- | ----- |
