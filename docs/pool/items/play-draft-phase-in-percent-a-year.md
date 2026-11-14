@@ -9,7 +9,6 @@ status: in-pr
 pr: #9344
 standard: 2
 claimed-by:
-pr:
 blocked-on:
 source: "Account lead cluster 11, Nov 14 (the screen half of the percent-a-year form; the owner's ruling Sept 12, travel clarification, item 1: bills phase in by dated steps or a percent a year)"
 lead: governing
