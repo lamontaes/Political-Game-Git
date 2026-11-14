@@ -180900,35 +180900,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.case-help-6",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What do they pay you an hour?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["problem-wage", "pay", "floor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "ask",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.case-help-1",
       "move": "follow-answer",
       "kind": "spoken",
