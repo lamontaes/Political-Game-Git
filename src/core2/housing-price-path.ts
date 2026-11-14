@@ -6,7 +6,7 @@
  * mortgages and the housing history all read this one path.
  */
 import history from "./data/macro/history.json" with { type: "json" };
-import { historicalMortgageRate, publishedMonth } from "./macro-model";
+import { worldMortgageRate, worldPublishedMonth } from "./macro-model";
 import { stepLogLevel, supportedLog, type P } from "./housing-prices";
 import { stopgap } from "./stopgaps";
 
@@ -28,27 +28,36 @@ const nextMonth = (month: string) => {
 };
 
 /**
- * The economy's month before day one, as the price level reads it: pay and
- * the 30-year rate. One accessor, so the world's own past months (the
- * economy's pre-start pass) replace the published ones in one place.
+ * The economy's month before day one, as the price level reads it: this
+ * world's pay and 30-year rate (the published months moved by the world's
+ * offsets, the same figures the economy's pre-start pass records). One
+ * accessor, read by the path, the mortgages and play's fallback.
  */
 export function economyMonthBefore(
   month: string,
-  _world: PriceWorld,
+  world: PriceWorld,
   p: P,
 ): { pay: number; ratePct: number } {
-  const row = publishedMonth(month);
+  const row = worldPublishedMonth(month, world.startedAt, world.seed, p);
   let pay = row?.hourlyEarnings;
   if (pay === undefined) {
     // Before the earnings series begins, pay moves with consumer prices.
     // stopgapId: SG-WORLD-housing-price-pay-before-earnings
     stopgap("SG-WORLD-housing-price-pay-before-earnings");
-    const first = publishedMonth(FIRST_PAY_MONTH)!;
+    const first = worldPublishedMonth(
+      FIRST_PAY_MONTH,
+      world.startedAt,
+      world.seed,
+      p,
+    )!;
     pay =
       first.hourlyEarnings! *
       ((row?.priceIndex ?? first.priceIndex!) / first.priceIndex!);
   }
-  return { pay, ratePct: historicalMortgageRate(month, p) };
+  return {
+    pay,
+    ratePct: worldMortgageRate(month, world.startedAt, world.seed, p),
+  };
 }
 
 /** A world's path of the price level before day one, relative: exp(log level) by month. */
