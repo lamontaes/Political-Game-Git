@@ -1,6 +1,6 @@
 ---
 name: words-reads
-description: How the Words lead of Our Civic Duty reads a change to anything a player reads (a scene, a talk, the paper, a speech, the Journal, a screen label) before it joins a train or main, and the numbered rules those reads have set since Nov 13 (rules 30 to 90, after the first twenty-nine on the crew issue). Use when you build or change player words and want to know what the read will ask for, when you are the Words lead or a builder working for it, and when writing lines for a door, a first meeting, home talk, an address, the Journal or an election story. Not for the engine's mechanics (words-engine), the standard a scene must meet to exist (scene-standard) or checking a screen for developer text (player-screen-text).
+description: How the Words lead of Our Civic Duty reads a change to anything a player reads (a scene, a talk, the paper, a speech, the Journal, a screen label) before it joins a train or main, and the numbered rules those reads have set since Nov 13 (rules 30 to 100, after the first twenty-nine on the crew issue). Use when you build or change player words and want to know what the read will ask for, when you are the Words lead or a builder working for it, and when writing lines for a door, a first meeting, home talk, an address, the Journal or an election story. Not for the engine's mechanics (words-engine), the standard a scene must meet to exist (scene-standard) or checking a screen for developer text (player-screen-text).
 ---
 
 # Words reads
@@ -103,6 +103,21 @@ description: How the Words lead of Our Civic Duty reads a change to anything a p
 88. Family is said the way people say it ("I had an older brother, Diego"), and a fact the record cannot explain is left out.
 89. An event is told with its end: a filing says what it meant, election day is an entry, a race tells its result with the count once.
 90. One entry per law that reached the person, by the law's said name, with the one largest change and where they learned of it; no entry for a change they could not notice.
+
+## Rules 91 to 100: the reporter's call, the door, a seat said aloud, and what a reply must do
+
+91. A bill is named once in a scene, by its said name; after that it is "the bill" or "it".
+92. A reporter speaks for their own outlet and asks only about what a record put in front of them.
+93. "Why?" gets a reason on record. A vote or a no with no reason on record is a fault in the record (a pool item), never something to word around.
+94. Each follow-up question is about a new thing from a record, not the first question again.
+95. Nobody is offered a lie about a roll that was watched.
+96. A room holds only the people the records put there.
+97. A stall is said once; a second one ends the call.
+98. A count, where one is said at all outside a scene, is said once.
+99. A door asks about what the office being run for can touch, and a candidate does not promise to act on a question above the office. The same holds at a desk and for a donor.
+100.  A seat is said aloud with the area it covers ("Congress, the 3rd District", "the state Senate in the 17th District"); a statewide seat takes no place at the counter, and a town's own office takes nothing after it at its own counter.
+
+Three rulings that go with these. The rules that a scene names its stake and that a promise names who, what and why judge a scene's path up to its ask, never one line or one pair of lines. An offered reply that nothing later reads is not offered: keep the offer as a fact a later talk brings up, or cut the reply. And before lines are written for a scene kind, it is played with the player in the right seat in three drawn places: a kind that never stages, or whose packet holds no facts, needs a producer or a fact first (skill `scene-producers`).
 
 ## Traps
 
