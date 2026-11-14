@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9227
 blocked-on:
 after:
 lead: words
