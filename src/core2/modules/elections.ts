@@ -795,10 +795,6 @@ export function specialContestFor(
       : stateKey,
     vacancyDate: vacancy?.since ?? api.state.date,
   });
-  if (day.basis === "estimated") {
-    // stopgapId: SG-GOV-special-election-timing
-    api.stopgap("SG-GOV-special-election-timing");
-  }
   const own =
     family === "municipalOffice"
       ? municipalFilingDeadline(stateKey, race.electionDate)

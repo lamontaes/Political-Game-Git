@@ -51,20 +51,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-special-election-appointee",
-    "kind": "missing-engine",
-    "file": "src/core2/modules/offices.ts",
-    "line": 1833,
-    "whatItFakes": "A special election for a seat no race engine counts (a statewide executive seat, a judge, a seat of another body) goes to the best-suited eligible person on the day instead of a vote. The town's own seats are real races in the voting engine, and a House or legislative district outside the town is counted by the world races (named party candidates, the winner serves the unexpired term). The date is the state's law for the office where special-election-law.json reads it, else the 90-day estimate (SG-GOV-special-election-timing).",
-    "why": "The world races count only House and legislative districts; the other kinds have no counted race yet. Narrowed Oct 19 (claude/special-election-races).",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-12",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each office's special-election timing from its law (many fill at the next general election).",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage"
-  },
-  {
     "id": "SG-GOV-voter-registration-assumed",
     "kind": "missing-record",
     "file": "src/core2/modules/elections.ts",
@@ -848,21 +834,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-GOV-special-election-timing",
-    "kind": "estimated-calendar",
-    "file": "src/core2/data/elections/parameters.json",
-    "line": 21,
-    "whatItFakes": "The date of a special election where the state's law for that office family is not read: 90 days after the vacancy. Only California's U.S. House and legislative rows are read in special-election-law.json.",
-    "why": "Each state's timing statute (days after the vacancy, the governor's call, the next general election) per office family has to be read.",
-    "addedBy": "OPUS-GOV-ELECTIONS",
-    "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A row per state and office family in src/core2/data/elections/special-election-law.json read from the state's code.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
     "id": "SG-GOV-ballot-order-estimates",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
@@ -1496,20 +1467,6 @@
     "addedAt": "2026-10-14",
     "replacement": "Every seat's holder filled in as a person before they vote, so floor tactics read their temperament like anyone's. Done Oct 16: a seat whose holder has no living person record casts no vote and moves no pill, so the stand-in is gone.",
     "status": "resolved"
-  },
-  {
-    "id": "SG-GOV-dual-office-law",
-    "kind": "estimated-rule",
-    "file": "src/core2/data/offices/incompatibility.json",
-    "line": 13,
-    "whatItFakes": "Until jurisdiction-specific dual-office exceptions are compiled, the data conservatively treats two elected mandates as incompatible. The federal legislative/executive prohibition is sourced separately.",
-    "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
-    "addedBy": "SESSION-C",
-    "addedAt": "2026-10-15",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-policy-power-unresolved",
