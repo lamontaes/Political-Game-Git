@@ -3,7 +3,7 @@
  * played worlds (Words builder W1, Nov 12, 2026). Development tooling;
  * nothing here words anything, and shipped play never imports it.
  *
- *   node --import tsx scripts/words/told-talk-proof.ts --kind eviction|job-lost --seed <seed> [--days 365] [--draws 3] [--talks 2]
+ *   node --import tsx scripts/words/told-talk-proof.ts --kind eviction|job-lost --seed <seed> [--days 365] [--draws 3] [--from 0] [--talks 2]
  *
  * Each draw takes a place from all 56 by the seed and plays the bench's world
  * (`buildBenchWorld`, two-level) day by day, the player's household watched
@@ -35,6 +35,7 @@ const kind = option("kind", "eviction");
 const seed = option("seed", "told-talk");
 const days = Number(option("days", "365"));
 const draws = Number(option("draws", "1"));
+const from = Number(option("from", "0"));
 const wanted = Number(option("talks", "2"));
 
 const nameOf = (core: CoreState, id: string) => {
@@ -43,7 +44,7 @@ const nameOf = (core: CoreState, id: string) => {
 };
 
 setBookkeeping(false);
-for (let draw = 0; draw < draws; draw += 1) {
+for (let draw = from; draw < from + draws; draw += 1) {
   const place = drawPlace(`${seed}:${draw}`, "told-talk");
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
