@@ -1414,10 +1414,18 @@ function composeBinding(
         sourceRecordIds: [earlier.voteId, bill.id],
       };
   }
+  // A funeral for someone with no cause on record asks for a few words about
+  // them (`funeral-words`); the cause request plays only where a cause is on
+  // record.
+  const plainFuneral =
+    type.purpose === "funeral-cause" && !facts.cause
+      ? { ...type, purpose: "funeral-words", family: type.purpose }
+      : null;
   const played =
-    variant && variant.purpose !== type.purpose
+    plainFuneral ??
+    (variant && variant.purpose !== type.purpose
       ? { ...type, purpose: variant.purpose, family: type.purpose }
-      : type;
+      : type);
   const result = composeSceneTalk(
     core,
     director,

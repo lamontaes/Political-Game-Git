@@ -1117,6 +1117,53 @@
         }
       ]
     },
+    "funeral-words": {
+      "state": "request",
+      "replies": ["promise", "decline", "ask", "deflect"],
+      "follow": {
+        "promise": ["thank"],
+        "decline": ["accept", "press"],
+        "ask": ["answer"],
+        "deflect": ["accept", "press"]
+      },
+      "again": {
+        "answer": ["promise", "decline", "leave"],
+        "press": ["promise", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "words-promised",
+          "label": "You promised to say a few words",
+          "keeps": "promise",
+          "when": {
+            "reply": ["promise"]
+          }
+        },
+        {
+          "id": "not-today",
+          "label": "Not today",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline", "deflect"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "walked-off",
+          "label": "You walked off",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "layoff-terms": {
       "state": "deliver-news",
       "replies": ["ask", "bargain", "confront", "accept"],

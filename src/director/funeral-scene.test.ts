@@ -87,6 +87,7 @@ it(
       skipped.filter((row) => !/cannot be worded from the records/.test(row)),
       where,
     ).toEqual([]);
-    expect(composed.length + skipped.length, where).toBeGreaterThan(0);
+    expect(skipped, where).toEqual([]);
+    expect(composed.length, where).toBeGreaterThan(0);
   },
 );
