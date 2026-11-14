@@ -6048,7 +6048,7 @@
       "key": "opening-speech.salutation.polished-sta-hopeful-core-i-greet-vice-president-vice-president-and-all-of",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I'm glad to see {vice-president-object} and all of you in a spirit of hope, because the work ahead of us is work worth doing.",
+      "text": "I come to {vice-president-object} and all of you in a spirit of hope, because the work ahead of us is work worth doing.",
       "uses": [
         {
           "move": "salutation",
@@ -7454,7 +7454,7 @@
       "key": "opening-speech.salutation.polished-ina-hopeful-core-i-greet-speaker-speaker-and-the-members-of-congress",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I'm glad to see {speaker-object} and the members of Congress in good faith, and with confidence in the work we can do together.",
+      "text": "I come to {speaker-object} and the members of Congress in good faith, and with confidence in the work we can do together.",
       "uses": [
         {
           "move": "salutation",
@@ -39838,7 +39838,7 @@
       "key": "opening-speech.salutation.polished-ina-mourning-core-i-greet-speaker-speaker-quietly-because-so-many-families",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I thank {speaker-object} quietly, because so many families are grieving.",
+      "text": "I stand before {speaker-object} quietly today, because so many families are grieving.",
       "uses": [
         {
           "move": "salutation",
@@ -67563,7 +67563,7 @@
       "key": "opening-speech.salutation.polished-ina-hopeful-core-i-greet-this-congress-and-speaker-speaker-with-high",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I thank this Congress and {speaker} with high hopes.",
+      "text": "I come to this Congress and {speaker} with high hopes.",
       "uses": [
         {
           "move": "salutation",
