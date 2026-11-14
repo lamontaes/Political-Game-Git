@@ -3,7 +3,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
-import { candidateStance } from "./campaign-stances";
+import { stanceReader } from "./campaign-stances";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -69,19 +69,23 @@ it.each(PINNED)(
     for (const answer of platformAnswers(api, filed.id, questions))
       expect(answer.position, where).toBeNull();
     const stands = standsOnRecord(api, filed.id, questions);
+    const reader = stanceReader(api, playerId, filed.party ?? null);
     let held = 0;
     for (const answer of stands) {
-      const own = candidateStance(
-        api,
-        playerId,
-        filed.party ?? null,
-        answer.question,
-      );
-      // Their own stand where the record holds one, none where it holds none.
-      expect(answer.position, `${where}: ${answer.question}`).toBe(
-        own === null ? null : round(own),
-      );
-      if (answer.position !== null) held += 1;
+      const grounds = reader.grounds(answer.question);
+      const label = `${where}: ${answer.question}`;
+      if (grounds === "vote" || grounds === "view") {
+        // Their own stand, from their vote or their view.
+        expect(answer.source, label).toBe(grounds);
+        expect(answer.position, label).toBe(
+          round(reader.stance(answer.question)!),
+        );
+        held += 1;
+      } else {
+        // Nothing of their own (a party's position alone is not theirs).
+        expect(answer.source, label).toBeNull();
+        expect(answer.position, label).toBeNull();
+      }
     }
     expect(
       held,

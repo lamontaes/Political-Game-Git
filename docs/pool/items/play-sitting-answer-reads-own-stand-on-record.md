@@ -22,13 +22,13 @@ root: rc10-screens-keep-own-facts
 
 **Cause.** Found in code: `standOf` in src/director/sitting.ts read only `platformAnswers` (src/core2/modules/press.ts), which looks a question up in the filed platform and nothing else. A simulated candidate's `candidateAnswers` in the same file already falls back to `candidateStance` (view, votes, party); the player's path did not.
 
-**Fix.** `standsOnRecord` in press.ts: the filed stand where there is one, else `candidateStance`; `standOf` reads it. Nothing is invented: where the player has no view, no vote and no party, the stand stays none and "I haven't said" stands. The player still chooses whether to give the stand. Promises made and answers given feeding back into the platform are not in this item.
+**Fix.** `standsOnRecord` in press.ts: the filed stand where there is one, else the player's vote or own view (`StanceReader.grounds`); a stand only the party takes is none. The sitting offers every question's menu as both sides plus a way not to answer: the stand on record decides which side is listed first and never removes the other side or the decline, and what the player picks is what is stored. Where the player holds nothing, "for" is listed first and the decline says so. Promises made and answers given feeding back into the platform, and recording a change of stand, are not in this item (`play-sitting-changed-stand-is-recorded-both`).
 
 **Time box.** 2 hours.
 
 **Rules.** No dice. A stand is a read of records another engine already keeps.
 
-**Done when.** In a pinned place, a filing with no platform asked a seat's questions returns the player's own stand on each question the record holds and none where it holds none (src/core2/stands-on-record.test.ts); a second session sitting for a debate sees the answer menu offer a stand on a question outside the filed three.
+**Done when.** In a pinned place, a filing with no platform asked a seat's questions returns the player's own stand on each question the record holds and none where it holds none (src/core2/stands-on-record.test.ts); a second session sitting for a debate sees a menu with both sides and a way not to answer on a question outside the filed three, and what they pick is what the held debate stores.
 
 **Waits on.** Nothing.
 
