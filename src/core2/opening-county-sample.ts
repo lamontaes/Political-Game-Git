@@ -286,7 +286,12 @@ export function withCountySample(
     const pay =
       earnings * Math.max(p("one"), employment.get(home.id)?.length ?? 0);
     const reserve = Math.round(
-      medianTransactionBalance(pay, input.seed) * p("minorPerDollar"),
+      medianTransactionBalance(
+        pay,
+        input.seed,
+        // The head is the household's oldest adult.
+        Math.max(...adultsHere.map((row) => ageInYears(row.birthDate, start))),
+      ) * p("minorPerDollar"),
     );
     adultsHere.forEach((row, n) => {
       row.liquidMinor =

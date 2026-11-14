@@ -32,7 +32,12 @@ import {
 } from "./modules/budgets";
 import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
-import { residentsRuntime, type ResidentsRuntime } from "./modules/residents";
+import {
+  countedParameter,
+  residentsRuntime,
+  type ResidentsRuntime,
+} from "./modules/residents";
+import { stableHash } from "./kernel/ids";
 import type { CountedHousehold } from "./counted-groups";
 import { withCountedQuarterPay } from "./pay-by-quarter";
 import type { ResidentFlowInput } from "./residents";
@@ -75,6 +80,50 @@ export function peopleInGroup(rt: ResidentsRuntime, group: number): number {
   let n = 0;
   for (const i of rt.store.groups[group]?.households ?? [])
     n += rt.store.weightedCount(rt.store.households[i]!);
+  return n;
+}
+
+/**
+ * A counted household's savings weight: its share of its group's account per
+ * person, against the group's average of one. Households alike in income, age
+ * and tenure still hold very different savings (the Survey of Consumer
+ * Finances' means run far above its medians), so the share is spread around
+ * the group's average on a log-normal of the parameter's spread, drawn once
+ * per household from the world's seed and its id (who exists, not what anyone
+ * does) and kept: exp(σz − σ²/2), whose mean is one, so the draws move money
+ * among a group's households and never add to it.
+ */
+export function savingWeight(
+  seed: string,
+  h: { readonly id: string; saving?: number },
+): number {
+  if (h.saving === undefined) {
+    // stopgapId: SG-CORE-counted-savings-spread-national
+    const sigma = countedParameter("countedSavingsSpreadLog");
+    const uniform = (key: string) =>
+      (Number.parseInt(stableHash(key).slice(0, 12), 16) + 0.5) / 16 ** 12;
+    const key = `${seed}:counted-saving:${h.id}`;
+    const z =
+      Math.sqrt(-2 * Math.log(uniform(`${key}:a`))) *
+      Math.cos(2 * Math.PI * uniform(`${key}:b`));
+    h.saving = Math.exp(sigma * z - (sigma * sigma) / 2);
+  }
+  return h.saving;
+}
+
+/** A household's claim on its group's account: its people, each counted at its savings weight. */
+export function savingClaim(rt: ResidentsRuntime, h: CountedHousehold): number {
+  return (
+    rt.store.weightedCount(h) *
+    savingWeight((rt.api!.state as CoreState).seed, h)
+  );
+}
+
+/** The claims on a group's account: its households' people at their savings weights. */
+export function claimsInGroup(rt: ResidentsRuntime, group: number): number {
+  let n = 0;
+  for (const i of rt.store.groups[group]?.households ?? [])
+    n += savingClaim(rt, rt.store.households[i]!);
   return n;
 }
 
@@ -861,14 +910,13 @@ export function countedHouseholdCash(
   const h = rt ? householdById(rt, householdId) : undefined;
   if (!rt || !h) return 0;
   fundGroups(api, rt);
-  const groupPeople = peopleInGroup(rt, h.group);
-  const weight = rt.store.weightOf(h);
-  if (groupPeople <= 0 || weight <= 0) return 0;
-  // One household's people: the record's weighted count over the households it stands for.
-  const people = rt.store.weightedCount(h) / weight;
+  const claims = claimsInGroup(rt, h.group);
+  if (claims <= 0 || rt.store.weightOf(h) <= 0) return 0;
+  // One household of the record: its members at its savings weight.
+  const claim = rt.store.countedCount(h) * savingWeight(api.state.seed, h);
   return Math.max(
     0,
-    Math.floor((fundBalance(api, rt, h.group) * people) / groupPeople),
+    Math.floor((fundBalance(api, rt, h.group) * claim) / claims),
   );
 }
 

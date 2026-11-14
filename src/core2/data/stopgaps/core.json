@@ -628,5 +628,17 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
+  },
+  {
+    "id": "SG-CORE-counted-savings-spread-national",
+    "kind": "estimated-data",
+    "file": "src/core2/counted-money.ts",
+    "line": 101,
+    "whatItFakes": "A counted household's share of its group's account is spread around the group's average by one national figure (the log spread 1.39 from the Survey of Consumer Finances 2022 transaction-account mean and median and its income groups' medians), the same at every age; the opening balance multiplies the income group's median by the age group's (taken as separate effects); families' savings beyond transaction accounts (certificates of deposit, stocks, pooled funds) are not in the opening.",
+    "why": "The survey's tables crossing age of head with income, and its means by group, could not be read from the build session (the environment's network refuses www.federalreserve.gov); the age medians come from a published reprint of the survey's table.",
+    "addedBy": "Account lead T54",
+    "addedAt": "2026-11-14",
+    "replacement": "The spread and the opening balance by income group and age of head, with liquid savings beyond transaction accounts, read from the Survey of Consumer Finances 2022 historical tables (Tables 1 and 6) into data/research/money/, and the parameter retagged SOURCED.",
+    "status": "open"
   }
 ]

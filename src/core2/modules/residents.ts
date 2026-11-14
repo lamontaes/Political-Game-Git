@@ -89,6 +89,9 @@ import {
 } from "../residents-economy";
 import {
   chargeGroups,
+  claimsInGroup,
+  savingClaim,
+  savingWeight,
   flowWeights,
   fundGroups,
   HOUSING_KINDS,
@@ -458,12 +461,13 @@ export function regroupHousehold(
   date: string,
 ): void {
   const before = h.group;
-  const people = rt.store.weightedCount(h);
-  const groupBefore = before >= 0 ? peopleInGroup(rt, before) : 0;
+  // Its claim on the old group's money, and all the claims there, before it leaves.
+  const claim = rt.api ? savingClaim(rt, h) : 0;
+  const groupBefore = rt.api && before >= 0 ? claimsInGroup(rt, before) : 0;
   rt.store.regroup(h, groupKeyOf(rt, h, date));
   // Its share of the old group's money goes with it.
   if (rt.api && before !== h.group)
-    moveShare(rt.api, rt, before, h.group, people, groupBefore);
+    moveShare(rt.api, rt, before, h.group, claim, groupBefore);
   // A group left with no people owes nothing: its creditors write it off.
   if (before >= 0 && before !== h.group)
     writeOffEmptyGroup(rt, before, h.placeId);
@@ -501,10 +505,10 @@ export function departingCash(
   h: CountedHousehold,
 ): number {
   if (!rt.api || !rt.funded || h.group < 0) return 0;
-  const people = peopleInGroup(rt, h.group);
-  if (people <= 0) return 0;
+  const claims = claimsInGroup(rt, h.group);
+  if (claims <= 0) return 0;
   return Math.floor(
-    (fundBalance(rt.api, rt, h.group) * rt.store.weightedCount(h)) / people,
+    (fundBalance(rt.api, rt, h.group) * savingClaim(rt, h)) / claims,
   );
 }
 
@@ -516,20 +520,26 @@ export function departingCash(
 export function householdCashReader(
   rt: ResidentsRuntime,
 ): (h: CountedHousehold) => number {
-  const groups = new Map<number, { people: number; balance: number }>();
+  const groups = new Map<number, { claims: number; balance: number }>();
   return (h) => {
     if (!rt.api || !rt.funded || h.group < 0) return 0;
     let group = groups.get(h.group);
     if (!group) {
-      const people = peopleInGroup(rt, h.group);
+      const claims = claimsInGroup(rt, h.group);
       group = {
-        people,
-        balance: people > 0 ? fundBalance(rt.api, rt, h.group) : 0,
+        claims,
+        balance: claims > 0 ? fundBalance(rt.api, rt, h.group) : 0,
       };
       groups.set(h.group, group);
     }
-    return group.people > 0
-      ? Math.floor((group.balance * rt.store.countedCount(h)) / group.people)
+    // One household of the record: its members at its savings weight.
+    return group.claims > 0
+      ? Math.floor(
+          (group.balance *
+            rt.store.countedCount(h) *
+            savingWeight(rt.api.state.seed, h)) /
+            group.claims,
+        )
       : 0;
   };
 }

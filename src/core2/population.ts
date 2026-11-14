@@ -1414,6 +1414,15 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
             medianTransactionBalance(
               (dailyPay * p("daysPerMeanYear")) / p("minorPerDollar"),
               options.seed,
+              // The head is the household's oldest adult.
+              Math.max(
+                ...adults.map((id) =>
+                  ageOnDate(
+                    makeIsoDate(world.people[id]!.birthDate),
+                    startedAt,
+                  ),
+                ),
+              ),
             ) * p("minorPerDollar"),
           )
         : householdDailyCost * p("moneyBufferDays");

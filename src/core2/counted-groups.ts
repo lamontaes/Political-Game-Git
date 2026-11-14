@@ -133,6 +133,13 @@ export interface CountedHousehold {
    * Every reader of a count multiplies by it (`CountedStore.weightOf`).
    */
   weight?: number;
+  /**
+   * How much of its group's account is this household's, per person, against
+   * the group's average of one (`savingWeight` in counted-money.ts): drawn once
+   * from the world's seed and its id, so households alike in income, age and
+   * tenure still differ in what they have saved.
+   */
+  saving?: number;
   /** The day it moved into its place. */
   since?: IsoDate;
   /** Its sampled county workers' employers (see HouseholdInput.employment). */

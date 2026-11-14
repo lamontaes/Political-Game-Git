@@ -15,7 +15,7 @@ import {
   regroupHousehold,
   residentsRuntime,
 } from "./modules/residents";
-import { fundBalance, peopleInGroup } from "./counted-money";
+import { claimsInGroup, fundBalance, savingWeight } from "./counted-money";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { nextDue } from "./housing-homeless";
 import { reopenResidentFlow, setResidentFlowAmount } from "./residents-economy";
@@ -944,14 +944,17 @@ export function houseUnassignedHouseholds(api: CoreAPI): void {
         continue;
       let cashPerPerson = groupCashPerPerson.get(house.group);
       if (cashPerPerson === undefined) {
-        const people = peopleInGroup(rt, house.group);
+        // Per claim: a person at a savings weight of one.
+        const claims = rt.funded ? claimsInGroup(rt, house.group) : 0;
         cashPerPerson =
-          rt.funded && people > 0
-            ? fundBalance(api, rt, house.group) / people
-            : 0;
+          claims > 0 ? fundBalance(api, rt, house.group) / claims : 0;
         groupCashPerPerson.set(house.group, cashPerPerson);
       }
-      const cash = Math.floor(cashPerPerson * rt.store.countedCount(house));
+      const cash = Math.floor(
+        cashPerPerson *
+          rt.store.countedCount(house) *
+          savingWeight(api.state.seed, house),
+      );
       candidates.push({
         id: house.id,
         placeId: house.placeId,
