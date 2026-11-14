@@ -15118,10 +15118,10 @@
       }
     },
     {
-      "key": "news.retirement-years.behind-name-are-years-years-in-the-job",
+      "key": "news.retirement-years.name-has-years-years-in-the-job",
       "move": "retirement",
       "kind": "written",
-      "text": "Behind {name} are {years} years in the job.",
+      "text": "{name} has {years} years in the job.",
       "uses": [
         {
           "move": "retirement",
