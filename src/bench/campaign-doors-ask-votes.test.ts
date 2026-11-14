@@ -86,17 +86,17 @@ it(`the player's doors ask for votes once the petition holds the target (Otisvil
       `${core.date}: asking ${asking}, ${out.doorsKnocked} doors, ${out.reached} reached, signed ${out.signed}, answered ${out.answered}, door signers ${doorSigned()} of ${target}`,
     );
     if (asking) {
-      // The outing that reaches the target counts only the doors asked to
-      // sign; the doors after it asked for the vote.
+      // The outing that reaches the target shows both: the signed and the
+      // doors after it that asked for the vote.
       if (!petitionAsksAtDoors(api, filingId))
-        expect(out.answered!, days.at(-1)).toBeLessThan(out.doorsKnocked);
+        expect(out.votesAsked!, days.at(-1)).toBeGreaterThan(0);
       expect(out.signed, days.at(-1)).not.toBeNull();
       expect(before, days.at(-1)).toBeLessThan(target);
     } else {
       switched = true;
       // A vote-asking outing: no signers, the strip reads "reached", nobody signs.
       expect(out.signed, days.at(-1)).toBeNull();
-      expect(out.answered, days.at(-1)).toBeNull();
+      expect(out.answered, days.at(-1)).toBe(out.votesAsked);
       expect(out.reached, days.at(-1)).toBeGreaterThan(0);
       expect(doorSigned(), days.at(-1)).toBe(before);
     }

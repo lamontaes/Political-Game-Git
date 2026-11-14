@@ -82,9 +82,11 @@ it(`a petition outing's signers never outnumber the doors answered (Otisville NY
     );
     if (!asking) {
       // Past the target plus the cushion (owner, Nov 14) the doors ask for
-      // votes: no signed figure, no signature asked.
-      expect(out.answered, days.at(-1)).toBeNull();
+      // votes: no signed figure, no signature asked; every door that opened
+      // asked for the vote.
       expect(out.signed, days.at(-1)).toBeNull();
+      expect(out.answered, days.at(-1)).toBe(out.votesAsked);
+      expect(out.answered!, days.at(-1)).toBeGreaterThanOrEqual(out.reached);
       expect(doorSigned(), days.at(-1)).toBe(signedBefore);
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
       continue;
