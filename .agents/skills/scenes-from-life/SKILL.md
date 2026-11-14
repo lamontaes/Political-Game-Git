@@ -40,3 +40,4 @@ The owner's examples are a floor. Any record the simulation keeps can call a sce
 - Ship a real person's name, words or likeness, or a scene that only a real event's details could produce. Calibration only.
 - Invent a cause the records do not carry (`no-dice`, `ask-why`). A quiet stretch gets a new record from its engine, not a timer.
 - Write one line per scene. Every spoken line has versions by trait and tie.
+- A new scene or setting the gap turns up gets its picture row (skill `scene-pictures`); if no painted place fits, ship on the fallback and list what it wants in `wantedScenes`. Pictures are generated later.

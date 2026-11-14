@@ -251,7 +251,7 @@ export interface SceneBinding {
    * no others (the plan of Oct 28, section 3: "One cast, decided once").
    */
   presentReasons: Record<PersonId, string>;
-  setting: { kind: string; recordId: string };
+  setting: { kind: string; recordId: string; seat?: true };
   timing: string;
   opener?: string;
   opening?: string;
@@ -646,7 +646,7 @@ function resolveSetting(
   core: Readonly<CoreState>,
   moment: Moment,
   peopleBound: number,
-): { kind: string; recordId: string } | undefined {
+): { kind: string; recordId: string; seat?: true } | undefined {
   const subject = core.people.get(moment.personId);
   if (!subject) return undefined;
   const counterpart = moment.counterpartIds[zero]
@@ -692,7 +692,11 @@ function resolveSetting(
           )
         : null;
       return seat
-        ? { kind: "venue", recordId: seat.place.context.jurisdiction.id }
+        ? {
+            kind: "venue",
+            recordId: seat.place.context.jurisdiction.id,
+            seat: true as const,
+          }
         : undefined;
     }
     case "office": {

@@ -99,6 +99,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/one-history.test.ts"),
   },
   {
+    id: "scene-pictures",
+    rule: "Every scene type is mapped to a picture in the one list, and a missing picture never holds work back: a scene with no fitting picture ships on its fallback with a line in the pictures-wanted list.",
+    readMore:
+      ".agents/rules/scene-pictures.md; skill scene-pictures; docs/reports/scene-pictures.md",
+    command: vitest("tests/guards/scene-pictures.test.ts"),
+  },
+  {
     id: "daily-register",
     rule: "Not everything is tracked every day: every daily engine step and every kept table is written in the daily register, and a daily step or a table that grows unfolded is approved by name; the unapproved list only shrinks.",
     readMore:
