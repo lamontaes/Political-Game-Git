@@ -402,6 +402,7 @@
         "src/core2/past-*.ts",
         "src/core2/deep-past.ts",
         "src/core2/own-past-kinds.ts",
+        "src/core2/places-elsewhere.ts",
         "src/core2/pre-start.ts",
         "src/core2/shared-history.ts"
       ]
