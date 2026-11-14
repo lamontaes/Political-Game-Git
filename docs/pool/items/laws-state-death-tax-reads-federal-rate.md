@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by: bargaining thread (brief O)
-pr:
+pr: 9356
 after:
 blocked-on:
 source: Found by the bargaining thread (brief O) staging amount bills (#9310), Nov 14 2026
