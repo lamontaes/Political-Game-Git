@@ -442,7 +442,13 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(
       talk.lines.slice(said).every((row) => row.speakerId === otherId),
     ).toBe(true);
-    expect(talk.lines.length).toBeGreaterThan(said);
+    // At home a talk may end with no farewell (nobody says goodbye to someone
+    // still in the room; lead, Nov 14): then it is closed. Away from home a
+    // line is said.
+    const housemate = core.people.get(otherId)?.householdId === me.householdId;
+    if (housemate && !talk.choices.length)
+      expect(talk.lines.length).toBeGreaterThanOrEqual(said);
+    else expect(talk.lines.length).toBeGreaterThan(said);
   });
 
   it("records talking as time together, and passes news the other hasn't heard", () => {
