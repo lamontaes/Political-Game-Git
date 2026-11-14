@@ -237,9 +237,17 @@ export function buildReport(): Report {
         `${key}: a scene type with no picture row and no wantedScenes entry (add situationPlaces["${key}"], or wantedScenes["${key}"] saying what picture it wants; missing pictures never hold work back)`,
       );
   }
-  for (const key of Object.keys(wantedScenes))
-    if (!rows.some((row) => `${row.type}:${row.setting}` === key))
+  // A wanted line names a pair that exists, or a variant the door-scenes
+  // thread has not built yet (its id has a dot): then only its setting must exist.
+  for (const key of Object.keys(wantedScenes)) {
+    const id = key.slice(0, key.lastIndexOf(":"));
+    const setting = key.slice(key.lastIndexOf(":") + 1);
+    const pair = rows.some((row) => `${row.type}:${row.setting}` === key);
+    const futureVariant =
+      id.includes(".") && !purposeIds.has(id) && knownSettings.has(setting);
+    if (!pair && !futureVariant && !purposeIds.has(id))
       dead.push(`wantedScenes "${key}": no such type and setting`);
+  }
 
   const sections = Object.entries(places).filter(
     ([key]) =>

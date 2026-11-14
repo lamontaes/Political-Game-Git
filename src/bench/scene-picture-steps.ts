@@ -8,6 +8,7 @@
  * `situationPlaces`; a name nobody has painted yet is skipped, so painting it
  * later is adding it to art/backdrops/manifest.json and nothing else.
  */
+import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const SETTINGS = scenePlaces.sceneSettings as Record<string, string[]>;
@@ -60,4 +61,23 @@ export function pictureSteps(ask: PictureAsk): PictureStep[] {
       : []),
     ...rows(SETTINGS[kind] ?? ["@home"], "setting"),
   ];
+}
+
+const DOORS = scenePlaces.doorKnockingPlaces as Record<string, string>;
+const DOORS_OWN = scenePlaces.doorKnockingOwn as unknown as Record<
+  string,
+  readonly string[]
+>;
+
+/**
+ * The door a resident's kind of dwelling is drawn with: its own door picture
+ * when one is painted (doorKnockingOwn), else the shared one for that kind of
+ * dwelling, else a house's. The canvass outing and the story scene read this.
+ */
+export function doorPlaceFor(dwelling: string): string {
+  return (
+    [...(DOORS_OWN[dwelling] ?? []), DOORS[dwelling], DOORS.house].find(
+      (name): name is string => !!name && hasBackdrop(name),
+    ) ?? "doorstep-entrance"
+  );
 }

@@ -17,11 +17,12 @@ import {
   pictureFor,
   servingOfficeIds,
 } from "./scene";
-import { pictureSteps, type PictureAsk } from "./scene-picture-steps";
-import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import {
+  doorPlaceFor,
+  pictureSteps,
+  type PictureAsk,
+} from "./scene-picture-steps";
 import type { CoreState } from "../core2/types";
-
-const DOORS = scenePlaces.doorKnockingPlaces as Record<string, string>;
 
 export interface ScenePictureOf extends PictureAsk {
   /** The setting's record (a household, an employer, a body). */
@@ -67,7 +68,7 @@ export function scenePicture(
         const household = host ? core.people.get(host)?.householdId : undefined;
         const dwelling =
           (household && dwellingKind(coreAPI(core), household)) || "house";
-        return DOORS[dwelling] ?? DOORS.house ?? null;
+        return doorPlaceFor(dwelling);
       }
       case "@office":
         return officeWorkplace(core, personId);
