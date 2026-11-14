@@ -184,6 +184,38 @@ for (const pin of PINS)
           expect(core.people.get(me)!.liquidMinor, where).toBeLessThan(cash);
           seen.paid = where;
         } else {
+          // The clerk has named the fee and has not refused: nothing is said
+          // about what the player cannot pay until the player moves.
+          const refusal =
+            /without the fee|no filing|can't file|can't take the papers/i;
+          expect(
+            state.visit.lines.some((l) => refusal.test(l.text)),
+            `${where}: the clerk refuses before the player has moved`,
+          ).toBe(false);
+          const file = state.visit.choices.find(
+            (row) => row.control === "file",
+          );
+          expect(file, `${where}: the player can try to file`).toBeTruthy();
+          const before = core.people.get(me)!.liquidMinor;
+          const spoken = state.visit.lines.length;
+          state = chooseAtCounter(core, state, file!.key, { platform: [] });
+          const after = state.visit.lines.slice(spoken);
+          for (const line of after) note(`- ${line.speaker}: ${line.text}`);
+          // The player's try comes first, then the clerk's refusal, once.
+          expect(after[0]?.speaker, where).toBe("player");
+          expect(
+            after.filter((l) => l.speaker === "clerk" && refusal.test(l.text))
+              .length,
+            `${where}: one refusal after the player's try ${JSON.stringify(after)}`,
+          ).toBe(1);
+          // The deadline is said once in the whole talk.
+          expect(
+            state.visit.lines.filter((l) =>
+              /\b(due back|until|closes|get it all back)\b/i.test(l.text),
+            ).length,
+            `${where}: the deadline is said once`,
+          ).toBeLessThanOrEqual(1);
+          expect(core.people.get(me)!.liquidMinor, where).toBe(before);
           const back = state.visit.choices.find(
             (row) => row.key === "come-back",
           );
@@ -191,11 +223,6 @@ for (const pin of PINS)
             back,
             `${where}: a way to say they will come back`,
           ).toBeTruthy();
-          expect(
-            state.visit.lines.some((l) => /closes|until/.test(l.text)),
-            `${where}: the clerk says how long they have`,
-          ).toBe(true);
-          const before = core.people.get(me)!.liquidMinor;
           state = chooseAtCounter(core, state, "come-back");
           note(`- player: ${back!.text}`);
           expect(state.visit.lines.at(-1)!.text, where).toBe(back!.text);

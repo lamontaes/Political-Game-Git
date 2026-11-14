@@ -31,6 +31,7 @@ import {
   filedAtCounter,
   openFilingVisit,
   pickContest,
+  refusedAtCounter,
   type FilingContest,
   type FilingVisit,
 } from "../director/filing-visit";
@@ -432,19 +433,24 @@ export function chooseAtCounter(
     // says it once.
     const refused =
       (result as { status?: string } | undefined)?.status === "refused";
+    const unmetRules = (
+      result as { unmet?: readonly { rule: string }[] } | undefined
+    )?.unmet;
     const visit = refused
-      ? {
-          ...state.visit,
-          lines: [
-            ...state.visit.lines,
-            {
-              speaker: "player" as const,
-              text: choice.text,
-              sourceRecordIds: choice.sourceRecordIds,
-            },
-          ],
-          choices: [],
-        }
+      ? unmetRules?.some((row) => row.rule === "filing-fee")
+        ? refusedAtCounter(core, state.visit, choice)
+        : {
+            ...state.visit,
+            lines: [
+              ...state.visit.lines,
+              {
+                speaker: "player" as const,
+                text: choice.text,
+                sourceRecordIds: choice.sourceRecordIds,
+              },
+            ],
+            choices: [],
+          }
       : filedAtCounter(
           core,
           state.visit,

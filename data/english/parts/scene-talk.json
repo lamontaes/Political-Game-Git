@@ -185475,56 +185475,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-fee-deadline.filing-closes-deadline-come-back-before-then",
-      "move": "state-tell-fee-deadline",
-      "kind": "spoken",
-      "text": "Filing closes {deadline}. Come back before then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-fee-deadline",
-          "role": "asker",
-          "requiresFacts": ["fee"]
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Words lead (carried onto the train with #8722)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-fee-deadline.you-have-until-deadline",
-      "move": "state-tell-fee-deadline",
-      "kind": "spoken",
-      "text": "You have until {deadline}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-fee-deadline",
-          "role": "asker",
-          "requiresFacts": ["fee"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words lead (carried onto the train with #8722)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-come-back.ill-come-back-with-it",
       "move": "reply-come-back",
       "kind": "spoken",

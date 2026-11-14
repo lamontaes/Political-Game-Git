@@ -326,7 +326,11 @@ export function pickContest(
     if (told) visit.lines.push({ speaker: "clerk", ...told });
   }
   // Each rule that stops the filing, in the clerk's words, from its record.
-  const unmet = checks.filter((row) => !row.met);
+  // The fee is not one of them here: the clerk has named it, and refuses for
+  // it only when the player tries to file without it (`refusedAtCounter`),
+  // never before the player has moved.
+  const unmet = checks.filter((row) => !row.met && row.rule !== "filing-fee");
+  const short = checks.some((row) => !row.met && row.rule === "filing-fee");
   for (const check of unmet) {
     const required =
       check.rule === "filing-deadline"
@@ -347,22 +351,6 @@ export function pickContest(
   // A rule stops the filing: the player takes the refusal, in their own
   // words; the transcript shows only the line they chose.
   if (unmet.length) {
-    // A candidate who is short of the fee is told how long they have, and
-    // may say they will come back with it: that reply is recorded.
-    if (unmet.some((row) => row.rule === "filing-fee")) {
-      const left = visitLine(core, visit, "clerk", "tell-fee-deadline", facts);
-      if (left) visit.lines.push({ speaker: "clerk", ...left });
-      const back = visitLine(core, visit, "player", "come-back", facts);
-      if (back)
-        visit.choices.push({
-          key: "come-back",
-          text: back.text,
-          control: "leave",
-          move: "come-back",
-          action: { kind: "return", contestId },
-          sourceRecordIds: back.sourceRecordIds,
-        });
-    }
     const line = visitLine(core, visit, "player", "accept-terms", facts);
     if (line)
       visit.choices.push({
@@ -378,6 +366,53 @@ export function pickContest(
     for (const line of talk.tree.lines) visit.lines.push(clerkSaid(line));
     offerReplies(visit, talk.tree);
   }
+  // A candidate short of the fee may say they will come back with it.
+  if (short) offerComeBack(core, visit, facts, contestId);
+  return visit;
+}
+
+/** The player's choice to come back with the fee: their words, from the bank. */
+function offerComeBack(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  facts: Readonly<Record<string, Fact>>,
+  contestId: string,
+): void {
+  const back = visitLine(core, visit, "player", "come-back", facts);
+  if (back)
+    visit.choices.push({
+      key: "come-back",
+      text: back.text,
+      control: "leave",
+      move: "come-back",
+      action: { kind: "return", contestId },
+      sourceRecordIds: back.sourceRecordIds,
+    });
+}
+
+/**
+ * The player tried to file and the fee stopped it: their own words, then the
+ * clerk's refusal, which follows the player's move and never comes before it,
+ * and the way to say they will come back with it.
+ */
+export function refusedAtCounter(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  choice: FilingVisit["choices"][number],
+): FilingVisit {
+  visit.lines.push({
+    speaker: "player",
+    text: choice.text,
+    sourceRecordIds: choice.sourceRecordIds,
+  });
+  const facts = visit.picked?.facts;
+  if (facts) {
+    const line = visitLine(core, visit, "clerk", "rule-filing-fee", facts);
+    if (line) visit.lines.push({ speaker: "clerk", ...line });
+  }
+  visit.choices = [];
+  if (facts && visit.picked)
+    offerComeBack(core, visit, facts, visit.picked.contestId);
   return visit;
 }
 
