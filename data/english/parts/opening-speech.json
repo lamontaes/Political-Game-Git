@@ -36408,7 +36408,7 @@
       "key": "opening-speech.ask.polished-ina-sta-all-core-i-will-not-sign-legislation-for-about-should-such",
       "move": "ask",
       "kind": "spoken",
-      "text": "I will not sign legislation for {about}; should such a bill reach my desk, I will veto it.",
+      "text": "I will not sign legislation for {about}. If such a bill reaches my desk, I will veto it.",
       "uses": [
         {
           "move": "ask",

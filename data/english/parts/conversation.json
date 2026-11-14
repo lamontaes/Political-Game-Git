@@ -57,6 +57,7 @@
     "amount": "A sum of money from a record, as people round it.",
     "sponsor": "The person who brought the bill a story covers, by name, from the bill's sponsor record (legislature bills).",
     "their_home": "Where the person speaking lives, as a resident says it, from their household record.",
+    "their_school": "The school the person speaking went to, or goes to, as its proper name, from their school record.",
     "their_employer": "The speaker's own employer, from their job record.",
     "their_years": "How long the speaker has held their job, in whole years with the word (\"seven years\"), from the job's start record.",
     "kin_employer": "Where the speaker's relative works, from the relative's job record.",
@@ -39595,6 +39596,286 @@
       "origin": "authored",
       "author": "Fable A (words lead)",
       "date": "2026-11-13"
+    },
+    {
+      "key": "conversation.school-give-core.i-went-to-their-school-myself",
+      "move": "school-give-core",
+      "kind": "spoken",
+      "text": "I went to {their_school} myself.",
+      "piece": {
+        "of": "school-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "school-give-core",
+          "subject": "school-give",
+          "role": "core",
+          "stages": [
+            "graduated"
+          ],
+          "requiresFacts": [
+            "their_school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.school-give-core.their-school-that-s-where-i-went-too",
+      "move": "school-give-core",
+      "kind": "spoken",
+      "text": "{their_school}. That's where I went too.",
+      "piece": {
+        "of": "school-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "school-give-core",
+          "subject": "school-give",
+          "role": "core",
+          "stages": [
+            "graduated"
+          ],
+          "requiresFacts": [
+            "their_school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.school-give-core.i-came-up-through-their-school",
+      "move": "school-give-core",
+      "kind": "spoken",
+      "text": "I came up through {their_school}.",
+      "piece": {
+        "of": "school-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "school-give-core",
+          "subject": "school-give",
+          "role": "core",
+          "stages": [
+            "graduated"
+          ],
+          "requiresFacts": [
+            "their_school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.school-give-core.i-m-a-their-school-graduate-for-what-that-s-worth",
+      "move": "school-give-core",
+      "kind": "spoken",
+      "text": "I'm a {their_school} graduate, for what that's worth.",
+      "piece": {
+        "of": "school-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "school-give-core",
+          "subject": "school-give",
+          "role": "core",
+          "stages": [
+            "graduated"
+          ],
+          "requiresFacts": [
+            "their_school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.school-give-core.i-did-my-years-at-their-school",
+      "move": "school-give-core",
+      "kind": "spoken",
+      "text": "I did my years at {their_school}.",
+      "piece": {
+        "of": "school-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "school-give-core",
+          "subject": "school-give",
+          "role": "core",
+          "stages": [
+            "graduated"
+          ],
+          "requiresFacts": [
+            "their_school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.school-give-core.i-m-at-their-school",
+      "move": "school-give-core",
+      "kind": "spoken",
+      "text": "I'm at {their_school}.",
+      "piece": {
+        "of": "school-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "school-give-core",
+          "subject": "school-give",
+          "role": "core",
+          "stages": [
+            "enrolled"
+          ],
+          "requiresFacts": [
+            "their_school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.school-give-core.i-go-to-their-school",
+      "move": "school-give-core",
+      "kind": "spoken",
+      "text": "I go to {their_school}.",
+      "piece": {
+        "of": "school-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "school-give-core",
+          "subject": "school-give",
+          "role": "core",
+          "stages": [
+            "enrolled"
+          ],
+          "requiresFacts": [
+            "their_school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.school-give-core.their-school-for-me",
+      "move": "school-give-core",
+      "kind": "spoken",
+      "text": "{their_school} for me.",
+      "piece": {
+        "of": "school-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "school-give-core",
+          "subject": "school-give",
+          "role": "core",
+          "stages": [
+            "enrolled"
+          ],
+          "requiresFacts": [
+            "their_school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.school-give-core.i-m-still-at-their-school",
+      "move": "school-give-core",
+      "kind": "spoken",
+      "text": "I'm still at {their_school}.",
+      "piece": {
+        "of": "school-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "school-give-core",
+          "subject": "school-give",
+          "role": "core",
+          "stages": [
+            "enrolled"
+          ],
+          "requiresFacts": [
+            "their_school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.school-give-core.mine-s-their-school",
+      "move": "school-give-core",
+      "kind": "spoken",
+      "text": "Mine's {their_school}.",
+      "piece": {
+        "of": "school-give",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "school-give-core",
+          "subject": "school-give",
+          "role": "core",
+          "stages": [
+            "enrolled"
+          ],
+          "requiresFacts": [
+            "their_school"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
     }
   ]
 }
