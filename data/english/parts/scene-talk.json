@@ -40,6 +40,8 @@
     "reporter": "The reporter who wrote a story, by name, from the press record.",
     "lead": "How far ahead the winner finished, in votes, from the result record's totals.",
     "first": "The given name of the person spoken to, from their record.",
+    "seat-place": "The place a filed seat is in (\"Alcorn County\"), from the seat's place record, said where the seat is not the town's own.",
+    "counter": "The place the player goes to at a filing counter, as people say it: the clerk's office (\"the town clerk's office\"), or the agency itself when the person heads a state agency.",
     "post": "The post the person holds, as people say it (\"Secretary of State\", \"city clerk\"), from the office record of the seat the person holds.",
     "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
     "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
@@ -95575,7 +95577,7 @@
       "key": "scene-talk.state-rule-residency.you-have-to-live-in-required-to-run-for-office-and-my-records-have-you-somewhere-else",
       "move": "state-rule-residency",
       "kind": "spoken",
-      "text": "You have to live in {required} to run for {office}, and my records have you somewhere else.",
+      "text": "You have to live in {required} to run for {office}, and my record has you somewhere else.",
       "uses": [
         {
           "subject": "scene",
@@ -95583,7 +95585,8 @@
           "key": "routine",
           "step": "state",
           "move": "rule-residency",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["required", "office", "no-actual"]
         }
       ],
       "origin": "authored",
@@ -100822,7 +100825,7 @@
       "key": "scene-talk.narrate-narrate.nobody-s-ahead-of-you-at-the-post-s-office-name-looks-up-and-asks-what-you-need",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Nobody's ahead of you at the {post}'s office. {name} looks up and asks what you need.",
+      "text": "Nobody's ahead of you at {counter}. {name} looks up and asks what you need.",
       "uses": [
         {
           "subject": "scene",
@@ -100831,7 +100834,7 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "requiresFacts": ["first-visit", "post"]
+          "requiresFacts": ["first-visit", "counter"]
         }
       ],
       "bearing": "calm",
@@ -117042,7 +117045,7 @@
       "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-ask-about-running-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}, you head to the {post}'s office to ask about running. {name} comes over to the counter.",
+      "text": "{begins}, you head to {counter}. {name} comes over to the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -117051,7 +117054,7 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["begins", "first-visit", "post"]
+          "requiresFacts": ["begins", "first-visit", "counter"]
         }
       ],
       "bearing": "calm",
@@ -117092,7 +117095,7 @@
       "key": "scene-talk.narrate-narrate.begins-you-step-into-the-posts-office-and-ask-for-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}, you step into the {post}'s office and ask for {name}.",
+      "text": "{begins}, you step into {counter}. {name} looks up from the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -117101,7 +117104,7 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["begins", "first-visit", "post"]
+          "requiresFacts": ["begins", "first-visit", "counter"]
         }
       ],
       "bearing": "calm",
@@ -117117,7 +117120,7 @@
       "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-pick-up-the-papers",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}, you head to the {post}'s office to pick up the papers for {office}. {name} pulls them from a drawer.",
+      "text": "{begins}, you head to {counter} to run for {office}. {name} comes over to the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -117126,7 +117129,7 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["begins", "first-visit", "post", "office"]
+          "requiresFacts": ["begins", "first-visit", "counter", "office"]
         }
       ],
       "bearing": "calm",
@@ -117142,7 +117145,7 @@
       "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-and-speak-to-name-to",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}. You head to the {post}'s office and speak to {name}, to ask what running for {office} takes.",
+      "text": "{begins}. You head to {counter} and speak to {name} about running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -117151,7 +117154,7 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["begins", "first-visit", "post", "office"]
+          "requiresFacts": ["begins", "first-visit", "counter", "office"]
         }
       ],
       "bearing": "calm",
@@ -117167,7 +117170,7 @@
       "key": "scene-talk.narrate-narrate.begins-youre-back-at-the-posts-office-name-knows-you-from-last-time",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}, you're back at the {post}'s office. {name} knows you from last time.",
+      "text": "{begins}, you're back at {counter}. {name} knows you from last time.",
       "uses": [
         {
           "subject": "scene",
@@ -117176,7 +117179,7 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["back-again", "begins", "post"]
+          "requiresFacts": ["back-again", "begins", "counter"]
         }
       ],
       "bearing": "calm",
@@ -117192,7 +117195,7 @@
       "key": "scene-talk.narrate-narrate.begins-youre-back-at-the-posts-counter-and-name-waves-you-over",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}. You're back at the {post}'s counter, and {name} waves you over.",
+      "text": "{begins}. You're back at {counter}, and {name} waves you over.",
       "uses": [
         {
           "subject": "scene",
@@ -117201,7 +117204,7 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["back-again", "begins", "post"]
+          "requiresFacts": ["back-again", "begins", "counter"]
         }
       ],
       "bearing": "calm",
@@ -117217,7 +117220,7 @@
       "key": "scene-talk.narrate-narrate.youre-back-at-the-posts-office-name-looks-up-from-the-counter",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You're back at the {post}'s office. {name} looks up from the counter.",
+      "text": "You've been to {counter} before. {name} looks up from the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -117226,7 +117229,7 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["back-again", "post"]
+          "requiresFacts": ["back-again", "counter"]
         }
       ],
       "bearing": "calm",
