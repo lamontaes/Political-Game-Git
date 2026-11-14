@@ -15,4 +15,4 @@ An official who lives outside the town now spends what a household at their pay 
 
 **Files.** src/core2/official-living.ts; src/core2/data/parameters.json
 
-**Notes.** See the PR body for the year-1 numbers with and without at three places.
+**Notes.** Found by the stopgap cluster 15 due-date probe.
