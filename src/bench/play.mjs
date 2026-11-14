@@ -3835,7 +3835,8 @@ const sheets = {
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
-        words[section.key],
+        // A section that shows one government's books is headed by that government's name.
+        section.name ?? words[section.key],
         ...section.rows.map((row) => {
           const moved = row.before === null ? null : row.now - row.before;
           const direction =
@@ -3848,7 +3849,10 @@ const sheets = {
                   : words.down;
           return typedRow(
             words[row.key],
-            figure(row, row.now),
+            // A small town's count shows the people behind it ("13 of 86").
+            row.of === undefined
+              ? figure(row, row.now)
+              : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
             row.before === null
               ? ""
               : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
@@ -3864,13 +3868,11 @@ const sheets = {
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    // The town's own books open first; a place with no city government opens
-    // on the county's, the local government that serves it.
-    const town = ["city", "county"]
-      .map((level) =>
-        view.governments.find((g) => g.level === level && g.latest),
-      )
-      .find(Boolean);
+    // The town's own books open first: the government the budget view names as the town's
+    // (its city, or the county that runs a town with no city government).
+    const town = view.governments.find(
+      (g) => g.id === view.townGovernmentId && g.latest,
+    );
     const chosen =
       view.governments.find((g) => g.id === budgetGovernment) ?? town;
     const gov = chosen ?? view.governments[0];
@@ -4103,6 +4105,7 @@ const sheets = {
         date,
         items,
         labels,
+        held: packet?.kind === "stop",
         onAdvance: (day) => {
           closeSheet();
           act(`/api/advance?mode=calendar&date=${day}`);

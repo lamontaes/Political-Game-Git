@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr: #8528
+claimed-by: account-lead-t28 (Claude Opus 5.5, cloud)
+pr: #9057
 after:
 blocked-on:
 lead: m0-m2
@@ -18,7 +18,7 @@ root: none
 source: added with npm run pool -- add
 claimed-at:
 checked: fable 2026-11-10
-branch: claude/pool-world-town-net-moving-negative
+branch: claude/project-thread-ojvmv1
 ---
 
 **What.** A played town loses far more residents to moving away than move in: 3.6 to 4.7 percent of its residents a year net. A real town's net migration sits near its state's, so a town that empties faster than its state is a sign that the in-moves and out-moves follow different rules. Two causes were fixed on Oct 17 (the counted engine could not tell which state a state-level counted place lay in, and newcomers settled only where a counted household of their age lived). The cause that is left is in how arrivals are paid out, below.
@@ -65,3 +65,5 @@ Cause found 2026-11-10 (claude, claude/cause-town-net-moving), on main at 3d74e9
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:34 UTC) on branch claude/pool-world-town-net-moving-negative.
 
 Released (2026-11-11): opus-5251 stopped under the cap on new work (Nov 11); the draft PR and its branch keep the work and a handoff note; claiming it takes the branch. Continue on branch claude/pool-world-town-net-moving-negative and pull request #8528.
+
+Taken 2026-11-13 by Account lead T28 on branch claude/project-thread-ojvmv1 (from the train, #9052), building on draft #8528's per-place balances and adding the CTO's order of Nov 13 01:28Z: each arriving household's people are charged to their own age bands, and its shape is one of the place's households holding someone of the age most due. Measured on the train in Everson, Pennsylvania (`drawPlace("d4", "students-measure")`): year 1 -2.6 percent (20 counted people in, 38 out, 6 full people out, 1,144 people due around the town never paid out), year 2 +4.3 percent (65 in). With the fix: +1.2 and +1.9 percent (49 and 47 in, 44 and 41 out), nothing carried. Arrivals, not departures, drove the loss; departures ran steady at 5 to 6 percent a year in both.

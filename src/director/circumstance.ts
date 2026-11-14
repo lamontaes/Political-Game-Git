@@ -316,7 +316,14 @@ export function earlierLosses(
       `election-result:${filing.contestId}` as never,
     );
     const winner = result?.facts?.winnerId;
-    return !!winner && winner !== playerId && result.date < beforeDate;
+    // Lost: among those who missed the cut (an at-large race seats several,
+    // and a winner of another seat lost nothing); a record kept before
+    // `outIds` reads the winner.
+    const out = result?.facts?.outIds;
+    const lost = out
+      ? (JSON.parse(String(out)) as string[]).includes(playerId)
+      : !!winner && winner !== playerId;
+    return !!result && lost && result.date < beforeDate;
   }).length;
 }
 
