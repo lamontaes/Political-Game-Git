@@ -23,6 +23,7 @@ import { contestPositions } from "../core2/contest-positions";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
+  comeBackLater,
   sayAtCounter,
   counterNarration,
   saidOffice,
@@ -409,6 +410,8 @@ export function chooseAtCounter(
   }
   if (action.kind === "say")
     return { ...state, visit: sayAtCounter(core, state.visit, key) };
+  if (action.kind === "return")
+    return { ...state, visit: comeBackLater(core, state.visit, choice) };
   if (action.kind === "file") {
     const result = fileForOffice(
       core,

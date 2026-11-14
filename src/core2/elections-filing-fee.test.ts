@@ -84,7 +84,8 @@ it(`filing pays the fee, a candidate short of it is refused, and no fee posts no
           }
           continue;
         }
-        const feeMinor = Number(fee.required.slice(1)) * 100;
+        const feeMinor =
+          Number(fee.required.slice(1).replaceAll(",", "")) * 100;
         const poor = rows.find(
           (row) =>
             row.checks.every((c) => c.met || c.rule === "filing-fee") &&

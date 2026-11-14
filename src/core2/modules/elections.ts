@@ -468,9 +468,19 @@ export function petitionSignatures(
   return Math.max(1, Math.min(count, Math.floor(town.eligible)));
 }
 
-/** The fee a side's row reads, in minor units: the row's own dollar figure, none where it gives none or a formula. */
+/** The fee a side's row reads, in minor units: the row's own dollar figure, none where it gives none, a formula, or a petition in its place. */
 function feeOf(side: ReadSide | undefined): number {
   const fee = side?.feeUSD;
+  // Where the law lets a petition stand in for the fee and the row's own
+  // signature count is the one this candidate already gathers
+  // (`petitionRule`), the petition files them and no fee is charged.
+  if (
+    side?.petitionInLieuOfFee === true &&
+    side.feeAndPetitionBothRequired !== true &&
+    typeof side.signatures === "number" &&
+    side.signatures > 0
+  )
+    return 0;
   return typeof fee === "number" && fee > 0 ? Math.round(fee * 100) : 0;
 }
 
@@ -1239,8 +1249,8 @@ export function checkEligibility(
           {
             rule: "filing-fee" as const,
             met: person.liquidMinor >= rules.feeMinor,
-            required: `$${Math.round(rules.feeMinor / 100)}`,
-            actual: `$${Math.max(0, Math.floor(person.liquidMinor / 100))}`,
+            required: `$${Math.round(rules.feeMinor / 100).toLocaleString("en-US")}`,
+            actual: `$${Math.max(0, Math.floor(person.liquidMinor / 100)).toLocaleString("en-US")}`,
             source: rules.source,
           },
         ]
@@ -1372,7 +1382,9 @@ export function fileCandidacy(
     contest,
     input.party ? "party" : "independent",
   );
-  if (unmet.length) return { status: "refused", unmet };
+  if (unmet.length) {
+    return { status: "refused", unmet };
+  }
   const today = api.state.date;
   const id = `filing:${input.contestId}:${input.personId}`;
   payFilingFee(api, input.personId, contest, rules.feeMinor, id);

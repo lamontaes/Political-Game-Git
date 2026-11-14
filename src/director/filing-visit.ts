@@ -86,6 +86,8 @@ export type FilingAction =
   | { kind: "file"; contestId: string }
   /** A reply in the clerk's scene that is not filing or leaving: its place among the replies offered. */
   | { kind: "say"; contestId: string; index: number }
+  /** The player says they will come back with what the clerk asked for. */
+  | { kind: "return"; contestId: string }
   | { kind: "done" };
 
 export interface FilingVisit {
@@ -309,6 +311,15 @@ export function pickContest(
   // the clerk's scene, and its replies are the player's choices.
   const talk = clerkScene(core, visit);
   if (talk) visit.lines.push(clerkSaid(talk.state));
+  // Where the place's law charges a fee, the clerk names it once, here
+  // (Words lead, Nov 14); the same sum is what the clerk says when it is
+  // paid or cannot be.
+  const feeCheck = checks.find((row) => row.rule === "filing-fee");
+  if (feeCheck) {
+    facts.fee = { text: feeCheck.required, sourceRecordIds: ids };
+    const told = visitLine(core, visit, "clerk", "tell-filing-fee", facts);
+    if (told) visit.lines.push({ speaker: "clerk", ...told });
+  }
   // Each rule that stops the filing, in the clerk's words, from its record.
   const unmet = checks.filter((row) => !row.met);
   for (const check of unmet) {
@@ -327,6 +338,22 @@ export function pickContest(
   // A rule stops the filing: the player takes the refusal, in their own
   // words; the transcript shows only the line they chose.
   if (unmet.length) {
+    // A candidate who is short of the fee is told how long they have, and
+    // may say they will come back with it: that reply is recorded.
+    if (unmet.some((row) => row.rule === "filing-fee")) {
+      const left = visitLine(core, visit, "clerk", "tell-fee-deadline", facts);
+      if (left) visit.lines.push({ speaker: "clerk", ...left });
+      const back = visitLine(core, visit, "player", "come-back", facts);
+      if (back)
+        visit.choices.push({
+          key: "come-back",
+          text: back.text,
+          control: "leave",
+          move: "come-back",
+          action: { kind: "return", contestId },
+          sourceRecordIds: back.sourceRecordIds,
+        });
+    }
     const line = visitLine(core, visit, "player", "accept-terms", facts);
     if (line)
       visit.choices.push({
@@ -520,7 +547,41 @@ export function filedAtCounter(
   filingId?: string,
 ): FilingVisit {
   const index = visit.choices.indexOf(choice);
-  return followReply(core, visit, index, filingId);
+  const kept = followReply(core, visit, index, filingId);
+  // The fee, where there was one, is paid at the counter: the clerk says so.
+  if (filingId && visit.picked?.facts.fee) {
+    const paid = visitLine(
+      core,
+      kept,
+      "clerk",
+      "filing-fee-paid",
+      visit.picked.facts,
+    );
+    if (paid) kept.lines.push({ speaker: "clerk", ...paid });
+  }
+  return kept;
+}
+
+/** The player says they will come back with the fee: their words, and the reply recorded. */
+export function comeBackLater(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  choice: FilingVisit["choices"][number],
+): FilingVisit {
+  visit.lines.push({
+    speaker: "player",
+    text: choice.text,
+    sourceRecordIds: choice.sourceRecordIds,
+  });
+  recordReply(
+    core,
+    visit,
+    { move: "come-back", text: choice.text },
+    [],
+    undefined,
+  );
+  visit.choices = [];
+  return visit;
 }
 
 /**
