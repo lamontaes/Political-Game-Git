@@ -448,6 +448,7 @@ export function seatAct(
     composeBill({
       ...bill,
       effective: form.effectiveSection,
+      level: form.level,
       before: form.sections.map((section) => section.before),
     })?.text ?? [];
   const floor = floorOf(core, bill);
@@ -584,6 +585,7 @@ export function billPaper(core: CoreState, billId: string) {
   const composed = composeBill({
     ...bill,
     effective: form.effectiveSection,
+    level: form.level,
     before: form.sections.map((section) => section.before),
   });
   const titled = billTitleOf({ form: bill.form, provisions: bill.provisions });

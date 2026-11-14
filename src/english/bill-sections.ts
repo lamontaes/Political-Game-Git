@@ -60,6 +60,8 @@ interface NamesData {
   amounts: Record<string, AmountWords>;
   units: Record<string, string>;
   cited: string;
+  /** The word a law amount's text names its government's level by ("state", "city"), for rows that carry `{level}`. */
+  levels: Record<string, string>;
 }
 export const BILL_SECTIONS = sectionsJson as unknown as NamesData;
 
@@ -68,6 +70,8 @@ export interface BillWordsInput {
   readonly id: string;
   readonly number: string;
   readonly form: { readonly kind: string; readonly enactingClause: string };
+  /** The level of the government making the bill (`billForm(api, bill).level`): a tax rate is the state's or the city's. */
+  readonly level?: string;
   readonly provisions: readonly {
     readonly kind: string;
     readonly question?: string;
@@ -203,8 +207,12 @@ function wordsOf(
     const lower = p.operation
       ? p.operation === "lower"
       : old != null && p.value < old;
-    // The value the law had, in its own unit when the record gives one.
+    // A rate is the government's own ("the state income tax rate"), named
+    // from the level of the body making the bill.
+    const level = input.level ? BILL_SECTIONS.levels[input.level] : undefined;
     const slots = {
+      level: level ? `${level} ` : "",
+      // The value the law had, in its own unit when the record gives one.
       // A section that names no unit takes the law row's, never a default percent.
       value: valueWords(p.value, p.unit ?? was?.unit ?? undefined),
       before: old != null ? valueWords(old, was?.unit ?? p.unit) : "",
@@ -222,7 +230,7 @@ function wordsOf(
     return {
       key: p.series,
       subject: row.subject,
-      purpose: row.purpose,
+      purpose: fill(row.purpose, slots),
       clause: was?.statute
         ? fill(BILL_SECTIONS.cited, {
             clause,

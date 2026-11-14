@@ -2435,6 +2435,12 @@ export function billForm(
   readonly kind: BillFormKind;
   readonly enactingClause: string;
   readonly enactingSource: string;
+  /**
+   * The kind of government making the bill, which its text names a rate by:
+   * "federal", "state", "county", or a municipality's own kind from its
+   * government's recorded name ("TOWN OF ALICIA" is a town).
+   */
+  readonly level: string;
   readonly sections: readonly BillSection[];
   readonly effectiveSection: {
     readonly kind: "on-enactment" | "state-rule" | "days-after-adoption";
@@ -2460,6 +2466,7 @@ export function billForm(
     kind: bill.form.kind,
     enactingClause: bill.form.enactingClause,
     enactingSource: bill.form.enactingSource,
+    level: governmentKind(api, bill.bodyOfficeId),
     sections,
     effectiveSection: rule
       ? {
@@ -2758,6 +2765,18 @@ function payProjectGrant(
  * the body's power.
  */
 /** The level of government a lawmaking body belongs to: its body row's (a town's own body where it has none). */
+/** A body's government by kind: its level, or for a municipality the kind its recorded name gives. */
+function governmentKind(api: CoreAPI, bodyOfficeId: string): string {
+  const level = bodyLevel(api, bodyOfficeId);
+  if (level !== "city") return level;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(bodyOfficeId) as unknown as OfficeInput | undefined;
+  const [kind, of] = (office?.governmentName ?? "").trim().split(" ");
+  return of === "OF" && kind ? kind.toLowerCase() : level;
+}
+
 function bodyLevel(api: CoreAPI, bodyOfficeId: string): GovernmentLevel {
   return bodyRow(bodyOf(api, bodyOfficeId)?.kind ?? "")?.level ?? "city";
 }

@@ -146,7 +146,8 @@
     "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
     "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
     "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
-    "rent": "The rent a renter pays each month, as said money, from their home's record."
+    "rent": "The rent a renter pays each month, as said money, from their home's record.",
+    "own-amount": "The amount the speaker's own bill sets, with what it sets (\"the income tax rate at 4.75 percent\"), from the bill's one section."
   },
   "maxWords": 70,
   "parts": [
@@ -185245,6 +185246,156 @@
       "date": "2026-11-14",
       "tag": {
         "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-sets-own-amount-i-need-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} sets {own-amount}. I need your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["own-amount"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, amount bills)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-wanted-this-for-a-long-time-bill-sets-own-amount-and-i-need-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've wanted this for a long time. {bill} sets {own-amount}, and I need your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["own-amount", "own-reason-own-view"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, amount bills)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.people-back-home-keep-asking-me-for-this-bill-sets-own-amount-can-i-count-on-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People back home keep asking me for this. {bill} sets {own-amount}. Can I count on you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["own-amount", "own-reason-district"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, amount bills)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-caucus-is-behind-this-one-bill-sets-own-amount-and-i-need-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The caucus is behind this one. {bill} sets {own-amount}, and I need your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["own-amount", "own-reason-party"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, amount bills)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-told-people-i-d-get-this-done-bill-sets-own-amount-can-i-count-on-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I told people I'd get this done. {bill} sets {own-amount}. Can I count on you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["own-amount", "own-reason-next-election"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, amount bills)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-folks-who-came-to-see-me-about-this-are-counting-on-it-bill-sets-own-amount",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The folks who came to see me about this are counting on it. {bill} sets {own-amount}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["own-amount", "own-reason-group"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, amount bills)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
         "key": "vote-wanted"
       }
     }

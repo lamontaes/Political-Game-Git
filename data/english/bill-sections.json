@@ -481,19 +481,19 @@
   "amounts": {
     "income-tax": {
       "subject": "the income tax rate",
-      "purpose": "set the income tax rate",
-      "raise": "the income tax rate shall be raised from {before} to {value}",
-      "lower": "the income tax rate shall be lowered from {before} to {value}",
-      "raiseTo": "the income tax rate shall be raised to {value}",
-      "lowerTo": "the income tax rate shall be lowered to {value}"
+      "purpose": "set the {level}income tax rate",
+      "raise": "the {level}income tax rate shall be raised from {before} to {value}",
+      "lower": "the {level}income tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the {level}income tax rate shall be raised to {value}",
+      "lowerTo": "the {level}income tax rate shall be lowered to {value}"
     },
     "sales-tax": {
       "subject": "the sales tax rate",
-      "purpose": "set the sales tax rate",
-      "raise": "the sales tax rate shall be raised from {before} to {value}",
-      "lower": "the sales tax rate shall be lowered from {before} to {value}",
-      "raiseTo": "the sales tax rate shall be raised to {value}",
-      "lowerTo": "the sales tax rate shall be lowered to {value}"
+      "purpose": "set the {level}sales tax rate",
+      "raise": "the {level}sales tax rate shall be raised from {before} to {value}",
+      "lower": "the {level}sales tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the {level}sales tax rate shall be raised to {value}",
+      "lowerTo": "the {level}sales tax rate shall be lowered to {value}"
     },
     "minimum-wage": {
       "subject": "the minimum wage",
@@ -726,5 +726,15 @@
     "USD/election": "{dollars} for each election",
     "hours": "{value} hours"
   },
-  "cited": "{clause}, amending {statute}"
+  "cited": "{clause}, amending {statute}",
+  "levels": {
+    "federal": "federal",
+    "state": "state",
+    "county": "county",
+    "city": "city",
+    "town": "town",
+    "village": "village",
+    "borough": "borough",
+    "township": "township"
+  }
 }
