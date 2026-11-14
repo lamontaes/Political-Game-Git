@@ -13,12 +13,12 @@ import { buildBenchWorld } from "./world";
 
 // A sitting mayor the player does not steer spends free days on the office,
 // not only on rest (pool item gov-mayor-never-gives-yearly-address-or-town-hall).
-// Pinned to three small towns that failed before the fix: rest won 133 of 141
-// free days at both, and the acts table held no town hall, interview or
-// department-head meeting.
+// Pinned to two small towns, about a minute in all (Matawan, New Jersey, a
+// two-minute year, is in the measured record only). Before the fix rest won 133
+// of 141 free days at Edmore and Matawan, and the acts table held no town hall,
+// interview or office hours.
 const PINNED = [
   { at: "mayor-acts-1:1", name: "Edmore, North Dakota" },
-  { at: "mayor-acts-1:2", name: "Matawan, New Jersey" },
   { at: "mayor-acts-1:3", name: "Odessa, Washington" },
 ];
 
