@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-jwna62
 pr:
 after:
 blocked-on:
