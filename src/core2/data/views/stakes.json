@@ -83,7 +83,7 @@
       "rents": {
         "value": 0.3,
         "tag": "TUNABLE",
-        "citation": "A renter gains from rules that hold rent down or keep a tenant housed; an owner pays for them in property value or tax. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread 0.15 to 0.45.",
+        "citation": "A renter gains from rules that hold rent down or keep a tenant housed; an owner pays for them in property value or tax. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.15 to 0.45.",
         "role": "coefficient"
       }
     },
@@ -91,7 +91,7 @@
       "rents": {
         "value": 0.2,
         "tag": "TUNABLE",
-        "citation": "A renter gains from rules that hold rent down or keep a tenant housed; an owner pays for them in property value or tax. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread 0.1 to 0.3.",
+        "citation": "A renter gains from rules that hold rent down or keep a tenant housed; an owner pays for them in property value or tax. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.1 to 0.3.",
         "role": "coefficient"
       }
     },
@@ -99,7 +99,7 @@
       "rents": {
         "value": 0.15,
         "tag": "TUNABLE",
-        "citation": "Renters gain from more homes being built; owners in single-family zones bear the change next door. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread 0.05 to 0.25.",
+        "citation": "Renters gain from more homes being built; owners in single-family zones bear the change next door. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.05 to 0.25.",
         "role": "coefficient"
       }
     },
@@ -107,7 +107,7 @@
       "rents": {
         "value": 0.1,
         "tag": "TUNABLE",
-        "citation": "A renter gains from rules that hold rent down or keep a tenant housed; an owner pays for them in property value or tax. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread 0.05 to 0.2.",
+        "citation": "A renter gains from rules that hold rent down or keep a tenant housed; an owner pays for them in property value or tax. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.05 to 0.2.",
         "role": "coefficient"
       }
     },
@@ -115,7 +115,7 @@
       "rents": {
         "value": -0.25,
         "tag": "TUNABLE",
-        "citation": "An owner pays property tax directly and gains from a cap; a renter pays it only through the rent. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread -0.4 to -0.1.",
+        "citation": "An owner pays property tax directly and gains from a cap; a renter pays it only through the rent. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.4 to -0.1.",
         "role": "coefficient"
       }
     },
@@ -123,7 +123,7 @@
       "incomeFifth": {
         "value": -0.07,
         "tag": "TUNABLE",
-        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread -0.12 to -0.03.",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.12 to -0.03.",
         "role": "coefficient"
       }
     },
@@ -131,7 +131,7 @@
       "incomeFifth": {
         "value": -0.04,
         "tag": "TUNABLE",
-        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread -0.08 to -0.01.",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.08 to -0.01.",
         "role": "coefficient"
       }
     },
@@ -139,13 +139,13 @@
       "youngChild": {
         "value": 0.25,
         "tag": "TUNABLE",
-        "citation": "A household with a young child is the one that takes the leave. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread 0.1 to 0.4.",
+        "citation": "A household with a young child is the one that takes the leave. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.1 to 0.4.",
         "role": "coefficient"
       },
       "incomeFifth": {
         "value": -0.03,
         "tag": "TUNABLE",
-        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread -0.06 to 0.",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.06 to 0.",
         "role": "coefficient"
       }
     },
@@ -153,13 +153,13 @@
       "youngChild": {
         "value": 0.3,
         "tag": "TUNABLE",
-        "citation": "A household with a child under 6 is the one the preschool serves. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread 0.15 to 0.45.",
+        "citation": "A household with a child under 6 is the one the preschool serves. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.15 to 0.45.",
         "role": "coefficient"
       },
       "incomeFifth": {
         "value": -0.03,
         "tag": "TUNABLE",
-        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread -0.06 to 0.",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.06 to 0.",
         "role": "coefficient"
       }
     },
@@ -167,13 +167,13 @@
       "noPrivatePlan": {
         "value": 0.3,
         "tag": "TUNABLE",
-        "citation": "An adult with no private plan is the one a wider Medicaid would cover. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread 0.15 to 0.45.",
+        "citation": "An adult with no private plan is the one a wider Medicaid would cover. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.15 to 0.45.",
         "role": "coefficient"
       },
       "incomeFifth": {
         "value": -0.05,
         "tag": "TUNABLE",
-        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread -0.1 to -0.01.",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.1 to -0.01.",
         "role": "coefficient"
       }
     },
@@ -181,13 +181,13 @@
       "noPrivatePlan": {
         "value": -0.2,
         "tag": "TUNABLE",
-        "citation": "An adult with no private plan is the one the requirement would be asked of. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread -0.35 to -0.05.",
+        "citation": "An adult with no private plan is the one the requirement would be asked of. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.35 to -0.05.",
         "role": "coefficient"
       },
       "noWork": {
         "value": -0.25,
         "tag": "TUNABLE",
-        "citation": "An adult out of work is the one who would lose coverage under it. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread -0.4 to -0.1.",
+        "citation": "An adult out of work is the one who would lose coverage under it. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.4 to -0.1.",
         "role": "coefficient"
       }
     },
@@ -195,7 +195,7 @@
       "publicWorker": {
         "value": 0.35,
         "tag": "TUNABLE",
-        "citation": "A government worker is the one the bargaining covers. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread 0.2 to 0.5.",
+        "citation": "A government worker is the one the bargaining covers. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.2 to 0.5.",
         "role": "coefficient"
       }
     },
@@ -203,7 +203,7 @@
       "publicWorker": {
         "value": 0.15,
         "tag": "TUNABLE",
-        "citation": "A government worker, a teacher among them, is paid from the same public payroll the floor raises. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread 0.05 to 0.25.",
+        "citation": "A government worker, a teacher among them, is paid from the same public payroll the floor raises. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.05 to 0.25.",
         "role": "coefficient"
       }
     },
@@ -211,7 +211,7 @@
       "incomeFifth": {
         "value": -0.06,
         "tag": "TUNABLE",
-        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread -0.1 to -0.02.",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.1 to -0.02.",
         "role": "coefficient"
       }
     },
@@ -219,7 +219,7 @@
       "incomeFifth": {
         "value": -0.05,
         "tag": "TUNABLE",
-        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. Checked by the town's share for and against each question staying inside the published polling spread at three pinned places; spread -0.09 to -0.01.",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.09 to -0.01.",
         "role": "coefficient"
       }
     }
