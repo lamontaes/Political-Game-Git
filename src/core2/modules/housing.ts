@@ -65,10 +65,18 @@ import {
 } from "../housing-construction";
 import {
   ACS_VALUE_DATE,
-  homePriceRatio,
   housingWorldOffset,
   type PriceLevel,
 } from "../housing-prices";
+import { economyMonthBefore, pastPriceRatio } from "../housing-price-path";
+import { webReach } from "../outcome-web-reach";
+import {
+  countBuyer,
+  homeValueToday,
+  openPriceLevel,
+  placePriceLevel,
+  stepPriceLevel,
+} from "../housing-price-level";
 import { HOME_VALUE_MEASURE } from "../housing-sale";
 import {
   occupyCompletedRentals,
@@ -318,7 +326,8 @@ export function publishedRentValueOf(
 const DWELLINGS_KEY = "housingDwellings";
 /** The year each owner bought its home (the opening's draw from ACS B25038), read by the housing history. */
 const HOME_BOUGHT_KEY = "housingHomeBought";
-const housingMacroParameter = (key: string): number => {
+/** Housing's numbers with the economy's and credit's beside them (the price path and the mortgages read both). */
+export const housingMacroParameter = (key: string): number => {
   const row =
     HOUSING_PARAMETERS[key] ??
     MACRO_PARAMETERS[key] ??
@@ -718,12 +727,12 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
     valueMinor: Math.round(
       medianValue *
         100 *
-        // ACS values are dated mid-2022; the state's house price index moves them to the start.
-        homePriceRatio(
-          town.usps,
+        // ACS values are dated mid-2022; this world's price level moves them to the start.
+        pastPriceRatio(
+          input,
           valueDateOf(town.county),
           input.startedAt,
-          input.seed,
+          housingMacroParameter,
         ) *
         (incomeScale(row.income) / ownerMedianScale),
     ),
@@ -1511,8 +1520,17 @@ function buyHomes(api: CoreAPI): void {
     r = rate / p("macroMonthsPerYear");
   const factor = (principal: number) =>
     r > 0 ? (principal * r) / (1 - (1 + r) ** -term) : principal / term;
-  // Home prices follow consumer prices until a house price index is in the data.
-  stopgap("SG-WORLD-housing-price-index");
+  // Each town's typical rent, read once this review: a renter weighs the home
+  // its rent stands for, at the town's price level.
+  const typicalRents = new Map<string, number>();
+  const typicalRent = (placeId: string) => {
+    let rent = typicalRents.get(placeId);
+    if (rent === undefined) {
+      rent = townRentMinor(api, placeId);
+      typicalRents.set(placeId, rent);
+    }
+    return rent;
+  };
   for (const [id, lease] of [...c.finance.contracts].sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {
@@ -1535,22 +1553,15 @@ function buyHomes(api: CoreAPI): void {
     const income = monthlyIncome(api, household.memberIds);
     if (income <= 0) continue;
     const cash = members.reduce((n, row) => n + row!.liquidMinor, 0);
-    const prices = homePriceRatio(
-      location.usps,
-      valueDateOf(location.county),
-      c.date,
-      c.seed,
-      macroPrices(api),
-    );
-    // The home the household's income would buy at the county's median, as rent scales with income,
-    // at the outcome web's factor on home values here (a severe disaster's lower prices).
-    const webFactor = webFactorFor(api, household.placeId, HOME_VALUE_MEASURE);
+    // The home the household's rent stands for: the town's typical home (its
+    // price level, the web's factor on home values in it) times its rent over
+    // the town's typical rent, as rent scales with income.
+    const level = placePriceLevel(api, household.placeId);
+    const rentHere = typicalRent(household.placeId);
     const value =
-      town[1] *
-      100 *
-      prices *
-      webFactor *
-      (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
+      level && rentHere > 0
+        ? level.now * (lease.amountMinor / rentHere)
+        : town[1] * 100 * (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
     const down = value * housingData.mortgage.downPayment.firstTime;
     const payment = factor(value - down);
     // What owning costs over renting is the interest: the rest of the payment is principal the household keeps as equity.
@@ -1661,8 +1672,8 @@ function buyHomes(api: CoreAPI): void {
         // A first home bought here is a house (the seller's unit kind isn't recorded yet).
         kind: "house",
         valueMinor: Math.round(down) - owed + lent,
-        // The web's factor on home values the price stands at, so a later change in it moves the home's value.
-        webFactor,
+        // The place's price level the price stands at, so the home's value moves with it (the one value rule).
+        ...(level ? { priceLevel: level.now } : {}),
         loanHolderId:
           lent > 0
             ? ([...c.organizations.values()].find(
@@ -1673,6 +1684,7 @@ function buyHomes(api: CoreAPI): void {
         since: c.date,
         basis: "purchase",
       });
+    countBuyer(api, household.placeId);
     api.emit({
       id: `event:housing.purchase:${household.id}:${c.date}`,
       date: c.date,
@@ -1697,6 +1709,7 @@ function review(api: CoreAPI): void {
   // Mortgages behind past the federal period go to the state's foreclosure.
   for (const { caseId, saleAt } of startForeclosures(api, law.usps))
     schedule(api, `sale:${caseId}`, saleAt, "housing-foreclosure-sale", caseId);
+  stepPriceLevels(api);
   billPropertyTax(
     api,
     store(api).table("assessments"),
@@ -2155,7 +2168,6 @@ export function townFiguresByPlace(
       {
         values: [] as number[],
         rents: [] as number[],
-        pay: [] as number[],
         // The renting households these rents stand for: a counted household
         // counts as many as its weight says.
         renters: 0,
@@ -2170,25 +2182,111 @@ export function townFiguresByPlace(
   for (const row of homes)
     grouped.get(row.placeId)?.values.push(row.valueMinor);
   collectRents(api, grouped);
-  const days = api.parameter("jobsDaysPerYear"),
-    months = api.parameter("macroMonthsPerYear");
-  for (const job of c.jobs.values()) {
-    if (job.endsAt !== undefined) continue;
-    const at = c.organizations.get(job.organizationId)?.placeId;
-    if (at !== undefined)
-      grouped.get(at)?.pay.push((job.wageDailyMinor * days) / months);
-  }
+  const pay = townPayByPlace(api, placeIds);
   return new Map(
     [...grouped].map(([id, row]) => [
       id,
       {
         homeValueMinor: median(row.values),
         rentMinor: median(row.rents),
-        monthlyPayMinor: median(row.pay),
+        monthlyPayMinor: pay.get(id) ?? 0,
         renters: row.renters,
       },
     ]),
   );
+}
+
+/** Each place's median monthly pay at the jobs its firms hold. */
+function townPayByPlace(
+  api: CoreAPI,
+  placeIds: ReadonlySet<string>,
+): Map<string, number> {
+  const c = core(api);
+  const pay = new Map<string, number[]>([...placeIds].map((id) => [id, []]));
+  const days = api.parameter("jobsDaysPerYear"),
+    months = api.parameter("macroMonthsPerYear");
+  for (const job of c.jobs.values()) {
+    if (job.endsAt !== undefined) continue;
+    const at = c.organizations.get(job.organizationId)?.placeId;
+    if (at !== undefined)
+      pay.get(at)?.push((job.wageDailyMinor * days) / months);
+  }
+  return new Map([...pay].map(([id, rows]) => [id, median(rows)]));
+}
+
+/**
+ * Steps each place's home price level once a month (housing-price-level.ts):
+ * the town's pay, the macro month's 30-year rate, the month's buyers against
+ * homes offered over the homes owned, and the web's factor on home values.
+ */
+function stepPriceLevels(api: CoreAPI): void {
+  const c = core(api);
+  const places = new Set(
+    (
+      store(api).table("stock").rows() as unknown as {
+        placeId: string;
+        priceScaleMinor?: number;
+      }[]
+    )
+      .filter((row) => row.priceScaleMinor !== undefined)
+      .map((row) => row.placeId),
+  );
+  if (!places.size) return;
+  const pay = townPayByPlace(api, places);
+  // Homes owned in each place, a counted household by its weight.
+  const owned = new Map<string, number>();
+  const residents = residentsRuntime(c);
+  for (const row of store(api).table("dwellings").rows() as unknown as {
+    householdId: string;
+    tenure: string;
+  }[]) {
+    if (row.tenure !== "own") continue;
+    const full = c.households.get(row.householdId);
+    const counted = full ? undefined : countedHousehold(c, row.householdId);
+    const placeId = full?.placeId ?? counted?.placeId;
+    if (!placeId || !places.has(placeId)) continue;
+    owned.set(
+      placeId,
+      (owned.get(placeId) ?? 0) +
+        (counted ? residents!.store.weightOf(counted) : 1),
+    );
+  }
+  const month = c.date.slice(0, "YYYY-MM".length);
+  const latest = c.modules.has("macro")
+    ? (
+        api.moduleState("macro").table("state").get("macro:state") as
+          { latestMonth: string } | undefined
+      )?.latestMonth
+    : undefined;
+  const macroMonth = latest
+    ? (api.moduleState("macro").table("months").get(`macro-month:${latest}`) as
+        | { id: string; mortgage30Pct: number; hourlyEarnings: number }
+        | undefined)
+    : undefined;
+  const p = (key: string) => api.parameter(key);
+  const opened =
+    (
+      store(api).table("state").get("housing:state") as
+        { openedAt: string } | undefined
+    )?.openedAt ?? c.date;
+  const before = economyMonthBefore(
+    month,
+    { startedAt: opened, seed: c.seed },
+    p,
+  );
+  for (const placeId of places) {
+    const web = webReach(api, placeId, HOME_VALUE_MEASURE);
+    stepPriceLevel(api, placeId, {
+      month,
+      townPayMinor: pay.get(placeId) ?? 0,
+      economyPay: macroMonth?.hourlyEarnings ?? before.pay,
+      ratePct: macroMonth?.mortgage30Pct ?? before.ratePct,
+      rateRecordId: macroMonth?.id ?? null,
+      owned: owned.get(placeId) ?? 0,
+      webFactor: web.factor,
+      webRecordId: web.recordId,
+    });
+  }
 }
 
 /** A town's typical home value, monthly rent and monthly pay today, and its renters. */
@@ -2752,6 +2850,14 @@ export function openHousing(api: CoreAPI): void {
       town.rentMinor,
       macroPrices(api)?.(api.state.date) ?? 1,
     );
+    // The place's home price level on day one: this world's path, scaled so
+    // its level at the census date is the census median.
+    const county = housingPlace(api, landlord.placeId).county;
+    openPriceLevel(api, landlord.placeId, {
+      medianValueMinor: (rentValueOf(county, api.state.seed)[1] ?? 0) * 100,
+      valueDate: valueDateOf(county),
+      townPayMinor: town.monthlyPayMinor,
+    });
   }
   scheduleReview(api);
 }
@@ -2887,32 +2993,13 @@ export function ownedHomes(
 ): { householdId: string; placeId: string; valueMinor: number }[] {
   const c = api.state as CoreState;
   if (!c.modules.has(HOUSING_MODULE_ID)) return [];
-  const opened =
-    (
-      store(api).table("state").get("housing:state") as
-        { openedAt: string } | undefined
-    )?.openedAt ?? c.date;
-  // All opening values use this call's same state, dates and current macro
-  // prices. Keep the result local so the next read sees any intervening change.
-  const openingPriceRatios = new Map<string, number>();
-  const prices = (usps: string) => {
-    let ratio = openingPriceRatios.get(usps);
-    if (ratio === undefined) {
-      ratio = homePriceRatio(usps, opened, c.date, c.seed, macroPrices(api));
-      openingPriceRatios.set(usps, ratio);
-    }
-    return ratio;
-  };
   const out: { householdId: string; placeId: string; valueMinor: number }[] =
     [];
-  const webFactors = new Map<string, number>();
   for (const row of store(api).table("dwellings").rows() as unknown as {
     householdId: string;
     tenure: string;
     valueMinor?: number;
-    basis: string;
-    usps?: string;
-    webFactor?: number;
+    priceLevel?: number;
   }[]) {
     if (row.tenure !== "own" || !row.valueMinor) continue;
     const placeId =
@@ -2920,25 +3007,12 @@ export function ownedHomes(
       countedHousehold(c, row.householdId)?.placeId;
     if (!placeId || (atPlaceId !== undefined && placeId !== atPlaceId))
       continue;
-    // The web's factor on home values is one per place and month.
-    let web = webFactors.get(placeId);
-    if (web === undefined) {
-      web = webFactorFor(api, placeId, HOME_VALUE_MEASURE);
-      webFactors.set(placeId, web);
-    }
-    // Opening values move with prices since the opening; a purchase is valued at its price.
-    // Either moves with the outcome web's factor on home values since the home was valued
-    // (a severe disaster's lower prices), so a steady factor is not counted twice.
+    // The one value rule: the value when valued times the place's level now
+    // over its level then (an opening home, the opening's level).
     out.push({
       householdId: row.householdId,
       placeId,
-      valueMinor: Math.round(
-        row.valueMinor *
-          (row.basis === "opening"
-            ? prices(row.usps ?? c.placeMetadata?.housingState ?? "")
-            : 1) *
-          (web / (row.webFactor ?? 1)),
-      ),
+      valueMinor: homeValueToday(api, placeId, row.valueMinor, row.priceLevel),
     });
   }
   return out;

@@ -12,9 +12,10 @@ import housingData from "./data/housing/housing.json" with { type: "json" };
 import housingParameters from "./data/housing/parameters.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { homePriceRatio } from "./housing-prices";
+import { pastPriceRatio } from "./housing-price-path";
 import { advanceCore } from "./life";
 import {
+  housingMacroParameter,
   ownedHomes,
   publishedRentValueOf,
   rentValueOf,
@@ -106,8 +107,8 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
         `${where}: every home has a value or a rent`,
       ).toBe(true);
       // Owners' median value at the opening is this world's value (drawn
-      // around the census one) moved by the price index from April 2020 to
-      // the start.
+      // around the census one) moved by this world's price level from April
+      // 2020 to the start.
       const openingValue = median(
         dwellings.filter((d) => d[1] === "own").map((d) => d[2]),
       );
@@ -117,7 +118,12 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
       const indexed =
         rentValueOf(`nation:${state.slice(3)}`, core.seed)[1]! *
         100 *
-        homePriceRatio(state.slice(3), row.valueDate, core.date, core.seed);
+        pastPriceRatio(
+          { startedAt: core.date, seed: core.seed },
+          row.valueDate,
+          core.date,
+          housingMacroParameter,
+        );
       expect(
         Math.abs(openingValue - indexed),
         `${where}: opening median value ${openingValue} against ${indexed}`,

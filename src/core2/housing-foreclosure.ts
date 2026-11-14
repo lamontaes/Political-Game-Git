@@ -23,6 +23,7 @@ import { endFlowPart } from "./residents-economy";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { leaveCountedHome } from "./housing-homeless";
 import { formerHome } from "./housing-former-home";
+import { countOffered, homeValueToday } from "./housing-price-level";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -206,13 +207,37 @@ export function startForeclosures(
   return opened;
 }
 
-/** What the home brings at a foreclosure sale, from its value in the dwellings table. */
+/** The place a home's household lives in, full or counted, and how many households its record stands for. */
+function homePlace(
+  c: CoreState,
+  householdId: string,
+): { placeId: string; weight: number } | undefined {
+  const full = c.households.get(householdId);
+  if (full) return { placeId: full.placeId, weight: 1 };
+  const store = residentsRuntime(c)?.store;
+  const at = store?.householdOf.get(householdId);
+  const counted = at === undefined ? undefined : store!.households[at];
+  return counted
+    ? { placeId: counted.placeId, weight: store!.weightOf(counted) }
+    : undefined;
+}
+
+/** What the home brings at a foreclosure sale: its value today by the one value rule, at the sale's share. */
 function salePrice(api: CoreAPI, householdId: string): number {
   const dwelling = table(api, "dwellings").get(`dwelling:${householdId}`) as
-    { valueMinor?: number } | undefined;
-  return Math.round(
-    (dwelling?.valueMinor ?? 0) * api.parameter("housingForeclosureSaleShare"),
-  );
+    { valueMinor?: number; priceLevel?: number } | undefined;
+  const at = homePlace(core(api), householdId);
+  const value = at
+    ? homeValueToday(
+        api,
+        at.placeId,
+        dwelling?.valueMinor ?? 0,
+        dwelling?.priceLevel,
+      )
+    : (dwelling?.valueMinor ?? 0);
+  // The home goes to market this month: the place's price level weighs it.
+  if (at) countOffered(api, at.placeId, at.weight);
+  return Math.round(value * api.parameter("housingForeclosureSaleShare"));
 }
 
 /**

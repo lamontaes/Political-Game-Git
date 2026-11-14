@@ -66,6 +66,8 @@ interface StockRow {
   openingRentMinor: number;
   openingPriceLevel: number;
   zoning: Zoning;
+  /** Homes offered this month for the home price level (housing-price-level.ts). */
+  priceOffered?: number;
 }
 
 interface ProjectRow {
@@ -570,7 +572,12 @@ export function buildMonth(
             rentalUnits: now.rentalUnits + project.units,
             vacantRental: now.vacantRental + project.units,
           }
-        : { ...now, newHomesForSale: now.newHomesForSale + project.units },
+        : {
+            ...now,
+            newHomesForSale: now.newHomesForSale + project.units,
+            // New homes finished for sale are homes offered this month (the price level's step reads it).
+            priceOffered: (now.priceOffered ?? 0) + project.units,
+          },
     );
     onFinish(finished);
   }
