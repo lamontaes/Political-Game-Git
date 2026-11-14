@@ -122,6 +122,10 @@
       "kind": "here",
       "stage": "default"
     },
+    "player-day": {
+      "kind": "player-day",
+      "stage": "default"
+    },
     "work-day": {
       "kind": "work-day",
       "stage": "default"
@@ -311,6 +315,11 @@
     "here": {
       "name": "answer"
     },
+    "player-day": {
+      "good": "answer",
+      "bad": "answer",
+      "plain": "answer"
+    },
     "work-done": {
       "ask": "request",
       "rest": "answer"
@@ -469,6 +478,7 @@
     "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift: the day ahead or a day off for work-day, the shift just worked for work-done): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day. The rent coming due (rent-due) is told by a payer on the household's lease in the days before it is due, once for each due date, and answered from the household's cash against it. A school day missed (school-missed) is read the next morning from the school engine's closed day: a school day with no attendance row; a day they went is the usual day and no news. A morning shift is told only when it differs from the job's usual day (its hours by unusualShiftMinutes); a usual day or a day off is no news. A story in the paper that names the speaker's own employer or someone they know (news-touch) is told once, by the story's own record.",
     "kinds": [
       "here",
+      "player-day",
       "work-day",
       "work-done",
       "school-missed",
@@ -483,7 +493,7 @@
       "spread": [2, 4],
       "checkedAgainst": "Lead's brief, Nov 12: no subject repeats inside three days for the same pair; a housemate tells a work day about twice a week, not every morning (the owner's complaint, Nov 12, of the same 7:00 a.m. work talk every morning)."
     },
-    "comesBack": ["work-day", "work-done", "school-missed"],
+    "comesBack": ["work-day", "work-done", "school-missed", "player-day"],
     "rentDaysBefore": {
       "value": 5,
       "tag": "TUNABLE",

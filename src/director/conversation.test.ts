@@ -251,7 +251,24 @@ const SMALL_TALK_TURNS = 40;
 const recentDays =
   DEFAULT_DIRECTOR_DATA.parameters.directorTalkRecentDays!.value;
 const opening = (talk: Conversation) =>
-  talk.lines.find((row) => row.kind !== "greet")!;
+  talk.lines.find(
+    (row) =>
+      row.kind !== "greet" && row.kind !== "here" && row.kind !== "here-back",
+  )!;
+/**
+ * A stranger says who they are first (Words lead, Nov 14, rule 51): the
+ * player gives their name, and the talk goes on from there. A talk that
+ * did not open on an introduction is returned as it is.
+ */
+const introduced = (
+  core: Parameters<typeof say>[0],
+  talk: Conversation,
+): Conversation => {
+  const name = talk.choices.find((row) => row.move === "name");
+  return talk.lines.some((row) => row.kind === "here") && name
+    ? say(core, talk, name.key)
+    : talk;
+};
 
 // Owner, Nov 11, 2026: "all the lines in the game need to be run through the
 // English engine ... a ton of different inserts". Meeting someone new, the
@@ -478,7 +495,10 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
 
   it("strangers ask what they don't know, and the scales dim for what they already know", () => {
-    const talk = openConversation(core, player.id, strangers[0]!.id);
+    const talk = introduced(
+      core,
+      openConversation(core, player.id, strangers[0]!.id),
+    );
     expect(opening(talk).text).toMatch(/\?$/);
     expect(talk.lies.length).toBeGreaterThan(0);
     const coworker = [...core.jobs.values()].find(
@@ -491,7 +511,10 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
 
   it("turns every choice false with the scales: different moves, each contradicting the player's record", () => {
-    const talk = openConversation(core, player.id, strangers[0]!.id);
+    const talk = introduced(
+      core,
+      openConversation(core, player.id, strangers[0]!.id),
+    );
     expect(talk.lies.length).toBeGreaterThan(1);
     const moves = talk.lies.map((row) => row.move);
     expect(new Set(moves).size).toBe(moves.length);
@@ -582,9 +605,12 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   it("leaves a lie as a belief in everyone present, until someone who knows the truth tells them", () => {
     const [hearerId, bystanderId] = [believing[0]!.id, believing[1]!.id];
     for (const id of [hearerId, bystanderId]) director.watch(core, id);
-    const talk = openConversation(core, player.id, hearerId, {
-      presentIds: [bystanderId],
-    });
+    const talk = introduced(
+      core,
+      openConversation(core, player.id, hearerId, {
+        presentIds: [bystanderId],
+      }),
+    );
     expect(talk.lies.length).toBeGreaterThan(0);
     const key = opening(talk).kind.startsWith("own-work")
       ? `person:${player.id}:employer`
@@ -698,7 +724,10 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         cause: "met-in-group",
         hours: 1,
       });
-      const opened = openConversation(core, player.id, row.id);
+      const opened = introduced(
+        core,
+        openConversation(core, player.id, row.id),
+      );
       if (opened.lies.length) {
         talk = opened;
         hearer = row;

@@ -1225,6 +1225,106 @@ function rentDue(
 }
 
 /**
+ * What someone at home asks the player about their own day, each from a
+ * record of it (Words lead, Nov 14, rule 57): the school day just over, the
+ * shift just worked, or the filing the player made. A day is asked about the
+ * evening it happened, or the next morning; the house asks it once a day (its
+ * id holds no speaker).
+ */
+function playerDay(
+  core: Readonly<CoreState>,
+  director: Director | undefined,
+  listener: Readonly<PersonState>,
+  minuteOfDay: number | undefined,
+): Subject[] {
+  if (minuteOfDay === undefined) return [];
+  const evening = dayParts(minuteOfDay).includes("evening");
+  const when = evening ? "today" : "yesterday";
+  const rows: Subject[] = [];
+  const row = (stage: string, facts: Facts, ids: readonly string[]) =>
+    rows.push({
+      id: `player-day:${stage}`,
+      kind: "player-day",
+      stage,
+      facts: {
+        when: { text: when, sourceRecordIds: ids },
+        ...facts,
+      },
+    });
+  // The school day just over, from the school engine's attendance.
+  const day = schoolDayOf(coreAPI(core as CoreState), listener.id);
+  if (
+    day &&
+    core.organizations.get(day.schoolId) &&
+    (evening
+      ? day.today && day.attended
+      : day.yesterday.school && day.yesterday.attended)
+  )
+    row("school", {}, [
+      day.schoolId,
+      `${SCHOOL_MODULE_ID}:attended:${listener.id}`,
+    ]);
+  // The shift just worked, from the work-spans engine.
+  const mine = sayJob(core, listener);
+  if (mine) {
+    let worked = false;
+    try {
+      worked = workSpansOnDateV1(coreAPI(core as CoreState), {
+        controlledPersonId: listener.id,
+        date: evening ? core.date : addDays(makeIsoDate(core.date), -one),
+      }).owners.some(
+        (owner) =>
+          owner.job.id === mine.job.id &&
+          owner.plannedMinutes > zero &&
+          (!evening ||
+            owner.spans.every((span) => span.endMinute <= minuteOfDay)),
+      );
+    } catch {
+      // Work terms that cannot be read for the date are no shift to ask after.
+    }
+    if (worked)
+      row(
+        "shift",
+        {
+          employer: {
+            text: mine.employer,
+            sourceRecordIds: [mine.job.id, mine.org.id],
+          },
+        },
+        [mine.job.id, mine.org.id],
+      );
+  }
+  // A filing the player made yesterday or today, from the director's ledger.
+  for (const moment of recentMoments(core, director, listener.id)) {
+    if (moment.causeKind !== "event:candidate-filed") continue;
+    const age = daysBetween(makeIsoDate(moment.date), makeIsoDate(core.date));
+    if (age > one) break;
+    const office = (
+      core.durableLog.get(moment.causeId as never) as
+        { facts?: Readonly<Record<string, string>> } | undefined
+    )?.facts?.office;
+    if (!office) continue;
+    rows.push({
+      id: `player-day:filing`,
+      kind: "player-day",
+      stage: "filing",
+      facts: {
+        when: {
+          text: age ? "yesterday" : "today",
+          sourceRecordIds: [moment.causeId],
+        },
+        office: {
+          text: properName(office),
+          sourceRecordIds: [moment.causeId],
+        },
+      },
+    });
+    break;
+  }
+  return rows;
+}
+
+/**
  * A school day the speaker missed, told the next morning to someone they
  * live with: the school engine's record of the day before (a school day, and
  * no attendance row for it), and whether today is a school day. None when
@@ -2649,6 +2749,7 @@ export function subjectsBetween(
     // What a government did, from a record the speaker has of it.
     const governed = governmentNews(core, speaker, listener);
     if (governed) out.push(governed);
+    out.push(...playerDay(core, director, listener, room.minuteOfDay));
     const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
     if (quiet) out.push(quiet);
   }
@@ -4101,11 +4202,11 @@ function tellable(
       row.kind === kind &&
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !!data.otherRaises[row.kind] &&
-      !!(row.kind === "here"
+      !!(row.kind === "here" || row.kind === "player-day"
         ? composedLine(
             core,
             otherId,
-            "here-say",
+            `${row.kind}-say`,
             row.facts,
             row.stage ?? "default",
             `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
@@ -4251,6 +4352,8 @@ const OPENING_ORDER = [
   // (owner, Nov 11: "This introduces people to their world").
   "kin",
   "address",
+  // What the player did today, from its record, asked by someone at home.
+  "player-day",
   // Their own day, from its record (the shift, the rent coming due),
   // before the day itself; the player's own news first of these.
   "player-news",
@@ -6090,12 +6193,16 @@ function partingLine(
     conversation.lines.some((line) => line.text.includes(topic[found]!.text));
   const key = named ? undefined : found;
   const player = core.people.get(conversation.playerId);
+  // A name given in this talk (the introduction) is a name to say goodbye by.
+  const introduced = found === undefined && !!conversation.nameGiven;
   if (
-    named &&
+    (named || introduced) &&
     player?.givenName &&
     saysName(core, speakerId, conversation.playerId, conversation)
   ) {
-    facts["about-again"] = topic[found!]!;
+    facts["about-again"] = found
+      ? topic[found]!
+      : { text: "yes", sourceRecordIds: [conversation.playerId] };
     facts["player-first"] = {
       text: player.givenName,
       sourceRecordIds: [player.id],

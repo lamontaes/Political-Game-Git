@@ -39396,6 +39396,557 @@
         "part": "core",
         "required": true
       }
+    },
+    {
+      "key": "conversation.player-day-say-core.how-was-school-when",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "How was school {when}?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["school"],
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-say-core.how-did-school-go-when",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "How did school go {when}?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["school"],
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-say-core.anything-happen-at-school-when",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "Anything happen at school {when}?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["school"],
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-say-core.what-did-they-have-you-doing-at-school-when",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "What did they have you doing at school {when}?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["school"],
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-say-core.how-was-work-when",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "How was work {when}?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["shift"],
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-say-core.how-did-your-shift-go-when",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "How did your shift go {when}?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["shift"],
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-say-core.long-day-at-employer-when",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "Long day at {employer} {when}?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["shift"],
+          "requiresFacts": ["when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-say-core.did-employer-keep-you-busy-when",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "Did {employer} keep you busy {when}?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["shift"],
+          "requiresFacts": ["when", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-say-core.so-you-filed-for-office-when-how-did-it-go",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "So you filed for {office} {when}. How did it go?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["filing"],
+          "requiresFacts": ["when", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-say-core.you-really-filed-for-office-when",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "You really filed for {office} {when}?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["filing"],
+          "requiresFacts": ["when", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-answer-good.it-went-fine",
+      "move": "player-day-answer-good",
+      "kind": "spoken",
+      "text": "It went fine.",
+      "uses": [
+        {
+          "move": "player-day-answer-good",
+          "subject": "player-day",
+          "role": "answer",
+          "choice": "good"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.player-day-answer-bad.not-great",
+      "move": "player-day-answer-bad",
+      "kind": "spoken",
+      "text": "Not great.",
+      "uses": [
+        {
+          "move": "player-day-answer-bad",
+          "subject": "player-day",
+          "role": "answer",
+          "choice": "bad"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.player-day-answer-plain.nothing-much",
+      "move": "player-day-answer-plain",
+      "kind": "spoken",
+      "text": "Nothing much.",
+      "uses": [
+        {
+          "move": "player-day-answer-plain",
+          "subject": "player-day",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.player-day-back-core.good-i-m-glad",
+      "move": "player-day-back-core",
+      "kind": "spoken",
+      "text": "Good. I'm glad.",
+      "uses": [
+        {
+          "move": "player-day-back-core",
+          "subject": "player-day-back",
+          "role": "core",
+          "stages": ["good"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-back-core.good-to-hear-you",
+      "move": "player-day-back-core",
+      "kind": "spoken",
+      "text": "Good to hear, {you}.",
+      "uses": [
+        {
+          "move": "player-day-back-core",
+          "subject": "player-day-back",
+          "role": "core",
+          "stages": ["good"],
+          "requiresFacts": ["you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-back-core.keep-it-up-you",
+      "move": "player-day-back-core",
+      "kind": "spoken",
+      "text": "Keep it up, {you}.",
+      "uses": [
+        {
+          "move": "player-day-back-core",
+          "subject": "player-day-back",
+          "role": "core",
+          "stages": ["good"],
+          "requiresFacts": ["you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-back-core.that-s-a-shame",
+      "move": "player-day-back-core",
+      "kind": "spoken",
+      "text": "That's a shame.",
+      "uses": [
+        {
+          "move": "player-day-back-core",
+          "subject": "player-day-back",
+          "role": "core",
+          "stages": ["bad"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-back-core.sorry-you",
+      "move": "player-day-back-core",
+      "kind": "spoken",
+      "text": "Sorry, {you}.",
+      "uses": [
+        {
+          "move": "player-day-back-core",
+          "subject": "player-day-back",
+          "role": "core",
+          "stages": ["bad"],
+          "requiresFacts": ["you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-back-core.i-m-sorry-you-tomorrow-s-another-one",
+      "move": "player-day-back-core",
+      "kind": "spoken",
+      "text": "I'm sorry, {you}. Tomorrow's another one.",
+      "uses": [
+        {
+          "move": "player-day-back-core",
+          "subject": "player-day-back",
+          "role": "core",
+          "stages": ["bad"],
+          "requiresFacts": ["you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-back-core.i-only-wondered",
+      "move": "player-day-back-core",
+      "kind": "spoken",
+      "text": "I only wondered.",
+      "uses": [
+        {
+          "move": "player-day-back-core",
+          "subject": "player-day-back",
+          "role": "core",
+          "stages": ["plain"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-back-core.tell-me-if-anything-comes-up-you",
+      "move": "player-day-back-core",
+      "kind": "spoken",
+      "text": "Tell me if anything comes up, {you}.",
+      "uses": [
+        {
+          "move": "player-day-back-core",
+          "subject": "player-day-back",
+          "role": "core",
+          "stages": ["plain"],
+          "requiresFacts": ["you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.player-day-say-core.you-filed-for-office-when-what-did-they-say",
+      "move": "player-day-say-core",
+      "kind": "spoken",
+      "text": "You filed for {office} {when}? What did they say?",
+      "uses": [
+        {
+          "move": "player-day-say-core",
+          "subject": "player-day-say",
+          "role": "core",
+          "stages": ["filing"],
+          "requiresFacts": ["when", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "player-day-say",
+        "part": "core",
+        "required": true
+      }
     }
   ]
 }
