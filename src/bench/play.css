@@ -5090,6 +5090,16 @@ select.release-pick {
   color: var(--cream);
 }
 
+/* The campaign board: the trail column holds one button, so it takes that
+   button's width and the money column keeps room for its figures; a figure
+   such as "39 of 1, due October 24, 2025" stays on one line. */
+.strip-board.campaign-board .board-cols {
+  grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.6fr) auto;
+}
+.strip-board.campaign-board .dotvalue {
+  white-space: nowrap;
+}
+
 /* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */
 .strip-board .money-figure {
   margin: 0 0 6px;
