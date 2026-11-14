@@ -35,7 +35,10 @@
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on.",
     "missingPlace": "Choose where you are from to go on.",
-    "lookTabs": { "everyday": "Everyday", "formal": "Formal" }
+    "lookTabs": {
+      "everyday": "Everyday",
+      "formal": "Formal"
+    }
   },
   "debate": {
     "title": "Debate invitation",
@@ -209,6 +212,7 @@
       "coworker": "Works with you",
       "worked": "Worked with you",
       "schoolmate": "At school with you",
+      "schooled": "Went to school together",
       "campaign": "On a campaign with you"
     },
     "since": "Since",
@@ -493,6 +497,8 @@
     "leaveBlank": "Leave blank",
     "leave": "Leave",
     "forRace": "For {title}",
+    "forTicket": "For {title} and {ticket}",
+    "ticket": "{name} and {mate}",
     "know": "What I know about them"
   },
   "meeting": {
@@ -513,23 +519,6 @@
     "spokeAgainst": "Spoke against"
   },
   "filing": {
-    "petition": "Signatures the clerk will count: {needed}, handed in by {date}",
-    "status": {
-      "petitioning": "Collecting signatures",
-      "on-ballot": "You are on the ballot",
-      "short": "Your petition came up short",
-      "withdrawn": "Withdrawn",
-      "refused": "Not accepted"
-    },
-    "rules": {
-      "filing-deadline": "Filing deadline",
-      "already-filed": "Filed before",
-      "minimum-age": "Age",
-      "residency": "Residency",
-      "district-residency": "District residency",
-      "party-member": "Party membership",
-      "term-limit": "Term limit"
-    },
     "seat": "Seat",
     "heldBy": "Held by",
     "openSeat": "No one holds it now",
@@ -594,6 +583,10 @@
     "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
     "adjourned": "Cast when you adjourned",
+    "absent": {
+      "stop-off": "Absent: you did not attend",
+      "district": "Absent: at home in the district"
+    },
     "nameHeadPick": "Name to the post"
   },
   "floor": {
@@ -637,6 +630,8 @@
     "today": "In force today",
     "proposed": "The bill makes it",
     "newAmount": "The new amount",
+    "takesEffectOn": "Takes effect on",
+    "untilThen": "Until then",
     "none": "Not set",
     "figures": "Budget lines",
     "thisYear": "This year",
@@ -915,7 +910,7 @@
     "officers": "Officers",
     "district": "District {n}",
     "atLarge": "At large",
-    "partySince": "{party} \u00b7 since {date}",
+    "partySince": "{party} · since {date}",
     "sinceOnly": "Since {date}",
     "seatChart": "{n} seats by party",
     "partySingular": {
@@ -976,7 +971,7 @@
   "money": {
     "cash": "Cash available",
     "home": "Home",
-    "householdHome": "Your household\u2019s home",
+    "householdHome": "Your household’s home",
     "tenure": "Tenure",
     "owned": "Owned",
     "rented": "Rented",
@@ -988,7 +983,7 @@
     "loanPaid": "paid",
     "unpaid": "left unpaid",
     "pastDue": "past due",
-    "cashByMonth": "Cash at each month\u2019s review",
+    "cashByMonth": "Cash at each month’s review",
     "assets": "What you own",
     "assetKinds": {
       "savings": "Savings",
@@ -1007,8 +1002,8 @@
       "household.everyday-living": "Everyday living",
       "household-purchase": "Purchases"
     },
-    "householdCashByMonth": "Your household\u2019s cash at each month\u2019s review",
-    "householdLastMonth": "Your household\u2019s last month",
+    "householdCashByMonth": "Your household’s cash at each month’s review",
+    "householdLastMonth": "Your household’s last month",
     "worth": "Worth"
   },
   "localRaces": {
@@ -1080,6 +1075,7 @@
     "short": "short",
     "ahead": "ahead",
     "savings": "Savings",
+    "savingsEstimated": "{amount} (estimate)",
     "lastYear": "Last year",
     "whoWrote": "Who wrote it",
     "adoptedBy": "Adopted by",
@@ -1104,6 +1100,9 @@
   "campaignResults": {
     "doors": "{n} doors",
     "reached": "{n} reached",
+    "answered": "{n} answered",
+    "signed": "{n} signed",
+    "signedNone": "No one signed",
     "raised": "{amount} raised",
     "spent": "{amount} spent"
   },
@@ -1115,7 +1114,12 @@
     "title": "Draft a bill",
     "issue": "What it is about",
     "today": "In force today",
-    "newAmount": "The new amount"
+    "newAmount": "The new amount",
+    "addStep": "Add a step",
+    "firstStep": "Takes effect when it becomes law",
+    "stepDate": "Takes effect on",
+    "askedCarried": "{name} agreed to carry your bill.",
+    "askedRefused": "{name} declined to carry your bill, and nothing was filed."
   },
   "journal": {
     "title": "My story",
@@ -1155,6 +1159,7 @@
     "up": "up",
     "down": "down",
     "same": "no change",
+    "points": "points",
     "since": "since last year"
   },
   "titles": {
@@ -1286,8 +1291,10 @@
     "doors": "Doors knocked",
     "signatures": "Signatures",
     "signaturesHeld": "{signed} of {needed}, due {date}",
-    "clerkCount": "The clerk's count",
-    "clerkCounted": "{valid} counted, {struck} struck",
+    "signaturesEnough": "{signed} of {needed}, enough for the ballot",
+    "asking": "Asking for",
+    "askingSignatures": "Signatures",
+    "askingVotes": "Votes",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
@@ -1298,6 +1305,22 @@
     "groupSpeak": "Speak",
     "debate": "Debate",
     "speech": "Give a speech"
+  },
+  "runningMate": {
+    "title": "Your running mate",
+    "choose": "Choose",
+    "own": "Choose for me",
+    "later": "You name your running mate after the primary.",
+    "nominee": "Your party's nominee for {ticket} joins your ticket after the primary.",
+    "row": "{name}, {work}, {place}",
+    "rowPlace": "{name}, {place}",
+    "rowWork": "{name}, {work}",
+    "former": "former {office}",
+    "roles": {
+      "party-officer": "party officer",
+      "former-candidate": "ran for office before",
+      "prominent": "well known in {place}"
+    }
   },
   "nominations": {
     "own": "Decided for me",
@@ -1393,9 +1416,9 @@
       "moot": "Never voted: the law was already made ({question})",
       "committee-held": "Held in committee, never heard: {chamber}, {committee}, chair {chair} (position {position}, temperament {trait})",
       "committee-held-petition": "Held in committee, never heard: {chamber}, {committee}, chair {chair}; discharge petition {signed} of {needed}",
-      "committee-lost": "Lost in committee: {chamber}, {committee}, {yes}\u2013{no}",
-      "floor-lost": "Lost on the floor: {chamber}, {yes}\u2013{no}",
-      "cloture-short": "Short of the votes to end debate: {chamber}, {yes}\u2013{no}, needed {needed}",
+      "committee-lost": "Lost in committee: {chamber}, {committee}, {yes}–{no}",
+      "floor-lost": "Lost on the floor: {chamber}, {yes}–{no}",
+      "cloture-short": "Short of the votes to end debate: {chamber}, {yes}–{no}, needed {needed}",
       "vetoed": "Vetoed",
       "vetoed-override": "Vetoed; the override fell short: {tallies}",
       "session-ended": "The session ended before a vote"
