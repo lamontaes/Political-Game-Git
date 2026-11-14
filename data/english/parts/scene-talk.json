@@ -4511,38 +4511,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.what-s-in-it-for-my-district",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "What's in it for my district?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.reply-bargain.i-ll-carry-it-if-you-ll-help-me-find-the-votes",
       "move": "reply-bargain",
       "kind": "spoken",
@@ -15037,40 +15005,6 @@
       "tag": {
         "move": "plea",
         "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-bargain.i-ll-make-sure-your-district-comes-first-in-the-next-budget",
-      "move": "follow-bargain",
-      "kind": "spoken",
-      "text": "I'll make sure your district comes first in the next budget.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
       }
     },
     {
@@ -47910,56 +47844,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Can I have a few days with this?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "appointment-offer",
-          "key": "honor",
-          "after": "offer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "stall",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.through-the-weekend-after-that-i-can-t-promise",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Through the weekend. After that, I can't promise.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "appointment-offer",
-          "key": "honor",
-          "after": "scene-talk.reply-stall.can-i-have-a-few-days-with-this"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.then-tell-that-to-the-next-person-who-signs",
       "move": "follow-accept",
       "kind": "spoken",
@@ -62386,10 +62270,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.saturday-mornings-are-the-only-ones-i-have",
+      "key": "scene-talk.reply-decline.my-mornings-off-are-the-only-ones-i-have",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Saturday mornings are the only ones I have.",
+      "text": "My mornings off are the only ones I have.",
       "uses": [
         {
           "subject": "scene",
@@ -62698,7 +62582,7 @@
           "role": "asker",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "after": "scene-talk.reply-decline.saturday-mornings-are-the-only-ones-i-have"
+          "after": "scene-talk.reply-decline.my-mornings-off-are-the-only-ones-i-have"
         }
       ],
       "bearing": "calm",
@@ -63011,10 +62895,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.listening-i-d-do-but-not-on-a-saturday",
+      "key": "scene-talk.reply-decline.listening-i-d-do-knocking-on-doors-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Listening I'd do, but not on a Saturday.",
+      "text": "Listening I'd do. Knocking on doors, no.",
       "uses": [
         {
           "subject": "scene",
@@ -70679,30 +70563,6 @@
       "move": "reply-ask",
       "kind": "spoken",
       "text": "What would you actually do first?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "vote-wanted",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "ask",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.how-would-you-pay-for-it",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How would you pay for it?",
       "uses": [
         {
           "subject": "scene",
@@ -82019,29 +81879,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.when-do-you-need-an-answer",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "When do you need an answer?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "invite-debate",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-stall.let-me-think-it-over-and-call-you-back",
       "move": "reply-stall",
       "kind": "spoken",
@@ -82837,29 +82674,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-can-t-talk-now-later",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I can't talk now. Later?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.let-s-talk-another-time",
       "move": "reply-leave",
       "kind": "spoken",
@@ -83636,29 +83450,6 @@
       "move": "reply-leave",
       "kind": "spoken",
       "text": "I need to go. Thanks, though.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "leave",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.can-we-talk-later",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Can we talk later?",
       "uses": [
         {
           "subject": "scene",
@@ -125135,30 +124926,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-want-to-check-one-number-first-can-i-call-you-back-before-you-file",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "I want to check one number first. Can I call you back before you file?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "press-comment.friendly",
-          "key": "routine"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, press-comment variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "stall",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.the-vote-is-on-the-record-start-there-then-ask-me-what-it-leaves-out",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -130294,31 +130061,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.then-let-s-call-it-a-trade-what-do-i-get-on-bill-that-i-didn-t-get-last-time",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Then let's call it a trade. What do I get on {bill} that I didn't get last time?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "ask-vote.trade",
-          "key": "vote-wanted",
-          "requiresFacts": ["bill"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.reply-bargain.i-ll-take-that-trade-if-you-carry-my-amendment-onto-bill",
       "move": "reply-bargain",
       "kind": "spoken",
@@ -134428,7 +134170,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
+          "key": "moving-goodbye",
+          "requiresFacts": ["why-given"]
         }
       ],
       "origin": "authored",
@@ -135531,81 +135274,6 @@
         }
       ],
       "bearing": "grieving",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "answer",
-        "key": "moving-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-just-time-i-can-t-say-it-better-than-that",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's just time. I can't say it better than that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "answer",
-        "key": "moving-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.a-lot-of-things-added-up-i-couldn-t-point-at-one",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "A lot of things added up. I couldn't point at one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye",
-          "after": "ask"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "answer",
-        "key": "moving-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-been-coming-for-a-while-i-finally-stopped-putting-it-off",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's been coming for a while. I finally stopped putting it off.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye",
-          "after": "ask"
-        }
-      ],
-      "bearing": "tender",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
       "date": "2026-11-08",
@@ -136742,7 +136410,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
+          "key": "moving-goodbye",
+          "requiresFacts": ["why-given"]
         }
       ],
       "origin": "authored",
@@ -136765,7 +136434,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
+          "key": "moving-goodbye",
+          "requiresFacts": ["why-given"]
         }
       ],
       "origin": "authored",
@@ -136788,7 +136458,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
+          "key": "moving-goodbye",
+          "requiresFacts": ["why-given"]
         }
       ],
       "origin": "authored",
@@ -144227,10 +143898,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.i-ll-find-you-again-before-the-day-is-over-if-that-s-alright",
+      "key": "scene-talk.close-press.i-had-to-ask-enjoy-the-day",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'll find you again before the day is over, if that's alright.",
+      "text": "I had to ask. Enjoy the day.",
       "uses": [
         {
           "subject": "scene",
@@ -144804,29 +144475,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-would-you-like-me-to-say-to-them",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What would you like me to say to them?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "gathering-ask",
-          "key": "loss"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
         "key": "loss"
       }
     },
@@ -181894,6 +181542,56 @@
       "tag": {
         "move": "comfort",
         "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-can-t-give-you-a-yes-today",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I can't give you a yes today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "appointment-offer",
+          "key": "honor",
+          "after": "offer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "stall",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-it-s-a-no-for-now-i-have-to-fill-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then it's a no for now. I have to fill it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "appointment-offer",
+          "key": "honor",
+          "after": "scene-talk.reply-stall.i-can-t-give-you-a-yes-today"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
       }
     }
   ]
