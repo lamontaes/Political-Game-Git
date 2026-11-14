@@ -30,7 +30,7 @@ checked:
 
 **Rules.** No dice. Sliding scales, never a threshold that flips. One rule, all 56 places: the check names its place and seed. Real vacancy durations calibrate, never target.
 
-**Done when.** A second session plays 1,095 days at Manley with the seed above and at two pinned places with foundings, and every founded business with an unfilled opening either hires, changes the opening, or withdraws it or closes by a cause named in its records, by organization id; a test beside src/core2/market-entry-opening-staff.test.ts covers it; a year of `speed:year` is within 20% of its base. On screen: the town's business list and its jobs.
+**Done when.** A second session plays 1,095 days at Manley with the seed above and in a drawn place where a business is founded (drawn again until one is, naming the places passed over), and every founded business with an unfilled opening either hires, changes the opening, or withdraws it or closes by a cause named in its records, by organization id; a test beside src/core2/market-entry-opening-staff.test.ts covers it; a year of `speed:year` is within 20% of its base. On screen: the town's business list and its jobs.
 
 **Waits on.** world-founded-business-outside-sales-flow-starts-at-zero (#9069, on its way to the train).
 
