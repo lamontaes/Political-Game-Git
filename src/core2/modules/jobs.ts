@@ -94,7 +94,7 @@ import { townOutsideOf } from "../opening-outside-market";
 import { townJobRate, townPayPercentile } from "../town-pay";
 import type { EntityId } from "../kernel/brands";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
-import { meetAtWork } from "../encounters";
+import { knownAmong, meetAtWork } from "../encounters";
 import { lawApplied } from "../law-reach/applied";
 import {
   addCountedJob,
@@ -119,7 +119,7 @@ import type {
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
-import { fillInPerson } from "../state";
+import { fillInPerson, personOrFillIn } from "../state";
 import { bookkeeping } from "../bookkeeping";
 import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
 
@@ -4667,6 +4667,50 @@ export function declineJobOffer(api: CoreAPI, offerId: string): boolean {
   return true;
 }
 
+/**
+ * The coworkers a new hire is to meet, nearest first: people in the same role
+ * work beside the hire, then the rest of the staff by id (`meetAtWork` meets
+ * as many as the staff's size lets one know). The person the player controls
+ * also meets the employer's counted coworkers: each one inside that room is
+ * filled in from the books (`personOrFillIn`, so the same household, job and
+ * pay the counts already held) and listed. Everyone else's hire lists full
+ * people only and fills in no one (two-level population).
+ */
+export function coworkersToMeet(
+  api: CoreAPI,
+  position: Pick<PositionRow, "organizationId" | "title">,
+  personId: string,
+): string[] {
+  const c = core(api);
+  const near = (a: JobInput, b: JobInput) =>
+    Number(b.title === position.title) - Number(a.title === position.title) ||
+    (a.personId < b.personId ? -1 : a.personId > b.personId ? 1 : 0);
+  const full = fullJobs(api, position.organizationId).sort(near);
+  if (!controlled(c, personId)) return full.map((row) => row.personId);
+  // One counted worker is one household's record: list each person once.
+  const counted = countedJobsOf(c, position.organizationId)
+    .filter((row) => row.personId !== personId)
+    .sort(near);
+  const jobs = [...full, ...counted].sort(near);
+  const knownIds = c.people.get(personId)?.knownIds;
+  // The room `meetAtWork` will allow for a list this long; people already
+  // known use it up the same way.
+  let room = knownAmong(api, jobs.length);
+  // The whole list goes to `meetAtWork`, which skips whoever is still counted
+  // and counts room as this loop does, so exactly the ones filled in here are met.
+  const ids = jobs
+    .filter((row) => row.personId !== personId)
+    .map((row) => row.personId);
+  for (const id of ids) {
+    if (room <= api.parameter("zero")) break;
+    // A worker returned to the counts keeps a record with no job (their job is a counted one), so they are filled in too.
+    const held = c.people.get(id);
+    if ((!held || isDemoted(held)) && !knownIds?.has(id)) personOrFillIn(c, id);
+    room -= api.parameter("one");
+  }
+  return ids;
+}
+
 function hire(
   api: CoreAPI,
   position: PositionRow,
@@ -4703,16 +4747,7 @@ function hire(
   }
   const pay = hirePay(api, position, person.id);
   const startsAt = addDays(makeIsoDate(api.state.date), 1);
-  // Nearest first: people in the same role work beside the hire, then the
-  // rest of the staff by id (`meetAtWork` meets as many as the staff's size lets one know).
-  const coworkerIds = fullJobs(api, position.organizationId)
-    .sort(
-      (a, b) =>
-        Number(b.title === position.title) -
-          Number(a.title === position.title) ||
-        (a.personId < b.personId ? -1 : a.personId > b.personId ? 1 : 0),
-    )
-    .map((row) => row.personId);
+  const coworkerIds = coworkersToMeet(api, position, person.id);
   const jobId = `job:${position.id}:${person.id}`,
     commitmentId = `work-commitment:${jobId}`;
   const jobSource = source(

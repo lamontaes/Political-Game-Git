@@ -1,5 +1,5 @@
 /** The Money screen reads the bank's published books and the household's claim. */
-import { bankDeposit } from "../core2/accounts";
+import { bankDeposit, personOutflowsForMonth } from "../core2/accounts";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { coreAPI } from "../core2/state";
@@ -9,8 +9,14 @@ import type { CoreState } from "../core2/types";
 // stopgapId: SG-BENCH-money-recent-months
 const RECENT_MONTHS = 6;
 const MONTH_LENGTH = "YYYY-MM".length;
-/** The ledger's reason on a household's everyday spending (EVERYDAY_LIVING_KIND, src/core2/cost-of-living.ts, outside the screens' import reach). */
-const EVERYDAY_LIVING_KIND = "household.everyday-living";
+/** Transfers that move the household's own money (savings) or are listed under their own heading (loan payments), not spending. */
+const NOT_SPENDING = new Set([
+  "bank-deposit",
+  "bank-withdrawal",
+  "credit.personal-loan",
+  "credit.personal-repayment",
+  "loan-payment",
+]);
 
 interface SpendingLine {
   reasonKey: string;
@@ -89,54 +95,31 @@ export function bankView(core: CoreState, personId: string) {
         cashMinor: Number(row.cashMinor),
       })),
   };
-  // Where last month's money went, by the ledger's reason: each standing bill's
-  // latest receipt, and the household's everyday living plan.
-  // stopgapId: SG-BENCH-money-spending-reasons
+  // Where last month's money went, by the ledger's reason: every transfer the
+  // household's members paid in the month just closed, as the accounts engine
+  // kept them. A member's month that began mid-watch is left out, never shown
+  // as the whole month.
   const spending = new Map<string, SpendingLine>();
-  const addSpending = (
-    reasonKey: string,
-    requestedMinor: number,
-    paidMinor: number,
-    id: string,
-  ) => {
-    const line = spending.get(reasonKey) ?? {
-      reasonKey,
-      requestedMinor: 0,
-      paidMinor: 0,
-      ids: [],
-    };
-    line.requestedMinor += requestedMinor;
-    line.paidMinor += paidMinor;
-    line.ids.push(id);
-    spending.set(reasonKey, line);
-  };
-  // The month before the credit engine's latest review: the one just closed.
-  const since = addDays(
+  const closedMonth = addDays(
     makeIsoDate(
       `${String(month?.date ?? core.date).slice(0, MONTH_LENGTH)}-01`,
     ),
     -1,
   ).slice(0, MONTH_LENGTH);
-  for (const id of core.finance.obligationsByHousehold.get(
-    person.householdId,
-  ) ?? []) {
-    const receipt = core.finance.latestReceiptsByContract.get(id);
-    if (receipt && String(receipt.date).slice(0, MONTH_LENGTH) >= since)
-      addSpending(
-        receipt.kind,
-        receipt.requestedMinor,
-        receipt.paidMinor,
-        receipt.id,
-      );
-  }
-  const plan = core.finance.livingPlans.get(person.householdId);
-  if (plan?.lastAt && plan.lastAt.slice(0, MONTH_LENGTH) >= since)
-    addSpending(
-      EVERYDAY_LIVING_KIND,
-      plan.lastRequestedMinor,
-      plan.lastPaidMinor,
-      `living:${person.householdId}:${plan.lastAt}`,
-    );
+  for (const member of members)
+    for (const out of personOutflowsForMonth(core, member!.id, closedMonth)) {
+      if (NOT_SPENDING.has(out.reasonKey)) continue;
+      const line = spending.get(out.reasonKey) ?? {
+        reasonKey: out.reasonKey,
+        requestedMinor: 0,
+        paidMinor: 0,
+        ids: [],
+      };
+      line.requestedMinor += out.requestedMinor;
+      line.paidMinor += out.paidMinor;
+      line.ids.push(out.lastTransferId);
+      spending.set(out.reasonKey, line);
+    }
   // Assets: the deposit at the bank, and a home the household owns.
   const housing = core.modules.has(HOUSING_MODULE_ID)
     ? coreAPI(core).moduleState(HOUSING_MODULE_ID)
