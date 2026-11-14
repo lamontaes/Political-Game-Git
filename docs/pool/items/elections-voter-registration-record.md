@@ -5,10 +5,10 @@ area: elections
 kind: feature
 priority: 2
 size: L
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9323
 blocked-on:
 source: "coordinator, Nov 14, after the polling-place scene items found no cause behind a problem at the polls"
 lead: elections
