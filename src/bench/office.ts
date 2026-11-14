@@ -348,7 +348,7 @@ export function leaveHoldsToCharacter(core: CoreState, holderId?: string) {
       takeUpItem(api, meeting.id, billId, "own");
     adjourn(api, meeting.id);
   }
-  for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
+  for (const bill of deskWaiting(api, true)) leaveDeskToCharacter(api, bill.id);
   if (holderId)
     for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
 }
