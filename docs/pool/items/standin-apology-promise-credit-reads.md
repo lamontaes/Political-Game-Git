@@ -33,3 +33,7 @@ root: design-life-record
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/quarrel.ts, src/core2/modules/partnerships.ts, src/director/purpose-scene.ts, src/director/data/stopgaps.json
+
+**Notes.**
+
+- Nov 14: built on branch claude/project-thread-yq65dx with the promise record (src/director/promises.ts, promise-kinds.json `pay-on-time`): the apology's promise is a kept fact held by the borrower, broken by their next `credit.payment-missed`, kept when the window closes; SG-WORDS-apology-promise-unread removed. Every quarrel on record is a money quarrel, so no variant needed cutting.

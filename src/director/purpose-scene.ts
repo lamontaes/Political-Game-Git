@@ -643,7 +643,7 @@ function composeBinding(
   // down or a person held before trial, with how long, the day they get out,
   // the bail, whether the term ended their job and the child at home, each
   // cited to the records it came from. stopgapId:
-  // SG-WORDS-homecoming-stay-unread, SG-WORDS-prison-visit-limits-fixed
+  // SG-WORDS-prison-visit-limits-fixed
   for (const [key, fact] of Object.entries(
     custodyFacts(core, record, askerId, askedId),
   ))
@@ -651,7 +651,7 @@ function composeBinding(
   // A first meeting or a tie that grew (the jobs, school and parties engines'
   // records): the employer, the job, the school, the children at one school,
   // the party and the town the two share or do not. stopgapId:
-  // SG-WORDS-meeting-no-club-records, SG-WORDS-meeting-promise-unread
+  // SG-WORDS-meeting-no-club-records
   for (const [key, fact] of Object.entries(
     meetingFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
   ))
@@ -1887,7 +1887,8 @@ export function replyInScene(
       ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       // A promise a record can settle: its kind and its tie, from the
-      // ending's row in data/promise-kinds.json (promises.ts).
+      // ending's row in data/promise-kinds.json (promises.ts). stopgapId:
+      // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
       ...(ending ? promiseReplyFacts({ ...scene, endingId: ending.id }) : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       ...(conceded ? { conceded } : {}),

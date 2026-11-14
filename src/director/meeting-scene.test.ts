@@ -287,6 +287,8 @@ it(`a new coworker introduces themselves and asks something from the records (se
       expect(reply?.facts?.causeId, where).toBe(moment.causeId);
       expect(reply?.facts?.ending, where).toBe("took-them-in-hand");
       expect(reply?.facts?.keeps, where).toBe("promise");
+      // The kind of promise and the record that will settle it (promises.ts).
+      expect(reply?.facts?.promise, where).toBe("show-around");
       expect(reply?.personIds, where).toContain(idle.id);
       // A put-off that is pressed strains the tie, on the same cause. Whether
       // it is pressed is the newcomer's own answer, led by their traits (no
@@ -390,7 +392,7 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     const root = scene.talk.tree.replies.map((reply) => reply.line);
     expectUpToFourDifferent(root, where);
     for (const row of root)
-      expect(["agree", "promise", "ask", "decline"], where).toContain(row.move);
+      expect(["agree", "ask", "decline"], where).toContain(row.move);
     expect(scene.talk.depth, where).toBeGreaterThan(1);
     expect(
       scene.talk.gaps.filter((gap) => gap.includes("/ending/")),
@@ -398,8 +400,8 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     ).toEqual([]);
     for (const row of scene.talk.lines)
       expect(row.text, where).not.toMatch(SLOP);
-    const settled = endsKeeping(scene.talk.tree, "promise")[0];
-    expect(settled, `${where}: no path keeps a promise`).toBeTruthy();
+    const settled = endsKeeping(scene.talk.tree, "kept-in-scene")[0];
+    expect(settled, `${where}: no path settles in the scene`).toBeTruthy();
     const before = core.relationships.get(
       [...(core.relationshipsByPerson.get(id) ?? [])].find(
         (rid) =>
@@ -414,7 +416,7 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     expect(reply?.facts?.typeKey, where).toBe("becoming-friends");
     expect(reply?.facts?.causeId, where).toBe(moment.causeId);
     expect(reply?.facts?.ending, where).toBe("said-yes-to-friend");
-    expect(reply?.facts?.keeps, where).toBe("promise");
+    expect(reply?.facts?.keeps, where).toBe("kept-in-scene");
     expect(reply?.personIds, where).toContain(otherId);
     // The talk is time together: the tie's last contact is today.
     const tie = core.relationships.get(moment.causeId)!;

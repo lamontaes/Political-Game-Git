@@ -129,9 +129,7 @@ it(`a relative's letter asks for something, from the kin-contact record that wro
       const root = scene.talk.tree.replies.map((reply) => reply.line);
       expectUpToFourDifferent(root, where);
       for (const row of root)
-        expect(["agree", "promise", "ask", "decline"], where).toContain(
-          row.move,
-        );
+        expect(["agree", "ask", "decline"], where).toContain(row.move);
       expect(scene.talk.depth, where).toBeGreaterThan(1);
       expect(
         scene.talk.gaps.filter((gap) => gap.includes("/ending/")),
@@ -143,8 +141,8 @@ it(`a relative's letter asks for something, from the kin-contact record that wro
       const said = scene.talk.lines.map((row) => row.text).join(" | ");
       if (!replied) {
         replied = true;
-        const settled = endsKeeping(scene.talk.tree, "promise")[0];
-        expect(settled, `${where}: no path keeps a promise`).toBeTruthy();
+        const settled = endsKeeping(scene.talk.tree, "kept-in-scene")[0];
+        expect(settled, `${where}: no path settles in the scene`).toBeTruthy();
         const replyId = replyInScene(core, director, id, entry, settled!.full, {
           typeKey: "letter",
         });
@@ -152,7 +150,7 @@ it(`a relative's letter asks for something, from the kin-contact record that wro
         expect(reply?.facts?.typeKey, where).toBe("letter");
         expect(reply?.facts?.causeId, where).toBe(moment.causeId);
         expect(reply?.facts?.ending, where).toBe("wrote-back-yes");
-        expect(reply?.facts?.keeps, where).toBe("promise");
+        expect(reply?.facts?.keeps, where).toBe("kept-in-scene");
         expect(reply?.personIds, where).toContain(writerId);
         const sour = endsKeeping(scene.talk.tree, "relationship-strained")[0];
         const sourId = sour

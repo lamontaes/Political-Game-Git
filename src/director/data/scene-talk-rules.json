@@ -85,7 +85,7 @@
     }
   },
   "endingStrain": {
-    "about": "What an ending that strains a tie writes to closeness (the plan of Oct 28, section 3: each ending's keeps is a write to the engine that owns it). The closeness engine reads negative hours as a quarrel, tempered by who holds on to it. An ending that keeps a favor or a promise is written on the scene's record (facts keeps and ending) for the legislature's obligations and the campaigns engine's promises to read (SG-WORDS-favor-promise-keeps-unread).",
+    "about": "What an ending that strains a tie writes to closeness (the plan of Oct 28, section 3: each ending's keeps is a write to the engine that owns it). The closeness engine reads negative hours as a quarrel, tempered by who holds on to it. A negative value warms the tie (an ending settled in the scene). An ending that keeps a favor or a promise is written on the scene's record (facts keeps and ending, and for a promise its kind and tie from promise-kinds.json); the director keeps it and settles it (src/director/promises.ts).",
     "relationship-strained": {
       "value": 1,
       "tag": "TUNABLE",
@@ -97,6 +97,12 @@
       "tag": "TUNABLE",
       "spread": [1, 4],
       "checkedAgainst": "Twice a strained ending: trust lost (a lie found out, a promise broken to their face) costs more than a talk left unfinished."
+    },
+    "kept-in-scene": {
+      "value": -1,
+      "tag": "TUNABLE",
+      "spread": [-2, -0.5],
+      "checkedAgainst": "A yes the scene itself settles (a toast at the party, a yes with nothing owed later; Words lead, promises rulings 1, Nov 14): it warms the tie by one talk's time now, the mirror of a strained ending, and nothing is kept to settle later."
     }
   },
   "timeOfDay": {

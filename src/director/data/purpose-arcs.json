@@ -3505,24 +3505,23 @@
     },
     "homecoming": {
       "state": "request",
-      "replies": ["agree", "promise", "ask", "deflect"],
+      "replies": ["agree", "ask", "deflect"],
       "follow": {
         "agree": ["thank", "accept"],
-        "promise": ["thank", "press"],
         "ask": ["answer"],
         "deflect": ["press", "accept"]
       },
       "again": {
-        "press": ["agree", "promise", "leave"],
-        "answer": ["agree", "promise", "deflect"]
+        "press": ["agree", "leave"],
+        "answer": ["agree", "deflect"]
       },
       "endings": [
         {
           "id": "settled-what-comes-next",
           "label": "You settled what comes next",
-          "keeps": "promise",
+          "keeps": "kept-in-scene",
           "when": {
-            "anyReply": ["agree", "promise"]
+            "anyReply": ["agree"]
           }
         },
         {
@@ -3622,24 +3621,23 @@
     },
     "friend-ask": {
       "state": "request",
-      "replies": ["agree", "promise", "ask", "decline"],
+      "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": ["thank", "accept"],
-        "promise": ["thank", "press"],
         "ask": ["answer"],
         "decline": ["accept", "press"]
       },
       "again": {
-        "press": ["agree", "promise", "leave"],
-        "answer": ["agree", "promise", "decline"]
+        "press": ["agree", "leave"],
+        "answer": ["agree", "decline"]
       },
       "endings": [
         {
           "id": "said-yes-to-friend",
           "label": "You said you would be there",
-          "keeps": "promise",
+          "keeps": "kept-in-scene",
           "when": {
-            "anyReply": ["agree", "promise"]
+            "anyReply": ["agree"]
           }
         },
         {
@@ -3661,24 +3659,23 @@
     },
     "letter-ask": {
       "state": "request",
-      "replies": ["agree", "promise", "ask", "decline"],
+      "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": ["thank", "accept"],
-        "promise": ["thank", "press"],
         "ask": ["answer"],
         "decline": ["press", "accept"]
       },
       "again": {
-        "press": ["agree", "promise", "leave"],
-        "answer": ["agree", "promise", "decline"]
+        "press": ["agree", "leave"],
+        "answer": ["agree", "decline"]
       },
       "endings": [
         {
           "id": "wrote-back-yes",
           "label": "You wrote back that you would",
-          "keeps": "promise",
+          "keeps": "kept-in-scene",
           "when": {
-            "anyReply": ["agree", "promise"]
+            "anyReply": ["agree"]
           }
         },
         {
@@ -3715,7 +3712,7 @@
         {
           "id": "said-yes-at-the-party",
           "label": "You said yes when they asked",
-          "keeps": "promise",
+          "keeps": "kept-in-scene",
           "when": {
             "anyReply": ["agree", "promise"]
           }
@@ -3739,24 +3736,23 @@
     },
     "gathering-ask": {
       "state": "request",
-      "replies": ["agree", "promise", "ask", "decline"],
+      "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": ["thank", "accept"],
-        "promise": ["thank", "press"],
         "ask": ["answer"],
         "decline": ["press", "accept"]
       },
       "again": {
-        "press": ["agree", "promise", "leave"],
-        "answer": ["agree", "promise", "decline"]
+        "press": ["agree", "leave"],
+        "answer": ["agree", "decline"]
       },
       "endings": [
         {
           "id": "said-you-would-reach-out",
           "label": "You said you would reach out",
-          "keeps": "promise",
+          "keeps": "kept-in-scene",
           "when": {
-            "anyReply": ["agree", "promise"]
+            "anyReply": ["agree"]
           }
         },
         {
@@ -3778,24 +3774,23 @@
     },
     "rescue-ask": {
       "state": "request",
-      "replies": ["agree", "promise", "ask", "decline"],
+      "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": ["thank", "accept"],
-        "promise": ["thank", "press"],
         "ask": ["answer"],
         "decline": ["press", "accept"]
       },
       "again": {
-        "press": ["agree", "promise", "leave"],
-        "answer": ["agree", "promise", "decline"]
+        "press": ["agree", "leave"],
+        "answer": ["agree", "decline"]
       },
       "endings": [
         {
           "id": "said-yes-after-the-rescue",
           "label": "You said yes to the one who got you help",
-          "keeps": "promise",
+          "keeps": "kept-in-scene",
           "when": {
-            "anyReply": ["agree", "promise"]
+            "anyReply": ["agree"]
           }
         },
         {

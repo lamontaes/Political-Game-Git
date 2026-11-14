@@ -136578,29 +136578,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll do my part. You'll see.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, return and visit purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.what-do-you-need-most-right-now",
       "move": "reply-ask",
       "kind": "spoken",
@@ -136716,54 +136693,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-ask-around-at-work-this-week-somebody-knows-somebody-who-hires",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll ask around this week. Somebody knows somebody who hires.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, return and visit purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-start-looking-this-week-and-i-ll-tell-you-how-it-goes-you-won-t-carry-this-alone",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll start looking this week, and I'll tell you how it goes. You won't carry this alone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, return and visit purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "arrival"
       }
     },
@@ -136913,30 +136842,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I mean it. You'll see it this week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "after": "press"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, return and visit purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.i-can-t-keep-doing-this-tonight-we-ll-finish-tomorrow",
       "move": "reply-leave",
       "kind": "spoken",
@@ -137007,30 +136912,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-start-on-it-tomorrow-and-i-ll-tell-you-how-it-goes",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll start on it tomorrow, and I'll tell you how it goes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, return and visit purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "arrival"
       }
     },
@@ -137383,30 +137264,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-do-my-part-first-you-ll-see",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll do my part, {first}. You'll see.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, return and visit purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "arrival"
       }
     },
@@ -140272,52 +140129,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-make-it-work-you-have-my-word",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll make it work. You have my word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-will-do-it-and-you-won-t-have-to-remind-me",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll do it, and you won't have to remind me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.when-do-you-need-me",
       "move": "reply-ask",
       "kind": "spoken",
@@ -140434,30 +140245,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-look-at-what-i-have",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll do it, I promise. Let me look at what I have.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "after": "press"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.i-m-sorry-but-i-can-t-stay-and-argue-about-it-let-s-pick-it-back-up-tomorrow",
       "move": "reply-leave",
       "kind": "spoken",
@@ -140502,30 +140289,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "agree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-be-there-and-you-can-count-on-me",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll be there, and you can count on me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "routine"
       }
     },
@@ -140774,30 +140537,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-remember-this-first-you-can-ask-me-for-the-same",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll remember this, {first}. You can ask me for the same.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "friend-ask",
-          "key": "routine"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "routine"
       }
     },
@@ -141359,52 +141098,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll do it, and I give you my word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, reunion and letter purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-write-you-again-soon-and-i-ll-make-it-happen",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll write you again soon, and I'll make it happen.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, reunion and letter purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.can-you-tell-me-more-about-what-you-re-asking",
       "move": "reply-ask",
       "kind": "spoken",
@@ -141521,30 +141214,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-i-just-need-to-sort-out-my-days-first",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll do it, I promise. I just need to sort out my days first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "press"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, reunion and letter purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.i-d-rather-not-go-back-and-forth-about-it-in-letters-i-ll-write-when-i-m-ready",
       "move": "reply-leave",
       "kind": "spoken",
@@ -141589,30 +141258,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "agree",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "You can count on me. I'll do it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "answer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, reunion and letter purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "news-received"
       }
     },
@@ -141861,30 +141506,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-write-again-soon-first-take-care-of-yourself",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll write again soon, {first}. Take care of yourself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, reunion and letter purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "news-received"
       }
     },
@@ -143513,52 +143134,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.you-have-my-word-i-ll-make-sure-they-hear-from-me",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "You have my word. I'll make sure they hear from me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "gathering-ask",
-          "key": "loss"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-make-it-happen-and-i-won-t-let-it-slide",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll make it happen, and I won't let it slide.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "gathering-ask",
-          "key": "loss"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.what-would-you-like-me-to-say-to-them",
       "move": "reply-ask",
       "kind": "spoken",
@@ -143675,30 +143250,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-i-need-to-work-out-what-to-say-first",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll do it, I promise. I need to work out what to say first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "gathering-ask",
-          "key": "loss",
-          "after": "press"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.i-don-t-want-to-argue-about-it-i-ll-get-in-touch-with-them-when-i-m-ready",
       "move": "reply-leave",
       "kind": "spoken",
@@ -143743,30 +143294,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "agree",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-take-care-of-it-and-you-have-my-word",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll take care of it, and you have my word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "gathering-ask",
-          "key": "loss",
-          "after": "answer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "loss"
       }
     },
@@ -144015,30 +143542,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-keep-the-family-posted-first-thank-you-for-doing-this",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll keep the family posted, {first}. Thank you for doing this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "gathering-ask",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "loss"
       }
     },
@@ -144570,98 +144073,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "You have my word. I'll do it, and I won't put it off.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "rescue-ask",
-          "key": "threat"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, rescue purpose)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I promise. You were there when I needed someone, and I won't forget it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "rescue-ask",
-          "key": "threat"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, rescue purpose)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll do it. I promise.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "rescue-ask",
-          "key": "threat"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, rescue purpose)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I promise. I know what it cost you to stand there and wait for help.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "rescue-ask",
-          "key": "threat"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, rescue purpose)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.what-are-you-most-afraid-will-happen-if-i-don-t",
       "move": "reply-ask",
       "kind": "spoken",
@@ -145022,30 +144433,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "thank",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-be-right-here-first-whatever-you-need-just-say-so",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll be right here, {first}. Whatever you need, just say so.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "rescue-ask",
-          "key": "threat"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, rescue purpose)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "threat"
       }
     },
@@ -156392,56 +155779,6 @@
       "date": "2026-11-10"
     },
     {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "press"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      },
-      "key": "scene-talk.reply-promise.i-will-give-me-a-little-time-to-sort-my-days",
-      "text": "I will. Give me a little time to sort my days.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "press"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      },
-      "key": "scene-talk.reply-promise.you-have-my-word-i-need-to-clear-my-days-first",
-      "text": "You have my word. I need to clear my days first.",
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
-    },
-    {
       "move": "close-accept",
       "kind": "spoken",
       "uses": [
@@ -156644,56 +155981,6 @@
       "date": "2026-11-10"
     },
     {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "answer"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      },
-      "key": "scene-talk.reply-promise.okay-then-i-ll-do-it-i-m-in",
-      "text": "Okay, then I'll do it. I'm in.",
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "answer"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      },
-      "key": "scene-talk.reply-promise.i-ll-be-there-you-have-my-promise",
-      "text": "I'll be there. You have my promise.",
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
-    },
-    {
       "move": "close-accept",
       "kind": "spoken",
       "uses": [
@@ -156839,56 +156126,6 @@
       "key": "scene-talk.reply-decline.i-see-why-you-asked-i-still-can-t-i-m-sorry",
       "text": "I see why you asked. I still can't. I'm sorry.",
       "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "gathering-ask",
-          "key": "loss",
-          "after": "answer"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      },
-      "key": "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-      "text": "I'll see to it. You have my word.",
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "gathering-ask",
-          "key": "loss",
-          "after": "answer"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      },
-      "key": "scene-talk.reply-promise.it-s-in-my-hands-now-i-ll-see-to-it",
-      "text": "It's in my hands now. I'll see to it.",
-      "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
       "date": "2026-11-10"
@@ -157477,104 +156714,6 @@
       "key": "scene-talk.reply-leave.let-s-not-argue-i-ll-contact-them-when-i-can",
       "text": "Let's not argue. I'll contact them when I can.",
       "bearing": "tired",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "gathering-ask",
-          "key": "loss",
-          "after": "press"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      },
-      "key": "scene-talk.reply-promise.i-will-i-just-need-to-work-out-what-to-say",
-      "text": "I will. I just need to work out what to say.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "gathering-ask",
-          "key": "loss",
-          "after": "press"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      },
-      "key": "scene-talk.reply-promise.you-have-my-word-i-need-the-right-words-first",
-      "text": "You have my word. I need the right words first.",
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "gathering-ask",
-          "key": "loss"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      },
-      "key": "scene-talk.close-promise.i-ll-let-the-family-know-how-it-goes-thank-you",
-      "text": "I'll let the family know how it goes. Thank you.",
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "gathering-ask",
-          "key": "loss"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      },
-      "key": "scene-talk.close-promise.the-family-will-hear-how-it-goes-i-m-grateful",
-      "text": "The family will hear how it goes. I'm grateful.",
-      "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 2)",
       "date": "2026-11-10"
@@ -158569,78 +157708,6 @@
       "bearing": "steady",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      },
-      "key": "scene-talk.close-promise.i-ll-write-again-soon-take-care-of-yourself-first",
-      "text": "I'll write again soon. Take care of yourself, {first}.",
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      },
-      "key": "scene-talk.close-promise.look-after-yourself-i-ll-write-again-soon",
-      "text": "Look after yourself. I'll write again soon.",
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      },
-      "key": "scene-talk.close-promise.i-ll-send-another-letter-soon-take-care",
-      "text": "I'll send another letter soon. Take care.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
       "date": "2026-11-10"
     },
     {
