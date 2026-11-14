@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: S4 (Fix town job titles and labels)
-pr:
+pr: 9144
 blocked-on:
 source: Words lead, Nov 14 (Your office acts rows; Paris, Michigan; Edgar, Wisconsin special U.S. Senate race at the filing counter)
 lead: words
@@ -18,7 +18,7 @@ root: design-words-machine
 after:
 ---
 
-**What.** Four labels a player reads: the acts rows in Your office print the stored vote word ("yes", "abstain"); a charter township's board is said "Charter Township of Green Township Board"; the clerk at the filing counter says "Your name's in for the senate in Edgar." for a U.S. Senate race; and a district's seat there is "the seat".
+**What.** The acts rows in Your office print the stored vote word ("yes", "abstain"). A charter township's board is said "Charter Township of Green Township Board". The clerk at the filing counter says "Your name's in for the senate in Edgar." for a U.S. Senate race, and a district's seat there is "the seat". Seen: Your office, the office and meeting panels, and the clerk's counter.
 
 **Cause.** Found in code: `officeActsOf` keeps the vote as the engine's word and the office screen prints `a.detail` as stored (`src/bench/play.mjs`); `placeOfBody` in `src/core2/offices-local.ts` matches only "Town|Village|City|Plantation|Township of"; `seatSaid` in `src/english/journal-words.ts` says any body after the first mention by its last word and the counter's `{place}` fact is always the player's town (`placeFact` in `src/director/filing-visit.ts`).
 

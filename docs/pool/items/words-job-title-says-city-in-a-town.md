@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by:
-pr:
+pr: 9144
 blocked-on:
 source: Words builder B and the Words lead, Nov 14, cards in Ranchester and Raymond ("city clerk at the Town of Ranchester"; "city attorney at the City of Raymond" says city twice)
 lead: words
