@@ -25,10 +25,12 @@ function run(killAfterPrint: boolean) {
   const place = drawPlace("pl1", "police-log");
   const where = `${place.name} (${place.key}), seed pl1, ${killAfterPrint ? "reporters die after the log printed" : "reporters die before the log is filed"}`;
   setBookkeeping(false);
+  const t0 = performance.now();
   const core = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
   }).core;
+  const built = performance.now() - t0;
   const api = coreAPI(core);
   const outlets = () =>
     api
@@ -62,24 +64,30 @@ function run(killAfterPrint: boolean) {
   // The first month's log (the game's second month) is filed once the month
   // has closed; stage the deaths around it.
   if (!killAfterPrint) {
-    step(20);
+    // The month's log is filed on the first of the next month (here March
+    // 1, 2025, from a start of January 20): the reporters die a few days
+    // before.
+    step(36);
     kill();
   }
   let printed = new Map<string, Set<string>>();
-  for (let day = 0; day < 75 && printed.size === 0; day += 3) {
-    step(3);
+  // Reach the first filing in a few big steps, then a day at a time, so the
+  // case stops on the day the log prints.
+  if (killAfterPrint) step(36);
+  for (let day = 0; day < 40 && printed.size === 0; day += 1) {
+    step(1);
     printed = logs();
   }
   if (killAfterPrint) {
     kill();
-    for (let day = 0; day < 21; day += 3) step(3);
+    step(10);
     printed = logs();
   }
   const after = recordOutletOf(api);
   const first = [...printed.keys()].sort()[0];
   appendFileSync(
     path.join(tmpdir(), "printed-police-log-handoff-proof.txt"),
-    `${where}: record before ${oldRecord.organizationId}; after ${outlets().find((o) => o.id === after)?.organizationId}; ${[...printed].map(([k, v]) => `${k} in ${[...v].join(", ")}`).join("; ")}\n`,
+    `${where}: build ${(built / 1000).toFixed(1)}s, total ${((performance.now() - t0) / 1000).toFixed(1)}s, start ${gameStartDate()}; record before ${oldRecord.organizationId}; after ${outlets().find((o) => o.id === after)?.organizationId}; ${[...printed].map(([k, v]) => `${k} in ${[...v].join(", ")}`).join("; ")}\n`,
   );
   return { where, oldRecord, after, printed, first, outlets: outlets() };
 }
@@ -91,7 +99,7 @@ it("a record outlet whose reporters died before the log is filed does not print 
   const by = [...r.printed.get(r.first!)!];
   const newRecord = r.outlets.find((o) => o.id === r.after)!.organizationId;
   expect(by, r.where).toEqual([newRecord]);
-}, 600_000);
+}, 65_000);
 
 it("after the log printed, the reporters die: what the new record prints is named", () => {
   const r = run(true);
@@ -101,4 +109,4 @@ it("after the log printed, the reporters die: what the new record prints is name
   // One log, printed once, by the outlet that was the record when it ran.
   expect(by, r.where).toEqual([r.oldRecord.organizationId]);
   expect(by).not.toContain(newRecord);
-}, 600_000);
+}, 65_000);
