@@ -304,7 +304,7 @@ const EVENING_AHEAD = new Set([
   "scene-talk.follow-thank.i-ll-write-it-tonight",
   "scene-talk.reply-offer.my-office-will-give-you-the-name-and-the-number-tonight",
   "scene-talk.follow-thank.tonight-thank-you",
-  "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-i-ll-name-it-with-you-tonight",
+  "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-we-ll-talk-about-it-toni",
   "scene-talk.reply-deflect.give-me-tonight-sunday-we-sit-down-with-the-bills-and-count-it-all",
   "scene-talk.follow-plea.pick-a-number-and-say-it-tonight",
   "scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight",

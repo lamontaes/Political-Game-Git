@@ -19,6 +19,7 @@
  * A reviewer writes `{ rule, verdicts: [{ id, passes, why }] }` beside each
  * sheet; `npm run words:verdicts -- --from <dir>` folds them into the store.
  */
+import { execFileSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import type { PartGradeLedger } from "../../src/english/english-grades";
@@ -27,6 +28,7 @@ import type { RulePiece } from "../../src/english/line-rules";
 import {
   exchangePairs,
   playableParts,
+  PARTS_DIR,
   readBankPieces,
   readLedger,
   readRules,
@@ -52,12 +54,14 @@ import {
   exchangeSubjects,
   judgesExchanges,
   judgesLines,
+  judgesPaths,
   lineSubjects,
   pieceVerdictId,
   type LineRule,
 } from "../../src/english/line-rules";
 import { talkReplyFlow, talkScenes } from "../../src/director/scene-talk";
 import { readStore, rubricOf, storeName } from "./verdicts";
+import { scenePaths, type PathSubject } from "./scene-paths";
 import {
   buildTalks,
   observedPairs,
@@ -234,6 +238,41 @@ export interface ExchangeSheet {
 }
 
 /**
+ * The keys of the bank lines that are new, or say different words, since the
+ * commit `ref`: what a words builder added on a branch, or what a merge
+ * brought in. A pair made only of lines that were there in the same words is
+ * left out, so a builder judges only the pairs their lines made.
+ */
+export function changedSince(
+  ref: string,
+  pieces: readonly RulePiece[] = readBankPieces(),
+): Set<string> {
+  const run = (args: string[]) =>
+    execFileSync("git", args, {
+      encoding: "utf8",
+      maxBuffer: 256 * 1024 * 1024,
+    });
+  const before = new Map<string, string>();
+  for (const name of run(["ls-tree", "--name-only", `${ref}:${PARTS_DIR}`])
+    .split("\n")
+    .filter((entry) => entry.endsWith(".json"))) {
+    const bank = JSON.parse(run(["show", `${ref}:${PARTS_DIR}/${name}`])) as {
+      parts?: { key: string; text: unknown }[];
+    };
+    for (const part of bank.parts ?? [])
+      before.set(
+        part.key,
+        typeof part.text === "string" ? part.text : JSON.stringify(part.text),
+      );
+  }
+  return new Set(
+    pieces
+      .filter((piece) => before.get(piece.key) !== piece.text)
+      .map((piece) => piece.key),
+  );
+}
+
+/**
  * The sheets for a `judged` exchange rule: every line it judges with no
  * verdict yet on some subject, each with the lines it can answer
  * (`exchangeSubjects`); a reviewer judges each pair, the line after that line.
@@ -248,6 +287,8 @@ export function exchangeSheets(
   perFile = 400,
   /** Only these pairs (`before\u0000reply`), and the lines judged alone: the pairs built scenes produced. */
   only?: ReadonlySet<string>,
+  /** Only subjects with a line in these keys: the lines new or reworded since a commit (`changedSince`). */
+  changed?: ReadonlySet<string>,
 ): Map<string, ExchangeSheet> {
   if (!judgesExchanges(rule))
     throw new Error(`${rule.id} does not judge an exchange`);
@@ -255,6 +296,7 @@ export function exchangeSheets(
   const rows = new Map<string, ExchangeSheetLine>();
   for (const subject of exchangeSubjects(rule, pieces, ledger, pairs)) {
     if (verdictOf(store, subject.id) !== undefined) continue;
+    if (changed && !subject.keys.some((key) => changed.has(key))) continue;
     if (
       only &&
       subject.keys.length === 2 &&
@@ -308,6 +350,64 @@ export function exchangeSheets(
 
 /** Built scenes by count: the director builds the same ones every time. */
 const TALKS = new Map<number, ReturnType<typeof buildTalks>>();
+
+/** How many built scenes a path rule's subjects and sheets read. */
+export const PATH_SCENES = 240;
+
+/** The first `count` built scenes, built once. */
+export function builtTalks(count = PATH_SCENES): ReturnType<typeof buildTalks> {
+  let talks = TALKS.get(count);
+  if (!talks) {
+    talks = buildTalks({}, count);
+    TALKS.set(count, talks);
+  }
+  return talks;
+}
+
+/** A path rule's subjects in the built scenes (`scenePaths`). */
+export const pathsOf = (rule: LineRule): PathSubject[] =>
+  scenePaths(rule, readBankPieces(), builtTalks());
+
+/** One path on a sheet: the scene's lines up to the one judged, as composed. */
+export interface PathSheet {
+  readonly rule: string;
+  readonly rubric: string;
+  readonly from: LineRule["from"];
+  readonly paths: readonly {
+    readonly id: string;
+    readonly scene: string;
+    readonly scenes: number;
+    readonly lines: PathSubject["lines"];
+    readonly after: PathSubject["after"];
+  }[];
+}
+
+/** Sheets of the paths the rule judges that have no verdict yet. */
+export function pathSheets(
+  rule: LineRule,
+  paths: readonly PathSubject[],
+  store: JudgedStore,
+  perFile = 85,
+): Map<string, PathSheet> {
+  const open = paths.filter(
+    (path) => !store.yes.has(path.id) && !store.no.has(path.id),
+  );
+  const files = new Map<string, PathSheet>();
+  for (let k = 0; k * perFile < open.length; k += 1)
+    files.set(`${rule.id}.${k + 1}.json`, {
+      rule: rule.id,
+      rubric: rubricOf(rule),
+      from: rule.from,
+      paths: open.slice(k * perFile, (k + 1) * perFile).map((path) => ({
+        id: path.id,
+        scene: path.scene,
+        scenes: path.scenes,
+        lines: path.lines,
+        after: path.after,
+      })),
+    });
+  return files;
+}
 
 /** The sheets for these options: pure of the disk apart from reading the bank and verdicts. */
 export function sheetsFor(options: SheetOptions = {}): SheetsResult {
@@ -442,6 +542,24 @@ function main() {
     throw new Error("--out must be a directory outside the repository");
   const rule = readRules().find((row) => row.id === ruleId);
   if (!rule) throw new Error(`no rule ${ruleId} in ${RULES_FILE}`);
+  if (judgesPaths(rule)) {
+    const files = pathSheets(
+      rule,
+      pathsOf(rule),
+      readStore(storeName(rule)),
+      value("--per-file") ? Number(value("--per-file")) : 85,
+    );
+    mkdirSync(out, { recursive: true });
+    let count = 0;
+    for (const [name, sheet] of files) {
+      count += sheet.paths.length;
+      writeFileSync(join(out, name), `${JSON.stringify(sheet, null, 1)}\n`);
+    }
+    console.log(
+      `${rule.id}: ${count} scene paths with no verdict, from ${PATH_SCENES} built scenes, in ${files.size} files. Wrote them to ${out}.`,
+    );
+    return;
+  }
   if (judgesExchanges(rule)) {
     const observedCount = argv.includes("--observed")
       ? Number(value("--observed") ?? 240)
@@ -462,6 +580,7 @@ function main() {
       exchangePairs(),
       value("--per-file") ? Number(value("--per-file")) : 400,
       only,
+      value("--since") ? changedSince(value("--since")!) : undefined,
     );
     mkdirSync(out, { recursive: true });
     let lines = 0;

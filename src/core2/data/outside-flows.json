@@ -10,6 +10,12 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "campaign-purchase",
+      "matchedBy": "goods-and-services",
+      "what": "A campaign's polls, mailer print, postage and hall rent bought from sellers outside the town: the region's pollsters, printers and halls, and the Postal Service."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "residents",
       "matchedBy": "goods-and-services",
       "what": "Counted households' purchases from outside sellers and pay from outside employers, through the residents engine's pooled account."

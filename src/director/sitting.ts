@@ -17,8 +17,9 @@
  * Nothing is typed here. Every line is a piece of the conversation bank
  * (`data/english/parts/conversation.json`), and a piece is said only when the
  * record holds the fact it needs: a vote to stand on, a rival with a stand of
- * their own. What the platform the player filed says is their stand; the
- * sitting never answers for them. A question the asker cannot put in words is
+ * their own. What the platform the player filed says (else what their own
+ * views, votes and party hold) is their stand; the sitting never answers
+ * for them. A question the asker cannot put in words is
  * left unanswered, and only then does the filed platform stand in.
  */
 import { P } from "../core2/parameters";
@@ -28,6 +29,8 @@ import { ballot } from "../core2/modules/elections";
 import {
   lastVoteOn,
   platformAnswers,
+  standsOnRecord,
+  type StandOnRecord,
   type InterviewAnswer,
   type InterviewMove,
 } from "../core2/modules/press";
@@ -50,6 +53,11 @@ import type { Moment } from "./types";
 const zero = P.zero;
 const one = P.one;
 
+/** The key of the reply that takes the side the record does not hold (stored as a plain answer). */
+const OTHER_SIDE = "other";
+/** A reply on the menu: an answer move, or the other side of the question. */
+type SittingMove = InterviewMove | typeof OTHER_SIDE;
+
 /** The settings every kind of sitting shares, and a row for each kind. */
 const RULES = rulesFile as unknown as {
   moves: readonly InterviewMove[];
@@ -57,8 +65,8 @@ const RULES = rulesFile as unknown as {
   declined: string;
   stages: { only: string; first: string; next: string; last: string };
   order: {
-    carryOn: readonly InterviewMove[];
-    keepShort: readonly InterviewMove[];
+    carryOn: readonly SittingMove[];
+    keepShort: readonly SittingMove[];
   };
   kinds: Readonly<
     Record<
@@ -145,6 +153,8 @@ interface Asking {
   facts: Facts;
   /** The answer each move stands for, where the record allows the move. */
   answers: Map<string, InterviewAnswer>;
+  /** The facts a move's line is said with where they differ from the question's own. */
+  answerFacts: Map<string, Facts>;
   /** The rival a turned-back answer names, for the asker's reply. */
   rival?: Fact;
 }
@@ -208,6 +218,24 @@ function standOf(
 }
 
 /**
+ * The player's own stand on a question and where it rests: the platform they
+ * filed, else a vote of theirs or their own view; null where they hold none
+ * (a stand only their party takes is not theirs).
+ */
+function ownStandOf(
+  core: Readonly<CoreState>,
+  filingId: string | null,
+  question: string,
+): { stand: number | null; source: StandOnRecord["source"] } {
+  const own = standsOnRecord(coreAPI(core as CoreState), filingId, [question])[
+    zero
+  ];
+  return !own || own.position === null || own.position === zero
+    ? { stand: null, source: null }
+    : { stand: own.position, source: own.source };
+}
+
+/**
  * The flags a question's lines are fitted by, from three signs: the player's
  * filed stand (null where the platform says nothing), their vote on the
  * question (zero for none) and a rival's stated stand (null for no rival
@@ -250,9 +278,11 @@ function askingFor(
   };
   const to = questionTo(question);
   if (to) facts.to = { text: to, sourceRecordIds: cited };
-  // Their stand is the platform they filed; where it says nothing they have
-  // none to state, and the sitting never states one for them.
-  const stand = standOf(core, row.filingId, question);
+  // Their stand is the platform they filed, else a vote of theirs or their
+  // own view; with none of those they have none, and the sitting never states
+  // one for them. It only decides which side is offered first: the player is
+  // offered both and may decline.
+  const { stand, source } = ownStandOf(core, row.filingId, question);
   const filed = row.filingId ?? row.id;
   // The vote of theirs on this question that a further fact stands on, or a
   // lie would contradict.
@@ -303,13 +333,46 @@ function askingFor(
             ]
           : [filed],
     };
-  // What each move would store. A further fact is a vote, a turn needs a
-  // rival, the lie contradicts a vote; plain and brief state the filed stand.
+  // What each move would store. Both sides are offered, the side the record
+  // holds first, and a way not to answer; nothing is said for the player
+  // without their pick. A further fact is a vote, a turn needs a rival, the
+  // lie contradicts a vote.
   const answers = new Map<string, InterviewAnswer>();
+  const answerFacts = new Map<string, Facts>();
+  const first = stand === null ? one : Math.sign(stand);
+  const force = stand === null ? one : Math.abs(stand);
+  const sideFlag = (side: number) =>
+    side > zero ? "stance-for" : "stance-against";
+  const without = (...drop: string[]): Facts =>
+    Object.fromEntries(
+      Object.entries(facts).filter(([key]) => !drop.includes(key)),
+    );
+  const sideFacts = (side: number, onPlatform: boolean): Facts => ({
+    ...without("stance-for", "stance-against", "no-stand"),
+    [sideFlag(side)]: { text: "yes", sourceRecordIds: [filed] },
+    ...(onPlatform
+      ? { "on-platform": { text: "yes", sourceRecordIds: [filed] } }
+      : {}),
+  });
   const plain: InterviewMove = "plain";
-  answers.set(plain, { question, position: stand, move: plain });
+  answers.set(plain, { question, position: first * force, move: plain });
+  answerFacts.set(plain, sideFacts(first, source === "platform"));
+  answers.set(OTHER_SIDE, {
+    question,
+    position: -first * force,
+    move: plain,
+  });
+  answerFacts.set(OTHER_SIDE, sideFacts(-first, false));
+  // The way not to answer: a short word that says nothing of a stand.
   const brief: InterviewMove = "brief";
-  answers.set(brief, { question, position: stand, move: brief });
+  answers.set(brief, { question, position: null, move: brief });
+  answerFacts.set(brief, {
+    ...without("stance-for", "stance-against", "no-stand"),
+    "no-stand": { text: "yes", sourceRecordIds: [filed] },
+    ...(stand === null
+      ? { "no-record": { text: "yes", sourceRecordIds: [filed] } }
+      : {}),
+  });
   if (vote && voted !== zero) {
     const further: InterviewMove = "further";
     answers.set(further, {
@@ -329,7 +392,13 @@ function askingFor(
     const turn: InterviewMove = "turn";
     answers.set(turn, { question, position: stand, move: turn });
   }
-  return { question, facts, answers, ...(named ? { rival: named } : {}) };
+  return {
+    question,
+    facts,
+    answers,
+    answerFacts,
+    ...(named ? { rival: named } : {}),
+  };
 }
 
 /** One line of the bank, in a speaker's voice, or null where no piece fits the facts. */
@@ -464,9 +533,12 @@ function put(
             speakerId: playerId,
             subject: subjects.answers,
             part,
-            facts: asking.facts,
+            facts: asking.answerFacts.get(key) ?? asking.facts,
             momentKey: `${row.id}:${sitting.at}:${key}`,
-            ...(part === "answers" ? { keys: [key] } : {}),
+            // The other side is said with the plain pieces of its own side.
+            ...(part === "answers"
+              ? { keys: [key === OTHER_SIDE ? "plain" : key] }
+              : {}),
           })
         : null;
     const choiceFor = (key: string, said: Said): ConversationChoice => ({
@@ -478,7 +550,7 @@ function put(
       sourceRecordIds: said.sourceRecordIds,
       wording: said.wording,
     });
-    const offered = RULES.moves.flatMap((move) => {
+    const offered = [...RULES.moves, OTHER_SIDE].flatMap((move) => {
       const said = answered(move, "answers");
       return said ? [choiceFor(move, said)] : [];
     });
@@ -492,8 +564,8 @@ function put(
       sitting.reach >= zero ? RULES.order.carryOn : RULES.order.keepShort;
     conversation.choices = offered.sort(
       (a, b) =>
-        order.indexOf(a.move as InterviewMove) -
-        order.indexOf(b.move as InterviewMove),
+        order.indexOf(a.move as SittingMove) -
+        order.indexOf(b.move as SittingMove),
     );
     const lie = answered(RULES.lie, "lie");
     conversation.lies = lie ? [choiceFor(RULES.lie, lie)] : [];
@@ -569,7 +641,7 @@ export function saySitting(
     ...(choice.wording ? { wording: choice.wording } : {}),
   });
   sitting.said.set(answer.question, answer);
-  take(core, conversation, data, choice.move);
+  take(core, conversation, data, answer.move ?? choice.move);
   return next(core, conversation, data);
 }
 
