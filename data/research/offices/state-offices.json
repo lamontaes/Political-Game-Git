@@ -1,7 +1,7 @@
 {
   "id": "state-offices-2026",
   "retrieved": "2026-10-12",
-  "notes": "sourceRetrieved=true means checked against a page fetched 2026-10-12 (Wikipedia wikitext of List of U.S. state legislatures, Term limits in the United States, Gubernatorial lines of succession; Pew Research Center 2024 Senate-vacancy survey). sourceRetrieved=false means the citation names the governing constitution/statute section from compiled knowledge; NCSL, Ballotpedia and the Wayback Machine refused automated access. The Book of the States was not used. vacancyRule.method adds 'succession' (governor) and 'remains-vacant' (some lieutenant governors) beyond the three requested values. memberTitle (added Nov 1, 2026) is the title a chamber's members hold, read from the chamber's own name and the notes above: a House of Delegates seats Delegates; an Assembly seats Assemblymembers, except Wisconsin's, whose members are Representatives; a territory's chambers drop \"State\"; the unicameral bodies are D.C.'s Councilmembers, Guam's and the Virgin Islands' Senators and Nebraska's State Senators.",
+  "notes": "sourceRetrieved=true means checked against a page fetched 2026-10-12 (Wikipedia wikitext of List of U.S. state legislatures, Term limits in the United States, Gubernatorial lines of succession; Pew Research Center 2024 Senate-vacancy survey). sourceRetrieved=false means the citation names the governing constitution/statute section from compiled knowledge; NCSL, Ballotpedia and the Wayback Machine refused automated access. The Book of the States was not used. vacancyRule.method adds 'succession' (governor) and 'remains-vacant' (some lieutenant governors) beyond the three requested values. memberTitle (added Nov 1, 2026) is the title a chamber's members hold, read from the chamber's own name and the notes above: a House of Delegates seats Delegates; an Assembly seats Assemblymembers, except Wisconsin's, whose members are Representatives; a territory's chambers drop \"State\"; the unicameral bodies are D.C.'s Councilmembers, Guam's and the Virgin Islands' Senators and Nebraska's State Senators. ticketJoins (Nov 14, 2026): when a lieutenant governor elected on one ticket with the governor joins that ticket. 'at-filing': the governor candidate files with a running mate before the primary; 'after-primary': the governor nominee (or the party convention on the nominee's choice) names the running mate after the primary; 'separate-primary': the lieutenant governor wins a primary of its own and runs on one ticket in the general election. Each row names its statute from compiled knowledge (sourceRetrieved=false); the 2026 states were checked against Ballotpedia's 2026 count (7 chosen before the primary, 8 after it, 6 in a separate primary), which the rows match.",
   "places": {
     "US-AL": {
       "name": "Alabama",
@@ -448,7 +448,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "Alaska Stat. 15.25.030 (joint candidacy, top-four primary since Ballot Measure 2, 2020)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         }
       ],
       "usSenateVacancy": {
@@ -610,7 +618,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "after-primary",
+            "citation": "Ariz. Const. art. V sec. 1 as amended by Proposition 131 (2022): each party's governor nominee names a lieutenant governor after the primary",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "secretary-of-state",
@@ -1552,7 +1568,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "after-primary",
+            "citation": "C.R.S. 1-4-502 (the governor nominee names a lieutenant governor after the primary)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -1793,7 +1817,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "separate-primary",
+            "citation": "Conn. Gen. Stat. 9-181 (separate nominations, one ticket in the general election)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -2300,7 +2332,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "after-primary",
+            "citation": "Fla. Stat. 99.063 (the governor nominee designates a lieutenant governor after the primary)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -2865,7 +2905,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "separate-primary",
+            "citation": "Haw. Const. art. V sec. 2 (nominated separately, elected jointly)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "office-of-hawaiian-affairs-trustees",
@@ -3313,7 +3361,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "10 ILCS 5/7-10 (gubernatorial candidates file jointly with a lieutenant governor candidate since 2014, P.A. 96-1018)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -3566,7 +3622,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "after-primary",
+            "citation": "Ind. Code 3-8-4-2 (the state convention nominates the governor nominee's running mate)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -3825,7 +3889,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "after-primary",
+            "citation": "Iowa Code 43.111 (the state convention nominates the governor nominee's running mate)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -4101,7 +4173,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "K.S.A. 25-4004 (governor and lieutenant governor candidates file jointly)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -4361,7 +4441,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "KRS 118.127 (slate of candidates for governor and lieutenant governor)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -5090,7 +5178,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "Md. Election Law 5-701 (governor and lieutenant governor file jointly)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -5287,7 +5383,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "separate-primary",
+            "citation": "Mass. Gen. Laws ch. 53 (separate primaries, one ticket in the state election)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -5550,7 +5654,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "after-primary",
+            "citation": "MCL 168.72 (the state convention nominates the lieutenant governor)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -5808,7 +5920,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "Minn. Stat. 204B.06 subd. 6 (joint affidavit of candidacy)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -6609,7 +6729,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "Mont. Code Ann. 13-10-201 (a governor candidate names the lieutenant governor before filing)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -6859,7 +6987,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "after-primary",
+            "citation": "Neb. Rev. Stat. 32-617 (the governor nominee selects a lieutenant governor after the primary)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -7541,7 +7677,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "after-primary",
+            "citation": "N.J.S.A. 19:13-5.1 (the governor nominee names a lieutenant governor after the primary)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         }
       ],
       "usSenateVacancy": {
@@ -7695,7 +7839,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "separate-primary",
+            "citation": "N.M. Const. art. V sec. 1 (nominated separately, elected jointly)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -7989,7 +8141,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "N.Y. Election Law, 2025 amendment (S1581): governor and lieutenant governor run as a joint ticket from the 2026 primary",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -8572,7 +8732,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "N.D.C.C. 16.1-11-06 (governor and lieutenant governor file and appear jointly)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -8959,7 +9127,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "Ohio Rev. Code 3513.04 (joint candidacy for governor and lieutenant governor)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -9819,7 +9995,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "separate-primary",
+            "citation": "Pa. Const. art. IV sec. 4 (nominated separately, elected jointly)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -10294,7 +10478,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "after-primary",
+            "citation": "S.C. Code 7-11-15 (the governor nominee names a lieutenant governor after the primary, since 2018)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -10603,7 +10795,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "after-primary",
+            "citation": "SDCL 12-5-21 (the state convention nominates the lieutenant governor)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -11333,7 +11533,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "Utah Code 20A-9-202 (a governor candidate names a running mate before the primary)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -12557,7 +12765,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "separate-primary",
+            "citation": "Wis. Const. art. V sec. 3 (nominated separately, elected jointly)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -13311,7 +13527,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "48 U.S.C. 1422 and 3 GCA 16 (governor and lieutenant governor run jointly in the primary and general)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",
@@ -13515,7 +13739,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "48 U.S.C. 1591 and 18 V.I.C. 341 (governor and lieutenant governor run jointly)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "board-of-education",
@@ -13717,7 +13949,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "Rev. Const. of American Samoa art. IV sec. 2 (governor and lieutenant governor elected jointly)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         }
       ],
       "usSenateVacancy": {
@@ -13870,7 +14110,15 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "ticketJoins": {
+            "stage": "at-filing",
+            "citation": "N.M.I. Const. art. III sec. 2 (governor and lieutenant governor elected jointly)",
+            "source": "https://ballotpedia.org/Lieutenant_gubernatorial_elections,_2026",
+            "retrievedDate": "2026-11-14",
+            "estimate": false,
+            "sourceRetrieved": false
+          }
         },
         {
           "key": "attorney-general",

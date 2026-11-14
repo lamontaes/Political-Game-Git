@@ -57,11 +57,18 @@ import { backdropFor, homeOf, peopleHere } from "./scene";
 import { doorPlaceFor } from "./scene-picture-steps";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";
-import { spokenDate as dateSaid } from "../director/words";
+import { spokenDate as dateSaid, stateInSentence } from "../director/words";
 import { seatSaid } from "../english/journal-words";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { filingDeadlineFor } from "../core2/modules/elections";
+import { officeInSentence, personWorkOf } from "../core2/person-work";
+import {
+  corePlaceByJurisdictionId,
+  corePlaceStateIdentities,
+} from "../core2/place-lookup";
+import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
+import { chooseRunningMate, runningMateChoice } from "../core2/modules/voting";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import controls from "./data/controls.json" with { type: "json" };
 
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
 const POLL_SAMPLE = campaignParameter("pollSampleSize");
@@ -202,6 +209,8 @@ export function campaignView(core: CoreState, personId: string) {
         }),
         // The picture on each of the trail's other tiles (the asks, the money, the speech, a debate).
         pictures,
+        // A governor's race that carries the office the law elects on its ticket: who runs with them.
+        runningMate: ticketView(api, core, filing.id),
         // Debates the outlet has invited the candidates to, waiting for their answers.
         debates: debatesIn(api, filing.contestId)
           .filter((row) => row.status === "invited")
@@ -211,6 +220,147 @@ export function campaignView(core: CoreState, personId: string) {
             outletId: row.outletId,
             questions: row.questions,
           })),
+      };
+    }),
+  };
+}
+
+/** The player names their running mate on one of their own filings; the campaigns as they stand after. */
+export function runningMatePicked(
+  core: CoreState,
+  personId: string,
+  filingId: string,
+  pick: string | null,
+) {
+  const api = coreAPI(core);
+  const filing = api
+    .moduleState(ELECTIONS)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  if (filing?.personId !== personId)
+    throw new Error("That isn't one of your races.");
+  chooseRunningMate(api, filingId, pick);
+  return campaignView(core, personId);
+}
+
+/**
+ * An occupation group's plural name ("Editors", "Registered Nurses"), as the
+ * occupation lists name a group of people, not what one person does.
+ */
+function groupName(title: string): boolean {
+  return /[^su]s$/i.test(title.trim().split(/\s+/).at(-1) ?? "");
+}
+
+/**
+ * A governor candidate's ticket as the campaign board shows it: the office on
+ * it, the running mate by name once named, else the people of their party to
+ * choose from (each with the seat they hold now), and when the ticket forms
+ * where it is not yet the candidate's to name. Null for a race with no ticket.
+ */
+function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
+  const ticket = runningMateChoice(api, filingId);
+  if (!ticket) return null;
+  const nameOf = (id: string) => {
+    const person = core.people.get(id as PersonId);
+    return person ? `${person.givenName} ${person.familyName}` : null;
+  };
+  const contest = api
+    .moduleState(ELECTIONS)
+    .table("contests")
+    .get(ticket.ticketContestId) as unknown as ContestRow;
+  const mateName = ticket.mateId ? nameOf(ticket.mateId) : null;
+  return {
+    office: ticket.office,
+    // The office as a sentence says it ("lieutenant governor").
+    officeSaid: officeInSentence(ticket.office),
+    mate: ticket.mateId ? { id: ticket.mateId, name: mateName } : null,
+    // Where the state's law has the office win a primary of its own, its
+    // party's nominee joins the ticket; otherwise the candidate names one.
+    joinsAfterPrimary: ticketStageOf(api, contest) === "separate-primary",
+    // Each person as their record has them: the seat they hold or their
+    // work (`personWorkOf`, the one reader the card uses; else the work a
+    // newcomer was filled in with), and their home town. The race's own
+    // state or territory goes unsaid; a home outside it is named.
+    choices: ticket.choices.map((c) => {
+      const offices = api.moduleState(OFFICES_MODULE_ID);
+      const words = controls.runningMate;
+      const realmKey = String(
+        (
+          offices.table("offices").get(contest.officeId) as unknown as
+            { jurisdiction?: string } | undefined
+        )?.jurisdiction ?? "",
+      );
+      const realm =
+        corePlaceStateIdentities().find((s) => s.jurisdictionKey === realmKey)
+          ?.name ?? null;
+      const person = core.people.get(c.id as PersonId);
+      const work = personWorkOf(core, c.id);
+      const filledWork = person?.pastFacts?.find(
+        (f) => f.kind === "identity:work",
+      )?.summary;
+      // A seat their record names that they no longer hold: held before.
+      const seatOffice = c.seatId
+        ? (offices
+            .table("offices")
+            .get(
+              (
+                offices.table("seats").get(c.seatId) as unknown as
+                  { officeId: string } | undefined
+              )?.officeId ?? "",
+            ) as unknown as { title: string } | undefined)
+        : undefined;
+      // A job is said only as one person's work: a commuter's job names no
+      // work of their own, and an occupation group's plural name ("Editors")
+      // is not one person's; either leaves the row at name and town.
+      const commuter = work.job
+        ? Boolean(
+            core.organizations.get(work.job.organizationId as never)
+              ?.outsideFlow,
+          )
+        : false;
+      const ownWork = (title: string | undefined) =>
+        title && !groupName(title) ? officeInSentence(title) : null;
+      const said = work.offices[0]
+        ? officeInSentence(work.offices[0].title)
+        : work.job
+          ? commuter
+            ? null
+            : ownWork(work.job.title)
+          : filledWork
+            ? ownWork(filledWork)
+            : seatOffice
+              ? words.former.replace(
+                  "{office}",
+                  officeInSentence(seatOffice.title),
+                )
+              : c.roles[0]
+                ? ((words.roles as Record<string, string>)[c.roles[0]]?.replace(
+                    "{place}",
+                    realm ? stateInSentence(realm) : "",
+                  ) ?? null)
+                : null;
+      const town = person?.placeId
+        ? corePlaceByJurisdictionId(person.placeId as never)
+        : null;
+      const homeState = town
+        ? town.stateJurisdictionKey
+        : corePlaceStateIdentities().find(
+            (s) => s.jurisdictionKey === person?.placeId,
+          )?.jurisdictionKey;
+      const homeStateName = homeState
+        ? (corePlaceStateIdentities().find(
+            (s) => s.jurisdictionKey === homeState,
+          )?.name ?? null)
+        : null;
+      const townName = town
+        ? (town.formalName ?? town.displayName.split(",")[0]!)
+        : null;
+      const away = homeState && homeState !== realmKey ? homeStateName : null;
+      return {
+        id: c.id,
+        name: c.name,
+        work: said,
+        place: townName ? (away ? `${townName}, ${away}` : townName) : away,
       };
     }),
   };

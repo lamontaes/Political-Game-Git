@@ -1004,7 +1004,15 @@ function atNominations() {
                       { value: "", label: words.own ?? "" },
                       ...entry.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: (value) => {
@@ -1066,7 +1074,15 @@ function atOrders() {
                       { value: "", label: words["post-own"] ?? "" },
                       ...item.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: (value) => {
@@ -1796,6 +1812,68 @@ function playAsks({ asked, summary, scene }) {
   };
   step(0);
 }
+/**
+ * A governor's race that carries the office the law elects on its ticket: the running mate
+ * once named, else the people of the player's party the world's own pick ranks, best first, to
+ * choose from, and Choose for me for the world's pick (owner, Nov 14).
+ */
+function ticketSection(filing, ticket) {
+  const words = controls.runningMate ?? {};
+  const title = words.title;
+  if (ticket.mate) return stripSection(1, title, introText(ticket.mate.name));
+  if (!ticket.choices.length)
+    return stripSection(
+      1,
+      title,
+      introText(
+        ticket.joinsAfterPrimary
+          ? words.nominee.replace("{ticket}", ticket.officeSaid)
+          : words.later,
+      ),
+    );
+  let picked = ticket.choices[0].id;
+  const choose = async (personId) => {
+    await post(
+      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id, ...(personId ? { personId } : {}) })}`,
+    );
+    await openSheet("campaign");
+  };
+  return stripSection(
+    1,
+    title,
+    select({
+      options: ticket.choices.map((c) => ({
+        value: c.id,
+        label: (c.work && c.place
+          ? words.row
+          : c.place
+            ? words.rowPlace
+            : c.work
+              ? words.rowWork
+              : "{name}"
+        )
+          .replace("{name}", c.name)
+          .replace("{work}", c.work ?? "")
+          .replace("{place}", c.place ?? ""),
+      })),
+      onChange: (value) => {
+        picked = value;
+      },
+    }),
+    buttonRow(
+      makeButton({
+        className: "action primary",
+        textContent: words.choose,
+        onclick: () => choose(picked),
+      }),
+      makeButton({
+        className: "action",
+        textContent: words.own,
+        onclick: () => choose(null),
+      }),
+    ),
+  );
+}
 async function campaignParts() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const parts = [];
@@ -1809,6 +1887,7 @@ async function campaignParts() {
     standing,
     debates,
     pictures,
+    runningMate,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
       const kindOf = {
@@ -2104,6 +2183,7 @@ async function campaignParts() {
             controls.raceStanding.title,
             ...(standing ?? []).map((text) => introText(text)),
           ),
+          ...(runningMate ? [ticketSection(filing, runningMate)] : []),
         ],
         [
           stripSection(
@@ -2664,7 +2744,15 @@ async function officeParts() {
                       { value: "", label: words.ownChoice ?? "" },
                       ...head.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: async (nomineeId) => {
