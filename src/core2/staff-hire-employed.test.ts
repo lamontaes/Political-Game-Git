@@ -14,19 +14,33 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { departuresSeen, watchDepartures } from "./modules/moves";
 import { STAFF_MODULE_ID, type StafferRow } from "./modules/staff";
 import { coreAPI } from "./state";
 
-// A named seed, so the test is never red by the draw (owner: never red by draw).
-// An aide's post can end with no dismissal row when the aide leaves town (a
-// run on a drawn seed met one at Agugulu, American Samoa, world seed
-// 22f4e9bb98e626eff75612873d97593542392255d3450825d036511aa10f1dbe: an aide
-// alive but in the inactive tier, the post ended 17 days after the review), which the
-// second assertion below does not allow; those places are not drawn here.
-// STAFF_HIRE_SEED replays any other seed.
+// A named seed, so the test is never red by the draw (owner: never red by
+// draw). STAFF_HIRE_SEED replays any other seed. An aide's post ends only by a
+// dismissal or by the aide's own recorded move out of the place (a
+// `person.moved-away` record on or before the day the post ends); the third
+// test pins a place where aides leave, so that path is exercised.
 const seed = process.env.STAFF_HIRE_SEED ?? "f1a";
 // Dismissals are common (a few per place per 400 days), so a handful of draws suffices.
 const MOST_DRAWS = 8;
+
+/** The aide's own move out of the place is on record, on or after the hire and the day the post ends (a mover's job ends the day they leave). */
+function leftBefore(
+  core: Parameters<typeof departuresSeen>[0],
+  row: StafferRow,
+  endsAt: string,
+): boolean {
+  return departuresSeen(core).some(
+    (departure) =>
+      departure.withIds.includes(row.personId) &&
+      departure.date >= row.hiredOn &&
+      departure.date <= endsAt &&
+      endsAt <= addDays(makeIsoDate(departure.date), 1),
+  );
+}
 
 it("an aide can come from a private job, which the post's hire ends", () => {
   setBookkeeping(false);
@@ -39,6 +53,7 @@ it("an aide can come from a private job, which the post's hire ends", () => {
         twoLevel: true,
         placeKey: place.key,
       });
+      watchDepartures(core);
       advanceCore(core, addDays(makeIsoDate(core.date), 400));
       const staff = coreAPI(core)
         .moduleState(STAFF_MODULE_ID)
@@ -74,7 +89,13 @@ it("an aide can come from a private job, which the post's hire ends", () => {
           ).toBe(true);
           continue;
         }
-        expect(post.endsAt, `${where}: ${row.id}`).toBeUndefined();
+        if (post.endsAt !== undefined) {
+          expect(
+            leftBefore(core, row, post.endsAt),
+            `${where}: ${row.id} post ended ${post.endsAt} with no dismissal and no recorded move away`,
+          ).toBe(true);
+          continue;
+        }
         expect(core.people.get(row.personId)?.jobId, where).toBe(row.jobId);
       }
       console.log(
@@ -140,6 +161,40 @@ it("a dismissed aide from a private job has a post that ended with the dismissal
     throw new Error(
       `seed ${seed}: no drawn place had an aide dismissed from a private job in ${MOST_DRAWS} draws; passed over: ${passedOver.join("; ")}`,
     );
+  } finally {
+    setBookkeeping(true);
+  }
+}, 3_600_000);
+
+// The leaver path, in a place whose aides left (Agugulu, American Samoa, world
+// seed 22f4e9bb...: two aides alive in the inactive tier whose posts ended on
+// the day they moved away, with no dismissal).
+it("an aide who moves away has a post that ended with a recorded move, not a dismissal", () => {
+  setBookkeeping(false);
+  const worldSeed =
+    "22f4e9bb98e626eff75612873d97593542392255d3450825d036511aa10f1dbe";
+  const where = `Agugulu, American Samoa (territory:AS:agugulu), seed ${worldSeed}`;
+  try {
+    const { core } = buildBenchWorld(worldSeed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: "territory:AS:agugulu",
+    });
+    watchDepartures(core);
+    advanceCore(core, addDays(makeIsoDate(core.date), 400));
+    const staff = coreAPI(core)
+      .moduleState(STAFF_MODULE_ID)
+      .table("staff")
+      .rows() as unknown as StafferRow[];
+    const ended = staff.filter(
+      (row) =>
+        !row.dismissed && core.jobs.get(row.jobId!)?.endsAt !== undefined,
+    );
+    expect(ended.length, `${where}: aides whose post ended`).toBeGreaterThan(0);
+    for (const row of ended)
+      expect(
+        leftBefore(core, row, core.jobs.get(row.jobId!)!.endsAt!),
+        `${where}: ${row.id} post ended ${core.jobs.get(row.jobId!)!.endsAt} with no recorded move away`,
+      ).toBe(true);
   } finally {
     setBookkeeping(true);
   }
