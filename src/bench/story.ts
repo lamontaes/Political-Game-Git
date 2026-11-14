@@ -5,8 +5,9 @@ import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { dateSaid } from "../english/day-words";
 import { shipped } from "../english/scene-talk-words";
 import { bodyPicture } from "./legislature";
+import { officeWords } from "../english/said-as";
 import { scenePicture } from "./scene-picture";
-import { addressMontage, partLevels } from "./montage";
+import { addressMontage, namedInParts, partLevels } from "./montage";
 import { backdropFor, peopleHere, type StageReason } from "./scene";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -131,26 +132,35 @@ export function storyScene(
       return scene.setting.kind === "workplace" ? "coworker" : "household";
     return STAGE_REASON[fill] ?? "moment";
   };
+  const speaker = scene.speech
+    ? core.people.get(scene.speech.speakerId)
+    : undefined;
+  // A speaker of an address is named by their office first ("Governor Lori
+  // Lopez", "Chair Sara Mullen"), from the record's said-as office key.
+  const speakerTitle = officeWords(scene.speech?.office)?.before;
+  const speakerName = speaker
+    ? `${speakerTitle ? `${speakerTitle} ` : ""}${speaker.givenName} ${speaker.familyName}`
+    : "";
   const cast = [
     personId,
     ...scene.presentIds.filter(
       (id) =>
         id !== personId &&
         core.people.get(id)?.alive &&
-        // A speech heard is on the screen at home, not in the room.
-        id !== scene.speech?.speakerId,
+        // An address heard is on the screen at home, not in the room: the
+        // narrator says how it was heard; a floor or stump speech is given
+        // by someone standing in it.
+        (id !== scene.speech?.speakerId || scene.speech.inRoom),
     ),
   ].map((id) => {
     const row = core.people.get(id)!;
     return {
       id,
-      name: `${row.givenName} ${row.familyName}`,
+      name:
+        id === speaker?.id ? speakerName : `${row.givenName} ${row.familyName}`,
       reason: reasonOf(id),
     };
   });
-  const speaker = scene.speech
-    ? core.people.get(scene.speech.speakerId)
-    : undefined;
   const talk =
     purpose?.kind === "composed"
       ? {
@@ -159,9 +169,11 @@ export function storyScene(
           typeKey: purpose.scene.unit ?? purpose.scene.typeKey,
           purpose: purpose.scene.purpose,
           askerId: purpose.scene.askerId,
+          // A floor speech the scene plays is the speaker's opening line,
+          // so the exchange after it opens on the player's reply.
           opening: [
             ...(purpose.scene.talk.open ? [purpose.scene.talk.open] : []),
-            purpose.scene.talk.state,
+            ...(scene.speech?.opens ? [] : [purpose.scene.talk.state]),
           ].map(shownLine),
           tree: shownNode(purpose.scene.talk.tree),
           // Why it is happening: the record that fired it and every fact said.
@@ -208,7 +220,7 @@ export function storyScene(
     ...(scene.speech ? { speech: scene.speech } : {}),
     // The address plays as a montage: one picture and cast per part (owner,
     // Oct 29 02:35).
-    ...(scene.speech
+    ...(scene.speech?.montage
       ? {
           beats: addressMontage(
             core,
@@ -219,6 +231,12 @@ export function storyScene(
               scene.speech.parts?.length || 1,
             ),
             minuteOfDay,
+            namedInParts(
+              core,
+              director.ledger.opening?.address.sentences ?? [],
+              scene.speech.parts?.length || 1,
+              scene.speech.speakerId,
+            ),
           ),
         }
       : {}),
@@ -226,9 +244,7 @@ export function storyScene(
     ...(purpose?.kind === "skipped" ? { talkSkipped: purpose.reason } : {}),
     names: Object.fromEntries([
       ...cast.map((row) => [row.id, row.name]),
-      ...(scene.speech && speaker
-        ? [[speaker.id, `${speaker.givenName} ${speaker.familyName}`]]
-        : []),
+      ...(scene.speech && speaker ? [[speaker.id, speakerName]] : []),
     ]),
   };
 }
