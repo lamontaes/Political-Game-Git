@@ -3718,11 +3718,14 @@ const GIVES_BACK: readonly string[] = (
 
 /** The raised kinds a give-back already told, by the asked kind (conversation-rules.json givesBack.covers). */
 const GIVES_COVER: Readonly<Record<string, readonly string[]>> = (() => {
-  const { about: _about, ...covers } = (
-    CONVERSATION_RULES as unknown as {
-      givesBack: { covers: Record<string, string[] | string> };
-    }
-  ).givesBack.covers;
+  const covers = {
+    ...(
+      CONVERSATION_RULES as unknown as {
+        givesBack: { covers: Record<string, string[] | string> };
+      }
+    ).givesBack.covers,
+  };
+  delete covers.about;
   return covers as Record<string, string[]>;
 })();
 
