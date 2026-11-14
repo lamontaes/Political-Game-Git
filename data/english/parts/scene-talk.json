@@ -116,7 +116,9 @@
     "hours": "An opening's hours a week, from the job it was modeled on: 40.",
     "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
     "replaced": "The full name of the person whose job an opening fills.",
-    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record."
+    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
+    "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
+    "wanted": "What a bribe offer wants, the bill or the contract the offer record names."
   },
   "maxWords": 70,
   "parts": [
