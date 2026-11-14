@@ -1036,6 +1036,8 @@
     "dates": "Dates",
     "electionDay": "Election day",
     "whoIsRunning": "Who's running",
+    "seats": "Seats",
+    "seatsToFill": "Seats to fill",
     "lastTime": "Last time",
     "share": "Share of the vote",
     "percent": "percent"

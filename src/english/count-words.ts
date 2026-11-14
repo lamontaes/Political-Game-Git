@@ -59,3 +59,13 @@ export function filedSaid(count: number): string {
   if (count < 1) return "";
   return filedWords.others[count - 1] ?? filedWords.many;
 }
+
+/**
+ * How many have filed for an office so far, said before the player has filed
+ * ("two candidates"): "other" and "before you" are only true once they have
+ * (Fable A, Nov 13, rule 1).
+ */
+export function filedSoFarSaid(count: number): string {
+  if (count < 1) return "";
+  return filedWords.soFar[count - 1] ?? filedWords.manySoFar;
+}
