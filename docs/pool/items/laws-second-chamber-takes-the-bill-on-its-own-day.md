@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: account-lead-second-chamber
+pr: 9207
 after:
 blocked-on:
 lead: laws-effects
