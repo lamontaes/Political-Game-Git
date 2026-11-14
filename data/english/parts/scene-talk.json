@@ -135350,6 +135350,15 @@
           "role": "asker",
           "purpose": "moving-goodbye",
           "key": "moving-goodbye"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
         }
       ],
       "bearing": "steady",
@@ -178803,31 +178812,6 @@
       "date": "2026-11-14",
       "tag": {
         "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.okay-i-understand",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Okay. I understand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "decline",
-          "purpose": "move-in-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "accept",
         "key": "favor-asked"
       }
     },
