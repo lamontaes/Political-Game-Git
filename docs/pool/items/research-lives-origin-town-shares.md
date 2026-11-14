@@ -36,4 +36,4 @@ source: stand-in triage Nov 10; stopgap SG-LIVES-origin-state-shares
 
 **Files.** src/core2/opening-origin.ts, src/core2/opening-origin.test.ts, src/core2/data/stopgaps/lives.json
 
-Nov 14: the town-shares half is built with people-protected-traits-on-record-part-1-race-on-record (same PR, branch claude/project-thread-j574e7). A child's origin from both parents already works (`childOrigin` picks one parent's by the child's id); the joint table for mixed couples and the island-area villages stay open on SG-LIVES-origin-state-shares.
+Nov 14: the town-shares half is built with people-protected-traits-on-record-part-1-race-on-record (same PR, branch claude/project-thread-j574e7). A child's origin from both parents already works (`childOrigin` picks one parent's by the child's id); the joint table for mixed couples is owned by people-opening-household-cannot-be-a-mixed-couple and the island-area villages by people-origin-island-area-villages-have-no-own-counts; both keep SG-LIVES-origin-state-shares open.

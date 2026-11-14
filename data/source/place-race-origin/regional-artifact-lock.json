@@ -14,7 +14,10 @@
         "attributionRequired": true,
         "declaredLicense": null,
         "status": "public-census-counts-republished"
-      }
+      },
+      "retrievedAt": "2026-11-14",
+      "commit": "934594da837d4705aae9d99d60c66ca23954e85f",
+      "underlyingFile": "U.S. Census Bureau 2020 Census redistricting data summary file (P.L. 94-171), a U.S. government work in the public domain; the republishing repository declares no license of its own."
     }
   ],
   "asOf": "2026-11-14"
