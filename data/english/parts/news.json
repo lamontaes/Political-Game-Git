@@ -12479,10 +12479,10 @@
       }
     },
     {
-      "key": "news.signed-next.the-body-passed-it-and-the-deadline-passed-with-no-word-from-the-desk",
+      "key": "news.signed-next.the-body-passed-it-and-the-deadline-came-with-no-word-from-the-desk",
       "move": "signed-next",
       "kind": "written",
-      "text": "The {body} passed it, and the deadline passed with no word from the desk.",
+      "text": "The {body} passed it, and the deadline came with no word from the desk.",
       "uses": [
         {
           "move": "signed-next",
