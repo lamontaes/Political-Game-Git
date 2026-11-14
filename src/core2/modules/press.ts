@@ -68,6 +68,7 @@ import {
   touchImpression,
   registerAdOutlet,
   parsePlatform,
+  contestPositions,
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
@@ -91,7 +92,6 @@ import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
 import { BUSINESS_MODULE_ID, enrollBusinessOwner, ownerOf } from "./business";
 import { publicOffset, questionAxis } from "../campaign-views";
 import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
-import { contestPositions } from "../contest-positions";
 import {
   hireStaffMember,
   nationalOutletName,

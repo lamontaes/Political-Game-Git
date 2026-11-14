@@ -1,5 +1,5 @@
 ---
-id: campaign-interview-asks-a-council-candidate-federal-questions-and-the-player-cannot-take-a-side
+id: campaign-interview-asks-council-candidate-federal-questions
 impact: patch
 section: Fixed
 title: A reporter asks a town candidate about town matters
