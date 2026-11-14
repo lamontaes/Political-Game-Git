@@ -469,6 +469,20 @@ const SENTENCE_WORDS = new Set([
   "A",
   "An",
   "Any",
+  // A determiner or an indefinite pronoun opening an ask after a belief
+  // ("Because I believe ..., anybody who wants to undo it ...").
+  "Anybody",
+  "Anyone",
+  "Everybody",
+  "Everyone",
+  "Nobody",
+  "Every",
+  "Each",
+  "Our",
+  "My",
+  "Some",
+  "More",
+  "Too",
   "The",
   "There",
   "That",
@@ -479,6 +493,9 @@ const SENTENCE_WORDS = new Set([
   "We'll",
   "Let's",
   "If",
+  // A span's frame after a lead-in ("Across the country, since I took this
+  // office, we have seen ...").
+  "Since",
   "Should",
   "Get",
   "Send",

@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr:
 blocked-on:
@@ -40,3 +40,7 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=7220998 GOLDEN_PATH_SEED=1535847a...2bb7 node --max-old-space-size=8192 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts` (Corral Viejo, Puerto Rico): exit 0, 18 passed; the assertion 'counted voters vote in local races' passed without being exercised: "UNOBSERVED ... no local race was decided in the run". Fresh draw `GOLDEN_PATH_SEED=bf3319d282b6140c88a874df3adfe330` (Wheat Ridge, Colorado, 0884440): green, and exercised: "counted voters voted in all 4 local races". The item's own case is therefore unproved either way in Corral Viejo; the fresh draw is green and observed. Proposed for the CTO: drop as fixed on main.
 
 Nov 11 (cause finder for Fable B): played Corral Viejo to its first municipal election (Nov 7, 2028) on main 903b659706. Counted voters voted in all 16 local races with a ballot. The fault no longer reproduces, and the one-year golden-path run cannot exercise it, since the town has no local race in its first year. I propose the CTO closes the item.
+
+Closed as done Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: the assertion 'counted voters vote in local races' exists at `tests/golden-path/played-world.node-test.ts` line 832 and reads unobserved, not failed, when no local race falls in the run; the item's Nov 11 probe in Corral Viejo (place 7220998) to its first municipal election found counted votes in all 16 local races with a ballot.
+
+Code reading Nov 14, 2026 (Account lead T43, train eb349e5d76): the fault is excluded in two places. (1) `src/core2/modules/voting.ts` holdElection writes a `countedBallots` row for every contest (`table(api, "countedBallots").put({id: `counted:${contestId}`...})`, line 3455) and rounds each candidate's counted votes after scaling (line 3467), so a counted ballot record always exists. (2) The check in `tests/golden-path/played-world.node-test.ts` calls a race silent only when the record is missing, nobody was backed, or `expected >= 2 && recorded === 0` (lines 813-817), and reads unobserved when no local race falls in the run (line 832). A town with under two expected counted voters, such as the 15-adult Corral Viejo, can therefore record zero votes without failing. The golden path was not run.

@@ -93,6 +93,9 @@
     "scene-talk.reply-leave.i-hear-you-let-me-get-to-the-next-question": [
       "no-stock-phrases"
     ],
+    "scene-talk.reply-offer.come-in-we-ll-figure-out-the-rest-together-as-it-comes": [
+      "stake-is-named"
+    ],
     "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no": [
       "no-stock-phrases"
     ],
@@ -107,6 +110,15 @@
     ],
     "scene-talk.state-request.i-practiced-this-and-forgot-it-so-plainly-i-d-like-to-be-your-spouse-w": [
       "no-filler"
+    ],
+    "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.state-threaten.last-chance-first-after-today-i-stop-being-polite": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.state-threaten.nothing-has-to-change-between-us-first-unless-you-make-it-think": [
+      "commitment-names-who-what-why"
     ]
   },
   "noReplyFollows": {
@@ -201,5 +213,10 @@
       "conflict-accuse.witness/ask"
     ]
   },
-  "awaitingVerdict": {}
+  "barred": {},
+  "awaitingVerdict": {
+    "commitment-names-who-what-why": 0,
+    "player-never-says-unchosen (pairs)": 0,
+    "stake-is-named": 0
+  }
 }

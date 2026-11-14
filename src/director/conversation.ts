@@ -160,6 +160,7 @@ import { SAID_AS_DATA as saidAsData } from "../english/said-as";
 import { COMPOSED_CHECKS_DATA as composedChecksData } from "../english/composed-checks";
 import { budgetPurposeSaid } from "../english/bill-names";
 import {
+  organizationName,
   properName,
   spoken,
   spokenWhen,
@@ -2278,7 +2279,7 @@ export function subjectsBetween(
           ...(org
             ? {
                 employer: {
-                  text: properName(org.name),
+                  text: organizationName(org),
                   sourceRecordIds: [ended!.id, org.id],
                 },
               }
@@ -2353,7 +2354,7 @@ export function subjectsBetween(
       aboutId: listenerStarted.causeId,
       facts: {
         employer: {
-          text: properName(listenerOrg.name),
+          text: organizationName(listenerOrg),
           sourceRecordIds: [listenerJob.id, listenerOrg.id],
         },
       },
@@ -2435,7 +2436,7 @@ export function subjectsBetween(
         aboutId: row.recordId,
         facts: {
           school: {
-            text: properName(school.name),
+            text: organizationName(school),
             sourceRecordIds: [row.recordId],
           },
           years: {
@@ -2458,7 +2459,7 @@ export function subjectsBetween(
         aboutId: org.id,
         facts: {
           employer: {
-            text: properName(org.name),
+            text: organizationName(org),
             sourceRecordIds: [org.id],
           },
           // Work together that ended long ago is a reason to ask after it.
@@ -2694,7 +2695,7 @@ export function subjectsBetween(
       news: { institutionId: institution.id },
       facts: {
         topic: {
-          text: properName(institution.name),
+          text: organizationName(institution),
           sourceRecordIds: [news.eventId, institution.id],
         },
         // A place in town that closed, by the change's own record.
@@ -5680,7 +5681,8 @@ function lieClaims(
     claims.push({ stage: "none", value: "none", facts: {} });
     const nearby = [...(core.peopleByPlace.get(player.placeId) ?? [])]
       .map((id) => jobOf(core, core.people.get(id)!)?.org)
-      .filter((org) => org && org.id !== own.value);
+      // The market's stand-in for work out of town is no employer to claim.
+      .filter((org) => org && org.id !== own.value && !org.outsideFlow);
     const other = nearby.sort((a, b) =>
       stableHash(`${key}:${a!.id}`).localeCompare(
         stableHash(`${key}:${b!.id}`),
@@ -5692,7 +5694,7 @@ function lieClaims(
         value: other.id,
         facts: {
           claimed: {
-            text: properName(other.name),
+            text: employerWords(other) ?? properName(other.name),
             sourceRecordIds: [other.id],
           },
         },

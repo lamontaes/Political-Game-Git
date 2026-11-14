@@ -17,6 +17,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import {
+  castMemberVote,
   billOf,
   bodyOf,
   LEGISLATURE_MODULE_ID,
@@ -26,6 +27,7 @@ import {
   type BillRow,
 } from "./modules/legislature";
 import { remarksOn } from "./modules/meetings";
+import { addressesGivenBy } from "./modules/speech";
 import { filesAhead } from "./modules/world-legislating";
 import {
   adjourn,
@@ -36,6 +38,7 @@ import {
   meetingToAttend,
   OFFICE_DAY_MODULE_ID,
   officeActsOf,
+  officeHost,
   setStops,
   speakOnItem,
   takeUpItem,
@@ -113,138 +116,220 @@ function markAll(api: CoreAPI): number {
   return marked;
 }
 
+/**
+ * A board with committees whose committee took the bill's public comment on
+ * its own day, the eve of the board's meeting: the resident's remark at the
+ * board must still be heard there (pool item
+ * meetings-resident-remark-reaches-a-committee-board). Kept: seen failing in
+ * Jaguas, Puerto Rico, on Ordinance 2025-3.
+ */
+const KEPT = {
+  name: "Jaguas",
+  key: "7237336",
+  seed: "9d9e53d2305f75c3583e29af76860e2d96c0bd7bb16d04e5b1b33e87c455f942",
+};
+
+interface Spoke {
+  readonly where: string;
+  readonly core: CoreState;
+  readonly api: CoreAPI;
+  readonly me: string;
+  readonly meetingId: string;
+  readonly billId: string;
+  readonly body: string;
+  /** Whether the bill's public comment was taken on its committee's day, before the meeting. */
+  readonly afterCommittee: boolean;
+  /** The members who already knew the player before they spoke: their first tie keeps its own record. */
+  readonly knewBefore: ReadonlySet<string>;
+}
+
+/**
+ * The resident marks every posted meeting, is held at the first with an item
+ * left on its agenda, speaks for the first such item (in the agenda's own
+ * order), leaves, and the day closes. Returns what was seen, or why the place
+ * was passed over.
+ */
+function speakAtAMeeting(place: {
+  name: string;
+  key: string;
+  seed: string;
+}): Spoke | string {
+  const where = `${place.name} (${place.key}), seed ${place.seed}`;
+  const { core, api, me, player } = open(place.seed, place.key);
+  const end = new Date(Date.parse(`${core.date}T00:00:00Z`) + 150 * 86_400_000)
+    .toISOString()
+    .slice(0, 10);
+  let emptyRooms = 0;
+  let spoke: Spoke | null = null;
+  for (let guard = 0; guard < 2_000 && core.date < end && !spoke; guard += 1) {
+    markAll(api);
+    step(player);
+    // Held by the meeting's own stop, as a member is, and in the room as audience.
+    const meeting = stoppedAt(api, player);
+    if (!meeting) continue;
+    expect(meeting.audience, where).toBe(me);
+    expect(
+      members(api, meeting.officeId).some((t) => t.personId === me),
+      `${where}: the player holds no seat`,
+    ).toBe(false);
+    // An item a board's committee already failed on the eve (the board has
+    // committees) still sits on the agenda; the resident speaks on the first
+    // that waits for the floor.
+    const billId = meeting.agenda.find(
+      (id) => billOf(api, id).status === "drafted",
+    );
+    if (!billId) {
+      emptyRooms += 1;
+      leaveMeeting(api, meeting.id);
+      continue;
+    }
+    // Not voted at the stop: the filings waited for the room. A committee
+    // may have failed one on the eve, before the meeting day, never on it.
+    for (const id of meeting.agenda) {
+      const bill = billOf(api, id);
+      if (bill.status === "drafted") continue;
+      expect(bill.status, `${where}: ${id}`).toBe("failed");
+      expect(
+        (bill.failedOn ?? meeting.date) < meeting.date,
+        `${where}: ${id} failed before the meeting day`,
+      ).toBe(true);
+    }
+    const afterCommittee =
+      billOf(api, billId).hooksRun?.includes("public-comment") ?? false;
+    // Those who spoke on the committee's day were heard there, once.
+    const earlier = remarksOn(api, billId).map((r) => r.personId);
+    const earlierSpeeches = earlier.map(
+      (id) => addressesGivenBy(api, id).length,
+    );
+    const knewBefore = new Set(
+      members(api, meeting.officeId).flatMap((t) =>
+        t.personId && core.people.get(t.personId)?.knownIds.has(me)
+          ? [t.personId]
+          : [],
+      ),
+    );
+    speakOnItem(api, meeting.id, billId, 1);
+    expect(
+      earlier.map((id) => addressesGivenBy(api, id).length),
+      `${where}: no earlier speaker heard again`,
+    ).toEqual(earlierSpeeches);
+    // A resident takes nothing up and cannot adjourn the body.
+    expect(() => takeUpItem(api, meeting.id, billId, "yes")).toThrow();
+    expect(() => adjourn(api, meeting.id)).toThrow();
+    expect(billOf(api, billId).status, where).toBe("drafted");
+    leaveMeeting(api, meeting.id);
+    expect(meetingOf(api, meeting.id)?.playerPresent, `${where}: left`).toBe(
+      false,
+    );
+    expect(meetingInProgress(api)?.id, `${where}: left`).not.toBe(meeting.id);
+    spoke = {
+      where,
+      core,
+      api,
+      me,
+      meetingId: meeting.id,
+      billId,
+      body: meeting.officeId,
+      afterCommittee,
+      knewBefore,
+    };
+  }
+  if (!spoke)
+    return `${where}: ${emptyRooms} meetings attended, none with an item`;
+  // The day goes on and closes: the body votes with the remark on its record.
+  const day = core.date;
+  for (let guard = 0; guard < 20 && core.date <= day; guard += 1) {
+    // Another body's meeting the same day, marked too: left in silence.
+    const other = stoppedAt(api, player);
+    if (other) leaveMeeting(api, other.id);
+    step(player);
+  }
+  const bill = billOf(api, spoke.billId);
+  expect(bill.status, `${where}: voted at the close`).not.toBe("drafted");
+  expect(meetingOf(api, spoke.meetingId)?.status, where).toBe("adjourned");
+  const remark = remarksOn(api, spoke.billId).find((r) => r.personId === me);
+  expect(remark, `${where}: the remark`).toMatchObject({
+    kind: "public-comment",
+    position: 1,
+    signedUp: true,
+  });
+  expect(
+    officeActsOf(api, me).some(
+      (act) => act.kind === "speak" && act.recordId === remark!.id,
+    ),
+    `${where}: the act`,
+  ).toBe(true);
+  // That they came is on the record too.
+  expect(
+    officeActsOf(api, me).some(
+      (act) => act.kind === "attend" && act.recordId === spoke!.meetingId,
+    ),
+    `${where}: attended`,
+  ).toBe(true);
+  // No vote of the player's: they hold no seat.
+  expect(
+    votesOn(api, spoke.billId).some((v) => v.memberId === me),
+    where,
+  ).toBe(false);
+  // The remark was heard by the room once, as a speech.
+  expect(
+    addressesGivenBy(api, me).filter(
+      (id) => id === `speech:remark:${spoke!.billId}:${me}`,
+    ),
+    `${where}: heard once`,
+  ).toHaveLength(1);
+  const seated = members(api, spoke.body).flatMap((t) =>
+    t.personId ? [t.personId] : [],
+  );
+  expect(seated.length, `${where}: named members`).toBeGreaterThan(0);
+  const mine = core.people.get(me)!;
+  for (const id of seated) {
+    expect(mine.knownIds.has(id), `${where}: player knows ${id}`).toBe(true);
+    expect(
+      core.people.get(id)!.knownIds.has(me),
+      `${where}: ${id} knows the player`,
+    ).toBe(true);
+    // Every member heard the remark, once (an event enters once).
+    expect(
+      core.knowledgeByPerson
+        .get(id)
+        ?.has(`event:speech:remark:${spoke.billId}:${me}:experienced`),
+      `${where}: ${id} heard the remark`,
+    ).toBe(true);
+    // A member who met the player here cites the bill's public comment, by
+    // its record; one who already knew them keeps the earlier tie's record.
+    if (!spoke.knewBefore.has(id))
+      expect(
+        core.knowledgeByPerson.get(id)?.get(`person:${me}:met`)?.sourceId,
+        `${where}: ${id} met the player at the public comment`,
+      ).toBe(`public-comment:${spoke.billId}`);
+    expect(
+      core.eventIds.has(`public-comment:${spoke.billId}`),
+      `${where}: the public comment is on the record`,
+    ).toBe(true);
+  }
+  console.log(
+    `resident-attends ${where}: spoke for ${bill.number} at ${spoke.meetingId}${spoke.afterCommittee ? " after its committee's public comment" : ""}; ${bill.status}; ${seated.length} members met; ${emptyRooms} earlier meetings had no item`,
+  );
+  return spoke;
+}
+
+it("a resident who speaks at a board with committees, after its committee's public comment, is heard there once and the members meet them", () => {
+  const spoke = speakAtAMeeting(KEPT);
+  if (typeof spoke === "string") throw new Error(spoke);
+  expect(spoke.afterCommittee, `${spoke.where}: after the committee`).toBe(
+    true,
+  );
+}, 120_000);
+
 it("a resident marks a posted meeting, is held at its hour, speaks, leaves, and the members meet them", () => {
   const tried: string[] = [];
   for (let draw = 0; draw < 6; draw += 1) {
-    const place = drawPlace(`${seed}:${draw}`, "resident-attends");
-    const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const { core, api, me, player } = open(place.seed, place.key);
-    const end = new Date(
-      Date.parse(`${core.date}T00:00:00Z`) + 150 * 86_400_000,
-    )
-      .toISOString()
-      .slice(0, 10);
-    let emptyRooms = 0;
-    let spoke: { meetingId: string; billId: string; body: string } | null =
-      null;
-    for (
-      let guard = 0;
-      guard < 2_000 && core.date < end && !spoke;
-      guard += 1
-    ) {
-      markAll(api);
-      step(player);
-      // Held by the meeting's own stop, as a member is, and in the room as audience.
-      const meeting = stoppedAt(api, player);
-      if (!meeting) continue;
-      expect(meeting.audience, where).toBe(me);
-      expect(
-        members(api, meeting.officeId).some((t) => t.personId === me),
-        `${where}: the player holds no seat`,
-      ).toBe(false);
-      // An item a board's committee already failed on the eve (the board has
-      // committees) still sits on the agenda; the resident speaks on one that
-      // waits for the floor.
-      // A board with committees also ran its public-comment hook on the eve,
-      // before anyone could speak at the meeting: a remark made now is not
-      // heard by its members (`meetings-resident-remark-reaches-a-committee-board`),
-      // so such an item is passed over here and named. Remove this skip when
-      // that item is fixed. Seen in Jaguas, Puerto Rico (7237336), seed
-      // 9d9e53d2305f75c3583e29af76860e2d96c0bd7bb16d04e5b1b33e87c455f942,
-      // which must then pass here. A draw with no item left still fails below
-      // (no meeting with an item was reached).
-      const billId = meeting.agenda.find((id) => {
-        const bill = billOf(api, id);
-        return (
-          bill.status === "drafted" &&
-          !bill.hooksRun?.includes("public-comment")
-        );
-      });
-      if (!billId) {
-        emptyRooms += 1;
-        leaveMeeting(api, meeting.id);
-        continue;
-      }
-      // Not voted at the stop: the filings waited for the room. A committee
-      // may have failed one on the eve, before the meeting day, never on it.
-      for (const id of meeting.agenda) {
-        const bill = billOf(api, id);
-        if (bill.status === "drafted") continue;
-        expect(bill.status, `${where}: ${id}`).toBe("failed");
-        expect(
-          (bill.failedOn ?? meeting.date) < meeting.date,
-          `${where}: ${id} failed before the meeting day`,
-        ).toBe(true);
-      }
-      speakOnItem(api, meeting.id, billId, 1);
-      // A resident takes nothing up and cannot adjourn the body.
-      expect(() => takeUpItem(api, meeting.id, billId, "yes")).toThrow();
-      expect(() => adjourn(api, meeting.id)).toThrow();
-      expect(billOf(api, billId).status, where).toBe("drafted");
-      leaveMeeting(api, meeting.id);
-      expect(meetingOf(api, meeting.id)?.playerPresent, `${where}: left`).toBe(
-        false,
-      );
-      expect(meetingInProgress(api)?.id, `${where}: left`).not.toBe(meeting.id);
-      spoke = { meetingId: meeting.id, billId, body: meeting.officeId };
-    }
-    if (!spoke) {
-      tried.push(
-        `${where}: ${emptyRooms} meetings attended, none with an item`,
-      );
-      continue;
-    }
-    // The day goes on and closes: the body votes with the remark on its record.
-    const day = core.date;
-    for (let guard = 0; guard < 20 && core.date <= day; guard += 1) {
-      // Another body's meeting the same day, marked too: left in silence.
-      const other = stoppedAt(api, player);
-      if (other) leaveMeeting(api, other.id);
-      step(player);
-    }
-    const bill = billOf(api, spoke.billId);
-    expect(bill.status, `${where}: voted at the close`).not.toBe("drafted");
-    expect(meetingOf(api, spoke.meetingId)?.status, where).toBe("adjourned");
-    const remark = remarksOn(api, spoke.billId).find((r) => r.personId === me);
-    expect(remark, `${where}: the remark`).toMatchObject({
-      kind: "public-comment",
-      position: 1,
-      signedUp: true,
-    });
-    expect(
-      officeActsOf(api, me).some(
-        (act) => act.kind === "speak" && act.recordId === remark!.id,
-      ),
-      `${where}: the act`,
-    ).toBe(true);
-    // That they came is on the record too.
-    expect(
-      officeActsOf(api, me).some(
-        (act) => act.kind === "attend" && act.recordId === spoke!.meetingId,
-      ),
-      `${where}: attended`,
-    ).toBe(true);
-    // No vote of the player's: they hold no seat.
-    expect(
-      votesOn(api, spoke.billId).some((v) => v.memberId === me),
-      where,
-    ).toBe(false);
-    const seated = members(api, spoke.body).flatMap((t) =>
-      t.personId ? [t.personId] : [],
+    const spoke = speakAtAMeeting(
+      drawPlace(`${seed}:${draw}`, "resident-attends"),
     );
-    expect(seated.length, `${where}: named members`).toBeGreaterThan(0);
-    const mine = core.people.get(me)!;
-    for (const id of seated) {
-      expect(mine.knownIds.has(id), `${where}: player knows ${id}`).toBe(true);
-      expect(
-        core.people.get(id)!.knownIds.has(me),
-        `${where}: ${id} knows the player`,
-      ).toBe(true);
-    }
-    console.log(
-      `resident-attends ${where}: spoke for ${bill.number} at ${spoke.meetingId}; ${bill.status}; ${seated.length} members met; ${emptyRooms} earlier meetings had no item`,
-    );
-    return;
+    if (typeof spoke !== "string") return;
+    tried.push(spoke);
   }
   throw new Error(`no meeting with an item was reached; ${tried.join("; ")}`);
 }, 3_600_000);
@@ -446,9 +531,20 @@ const SEATED_COMMITTEE_PLACE = {
   name: "Adjuntas, Puerto Rico",
   seed: "46df10dad049f2497d21e51cb6bfb6a949ec55a83040f6eb601b9d1cf1eb2472",
 };
+/**
+ * The playtest's place for the budget (Nov 13, 2026): its council heard the
+ * mayor's budget on Jun 1 and votes it at its Jul 1 meeting. Kept, played past
+ * that day, so the budget is proved decided alike held and away.
+ */
+const BUDGET_PLACE = {
+  key: "1918435",
+  name: "Danville, Iowa",
+  seed: "4b0fc31d-ba59-4168-8b84-d7c0e3f826b6",
+  days: 165,
+};
 const DAYS = Number(process.env.TWIN_DAYS ?? 100);
-const endOf = (core: CoreState) =>
-  new Date(Date.parse(`${core.date}T00:00:00Z`) + DAYS * 86_400_000)
+const endOf = (core: CoreState, days = DAYS) =>
+  new Date(Date.parse(`${core.date}T00:00:00Z`) + days * 86_400_000)
     .toISOString()
     .slice(0, 10);
 
@@ -620,28 +716,30 @@ it("watching changes nothing: attending in silence, the same bills get the same 
   ).toBeGreaterThan(0);
 }, 3_600_000);
 
-it("a member the player plays decides alike at the stop and away from it: the member's own vote on every item", () => {
-  // The two worlds: the player plays the same member in both. In one they are
-  // held at every meeting and leave each item to the character ("Decide for
-  // me"), which casts the vote the member's own position gives; in the other no meeting stops them, and the meeting's
-  // close votes the items with the member's own vote. Same place, same seed,
-  // same days. (A seat the player plays is not compared with the same seat
-  // left to the world: a played member files no ordinances of their own and
-  // is not voted for on an override, so those two worlds differ by what the
-  // player does, not by the hold. The watcher's twin above compares held
-  // against unheld.)
+it("a member the player plays is stopped at every meeting by default, votes there by their own press, and with the stops off is absent, never voted for", () => {
+  // The two worlds: the player plays the same member in both. In one the
+  // stops are at their defaults (owner's card, Nov 14, 2026, 02:03Z: "Stop me
+  // at every vote"): they are held at every meeting and leave each item to
+  // the character ("Decide for me"), which casts the vote the member's own
+  // position gives. In the other they switched the meeting stops off: no
+  // meeting stops them, and every item of their body is voted with them
+  // absent, nothing cast in their name. Same place, same seed, same days.
   let proved = 0;
   const passedOver: string[] = [];
   // The kept place first, and it must pass; then drawn ones until one has a seat to play.
   for (const place of named ?? [
     SAME_DAY_PLACE,
     COMMITTEE_PLACE,
+    BUDGET_PLACE,
     SEATED_COMMITTEE_PLACE,
     ...twinPlaces("seated-holds"),
   ]) {
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     console.log(`seated-holds builds ${where}`);
-    const kept = place === SAME_DAY_PLACE || place === COMMITTEE_PLACE;
+    const kept =
+      place === SAME_DAY_PLACE ||
+      place === COMMITTEE_PLACE ||
+      place === BUDGET_PLACE;
     const run = (
       present: boolean,
       mode: "own" | "silent" | "adjourn" = "own",
@@ -664,12 +762,14 @@ it("a member the player plays decides alike at the stop and away from it: the me
       const member = seat.holder.personId;
       const player = new BenchPlayer(core, world.director);
       player.select(member);
-      setStops(api, member, {
-        "every-meeting": present,
-        "own-bill-vote": present,
-        "deciding-vote": present,
-      });
-      const end = endOf(core);
+      // Held: the stops as the game starts them. Away: the player switched them off.
+      if (!present)
+        setStops(api, member, {
+          "every-meeting": false,
+          "own-bill-vote": false,
+          "deciding-vote": false,
+        });
+      const end = endOf(core, "days" in place ? place.days : DAYS);
       let held = 0;
       let items = 0;
       const sat: string[] = [];
@@ -695,6 +795,14 @@ it("a member the player plays decides alike at the stop and away from it: the me
                 .get(`${id}|${member}`),
               `${where}: ${id} voted before Adjourn`,
             ).toBeUndefined();
+          // The player spoke on the first open item and said nothing on the rest:
+          // Adjourn casts the stated side, and abstains where none was stated.
+          const spokeOn = open[0];
+          if (spokeOn) speakOnItem(api, meeting.id, spokeOn, -1);
+          // A vote the player already put on the record (the bill's page, an
+          // agreement in a scene) stands: Adjourn leaves it and keeps no act of its own.
+          const onPaper = open.length >= 3 ? open[2] : undefined;
+          if (onPaper) castMemberVote(api, onPaper, member, "yes");
           adjourn(api, meeting.id);
           for (const id of open) {
             if (billOf(api, id).moot) continue;
@@ -703,15 +811,18 @@ it("a member the player plays decides alike at the stop and away from it: the me
               .table("choices")
               .get(`${id}|${member}`) as unknown as
               { vote?: string } | undefined;
-            expect(
-              chosen?.vote,
-              `${where}: ${id} cast at Adjourn`,
-            ).toBeDefined();
+            expect(chosen?.vote, `${where}: ${id} cast at Adjourn`).toBe(
+              id === spokeOn ? "no" : id === onPaper ? "yes" : "abstain",
+            );
             const act = officeActsOf(api, member).find(
               (a) => a.kind === "vote" && a.recordId === id,
             );
+            if (id === onPaper) {
+              expect(act, `${where}: ${id} kept its own vote`).toBeUndefined();
+              continue;
+            }
             expect(act?.how, `${where}: ${id} act at Adjourn`).toBe(
-              "own-choice",
+              "adjourned",
             );
             expect(act?.date, `${where}: ${id} Adjourn day`).toBe(core.date);
             adjourned += 1;
@@ -786,13 +897,54 @@ it("a member the player plays decides alike at the stop and away from it: the me
             expect(c.date, `${where}: committee on ${c.billId}`).toBe(
               placed.date,
             );
-          return `${c.billId} ${c.date} ${c.yes}-${c.no} ${c.votes
+          // Away, the player's seat is absent at the committee too; held, it
+          // votes their press. The other members vote alike on both paths.
+          const own = c.votes.find((v) => v.memberId === member)?.vote;
+          if (!present)
+            expect(own, `${where}: committee on ${c.billId} away`).toBe(
+              "absent",
+            );
+          return `${c.billId} ${c.date} ${c.votes
+            .filter((v) => v.memberId !== member)
             .map((v) => `${v.memberId}:${v.vote}`)
             .join(",")}`;
         });
       if (mode === "adjourn")
         expect(adjourned, `${where}: items left to Adjourn`).toBeGreaterThan(0);
-      return { bills: decided(api), held, items, date: core.date, committees };
+      // Away, every vote of the member's body records them absent, with no
+      // vote cast from their position.
+      let absent = 0;
+      if (!present)
+        for (const officeId of officeHost.officesOf(api, member))
+          for (const vote of api
+            .moduleState(LEGISLATURE_MODULE_ID)
+            .table("votes")
+            .rows() as unknown as {
+            id: string;
+            billId: string;
+            memberId: string;
+            chamber: string;
+            vote: string;
+          }[]) {
+            if (vote.memberId !== member || vote.chamber !== officeId) continue;
+            if (/:override/.test(vote.id)) continue;
+            expect(vote.vote, `${where}: ${vote.billId} away`).toBe("absent");
+            const act = officeActsOf(api, member).find(
+              (a) => a.kind === "vote" && a.recordId === vote.billId,
+            );
+            expect(act?.how, `${where}: ${vote.billId} act away`).toBe(
+              "absent",
+            );
+            absent += 1;
+          }
+      return {
+        bills: decided(api),
+        held,
+        items,
+        absent,
+        date: core.date,
+        committees,
+      };
     };
     const held = run(true);
     if (!held) {
@@ -805,15 +957,22 @@ it("a member the player plays decides alike at the stop and away from it: the me
     );
     expect(away.held).toBe(0);
     expect(held.date).toBe(away.date);
-    expect(held.bills, where).toEqual(away.bills);
-    expect(held.committees, `${where}: committees the player sits on`).toEqual(
-      away.committees,
-    );
+    if (held.items > 0)
+      expect(away.absent, `${where}: votes missed away`).toBeGreaterThan(0);
+    // The two worlds part once the player's votes differ (their press held,
+    // absent away), so later agendas differ too; each world's committees
+    // meet on their meeting's day, checked in the run.
     if (place.key === SEATED_COMMITTEE_PLACE.key)
       expect(
         held.committees.length,
         `${where}: a committee the player sits on`,
       ).toBeGreaterThan(0);
+    // The budget is voted at the Jul 1 meeting on both paths, alike.
+    if (place === BUDGET_PLACE)
+      expect(
+        held.bills.some((line) => / 2025-6 /.test(line)),
+        `${where}: the budget decided`,
+      ).toBe(true);
     if (place.key === COMMITTEE_PLACE.key) {
       run(true, "silent");
       run(true, "adjourn");

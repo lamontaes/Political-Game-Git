@@ -1,0 +1,166 @@
+{
+  "id": "scene-review-fixture",
+  "moments": [
+    {
+      "moment": 1,
+      "description": "Signature at a sick door",
+      "sceneKind": "Doors",
+      "lines": [
+        {
+          "id": "1.1y.1",
+          "key": "scene-talk.narrate-narrate.you-hear-a-chair-scrape-then-slow-steps-name-opens-the-door",
+          "line": "You hear a chair scrape, then slow steps. Karen Gibson opens the door."
+        },
+        {
+          "id": "1.1y.2",
+          "key": "scene-talk.state-request.hi-i-m-self-i-m-collecting-signatures-so-i-can-run-for-office-would-you-sign",
+          "line": "Hi, I'm Charles. I'm collecting signatures so I can run for mayor. Would you sign?"
+        },
+        {
+          "id": "1.1y.3",
+          "key": "scene-talk.reply-agree.it-s-nice-to-see-a-face-from-place-at-the-door-sure-i-ll-sign",
+          "line": "It's nice to see a face from Ossineke, Michigan at the door. Sure, I'll sign."
+        },
+        {
+          "id": "1.1y.4",
+          "key": "scene-talk.follow-thank.thank-you-for-coming-to-the-door-take-care-of-yourself-i-m-self",
+          "line": "Thank you for coming to the door. Take care of yourself. I'm Charles."
+        },
+        {
+          "id": "1.1y.5",
+          "key": "scene-talk.follow-ask.can-i-ask-how-you-re-feeling-don-t-let-me-keep-you-on-your-feet-in-place",
+          "line": "Can I ask how you're feeling? Don't let me keep you on your feet in Ossineke, Michigan."
+        },
+        {
+          "id": "1.1y.6",
+          "key": "scene-talk.reply-tell.i-m-managing-self-it-s-just-slow-going",
+          "line": "I'm managing, Charles. It's just slow going."
+        }
+      ]
+    },
+    {
+      "moment": 4,
+      "description": "Vote ask, plain door",
+      "sceneKind": "Doors",
+      "lines": [
+        {
+          "id": "4.1y.1",
+          "key": "scene-talk.narrate-narrate.name-answers-after-the-second-knock",
+          "line": "Karen Gibson answers after the second knock."
+        },
+        {
+          "id": "4.1y.2",
+          "key": "scene-talk.state-request.hi-my-name-is-self-and-i-m-running-for-office-would-you-vote-for-me",
+          "line": "Hi. My name is Charles, and I'm running for mayor. Would you vote for me?"
+        },
+        {
+          "id": "4.1y.3",
+          "key": "scene-talk.reply-agree.alright-self-you-ve-got-my-vote-for-office",
+          "line": "Alright, Charles. You've got my vote for mayor."
+        },
+        {
+          "id": "4.1y.4",
+          "key": "scene-talk.follow-thank.thank-you-i-won-t-let-you-down",
+          "line": "Thank you. I won't let you down."
+        },
+        {
+          "id": "4.1m.1",
+          "key": "scene-talk.narrate-narrate.name-answers-after-the-second-knock",
+          "line": "Karen Gibson answers after the second knock."
+        },
+        {
+          "id": "4.1m.2",
+          "key": "scene-talk.state-request.hi-my-name-is-self-and-i-m-running-for-office-would-you-vote-for-me",
+          "line": "Hi. My name is Charles, and I'm running for mayor. Would you vote for me?"
+        },
+        {
+          "id": "4.1m.3",
+          "key": "scene-talk.reply-deflect.i-haven-t-thought-much-about-the-race-for-office-yet-ask-me-closer-to-election-d",
+          "line": "I haven't thought much about the race for mayor yet. Ask me closer to Election Day."
+        },
+        {
+          "id": "4.1m.4",
+          "key": "scene-talk.follow-press.what-would-it-take-to-get-you-there",
+          "line": "What would it take to get you there?"
+        },
+        {
+          "id": "4.1m.5",
+          "key": "scene-talk.reply-decline.i-appreciate-you-coming-by-but-my-vote-for-office-is-spoken-for",
+          "line": "I appreciate you coming by, but my vote for mayor is spoken for."
+        },
+        {
+          "id": "4.1m.6",
+          "key": "scene-talk.follow-accept.fair-enough-i-hope-i-earn-it-before-election-day",
+          "line": "Fair enough. I hope I earn it before election day."
+        },
+        {
+          "id": "4.1n.1",
+          "key": "scene-talk.narrate-narrate.name-answers-after-the-second-knock",
+          "line": "Karen Gibson answers after the second knock."
+        },
+        {
+          "id": "4.1n.2",
+          "key": "scene-talk.state-request.hi-my-name-is-self-and-i-m-running-for-office-would-you-vote-for-me",
+          "line": "Hi. My name is Charles, and I'm running for mayor. Would you vote for me?"
+        },
+        {
+          "id": "4.1n.3",
+          "key": "scene-talk.reply-decline.i-m-sorry-self-i-can-t-promise-you-my-vote",
+          "line": "I'm sorry, Charles. I can't promise you my vote."
+        },
+        {
+          "id": "4.1n.4",
+          "key": "scene-talk.follow-press.what-would-it-take-to-get-you-there",
+          "line": "What would it take to get you there?"
+        },
+        {
+          "id": "4.1n.5",
+          "key": "scene-talk.reply-decline.i-appreciate-you-coming-by-but-my-vote-for-office-is-spoken-for",
+          "line": "I appreciate you coming by, but my vote for mayor is spoken for."
+        },
+        {
+          "id": "4.1n.6",
+          "key": "scene-talk.follow-accept.fair-enough-i-hope-i-earn-it-before-election-day",
+          "line": "Fair enough. I hope I earn it before election day."
+        }
+      ]
+    },
+    {
+      "moment": 7,
+      "description": "First meeting: Katelyn McIntosh",
+      "sceneKind": "First meetings and home",
+      "lines": [
+        {
+          "id": "7.1.1",
+          "key": "greet/tell",
+          "line": "Hi there."
+        },
+        {
+          "id": "7.1.2",
+          "key": "here/ask",
+          "line": "I'm Katelyn. I don't think we've met."
+        },
+        {
+          "id": "7.1.3",
+          "key": "here/answer",
+          "line": "Kevin. Good to meet you."
+        },
+        {
+          "id": "7.1.4",
+          "key": "here-back/tell",
+          "line": "Kevin. Glad to know you."
+        },
+        {
+          "id": "7.1.5",
+          "key": "other-work/tell",
+          "line": "I work at the Sharon Health Department. I'm a caseworker there."
+        },
+        {
+          "id": "7.1.6",
+          "key": "farewell/tell",
+          "line": "Good talking with you, Kevin. So long."
+        }
+      ]
+    }
+  ]
+}

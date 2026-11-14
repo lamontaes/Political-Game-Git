@@ -38,6 +38,9 @@ export async function openCampaignTrail(page) {
     await shown.waitFor();
   }
   if (await own.count()) return;
+  // Its card in Travel shows a place, as every other card there does.
+  if (!(await entry.locator(".travel-art").count()))
+    throw new Error("The campaign trail's card in Travel has no picture.");
   await entry.click();
   await own.first().waitFor();
 }

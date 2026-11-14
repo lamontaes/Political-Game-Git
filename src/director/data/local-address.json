@@ -24,7 +24,34 @@
         "tag": "ESTIMATED",
         "spread": "01-15 to 03-31",
         "note": "Mayors give a State of the City in the first quarter, after the year's budget comes due."
+      },
+      "heads": {
+        "about": "Who gives the local address: the place's nearest government that seats anyone (`order`: a city or town first, then a township, then the county), and in it the office the records seat as its head (`executives`, a mayor or an elected county executive, said by the office row's own title), else the presiding member of its governing body (`bodies`: the council president, the board's chair, read from the leadership engine). TUNABLE order, checked against who gives a State of the City or a county's State of the County (Ginther 2024; county executives and board chairs give the county's).",
+        "order": ["city", "township", "county"],
+        "executives": ["mayor", "county-executive"],
+        "bodies": ["council", "township-board", "county-board"],
+        "bodyWords": [
+          "council",
+          "commission",
+          "board",
+          "court",
+          "assembly",
+          "legislature"
+        ],
+        "bodyWordsNote": "A body is said by the first of these words its recorded name holds ('County of Maui Board of Commissioners' is 'the board', 'Clark Fork City Council' is 'the council'), else its name's last word.",
+        "realmForms": ["County", "Parish", "Borough", "Township"],
+        "realmFormsNote": "A government listed as '<form> of <name>' is said '<name> <form>' for these forms ('County of Maui' is 'Maui County'); a town, city or village is said by its name alone.",
+        "tag": "TUNABLE",
+        "spread": "a county executive before a city's mayor where the place is unincorporated; else as listed"
       }
+    }
+  },
+  "heard": {
+    "about": "How a governor's or a town head's address reaches a player at home (the one staging rule for a broadcast heard; the newscast could use it too): the narrator names the first of the place's own outlets in `order` that the press records keep, and the occasion as people say it by the address's kind. The President's address plays as its montage instead (src/bench/data/opening-montage.json). TUNABLE order, checked against how people follow a State of the State (most watch or hear it live; the paper prints it the next morning).",
+    "order": ["television", "radio", "newspaper"],
+    "occasions": {
+      "state-of-the-state": "State of the State address",
+      "town-address": "yearly address"
     }
   }
 }

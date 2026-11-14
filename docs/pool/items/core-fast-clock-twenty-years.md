@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Its parts: core-fast-clock-part-1-a-results-mode-for-skipped-time, core-fast-clock-part-2-births-deaths-and-illness-in-skipped-time, core-fast-clock-part-3-prices-pay-and-jobs-in-skipped-time, core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time, core-fast-clock-part-5-the-life-record-keeps-writing-in-skipped-time, core-fast-clock-part-6-a-run-years-control-in-dev-mode, core-fast-clock-part-7-what-a-skipped-year-still-costs, core-fast-clock-part-8-design-the-town-as-counts-in-a-skip. The town joining its state (core-country-tier-town-joins-its-state) is not needed for parts 1 to 7.
 
-**Files.** src/core2/life.ts, src/core2/pre-start.ts, src/core2/fast-forward.ts, src/core2/modules/macro.ts, src/core2/country-model.ts, src/bench/dev-mode.ts, src/bench/ui/dev-run.mjs
+**Files.** src/core2/life.ts, src/core2/pre-start.ts, src/core2/modules/macro.ts, src/core2/country-model.ts, src/bench/dev-mode.ts, src/bench/ui/dev-run.mjs
 
 **Notes.** Related: release-nightly-twenty-year-game-on-main, core-speed-world-campaign-days-as-group-results. The check for counts that cannot be is countryProblems in src/core2/country-model.ts; the macro module throws on it when bookkeeping is on. After: core-country-tier-town-joins-its-state.
 

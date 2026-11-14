@@ -519,34 +519,7 @@ export const TOWN_MEDIAN_TENURE_BY_AGE: readonly (readonly [number, number])[] =
     [Infinity, 9.9],
   ];
 
-/**
- * GAME ASSUMPTION: the share of each workplace's staff that works
- * part-time, under 35 hours a week. Food service, stores and recreation run
- * on part-time staff; offices, plants and public agencies mostly do not. An
- * employer hires part-time while its part-time staff are below this share,
- * and a resident whose life asks for fewer hours (a student, a parent of a
- * child under six, anyone 65 or older) works part-time wherever they work.
- * Nothing is drawn. The national share of about one worker in six is the
- * check.
- */
-export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {
-  restaurant: 0.45,
-  retail: 0.35,
-  recreation: 0.5,
-  "personal-care": 0.3,
-  inn: 0.3,
-  "building-services": 0.25,
-  "care-home": 0.25,
-  "private-school": 0.15,
-  "public-school": 0.08,
-  congregation: 0.3,
-  farm: 0.15,
-  hospital: 0.15,
-  clinic: 0.2,
-  "campaign-staff": 0.2,
-  organizing: 0.2,
-};
-export const TOWN_PART_TIME_DEFAULT = 0.08;
+/* The part-time share of each workplace kind is in data/shares.json (`partTimeShare`, src/core2/shares.ts). */
 
 /** The town workplace an employer was written from, and the role held. */
 export function townWorkplaceFor(

@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -45,3 +45,5 @@ Oct 29 (CTO, second account): PR #5371 closed as stale under the owner's standin
 **Notes (Fable, Nov 10, read).** Nothing on main can show this fault: the test that found it is only on the branch claude/firearm-storage-extra-duty, whose pull request was closed, and main's storage duty is three lines in src/core2/public-safety.ts with no household record beside it. A finder would have to start from that branch. It is the CTO's call whether to drop this item or block it on the branch's work coming back.
 
 Nov 11 (cause finder for Fable B): checked on main b6ce398c52. The rule that admitted the extra adults was deleted when main replaced the reach-row storage duty (the branch's own Oct 20 merge says so). A probe at the item's seed in Atascadero charged three households one adult each, with none of the four extra ids. I propose dropping the item. The two edges left in the new code are in the Cause in case the CTO wants them.
+
+Dropped Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: the rule that admitted the extra adults is gone: `firearms` in `src/core2/public-safety.ts` (line 1513) charges one person per household with a gun and a child, tracked by a `households` set at line 1527; the branch's test file `household-firearms.test.ts` does not exist on the train. The two small edges named in the Cause are depth no player sees (owner, Nov 10).

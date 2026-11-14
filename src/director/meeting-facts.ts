@@ -24,7 +24,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { withArticle } from "../english/journal-words";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import { properName, spoken } from "./words";
+import { organizationName, spoken } from "./words";
 
 export interface MeetingFact {
   text: string;
@@ -95,7 +95,7 @@ export function meetingFacts(
   const shared = history.find((row) => row.kind === "coworker" && !row.endedOn);
   const org = shared ? core.organizations.get(shared.recordId) : undefined;
   if (shared && org)
-    flag("employer", [shared.recordId, causeId], properName(org.name));
+    flag("employer", [shared.recordId, causeId], organizationName(org));
   const started =
     typeKey === "first-meeting" ? core.jobs.get(causeId) : undefined;
   const askerJob =
@@ -126,7 +126,7 @@ export function meetingFacts(
     : undefined;
   if (schoolmates && schoolOrg) {
     flag("schoolmate", [schoolmates.recordId]);
-    flag("school", [schoolmates.recordId], properName(schoolOrg.name));
+    flag("school", [schoolmates.recordId], organizationName(schoolOrg));
   }
 
   // Their children at one school in one school year: the asker's youngest at
@@ -145,7 +145,7 @@ export function meetingFacts(
       if (!match || !school) continue;
       flag("kids-school", [at.schoolId, child.id, match.id]);
       flag("child", [child.id, at.schoolId], child.givenName);
-      if (!schoolmates) flag("school", [at.schoolId], properName(school.name));
+      if (!schoolmates) flag("school", [at.schoolId], organizationName(school));
       break;
     }
   }

@@ -31,15 +31,21 @@ import {
   checkBands,
   historyMonths,
   monthKey,
-  publishedMonth,
   shiftMonth,
   countryMacroMonth,
+  worldPublishedMonth,
   type MacroMonth,
   type NationFigures,
   type MacroParameter,
 } from "../macro-model";
 import countryParameters from "../data/country/parameters.json" with { type: "json" };
-import { countryLaw, startingLawReader } from "../country-law";
+import {
+  countryLaw,
+  federalSpendingReader,
+  startingLawReader,
+} from "../country-law";
+import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./budgets";
+import { stateStake } from "../budgets-treasury";
 import {
   COUNTRY_AGE_BANDS,
   countryMoney,
@@ -322,7 +328,35 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
     ? (stateKey: string, series: string) =>
         stateLawInForce(api, stateKey, series, date)
     : startingLawReader(date, api.state.startedAt);
-  return countryLaw(read, params(api), date, taxIndexOf(api, date));
+  return countryLaw(
+    read,
+    params(api),
+    date,
+    taxIndexOf(api, date),
+    federalOn(api, date),
+  );
+}
+
+/**
+ * The federal budget in force on a day as it reaches each state, line by line: the budget the
+ * game's Congress adopted (the budgets engine's rows), shared among the states by population and
+ * this world's stake of each state in each line. None where the world keeps no budgets.
+ */
+function federalOn(api: CoreAPI, date: string) {
+  if (!(api.state as CoreState).modules.has(BUDGETS_MODULE_ID))
+    return federalSpendingReader(undefined, () => 1, 1);
+  const nation = governments(api).find((gov) => gov.level === "federal");
+  const budget = nation
+    ? budgetsOf(api, nation.id)
+        .filter((row) => row.startsOn <= date)
+        .sort((a, b) => a.startsOn.localeCompare(b.startsOn))
+        .at(-1)
+    : undefined;
+  return federalSpendingReader(
+    budget,
+    (stateKey, line) => stateStake(api, stateKey, `budget-line:${line}`),
+    params(api)("minorPerDollar"),
+  );
 }
 
 /**
@@ -332,7 +366,13 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
  */
 function lawAtTheStart(api: CoreAPI) {
   const start = api.state.startedAt;
-  return countryLaw(startingLawReader(start, start), params(api), start);
+  return countryLaw(
+    startingLawReader(start, start),
+    params(api),
+    start,
+    undefined,
+    federalOn(api, start),
+  );
 }
 
 /** The country tier as the tables keep it: one row for the nation's accounts, one for each state. A copy, so a month can change it. */
@@ -973,14 +1013,18 @@ export function linkCreditLineToPrime(
 
 export const MACRO_MODULE: PreStartModule = {
   id: MACRO_MODULE_ID,
-  // History before the start (M1-14): the nation's published months, and each change in the policy rate.
+  // History before the start (M1-14): this world's months (the published
+  // months moved by its own offsets, the rule its opening month follows),
+  // and each change in the policy rate.
   preStart: {
     phase: "economy",
     run(api, window, history) {
+      const p = params(api);
+      const { startedAt, seed } = api.state;
       let previous: number | undefined;
       for (const date of coarseSteps(window)) {
         const month = date.slice(0, "YYYY-MM".length);
-        const row = publishedMonth(month);
+        const row = worldPublishedMonth(month, startedAt, seed, p);
         if (!row) continue;
         const facts: Record<string, number> = {};
         for (const key of [
@@ -994,9 +1038,11 @@ export const MACRO_MODULE: PreStartModule = {
         ] as const)
           if (row[key] !== undefined) facts[key] = row[key]!;
         const source: Source = {
-          tag: "SOURCED",
+          tag: "ESTIMATED",
           asOf: api.state.date,
           citation: MACRO_HISTORY_SOURCE.citation,
+          estimatedFrom:
+            "The published month moved by this world's own offsets (macroWorldOffsets), the rule the opening month follows.",
         };
         history.record({
           id: `economy.conditions:${month}`,

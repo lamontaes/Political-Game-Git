@@ -36,11 +36,13 @@ const NAMES = data.names as Readonly<
       };
       readonly family?: string;
       readonly pole?: "a" | "b";
+      readonly again?: string;
       readonly number?: "one" | "many";
       readonly figures?: readonly {
         readonly measure: string;
         readonly side: "for" | "against";
       }[];
+      readonly points?: Readonly<Record<string, readonly string[]>>;
     }
   >
 >;
@@ -126,8 +128,25 @@ export function questionReasons(
 }
 
 /** The law in force on the question, as the thing itself: "repeal {paid family leave}", "{the higher federal minimum wage}". */
+/**
+ * The claim a wording makes about a question, by its `points` tag (the
+ * question's reason for a side, the today wordings and the belief clauses
+ * that restate it share one); a wording in no group makes a claim of its
+ * own, its own text. Two wordings with one tag make one point twice.
+ */
+export function questionPoint(question: string, text: string): string {
+  for (const [tag, texts] of Object.entries(NAMES[question]?.points ?? {}))
+    if (texts.includes(text)) return tag;
+  return text;
+}
+
 export function questionLaw(question: string): string | null {
   return NAMES[question]?.law ?? null;
+}
+
+/** What a speech calls the question once it has named it ("a clean electricity standard" is "the standard" after): written by scripts/words/question-again-names.ts. */
+export function questionAgain(question: string): string | null {
+  return NAMES[question]?.again ?? null;
 }
 
 /** The question as a verb phrase: "I want to {raise the minimum wage}". */
