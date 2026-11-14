@@ -24,6 +24,7 @@ import type {
 } from "../types";
 import { engagementOf, NATIONAL_ENGAGEMENT } from "../electorate";
 import { believesClaim, claimFit } from "../heard-claims";
+import { currentCloseness } from "../closeness";
 import { decisionKinds } from "../trait-decision-table";
 import { stanceRow, VIEWS_SPEAKER_KEY, VIEWS_SPEAKER_LEAN_KEY } from "./views";
 import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
@@ -147,9 +148,9 @@ function movedBy(
 /**
  * The living people a listener is tied to outside their household and outside
  * the audience: relatives elsewhere, friends and coworkers, from the kept ties
- * (`relationshipsByPerson`). Every tie is reachable; how far a retelling moves
- * each is decided by the hearer, by how close they are to the teller
- * (`believesClaim`) and by the speaker's standing with them.
+ * (`relationshipsByPerson`), the few they are closest to (speechRetellTies).
+ * How far a retelling moves each is decided by the hearer, by how close they
+ * are to the teller (`believesClaim`) and by the speaker's standing with them.
  */
 function tiesBeyondHome(
   api: CoreAPI,
@@ -161,7 +162,7 @@ function tiesBeyondHome(
   const household = new Set(
     api.state.households.get(listener.householdId)?.memberIds ?? [],
   );
-  const out: PersonState[] = [];
+  const out: { person: PersonState; closeness: number }[] = [];
   for (const key of api.state.relationshipsByPerson.get(listener.id) ?? []) {
     const tie = api.state.relationships.get(key);
     if (!tie) continue;
@@ -174,9 +175,17 @@ function tiesBeyondHome(
     )
       continue;
     const other = api.state.people.get(otherId);
-    if (other?.alive) out.push(other);
+    if (other?.alive)
+      out.push({ person: other, closeness: currentCloseness(api.state, tie) });
   }
-  return out.sort((a, b) => a.id.localeCompare(b.id));
+  // A person talks it over with a few: the ones they are closest to.
+  return out
+    .sort(
+      (a, b) =>
+        b.closeness - a.closeness || a.person.id.localeCompare(b.person.id),
+    )
+    .slice(0, s(api, "speechRetellTies"))
+    .map((row) => row.person);
 }
 
 /** A speech is heard by its audience; some listeners retell it at home. */

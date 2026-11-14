@@ -64,5 +64,16 @@
       "unit": "days",
       "citation": "From the longest open scene (7 days) to a season."
     }
+  },
+  "speechRetellTies": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How many of the people a listener is closest to outside their own household a retold speech reaches: people talk about what matters to them with a few others, not with everyone they know (the General Social Survey's core discussion network averages about two to three people, Marsden 1987, American Sociological Review 52(1):122-131, and McPherson, Smith-Lovin and Brashears 2006, American Sociological Review 71(3):353-375; cited from memory, not fetched). Taken in order of closeness, the closest first, so nothing is drawn.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "people outside the household",
+      "citation": "From the nearest one confidant to about twice the surveyed discussion network."
+    }
   }
 }
