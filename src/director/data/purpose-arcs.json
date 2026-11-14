@@ -4106,9 +4106,9 @@
           ]
         }
       },
-      "replies": ["agree", "decline"],
+      "replies": ["agree", "decline", "ask"],
       "again": {
-        "ask": ["answer", "decline", "leave"]
+        "answer": ["agree", "decline"]
       },
       "endings": [
         {
