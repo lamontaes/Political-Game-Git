@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** On a full clone at train 3076c608 with nothing changed, `scripts/dialogue-batch/batch-two.test.ts` "every line is a bank line, three to a moment, each moment described" fails with "expected undefined to be 'It matters to me whoever won. I live …'", and `scripts/dialogue-batch/liked-lines-kept.test.ts` "is a piece in a bank, or a grade moved onto a live piece in a bank" fails with "graded good, and in no bank: expected [ Array(1) ] to deeply equal []".
+**What.** On a full clone at train 3076c608 with nothing changed, `scripts/dialogue-batch/batch-two.test.ts` "every line is a bank line, three to a moment, each moment described" fails with "expected undefined to be 'It matters to me whoever won. I live …'", and `scripts/dialogue-batch/liked-lines-kept.test.ts` "is a piece in a bank, or a grade moved onto a live piece in a bank" fails with "graded good, and in no bank: expected [ Array(1) ] to deeply equal []". Guards: a piece the owner graded good is never lost.
 
 **Cause.** Needs cause. Measured: both fail on the clean train; the first names a batch 2 line, "It matters to me whoever won. I live under what they decide", with no matching bank piece. Likely a piece rewritten or removed after it was graded.
 
