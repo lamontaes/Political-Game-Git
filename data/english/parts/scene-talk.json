@@ -145882,7 +145882,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology.close",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["same-home"]
         }
       ],
       "origin": "authored",
@@ -146544,7 +146545,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology.repeat",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["same-home"]
         }
       ],
       "origin": "authored",
@@ -147302,7 +147304,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology.pressed",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["same-home"]
         }
       ],
       "origin": "authored",

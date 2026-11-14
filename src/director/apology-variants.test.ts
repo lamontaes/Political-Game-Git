@@ -141,6 +141,19 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${s
           `${where}: "${text}" is not a ${chosen.purpose} line`,
         ).toBe(true);
       expect(scene.talk.depth, where).toBeGreaterThan(1);
+      // The wronged person lives here: nothing says they come, wait outside or
+      // lean on a car (`excludesFacts: same-home`, the scene's own fact).
+      expect(
+        scene.facts.some((fact) => fact.key === "same-home"),
+        where,
+      ).toBe(true);
+      for (const text of [
+        ...scene.talk.narration.map((row) => row.text),
+        ...treeTexts(scene.talk.tree),
+      ])
+        expect(text, where).not.toMatch(
+          /\b(has|have) come to\b|\bparking lot\b|\bleaning on your car\b|\bnearly empty\b/,
+        );
       process.stdout.write(
         `APOLOGY ${where}: ${quarrel.id}; played ${chosen.variant} (${chosen.scores.map((s) => `${s.variant} ${s.score.toFixed(2)}`).join(", ")}); opens "${scene.talk.state.text}"\n`,
       );
@@ -269,3 +282,27 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${s
     setBookkeeping(true);
   }
 }, 120_000);
+
+it("a housemate's apology has an opening narration line in every arc", () => {
+  const purposes = Object.values(families).map((row) => row.purpose);
+  for (const purpose of purposes) {
+    if (purpose === "owed-apology") continue; // the plain arc is never a money quarrel's
+    const openers = sceneBank.parts.filter((part) =>
+      (
+        part.uses as {
+          purpose?: string;
+          step: string;
+          move: string;
+          excludesFacts?: string[];
+        }[]
+      ).some(
+        (use) =>
+          use.purpose === purpose &&
+          use.step === "narrate" &&
+          use.move === "narrate" &&
+          !use.excludesFacts?.includes("same-home"),
+      ),
+    );
+    expect(openers.length, purpose).toBeGreaterThan(0);
+  }
+});
