@@ -9,12 +9,15 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/states.browser.mjs [shots dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { playOpening } from "./start-life.mjs";
 import { devModeOn } from "./dev-setup.mjs";
 
 const [shots] = process.argv.slice(2);
 /** Days run before looking, and per dev-mode run (run lengths). */
 const DAYS = 240;
+/** The world named: Rock Cave, West Virginia, where the Nation paper has a lead that opens a roll call. */
+const PLACE = "5469244";
+const SEED = process.env.STATES_SEED ?? "rockcave-a";
 const STEP = 60;
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -42,8 +45,29 @@ const counts = (text) => {
   return { yes, no };
 };
 try {
-  const life = await startLife(page, { fresh: true });
-  console.log("Place:", life.placeName, "Seed:", life.seed);
+  // A new life in the named world: the page loads first, then the new-life call is steered to
+  // the place and seed (steering before the page loads stops the title from answering).
+  await page.goto("http://localhost:3000/play");
+  await page.locator("#new-life").waitFor();
+  await page.route("**/api/newlife?*", (route) => {
+    const url = new URL(route.request().url());
+    url.searchParams.set("seed", SEED);
+    url.searchParams.set("placeKey", PLACE);
+    route.continue({ url: url.toString() });
+  });
+  const made = page.waitForResponse(
+    (r) => new URL(r.url()).pathname === "/api/newlife",
+    { timeout: 600000 },
+  );
+  await page.locator("#new-life").click();
+  if (await page.locator("#new-advanced").isVisible())
+    await page.locator("#new-advanced").click();
+  await page.locator("#new-world").click();
+  const response = await made;
+  assert.equal(response.status(), 200, await response.text());
+  const body = await response.json();
+  await playOpening(page, body.sceneMomentId ?? null);
+  console.log("Place:", body.placeName, "Seed:", SEED);
   await devModeOn(page);
   for (let day = 0; day < DAYS; day += STEP) await run(STEP);
   const openGovernment = async () => {
@@ -126,8 +150,23 @@ try {
     .locator('#rings [data-tab="news"]')
     .first()
     .evaluate((e) => e.click());
+  await page.waitForTimeout(800);
   const nation = page.locator('[data-outlet="nation"]');
-  if (await nation.count()) {
+  // The Nation heading tells the laws another state passed in the last two weeks that reach this
+  // reader, so a day with none has no paper: play on a week at a time (at most 120 days) to a day with one.
+  for (let more = 0; more < 120 && !(await nation.count()); more += 7) {
+    await page.keyboard.press("Escape");
+    await run(7);
+    // A talk a day stopped on is played to its end, as a player would.
+    await playOpening(page, null);
+    await page
+      .locator('#rings [data-tab="news"]')
+      .first()
+      .evaluate((e) => e.click());
+    await page.waitForTimeout(800);
+  }
+  assert.ok(await nation.count(), "the named world has a Nation paper");
+  {
     await nation.first().click();
     const how = page.getByRole("button", { name: "How they voted" });
     await how.first().waitFor();
@@ -139,7 +178,7 @@ try {
       .waitFor();
     await shot("news-roll-call");
     console.log("The Nation lead opened its roll call");
-  } else console.log("No Nation paper in this player's news this year");
+  }
   assert.deepEqual(errors, [], "page errors");
   console.log("PASS another state's changes and roll calls");
 } finally {
