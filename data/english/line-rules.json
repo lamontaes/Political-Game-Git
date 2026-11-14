@@ -1089,7 +1089,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "sample",
+      "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
@@ -1098,11 +1098,7 @@
         "You've got it. We'll bring more people Saturday.",
         "We'll be there.",
         "Okay. I don't like it, but okay."
-      ],
-      "applies": {
-        "banks": ["scene-talk"],
-        "moves": "^(?:reply|follow)-(?:agree|accept|relent|apologize|promise)$"
-      }
+      ]
     },
     {
       "id": "evasion-points-somewhere",
@@ -4182,7 +4178,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "sample",
+      "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
@@ -4194,7 +4190,9 @@
             "step": "^state$"
           }
         }
-      }
+      },
+      "catches": ["I see."],
+      "note": "His record (Nov 1): after \"File for this office\" the player was shown saying \"I see.\" Verdicts kept (7 yes, 0 no). Leaves awaiting-test with a spare he liked."
     },
     {
       "id": "body-named-as-place-names-it",
@@ -4584,14 +4582,16 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "sample",
+      "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
       "applies": {
         "banks": ["scene-talk"],
         "moves": "^reply-lie$"
-      }
+      },
+      "catches": ["Not here."],
+      "note": "Verdicts kept (81 yes, 0 no on observed pairs), but no lie in the banks is about where the speaker is from, so the zero says nothing yet. Leaves awaiting-test with a spare he liked."
     },
     {
       "id": "no-do-you-remember-the-school",

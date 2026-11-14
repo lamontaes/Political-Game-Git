@@ -29,74 +29,15 @@
     "scene-talk.close-press.we-still-have-to-settle-this-you-know": [
       "no-filler"
     ],
-    "scene-talk.follow-accept.all-right-i-won-t-push": ["no-quick-resolution"],
-    "scene-talk.follow-accept.all-right-that-s-more-than-i-expected-thank-you-for-saying-it": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.anytime": ["no-quick-resolution"],
-    "scene-talk.follow-accept.deal-i-ll-start-making-calls-tomorrow": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.done-sit-down-and-i-ll-take-care-of-the-rest": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.door-by-door-lead-with-that": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.fair-enough-the-door-s-open-if-you-change-your-mind": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.fair-enough-well-leave-it-there-then": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.fair-i-owe-you-one": ["no-quick-resolution"],
-    "scene-talk.follow-accept.glad-to-hear-it": ["no-quick-resolution"],
-    "scene-talk.follow-accept.good-that-s-the-speech": ["no-quick-resolution"],
     "scene-talk.follow-accept.i-hear-you-the-ring-goes-back-in-the-drawer-and-we-re-still-us-i-ll-ta": [
       "no-stock-phrases"
     ],
-    "scene-talk.follow-accept.i-understand-thanks-for-hearing-me-out": [
-      "no-quick-resolution"
-    ],
     "scene-talk.follow-accept.it-s-all-right": ["alright-in-dialogue"],
-    "scene-talk.follow-accept.it-stays-in-you-have-my-word": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.okay-i-can-take-that": ["no-quick-resolution"],
-    "scene-talk.follow-accept.okay-i-can-work-with-that": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.okay-i-ll-drop-it": ["no-quick-resolution"],
-    "scene-talk.follow-accept.okay-i-ll-leave-you-be": ["no-quick-resolution"],
-    "scene-talk.follow-accept.perfect-that-s-the-line": ["no-quick-resolution"],
-    "scene-talk.follow-accept.sure": ["no-quick-resolution"],
-    "scene-talk.follow-accept.then-i-failed-good-let-s-win-it": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.then-i-ll-go-bother-the-state-thanks": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.tonight-then": ["no-quick-resolution"],
-    "scene-talk.follow-accept.tuesday-i-ll-say-it": ["no-quick-resolution"],
-    "scene-talk.follow-accept.understood-i-ll-keep-it-inside-the-building": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-accept.we-start-monday-they-ll-love-it": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-agree.me-too": ["no-quick-resolution"],
     "scene-talk.follow-press.i-hear-you-but-this-matters-to-the-family-what-s-in-the-way": [
       "no-stock-phrases"
     ],
     "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way": [
       "no-stock-phrases"
-    ],
-    "scene-talk.follow-promise.i-ll-have-it-on-your-desk-tomorrow": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.follow-promise.of-course": ["no-quick-resolution"],
-    "scene-talk.follow-promise.then-it-s-done-eat-your-pie": [
-      "no-quick-resolution"
     ],
     "scene-talk.follow-thank.i-m-holding-you-to-that-you-know": ["no-filler"],
     "scene-talk.open-greet.deceased-talked-about-you-you-know": ["no-filler"],
@@ -112,60 +53,11 @@
       "no-stock-phrases"
     ],
     "scene-talk.reply-agree.all-right-i-ll-do-it": ["alright-in-dialogue"],
-    "scene-talk.reply-agree.all-right-tell-me-where-to-be-and-when": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-agree.all-right-you-have-my-support": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-agree.alright-i-ll-do-it": ["no-quick-resolution"],
-    "scene-talk.reply-agree.alright-that-makes-sense-i-ll-do-it": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-agree.alright-that-s-easy-enough-i-ll-help-you": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-agree.alright-you-re-right-i-ll-make-it-work": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-agree.count-me-in-for-seat": ["no-quick-resolution"],
-    "scene-talk.reply-agree.count-me-in-i-can-give-you-saturdays": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-agree.okay-i-ll-come-and-listen": ["no-quick-resolution"],
-    "scene-talk.reply-agree.okay-i-ll-go-over-there-tonight": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-agree.that-helps-and-i-ll-do-it": ["no-quick-resolution"],
-    "scene-talk.reply-agree.that-helps-count-me-in": ["no-quick-resolution"],
-    "scene-talk.reply-agree.that-s-more-than-i-ve-got-now-i-ll-do-it": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-agree.then-i-believe-you-come-thursday": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-agree.then-i-ll-do-it-tonight": ["no-quick-resolution"],
     "scene-talk.reply-agree.well-when-you-put-it-that-way-give-me-the-pen": [
       "no-filler"
     ],
-    "scene-talk.reply-agree.you-have-it": ["no-quick-resolution"],
-    "scene-talk.reply-agree.you-make-a-fair-point-so-i-ll-do-it": [
-      "no-quick-resolution"
-    ],
     "scene-talk.reply-answer.i-hear-you-i-still-think-it-s-the-right-answer": [
       "no-stock-phrases"
-    ],
-    "scene-talk.reply-apologize.all-right-i-ll-say-it-at-the-start-of-the-meeting-to-your-face": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-apologize.fine-at-the-meeting-out-loud-so-everybody-hears-it": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-apologize.you-re-right-i-ll-stand-up-and-say-it-in-front-of-everyone": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-apologize.you-re-right-to-be-angry-i-d-be-angry": [
-      "no-quick-resolution"
     ],
     "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next": [
       "alright-in-dialogue"
@@ -187,24 +79,6 @@
     ],
     "scene-talk.reply-offer.come-in-we-ll-figure-out-the-rest-together-as-it-comes": [
       "stake-is-named"
-    ],
-    "scene-talk.reply-promise.i-ll-be-there-and-you-can-count-on-me": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-promise.i-ll-figure-it-out-i-promise": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-promise.i-ll-take-care-of-it-and-i-ll-check-on-you-afterward": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-promise.then-i-ll-take-it-up-i-ll-tell-you-what-comes-of-it": [
-      "no-quick-resolution"
-    ],
-    "scene-talk.reply-promise.then-we-ll-work-it-out-together-call-me": [
-      "no-quick-resolution"
     ],
     "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no": [
       "no-stock-phrases"
@@ -326,9 +200,6 @@
   "barred": {},
   "awaitingVerdict": {
     "commitment-names-who-what-why": 0,
-    "lie-names-another-place (pairs)": 1825,
-    "no-quick-resolution (pairs)": 8212,
-    "player-never-says-unchosen (pairs)": 0,
     "stake-is-named": 0
   }
 }
