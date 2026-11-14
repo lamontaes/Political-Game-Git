@@ -2,7 +2,7 @@
 id: words-paper-birth-story-unworded-at-drawn-seeds
 title: "A birth story the press prints comes out unworded, and two tests draw their seeds"
 area: words
-kind: defect
+kind: bug
 priority: 2
 size: S
 status: open
