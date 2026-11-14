@@ -19,7 +19,7 @@ import { seededUnit } from "./seeded";
 import rows from "./data/past/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import { registerModule } from "./state";
-import type { CoreAPI, CoreModule, CoreState } from "./types";
+import type { CoreAPI, CoreState } from "./types";
 import type { ModuleRow } from "./module-data";
 import { residenceOn } from "./past-moves";
 import type { HistoryRecord, PreStartModule } from "./pre-start";
