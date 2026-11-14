@@ -24,13 +24,12 @@
  * residents are followed (focus and the director's watch), so their private
  * learned records are kept, as src/director/law-effect-scene.test.ts does.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { BenchPlayer } from "../bench/player";
 import { seatAct, seatView } from "../bench/legislature";
 import { colleagueDeal, officeView } from "../bench/office";
-import { drawPlace } from "../../scripts/core2-year/place";
+import { drawPlace, type DrawnPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -56,9 +55,32 @@ import { composeJournal } from "../director/journal";
 import { composeScene } from "../director/scene";
 import { questionAxis } from "./campaign-views";
 
-const seed = process.env.LAWS_E2E_SEED ?? randomBytes(16).toString("hex");
-/** Draws tried for each outcome before the test says none held it. */
-const DRAWS = 12;
+/**
+ * The test's two places are pinned, chosen from the data of drawn runs of this
+ * test (a bill's outcome is the members' reasons, so a world seed replays it):
+ * a place whose seat may enact a price law and whose bill passes, and one
+ * whose bill fails. A drawn place may hold neither case, and a year of play per
+ * drawn place took minutes, so a run does not draw. `LAWS_E2E_SEED` draws one
+ * place for each case instead, to look for another witness; the test then
+ * fails by name at the first case a place does not hold.
+ */
+const ENACTED_PLACE: DrawnPlace = {
+  name: "Williamston, Michigan",
+  key: "2687420",
+  seed: "3887d1f8966e703e7c197149970d6097a4b5b0e703d51ed4ff248a640beaa4a2",
+  state: "US-MI",
+};
+const FAILED_PLACE: DrawnPlace = {
+  name: "Anchor Point, Alaska",
+  key: "0203110",
+  seed: "76f4617022df7a962d7f7dc5b9097a6f129c161e40f14c67f6a5fc808de2d844",
+  state: "US-AK",
+};
+const seed = process.env.LAWS_E2E_SEED;
+const placeFor = (label: string, pinned: DrawnPlace): DrawnPlace =>
+  seed === undefined
+    ? pinned
+    : drawPlace(`${seed}:${label}`, "laws-end-to-end");
 /** The town residents followed, as the scene test follows them. */
 const FOLLOWED = 80;
 /** The price laws, by question, that the price engine charges and refunds under (place-prices PRICE_LAWS). */
@@ -95,8 +117,7 @@ interface Bill {
 }
 
 /** One drawn place played: the player's bill drafted, negotiated and voted. */
-function playBill(drawSeed: string) {
-  const place = drawPlace(drawSeed, "laws-end-to-end");
+function playBill(place: DrawnPlace) {
   const where = `${place.name} (${place.key}), seed ${place.seed}`;
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -226,79 +247,94 @@ function expectReasonedVotes(played: Played) {
     .join("; ");
 }
 
-/** Draws places until one plays the bill to `outcome`, naming those passed over. */
-function drawUntil(outcome: (bill: Bill) => boolean, label: string): Played {
-  const passed: string[] = [];
-  for (let draw = 0; draw < DRAWS; draw += 1) {
-    const played = playBill(`${seed}:${label}:${draw}`);
-    if ("skipped" in played) {
-      passed.push(played.skipped!);
-      continue;
-    }
-    if (outcome(played.bill)) {
-      if (passed.length)
-        process.stdout.write(`${label}: passed over ${passed.join("; ")}\n`);
-      return played;
-    }
-    passed.push(`${played.where}: ${played.bill.status}`);
-  }
-  throw new Error(`No drawn place's bill was ${label}: ${passed.join("; ")}`);
-}
-
 const enacted = (bill: Bill) => bill.status === "enacted";
 
-it(`a player's bill passes by the members' reasons and its law reaches a named person, who learns of it from the news (seed ${seed})`, () => {
+/** Plays a place's bill, and fails by name when the place does not hold the case. */
+function playCase(
+  place: DrawnPlace,
+  holds: (bill: Bill) => boolean,
+  label: string,
+): Played {
+  const played = playBill(place);
+  if ("skipped" in played) throw new Error(`${label}: ${played.skipped}`);
+  if (!holds(played.bill))
+    throw new Error(
+      `${label}: ${played.where}: the bill was ${played.bill.status}`,
+    );
+  return played;
+}
+
+/**
+ * Lives out the year after an enacted bill and returns the chain of the first
+ * followed person who learned the law's effect, or why this place has none
+ * (a place where the law reaches nobody who hears of it is passed over by name,
+ * as the drawn-place-tests skill asks, never a failure of the game).
+ */
+function followEnacted(played: Played): string {
+  const { core, api, where, bill, question, town, world, start } = played;
+  // The negotiation: every offer the player made is a deal row with its answer.
+  expect(bill.deals.length, `${where}: no deal offered`).toBeGreaterThan(0);
+  const reasons = expectReasonedVotes(played);
+  // The law the bill made governs the town.
+  const law = (
+    api.moduleState(LAWS_MODULE_ID).table("laws").rows() as unknown as {
+      id: string;
+      effectiveDate: string;
+      terms?: { enactedByBill?: string };
+    }[]
+  ).find((row) => row.terms?.enactedByBill === bill.id);
+  expect(law, `${where}: ${bill.id} made no law`).toBeDefined();
+  // The town's residents are followed, as the player's circle is in play.
+  const residents = [...core.people.values()]
+    .filter((p) => p.alive && p.placeId === town && p.tier !== "husk")
+    .map((p) => p.id as PersonId)
+    .sort()
+    .slice(0, FOLLOWED);
+  for (const id of residents) {
+    core.focusPersonIds.add(id);
+    world.director.watch(core, id);
+  }
+  // Live out the year, a day at a time once the law is in force, so the
+  // scene of the first learned effect is read the day it is staged.
+  played.liveUntil(law!.effectiveDate);
+  expect(
+    lawInForce(api, question, law!.effectiveDate).governing?.id,
+    `${where}: ${law!.id} does not govern the town`,
+  ).toBe(law!.id);
+  const yearEnd = addDays(makeIsoDate(start), 365);
+  let chain: string | undefined;
+  while (core.date < yearEnd && !chain) {
+    played.liveUntil(addDays(makeIsoDate(core.date), 1));
+    chain = followLearned(played, law!.id, residents);
+  }
+  if (!chain) {
+    const learnedBy = [...(core.logByKind.get("law.effect-learned") ?? [])]
+      .map((id) => core.durableLog.get(id)!)
+      .filter((row) => row.facts?.lawId === law!.id).length;
+    throw new Error(
+      `${where}: nobody followed learned ${law!.id} (${question}) by ${core.date}; ${learnedBy} learned it; held back: ${[...held.values()].slice(0, 8).join("; ")}`,
+    );
+  }
+  played.liveUntil(yearEnd);
+  process.stdout.write(
+    `LAWS END TO END ${where}: bill ${bill.id} ${bill.status}; deals ${bill.deals.map((d) => `${d.memberId} ${d.kind} ${d.status}`).join(", ")}; votes ${reasons}; law ${law!.id} effective ${law!.effectiveDate}; ${chain}; lived to ${core.date}\n`,
+  );
+  return chain;
+}
+
+it(`a player's bill passes by the members' reasons and its law reaches a named person, who learns of it from the news (${seed ?? "pinned place"})`, () => {
   setBookkeeping(false);
   try {
-    const played = drawUntil(enacted, "enacted");
-    const { core, api, where, bill, question, town, world, start } = played;
-    // The negotiation: every offer the player made is a deal row with its answer.
-    expect(bill.deals.length, `${where}: no deal offered`).toBeGreaterThan(0);
-    const reasons = expectReasonedVotes(played);
-    // The law the bill made governs the town.
-    const law = (
-      api.moduleState(LAWS_MODULE_ID).table("laws").rows() as unknown as {
-        id: string;
-        effectiveDate: string;
-        terms?: { enactedByBill?: string };
-      }[]
-    ).find((row) => row.terms?.enactedByBill === bill.id);
-    expect(law, `${where}: ${bill.id} made no law`).toBeDefined();
-    // The town's residents are followed, as the player's circle is in play.
-    const residents = [...core.people.values()]
-      .filter((p) => p.alive && p.placeId === town && p.tier !== "husk")
-      .map((p) => p.id as PersonId)
-      .sort()
-      .slice(0, FOLLOWED);
-    for (const id of residents) {
-      core.focusPersonIds.add(id);
-      world.director.watch(core, id);
-    }
-    // Live out the year, a day at a time once the law is in force, so the
-    // scene of the first learned effect is read the day it is staged.
-    played.liveUntil(law!.effectiveDate);
-    expect(
-      lawInForce(api, question, law!.effectiveDate).governing?.id,
-      `${where}: ${law!.id} does not govern the town`,
-    ).toBe(law!.id);
-    const yearEnd = addDays(makeIsoDate(start), 365);
-    let chain: string | undefined;
-    while (core.date < yearEnd && !chain) {
-      played.liveUntil(addDays(makeIsoDate(core.date), 1));
-      chain = followLearned(played, law!.id, residents);
-    }
-    expect(
-      chain,
-      `${where}: nobody followed learned ${law!.id} by ${core.date}`,
-    ).toBeDefined();
-    played.liveUntil(yearEnd);
-    process.stdout.write(
-      `LAWS END TO END ${where}: bill ${bill.id} ${bill.status}; deals ${bill.deals.map((d) => `${d.memberId} ${d.kind} ${d.status}`).join(", ")}; votes ${reasons}; law ${law!.id} effective ${law!.effectiveDate}; ${chain}; lived to ${core.date}\n`,
+    followEnacted(
+      playCase(placeFor("enacted", ENACTED_PLACE), enacted, "enacted"),
     );
   } finally {
     setBookkeeping(true);
   }
 }, 3_600_000);
+
+/** Why each learned effect read so far is not yet a whole chain, by event id. */
+const held = new Map<string, string>();
 
 /**
  * The chain for one followed person who learned the law's effect today: the
@@ -330,7 +366,7 @@ function followLearned(
       .moduleState(PLACE_PRICES_MODULE_ID)
       .table("felt")
       .get(`${householdId}|${lawId}`) as unknown as
-      { movedMinor: number; ruleId: string } | undefined;
+      { movedMinor: number; ruleId: string; payerId: string } | undefined;
     const story = String(event.facts?.learnedFrom ?? "");
     const heard = storyHeard(api, personId, lawId, story);
     const stance = stancesOf(api, personId).find((s) => s.topic === question);
@@ -338,11 +374,32 @@ function followLearned(
     const moment = [...(book?.momentsById.values() ?? [])].find(
       (m) => m.causeId === event.id,
     );
-    if (!applied || !felt || !heard || !moment) continue;
+    const missing = [
+      !applied && "lawApplied",
+      !felt && "felt",
+      !heard && "heard",
+      !moment && "director moment",
+    ].filter(Boolean);
+    if (missing.length) {
+      held.set(String(event.id), `${personId} lacks ${missing.join(", ")}`);
+      continue;
+    }
     expect(felt.movedMinor, `${where}: ${event.id}`).not.toBe(0);
-    expect(String(event.facts?.movedMinor), `${where}: ${event.id}`).toBe(
-      String(felt.movedMinor),
-    );
+    // What the person learned is what the price engine recorded for them. The
+    // household's `felt` row is the latest reading of the household's payer: a
+    // housemate who has not yet learned rewrites it each month with that
+    // month's change (place-prices `learnFromStory`), so it is the learner's
+    // amount only while the learner is still the row's payer (Williamston,
+    // Michigan, 2025-12-03: 425 learned, 431 felt by a housemate a month on).
+    // Once a housemate holds the row it is the same rule and a real move.
+    if (felt.payerId === personId)
+      expect(String(event.facts?.movedMinor), `${where}: ${event.id}`).toBe(
+        String(felt.movedMinor),
+      );
+    else
+      expect(event.facts?.priceRuleId, `${where}: ${event.id}`).toBe(
+        felt.ruleId,
+      );
     // The stance on the law's question cites what they learned and how.
     expect(stance, `${where}: ${personId} holds no stance`).toBeDefined();
     expect(
@@ -353,7 +410,10 @@ function followLearned(
     ).toBe(true);
     // The director's scene and the journal tell it, citing the learned record.
     const entry = book!.schedule.find((row) => row.momentId === moment.id);
-    if (!entry?.bindings.length) continue;
+    if (!entry?.bindings.length) {
+      held.set(String(event.id), `${personId}'s moment has no bindings`);
+      continue;
+    }
     const scene = composeScene(core, world.director, personId, entry);
     const sceneLine = scene?.narration.find((row) =>
       row.sourceRecordIds.includes(String(event.id)),
@@ -396,10 +456,14 @@ function storyHeard(
   return !story || story.facts?.lawId === lawId ? row.storyId : undefined;
 }
 
-it(`a player's bill that fails shows each member's vote and its reasons (seed ${seed})`, () => {
+it(`a player's bill that fails shows each member's vote and its reasons (${seed ?? "pinned place"})`, () => {
   setBookkeeping(false);
   try {
-    const played = drawUntil((bill) => bill.status === "failed", "failed");
+    const played = playCase(
+      placeFor("failed", FAILED_PLACE),
+      (bill) => bill.status === "failed",
+      "failed",
+    );
     const reasons = expectReasonedVotes(played);
     const yes = played.votes.filter((v) => v.vote === "yes").length;
     expect(
