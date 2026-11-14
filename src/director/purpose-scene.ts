@@ -1351,6 +1351,10 @@ function composeBinding(
         text: "yes",
         sourceRecordIds: why,
       };
+    // Asked again after a no: a yes says what changed, as felt (Words lead,
+    // Nov 14: the term that moved most since the no).
+    if (serve.moved && serve.standing.lean > P.zero)
+      facts[`changed-${serve.moved}`] = { text: "yes", sourceRecordIds: why };
     // A stranger is introduced to the player by their full name; the race
     // the player runs in is said from its contest record.
     facts["self-full"] = {
@@ -1602,6 +1606,7 @@ function serveStanding(
       grounds: ServeGrounds;
       terms: Readonly<Record<string, number>>;
       raceOffice: string;
+      moved: string | null;
     }
   | undefined {
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
@@ -1616,6 +1621,7 @@ function serveStanding(
     reason: row.standing.reason,
     yesReason: row.standing.yesReason,
     grounds: row.standing.grounds,
+    moved: row.moved ?? null,
   };
 }
 

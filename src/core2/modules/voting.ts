@@ -162,6 +162,7 @@ import {
   INDEPENDENT,
   type WeighedPerson,
   candidateChoices,
+  currentOfficial,
   holderOf,
   officialCandidate,
   researchedHolderParty,
@@ -6465,7 +6466,7 @@ export function runningMateChoice(
     choices:
       mate || !mayNameRunningMate(api, governor, ticket)
         ? []
-        : offeredMates(api, filing, ticket, willing),
+        : offeredMates(api, filing, governor, ticket, willing),
   };
 }
 
@@ -6481,17 +6482,44 @@ const RUNNING_MATE_WIDER = 3;
 function offeredMates(
   api: CoreAPI,
   filing: FilingRow,
+  governor: ContestRow,
   ticket: ContestRow,
   willing?: (personId: string) => boolean,
 ) {
   const party = filing.party ?? INDEPENDENT;
+  // Nobody who holds or runs for the office the candidate seeks is offered
+  // to run beside them (Words lead, Nov 14: Glencoe KY offered the sitting
+  // governor as a challenger's running mate).
+  const holder = seatHolder(api, governor);
+  const rivals = new Set<string>(
+    (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byContest", [governor.id]) as unknown as FilingRow[]
+    )
+      .filter((f) => f.status !== "withdrawn")
+      .map((f) => f.personId),
+  );
+  const official = currentOfficial(api, governor.seatId)?.id;
+  const seeks = (id: string) =>
+    rivals.has(id) || holds(holder, id) || id === official;
   const ranked = candidateChoices(
     api,
     ticketOf(filing, ticket),
     party,
-    willing ? RUNNING_MATE_CHOICES * RUNNING_MATE_WIDER : RUNNING_MATE_CHOICES,
+    (willing
+      ? RUNNING_MATE_CHOICES * RUNNING_MATE_WIDER
+      : RUNNING_MATE_CHOICES) + RUNNING_MATE_CHOICES,
     weighableFor(api, filing, ticket),
-  );
+  )
+    .filter((c) => !seeks(c.id))
+    .slice(
+      0,
+      willing
+        ? RUNNING_MATE_CHOICES * RUNNING_MATE_WIDER
+        : RUNNING_MATE_CHOICES,
+    );
   // A newcomer offered is filled in now (two-level rule: a person is filled
   // in when the player meets them), with a home town and work, so the choice
   // can be weighed.

@@ -42,7 +42,7 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
 /**
- * The second answer of the person least willing, a month after their no, as
+ * The second answer of the person each place pins, a month after their no, as
  * each pinned place's record gives it. At Santa Rita (seed 8d04db587cd640d7)
  * Kyle Vazquez says yes: the first ask made them acquainted (the stranger
  * term goes) and the player's campaign has since raised money (the standing
@@ -50,8 +50,18 @@ import type { TreeNode } from "./scene-talk";
  * Susan Guzman, whose own race is this year, says no again.
  */
 const PLACES = [
-  { key: "territory:GU:santa-rita", seed: "8d04db587cd640d7", later: "yes" },
-  { key: "territory:GU:santa-rita", seed: "3f1a9c2e7b6d4058", later: "no" },
+  {
+    key: "territory:GU:santa-rita",
+    seed: "8d04db587cd640d7",
+    asked: "Kyle Vazquez",
+    later: "yes",
+  },
+  {
+    key: "territory:GU:santa-rita",
+    seed: "3f1a9c2e7b6d4058",
+    asked: "Susan Guzman",
+    later: "no",
+  },
 ] as const;
 
 /** A no that rests on the player's stated stance (Tonya Aguilar, "apart"). */
@@ -203,14 +213,13 @@ for (const place of PLACES)
           `  ${c.name}: ${s.lean.toFixed(2)} ${s.lean > 0 ? `yes (${s.yesReason})` : `no (${s.reason})`}`,
         );
       }
-      // 1. A no from the person least willing: kept with its reason and
+      // 1. A no from the person the place pins: kept with its reason and
       // date; the seat stays open.
-      const no = [...offered.choices].sort(
-        (a, b) => standing(a.id).lean - standing(b.id).lean,
-      )[0]!;
+      const no = offered.choices.find((c) => c.name === place.asked)!;
+      expect(no, `${w.where}: ${place.asked} offered`).toBeDefined();
       expect(
         standing(no.id).lean,
-        `${w.where}: someone unwilling`,
+        `${w.where}: ${place.asked} unwilling`,
       ).toBeLessThanOrEqual(0);
       const first = ask(w, no.id, "accept");
       out.push(`-- a no (${first.row.standing.reason}):`, ...first.lines);
@@ -271,6 +280,8 @@ for (const place of PLACES)
           `${w.where}: asks dropped once seated`,
         ).toBeUndefined();
       } else {
+        // The yes says what changed since the no.
+        expect(again.row.moved, w.where).not.toBeNull();
         expect(again.reply.facts?.ending, w.where).toBe("serving");
         expect(runningMateOf(api, w.filing, w.ticket)?.personId, w.where).toBe(
           no.id,
@@ -323,6 +334,7 @@ it(
       `-- asked again after the stance moved (yes, ${again.row.standing.yesReason}):`,
       ...again.lines,
     );
+    expect(again.row.moved, w.where).toBe("agree");
     expect(again.reply.facts?.ending, w.where).toBe("serving");
     expect(runningMateOf(api, w.filing, w.ticket)?.personId, w.where).toBe(
       no.id,

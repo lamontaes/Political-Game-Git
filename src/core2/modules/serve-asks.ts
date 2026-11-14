@@ -139,6 +139,44 @@ export interface ServeAskRow {
   readonly standing: ServeStanding;
   readonly answer: "asked" | "no";
   readonly answeredOn: string | null;
+  /**
+   * Asked again after a no: what weighed for the ask that moved most since
+   * that no, so a changed answer can say what changed ("met": they know the
+   * player now; "standing": money, endorsements or an office won; "agree":
+   * the player's stance moved toward theirs; "heard": what they heard has
+   * faded; "seat": their own seat or race no longer stands in the way).
+   * Null on a first ask or where nothing moved for the ask.
+   */
+  readonly moved: ServeMoved | null;
+}
+
+export type ServeMoved = "met" | "standing" | "agree" | "heard" | "seat";
+
+/** The term of a read that moved most for the ask since an earlier read. */
+function movedSince(was: ServeStanding, now: ServeStanding): ServeMoved | null {
+  const groups: Record<ServeMoved, readonly string[]> = {
+    met: ["known", "stranger"],
+    standing: ["standing"],
+    agree: ["question"],
+    heard: ["heard"],
+    seat: ["own-seat", "own-race"],
+  };
+  let best: ServeMoved | null = null;
+  let most = 0;
+  for (const [key, terms] of Object.entries(groups) as [
+    ServeMoved,
+    readonly string[],
+  ][]) {
+    const delta = terms.reduce(
+      (sum, t) => sum + (now.terms[t] ?? 0) - (was.terms[t] ?? 0),
+      0,
+    );
+    if (delta > most) {
+      most = delta;
+      best = key;
+    }
+  }
+  return best;
 }
 
 export const SERVE_ASKS_MODULE: CoreModule = {
@@ -561,7 +599,8 @@ export function askToServe(
   );
   if (!standing) throw new Error("That person isn't on the record.");
   const id = `${found.seatKey}|${input.personId}`;
-  if (!mayAskAgain(api, serveAsk(api, id), standing))
+  const earlier = serveAsk(api, id);
+  if (!mayAskAgain(api, earlier, standing))
     throw new Error("They turned you down; it is too soon to ask again.");
   const eventId = `${SERVE_ASKED_EVENT}:${id}:${api.state.date}`;
   const row: ServeAskRow = {
@@ -578,6 +617,8 @@ export function askToServe(
     standing,
     answer: "asked",
     answeredOn: null,
+    moved:
+      earlier?.answer === "no" ? movedSince(earlier.standing, standing) : null,
   };
   table(api).put(row as unknown as ModuleRow);
   api.emit({
