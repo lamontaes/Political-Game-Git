@@ -8,6 +8,8 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { coreAPI } from "./state";
+import { ELECTIONS_MODULE_ID } from "./modules/elections";
 import { recordProof } from "../bench/dev-proof";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -18,6 +20,8 @@ interface Row {
   call: "stock" | "flow-only" | "unsure";
   reason: string;
   knownRed?: string;
+  /** Required only where a contest's filing window is open on the start date. */
+  when?: "filing-window-open";
   /** The mark applies only at these place keys (a gap that depends on the place). */
   knownRedPlaces?: string[];
 }
@@ -41,9 +45,23 @@ describe("day zero: the world opens already running", () => {
         placeKey: place.placeKey,
       });
       const tables = recordProof(world.core).tables;
+      const today = world.core.date;
+      // A filing window is open on the start date at this place when one contest's window spans it.
+      const windowOpen = coreAPI(world.core)
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows()
+        .some(
+          (contest: { filingOpens?: string | null; filingDeadline?: string }) =>
+            !!contest.filingOpens &&
+            !!contest.filingDeadline &&
+            contest.filingOpens <= today &&
+            today <= contest.filingDeadline,
+        );
       const empty: string[] = [];
       const fixed: string[] = [];
       for (const row of stock) {
+        if (row.when === "filing-window-open" && !windowOpen) continue;
         // A part's table that nothing has written yet is absent from the proof: no rows.
         const rows = tables[row.table]?.rows ?? 0;
         const red =
@@ -64,6 +82,6 @@ describe("day zero: the world opens already running", () => {
         fixed,
         `${place.name}: fixed, so the known-red mark must go`,
       ).toEqual([]);
-    }, 240_000);
+    }, 90_000);
   }
 });

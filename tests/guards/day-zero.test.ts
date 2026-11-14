@@ -17,6 +17,7 @@ const file = JSON.parse(
     reason: string;
     level: string;
     knownRed?: string;
+    when?: string;
   }[];
   modules: Record<string, string>;
 };
@@ -39,6 +40,10 @@ it("every row names a call, a level and a reason; known-red rows name a pool ite
       problems.push(`${row.table}: call ${row.call}`);
     if (!row.reason || !row.level)
       problems.push(`${row.table}: reason and level are required`);
+    if (row.when && row.when !== "filing-window-open")
+      problems.push(`${row.table}: when ${row.when}`);
+    if (row.call === "unsure")
+      problems.push(`${row.table}: every table is called stock or flow-only`);
     if (row.knownRed && row.call !== "stock")
       problems.push(`${row.table}: only a stock row can be known-red`);
     if (
