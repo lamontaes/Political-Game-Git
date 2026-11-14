@@ -5196,6 +5196,11 @@ select.release-pick {
 .news-headline.side {
   font-size: var(--t-h3);
 }
+/* A brief with a body: its headline opens it, set smaller than a front story's. */
+.news-headline.brief {
+  font-size: var(--t-ui);
+  margin-bottom: 2px;
+}
 .news-text .intro {
   margin: 0 0 10px;
 }

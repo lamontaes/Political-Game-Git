@@ -369,7 +369,20 @@ export const STORY_KINDS = {
   // The month's police log: the crimes residents reported, as a count.
   "police-log": { headline: ["police-log"], lede: ["police-log"], brief: true },
   // A school honor: a spelling bee won, seniors signing to play Division I.
-  honor: { headline: ["honor"], lede: ["honor"], brief: true },
+  honor: {
+    headline: ["honor"],
+    lede: ["honor"],
+    context: [
+      "honor-school-grade",
+      "honor-school",
+      "honor-school-unnamed",
+      "honor-grade",
+      "honor-family",
+      "honor-next",
+      "honor-next-soon",
+    ],
+    brief: true,
+  },
   graduation: { headline: ["graduation"], lede: ["graduation"], brief: true },
   "school-tests": {
     headline: ["school-tests"],
@@ -546,17 +559,37 @@ export function composeNewsStory(
   const context: string[] = [];
   // Every story may end on what its subject told a reporter about it, or
   // that they declined (press.ts keepComment).
-  const contextRoles = !brief
-    ? [...("context" in roles ? roles.context : []), "comment"]
-    : [];
+  // A brief with context roles (a school honor) opens: it says its context
+  // sentences too, but never the comment a subject gives a reporter.
+  const contextRoles =
+    !brief || "context" in roles
+      ? [
+          ...("context" in roles ? roles.context : []),
+          ...(brief ? [] : ["comment"]),
+        ]
+      : [];
+  const winner = packet.facts.name?.text;
   for (const name of contextRoles) {
+    // No two sentences in a row open with the same person's name (Words
+    // lead, Nov 14): after one that does, a sentence that would open with
+    // the name again gives way to another wording of its role.
+    const previous = context.at(-1) ?? lede ?? "";
+    const wordings = variants(
+      NEWS_BANK,
+      (use) => use.role === name,
+      packet.facts,
+    );
+    const spread =
+      winner && previous.startsWith(winner)
+        ? wordings.filter((part) => !part.text.startsWith("{{name}}"))
+        : wordings;
     const composed = line(
       packet,
       `${kind}/${name}`,
       "news",
       "tell",
       turned(
-        variants(NEWS_BANK, (use) => use.role === name, packet.facts),
+        spread.length ? spread : wordings,
         Math.floor((turn ?? 0) / ledes),
       ),
     );
@@ -677,7 +710,9 @@ export function composeNewsStory(
     ...(headline ? { headline } : {}),
     ...(lede ? { lede } : {}),
     ...(brief ? { brief: true as const } : {}),
-    ...(!brief && ("context" in roles || context.length) && lede
+    ...((!brief || context.length) &&
+    ("context" in roles || context.length) &&
+    lede
       ? { paragraphs: [lede, ...context] }
       : {}),
     broadcast,

@@ -7,6 +7,7 @@ import { el } from "./dom.mjs";
 import { tabBar, chooseTab } from "./tab.mjs";
 import { stripBoard, stripSection } from "./strips.mjs";
 import { pager } from "./pager.mjs";
+import { makeButton } from "./button.mjs";
 import { dateWords } from "../../english/plain-words.mjs";
 
 /** A story's printed text: its written paragraphs, else its lede when it is not the headline again. */
@@ -61,8 +62,10 @@ export function newsBoard({
     const outlet = outlets.get(chosen);
     holder.dataset.outlet = chosen;
     const stories = outlet.stories;
-    const side = stories.filter((story) => story.brief);
-    const front = stories.filter((story) => !story.brief);
+    // A brief the player opened takes the lead slot, as a front story does;
+    // the one that led goes back to its own place on the page.
+    const side = stories.filter((story) => story.brief && story !== opened);
+    const front = stories.filter((story) => !story.brief || story === opened);
     const lead = front.includes(opened)
       ? opened
       : front.reduce(
@@ -106,6 +109,19 @@ export function newsBoard({
         { className: `news-story ${className}` },
         headline(story, className),
         ...photo(story, className),
+        // An opened story has its way back to the front page.
+        ...(story === opened && story === lead
+          ? [
+              makeButton({
+                className: "action small news-back",
+                textContent: labels.backFront,
+                onclick: () => {
+                  opened = null;
+                  draw();
+                },
+              }),
+            ]
+          : []),
         el(
           "div",
           { className: "news-text" },
@@ -149,12 +165,24 @@ export function newsBoard({
                   pager({
                     items: briefs,
                     render: (story) =>
-                      el("p", {
-                        className: `intro ${story.brief ? "news-brief" : "news-line"}`,
-                        textContent: told(story).length
-                          ? `${headlineOf(story)}. ${told(story).join(" ")}`
-                          : headlineOf(story),
-                      }),
+                      // A brief with a body opens: its headline is the button
+                      // and only its first sentence is printed beside it.
+                      told(story).length > 1 && story.brief
+                        ? el(
+                            "div",
+                            { className: "news-brief news-brief-opens" },
+                            headline(story, "brief"),
+                            el("p", {
+                              className: "intro",
+                              textContent: told(story)[0],
+                            }),
+                          )
+                        : el("p", {
+                            className: `intro ${story.brief ? "news-brief" : "news-line"}`,
+                            textContent: told(story).length
+                              ? `${headlineOf(story)}. ${told(story).join(" ")}`
+                              : headlineOf(story),
+                          }),
                     rows: 5,
                     columns: 1,
                     rowHeight: 86,

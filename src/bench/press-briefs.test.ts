@@ -67,9 +67,11 @@ it("the paper prints the town's records as briefs, each worded and cited", () =>
     const source = String(story.facts.sourceRecordId);
     const worded = wordPrintedStory(core, story);
     expect(worded, `${where}: ${story.id} is worded`).not.toBeNull();
-    // A brief: a headline and one line, never a body.
+    // A brief: a headline and one line; only a kind that opens (a school
+    // honor, owner Nov 14) carries a body of its own sentences.
     expect(worded!.brief, `${where}: ${story.id}`).toBe(true);
-    expect(worded!.paragraphs, `${where}: ${story.id}`).toBeUndefined();
+    if (!String(story.facts.sourceRecordId).includes("school.honor"))
+      expect(worded!.paragraphs, `${where}: ${story.id}`).toBeUndefined();
     expect(worded!.sourceRecordIds, where).toContain(story.id);
     expect(worded!.sourceRecordIds, where).toContain(source);
     const kind = onWire.get(source)!;

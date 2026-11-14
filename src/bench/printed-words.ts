@@ -58,6 +58,7 @@ import {
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
+import { JOURNAL_WORDS } from "../english/journal-words";
 import { storyTopicName } from "../english/policy-names";
 import { causeGroupName } from "../english/group-names";
 import { areaName } from "../english/area-names";
@@ -3302,8 +3303,28 @@ const honor: Builder = (read, f) => {
   const honored = num(f.count);
   if (!flag || !place || !honored) return null;
   // A full student is named; counted students are only counted.
-  const named =
-    honored === 1 && read.first() ? read.who(read.first(), "name", false) : {};
+  const winner = honored === 1 ? read.first() : undefined;
+  const named = winner ? read.who(winner, "name", false) : {};
+  // The body (brief M): the school the honor row names, the winner's grade
+  // that school year, the family the records hold, and what the honor leads
+  // to next. A fact the records do not hold is left out.
+  const person = winner ? read.core.people.get(winner as EntityId) : undefined;
+  const grade = winner && f.grade ? num(f.grade) : undefined;
+  // The regional bee is said as "later this month" in a paper printed in its
+  // month, and not at all once its month has passed.
+  const printedMonth = Number(read.story.date.slice(5, 7));
+  const nextMonth =
+    f.nextMonth && Number(f.nextMonth) >= printedMonth
+      ? f.nextMonth
+      : undefined;
+  const thisMonth =
+    nextMonth !== undefined && Number(nextMonth) === printedMonth;
+  const family = person && winner ? parentsOf(read, person) : undefined;
+  const kid =
+    family?.length && person
+      ? (JOURNAL_WORDS.relationWords.child?.[person.looks?.gender ?? "other"] ??
+        JOURNAL_WORDS.relationWords.child?.other)
+      : undefined;
   return story(
     "honor",
     {
@@ -3312,11 +3333,63 @@ const honor: Builder = (read, f) => {
       number: read.fact(count(honored), f.record ?? ""),
       ...named,
       ...(flag === "signing" ? {} : { won: read.yes() }),
+      ...(flag !== "signing" && f.school
+        ? { school: read.fact(f.school, f.record ?? "") }
+        : {}),
+      ...(flag !== "signing" && grade && grade >= 1 && grade <= 12
+        ? {
+            grade: read.fact(ordinal(grade), winner ?? ""),
+            // "a seventh grader", "an eighth grader".
+            "a-grade": read.fact(
+              `${/^[aeiou]/i.test(ordinal(grade)) ? "an" : "a"} ${ordinal(grade)}`,
+              winner ?? "",
+            ),
+          }
+        : {}),
+      ...(flag === "bee-local" && thisMonth
+        ? { "this-month": read.yes() }
+        : {}),
+      ...(flag === "bee-local" && nextMonth && !thisMonth
+        ? { month: read.fact(MONTHS[Number(nextMonth) - 1]!, f.record ?? "") }
+        : {}),
+      ...(family?.length && kid
+        ? {
+            kin: read.fact(kid, winner ?? ""),
+            parents: read.fact(
+              joinList(
+                family.map((id) => read.name(id)!),
+                "and",
+              ),
+              ...family,
+            ),
+          }
+        : {}),
     },
     ["place"],
     read.first(),
   );
 };
+
+/**
+ * A student's parents, named, from the family records: the student's own
+ * record of a parent, else each relative's record of them as a child.
+ */
+function parentsOf(read: Reader, person: Readonly<PersonState>): string[] {
+  const own = familyFactsOf(person);
+  const ids = new Set<string>();
+  for (const [kinId, row] of own) if (row.relation === "parent") ids.add(kinId);
+  for (const kinId of [...person.familyIds].sort()) {
+    if (own.has(kinId)) continue;
+    const theirs = familyFactsOf(read.core.people.get(kinId)).get(person.id);
+    if (theirs?.relation === "child") ids.add(kinId);
+  }
+  return [...ids]
+    .filter(
+      (id) => read.core.people.get(id as EntityId)?.alive && read.name(id),
+    )
+    .sort()
+    .slice(0, 2);
+}
 
 /** What a month's police reports were called, by the crime engine's type. */
 const REPORT_NOUNS: Readonly<Record<string, string>> = {
