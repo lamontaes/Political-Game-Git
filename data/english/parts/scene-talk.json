@@ -179319,10 +179319,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-disagree.i-hear-you-i-still-see-it-differently",
+      "key": "scene-talk.reply-disagree.i-see-it-differently-than-you-do",
       "move": "reply-disagree",
       "kind": "spoken",
-      "text": "I hear you. I still see it differently.",
+      "text": "I see it differently than you do.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
@@ -179989,10 +179989,10 @@
       ]
     },
     {
-      "key": "scene-talk.close-accept.all-right-go-on",
+      "key": "scene-talk.close-accept.alright-go-on",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. Go on.",
+      "text": "Alright. Go on.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
