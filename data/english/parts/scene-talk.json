@@ -185247,6 +185247,650 @@
         "move": "relent",
         "key": "vote-wanted"
       }
+    },
+    {
+      "key": "scene-talk.reply-ask.before-i-answer-why-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Before I answer: why me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-me-you-could-ask-anybody",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why me? You could ask anybody.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-made-you-think-of-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What made you think of me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-why-it-s-me-you-want",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me why it's me you want.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.first-tell-me-where-you-are-on-issue",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "First tell me where you are on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-do-you-stand-on-issue-i-need-to-hear-it-from-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where do you stand on {issue}? I need to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.before-i-say-anything-where-are-you-on-issue",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Before I say anything, where are you on {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-straight-where-are-you-on-issue",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me straight. Where are you on {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-ve-done-the-work-as-their-office-that-s-why",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You've done the work as {their-office}. That's why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-step-up", "their-office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.because-of-your-work-as-their-office",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Because of your work as {their-office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-step-up", "their-office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.we-see-issue-the-same-way",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "We see {issue} the same way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-step-up", "near-on-issue"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.we-re-on-the-same-side-of-issue",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "We're on the same side of {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-step-up", "near-on-issue"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-with-you-on-issue",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm with you on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.on-issue-i-m-where-you-are-i-ll-say-it-anywhere",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "On {issue}, I'm where you are. I'll say it anywhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-d-rather-not-pin-myself-down-on-issue-yet",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I'd rather not pin myself down on {issue} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.let-s-leave-issue-for-later",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "Let's leave {issue} for later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.if-you-won-t-say-where-you-stand-on-issue-i-can-t-stand-next-to-you",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "If you won't say where you stand on {issue}, I can't stand next to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "deflect",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-need-to-know-where-you-are-on-issue-without-that-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I need to know where you are on {issue}. Without that, no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "deflect",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.that-s-not-an-answer-i-can-t-run-on-a-maybe",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That's not an answer. I can't run on a maybe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "deflect",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-wanted-a-shot-at-office-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've wanted a shot at {office}. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "answer",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "tell",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-yes-i-ll-take-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then yes. I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "answer",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "tell",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-we-want-the-same-thing-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then we want the same thing. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "answer",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.good-then-i-m-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Good. Then I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "answer",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-d-have-liked-a-straight-answer-still-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'd have liked a straight answer. Still, yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "deflect",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
     }
   ]
 }

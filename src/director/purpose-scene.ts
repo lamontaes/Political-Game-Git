@@ -100,6 +100,7 @@ import type { Moment } from "./types";
 import { beatenRunnerUp } from "../core2/modules/voting";
 import {
   SERVE_ASKED_EVENT,
+  leanIfHedged,
   serveAsk,
   type ServeGrounds,
 } from "../core2/modules/serve-asks";
@@ -1663,6 +1664,10 @@ function composeBinding(
         text: "yes",
         sourceRecordIds: why,
       };
+    // Near the player on their own question, by the same read the answer
+    // weighed: the player can say so when asked why them.
+    if ((serve.terms.question ?? P.zero) > P.zero)
+      facts["near-on-issue"] = { text: "yes", sourceRecordIds: why };
     // Asked again after a no: a yes says what changed, as felt (Words lead,
     // Nov 14: the term that moved most since the no).
     if (serve.moved && serve.standing.lean > P.zero)
@@ -1987,7 +1992,17 @@ function serveStanding(
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
   if (!row || row.askedId !== prospectId) return undefined;
   return {
-    standing: { lean: row.standing.lean, favor: P.zero },
+    standing: {
+      lean: row.standing.lean,
+      favor: P.zero,
+      // A stranger who would say yes asks the player one thing first; on
+      // their own question, a hedge is weighed as the player's stance unsaid.
+      asksFirst: !row.standing.grounds.knows && row.standing.lean > P.zero,
+      hedged:
+        row.standing.yesReason === "agree"
+          ? leanIfHedged(row)
+          : row.standing.lean,
+    },
     terms: row.standing.terms,
     raceOffice: row.raceOffice,
     office: row.office,
