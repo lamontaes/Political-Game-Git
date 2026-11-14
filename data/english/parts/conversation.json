@@ -17391,7 +17391,7 @@
           "subject": "interview-question",
           "role": "answer",
           "choice": "plain",
-          "requiresFacts": ["stance-for"]
+          "requiresFacts": ["stance-for", "on-platform"]
         }
       ],
       "bearing": "guarded",
@@ -17457,7 +17457,7 @@
           "subject": "interview-question",
           "role": "answer",
           "choice": "plain",
-          "requiresFacts": ["stance-against"]
+          "requiresFacts": ["stance-against", "on-platform"]
         }
       ],
       "bearing": "guarded",
@@ -17633,7 +17633,7 @@
           "subject": "interview-question",
           "role": "answer",
           "choice": "brief",
-          "requiresFacts": ["no-stand"]
+          "requiresFacts": ["no-stand", "no-record"]
         }
       ],
       "bearing": "guarded",
@@ -41217,6 +41217,90 @@
       "date": "2026-11-14"
     },
     {
+      "key": "conversation.address-point-closer.what-do-you-make-of-it",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "What do you make of it?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "setsFacts": ["asks-player"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Words builder A (the address point asks the player, the train's question kept)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-closer.what-did-you-think-of-that",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "What did you think of that?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "setsFacts": ["asks-player"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Words builder A (the address point asks the player, the train's question kept)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-closer.does-that-sound-right-to-you",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "Does that sound right to you?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "setsFacts": ["asks-player"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Words builder A (the address point asks the player, the train's question kept)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-closer.where-do-you-come-down-on-that",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "Where do you come down on that?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "setsFacts": ["asks-player"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Words builder A (the address point asks the player, the train's question kept)",
+      "date": "2026-11-14"
+    },
+    {
       "author": "Words builder W1 (eviction told through the composer)",
       "bearing": "solemn",
       "date": "2026-11-12",
@@ -42991,6 +43075,148 @@
           "role": "answer",
           "subject": "eviction",
           "excludesFacts": ["guarded"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-say-core.i-ve-had-a-rough-week",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "text": "I've had a rough week.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["guarded", "alone"],
+          "role": "core",
+          "subject": "eviction-say"
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-say-core.we-ve-had-a-rough-week",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "text": "We've had a rough week.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["guarded"],
+          "role": "core",
+          "subject": "eviction-say",
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-say-core.it-s-been-a-hard-few-days",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "text": "It's been a hard few days.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["guarded"],
+          "role": "core",
+          "subject": "eviction-say"
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-say-core.things-aren-t-good-right-now",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "text": "Things aren't good right now.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["guarded"],
+          "role": "core",
+          "subject": "eviction-say"
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "tender",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.thanks-for-having-me",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Thanks for having me.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "tender",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.thanks-for-having-us",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Thanks for having us.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
         }
       ]
     }

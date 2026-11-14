@@ -43,6 +43,8 @@ import felonyData from "../data/elections/felony-disenfranchisement.json" with {
 import { electionsParameter } from "../elections-calendar";
 import { campaignParameter } from "../campaign-data";
 import { incarceratedMayVote } from "../justice-law";
+import { corePlaceByKey, coreStateName } from "../place-lookup";
+import { lazyValue, readJsonData } from "../reference/lazy-data";
 import {
   OFFICES_MODULE_ID,
   executiveTermLimit,
@@ -518,6 +520,73 @@ export function felonyDisenfranchisedShare(api: CoreAPI): number {
   return inForce(api, RESTORE_VOTE)
     ? base * (1 - electionsParameter("restoredFractionOfDisenfranchised"))
     : base;
+}
+
+const CORRECTIONAL_BY_STATE = lazyValue(() => {
+  const adults = new Map<string, number>();
+  const rows = readJsonData(
+    new URL(
+      "../../../data/research/group-quarters/census-2020-group-quarters.json",
+      import.meta.url,
+    ),
+  ) as { rows: readonly (readonly [string, string, number, number])[] };
+  for (const row of rows.rows)
+    adults.set(
+      row[0].slice(0, 2),
+      (adults.get(row[0].slice(0, 2)) ?? 0) + row[3],
+    );
+  const voting = readJsonData(
+    new URL(
+      "../../../data/source/census-voting-registration/corpus.json",
+      import.meta.url,
+    ),
+  ) as readonly {
+    dimension: string;
+    geographyName: string;
+    metrics: Record<string, { value?: { value?: number } }>;
+  }[];
+  const population = new Map<string, number>();
+  for (const row of voting)
+    if (row.dimension === "total")
+      population.set(
+        row.geographyName,
+        row.metrics.adultPopulation?.value?.value ?? 0,
+      );
+  return { adults, population };
+});
+
+/**
+ * The part of the state's barred share that is people held in its prisons:
+ * the state's adult correctional residents (Census 2020, table P5, summed
+ * over the state's localities) over its adults (CPS 2024). The counted
+ * electorate leaves those rooms out where the state bars them, so the
+ * barred share applied to everyone else is the rest, and no one is barred
+ * twice. Zero where the state lets people vote from prison, or the state
+ * has no row. Estimated: the localities leave out prisons outside any
+ * place.
+ */
+export function prisonPartOfBarredShare(api: CoreAPI): number {
+  const placeKey = String(api.state.placeMetadata.placeKey ?? "");
+  const stateKey = placeStateKey(placeKey);
+  if (!stateKey || incarceratedMayVote(api, stateKey).may) return 0;
+  const fips = corePlaceByKey(placeKey)?.sourceGeoid?.slice(0, 2);
+  const name = coreStateName(stateKey.slice(3));
+  if (!fips || !name) return 0;
+  const { adults, population } = CORRECTIONAL_BY_STATE();
+  const people = population.get(name.toUpperCase()) ?? 0;
+  if (people <= 0) return 0;
+  return Math.min(
+    felonyDisenfranchisedShare(api),
+    (adults.get(fips) ?? 0) / people,
+  );
+}
+
+/** Whether the state bars the people held in its prisons from voting. */
+export function prisonersBarredHere(api: CoreAPI): boolean {
+  const stateKey = placeStateKey(
+    String(api.state.placeMetadata.placeKey ?? ""),
+  );
+  return !incarceratedMayVote(api, stateKey ?? "").may;
 }
 
 /**

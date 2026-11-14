@@ -101,11 +101,12 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `checker`: running the gate on every PR so builders only build
 - `civic-prose`: writing bank pieces in the owner's style
 - `civic-reports`: reports and PR bodies for the owner
-- `cto`: the CTO role
 - `crew-messages`: how sessions message each other, and processes as skills
+- `cto`: the CTO role
 - `current-pointers`: the master file that says what is current, and keeping every pointer on a path that exists
 - `dev-tester`: proving laws, bodies and drifting worlds with scripts/dev-tests, and its traps
 - `drawn-place-tests`: a test that needs a case in the world finds one by drawing and waiting, and names what it passed over
+- `file-a-pool-item`: adding a pool item by hand, with its Cause prefix
 - `gap-trace`: tracing a problem seen in play to its cause, its fix and its ruling, and the gap sheet row
 - `generated-file-merges`: merging main when the conflict is in a file a command writes, or a rules or bank file keyed by id
 - `governing-measurement`: path-check runners, the re-election totals and ablation, records per race or per person
@@ -121,16 +122,20 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `merger`: merging and validating PRs
 - `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
 - `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
-- `play-first`: one item of the play-first lane; the screenshot and browser check
+- `owners-words-to-threads`: the owner's words go to threads verbatim, his examples are generalities, the standing rules for words
 - `people-pack`: drawing people from the pack, on mannequin plates
+- `pinned-tests`: tests pinned to named places and seeds, never red by draw
+- `play-first`: one item of the play-first lane; the screenshot and browser check
 - `play-walks`: playing a new life with scripts that click what a player clicks and write down every line
 - `played-world-proof`: proving a feature in a played year
 - `player-screen-text`: checking every string a player sees
 - `pool-notes`: pool-only changes go in one bundle an hour; the cap on new work
 - `pr-fixer`: finishing sent-back PRs
 - `red-main`: taking a red on main from report to fix
+- `remove-a-stopgap`: replacing and unregistering a stopgap row
 - `researcher`: turning a stopgap into a sourced number
 - `room-spots`: rooms and where people stand or sit in them
+- `scene-first-report`: a scene builder's report before any line
 - `scene-pictures`: giving a scene its picture: the one list, the lookup, the gap report, wanted pictures
 - `scene-producers`: a scene's cause wired to an engine's record
 - `scene-standard`: the standard every scene meets
@@ -143,6 +148,8 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `speed-work`: timing a year, proving a cut changes nothing, folding what grows
 - `term-read`: reading a term by policy area, the kind of an address and the town's strikes, protests and rallies
 - `trace-audit`: the 56-place trace audit
+- `train-gate`: the gate a PR passes before it is named for the train
+- `trusted-review-pass`: bulk review passes with planted calibration rows
 - `wiring-audit`: auditing a family of mechanics end to end
 - `words-engine`: the English engine and the director
 

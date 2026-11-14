@@ -224,7 +224,7 @@ const others = [...me.knownIds].filter((id) => {
 });
 const believing = strangers
   .slice(1)
-  .filter((row) => !doubtsClaim(core, row))
+  .filter((row) => !doubtsClaim(core, row, me.id))
   .slice(0, 2);
 // A doubter is looked for among every full adult the player does not know,
 // not only the unrelated workers: a town may hold none among those 38.
@@ -235,7 +235,7 @@ const doubters = [...core.people.values()].filter(
     row.id !== me.id &&
     !me.knownIds.has(row.id) &&
     age(row.birthDate) >= 18 &&
-    doubtsClaim(core, row),
+    doubtsClaim(core, row, me.id),
 );
 const doubter = doubters[0];
 for (const row of [strangers[0]!, ...believing])

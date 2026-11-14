@@ -83,7 +83,7 @@ it("North Courtland, Alabama: the player's endorsements print", () => {
     "2025-07-01",
   );
   process.stdout.write(
-    `${where}: ${yes.length} yes; ${stories.map((s) => `${s?.headline} | ${s?.lede}`).join(" // ")}\n`,
+    `${where}: ${yes.length} yes; ${stories.map((s) => `${s?.headline} | ${s?.lede} | ${(s?.paragraphs ?? []).join(" ")}`).join(" // ")}\n`,
   );
   expect(yes.length, where).toBeGreaterThan(0);
   expect(stories.length, `${where}: a printed endorsement`).toBeGreaterThan(0);
@@ -97,15 +97,34 @@ it("Laurel, Montana: a group's endorsement is told by what it works for", () => 
     "2025-08-15",
   );
   process.stdout.write(
-    `${where}: ${yes.length} yes; ${stories.map((s) => `${s?.headline} | ${s?.lede}`).join(" // ")}\n`,
+    `${where}: ${yes.length} yes; ${stories.map((s) => `${s?.headline} | ${s?.lede} | ${(s?.paragraphs ?? []).join(" ")}`).join(" // ")}\n`,
   );
   expect(yes.length, where).toBeGreaterThan(0);
   expect(stories.length, `${where}: a printed endorsement`).toBeGreaterThan(0);
+  // The seat is said as a sentence says it, never the form's title.
   expect(
-    stories.some((s) =>
-      /civilian board that reviews the police/.test(
-        `${s?.headline} ${s?.lede}`,
-      ),
+    stories.every(
+      (s) =>
+        !/Council member/.test(`${s?.headline} ${s?.lede}`) &&
+        /for (the )?[a-z]/.test(`${s?.headline} ${s?.lede}`),
+    ),
+    where,
+  ).toBe(true);
+  // The group has a name made from the cause its side would put on a sign
+  // (data/english/group-causes.json), never the stance told as a name, and
+  // the stance is said in a plain clause after it.
+  const against = ["Public Safety", "Backing Our Police"];
+  expect(
+    stories.every((s) => !/^Group for /.test(s?.headline ?? "")),
+    where,
+  ).toBe(true);
+  expect(
+    stories.some(
+      (s) =>
+        against.some((cause) => (s?.headline ?? "").includes(cause)) &&
+        /(The group|It) wants an end to the civilian board/.test(
+          (s?.paragraphs ?? []).join(" "),
+        ),
     ),
     where,
   ).toBe(true);

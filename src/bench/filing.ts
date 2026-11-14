@@ -229,6 +229,7 @@ export function openBenchFilingVisit(
         seats: office?.seats ?? 1,
         bodyName: (office?.seats ?? 1) > 1 ? (office?.bodyName ?? null) : null,
         district: row.district,
+        level: row.level,
       },
       sourceIds: [...row.sources, row.officeId],
     };
@@ -267,7 +268,12 @@ export function openBenchFilingVisit(
           .moduleState(ELECTIONS_MODULE_ID)
           .table("contests")
           .get(mineHere.contestId) as unknown as
-          | { title: string; officeId: string; district?: string | null }
+          | {
+              title: string;
+              officeId: string;
+              district?: string | null;
+              level: string;
+            }
           | undefined)
       : undefined;
   const filedOffice = filedRow
@@ -285,6 +291,7 @@ export function openBenchFilingVisit(
                 ? (filedOffice?.bodyName ?? null)
                 : null,
             district: filedRow.district ?? null,
+            level: filedRow.level,
           },
         }
       : undefined;
@@ -462,9 +469,8 @@ export interface CounterOpening {
 
 /**
  * The spans of an office with no work record for its clerk: its estimated
- * weekday hours (`data/office-hours.json`), a stopgap that every office has
- * hours until the records give them.
- * stopgapId: SG-PLAY-office-hours-assumed
+ * weekday hours, an ESTIMATED place row (`src/bench/data/office-hours.json`, with its
+ * source and spread), so that every office has hours.
  */
 function assumedSpans(
   date: string,
