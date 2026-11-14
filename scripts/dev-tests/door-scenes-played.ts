@@ -144,7 +144,15 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
     const kind = petitionCirculating(coreAPI(core), filing!.id)
       ? "Signature"
       : "Vote";
-    campaignDay(core, playerId!, { filingId: filing!.id, kind: "canvass" });
+    try {
+      campaignDay(core, playerId!, { filingId: filing!.id, kind: "canvass" });
+    } catch (error) {
+      out.push(
+        `### ${kind} day, ${core.date}: no canvass offered (${(error as Error).message})\n`,
+      );
+      clockTo(addDays(makeIsoDate(core.date), 1));
+      return;
+    }
     const records = doorsKnocked(core, playerId!);
     const day = core.date;
     // Let the director see the day's doors (it schedules at most one).
