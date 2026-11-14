@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { causeGroupForm, causeGroupName } from "./group-names";
+import causes from "../../data/english/group-causes.json" with { type: "json" };
+import {
+  causeGroupForm,
+  causeGroupName,
+  stanceGroupForm,
+  stanceGroupName,
+} from "./group-names";
 import { allQuestions } from "./policy-names";
 
 describe("cause group names", () => {
@@ -46,51 +52,73 @@ describe("cause group names", () => {
     });
     expect(causeGroupForm("the Republican Party")).toBeNull();
   });
-  // The two sides of one question never share a name, and a name never
-  // contradicts its side (Words lead, Nov 14): a group against something is
-  // never "Friends of" it or "for" it.
-  it("names the two sides of every question apart, each from its own forms", () => {
-    let named = 0;
-    for (const question of allQuestions()) {
-      const forName = causeGroupName(
-        `organization:group:town:${question}:for`,
-        question,
+
+  // A group formed over a stance is named from the cause its side would put
+  // on a sign (Words lead, Nov 14; data/english/group-causes.json).
+  describe("stance group names", () => {
+    const rows = Object.entries(causes.questions);
+    const idOf = (key: string, side: string) =>
+      `organization:group:jurisdiction_x:us-policy-positions:topic.${key}:${side}`;
+    const BANNED = /Citizens' Council|\bWatch\b|Concerned About|\bagainst\b/i;
+
+    it("names every question on both sides from that side's own causes", () => {
+      expect(rows.length).toBeGreaterThanOrEqual(73);
+      for (const [key, row] of rows)
+        for (const side of ["for", "against"] as const) {
+          const made = stanceGroupName(
+            idOf(key, side),
+            `us-policy-positions:topic.${key}`,
+            "Laurel",
+          );
+          expect(made, `${key} ${side}`).toBeTruthy();
+          const own = row[side];
+          const other = row[side === "for" ? "against" : "for"];
+          expect(
+            own.some((cause) => made!.name.includes(cause)),
+            `${key} ${side}: ${made!.name}`,
+          ).toBe(true);
+          expect(
+            other.some((cause) => made!.name.includes(cause)),
+            `${key} ${side} says the other side's cause: ${made!.name}`,
+          ).toBe(false);
+          expect(made!.name, key).not.toMatch(BANNED);
+          expect(stanceGroupForm(made!.name), made!.name).toEqual({
+            plural: made!.plural,
+          });
+        }
+    });
+
+    it("gives no two groups of one town the same name, for every question and side", () => {
+      const taken = new Set<string>();
+      for (const [key] of rows)
+        for (const side of ["for", "against"] as const) {
+          const made = stanceGroupName(
+            idOf(key, side),
+            `us-policy-positions:topic.${key}`,
+            "Laurel",
+            taken,
+          );
+          expect(made, `${key} ${side}`).toBeTruthy();
+          expect(taken.has(made!.name), made!.name).toBe(false);
+          taken.add(made!.name);
+        }
+      expect(taken.size).toBe(rows.length * 2);
+    });
+
+    it("holds a cause for every platform question the catalog has", () => {
+      const missing = allQuestions().filter(
+        (q) => !(q.slice(q.lastIndexOf(".") + 1) in causes.questions),
       );
-      const againstName = causeGroupName(
-        `organization:group:town:${question}:against`,
-        question,
+      expect(missing).toEqual([]);
+    });
+
+    it("keeps a group's name the same each time, and says nothing for a question with no cause", () => {
+      const id = idOf("rent-stabilization", "for");
+      const question = "us-policy-positions:topic.rent-stabilization";
+      expect(stanceGroupName(id, question, "Laurel")).toEqual(
+        stanceGroupName(id, question, "Laurel"),
       );
-      expect(Boolean(forName), question).toBe(Boolean(againstName));
-      if (!forName || !againstName) continue;
-      named += 1;
-      expect(againstName, question).not.toBe(forName);
-      // Take the topic out: what is left is the form.
-      const topic = againstName
-        .replace(/^Citizens' Council on /, "")
-        .replace(/ Watch$/, "");
-      const form = againstName.replace(topic, "{topic}");
-      expect(form, `${question}: ${againstName}`).toMatch(
-        /^(\{topic\} Watch|Citizens' Council on \{topic\})$/,
-      );
-      expect(form, againstName).not.toMatch(/\bfor\b|Friends of/);
-      expect(causeGroupForm(againstName), againstName).toEqual({
-        plural: false,
-      });
-    }
-    expect(named).toBeGreaterThan(0);
-  });
-  // The two sides of one question in a named place and a fixed world (Laurel,
-  // Montana 3042700, seed 61920e6d...; the endorsement of Nina Jacobs in
-  // src/bench/endorsement-played.test.ts): the id is the played group's.
-  it("names the same question from each side with a different name", () => {
-    const question =
-      "us-policy-positions:justice-public-safety.civilian-oversight-of-police";
-    const id = (side: string) =>
-      `organization:group:jurisdiction_8eebeac6136504cb:${question}:${side}`;
-    expect(causeGroupName(id("against"), question)).toBe("Policing Watch");
-    expect(causeGroupName(id("for"), question)).not.toBe("Policing Watch");
-    expect(causeGroupName(id("for"), question)).toMatch(
-      /^(Citizens for|Neighbors Concerned About|Coalition for|Friends of) /,
-    );
+      expect(stanceGroupName(id, "no-such-question", "Laurel")).toBeNull();
+    });
   });
 });

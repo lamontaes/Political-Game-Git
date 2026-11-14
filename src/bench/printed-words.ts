@@ -58,8 +58,14 @@ import {
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
+import { seatSaid } from "../english/journal-words";
 import { storyTopicName } from "../english/policy-names";
-import { causeGroupForm, causeGroupName } from "../english/group-names";
+import {
+  causeGroupForm,
+  causeGroupName,
+  stanceGroupForm,
+  stanceGroupName,
+} from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
 import { measureSaid, policyNames } from "./words";
@@ -524,6 +530,28 @@ class Reader {
       ),
     };
   }
+  /**
+   * A race's seat as a sentence says it ("the city council", "mayor"), through
+   * the one seat reader (`seatSaid`, rule 100), from the contest and its
+   * office records.
+   */
+  contestSeat(id: string | undefined): string | null {
+    if (!id) return null;
+    const contest = this.table(ELECTIONS_MODULE_ID, "contests")?.get(
+      id,
+    ) as unknown as
+      { title?: string; officeId?: string; district?: string } | undefined;
+    if (!contest?.title) return null;
+    const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
+      contest.officeId ?? "",
+    ) as unknown as { seats?: number; bodyName?: string | null } | undefined;
+    return seatSaid({
+      title: contest.title,
+      seats: office?.seats ?? 1,
+      bodyName: (office?.seats ?? 1) > 1 ? (office?.bodyName ?? null) : null,
+      district: contest.district,
+    });
+  }
   /** A race's office, from its contest record ("Town board member"). */
   contestTitle(id: string | undefined): string | null {
     if (!id) return null;
@@ -542,15 +570,46 @@ class Reader {
     if (/[:_]/.test(org.name)) {
       if (org.kind === "cause-group" && org.topic)
         return causeGroupName(org.id, org.topic);
-      // A group formed over a stance (interest-groups.ts): its record keeps
-      // the question, and its id ends with the side; it is named from them by
-      // the one namer, on read, the same everywhere it is said.
-      if (org.kind === "interest-group" && org.topic) {
-        return causeGroupName(org.id, org.topic);
-      }
-      return null;
+      return org.kind === "interest-group" && org.topic
+        ? (this.stanceGroup(org.id as EntityId)?.name ?? null)
+        : null;
     }
     return org.name || null;
+  }
+  /**
+   * A group formed over a stance, named from the cause its side would put on
+   * a sign (group-names.ts `stanceGroupName`, Words lead Nov 14). The town's
+   * earlier groups (by the day each was formed, then id) hold their names
+   * first, so no two groups of one town share a name and a name never changes
+   * when a later group forms.
+   */
+  stanceGroup(id: EntityId): { name: string; plural: boolean } | null {
+    const org = this.core.organizations.get(id);
+    if (!org?.topic || !/:(for|against)$/.test(org.id)) return null;
+    // The day a group was formed is its record's own date (its source's asOf).
+    const formed = (orgId: string): string =>
+      this.core.organizations.get(orgId as EntityId)?.source?.asOf ?? "";
+    const order = (a: string, b: string) =>
+      formed(a).localeCompare(formed(b)) || a.localeCompare(b);
+    const town =
+      org.placeId === lawChain(this.api).townPlaceId ? this.place() : null;
+    const taken = new Set<string>();
+    const earlier = [...this.core.organizations.values()]
+      .filter(
+        (other) =>
+          other.id !== org.id &&
+          other.kind === "interest-group" &&
+          other.topic &&
+          other.placeId === org.placeId &&
+          /:(for|against)$/.test(other.id) &&
+          order(other.id, org.id) < 0,
+      )
+      .sort((a, b) => order(a.id, b.id));
+    for (const other of earlier) {
+      const made = stanceGroupName(other.id, other.topic!, town, taken);
+      if (made) taken.add(made.name);
+    }
+    return stanceGroupName(org.id, org.topic, town, taken);
   }
   /** An outlet's name, from its organization. */
   outlet(id: string | undefined): string | null {
@@ -1611,7 +1670,7 @@ const endorsement: Builder = (read, f) => {
   // founded group's name is a proper name, cased whole: it keeps its
   // capitals and takes the verb its number needs (P2, Fruitland, Idaho, Nov
   // 13: "The friends of policing backs Clara Evans", rule 15).
-  const form = group ? causeGroupForm(group) : null;
+  const form = group ? (causeGroupForm(group) ?? stanceGroupForm(group)) : null;
   // A founded group's name is said as its record names it, with no article
   // added ("Friends of Transportation back ..."; Fable A, Nov 13).
   const said = group
@@ -1636,7 +1695,9 @@ const endorsement: Builder = (read, f) => {
         ? stance
         : { "unnamed-group": read.fact("yes", f.organizationId) }
       : read.who(f.speakerId, "subject", false);
-  const office = read.contestTitle(f.contestId);
+  // The seat as a sentence says it ("the city council", "mayor"), never the
+  // form's title ("Council member"): the one seat reader (rule 100).
+  const office = read.contestSeat(f.contestId);
   return story(
     "endorsement",
     {
