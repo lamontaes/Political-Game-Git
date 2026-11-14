@@ -3428,6 +3428,8 @@ export function askToCarry(
     readonly memberId: string;
     readonly bodyOfficeId: string;
     readonly provisions: readonly Provision[];
+    /** The asker is the person playing: the ask is kept for them even when the world's player id is not theirs (an Advanced start steps into an office holder). */
+    readonly byPlayer?: boolean;
   },
 ): CarryRequest {
   requireSection(input.provisions);
@@ -3505,7 +3507,10 @@ export function askToCarry(
     // stopgapId: SG-GOV-carry-ask-no-screen (the held ask has no bench screen yet)
     api.stopgap("SG-GOV-carry-ask-no-screen");
     table(api, "carryAsks").put(row as unknown as ModuleRow);
-  } else if (input.askerId === (api.state as CoreState).playerId) {
+  } else if (
+    input.byPlayer ||
+    input.askerId === (api.state as CoreState).playerId
+  ) {
     // The player's own ask is kept with its answer, position and date, so a no can be read
     // back with its reason and the player can ask again later (`declinedAsks`).
     table(api, "carryAsks").put(row as unknown as ModuleRow);
@@ -3698,6 +3703,8 @@ export function proposeAsExecutive(
     readonly provisions: readonly Provision[];
     /** The member the executive chooses to ask; none asks the likeliest yes (`likelyCarriers`). */
     readonly memberId?: string;
+    /** The executive is the person playing (see `askToCarry`). */
+    readonly byPlayer?: boolean;
   },
 ): CarryRequest | null {
   const { office, term } = executiveOf(api, input.bodyOfficeId);
@@ -3714,6 +3721,7 @@ export function proposeAsExecutive(
     memberId: pick.key,
     bodyOfficeId: input.bodyOfficeId,
     provisions: input.provisions,
+    ...(input.byPlayer ? { byPlayer: true } : {}),
   });
 }
 

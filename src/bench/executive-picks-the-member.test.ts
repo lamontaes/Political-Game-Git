@@ -70,7 +70,6 @@ for (const pinned of CASES) {
     );
     expect(term?.personId, `${where}: a serving executive`).toBeTruthy();
     const player = term!.personId!;
-    core.playerId = player;
     const body = seatView(core, player).bodies.find(
       (b) => "byRequest" in b && b.byRequest,
     );

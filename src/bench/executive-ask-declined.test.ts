@@ -44,7 +44,7 @@ it("a declined ask is kept with its cause and date, the plate says the public re
   );
   expect(term?.personId, `${where}: a serving governor`).toBeTruthy();
   const governor = term!.personId!;
-  core.playerId = governor;
+  // The world's player id is left alone, as in an Advanced start that steps into an office holder.
   const body = seatView(core, governor).bodies.find(
     (b) => "byRequest" in b && b.byRequest,
   );

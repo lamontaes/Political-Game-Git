@@ -935,6 +935,7 @@ export function seatAsk(
   const asked = proposeAsExecutive(api, {
     bodyOfficeId: input.officeId!,
     provisions: [provision],
+    byPlayer: true,
     ...(input.memberId ? { memberId: input.memberId } : {}),
   });
   if (!asked)
