@@ -11,6 +11,7 @@
  * can bring up, like the President's.
  */
 import { placeStateKey } from "../core2/place-map";
+import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/modules/outcome-web";
@@ -284,8 +285,14 @@ function speakerOf(core: CoreState, level: LocalLevel): Speaker | null {
         }
       : null;
   }
-  // A core without the offices engine installed has no town seats to read.
-  if (!core.modules.has(OFFICES_MODULE_ID) || !spec.heads) return null;
+  // A core without the offices engine installed has no town seats to read, and
+  // one without the laws engine has no law chain to name the questions a body decides.
+  if (
+    !core.modules.has(OFFICES_MODULE_ID) ||
+    !core.modules.has(LAWS_MODULE_ID) ||
+    !spec.heads
+  )
+    return null;
   return townHead(core, spec.heads);
 }
 
