@@ -198,6 +198,8 @@ export interface DeskContext {
   /** The candidates running against a person in their open races. */
   readonly rivals: (personId: string) => readonly string[];
   readonly printed: (wireId: string, outletId: string) => boolean;
+  /** Whether any outlet has printed this wire item (the town's one log runs once). */
+  readonly printedAnywhere?: (wireId: string) => boolean;
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
   /**
@@ -1028,8 +1030,12 @@ export function runDesk(
           BRIEF_KINDS.has(row.item.kind) &&
           usualSpace(row.item, p) > 0 &&
           (!RECORD_BRIEFS.has(row.item.kind) ||
-            outlet.id === ctx.recordOutletId?.() ||
-            wellOverUsual(row.item)),
+            wellOverUsual(row.item) ||
+            // The town's one log runs in its paper of record, and once: if
+            // the record changed hands after another outlet printed it, the
+            // new record does not print it again.
+            (outlet.id === ctx.recordOutletId?.() &&
+              !ctx.printedAnywhere?.(row.item.id))),
       )
       .map((row) => ({
         ...row,

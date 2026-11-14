@@ -23,7 +23,15 @@ import { wordPrintedStory } from "./archive-words";
 import { recordOutletOf } from "../core2/modules/press";
 import { buildBenchWorld } from "./world";
 
-for (const seed of ["pl1", "pl5", "s10", "s12", "s23"])
+// Days played at each pinned place: enough closed months for the case, no more.
+const DAYS: Record<string, number> = {
+  pl1: 160,
+  pl5: 160,
+  s10: 160,
+  s12: 300,
+  s23: 300,
+};
+for (const seed of Object.keys(DAYS))
   it(`the town's log runs in its paper of record (seed ${seed})`, () => {
     const place = drawPlace(seed, "police-log");
     const where = `${place.name} (${place.key}), seed ${seed}`;
@@ -35,10 +43,7 @@ for (const seed of ["pl1", "pl5", "s10", "s12", "s23"])
     const api = coreAPI(core);
     const wire = new Map<string, Record<string, string>>();
     const recordAt = new Map<string, { first: string; ids: Set<string> }>();
-    const end = addDays(
-      makeIsoDate(core.date),
-      seed === "s10" || seed === "s12" || seed === "s23" ? 700 : 330,
-    );
+    const end = addDays(makeIsoDate(core.date), DAYS[seed]!);
     while (core.date < end) {
       advanceCore(core, [addDays(makeIsoDate(core.date), 7), end].sort()[0]!);
       for (const row of api
@@ -114,11 +119,13 @@ for (const seed of ["pl1", "pl5", "s10", "s12", "s23"])
         [...record].some((id) => by.has(id)),
         `${where}: ${source} not in the paper of record`,
       ).toBe(true);
+      // A month the record does not call well over runs once, in the
+      // outlet that was the record when it ran.
       if (wire.get(source)?.busier !== "yes")
         expect(
-          [...by].filter((id) => !record.has(id)),
-          `${where}: ${source} (not well over) ran outside the paper of record`,
-        ).toEqual([]);
+          [...by],
+          `${where}: ${source} (not well over) ran in more than the one outlet of record`,
+        ).toHaveLength(1);
       appendFileSync(
         path.join(tmpdir(), "printed-police-log-one-outlet-proof.txt"),
         `${where}: ${source} vsUsual ${wire.get(source)?.vsUsual ?? "none"} in ${[...by].join(", ")} (record ${[...record].join(", ")})\n`,

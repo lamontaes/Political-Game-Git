@@ -2657,6 +2657,8 @@ export function deskContext(api: CoreAPI): DeskContext {
           wireId,
         ]) as unknown as PrintedStory[]
       ).some((s) => s.outletId === outletId),
+    printedAnywhere: (wireId) =>
+      (table(api, "stories").query("byWire", [wireId]) as unknown[]).length > 0,
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
     paperOfRecord: (outlet) =>
