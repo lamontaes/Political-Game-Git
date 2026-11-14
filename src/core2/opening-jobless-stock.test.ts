@@ -61,13 +61,13 @@ describe("a town's jobless count holds near its opening rate where nothing has c
         advanceCore(core, `${year}-${month}-01`);
         series.push(jobless(api, town));
       }
-      // Months four to ten, against the opening: not drained (the nation's flows alone took Maloata to a tenth and Tanapag to a fifth) and not run away.
+      // Months five to eleven against the opening: at least half (a town that loses more than half of its jobless is drained), at most twice; not drained (the nation's flows alone took Maloata to a tenth and Tanapag to a fifth) and not run away.
       for (const [i, stock] of series.entries()) {
         expect(
           stock,
           `${place.name} ${place.state}, seed ${seed}: out of work in month ${[5, 7, 9, 11][i]} against ${opening} at the opening (${series.join(", ")})`,
-        ).toBeGreaterThanOrEqual(opening * 0.4);
-        expect(stock).toBeLessThanOrEqual(opening * 2.2);
+        ).toBeGreaterThanOrEqual(opening * 0.5);
+        expect(stock).toBeLessThanOrEqual(opening * 2);
       }
     }, 120_000);
   }
