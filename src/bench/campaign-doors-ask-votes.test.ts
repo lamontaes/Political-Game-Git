@@ -86,6 +86,10 @@ it(`the player's doors ask for votes once the petition holds the target (Otisvil
       `${core.date}: asking ${asking}, ${out.doorsKnocked} doors, ${out.reached} reached, signed ${out.signed}, answered ${out.answered}, door signers ${doorSigned()} of ${target}`,
     );
     if (asking) {
+      // The outing that reaches the target counts only the doors asked to
+      // sign; the doors after it asked for the vote.
+      if (!petitionAsksAtDoors(api, filingId))
+        expect(out.answered!, days.at(-1)).toBeLessThan(out.doorsKnocked);
       expect(out.signed, days.at(-1)).not.toBeNull();
       expect(before, days.at(-1)).toBeLessThan(target);
     } else {

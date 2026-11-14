@@ -768,18 +768,15 @@ export function campaignDay(
   const petitionOut =
     kind === "canvass" && petitionAsksAtDoors(api, input.filingId);
   const signedBefore = petitionOut ? doorSigners() : 0;
-  // Counted residents who opened stay a count (two-level population), so the
-  // doors answered are the people met plus that count's growth: every door
-  // that opened, which is everyone asked to sign.
-  const countedBefore = campaignFor(api, input.filingId).countedReached ?? 0;
+  // Doors asked for a signature before this outing; a door past the target
+  // asks for the vote and is not counted here.
+  const askedBefore = campaignFor(api, input.filingId).doorSignAsks ?? 0;
   const result = takeCampaignDayChoice(api, input.filingId, kind, {
     ...(input.outletId ? { outletId: input.outletId } : {}),
   });
   const signed = petitionOut ? doorSigners() - signedBefore : null;
   const answered = petitionOut
-    ? result.causeIds.length +
-      (campaignFor(api, input.filingId).countedReached ?? 0) -
-      countedBefore
+    ? (campaignFor(api, input.filingId).doorSignAsks ?? 0) - askedBefore
     : null;
   const met = outingPeople(core, kind, result);
   // Each person asked for money: their name, what they gave or why not, in words.
