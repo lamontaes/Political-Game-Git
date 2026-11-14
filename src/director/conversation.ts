@@ -4497,9 +4497,11 @@ function askSubject(
  * on, or says they have no view of, a question nobody said.
  */
 function resultSubject(subject: Subject): Subject {
-  const { about: _about, ...facts } = subject.facts;
+  const facts = { ...subject.facts };
+  delete facts.about;
   const { news, ...rest } = subject;
-  const { question: _question, ...said } = news ?? {};
+  const said = { ...news };
+  delete said.question;
   return { ...rest, facts, ...(news ? { news: said } : {}) };
 }
 
