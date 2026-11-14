@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: dropped
+status: open
 standard: 2
 claimed-by:
 pr:
@@ -46,4 +46,4 @@ Cannot be checked as written (Claude worker, Oct 27). `GOLDEN_PATH_SEED=f835dd27
 
 Nov 11 (cause finder for Fable B): ran the path check at the item's seed on main 903b659706. The player lost all three races it entered (2025, 2026, 2028), so no bill is ever passed and the item's law cannot be replayed. I propose the CTO drops the item; the law-wiring matrix grades every law's reach.
 
-Dropped Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: the bill (2025-7, Meadow Lakes) cannot be replayed on main, and whether an enacted law reaches nobody is graded per law by the `reach` link of every row in `docs/reports/law-wiring-matrix.json` (187 laws, no row stopgapped). I did not re-run the path check (heavy); the closure rests on the item's own Nov 11 run and on that matrix.
+Not closed Nov 14, 2026 (Account lead T43, on the coordinator's rule that a closure needs the code, not the item's text). Not proven: `GOLDEN_PATH_SEED=f835dd278d7312a1 node --max-old-space-size=8192 --import tsx src/bench/path-check.ts` on the train (eb349e5d76) reaches steps 3, 4 and 5 only in Meadow Lakes, Alaska (0247735): it chooses Borough mayor (contest:seat:gus2025:122698:executive:0:2025-10-07) and never reaches a bill, so the item's law cannot be replayed. The train's `docs/reports/law-wiring-matrix.json` also grades the reach link `missing` for 19 laws ("no law-reach row: nothing records who it applies to", for example the state and federal contribution limits, `forgive-student-loans`, `raise-tariffs`) and `stopgap` for 4, so a law that reaches nobody is still possible, and the matrix finds each but does not by itself prove this item's town law. What is left is the item's own remaining work: the named-reader-or-registered-reason detector and a played-world proof. Left open for the CTO to drop or split by law.

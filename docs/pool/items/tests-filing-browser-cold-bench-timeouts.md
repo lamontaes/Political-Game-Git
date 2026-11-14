@@ -42,3 +42,5 @@ checked: fable 2026-11-10
 Cause finder (Nov 11, 2026, for Fable B): two runs, each on a bench started cold from main 9af0057e a moment before; both passed. Proposed: close.
 
 Dropped Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: `src/bench/filing.browser.mjs` exists on the train; the item's Nov 11 cold-bench runs (bench restarted before each) passed twice in 85 and 68 seconds. I did not re-run the browser check in this pass.
+
+Cold run Nov 14, 2026 (Account lead T43, train eb349e5d76): no code can make a timing fault impossible, so this closure rests on a run. `npm run bench` was started 20 seconds before the check, which printed 'PASS the counter with no panels' in Harrells, North Carolina (BENCH_BROWSER=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome, first request on a fresh bench). With the item's two Nov 11 cold runs that is three passes. Reopen it if the first request times out again.
