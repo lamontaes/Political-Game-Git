@@ -13,6 +13,7 @@ import {
   mountSpeakers,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
+import { metricsChange, metricsFigure } from "./ui/metrics-change.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { personCard } from "./ui/person-card.mjs";
@@ -1569,6 +1570,7 @@ $("talk-next").addEventListener("click", async () => {
   // A story's end hands the room back to the one scene renderer, so the people in it can be
   // clicked to talk again (a story draws them without a click).
   await renderScene();
+  if (landHome()) return;
   if (!$("continue").hidden) $("continue").click();
 });
 // Skip scene ends the address at once; the room is handed back as at its last Continue.
@@ -1578,8 +1580,30 @@ $("talk-skip").addEventListener("click", async () => {
   renderTalk(undefined);
   show("talk", false);
   await renderScene();
+  if (landHome()) return;
   if (!$("continue").hidden) $("continue").click();
 });
+/**
+ * The opening's landing at home, once the address ends (played or skipped):
+ * the narrator's one line naming the day as people say it, at home (the
+ * server words it from the scene bank). True when it is shown.
+ */
+let landing = null;
+function landHome() {
+  if (!landing) return false;
+  const line = landing;
+  landing = null;
+  show("talk", true);
+  setWho(undefined, undefined);
+  narrateFirst(
+    [talkLine({ kind: "speech narration", text: line.text })],
+    () => {
+      renderTalk(undefined);
+      show("talk", false);
+    },
+  );
+  return true;
+}
 $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
@@ -3461,6 +3485,32 @@ async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const parts = await officeParts();
   const draftNodes = [];
+  // Who to ask to carry an executive's bill: the members, likeliest yes first and marked; a press
+  // asks that member (`/api/seat/act` with `memberId`).
+  const chooseMember = async (body, params) => {
+    const options = await api(
+      `/api/seat/ask-options?${new URLSearchParams(params)}`,
+    );
+    $("sheet-body").replaceChildren(
+      plate(
+        null,
+        line(controls.seat.askWho),
+        ...options.members.map((member) => {
+          const pick = makeButton({
+            className: "action",
+            textContent: member.likely
+              ? `${member.name} · ${controls.seat.askLikely}`
+              : member.name,
+          });
+          pick.dataset.act = "ask-member";
+          pick.addEventListener("click", () =>
+            act({ ...params, memberId: member.key }),
+          );
+          return pick;
+        }),
+      ),
+    );
+  };
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
@@ -3568,7 +3618,7 @@ async function seatRows() {
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
         ];
-        act({
+        const params = {
           kind: "draft",
           officeId: body.officeId,
           ...(kind === "series"
@@ -3593,7 +3643,11 @@ async function seatRows() {
                   ? String(Math.round(Number(typed) * 100))
                   : typed,
               }),
-        });
+        };
+        // An executive's bill goes through a member the player picks: the body's members, the
+        // one the engine would ask marked as the likely yes.
+        if (body.byRequest) chooseMember(body, params);
+        else act(params);
       },
     });
     // The body's line on the board: who sits on it, and the way in to writing
@@ -4189,29 +4243,16 @@ const sheets = {
   async metrics() {
     const view = await api("/api/metrics");
     const words = controls.metrics;
-    const figure = (row, value) =>
-      row.unit === "dollars"
-        ? roundedMoney(Math.round(value * 100))
-        : row.unit === "money"
-          ? roundedMoney(Math.round(value))
-          : row.unit === "count"
-            ? Math.round(value).toLocaleString("en-US")
-            : `${value.toFixed(1)} ${words.percent}`;
+    const figure = (row, value) => metricsFigure(row, value, words.percent);
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
         // A section that shows one government's books is headed by that government's name.
         section.name ?? words[section.key],
         ...section.rows.map((row) => {
-          const moved = row.before === null ? null : row.now - row.before;
+          const change = metricsChange(row, words.points);
           const direction =
-            moved === null
-              ? ""
-              : Math.abs(moved) < 0.05
-                ? words.same
-                : moved > 0
-                  ? words.up
-                  : words.down;
+            change.direction === null ? "" : words[change.direction];
           return typedRow(
             words[row.key],
             // A small town's count shows the people behind it ("13 of 86").
@@ -4220,7 +4261,7 @@ const sheets = {
               : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
             row.before === null
               ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : `${Math.abs(moved).toFixed(1)} ${words.points}`) : "", words.since].filter(Boolean).join(" ")}`,
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, change.size, words.since].filter(Boolean).join(" ")}`,
           );
         }),
       ),
@@ -7208,6 +7249,8 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     };
     show("front", false);
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
+    // The line that lands the player at home after the address.
+    landing = opening?.home?.landing ?? null;
     // Home that evening (the server's rule for the opening day), with the
     // night's news to pick up, then the first choices pointed out.
     for (const id of ["rings", "card"]) show(id, true);
@@ -7220,6 +7263,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     // after it opens, so it waits until the speech ends (C5; owner, Nov 7:
     // "News pop-ups wait until the scene ends").
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
+    else landHome();
     showNewsSurface(news);
   } catch (error) {
     bar.hidden = true;

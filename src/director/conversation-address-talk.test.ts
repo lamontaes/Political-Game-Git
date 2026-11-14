@@ -62,7 +62,14 @@ const BACK = rules.addressPoint.back;
 const MOVES = ["agree", "disagree", "here", "instead"];
 const WEEKS = 26;
 const TOWN_TALKS = 20;
-const INSERTS = ["about", "place", "president", "name"];
+const INSERTS = [
+  "about",
+  "place",
+  "president",
+  "president-object",
+  "president-possessive",
+  "name",
+];
 const DAYS_A_WEEK = 7;
 
 const BANK = JSON.parse(
@@ -125,9 +132,13 @@ it(`the relative raises a point of this world's address, with a stand and a reas
     for (const other of housematesOf(core, me)) {
       const otherId = other.id as PersonId;
       const talk = openConversation(core, me, otherId, { director });
-      // They ask about the address; any answer moves them on to their point.
-      if (talk.lines[0]?.kind !== "address" || !talk.choices.length) continue;
-      say(core, talk, talk.choices[0]!.key);
+      // Someone who watched it with the player opens on their own point
+      // (owner, Nov 12: what a household did together each of them knows);
+      // anyone else asks about the address, and any answer moves them on.
+      const first = talk.lines[0]?.kind;
+      if ((first !== "address" && first !== POINT) || !talk.choices.length)
+        continue;
+      if (first === "address") say(core, talk, talk.choices[0]!.key);
       const line = talk.lines.find(
         (row) => row.kind === POINT && row.speakerId === otherId,
       );
@@ -146,9 +157,16 @@ it(`the relative raises a point of this world's address, with a stand and a reas
       ).toBeLessThanOrEqual(BANK.lineWords[POINT]!);
       // Up to four replies, each a different move about the point.
       expectUpToFourDifferent(talk.choices, here);
-      expect(new Set(talk.choices.map((row) => row.move)), here).toEqual(
-        new Set(MOVES),
-      );
+      // Agree and disagree always; a question is offered only when the
+      // relative holds a record to answer it with (owner, Nov 12: "how the
+      // hell would she know?"): what it means here needs the state's law or
+      // the town's figure, what they would do instead a reason of their own.
+      const moves = new Set(talk.choices.map((row) => row.move));
+      expect(
+        [...moves].every((move) => MOVES.includes(move)),
+        here,
+      ).toBe(true);
+      expect(moves.has("agree") && moves.has("disagree"), here).toBe(true);
       // The relative's line names the point once in full (the lead's review,
       // Nov 11: one screen said it six times).
       expect(
@@ -172,7 +190,12 @@ it(`the relative raises a point of this world's address, with a stand and a reas
         `${here}: ${talk.choices.map((row) => row.text).join(" / ")}`,
       ).toBeLessThanOrEqual(1);
       for (const choice of talk.choices) {
-        // Each reply is answered, and the answer does not name the point again.
+        // Every reply is answered, and the answer does not name the point
+        // again: no talk ends on the player's line. An agreement or a
+        // disagreement is answered with what comes next for the side the
+        // speaker took (round 9: an answer fits the side), never the old
+        // "Good. We'll watch what it does to ..." (owner, Nov 12: "makes no
+        // sense").
         const back = composedLine(
           core,
           otherId,
@@ -187,10 +210,37 @@ it(`the relative raises a point of this world's address, with a stand and a reas
           BANK.lineWords[BACK]!,
         );
       }
-      // The answer to "what would it mean here?" says one thing this world
-      // keeps (the state's law on it, else the town's figure), over 20 talks
-      // in each place: a slot besides the town's name every time.
-      for (let talkAt = 0; talkAt < TOWN_TALKS; talkAt += 1) {
+      // "What would it mean here?" is offered only to someone holding a
+      // record to answer it with: the state's law or the town's figure, which
+      // only someone holding an office in town reads (owner, Nov 12: "how the
+      // hell would she know?"). Without one, no answer can be composed, so
+      // the question is never left unanswered.
+      const hereFact =
+        talk.last!.facts.state ?? talk.last!.facts["town-figure"];
+      if (moves.has("here"))
+        expect(hereFact, `${here}: "here" offered with no record`).toBeTruthy();
+      if (!hereFact) {
+        expect(moves.has("here"), here).toBe(false);
+        expect(
+          composedLine(
+            core,
+            otherId,
+            BACK,
+            talk.last!.facts,
+            "here",
+            `${here}:town:none`,
+          ),
+          `${here}: an answer about here with no record`,
+        ).toBeNull();
+      }
+      // Where it is offered, the answer says one thing this world keeps (the
+      // state's law on it, else the town's figure), over 20 talks in each
+      // place: a slot besides the town's name every time.
+      for (
+        let talkAt = 0;
+        moves.has("here") && talkAt < TOWN_TALKS;
+        talkAt += 1
+      ) {
         const back = composedLine(
           core,
           otherId,
@@ -218,6 +268,8 @@ it(`the relative raises a point of this world's address, with a stand and a reas
       const answer = talk.lines[before + 1];
       expect(answer?.kind, `${here}: "${choice.text}"`).toBe(BACK);
       expect(answer?.speakerId, here).toBe(otherId);
+      expect(answer!.text, here).not.toContain(about!);
+      expect(answer!.text, here).not.toMatch(/We'll watch what it does/);
       const kept = core.knowledgeByPerson
         .get(otherId)
         ?.get(`talk:${me}:address-point:${question}`);

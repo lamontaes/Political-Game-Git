@@ -25,7 +25,7 @@ interface Use {
   stages?: string[];
   /** The settings a line can be said in ("home" for "has been waiting for you to get home"); none, any. */
   settings?: string[];
-  /** Facts the line is said only with (a ballot for "I voted for"), though it names none. */
+  /** Facts or marks a line is said only with ("evening" for "The day is done.", a ballot for "I voted for"), though it names none. */
   requiresFacts?: string[];
 }
 interface MinedPart extends BankPart<Use> {

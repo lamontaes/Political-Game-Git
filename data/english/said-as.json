@@ -29,31 +29,58 @@
     }
   },
   "offices": {
-    "president": { "before": "President", "again": "the President" },
+    "president": {
+      "before": "President",
+      "again": "the President"
+    },
     "vice-president": {
       "before": "Vice President",
       "again": "the Vice President"
     },
-    "governor": { "before": "Governor", "again": "the governor" },
+    "governor": {
+      "before": "Governor",
+      "again": "the governor"
+    },
     "lieutenant-governor": {
       "before": "Lieutenant Governor",
       "again": "the lieutenant governor"
     },
-    "us-senate": { "before": "Senator", "again": "the senator" },
-    "us-house": { "before": "Representative", "again": "the congressman" },
-    "us-house-delegate": { "before": "Delegate", "again": "the delegate" },
+    "us-senate": {
+      "before": "Senator",
+      "again": "the senator"
+    },
+    "us-house": {
+      "before": "Representative",
+      "again": "the congressman"
+    },
+    "us-house-delegate": {
+      "before": "Delegate",
+      "again": "the delegate"
+    },
     "legislature-lower": {
       "before": "Representative",
       "again": "the representative"
     },
-    "legislature-upper": { "before": "Senator", "again": "the senator" },
+    "legislature-upper": {
+      "before": "Senator",
+      "again": "the senator"
+    },
     "legislature-unicameral": {
       "before": "Senator",
       "again": "the senator"
     },
-    "council": { "before": "Council member", "again": "the council member" },
-    "mayor": { "before": "Mayor", "again": "the mayor" },
-    "us-house:presiding": { "before": "Speaker", "again": "the Speaker" },
+    "council": {
+      "before": "Council member",
+      "again": "the council member"
+    },
+    "mayor": {
+      "before": "Mayor",
+      "again": "the mayor"
+    },
+    "us-house:presiding": {
+      "before": "Speaker",
+      "again": "the Speaker"
+    },
     "legislature-lower:presiding": {
       "before": "Speaker",
       "again": "the Speaker"
@@ -71,6 +98,41 @@
     "county-board:presiding": { "before": "Chair", "again": "the chair" },
     "township-board:presiding": { "before": "Chair", "again": "the chair" }
   },
+  "they": {
+    "about": "Someone with no he or she on record is said again as they (src/english/said-as.ts wordPersonSlots), never by their role twice in one line (owner, Nov 12: \"There needs to be pronouns and titles\"). A line's verbs are written for one person, so the word after they (\"knows\" to \"know\") and a question's verb before it (\"does\" to \"do\") take the plural.",
+    "lower": "they",
+    "object": "them",
+    "possessive": "their",
+    "after": {
+      "'s": "'re",
+      "is": "are",
+      "isn't": "aren't",
+      "was": "were",
+      "wasn't": "weren't",
+      "has": "have",
+      "hasn't": "haven't",
+      "does": "do",
+      "doesn't": "don't",
+      "says": "say",
+      "wants": "want",
+      "knows": "know",
+      "thinks": "think",
+      "means": "mean",
+      "needs": "need",
+      "gets": "get",
+      "goes": "go",
+      "tries": "try",
+      "likes": "like",
+      "talks": "talk"
+    },
+    "before": {
+      "does": "do",
+      "doesn't": "don't",
+      "is": "are",
+      "was": "were",
+      "has": "have"
+    }
+  },
   "relation": {
     "yours": "your {relation} {given}",
     "mine": "my {relation} {given}",
@@ -81,5 +143,43 @@
     "title": "Works outside the town",
     "does": "works outside the town",
     "job": "a job out of town"
+  },
+  "clerkOffice": {
+    "about": "The place a counter line sends the player: the clerk's office, or for the head of a state agency the agency itself, never \"the head of the agency's office\".",
+    "said": "the {post}'s office"
+  },
+  "agencyHead": {
+    "about": "A person who heads a state agency is said by what they do, never by the agency's name as a job (#8520, third reader): \"head of the {agency}\". The agency's name is said without a form's parenthesis, and a name that is itself an office (\"Ohio Secretary of State\") is said as that office: the person is the office, and the place is the office's own.",
+    "said": "head of the {agency}",
+    "office": "the {agency}",
+    "ownOffice": "the {agency}'s office",
+    "namedAsOffice": ["Secretary of State"],
+    "copies": { "kept": "original", "dropped": "duplicate" }
+  },
+  "federal": {
+    "about": "How talk says the federal government (src/director/conversation.ts pointSubject): by its capital, or plainly in a state that goes by the capital's name (composed-checks.json placeSaidOnlyAs), so \"whatever Washington says\" never means the state (owner, Nov 12: \"Which Washington?\").",
+    "name": "Washington",
+    "plain": "the federal government"
+  },
+  "deciders": {
+    "about": "Who decides a question, by its level, said in talk where a line names who should act (never 'somebody'; lead, Nov 12).",
+    "federal": "Congress",
+    "state": "the legislature",
+    "local": "the council",
+    "county": "the county board",
+    "town": "the council",
+    "city": "the council"
+  },
+  "ownPlace": {
+    "about": "Owner via the coordinator, Nov 12: a district's or employer's name is never spoken as the place someone goes. A student says their own school as 'school'; a worker names the employer once in a talk and then says 'work'. By the tie between the person and the organization. A resident says the town both people live in as 'town' (\"the shelter in town\"), never its name (owner, Nov 12: \"we'll watch what it does to Wofford Heights\").",
+    "student": "school",
+    "worker": "work",
+    "resident": "town"
+  },
+  "questionAgain": {
+    "about": "Lead, Nov 12 (\"say no to raising the debt limit only with spending cuts to match\" right after the opener named it in full): once a line has named a question, its act is said again in a short form, by the slot it fills. Lead, Nov 13: while it is the only question on the table, a later mention of its name in the talk is `it`. Words only; the composer reads them.",
+    "against": "say no to it",
+    "to": "pass it",
+    "it": "it"
   }
 }

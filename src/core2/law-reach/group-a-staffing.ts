@@ -84,37 +84,44 @@ export function lineRaisedByBills(
  * the positions the line it carried in funded: a position the line funded
  * that nobody filled is still funded, so putting the line back cuts only
  * what the change added, never the staff the employer opened with. With no
- * earlier change by this government, it is the staff in place: another
- * government's line (a state's schools line beside a city's) funded its own
- * positions, which this line's change does not carry.
+ * earlier change by this government, it is the staff in place. A row is a
+ * government's own (`staffingOf` keys it by government), so another
+ * government's line at the same employer (a city's and a county's
+ * administration lines fund one employer) never rebases it.
  */
 export function baseStaffFor(
   held: StaffingRow | null,
   fiscalYear: number,
   inPlace: number,
-  governmentId?: string,
 ): number {
-  if (
-    !held ||
-    (governmentId !== undefined &&
-      held.governmentId !== undefined &&
-      held.governmentId !== governmentId)
-  )
-    return inPlace;
+  if (!held) return inPlace;
   return held.fiscalYear === fiscalYear ? held.baseStaff : held.positions;
 }
 
-/** The staffing a budget line funds at one employer, if a change has set it. */
+/** The staffing a budget line funds at one employer, if a change by that government has set it. */
 export function staffingOf(
   api: CoreAPI,
   key: string,
   organizationId: string,
+  governmentId: string,
 ): StaffingRow | null {
   if (!api.state.modules.has(REACH_A_MODULE_ID)) return null;
   return (
-    (reachTable(api, "staffing").get(`${key}:${organizationId}`) as unknown as
-      StaffingRow | undefined) ?? null
+    (reachTable(api, "staffing").get(
+      `${key}:${organizationId}:${governmentId}`,
+    ) as unknown as StaffingRow | undefined) ?? null
   );
+}
+
+/** Every government's staffing of one line at one employer. */
+function staffingRowsOf(
+  api: CoreAPI,
+  key: string,
+  organizationId: string,
+): readonly StaffingRow[] {
+  return (
+    reachTable(api, "staffing").rows() as unknown as StaffingRow[]
+  ).filter((r) => r.key === key && r.organizationId === organizationId);
 }
 
 /**
@@ -183,13 +190,13 @@ export const staffing: PolicyHandler = (api, change) => {
     : [gov.organizationId];
   let added = 0;
   for (const organizationId of funded) {
-    const held = staffingOf(api, change.key, organizationId);
+    const held = staffingOf(api, change.key, organizationId, gov.id);
     const inPlace = employers.length
       ? currentStaff(api, organizationId).length +
         countedStaffOf(api.state as CoreState, organizationId)
       : 0;
     const baseStaff = employers.length
-      ? baseStaffFor(held, budget.fiscalYear, inPlace, gov.id)
+      ? baseStaffFor(held, budget.fiscalYear, inPlace)
       : 0;
     // With no such employer in the town (a county jail elsewhere), the
     // government's record carries the positions the change funds or cuts.
@@ -198,7 +205,7 @@ export const staffing: PolicyHandler = (api, change) => {
       : ((budget.spendingMinor[line] ?? 0) - base) /
         reachParameter("publicPositionAnnualMinor");
     const row: StaffingRow = {
-      id: `${change.key}:${organizationId}`,
+      id: `${change.key}:${organizationId}:${gov.id}`,
       key: change.key,
       organizationId,
       baseStaff,
@@ -231,9 +238,9 @@ export const staffing: PolicyHandler = (api, change) => {
       });
     else lawNoLongerApplies(api, change.key, organizationId);
     added += row.positions - baseStaff;
-    // Two laws changing the same employer's staffing on one day (a city's
-    // and a county's budgets adopted together) share one hiring round: the
-    // round reads the latest staffing row when it runs.
+    // Each government's row has its own hiring round; a round reads every
+    // government's row at the employer, so a city's raise and a county's
+    // change adopted on different days (or together) both stand.
     const calendar = api.moduleCalendar(REACH_A_MODULE_ID);
     const key = `staffing:${row.id}:${api.state.date}`;
     if (employers.length && !calendar.get(key))
@@ -304,7 +311,15 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
   // openings are positions already funded.
   const counted = countedJobsOf(state, row.organizationId);
   const open = fundedOpenings(api, row.organizationId, row.key);
-  const target = Math.round(row.positions);
+  // Another government's raise at this employer (a city's and a county's
+  // administration lines fund one employer) still has openings nobody has
+  // taken: they stay posted, whatever this government's own line did.
+  const othersRaise = staffingRowsOf(api, row.key, row.organizationId)
+    .filter((r) => r.id !== row.id)
+    .reduce((n, r) => n + Math.max(0, r.positions - r.baseStaff), 0);
+  const target =
+    Math.round(row.positions) +
+    Math.min(open.length, Math.max(0, Math.round(othersRaise)));
   const held = staff.length + counted.length;
   let posted = 0;
   const laidOff: { id: string; target: "person" | "group" }[] = [];
@@ -370,12 +385,15 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
   // (the base had room once others left, or the year's adoption grew the
   // line) holds a base position, and the raise no longer applies to them. A
   // raise carried into a new fiscal year still funds its hires.
-  const lineGov = row.governmentId
-    ? governments(api).find((g) => g.id === row.governmentId)
-    : undefined;
-  const raised = lineGov
-    ? lineRaisedByBills(api, lineGov, row.key.slice("budget-line:".length))
-    : row.positions > row.baseStaff;
+  // A hire stays on the line while any government's raise at this employer stands.
+  const raised = staffingRowsOf(api, row.key, row.organizationId).some((r) => {
+    const lineGov = r.governmentId
+      ? governments(api).find((g) => g.id === r.governmentId)
+      : undefined;
+    return lineGov
+      ? lineRaisedByBills(api, lineGov, r.key.slice("budget-line:".length))
+      : r.positions > r.baseStaff;
+  });
   for (const r of appliedOn(api, row.key))
     if (
       r.what === "hired-on-budget-line" &&

@@ -475,18 +475,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORDS-eviction-moment-at-fill-in",
-    "kind": "partial-model",
-    "file": "src/director/conversation.ts",
-    "line": 505,
-    "whatItFakes": "A counted household evicted while counted and filled in later (the player meets one of its people) has its eviction case and housing status row, but no director moment labeled feeling:event:housing.eviction, which evictionSubjects reads; so a homeless person the player meets never brings up the eviction or where they are staying, though the records say both. A full household evicted has the moment from the day of its eviction.",
-    "why": "CTO ruling, Nov 1: an evicted counted household stays counted and is filled in only when it comes to matter to the player. The director's moments are written only for watched people as events reach them, so the eviction left no moment for people not yet filled in.",
-    "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
-    "addedAt": "2026-11-01",
-    "replacement": "When a household whose housing status row names an eviction case is filled in, the director records the eviction moment from the case (its removedAt and event id event:housing.eviction:<caseId>), or evictionSubjects reads the status row's case when no moment exists. Needs Words (lead: words).",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-swearing-in-no-court",
     "kind": "missing-record",
     "file": "src/director/civic-roles.ts",
@@ -601,18 +589,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-WORDS-mentor-is-officeholder",
-    "kind": "missing-data",
-    "file": "src/director/circumstance.ts",
-    "line": 1,
-    "whatItFakes": "The adviser in the advice scene (the day after a party's chair asks the player to run) is a seated officeholder of that party who lives in the player's town and has held a seat for a year or more, the closest and most sociable of them. The world records no mentorship between two people, so the one who weighs in is chosen by the seat they hold and the party they share, not by a tie that says they mentored the player.",
-    "why": "The mentorship relationship is not an engine's record yet (nothing writes relationship:mentorship in a played year); the party's ask is the real cause and the known officeholders are real people the records name.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "A relationship engine row for a mentor, written when an officeholder takes an interest in a newcomer; the circumstance reads it instead of the seat held.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-bribe-accuser-anyone-close",
     "kind": "missing-data",
     "file": "src/director/data/circumstances.json",
@@ -673,18 +649,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T3"
-  },
-  {
-    "id": "SG-WORDS-notice-no-reader",
-    "kind": "missing-hook",
-    "file": "data/english/parts/notice.json",
-    "line": 1,
-    "whatItFakes": "The election notice (\"NOTICE OF ELECTION ...\") sits in a bank that no engine prints.",
-    "why": "No engine prints a public notice of an election. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "A notice printed in the paper and posted by the clerk or board of elections for each contest, worded from this piece and the election's records; pool item words-election-notice-printed.",
-    "status": "open"
   },
   {
     "id": "SG-WORDS-param-directorTalkViewImpact",
@@ -1084,6 +1048,42 @@
     "addedBy": "Words builder W-C",
     "addedAt": "2026-11-12",
     "replacement": "Weights tuned so no question leads more than half of ten drawn addresses; the half-draws assertion in speech-outline.test.ts turned on.",
+    "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-rent-talk-first-lease",
+    "kind": "missing-data",
+    "file": "src/director/conversation.ts",
+    "line": 1,
+    "whatItFakes": "The rent coming due is read from the lease a household signed when the world was made (`lease:<household>`); a lease signed after a move (`lease:<household>:<date>`) is not found, so a household that moved never talks about its rent.",
+    "why": "The finance engine keeps no index of contracts by household; scanning every contract per talk would break the speed bar. Talk on ordinary days, Nov 12.",
+    "addedBy": "Words builder (words-telling-said-as-talk)",
+    "addedAt": "2026-11-12",
+    "replacement": "A by-household index of standing bills in the finance engine (or the household record naming its current lease), read here.",
+    "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-housemate-job-search-unrecorded",
+    "kind": "missing-record",
+    "file": "src/director/conversation.ts",
+    "line": 1,
+    "whatItFakes": "A jobless housemate says nothing of looking for work: the jobs engine (src/core2/modules/jobs.ts) keeps job offers only for the person the player controls, and a jobless adult out of the labor force has no seeker row, so no application, interview, rejection or benefit paid is on record to tell.",
+    "why": "Talk from what is new on record (lead, Nov 12): a talk is offered only when a record holds something new; the engine keeps none for a housemate's search.",
+    "addedBy": "Words builder (words-telling-said-as-talk)",
+    "addedAt": "2026-11-12",
+    "replacement": "The jobs engine records each seeker's applications and answers (or benefits paid, from the income engine), and the talk reads the newest as a job-search subject.",
+    "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-town-change-reach-unread",
+    "kind": "missing-record",
+    "file": "src/director/conversation.ts",
+    "line": 1,
+    "whatItFakes": "What a government did (a budget line, an ordinance, an address, a town hall) is told as news the speaker heard or read, citing that record, with their stand on its question; whether it reached their own household (a service they use, a tax they pay, a payroll they are on) is not read, so nobody says it touched them.",
+    "why": "The town changing, brought up at home (lead, Nov 12), built on the records the speaker has (the story read, the address heard, the meeting attended); the budget and benefits engines' records of whom a line served are not read by talk yet.",
+    "addedBy": "Words builder (words-telling-said-as-talk)",
+    "addedAt": "2026-11-12",
+    "replacement": "Talk reads the budget, benefits and tax engines' records of whom a changed line reached, and a speaker it reached gives that as their reason.",
     "status": "open"
   },
   {
