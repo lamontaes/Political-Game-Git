@@ -136,12 +136,14 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
         kind: packet.kind === "stop" ? "stop" : "own-choice",
         pauseId: packet.pauseId,
       } as never);
-    process.stderr.write(
-      `clock to ${date}: at ${core.date}, ${packet.kind} after ${i}\n`,
-    );
+    if (packet.kind !== "complete")
+      process.stderr.write(`clock to ${date} stopped at ${core.date}\n`);
   };
   const played = new Set<string>();
-  const playDay = (kind: string) => {
+  const playDay = () => {
+    const kind = petitionCirculating(coreAPI(core), filing!.id)
+      ? "Signature"
+      : "Vote";
     campaignDay(core, playerId!, { filingId: filing!.id, kind: "canvass" });
     const records = doorsKnocked(core, playerId!);
     const day = core.date;
@@ -235,7 +237,7 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
     }
     if (!scenes) out.push("No scene this day.\n");
   };
-  for (let day = 0; day < Number(signArg); day += 1) playDay("Signature");
+  for (let day = 0; day < Number(signArg); day += 1) playDay();
   // Past the petition: the weeks go by until it no longer circulates.
   for (
     let week = 0;
@@ -243,6 +245,6 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
     week += 1
   )
     clockTo(addDays(makeIsoDate(core.date), 7));
-  for (let day = 0; day < Number(voteArg); day += 1) playDay("Vote");
+  for (let day = 0; day < Number(voteArg); day += 1) playDay();
 }
 process.stdout.write(out.join("\n"));

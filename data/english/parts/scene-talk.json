@@ -163823,10 +163823,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.sure-i-know-what-it-is-to-need-a-few-people-to-vouch-for-you-where-do-i-sign",
+      "key": "scene-talk.reply-agree.sure-i-know-what-it-is-to-need-a-few-people-in-place-to-vouch-for-you-where-do-i",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Sure. I know what it is to need a few people to vouch for you. Where do I sign?",
+      "text": "Sure. I know what it is to need a few people in {place} to vouch for you. Where do I sign?",
       "uses": [
         {
           "subject": "scene",
@@ -163874,10 +163874,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-re-the-first-person-to-knock-who-isn-t-selling-something-i-ll-sign",
+      "key": "scene-talk.reply-agree.you-re-the-first-person-running-for-office-who-s-come-to-my-door-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You're the first person to knock who isn't selling something. I'll sign.",
+      "text": "You're the first person running for {office} who's come to my door. I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -163925,10 +163925,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-sign-don-t-make-me-regret-it",
+      "key": "scene-talk.reply-agree.i-ll-sign-for-office-don-t-make-me-regret-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll sign. Don't make me regret it.",
+      "text": "I'll sign for {office}. Don't make me regret it.",
       "uses": [
         {
           "subject": "scene",
@@ -164002,10 +164002,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-looking-for-work-not-a-candidate-no",
+      "key": "scene-talk.reply-decline.i-m-looking-for-work-not-a-candidate-for-office-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm looking for work, not a candidate. No.",
+      "text": "I'm looking for work, not a candidate for {office}. I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -164079,10 +164079,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-pass-i-ve-got-an-interview-to-get-ready-for",
+      "key": "scene-talk.reply-decline.i-ll-pass-on-office-i-ve-got-an-interview-to-get-ready-for",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll pass. I've got an interview to get ready for.",
+      "text": "I'll pass on {office}. I've got an interview to get ready for.",
       "uses": [
         {
           "subject": "scene",
@@ -164104,10 +164104,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-d-rather-keep-my-name-off-anything-until-i-ve-got-a-job-again",
+      "key": "scene-talk.reply-decline.i-d-rather-keep-my-name-off-anything-in-place-until-i-ve-got-a-job-again",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'd rather keep my name off anything until I've got a job again.",
+      "text": "I'd rather keep my name off anything in {place} until I've got a job again.",
       "uses": [
         {
           "subject": "scene",
@@ -164129,10 +164129,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.if-you-ll-say-out-loud-what-employer-did-to-this-town-you-ve-got-my-vote",
+      "key": "scene-talk.reply-agree.if-you-ll-say-out-loud-what-employer-did-to-place-you-ve-got-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "If you'll say out loud what {employer} did to this town, you've got my vote.",
+      "text": "If you'll say out loud what {employer} did to {place}, you've got my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -164181,10 +164181,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-now-get-some-jobs-in-here",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-now-get-some-jobs-into-place",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote. Now get some jobs in here.",
+      "text": "You've got my vote. Now get some jobs into {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -164206,10 +164206,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-i-ll-vote-for-you-i-ll-even-have-the-time-to-get-to-the-polls-early",
+      "key": "scene-talk.reply-agree.yes-i-ll-vote-for-you-for-office-i-ve-got-the-time-to-get-to-the-polls-early",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. I'll vote for you. I'll even have the time to get to the polls early.",
+      "text": "Yes, I'll vote for you for {office}. I've got the time to get to the polls early.",
       "uses": [
         {
           "subject": "scene",
@@ -164257,10 +164257,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-you-ve-got-my-vote-don-t-forget-the-people-who-are-out-of-work",
+      "key": "scene-talk.reply-agree.fine-you-ve-got-my-vote-don-t-forget-the-people-in-place-who-are-out-of-work",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fine. You've got my vote. Don't forget the people who are out of work.",
+      "text": "Fine. You've got my vote. Don't forget the people in {place} who are out of work.",
       "uses": [
         {
           "subject": "scene",
@@ -164308,10 +164308,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-vote-on-promises-anymore-i-ve-heard-too-many",
+      "key": "scene-talk.reply-decline.i-don-t-vote-on-promises-anymore-everybody-who-runs-for-office-makes-them",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't vote on promises anymore. I've heard too many.",
+      "text": "I don't vote on promises anymore. Everybody who runs for {office} makes them.",
       "uses": [
         {
           "subject": "scene",
@@ -164359,10 +164359,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-haven-t-made-up-my-mind-and-you-re-not-the-one-who-ll-get-me-a-job-i-ll-pass",
+      "key": "scene-talk.reply-decline.i-haven-t-made-up-my-mind-and-office-isn-t-going-to-get-me-a-job-i-ll-pass",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I haven't made up my mind, and you're not the one who'll get me a job. I'll pass.",
+      "text": "I haven't made up my mind, and {office} isn't going to get me a job. I'll pass.",
       "uses": [
         {
           "subject": "scene",
@@ -164410,10 +164410,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.talk-to-me-when-you-ve-got-something-for-people-out-of-work-not-before",
+      "key": "scene-talk.reply-decline.talk-to-me-when-you-ve-got-something-for-people-out-of-work-in-place-not-before",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Talk to me when you've got something for people out of work. Not before.",
+      "text": "Talk to me when you've got something for people out of work in {place}. Not before.",
       "uses": [
         {
           "subject": "scene",
@@ -164435,10 +164435,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-hope-the-next-door-you-open-is-a-job-offer",
+      "key": "scene-talk.follow-thank.thank-you-i-hope-somebody-in-place-calls-you-with-a-job-soon",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I hope the next door you open is a job offer.",
+      "text": "Thank you. I hope somebody in {place} calls you with a job soon.",
       "uses": [
         {
           "subject": "scene",
@@ -164469,10 +164469,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-i-mean-that-good-luck-with-the-search",
+      "key": "scene-talk.follow-thank.thanks-i-mean-that-i-hope-place-has-work-for-you-soon",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks. I mean that. Good luck with the search.",
+      "text": "Thanks. I mean that. I hope {place} has work for you soon.",
       "uses": [
         {
           "subject": "scene",
@@ -164503,10 +164503,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-remember-this-street",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-remember-this-street-when-i-m-talking-about-jobs-in-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll remember this street.",
+      "text": "Thank you. I'll remember this street when I'm talking about jobs in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -164537,10 +164537,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-means-a-lot-i-hope-something-comes-through-for-you-soon",
+      "key": "scene-talk.follow-thank.that-means-a-lot-i-hope-something-in-place-comes-through-for-you-soon",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That means a lot. I hope something comes through for you soon.",
+      "text": "That means a lot. I hope something in {place} comes through for you soon.",
       "uses": [
         {
           "subject": "scene",
@@ -164571,10 +164571,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-good-luck-with-the-search",
+      "key": "scene-talk.follow-accept.i-understand-i-hope-something-in-place-comes-through",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand. Good luck with the search.",
+      "text": "I understand. I hope something in {place} comes through.",
       "uses": [
         {
           "subject": "scene",
@@ -164605,10 +164605,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-fair-i-ll-let-you-get-back-to-it",
+      "key": "scene-talk.follow-accept.that-s-fair-i-ll-let-you-get-back-to-it-good-luck-finding-work-in-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's fair. I'll let you get back to it.",
+      "text": "That's fair. I'll let you get back to it. Good luck finding work in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -164639,10 +164639,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-i-hope-the-next-call-you-get-is-a-good-one",
+      "key": "scene-talk.follow-accept.okay-i-hope-the-next-call-you-get-from-someone-in-place-is-a-job",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. I hope the next call you get is a good one.",
+      "text": "Okay. I hope the next call you get from someone in {place} is a job.",
       "uses": [
         {
           "subject": "scene",
@@ -164673,10 +164673,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-thanks-for-opening-the-door",
+      "key": "scene-talk.follow-accept.fair-enough-thanks-for-opening-the-door-if-you-change-your-mind-i-m-self",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. Thanks for opening the door.",
+      "text": "Fair enough. Thanks for opening the door. If you change your mind, I'm {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -164707,10 +164707,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.that-s-why-i-m-running-who-s-hiring-in-this-town-is-a-question-somebody-in-offic",
+      "key": "scene-talk.follow-press.that-s-why-i-m-running-who-s-hiring-in-place-is-a-question-somebody-in-office-sh",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "That's why I'm running. Who's hiring in this town is a question somebody in office should be asking.",
+      "text": "That's why I'm running. Who's hiring in {place} is a question somebody in office should be asking.",
       "uses": [
         {
           "subject": "scene",
@@ -164741,10 +164741,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-hear-you-give-me-a-chance-to-be-the-one-who-shows-up-next-time",
+      "key": "scene-talk.follow-press.i-get-it-give-me-a-chance-to-be-the-one-in-office-who-shows-up-next-time",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I hear you. Give me a chance to be the one who shows up next time.",
+      "text": "I get it. Give me a chance to be the one in {office} who shows up next time.",
       "uses": [
         {
           "subject": "scene",
@@ -164811,10 +164811,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.nobody-came-then-i-m-here-now-and-i-m-asking",
+      "key": "scene-talk.follow-press.nobody-came-then-i-m-here-now-asking-for-office",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Nobody came then. I'm here now, and I'm asking.",
+      "text": "Nobody came then. I'm here now, asking for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -164845,10 +164845,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.then-let-me-do-something-first-i-ll-find-out-who-s-hiring-around-here-and-come-b",
+      "key": "scene-talk.follow-promise.then-let-me-do-something-first-i-ll-find-out-who-s-hiring-in-place-and-come-back",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "Then let me do something first. I'll find out who's hiring around here and come back.",
+      "text": "Then let me do something first. I'll find out who's hiring in {place} and come back.",
       "uses": [
         {
           "subject": "scene",
@@ -164915,10 +164915,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-ask-the-workforce-office-what-they-have-and-bring-it-to-you-no-strings",
+      "key": "scene-talk.follow-promise.i-ll-ask-the-workforce-office-what-they-have-in-place-and-bring-it-to-you-no-str",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll ask the workforce office what they have and bring it to you. No strings.",
+      "text": "I'll ask the workforce office what they have in {place} and bring it to you. No strings.",
       "uses": [
         {
           "subject": "scene",
@@ -164949,10 +164949,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-find-out-what-help-there-is-for-people-out-of-work-and-let-you-know",
+      "key": "scene-talk.follow-promise.i-ll-find-out-what-help-place-has-for-people-out-of-work-and-let-you-know",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll find out what help there is for people out of work and let you know.",
+      "text": "I'll find out what help {place} has for people out of work and let you know.",
       "uses": [
         {
           "subject": "scene",
@@ -164983,10 +164983,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-no-that-didn-t-change-while-you-were-talking",
+      "key": "scene-talk.reply-decline.i-said-no-to-office-that-didn-t-change-while-you-were-talking",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said no. That didn't change while you were talking.",
+      "text": "I said no to {office}. That didn't change while you were talking.",
       "uses": [
         {
           "subject": "scene",
@@ -165008,10 +165008,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-can-say-it-three-ways-it-s-still-no",
+      "key": "scene-talk.reply-decline.you-can-ask-three-ways-self-it-s-still-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You can say it three ways. It's still no.",
+      "text": "You can ask three ways, {self}. It's still no.",
       "uses": [
         {
           "subject": "scene",
@@ -165033,10 +165033,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-know-you-mean-it-i-still-can-t",
+      "key": "scene-talk.reply-decline.i-know-you-mean-it-self-i-still-can-t",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I know you mean it. I still can't.",
+      "text": "I know you mean it, {self}. I still can't.",
       "uses": [
         {
           "subject": "scene",
@@ -165058,10 +165058,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.maybe-after-i-m-working-again-not-now",
+      "key": "scene-talk.reply-decline.maybe-after-i-m-working-in-place-again-not-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Maybe after I'm working again. Not now.",
+      "text": "Maybe after I'm working in {place} again. Not now.",
       "uses": [
         {
           "subject": "scene",
@@ -165083,10 +165083,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-asked-i-answered",
+      "key": "scene-talk.reply-decline.you-asked-self-i-answered",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You asked. I answered.",
+      "text": "You asked, {self}. I answered.",
       "uses": [
         {
           "subject": "scene",
@@ -165108,10 +165108,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.show-me-something-then-ask-me-again",
+      "key": "scene-talk.reply-decline.show-me-something-for-place-then-ask-me-again",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Show me something, then ask me again.",
+      "text": "Show me something for {place}, then ask me again.",
       "uses": [
         {
           "subject": "scene",
@@ -165133,10 +165133,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-believe-you-i-still-don-t-know-who-i-m-voting-for",
+      "key": "scene-talk.reply-decline.i-believe-you-self-i-still-don-t-know-who-i-m-voting-for",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I believe you. I still don't know who I'm voting for.",
+      "text": "I believe you, {self}. I still don't know who I'm voting for.",
       "uses": [
         {
           "subject": "scene",
@@ -165158,10 +165158,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-yet-come-back-when-the-work-comes-back",
+      "key": "scene-talk.reply-decline.not-yet-come-back-when-the-work-comes-back-to-place",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not yet. Come back when the work comes back.",
+      "text": "Not yet. Come back when the work comes back to {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -165183,10 +165183,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.people-say-that-do-it-and-then-we-ll-talk",
+      "key": "scene-talk.reply-decline.people-running-for-office-say-that-do-it-and-then-we-ll-talk",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "People say that. Do it, and then we'll talk.",
+      "text": "People running for {office} say that. Do it, and then we'll talk.",
       "uses": [
         {
           "subject": "scene",
@@ -165217,10 +165217,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-d-like-that-my-answer-s-the-same-for-now-but-i-d-like-that",
+      "key": "scene-talk.reply-decline.i-d-like-that-self-my-answer-s-the-same-for-now-but-i-d-like-that",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'd like that. My answer's the same for now, but I'd like that.",
+      "text": "I'd like that, {self}. My answer's the same for now, but I'd like that.",
       "uses": [
         {
           "subject": "scene",
@@ -165251,10 +165251,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.bring-me-a-name-and-a-phone-number-not-a-flyer",
+      "key": "scene-talk.reply-decline.bring-me-a-name-and-a-phone-number-self-not-a-flyer",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Bring me a name and a phone number. Not a flyer.",
+      "text": "Bring me a name and a phone number, {self}. Not a flyer.",
       "uses": [
         {
           "subject": "scene",
@@ -165285,10 +165285,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.all-right-you-know-where-i-live",
+      "key": "scene-talk.reply-decline.alright-self-you-know-where-i-live",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "All right. You know where I live.",
+      "text": "Alright, {self}. You know where I live.",
       "uses": [
         {
           "subject": "scene",
@@ -165481,10 +165481,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-thought-you-were-the-landlord-fine-i-ll-sign-at-least-you-knocked",
+      "key": "scene-talk.reply-agree.i-thought-you-were-the-landlord-fine-i-ll-sign-for-office-at-least-you-knocked",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I thought you were the landlord. Fine, I'll sign. At least you knocked.",
+      "text": "I thought you were the landlord. Fine, I'll sign for {office}. At least you knocked.",
       "uses": [
         {
           "subject": "scene",
@@ -165558,10 +165558,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.does-anybody-running-know-what-rent-does-to-people-around-here-sign-me-up-then-g",
+      "key": "scene-talk.reply-agree.does-anybody-running-for-office-know-what-rent-does-to-people-here-i-ll-sign-the",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Does anybody running know what rent does to people around here? Sign me up. Then go find out.",
+      "text": "Does anybody running for {office} know what rent does to people here? I'll sign. Then go find out.",
       "uses": [
         {
           "subject": "scene",
@@ -165583,10 +165583,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yeah-i-ll-sign-i-could-use-somebody-on-my-side-for-once",
+      "key": "scene-talk.reply-agree.yeah-i-ll-sign-i-could-use-somebody-in-place-on-my-side-for-once",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yeah, I'll sign. I could use somebody on my side for once.",
+      "text": "Yeah, I'll sign. I could use somebody in {place} on my side for once.",
       "uses": [
         {
           "subject": "scene",
@@ -165608,10 +165608,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.somebody-at-my-door-who-doesn-t-want-money-i-ll-sign-that",
+      "key": "scene-talk.reply-agree.somebody-at-my-door-who-doesn-t-want-money-i-ll-sign-for-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Somebody at my door who doesn't want money? I'll sign that.",
+      "text": "Somebody at my door who doesn't want money? I'll sign for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -165633,10 +165633,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-not-putting-my-name-on-anything-with-this-address-on-it-not-right-now",
+      "key": "scene-talk.reply-decline.i-m-not-putting-my-name-on-anything-in-place-with-this-address-on-it-not-right-n",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm not putting my name on anything with this address on it. Not right now.",
+      "text": "I'm not putting my name on anything in {place} with this address on it. Not right now.",
       "uses": [
         {
           "subject": "scene",
@@ -165710,10 +165710,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ve-got-bigger-things-on-that-door-than-your-petition-sorry",
+      "key": "scene-talk.reply-decline.i-ve-got-bigger-things-on-that-door-than-office-sorry",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I've got bigger things on that door than your petition. Sorry.",
+      "text": "I've got bigger things on that door than {office}. Sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -165735,10 +165735,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-does-this-do-about-rent-nothing-then-no",
+      "key": "scene-talk.reply-decline.what-does-office-do-about-rent-nothing-then-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What does this do about rent? Nothing? Then no.",
+      "text": "What does {office} do about rent? Nothing? Then I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -165760,10 +165760,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-know-if-i-ll-be-living-here-long-enough-to-count-try-next-door",
+      "key": "scene-talk.reply-decline.i-don-t-know-if-i-ll-be-living-in-place-long-enough-to-count-try-next-door",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't know if I'll be living here long enough to count. Try next door.",
+      "text": "I don't know if I'll be living in {place} long enough to count. Try next door.",
       "uses": [
         {
           "subject": "scene",
@@ -165811,10 +165811,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-if-i-m-still-at-this-address-i-ll-vote-for-you",
+      "key": "scene-talk.reply-agree.yes-if-i-m-still-in-place-by-then-i-ll-vote-for-you",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. If I'm still at this address, I'll vote for you.",
+      "text": "Yes. If I'm still in {place} by then, I'll vote for you.",
       "uses": [
         {
           "subject": "scene",
@@ -165836,10 +165836,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-remember-the-people-who-rent",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-remember-the-people-who-rent-in-place",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote. Remember the people who rent.",
+      "text": "You've got my vote. Remember the people who rent in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -165887,10 +165887,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.sure-you-ve-got-it-nice-to-see-someone-come-by-who-isn-t-collecting",
+      "key": "scene-talk.reply-agree.sure-you-ve-got-it-nice-to-see-someone-running-for-office-who-isn-t-collecting",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Sure, you've got it. Nice to see someone come by who isn't collecting.",
+      "text": "Sure, you've got it. Nice to see someone running for {office} who isn't collecting.",
       "uses": [
         {
           "subject": "scene",
@@ -165912,10 +165912,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.okay-i-ll-vote-for-you-don-t-make-me-sorry",
+      "key": "scene-talk.reply-agree.okay-i-ll-vote-for-you-for-office-don-t-make-me-sorry",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Okay. I'll vote for you. Don't make me sorry.",
+      "text": "Okay. I'll vote for you for {office}. Don't make me sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -165937,10 +165937,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.every-one-of-you-says-housing-nobody-does-anything-no",
+      "key": "scene-talk.reply-decline.everybody-who-runs-for-office-says-housing-nobody-does-anything-you-don-t-have-m",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Every one of you says housing. Nobody does anything. No.",
+      "text": "Everybody who runs for {office} says housing. Nobody does anything. You don't have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -165988,10 +165988,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-not-talking-politics-at-this-door-not-this-month",
+      "key": "scene-talk.reply-decline.i-m-not-talking-about-office-at-this-door-not-this-month",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm not talking politics at this door. Not this month.",
+      "text": "I'm not talking about {office} at this door. Not this month.",
       "uses": [
         {
           "subject": "scene",
@@ -166013,10 +166013,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-make-up-my-mind-later-i-ve-got-rent-to-figure-out-first",
+      "key": "scene-talk.reply-decline.i-ll-make-up-my-mind-about-office-later-i-ve-got-rent-to-figure-out-first",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll make up my mind later. I've got rent to figure out first.",
+      "text": "I'll make up my mind about {office} later. I've got rent to figure out first.",
       "uses": [
         {
           "subject": "scene",
@@ -166064,10 +166064,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.landlords-vote-you-ll-be-fine-without-me",
+      "key": "scene-talk.reply-decline.landlords-vote-in-place-too-you-ll-be-fine-without-me",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Landlords vote. You'll be fine without me.",
+      "text": "Landlords vote in {place} too. You'll be fine without me.",
       "uses": [
         {
           "subject": "scene",
@@ -166089,10 +166089,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-hope-it-works-out-with-the-landlord",
+      "key": "scene-talk.follow-thank.thank-you-i-hope-it-works-out-with-the-landlord-and-you-stay-in-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I hope it works out with the landlord.",
+      "text": "Thank you. I hope it works out with the landlord, and you stay in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -166123,10 +166123,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-i-won-t-forget-this-hallway",
+      "key": "scene-talk.follow-thank.thanks-i-won-t-forget-this-door-when-rent-comes-up-in-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks. I won't forget this hallway.",
+      "text": "Thanks. I won't forget this door when rent comes up in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -166157,10 +166157,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-rent-is-one-of-the-reasons-i-m-doing-this",
+      "key": "scene-talk.follow-thank.thank-you-rent-in-place-is-one-of-the-reasons-i-m-doing-this",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. Rent is one of the reasons I'm doing this.",
+      "text": "Thank you. Rent in {place} is one of the reasons I'm doing this.",
       "uses": [
         {
           "subject": "scene",
@@ -166191,10 +166191,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-appreciate-it-more-than-you-know-hang-in-there",
+      "key": "scene-talk.follow-thank.i-appreciate-it-more-than-you-know-hang-in-there-i-m-self-if-you-need-me",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I appreciate it more than you know. Hang in there.",
+      "text": "I appreciate it more than you know. Hang in there. I'm {self}, if you need me.",
       "uses": [
         {
           "subject": "scene",
@@ -166225,10 +166225,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-i-hope-you-get-it-sorted-out",
+      "key": "scene-talk.follow-accept.i-understand-i-hope-you-get-it-sorted-out-and-stay-in-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand. I hope you get it sorted out.",
+      "text": "I understand. I hope you get it sorted out and stay in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -166259,10 +166259,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-fair-i-ll-leave-you-to-it",
+      "key": "scene-talk.follow-accept.that-s-fair-i-ll-leave-you-to-it-i-m-self-if-you-want-to-talk-later",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's fair. I'll leave you to it.",
+      "text": "That's fair. I'll leave you to it. I'm {self}, if you want to talk later.",
       "uses": [
         {
           "subject": "scene",
@@ -166293,10 +166293,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-take-care-of-yourself-and-good-luck-with-it",
+      "key": "scene-talk.follow-accept.okay-take-care-of-yourself-i-hope-place-treats-you-better-than-this",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. Take care of yourself, and good luck with it.",
+      "text": "Okay. Take care of yourself. I hope {place} treats you better than this.",
       "uses": [
         {
           "subject": "scene",
@@ -166327,10 +166327,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.no-problem-sorry-to-catch-you-at-a-bad-time",
+      "key": "scene-talk.follow-accept.no-problem-sorry-to-catch-you-at-a-bad-time-good-luck-with-it-from-self",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "No problem. Sorry to catch you at a bad time.",
+      "text": "No problem. Sorry to catch you at a bad time. Good luck with it, from {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -166361,10 +166361,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.that-notice-is-exactly-why-i-m-running-people-shouldn-t-find-out-about-help-afte",
+      "key": "scene-talk.follow-press.that-notice-is-exactly-why-i-m-running-people-in-place-shouldn-t-find-out-about",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "That notice is exactly why I'm running. People shouldn't find out about help after it's too late.",
+      "text": "That notice is exactly why I'm running. People in {place} shouldn't find out about help after it's too late.",
       "uses": [
         {
           "subject": "scene",
@@ -166395,10 +166395,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-know-it-s-a-bad-time-that-s-the-time-somebody-ought-to-knock",
+      "key": "scene-talk.follow-press.i-know-it-s-a-bad-time-that-s-when-somebody-running-for-office-ought-to-knock",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I know it's a bad time. That's the time somebody ought to knock.",
+      "text": "I know it's a bad time. That's when somebody running for {office} ought to knock.",
       "uses": [
         {
           "subject": "scene",
@@ -166429,10 +166429,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-m-not-the-landlord-i-m-the-one-asking-what-the-town-can-do-about-him",
+      "key": "scene-talk.follow-press.i-m-not-the-landlord-i-m-the-one-asking-what-place-can-do-about-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'm not the landlord. I'm the one asking what the town can do about him.",
+      "text": "I'm not the landlord. I'm the one asking what {place} can do about it.",
       "uses": [
         {
           "subject": "scene",
@@ -166463,10 +166463,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.let-me-be-the-one-who-does-something-about-it-that-s-all-i-m-asking-for",
+      "key": "scene-talk.follow-press.let-me-be-the-one-in-office-who-does-something-about-it-that-s-all-i-m-asking",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Let me be the one who does something about it. That's all I'm asking for.",
+      "text": "Let me be the one in {office} who does something about it. That's all I'm asking.",
       "uses": [
         {
           "subject": "scene",
@@ -166497,10 +166497,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.let-me-find-out-where-tenants-can-get-free-help-here-and-i-ll-bring-it-by",
+      "key": "scene-talk.follow-promise.let-me-find-out-where-tenants-in-place-can-get-free-help-and-i-ll-bring-it-by",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "Let me find out where tenants can get free help here, and I'll bring it by.",
+      "text": "Let me find out where tenants in {place} can get free help, and I'll bring it by.",
       "uses": [
         {
           "subject": "scene",
@@ -166567,10 +166567,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-ask-the-town-what-they-do-for-people-behind-on-rent-you-ll-hear-back",
+      "key": "scene-talk.follow-promise.i-ll-ask-place-what-it-does-for-people-behind-on-rent-you-ll-hear-back",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll ask the town what they do for people behind on rent. You'll hear back.",
+      "text": "I'll ask {place} what it does for people behind on rent. You'll hear back.",
       "uses": [
         {
           "subject": "scene",
@@ -166601,10 +166601,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-look-into-what-the-town-has-for-renters-and-let-you-know",
+      "key": "scene-talk.follow-promise.i-ll-look-into-what-place-has-for-renters-and-let-you-know",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll look into what the town has for renters and let you know.",
+      "text": "I'll look into what {place} has for renters and let you know.",
       "uses": [
         {
           "subject": "scene",
@@ -166635,10 +166635,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-heard-you-still-no",
+      "key": "scene-talk.reply-decline.i-heard-you-self-still-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I heard you. Still no.",
+      "text": "I heard you, {self}. Still no.",
       "uses": [
         {
           "subject": "scene",
@@ -166660,10 +166660,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.asking-twice-doesn-t-pay-my-rent",
+      "key": "scene-talk.reply-decline.asking-twice-doesn-t-pay-my-rent-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Asking twice doesn't pay my rent.",
+      "text": "Asking twice doesn't pay my rent, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -166685,10 +166685,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-know-you-mean-well-i-can-t",
+      "key": "scene-talk.reply-decline.i-know-you-mean-well-self-i-can-t",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I know you mean well. I can't.",
+      "text": "I know you mean well, {self}. I can't.",
       "uses": [
         {
           "subject": "scene",
@@ -166710,10 +166710,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-this-time-around",
+      "key": "scene-talk.reply-decline.not-this-time-around-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not this time around.",
+      "text": "Not this time around, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -166735,10 +166735,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-what-i-said",
+      "key": "scene-talk.reply-decline.i-said-what-i-said-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said what I said.",
+      "text": "I said what I said, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -166760,10 +166760,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.then-do-something-about-it-and-i-ll-think-about-it",
+      "key": "scene-talk.reply-decline.then-do-something-about-rent-in-place-and-i-ll-think-about-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Then do something about it, and I'll think about it.",
+      "text": "Then do something about rent in {place}, and I'll think about it.",
       "uses": [
         {
           "subject": "scene",
@@ -166785,10 +166785,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.maybe-i-just-can-t-promise-anything-right-now",
+      "key": "scene-talk.reply-decline.maybe-i-just-can-t-promise-anything-about-office-right-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Maybe. I just can't promise anything right now.",
+      "text": "Maybe. I just can't promise anything about {office} right now.",
       "uses": [
         {
           "subject": "scene",
@@ -166835,10 +166835,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-believe-it-when-i-see-it",
+      "key": "scene-talk.reply-decline.i-ll-believe-it-when-i-see-it-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll believe it when I see it.",
+      "text": "I'll believe it when I see it, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -166869,10 +166869,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.that-would-help-thank-you-my-answer-s-still-the-same",
+      "key": "scene-talk.reply-decline.that-would-help-thank-you-self-my-answer-s-still-the-same",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "That would help. Thank you. My answer's still the same.",
+      "text": "That would help. Thank you, {self}. My answer's still the same.",
       "uses": [
         {
           "subject": "scene",
@@ -166903,10 +166903,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.don-t-come-back-with-a-pamphlet-come-back-with-a-phone-number",
+      "key": "scene-talk.reply-decline.don-t-come-back-with-a-pamphlet-self-come-back-with-a-phone-number",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't come back with a pamphlet. Come back with a phone number.",
+      "text": "Don't come back with a pamphlet, {self}. Come back with a phone number.",
       "uses": [
         {
           "subject": "scene",
@@ -166937,10 +166937,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.okay-knock-again-when-you-have-it",
+      "key": "scene-talk.reply-decline.okay-self-knock-again-when-you-have-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Okay. Knock again when you have it.",
+      "text": "Okay, {self}. Knock again when you have it.",
       "uses": [
         {
           "subject": "scene",
@@ -167131,10 +167131,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-m-not-well-but-i-can-hold-a-pen-give-it-here",
+      "key": "scene-talk.reply-agree.i-m-not-well-but-i-can-hold-a-pen-for-office-give-it-here",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'm not well, but I can hold a pen. Give it here.",
+      "text": "I'm not well, but I can hold a pen for {office}. Give it here.",
       "uses": [
         {
           "subject": "scene",
@@ -167156,10 +167156,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.sure-make-it-quick-i-need-to-sit-down",
+      "key": "scene-talk.reply-agree.sure-i-ll-sign-for-office-make-it-quick-i-need-to-sit-down",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Sure. Make it quick, I need to sit down.",
+      "text": "Sure, I'll sign for {office}. Make it quick, I need to sit down.",
       "uses": [
         {
           "subject": "scene",
@@ -167181,10 +167181,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-m-sick-not-dead-i-ll-sign",
+      "key": "scene-talk.reply-agree.i-m-sick-not-dead-i-ll-sign-for-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'm sick, not dead. I'll sign.",
+      "text": "I'm sick, not dead. I'll sign for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -167206,10 +167206,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.it-s-nice-to-see-a-face-at-the-door-sure-i-ll-sign",
+      "key": "scene-talk.reply-agree.it-s-nice-to-see-a-face-from-place-at-the-door-sure-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "It's nice to see a face at the door. Sure, I'll sign.",
+      "text": "It's nice to see a face from {place} at the door. Sure, I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -167231,10 +167231,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-don-t-get-out-much-these-days-but-i-can-sign-this-where",
+      "key": "scene-talk.reply-agree.i-don-t-get-around-place-much-these-days-but-i-can-sign-this-where",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I don't get out much these days, but I can sign this. Where?",
+      "text": "I don't get around {place} much these days, but I can sign this. Where?",
       "uses": [
         {
           "subject": "scene",
@@ -167256,10 +167256,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.all-right-just-the-line-i-m-not-up-for-talking",
+      "key": "scene-talk.reply-agree.alright-just-the-line-for-office-i-m-not-up-for-talking",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Just the line. I'm not up for talking.",
+      "text": "Alright. Just the line for {office}. I'm not up for talking.",
       "uses": [
         {
           "subject": "scene",
@@ -167281,10 +167281,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-i-m-not-well-enough-for-this",
+      "key": "scene-talk.reply-decline.i-m-sorry-i-m-not-well-enough-to-think-about-office",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry. I'm not well enough for this.",
+      "text": "I'm sorry. I'm not well enough to think about {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -167306,10 +167306,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-have-it-in-me-please-go",
+      "key": "scene-talk.reply-decline.i-don-t-have-it-in-me-to-sign-for-office-please-go",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't have it in me. Please go.",
+      "text": "I don't have it in me to sign for {office}. Please go.",
       "uses": [
         {
           "subject": "scene",
@@ -167331,10 +167331,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-got-out-of-bed-for-this-no",
+      "key": "scene-talk.reply-decline.i-got-out-of-bed-for-office-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I got out of bed for this? No.",
+      "text": "I got out of bed for {office}? I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -167356,10 +167356,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-now-i-need-to-lie-back-down",
+      "key": "scene-talk.reply-decline.not-now-i-need-to-lie-back-down-ask-someone-else-in-place",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not now. I need to lie back down.",
+      "text": "Not now. I need to lie back down. Ask someone else in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -167381,10 +167381,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-barely-keep-up-with-my-own-papers-i-m-not-signing-anyone-else-s",
+      "key": "scene-talk.reply-decline.i-can-barely-keep-up-with-my-own-papers-i-m-not-signing-one-for-office",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can barely keep up with my own papers. I'm not signing anyone else's.",
+      "text": "I can barely keep up with my own papers. I'm not signing one for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -167406,10 +167406,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.no-thank-you-i-m-not-seeing-anyone-right-now",
+      "key": "scene-talk.reply-decline.no-thank-you-i-m-not-seeing-anyone-right-now-not-even-for-office",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "No, thank you. I'm not seeing anyone right now.",
+      "text": "No, thank you. I'm not seeing anyone right now, not even for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -167431,10 +167431,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-came-to-the-door-of-a-sick-person-and-were-kind-about-it-you-have-my-vote",
+      "key": "scene-talk.reply-agree.you-came-to-a-sick-person-s-door-and-were-kind-about-it-you-have-my-vote-for-off",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You came to the door of a sick person and were kind about it. You have my vote.",
+      "text": "You came to a sick person's door and were kind about it. You have my vote for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -167456,10 +167456,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-if-i-can-get-there-i-ll-vote-for-you",
+      "key": "scene-talk.reply-agree.yes-if-i-can-get-to-the-polls-in-place-i-ll-vote-for-you",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. If I can get there, I'll vote for you.",
+      "text": "Yes. If I can get to the polls in {place}, I'll vote for you.",
       "uses": [
         {
           "subject": "scene",
@@ -167481,10 +167481,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.do-something-about-what-the-doctor-costs-and-you-ve-got-me",
+      "key": "scene-talk.reply-agree.do-something-about-what-the-doctor-costs-in-place-and-you-ve-got-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Do something about what the doctor costs, and you've got me.",
+      "text": "Do something about what the doctor costs in {place}, and you've got me.",
       "uses": [
         {
           "subject": "scene",
@@ -167506,10 +167506,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-it-s-nice-to-see-a-new-face",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-for-office-it-s-nice-to-see-a-new-face",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote. It's nice to see a new face.",
+      "text": "You've got my vote for {office}. It's nice to see a new face.",
       "uses": [
         {
           "subject": "scene",
@@ -167531,10 +167531,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-re-running-for-that-good-somebody-should-you-have-my-vote",
+      "key": "scene-talk.reply-agree.you-re-running-for-office-good-somebody-should-you-have-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You're running for that? Good. Somebody should. You have my vote.",
+      "text": "You're running for {office}? Good. Somebody should. You have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -167556,10 +167556,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-you-ve-got-it-now-let-me-sit-down",
+      "key": "scene-talk.reply-agree.fine-you-ve-got-it-for-office-now-let-me-sit-down",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fine. You've got it. Now let me sit down.",
+      "text": "Fine. You've got it for {office}. Now let me sit down.",
       "uses": [
         {
           "subject": "scene",
@@ -167581,10 +167581,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-t-think-about-the-election-right-now-i-m-sorry",
+      "key": "scene-talk.reply-decline.i-can-t-think-about-office-right-now-i-m-sorry",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't think about the election right now. I'm sorry.",
+      "text": "I can't think about {office} right now. I'm sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -167606,10 +167606,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-make-decisions-at-the-door-especially-not-this-week",
+      "key": "scene-talk.reply-decline.i-don-t-decide-on-office-at-the-door-especially-not-this-week",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't make decisions at the door. Especially not this week.",
+      "text": "I don't decide on {office} at the door. Especially not this week.",
       "uses": [
         {
           "subject": "scene",
@@ -167631,10 +167631,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-too-sick-to-care-who-wins-no",
+      "key": "scene-talk.reply-decline.i-m-too-sick-to-care-who-wins-office-you-don-t-have-my-vote",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm too sick to care who wins. No.",
+      "text": "I'm too sick to care who wins {office}. You don't have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -167656,10 +167656,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-decide-later-if-i-m-up-to-it",
+      "key": "scene-talk.reply-decline.i-ll-decide-about-office-later-if-i-m-up-to-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll decide later, if I'm up to it.",
+      "text": "I'll decide about {office} later, if I'm up to it.",
       "uses": [
         {
           "subject": "scene",
@@ -167681,10 +167681,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-are-you-going-to-do-for-people-who-can-t-get-out-of-the-house-nothing-then",
+      "key": "scene-talk.reply-decline.what-would-you-do-in-office-for-people-who-can-t-get-out-of-the-house-nothing-th",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What are you going to do for people who can't get out of the house? Nothing? Then no.",
+      "text": "What would you do in {office} for people who can't get out of the house? Nothing? Then no vote.",
       "uses": [
         {
           "subject": "scene",
@@ -167706,10 +167706,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-now-i-need-to-rest",
+      "key": "scene-talk.reply-decline.not-now-i-need-to-rest-ask-somebody-else-in-place",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not now. I need to rest.",
+      "text": "Not now. I need to rest. Ask somebody else in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -167731,10 +167731,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-go-sit-down-i-hope-you-feel-better",
+      "key": "scene-talk.follow-thank.thank-you-go-sit-down-i-hope-you-re-up-and-around-place-soon",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. Go sit down. I hope you feel better.",
+      "text": "Thank you. Go sit down. I hope you're up and around {place} soon.",
       "uses": [
         {
           "subject": "scene",
@@ -167765,10 +167765,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-i-ll-let-you-rest",
+      "key": "scene-talk.follow-thank.thanks-i-ll-let-you-rest-i-m-self-if-you-need-anything",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks. I'll let you rest.",
+      "text": "Thanks. I'll let you rest. I'm {self}, if you need anything.",
       "uses": [
         {
           "subject": "scene",
@@ -167799,10 +167799,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-for-coming-to-the-door-take-care-of-yourself",
+      "key": "scene-talk.follow-thank.thank-you-for-coming-to-the-door-take-care-of-yourself-i-m-self",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you for coming to the door. Take care of yourself.",
+      "text": "Thank you for coming to the door. Take care of yourself. I'm {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -167833,10 +167833,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-means-a-lot-feel-better",
+      "key": "scene-talk.follow-thank.that-means-a-lot-feel-better-and-i-ll-see-you-around-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That means a lot. Feel better.",
+      "text": "That means a lot. Feel better, and I'll see you around {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -167867,10 +167867,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.of-course-i-ll-come-back-another-time-feel-better",
+      "key": "scene-talk.follow-accept.of-course-i-ll-come-back-another-time-feel-better-i-m-self",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Of course. I'll come back another time. Feel better.",
+      "text": "Of course. I'll come back another time. Feel better. I'm {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -167901,10 +167901,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-m-sorry-i-bothered-you-go-rest",
+      "key": "scene-talk.follow-accept.i-m-sorry-i-bothered-you-go-rest-i-hope-to-see-you-around-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'm sorry I bothered you. Go rest.",
+      "text": "I'm sorry I bothered you. Go rest. I hope to see you around {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -167935,10 +167935,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-all-right-take-care-of-yourself",
+      "key": "scene-talk.follow-accept.that-s-alright-take-care-of-yourself-i-m-self-if-you-need-anything",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's all right. Take care of yourself.",
+      "text": "That's alright. Take care of yourself. I'm {self}, if you need anything.",
       "uses": [
         {
           "subject": "scene",
@@ -167969,10 +167969,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.no-problem-at-all-i-hope-you-re-up-and-around-soon",
+      "key": "scene-talk.follow-accept.no-problem-at-all-i-hope-you-re-up-and-around-place-soon",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "No problem at all. I hope you're up and around soon.",
+      "text": "No problem at all. I hope you're up and around {place} soon.",
       "uses": [
         {
           "subject": "scene",
@@ -168003,10 +168003,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.it-only-takes-a-minute-i-ll-hold-the-board-for-you",
+      "key": "scene-talk.follow-press.it-only-takes-a-minute-to-sign-for-office-i-ll-hold-the-board-for-you",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "It only takes a minute. I'll hold the board for you.",
+      "text": "It only takes a minute to sign for {office}. I'll hold the board for you.",
       "uses": [
         {
           "subject": "scene",
@@ -168028,10 +168028,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-ll-be-quick-i-just-want-you-to-know-who-s-asking",
+      "key": "scene-talk.follow-press.i-ll-be-quick-i-m-self-and-i-want-you-to-know-who-s-asking",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'll be quick. I just want you to know who's asking.",
+      "text": "I'll be quick. I'm {self}, and I want you to know who's asking.",
       "uses": [
         {
           "subject": "scene",
@@ -168053,94 +168053,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-know-you-re-not-well-that-s-why-your-say-matters",
+      "key": "scene-talk.follow-press.i-know-you-re-not-well-that-s-why-your-say-in-place-matters",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I know you're not well. That's why your say matters.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-signature.sick",
-          "key": "door",
-          "after": "decline"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-support.sick",
-          "key": "door",
-          "after": "decline"
-        }
-      ],
-      "bearing": "eager",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.please-it-s-one-line",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Please. It's one line.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-signature.sick",
-          "key": "door",
-          "after": "decline"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.please-just-think-about-it-before-the-election",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Please. Just think about it before the election.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-support.sick",
-          "key": "door",
-          "after": "decline"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.just-one-more-minute-i-ll-be-quick-about-it",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Just one more minute. I'll be quick about it.",
+      "text": "I know you're not well. That's why your say in {place} matters.",
       "uses": [
         {
           "subject": "scene",
@@ -168171,10 +168087,94 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-i-m-sick-leave-me-alone",
+      "key": "scene-talk.follow-press.please-it-s-one-line-for-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Please. It's one line for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.please-just-think-about-office-before-the-election",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Please. Just think about {office} before the election.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.just-one-more-minute-about-office-i-ll-be-quick",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Just one more minute about {office}. I'll be quick.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "decline"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-said-i-m-sick-self-leave-me-alone",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said I'm sick. Leave me alone.",
+      "text": "I said I'm sick, {self}. Leave me alone.",
       "uses": [
         {
           "subject": "scene",
@@ -168221,10 +168221,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-d-like-to-help-you-i-can-t-please",
+      "key": "scene-talk.reply-decline.i-d-like-to-help-you-self-i-can-t-please",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'd like to help you. I can't. Please.",
+      "text": "I'd like to help you, {self}. I can't. Please.",
       "uses": [
         {
           "subject": "scene",
@@ -168246,10 +168246,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-really-are-a-politician-goodbye",
+      "key": "scene-talk.reply-decline.you-really-are-running-for-office-goodbye",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You really are a politician. Goodbye.",
+      "text": "You really are running for {office}. Goodbye.",
       "uses": [
         {
           "subject": "scene",
@@ -168271,10 +168271,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-told-you-i-m-not-well-go-knock-on-someone-else-s-door",
+      "key": "scene-talk.reply-decline.i-told-you-i-m-not-well-go-knock-on-someone-else-s-door-in-place",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I told you I'm not well. Go knock on someone else's door.",
+      "text": "I told you I'm not well. Go knock on someone else's door in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -168296,10 +168296,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.no-i-m-closing-the-door-now",
+      "key": "scene-talk.reply-decline.i-m-closing-the-door-now-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "No. I'm closing the door now.",
+      "text": "I'm closing the door now, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -168321,10 +168321,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-i-just-can-t-do-this-right-now",
+      "key": "scene-talk.reply-decline.i-m-sorry-self-i-just-can-t-do-this-right-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry. I just can't do this right now.",
+      "text": "I'm sorry, {self}. I just can't do this right now.",
       "uses": [
         {
           "subject": "scene",
@@ -168559,10 +168559,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-i-ll-sign-i-have-to-get-back-inside",
+      "key": "scene-talk.reply-agree.fine-i-ll-sign-for-office-i-have-to-get-back-inside",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fine. I'll sign. I have to get back inside.",
+      "text": "Fine. I'll sign for {office}. I have to get back inside.",
       "uses": [
         {
           "subject": "scene",
@@ -168584,10 +168584,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.somebody-ought-to-run-who-knows-what-caring-for-someone-costs-i-ll-sign",
+      "key": "scene-talk.reply-agree.somebody-running-for-office-ought-to-know-what-caring-for-someone-costs-i-ll-sig",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Somebody ought to run who knows what caring for someone costs. I'll sign.",
+      "text": "Somebody running for {office} ought to know what caring for someone costs. I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -168609,10 +168609,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.somebody-to-talk-to-who-isn-t-a-doctor-s-office-sure-i-ll-sign",
+      "key": "scene-talk.reply-agree.somebody-to-talk-to-who-isn-t-a-doctor-s-office-sure-i-ll-sign-for-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Somebody to talk to who isn't a doctor's office. Sure, I'll sign.",
+      "text": "Somebody to talk to who isn't a doctor's office. Sure, I'll sign for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -168660,10 +168660,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.okay-just-the-signature-i-can-t-talk",
+      "key": "scene-talk.reply-agree.okay-just-the-signature-for-office-i-can-t-talk",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Okay. Just the signature. I can't talk.",
+      "text": "Okay. Just the signature for {office}. I can't talk.",
       "uses": [
         {
           "subject": "scene",
@@ -168711,10 +168711,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-t-not-now",
+      "key": "scene-talk.reply-decline.i-can-t-not-now-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't. Not now.",
+      "text": "I can't. Not now, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -168736,10 +168736,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-inside-i-don-t-have-time-for-this",
+      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-inside-i-don-t-have-time-for-office",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I've got someone sick inside. I don't have time for this.",
+      "text": "I've got someone sick inside. I don't have time for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -168761,10 +168761,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.maybe-some-other-time-i-have-to-get-back",
+      "key": "scene-talk.reply-decline.maybe-some-other-time-i-have-to-get-back-try-the-neighbors-in-place",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Maybe some other time. I have to get back.",
+      "text": "Maybe some other time. I have to get back. Try the neighbors in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -168786,10 +168786,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-t-sign-up-for-anything-while-i-m-doing-this-ask-me-when-it-s-over",
+      "key": "scene-talk.reply-decline.i-can-t-sign-anything-for-office-while-i-m-doing-this-ask-me-when-it-s-over",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't sign up for anything while I'm doing this. Ask me when it's over.",
+      "text": "I can't sign anything for {office} while I'm doing this. Ask me when it's over.",
       "uses": [
         {
           "subject": "scene",
@@ -168811,10 +168811,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-not-signing-anything-i-need-to-go",
+      "key": "scene-talk.reply-decline.i-m-not-signing-anything-for-office-i-need-to-go",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm not signing anything. I need to go.",
+      "text": "I'm not signing anything for {office}. I need to go.",
       "uses": [
         {
           "subject": "scene",
@@ -168862,10 +168862,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-you-ve-got-my-vote-now-i-ve-got-to-go-back-in",
+      "key": "scene-talk.reply-agree.yes-you-ve-got-my-vote-for-office-now-i-ve-got-to-go-back-in",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes, you've got my vote. Now I've got to go back in.",
+      "text": "Yes, you've got my vote for {office}. Now I've got to go back in.",
       "uses": [
         {
           "subject": "scene",
@@ -168887,10 +168887,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.nobody-helps-people-like-me-do-something-about-that-and-i-m-with-you",
+      "key": "scene-talk.reply-agree.nobody-in-place-helps-people-like-me-do-something-about-that-and-i-m-with-you",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Nobody helps people like me. Do something about that and I'm with you.",
+      "text": "Nobody in {place} helps people like me. Do something about that and I'm with you.",
       "uses": [
         {
           "subject": "scene",
@@ -168912,10 +168912,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-it-s-nice-to-have-a-grown-up-conversation-for-once-you-ve-got-my-vote",
+      "key": "scene-talk.reply-agree.yes-it-s-nice-to-have-a-grown-up-conversation-for-once-you-ve-got-my-vote-for-of",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. It's nice to have a grown-up conversation for once. You've got my vote.",
+      "text": "Yes. It's nice to have a grown-up conversation for once. You've got my vote for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -168963,10 +168963,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-you-ve-got-it",
+      "key": "scene-talk.reply-agree.fine-you-ve-got-it-self",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fine. You've got it.",
+      "text": "Fine. You've got it, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -169014,10 +169014,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-haven-t-followed-any-of-it-i-can-t-tell-you-who-i-ll-vote-for",
+      "key": "scene-talk.reply-decline.i-haven-t-followed-office-at-all-i-can-t-tell-you-who-i-ll-vote-for",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I haven't followed any of it. I can't tell you who I'll vote for.",
+      "text": "I haven't followed {office} at all. I can't tell you who I'll vote for.",
       "uses": [
         {
           "subject": "scene",
@@ -169039,10 +169039,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-in-there-i-don-t-care-about-the-election",
+      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-in-there-i-don-t-care-who-gets-office",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I've got someone sick in there. I don't care about the election.",
+      "text": "I've got someone sick in there. I don't care who gets {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -169064,10 +169064,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-decide-when-i-decide-i-need-to-go-back-in",
+      "key": "scene-talk.reply-decline.i-ll-decide-on-office-when-i-decide-i-need-to-go-back-in",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll decide when I decide. I need to go back in.",
+      "text": "I'll decide on {office} when I decide. I need to go back in.",
       "uses": [
         {
           "subject": "scene",
@@ -169089,10 +169089,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-would-you-do-for-families-caring-for-somebody-at-home-if-you-don-t-know-the",
+      "key": "scene-talk.reply-decline.what-would-you-do-in-office-for-families-caring-for-somebody-at-home-if-you-don",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What would you do for families caring for somebody at home? If you don't know, then no.",
+      "text": "What would you do in {office} for families caring for somebody at home? If you don't know, then no.",
       "uses": [
         {
           "subject": "scene",
@@ -169139,10 +169139,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-go-on-back-in",
+      "key": "scene-talk.follow-thank.thank-you-go-on-back-in-i-m-self-if-you-need-anything",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. Go on back in.",
+      "text": "Thank you. Go on back in. I'm {self}, if you need anything.",
       "uses": [
         {
           "subject": "scene",
@@ -169173,10 +169173,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-i-won-t-keep-you",
+      "key": "scene-talk.follow-thank.thanks-i-won-t-keep-you-i-m-self",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks. I won't keep you.",
+      "text": "Thanks. I won't keep you. I'm {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -169243,10 +169243,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-appreciate-it-take-care-of-yourself-too",
+      "key": "scene-talk.follow-thank.i-appreciate-it-take-care-of-yourself-too-i-m-self",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I appreciate it. Take care of yourself too.",
+      "text": "I appreciate it. Take care of yourself too. I'm {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -169277,10 +169277,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.of-course-i-ll-come-back-another-time",
+      "key": "scene-talk.follow-accept.of-course-i-ll-come-back-another-time-i-m-self",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Of course. I'll come back another time.",
+      "text": "Of course. I'll come back another time. I'm {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -169311,10 +169311,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.go-on-i-won-t-keep-you",
+      "key": "scene-talk.follow-accept.go-on-i-won-t-keep-you-i-m-self-if-you-need-anything",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Go on. I won't keep you.",
+      "text": "Go on. I won't keep you. I'm {self}, if you need anything.",
       "uses": [
         {
           "subject": "scene",
@@ -169345,10 +169345,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-all-right-i-hope-relative-feels-better",
+      "key": "scene-talk.follow-accept.that-s-alright-i-hope-relative-feels-better",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's all right. I hope {relative} feels better.",
+      "text": "That's alright. I hope {relative} feels better.",
       "uses": [
         {
           "subject": "scene",
@@ -169381,10 +169381,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.no-problem-take-care-of-yourself-too",
+      "key": "scene-talk.follow-accept.no-problem-take-care-of-yourself-too-i-ll-see-you-around-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "No problem. Take care of yourself too.",
+      "text": "No problem. Take care of yourself too. I'll see you around {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -169415,10 +169415,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.it-takes-a-minute-i-ll-wait-right-here",
+      "key": "scene-talk.follow-press.it-takes-a-minute-to-sign-for-office-i-ll-wait-right-here",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "It takes a minute. I'll wait right here.",
+      "text": "It takes a minute to sign for {office}. I'll wait right here.",
       "uses": [
         {
           "subject": "scene",
@@ -169440,10 +169440,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.give-me-one-minute-to-tell-you-why-i-m-running",
+      "key": "scene-talk.follow-press.give-me-one-minute-to-tell-you-why-i-m-running-for-office",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Give me one minute to tell you why I'm running.",
+      "text": "Give me one minute to tell you why I'm running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -169465,94 +169465,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.people-caring-for-someone-at-home-are-why-i-m-running",
+      "key": "scene-talk.follow-press.people-in-place-caring-for-someone-at-home-are-why-i-m-running",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "People caring for someone at home are why I'm running.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-signature.caring",
-          "key": "door",
-          "after": "decline"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-support.caring",
-          "key": "door",
-          "after": "decline"
-        }
-      ],
-      "bearing": "eager",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.just-one-line-and-i-m-gone",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Just one line, and I'm gone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-signature.caring",
-          "key": "door",
-          "after": "decline"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.just-say-you-ll-think-about-me-and-i-m-gone",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Just say you'll think about me, and I'm gone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-support.caring",
-          "key": "door",
-          "after": "decline"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-won-t-take-long-i-promise",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I won't take long, I promise.",
+      "text": "People in {place} caring for someone at home are why I'm running.",
       "uses": [
         {
           "subject": "scene",
@@ -169583,10 +169499,94 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-no-i-have-to-go",
+      "key": "scene-talk.follow-press.just-one-line-for-office-and-i-m-gone",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Just one line for {office}, and I'm gone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.just-say-you-ll-think-about-me-for-office-and-i-m-gone",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Just say you'll think about me for {office}, and I'm gone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-won-t-take-long-i-promise-i-m-self",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I won't take long, I promise. I'm {self}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "decline"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-said-no-self-i-have-to-go",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said no. I have to go.",
+      "text": "I said no, {self}. I have to go.",
       "uses": [
         {
           "subject": "scene",
@@ -169633,10 +169633,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.please-i-really-can-t",
+      "key": "scene-talk.reply-decline.please-self-i-really-can-t",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Please. I really can't.",
+      "text": "Please, {self}. I really can't.",
       "uses": [
         {
           "subject": "scene",
@@ -169658,10 +169658,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-heard-me-the-first-time",
+      "key": "scene-talk.reply-decline.you-heard-me-the-first-time-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You heard me the first time.",
+      "text": "You heard me the first time, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -169683,10 +169683,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-not-now-goodbye",
+      "key": "scene-talk.reply-decline.i-said-not-now-self-goodbye",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said not now. Goodbye.",
+      "text": "I said not now, {self}. Goodbye.",
       "uses": [
         {
           "subject": "scene",
@@ -169708,10 +169708,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.no",
+      "key": "scene-talk.reply-decline.not-now-sorry",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "No.",
+      "text": "Not now, sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -169733,10 +169733,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.maybe-later-i-really-have-to-go",
+      "key": "scene-talk.reply-decline.maybe-later-self-i-really-have-to-go",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Maybe later. I really have to go.",
+      "text": "Maybe later, {self}. I really have to go.",
       "uses": [
         {
           "subject": "scene",
@@ -169758,10 +169758,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-closing-the-door",
+      "key": "scene-talk.reply-decline.i-m-closing-the-door-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm closing the door.",
+      "text": "I'm closing the door, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -169779,6 +169779,294 @@
       "date": "2026-11-14",
       "tag": {
         "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-ve-probably-heard-by-now-i-m-running-for-office-and-i-need-signatures-to-get",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You've probably heard by now. I'm running for {office}, and I need signatures to get on the ballot. Would you sign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-doing-it-i-m-running-for-office-i-need-your-name-on-this-petition",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm doing it. I'm running for {office}. I need your name on this petition.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.don-t-laugh-i-m-trying-to-get-on-the-ballot-for-office-and-i-d-like-your-signatu",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Don't laugh. I'm trying to get on the ballot for {office}, and I'd like your signature.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-didn-t-want-to-just-send-a-flyer-i-m-running-for-office-would-you-sign-my-peti",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I didn't want to just send a flyer. I'm running for {office}. Would you sign my petition?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-wanted-you-to-hear-it-from-me-i-m-running-for-office-will-you-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I wanted you to hear it from me. I'm running for {office}. Will you sign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-know-i-don-t-ask-for-much-i-need-signatures-to-run-for-office-would-you-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You know I don't ask for much. I need signatures to run for {office}. Would you sign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-ve-probably-heard-by-now-i-m-running-for-office-and-i-d-like-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You've probably heard by now. I'm running for {office}, and I'd like your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-on-the-ballot-for-office-i-d-like-to-count-on-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm on the ballot for {office}. I'd like to count on your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.don-t-laugh-i-m-running-for-office-and-i-m-asking-you-for-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Don't laugh. I'm running for {office}, and I'm asking you for your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-didn-t-want-to-just-send-a-flyer-i-m-running-for-office-will-you-vote-for-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I didn't want to just send a flyer. I'm running for {office}. Will you vote for me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-wanted-you-to-hear-it-from-me-i-m-running-for-office-can-i-count-on-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I wanted you to hear it from me. I'm running for {office}. Can I count on you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-know-i-don-t-ask-for-much-i-d-like-your-vote-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You know I don't ask for much. I'd like your vote for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
         "key": "door"
       }
     },
@@ -169937,10 +170225,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-wondered-if-you-d-ever-do-something-like-this-of-course-i-ll-sign",
+      "key": "scene-talk.reply-agree.i-wondered-if-you-d-ever-run-for-something-like-office-of-course-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I wondered if you'd ever do something like this. Of course I'll sign.",
+      "text": "I wondered if you'd ever run for something like {office}. Of course I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -169962,10 +170250,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.running-for-office-you-all-right-i-ll-sign-somebody-has-to-keep-you-honest",
+      "key": "scene-talk.reply-agree.office-you-alright-i-ll-sign-somebody-has-to-keep-you-honest",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Running for office? You? All right. I'll sign. Somebody has to keep you honest.",
+      "text": "{office}? You? Alright, I'll sign. Somebody has to keep you honest.",
       "uses": [
         {
           "subject": "scene",
@@ -169987,10 +170275,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-sign-but-you-owe-me-the-whole-story-on-why",
+      "key": "scene-talk.reply-agree.i-ll-sign-but-you-owe-me-the-whole-story-on-why-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll sign. But you owe me the whole story on why.",
+      "text": "I'll sign. But you owe me the whole story on why {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170012,10 +170300,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.sure-i-know-you-that-s-enough-for-me",
+      "key": "scene-talk.reply-agree.sure-self-i-know-you-that-s-enough-for-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Sure. I know you. That's enough for me.",
+      "text": "Sure, {self}. I know you. That's enough for me.",
       "uses": [
         {
           "subject": "scene",
@@ -170037,10 +170325,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-sign-because-it-s-you-don-t-spread-it-around",
+      "key": "scene-talk.reply-agree.i-ll-sign-because-it-s-you-self-don-t-spread-it-around",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll sign because it's you. Don't spread it around.",
+      "text": "I'll sign because it's you, {self}. Don't spread it around.",
       "uses": [
         {
           "subject": "scene",
@@ -170062,10 +170350,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-like-you-fine-i-just-don-t-sign-petitions-not-even-for-friends",
+      "key": "scene-talk.reply-decline.i-like-you-fine-self-i-just-don-t-sign-petitions-not-even-for-friends",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I like you fine. I just don't sign petitions, not even for friends.",
+      "text": "I like you fine, {self}. I just don't sign petitions, not even for friends.",
       "uses": [
         {
           "subject": "scene",
@@ -170113,10 +170401,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.don-t-take-it-the-wrong-way-i-keep-my-name-off-these-things",
+      "key": "scene-talk.reply-decline.don-t-take-it-the-wrong-way-self-i-keep-my-name-off-these-things",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't take it the wrong way. I keep my name off these things.",
+      "text": "Don't take it the wrong way, {self}. I keep my name off these things.",
       "uses": [
         {
           "subject": "scene",
@@ -170138,10 +170426,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-d-rather-not-it-s-nothing-about-you",
+      "key": "scene-talk.reply-decline.i-d-rather-not-self-it-s-nothing-about-you",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'd rather not. It's nothing about you.",
+      "text": "I'd rather not, {self}. It's nothing about you.",
       "uses": [
         {
           "subject": "scene",
@@ -170163,10 +170451,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-really-want-to-do-this-i-m-not-signing-until-i-know-you-ve-thought-it-throug",
+      "key": "scene-talk.reply-decline.you-really-want-office-i-m-not-signing-until-i-know-you-ve-thought-it-through",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You really want to do this? I'm not signing until I know you've thought it through.",
+      "text": "You really want {office}? I'm not signing until I know you've thought it through.",
       "uses": [
         {
           "subject": "scene",
@@ -170188,10 +170476,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.ask-me-some-other-way-not-on-paper",
+      "key": "scene-talk.reply-decline.ask-me-some-other-way-self-not-on-paper",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Ask me some other way. Not on paper.",
+      "text": "Ask me some other way, {self}. Not on paper.",
       "uses": [
         {
           "subject": "scene",
@@ -170239,10 +170527,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.of-course-you-ve-got-my-vote-i-m-proud-of-you-for-trying",
+      "key": "scene-talk.reply-agree.of-course-you-ve-got-my-vote-self-i-m-proud-of-you-for-trying",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Of course you've got my vote. I'm proud of you for trying.",
+      "text": "Of course you've got my vote, {self}. I'm proud of you for trying.",
       "uses": [
         {
           "subject": "scene",
@@ -170264,10 +170552,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-vote-for-you-don-t-make-me-say-i-told-you-so",
+      "key": "scene-talk.reply-agree.i-ll-vote-for-you-for-office-don-t-make-me-say-i-told-you-so",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll vote for you. Don't make me say I told you so.",
+      "text": "I'll vote for you for {office}. Don't make me say I told you so.",
       "uses": [
         {
           "subject": "scene",
@@ -170289,10 +170577,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-now-tell-me-what-you-re-going-to-do-with-the-job",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-now-tell-me-what-you-re-going-to-do-with-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote. Now tell me what you're going to do with the job.",
+      "text": "You've got my vote. Now tell me what you're going to do with {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170314,10 +170602,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-i-know-you-that-s-my-vote",
+      "key": "scene-talk.reply-agree.yes-self-i-know-you-that-s-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. I know you. That's my vote.",
+      "text": "Yes, {self}. I know you. That's my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -170339,10 +170627,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-vote-for-you-just-don-t-change-on-me",
+      "key": "scene-talk.reply-agree.i-ll-vote-for-you-self-just-don-t-change-on-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll vote for you. Just don't change on me.",
+      "text": "I'll vote for you, {self}. Just don't change on me.",
       "uses": [
         {
           "subject": "scene",
@@ -170364,10 +170652,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-like-you-that-doesn-t-mean-i-ll-vote-for-you",
+      "key": "scene-talk.reply-decline.i-like-you-self-that-doesn-t-mean-i-ll-vote-for-you",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I like you. That doesn't mean I'll vote for you.",
+      "text": "I like you, {self}. That doesn't mean I'll vote for you.",
       "uses": [
         {
           "subject": "scene",
@@ -170415,10 +170703,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.don-t-be-hurt-i-haven-t-decided-and-i-won-t-decide-because-we-know-each-other",
+      "key": "scene-talk.reply-decline.don-t-be-hurt-self-i-haven-t-decided-and-i-won-t-decide-because-we-know-each-oth",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't be hurt. I haven't decided, and I won't decide because we know each other.",
+      "text": "Don't be hurt, {self}. I haven't decided, and I won't decide because we know each other.",
       "uses": [
         {
           "subject": "scene",
@@ -170440,10 +170728,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-keeping-my-vote-to-myself-even-from-you",
+      "key": "scene-talk.reply-decline.i-m-keeping-my-vote-for-office-to-myself-even-from-you",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm keeping my vote to myself. Even from you.",
+      "text": "I'm keeping my vote for {office} to myself. Even from you.",
       "uses": [
         {
           "subject": "scene",
@@ -170465,10 +170753,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.convince-me-on-the-issues-not-the-porch-then-ask-again",
+      "key": "scene-talk.reply-decline.convince-me-on-what-office-does-not-on-the-porch-then-ask-again",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Convince me on the issues, not the porch. Then ask again.",
+      "text": "Convince me on what {office} does, not on the porch. Then ask again.",
       "uses": [
         {
           "subject": "scene",
@@ -170490,10 +170778,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.ask-me-again-closer-to-the-election",
+      "key": "scene-talk.reply-decline.ask-me-again-closer-to-the-election-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Ask me again closer to the election.",
+      "text": "Ask me again closer to the election, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -170515,10 +170803,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-knew-i-could-count-on-you-thank-you",
+      "key": "scene-talk.follow-thank.i-knew-i-could-count-on-you-thank-you-place-needs-people-like-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I knew I could count on you. Thank you.",
+      "text": "I knew I could count on you. Thank you. {place} needs people like you.",
       "uses": [
         {
           "subject": "scene",
@@ -170549,10 +170837,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-it-means-more-coming-from-you",
+      "key": "scene-talk.follow-thank.thank-you-it-means-more-coming-from-you-than-anyone-in-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. It means more coming from you.",
+      "text": "Thank you. It means more coming from you than anyone in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -170583,10 +170871,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-i-owe-you-one",
+      "key": "scene-talk.follow-thank.thanks-i-owe-you-one-whatever-happens-with-office",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks. I owe you one.",
+      "text": "Thanks. I owe you one, whatever happens with {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170617,10 +170905,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-try-to-make-you-glad-you-did",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-try-to-make-you-glad-you-backed-me-for-office",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll try to make you glad you did.",
+      "text": "Thank you. I'll try to make you glad you backed me for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170651,10 +170939,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-fair-no-hard-feelings",
+      "key": "scene-talk.follow-accept.that-s-fair-no-hard-feelings-whatever-happens-with-office",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's fair. No hard feelings.",
+      "text": "That's fair. No hard feelings, whatever happens with {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170685,10 +170973,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-we-re-still-good",
+      "key": "scene-talk.follow-accept.i-understand-we-re-still-good-whatever-happens-with-office",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand. We're still good.",
+      "text": "I understand. We're still good, whatever happens with {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170719,10 +171007,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-i-ll-ask-you-again-over-coffee",
+      "key": "scene-talk.follow-accept.fair-enough-i-ll-ask-you-again-over-coffee-somewhere-in-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. I'll ask you again over coffee.",
+      "text": "Fair enough. I'll ask you again over coffee, somewhere in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -170753,10 +171041,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-i-won-t-push-you",
+      "key": "scene-talk.follow-accept.okay-i-won-t-push-you-on-office",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. I won't push you.",
+      "text": "Okay. I won't push you on {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170787,10 +171075,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.come-on-you-know-me-better-than-anybody-on-this-street",
+      "key": "scene-talk.follow-press.come-on-you-know-me-better-than-anybody-in-place",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Come on. You know me better than anybody on this street.",
+      "text": "Come on. You know me better than anybody in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -170821,10 +171109,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.if-you-won-t-who-will-you-re-the-one-who-knows-me",
+      "key": "scene-talk.follow-press.if-you-won-t-who-in-place-will-you-re-the-one-who-knows-me",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "If you won't, who will? You're the one who knows me.",
+      "text": "If you won't, who in {place} will? You're the one who knows me.",
       "uses": [
         {
           "subject": "scene",
@@ -170855,10 +171143,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.you-re-really-going-to-make-me-beg",
+      "key": "scene-talk.follow-press.you-re-really-going-to-make-me-beg-for-office",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You're really going to make me beg?",
+      "text": "You're really going to make me beg for {office}?",
       "uses": [
         {
           "subject": "scene",
@@ -170889,10 +171177,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-m-asking-as-a-friend-not-just-a-candidate",
+      "key": "scene-talk.follow-press.i-m-asking-as-a-friend-not-just-a-candidate-for-office",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'm asking as a friend, not just a candidate.",
+      "text": "I'm asking as a friend, not just a candidate for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170923,10 +171211,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.nice-try-still-no",
+      "key": "scene-talk.reply-decline.nice-try-self-still-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Nice try. Still no.",
+      "text": "Nice try, {self}. Still no.",
       "uses": [
         {
           "subject": "scene",
@@ -170948,10 +171236,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.don-t-make-it-a-friendship-thing",
+      "key": "scene-talk.reply-decline.don-t-make-it-a-friendship-thing-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't make it a friendship thing.",
+      "text": "Don't make it a friendship thing, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -170973,10 +171261,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-i-mean-it-about-keeping-my-name-off-things",
+      "key": "scene-talk.reply-decline.i-m-sorry-self-i-mean-it-about-keeping-my-name-off-things",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry. I mean it about keeping my name off things.",
+      "text": "I'm sorry, {self}. I mean it about keeping my name off things.",
       "uses": [
         {
           "subject": "scene",
@@ -170998,10 +171286,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-re-going-to-have-to-get-used-to-people-saying-no",
+      "key": "scene-talk.reply-decline.you-re-going-to-have-to-get-used-to-people-in-place-saying-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You're going to have to get used to people saying no.",
+      "text": "You're going to have to get used to people in {place} saying no.",
       "uses": [
         {
           "subject": "scene",
@@ -171023,10 +171311,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-think-about-it-that-s-the-best-you-get-from-me",
+      "key": "scene-talk.reply-decline.i-ll-think-about-office-that-s-the-best-you-get-from-me",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll think about it. That's the best you get from me.",
+      "text": "I'll think about {office}. That's the best you get from me.",
       "uses": [
         {
           "subject": "scene",
@@ -171048,10 +171336,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.don-t-push-i-ll-decide-on-my-own",
+      "key": "scene-talk.reply-decline.don-t-push-self-i-ll-decide-on-my-own",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't push. I'll decide on my own.",
+      "text": "Don't push, {self}. I'll decide on my own.",
       "uses": [
         {
           "subject": "scene",
@@ -171073,10 +171361,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-ll-always-be-my-friend-my-vote-s-still-my-own",
+      "key": "scene-talk.reply-decline.you-ll-always-be-my-friend-self-my-vote-s-still-my-own",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You'll always be my friend. My vote's still my own.",
+      "text": "You'll always be my friend, {self}. My vote's still my own.",
       "uses": [
         {
           "subject": "scene",
@@ -171098,10 +171386,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.that-s-exactly-why-i-won-t",
+      "key": "scene-talk.reply-decline.that-s-exactly-why-i-won-t-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "That's exactly why I won't.",
+      "text": "That's exactly why I won't, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -171123,10 +171411,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-and-looks-you-over-like-a-member-of-the-family",
+      "key": "scene-talk.narrate-narrate.name-opens-the-door-and-hears-you-out-with-a-nod",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} opens the door and looks you over like a member of the family.",
+      "text": "{name} opens the door and hears you out with a nod.",
       "uses": [
         {
           "subject": "scene",
@@ -171219,10 +171507,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.same-party-same-side-of-course-you-ve-got-my-vote",
+      "key": "scene-talk.reply-agree.same-party-same-side-of-course-you-ve-got-my-vote-for-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Same party, same side. Of course you've got my vote.",
+      "text": "Same party, same side. Of course you've got my vote for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -171244,10 +171532,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-vote-the-party-you-re-the-party-that-s-settled",
+      "key": "scene-talk.reply-agree.i-vote-the-party-and-you-re-the-party-s-for-office-you-ve-got-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I vote the party. You're the party. That's settled.",
+      "text": "I vote the party, and you're the party's for {office}. You've got me.",
       "uses": [
         {
           "subject": "scene",
@@ -171269,10 +171557,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-d-vote-for-you-over-the-other-side-any-day-you-ve-got-it",
+      "key": "scene-talk.reply-agree.i-d-vote-for-you-over-the-other-side-for-office-any-day-you-ve-got-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'd vote for you over the other side any day. You've got it.",
+      "text": "I'd vote for you over the other side for {office} any day. You've got it.",
       "uses": [
         {
           "subject": "scene",
@@ -171294,10 +171582,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.it-s-good-to-see-somebody-from-our-side-out-knocking-you-have-my-vote",
+      "key": "scene-talk.reply-agree.it-s-good-to-see-somebody-from-our-side-knocking-in-place-you-have-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "It's good to see somebody from our side out knocking. You have my vote.",
+      "text": "It's good to see somebody from our side knocking in {place}. You have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -171319,10 +171607,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-vote-the-ticket-so-yes-but-tell-me-where-you-break-with-the-party",
+      "key": "scene-talk.reply-agree.i-vote-the-ticket-so-yes-self-but-tell-me-where-you-break-with-the-party",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I vote the ticket, so yes. But tell me where you break with the party.",
+      "text": "I vote the ticket, so yes, {self}. But tell me where you break with the party.",
       "uses": [
         {
           "subject": "scene",
@@ -171344,10 +171632,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-don-t-embarrass-us",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-for-office-don-t-embarrass-us",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote. Don't embarrass us.",
+      "text": "You've got my vote for {office}. Don't embarrass us.",
       "uses": [
         {
           "subject": "scene",
@@ -171369,10 +171657,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-in-your-party-that-doesn-t-mean-i-like-who-it-puts-up",
+      "key": "scene-talk.reply-decline.i-m-in-your-party-that-doesn-t-mean-i-like-who-it-puts-up-for-office",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm in your party. That doesn't mean I like who it puts up.",
+      "text": "I'm in your party. That doesn't mean I like who it puts up for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -171394,10 +171682,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.being-on-the-same-side-isn-t-enough-anymore-i-ll-decide",
+      "key": "scene-talk.reply-decline.being-on-the-same-side-isn-t-enough-anymore-i-ll-decide-on-office-myself",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Being on the same side isn't enough anymore. I'll decide.",
+      "text": "Being on the same side isn't enough anymore. I'll decide on {office} myself.",
       "uses": [
         {
           "subject": "scene",
@@ -171419,10 +171707,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-makes-you-different-from-the-last-one-we-put-up-i-m-not-sold",
+      "key": "scene-talk.reply-decline.what-makes-you-different-from-the-last-one-we-put-up-for-office-i-m-not-sold",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What makes you different from the last one we put up? I'm not sold.",
+      "text": "What makes you different from the last one we put up for {office}? I'm not sold.",
       "uses": [
         {
           "subject": "scene",
@@ -171444,10 +171732,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-vote-my-party-but-i-don-t-know-about-you-yet",
+      "key": "scene-talk.reply-decline.i-ll-vote-my-party-but-i-don-t-know-about-you-for-office-yet",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll vote my party, but I don't know about you yet.",
+      "text": "I'll vote my party, but I don't know about you for {office} yet.",
       "uses": [
         {
           "subject": "scene",
@@ -171469,10 +171757,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-want-to-like-you-i-m-not-there-yet",
+      "key": "scene-talk.reply-decline.i-want-to-like-you-self-i-m-not-there-yet",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I want to like you. I'm not there yet.",
+      "text": "I want to like you, {self}. I'm not there yet.",
       "uses": [
         {
           "subject": "scene",
@@ -171494,10 +171782,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.the-party-s-let-me-down-before-you-ll-have-to-earn-it",
+      "key": "scene-talk.reply-decline.the-party-s-let-me-down-in-place-before-you-ll-have-to-earn-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "The party's let me down before. You'll have to earn it.",
+      "text": "The party's let me down in {place} before. You'll have to earn it.",
       "uses": [
         {
           "subject": "scene",
@@ -171519,10 +171807,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-we-ll-need-every-one-of-us",
+      "key": "scene-talk.follow-thank.thank-you-we-ll-need-every-one-of-us-in-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. We'll need every one of us.",
+      "text": "Thank you. We'll need every one of us in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -171544,10 +171832,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-tell-your-neighbors-too",
+      "key": "scene-talk.follow-thank.thanks-tell-your-neighbors-in-place-too",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks. Tell your neighbors too.",
+      "text": "Thanks. Tell your neighbors in {place} too.",
       "uses": [
         {
           "subject": "scene",
@@ -171569,10 +171857,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-appreciate-it-i-won-t-embarrass-anybody",
+      "key": "scene-talk.follow-thank.i-appreciate-it-i-won-t-embarrass-anybody-in-office",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I appreciate it. I won't embarrass anybody.",
+      "text": "I appreciate it. I won't embarrass anybody in {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -171594,10 +171882,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-if-you-ever-want-to-help-out-we-could-use-you",
+      "key": "scene-talk.follow-thank.thank-you-if-you-ever-want-to-help-out-with-office-we-could-use-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. If you ever want to help out, we could use you.",
+      "text": "Thank you. If you ever want to help out with {office}, we could use you.",
       "uses": [
         {
           "subject": "scene",
@@ -171619,10 +171907,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-fair-i-d-rather-earn-it",
+      "key": "scene-talk.follow-accept.that-s-fair-i-d-rather-earn-your-vote-for-office",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's fair. I'd rather earn it.",
+      "text": "That's fair. I'd rather earn your vote for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -171644,10 +171932,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-i-hope-i-get-there-with-you",
+      "key": "scene-talk.follow-accept.i-understand-i-hope-i-get-there-with-you-before-the-vote-for-office",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand. I hope I get there with you.",
+      "text": "I understand. I hope I get there with you before the vote for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -171669,10 +171957,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-keep-an-eye-on-me-then",
+      "key": "scene-talk.follow-accept.okay-keep-an-eye-on-me-then-i-m-self",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. Keep an eye on me, then.",
+      "text": "Okay. Keep an eye on me, then. I'm {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -171694,10 +171982,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-thanks-for-the-honesty",
+      "key": "scene-talk.follow-accept.fair-enough-thanks-for-the-honesty-i-m-self-if-you-want-to-talk",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. Thanks for the honesty.",
+      "text": "Fair enough. Thanks for the honesty. I'm {self}, if you want to talk.",
       "uses": [
         {
           "subject": "scene",
@@ -171719,10 +172007,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.we-re-on-the-same-side-let-me-show-you-i-m-different",
+      "key": "scene-talk.follow-press.we-re-on-the-same-side-let-me-show-you-i-m-different-for-office",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "We're on the same side. Let me show you I'm different.",
+      "text": "We're on the same side. Let me show you I'm different for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -171744,10 +172032,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.give-me-a-chance-that-s-all-the-party-ever-asks-of-you",
+      "key": "scene-talk.follow-press.give-me-a-chance-at-office-that-s-all-i-m-asking",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Give me a chance. That's all the party ever asks of you.",
+      "text": "Give me a chance at {office}. That's all I'm asking.",
       "uses": [
         {
           "subject": "scene",
@@ -171769,10 +172057,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.would-you-rather-the-other-side-win-it",
+      "key": "scene-talk.follow-press.would-you-rather-the-other-side-win-office",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Would you rather the other side win it?",
+      "text": "Would you rather the other side win {office}?",
       "uses": [
         {
           "subject": "scene",
@@ -171794,10 +172082,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-m-asking-you-to-take-a-chance-on-someone-new-from-our-side",
+      "key": "scene-talk.follow-press.i-m-asking-you-to-take-a-chance-on-someone-new-from-our-side-in-place",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'm asking you to take a chance on someone new from our side.",
+      "text": "I'm asking you to take a chance on someone new from our side in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -171819,10 +172107,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.don-t-tell-me-what-our-side-wants",
+      "key": "scene-talk.reply-decline.don-t-tell-me-what-our-side-wants-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't tell me what our side wants.",
+      "text": "Don't tell me what our side wants, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -171844,10 +172132,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.same-party-doesn-t-mean-i-owe-you",
+      "key": "scene-talk.reply-decline.same-party-doesn-t-mean-i-owe-you-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Same party doesn't mean I owe you.",
+      "text": "Same party doesn't mean I owe you, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -171869,10 +172157,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.maybe-later-on-not-yet",
+      "key": "scene-talk.reply-decline.maybe-later-on-self-not-yet",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Maybe later on. Not yet.",
+      "text": "Maybe later on, {self}. Not yet.",
       "uses": [
         {
           "subject": "scene",
@@ -171894,10 +172182,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-think-it-over-that-s-all",
+      "key": "scene-talk.reply-decline.i-ll-think-it-over-self-that-s-all",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll think it over. That's all.",
+      "text": "I'll think it over, {self}. That's all.",
       "uses": [
         {
           "subject": "scene",
