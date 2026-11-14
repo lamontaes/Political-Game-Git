@@ -8,6 +8,7 @@
  * counts on the day they happen. Screens and the outcome web (M3-04) read
  * these rows; nothing here moves money or decides anything.
  */
+import { outsideLaborForce } from "../gov-rules/place-population";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { residentsRuntime } from "./residents";
@@ -150,6 +151,13 @@ export function townMetrics(api: CoreAPI) {
     );
     if (home && !home.gone) at(home.placeId).residentsEmployed += 1;
   }
+  // The household's out-of-town workers hold jobs with no record of their own
+  // (the wider population's commuters): residents in the labor force, at the
+  // household's weight, as the opening counts them when it draws the jobless.
+  for (const h of rt?.store.liveHouseholds() ?? [])
+    if (h.unplacedWorkers > 0 && !outsideLaborForce(h.quarters))
+      at(h.placeId).residentsEmployed +=
+        h.unplacedWorkers * rt!.store.weightOf(h);
   // Eviction orders (judgments) in the month before this one, by where the household lives.
   const lastMonth = addDays(makeIsoDate(`${month}-01`), -1).slice(
     0,
@@ -254,7 +262,7 @@ export function townMetrics(api: CoreAPI) {
         placeId,
         date: c.date,
         employed: row.employed,
-        residentsEmployed: row.residentsEmployed,
+        residentsEmployed: Math.round(row.residentsEmployed),
         unemployed: row.unemployed,
         unemploymentRate:
           // Residents who are out of work over residents in the labor force:
