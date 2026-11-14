@@ -13,9 +13,11 @@ import {
   type StudyRow,
 } from "../core2/modules/legislature";
 import { billCatalog, provisionFor } from "../core2/bill-catalog";
+import { setStops, stopKinds } from "../core2/modules/office-day";
 import { townSeats } from "../core2/modules/offices";
 import { stanceRow } from "../core2/modules/views";
 import { P } from "../core2/parameters";
+import { advanceCore } from "../core2/life";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -58,6 +60,8 @@ function studyRecord(core: CoreState, id: string): StudyRow | undefined {
  * engine refers a narrow failure to a study.
  */
 function stageStudy(core: CoreState): { studyId: string } | undefined {
+  // One day in, so the director's first day has run and watches what follows.
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
   const api = coreAPI(core);
   const seat = townSeats(api).find(
     (row) =>
@@ -123,6 +127,14 @@ it(`the paper tells a study committee, and its members are spoken to when it for
     });
     core.focusPersonIds.add(personId);
     director.watch(core, personId);
+    // The member's council meetings do not hold the clock here: their stops are
+    // off (the engine records a member who does not attend as absent), so the
+    // run reaches the committee's own days.
+    setStops(
+      coreAPI(core),
+      personId,
+      Object.fromEntries(stopKinds().map((kind) => [kind, false])),
+    );
     stageStudy(core);
     const book = director.ledger.people.get(personId)!;
     const through = addDays(makeIsoDate(study.sunsetOn), AFTER_REPORT_DAYS);
@@ -176,10 +188,14 @@ it(`the paper tells a study committee, and its members are spoken to when it for
               scene.facts.some((fact) => fact.key === "issue"),
               `${here}: the question is named`,
             ).toBe(true);
+          // Who chairs it is named: the asker, the player, or, when a member the
+          // two sit with asks, that member with the chair named beside them.
+          const chairKeys = scene.facts.map((fact) => fact.key);
           expect(
-            scene.facts.some(
-              (fact) => fact.key === "asker-chairs" || fact.key === "you-chair",
-            ),
+            chairKeys.includes("asker-chairs") ||
+              chairKeys.includes("you-chair") ||
+              (chairKeys.includes("fellow-member") &&
+                chairKeys.includes("chair")),
             here,
           ).toBe(true);
           if (typeKey === "study-reported") {
