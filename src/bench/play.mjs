@@ -1942,13 +1942,12 @@ async function campaignParts() {
         result.doorsKnocked
           ? controls.campaignResults.doors.replace("{n}", result.doorsKnocked)
           : "",
-        // A petition outing says the doors that opened, everyone asked to
-        // sign (the Words lead, Nov 14); "reached" stays for vote-asking doors.
+        // Doors that opened on a petition's outing, whether asked to sign or
+        // for the vote (the Words lead, Nov 14); "reached" says the people met
+        // and shows where any door asked for the vote.
         result.answered !== null && result.answered !== undefined
           ? controls.campaignResults.answered.replace("{n}", result.answered)
-          : result.reached
-            ? controls.campaignResults.reached.replace("{n}", result.reached)
-            : "",
+          : "",
         // How many signed at the doors, a day of none included (owner, Nov 14:
         // "Tab total and each outing"), outside the dialogue.
         result.signed === null || result.signed === undefined
@@ -1956,6 +1955,12 @@ async function campaignParts() {
           : result.signed === 0
             ? controls.campaignResults.signedNone
             : controls.campaignResults.signed.replace("{n}", result.signed),
+        result.reached &&
+        (result.votesAsked === null ||
+          result.votesAsked === undefined ||
+          result.votesAsked > 0)
+          ? controls.campaignResults.reached.replace("{n}", result.reached)
+          : "",
         result.raisedMinor ? moneyWords(result.raisedMinor) : "",
       ]
         .filter(Boolean)
@@ -2058,6 +2063,18 @@ async function campaignParts() {
                 label: T.howLong,
                 value: `${choice.hours} ${controls.campaignOutings.hours}`,
               },
+              // What the doors ask for now: signatures while the petition is
+              // short of its target, votes after it and in a race with none.
+              ...(choice.outing === "doors"
+                ? [
+                    {
+                      label: T.asking,
+                      value: petition?.asksAtDoors
+                        ? T.askingSignatures
+                        : T.askingVotes,
+                    },
+                  ]
+                : []),
             ],
             does: why ? [why] : [],
           }),
@@ -2226,7 +2243,10 @@ async function campaignParts() {
                 ? [
                     {
                       label: labelsC.signatures,
-                      value: labelsC.signaturesHeld
+                      value: (petition.signed >= petition.needed
+                        ? labelsC.signaturesEnough
+                        : labelsC.signaturesHeld
+                      )
                         .replace("{signed}", String(petition.signed))
                         .replace("{needed}", String(petition.needed))
                         .replace("{date}", dateWords(petition.due)),
@@ -2334,7 +2354,13 @@ async function showStory(momentId) {
     for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
-      setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+      // A speaker heard on a broadcast is named, never drawn in the room
+      // (the narrator said how it was heard); one on the montage or in the
+      // room stands on the strip.
+      setWho(
+        story.beats || story.speech.inRoom ? story.speech.speakerId : null,
+        story.names[story.speech.speakerId],
+      );
       // The part's picture and cast: the desk, the town, the colonnade, the
       // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
@@ -2343,12 +2369,25 @@ async function showStory(momentId) {
         drawHere(beat);
       }
       talkControls({ silent: false, leave: false });
+      // Heard on a broadcast: the station over the line with its small icon
+      // (owner, Oct 14: "a small card in the conversation text style with a
+      // tiny radio/TV icon, the station, and the line").
+      const on = story.speech.heardOn;
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: parts[at] })],
+        lines: [
+          talkLine({
+            kind: on ? `speech heard heard-${on.medium}` : "speech",
+            text: parts[at],
+            ...(on ? { who: on.station } : {}),
+          }),
+        ],
         replies: [],
       });
       setScales({ available: false });
       if (at + 1 < parts.length) onContinue = () => sayPart(at + 1);
+      // A floor or campaign speech is followed by its exchange: the player
+      // answers the member who rose, or the candidate who comes over.
+      else if (story.talk) onContinue = () => playExchange(story);
     };
     narrateFirst(setting, () => sayPart(0));
     return;

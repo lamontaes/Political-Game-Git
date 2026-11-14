@@ -711,6 +711,12 @@
       "citation": "Release from prison, sized like the Social Readjustment Rating Scale's 'Marital reconciliation', 45 life-change units divided by 100 (Holmes and Rahe 1967): a return to the household after a separation.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.5"
     },
+    "directorAddressHeardImpact": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "A governor's or the town's yearly address the household watches at home is staged as the President's opening address is, in its speaker's own words (owner, Nov 8: addresses by \"the President, and governors' and mayors'\"; words builder, Nov 12: at the election-result size, 0.28, it never reached the screen). Set at the interrupt line so the evening it is given stops the clock once a year for each.",
+      "estimatedFrom": "The interrupt line, directorInterruptImpact (owner ruling, Oct 9: 'Marriage', 50 life-change units divided by 100, Holmes and Rahe 1967); spread 0.5 to 0.6"
+    },
     "directorElectionResultImpact": {
       "value": 0.28,
       "tag": "ESTIMATED",
@@ -1201,12 +1207,12 @@
     {
       "eventKind": "governor.address",
       "channel": "cause",
-      "impactParameter": "directorElectionResultImpact"
+      "impactParameter": "directorAddressHeardImpact"
     },
     {
       "eventKind": "mayor.address",
       "channel": "cause",
-      "impactParameter": "directorElectionResultImpact"
+      "impactParameter": "directorAddressHeardImpact"
     },
     {
       "eventKind": "president.address",
