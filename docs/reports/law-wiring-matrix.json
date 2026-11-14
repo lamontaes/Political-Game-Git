@@ -128,6 +128,18 @@
       "state": "US-RI"
     },
     {
+      "seed": "3faf142c52fc752de7c3d8c51bcc990976433087809a74824b3ebeabfc90a878",
+      "key": "territory:GU:hagatna",
+      "name": "Hagåtña, Guam",
+      "state": "US-GU"
+    },
+    {
+      "seed": "6bc8f3f997ddef99ba315283733dbf39681edb13b7021a1f275331785da8fce6",
+      "key": "4213168",
+      "name": "Cherryville, Pennsylvania",
+      "state": "US-PA"
+    },
+    {
       "seed": "393f73ee1c08140503117d6af7eea026ada4377080860846258968a73c13b710",
       "key": "0834960",
       "name": "Haxtun, Colorado",
@@ -155,8 +167,8 @@
   "summary": {
     "laws": 187,
     "wired": 147,
-    "partly": 40,
-    "stopgapped": 0,
+    "partly": 39,
+    "stopgapped": 1,
     "researchLinks": {
       "links": 246,
       "reaching": 175,
@@ -195,31 +207,31 @@
         "n/a": 0
       },
       "reach": {
-        "wired": 99,
-        "partial": 5,
-        "missing": 19,
-        "stopgap": 4,
+        "wired": 100,
+        "partial": 4,
+        "missing": 23,
+        "stopgap": 0,
         "n/a": 60
       },
       "systems": {
         "wired": 116,
         "partial": 0,
-        "missing": 17,
-        "stopgap": 4,
+        "missing": 21,
+        "stopgap": 0,
         "n/a": 50
       },
       "money": {
         "wired": 95,
         "partial": 3,
-        "missing": 16,
-        "stopgap": 4,
+        "missing": 20,
+        "stopgap": 0,
         "n/a": 69
       },
       "web": {
-        "wired": 77,
+        "wired": 76,
         "partial": 0,
-        "missing": 31,
-        "stopgap": 4,
+        "missing": 35,
+        "stopgap": 1,
         "n/a": 75
       },
       "knowing": {
@@ -401,7 +413,7 @@
       "family": "infrastructure",
       "reachGroup": "B",
       "mechanic": "transit-fares",
-      "overall": "wired",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -429,9 +441,9 @@
           "why": ""
         },
         "web": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 fare-free-transit-to-ridership 0.4200 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 fare-free-transit-to-ridership 0.4200 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 fare-free-transit-to-ridership 0.4200 (ledger row only)",
+          "why": "no production reader: fare-free-transit-to-ridership (SG-WEB-fare-free-riders-unread) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -1187,7 +1199,7 @@
     },
     {
       "key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "name": "expand medicaid eligibility",
+      "name": "expand Medicaid eligibility",
       "kind": "question",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1270,7 +1282,7 @@
     },
     {
       "key": "local-power:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "name": "Local power: expand medicaid eligibility",
+      "name": "Local power: expand Medicaid eligibility",
       "kind": "amount",
       "family": "healthcare",
       "reachGroup": null,
@@ -1329,7 +1341,7 @@
     },
     {
       "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
-      "name": "medicaid work requirement",
+      "name": "Medicaid work requirement",
       "kind": "question",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1412,7 +1424,7 @@
     },
     {
       "key": "local-power:us-policy-positions:health-human-services.medicaid-work-requirement",
-      "name": "Local power: medicaid work requirement",
+      "name": "Local power: Medicaid work requirement",
       "kind": "amount",
       "family": "healthcare",
       "reachGroup": null,
@@ -1605,7 +1617,7 @@
     },
     {
       "key": "budget-line:healthAndHospitals",
-      "name": "Spending: healthAndHospitals",
+      "name": "Spending: health and hospitals",
       "kind": "budget-line",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1753,12 +1765,12 @@
     },
     {
       "key": "us-federal-positions:health.medicare-drug-price-negotiation",
-      "name": "medicare drug price negotiation",
+      "name": "Medicare drug price negotiation",
       "kind": "question",
       "family": "healthcare",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -1771,9 +1783,9 @@
           "why": ""
         },
         "reach": {
-          "status": "partial",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 12 open (full 12, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_a7869489a70c1548",
-          "why": "full people only: no counted group is reached (one model, two tiers)"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 12 open (full 12, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_a7869489a70c1548; Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): 861 open (full 17, counted groups 844/844 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b946554f847221; Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): 1501 open (full 18, counted groups 1483/51757 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_af0d82958bb9e8bf",
+          "why": ""
         },
         "systems": {
           "status": "wired",
@@ -1782,7 +1794,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): of 12 the law paid or charged, the payments that changed first: 7 accounts.transfer paid in (src/core2/medical-bills.ts:621; e.g. person_042cb0cc49072846 on 2025-02-01: -26536 in the control world, -28323 here, journal:2025-02-01:6336); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/medical-bills.ts:621 1205061 -> 1218787 (journal:2025-02-01:6297)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): of 12 the law paid or charged, the payments that changed first: 7 accounts.transfer paid in (src/core2/medical-bills.ts:621; e.g. person_042cb0cc49072846 on 2025-02-01: -26536 in the control world, -28323 here, journal:2025-02-01:6336); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/medical-bills.ts:621 1205061 -> 1218787 (journal:2025-02-01:6297); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): accounts.transfer @ src/core2/medical-bills.ts:620 881072 -> 894791 (journal:2025-02-01:4120); Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): accounts.transfer @ src/core2/medical-bills.ts:620 1164174 -> 1174470 (journal:2025-02-01:7241)",
           "why": ""
         },
         "web": {
@@ -1792,17 +1804,17 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): 70 people heard (person_bf387883fab7c6d9:printed:outlet:newspaper:2:jurisdiction_e310a6aecc2b3e79:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): opening 12 -> after repeal 0 -> re-enacted 12",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): opening 12 -> after repeal 0 -> re-enacted 12; Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): opening 861 -> after repeal 0 -> re-enacted 860; Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): opening 1501 -> after repeal 0 -> re-enacted 1550",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75); Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc)",
           "why": ""
         }
       },
@@ -1810,6 +1822,16 @@
       "runs": [
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75)",
+          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc)",
           "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
           "inForceAtOpening": true
         }
@@ -2336,7 +2358,7 @@
     },
     {
       "key": "budget-line:higherEducation",
-      "name": "Spending: higherEducation",
+      "name": "Spending: higher education",
       "kind": "budget-line",
       "family": "education",
       "reachGroup": "B",
@@ -4310,7 +4332,7 @@
     },
     {
       "key": "budget-line:welfareAndMedicaid",
-      "name": "Spending: welfareAndMedicaid",
+      "name": "Spending: welfare and Medicaid",
       "kind": "budget-line",
       "family": "assistance",
       "reachGroup": "B",
@@ -4476,24 +4498,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -4535,24 +4557,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -5249,24 +5271,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -6280,24 +6302,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -8000,7 +8022,7 @@
     },
     {
       "key": "budget-line:naturalResources",
-      "name": "Spending: naturalResources",
+      "name": "Spending: natural resources",
       "kind": "budget-line",
       "family": "energy-environment",
       "reachGroup": "B",
@@ -10878,7 +10900,7 @@
     },
     {
       "key": "state-contribution-limit-state-senate",
-      "name": "State campaign contribution limit: stateSenate",
+      "name": "State campaign contribution limit: state senate",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10944,7 +10966,7 @@
     },
     {
       "key": "state-contribution-limit-state-house",
-      "name": "State campaign contribution limit: stateHouse",
+      "name": "State campaign contribution limit: state house",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
