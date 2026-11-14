@@ -18,6 +18,7 @@
 import { P } from "../core2/parameters";
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "json" };
+import moveSetsFile from "../../data/english/scene-move-sets.json" with { type: "json" };
 import { conversationPacket, renderLine, type Fact } from "./bank-line";
 import {
   composeJoinedLine,
@@ -28,6 +29,7 @@ import { stableHash } from "../core2/kernel/ids";
 
 export type { Fact };
 import { admittedParts, directorSlots } from "./bank-parts";
+import { sentenceStarts } from "./said-as";
 import {
   follows,
   REPLY_FOLLOWS,
@@ -60,6 +62,11 @@ export interface PartUse {
   move: string;
   role: SceneTalkRole;
   purpose?: string;
+  /**
+   * A shared move set (data/english/scene-move-sets.json) in place of one
+   * purpose: the piece serves every purpose the set lists.
+   */
+  set?: string;
   key?: string;
   after?: string;
   outcome?: "resolved" | "refused" | "open";
@@ -183,9 +190,35 @@ const taggedBy = (part: BankPart) =>
 /** Where a scene is said: the part of a move that decides which pieces serve it at all. */
 export type SceneSpot = Pick<SceneMove, "purpose" | "family" | "key">;
 
+/** The purposes each shared move set serves (data/english/scene-move-sets.json). */
+const MOVE_SETS = new Map(
+  Object.entries(
+    (
+      moveSetsFile as unknown as {
+        sets: Record<string, { purposes: string[] }>;
+      }
+    ).sets,
+  ).map(([name, row]) => [name, new Set(row.purposes)]),
+);
+
+/** Whether a use's purpose, or the shared move set it names, is this purpose (or its family). */
+export function usesPurpose(
+  u: Pick<PartUse, "purpose" | "set">,
+  purpose: string,
+  family?: string,
+): boolean {
+  if (u.set) {
+    const serves = MOVE_SETS.get(u.set);
+    return (
+      !!serves && (serves.has(purpose) || (!!family && serves.has(family)))
+    );
+  }
+  return u.purpose === purpose || (!!family && u.purpose === family);
+}
+
 /** Whether a use serves this purpose and situation key (a fallback "*" serves only a scene with no purpose of its own). */
 export function usesSpot(u: PartUse, use: SceneSpot): boolean {
-  if (u.purpose && u.purpose !== use.purpose && u.purpose !== use.family)
+  if ((u.purpose || u.set) && !usesPurpose(u, use.purpose, use.family))
     return false;
   return !(u.key && u.key !== use.key);
 }
@@ -214,6 +247,9 @@ export function useFit(
     // A piece written for a variant beats the family's, whatever facts either needs.
     (use.family && u.purpose === use.purpose ? sixteen : zero) +
     (u.purpose && u.purpose !== "*" ? four : zero) +
+    // A shared move set names the purposes it serves, so a piece of it fits
+    // as closely as one written for the purpose's own situation key.
+    (u.set ? four + two : zero) +
     (u.key ? two : zero) +
     (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
     // A piece that needs a fact the record holds says more than one that does not.
@@ -484,7 +520,8 @@ export function wordSceneMove(input: {
   const part = parts.find((row) => row.key === line.variantKey);
   const tag = onlyTagged && part ? taggedBy(part) : undefined;
   return {
-    text: line.text,
+    // A slot that opens a sentence after another is capitalized as one.
+    text: sentenceStarts(line.text),
     pieceKey: part?.key ?? line.variantKey ?? "",
     step: (part?.uses.find((u) => (steps as string[]).includes(u.step))?.step ??
       steps[zero]) as SceneTalkStep,
@@ -572,7 +609,8 @@ function joinedMove(
   const coreKey =
     line.parts.find((part) => part.part === "core")?.variantKey ?? "";
   const core = sentence.parts.core?.find((part) => part.key === coreKey);
-  const text = line.text.trim();
+  // A slot that opens a joined sentence is capitalized as its first word.
+  const text = sentenceStarts(line.text.trim());
   return {
     text,
     pieceKey: coreKey,

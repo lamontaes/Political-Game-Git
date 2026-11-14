@@ -45,6 +45,7 @@ import { referCustody, servingCustodyOf } from "./justice";
 import { residentsRuntime } from "./residents";
 import { makeCase, SPEECH_MODULE_ID } from "./speech";
 import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
+import SCENE_ENDINGS from "../data/constituent-cases/scene-endings.json" with { type: "json" };
 
 export const CASES_MODULE_ID = "core2-constituent-cases-v1";
 
@@ -101,6 +102,22 @@ export const CASES_MODULE: CoreModule = {
   },
   onCalendarWork: (api, work) => caseWork(api, work),
   onFillIn: (api, filled) => tiesFromCases(api, filled.memberIds),
+  // The official's answer in the office-hours scene decides the case: the
+  // call they said they'd make, or the caseworker they gave, is the case
+  // taken up; a no is the case turned away (scene-endings.json).
+  eventKinds: ["scene.reply"],
+  onEvent(api, event) {
+    const facts = event.facts ?? {};
+    if (facts.typeKey !== SCENE_ENDINGS.typeKey || !facts.ending) return;
+    const decision = SCENE_ENDINGS.help.includes(facts.ending)
+      ? "help"
+      : SCENE_ENDINGS.decline.includes(facts.ending)
+        ? "decline"
+        : null;
+    const causeId = facts.causeId ?? "";
+    if (!decision || !causeId.startsWith(SCENE_ENDINGS.causePrefix)) return;
+    handleCase(api, causeId.slice(SCENE_ENDINGS.causePrefix.length), decision);
+  },
 };
 
 /** Who brings a case: a full person, or a counted resident by what their record keeps. */

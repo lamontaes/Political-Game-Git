@@ -156,16 +156,10 @@
     "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying": [
       "plain-american-reads-stiff"
     ],
-    "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself": [
-      "no-stock-phrases"
-    ],
     "scene-talk.reply-leave.i-hear-you-and-i-have-to-take-the-next-question": [
       "no-stock-phrases"
     ],
     "scene-talk.reply-leave.i-hear-you-i-m-late-and-i-won-t-do-this-justice-standing-here": [
-      "no-stock-phrases"
-    ],
-    "scene-talk.reply-leave.i-hear-you-let-me-get-to-the-next-question": [
       "no-stock-phrases"
     ],
     "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no": [
@@ -280,6 +274,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 35,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 14983
+    "reply-second-move-follows-the-first (pairs)": 14752
   }
 }
