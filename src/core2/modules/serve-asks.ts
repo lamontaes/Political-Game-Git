@@ -24,7 +24,7 @@
 import willingness from "../data/serve/willingness.json" with { type: "json" };
 import { ambitionOf } from "../candidate-pool";
 import { closenessBetween } from "../closeness";
-import { meetInTalk } from "../encounters";
+import { meetInTalk } from "./people";
 import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
@@ -597,7 +597,7 @@ export function askToServe(
     found.ticket,
     input.personId,
   );
-  if (!standing) throw new Error("That person isn't on the record.");
+  if (!standing) throw new Error("That person can't be asked.");
   const id = `${found.seatKey}|${input.personId}`;
   const earlier = serveAsk(api, id);
   if (!mayAskAgain(api, earlier, standing))

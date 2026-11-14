@@ -1639,9 +1639,9 @@ function serveStanding(
  */
 function officeSaidAloud(title: string): string {
   const at = title.indexOf(" of ");
-  return at < 0
+  return at < P.zero
     ? officeInSentence(title)
-    : `${officeInSentence(title.slice(0, at))}${title.slice(at)}`;
+    : `${officeInSentence(title.slice(P.zero, at))}${title.slice(at)}`;
 }
 
 /**
