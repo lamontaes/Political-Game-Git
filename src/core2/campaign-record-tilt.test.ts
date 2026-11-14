@@ -20,6 +20,7 @@ import { TERM_MEASURES, areasAnswered } from "./term-read";
 import { platformShares } from "./campaign-stances";
 import { campaignFor } from "./modules/campaigns";
 import { fileCandidacy, openContests } from "./modules/elections";
+import { OFFICES_MODULE_ID } from "./modules/offices";
 
 const SEED = "a7c13e";
 const DRAWS = [0, 1, 2] as const;
@@ -85,7 +86,20 @@ function challengerShares(
   const town = [...built.core.people.values()]
     .filter((p) => p.alive && p.placeId === built.placeId && !used.has(p.id))
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
-  for (const contest of openContests(api).filter((c) => c.incumbentTermId)) {
+  // A local seat reads the town's own web, which this test writes; a state's
+  // and the country's seats read their own monthly records (term-read-figures).
+  const local = (officeId: string) =>
+    !/^US(-|$)/.test(
+      String(
+        (
+          api.moduleState(OFFICES_MODULE_ID).table("offices").get(officeId) as
+            { jurisdiction?: string } | undefined
+        )?.jurisdiction ?? "US",
+      ),
+    );
+  for (const contest of openContests(api).filter(
+    (c) => c.incumbentTermId && local(c.officeId),
+  )) {
     for (const person of town.slice(0, 40)) {
       const result = fileCandidacy(api, {
         personId: person.id,
