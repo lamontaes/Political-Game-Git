@@ -8117,7 +8117,7 @@
       "key": "news.endorsement-work.the-group-works-for-work",
       "move": "endorsement-work",
       "kind": "written",
-      "text": "The group works for {work}.",
+      "text": "The group wants {work}.",
       "uses": [
         {
           "move": "endorsement-work",
@@ -8139,7 +8139,7 @@
       "key": "news.endorsement-work.its-cause-is-work",
       "move": "endorsement-work",
       "kind": "written",
-      "text": "Its cause is {work}.",
+      "text": "It wants {work}.",
       "uses": [
         {
           "move": "endorsement-work",
