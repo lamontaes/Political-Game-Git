@@ -294,22 +294,25 @@ export interface ImpressionRow {
   readonly causes: number;
 }
 
-export type CampaignAct =
-  | "door"
-  | "volunteer-door"
-  | "speech"
-  | "interview"
-  | "town-hall"
-  | "debate"
-  | "retold"
-  | "ad"
-  | "attack-ad"
-  | "endorsement"
-  | "group-endorsement"
-  | "donation-ask"
-  | "constituent-case"
-  | "mail"
-  | "event";
+/** Every act a campaign takes; a heard speech's occasion kind is one of these when it was given on the trail. */
+export const CAMPAIGN_ACTS = [
+  "door",
+  "volunteer-door",
+  "speech",
+  "interview",
+  "town-hall",
+  "debate",
+  "retold",
+  "ad",
+  "attack-ad",
+  "endorsement",
+  "group-endorsement",
+  "donation-ask",
+  "constituent-case",
+  "mail",
+  "event",
+] as const;
+export type CampaignAct = (typeof CAMPAIGN_ACTS)[number];
 
 /** Why one person's view of one candidate changed, once. */
 export interface CauseRow {
