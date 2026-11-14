@@ -19,7 +19,7 @@ const arrivals = new WeakMap<CoreState, Map<string, number>>();
  * When the player lands at home on the opening day (owner, Oct 14: home after
  * the address): once the household's last shift that day has ended, from each
  * member's own work spans, and never before the address airs at the player's
- * own clock (data/opening/address-airing.json), the hour a household with no
+ * own clock (src/core2/data/opening/address-airing.json), the hour a household with no
  * one at work sits down to it.
  */
 export function openingArrivalMinute(

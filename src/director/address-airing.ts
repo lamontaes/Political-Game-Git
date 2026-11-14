@@ -13,7 +13,7 @@ const AIRS = airing.airsAtMinute;
 /**
  * The clock minute the President's address airs at the player's own place on
  * the opening day: the one Eastern airing time (ESTIMATED, see
- * data/opening/address-airing.json) read on the place's own clock, daylight
+ * src/core2/data/opening/address-airing.json) read on the place's own clock, daylight
  * time included where the zone has it (one zone per state, so a state split
  * across two zones reads the zone its place table gives). `shiftsDay` is true
  * where the same moment falls on the next local date (Guam, the Northern
