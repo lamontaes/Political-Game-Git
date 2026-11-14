@@ -1,7 +1,7 @@
 /**
  * GENERATED — do not edit by hand.
  *
- * Written by `scripts/source/export-place-race-origin.ts` from the locked
+ * Written by scripts/source/export-place-race-origin.ts from the locked
  * place files in data/source/place-race-origin. A place not listed has no
  * row; readers fall back to its state's shares, never to zero.
  */
