@@ -202,7 +202,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 3,
         "high": 14,
@@ -215,7 +217,9 @@
       "tag": "TUNABLE",
       "citation": "Every campaign act is a scene (owner, Oct 27, 2026, 5 PM Eastern: door knocking is \"a short scene at 1 or 2 doors, maybe sometimes it's uneventful\"; OWNER-DECISIONS), and gathering signatures at the doors has \"scenes every now and then, maybe sometimes no scenes\" (owner, chat, Nov 14, 2026, 00:50Z). At 1 a day's doors staged a porch scene on each of the first six outings and then none for the rest of the season (the seasonCap of six in 91 days; three drawn places, pool item play-petition-signatures-come-from-door-days); at 3 the six spread over about three weeks of daily canvassing with outings between that stage none. A pacing weight, not a measured quantity; set by the director lead on Oct 27, 2026, retuned Nov 14, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 1,
         "high": 7,
@@ -228,7 +232,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 7,
         "high": 30,
@@ -241,7 +247,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 7,
         "high": 45,
@@ -254,7 +262,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 7,
         "high": 30,
@@ -267,7 +277,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 7,
         "high": 30,
@@ -280,7 +292,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.11,
         "high": 0.3,
@@ -293,7 +307,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.11,
         "high": 0.25,
@@ -306,7 +322,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.11,
         "high": 0.25,
@@ -319,7 +337,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.11,
         "high": 0.4,
@@ -332,7 +352,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.1,
         "high": 0.3,
@@ -345,7 +367,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.15,
         "high": 0.4,
@@ -358,7 +382,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.15,
         "high": 0.4,
@@ -371,7 +397,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.11,
         "high": 0.3,
@@ -384,7 +412,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.5,
         "high": 2,
@@ -397,7 +427,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.25,
         "high": 1,
@@ -410,7 +442,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.5,
         "high": 2,
@@ -423,7 +457,9 @@
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0,
         "high": 0.5,
@@ -436,7 +472,9 @@
       "tag": "TUNABLE",
       "citation": "Fable A, Nov 13, 2026, rule 28: a child under 13 is never cast to tell news of politics, money, law or work, and never opens with an adult's line; from 13 to 17 they may tell what they heard at school or at home; adults as now. Playtester P1, Commack NY: a 4-year-old son cast to tell his mother who filed for town board.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 10,
         "high": 16,
@@ -582,7 +620,9 @@
       "value": 0.6,
       "tag": "TUNABLE",
       "stopgapId": "SG-LIVES-director-kin-contact-impact",
-      "checkRange": { "ref": "LIVES-KIN-CONTACT-RANK" },
+      "checkRange": {
+        "ref": "LIVES-KIN-CONTACT-RANK"
+      },
       "citation": "Word from a relative living elsewhere at full closeness, scaled by the tie's closeness on the record (scaleFact), a small event that is told at home and never stops the day (SG-LIVES-kin-contact-traits).",
       "spread": {
         "low": 0.3,
@@ -620,7 +660,9 @@
       "tag": "TUNABLE",
       "citation": "An offer of help at its full weight (a close tie, in a candidate's first small local race), scaled by the offer's own weight (offerWeight in src/core2/modules/campaigns.ts: the race's size, the candidate's earlier campaigns and the tie). At full weight it is over the interrupt line (0.5) and stops the day as a scene; a stranger's offer in a first council race sits near filing to run (0.28) and waits its turn among the year's moments; an offer in a statewide or presidential race is a journal line (owner, Oct 27, 4 PM Eastern: volunteers stop the player only when they matter, in small local races or a first campaign).",
       "stopgapId": "SG-P13-param-directorInterruptImpact",
-      "checkRange": { "ref": "P13-OWNER-INTERRUPT-LINE" },
+      "checkRange": {
+        "ref": "P13-OWNER-INTERRUPT-LINE"
+      },
       "spread": {
         "low": 0.5,
         "high": 0.9,
@@ -1036,16 +1078,46 @@
     "citation": "Ordinary American hours by kind of place: a household awake from its morning to about 10 PM; visits and calls in the daytime and early evening; offices and workplaces on a daytime shift; local councils and boards often meeting in the evening; schools in a school day.",
     "spread": "Openings 6:00 to 10:00 AM and closings 3:00 to 11:00 PM by kind; checked against the American Time Use Survey's share of people at home, at work and in public places by hour.",
     "rows": {
-      "home": { "opens": null, "closes": 1320 },
-      "other-home": { "opens": 600, "closes": 1260 },
-      "phone": { "opens": null, "closes": 1290 },
-      "letter": { "opens": null, "closes": 1320 },
-      "workplace": { "opens": 480, "closes": 1080 },
-      "office": { "opens": 540, "closes": 1020 },
-      "chamber": { "opens": 540, "closes": 1290 },
-      "school": { "opens": 480, "closes": 930 },
-      "public": { "opens": 480, "closes": 1260 },
-      "venue": { "opens": 480, "closes": 1320 }
+      "home": {
+        "opens": null,
+        "closes": 1320
+      },
+      "other-home": {
+        "opens": 600,
+        "closes": 1260
+      },
+      "phone": {
+        "opens": null,
+        "closes": 1290
+      },
+      "letter": {
+        "opens": null,
+        "closes": 1320
+      },
+      "workplace": {
+        "opens": 480,
+        "closes": 1080
+      },
+      "office": {
+        "opens": 540,
+        "closes": 1020
+      },
+      "chamber": {
+        "opens": 540,
+        "closes": 1290
+      },
+      "school": {
+        "opens": 480,
+        "closes": 930
+      },
+      "public": {
+        "opens": 480,
+        "closes": 1260
+      },
+      "venue": {
+        "opens": 480,
+        "closes": 1320
+      }
     }
   },
   "interruptStop": {
@@ -1077,6 +1149,11 @@
     },
     {
       "eventKind": "party-asked",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "party-joined",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
     },

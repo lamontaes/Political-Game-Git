@@ -23,8 +23,14 @@ import parameters from "../data/campaigns/parameters.json" with { type: "json" }
 import { partySide } from "../appointments";
 import { worldRoster, worldSwing } from "../electorate-places";
 import { partyLean } from "../campaign-stances";
-import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import { coreAPI, fillInPerson, registerModule } from "../state";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByKey } from "../place-lookup";
 import { personLean } from "../campaign-views";
@@ -481,10 +487,13 @@ export function joinParty(
     : undefined;
   if (left && left.id !== party.id) api.leave(personId, left.organizationId);
   api.join(personId, party.organizationId);
-  // stopgapId: SG-PLAY-party-joined-scene-awaits-words
   // Joining is an act at a place with a person: the record the director's
   // scene, the journal and Travel read, at the party's office, with the
   // party's leader (its chair) as the one who signs them up.
+  // The leader is met the moment the person joins, so one still in the wider
+  // population is filled in as a full person.
+  if (party.leaderId && !api.state.people.has(party.leaderId))
+    fillInPerson(api.state as CoreState, party.leaderId as PersonId);
   const greeter =
     party.leaderId && api.state.people.has(party.leaderId)
       ? party.leaderId

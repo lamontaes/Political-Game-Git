@@ -4023,6 +4023,44 @@
           "when": {}
         }
       ]
+    },
+    "party-welcome": {
+      "state": "request",
+      "replies": ["agree", "ask", "deflect"],
+      "follow": {
+        "agree": ["thank"],
+        "ask": ["answer"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "press": ["agree", "leave"],
+        "answer": ["agree", "deflect"]
+      },
+      "endings": [
+        {
+          "id": "pledged",
+          "label": "You said you would pitch in",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree"]
+          }
+        },
+        {
+          "id": "kept-distance",
+          "label": "You kept your distance, and they noticed",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "left-it-open",
+          "label": "Left it open",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {

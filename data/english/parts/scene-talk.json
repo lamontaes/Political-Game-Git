@@ -134,7 +134,10 @@
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
     "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
     "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
-    "wanted": "What a bribe offer wants, the bill or the contract the offer record names."
+    "wanted": "What a bribe offer wants, the bill or the contract the offer record names.",
+    "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
+    "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
+    "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer)."
   },
   "maxWords": 70,
   "parts": [
@@ -178568,6 +178571,762 @@
       "tag": {
         "move": "comfort",
         "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-the-party-party-office-open-and-has-set-out-a-chair-for-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has the {party} Party office open and has set out a chair for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-step-into-the-party-party-office-and-name-looks-up-from-the-desk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You step into the {party} Party office, and {name} looks up from the desk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.come-in-come-in",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Come in, come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "greet",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-sit-down",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are. Sit down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "greet",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.welcome-most-people-sign-up-and-we-never-see-them-again-can-we-count-on-you-to-pitch-in-now-and-then",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Welcome. Most people sign up and we never see them again. Can we count on you to pitch in now and then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-glad-you-came-by-would-you-lend-a-hand-when-we-need-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm glad you came by. Would you lend a hand when we need one?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-put-me-down-for-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, put me down for that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-see-how-it-goes-first",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me see how it goes first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-get-going-thanks-for-the-welcome",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get going. Thanks for the welcome.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-only-wanted-to-say-hello",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I only wanted to say hello.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-it-means-a-lot-to-have-you-with-us",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. It means a lot to have you with us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-what-i-like-to-hear-welcome-aboard",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I like to hear. Welcome aboard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.even-one-evening-before-the-election-would-help",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Even one evening before the election would help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-run-on-people-who-show-up-one-evening-would-mean-a-lot",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We run on people who show up. One evening would mean a lot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-the-door-s-open-when-you-re-ready",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. The door's open when you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.no-pressure-come-by-when-you-can",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No pressure. Come by when you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-call-you-when-something-comes-up-good-to-have-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll call you when something comes up. Good to have you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-put-your-name-on-the-list-we-re-glad-you-re-here",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll put your name on the list. We're glad you're here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.no-hard-feelings-the-door-stays-open",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "No hard feelings. The door stays open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.we-could-use-you-i-hoped-you-d-say-yes",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We could use you. I hoped you'd say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "warn",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-we-ll-need-people-soon",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. We'll need people soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-too-long-there-s-plenty-to-do",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait too long. There's plenty to do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "warn",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.of-course-come-by-whenever-you-like",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Of course. Come by whenever you like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "close",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-the-party-actually-do-around-here",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does the party actually do around here?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-need-from-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you need from me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-hold-office-held-and-we-mean-to-keep-it-mostly-that-s-knocking-on-doors-an-evening-of-yours-helps-more-than-you-d-think",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We hold {office-held}, and we mean to keep it. Mostly that's knocking on doors. An evening of yours helps more than you'd think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["office-held"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-s-all-we-ve-got-here-office-held-and-we-work-to-keep-it-come-knock-doors-with-us-when-it-s-time-or-chip-in-what-you-can",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That's all we've got here, {office-held}, and we work to keep it. Come knock doors with us when it's time, or chip in what you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["office-held"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-ve-got-somebody-running-for-race-run-this-time-knock-doors-with-them-chip-in-or-just-show-up-at-an-event",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We've got somebody running for {race-run} this time. Knock doors with them, chip in, or just show up at an event.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["race-run"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.right-now-it-s-the-race-run-race-come-out-and-knock-doors-for-our-candidate-or-give-what-you-can",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Right now it's the {race-run} race. Come out and knock doors for our candidate, or give what you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["race-run"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.honestly-we-don-t-hold-anything-around-here-yet-that-s-why-we-need-people-who-ll-knock-doors-and-show-up",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Honestly, we don't hold anything around here yet. That's why we need people who'll knock doors and show up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["party-holds-nothing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.not-much-yet-we-don-t-hold-a-seat-here-if-you-ll-knock-doors-with-me-that-s-where-it-starts",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not much, yet. We don't hold a seat here. If you'll knock doors with me, that's where it starts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["party-holds-nothing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "welcomed"
       }
     }
   ]
