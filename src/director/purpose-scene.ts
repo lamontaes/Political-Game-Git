@@ -15,13 +15,21 @@ import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  policyAuthority,
+  type PolicyLevel,
+} from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
+import { townSeats } from "../core2/modules/offices";
 import {
   LEGISLATURE_MODULE_ID,
   absenceCarries,
   askPrice,
   billOf,
+  bodyRow,
   deskPassage,
   favorWorth,
   floorDateOf,
@@ -33,7 +41,12 @@ import {
   type DebateRow,
   type TownHallRow,
 } from "../core2/modules/meetings";
-import { VIEWS_MODULE_ID, stancesOf, viewOn } from "../core2/modules/views";
+import {
+  VIEWS_MODULE_ID,
+  stancesOf,
+  viewOf,
+  viewOn,
+} from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { dayAhead, inNextMonth } from "../english/day-words";
 import { P } from "../core2/parameters";
@@ -54,10 +67,15 @@ import {
 import { areaName } from "../english/area-names";
 import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
-import { storyTopicName, topicInSentence } from "../english/policy-names";
+import {
+  questionSubject,
+  questionTopic,
+  storyTopicName,
+  topicInSentence,
+} from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
-import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
+import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
 import {
   NEWS_MODULE_ID,
   NEWS_READ,
@@ -66,7 +84,7 @@ import {
 } from "../core2/modules/news";
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
-import { withArticle } from "../english/journal-words";
+import { seatSaid, withArticle } from "../english/journal-words";
 import { causeGroupName } from "../english/group-names";
 import { contractSaid } from "../english/contract-words";
 import {
@@ -122,6 +140,27 @@ const STATE_KEY_PREFIX = "US-";
 /** The moves engine's basis for a move to somewhere else in the same state. */
 const STATE_BASIS = "state";
 
+/** The levels of a place's own governments: its city, its town or township, its county. */
+const LOCAL_GOVERNMENTS: ReadonlySet<string> = new Set([
+  "city",
+  "township",
+  "county",
+]);
+
+/**
+ * A seat as the party's chair says it: a seat on a body ("a seat on the
+ * council"), or a single office ("the mayor's office"), from the one place
+ * that words seats.
+ */
+function seatPhrase(office: {
+  readonly title: string;
+  readonly seats?: number;
+  readonly bodyName?: string;
+}): string {
+  const said = seatSaid(office);
+  return said.startsWith("the ") ? `a seat on ${said}` : `the ${said}'s office`;
+}
+
 /** The public-action engine's record of a rally forming (`civic.rally`). */
 const RALLY_EVENT = "civic.rally";
 /** The disasters engine's record of a damaged home's household told what the aid and repairs came to (`HOME_DAMAGED_EVENT`, disasters.ts). */
@@ -130,6 +169,8 @@ import {
   ELECTIONS_MODULE_ID,
   ballot,
   incumbentOf,
+  openContests,
+  partyTie,
   petitionOf,
 } from "../core2/modules/elections";
 import {
@@ -842,8 +883,11 @@ function composeBinding(
         ? departure.destinationBasis === row.reason.slice("basis:".length)
         : (departure.reasons[row.reason] ?? P.zero) > P.zero,
     );
-    if (why)
+    if (why) {
       facts[why.fact] = { text: asker.givenName, sourceRecordIds: cited };
+      // The questions about why are offered only when a record names a reason.
+      facts["why-given"] = { text: asker.givenName, sourceRecordIds: cited };
+    }
   }
   // A prison term (justice.ts): a person home from prison, a sentence handed
   // down or a person held before trial, with how long, the day they get out,
@@ -1454,6 +1498,53 @@ function composeBinding(
   // the bill (`promised-against`) is said only from a record of one, which no
   // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
 
+  // Joining a party: the party the record names, by its name.
+  if (type.purpose === "party-welcome" && typeof said.party === "string") {
+    facts.party = { text: said.party, sourceRecordIds: [moment.causeId] };
+    // What the party holds and runs in this place, from the offices' terms and
+    // the open races' filings: the leader's answer to "what do you do here".
+    const api = coreAPI(core as CoreState);
+    const named = said.party.toLowerCase();
+    // A place whose own government is filed at the state level (it has no
+    // city, township or county offices, as in the District of Columbia and the
+    // territories) counts those offices as its local ones; read from the data.
+    const seats = townSeats(api);
+    const own = seats.some((row) => LOCAL_GOVERNMENTS.has(row.office.level))
+      ? LOCAL_GOVERNMENTS
+      : new Set([...LOCAL_GOVERNMENTS, "state"]);
+    const held = seats.find(
+      (row) =>
+        own.has(row.office.level) &&
+        (row.holder?.party?.toLowerCase() === named ||
+          (row.holder?.personId
+            ? partyTie(api, row.holder.personId)?.partyId === said.partyId
+            : false)),
+    );
+    const race = openContests(api).find(
+      (contest) =>
+        own.has(contest.level) &&
+        ballot(api, contest.id).some(
+          (filing) => filing.party?.toLowerCase() === named,
+        ),
+    );
+    // A race the party is running now is what its chair talks about; the seat
+    // it holds is said when nothing is running.
+    if (held && !race)
+      facts["office-held"] = {
+        text: seatPhrase(held.office),
+        sourceRecordIds: [held.holder!.id],
+      };
+    if (race)
+      facts["race-run"] = {
+        text: race.title.toLowerCase(),
+        sourceRecordIds: [race.id],
+      };
+    if (!held && !race)
+      facts["party-holds-nothing"] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId],
+      };
+  }
   // Taking office (offices.ts): the office by its title in the offices
   // engine's rows, whatever wording the record carries (a contest's title, or
   // an office's id from a dev start); an executive office goes on to an
@@ -1656,7 +1747,7 @@ function composeBinding(
     // question from their own views, with their side and the reason from
     // their life on record. One who has taken up no question of their own
     // has no view strong enough to name.
-    Object.assign(facts, doorViewFacts(core, askerId));
+    Object.assign(facts, doorViewFacts(core, askerId, door.contestId));
     // A second knock: the two have met at this door, so the player does not
     // introduce themself as a stranger again.
     if (door.knock.first === "false")
@@ -1940,39 +2031,147 @@ function officeSaidAloud(title: string): string {
 function doorViewFacts(
   core: Readonly<CoreState>,
   residentId: PersonId,
+  contestId: string,
 ): Record<string, Fact> {
   if (!core.modules.has(VIEWS_MODULE_ID)) return {};
   const api = coreAPI(core as CoreState);
   const own = new Set(stancesOf(api, residentId).map((row) => row.topic));
-  const top = own.size ? strongestQuestion(api, residentId) : null;
-  if (!top || !own.has(top.question))
-    return {
-      "no-view": {
-        text: "yes",
-        sourceRecordIds: [viewRecordId(residentId)],
-      },
-    };
+  const none = {
+    "no-view": {
+      text: "yes",
+      sourceRecordIds: [viewRecordId(residentId)],
+    },
+  };
+  const lean = viewOf(api, residentId)?.lean;
+  if (!own.size || lean === undefined) return none;
+  // A resident says a view as what it does to them (Words lead, rule 103):
+  // only a question their own record touches (their job, their bills, their
+  // home) on the side they hold, so one their life does not reach is not
+  // volunteered.
+  const touches = (question: string) =>
+    doorViewReason(
+      core,
+      residentId,
+      question,
+      viewOn(api, residentId, question, lean) > P.zero ? "for" : "against",
+    );
+  // What the office can touch comes first (rule 99): the strongest such view
+  // on a question the race's level of government may decide (the power
+  // catalog's one reader, `policyAuthority`), and only with none, the
+  // strongest of all, which the player cannot promise on.
+  const level = contestPolicyLevel(core, contestId);
+  const local = level
+    ? strongestQuestion(
+        api,
+        residentId,
+        (question) =>
+          own.has(question) &&
+          touches(question) !== null &&
+          policyAuthority(api, question, level).allowed,
+      )
+    : null;
+  const top =
+    local ??
+    strongestQuestion(
+      api,
+      residentId,
+      (question) => own.has(question) && touches(question) !== null,
+    );
+  if (!top || !own.has(top.question)) return none;
+  const reason = touches(top.question);
+  if (!reason) return none;
   const ids = [top.recordId];
-  const reason = viewReason(core, residentId, top.question, top.side);
   const facts: Record<string, Fact> = {
     about: { text: top.about, sourceRecordIds: ids },
     [`side-${top.side}`]: { text: "yes", sourceRecordIds: ids },
     "view-question": { text: top.question, sourceRecordIds: ids },
+    [local ? "office-decides" : "above-office"]: {
+      text: "yes",
+      sourceRecordIds: [contestId],
+    },
+    [`why-${reason.reason}`]: {
+      text: "yes",
+      sourceRecordIds: [...reason.recordIds],
+    },
   };
-  if (reason?.reason === "work") {
-    facts["why-work"] = { text: "yes", sourceRecordIds: [...reason.recordIds] };
+  if (reason.reason === "work")
     facts.workplace = {
       text: reason.employer,
       sourceRecordIds: [...reason.recordIds],
     };
-  }
-  if (reason?.reason === "money")
-    facts["why-money"] = {
-      text: "yes",
+  // A renter may say the rent they pay: their own money (rule 101).
+  else if (reason.reason === "rent" && reason.rentMinor)
+    facts.rent = {
+      text: moneySaid(reason.rentMinor),
       sourceRecordIds: [...reason.recordIds],
     };
   return facts;
 }
+
+/**
+ * What in a resident's own record a question touches: their work or their
+ * money (the views engine's reason, `viewReason`), else, for a housing
+ * question, the home they rent or own (the housing engine's dwelling).
+ */
+function doorViewReason(
+  core: Readonly<CoreState>,
+  residentId: PersonId,
+  question: string,
+  side: "for" | "against",
+):
+  | { reason: "work"; employer: string; recordIds: readonly string[] }
+  | {
+      reason: "money" | "rent" | "home";
+      recordIds: readonly string[];
+      rentMinor?: number;
+    }
+  | null {
+  const reason = viewReason(core, residentId, question, side);
+  if (reason) return reason;
+  if (questionSubject(question) !== HOUSING_SUBJECT) return null;
+  const householdId = core.people.get(residentId)?.householdId;
+  const home = householdId
+    ? dwellingTenure(coreAPI(core as CoreState), householdId)
+    : undefined;
+  // A renter feels every housing question; an owner only what zoning does
+  // to their street.
+  if (
+    !home ||
+    (home.tenure === "own" && questionTopic(question) !== ZONING_TOPIC)
+  )
+    return null;
+  return {
+    reason: home.tenure === "rent" ? "rent" : "home",
+    recordIds: [home.recordId],
+    ...(home.rentMinor ? { rentMinor: home.rentMinor } : {}),
+  };
+}
+const HOUSING_SUBJECT = "housing";
+const ZONING_TOPIC = "Planning and zoning";
+
+/**
+ * The level of government a race's seat sits at, as the power catalog reads
+ * it: the contest's own level, or for a township the level its board's row
+ * gives (data/offices/bodies.json). Null for none the catalog knows.
+ */
+function contestPolicyLevel(
+  core: Readonly<CoreState>,
+  contestId: string,
+): PolicyLevel | null {
+  const contest = coreAPI(core as CoreState)
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as { level: string } | undefined;
+  if (!contest) return null;
+  if (POLICY_LEVELS.has(contest.level)) return contest.level as PolicyLevel;
+  return bodyRow(`${contest.level}-board`)?.level ?? null;
+}
+const POLICY_LEVELS: ReadonlySet<string> = new Set([
+  "federal",
+  "state",
+  "county",
+  "city",
+]);
 
 /**
  * Where a colleague the player asks stands on the bill the record names: their

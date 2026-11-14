@@ -1754,6 +1754,38 @@ const filing: Builder = (read, f) => {
   );
 };
 
+/**
+ * The notice of election the town's clerk posts before an election day: the
+ * place, the day and every office on that ballot, read from the contests the
+ * record names (never a copy kept with the notice).
+ */
+const electionNotice: Builder = (read, f) => {
+  let ids: string[] = [];
+  try {
+    ids = JSON.parse(f.contestIds ?? "[]") as string[];
+  } catch {
+    ids = [];
+  }
+  const offices = [
+    ...new Set(
+      ids
+        .map((id) => read.contestTitle(id))
+        .filter((title): title is string => !!title),
+    ),
+  ];
+  const place = read.place();
+  if (!f.electionDate || !offices.length || !place) return null;
+  return story(
+    "election-notice",
+    {
+      place: read.fact(place),
+      date: read.fact(spokenDate(f.electionDate), ...ids),
+      office: read.fact(joinList(offices, "and"), ...ids),
+    },
+    ["place", "date", "office"],
+  );
+};
+
 /** A race's result: the winner and, when one is named, who they beat. */
 const electionResult: Builder = (read, f) => {
   let totals: Record<string, number> = {};
@@ -3509,8 +3541,21 @@ const REPORT_NOUNS: Readonly<Record<string, string>> = {
   robbery: "robberies",
   assault: "assaults",
 };
+/** What a kind of report is called when one kind rose, as people say it. */
+const RISING_NOUNS: Readonly<Record<string, string>> = {
+  burglary: "break-ins",
+  "other-property": "thefts",
+  vandalism: "vandalism",
+  robbery: "robberies",
+  assault: "assaults",
+};
+/** The town's usual month of police reports, from the wire item's record. */
+const usualOf = (f: Record<string, unknown>): number | undefined => {
+  const value = Number(f.usual);
+  return Number.isFinite(value) && value > 0 ? value : undefined;
+};
 /** The month's police log: how many crimes residents reported, and what most were. */
-const policeLog: Builder = (read) => {
+const policeLog: Builder = (read, f) => {
   const month = /^police-log:(\d{4}-\d{2})$/.exec(read.sourceId)?.[1];
   const place = read.place();
   const row = month
@@ -3528,6 +3573,12 @@ const policeLog: Builder = (read) => {
   const top = [...reported].sort(
     (a, b) => b.n - a.n || a.type.localeCompare(b.type),
   )[0]!;
+  const rising = f.rising ? RISING_NOUNS[String(f.rising)] : undefined;
+  // The town's usual month, rounded once; the extra is the month's count over
+  // that figure (a town whose usual rounds to none has the whole count over).
+  const usualRounded = Math.round(usualOf(f) ?? 0);
+  const over = usualOf(f) ? total - usualRounded : 0;
+  const extra = over >= 1 ? over : undefined;
   return story(
     "police-log",
     {
@@ -3536,6 +3587,21 @@ const policeLog: Builder = (read) => {
       number: read.fact(count(total), row.id),
       crimes: read.fact(REPORT_NOUNS[top.type]!, row.id),
       ...(reported.length === 1 ? { "one-kind": read.yes() } : {}),
+      // How the month stands against the town's own usual, from the wire
+      // item's record: said only when the month is over it. The usual is
+      // rounded once and the extra taken from it, so the figures add up.
+      ...(extra !== undefined
+        ? {
+            extra: read.fact(count(extra), row.id),
+            ...(usualRounded >= 1
+              ? { usual: read.fact(count(usualRounded), row.id) }
+              : {}),
+          }
+        : {}),
+      ...(extra !== undefined && rising
+        ? { rising: read.fact(rising, row.id) }
+        : {}),
+      ...(extra !== undefined && f.busier ? { busier: read.yes() } : {}),
     },
     ["place", "number"],
   );
@@ -3942,6 +4008,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "claim-checked": claimCheck,
   debate,
   "candidate-filed": filing,
+  "election-notice": electionNotice,
   "election-result": electionResult,
   "primary-result": primary,
   "took-office": tookOffice,
