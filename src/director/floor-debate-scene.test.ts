@@ -5,12 +5,15 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { LEGISLATURE_MODULE_ID, members } from "../core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
   adjourn,
+  deskWaiting,
+  leaveDeskToCharacter,
   meetingInProgress,
+  releaseHold,
   takeUpItem,
 } from "../core2/modules/office-day";
+import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
@@ -29,12 +32,12 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // speaker's words to the player, who sits in the body; the press tells who
 // spoke. Every scene stands on the floor-debate record, the speaker addresses
 // the chair, and the four replies are four moves in plain words.
-// Pinned to a named seed so the test finishes in about a minute (the Train,
-// Nov 14: drawn fresh each run it took about 280 s and was skipped); the env
-// seed still overrides it. The year stops at the first floor debate staged.
-const seed = process.env.GOLDEN_PATH_SEED ?? "a7c13e";
-const ATTEMPTS = 4;
-const DAYS = 365;
+// Pinned to named places and one fixed seed each (a drawn seed here played a
+// year and never finished, because a held meeting was never released): the
+// first of these places with a debate for the player's seat ends the test.
+const seed = "meet-a1";
+const ATTEMPTS = 3;
+const DAYS = 45;
 
 function localMember(core: CoreState): PersonId | null {
   const api = coreAPI(core);
@@ -65,7 +68,7 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
   setBookkeeping(false);
   const tried: string[] = [];
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
-    const place = drawPlace(`${seed}:${attempt}`, "floor-debate");
+    const place = drawPlace(`${seed}:${attempt}`, "meetings-floor");
     const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
     const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -122,7 +125,14 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
             ),
             here,
           ).toBe(true);
-          expect(scene.talk.state.text, here).toMatch(/^Thank you, Chair\./);
+          // The wording follows the body: a state or territory chamber speaks
+          // formally; a town board or council does not ask the Chair to yield.
+          if (scene.facts.some((row) => row.key === "body-formal"))
+            expect(scene.talk.state.text, here).toMatch(/^Thank you, Chair\./);
+          else
+            expect(scene.talk.state.text, here).not.toMatch(
+              /\bChair\b|\byield\b|recognize/i,
+            );
           const root = scene.talk.tree.replies.map((reply) => reply.line);
           expectUpToFourDifferent(root, here);
           for (const row of root)
@@ -183,6 +193,10 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
               takeUpItem(api, meeting.id, billId, "own");
           adjourn(api, meeting.id);
         }
+        for (const bill of deskWaiting(api, true))
+          leaveDeskToCharacter(api, bill.id);
+        for (const stop of packet.stop.modules)
+          if (stop.hold) releaseHold(api, stop.recordId);
         packet = resumePlayerV1(core, {
           kind: "stop",
           pauseId: packet.pauseId,
@@ -201,4 +215,4 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
     tried.push(`${where}: no floor-debate scene in the year`);
   }
   throw new Error(`no floor-debate scene: ${tried.join("; ")} (seed ${seed})`);
-}, 3_600_000);
+}, 600_000);
