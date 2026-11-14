@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1428,
+  "judged": 1422,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -412,19 +412,6 @@
         "scene-talk.reply-decline.i-can-t-stop-a-landlord-from-filing-i-can-tell-you-where-tenants-get-free-help"
       ],
       "why": "Legal aid, the caseworker and 'I can't stop a landlord' are the first legal aid, caseworker and town-can't-pay options again."
-    },
-    "04wp5dx2w57": {
-      "keys": [
-        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-accept.i-ll-take-it-this-stays-here",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.you-know-i-have-to-report-this"
-      ],
-      "why": "Taking it, 'pick that up and go' and 'I have to report this' are the first accept, take-back and report options again."
     },
     "04wpjmu3gn0": {
       "keys": [
@@ -1988,19 +1975,6 @@
         "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
       ],
       "why": "Both replies restate the first no and 'I've said what I'm going to say'."
-    },
-    "0oav9tj61oo": {
-      "keys": [
-        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-accept.keep-this-between-us",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in"
-      ],
-      "why": "'Keep this between us', 'Pick that up and go' and 'I'm calling this in' are the first accept, take-it-back and report options again."
     },
     "0ocsimsaj8v": {
       "keys": [
@@ -4858,19 +4832,6 @@
       ],
       "why": "'I'll tell you everything' and 'I'm sorry. I let you down' reword the opening explanation and apology, two of three."
     },
-    "1uodsl6p1af": {
-      "keys": [
-        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-accept.i-ll-take-it-this-stays-here",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it"
-      ],
-      "why": "Taking it, 'pick that up and go' and reporting the bribe are the first accept, take-back and report options again."
-    },
     "1uxkxyj7tty": {
       "keys": [
         "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
@@ -5857,19 +5818,6 @@
       ],
       "why": "Won't be bought, leaving it for him to handle, reporting and 'take your envelope' replay the first four options."
     },
-    "2ct3iv7x0zk": {
-      "keys": [
-        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
-        "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
-        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
-        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
-        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
-        "scene-talk.reply-accept.i-didn-t-see-you-come-in",
-        "scene-talk.reply-refuse.i-don-t-take-money-from-you-or-from-anyone",
-        "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it"
-      ],
-      "why": "'I don't take money' and reporting the bribe restate the first take-it-back and report options, leaving one new line."
-    },
     "2cy6u1opwoa": {
       "keys": [
         "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
@@ -6068,5 +6016,5 @@
       "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "0qh0glldeui"
+  "yesHash": "0vg6p0pzv1o"
 }

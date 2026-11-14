@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1427,
+  "judged": 1421,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -2868,15 +2868,6 @@
       ],
       "why": "\"I'm still where I was\" and sleeping on it are a bare stance and a delay."
     },
-    "15kro9es50m": {
-      "keys": [
-        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
-        "scene-talk.reply-accept.i-ll-take-it-this-stays-here",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.you-know-i-have-to-report-this"
-      ],
-      "why": "Taking it, 'Pick that up and go' and 'You know I have to report this' answer 'Name a number' with no reason given."
-    },
     "15p26mf2a1v": {
       "keys": [
         "scene-talk.follow-plea.okay-but-the-room-s-getting-quiet-out-there",
@@ -3659,15 +3650,6 @@
         "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
       ],
       "why": "Agreeing, apologizing and splashing water carry no reason."
-    },
-    "1ffy2bs5jve": {
-      "keys": [
-        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
-        "scene-talk.reply-accept.keep-this-between-us",
-        "scene-talk.reply-refuse.pick-that-up-and-go",
-        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in"
-      ],
-      "why": "'Keep this between us', 'Pick that up and go' and 'I'm calling this in' answer 'Name a number' with no reason."
     },
     "1fozc7g74ex": {
       "keys": [
@@ -6082,5 +6064,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "22urqp7y6d7"
+  "yesHash": "00x4bnjltin"
 }
