@@ -1,11 +1,18 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {},
+  "pulled": {
+    "conversation.farewell-core.talk-soon-player-first": ["no-talk-to-you-soon"]
+  },
   "waiting": {},
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
     ],
+    "conversation.farewell-core.all-right-then-player-fir": [
+      "alright-in-dialogue"
+    ],
+    "conversation.farewell-core.well-goodbye-player-first": ["no-filler"],
+    "conversation.farewell-core.well-player-first-goodbye": ["no-filler"],
     "conversation.farewell-leave-bye.all-right-then": ["alright-in-dialogue"],
     "conversation.farewell-leave-bye.well-good-luck": ["no-filler"],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],

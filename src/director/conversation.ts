@@ -377,6 +377,8 @@ export interface Conversation {
   topicFacts?: Facts;
   /** The policy questions this talk named (internal): kept as heard today, so a housemate names another. */
   questions?: string[];
+  /** The questions the address named in this talk (internal): a stand on one is not raised again (round 11, rule 77). */
+  pointed?: string[];
   /** The player gave their name in this talk, so the other may now say it (internal). */
   nameGiven?: boolean;
   /** The minute of the day the talk is had at, when the caller gave it (internal). */
@@ -464,6 +466,9 @@ function titleWords(
   return said?.kind === "title" ? said.asJob : undefined;
 }
 
+const HEAD_TITLE =
+  /\b(chief|director|manager|officer|superintendent|administrator|commissioner|supervisor|principal|clerk of|head|president)\b/i;
+
 /**
  * What a person does at their job and, when the employer is out of their
  * town, the town it is in: from the job record's title and the employer's
@@ -478,8 +483,16 @@ function workDetail(
 ): Facts {
   const facts: Facts = {};
   const title = titleWords(held.job.title, held.org);
-  if (title)
+  if (title) {
     facts[slots.position] = { text: title, sourceRecordIds: [held.job.id] };
+    // A title that heads a department or a body is not "just" anything
+    // (round 11, rule 81).
+    if (HEAD_TITLE.test(title))
+      facts[`${slots.position}-head`] = {
+        text: "yes",
+        sourceRecordIds: [held.job.id],
+      };
+  }
   const away =
     slots.place && held.org.placeId !== person.placeId
       ? corePlaceByJurisdictionId(held.org.placeId as never)
@@ -1218,6 +1231,8 @@ function rentDue(
     aboutId: lease.id,
     facts: {
       rent: { text: moneySaid(lease.amountMinor), sourceRecordIds: [lease.id] },
+      // The figure is said once; the replies say "the rent" (round 11, rule 79).
+      "rent-again": { text: "the rent", sourceRecordIds: [lease.id] },
       due: { text: daysSaid(days), sourceRecordIds: [lease.id] },
       [standing]: { text: "yes", sourceRecordIds: [lease.id, ...ids] },
     },
@@ -3129,6 +3144,18 @@ function pointSubject(
   facts.decider = { text: saidAsData.deciders.federal, sourceRecordIds: said };
   mark(`${pick.point.kind}-point`, said);
   if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
+  // The lead's grammar: a stance that answers "is for" reads only after
+  // such a lead, one that answers "said no to" only after that (round 11,
+  // rule 75). Fixed by the speaker and the question, never rolled.
+  if (pick.point.stance) {
+    const forms =
+      pick.point.stance === "against" ? ["plain", "is", "no"] : ["plain", "is"];
+    const sum = [...stableHash(`${speakerId}:${pick.point.question}`)].reduce(
+      (n, c) => n + c.charCodeAt(0),
+      0,
+    );
+    mark(`lead-${forms[sum % forms.length]}`, said);
+  }
   mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
   if (pick.reason === "work") {
     mark("why-work", pick.reasonIds);
@@ -4168,6 +4195,8 @@ function raiseSubject(
   // The policy question it names is named for the house today.
   const question = subject.news?.question ?? subject.point?.question;
   if (question) (conversation.questions ??= []).push(question);
+  if (subject.point?.question)
+    (conversation.pointed ??= []).push(subject.point.question);
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
     conversation.used.push(subject.id);
@@ -4371,7 +4400,8 @@ function otherRaises(
         // engine's willingness): a stranger keeps where they stand.
         (!(row.weight ?? zero) ||
           !row.news?.question ||
-          !(conversation.questions ?? []).includes(row.news.question))
+          !(conversation.questions ?? []).includes(row.news.question) ||
+          (conversation.pointed ?? []).includes(row.news.question))
       ) &&
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !conversation.used.includes(row.id) &&
@@ -6322,6 +6352,8 @@ function partingLine(
     const mine = jobOf(core, player);
     if (mine) mark("player-works", [mine.job.id]);
     if (!housemate) mark("not-housemate", [speakerId]);
+    // "Thanks for the company" needs a talk of four exchanges (round 11).
+    if (conversation.lines.length >= 8) mark("long-talk", [speakerId]);
     for (const part of dayParts(
       conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId),
     ))

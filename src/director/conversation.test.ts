@@ -1451,6 +1451,38 @@ describe("hellos and goodbyes are composed from the records", () => {
     expect(composed.size).toBeGreaterThanOrEqual(30);
   });
 
+  it("never says a slot's own name as its replacement, ends on one goodbye, and keeps the closing words to their talks (round 11, rules 74, 80, 81)", () => {
+    for (const otherId of everyone().slice(0, 120)) {
+      const talk = play(otherId);
+      for (const line of talk.lines) {
+        expect(line.text, `${otherId}: ${line.text}`).not.toMatch(
+          /\b(at|with|for) work\?/,
+        );
+        expect(line.text).not.toMatch(/Drive safe/);
+        // "just" a head of a department or a body is never said.
+        expect(line.text).not.toMatch(
+          /\bjust (a|an|the) [^.]*\b(chief|director|manager)\b/i,
+        );
+      }
+      const farewells = talk.lines.filter((line) => line.kind === "farewell");
+      expect(farewells.length, `${otherId}`).toBeLessThanOrEqual(1);
+      for (const bye of farewells) {
+        // One goodbye: a name-closing core takes no closer after it.
+        const sentences = bye.text.match(/[^.!?]+[.!?]/g) ?? [];
+        expect(
+          sentences.filter((sentence) =>
+            /^(Take care of yourself|Look after yourself|Until next time|Take it easy|Keep well)/.test(
+              sentence.trim(),
+            ),
+          ).length,
+          bye.text,
+        ).toBeLessThanOrEqual(1);
+        if (/Thanks for the company/.test(bye.text))
+          expect(talk.lines.length, bye.text).toBeGreaterThanOrEqual(8);
+      }
+    }
+  });
+
   it("at home, a talk given the evening's minute (the opening night) never says goodbye for the morning", () => {
     const housemates = [
       ...(core.households.get(me.householdId)?.memberIds ?? []),

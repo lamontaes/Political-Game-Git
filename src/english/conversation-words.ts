@@ -433,6 +433,7 @@ export function composedConversationBank(
                 ),
               }
             : {}),
+          ...(use.closesTalk ? { closesTalk: true } : {}),
           ...(piece.bearing ? { bearing: piece.bearing } : {}),
         });
   const bank: ComposedLineBank | null = parts.core?.length

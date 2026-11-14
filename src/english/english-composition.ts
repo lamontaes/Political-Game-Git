@@ -114,6 +114,8 @@ export type LinePartVariant = AuthoredEnglishVariant & {
    * recorded life.
    */
   readonly device?: SpeechDevice;
+  /** A core that is already a goodbye: no closer follows it. */
+  readonly closesTalk?: boolean;
 };
 
 export interface LinePartBank {
@@ -283,7 +285,9 @@ export function composeGroundedLine(
   const sourceRecordIds = new Set<EntityId>();
   const reasons: string[] = [];
 
+  let closed = false;
   for (const part of LINE_PARTS) {
+    if (part === "closer" && closed) continue;
     // Agreeing is short: it gives no reason.
     if (part === "reason" && bank.act === "agree") continue;
     const own = bank.parts[part];
@@ -401,6 +405,7 @@ export function composeGroundedLine(
       continue;
     }
 
+    if (part === "core" && chosen.closesTalk) closed = true;
     parts.push({
       part,
       partKey: `${bankKey}:${part}:${rendered.variantKey}`,

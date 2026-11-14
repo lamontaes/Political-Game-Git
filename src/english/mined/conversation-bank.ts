@@ -36,6 +36,8 @@ export interface MinedUse {
   requiresFacts?: string[];
   /** Facts whose presence holds the piece back. */
   excludesFacts?: string[];
+  /** A core that is itself a goodbye: no closer follows it (round 11, rule 80). */
+  closesTalk?: boolean;
   /** A `reason` piece: the role of the lines it may follow (`raise`, `reply`, `answer`), joined after them by the engine. */
   for?: string;
 }
