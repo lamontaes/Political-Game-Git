@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 599,
+  "judged": 1017,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -21,23 +21,6 @@
         "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
       ],
       "why": "A yes, a repeated no and a callback carry no reason."
-    },
-    "00bo0dp5aop": {
-      "keys": [
-        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Repeat and said all, no reason."
-    },
-    "00f1yvpwojn": {
-      "keys": [
-        "scene-talk.follow-answer.friend.because-i-wasn-t-sure-i-could-ask-you-and-still-do-what-was-right-first",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first"
-      ],
-      "why": "\"You deserve the truth,\" a denial of what they were told, and an apology carry no reason."
     },
     "00k5fegr8q7": {
       "keys": [
@@ -67,15 +50,6 @@
         "scene-talk.reply-leave.i-m-late-send-me-what-you-plan-to-print"
       ],
       "why": "Promising to say it anywhere, answering at the next meeting, accusing bias and leaving give no reason."
-    },
-    "00qfs4l9ey8": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "A promise to tell, a dare to put it in writing and \"We're voting\" have no reason in them."
     },
     "00wo7693xqn": {
       "keys": [
@@ -122,15 +96,6 @@
       ],
       "why": "'I'll run', 'I'm not the one for it' and a thankful exit give no reason."
     },
-    "019bzeey3p5": {
-      "keys": [
-        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Refusal and two exits, none giving a reason."
-    },
     "01cznh787j1": {
       "keys": [
         "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
@@ -148,16 +113,6 @@
         "scene-talk.reply-leave.i-m-going-to-clean-out-my-locker"
       ],
       "why": "Thanks and an exit to the locker carry no argument."
-    },
-    "01lwykyrshm": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
-        "scene-talk.reply-confront.hearsay.you-can-t-take-it-back-now-and-neither-can-i",
-        "scene-talk.reply-leave.hearsay.i-won-t-be-pulled-into-this-we-re-finished"
-      ],
-      "why": "Denial, a promise, \"can't take it back\" and \"We're finished\" hold no argument."
     },
     "01pfonio9e7": {
       "keys": [
@@ -221,24 +176,6 @@
       ],
       "why": "Bare promises and a guard-driven exit carry no argument or reason."
     },
-    "02ajsebcnit": {
-      "keys": [
-        "scene-talk.follow-answer.i-only-want-you-taken-care-of-first-whatever-you-can-manage-is-enough-for-me",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now"
-      ],
-      "why": "\"Yes,\" a bare promise and an unexplained can't carry no reason."
-    },
-    "02dcmzxbjf8": {
-      "keys": [
-        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Refusal, clerk and exit with no reason."
-    },
     "02hkcn0qbi0": {
       "keys": [
         "scene-talk.follow-bargain.i-can-do-that-but-let-s-say-the-dishes-and-the-trash-are-mine-and-the",
@@ -246,15 +183,6 @@
         "scene-talk.reply-leave.that-s-enough-for-now-we-ll-finish-this-later"
       ],
       "why": "\"Done\" and \"We'll finish this later\" are closers with no reason."
-    },
-    "02kha0g9u9l": {
-      "keys": [
-        "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "\"You deserve the truth,\" a contradiction of what they heard and \"We're voting\" carry no argument."
     },
     "02ryk9nkzfk": {
       "keys": [
@@ -304,24 +232,6 @@
       ],
       "why": "Accepting on their terms, agreeing to talk, a polite no and a callback give no reason of the player's own."
     },
-    "042aqwn96r3": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "Denial, \"I'm not afraid of an investigation\" and \"I'm done talking\" are stances without reasons."
-    },
-    "049gq8mkw8s": {
-      "keys": [
-        "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there"
-      ],
-      "why": "A promise to tell, a reproach and a refusal to argue give no reason."
-    },
     "04dqg8bqxmo": {
       "keys": [
         "scene-talk.follow-confront.i-swung-at-your-bill-you-swung-at-me",
@@ -356,16 +266,6 @@
         "scene-talk.reply-leave.we-re-finished-here"
       ],
       "why": "\"Here's my answer, and you can print every word\" announces an answer without giving one, and the other reply ends the talk."
-    },
-    "054cc14hs3e": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
-        "scene-talk.reply-confront.hearsay.you-can-t-take-it-back-now-and-neither-can-i",
-        "scene-talk.reply-leave.hearsay.i-won-t-be-pulled-into-this-we-re-finished"
-      ],
-      "why": "Denial, a promise, \"can't take it back\" and \"We're finished\" carry no reason."
     },
     "05hzuvtp3m5": {
       "keys": [
@@ -422,15 +322,6 @@
       ],
       "why": "A question, a yes, a pass and a callback offer no reason."
     },
-    "061p28zxk9m": {
-      "keys": [
-        "scene-talk.follow-ask.witness.then-why-offer-it-at-all-first",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today"
-      ],
-      "why": "A promise to tell, a confession and a refusal answer why without giving a reason."
-    },
     "064smlftoa5": {
       "keys": [
         "scene-talk.follow-press.say-it-out-loud-then-at-the-meeting",
@@ -447,15 +338,6 @@
       ],
       "why": "Standing to answer and promising to explain are promises, not reasons."
     },
-    "06c812yg8d3": {
-      "keys": [
-        "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there"
-      ],
-      "why": "A promise to tell, a reproach without grounds and a refusal give no argument."
-    },
     "06escwb0wix": {
       "keys": [
         "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
@@ -463,25 +345,6 @@
         "scene-talk.reply-leave.i-m-too-tired-to-do-this-right-tomorrow"
       ],
       "why": "Accepting a fight at the mic or being too tired gives no argument in reply."
-    },
-    "06iuv4io88v": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Promise to tell, apology, writing dare and exit carry no reason."
-    },
-    "06ksvbd6tv9": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "A promise not to dress it up, an apology and \"We're voting\" carry no reason."
     },
     "06mqy4lk430": {
       "keys": [
@@ -527,14 +390,6 @@
       ],
       "why": "Calling, tea and a morning visit are plans without reasons."
     },
-    "07b6jj4jexs": {
-      "keys": [
-        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "A flat no and \"I'm done talking\" give no reason."
-    },
     "07ci8kj2t3x": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -552,15 +407,6 @@
         "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
       ],
       "why": "Making the call, waiting with a promise to eat it, and stepping out give no reason."
-    },
-    "087ez9zm89o": {
-      "keys": [
-        "scene-talk.follow-answer.friend.because-i-wasn-t-sure-i-could-ask-you-and-still-do-what-was-right-first",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position"
-      ],
-      "why": "\"You deserve the truth,\" a sworn denial and a longer apology are promise, denial and regret with no reason."
     },
     "088d0mgdagh": {
       "keys": [
@@ -609,16 +455,6 @@
       ],
       "why": "Calling tonight, sending it over, preferring tonight and an exit carry no argument."
     },
-    "08tkfh69vb3": {
-      "keys": [
-        "scene-talk.state-request.would-you-stand-with-us-for-a-picture-first-i-want-one-with-the-whole-family-in-it",
-        "scene-talk.reply-agree.alright-yes-i-can-do-that",
-        "scene-talk.reply-promise.i-ll-make-sure-it-happens-and-i-won-t-forget",
-        "scene-talk.reply-ask.what-exactly-do-you-want-me-to-do",
-        "scene-talk.reply-decline.i-d-like-to-but-i-can-t-do-that-today-i-hope-you-understand"
-      ],
-      "why": "The replies accept, promise, ask or refuse \"today\" without a reason."
-    },
     "08x0c9nehf5": {
       "keys": [
         "scene-talk.beat-beat.two-more-cameras-swing-toward-you",
@@ -637,15 +473,6 @@
       ],
       "why": "\"You can quote me\" and \"We're done here\" carry no argument."
     },
-    "09db4brfn5p": {
-      "keys": [
-        "scene-talk.follow-press.i-thought-of-you-first-first-can-you-tell-me-what-s-in-the-way",
-        "scene-talk.reply-agree.alright-you-re-right-i-ll-make-it-work",
-        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-look-at-what-i-have",
-        "scene-talk.reply-leave.i-m-sorry-but-i-can-t-stay-and-argue-about-it-let-s-pick-it-back-up-tomorrow"
-      ],
-      "why": "Asked what is in the way, the replies agree, promise or leave without naming any reason."
-    },
     "09dg7paglpj": {
       "keys": [
         "scene-talk.follow-press.five-i-ll-hold-the-phone",
@@ -663,16 +490,6 @@
         "scene-talk.reply-leave.show-me-where-to-hang-my-coat-and-i-m-ready"
       ],
       "why": "A question, a jab that somebody handed over their shifts and a ready line carry no reason."
-    },
-    "09ivjixqsbq": {
-      "keys": [
-        "scene-talk.state-request.i-m-going-to-the-next-meeting-of-the-party-first-do-you-want-to-come-with-me",
-        "scene-talk.reply-agree.sure-you-can-count-on-me",
-        "scene-talk.reply-promise.i-ll-make-it-work-you-have-my-word",
-        "scene-talk.reply-ask.what-made-you-think-of-me-for-it",
-        "scene-talk.reply-decline.i-m-sorry-but-i-can-t-make-that-work-this-time"
-      ],
-      "why": "The replies accept, promise, ask why or refuse with no reason given for any of them."
     },
     "09jpywlgfnw": {
       "keys": [
@@ -772,23 +589,6 @@
       ],
       "why": "Agreeing, apologizing and stepping out give no reason."
     },
-    "0bznp8mghqa": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "\"Where did you hear that?\" and \"We're voting\" carry no reason."
-    },
-    "0c1ban4hvym": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "Denial, not fearing an investigation and \"I'm done talking\" contain no reason."
-    },
     "0c4vwipw319": {
       "keys": [
         "scene-talk.follow-press.it-can-t-that-s-the-problem-please",
@@ -797,15 +597,6 @@
         "scene-talk.reply-leave.i-ll-come-back-tomorrow-try-to-sleep"
       ],
       "why": "Calling, soup and coming back are bare plans."
-    },
-    "0c7metrwi1k": {
-      "keys": [
-        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
-        "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
-        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
-        "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
-      ],
-      "why": "Hearing it from me, a regret about not walking away, and handing it to the prosecutor are stance, apology and exit with no reason."
     },
     "0caybpn00xx": {
       "keys": [
@@ -834,16 +625,6 @@
         "scene-talk.reply-leave.thank-you-chair-ill-hear-the-rest-from-my-seat"
       ],
       "why": "The three floor replies state positions without a reason."
-    },
-    "0d2z8vjvbyn": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "The replies promise to tell, apologize, dare the accuser or close the talk, but none gives a reason."
     },
     "0daajsdmurg": {
       "keys": [
@@ -881,24 +662,6 @@
         "scene-talk.reply-leave.we-re-done-here"
       ],
       "why": "Off the record, \"We'll know more next week\" and \"We're done here\" are all evasions without a reason."
-    },
-    "0ds0o16lzdr": {
-      "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses",
-        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "Two apologies and a deferral, none with a reason."
-    },
-    "0dubciy3g9p": {
-      "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down",
-        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "Apologies, a promise and a deferral with no reason."
     },
     "0dwj2pkcxwz": {
       "keys": [
@@ -1019,16 +782,6 @@
       ],
       "why": "A ten-minute meeting, a request for their argument, a deferral and an exit carry no reason."
     },
-    "0fv1u4901yb": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "Confession, denial, defiance and an exit carry no argument."
-    },
     "0g3yi5tgx2m": {
       "keys": [
         "scene-talk.state-tell.thank-you-chair-i-ask-the-body-to-hear-me-on-this",
@@ -1064,16 +817,6 @@
         "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
       ],
       "why": "'You can count on me', the vote-versus-hearing promise, the phone deflection and the exit are positions with no reason attached."
-    },
-    "0gimfoe55tj": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "Apology, denial, deferral to the prosecutor and an exit carry no argument."
     },
     "0gjhb710qs4": {
       "keys": [
@@ -1131,16 +874,6 @@
       ],
       "why": "\"Point taken\" and a question about the workplace carry no reason."
     },
-    "0gy407qayrz": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "Promise to tell, apology, writing dare and \"We're voting\" carry no argument."
-    },
     "0h1lzn5vkoo": {
       "keys": [
         "scene-talk.follow-confront.welcome-to-public-service",
@@ -1178,16 +911,6 @@
       ],
       "why": "Standing to answer and promising to tell them why are promises, not reasons."
     },
-    "0hmnxweg64h": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Promise to tell, a confession, a writing dare and an exit offer no argument or reason."
-    },
     "0hqm252zkof": {
       "keys": [
         "scene-talk.beat-beat.two-people-near-the-back-lean-together-and-whisper",
@@ -1196,23 +919,6 @@
         "scene-talk.reply-lie.it-s-already-on-the-calendar"
       ],
       "why": "An apology, 'Next question' and 'It's already on the calendar' give no reason."
-    },
-    "0hyohuodhkb": {
-      "keys": [
-        "scene-talk.follow-answer.hearsay.it-came-from-someone-i-trust-first-that-s-all-i-ll-say",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "A promise to tell, a denial and a conditional refusal carry no reason."
-    },
-    "0icdu27e3z8": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment",
-        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse"
-      ],
-      "why": "An apology and \"It's late\" offer no argument."
     },
     "0idrgz3kb93": {
       "keys": [
@@ -1332,15 +1038,6 @@
       ],
       "why": "Conceding it was personal, saying we read the room differently, and pleading tiredness give no argument about whose name was heard."
     },
-    "0jkbxmdy6fg": {
-      "keys": [
-        "scene-talk.follow-answer.hearsay.it-came-from-someone-i-trust-first-that-s-all-i-ll-say",
-        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today"
-      ],
-      "why": "A promise to say which part is true, a denial and a refusal give no reason."
-    },
     "0jnio1wyu18": {
       "keys": [
         "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
@@ -1360,15 +1057,6 @@
       ],
       "why": "Giving in for lunch, an apologetic no and a road-money trade carry no reason."
     },
-    "0jvwxyicgdd": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "\"You deserve the truth,\" an apology and a postponement carry no reason."
-    },
     "0jynruphgdt": {
       "keys": [
         "scene-talk.follow-answer.that-it-s-serious-and-that-i-m-supposed-to-rest-i-ve-never-been-any-go",
@@ -1377,15 +1065,6 @@
         "scene-talk.reply-leave.you-need-to-rest-i-ll-come-back-in-the-morning"
       ],
       "why": "Calling, staying and coming back are bare plans with no reason given."
-    },
-    "0k0hq90w79d": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "A vow to deny it and two closing lines hold no reasoning."
     },
     "0kcdyskvmsu": {
       "keys": [
@@ -1413,15 +1092,6 @@
         "scene-talk.reply-lie.it-never-got-this-much-attention-here-until-you-called"
       ],
       "why": "\"I'm leaning yes,\" \"They'll see when I vote,\" \"I've said\" and the remark about attention offer no reason for a stance."
-    },
-    "0kjwd0wgvch": {
-      "keys": [
-        "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
-        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
-        "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there"
-      ],
-      "why": "A promise to say which part is true, a reproach and a refusal give no argument."
     },
     "0kkhmhx9v5f": {
       "keys": [
@@ -1508,15 +1178,6 @@
       ],
       "why": "A conditional okay, an unexplained can't and a request for a minute carry no reason."
     },
-    "0m2ema7i5cn": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today"
-      ],
-      "why": "A promise, a denial and a refusal to answer give no reason."
-    },
     "0m66o1rs6mj": {
       "keys": [
         "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
@@ -1535,16 +1196,6 @@
       ],
       "why": "Asking what running takes, signing up, 'I can't. Not this time' and 'let me talk it over' give no reason."
     },
-    "0mgrjla31j8": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "Apology, denial and two closing lines carry no argument or reason."
-    },
     "0mnr56k22wo": {
       "keys": [
         "scene-talk.follow-plea.please-not-as-a-member-as-me",
@@ -1553,23 +1204,6 @@
         "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it"
       ],
       "why": "Giving in for lunch, an apologetic no and a road-money trade carry no reason."
-    },
-    "0n0mlcp7fwy": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "A question back and a conditional refusal offer no argument."
-    },
-    "0n6lw40vuzq": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses",
-        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "Apologies, a promise and a deferral offer no reason."
     },
     "0n6xyrmj1hx": {
       "keys": [
@@ -1635,25 +1269,6 @@
       ],
       "why": "A promised why, not having seen the language and \"We're done here\" never state a reason."
     },
-    "0o23ltafc5y": {
-      "keys": [
-        "scene-talk.state-request.the-term-is-over-first-we-have-to-decide-what-happens-now-and-i-don-t-want-to-put-it-off",
-        "scene-talk.reply-agree.alright-we-ll-work-it-out-together",
-        "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see",
-        "scene-talk.reply-ask.what-do-you-need-most-right-now",
-        "scene-talk.reply-deflect.not-tonight-give-me-a-few-days-to-think-it-over"
-      ],
-      "why": "The four replies are an agreement, a promise, a question and a delay to think it over, and none gives a reason about what to do after the prison term."
-    },
-    "0o5qamx83dq": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "A promise, a longer apology and a postponement contain no reason."
-    },
     "0o6rmie12nt": {
       "keys": [
         "scene-talk.follow-answer.not-too-far-down-people-here-like-a-hello",
@@ -1689,15 +1304,6 @@
         "scene-talk.reply-leave.we-re-done-here"
       ],
       "why": "\"When you called my office\" is a bare date, and the refusal, counter-question and exit carry no reason."
-    },
-    "0p6f88lujcx": {
-      "keys": [
-        "scene-talk.follow-ask.witness.then-why-offer-it-at-all-first",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today"
-      ],
-      "why": "A promise to tell all, an apology and a refusal to say more answer \"why\" with no reason."
     },
     "0pptz4zgscp": {
       "keys": [
@@ -1753,16 +1359,6 @@
       ],
       "why": "\"We're not getting anywhere\" and \"see who claps\" carry no reason."
     },
-    "0qi61rmyp9f": {
-      "keys": [
-        "scene-talk.state-confront.taken.i-m-told-the-money-changed-hands-first-this-isn-t-only-a-rumor-about-an-offer",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet"
-      ],
-      "why": "\"It started as one thing and became another\" only promises an explanation, and the rest are apology, denial and refusal."
-    },
     "0qk1i4uopmk": {
       "keys": [
         "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
@@ -1770,14 +1366,6 @@
         "scene-talk.reply-leave.im-done-talking"
       ],
       "why": "Repeating the answer and \"I'm done talking\" carry no reason."
-    },
-    "0qu90r8nmgz": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Two bare shutdowns with no argument."
     },
     "0qv9e19hk0u": {
       "keys": [
@@ -1825,15 +1413,6 @@
       ],
       "why": "'This isn't it', keeping it, 'I'm reporting it' and ending the talk are bare stances with no reason."
     },
-    "0rmucou2k97": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "A promise to tell everything, an apology and an exit carry no reason."
-    },
     "0rvcfihpw8g": {
       "keys": [
         "scene-talk.state-tell.i-keep-reading-about-bill-i-want-to-know-what-it-means-for-us",
@@ -1860,15 +1439,6 @@
         "scene-talk.reply-leave.i-ll-come-back-tomorrow-try-to-sleep"
       ],
       "why": "Calling tonight, soup and coming back tomorrow are plans without reasons."
-    },
-    "0s86u0zj7m4": {
-      "keys": [
-        "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
-        "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry"
-      ],
-      "why": "Promising to tell, blaming whoever named the player and leaving carry no reason."
     },
     "0s9ofvz2e1n": {
       "keys": [
@@ -1899,25 +1469,6 @@
         "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
       ],
       "why": "All four replies refuse or shut the talk down without a reason."
-    },
-    "0ssfkrnpgo6": {
-      "keys": [
-        "scene-talk.state-request.would-you-say-a-few-words-to-everyone-first-they-would-love-to-hear-from-you",
-        "scene-talk.reply-agree.yes-of-course-i-d-be-glad-to",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it",
-        "scene-talk.reply-ask.why-are-you-asking-me-and-why-now",
-        "scene-talk.reply-decline.i-m-sorry-but-i-m-not-able-to-do-that-for-you-right-now"
-      ],
-      "why": "The replies accept, promise, ask why or refuse \"right now\" with no reason in any of them."
-    },
-    "0t6o8lgqkqz": {
-      "keys": [
-        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
-        "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "\"Same answer... No\", the report threat and \"Please leave\" give no argument."
     },
     "0t8spmug8b0": {
       "keys": [
@@ -2018,16 +1569,6 @@
       ],
       "why": "\"Read the bill,\" \"time will answer,\" \"we'll know more\" and a meeting give no reason."
     },
-    "0uetp82g5ha": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "Apology, denial and two closing lines offer no argument."
-    },
     "0uhx8c7y00f": {
       "keys": [
         "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well",
@@ -2044,15 +1585,6 @@
         "scene-talk.reply-leave.that-s-enough-for-now-we-ll-finish-this-later"
       ],
       "why": "Appreciation, \"Done\" and an exit are bare closers."
-    },
-    "0vb5onbymh7": {
-      "keys": [
-        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "\"No\", the clerk and \"Please leave\" carry no reason."
     },
     "0vl55i7rc10": {
       "keys": [
@@ -2126,15 +1658,6 @@
       ],
       "why": "Accepting, ordering them to go, 'I'm calling this in', 'let me think' and 'I'll see what I can do' are all actions with no reason given."
     },
-    "0wsv7qs22j3": {
-      "keys": [
-        "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "\"You deserve the truth,\" a sworn denial and \"We're voting\" have no argument in them."
-    },
     "0wxehqn7w94": {
       "keys": [
         "scene-talk.follow-answer.because-your-vote-may-decide-it-and-voters-want-to-know",
@@ -2190,15 +1713,6 @@
         "scene-talk.reply-lie.nobody-s-even-asked-me-that-before"
       ],
       "why": "\"I'd do it again,\" a callback, a refusal and a surprised remark carry no reason."
-    },
-    "0xl9nfzt7cy": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "A promise to tell, an apology for letting them down and an exit have no reason in them."
     },
     "0xtnu9tr6k3": {
       "keys": [
@@ -2299,15 +1813,6 @@
       ],
       "why": "A clipped apology, \"Then we're done talking\" and \"I have to go\" give no reason and end the exchange."
     },
-    "0zmb3lr6na9": {
-      "keys": [
-        "scene-talk.follow-answer.i-m-only-asking-for-whatever-you-can-manage-first-you-re-the-one-i-thought-of-first",
-        "scene-talk.reply-agree.that-helps-and-i-ll-do-it",
-        "scene-talk.reply-lie.of-course-put-me-down",
-        "scene-talk.reply-decline.i-wish-i-could-i-can-t"
-      ],
-      "why": "\"I wish I could. I can't.\" gives no reason, and the other replies only agree."
-    },
     "0zy36fcc1cl": {
       "keys": [
         "scene-talk.follow-press.i-m-asking-about-your-vote-you-re-asking-about-me-which-is-it",
@@ -2317,15 +1822,6 @@
         "scene-talk.reply-lie.nobody-told-me-what-to-do-that-vote-was-mine"
       ],
       "why": "\"I'd do it again\" and \"That vote was mine\" are bare stances, and the other two replies only deflect or close."
-    },
-    "0zzfft9b5vv": {
-      "keys": [
-        "scene-talk.follow-answer.i-m-only-asking-for-whatever-you-can-manage-first-you-re-the-one-i-thought-of-first",
-        "scene-talk.reply-agree.that-helps-and-i-ll-do-it",
-        "scene-talk.reply-lie.of-course-put-me-down",
-        "scene-talk.reply-decline.i-can-t-and-asking-again-won-t-change-it"
-      ],
-      "why": "\"I can't, and asking again won't change it\" refuses without a reason, and the others just agree."
     },
     "0zzyuqusshn": {
       "keys": [
@@ -2457,14 +1953,6 @@
       ],
       "why": "\"I'm with you\", \"I'm not sold yet\" and heading home give no reason."
     },
-    "122hvpqa787": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
-      ],
-      "why": "\"I owe you more than I can say\" and \"You have my word\" are gratitude and a promise without a reason."
-    },
     "123cgssb6h0": {
       "keys": [
         "scene-talk.follow-plea.i-m-not-asking-for-a-favor-i-m-asking-whether-anyone-in-this-building-knows-who",
@@ -2472,15 +1960,6 @@
         "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
       ],
       "why": "'I'll find out whose it is' and 'Call my office Monday' are promises with no reason."
-    },
-    "12d9wvg2hk9": {
-      "keys": [
-        "scene-talk.follow-ask.taken.who-else-knew-first",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-deny.taken.i-had-nothing-to-do-with-any-payment",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "A promise to tell, a denial and \"We're voting\" carry no reason."
     },
     "12g7vhobdo2": {
       "keys": [
@@ -2507,15 +1986,6 @@
         "scene-talk.reply-decline.thanks-for-explaining-i-still-can-t-though-i-m-sorry"
       ],
       "why": "Two ways of saying yes and a sorry refusal explain nothing about the visit."
-    },
-    "12xb3sh8saj": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor"
-      ],
-      "why": "A question, a veiled threat and a dismissal hold no reason."
     },
     "13cgcbxz1rf": {
       "keys": [
@@ -2555,33 +2025,6 @@
       ],
       "why": "A question, \"Then don't. I'll keep up\" and a ready line carry no reason."
     },
-    "144fjbv1ptf": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "All four replies refuse or end the talk without an argument."
-    },
-    "14jqrfv4689": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "The same promise, apology and exit, none with a reason."
-    },
-    "14mc0ukfum5": {
-      "keys": [
-        "scene-talk.follow-warn.watch-yourself-first-this-town-is-smaller-than-you-think",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Two bare exits."
-    },
     "14wu1s9hc6w": {
       "keys": [
         "scene-talk.follow-press.sorry-doesn-t-cost-anything-in-a-parking-lot-say-it-inside",
@@ -2589,16 +2032,6 @@
         "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public"
       ],
       "why": "\"Thursday, on the record\" and \"That's the apology I have\" commit or refuse without a reason."
-    },
-    "1506vkryhaw": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor"
-      ],
-      "why": "Denial, a promise to tell, a threat and a dismissal carry no argument."
     },
     "15p26mf2a1v": {
       "keys": [
@@ -2635,15 +2068,6 @@
       ],
       "why": "\"Even then. It's the right call\" asserts conviction without saying why, and the rest stall or exit."
     },
-    "16cdjqjqg8d": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "\"You deserve the truth,\" a long apology and a postponement contain no reason."
-    },
     "16d5dtfyxrw": {
       "keys": [
         "scene-talk.beat-beat.somebody-in-the-back-says-answer-the-question-just-loud-enough",
@@ -2652,15 +2076,6 @@
         "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
       ],
       "why": "Finding out about in-home help, a phone number and 'it's the state' carry no reason."
-    },
-    "16h770yfk8n": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "A vow to deny it, \"nothing left to say\" and \"won't be settled here\" give no argument."
     },
     "16ige2zw64a": {
       "keys": [
@@ -2679,15 +2094,6 @@
         "scene-talk.reply-tell.then-let-me-explain-the-vote-to-anyone-who-stops-i-ll-stand-right-here"
       ],
       "why": "A defiant line and a promise to explain carry no reason."
-    },
-    "175wdffrwp0": {
-      "keys": [
-        "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
-        "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "Hearing it from me rather than the prosecutor, blaming whoever named me, and \"We're voting\" are stances and an exit with no reason."
     },
     "17p18xwwr9y": {
       "keys": [
@@ -2714,14 +2120,6 @@
       ],
       "why": "\"My answer is the same\" and \"I'm done talking\" end the talk with no reason."
     },
-    "17wbgog9q48": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
-      ],
-      "why": "\"I'll do that\" and \"You have my word\" are bare promises with no reason."
-    },
     "17yognk1w70": {
       "keys": [
         "scene-talk.follow-answer.i-found-out-who-was-paying-for-the-other-side-i-didn-t-like-it",
@@ -2730,15 +2128,6 @@
         "scene-talk.reply-leave.i-ll-think-about-it"
       ],
       "why": "Believing them, a condition and \"I'll think about it\" give no reason of their own."
-    },
-    "183i32ihxp4": {
-      "keys": [
-        "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-i-thought-of-you-first-tell-me-what-you-can-do",
-        "scene-talk.reply-agree.that-s-fair-count-me-in",
-        "scene-talk.reply-promise.okay-then-i-ll-do-it-i-m-in",
-        "scene-talk.reply-decline.i-understand-but-i-still-can-t-do-it-i-m-sorry"
-      ],
-      "why": "Two agreements and an \"I still can't\" refusal carry no reason for the answer to the letter."
     },
     "18b7g8ablv0": {
       "keys": [
@@ -2790,14 +2179,6 @@
       ],
       "why": "Refusal, report threat, silence and walking away carry no argument."
     },
-    "18z55aergso": {
-      "keys": [
-        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "\"Don't come to me again\" and \"Please leave\" shut the talk with no reason."
-    },
     "193hwe1rh4l": {
       "keys": [
         "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
@@ -2823,15 +2204,6 @@
         "scene-talk.reply-leave.i-need-to-sit-down-for-a-while"
       ],
       "why": "A plain thank-you and sitting down carry no reason."
-    },
-    "19o84zkgzrn": {
-      "keys": [
-        "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today"
-      ],
-      "why": "A promise to tell all, an apology and a refusal carry no reason."
     },
     "19qzawe959x": {
       "keys": [
@@ -2903,16 +2275,6 @@
       ],
       "why": "A question back and the quip \"You sound like my mother\" carry no argument or reason."
     },
-    "1b7ixn5c0wt": {
-      "keys": [
-        "scene-talk.state-request.friend.i-didn-t-want-to-believe-it-first-will-you-tell-me-what-really-happened",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you"
-      ],
-      "why": "An apology, a question, a flat denial and \"it's more complicated\" all promise or assert but give no reason."
-    },
     "1bc29hczia6": {
       "keys": [
         "scene-talk.follow-press.the-stamp-line-can-wait-two-minutes-can-you",
@@ -2951,15 +2313,6 @@
       ],
       "why": "Giving in, a bare can't and a section condition carry no reason."
     },
-    "1bwrpqwyn3c": {
-      "keys": [
-        "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-i-thought-of-you-first-tell-me-what-you-can-do",
-        "scene-talk.reply-agree.that-s-fair-count-me-in",
-        "scene-talk.reply-promise.i-ll-be-there-you-have-my-promise",
-        "scene-talk.reply-decline.thanks-for-explaining-i-still-can-t-though-i-m-sorry"
-      ],
-      "why": "Count-me-in, a promise and a thanks-but-no give no reason why the player can or can't keep writing."
-    },
     "1c79hyyxtky": {
       "keys": [
         "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well",
@@ -2967,15 +2320,6 @@
         "scene-talk.reply-leave.i-ll-go-rest-for-a-bit"
       ],
       "why": "\"Thanks. Really.\" and resting carry no reason."
-    },
-    "1c7ejslcp83": {
-      "keys": [
-        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Three bare shutdowns with no reason."
     },
     "1chs9ombzfo": {
       "keys": [
@@ -3079,15 +2423,6 @@
       ],
       "why": "Giving in, a list request, a question and an exit carry no reason."
     },
-    "1dxxiwkwndu": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor"
-      ],
-      "why": "A question, a veiled threat and a dismissal hold no reason."
-    },
     "1e51cbcaiwp": {
       "keys": [
         "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
@@ -3116,16 +2451,6 @@
       ],
       "why": "Thanks, a question and a ready line carry no reason."
     },
-    "1e9vmvyuh0n": {
-      "keys": [
-        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
-        "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "The no, the report threat, silence and the exit give no argument."
-    },
     "1ef478quwez": {
       "keys": [
         "scene-talk.follow-plea.just-think-about-it-for-me",
@@ -3153,16 +2478,6 @@
         "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
       ],
       "why": "Giving in, a promise of a hearing, listening without promise and an exit carry no reason."
-    },
-    "1esc5cw3pef": {
-      "keys": [
-        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
-        "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "\"My answer is still no\", the report threat and \"Please leave\" carry no argument."
     },
     "1ev204ltqgc": {
       "keys": [
@@ -3261,25 +2576,6 @@
       ],
       "why": "A slogan, a plan to thank door-knockers and an exit give no reason."
     },
-    "1gr7l07sem5": {
-      "keys": [
-        "scene-talk.follow-answer.i-m-afraid-of-walking-in-and-finding-you-worse-first-that-s-all-it-is",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry"
-      ],
-      "why": "A concession, a promise and an unexplained refusal with an apology carry no reason."
-    },
-    "1h314nye79h": {
-      "keys": [
-        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
-        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "The repeated refusal, threat to report and silence offer no argument."
-    },
     "1h9h8clmdc4": {
       "keys": [
         "scene-talk.state-ask.okay-honestly-how-are-you-holding-up",
@@ -3309,15 +2605,6 @@
       ],
       "why": "\"Point taken\" and \"That sounds like a warning\" carry no reason."
     },
-    "1hrb5rrr5sy": {
-      "keys": [
-        "scene-talk.follow-answer.whatever-you-can-manage-first-a-kind-word-from-you-would-go-a-long-way",
-        "scene-talk.reply-agree.that-makes-it-easier-and-i-ll-do-it",
-        "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-        "scene-talk.reply-decline.i-understand-why-you-asked-but-i-still-can-t-do-it-i-m-sorry"
-      ],
-      "why": "\"I understand why you asked, but I still can't do it\" refuses without a reason."
-    },
     "1hrvuol09ho": {
       "keys": [
         "scene-talk.follow-confront.sure-you-did-barely",
@@ -3335,15 +2622,6 @@
         "scene-talk.reply-leave.time-s-up-i-ll-write-before-i-come-back"
       ],
       "why": "Two promises and a time's-up exit give no reason for the change of heart."
-    },
-    "1htsh0s51ch": {
-      "keys": [
-        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
-        "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
-      ],
-      "why": "A promise to tell, a regretful apology and an exit carry no argument."
     },
     "1hxmi3k2pcg": {
       "keys": [
@@ -3401,15 +2679,6 @@
       ],
       "why": "'This isn't it', 'I'm reporting it', keeping it and 'I'm done' are bare stances."
     },
-    "1iki619mpjt": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "\"You deserve the truth,\" a long apology and a postponement contain no reason."
-    },
     "1in97p02t2l": {
       "keys": [
         "scene-talk.follow-plea.youre-my-last-chance-first-please",
@@ -3445,14 +2714,6 @@
       ],
       "why": "Finding out what is paid, the caseworker and 'it's the state' are promises and pointers with no reason."
     },
-    "1iz4ftoyf5x": {
-      "keys": [
-        "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened"
-      ],
-      "why": "\"You deserve the truth\" and denying what they were told give no reason."
-    },
     "1j3s80awhw6": {
       "keys": [
         "scene-talk.follow-confront.i-will",
@@ -3471,15 +2732,6 @@
         "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
       ],
       "why": "Making the call, not being ready and stepping out carry no reason."
-    },
-    "1j9xtv47nkl": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-confront.hearsay.you-can-t-take-it-back-now-and-neither-can-i",
-        "scene-talk.reply-leave.hearsay.i-won-t-be-pulled-into-this-we-re-finished"
-      ],
-      "why": "A question, \"You can't take it back now\" and \"We're finished\" contain no argument."
     },
     "1jbucu4ftvs": {
       "keys": [
@@ -3546,15 +2798,6 @@
       ],
       "why": "Print both, the written-question demand, naming people and the office line give no reason for anything."
     },
-    "1l9k6vmsnnr": {
-      "keys": [
-        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "\"No\", \"not here\" and \"Please leave\" carry no reason."
-    },
     "1lh5m6jzauj": {
       "keys": [
         "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
@@ -3582,15 +2825,6 @@
       ],
       "why": "Thanks, 'That's all I'm asking' and putting it off until tomorrow give no reason."
     },
-    "1mj9sajbx3y": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-confront.hearsay.you-can-t-take-it-back-now-and-neither-can-i",
-        "scene-talk.reply-leave.hearsay.i-won-t-be-pulled-into-this-we-re-finished"
-      ],
-      "why": "A question, \"You can't take it back now\" and \"We're finished\" carry no reason."
-    },
     "1mru4ocpodu": {
       "keys": [
         "scene-talk.follow-answer.honestly-a-fair-shot-and-somebody-to-eat-dinner-with-sometimes",
@@ -3608,15 +2842,6 @@
         "scene-talk.reply-leave.i-ve-got-a-meeting-walk-with-me-if-you-want"
       ],
       "why": "\"I listened, and I still disagree\" restates the stance without a reason, and the others deflect or leave."
-    },
-    "1n4vy9vgbwb": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today"
-      ],
-      "why": "A promise to say which part is true, a denial and a refusal carry no reason."
     },
     "1n7qrznb0qe": {
       "keys": [
@@ -3712,14 +2937,6 @@
       ],
       "why": "\"Alright, plainly: I stand by it\" and \"Nobody told me what to do\" are stances without a reason, and the others close the talk."
     },
-    "1ps5iaqm548": {
-      "keys": [
-        "scene-talk.follow-plea.dont-do-that-first-think-what-it-does-to-both-of-us",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Two bare exits."
-    },
     "1pt48kb6nyw": {
       "keys": [
         "scene-talk.follow-answer.we-have-it-on-the-record-i-m-just-giving-you-a-chance-to-respond",
@@ -3736,15 +2953,6 @@
       ],
       "why": "\"I'll be the one who lasts\" is a bare stance plus a question, and \"I'll ask around\" is an exit."
     },
-    "1q58oas8vf4": {
-      "keys": [
-        "scene-talk.follow-ask.taken.who-else-knew-first",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-deny.taken.i-had-nothing-to-do-with-any-payment",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet"
-      ],
-      "why": "A promise to tell how it went, a bare denial and a refusal to discuss; none gives a reason."
-    },
     "1q6pukuosnw": {
       "keys": [
         "scene-talk.follow-plea.then-at-least-come-to-dinner-sunday-and-let-me-say-it-all-after-that",
@@ -3753,16 +2961,6 @@
         "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
       ],
       "why": "Looking again, deferring until heard out and asking for things in writing are stances and exits with no reason given."
-    },
-    "1q6q9j33afm": {
-      "keys": [
-        "scene-talk.state-request.write-back-and-tell-me-how-you-are-first-i-like-hearing-what-s-going-on-in-your-life",
-        "scene-talk.reply-agree.alright-yes-i-m-glad-you-asked-me",
-        "scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word",
-        "scene-talk.reply-ask.can-you-tell-me-more-about-what-you-re-asking",
-        "scene-talk.reply-decline.i-m-sorry-but-i-can-t-do-that-this-time"
-      ],
-      "why": "The replies to the request to write back are acceptance, a promise, a question and a refusal, none with a reason."
     },
     "1q7s65hdxcc": {
       "keys": [
@@ -3773,15 +2971,6 @@
         "scene-talk.reply-lie.nobody-told-me-what-to-do-that-vote-was-mine"
       ],
       "why": "\"I stand by it\" and \"That vote was mine\" assert a position without saying why, and the rest refuse or leave."
-    },
-    "1qfmg1fa7ap": {
-      "keys": [
-        "scene-talk.follow-answer.whatever-you-can-manage-first-a-kind-word-from-you-would-go-a-long-way",
-        "scene-talk.reply-agree.that-helps-count-me-in",
-        "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-        "scene-talk.reply-decline.thank-you-for-asking-but-i-can-t-do-it-i-m-sorry"
-      ],
-      "why": "The replies agree, promise or refuse with \"I can't do it\" and no reason."
     },
     "1qhf5uwj7u3": {
       "keys": [
@@ -3829,26 +3018,6 @@
       ],
       "why": "\"Read the bill before you judge it\" is an instruction with no reason in it, and the others deflect or leave."
     },
-    "1r6unvnvsef": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-tell.witness.it-wasn-t-how-you-took-it-let-me-tell-you-what-i-meant",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Promise to explain, apology, writing dare and exit give no reason."
-    },
-    "1rfp8lleqic": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "Apology, a vow to deny it, \"nothing left to say\" and \"won't be settled here\" carry no argument."
-    },
     "1rjtj0g0kio": {
       "keys": [
         "scene-talk.follow-answer.mostly-i-d-like-to-know-who-to-ask-when-something-goes-wrong-and-you-seemed-like-the-right-person",
@@ -3867,16 +3036,6 @@
         "scene-talk.reply-leave.i-ve-got-a-meeting-walk-with-me-if-you-want"
       ],
       "why": "A promised why, time-will-answer, a committee stall and a meeting exit carry no argument."
-    },
-    "1rs3ujn0bpa": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "Promise to tell, apology, writing dare and \"We're voting\" carry no reason."
     },
     "1s14boi9zkb": {
       "keys": [
@@ -3905,15 +3064,6 @@
         "scene-talk.reply-leave.i-ll-go-rest-for-a-bit"
       ],
       "why": "A plain thank-you and resting carry no reason."
-    },
-    "1s9eymtxkin": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "Promise to tell, a writing dare and \"We're voting\" give no reason."
     },
     "1sanx6eufi3": {
       "keys": [
@@ -3950,16 +3100,6 @@
       ],
       "why": "\"I stand by it\" and \"That vote was mine\" are claims with no reason, and the name-demand and office line add none."
     },
-    "1steydywhng": {
-      "keys": [
-        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.im-not-discussing-this-here",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "\"No. And this changes nothing\", reporting, refusing to discuss and ending the talk carry no reason."
-    },
     "1t0syfl9zd8": {
       "keys": [
         "scene-talk.follow-ask.can-i-quote-you-on-that",
@@ -3976,15 +3116,6 @@
         "scene-talk.reply-tell.here-s-my-side-then-i-d-cast-that-vote-again"
       ],
       "why": "Letting voters settle it and \"I'd cast that vote again\" give no reason."
-    },
-    "1taf9x1pxdb": {
-      "keys": [
-        "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
-        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
-        "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there"
-      ],
-      "why": "A promise, a reproach without grounds and a refusal give no argument."
     },
     "1taptvpmn0g": {
       "keys": [
@@ -4055,15 +3186,6 @@
         "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
       ],
       "why": "A thank-you and a request to be pointed at the work carry no argument or reason."
-    },
-    "1ul6gqd1hm2": {
-      "keys": [
-        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
-      ],
-      "why": "A promise to tell, an apology and handing it to the prosecutor carry no reason."
     },
     "1us3ftp7384": {
       "keys": [
@@ -4149,14 +3271,6 @@
       ],
       "why": "The four replies refuse or dismiss with no reason."
     },
-    "1vqe3rnc5a0": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.im-done-talking"
-      ],
-      "why": "Two bare exits."
-    },
     "1vtjqdyjged": {
       "keys": [
         "scene-talk.follow-press.count-how-tell-me-one-thing",
@@ -4184,14 +3298,6 @@
       ],
       "why": "\"I'll vote yes, and I'll own it\" is a promise without reason, and the other three only deflect."
     },
-    "1w1mbg9et00": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today"
-      ],
-      "why": "\"Where did you hear that?\" and refusing to answer a rumor carry no reason."
-    },
     "1w722b2lzcn": {
       "keys": [
         "scene-talk.beat-beat.two-more-cameras-swing-toward-you",
@@ -4201,23 +3307,6 @@
         "scene-talk.reply-lie.nobody-told-me-what-to-do-that-vote-was-mine"
       ],
       "why": "\"I'll vote yes, and I'll own it\" is a promise with no reason, and naming people, the office line and \"That vote was mine\" add none."
-    },
-    "1wbt29uxgak": {
-      "keys": [
-        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Both replies just repeat the answer and end the talk."
-    },
-    "1wce602k1iq": {
-      "keys": [
-        "scene-talk.follow-answer.i-m-only-asking-for-whatever-you-can-manage-first-you-re-the-one-i-thought-of-first",
-        "scene-talk.reply-agree.that-helps-and-i-ll-do-it",
-        "scene-talk.reply-lie.of-course-put-me-down",
-        "scene-talk.reply-decline.i-see-why-you-asked-but-my-answer-is-still-no-i-m-sorry"
-      ],
-      "why": "\"I see why you asked, but my answer is still no\" refuses without saying why."
     },
     "1wdwiut1yll": {
       "keys": [
@@ -4276,14 +3365,6 @@
       ],
       "why": "\"I stand by it\" and the other three lines are stance, deflection or exit with no reason in them."
     },
-    "1xb29sjg6zm": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "Two dismissals with no reason."
-    },
     "1xl5fqv9mq9": {
       "keys": [
         "scene-talk.follow-confront.no-you-owe-it-to-the-people-signing",
@@ -4301,16 +3382,6 @@
         "scene-talk.reply-deflect.let-s-not-talk-about-that-yet-did-you-eat-anything-today"
       ],
       "why": "A promise to call, a question and two deflections carry no argument or reason."
-    },
-    "1xyva8oks3u": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "Apology, denial, deferral and an exit contain no argument."
     },
     "1y4kv7jaskh": {
       "keys": [
@@ -4402,15 +3473,6 @@
         "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
       ],
       "why": "\"Okay. For them\" only echoes the manager's point before closing, and the rest are refusal and exit."
-    },
-    "1zfnwutkx82": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "A flat denial, \"nothing left to say\" and \"it won't be settled here\" end the talk without an argument."
     },
     "1zmetf6ebuc": {
       "keys": [
@@ -4525,16 +3587,6 @@
       ],
       "why": "\"It's the right call,\" \"you've got that wrong\" and \"we're done\" assert without a reason."
     },
-    "217ndjgid54": {
-      "keys": [
-        "scene-talk.state-request.it-s-been-a-while-since-we-really-talked-first-will-you-write-back-and-tell-me-what-s-on-your-mind",
-        "scene-talk.reply-agree.alright-yes-i-m-glad-you-asked-me",
-        "scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word",
-        "scene-talk.reply-ask.can-you-tell-me-more-about-what-you-re-asking",
-        "scene-talk.reply-decline.i-m-sorry-but-i-can-t-do-that-this-time"
-      ],
-      "why": "Yes, a pledge, a request for detail and a plain apology-refusal answer the letter without any reason."
-    },
     "21929mb87h1": {
       "keys": [
         "scene-talk.follow-promise.i-ll-keep-counting-you-keep-talking-to-them",
@@ -4571,15 +3623,6 @@
       ],
       "why": "Asked for anything small, the player can only say yes, promise a hearing or move to dinner, and none gives a reason."
     },
-    "221ege5qgkv": {
-      "keys": [
-        "scene-talk.follow-ask.witness.then-why-offer-it-at-all-first",
-        "scene-talk.reply-tell.witness.it-wasn-t-how-you-took-it-let-me-tell-you-what-i-meant",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-leave.witness.i-need-to-think-before-i-say-another-word"
-      ],
-      "why": "A promised explanation, an apology and a pause answer why without a reason."
-    },
     "2239lrjypgf": {
       "keys": [
         "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
@@ -4607,15 +3650,6 @@
       ],
       "why": "'I'll find out whose it is' and 'Call my office Monday' are promises without a reason."
     },
-    "2287mixmsat": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "A promise to tell, a denial and a conditional refusal carry no reason."
-    },
     "229vgcij61f": {
       "keys": [
         "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
@@ -4623,15 +3657,6 @@
         "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
       ],
       "why": "\"No. And this changes nothing\" and having said all carry no reason."
-    },
-    "22b98auh5ui": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "Denial, deferral to the prosecutor and \"I'm done talking\" offer no reason."
     },
     "22ki1vk214i": {
       "keys": [
@@ -4643,44 +3668,6 @@
       ],
       "why": "Refusal, clerk, not here and said all carry no reason."
     },
-    "22kub5v4hix": {
-      "keys": [
-        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
-        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
-        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
-        "scene-talk.reply-confront.money.then-say-it-in-front-of-everybody-if-that-s-what-you-want"
-      ],
-      "why": "A stock apology, calling a stop and a dare to say it in front of everybody give no reason about the payment."
-    },
-    "22kv1q5g1j7": {
-      "keys": [
-        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
-        "scene-talk.reply-refuse.friendly-or-not-the-answer-hasnt-changed",
-        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
-        "scene-talk.reply-deflect.lets-not-do-this-here-and-not-like-this",
-        "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine"
-      ],
-      "why": "\"Friendly or not, the answer hasn't changed\" and the plea not to raise it again give no reason."
-    },
-    "22q72ajawut": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor"
-      ],
-      "why": "Denial, a promise to tell, a veiled threat and a dismissal carry no argument."
-    },
-    "22xdmymelv0": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "Promise to tell everything, an apology and a postponement give no reason."
-    },
     "23lnuvp6mpf": {
       "keys": [
         "scene-talk.follow-plea.who-else-would-you-trust-with-it",
@@ -4689,14 +3676,6 @@
         "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
       ],
       "why": "Giving in, \"I can't do that\" and an exit carry no reason."
-    },
-    "23o4uqfedyo": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.no-and-this-changes-nothing",
-        "scene-talk.reply-leave.enough-please-leave"
-      ],
-      "why": "\"No\" and \"Please leave\" kill the talk with no reason."
     },
     "23sode97qo5": {
       "keys": [
@@ -4820,22 +3799,6 @@
       ],
       "why": "\"I don't know yet\" and \"I didn't ask twice\" admit uncertainty without offering any argument."
     },
-    "26otq4wootx": {
-      "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-apologize.all-right-thursday-on-the-record",
-        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse"
-      ],
-      "why": "\"Thursday, on the record\" and \"It's late\" carry no argument."
-    },
-    "27013dqwn51": {
-      "keys": [
-        "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today"
-      ],
-      "why": "\"Let me tell you all of it\" is only a promise and the other reply refuses to talk."
-    },
     "270atbdw3ql": {
       "keys": [
         "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well",
@@ -4900,15 +3863,6 @@
       ],
       "why": "Refusal, report threat, silence and exit with no reason among them."
     },
-    "286kevhm99k": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "A promise to tell, a writing dare and an exit hold no reasoning."
-    },
     "287ua27ueks": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -4952,26 +3906,6 @@
       ],
       "why": "Thanks and an offer after dropping a bag are polite closers with no reason in them."
     },
-    "299iflh6psi": {
-      "keys": [
-        "scene-talk.state-request.would-you-come-for-a-visit-sometime-this-year-first-i-d-like-to-see-you-in-person",
-        "scene-talk.reply-agree.yes-of-course-i-ll-do-it",
-        "scene-talk.reply-promise.i-ll-write-you-again-soon-and-i-ll-make-it-happen",
-        "scene-talk.reply-ask.why-now-i-m-glad-to-hear-from-you-and-i-d-like-to-know-what-s-behind-it",
-        "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-right-now-i-hope-you-ll-understand"
-      ],
-      "why": "The visit is accepted, promised, questioned or declined, and even the refusal says only \"I can't right now\" without saying why."
-    },
-    "29bv0og2usg": {
-      "keys": [
-        "scene-talk.state-request.friend.would-you-tell-me-what-happened-first-i-can-t-take-the-complaint-back-but-i-can-listen",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you"
-      ],
-      "why": "An apology, a question back, a sworn denial and \"more complicated\" give no reason."
-    },
     "29dq4w45r5i": {
       "keys": [
         "scene-talk.beat-beat.two-people-near-the-back-lean-together-and-whisper",
@@ -4999,15 +3933,6 @@
         "scene-talk.reply-leave.i-ve-got-a-meeting-walk-with-me-if-you-want"
       ],
       "why": "\"I meant every word\", a committee stall and a meeting exit add no reason."
-    },
-    "29t5tjsgvhe": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "A bare denial, leaving it to the prosecutor and \"I'm done talking\" give no reason."
     },
     "29xpbfjbjx1": {
       "keys": [
@@ -5090,16 +4015,6 @@
       ],
       "why": "Asking for word-for-word printing, refusing, demanding names and pointing to the office give no reason for the stance."
     },
-    "2bvuqpi80e3": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "Apology, denial, deferral to the prosecutor and walking off contain no argument."
-    },
     "2bzgcqxdtbw": {
       "keys": [
         "scene-talk.follow-press.staff-will-skim-it-i-d-rather-say-it-to-your-face",
@@ -5118,14 +4033,6 @@
         "scene-talk.reply-leave.im-not-doing-this-twice-take-that-with-you"
       ],
       "why": "'Nothing has changed', reporting, accepting and 'Take that with you' give no reason."
-    },
-    "2c1eh1xk9k3": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "An apology and a deferral carry no reason."
     },
     "2c2ugdknvwc": {
       "keys": [
@@ -5204,14 +4111,6 @@
       ],
       "why": "A dare to sign the top line and a promise to explain carry no reason."
     },
-    "2db34cvshhp": {
-      "keys": [
-        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
-        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
-        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
-      ],
-      "why": "Both replies close the talk with no reason."
-    },
     "2dbsbm5qchb": {
       "keys": [
         "scene-talk.follow-ask.will-you-say-that-to-the-people-who-showed-up-at-the-meeting",
@@ -5248,15 +4147,6 @@
         "scene-talk.reply-lie.nobody-s-even-asked-me-that-before"
       ],
       "why": "\"I'd do it again\" and the other replies state or refuse a stance without a reason."
-    },
-    "2e8si27znk3": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Promise to tell, a writing dare and a closing line carry no argument."
     },
     "2e8zyr71p38": {
       "keys": [
@@ -5299,16 +4189,6 @@
         "scene-talk.reply-leave.i-need-a-minute-make-yourself-comfortable-and-we-ll-talk-later"
       ],
       "why": "\"Let's give it a try,\" an unexplained \"isn't going to work\" and a minute request carry no reason."
-    },
-    "2ehga887bs2": {
-      "keys": [
-        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
-        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
-        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
-        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
-        "scene-talk.reply-leave.im-finished-with-this-conversation"
-      ],
-      "why": "A plain no, sending it to the clerk and refusing to talk give no reason why."
     },
     "2eke5igoyns": {
       "keys": [
@@ -5372,15 +4252,6 @@
       ],
       "why": "A flat no and an exit with no reason."
     },
-    "2fjf0kvwt1h": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down",
-        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "The apologies and the deferral carry no argument."
-    },
     "2fsckihb12r": {
       "keys": [
         "scene-talk.state-confront.we-re-collecting-signatures-to-recall-you-you-voted-for-bill-that-s-why",
@@ -5419,5 +4290,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "0wvjl67o803"
+  "yesHash": "0ca3j1q4zdk"
 }
