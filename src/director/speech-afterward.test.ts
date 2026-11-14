@@ -133,7 +133,7 @@ it(`a campaign speech that moves a listener brings the candidate over, seed ${se
             const binding = entry.bindings.find(
               (row) => row.typeKey === "speech-afterward",
             );
-            const act = speechAct(moment.causeId) ?? "";
+            const act = speechAct(core, moment.causeId) ?? "";
             if (!IN_PERSON.has(act)) {
               // Heard on the broadcast (a debate): nobody walks over.
               expect(
