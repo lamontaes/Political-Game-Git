@@ -6,6 +6,13 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { joinParty, partiesHere, partyTie } from "../core2/modules/parties";
+import {
+  ELECTIONS_MODULE_ID,
+  fileCandidacy,
+  type ContestRow,
+} from "../core2/modules/elections";
+import { townSeats } from "../core2/modules/offices";
+import { advanceToRaceFiling } from "../core2/gov-test-clock";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -16,10 +23,10 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 // Pinned to the drawn places named below (fixed seed and tags).
 const SEED = "c29-party-welcome";
 const TAGS = ["a", "c", "d", "e"];
+const RACE_TAG = "a";
 
-it.each(TAGS)(
-  "joining a party plays the leader's welcome (%s)",
-  (tag) => {
+function welcome(tag: string, withRace: boolean) {
+  {
     setBookkeeping(false);
     const place = drawPlace(SEED, `party-welcome:${tag}`);
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
@@ -34,12 +41,58 @@ it.each(TAGS)(
     const home = new Set(
       core.households.get(core.people.get(playerId)!.householdId)?.memberIds,
     );
+    // Where a race is staged, the party is one that holds no local seat, so
+    // the race is all it can point to.
+    const holders = new Set(
+      townSeats(api).flatMap((row) =>
+        row.holder?.party ? [row.holder.party.toLowerCase()] : [],
+      ),
+    );
     const party = partiesHere(api).find(
-      (row) => row.leaderId && !home.has(row.leaderId),
+      (row) =>
+        row.leaderId &&
+        !home.has(row.leaderId) &&
+        (!withRace || !holders.has(row.name.toLowerCase())),
     );
     expect(party, `${where}: a party with a leader`).toBeTruthy();
     core.focusPersonIds.add(playerId);
     director.watch(core, playerId);
+    let raceTitle = "";
+    if (withRace) {
+      // Stage one local race through the game's own filing path: the first
+      // local contest to open, a resident of the party filing for it under
+      // the party's name, before the player joins.
+      const contest = (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .rows() as unknown as ContestRow[]
+      )
+        .filter(
+          (row) =>
+            ["city", "township", "county"].includes(row.level) &&
+            row.filingOpens &&
+            row.filingOpens >= core.date,
+        )
+        .sort((a, b) => a.filingOpens!.localeCompare(b.filingOpens!))[0];
+      expect(contest, `${where}: a local contest to stage`).toBeDefined();
+      advanceToRaceFiling(core, contest!);
+      raceTitle = contest!.title.toLowerCase();
+      const filer = [...core.people.values()].find(
+        (row) =>
+          row.alive &&
+          row.id !== playerId &&
+          row.placeId === core.people.get(playerId)!.placeId &&
+          row.id !== party!.leaderId &&
+          fileCandidacy(api, {
+            personId: row.id,
+            contestId: contest!.id,
+            platform: [],
+            party: party!.name,
+          }).status !== "refused",
+      );
+      expect(filer, `${where}: a resident filed for it`).toBeDefined();
+    }
     // Not on the opening day, which can hold a scene of its own already.
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
     joinParty(api, playerId, party!.id);
@@ -78,6 +131,10 @@ it.each(TAGS)(
       ).toBeGreaterThan(0);
     const answer = talk.tree.replies[ask]!.next!.lines[0]!.text;
     expect(answer, `${where}: no unfilled slot`).not.toMatch(/[{}]/);
+    if (withRace)
+      expect(answer, `${where}: the answer names the race`).toContain(
+        raceTitle,
+      );
     const yes = talk.tree.replies.findIndex(
       (reply) => reply.line.move === "agree" || reply.line.move === "promise",
     );
@@ -90,6 +147,19 @@ it.each(TAGS)(
     process.stdout.write(
       `PARTY WELCOME ${where}: ${party!.name}\n${talk.narration.map((l) => `Narrator: ${l.text}`).join("\n")}\nleader: ${talk.state.text}\n${talk.tree.replies.map((r) => `  [${r.line.move}] ${r.line.text}\n      leader: ${r.next?.lines.map((l) => l.text).join(" / ")}`).join("\n")}\nreply record ${replyId}\n`,
     );
-  },
+  }
+}
+
+it.each(TAGS)(
+  "joining a party plays the leader's welcome (%s)",
+  (tag) => welcome(tag, false),
+  600_000,
+);
+
+// A party with a candidate in a local race says so: the race is staged through
+// the game's own filing at a named place and fixed seed.
+it(
+  "the leader points to the party's candidate in a local race",
+  () => welcome(RACE_TAG, true),
   600_000,
 );
