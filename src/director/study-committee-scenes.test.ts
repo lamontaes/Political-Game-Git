@@ -4,11 +4,16 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { advanceCore } from "../core2/life";
 import {
+  bodyOf,
+  draftBill,
+  holdVote,
   LEGISLATURE_MODULE_ID,
+  members,
   type StudyRow,
 } from "../core2/modules/legislature";
+import { billCatalog, provisionFor } from "../core2/bill-catalog";
+import { townSeats } from "../core2/modules/offices";
 import { stanceRow } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
@@ -24,15 +29,18 @@ import { wordPrintedStory } from "../bench/archive-words";
 // committee, or its chair, is spoken to when it forms and again when it
 // reports, and the reply is kept. Each scene stands on the study record.
 //
-// A rare record: a plain world is played first to find a drawn place where a
-// study forms (its record names the committee), then the same world is played
-// again with a person who sits on it as the controlled one, watched from the
-// start.
-// Pinned (pinned-tests): drawn places named by this seed, attempts 0 and 1.
+// A rare record, staged through the game's own path: a bill is drafted in the
+// town's body and put to its floor vote the way dev mode's hold-vote does
+// (`holdVote`, legislature.ts); when it fails narrowly with its closest
+// opponents less sure than its backers, the engine's own `referToStudy` forms
+// the committee, and the committee's sunset (a calendar entry) reports it. The
+// world is built twice at one pinned place: once to see who sits on the
+// committee, then again with a person who sits on it controlled and watched
+// from the start.
+// Pinned (pinned-tests): one drawn place named by this seed, attempt 0; the
+// first question the town may put fails and forms a committee there.
 const seed = "f1480aad99778fc9";
-const ATTEMPTS = 6;
-const SCOUT_DAYS = 730;
-const SCOUT_STEP_DAYS = 60;
+const ATTEMPTS = 1;
 const AFTER_REPORT_DAYS = 10;
 const DEVELOPER_TEXT =
   /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/;
@@ -44,17 +52,53 @@ function studyRecord(core: CoreState, id: string): StudyRow | undefined {
     .get(id) as unknown as StudyRow | undefined;
 }
 
+/**
+ * The game's own path to a committee: a bill on the first question the town's
+ * body may put goes to its floor vote today (dev mode's hold-vote), and the
+ * engine refers a narrow failure to a study.
+ */
+function stageStudy(core: CoreState): { studyId: string } | undefined {
+  const api = coreAPI(core);
+  const seat = townSeats(api).find(
+    (row) =>
+      row.holder?.personId &&
+      ["city", "county"].includes(row.office.level) &&
+      members(api, row.office.id).length >= 3 &&
+      bodyOf(api, row.office.id),
+  );
+  const policies = billCatalog(api, "city").flatMap((subject) =>
+    subject.topics.flatMap((topic) => topic.policies),
+  );
+  const policy = policies.find(
+    (row) => row.kind === "policy-question" && row.authority.allowed,
+  );
+  if (!seat || !policy) return undefined;
+  const bill = draftBill(api, {
+    bodyOfficeId: seat.office.id,
+    sponsorId: seat.holder!.personId!,
+    provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
+  });
+  holdVote(api, bill.id, { anyDay: true });
+  const studyId = `study:${bill.id}`;
+  return studyRecord(core, studyId) ? { studyId } : undefined;
+}
+
 it(`the paper tells a study committee, and its members are spoken to when it forms and when it reports (seed ${seed})`, () => {
   setBookkeeping(false);
   const tried: string[] = [];
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "study-committee");
     const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
-    // 1. Scout: a plain world, to see whether a study forms and who sits on it.
+    // 1. Scout: stage the committee, to see who sits on it.
     const scout = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
     });
+    const picked = stageStudy(scout.core);
+    if (!picked) {
+      tried.push(`${where}: no committee formed`);
+      continue;
+    }
     // A person who lives in the played town and sits on the committee (a member
     // before the chair), as the town's own body sends them.
     const town = scout.core.people.get(scout.core.playerId!)?.placeId;
@@ -62,41 +106,16 @@ it(`the paper tells a study committee, and its members are spoken to when it for
       const person = scout.core.people.get(id as PersonId);
       return person?.alive === true && person.placeId === town;
     };
-    // Studies that formed and reported, with a local sitter: the world is
-    // played in steps and stops at the first one.
-    const reportedCandidates = () =>
-      [...(scout.core.logByKind.get("study-formed") ?? [])]
-        .map((id) => scout.core.durableLog.get(id as never)!)
-        .filter((row) => studyRecord(scout.core, row.facts!.studyId!)?.report)
-        .map((row) => {
-          const chairId = studyRecord(scout.core, row.facts!.studyId!)?.chairId;
-          const sitter =
-            row.personIds.find((id) => id !== chairId && local(id)) ??
-            row.personIds.find(local);
-          return { row, sitter: sitter as PersonId | undefined };
-        })
-        .filter((c) => c.sitter);
-    let candidates = reportedCandidates();
-    for (
-      let days = SCOUT_STEP_DAYS;
-      days <= SCOUT_DAYS && !candidates.length;
-      days += SCOUT_STEP_DAYS
-    ) {
-      advanceCore(scout.core, addDays(makeIsoDate(gameStartDate()), days));
-      candidates = reportedCandidates();
-    }
-    const formedIds = [...(scout.core.logByKind.get("study-formed") ?? [])];
-    const picked = candidates[0]?.row;
-    if (!picked) {
-      tried.push(
-        `${where}: ${formedIds.length} studies, none with a member who lives in town`,
-      );
+    const study = studyRecord(scout.core, picked.studyId)!;
+    const personId = ((study.memberIds.find(
+      (id) => id !== study.chairId && local(id),
+    ) ?? study.memberIds.find(local)) as PersonId | undefined)!;
+    if (!personId) {
+      tried.push(`${where}: no member lives in town`);
       continue;
     }
-    const studyId = picked.facts!.studyId!;
-    const study = studyRecord(scout.core, studyId)!;
-    const personId = candidates[0]!.sitter!;
-    const formedOn = picked.date;
+    const studyId = picked.studyId;
+    const formedOn = study.formedOn;
     // 2. Replay: the same world, the member controlled and watched from the start.
     const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -104,6 +123,7 @@ it(`the paper tells a study committee, and its members are spoken to when it for
     });
     core.focusPersonIds.add(personId);
     director.watch(core, personId);
+    stageStudy(core);
     const book = director.ledger.people.get(personId)!;
     const through = addDays(makeIsoDate(study.sunsetOn), AFTER_REPORT_DAYS);
     const seen: Record<string, number> = {

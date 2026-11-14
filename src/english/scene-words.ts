@@ -24,6 +24,8 @@ interface Variant {
   stages?: string[];
   /** The settings the line can be said in; none, any. */
   settings?: readonly string[];
+  /** Marks the scene must carry for the line to be said ("evening"); none, any. */
+  requiresFacts?: readonly string[];
 }
 export interface SceneWords {
   version: string;

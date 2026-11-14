@@ -22,6 +22,7 @@ import {
 } from "./scheduling";
 import { organizationName, properName, spoken } from "./words";
 import { dayOpening, daySince } from "../english/day-words";
+import { homeAloneDayFacts } from "./day-part";
 import { officeWords } from "../english/said-as";
 import { outletsHere } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
@@ -214,13 +215,11 @@ export function composeScene(
   const dayOnly =
     SITUATION_LIBRARY.types.find((row) => row.key === binding.typeKey)
       ?.arrivesBy === "day";
-  const opensOn = () =>
-    dayOpening(
-      core.date,
-      minuteOfDay ??
-        entry.stop?.at.minuteOfDay ??
-        core.data.parameters.playerDayStartMinute!.value,
-    );
+  const opensMinute = () =>
+    minuteOfDay ??
+    entry.stop?.at.minuteOfDay ??
+    core.data.parameters.playerDayStartMinute!.value;
+  const opensOn = () => dayOpening(core.date, opensMinute());
   const arrival: SceneLine | null = dayOnly
     ? { text: `${opensOn()}.`, sourceRecordIds: [moment.id] }
     : render(
@@ -228,6 +227,7 @@ export function composeScene(
         () => {
           const facts: Record<string, Fact> = {
             begins: { text: opensOn(), sourceRecordIds: [moment.id] },
+            ...homeAloneDayFacts(core.date, opensMinute(), moment.id),
           };
           // A record made on an earlier day (a call that came in the evening,
           // played the next morning) is told as past: "yesterday".
