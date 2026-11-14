@@ -2548,7 +2548,7 @@
             "again": {
               "ask": ["tell", "apologize", "leave"],
               "press": ["tell", "apologize", "confront", "leave"],
-              "confront": ["apologize", "deny", "confront", "leave"]
+              "confront": ["tell", "confront", "leave"]
             },
             "endings": [
               {
@@ -2704,16 +2704,18 @@
           ],
           "arc": {
             "state": "confront",
-            "replies": ["tell", "apologize", "deny", "leave"],
+            "replies": ["tell", "apologize", "deny", "confront", "leave"],
             "follow": {
               "tell": ["ask", "accept"],
               "apologize": ["accept", "press"],
               "deny": ["press"],
+              "confront": ["confront"],
               "leave": []
             },
             "again": {
-              "ask": ["tell", "deny", "leave"],
-              "press": ["tell", "apologize", "leave"]
+              "ask": ["tell", "leave"],
+              "press": ["tell", "leave"],
+              "confront": ["tell", "leave"]
             },
             "endings": [
               {

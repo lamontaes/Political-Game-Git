@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1209,
+  "judged": 1264,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -1832,15 +1832,6 @@
       ],
       "why": "A yes, a bare promise, a question and an unexplained refusal give no reason."
     },
-    "0w6kvbhzioa": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Promise to tell, a writing dare and a closing line carry no argument."
-    },
     "0w7d2jfp2pv": {
       "keys": [
         "scene-talk.follow-press.a-few-days-is-a-long-time-when-everything-is-on-hold",
@@ -3230,15 +3221,6 @@
       ],
       "why": "Promising signatures, asking for help, asking who decided and heading out carry no reason."
     },
-    "1jsfufpj8ht": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "A promise to tell, a writing dare and an exit hold no reasoning."
-    },
     "1juu1ikfxnc": {
       "keys": [
         "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
@@ -3456,15 +3438,6 @@
         "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
       ],
       "why": "Asked 'Why not the vote?', the player can agree, defer, set a condition or say 'I'll tell you before the vote', and none of these gives a reason."
-    },
-    "1oqkdy51ap2": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "A promise to tell, a dare to put it in writing and \"We're voting\" have no reason in them."
     },
     "1os3v4hm1hq": {
       "keys": [
@@ -4431,14 +4404,6 @@
       ],
       "why": "\"I don't know yet\" and \"I didn't ask twice\" admit uncertainty without offering any argument."
     },
-    "27013dqwn51": {
-      "keys": [
-        "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today"
-      ],
-      "why": "\"Let me tell you all of it\" is only a promise and the other reply refuses to talk."
-    },
     "270atbdw3ql": {
       "keys": [
         "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well",
@@ -5040,5 +5005,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "0kvduco9l1q"
+  "yesHash": "22f6pw4lsu2"
 }

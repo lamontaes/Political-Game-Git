@@ -121,6 +121,27 @@ export const facts: Record<string, Fact> = {
   signatures: fact("1,250"),
   due: fact("March 5"),
 };
+/**
+ * What a complaint to the prosecutor hands an accusation's variants
+ * (purpose-scene.ts, `justice.accused`): what the money was for, whether it
+ * moved, the accused's part, the reason that weighed most and how the accuser
+ * knows. A witness and a friend here were offered the money and refused it; a
+ * taken bribe moved. The plain arc is the bid-list question, with no complaint.
+ */
+export function factsFor(type: Pick<PurposeType, "purpose" | "family">) {
+  const variant = type.purpose?.split(".")[1];
+  if (type.family !== "conflict-accuse" || !variant) return facts;
+  return {
+    ...facts,
+    wanted: fact("the road contract"),
+    "read-complaint": fact("yes"),
+    "you-offered": fact("yes"),
+    "motive-stake": fact("yes"),
+    [variant === "taken" ? "money-moved" : "no-money-moved"]: fact("yes"),
+    [variant === "witness" || variant === "friend" ? "saw-it" : "secondhand"]:
+      fact("yes"),
+  };
+}
 // The engine is tested the way the grading page composes, with every part in,
 // even the ones the owner rejected; "plays every purpose in play" checks play.
 export const HELD = { includeHeld: true } as const;
@@ -164,7 +185,7 @@ export function buildTalks(
         director,
         { askerId: asker, askedId },
         type,
-        facts,
+        factsFor(type),
         index === 2 ? { standing: { lean: -0.2, favor: 0.3 } } : {},
         options,
       );
