@@ -26,7 +26,6 @@ import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
-  ballot,
   ELECTIONS_MODULE_ID,
   PARTIES_MODULE_ID,
 } from "../core2/modules/elections";
@@ -373,15 +372,6 @@ function playerHolds(
           .table("filings")
           .query("byPerson", [playerId]) as unknown as { contestId: string }[]
       ).some((filing) => filing.contestId === contestId);
-    }
-    case "filed-late": {
-      // The player's own filing in a contest where others filed before them:
-      // someone is already on its ballot to be told of.
-      const contestId = record.facts.contestId;
-      if (!contestId || !core.modules.has(ELECTIONS_MODULE_ID)) return false;
-      return ballot(coreAPI(core as CoreState), contestId).some(
-        (filing) => filing.personId !== playerId,
-      );
     }
     case "lost-again":
       // The player ran in the contest the record settled, lost it, and has
