@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
 pr:
