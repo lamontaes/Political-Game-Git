@@ -3414,28 +3414,6 @@
       }
     },
     {
-      "key": "news.interview.name-backs-issue",
-      "move": "interview",
-      "kind": "written",
-      "text": "{name} backs {issue}.",
-      "uses": [
-        {
-          "move": "interview",
-          "subject": "news",
-          "role": "interview",
-          "choice": "lede",
-          "requiresFacts": ["name", "issue", "issue-for"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Interview check thread (press-interview-story-reports-the-stands)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.interview.name-is-for-issue",
       "move": "interview",
       "kind": "written",
@@ -3447,28 +3425,6 @@
           "role": "interview",
           "choice": "lede",
           "requiresFacts": ["name", "issue", "issue-for"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Interview check thread (press-interview-story-reports-the-stands)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.interview.name-opposes-issue",
-      "move": "interview",
-      "kind": "written",
-      "text": "{name} opposes {issue}.",
-      "uses": [
-        {
-          "move": "interview",
-          "subject": "news",
-          "role": "interview",
-          "choice": "lede",
-          "requiresFacts": ["name", "issue", "issue-against"]
         }
       ],
       "origin": "authored",
