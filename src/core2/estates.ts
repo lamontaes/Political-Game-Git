@@ -490,7 +490,8 @@ export function settleCountedEstate(
   const apply = (
     tax: DeathTax,
     heirId: PersonId | undefined,
-    paidMinor: number,
+    /** What moved, for every household the settlement stands for. */
+    movedMinor: number,
   ) =>
     lawApplied(api, {
       key: tax.series,
@@ -500,14 +501,14 @@ export function settleCountedEstate(
       count: households,
       engine: ESTATES_MODULE_ID,
       what:
-        paidMinor > 0
+        movedMinor > 0
           ? heirId
             ? "inheritance-taxed"
             : "estate-taxed"
           : heirId
             ? "inheritance-assessed"
             : "estate-assessed",
-      amountMinor: paidMinor * households,
+      amountMinor: movedMinor,
     });
   // The estate tax is figured on the whole estate; each heir bears their share of it.
   const shares = new Map<PersonId, number>(
@@ -534,14 +535,17 @@ export function settleCountedEstate(
         placeId: input.placeId,
         personId: h.heirId,
         otherOwnerId: treasuryOf(api, tax.jurisdiction),
-        amountMinor: part,
+        // The share of the record the death reaches pays, not the record's
+        // whole weight (a part death's heirs live in the households left).
+        amountMinor: Math.round(part * households),
+        whole: true,
         reasonKey: `estate.${tax.series}`,
         source: source(
           `Estate of ${input.deceasedId}, a counted resident: ${tax.lawId}`,
         ),
       });
       paid += moved;
-      shares.set(h.heirId, (shares.get(h.heirId) ?? 0) - moved);
+      shares.set(h.heirId, (shares.get(h.heirId) ?? 0) - moved / households);
     });
     apply(tax, undefined, paid);
   }
@@ -587,7 +591,8 @@ export function settleCountedEstate(
             placeId: input.placeId,
             personId: h.heirId,
             otherOwnerId: treasuryOf(api, assessment.jurisdiction),
-            amountMinor: assessment.amountMinor,
+            amountMinor: Math.round(assessment.amountMinor * households),
+            whole: true,
             reasonKey: `estate.${assessment.series}`,
             source: source(
               `Estate of ${input.deceasedId}, a counted resident: ${assessment.lawId}`,
