@@ -41,6 +41,7 @@ import { openOfficials } from "../core2/modules/officials";
 import { openLawReach } from "../core2/law-reach/host";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
+import { openServeAsks } from "../core2/modules/serve-asks";
 import { openLeadership } from "../core2/modules/leadership";
 import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
@@ -564,6 +565,8 @@ function* benchWorldStages(
   // (debates need the press's outlets) and constituent cases.
   yield "workings";
   openStaff(core);
+  // The player asks people to serve, and they answer from their records (brief J).
+  openServeAsks(core);
   openInterestGroups(core);
   openWorldLegislating(core);
   openWorldRaces(core);

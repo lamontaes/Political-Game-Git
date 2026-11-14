@@ -1366,7 +1366,8 @@
   },
   "runningMate": {
     "title": "Your running mate",
-    "choose": "Choose",
+    "ask": "Ask",
+    "declined": "{name} turned you down. You can ask again later.",
     "own": "Choose for me",
     "later": "You name your running mate after the primary.",
     "nominee": "Your party's nominee for {ticket} joins your ticket after the primary.",
