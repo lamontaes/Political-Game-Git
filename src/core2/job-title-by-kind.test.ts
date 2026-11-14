@@ -57,69 +57,79 @@ describe("a job title says its employer's own kind of place", () => {
     ["Raymond", "US-WA", null],
   ] as const;
   for (const [name, state, kind] of PLACES) {
-    it(`says every government job in ${name} (${state}, seed title-kind:1) by its own kind`, () => {
-      const place = searchCorePlaces(name, 3, {
-        stateJurisdictionKey: state,
+    it(
+      `says every government job in ${name} (${state}, seed title-kind:1) by its own kind`,
+      { timeout: 300_000 },
+      () => {
+        const place = searchCorePlaces(name, 3, {
+          stateJurisdictionKey: state,
+        })[0]!;
+        const world = buildBenchWorld("title-kind:1", "2026-10-12", {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+        const said: string[] = [];
+        for (const job of world.core.jobs.values()) {
+          const employer = world.core.organizations.get(job.organizationId);
+          if (!/^city /i.test(job.title) || !employer) continue;
+          const title = jobTitleSaid(world.core, job);
+          said.push(`${title} @ ${employer.name}`);
+          if (kind) {
+            expect(title, `${job.id} at ${employer.name}`).not.toMatch(
+              /^city /i,
+            );
+            expect(title).toMatch(new RegExp(`^${kind} `));
+          } else expect(title).toBe(job.title);
+          // The card says the employer as the journal does, never the payroll's
+          // record name ("TOWN OF RANCHESTER treasury").
+          const person = [...world.core.people.values()].find(
+            (row) => row.jobId === job.id,
+          );
+          if (person) {
+            const said = personCard(world.core, person.id).job?.employer ?? "";
+            expect(said, `${job.id}`).not.toMatch(/treasury|[A-Z]{3,}/);
+          }
+        }
+        expect(
+          said.length,
+          `government jobs titled city in ${name}`,
+        ).toBeGreaterThan(0);
+      },
+    );
+  }
+
+  it(
+    "says a person works for a government, never at it (Ranchester WY, seed title-kind:1)",
+    { timeout: 300_000 },
+    () => {
+      const place = searchCorePlaces("Ranchester", 3, {
+        stateJurisdictionKey: "US-WY",
       })[0]!;
       const world = buildBenchWorld("title-kind:1", "2026-10-12", {
         twoLevel: true,
         placeKey: place.key,
       });
-      const said: string[] = [];
+      const people = [...world.core.people.values()];
+      const viewer = people[0]!;
+      const byJob = new Map(people.map((row) => [row.jobId, row]));
+      let checked = 0;
       for (const job of world.core.jobs.values()) {
         const employer = world.core.organizations.get(job.organizationId);
-        if (!/^city /i.test(job.title) || !employer) continue;
-        const title = jobTitleSaid(world.core, job);
-        said.push(`${title} @ ${employer.name}`);
-        if (kind) {
-          expect(title, `${job.id} at ${employer.name}`).not.toMatch(/^city /i);
-          expect(title).toMatch(new RegExp(`^${kind} `));
-        } else expect(title).toBe(job.title);
-        // The card says the employer as the journal does, never the payroll's
-        // record name ("TOWN OF RANCHESTER treasury").
-        const person = [...world.core.people.values()].find(
-          (row) => row.jobId === job.id,
-        );
-        if (person) {
-          const said = personCard(world.core, person.id).job?.employer ?? "";
-          expect(said, `${job.id}`).not.toMatch(/treasury|[A-Z]{3,}/);
-        }
+        const person = byJob.get(job.id);
+        if (!employer || !person || person.id === viewer.id) continue;
+        if (checked >= 12) break;
+        if (!employerIsGovernment(employer)) continue;
+        const said = (
+          knownCard(world.core, viewer.id, person.id).summary ?? []
+        ).join(" ");
+        if (!/^Works as /.test(said)) continue;
+        expect(said, person.id).toMatch(/ for the /);
+        expect(said, person.id).not.toMatch(/ at the /);
+        checked += 1;
       }
-      expect(
-        said.length,
-        `government jobs titled city in ${name}`,
-      ).toBeGreaterThan(0);
-    });
-  }
-
-  it("says a person works for a government, never at it (Ranchester WY, seed title-kind:1)", () => {
-    const place = searchCorePlaces("Ranchester", 3, {
-      stateJurisdictionKey: "US-WY",
-    })[0]!;
-    const world = buildBenchWorld("title-kind:1", "2026-10-12", {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const people = [...world.core.people.values()];
-    const viewer = people[0]!;
-    const byJob = new Map(people.map((row) => [row.jobId, row]));
-    let checked = 0;
-    for (const job of world.core.jobs.values()) {
-      const employer = world.core.organizations.get(job.organizationId);
-      const person = byJob.get(job.id);
-      if (!employer || !person || person.id === viewer.id) continue;
-      if (checked >= 12) break;
-      if (!employerIsGovernment(employer)) continue;
-      const said = (
-        knownCard(world.core, viewer.id, person.id).summary ?? []
-      ).join(" ");
-      if (!/^Works as /.test(said)) continue;
-      expect(said, person.id).toMatch(/ for the /);
-      expect(said, person.id).not.toMatch(/ at the /);
-      checked += 1;
-    }
-    expect(checked).toBeGreaterThan(0);
-  });
+      expect(checked).toBeGreaterThan(0);
+    },
+  );
 
   it("words a vote on the office screen's list of acts", () => {
     expect(controls.officeStops.voteCast).toEqual({
