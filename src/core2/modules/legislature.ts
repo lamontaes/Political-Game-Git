@@ -1346,8 +1346,8 @@ export function registerBudgetMeeting(
 
 /**
  * Whether the budgets calendar leaves a year's budget to its body's meeting:
- * the hearing's bill is on a meeting that votes it today, or that meeting has
- * already voted it.
+ * the hearing's bill is on the agenda of a meeting that votes it today, or
+ * that meeting has already voted it. A body with no meeting votes it here.
  */
 function budgetVoteWaits(
   api: CoreAPI,
@@ -1359,7 +1359,6 @@ function budgetVoteWaits(
     ? (table(api, "bills").get(heard.billId) as unknown as BillRow | undefined)
     : undefined;
   if (!bill?.budgetFor) return false;
-  if (bill.status !== "drafted") return true;
   return budgetMeeting?.votes(api, bill.id) ?? false;
 }
 

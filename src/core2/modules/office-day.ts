@@ -993,7 +993,8 @@ function holdsMemberFilings(api: CoreAPI): boolean {
  * A government's budget goes on its body's agenda for the day it is voted, the
  * fiscal year's first day (budgets.ts), for every body alike: the regular
  * meeting that day takes it with its other items, and a body with no regular
- * meeting that day meets that day at its usual hour to vote it. A body with no
+ * meeting that day meets that day at its usual hour to vote it. A legislature,
+ * Congress or a body with no
  * meeting rule votes it from the budgets calendar.
  */
 function placeBudgetVote(api: CoreAPI, billId: string, date: string): void {
@@ -1001,6 +1002,9 @@ function placeBudgetVote(api: CoreAPI, billId: string, date: string): void {
   const bill = billOf(api, billId);
   if (!bill || date <= api.state.date) return;
   const officeId = bill.bodyOfficeId;
+  // A legislature or Congress sits on its session calendar, not at meetings.
+  const level = bodyReach(api, officeId);
+  if (level === "state" || level === "federal") return;
   const rule = nextMeeting(api, officeId, dayOffset(date, -1));
   if (!rule) return;
   table(api, "agendaItems").put({
@@ -1049,13 +1053,19 @@ function placeBudgetVote(api: CoreAPI, billId: string, date: string): void {
   holdPlayerIfDue(api, held);
 }
 
-/** Whether a meeting today, still sitting, has the budget on its agenda to vote. */
+/**
+ * Whether the budget's meeting votes it: it is on the agenda of a meeting
+ * today that is still sitting, or that meeting has already voted it.
+ */
 function votesBudgetToday(api: CoreAPI, billId: string): boolean {
   const placed = table(api, "agendaItems").get(billId) as unknown as
     { officeId: string; date: string } | undefined;
   if (!placed || placed.date !== api.state.date) return false;
   const row = meetingOf(api, meetingId(placed.officeId, placed.date));
-  return !!row && row.status !== "adjourned" && row.agenda.includes(billId);
+  if (!row || !row.agenda.includes(billId)) return false;
+  return (
+    row.status !== "adjourned" || billOf(api, billId)?.status !== "drafted"
+  );
 }
 
 /** Ordinances members filed for a meeting go on its agenda; with no meeting row they are voted now. */
