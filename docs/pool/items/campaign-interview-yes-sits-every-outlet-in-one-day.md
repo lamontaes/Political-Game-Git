@@ -20,7 +20,7 @@ branch: claude/project-thread-unx2lc
 checked:
 ---
 
-**What.** The player says yes once to an interview invitation and the director stages six `interview-sitting` scenes, every one stopping the day, all on the same date, each opening with a different reporter's first-contact lines. Seen in four of four campaigns where the player answered yes (Chalkhill PA, Stony Creek VA, Patrick AFB FL, Greenville DE; fixed seeds `q2`, `q4`, `q3`, `q5` of `scripts/dev-tests/campaign-events-played.ts`). Seen: on the day after a yes, the player's day stops six times in a row.
+**What.** The player says yes once to an interview invitation and the director stages six `interview-sitting` scenes, every one stopping the day, all on the same date, each opening with a different reporter's first-contact lines. Seen in four of four campaigns where the player answered yes (Chalkhill PA, Stony Creek VA, Patrick AFB FL, Greenville DE; fixed seeds `q2`, `q4`, `q3`, `q5` of the campaign-events-played dev test). Seen: on the day after a yes, the player's day stops six times in a row.
 
 **Cause.** Found in code: `emitInterviewInvite` in src/core2/modules/press.ts (line 3813) puts every outlet that asked that week in one `interview-invited` record's `interviewIds`, and `answerInvitation` (line 3864) accepts each of them on one yes, so one `interview-accepted` record is written per outlet on the same day and the director stages one sitting for each.
 
