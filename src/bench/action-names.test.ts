@@ -38,7 +38,7 @@ describe("an act's name comes from the English bank", () => {
       const name = names[act];
       expect(name, act).toBeTruthy();
       expect(name, act).not.toMatch(/[{}]|\.$|-/);
-      expect(name!.split(" ").length, act).toBeLessThanOrEqual(6);
+      expect(name!.split(" ").length, act).toBeLessThanOrEqual(8);
     }
   });
 });

@@ -2209,10 +2209,10 @@
       }
     },
     {
-      "key": "choice-names.interview.do-an-interview",
+      "key": "choice-names.interview.give-an-interview",
       "move": "interview",
       "kind": "spoken",
-      "text": "Do an interview.",
+      "text": "Give an interview.",
       "uses": [
         {
           "move": "interview",
@@ -2272,10 +2272,10 @@
       }
     },
     {
-      "key": "choice-names.talk-to-colleague.talk-about-your-bill",
+      "key": "choice-names.talk-to-colleague.talk-to-a-colleague-about-your-bill",
       "move": "talk-to-colleague",
       "kind": "spoken",
-      "text": "Talk about your bill.",
+      "text": "Talk to a colleague about your bill.",
       "uses": [
         {
           "move": "talk-to-colleague",
@@ -2377,10 +2377,10 @@
       }
     },
     {
-      "key": "choice-names.case.work-a-case",
+      "key": "choice-names.case.help-a-resident-with-a-problem",
       "move": "case",
       "kind": "spoken",
-      "text": "Work a case.",
+      "text": "Help a resident with a problem.",
       "uses": [
         {
           "move": "case",
@@ -2419,10 +2419,10 @@
       }
     },
     {
-      "key": "choice-names.state-of-the-city.give-the-state-of-the-city",
+      "key": "choice-names.state-of-the-city.give-your-yearly-address",
       "move": "state-of-the-city",
       "kind": "spoken",
-      "text": "Give the state of the city.",
+      "text": "Give your yearly address.",
       "uses": [
         {
           "move": "state-of-the-city",
@@ -2440,10 +2440,10 @@
       }
     },
     {
-      "key": "choice-names.contact-known-person.get-in-touch",
+      "key": "choice-names.contact-known-person.get-in-touch-with-someone-you-know",
       "move": "contact-known-person",
       "kind": "spoken",
-      "text": "Get in touch.",
+      "text": "Get in touch with someone you know.",
       "uses": [
         {
           "move": "contact-known-person",
@@ -2503,10 +2503,10 @@
       }
     },
     {
-      "key": "choice-names.approach-office.visit-the-office",
+      "key": "choice-names.approach-office.visit-an-office",
       "move": "approach-office",
       "kind": "spoken",
-      "text": "Visit the office.",
+      "text": "Visit an office.",
       "uses": [
         {
           "move": "approach-office",
