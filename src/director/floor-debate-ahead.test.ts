@@ -4,6 +4,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
 import {
   billOf,
   bodyReach,
@@ -33,14 +34,20 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 // (Words lead, Nov 14: the scene goes before the roll). The speaker's packet
 // holds what the bill is about, one reason a speaker may say aloud, and the
 // size of the body, so a small board is not worded like a chamber. Three named
-// places, one fixed seed each, played for the first weeks of a year.
+// places, one fixed seed each, played from a few days before the first floor day.
 const PLACES = [
-  { seed: "meet-a1:0", name: "Delta City, Mississippi" },
-  { seed: "meet-a1:1", name: "Roy, Montana" },
-  { seed: "meet-a1:2", name: "Klamath Falls, Oregon" },
+  { seed: "meet-a1:0", name: "Delta City, Mississippi", skip: 10, days: 10 },
+  { seed: "meet-a1:1", name: "Roy, Montana", skip: 8, days: 10 },
+  { seed: "meet-a1:2", name: "Klamath Falls, Oregon", skip: 8, days: 10 },
   // A council of nine seats, the one body in these places above the small
   // board's seat row, reached through the game's own path.
-  { seed: "council-a1:0", name: "Phoenix, Arizona", body: ":council" },
+  {
+    seed: "council-a1:0",
+    name: "Phoenix, Arizona",
+    body: ":council",
+    skip: 0,
+    days: 12,
+  },
   // A state chamber, spoken formally whatever its size: the member is a
   // state legislator, and the debate is heard on the day before the floor day.
   {
@@ -48,15 +55,13 @@ const PLACES = [
     name: "Columbus, Indiana",
     body: "legislature-lower",
     state: true,
-    // The state's session reaches its first floor day on March 24 in this
-    // world since the train's calendar change (Nov 14), so it is played longer.
-    days: 75,
+    // The leader now spreads the session's bills over its floor weeks, so
+    // this chamber's first floor day is March 24: the world runs to a few
+    // days before it and the member plays from there.
+    skip: 55,
+    days: 14,
   },
 ] as const;
-const DAYS = 45;
-const DAYS_BY_SEED = new Map<string, number>(
-  PLACES.flatMap((row) => ("days" in row ? [[row.seed, row.days]] : [])),
-);
 
 function localMember(
   core: CoreState,
@@ -89,9 +94,10 @@ function localMember(
 }
 
 describe("the floor is heard before the roll at a town board", () => {
-  for (const { seed, name, body, state } of PLACES.map((row) => ({
+  for (const { seed, name, body, state, skip, days } of PLACES.map((row) => ({
     body: "",
     state: false,
+    skip: 0,
     ...row,
   })))
     it(`${name} (${seed})`, () => {
@@ -116,6 +122,8 @@ describe("the floor is heard before the roll at a town board", () => {
       expect(personId, "a sitting member who is a full person").toBeTruthy();
       core.focusPersonIds.add(personId!);
       director.watch(core, personId!);
+      // The world runs on to a few days before its first floor day, then the member plays.
+      if (skip) advanceCore(core, addDays(makeIsoDate(core.date), skip));
       const book = director.ledger.people.get(personId!)!;
       const heard: string[] = [];
       const late: string[] = [];
@@ -123,7 +131,7 @@ describe("the floor is heard before the roll at a town board", () => {
       let packet = advancePlayerV1(core, {
         controlledPersonId: personId!,
         through: {
-          date: addDays(makeIsoDate(core.date), DAYS_BY_SEED.get(seed) ?? DAYS),
+          date: addDays(makeIsoDate(core.date), days),
           minuteOfDay: P.zero,
         },
       });
@@ -250,11 +258,14 @@ describe("the floor is heard before the roll at a town board", () => {
         process.stdout.write(
           `${name}: ${late.length} debate(s) after the roll: ${late.join("; ")}\n`,
         );
+      process.stdout.write(
+        `${name}: heard ${heard.map((row) => row.slice(-10)).join(", ")}\n`,
+      );
       expect(core.modules.has(LEGISLATURE_MODULE_ID)).toBe(true);
       expect(pressed, `${name}: a reply pressed on the floor`).toBe(true);
       expect(
         heard,
         `${name}: a floor debate heard before a roll`,
       ).not.toHaveLength(0);
-    }, 420_000);
+    }, 150_000);
 });
