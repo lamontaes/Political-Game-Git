@@ -414,6 +414,18 @@ export function composeGroundedLine(
     if (chosen.setsFacts?.length)
       packet = {
         ...packet,
+        // What a speaker's own words set, that speaker knows: a later part
+        // may be conditioned on it.
+        knowledge: packet.speaker
+          ? [
+              ...packet.knowledge,
+              ...chosen.setsFacts.map((key) => ({
+                personId: packet.speaker!.personId,
+                factKey: key,
+                sourceRecordIds: [...rendered.sourceRecordIds],
+              })),
+            ]
+          : packet.knowledge,
         facts: {
           ...packet.facts,
           ...Object.fromEntries(

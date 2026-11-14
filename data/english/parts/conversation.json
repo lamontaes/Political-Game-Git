@@ -43249,7 +43249,8 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["layoff"],
-          "excludesFacts": ["years"]
+          "excludesFacts": ["years"],
+          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
         }
       ],
       "piece": {
@@ -43273,7 +43274,8 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["closure"],
-          "excludesFacts": ["years"]
+          "excludesFacts": ["years"],
+          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
         }
       ],
       "piece": {
@@ -43296,7 +43298,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "excludesFacts": ["layoff", "closure"]
+          "excludesFacts": ["layoff", "closure"],
+          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
         }
       ],
       "piece": {
@@ -43450,7 +43453,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "requiresFacts": ["closure"]
+          "requiresFacts": ["closure"],
+          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
         }
       ],
       "piece": {
@@ -43473,7 +43477,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "requiresFacts": ["closure"]
+          "requiresFacts": ["closure"],
+          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
         }
       ],
       "piece": {
@@ -43496,7 +43501,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "requiresFacts": ["closure"]
+          "requiresFacts": ["closure"],
+          "setsFacts": ["chances-unsure", "chances-not-sure"]
         }
       ],
       "piece": {
@@ -43519,7 +43525,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "requiresFacts": ["closure"]
+          "requiresFacts": ["closure"],
+          "setsFacts": ["chances-sure", "chances-not-unsure"]
         }
       ],
       "piece": {
@@ -43542,7 +43549,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "requiresFacts": ["closure"]
+          "requiresFacts": ["closure"],
+          "setsFacts": ["chances-unsure", "chances-not-sure"]
         }
       ],
       "piece": {
@@ -43565,7 +43573,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "requiresFacts": ["layoff"]
+          "requiresFacts": ["layoff"],
+          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
         }
       ],
       "piece": {
@@ -43588,7 +43597,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "requiresFacts": ["layoff"]
+          "requiresFacts": ["layoff"],
+          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
         }
       ],
       "piece": {
@@ -43611,7 +43621,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "requiresFacts": ["layoff"]
+          "requiresFacts": ["layoff"],
+          "setsFacts": ["chances-unsure", "chances-not-sure"]
         }
       ],
       "piece": {
@@ -43634,7 +43645,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "requiresFacts": ["layoff"]
+          "requiresFacts": ["layoff"],
+          "setsFacts": ["chances-sure", "chances-not-unsure"]
         }
       ],
       "piece": {
@@ -43657,7 +43669,8 @@
           "move": "job-lost-say-core",
           "subject": "job-lost-say",
           "role": "core",
-          "requiresFacts": ["layoff"]
+          "requiresFacts": ["layoff"],
+          "setsFacts": ["chances-unsure", "chances-not-sure"]
         }
       ],
       "piece": {
@@ -44492,7 +44505,7 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-bad"]
+          "requiresFacts": ["town-bad", "chances-not-sure"]
         }
       ],
       "piece": {
@@ -44514,7 +44527,7 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-bad"]
+          "requiresFacts": ["town-bad", "chances-not-sure"]
         }
       ],
       "piece": {
@@ -44536,7 +44549,7 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-bad"]
+          "requiresFacts": ["town-bad", "chances-not-sure"]
         }
       ],
       "piece": {
@@ -44580,7 +44593,7 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-middling"]
+          "requiresFacts": ["town-middling", "chances-not-sure"]
         }
       ],
       "piece": {
@@ -44602,7 +44615,7 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-good"]
+          "requiresFacts": ["town-good", "chances-not-unsure"]
         }
       ],
       "piece": {
@@ -44624,7 +44637,7 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-good"]
+          "requiresFacts": ["town-good", "chances-not-unsure"]
         }
       ],
       "piece": {

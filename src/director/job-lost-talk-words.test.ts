@@ -95,10 +95,49 @@ describe("a lost job told through the composer", () => {
         expect(line!.text).not.toMatch(/\d|percent|rate/i);
         seen.add(line!.text);
       }
-      expect([...seen].some((text) => text.split(/(?<=\.)\s/).length > 2)).toBe(
-        true,
-      );
+      expect(
+        [...seen].some((text) => text.split(/(?<=\.)\s/).length > 2),
+        `${level}: ${[...seen].join(" // ")}`,
+      ).toBe(true);
     }
+  });
+
+  it("never pairs a sure opener with scarce work or an unsure one with plentiful work", () => {
+    const SURE = /I'll find something\.$/;
+    const UNSURE = /I don't know what's next\.|After all that\./;
+    let both = 0;
+    for (const level of ["bad", "middling", "good"])
+      for (const reason of ["closure", "layoff"])
+        for (let draw = 0; draw < 60; draw += 1) {
+          const line = composeConversationLine({
+            seed: `job-lost-fit-${draw}`,
+            subject: "job-lost-say",
+            speakerId: `person_test_${draw}` as PersonId,
+            traits: {},
+            facts: {
+              employer: fact("Lopez's Market"),
+              when: fact("last week"),
+              [reason]: fact("yes"),
+              [`town-${level}`]: fact("yes"),
+            },
+            stage: "default",
+            momentKey: `fit:${level}:${reason}:${draw}`,
+          });
+          expect(line, `${level} ${reason}`).toBeTruthy();
+          const sentences = line!.text.split(/(?<=[.?])\s+/);
+          const opener = sentences.slice(0, 2).join(" ");
+          if (sentences.length > 2) both += 1;
+          if (level === "bad")
+            expect(SURE.test(opener) && sentences.length > 2, line!.text).toBe(
+              false,
+            );
+          if (level === "good")
+            expect(
+              UNSURE.test(opener) && sentences.length > 2,
+              line!.text,
+            ).toBe(false);
+        }
+    expect(both).toBeGreaterThan(0);
   });
 
   it("takes a second turn after the hope answer, 'Same kind of work' only when the trade is on the record", () => {
