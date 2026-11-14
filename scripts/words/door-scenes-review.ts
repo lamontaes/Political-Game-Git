@@ -697,7 +697,25 @@ const groupOf = (kind: string) =>
 const scenes: unknown[] = [];
 const notReady: { title: string; kind: string; why: string }[] = [];
 const places = placesFile.situationPlaces as Record<string, string[]>;
+// A scene keeps its number across refreshes (voice notes name lines by id): the
+// earlier run's number by title, and a new scene takes the next free one.
+const kept = new Map<string, number>();
+if (process.env.REVIEW_PREVIOUS) {
+  const old = JSON.parse(readFileSync(process.env.REVIEW_PREVIOUS, "utf8")) as {
+    scenes: { id: string; title: string }[];
+  };
+  for (const row of old.scenes) kept.set(row.title, Number(row.id));
+}
+let nextFree = Math.max(0, ...kept.values()) + 1;
 let sceneNo = 0;
+let claimedNew = false;
+const claim = (title: string) => {
+  const had = kept.get(title);
+  claimedNew = had === undefined;
+  if (had !== undefined) return had;
+  kept.set(title, nextFree);
+  return nextFree++;
+};
 
 for (const entry of manifest) {
   let context = "";
@@ -728,7 +746,7 @@ for (const entry of manifest) {
     continue;
   }
   if (entry.coming || entry.lines) {
-    sceneNo += 1;
+    sceneNo = claim(entry.title ?? "Untitled");
     const n = { i: 0 };
     const ids = { next: () => `${sceneNo}.1.${(n.i += 1)}` };
     const META =
@@ -835,7 +853,7 @@ for (const entry of manifest) {
     purpose,
     ...(variant ? { family } : {}),
   } as PurposeType;
-  sceneNo += 1;
+  sceneNo = claim(title);
   const versions: unknown[] = [];
   let failed = "";
   for (let v = 1; v <= VERSIONS; v += 1) {
@@ -884,7 +902,10 @@ for (const entry of manifest) {
     v.answers.some((a) => a.tree),
   );
   if (!composed) {
-    sceneNo -= 1;
+    if (claimedNew) {
+      kept.delete(title);
+      nextFree -= 1;
+    }
     notReady.push({ title, kind, why: failed || "did not compose" });
     continue;
   }
