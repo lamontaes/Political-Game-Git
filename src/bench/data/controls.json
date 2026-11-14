@@ -1116,7 +1116,10 @@
     "newAmount": "The new amount",
     "addStep": "Add a step",
     "firstStep": "Takes effect when it becomes law",
-    "stepDate": "Takes effect on"
+    "stepDate": "Takes effect on",
+    "askedCarried": "{name} agreed to carry your bill.",
+    "askedRefused": "{name} declined to carry your bill, and nothing was filed.",
+    "askedWaiting": "{name} is weighing it."
   },
   "journal": {
     "title": "My story",
