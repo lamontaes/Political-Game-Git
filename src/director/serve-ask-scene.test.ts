@@ -167,12 +167,19 @@ function ask(w: World, personId: string, take: "thank" | "accept") {
   expect(scene.playerAsks).toBe(true);
   expect(scene.askerId).toBe(personId);
   const first = scene.talk.tree.lines[0]!;
-  // A stranger who would say yes asks the player one thing first, and the
-  // player answers it straight (brief J batch 2); everyone else answers at once.
-  const asksFirst = !row.standing.grounds.knows && row.standing.lean > 0;
-  expect(first.move, `${w.where}: lean ${row.standing.lean}`).toBe(
-    asksFirst ? "ask" : row.standing.lean > 0 ? "agree" : "decline",
-  );
+  // A stranger who would say yes asks the player one thing first where the
+  // record gives the player two answers to it, and the player answers it
+  // straight (brief J batch 2; the pinned cases below show which); everyone
+  // else answers at once.
+  const asksFirst = first.move === "ask";
+  if (asksFirst)
+    expect(!row.standing.grounds.knows && row.standing.lean > 0, w.where).toBe(
+      true,
+    );
+  else
+    expect(first.move, `${w.where}: lean ${row.standing.lean}`).toBe(
+      row.standing.lean > 0 ? "agree" : "decline",
+    );
   for (const node of ends(scene.talk.tree))
     expect(node.end?.ending?.id, w.where).toBeTruthy();
   const index = scene.talk.tree.replies.findIndex(
@@ -372,3 +379,90 @@ it(
     ).toEqual([]);
   },
 );
+
+/**
+ * A stranger who would say yes asks the player one thing first, chosen by
+ * their reason for the yes (Words lead, Nov 14 16:30Z): the player's answers
+ * come from the record, and a hedge on their own question is weighed as no
+ * stance. Each case pins a place, a seed and the person asked.
+ */
+const ASKS_FIRST = [
+  {
+    key: "territory:GU:santa-rita",
+    seed: "8d04db587cd640d7",
+    asked: "Shawn Miles",
+    question: "ask",
+    reply: "answer",
+    answer: "agree",
+  },
+  {
+    key: "territory:GU:santa-rita",
+    seed: "11aa22bb33cc44dd",
+    asked: "Mary Conway",
+    question: "ask",
+    reply: "deflect",
+    answer: "agree",
+  },
+  {
+    key: "territory:GU:yona",
+    seed: "c0ffee1234567890",
+    asked: "Elliott Tate",
+    question: "ask",
+    reply: "deflect",
+    answer: "decline",
+  },
+];
+
+for (const place of ASKS_FIRST)
+  it(
+    `a stranger asks one thing first and answers the player's ${place.reply} (${place.key}, seed ${place.seed})`,
+    { timeout: 600_000 },
+    () => {
+      const w = world(place);
+      const api = coreAPI(w.core);
+      const offered = offeredRunningMates(api, w.filing.id)!;
+      const pick = offered.choices.find((c) => c.name === place.asked);
+      expect(pick, `${w.where}: ${place.asked} offered`).toBeDefined();
+      const row = askToServe(api, {
+        seat: "ticket",
+        filingId: w.filing.id,
+        personId: pick!.id,
+      });
+      expect(row.standing.grounds.knows, w.where).toBe(false);
+      expect(row.standing.lean, w.where).toBeGreaterThan(0);
+      advanceCore(w.core, addDays(makeIsoDate(w.core.date), 1));
+      const book = w.director.ledger.people.get(w.playerId)!;
+      const entry = book.schedule.find(
+        (e) => book.momentsById.get(e.momentId)?.causeId === row.eventId,
+      );
+      expect(entry, `${w.where}: the ask staged no scene`).toBeDefined();
+      const result = purposeScene(w.core, w.director, w.playerId, entry!);
+      if (result?.kind !== "composed")
+        throw new Error(`${w.where}: ${JSON.stringify(result)}`);
+      const tree = result.scene.talk.tree;
+      expect(tree.lines[0]?.move, w.where).toBe(place.question);
+      expect(tree.replies.length, w.where).toBeGreaterThanOrEqual(2);
+      const index = tree.replies.findIndex((r) => r.line.move === place.reply);
+      expect(index, `${w.where}: no ${place.reply}`).toBeGreaterThanOrEqual(0);
+      const chosen = tree.replies[index]!;
+      expect(chosen.next?.lines[0]?.move, w.where).toBe(place.answer);
+      process.stdout.write(
+        [
+          `SERVE ASKS FIRST ${w.where}`,
+          ...result.scene.talk.narration.map((l) => `Narrator: ${l.text}`),
+          `${result.scene.talk.state.speaker}: ${result.scene.talk.state.text}`,
+          `${tree.lines[0]!.speaker}: ${tree.lines[0]!.text}`,
+          ...tree.replies.map(
+            (r) => `  (choice) ${r.line.speaker}: ${r.line.text}`,
+          ),
+          `${chosen.line.speaker}: ${chosen.line.text}`,
+          ...(chosen.next?.lines.map((l) => `${l.speaker}: ${l.text}`) ?? []),
+        ].join("\n") + "\n",
+      );
+      replyInScene(w.core, w.director, w.playerId, entry!, [index]);
+      const after = serveAsk(api, row.id);
+      // A yes seats them and the ask is dropped; a no is kept.
+      if (place.answer === "agree") expect(after, w.where).toBeUndefined();
+      else expect(after?.answer, w.where).toBe("no");
+    },
+  );

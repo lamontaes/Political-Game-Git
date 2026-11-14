@@ -1568,6 +1568,10 @@ function composeBinding(
         text: "yes",
         sourceRecordIds: why,
       };
+    // Near the player on their own question, by the same read the answer
+    // weighed: the player can say so when asked why them.
+    if ((serve.terms.question ?? P.zero) > P.zero)
+      facts["near-on-issue"] = { text: "yes", sourceRecordIds: why };
     // Asked again after a no: a yes says what changed, as felt (Words lead,
     // Nov 14: the term that moved most since the no).
     if (serve.moved && serve.standing.lean > P.zero)

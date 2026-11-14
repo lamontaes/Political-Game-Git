@@ -4085,6 +4085,7 @@
           "tell": "ask",
           "then": [
             { "move": "answer", "carries": "lean" },
+            { "move": "tell", "carries": "lean" },
             { "move": "deflect", "carries": "hedged" }
           ]
         }
