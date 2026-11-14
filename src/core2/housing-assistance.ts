@@ -18,7 +18,7 @@ import {
 import { mechanicRow } from "./law-reach/group-a-records";
 import { townShare } from "./law-reach/group-b-money";
 import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
-import { baseBudget, BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import { BUDGETS_MODULE_ID, governments, lineExtra } from "./modules/budgets";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { tenants } from "./housing-occupancy";
 import { transferCash } from "./world-transfer";
@@ -40,9 +40,7 @@ export function payRentAssistance(api: CoreAPI): void {
     const budget = budgetToday(api, gov);
     if (!budget) continue;
     // The line above its Census base: this year's amendments and every budget bill the body has passed, which later years' budgets start from.
-    const extra =
-      (budget.spendingMinor.housing ?? 0) -
-      (baseBudget(api, gov, budget.fiscalYear).spendingMinor.housing ?? 0);
+    const extra = lineExtra(api, gov, budget, "housing");
     // A state's or county's line is shared across all its people: the played
     // town receives the part its own people stand for (1 for the city's own
     // line). ESTIMATED from the population share, as renter households are

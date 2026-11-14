@@ -25,12 +25,12 @@ import {
   askToSign,
   campaignFor,
   doorsKnockedOf,
+  eveningMoneyMinor,
   townDoorCount,
   giftOf,
   donorMeetingHost,
   holdDonorMeeting,
   hostCircle,
-  freeMinor,
   holdEvent,
   knockDoors,
   reachablePeople,
@@ -416,17 +416,6 @@ function forumHeldToday(api: CoreAPI, campaign: CampaignRow): string | null {
 }
 
 /**
- * What a campaign can pay a venue with: the cash its account holds, less the
- * money it has set aside for an event, a poll and circulators (`freeMinor`).
- */
-function cashOf(api: CoreAPI, campaign: CampaignRow): number {
-  return Math.min(
-    api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0,
-    freeMinor(campaign),
-  );
-}
-
-/**
  * Whether the records let the candidate take one choice today, by the test
  * `campaignDayChoices` makes for it, each read to its first yes and building
  * none of the facts the screen alone shows. Every read it skips writes
@@ -441,7 +430,8 @@ function openToday(
 ): boolean {
   const candidateAlive = () =>
     !!api.state.people.get(campaign.candidateId)?.alive;
-  const affords = () => cashOf(api, campaign) >= unitPrice(api, "event-venue");
+  const affords = () =>
+    eveningMoneyMinor(api, campaign) >= unitPrice(api, "event-venue");
   switch (kind) {
     case "canvass":
       return townHasDoor(api);
@@ -663,7 +653,7 @@ export function campaignDayChoices(
     households - doorsKnockedOf(api, campaign.id).length,
   );
 
-  const cash = cashOf(api, campaign);
+  const cash = eveningMoneyMinor(api, campaign);
   const price = unitPrice(api, "event-venue");
   const candidateAlive = !!api.state.people.get(campaign.candidateId)?.alive;
   // A forum is the meetings engine's town hall, hosted by the candidate: one

@@ -22,7 +22,7 @@ const SEED = "e138064a9983ccabb695d23b1ff13dde8995ef6cf374d1edc2dfd5df3b133d47";
 /** The day after the payment that failed. */
 const THROUGH = "2026-05-10";
 
-it("pays the circulators of the Tutu campaign on 2026-05-09 and keeps every set-aside fund in cash", () => {
+it("pays the circulators of the Tutu campaign on 2026-05-09 and keeps the poll and circulator funds in cash", () => {
   setBookkeeping(false);
   const { core } = buildBenchWorld(SEED, gameStartDate(), {
     twoLevel: true,
@@ -40,10 +40,9 @@ it("pays the circulators of the Tutu campaign on 2026-05-09 and keeps every set-
     weeks += 1;
     for (const c of rows()) {
       const held = c.raisedMinor - c.spentMinor;
-      const promised =
-        (c.eventFundMinor ?? 0) +
-        (c.pollFundMinor ?? 0) +
-        (c.circulatorFundMinor ?? 0);
+      // An evening out is paid from the event's own fund; a poll's and the
+      // circulators' funds are never taken by anything else.
+      const promised = (c.pollFundMinor ?? 0) + (c.circulatorFundMinor ?? 0);
       expect(held, `${c.id} on ${core.date}`).toBeGreaterThanOrEqual(promised);
     }
   }
