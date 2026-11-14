@@ -11,7 +11,7 @@ import { CAMPAIGN_MONEY_KINDS } from "../core2/modules/campaigns";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { LEGISLATURE_MODULE_ID, votesOn } from "../core2/modules/legislature";
 import { residentsRuntime } from "../core2/modules/residents";
-import { fullLifeStake } from "../core2/life-stakes";
+import { fullLifeStake } from "../core2/modules/views";
 import { raceById, VOTING_MODULE_ID } from "../core2/modules/voting";
 
 // The counted people's store and household, named through the residents entry

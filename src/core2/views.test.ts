@@ -148,7 +148,7 @@ describe("political views", () => {
     const abortion =
       "us-policy-positions:civil-family-community.restrict-abortion";
     const wage = "us-policy-positions:labor-workforce.raise-minimum-wage";
-    // No survey item and no recorded circumstance bears on it (data/views/stakes.json).
+    // No survey item and no recorded circumstance bears on it (src/core2/data/views/stakes.json).
     const unsurveyed =
       "us-policy-positions:technology-privacy.consumer-data-privacy-law";
     for (const { seed, api, views } of towns) {
@@ -164,7 +164,7 @@ describe("political views", () => {
       );
       const who = `${seed}: ${most.id} (${most.basis}) and ${least.id} (${least.basis})`;
       // The same lean, and their own circumstances taken out (`lifeShift`,
-      // tested in life-stakes.test.ts), so any difference comes from faith
+      // tested in src/core2/life-stakes.test.ts), so any difference comes from faith
       // and degree alone.
       const faithAndDegree = (id: string, question: string) =>
         openingStance(api, id, question, 0.3) - lifeShift(api, id, question);

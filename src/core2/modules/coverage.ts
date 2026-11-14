@@ -685,7 +685,7 @@ export const COVERAGE_MODULE: CoreModule = {
 declareSnapshotCovered(COVERAGE_MODULE.id);
 // A row names the journal receipt of its last premium, an ended row too; the
 // journal's fold keeps every receipt a row names (decision-detail.ts).
-// The views engine's life term reads who holds a plan (life-plan-readers.ts).
+// The views engine's life term reads who holds a plan (src/core2/life-plan-readers.ts).
 registerPlanReaders({
   fullPlan: (core, householdId, personId) =>
     core.modules.has(COVERAGE_MODULE_ID)

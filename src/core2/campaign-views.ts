@@ -4,7 +4,7 @@
  * Each person's stance on a question is partly formed from their own life:
  * for the questions a recorded circumstance bears on, what their tenure,
  * income, work, health plan, young children and government job add
- * (`stakeShift`, `life-stakes.ts`). For the rest (SG-GOV-views-stand-in), a
+ * (`stakeShift`, `src/core2/life-stakes.ts`). For the rest (SG-GOV-views-stand-in), a
  * person's lean starts from how their own congressional district voted in
  * 2024 (Clerk of the House), placed by the personality facets the research
  * links to ideology, at the small share the research measures, and by the
@@ -344,7 +344,7 @@ export function publicOffset(
 export interface StanceProfile {
   readonly faithFromAverage?: number;
   readonly collegeFromAverage?: number;
-  /** Their circumstances and how much they weigh their own stake (`life-stakes.ts`), read again as their records change. */
+  /** Their circumstances and how much they weigh their own stake (`src/core2/life-stakes.ts`), read again as their records change. */
   readonly life?: LifeStake;
 }
 

@@ -1,9 +1,9 @@
 /**
  * The rule of the views engine's life term, pure: what a person's recorded
  * circumstances add to their stance on a policy question, each measured
- * against the nation's average (`data/views/stakes.json`) and weighed by how
+ * against the nation's average (`src/core2/data/views/stakes.json`) and weighed by how
  * much the person weighs their own stake. The facts are read in
- * `life-stakes.ts`; this file holds only the rule, so the campaigns' stance
+ * `src/core2/life-stakes.ts`; this file holds only the rule, so the campaigns' stance
  * reader can use it without the engines' readers.
  */
 import stakesJson from "./data/views/stakes.json" with { type: "json" };

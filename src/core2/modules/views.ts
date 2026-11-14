@@ -23,6 +23,9 @@
 import { isDemoted } from "../counted-groups";
 import { hasStake, stakeShift } from "../life-stake-rule";
 import { countedLifeStake, fullLifeStake } from "../life-stakes";
+
+// Screens read a full person's circumstances through the views engine.
+export { fullLifeStake };
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
@@ -896,7 +899,7 @@ export function openingStance(
 
 /**
  * What a full person's own circumstances add to their stance on a question
- * today (`life-stakes.ts`): read from their records each day, so the stance
+ * today (`src/core2/life-stakes.ts`): read from their records each day, so the stance
  * moves when their life does. Zero for a question no recorded circumstance
  * bears on.
  */

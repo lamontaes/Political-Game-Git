@@ -9,7 +9,7 @@
  * the records the engines keep for them, a counted resident's from their
  * household's columns, so the same person reads alike before and after they
  * are filled in. The facts are read again when the records change, so a view
- * moves when a life does. Sizes: `data/views/stakes.json`.
+ * moves when a life does. Sizes: `src/core2/data/views/stakes.json`.
  */
 import {
   DATA,
@@ -23,7 +23,7 @@ import {
 import { ageOnDate } from "./kernel/dates";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
 import { fullHouseholdIncomes, incomeBandOf } from "./counted-income-fifth";
-import { publicEmployerLevel } from "./public-pay-floor";
+import publicPay from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { planReaders } from "./life-plan-readers";
 import type { CountedHousehold } from "./counted-groups";
@@ -57,6 +57,16 @@ const NATIONAL: LifeFacts = {
   youngChild: reference("youngChild"),
   publicWorker: reference("publicWorker"),
 };
+
+/** The public employer classes (the public pay floor's table of who funds each): a job with one is a government job. */
+const PUBLIC_CLASSES = new Set(
+  Object.keys(
+    (publicPay as unknown as { employerLevels: Record<string, string> })
+      .employerLevels,
+  ),
+);
+const isPublicEmployer = (classification: string): boolean =>
+  PUBLIC_CLASSES.has(classification);
 
 const monthOf = (date: string) => date.slice(0, "YYYY-MM".length);
 
@@ -176,7 +186,7 @@ export function fullLifeStake(
           : reference("noPrivatePlan"),
       youngChild: youngChild ? 1 : 0,
       publicWorker:
-        employer?.classification && publicEmployerLevel(employer.classification)
+        employer?.classification && isPublicEmployer(employer.classification)
           ? 1
           : 0,
     },
@@ -244,7 +254,7 @@ export function countedLifeStake(
   const publicWorker = h.jobs.some((job) => {
     if (job.personId !== personId || job.endsAt !== undefined) return false;
     const kind = core.organizations.get(job.organizationId)?.classification;
-    return !!kind && !!publicEmployerLevel(kind);
+    return !!kind && isPublicEmployer(kind);
   });
   const stake: LifeStake = {
     facts: {
