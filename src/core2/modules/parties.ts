@@ -83,6 +83,8 @@ export const PARTIES_MODULE: CoreModule = {
       },
       meetings: { indexes: { byParty: { fields: ["partyId"] } } },
       chairs: { indexes: { byParty: { fields: ["partyId"] } } },
+      /** Who took a member under their wing when the party asked them to run (`takeUnderWing`), by the member. */
+      mentors: {},
     },
   },
   // A chair who dies or moves away is replaced the same day.

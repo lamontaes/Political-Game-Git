@@ -369,10 +369,10 @@
       "playerNamed": true,
       "afterDays": 1,
       "place": "other-home",
-      "pool": ["party-officeholders"],
+      "pool": ["party-mentor"],
       "where": "same-town",
       "player": "named-in-it",
-      "cast": "the day after a party's chair asked the player to run, a seated officeholder of that party in the player's town who has held a seat for a year or more, who weighs in on whether to run, scored on tie and sociability",
+      "cast": "the day after a party's chair asked the player to run, the seated officeholder of that party who took the player under their wing on the ask (the party mentorship record), who weighs in on whether to run",
       "typeKey": "advice",
       "impactParameter": "directorCircumstanceMeetingImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
