@@ -163985,10 +163985,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.that-s-lawstate-s-law-it-isn-t-the-law-in-homestate",
+      "key": "scene-talk.reply-tell.that-s-another-state-s-law-it-doesn-t-reach-us-here-in-place",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "That's {lawstate}'s law. It isn't the law in {homestate}.",
+      "text": "That's another state's law. It doesn't reach us here in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -164010,10 +164010,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.no-that-s-lawstate-nothing-in-homestate-changed",
+      "key": "scene-talk.reply-tell.no-that-s-not-our-law-it-doesn-t-reach-place",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "No, that's {lawstate}. Nothing in {homestate} changed.",
+      "text": "No, that's not our law. It doesn't reach {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -164035,10 +164035,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.that-one-belongs-to-lawstate-it-doesn-t-reach-us-here",
+      "key": "scene-talk.reply-tell.that-one-isn-t-ours-nothing-in-place-changed",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "That one belongs to {lawstate}. It doesn't reach us here.",
+      "text": "That one isn't ours. Nothing in {place} changed.",
       "uses": [
         {
           "subject": "scene",
@@ -164060,10 +164060,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.not-yet-it-doesn-t-start-until-effective",
+      "key": "scene-talk.reply-tell.not-yet-nothing-changes-in-place-until-it-starts",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Not yet. It doesn't start until {effective}.",
+      "text": "Not yet. Nothing changes in {place} until it starts.",
       "uses": [
         {
           "subject": "scene",
@@ -164085,10 +164085,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.give-it-until-effective-that-s-when-it-starts",
+      "key": "scene-talk.reply-tell.give-it-time-it-hasn-t-started-anywhere-in-place-yet",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Give it until {effective}. That's when it starts.",
+      "text": "Give it time. It hasn't started anywhere in {place} yet.",
       "uses": [
         {
           "subject": "scene",
@@ -164110,10 +164110,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.then-the-old-rule-on-about-is-finished-there-s-nothing-left-of-it-to-answer-for",
+      "key": "scene-talk.reply-tell.then-it-s-finished-there-s-nothing-left-of-it-to-answer-for-in-place",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Then the old rule on {about} is finished. There's nothing left of it to answer for.",
+      "text": "Then it's finished. There's nothing left of it to answer for in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -164135,10 +164135,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.the-old-rule-on-about-is-behind-us-now-there-s-nothing-left-to-fix",
+      "key": "scene-talk.reply-tell.that-s-behind-us-now-there-s-nothing-left-to-fix-in-place",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "The old rule on {about} is behind us now. There's nothing left to fix.",
+      "text": "That's behind us now. There's nothing left to fix in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -164160,10 +164160,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-i-read-it-wrong-that-s-lawstate-not-us",
+      "key": "scene-talk.follow-accept.then-i-read-it-wrong-first-that-s-not-us",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I read it wrong. That's {lawstate}, not us.",
+      "text": "Then I read it wrong, {first}. That's not us.",
       "uses": [
         {
           "subject": "scene",
@@ -164185,10 +164185,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.good-the-paper-made-lawstate-s-law-sound-like-ours",
+      "key": "scene-talk.follow-accept.good-the-paper-made-it-sound-like-it-was-ours-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Good. The paper made {lawstate}'s law sound like ours.",
+      "text": "Good. The paper made it sound like it was ours, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -164210,10 +164210,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-i-ll-wait-for-effective",
+      "key": "scene-talk.follow-accept.then-i-ll-wait-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I'll wait for {effective}.",
+      "text": "Then I'll wait, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -164235,10 +164235,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-the-old-rule-on-about-is-one-less-thing-to-worry-about",
+      "key": "scene-talk.follow-accept.then-that-s-one-less-thing-to-worry-about-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then the old rule on {about} is one less thing to worry about.",
+      "text": "Then that's one less thing to worry about, {first}.",
       "uses": [
         {
           "subject": "scene",

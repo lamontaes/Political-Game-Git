@@ -47,6 +47,11 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     effectiveDate: string;
     endDate: string | null;
   }[];
+  // What every scene carries: the town and the player's first name.
+  const scene = {
+    place: { text: place.name.split(",")[0]!, sourceRecordIds: ["place"] },
+    first: { text: reader.givenName, sourceRecordIds: [reader.id] },
+  };
   const tell = (
     facts: Record<string, { text: string; sourceRecordIds: string[] }>,
   ) =>
@@ -58,7 +63,7 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
         purpose: "law-reaches",
         key: "news-received",
       } as never,
-      facts,
+      facts: { ...scene, ...facts },
       seed: where,
       speakerId: playerId!,
       traits: {},
@@ -119,16 +124,21 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
   // The reader is told the law is another state's; the replies offered fit
   // that: a promise to call (or to look into it) is never offered for it, and
   // the one that is, says whose law it is (Words lead's read of #9045).
-  const reply = (move: string, facts: typeof away, at: number) => {
+  const reply = (
+    move: string,
+    facts: typeof away,
+    at: number,
+    step = "reply",
+  ) => {
     const line = wordSceneMove({
       move: {
-        step: "reply",
+        step,
         move,
-        role: "asked",
+        role: step === "reply" ? "asked" : "asker",
         purpose: "law-reaches",
         key: "news-received",
       } as never,
-      facts,
+      facts: { ...scene, ...facts },
       seed: `${where}:${at}`,
       speakerId: playerId!,
       traits: {},
@@ -141,14 +151,15 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     expect(reply("promise", away, at), `${where}: no promise to call`).toBe("");
     const fitting = reply("tell", away, at);
     expect(fitting, `${where}: a reply that says whose law it is`).toMatch(
-      new RegExp(`${away.lawstate!.text}|${away.homestate!.text}|ours`),
+      /ours|another state|not our/,
     );
     expect(fitting, where).not.toMatch(/let me see what I can do|voted/);
   }
-  expect(
-    reply("tell", pending, 0),
-    `${where}: a reply for a law not yet in force`,
-  ).toContain(pending.effective!.text);
+  const pendingReply = reply("tell", pending, 0);
+  expect(pendingReply, `${where}: a reply for a law not yet in force`).toMatch(
+    /Not yet|Give it time/,
+  );
+  expect(pendingReply, where).not.toContain(pending.effective!.text);
   // A law no longer in force is said by the day it ended, only when it ended
   // during play and nothing replaced it (Words lead, Nov 14): the world's own
   // rows that ended before the game began, or that a newer rate replaced, are
@@ -187,6 +198,41 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
       reply("promise", ended, at),
       `${where}: no promise for a law that ended`,
     ).toBe("");
+  // One fact once: the resident names the law and the day, the reply and the
+  // answer say "it" and "that", never the name or the day again.
+  for (let at = 0; at < 6; at += 1)
+    for (const step of ["reply", "follow"]) {
+      const line = reply(step === "reply" ? "tell" : "accept", ended, at, step);
+      expect(line, `${where}: ${step} to an ended law is worded`).not.toBe("");
+      expect(line, where).not.toContain(ended.about!.text);
+      expect(line, where).not.toContain(ended.ended!.text);
+    }
+  // Every series a law row can end in is either worded in all three lines or
+  // not offered (its opening has no words, so the scene is never staged).
+  const seen = new Set<string>();
+  for (const row of rows) {
+    if (seen.has(row.series)) continue;
+    seen.add(row.series);
+    const facts = lawReachFacts(
+      { ...row, endDate: core.date },
+      home,
+      core.date,
+      cite,
+      play,
+    );
+    const opening = tell(facts);
+    const worded = Boolean(opening && "text" in opening);
+    expect(worded, `${where}: ${row.series}: opening and noun agree`).toBe(
+      Boolean(lawName(row.series)),
+    );
+    if (worded) {
+      expect(reply("tell", facts, 0), `${where}: ${row.series}`).not.toBe("");
+      expect(
+        reply("accept", facts, 0, "follow"),
+        `${where}: ${row.series}`,
+      ).not.toBe("");
+    }
+  }
   // A law in force where the reader lives gives none of these facts.
   expect(lawReachFacts(ownState!, home, core.date, cite, play), where).toEqual(
     {},

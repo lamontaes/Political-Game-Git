@@ -41,7 +41,7 @@ import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { areaName } from "../english/area-names";
-import { questionAbout } from "../english/question-names";
+import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import { storyTopicName, topicInSentence } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
@@ -299,7 +299,9 @@ export function lawReachFacts(
   const about = row.series ? lawAbout(row.series) : null;
   // Raised only when it ended during play and nothing replaced it: a rate
   // that a newer rate took over, or one that ended before the game began, is
-  // not something a resident talks about (Words lead, Nov 14).
+  // not something a resident talks about (Words lead, Nov 14). Proved only on
+  // a staged end date until a repeal is played (stopgapId:
+  // SG-DIRECTOR-law-ended-in-play-proved-on-staged-date).
   if (row.endDate && row.endDate <= today) {
     if (row.endDate < play.from || play.replaced) return {};
     return {
@@ -392,7 +394,14 @@ export function lawName(series: string): string | null {
   // The spoken noun the talks and speeches say a measure by ("a higher
   // minimum wage"), never the catalog's verb phrase ("raise minimum wage");
   // a question with no noun name has no name, and its scene is not offered.
-  return questionAbout(series) ?? storyTopicName(topic);
+  // A series a law row keeps by its bare key (a local body's authority) is
+  // the catalog question that ends in it.
+  const question = NAMED_QUESTIONS.find((key) => key.endsWith(`.${series}`));
+  return (
+    questionAbout(series) ??
+    (question ? questionAbout(question) : null) ??
+    storyTopicName(topic)
+  );
 }
 
 /**
