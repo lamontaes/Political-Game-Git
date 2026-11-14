@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: carry-budget-title
-pr:
+pr: #9333
 after:
 blocked-on:
 lead: words
