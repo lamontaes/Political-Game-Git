@@ -392,6 +392,26 @@ function playYearIn(
       .table("contests")
       .get(filing.contestId) as unknown as ContestRow;
     const level = levelOf(api, contest);
+    // A running mate's filing (any ticket office) states its governor
+    // candidate's platform (`nameRunningMate` copies it), and no second
+    // choice by the rule is made for the mate, so that record is the governor
+    // candidate's, which the rule's choice for them proves in their own read.
+    // The copy must be exact. A mate's filing that states none campaigns on
+    // the platform the rule chooses for the mate themselves, read below as
+    // any campaign is.
+    if (record === "filing" && filing.ticketWith) {
+      const governor = filingsTable.get(filing.ticketWith) as unknown as
+        FilingRow | undefined;
+      if (!governor)
+        throw new Error(
+          `${where}: running mate ${filing.id} names ticket ${filing.ticketWith}, which is no filing`,
+        );
+      expect(
+        platform,
+        `${where}: running mate ${filing.id} copies ${governor.id}'s platform`,
+      ).toEqual(parse(governor.platform));
+      return;
+    }
     // The choice the rule made for this record: the same candidate, day and
     // seat questions.
     const positions = contestPositions(api, contest);
@@ -829,3 +849,25 @@ it("every contested local race's candidates run on their top questions by the ru
   // from the printed lines (pool item campaign-platform-emphasis-c1), and
   // the band is not widened.
 }, 7_200_000);
+
+/**
+ * A ticket office's filing runs on its governor candidate's platform
+ * (`nameRunningMate`), so the played test reads it against that platform and
+ * not as a second choice by the rule. Pinned: one named place whose state
+ * elects a lieutenant governor on the governor's ticket, at a fixed place
+ * seed (the same place and year every run, never drawn).
+ */
+const TICKET_PLACE = {
+  key: "3439810",
+  name: "Leeds Point",
+  state: "NJ",
+  seed: "5d1f7a0c4b2e9a63d8c1f0e7b3a49256c8d0e1f2a3b4c5d6e7f8091a2b3c4d5e",
+};
+it("a running mate's filing carries its governor candidate's platform, every platform of the year read by record (Leeds Point NJ, pinned seed)", () => {
+  const where = `${TICKET_PLACE.name}, ${TICKET_PLACE.state} (${TICKET_PLACE.key}), pinned place seed ${TICKET_PLACE.seed}`;
+  const year = playYearIn(where, TICKET_PLACE as ReturnType<typeof drawPlace>);
+  expect(
+    year.reads.some((r) => r.record === "filing"),
+    where,
+  ).toBe(true);
+}, 1_200_000);
