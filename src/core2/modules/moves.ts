@@ -623,7 +623,6 @@ function inGroupQuarters(
   core: CoreState,
   person: Readonly<PersonState>,
 ): boolean {
-  // stopgapId: SG-GQ-no-turnover
   return core.households.get(person.householdId)?.quarters !== undefined;
 }
 
