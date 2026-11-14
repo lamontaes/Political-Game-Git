@@ -287,6 +287,27 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         true,
       );
     }
+    // A plain no that does not say "veto" ends the talk the other way and
+    // leaves the bill on the desk (Account lead, Nov 14: the press is the act
+    // only where the words say it).
+    let plainNo: number[] | undefined;
+    (function walk(node: typeof scene.talk.tree, at: number[]) {
+      node.replies.forEach((reply, index) => {
+        if (plainNo || !reply.next) return;
+        if (
+          reply.next.end?.ending?.id === "other-way" &&
+          !/veto|sign/i.test(reply.line.text)
+        )
+          plainNo = [...at, index];
+        else walk(reply.next, [...at, index]);
+      });
+    })(scene.talk.tree, []);
+    if (plainNo) {
+      expect(
+        replyInScene(core, director, mayor!, first.entry!, plainNo),
+      ).toBeTruthy();
+      expect(onDesk(), `${where}: a plain no vetoed the bill`).toBe(true);
+    }
     const yes = pathTo("their-way");
     expect(yes, `${where}: no path where the mayor says yes`).toBeTruthy();
     expect(onDesk(), where).toBe(true);

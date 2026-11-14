@@ -11,7 +11,11 @@ import {
   memberKey,
   members,
 } from "../core2/modules/legislature";
-import { deskWaiting, officeActsOf } from "../core2/modules/office-day";
+import {
+  deskWaiting,
+  officeActsOf,
+  setStops,
+} from "../core2/modules/office-day";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI, fillInPerson, type CoreState } from "../core2/state";
 import { purposeScene } from "../director/purpose-scene";
@@ -75,9 +79,10 @@ it(`a yes to the visitor signs the bill on the desk: ${PLACE.name}, seed ${PLACE
 
   const ids = members(api, council.id).map(memberKey);
   const sponsor = ids.find((id) => id !== mayor)!;
-  const policy = billCatalog(api, "city")
+  const policies = billCatalog(api, "city")
     .flatMap((s) => s.topics.flatMap((t) => t.policies))
-    .find((p) => p.kind === "policy-question" && p.authority.allowed)!;
+    .filter((p) => p.kind === "policy-question" && p.authority.allowed);
+  const policy = policies[0]!;
   const bill = draftBill(api, {
     bodyOfficeId: council.id,
     sponsorId: sponsor,
@@ -166,6 +171,48 @@ it(`a yes to the visitor signs the bill on the desk: ${PLACE.name}, seed ${PLACE
   expect(reasons()).not.toContain("office-day.desk");
   process.stdout.write(
     `VISIT-IS-DESK ${PLACE.name}: ${bill.id} ${billOf(api, bill.id).status} after the yes in the visit\n`,
+  );
+
+  // The desk stop switched off: the visit does not stop the day either, and
+  // nothing is signed or vetoed for the player (owner's card, Nov 14, 02:03Z;
+  // Account lead, Nov 14). The bill waits on the desk for its deadline.
+  setStops(api, mayor, { desk: false });
+  const away = draftBill(api, {
+    bodyOfficeId: council.id,
+    sponsorId: sponsor,
+    provisions: [
+      provisionFor({ policyId: policies[1]!.id, operation: "enact" }),
+    ],
+  });
+  for (const id of ids) castMemberVote(api, away.id, id, "yes");
+  expect(holdVote(api, away.id).status).toBe("awaiting-signature");
+  for (let day = 0; day < 4; day += 1) {
+    const stopped = (packet()?.stop?.modules ?? []).filter(
+      (m) =>
+        m.reasonKey === "office-day.desk" ||
+        (m.recordId ?? "").includes(`bill-presented:${away.id}`),
+    );
+    expect(
+      stopped,
+      `${PLACE.name}: stopped with the desk switched off ${JSON.stringify(stopped)}`,
+    ).toEqual([]);
+    if (packet()?.kind === "stop" || packet()?.kind === "choice") resume();
+    else player.advance("day");
+  }
+  const staged = world.director.ledger.people
+    .get(mayor)!
+    .schedule.find((row) => row.momentId.includes(`bill-presented:${away.id}`));
+  expect(
+    staged?.outcome,
+    `${PLACE.name}: the visit with the switch off`,
+  ).not.toBe("scene-now");
+  expect(
+    officeActsOf(api, mayor).filter((a) => a.recordId === away.id),
+    `${PLACE.name}: decided for the player with the desk switched off`,
+  ).toEqual([]);
+  expect(billOf(api, away.id).status).toBe("awaiting-signature");
+  process.stdout.write(
+    `VISIT-SWITCH-OFF ${PLACE.name}: ${away.id} still ${billOf(api, away.id).status}, visit ${staged?.outcome ?? "not staged"}\n`,
   );
   setBookkeeping(bookkeeping);
 }, 120_000);

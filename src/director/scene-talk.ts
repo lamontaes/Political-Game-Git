@@ -64,11 +64,6 @@ interface Ending {
   firmness?: string;
   /** What this ending does to the resident's case at office hours: the cases engine's decision. */
   settles?: "help" | "decline";
-  /**
-   * What this ending does to the bill on the player's desk: signed or vetoed
-   * the way the visitor asked ("ask") or the other way ("against-ask").
-   */
-  decides?: "ask" | "against-ask";
   when: {
     reply?: string[];
     asker?: string[];
@@ -252,7 +247,6 @@ export interface TreeNode {
       keeps: string;
       firmness?: string;
       settles?: "help" | "decline";
-      decides?: "ask" | "against-ask";
     };
   };
 }
@@ -809,7 +803,6 @@ export function composeSceneTalk(
           keeps: found.keeps,
           ...(found.firmness ? { firmness: found.firmness } : {}),
           ...(found.settles ? { settles: found.settles } : {}),
-          ...(found.decides ? { decides: found.decides } : {}),
         };
         endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
       } else

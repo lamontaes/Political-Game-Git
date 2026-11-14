@@ -134,6 +134,7 @@ import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
 import { CASES_MODULE_ID, handleCase } from "../core2/modules/offices";
+import purposeArcs from "./data/purpose-arcs.json" with { type: "json" };
 import {
   OFFICE_DAY_MODULE_ID,
   decideDesk,
@@ -2692,6 +2693,12 @@ function walkThroughFacts(
 /** The scene type of a resident's visit to the official's office (situation-types.json). */
 const OFFICE_HOURS_TYPE = "office-hours";
 const DESK_VISIT_TYPE = "desk-visit";
+/** The desk visit's replies that say the act: their pieces, by the act. */
+const DESK_ACTS = (
+  purposeArcs as unknown as {
+    purposes: Record<string, { deskActs?: { sign: string[]; veto: string[] } }>;
+  }
+).purposes[DESK_VISIT_TYPE]!.deskActs!;
 
 /**
  * The pieces each door scene said, by the player and the cause, kept the
@@ -2891,26 +2898,27 @@ export function replyInScene(
   )
     handleCase(coreAPI(core), caseId, caseDecision, null, id);
 
-  // The visit is the desk (Words lead, desk ruling 2): a yes or a no said to
-  // the visitor signs or vetoes the bill through the desk's own decision, the
-  // same one the panel's buttons call; a fix asked for or a put-off leaves it
-  // on the desk.
+  // The visit is the desk (Words lead, desk ruling 2): a reply that says the
+  // act in its own words ("Bring the pen.", "It goes back with a veto.") and
+  // ends the talk signs or vetoes the bill through the desk's own decision,
+  // the same one the panel's buttons call. Any other reply, a plain no
+  // included, a fix asked for or a put-off, leaves it on the desk (Account
+  // lead, Nov 14).
   const deskBillId = scene.cause.facts.billId;
-  const deskDecision = ending?.decides;
+  const deskAct = DESK_ACTS.sign.includes(line.parts[P.zero] ?? "")
+    ? "sign"
+    : DESK_ACTS.veto.includes(line.parts[P.zero] ?? "")
+      ? "veto"
+      : undefined;
   if (
     scene.typeKey === DESK_VISIT_TYPE &&
     typeof deskBillId === "string" &&
-    deskDecision &&
+    deskAct &&
+    ending &&
     core.modules.has(OFFICE_DAY_MODULE_ID) &&
     deskWaiting(coreAPI(core)).some((bill) => bill.id === deskBillId)
-  ) {
-    const askedToSign = scene.facts.some((row) => row.key === "for");
-    decideDesk(
-      coreAPI(core),
-      deskBillId,
-      deskDecision === "ask" ? askedToSign : !askedToSign,
-    );
-  }
+  )
+    decideDesk(coreAPI(core), deskBillId, deskAct === "sign");
 
   // Asked at the door what matters to them, a resident says their strongest
   // question and their side (ruling 72): the player holds it as a talk's

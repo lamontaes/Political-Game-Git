@@ -926,6 +926,25 @@
       ]
     },
     "desk-visit": {
+      "deskActs": {
+        "note": "The replies that say the act in their own words (Account lead, Nov 14): pressed where the talk ends, the bill is signed or vetoed through the desk. Any other reply, a no included, leaves it on the desk.",
+        "sign": [
+          "scene-talk.reply-agree.you-ve-made-your-case-bring-the-pen",
+          "scene-talk.reply-agree.it-passed-i-ll-sign-it",
+          "scene-talk.reply-refuse.the-people-who-voted-for-it-have-spoken-i-ll-sign",
+          "scene-talk.reply-refuse.no-veto-it-gets-my-signature",
+          "scene-talk.reply-relent.fine-i-ll-sign-it-then",
+          "scene-talk.reply-agree.then-it-deserves-a-signature-bring-the-pen",
+          "scene-talk.reply-agree.that-settles-it-i-ll-sign"
+        ],
+        "veto": [
+          "scene-talk.reply-agree.i-ll-veto-it",
+          "scene-talk.reply-refuse.it-goes-back-with-a-veto",
+          "scene-talk.reply-relent.all-right-i-ll-veto-it",
+          "scene-talk.reply-agree.then-it-deserves-a-veto-i-ll-write-it",
+          "scene-talk.reply-agree.that-settles-it-i-ll-send-it-back"
+        ]
+      },
       "state": "request",
       "replies": ["agree", "refuse", "bargain", "ask"],
       "follow": {
@@ -951,7 +970,6 @@
           "id": "their-way",
           "label": "Their way",
           "keeps": "none",
-          "decides": "ask",
           "when": {
             "reply": ["agree", "relent"]
           }
@@ -960,7 +978,6 @@
           "id": "other-way",
           "label": "The other way",
           "keeps": "none",
-          "decides": "against-ask",
           "when": {
             "reply": ["refuse", "decline", "confront"]
           }
