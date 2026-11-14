@@ -3339,16 +3339,25 @@ async function seatRows() {
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
-    seatResult = r.number
-      ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
-          r.authority?.some((a) => !a.allowed)
-            ? ` · ${r.authority
-                .filter((a) => !a.allowed)
-                .map((a) => controls.authority?.[a.reason] ?? "")
-                .join("; ")}`
-            : ""
-        }`
+    // An executive's bill goes through a member: who was asked and what they said.
+    const askedWord = r.asked
+      ? (r.asked.carried
+          ? controls.seat.askedCarried
+          : controls.seat.askedRefused
+        ).replace("{name}", r.asked.name)
       : "";
+    seatResult = r.asked
+      ? askedWord
+      : r.number
+        ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
+            r.authority?.some((a) => !a.allowed)
+              ? ` · ${r.authority
+                  .filter((a) => !a.allowed)
+                  .map((a) => controls.authority?.[a.reason] ?? "")
+                  .join("; ")}`
+              : ""
+          }`
+        : "";
     openSheet("office");
   };
   for (const body of v.bodies) {
@@ -4239,7 +4248,19 @@ const sheets = {
               ),
               ...sinceLast(latest.totals?.balance, { short: true }),
               ...(books
-                ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
+                ? [
+                    typedRow(
+                      words.savings,
+                      // The opening's estimate until play has replaced it, said
+                      // on the row itself (no note under a figure).
+                      gov.savingsEstimated
+                        ? words.savingsEstimated.replace(
+                            "{amount}",
+                            roundedMoney(books.cashMinor),
+                          )
+                        : roundedMoney(books.cashMinor),
+                    ),
+                  ]
                 : []),
             ),
             ...(gov.executive?.title
