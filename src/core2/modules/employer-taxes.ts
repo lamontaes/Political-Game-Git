@@ -28,16 +28,16 @@ import { residentFacts, residentsRuntime } from "./residents";
 import { businessScaleOf, countedHeadsOf } from "../residents-economy";
 import { countedPayment, paydayLaw } from "../counted-money";
 import { withholdingFor } from "../tax-withholding";
-import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
+import {
+  BUDGETS_MODULE_ID,
+  governments,
+  propertyTaxTerms,
+  withholdPay,
+} from "./budgets";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { noteTownRevenue } from "../budgets-treasury";
-import {
-  premisesSource,
-  premisesTaxMinor,
-  propertyTaxTermsFor,
-} from "../housing-property-tax";
+import premisesData from "../data/business/premises-tax.json" with { type: "json" };
 import { transferCash } from "../world-transfer";
-import { townOutsideOf } from "../opening-outside-market";
 
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
 const KIND = "employer-taxes:share";
@@ -140,8 +140,6 @@ export const EMPLOYER_TAXES_MODULE: CoreModule = {
       passThroughs: { indexes: { byBusiness: { fields: ["businessId"] } } },
       /** Each business's books at its last quarter, to measure the next. */
       quarters: {},
-      /** Premises tax a business couldn't pay yet; paid first next quarter. */
-      premisesArrears: {},
     },
   },
   journalSourceProviders: {
@@ -173,54 +171,77 @@ export const EMPLOYER_TAXES_MODULE: CoreModule = {
   },
 };
 
+/** What a business's books read at its last quarter, to measure the next. */
+interface QuarterRow {
+  readonly minor: number;
+  readonly sales?: number;
+  /** Premises tax it couldn't pay yet. */
+  readonly premisesOwed?: number;
+}
+
+/**
+ * A business's premises tax for one quarter: its premises are assessed at a
+ * share of a year's sales (an estimate, `data/business/premises-tax.json`),
+ * and a quarter pays a quarter of the annual rate on that value.
+ */
+export function premisesTaxMinor(
+  quarterSalesMinor: number,
+  rate: number,
+): number {
+  const assessed =
+    quarterSalesMinor *
+    premisesData.quartersPerYear *
+    premisesData.valueShareOfAnnualSales;
+  return Math.max(
+    0,
+    Math.round((assessed * rate) / premisesData.quartersPerYear),
+  );
+}
+
 /**
  * A business's quarterly tax on its premises: the property tax rate in force
  * where it stands, on premises assessed at an estimated share of a year's
  * sales, from its own cash to the place's tax collector. What it can't pay
- * stays owed and is paid first next quarter.
+ * stays owed and is paid first next quarter. Returns what is still owed.
  */
 function payPremisesTax(
   api: CoreAPI,
   businessId: string,
   quarterSalesMinor: number,
-): void {
+  owedBefore: number,
+): number {
   const core = api.state as CoreState;
   const placeId = core.organizations.get(businessId)?.placeId;
-  if (!placeId) return;
-  const terms = propertyTaxTermsFor(api, placeId);
-  if (!terms) return;
-  const payee =
-    terms.payeeId ?? townOutsideOf(core.organizations.values(), placeId)?.id;
-  if (!payee) return;
-  const owedBefore =
-    (
-      table(api, "premisesArrears").get(businessId) as unknown as
-        { minor: number } | undefined
-    )?.minor ?? 0;
+  const terms = (placeId ? propertyTaxTerms(api, placeId) : undefined) as
+    { rate: number; payeeId?: string; lawRowId?: string } | undefined;
+  if (!terms?.payeeId) return owedBefore;
   const bill = premisesTaxMinor(quarterSalesMinor, terms.rate) + owedBefore;
-  if (bill <= 0) return;
+  if (bill <= 0) return 0;
+  const lawId = terms.lawRowId ?? "property-tax:unnamed-law-row";
   const paid = transferCash(
     api,
-    `premises-tax:${businessId}:${api.state.date}:${terms.lawRowId ?? "property-tax:unnamed-law-row"}`,
+    `premises-tax:${businessId}:${api.state.date}:${lawId}`,
     businessId,
-    payee,
+    terms.payeeId,
     bill,
-    premisesSource(api.state.date),
+    {
+      tag: premisesData.tag as "ESTIMATED",
+      citation: premisesData.citation,
+      asOf: api.state.date,
+      estimatedFrom: premisesData.estimatedFrom,
+    },
   );
-  table(api, "premisesArrears").put({
-    id: businessId,
-    minor: bill - paid,
-  } as unknown as ModuleRow);
   if (paid > 0)
     lawApplied(api, {
       key: "property-tax",
-      lawId: terms.lawRowId ?? "property-tax:unnamed-law-row",
+      lawId,
       targetId: businessId,
       target: "organization",
       engine: EMPLOYER_TAXES_MODULE_ID,
       what: "premises-taxed",
       amountMinor: paid,
     });
+  return bill - paid;
 }
 
 const QUARTER_DAYS = ["01-01", "04-01", "07-01", "10-01"];
@@ -266,16 +287,23 @@ function payProfitTaxes(api: CoreAPI): void {
       books.wagesPaidMinor -
       outside;
     const last = table(api, "quarters").get(id) as unknown as
-      { minor: number; sales?: number } | undefined;
+      QuarterRow | undefined;
+    const premisesOwed =
+      last && !books.closedAt && last.sales !== undefined
+        ? payPremisesTax(
+            api,
+            id,
+            books.salesReceivedMinor - last.sales,
+            last.premisesOwed ?? 0,
+          )
+        : (last?.premisesOwed ?? 0);
     table(api, "quarters").put({
       id,
       minor: total,
       sales: books.salesReceivedMinor,
+      premisesOwed,
     } as unknown as ModuleRow);
     if (!last || books.closedAt) continue;
-    // The premises' property tax, whoever owns the business.
-    if (last.sales !== undefined)
-      payPremisesTax(api, id, books.salesReceivedMinor - last.sales);
     const owner = ownerOf(api, id);
     // An owner-run business's profit is its owner's income: they pay the
     // income tax law in force where they live on it, as an estimated payment.

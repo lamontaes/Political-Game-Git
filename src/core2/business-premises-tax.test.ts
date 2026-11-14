@@ -5,8 +5,11 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
-import { premisesTaxMinor, propertyTaxTermsFor } from "./housing-property-tax";
-import { EMPLOYER_TAXES_MODULE_ID } from "./modules/employer-taxes";
+import { propertyTaxTerms } from "./modules/budgets";
+import {
+  EMPLOYER_TAXES_MODULE_ID,
+  premisesTaxMinor,
+} from "./modules/employer-taxes";
 import type { CoreState } from "./types";
 
 // A business pays property tax on its premises each quarter: an estimated
@@ -42,9 +45,9 @@ it(
         (
           api
             .moduleState(EMPLOYER_TAXES_MODULE_ID)
-            .table("premisesArrears")
-            .rows() as unknown as { id: string; minor: number }[]
-        ).map((r) => [r.id, r.minor]),
+            .table("quarters")
+            .rows() as unknown as { id: string; premisesOwed?: number }[]
+        ).map((r) => [r.id, r.premisesOwed ?? 0]),
       );
     const cash = (id: string) => api.accounts().balance(`cash:${id}:residual`);
     let first: Map<string, number | undefined> | undefined;
@@ -80,7 +83,7 @@ it(
         books?.closedAt
       )
         continue;
-      const terms = propertyTaxTermsFor(api, org.placeId);
+      const terms = propertyTaxTerms(api, org.placeId);
       if (!terms) continue;
       const bill = premisesTaxMinor(sales2 - sales1, terms.rate);
       const paid = bill - (owed.get(id) ?? 0);
