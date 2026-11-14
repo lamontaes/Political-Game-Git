@@ -52,6 +52,7 @@ import {
 } from "./elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  contestPositions,
   makeStatements,
   touchImpression,
   type CauseRow,
@@ -1067,6 +1068,7 @@ function contestOf(api: CoreAPI, contestId: string): ContestRow {
 /** The moderator's questions: each candidate's own (their record, the widest gap, the most divisive), in turn. */
 function debateQuestions(
   api: CoreAPI,
+  contest: ContestRow,
   filings: readonly FilingRow[],
 ): readonly string[] {
   const lists = filings.map((f) => interviewQuestions(api, f));
@@ -1074,7 +1076,20 @@ function debateQuestions(
   for (let i = 0; lists.some((l) => l[i] !== undefined); i += 1)
     for (const list of lists)
       if (list[i] && !out.includes(list[i]!)) out.push(list[i]!);
-  return out.slice(0, meetingParameter("questionsPerDebate"));
+  // What the seat can decide comes first (owner rule 99): the questions the
+  // office takes up, and the stands the candidates filed on them, before
+  // anything above the office, which is asked only when nothing local is
+  // live, and then once.
+  const decides = new Set(contestPositions(api, contest));
+  const filed = filings.flatMap((f) =>
+    f.platform.map((row) => row.split("=")[0]!).filter((q) => decides.has(q)),
+  );
+  const local = [...new Set([...out.filter((q) => decides.has(q)), ...filed])];
+  const above = out.filter((q) => !decides.has(q));
+  return (local.length ? local : above.slice(0, 1)).slice(
+    0,
+    meetingParameter("questionsPerDebate"),
+  );
 }
 
 /** Where the debate airs: the outlet with the widest audience in town. */
@@ -1172,6 +1187,18 @@ function holdDebate(
       contestId: contest.id,
       outletId: row.outletId ?? "",
       candidates: String(filings.length),
+      // Who stood in it: every other candidate answers for themselves, and
+      // the player only when they said yes, so a rival speaks of the debate
+      // afterward only to someone who was there.
+      stood: JSON.stringify(
+        filings
+          .map((f) => f.personId)
+          .filter(
+            (id) =>
+              id !== playerId ||
+              api.state.durableLog.has(`${DEBATE_ACCEPTED_EVENT}:${row.id}`),
+          ),
+      ),
     },
   });
   return held;
@@ -1428,7 +1455,7 @@ function debateWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       outletId: outlet?.id ?? null,
       date: api.state.date,
       status: "invited",
-      questions: debateQuestions(api, filings),
+      questions: debateQuestions(api, contest, filings),
       answers: {},
       audience: 0,
     };
