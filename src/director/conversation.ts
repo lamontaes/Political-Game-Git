@@ -3144,18 +3144,6 @@ function pointSubject(
   facts.decider = { text: saidAsData.deciders.federal, sourceRecordIds: said };
   mark(`${pick.point.kind}-point`, said);
   if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
-  // The lead's grammar: a stance that answers "is for" reads only after
-  // such a lead, one that answers "said no to" only after that (round 11,
-  // rule 75). Fixed by the speaker and the question, never rolled.
-  if (pick.point.stance) {
-    const forms =
-      pick.point.stance === "against" ? ["plain", "is", "no"] : ["plain", "is"];
-    const sum = [...stableHash(`${speakerId}:${pick.point.question}`)].reduce(
-      (n, c) => n + c.charCodeAt(0),
-      0,
-    );
-    mark(`lead-${forms[sum % forms.length]}`, said);
-  }
   mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
   if (pick.reason === "work") {
     mark("why-work", pick.reasonIds);
@@ -6275,6 +6263,7 @@ function onShift(
     return true;
   const minute =
     conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId);
+  if (minute === undefined) return false;
   try {
     return workSpansOnDateV1(coreAPI(core as CoreState), {
       controlledPersonId: speakerId,
@@ -6453,7 +6442,7 @@ function endConversation(
   const town = them?.placeId
     ? corePlaceByJurisdictionId(them.placeId as never)
     : null;
-  if (town && them?.placeId === me?.placeId) {
+  if (town && them && them.placeId === me?.placeId) {
     markNameless("both-here", [them.householdId]);
     nameless.place = {
       text: spoken(town),

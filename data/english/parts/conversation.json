@@ -38470,10 +38470,10 @@
       }
     },
     {
-      "key": "conversation.player-day-say-core.how-did-school-go-when",
+      "key": "conversation.player-day-say-core.how-d-school-go-when",
       "move": "player-day-say-core",
       "kind": "spoken",
-      "text": "How did school go {when}?",
+      "text": "How'd school go {when}?",
       "uses": [
         {
           "move": "player-day-say-core",
@@ -39682,7 +39682,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-for", "about", "lead-plain"]
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-plain"]
         }
       ],
       "piece": {
@@ -39703,7 +39704,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-for", "about", "lead-plain"]
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-plain"]
         }
       ],
       "piece": {
@@ -39724,7 +39726,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-for", "about", "lead-is"]
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-is"]
         }
       ],
       "piece": {
@@ -39745,7 +39748,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-for", "about", "lead-plain"]
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-plain"]
         }
       ],
       "piece": {
@@ -39766,7 +39770,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-for", "about", "lead-is"]
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-is"]
         }
       ],
       "piece": {
@@ -39787,7 +39792,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-for", "about", "lead-plain"]
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-plain"]
         }
       ],
       "piece": {
@@ -39808,7 +39814,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-against", "about", "lead-plain"]
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-plain"]
         }
       ],
       "piece": {
@@ -39829,7 +39836,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-against", "about", "lead-plain"]
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-plain"]
         }
       ],
       "piece": {
@@ -39850,7 +39858,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-against", "about", "lead-is"]
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-is"]
         }
       ],
       "piece": {
@@ -39871,7 +39880,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-against", "about", "lead-plain"]
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-plain"]
         }
       ],
       "piece": {
@@ -39892,7 +39902,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-against", "about", "lead-is"]
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-is"]
         }
       ],
       "piece": {
@@ -39913,7 +39924,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-against", "about", "lead-no"]
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-no"]
         }
       ],
       "piece": {
@@ -39934,7 +39946,8 @@
           "move": "address-point-opener-lead",
           "subject": "address-point",
           "role": "opener",
-          "requiresFacts": ["president-against", "about", "lead-no"]
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-no"]
         }
       ],
       "piece": {
@@ -40896,30 +40909,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.farewell-core.talk-soon-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Talk soon, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.farewell-core.don-t-let-me-keep-you-pla",
       "move": "farewell-core",
       "kind": "spoken",
@@ -41832,6 +41821,420 @@
       ],
       "origin": "authored",
       "author": "Words builder A (round 11, rule 80)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.makes-sense",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Makes sense.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.no-argument",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "No argument.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.good-call",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Good call.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.rightly-so",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Rightly so.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-m-with-that",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I'm with that.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.can-t-argue",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Can't argue.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.well-said",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Well said.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.fair-point",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Fair point.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-see-why",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I see why.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.that-s-wrong",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "That's wrong.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.dead-wrong",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "Dead wrong.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-disagree",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I disagree.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.wrong-move",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "Wrong move.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-can-t-agree",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I can't agree.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.not-right",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "Not right.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-m-opposed",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'm opposed.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-see-it-differently",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I see it differently.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.not-for-me",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "Not for me.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder A (round 11, rule 75)",
       "date": "2026-11-14"
     }
   ]
