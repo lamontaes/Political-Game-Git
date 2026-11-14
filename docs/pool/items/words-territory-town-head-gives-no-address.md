@@ -1,6 +1,6 @@
 ---
 id: words-territory-town-head-gives-no-address
-title: 'A Guam, USVI, American Samoa or Northern Marianas town gives no yearly address because no local office is recorded'
+title: "A Guam, USVI, American Samoa or Northern Marianas town gives no yearly address because no local office is recorded"
 area: director
 kind: bug
 priority: 3
