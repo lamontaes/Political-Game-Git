@@ -2634,98 +2634,63 @@ function reviewAbsence(api: CoreAPI): void {
 }
 
 /**
- * The counted households' out-of-town workers (`unplacedWorkers`) are let go
- * by the rule everyone's work is: the quarterly pull (`layoffPerQuarter`) moved
- * by the rise in the state's unemployment and the member's age, scaled by the
- * state's own separation rate. The engine knows where the household lives and
- * that its workers commute to the place's wider labor market, not which
- * employer holds them, so their state is the household's place's. A household
- * builds a month's pull on its away workers (workers per household of the
- * record, as the opening's share is) and, at one whole worker's worth, loses
- * that worker, never by a roll: the pool's pay drops with them, and the first
- * free working-age member by id is jobless and looking from that day, as a
- * regional worker let go is (`reviewCountedEntry` then reads them as any
- * seeker, and the regional finds hire them back by the one hiring rule).
+ * The counted households' out-of-town workers (`unplacedWorkers`, workers per
+ * household of the record) lose work by the rule everyone's work is: the
+ * quarterly pull (`layoffPerQuarter`) moved by the rise in the state's
+ * unemployment and the member's age, scaled by the state's own separation
+ * rate. A household's share of away workers is a count, not one person, so it
+ * shrinks by its share times the month's pull (never a roll, never a
+ * threshold): the pool's pay drops with it, and the members it no longer
+ * stands for are idle at the next `reviewCountedEntry`, which weighs looking
+ * for work as it does any jobless member (the regional finds then hire them
+ * back by the one hiring rule). The engine knows where the household lives
+ * and that its workers commute to the place's wider labor market, not which
+ * employer holds them, so the state's conditions are the household's place's.
  */
-function loseAwayWorkByTurnover(
-  api: CoreAPI,
-  pulls: ModuleTable,
-  month: number,
-): Set<string> {
-  const kept = new Set<string>();
+function loseAwayWorkByTurnover(api: CoreAPI, month: number): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     rt = residentsRuntime(c);
-  if (!rt) return kept;
-  const [young, old] = jobsData.workingAge as [number, number];
+  if (!rt) return;
   const counted = rt.store;
-  const working = new Set<string>();
-  for (const [jobId, flow] of rt.wageFlowByJob) {
-    const job = rt.jobs.get(jobId);
-    if (job && !job.endsAt && !flow.endedAt) working.add(job.personId);
-  }
-  const seekers = store(api).table("countedSeekers");
+  const [young, old] = jobsData.workingAge as [number, number];
   const regional = new Set(
     (
       store(api).table("regional").rows() as unknown as { personId: string }[]
     ).map((row) => row.personId),
   );
-  const ageOf = (m: number) =>
-    daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
   for (const h of counted.liveHouseholds()) {
     if (!(h.unplacedWorkers > 0) || outsideLaborForce(h.quarters)) continue;
-    let regionalHere = 0;
-    const free: number[] = [];
+    // Workers by name in regional work face their own pull above.
+    let regionalHere = 0,
+      ages = 0,
+      adults = 0;
     for (const m of counted.countedMembers(h)) {
-      const id = counted.ids[m]!;
-      if (regional.has(id)) regionalHere += 1;
-      else if (!working.has(id) && !seekers.get(id)) {
-        const age = ageOf(m);
-        if (age >= young && age < old && !inCustody(api, id)) free.push(m);
+      if (regional.has(counted.ids[m]!)) regionalHere += 1;
+      const age =
+        daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
+      if (age >= young && age < old) {
+        ages += age;
+        adults += 1;
       }
     }
-    const away = Math.min(h.unplacedWorkers - regionalHere, free.length);
-    if (!(away > 0)) continue;
-    free.sort((a, b) => counted.ids[a]!.localeCompare(counted.ids[b]!));
-    const m = free[0]!;
-    const key = `away:${h.id}`;
-    kept.add(key);
+    const away = h.unplacedWorkers - regionalHere;
+    if (!(away > 0) || adults === 0) continue;
     const at = regionalConditions(api, h.placeId);
-    // A household with no pull yet stands somewhere along it from its own
-    // seeded line (generation of who exists, no roll), as a job's does.
-    const held =
-      (pulls.get(key) as { pull?: number } | undefined)?.pull ??
-      new SeededRng(api.state.seed).fork(`town-turnover:${key}`).next() * away;
-    const pull =
-      held +
-      layoffPerQuarter(api, at.rise, p("zero"), workAgeFactor(api, ageOf(m))) *
+    const lost = Math.min(
+      away,
+      away *
+        layoffPerQuarter(
+          api,
+          at.rise,
+          p("zero"),
+          workAgeFactor(api, ages / adults),
+        ) *
         at.separation *
-        month *
-        away;
-    if (pull < Math.min(p("one"), away)) {
-      pulls.put({ id: key, pull } as never);
-      continue;
-    }
-    const lost = Math.min(p("one"), away);
-    if (!loseAwayWork(c, h, lost)) {
-      pulls.put({ id: key, pull } as never);
-      continue;
-    }
-    pulls.put({ id: key, pull: pull - lost } as never);
-    const id = counted.ids[m]!;
-    const placeId = counted.strings[counted.placeIx[m]!]!;
-    seekers.put({
-      id,
-      isSeeker: true,
-      personId: id,
-      placeId,
-      employed: false,
-      since: c.date,
-      reasonKey: jobsData.reasons.layoff,
-      referenceHourlyMinor: 0,
-    } as never);
+        month,
+    );
+    loseAwayWork(c, h, lost);
   }
-  return kept;
 }
 
 /**
@@ -2850,14 +2815,13 @@ function reviewTurnover(api: CoreAPI): void {
       values: { turnoverPull: pull, regional: 1, counted: 1 },
     });
   }
-  const awayKept = loseAwayWorkByTurnover(api, pulls, month);
+  loseAwayWorkByTurnover(api, month);
   // A job that ended another way keeps no pull.
   const live = new Set([
     ...jobs.map((job) => job.id),
     ...(store(api).table("regional").rows() as unknown as { id: string }[]).map(
       (row) => `regional:${row.id}`,
     ),
-    ...awayKept,
   ]);
   for (const row of pulls.rows() as unknown as { id: string }[])
     if (!live.has(row.id)) pulls.remove(row.id);
