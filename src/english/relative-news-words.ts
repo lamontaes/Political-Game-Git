@@ -11,6 +11,8 @@ export interface RelativeNewsWords {
   readonly deathCauses: Readonly<Record<string, string>>;
   readonly illnesses: Readonly<Record<string, string>>;
   readonly offenses: Readonly<Record<string, string>>;
+  /** An official as someone outside government says them, by body or by office. */
+  readonly officials: { readonly onBody: string; readonly sole: string };
   readonly youngBelowAge: { readonly value: number };
 }
 

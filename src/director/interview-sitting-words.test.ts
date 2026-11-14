@@ -124,15 +124,42 @@ describe("the interview sitting's words", () => {
   });
 
   it("opens, takes each answer in, and closes", () => {
-    const base = { outlet: fact("The Courier") };
+    // What the sitting hands its lines: the seat the race is for, the
+    // question just put, and for a take the side the answer put on the
+    // record (src/director/sitting.ts, take) with the vote a further answer
+    // stands on.
+    const base = {
+      outlet: fact("The Courier"),
+      seat: fact("the city council"),
+      about: fact("a higher minimum wage"),
+    };
+    const answered = (move: string) =>
+      move === rules.declined
+        ? {}
+        : move === "further"
+          ? {
+              vote: fact("yes"),
+              "vote-for": fact("yes"),
+              "vote-same": fact("yes"),
+              "said-for": fact("yes"),
+            }
+          : { "said-for": fact("yes") };
     for (const tie of ["acquainted", "stranger"]) {
       const facts = { ...base, [tie]: fact("yes") };
       expect(say("interview-open", "open", facts, tie), tie).toBeTruthy();
     }
     for (const move of [...rules.moves, rules.lie, rules.declined]) {
+      // A turned-back answer is only ever given with a rival to name.
       for (const facts of [
-        { ...base, stranger: fact("yes") },
-        { ...base, acquainted: fact("yes"), rival: fact("Sam Rivera") },
+        ...(move === "turn"
+          ? []
+          : [{ ...base, ...answered(move), stranger: fact("yes") }]),
+        {
+          ...base,
+          ...answered(move),
+          acquainted: fact("yes"),
+          rival: fact("Sam Rivera"),
+        },
       ])
         expect(
           say(`${rules.subjects.takePrefix}${move}`, "reply", facts, move),
@@ -152,6 +179,48 @@ describe("the interview sitting's words", () => {
           String(passed),
         ),
       ).toBeTruthy();
+  });
+
+  it("takes an answer in by the side it put on the record, never only an acknowledgment", () => {
+    // Owner, Nov 12: "the just non-replies". The reporter says back the side
+    // the candidate took, or that they and their rival split on it.
+    const take = (side: string, extra: Record<string, Fact> = {}) =>
+      say(
+        `${rules.subjects.takePrefix}plain`,
+        "reply",
+        {
+          about: fact("a higher minimum wage"),
+          stranger: fact("yes"),
+          [side]: fact("yes"),
+          ...extra,
+        },
+        side,
+      )!.text;
+    expect(take("said-for")).toMatch(/\b(?:for|yes)\b/i);
+    expect(take("said-against")).toMatch(/\b(?:against|no)\b/i);
+    // Which wording a moment picks is a seeded pick among those that fit, so
+    // the test names its moments: at least one of them says the rival's side
+    // back, and every one that does names the rival.
+    const rivalLines = ["m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8"]
+      .map((moment) =>
+        say(
+          `${rules.subjects.takePrefix}plain`,
+          "reply",
+          {
+            about: fact("a higher minimum wage"),
+            stranger: fact("yes"),
+            "said-for": fact("yes"),
+            "rival-against": fact("yes"),
+            rival: fact("Sam Rivera"),
+          },
+          moment,
+        )!,
+      )
+      .filter((said) =>
+        said.wording?.parts.some((part) => part.includes("against-rival")),
+      );
+    expect(rivalLines.length).toBeGreaterThan(0);
+    for (const said of rivalLines) expect(said.text).toContain("Sam Rivera");
   });
 
   it("puts the same question differently to someone the reporter knows and to a stranger", () => {
