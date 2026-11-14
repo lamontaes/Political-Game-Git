@@ -40,6 +40,8 @@
     "reporter": "The reporter who wrote a story, by name, from the press record.",
     "lead": "How far ahead the winner finished, in votes, from the result record's totals.",
     "first": "The given name of the person spoken to, from their record.",
+    "seat-place": "The place a filed seat is in (\"Alcorn County\"), from the seat's place record, said where the seat is not the town's own.",
+    "counter": "The place the player goes to at a filing counter, as people say it: the clerk's office (\"the town clerk's office\"), or the agency itself when the person heads a state agency.",
     "post": "The post the person holds, as people say it (\"Secretary of State\", \"city clerk\"), from the office record of the seat the person holds.",
     "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
     "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
@@ -117203,7 +117205,7 @@
       "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-ask-about-running-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}, you head to {counter} to ask about running. {name} comes over to the counter.",
+      "text": "{begins}, you head to {counter}. {name} comes over to the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -117253,7 +117255,7 @@
       "key": "scene-talk.narrate-narrate.begins-you-step-into-the-posts-office-and-ask-for-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}, you step into {counter} and ask for {name}.",
+      "text": "{begins}, you step into {counter}. {name} looks up from the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -117278,7 +117280,7 @@
       "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-pick-up-the-papers",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}, you head to {counter} to pick up the papers for {office}. {name} pulls them from a drawer.",
+      "text": "{begins}, you head to {counter}, and {name} comes over to talk about {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -117303,7 +117305,7 @@
       "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-and-speak-to-name-to",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}. You head to {counter} and speak to {name}, to ask what running for {office} takes.",
+      "text": "{begins}. {name} sees you come into {counter}, and the talk turns to {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -117378,7 +117380,7 @@
       "key": "scene-talk.narrate-narrate.youre-back-at-the-posts-office-name-looks-up-from-the-counter",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You're back at {counter}. {name} looks up from the counter.",
+      "text": "{name} looks up from the counter at {counter}. You've been here before.",
       "uses": [
         {
           "subject": "scene",
