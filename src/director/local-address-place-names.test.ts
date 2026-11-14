@@ -3,7 +3,9 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { governmentSaidName } from "../core2/government-proper-name";
+import { localOfficesForPlace } from "../core2/offices-local";
 import { placeLocalities } from "../core2/places";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { composeLocalAddress } from "./local-address";
 
 // A town head's address says the place and its board the way people name
@@ -79,4 +81,31 @@ describe("a township head's address names the place and its board", () => {
       );
     }, 180_000);
   }
+});
+
+// A township place found by drawing: the draw is pinned to a named seed and
+// walks the 56 jurisdictions in order to the first with a township board, so
+// it never passes or fails by the luck of the draw.
+describe("a drawn township place says its place and board", () => {
+  it("names the township and its board with no legal form (seed s8-township)", () => {
+    const township = (key: string) => {
+      try {
+        return localOfficesForPlace(key).some(
+          (office) => office.kind === "township-board",
+        );
+      } catch {
+        return false;
+      }
+    };
+    const drawn = drawPlace("s8-township", "place-names", township);
+    const world = buildBenchWorld(drawn.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: drawn.key,
+    });
+    const story = composeLocalAddress(world.core, "town");
+    const where = `${drawn.name} (${drawn.key}), seed s8-township`;
+    expect(story, where).not.toBeNull();
+    expect(story!.text, where).not.toMatch(/\b(?:Charter )?Township of\b/);
+    expect(story!.text, where).not.toMatch(/\b(\w+) \1\b/);
+  }, 300_000);
 });
