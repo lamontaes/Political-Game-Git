@@ -209,6 +209,9 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         }
       })(scene.talk.tree),
     ];
+    process.stdout.write(
+      `DESK-TALK ${where}:\n${lines.map((line) => `  ${line.text}`).join("\n")}\n`,
+    );
     for (const line of lines)
       expect(line.text, where).not.toMatch(
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined/,
