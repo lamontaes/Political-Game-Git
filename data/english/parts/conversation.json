@@ -44030,25 +44030,11 @@
           "requiresFacts": ["said-none"]
         },
         {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take",
-          "requiresFacts": ["said-none", "no-stand"]
-        },
-        {
           "move": "debate-take-plain-reply-take",
           "subject": "debate-take-plain",
           "role": "reply",
           "choice": "take",
           "requiresFacts": ["said-none"]
-        },
-        {
-          "move": "debate-take-brief-reply-take",
-          "subject": "debate-take-brief",
-          "role": "reply",
-          "choice": "take",
-          "requiresFacts": ["said-none", "no-stand"]
         }
       ],
       "origin": "authored",
@@ -44145,8 +44131,7 @@
           "subject": "interview-take-brief",
           "role": "reply",
           "choice": "take",
-          "requiresFacts": ["said-none"],
-          "excludesFacts": ["no-stand"]
+          "requiresFacts": ["said-none"]
         },
         {
           "move": "debate-take-declined-reply-take",
@@ -44159,8 +44144,7 @@
           "subject": "debate-take-brief",
           "role": "reply",
           "choice": "take",
-          "requiresFacts": ["said-none"],
-          "excludesFacts": ["no-stand"]
+          "requiresFacts": ["said-none"]
         }
       ],
       "origin": "authored",

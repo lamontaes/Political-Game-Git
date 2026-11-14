@@ -1,6 +1,6 @@
 ---
 id: words-interview-brief-take-says-undecided-on-a-held-stand
-title: "A reporter calls a candidate undecided after they declined a question their record holds a stand on"
+title: "A reporter calls a candidate undecided after they declined a question"
 area: words
 lead: words
 kind: bug
@@ -23,13 +23,13 @@ root: none
 
 **Cause.** Found in code: the take after a brief reply is worded from the question's facts (`sitting.now.facts` in `take()` in src/director/sitting.ts), which carry `stance-for` or `stance-against` where the record holds a stand and `no-stand` where it holds none, plus `said-none` for the answer. In data/english/parts/conversation.json the piece `conversation.interview-take-plain-reply-take.still-undecided` was used for the brief take on `said-none` alone, so it played whether or not the record held a stand.
 
-**Fix.** The brief take of "Still undecided." requires `no-stand` and "No comment, then." (already the take after no answer) is used for a brief answer where the question's facts do not carry `no-stand`, in both the interview and the debate. A test reads both cases over eight moments.
+**Fix.** "Still undecided." no longer says the brief take, in the interview or the debate; both brief takes use "No comment, then." (the existing decline take), with no new text. The no-stand case (the record holds none, 9 of the 90 named questions have no axis) was not seen in ten drawn places and eighteen played questions, so the line comes out of the brief take rather than wait behind a condition. A test reads the brief take over eight moments for each of the three flags, for both kinds.
 
 **Time box.** 1 hour.
 
 **Rules.** People say how it feels, never the figure. Plain American English. A builder does not judge its own lines; the played file goes to the second reader.
 
-**Done when.** A second session declines a question in an interview at a drawn place and seed where the record holds a stand, and where it holds none, in the running game, and the reporter says "No comment, then." for the first and "Still undecided." for the second.
+**Done when.** A second session declines a question in an interview and in a debate at a drawn place and seed in the running game, and the asker says "No comment, then." and never "Still undecided."
 
 **Waits on.** The second reader's stamp on the played lines.
 

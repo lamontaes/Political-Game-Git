@@ -223,30 +223,32 @@ describe("the interview sitting's words", () => {
     for (const said of rivalLines) expect(said.text).toContain("Sam Rivera");
   });
 
-  it("takes a brief answer in by whether the candidate holds a stand: undecided only where the record has none", () => {
+  it("takes a brief answer in as a pass, never as undecided, whether or not the record holds a stand", () => {
     // Owner, Nov 12: "the just non-replies". A brief answer says nothing of a
-    // stand, so a candidate whose record holds one is not called undecided
-    // (they held it and did not say); one with no stand on the question is.
-    const brief = (flag: string, moment: string) =>
-      say(
-        `${rules.subjects.takePrefix}brief`,
-        "reply",
-        {
-          about: fact("a higher minimum wage"),
-          stranger: fact("yes"),
-          "said-none": fact("yes"),
-          [flag]: fact("yes"),
-        },
-        moment,
-      )!.text;
-    const moments = ["m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8"];
-    for (const moment of moments) {
-      expect(brief("no-stand", moment), moment).toBe("Still undecided.");
-      for (const held of ["stance-for", "stance-against"])
-        expect(brief(held, moment), `${held} ${moment}`).toBe(
-          "No comment, then.",
-        );
-    }
+    // stand, so the reporter does not call the candidate undecided: not where
+    // the record holds a stand (they held it and did not say), and not where it
+    // holds none either (never seen played in ten drawn places; the line came
+    // out rather than wait behind a condition).
+    for (const prefix of [
+      rules.subjects.takePrefix,
+      sittings.kinds.debate.subjects.takePrefix,
+    ])
+      for (const moment of ["m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8"])
+        for (const flag of ["no-stand", "stance-for", "stance-against"])
+          expect(
+            say(
+              `${prefix}brief`,
+              "reply",
+              {
+                about: fact("a higher minimum wage"),
+                stranger: fact("yes"),
+                "said-none": fact("yes"),
+                [flag]: fact("yes"),
+              },
+              moment,
+            )!.text,
+            `${prefix} ${flag} ${moment}`,
+          ).toBe("No comment, then.");
   });
 
   it("puts the same question differently to someone the reporter knows and to a stranger", () => {
