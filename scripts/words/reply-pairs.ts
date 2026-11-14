@@ -52,12 +52,14 @@ import {
   exchangeSubjects,
   judgesExchanges,
   judgesLines,
+  judgesPaths,
   lineSubjects,
   pieceVerdictId,
   type LineRule,
 } from "../../src/english/line-rules";
 import { talkReplyFlow, talkScenes } from "../../src/director/scene-talk";
 import { readStore, rubricOf, storeName } from "./verdicts";
+import { scenePaths, type PathSubject } from "./scene-paths";
 import {
   buildTalks,
   observedPairs,
@@ -309,6 +311,62 @@ export function exchangeSheets(
 /** Built scenes by count: the director builds the same ones every time. */
 const TALKS = new Map<number, ReturnType<typeof buildTalks>>();
 
+/** How many built scenes a path rule's subjects and sheets read. */
+export const PATH_SCENES = 240;
+
+/** The first `count` built scenes, built once. */
+export function builtTalks(count = PATH_SCENES): ReturnType<typeof buildTalks> {
+  let talks = TALKS.get(count);
+  if (!talks) {
+    talks = buildTalks({}, count);
+    TALKS.set(count, talks);
+  }
+  return talks;
+}
+
+/** A path rule's subjects in the built scenes (`scenePaths`). */
+export const pathsOf = (rule: LineRule): PathSubject[] =>
+  scenePaths(rule, readBankPieces(), builtTalks());
+
+/** One path on a sheet: the scene's lines up to the one judged, as composed. */
+export interface PathSheet {
+  readonly rule: string;
+  readonly rubric: string;
+  readonly from: LineRule["from"];
+  readonly paths: readonly {
+    readonly id: string;
+    readonly scene: string;
+    readonly scenes: number;
+    readonly lines: PathSubject["lines"];
+  }[];
+}
+
+/** Sheets of the paths the rule judges that have no verdict yet. */
+export function pathSheets(
+  rule: LineRule,
+  paths: readonly PathSubject[],
+  store: JudgedStore,
+  perFile = 85,
+): Map<string, PathSheet> {
+  const open = paths.filter(
+    (path) => !store.yes.has(path.id) && !store.no.has(path.id),
+  );
+  const files = new Map<string, PathSheet>();
+  for (let k = 0; k * perFile < open.length; k += 1)
+    files.set(`${rule.id}.${k + 1}.json`, {
+      rule: rule.id,
+      rubric: rubricOf(rule),
+      from: rule.from,
+      paths: open.slice(k * perFile, (k + 1) * perFile).map((path) => ({
+        id: path.id,
+        scene: path.scene,
+        scenes: path.scenes,
+        lines: path.lines,
+      })),
+    });
+  return files;
+}
+
 /** The sheets for these options: pure of the disk apart from reading the bank and verdicts. */
 export function sheetsFor(options: SheetOptions = {}): SheetsResult {
   const parts = playableParts();
@@ -442,6 +500,24 @@ function main() {
     throw new Error("--out must be a directory outside the repository");
   const rule = readRules().find((row) => row.id === ruleId);
   if (!rule) throw new Error(`no rule ${ruleId} in ${RULES_FILE}`);
+  if (judgesPaths(rule)) {
+    const files = pathSheets(
+      rule,
+      pathsOf(rule),
+      readStore(storeName(rule)),
+      value("--per-file") ? Number(value("--per-file")) : 85,
+    );
+    mkdirSync(out, { recursive: true });
+    let count = 0;
+    for (const [name, sheet] of files) {
+      count += sheet.paths.length;
+      writeFileSync(join(out, name), `${JSON.stringify(sheet, null, 1)}\n`);
+    }
+    console.log(
+      `${rule.id}: ${count} scene paths with no verdict, from ${PATH_SCENES} built scenes, in ${files.size} files. Wrote them to ${out}.`,
+    );
+    return;
+  }
   if (judgesExchanges(rule)) {
     const observedCount = argv.includes("--observed")
       ? Number(value("--observed") ?? 240)
