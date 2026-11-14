@@ -37,3 +37,15 @@ checked:
 **Files.** src/core2/modules/jobs.ts
 
 **Notes.** Filed by hand on the Account lead T34 branch.
+
+**Measured (Account lead T34, Nov 14, with #9069 in place).** Months each founding spent after its first staffing review with no staff, and the out-of-work seeker records in its town during those months (records, not weighted by the households counted seekers stand for; "tried" counts seekers whose finding progress reached one while an opening stood near them):
+
+| Place                                    | Founding                        | First hire         | Months waiting | Seekers in town, mean (range) | Tried, mean |
+| ---------------------------------------- | ------------------------------- | ------------------ | -------------- | ----------------------------- | ----------- |
+| Manley NE (3130415, seed 2404d168...)    | manufacturing 2025-12-01        | 2027-01-10         | 12             | 3.8 (0 to 6)                  | 0           |
+|                                          | manufacturing 2026-04-01        | 2026-10-12         | 5              | 4.4 (4 to 5)                  | 0           |
+|                                          | manufacturing 2026-11-01        | not by day 760     | 4              | 0.8 (0 to 2)                  | 0           |
+| Skagway AK (0270760, seed 8f3ccb88...)   | 11 foundings 2025-03 to 2026-05 | 2025-06 to 2027-02 | 2 to 8         | 2.5 to 6.0 (1 to 6)           | 0           |
+| Teaticket MA (2569205, seed 7267935d...) | 12 foundings 2025-04 to 2026-08 | 2025-09 to 2027-02 | 4 to 6         | 0.8 to 5.5 (0 to 6)           | 0           |
+
+Seekers were in town in nearly every month of every wait, and none reached a finding progress of one while the opening stood (two late foundings at Teaticket saw one such seeker in their first month). So the waits come from the pace at which seekers find work (`regionalPull`, built monthly from the CPS spell rate), not from an empty town. Whoever builds this should read that pace against the opening before adding any end to it.
