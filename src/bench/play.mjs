@@ -1342,13 +1342,15 @@ function atThePolls(scene) {
           contests: scene.contests,
           labels: { ...labels, blank: controls.polling?.leaveBlank },
           onMark: async (contestId, candidateId) => {
+            // The visit may already be over (voted, or the polls closed): the ballot closes
+            // with it and goes on, never a live button on a ballot nobody is standing at.
             const result = await post(
               `/api/polling-place/mark?${new URLSearchParams({
                 contestId,
                 candidateId: candidateId ?? "",
               })}`,
-            );
-            if (result.pollingPlace) draw(result.pollingPlace);
+            ).catch(() => null);
+            if (result?.pollingPlace) draw(result.pollingPlace);
             else finish();
           },
           know: (personId) =>
@@ -1362,7 +1364,7 @@ function atThePolls(scene) {
               }))
               .catch(() => null),
           onLeave: async () => {
-            await post("/api/polling-place/leave");
+            await post("/api/polling-place/leave").catch(() => null);
             finish();
           },
         }),
@@ -1370,6 +1372,9 @@ function atThePolls(scene) {
     };
     const finish = () => {
       show("ballot", false);
+      // The paper goes with the visit: a ballot left in the page keeps live race buttons that
+      // would post a mark to polls that are no longer open.
+      $("ballot").replaceChildren();
       resolve();
     };
     draw(scene);
@@ -1844,45 +1849,68 @@ function ticketSection(filing, ticket) {
           : words.later,
       ),
     );
-  let picked = ticket.choices[0].id;
-  const choose = async (personId) => {
+  // Only someone who may be asked now is offered; a no stands for a while.
+  const askable = ticket.choices.filter((c) => c.mayAsk);
+  let picked = askable[0]?.id;
+  const chooseForMe = async () => {
     await post(
-      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id, ...(personId ? { personId } : {}) })}`,
+      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id })}`,
     );
     await openSheet("campaign");
   };
+  // Asking is a conversation: it plays as a scene, and the answer is theirs.
+  const ask = async (personId) => {
+    const asked = await post(
+      `/api/campaign/running-mate/ask?${new URLSearchParams({ filingId: filing.id, personId })}`,
+    );
+    if (asked.packet) renderPacket(asked.packet);
+    const moment = storyStop(asked.packet);
+    closeSheet();
+    // The sit-down itself first; anything else that came up waits behind it.
+    if (asked.story) await showStory(asked.story);
+    else if (moment) await showStory(moment.recordId);
+  };
+  const rowLabel = (c) =>
+    (c.work && c.place
+      ? words.row
+      : c.place
+        ? words.rowPlace
+        : c.work
+          ? words.rowWork
+          : "{name}"
+    )
+      .replace("{name}", c.name)
+      .replace("{work}", c.work ?? "")
+      .replace("{place}", c.place ?? "");
+  const declined = ticket.choices.filter((c) => c.declined && !c.mayAsk);
   return stripSection(
     1,
     title,
-    select({
-      options: ticket.choices.map((c) => ({
-        value: c.id,
-        label: (c.work && c.place
-          ? words.row
-          : c.place
-            ? words.rowPlace
-            : c.work
-              ? words.rowWork
-              : "{name}"
-        )
-          .replace("{name}", c.name)
-          .replace("{work}", c.work ?? "")
-          .replace("{place}", c.place ?? ""),
-      })),
-      onChange: (value) => {
-        picked = value;
-      },
-    }),
+    ...(askable.length
+      ? [
+          select({
+            options: askable.map((c) => ({ value: c.id, label: rowLabel(c) })),
+            onChange: (value) => {
+              picked = value;
+            },
+          }),
+        ]
+      : []),
+    ...declined.map((c) => introText(words.declined.replace("{name}", c.name))),
     buttonRow(
-      makeButton({
-        className: "action primary",
-        textContent: words.choose,
-        onclick: () => choose(picked),
-      }),
+      ...(askable.length
+        ? [
+            makeButton({
+              className: "action primary",
+              textContent: words.ask,
+              onclick: () => ask(picked),
+            }),
+          ]
+        : []),
       makeButton({
         className: "action",
         textContent: words.own,
-        onclick: () => choose(null),
+        onclick: () => chooseForMe(),
       }),
     ),
   );
@@ -2205,7 +2233,8 @@ async function campaignParts() {
           nodes: [
             debateCard({
               words: controls.debate,
-              debate,
+              // The day in words ("October 20, 2026"), never the record's digits.
+              debate: { ...debate, date: dateWords(debate.date) },
               questionLabel: policyLabel,
               onAnswer: async (answers) => {
                 await post(
@@ -3469,8 +3498,8 @@ async function seatRows() {
       : "";
     seatResult = r.asked
       ? askedWord
-      : r.number
-        ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
+      : r.spoken
+        ? `${r.spoken} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
             r.authority?.some((a) => !a.allowed)
               ? ` · ${r.authority
                   .filter((a) => !a.allowed)
@@ -3592,7 +3621,7 @@ async function seatRows() {
   const labels = controls.officeScreen ?? {};
   // Your bills, each with its standing, the day it is taken up, how the vote came out and
   // the paper that opens to read it (the mock's "On my desk").
-  const desk = v.bills.map(({ bill, votes, tally, floorDate }) => {
+  const desk = v.bills.map(({ bill, spoken, votes, tally, floorDate }) => {
     const open = makeButton({
       className: "action",
       textContent: controls.bill?.open ?? "",
@@ -3605,7 +3634,7 @@ async function seatRows() {
       ),
     );
     return deskBill(
-      deskTitle(`${bill.number} · ${floor.status[bill.status] ?? ""}`),
+      deskTitle(`${spoken} · ${floor.status[bill.status] ?? ""}`),
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
         : []),
@@ -3621,7 +3650,7 @@ async function seatRows() {
     );
   });
   const left = (v.incompatibilities ?? []).map((l) =>
-    line(`${l.date} · ${l.left} → ${l.took} · ${l.law}`),
+    line(`${dateWords(l.date)} · ${l.left} → ${l.took} · ${l.law}`),
   );
   const result = seatResult
     ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]

@@ -321,6 +321,94 @@
       }
     },
     {
+      "key": "campaign-standing.moved-all-warmer.every-one-of-them",
+      "move": "moved-all-warmer",
+      "kind": "written",
+      "text": "Every one of them came away warmer toward you.",
+      "uses": [
+        {
+          "move": "moved-all-warmer",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-warmer",
+          "requiresFacts": ["warmer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead carry of #8391",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-warmer"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-all-warmer.everyone-you-reached",
+      "move": "moved-all-warmer",
+      "kind": "written",
+      "text": "Everyone you reached warmed to you.",
+      "uses": [
+        {
+          "move": "moved-all-warmer",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-warmer",
+          "requiresFacts": ["warmer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead carry of #8391",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-warmer"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-all-cooler.every-one-of-them",
+      "move": "moved-all-cooler",
+      "kind": "written",
+      "text": "Every one of them came away cooler toward you.",
+      "uses": [
+        {
+          "move": "moved-all-cooler",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-cooler",
+          "requiresFacts": ["cooler"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead carry of #8391",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-cooler"
+      }
+    },
+    {
+      "key": "campaign-standing.moved-all-cooler.everyone-you-reached",
+      "move": "moved-all-cooler",
+      "kind": "written",
+      "text": "Everyone you reached cooled on you.",
+      "uses": [
+        {
+          "move": "moved-all-cooler",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved-all-cooler",
+          "requiresFacts": ["cooler"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead carry of #8391",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved-all-cooler"
+      }
+    },
+    {
       "key": "campaign-standing.moved-both.of-the-voters-you-reached-warmer-warmed-to-you-and-cooler-co",
       "move": "moved-both",
       "kind": "written",
@@ -783,16 +871,17 @@
       }
     },
     {
-      "key": "campaign-standing.moved-none.none-of-the-reached-voters-you-reached-has-changed-their-mind-yet",
+      "key": "campaign-standing.moved-none.none-of-them-has-changed-their-mind-yet",
       "move": "moved-none",
       "kind": "written",
-      "text": "None of the {reached} voters you reached has changed their mind yet.",
+      "text": "None of them has changed their mind yet.",
       "uses": [
         {
           "move": "moved-none",
           "subject": "campaign",
           "role": "standing",
-          "choice": "moved-none"
+          "choice": "moved-none",
+          "excludesFacts": ["warmer", "cooler"]
         }
       ],
       "origin": "authored",
@@ -804,16 +893,17 @@
       }
     },
     {
-      "key": "campaign-standing.moved-none.the-reached-voters-you-reached-feel-the-same-about-you-as-before",
+      "key": "campaign-standing.moved-none.they-feel-the-same-about-you-as-before",
       "move": "moved-none",
       "kind": "written",
-      "text": "The {reached} voters you reached feel the same about you as before.",
+      "text": "They feel the same about you as before.",
       "uses": [
         {
           "move": "moved-none",
           "subject": "campaign",
           "role": "standing",
-          "choice": "moved-none"
+          "choice": "moved-none",
+          "excludesFacts": ["warmer", "cooler"]
         }
       ],
       "origin": "authored",

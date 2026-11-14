@@ -295,6 +295,8 @@ export function seatView(core: CoreState, personId: string) {
       const votes = votesOn(api, bill.id);
       return {
         bill,
+        // The bill said with its form's word ("Ordinance 2025-8"), never bare.
+        spoken: spokenDesignation(bill.number, bill.form.kind),
         ...floorOf(core, bill),
         votes: votes.map((row) => ({
           ...row,
@@ -450,6 +452,8 @@ export function seatAct(
   const floor = floorOf(core, bill);
   return {
     ...bill,
+    // The bill said with its form's word ("Ordinance 2025-8"), never bare.
+    spoken: spokenDesignation(bill.number, bill.form.kind),
     text,
     ...(floor.agendaDate ? { agendaDate: floor.agendaDate } : {}),
     floorDate: floor.floorDate,
@@ -649,7 +653,10 @@ export function billPaper(core: CoreState, billId: string) {
     id: bill.id,
     number: bill.number,
     spoken: spokenDesignation(bill.number, bill.form.kind),
-    title: composed?.title ?? titled?.title ?? bill.number,
+    title:
+      composed?.title ??
+      titled?.title ??
+      spokenDesignation(bill.number, bill.form.kind),
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
     bodyOfficeId: bill.bodyOfficeId,
