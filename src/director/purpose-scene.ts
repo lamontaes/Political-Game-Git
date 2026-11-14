@@ -98,7 +98,7 @@ import {
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { knockFacts, petitionAtDoor } from "./doors";
-import { officeSaid } from "./cause-facts";
+import { officeSaid, raceMemberTitle } from "./cause-facts";
 import { officeInSentence } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
@@ -1427,7 +1427,10 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: titleInSentence(said.office),
+      // Where the body is named for its members the race is for that member
+      // ("alderman"); else the record's title in a sentence.
+      text:
+        raceMemberTitle(core, said.contestId) ?? titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
