@@ -207,6 +207,9 @@
     ],
     "scene-talk.state-request.i-practiced-this-and-forgot-it-so-plainly-i-d-like-to-be-your-spouse-w": [
       "no-filler"
+    ],
+    "scene-talk.state-tell.i-d-like-to-get-to-know-you-first-if-that-s-all-right": [
+      "alright-in-dialogue"
     ]
   },
   "noReplyFollows": {
