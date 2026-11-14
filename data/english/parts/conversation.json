@@ -37,6 +37,7 @@
     "work_place": "The town the speaker's employer is in, when it is not their own town, from the employer's record.",
     "my_position": "The player's job, with its article (\"a server\"), from the job record's title.",
     "their_first": "The given name of the person the player is talking to, from the person's record.",
+    "ahead": "What is left of the day, for a line that looks ahead: \"later\" while the evening is still ahead, \"tomorrow\" once it is the evening (data/english/day-words.json ahead, from the telling's clock; words composer unit 2, Nov 12: no \"again tonight\" at 8:30 p.m.).",
     "seat": "The seat a race is for, as people say it (\"the Mutual Village Council\", \"mayor\"), from the elections engine's contest and the office's record through the one seat wording."
   },
   "maxWords": 10,
@@ -24680,6 +24681,57 @@
       "date": "2026-11-11"
     },
     {
+      "key": "conversation.address-ask-seen.were-you-watching-the-president-when",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Were you watching the President {when}?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-A (words composer unit 2)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-hear-the-president-s-address-when",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you hear the President's address {when}?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-A (words composer unit 2)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-get-to-watch-the-address-when",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you get to watch the address {when}?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-A (words composer unit 2)",
+      "date": "2026-11-12"
+    },
+    {
       "key": "conversation.address-ask-seen.you-saw-the-president-s-speech-when-didn-t-you",
       "move": "address-ask-seen",
       "kind": "spoken",
@@ -26732,7 +26784,7 @@
       "key": "conversation.farewell-core.we-ll-talk-more-later-daypart",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "We'll talk more later {daypart}.",
+      "text": "We'll talk more {ahead}.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -26748,7 +26800,12 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "revised": {
+        "by": "Words builder W-A (words composer unit 2)",
+        "date": "2026-11-12",
+        "why": "A line that looks ahead says what is left of the day ({ahead}), never a part of the day that is over."
+      }
     },
     {
       "key": "conversation.farewell-core.i-ll-be-around-daypart-if-you-need-me",
@@ -26798,7 +26855,7 @@
       "key": "conversation.farewell-core.let-s-pick-this-up-again-daypart",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Let's pick this up again {daypart}.",
+      "text": "Let's pick this up again {ahead}.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -26814,35 +26871,18 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "revised": {
+        "by": "Words builder W-A (words composer unit 2)",
+        "date": "2026-11-12",
+        "why": "A line that looks ahead says what is left of the day ({ahead}), never a part of the day that is over."
+      }
     },
     {
       "key": "conversation.farewell-core.i-ll-be-in-the-kitchen-daypart-if-you-want-me",
       "move": "farewell-core",
       "kind": "spoken",
       "text": "I'll be in the kitchen {daypart} if you want me.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.i-ll-check-on-you-again-daypart",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "I'll check on you again {daypart}.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -26875,7 +26915,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": ["home"]
+          "stages": ["home"],
+          "requiresFacts": ["afternoon"]
         }
       ],
       "origin": "authored",
@@ -26886,7 +26927,7 @@
       "key": "conversation.farewell-core.find-me-daypart-if-you-want-to-talk-more",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Find me {daypart} if you want to talk more.",
+      "text": "Find me {ahead} if you want to talk more.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -26902,7 +26943,12 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "revised": {
+        "by": "Words builder W-A (words composer unit 2)",
+        "date": "2026-11-12",
+        "why": "A line that looks ahead says what is left of the day ({ahead}), never a part of the day that is over."
+      }
     },
     {
       "key": "conversation.farewell-core.don-t-stay-up-too-late-daypart",

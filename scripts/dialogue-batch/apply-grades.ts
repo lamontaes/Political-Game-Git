@@ -723,6 +723,8 @@ export function withVoiceGrades(
     if (only && !only.includes(id)) continue;
     if (!batches.includes(id)) batches.push(id);
     for (const row of file.grades) {
+      // A line of a text scene that is no bank piece has no key and no part to grade.
+      if (!row.key) continue;
       const net = row.spans.reduce((sum, span) => sum + span.strength, 0);
       if (Math.abs(net) < VOICE_VERDICT) continue;
       const counts = (parts[row.key] ??= {
