@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -33,3 +33,7 @@ root: none
 **Waits on.** The Words lead's ruling.
 
 **Files.** src/director/bargain-facts.ts, src/director/data/bargain-reasons.json, data/english/parts/scene-talk.json
+
+**Notes.**
+
+- Words lead, Nov 14 2026 (ruling, relayed in the bargaining thread): temperament keeps the plain request and never gets a line; closed by that ruling. The last-vote reason may say "I've voted for this before. I need your vote." only where the record holds the sponsor's earlier yes on the same question; it comes in its own pull request with a played case.
