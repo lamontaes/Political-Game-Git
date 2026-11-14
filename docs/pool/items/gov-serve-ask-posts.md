@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by: S6
-pr:
+pr: 9324
 after:
 blocked-on:
 lead: governing
