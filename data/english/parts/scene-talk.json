@@ -134,7 +134,8 @@
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
     "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
     "contract": "The contract award a bribe offer wants, by the work it pays for (\"the road contract\"), from the offer record.",
-    "wanted": "What a bribe offer wants, the bill or the contract the offer record names."
+    "wanted": "What a bribe offer wants, the bill or the contract the offer record names.",
+    "amount": "The sum a bribe offers, as people say money, from the crime record. Said once, only when the one offering answers How much? or bargains after a refusal."
   },
   "maxWords": 70,
   "parts": [

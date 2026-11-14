@@ -57,6 +57,7 @@ import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { withArticle } from "../english/journal-words";
 import { contractSaid } from "../english/contract-words";
+import { crimeRecord } from "../core2/modules/corruption";
 import {
   JOBS_MODULE_ID,
   JOB_OFFERED_EVENT,
@@ -1026,6 +1027,17 @@ function composeBinding(
       };
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
     if (wanted) facts.wanted = wanted;
+    // The sum offered, as people say money ("about five hundred dollars"),
+    // from the crime record. The bank says it only where the one offering
+    // answers "How much?" or bargains after a refusal (Words lead, Nov 14).
+    const crime = said.bribeId
+      ? crimeRecord(coreAPI(core as CoreState), said.bribeId)
+      : undefined;
+    if (crime && crime.amountMinor > P.zero)
+      facts.amount = {
+        text: moneySaid(crime.amountMinor),
+        sourceRecordIds: [moment.causeId, crime.id],
+      };
   }
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
