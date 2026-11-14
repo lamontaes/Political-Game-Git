@@ -716,12 +716,49 @@ function resolve(
     ...(replyId ? { replyId } : {}),
   };
   table(api).put(done as unknown as ModuleRow);
-  // stopgapId: SG-GOV-counted-case-view-kept-on-the-case
-  // A counted resident has no impression of their own until filled in; the
-  // case row keeps what the fill-in reads (`tiesFromCases`).
   caseImpression(api, done);
   return done;
 }
+
+/**
+ * A counted resident's view of each official their decided cases reached: the
+ * warmth `caseImpression` writes for a full person, replayed over the kept
+ * case rows in the order they were decided (the same rule, `touchImpression`'s
+ * step), so the counted electorate reads the case as warmth without the
+ * resident being filled in. Empty where they brought none.
+ */
+export function caseWarmthsOf(
+  api: CoreAPI,
+  personId: string,
+): Readonly<Record<string, number>> {
+  if (!api.state.modules.has(CASES_MODULE_ID)) return NO_WARMTH;
+  const rows = (
+    table(api).query("byPerson", [personId]) as unknown as CaseRow[]
+  )
+    .filter((c) => c.status !== "open")
+    .sort(
+      (a, b) => a.opened.localeCompare(b.opened) || a.id.localeCompare(b.id),
+    );
+  if (!rows.length) return NO_WARMTH;
+  const warmth: Record<string, number> = {};
+  for (const row of rows) {
+    const target =
+      row.status === "helped"
+        ? campaignParameter("caseHelpedWarmth")
+        : -campaignParameter("caseHelpedWarmth");
+    const before = warmth[row.officialId] ?? 0;
+    const weight = row.severity * campaignParameter("caseWeight");
+    warmth[row.officialId] = Math.max(
+      -1,
+      Math.min(
+        1,
+        before + weight * (Math.max(-1, Math.min(1, target)) - before),
+      ),
+    );
+  }
+  return warmth;
+}
+const NO_WARMTH: Readonly<Record<string, number>> = Object.freeze({});
 
 /** How a decided case moves the resident's view of the official. */
 function caseImpression(api: CoreAPI, row: Readonly<CaseRow>): void {

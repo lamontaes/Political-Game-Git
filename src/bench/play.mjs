@@ -3461,6 +3461,32 @@ async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const parts = await officeParts();
   const draftNodes = [];
+  // Who to ask to carry an executive's bill: the members, likeliest yes first and marked; a press
+  // asks that member (`/api/seat/act` with `memberId`).
+  const chooseMember = async (body, params) => {
+    const options = await api(
+      `/api/seat/ask-options?${new URLSearchParams(params)}`,
+    );
+    $("sheet-body").replaceChildren(
+      plate(
+        null,
+        line(controls.seat.askWho),
+        ...options.members.map((member) => {
+          const pick = makeButton({
+            className: "action",
+            textContent: member.likely
+              ? `${member.name} · ${controls.seat.askLikely}`
+              : member.name,
+          });
+          pick.dataset.act = "ask-member";
+          pick.addEventListener("click", () =>
+            act({ ...params, memberId: member.key }),
+          );
+          return pick;
+        }),
+      ),
+    );
+  };
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
@@ -3568,7 +3594,7 @@ async function seatRows() {
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
         ];
-        act({
+        const params = {
           kind: "draft",
           officeId: body.officeId,
           ...(kind === "series"
@@ -3593,7 +3619,11 @@ async function seatRows() {
                   ? String(Math.round(Number(typed) * 100))
                   : typed,
               }),
-        });
+        };
+        // An executive's bill goes through a member the player picks: the body's members, the
+        // one the engine would ask marked as the likely yes.
+        if (body.byRequest) chooseMember(body, params);
+        else act(params);
       },
     });
     // The body's line on the board: who sits on it, and the way in to writing
@@ -4058,6 +4088,24 @@ const sheets = {
               labels.hours,
               `${Number(job.hoursDaily.toFixed(1))} ${labels.daily}`,
             ),
+            // Leaving is the holder's own press. A post held by office, or a
+            // business you own, has its own way out and shows no button.
+            ...(job.leave === null
+              ? [
+                  (() => {
+                    const leave = makeButton({
+                      textContent: labels.leaveJob,
+                    });
+                    leave.dataset.testid = "leave-job";
+                    leave.addEventListener("click", async () => {
+                      await post("/api/job/leave");
+                      await renderCard();
+                      openSheet("jobs");
+                    });
+                    return leave;
+                  })(),
+                ]
+              : []),
           ]
         : [
             prose(labels.noJob, "record-empty"),
@@ -4886,13 +4934,31 @@ const sheets = {
           .filter((name) => !known.has(name))
           .map((name) => ({ name })),
       ]);
+      const open = p.filing
+        ? opensLine || labels.filing
+        : p.presentCount
+          ? labels.open
+          : labels.closed;
+      // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
+      // of the records' reasons once, or open to the public where none.
+      const why = p.filing
+        ? [labels.reasons?.filing].filter(Boolean)
+        : [
+            ...new Set(
+              (p.reasons ?? [])
+                .map((r) => labels.reasons?.[r.kind])
+                .filter(Boolean),
+            ),
+          ];
+      if (!p.filing && !why.length && labels.reasons?.public)
+        why.push(labels.reasons.public);
       return {
-        openLabel: labels.openLabel,
-        open: p.filing
-          ? opensLine || labels.filing
-          : p.presentCount
-            ? labels.open
-            : labels.closed,
+        facts: [
+          { label: labels.openLabel, value: open },
+          ...(why.length
+            ? [{ label: labels.why, value: why.join(" · ") }]
+            : []),
+        ],
         who,
         does: doHere(p),
       };

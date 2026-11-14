@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hjvzia
-pr: #9162
+pr: #9224
 after:
 blocked-on:
 root: design-one-model-two-tiers
@@ -37,3 +37,4 @@ checked: claude 2026-11-14
 
 **Notes.** Nov 14 (claude, thread "Build voters' views from their lives"): found while checking the counted and filled-in facts agree that a filled-in retiree's retirement award is not a finance contract, so `fullHouseholdIncomes` reads their income without it (Marshfield MA 2538820, world seed 75d9b7ad...; person_ea440ca012abcbcc read $33,156 counted, $0 filled in). Evidence added to `core-finance-contracts-vs-obligations-part-2-retirement-claims`, whose fix (the fill-in re-entry as a finance contract) closes it.
 Nov 14 (claude, lead's read of #9162): two gaps for cut 2. A candidate's own stance (`StanceReader.ownStance` in `src/core2/campaign-stances.ts`) is their lean on the axis plus what they have heard, without `openingStance`, so a candidate's faith, degree and own life do not reach what they say; they reach it only through what they hear from neighbors (Marshfield: person_3b2b4f4a0ac5beb9's heard stance on apartments went from 0 to -0.069 by Nov 3, and their Oct 20 online interview answered -0.032 instead of +0.027). And a race counted coarsely outside the town rests on 400 evenly spaced counted adults (`coarseSampleVoters`), so one household arriving or leaving moves every later pick: Marshfield's NH House 518 special of about 500 votes flipped when two different retiree households arrived on Jan 1 2026.
+Nov 14 (claude, cut 2): a change in a person's own life is now told to the engines that act when a stance moves (`tellLifeChange` and the monthly `views-life-review` in `src/core2/modules/views.ts`; the facts compared in `lifeChangesOf`, `src/core2/life-stakes.ts`): a layoff, a home bought, an eviction or a birth the same day (`lifeEvents` in `stakes.json`), any other change (a hire, a lease) by the first of the next month. A candidate's own stance (`StanceReader.ownStance`) now starts from the same `openingStance` a voter's view does, so their faith, degree and circumstances reach what they say. Pinned test `src/core2/life-changes-told.test.ts` (Marshfield MA). The door-visit finding of the same day is its own item, `campaign-door-warmth-follows-the-canvasser-not-the-platform`.

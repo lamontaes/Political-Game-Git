@@ -661,6 +661,22 @@
     "federal": "Federal"
   },
   "travel": {
+    "why": "Why it's listed",
+    "reasons": {
+      "work": "You work here",
+      "family": "Someone in your family works here",
+      "study": "Someone in your home goes to school here",
+      "studySelf": "You go to school here",
+      "known": "Someone you know works here",
+      "action": "Something to do now",
+      "serve": "You serve in office",
+      "member": "Your party's office",
+      "seat": "Your office",
+      "ownMeeting": "Your board meets today",
+      "meeting": "Its board meets today",
+      "filing": "You can file to run for office here",
+      "public": "Open to the public"
+    },
     "memberHere": "Your party's office",
     "filing": "Filing office",
     "go": "Go to",
@@ -779,7 +795,8 @@
     "workAndSchool": "Work and school",
     "openings": "Open in town",
     "hourly": "per hour",
-    "noOpenings": "Nothing is open in town right now."
+    "noOpenings": "Nothing is open in town right now.",
+    "leaveJob": "Leave this job"
   },
   "politics": {
     "seats": "Seats",
@@ -1129,6 +1146,8 @@
     "askedRefused": "{name} said no to sponsoring your bill, so nothing was filed.",
     "askedRefusedSaid": "{name} said no to sponsoring your bill, so nothing was filed. \"{words},\" {subject} said.",
     "askedRefusedBecause": "{name} said no to sponsoring your bill, so nothing was filed: {reason}.",
+    "askWho": "Who do you ask to carry it?",
+    "askLikely": "most likely to say yes",
     "askedBefore": "You asked {object} once before, on {date}.",
     "askedBeforeMore": "You have asked {object} before; the last time was {date}.",
     "askedReasons": {
