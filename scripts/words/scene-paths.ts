@@ -52,6 +52,16 @@ export interface PathSubject {
   readonly options?: readonly PathLine[];
   /** For a set rule read after the first exchange: the replies the scene offered first. */
   readonly first?: readonly PathLine[];
+  /** For a rule about a slot's variants: each variant, with the facts it needs said in plain words. */
+  readonly variants?: readonly SlotVariant[];
+}
+
+/** One variant of a slot: its bank words and the record facts it needs or rules out. */
+export interface SlotVariant {
+  readonly key: string;
+  readonly words: string;
+  readonly needs: readonly string[];
+  readonly not: readonly string[];
 }
 
 /** How many lines before a reply set its sheet shows. */
@@ -80,6 +90,7 @@ export function scenePaths(
   talks: readonly SceneTalk[],
 ): PathSubject[] {
   if (!judgesScenes(rule)) return [];
+  if (rule.sets === "variants") return slotVariants(rule, pieces);
   if (!judgesPaths(rule)) return sceneSets(rule, pieces, talks);
   const byKey = new Map(pieces.map((piece) => [piece.key, piece]));
   const found = new Map<string, PathSubject>();
@@ -246,6 +257,82 @@ function sceneSets(
       for (const branch of node.branches ?? []) walk(branch.node, path, depth);
     };
     walk(talk.tree, opening, 0);
+  }
+  return [...found.values()];
+}
+
+/** What a use's facts list holds, as words a reviewer reads. */
+const factsOf = (value: unknown): string[] =>
+  Array.isArray(value)
+    ? value.map((fact) =>
+        typeof fact === "string" ? fact : JSON.stringify(fact),
+      )
+    : [];
+
+/**
+ * The slots whose variants a rule judges: the bank pieces the rule applies to
+ * that share one use (everything in it but the facts it requires or rules
+ * out), two or more to a slot. A slot is keyed by its variants' keys in order,
+ * so a new variant, or a reworded one, asks for a new verdict.
+ */
+export function slotVariants(
+  rule: LineRule,
+  pieces: readonly RulePiece[],
+): PathSubject[] {
+  const slots = new Map<
+    string,
+    { scene: string; variants: Map<string, SlotVariant> }
+  >();
+  for (const piece of pieces) {
+    if (!ruleApplies(rule, piece)) continue;
+    for (const use of piece.uses) {
+      const {
+        requiresFacts: needs,
+        excludesFacts: not,
+        ...slot
+      } = use as Record<string, unknown>;
+      const name = JSON.stringify(
+        Object.keys(slot)
+          .sort()
+          .map((field) => [field, slot[field]]),
+      );
+      const scene = [slot.purpose, slot.key, slot.step, slot.move, slot.role]
+        .filter((part) => typeof part === "string")
+        .join("/");
+      const found = slots.get(name) ?? { scene, variants: new Map() };
+      slots.set(name, found);
+      if (!found.variants.has(piece.key))
+        found.variants.set(piece.key, {
+          key: piece.key,
+          words: piece.text,
+          needs: factsOf(needs),
+          not: factsOf(not),
+        });
+    }
+  }
+  const found = new Map<string, PathSubject>();
+  for (const { scene, variants } of slots.values()) {
+    if (variants.size < 2) continue;
+    const shown = [...variants.values()].sort((a, b) =>
+      a.key.localeCompare(b.key),
+    );
+    const keys = shown.map((variant) => variant.key);
+    const id = verdictId(
+      keys,
+      shown.map((variant) => variant.words),
+    );
+    const seen = found.get(id);
+    if (seen) seen.scenes += 1;
+    else
+      found.set(id, {
+        id,
+        keys,
+        scene,
+        lines: [],
+        scenes: 1,
+        after: [],
+        variants: shown,
+      });
   }
   return [...found.values()];
 }
