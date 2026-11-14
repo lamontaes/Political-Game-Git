@@ -140,7 +140,12 @@ import {
   decideDesk,
   deskWaiting,
 } from "../core2/modules/office-day";
-import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
+import {
+  chooseVariant,
+  favorsGiven,
+  hasArcFor,
+  type VariantChoice,
+} from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
@@ -1880,6 +1885,20 @@ function composeBinding(
   // talk about (a layoff, a rent notice, an illness in the house); on a
   // second knock they raise the next record down, so the same door is not
   // the same scene twice.
+  const variantFacts = door ? { ...said, ...door.knock } : said;
+  // A cause no variant was written for (a speech heard, for the door
+  // families, whose variants are a resident's records at a door) plays the
+  // purpose's own arc and its own lines; a purpose with neither is not
+  // offered rather than played on another cause's lines.
+  if (
+    type.purpose &&
+    (!type.playerAsks || door) &&
+    !hasArcFor(type.purpose, variantFacts)
+  )
+    return {
+      kind: "skipped",
+      reason: `no ${type.purpose} arc for this cause`,
+    };
   const variant =
     type.purpose && (!type.playerAsks || door)
       ? chooseVariant(core, {
@@ -1889,7 +1908,7 @@ function composeBinding(
           cause: {
             id: moment.causeId,
             date: record?.date ?? moment.date,
-            facts: door ? { ...said, ...door.knock } : said,
+            facts: variantFacts,
           },
           setting: binding.setting.kind,
           ...(door?.knock.first === "false" ? { nextDown: true } : {}),

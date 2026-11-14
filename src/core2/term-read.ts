@@ -14,6 +14,7 @@
 import type { CoreAPI, CoreState } from "./types";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
 import areaData from "./data/term-read/areas.json" with { type: "json" };
+import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 
 /** The web's month row, as far as the read needs it. */
 interface WebRow {
@@ -45,6 +46,12 @@ const DATA = areaData as unknown as {
   minimumMonths: { value: number };
   warmupMonths: { value: number };
   areas: Readonly<Record<string, Readonly<Record<string, number>>>>;
+  answeredBy: Readonly<
+    Record<
+      string,
+      { topics: readonly string[]; lines: readonly string[] } | string
+    >
+  >;
 };
 
 /** Every area the read keeps, in the data's order. */
@@ -64,6 +71,58 @@ export function measureSlide(
   if (!Number.isFinite(from) || !Number.isFinite(to)) return 0;
   const scale = Math.max(Math.abs(from), Number.EPSILON);
   return Math.tanh((direction * (to - from)) / scale / DATA.fullChange.value);
+}
+
+/**
+ * The catalog topic each policy question sits under ("Wages and working
+ * hours"), read once from the bill catalog's own rows.
+ */
+const TOPIC_OF_QUESTION: ReadonlyMap<string, string> = new Map(
+  (
+    catalog as unknown as {
+      subjects: {
+        topics: { name: string; policies?: { question?: string }[] }[];
+      }[];
+    }
+  ).subjects.flatMap((subject) =>
+    subject.topics.flatMap((topic) =>
+      (topic.policies ?? []).flatMap((policy) =>
+        policy.question ? [[policy.question, topic.name] as const] : [],
+      ),
+    ),
+  ),
+);
+
+/**
+ * The catalog topics whose questions answer an area of the term read
+ * (`answeredBy.<area>.topics` in the area data), or none for a name that is
+ * not an area (a measure of the macro year).
+ */
+export function topicsAnsweringArea(area: string): readonly string[] {
+  const row = DATA.answeredBy[area];
+  return typeof row === "object" ? row.topics : [];
+}
+
+/** The budget lines ("budget-line:<line>") that bear on an area of the term read. */
+function linesAnsweringArea(area: string): readonly string[] {
+  const row = DATA.answeredBy[area];
+  return typeof row === "object" ? row.lines : [];
+}
+
+/**
+ * Whether a question answers an area of the term read: a budget line that
+ * bears on it, or a policy question under one of its catalog topics.
+ */
+export function questionAnswersArea(question: string, area: string): boolean {
+  if (question.startsWith("budget-line:"))
+    return linesAnsweringArea(area).includes(question);
+  const topic = TOPIC_OF_QUESTION.get(question);
+  return !!topic && topicsAnsweringArea(area).includes(topic);
+}
+
+/** Every area of the term read a policy question answers, in the area data's order. */
+export function areasAnswered(question: string): readonly string[] {
+  return TERM_AREAS.filter((area) => questionAnswersArea(question, area));
 }
 
 /** The month `months` after `month`, both as "YYYY-MM". */

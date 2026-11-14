@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1313,
+  "judged": 1309,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -2508,19 +2508,6 @@
       ],
       "why": "\"Alright, I'll do it\" and \"I'll do it. I promise\" just reword the first yes and promise."
     },
-    "12b3e2jg7qm": {
-      "keys": [
-        "scene-talk.follow-answer.we-never-caught-up-after-one-bad-month-then-it-got-away-from-me",
-        "scene-talk.reply-promise.i-ll-find-the-money-i-don-t-know-how-yet-but-i-will",
-        "scene-talk.reply-ask.how-did-we-get-behind",
-        "scene-talk.reply-offer.i-can-give-you-what-i-ve-saved-it-s-not-much",
-        "scene-talk.reply-deflect.it-s-a-letter-they-always-send-a-letter-first",
-        "scene-talk.reply-promise.then-we-fix-it-now-i-ll-help",
-        "scene-talk.reply-offer.i-ve-got-a-little-put-away-use-it",
-        "scene-talk.reply-deflect.maybe-they-ll-wait-if-we-ask"
-      ],
-      "why": "Fixing it now, using what's put away and maybe they'll wait reword the first find-the-money, savings and just-a-letter options."
-    },
     "12inebytgb4": {
       "keys": [
         "scene-talk.follow-press.how-long-though-i-can-wait-but-i-d-like-to-know-whether-i-m-waiting-fo",
@@ -3496,19 +3483,6 @@
         "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today"
       ],
       "why": "\"Let me tell you all of it\" re-offers the explain option and \"I was wrong... I'm sorry\" re-offers the apology, two of three."
-    },
-    "1itp2r48mfs": {
-      "keys": [
-        "scene-talk.follow-answer.you-d-be-position-at-pay-an-hour-to-start",
-        "scene-talk.reply-ask.tell-me-more-about-it",
-        "scene-talk.reply-agree.yes-i-ll-take-it",
-        "scene-talk.reply-decline.i-appreciate-it-but-position-isn-t-the-work-i-want-to-do",
-        "scene-talk.reply-stall.i-d-like-to-talk-it-over-at-home-first",
-        "scene-talk.reply-agree.that-s-great-news-count-me-in",
-        "scene-talk.reply-decline.thank-you-but-i-m-going-to-pass-on-working-as-position-it-isn-t-what-i-m-looking-for",
-        "scene-talk.reply-leave.i-can-t-decide-this-right-now"
-      ],
-      "why": "Taking the job, passing on {position} and not deciding now restate the first yes, no and talk-it-over options."
     },
     "1iw6wfbpfns": {
       "keys": [
@@ -5056,5 +5030,5 @@
       "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "1tr9oogtkg6"
+  "yesHash": "1juptfe791k"
 }

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1325,
+  "judged": 1315,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -267,15 +267,6 @@
         "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
       ],
       "why": "Looking again, a hearing promise, a deferral and a floor exit carry no argument."
-    },
-    "03shuiity4q": {
-      "keys": [
-        "scene-talk.follow-answer.i-only-want-them-to-hear-from-you-first-it-doesn-t-have-to-be-much",
-        "scene-talk.reply-agree.that-helps-count-me-in",
-        "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-        "scene-talk.reply-decline.thank-you-for-asking-but-i-can-t-do-it-i-m-sorry"
-      ],
-      "why": "\"Thank you for asking, but I can't do it\" refuses with no reason, and the others just agree."
     },
     "03utdosmzum": {
       "keys": [
@@ -2061,16 +2052,6 @@
       ],
       "why": "Coming to one meeting, thinking it over and returning books carry no reason."
     },
-    "0vs4syr6yms": {
-      "keys": [
-        "scene-talk.state-request.the-youngest-in-the-house-child-was-in-the-room-when-you-got-sick-will-you-talk-to-them-yourself-first",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-ask.what-are-you-most-afraid-will-happen-if-i-don-t",
-        "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now"
-      ],
-      "why": "A yes, a bare promise, a question and an unexplained refusal give no reason."
-    },
     "0vxs1whdp0l": {
       "keys": [
         "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
@@ -2528,14 +2509,6 @@
       ],
       "why": "Denial, a promise, \"can't take it back\" and \"We're finished\" carry no reason."
     },
-    "12cqzc9a7ce": {
-      "keys": [
-        "scene-talk.follow-answer.say-it-after-me-a-line-at-a-time-i-will-support-the-constitution-and-the",
-        "scene-talk.reply-agree.i-will-support-the-constitution-and-the-laws-and-i-will-serve-as-office",
-        "scene-talk.reply-promise.i-will-support-the-constitution-and-the-laws-i-will-carry-out-the-duties"
-      ],
-      "why": "Both oath replies are pledges with no reason."
-    },
     "12g7vhobdo2": {
       "keys": [
         "scene-talk.state-tell.i-keep-reading-about-bill-i-want-to-know-what-it-means-for-us",
@@ -2968,16 +2941,6 @@
         "scene-talk.reply-leave.i-ve-got-a-meeting-walk-with-me-if-you-want"
       ],
       "why": "\"I meant every word,\" \"time will answer,\" waiting on the committee and a meeting carry no reason."
-    },
-    "1a6hccopwka": {
-      "keys": [
-        "scene-talk.state-request.the-youngest-in-the-house-child-was-in-the-room-when-you-got-sick-will-you-talk-to-them-yourself-first",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry"
-      ],
-      "why": "A concession, a bare promise, a question and an unexplained refusal give no reason."
     },
     "1abb0rvho98": {
       "keys": [
@@ -4857,14 +4820,6 @@
       ],
       "why": "\"Even then. It's the right call\" restates the stance without saying why it is right, and the others deny or leave."
     },
-    "2641ch6gg9v": {
-      "keys": [
-        "scene-talk.follow-answer.bad-enough-that-i-haven-t-slept-i-ll-show-you-the-estimate",
-        "scene-talk.reply-promise.then-let-s-get-it-done-i-ll-start-with-the-contractor",
-        "scene-talk.reply-deflect.let-s-get-a-second-estimate-before-we-decide-anything"
-      ],
-      "why": "Starting with the contractor and getting a second estimate state plans without a reason."
-    },
     "26azqxokkcc": {
       "keys": [
         "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
@@ -4970,16 +4925,6 @@
         "scene-talk.reply-leave.im-done-talking"
       ],
       "why": "Refusal, report threat, silence and exit with no reason among them."
-    },
-    "27xhzukr3un": {
-      "keys": [
-        "scene-talk.state-request.right-hand-up-first-do-you-swear-to-support-the-constitution-and-the-law",
-        "scene-talk.reply-agree.i-do",
-        "scene-talk.reply-promise.i-do-and-i-ll-keep-to-every-word-of-it",
-        "scene-talk.reply-thank.i-do-and-thank-you-for-trusting-me-with-it",
-        "scene-talk.reply-ask.do-i-say-it-after-you"
-      ],
-      "why": "The oath answers are \"I do\" variants and a question, with no argument."
     },
     "287ua27ueks": {
       "keys": [
@@ -5151,15 +5096,6 @@
         "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say-my-office-has-the-rest"
       ],
       "why": "Asking for word-for-word printing, refusing, demanding names and pointing to the office give no reason for the stance."
-    },
-    "2bke9ro20lr": {
-      "keys": [
-        "scene-talk.follow-answer.we-never-caught-up-after-one-bad-month-then-it-got-away-from-me",
-        "scene-talk.reply-promise.then-we-fix-it-now-i-ll-help",
-        "scene-talk.reply-offer.i-ve-got-a-little-put-away-use-it",
-        "scene-talk.reply-deflect.maybe-they-ll-wait-if-we-ask"
-      ],
-      "why": "Fixing it now, offering savings and hoping they wait carry no argument."
     },
     "2bzgcqxdtbw": {
       "keys": [
@@ -5483,5 +5419,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "1prgi3t6zug"
+  "yesHash": "1aafp30of9v"
 }
