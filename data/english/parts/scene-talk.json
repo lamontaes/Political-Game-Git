@@ -153,7 +153,8 @@
     "names": "The members who voted no on a bill, by name, three or fewer, from the vote record.",
     "group": "The group that pressed the members who voted no, by its said name, from the lobbying record.",
     "budget-cost": "What a bill adds to the budget each year, one rounded sum, from its budget-line sections.",
-    "donor-first": "A donor's given name, as the candidate says it to them, from the person record."
+    "donor-first": "A donor's given name, as the candidate says it to them, from the person record.",
+    "fee": "The sum a place's law charges to file, as people say money, from the filing rules (\"$75\")."
   },
   "maxWords": 70,
   "parts": [
@@ -189646,6 +189647,231 @@
       "tag": {
         "move": "agree",
         "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-filing-fee.theres-a-filing-fee-fee-i-can-take-it-right-here",
+      "move": "state-tell-filing-fee",
+      "kind": "spoken",
+      "text": "There's a filing fee, {fee}. I can take it right here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-filing-fee",
+          "role": "asker",
+          "requiresFacts": ["fee"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (carried onto the train with #8722)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-filing-fee.the-fee-to-file-is-fee",
+      "move": "state-tell-filing-fee",
+      "kind": "spoken",
+      "text": "The fee to file is {fee}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-filing-fee",
+          "role": "asker",
+          "requiresFacts": ["fee"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words lead (carried onto the train with #8722)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-filing-fee.its-fee-to-file-cash-check-or-card",
+      "move": "state-tell-filing-fee",
+      "kind": "spoken",
+      "text": "It's {fee} to file. Cash, check or card.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-filing-fee",
+          "role": "asker",
+          "requiresFacts": ["fee"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (carried onto the train with #8722)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-filing-fee-paid.thanks-heres-your-receipt-youre-filed",
+      "move": "state-filing-fee-paid",
+      "kind": "spoken",
+      "text": "Thanks. Here's your receipt. You're filed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "filing-fee-paid",
+          "role": "asker",
+          "requiresFacts": ["fee"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (carried onto the train with #8722)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-filing-fee-paid.thats-paid-keep-the-receipt-with-your-papers",
+      "move": "state-filing-fee-paid",
+      "kind": "spoken",
+      "text": "That's paid. Keep the receipt with your papers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "filing-fee-paid",
+          "role": "asker",
+          "requiresFacts": ["fee"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words lead (carried onto the train with #8722)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-filing-fee-paid.paid-youre-on-the-list",
+      "move": "state-filing-fee-paid",
+      "kind": "spoken",
+      "text": "Paid. You're on the list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "filing-fee-paid",
+          "role": "asker",
+          "requiresFacts": ["fee"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (carried onto the train with #8722)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-filing-fee.im-sorry-i-cant-take-the-papers-without-the-fee",
+      "move": "state-rule-filing-fee",
+      "kind": "spoken",
+      "text": "I'm sorry. I can't take the papers without the fee.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-filing-fee",
+          "role": "asker",
+          "requiresFacts": ["fee"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (carried onto the train with #8722)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-filing-fee.i-cant-file-you-without-the-fee-thats-the-rule-not-me",
+      "move": "state-rule-filing-fee",
+      "kind": "spoken",
+      "text": "I can't file you without the fee. That's the rule, not me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-filing-fee",
+          "role": "asker",
+          "requiresFacts": ["fee"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words lead (carried onto the train with #8722)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-come-back.ill-come-back-with-it",
+      "move": "reply-come-back",
+      "kind": "spoken",
+      "text": "I'll come back with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "come-back",
+          "role": "asked",
+          "requiresFacts": ["fee"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (carried onto the train with #8722)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     }
   ]
