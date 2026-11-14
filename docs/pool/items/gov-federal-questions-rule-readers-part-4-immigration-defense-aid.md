@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** gov-congress-passes-policy-laws (or dev mode's enact-a-law route) so the law can be enacted.
 
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a.ts, src/core2/modules/budgets.ts, src/core2/data/stopgaps/laws.json
+
+**Notes (Account lead thread, Nov 14, 2026).** Measured on the train at Eveleth, Minnesota (checker seed take-effect-2): admitting more immigrants is read by counted moves (more yearly arrivals from abroad, src/core2/modules/counted-moves.ts line 217) and names no person; who arrives and where they work is this item's.

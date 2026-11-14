@@ -1047,6 +1047,10 @@ export function weighContest(
       p.id === incumbentId) &&
     !appointed.has(p.id) &&
     ageOnDate(p.birthDate, date) >= rules.minimumAge &&
+    // The filing fee weighs in the decision: someone who cannot cover it from
+    // their own cash does not decide to run (the counter's refusal is left
+    // for the player and for money that ran out in between).
+    p.liquidMinor >= rules.feeMinor &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
     !(incumbentFiled && p.id === incumbentId) &&
@@ -1490,9 +1494,20 @@ export function partyProspects(
             (check) => !check.met,
           ),
       )
-      // Inroads first, then standing (owner, Oct 15: "The party asks someone
-      // to run only with some inroads on record"; Oct 14: a high-standing
-      // member may be propositioned).
+      // Only with some inroads on record (owner, Oct 15: "The party asks
+      // someone to run only with some inroads on record"): the member knows
+      // the chair or the two have a tie. A stranger is never asked.
+      .filter(
+        (person) =>
+          person.knownIds.has(chairId) ||
+          api.state.relationships.has(
+            person.id < chairId
+              ? `${person.id}:${chairId}`
+              : `${chairId}:${person.id}`,
+          ),
+      )
+      // Inroads first, then standing (Oct 14: a high-standing member may be
+      // propositioned).
       .map((person) => ({
         person,
         closeness: closenessBetween(api.state, person.id, chairId),
