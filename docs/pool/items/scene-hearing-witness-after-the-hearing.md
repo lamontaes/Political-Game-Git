@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-lcf812
-pr:
+pr: #9178
 claimed-at: 2026-11-14T08:10:00.000Z
 after:
 blocked-on:
