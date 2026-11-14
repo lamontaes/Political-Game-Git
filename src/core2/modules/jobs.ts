@@ -2684,7 +2684,9 @@ function reviewTurnover(api: CoreAPI): void {
       new SeededRng(api.state.seed).fork(`town-turnover:${job.id}`).next();
     const pull =
       held +
-      layoffPerQuarter(api, at.rise, lean, workAgeFactor(api, age)) * month;
+      layoffPerQuarter(api, at.rise, lean, workAgeFactor(api, age)) *
+        at.separation *
+        month;
     if (pull < p("one")) {
       pulls.put({ id: job.id, pull } as never);
       continue;
@@ -2718,14 +2720,11 @@ function reviewTurnover(api: CoreAPI): void {
     const held =
       (pulls.get(key) as { pull?: number } | undefined)?.pull ??
       new SeededRng(api.state.seed).fork(`town-turnover:${key}`).next();
+    const here = regionalConditions(api, row.placeId);
     const pull =
       held +
-      layoffPerQuarter(
-        api,
-        regionalConditions(api, row.placeId).rise,
-        p("zero"),
-        workAgeFactor(api, age),
-      ) *
+      layoffPerQuarter(api, here.rise, p("zero"), workAgeFactor(api, age)) *
+        here.separation *
         month;
     if (pull < p("one") || !stopRegionalWork(c, row.personId)) {
       pulls.put({ id: key, pull } as never);
