@@ -2,16 +2,16 @@
  * The roles a person holds in their place's life, as generation of who exists
  * (Coordinator, Nov 8: county people need the roles and ties that make real
  * people run, read the same way for named people and counted ones): how active
- * they are in a party, the employer they own, the civic roles they hold. They
- * sit on `looks` (`partyActivity`, `ownedEmployerId`, `civicRoles`), so a
- * counted member keeps them in the store and a filled-in person has them.
+ * they are in a party and the employer they own. They sit on `looks`
+ * (`partyActivity`, `ownedEmployerId`), so a counted member keeps them in the
+ * store and a filled-in person has them. The civic roles a person holds (a
+ * party's chair, a seat at its committee meetings) are read from the parties
+ * engine's own records (`civicRolesOf` in modules/candidacy.ts), never stored
+ * here.
  */
 import { stableHash } from "./kernel/ids";
 import { parameter as p } from "./parameters";
-import { stopgap } from "./stopgaps";
 import type { CoreInput, PersonInput } from "./types";
-
-export const CIVIC_ROLES_STOPGAP = "SG-LIVES-civic-roles-not-recorded";
 
 /** A person's place on the unit line, from the world's seed and their id (the same every time). */
 function quantile(seed: string, id: string, purpose: string): number {
@@ -39,8 +39,6 @@ export function partyActivityOf(seed: string, id: string): number {
 }
 
 export function withRoles(input: CoreInput): CoreInput {
-  // stopgapId: SG-LIVES-civic-roles-not-recorded
-  stopgap(CIVIC_ROLES_STOPGAP);
   const adult = p("votingAge");
   const start = Date.parse(`${input.startedAt}T00:00:00Z`);
   const meanYear = p("daysPerMeanYear") * 86_400_000;

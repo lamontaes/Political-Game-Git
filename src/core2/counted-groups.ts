@@ -50,11 +50,7 @@ export const enum MemberState {
 }
 
 /** The `looks` keys that carry a person's roles (opening-roles.ts), kept for counted members as for named people. */
-export const ROLE_KEYS = [
-  "partyActivity",
-  "ownedEmployerId",
-  "civicRoles",
-] as const;
+export const ROLE_KEYS = ["partyActivity", "ownedEmployerId"] as const;
 
 export type HouseholdKind = "one-adult" | "adults" | "with-children";
 /**
@@ -234,7 +230,6 @@ export class CountedStore {
   readonly roleIx: Record<string, number[]> = {
     partyActivity: [],
     ownedEmployerId: [],
-    civicRoles: [],
   };
   readonly tierIx: number[] = [];
   state = new Uint8Array(0);
