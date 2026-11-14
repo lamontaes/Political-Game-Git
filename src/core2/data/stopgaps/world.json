@@ -459,8 +459,10 @@
     "why": "Arrivals are OPUS-CORE's population engine; they rent or are placed when they arrive.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Arriving households buy new houses through the same choice and mortgage, once arrivals land.",
-    "status": "open"
+    "replacement": "Done Nov 14, 2026: counted households moving into the town weigh buying a home like the household they were drawn like, by the renters' rule with their own share of their group's account (settleCountedNewcomers, src/core2/housing-counted-buy.ts); one that does not buy rents it. Full people moving in are still housed by the occupancy engine's vacant homes.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "Account lead T54 (#9117)"
   },
   {
     "id": "SG-WORLD-jobs-counted-retiree-income",

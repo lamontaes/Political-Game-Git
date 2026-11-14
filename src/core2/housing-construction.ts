@@ -21,7 +21,6 @@ import { residentsRuntime } from "./modules/residents";
 import { webFactorFor } from "./outcome-web-reach";
 import { carriedLink } from "./modules/outcome-web";
 import { stableHash } from "./kernel/ids";
-import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import { lawApplied } from "./law-reach/applied";
 import { townOutsideOf } from "./opening-outside-market";
@@ -196,8 +195,7 @@ export function takeNewHome(
 ): string | undefined {
   const row = stock.get(`stock:${placeId}`) as unknown as StockRow | undefined;
   if (!row || row.newHomesForSale < 1) return undefined;
-  // Renters in town buy (full ones, and counted ones on their lease anniversary); households moving in don't yet.
-  stopgap("SG-WORLD-housing-new-home-buyers");
+  // Renters in town buy (full ones, and counted ones on their lease anniversary), and so do counted households moving in.
   const builder = (
     projects.query("all", [true]) as unknown as ProjectRow[]
   ).find(

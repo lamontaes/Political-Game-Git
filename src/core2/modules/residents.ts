@@ -239,6 +239,12 @@ export interface ResidentsRuntime {
   /** Households released to full people so far: each release names its own transfers, since a household can return to the counts and be filled in again. */
   fillIns: number;
   /**
+   * Households that moved in since the housing engine last read them, each
+   * with the household it was drawn like: housing settles each in a home it
+   * rents or buys (housing-counted-buy.ts), then clears the list.
+   */
+  newcomers: { householdId: string; likeId: string }[];
+  /**
    * Counted members by the day they pass the counted working age
    * (`countedWorkingAgeBelow`): on that day each takes their share of their
    * household's out-of-town workers with them (`leaveUnplacedWork`), so no
@@ -876,6 +882,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     moneyCache: { serial: 0 },
     fillInCash: new Map(),
     fillIns: 0,
+    newcomers: [],
     workingAgeEnds: new Map(),
     workingAgePassedThrough: core.date,
   };
@@ -3419,9 +3426,13 @@ export function admitCountedHousehold(
   record: ResidentHouseholdRecord,
   /** Real households it stands for; the place's weight when omitted. */
   weight?: number,
+  /** A household that moved in: the place's household it was drawn like, whose kind of home it looks for. */
+  likeId?: string,
 ): void {
   const rt = runtimes.get(core);
   if (!rt) throw new Error("Residents are not admitted.");
+  if (likeId && core.modules.has("housing"))
+    rt.newcomers.push({ householdId: record.household.id, likeId });
   if (rt.store.householdOf.has(record.household.id))
     throw new Error(`Duplicate counted household: ${record.household.id}`);
   // Newcomers bring money only when the books can take it from outside the town. Admitted before

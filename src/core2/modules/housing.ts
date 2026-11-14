@@ -44,7 +44,11 @@ import type { ModuleRow } from "../module-data";
 import type { EntityId } from "../kernel/brands";
 import { bankYes, lendMortgage, monthlyIncome, mortgageRoom } from "./credit";
 import { BUY_PULL, buyMarket, weighHome } from "../housing-buy";
-import { buyCountedHomes } from "../housing-counted-buy";
+import {
+  buyCountedHomes,
+  type CountedBuyWorld,
+  settleCountedNewcomers,
+} from "../housing-counted-buy";
 import { CREDIT_PARAMETERS } from "./credit";
 import { DEFAULT_DATA } from "../data";
 import {
@@ -1612,9 +1616,16 @@ function buyHomes(api: CoreAPI): void {
 
 /** The counted renters whose lease turns a year older this month weigh buying the home their rent stands for, by the full renters' rule. */
 export function weighCountedBuyers(api: CoreAPI): void {
+  const world = countedBuyWorld(api);
+  buyCountedHomes(api, world);
+  settleCountedNewcomers(api, world);
+}
+
+/** What counted buying reads from the other engines, handed in so housing-counted-buy.ts imports none of them. */
+function countedBuyWorld(api: CoreAPI): CountedBuyWorld {
   const typicalRent = typicalRentReader(api);
   const c = core(api);
-  buyCountedHomes(api, {
+  return {
     valueOf: (placeId, rentMinor) =>
       rentHomeValue(api, placeId, rentMinor, typicalRent),
     bankYes: (payment, income) => bankYes(api, payment, income),
@@ -1623,7 +1634,61 @@ export function weighCountedBuyers(api: CoreAPI): void {
       townOutsideOf(c.organizations.values(), placeId)?.id,
     transferCash: (id, from, to, amount, source) =>
       transferCash(api, id, from, to, amount, source),
-  });
+    homeLike: (householdId) => {
+      const row = store(api)
+        .table("dwellings")
+        .get(`dwelling:${householdId}`) as
+        | {
+            tenure: string;
+            kind?: string;
+            usps?: string;
+            rentMinor?: number;
+            valueMinor?: number;
+            priceLevel?: number;
+          }
+        | undefined;
+      const placeId = countedHousehold(c, householdId)?.placeId;
+      if (!row || !placeId) return undefined;
+      const landlordId = `organization:landlord:${placeId}`;
+      const kind = row.kind ? { kind: row.kind } : {};
+      const usps = row.usps ? { usps: row.usps } : {};
+      if (row.tenure === "rent") {
+        const flow = residentsRuntime(c)?.flows.get(`rent:${householdId}`);
+        const live = flow && !flow.endedAt ? flow : undefined;
+        return {
+          rentMinor: live?.amountMinor ?? row.rentMinor ?? 0,
+          landlordId: live?.payeeId ?? landlordId,
+          ...kind,
+          ...usps,
+        };
+      }
+      // An owned home stands for the rent a home of its value would ask: the town's typical rent times its value over the town's typical value today.
+      const level = placePriceLevel(api, placeId);
+      if (!row.valueMinor || !level || level.now <= 0) return undefined;
+      const value = homeValueToday(
+        api,
+        placeId,
+        row.valueMinor,
+        row.priceLevel,
+      );
+      const owed =
+        (
+          store(api)
+            .table("mortgages")
+            .get(`${MORTGAGE_PREFIX}${householdId}`) as
+            { balanceMinor?: number } | undefined
+        )?.balanceMinor ?? 0;
+      return {
+        rentMinor: Math.round(typicalRent(placeId) * (value / level.now)),
+        landlordId,
+        equityMinor: Math.max(0, value - owed),
+        ...kind,
+        ...usps,
+      };
+    },
+    openRent: (h, landlordId, rentMinor, source) =>
+      openCountedRent(api, h, landlordId, rentMinor, source),
+  };
 }
 
 function review(api: CoreAPI): void {
