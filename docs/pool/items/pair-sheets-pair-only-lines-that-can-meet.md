@@ -5,7 +5,8 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
+pr: 9338
 standard: 2
 after: ""
 blocked-on: ""
@@ -20,7 +21,7 @@ root: none
 
 **Cause.** Found in code: `replyPairs` in src/english/reply-pairs.ts checks each reply against the line before with `useFit`, given only the reply's own required facts. It never asks whether those facts can hold together with the facts the line before needs.
 
-**Fix.** A reply meets the line before it only where both sets of facts can hold at once. Never pair a reply that rules out (`excludesFacts`) a fact the line before needs, or the other way round. Never pair two facts an arc keeps apart: a purpose arc's new `apart` list names facts of which at most one holds in one talk, and `talkReplyFlow.apart` reads it. desk-visit is the first arc with an `apart` list: for or against, opposed or unopposed, one passage kind, one cost kind, one opposed reason. Each of those is written by one function, `deskFacts` in src/director/purpose-scene.ts.
+**Fix.** A reply meets the line before it only where both sets of facts can hold at once. Never pair a reply that rules out (`excludesFacts`) a fact the line before needs, or the other way round. Never pair two facts an arc keeps apart: a purpose arc's new `apart` list names facts of which at most one holds in one talk, and `talkReplyFlow.apart` reads it. A fact a line sets for the rest of a talk (`setsFacts` on a scene use, the field English composition already uses inside one line) counts as held after that line, and a reply that needs a fact only some line sets follows only a line that sets it (M5's condition, Nov 14). desk-visit is the first arc with an `apart` list: for or against, opposed or unopposed, one passage kind, one cost kind, one opposed reason. Each of those is written by one function, `deskFacts` in src/director/purpose-scene.ts.
 
 **Time box.** 2 hours for one Opus session.
 

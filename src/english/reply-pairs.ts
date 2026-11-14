@@ -193,9 +193,12 @@ export function replyPairs(
           list.push(row);
           byStep.set(use.step, list);
         }
-    // A fact some line sets (`setsFacts`) holds only once a line said it,
-    // and a line before holds the facts it needs and sets: a reply meets it
-    // only where both can hold at once.
+    // A reply meets the line before it only where the facts both need can
+    // hold at once: never a reply that rules out a fact the line before needs
+    // or sets (or the other way round), and never two facts the arc keeps
+    // apart. A fact some line sets (`setsFacts`) holds only once a line said
+    // it, so a reply that needs one follows only a line that sets it. Such
+    // pairs can never be said in play.
     const setOnly = new Set(serving.flatMap((row) => row.use.setsFacts ?? []));
     const apart = options.flow?.apart?.(scene) ?? [];
     const meets = (before: Row, row: Row): boolean => {
