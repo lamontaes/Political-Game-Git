@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9293
 after:
 blocked-on:
 lead: wire-office
