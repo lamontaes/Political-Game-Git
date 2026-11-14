@@ -11,14 +11,12 @@ import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { worldRecords } from "../../src/core2/snapshot";
 import { drawPlace } from "../core2-year/place";
-import { setFastForward } from "../../src/core2/fast-forward";
 import { isDemoted } from "../../src/core2/counted-groups";
 import { coreAPI } from "../../src/core2/state";
 
 const [seed = "mont1", placeKey = "5046000", yearsText = "4"] =
   process.argv.slice(2);
 setBookkeeping(false);
-if (process.env.CORE2_FAST_FORWARD === "1") setFastForward(true);
 const world = buildBenchWorld(
   process.env.RAW_SEED === "1" ? seed : drawPlace(seed, "speed-year").seed,
   gameStartDate(),

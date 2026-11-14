@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { causeGroupName } from "./group-names";
+import { causeGroupForm, causeGroupName } from "./group-names";
 import { allQuestions } from "./policy-names";
 
 describe("cause group names", () => {
@@ -10,10 +10,40 @@ describe("cause group names", () => {
     expect(name).toBeTruthy();
     expect(name).toBe(causeGroupName(key, topic));
     expect(name).not.toMatch(/[:_]/);
+    // Cased whole, like any name: every word of the topic but the small ones.
+    expect(name).toMatch(/^[A-Z]/);
+    for (const word of name!.split(" "))
+      if (
+        ![
+          "a",
+          "an",
+          "and",
+          "for",
+          "in",
+          "of",
+          "on",
+          "or",
+          "the",
+          "to",
+        ].includes(word)
+      )
+        expect(word.charAt(0), name!).toBe(word.charAt(0).toUpperCase());
   });
   it("says nothing for a topic with no name", () => {
     expect(
       causeGroupName("organization:cause-group:x:y", "no-such-topic"),
     ).toBeNull();
+  });
+  // A founded group's name keeps its capitals and its number (P2, Fruitland,
+  // Idaho, Nov 13: "The friends of policing backs Clara Evans").
+  it("knows the form a name was made from and the verb it takes", () => {
+    expect(causeGroupForm("Friends of policing")).toEqual({ plural: true });
+    expect(causeGroupForm("Neighbors Concerned About rental rules")).toEqual({
+      plural: true,
+    });
+    expect(causeGroupForm("Coalition for clean water")).toEqual({
+      plural: false,
+    });
+    expect(causeGroupForm("the Republican Party")).toBeNull();
   });
 });
