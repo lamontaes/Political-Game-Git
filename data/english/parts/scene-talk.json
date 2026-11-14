@@ -184150,7 +184150,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office-held"]
+          "requiresFacts": ["office-held"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184175,7 +184176,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office-held"]
+          "requiresFacts": ["office-held"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184200,7 +184202,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["race-run"]
+          "requiresFacts": ["race-run"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184225,7 +184228,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["race-run"]
+          "requiresFacts": ["race-run"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184250,7 +184254,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["party-holds-nothing"]
+          "requiresFacts": ["party-holds-nothing"],
+          "after": "ask"
         }
       ],
       "bearing": "calm",
@@ -184275,7 +184280,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["party-holds-nothing"]
+          "requiresFacts": ["party-holds-nothing"],
+          "after": "ask"
         }
       ],
       "bearing": "calm",
