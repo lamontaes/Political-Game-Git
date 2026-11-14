@@ -73,7 +73,16 @@ interface ManifestEntry {
    * higher level. Lines read "Name: text   (tag)", "- **Name:** text" or
    * "- _narration_"; anything else is plain text.
    */
-  from?: { file: string; heading: string | string[] };
+  from?: {
+    file: string;
+    /** A heading path; absent, the whole file (or the lines from `start` to `end`). */
+    heading?: string | string[];
+    /** The first line containing this text, and the line containing `end`, left out. */
+    start?: string;
+    end?: string;
+    /** One cell of a markdown table: the row containing `row`, the column's number from 1. */
+    table?: { row: string; column: number };
+  };
   /** A slot for a scene not built yet: its title says what is coming. */
   coming?: boolean;
   /** Where the text came from and what it was played in (part, place, seed, commit). */
@@ -420,6 +429,33 @@ const manifest: ManifestEntry[] = manifestPath
   : defaultManifest();
 
 /** The lines of one section of a markdown file of text as played. */
+function linesFromRange(from: NonNullable<ManifestEntry["from"]>): {
+  lines: StaticLine[];
+  context: string;
+} {
+  const all = readFileSync(from.file, "utf8").split("\n");
+  const context = from.file.split("/").slice(-2).join("/");
+  if (from.table) {
+    const row = all.find(
+      (r) => r.startsWith("|") && r.includes(from.table!.row),
+    );
+    if (!row)
+      throw new Error(`no table row "${from.table.row}" in ${from.file}`);
+    const cell = row.split("|").map((c) => c.trim())[from.table.column];
+    return { lines: [{ role: "plain", text: cell ?? "" }], context };
+  }
+  const first = from.start ? all.findIndex((r) => r.includes(from.start!)) : 0;
+  const last = from.end
+    ? all.findIndex((r, i) => i > first && r.includes(from.end!))
+    : all.length;
+  if (first < 0 || last < 0) throw new Error(`range not found in ${from.file}`);
+  const text = all.slice(first, last).filter((r) => r.trim());
+  return {
+    lines: text.map((r) => ({ role: "plain" as const, text: r.trim() })),
+    context,
+  };
+}
+
 function linesFromFile(
   file: string,
   heading: string | string[],
@@ -480,7 +516,9 @@ let sceneNo = 0;
 for (const entry of manifest) {
   let context = "";
   if (entry.from) {
-    const read = linesFromFile(entry.from.file, entry.from.heading);
+    const read = entry.from.heading
+      ? linesFromFile(entry.from.file, entry.from.heading)
+      : linesFromRange(entry.from);
     entry.lines = read.lines;
     context = read.context;
   }
@@ -662,6 +700,10 @@ for (const entry of manifest) {
 
 const generated = new Date().toISOString().slice(0, 10);
 const commit = process.env.REVIEW_COMMIT ?? "";
+const news: { fresh: string[]; revised: string[] } = {
+  fresh: [],
+  revised: [],
+};
 // A scene whose text changed since the earlier run is marked revised, with the
 // earlier text one click away; one that did not keeps its earlier mark.
 if (process.env.REVIEW_PREVIOUS) {
@@ -684,8 +726,12 @@ if (process.env.REVIEW_PREVIOUS) {
     previous?: unknown;
   }[]) {
     const was = oldByTitle.get(row.title);
-    if (!was) continue;
+    if (!was) {
+      news.fresh.push(row.title);
+      continue;
+    }
     if (JSON.stringify(was.versions) !== JSON.stringify(row.versions)) {
+      news.revised.push(row.title);
       row.revised = row.revised || generated;
       row.previous = {
         date: old.generated,
@@ -748,6 +794,7 @@ process.stdout.write(
       generated,
       scenes,
       notReady,
+      news,
     },
     null,
     1,

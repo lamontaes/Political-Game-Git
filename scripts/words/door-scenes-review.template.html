@@ -419,6 +419,16 @@
     align-items: center;
     flex-wrap: wrap;
   }
+  .noids .id,
+  .noids .sid {
+    display: none;
+  }
+  nav .kind {
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: auto;
+    text-align: right;
+  }
   .toast {
     position: fixed;
     left: 50%;
@@ -464,6 +474,8 @@
     path: [],
     tab: "play",
     keys: false,
+    ids: true,
+    order: "mixed",
     all: false,
     old: false,
     q: "",
@@ -542,45 +554,98 @@
       n.setSelectionRange(n.value.length, n.value.length);
     });
     nav.appendChild(box);
-    const kinds = [];
-    for (const s of D.scenes) if (!kinds.includes(s.kind)) kinds.push(s.kind);
-    for (const kind of kinds) {
-      const list = D.scenes.filter(
-        (x) =>
-          x.kind === kind &&
-          (!q || (x.id + " " + x.title + " " + kind).toLowerCase().includes(q)),
-      );
-      if (!list.length) continue;
+    const jump = (s) => {
+      state.scene = s.id;
+      state.path = [];
+      state.tab = "play";
+      state.old = false;
+      state.v = 1;
+      state.ans = "yes";
+      render();
+      location.hash = "scene-" + s.id;
+    };
+    const item = (s, withKind) => {
+      const b = el("button");
+      b.type = "button";
+      b.setAttribute("aria-current", String(s.id === state.scene));
+      b.appendChild(el("span", "sid", s.id));
+      b.appendChild(el("span", "", s.title));
+      if (withKind) b.appendChild(el("span", "kind", s.kind));
+      if (s.revised) b.appendChild(el("span", "rev", "revised"));
+      b.addEventListener("click", () => jump(s));
+      return b;
+    };
+    const news = D.news || { fresh: [], revised: [] };
+    if (!q && (news.fresh.length || news.revised.length)) {
       const det = el("details");
-      det.open =
-        !!q || kinds.length < 4 || list.some((x) => x.id === state.scene);
-      det.appendChild(el("summary", "", kind + " (" + list.length + ")"));
-      for (const s of list) {
-        const b = el("button");
-        b.type = "button";
-        b.setAttribute("aria-current", String(s.id === state.scene));
-        b.appendChild(el("span", "sid", s.id));
-        b.appendChild(el("span", "", s.title));
-        if (s.revised) b.appendChild(el("span", "rev", "revised"));
-        b.addEventListener("click", () => {
-          state.scene = s.id;
-          state.path = [];
-          state.tab = "play";
-          state.old = false;
-          state.v = 1;
-          state.ans = "yes";
-          render();
-          location.hash = "scene-" + s.id;
-        });
-        det.appendChild(b);
-      }
+      det.open = true;
+      det.appendChild(el("summary", "", "New since last time"));
+      for (const [label, titles] of [
+        ["New: ", news.fresh],
+        ["Reworded: ", news.revised],
+      ])
+        for (const t of titles) {
+          const s = D.scenes.find((x) => x.title === t);
+          if (!s) continue;
+          const b = item(s, false);
+          b.firstChild.textContent = label.trim();
+          det.appendChild(b);
+        }
       nav.appendChild(det);
     }
+    const modes = el("div", "group");
+    for (const [val, text] of [
+      ["mixed", "Mixed order"],
+      ["kind", "By kind"],
+    ]) {
+      const bt = el("button", "seg", text);
+      bt.type = "button";
+      bt.setAttribute("aria-pressed", String(state.order === val));
+      bt.addEventListener("click", () => {
+        state.order = val;
+        renderNav();
+      });
+      modes.appendChild(bt);
+    }
+    nav.appendChild(modes);
+    const match = (x) =>
+      !q || (x.id + " " + x.title + " " + x.kind).toLowerCase().includes(q);
+    const kinds = [];
+    for (const s of D.scenes) if (!kinds.includes(s.kind)) kinds.push(s.kind);
+    if (state.order === "mixed") {
+      // Round robin across kinds, so no two of a kind sit side by side while others remain.
+      const queues = kinds.map((k) =>
+        D.scenes.filter((x) => x.kind === k && match(x)),
+      );
+      const out = [];
+      let last = null;
+      while (queues.some((qq) => qq.length)) {
+        const pick =
+          queues
+            .map((qq, i) => [qq, i])
+            .filter(([qq, i]) => qq.length && kinds[i] !== last)
+            .sort((x, y) => y[0].length - x[0].length)[0] ||
+          queues.map((qq, i) => [qq, i]).find(([qq]) => qq.length);
+        out.push(pick[0].shift());
+        last = out[out.length - 1].kind;
+      }
+      const wrap = el("div");
+      for (const s of out) wrap.appendChild(item(s, true));
+      nav.appendChild(wrap);
+    } else
+      for (const kind of kinds) {
+        const list = D.scenes.filter((x) => x.kind === kind && match(x));
+        if (!list.length) continue;
+        const det = el("details");
+        det.open =
+          !!q || kinds.length < 4 || list.some((x) => x.id === state.scene);
+        det.appendChild(el("summary", "", kind));
+        for (const s of list) det.appendChild(item(s, false));
+        nav.appendChild(det);
+      }
     if (D.notReady && D.notReady.length) {
       const det = el("details");
-      det.appendChild(
-        el("summary", "", "Not ready (" + D.notReady.length + ")"),
-      );
+      det.appendChild(el("summary", "", "Not ready"));
       for (const n of D.notReady)
         det.appendChild(el("div", "soon", n.title + ": " + n.why));
       nav.appendChild(det);
@@ -722,11 +787,12 @@
   }
 
   function render() {
+    document.body.classList.toggle("noids", !state.ids);
     renderNav();
     const main = $("main");
     main.textContent = "";
     const scene = sceneOf(state.scene);
-    main.appendChild(el("h1", "", "Scene " + scene.id + ": " + scene.title));
+    main.appendChild(el("h1", "", scene.title));
     const pic = scene.picture
       ? " Picture: " +
         scene.picture.filter((x) => x[0] !== "@").join(", ") +
@@ -736,18 +802,7 @@
       el(
         "p",
         "meta",
-        scene.kind +
-          (scene.place ? " · " + scene.place : "") +
-          "." +
-          pic +
-          (scene.bank.length
-            ? " Lines in the bank for this scene: " + scene.bank.length + "."
-            : "") +
-          " Ids read like " +
-          scene.id +
-          ".1" +
-          (scene.asking ? "y" : "") +
-          ".3: scene, wording, line.",
+        scene.kind + (scene.place ? " · " + scene.place : "") + "." + pic + "",
       ),
     );
     if (scene.coming) {
@@ -804,6 +859,7 @@
     main.appendChild(tabs);
 
     const tools = el("div", "tools");
+    tools.appendChild(checkbox("ids", "Show ids", "ids"));
     tools.appendChild(checkbox("keys", "Show piece keys", "keys"));
     if (state.tab === "play" && scene.type !== "text")
       tools.appendChild(checkbox("all", "Read every branch at once", "all"));
