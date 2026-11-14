@@ -6,6 +6,8 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { officialsIn } from "../core2/modules/officials";
+import { townSeats } from "../core2/modules/offices";
+import { governmentProperName } from "../core2/government-proper-name";
 import { placeStateKeys } from "../core2/places";
 import { coreStateName } from "../core2/place-lookup";
 import { placeStateKey } from "../core2/place-map";
@@ -340,9 +342,28 @@ describe("every speech through the one outline planner", () => {
           const ownName = stateNames.find(
             (state) => state.key === speech.ownState,
           )?.name;
-          const unowned = ownName
-            ? withoutAsks.split(ownName).join("")
-            : withoutAsks;
+          // A speaker may name any government they sit in or under, from the
+          // place record (words lead, Nov 14: Delaware County in Oklahoma is
+          // not a stray state). This checks the rule; it does not loosen it:
+          // a state that is neither the speaker's own nor the name of one of
+          // their governments still fails.
+          const governmentNames = new Set<string>(
+            speech.ownState
+              ? townSeats(api).flatMap((seat) => {
+                  const proper = governmentProperName(
+                    seat.office.governmentName,
+                    seat.office.jurisdiction,
+                  );
+                  const bare = proper
+                    .replace(/^\w+ of /, "")
+                    .replace(/ (?:County|Parish|Borough)$/, "");
+                  return [proper, bare];
+                })
+              : [],
+          );
+          const unowned = [...(ownName ? [ownName] : []), ...governmentNames]
+            .sort((a, b) => b.length - a.length)
+            .reduce((text, name) => text.split(name).join(""), withoutAsks);
           for (const state of stateNames)
             if (
               // "Washington" is said for the federal government as often as for the state.

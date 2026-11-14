@@ -91,7 +91,8 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
-import { changeSaid, moneySaid } from "../english/count-words";
+import { stateInSentence } from "./words";
+import { changeSaid, countSaid, moneySaid } from "../english/count-words";
 import { measureWords } from "../english/area-names";
 import { addDays, daysBetweenText } from "../core2/kernel/dates";
 import type { IsoDate } from "../core2/kernel/brands";
@@ -161,6 +162,7 @@ const OUTLINES = outlineData as unknown as {
     | "condition"
     | "traits"
     | "contextYearsMin"
+    | "closeSharedWordsLeast"
     | "lawYearsMax",
     Weight
   >;
@@ -174,6 +176,8 @@ const OUTLINES = outlineData as unknown as {
   themeNames: Readonly<Record<string, string>>;
   /** A theme said short, where a frame names it after the speech has said it in full (a close). */
   themeShort: Readonly<Record<string, string>>;
+  /** A measure said short, where a figure's meaning names it. */
+  topicWords: Readonly<Record<string, string>>;
   /** A budget line's name said with what the government spends on it now ("{about} beyond {spent} a year"). */
   lineSpent: string;
   /** The slot endings of the first, second and third wordings of how a question stands. */
@@ -1731,7 +1735,11 @@ function contextFacts(
     const read = country.areas.find((row) => row.area === topic);
     return read && years >= least
       ? {
-          "context-years": fact(String(years), ...read.sourceRecordIds),
+          "context-years": fact(countSaid(years), ...read.sourceRecordIds),
+          "context-name": fact(
+            OUTLINES.topicWords[topic] ?? topic,
+            ...read.sourceRecordIds,
+          ),
           [`context-${topic}`]: fact("yes", ...read.sourceRecordIds),
         }
       : {};
@@ -1757,7 +1765,8 @@ function contextFacts(
   const of = amount[topic];
   return of
     ? {
-        "context-years": fact(String(years), ...ids),
+        "context-years": fact(countSaid(years), ...ids),
+        "context-name": fact(OUTLINES.topicWords[topic] ?? topic, ...ids),
         "context-amount": fact(figure(of()), ...ids),
         [`context-${topic}`]: fact("yes", ...ids),
       }
@@ -2105,11 +2114,31 @@ export function planSpeech(
       : null;
     const reason = questionReasons(first.question, side).reason;
     const short = theme ? OUTLINES.themeShort[theme] : undefined;
+    // A close says something new (rule 41): nothing that shares most of its
+    // words with what the speech said already, the ask included.
+    const said = SUBJECT_WORDS.of(
+      [
+        ...spoken,
+        ...pointStands.flatMap((stand) => [
+          questionTo(stand.question),
+          questionAbout(stand.question),
+          questionSide(stand.question, "for"),
+          questionSide(stand.question, "against"),
+        ]),
+      ]
+        .filter(Boolean)
+        .join(" "),
+    );
+    const sayingNew = (text: string) =>
+      SUBJECT_WORDS.of(text).filter((word) => said.includes(word)).length <
+      OUTLINES.theme.closeSharedWordsLeast.value;
     return {
-      ...(after && !(plan?.todays ?? []).includes(after)
+      ...(after && sayingNew(after) && !(plan?.todays ?? []).includes(after)
         ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
         : {}),
-      ...(reason && !(plan?.belief?.text ?? "").includes(reason)
+      ...(reason &&
+      sayingNew(reason) &&
+      !(plan?.belief?.text ?? "").includes(reason)
         ? { "first-reason": fact(reason, cited) }
         : {}),
       ...(short ? { "theme-short": fact(short, cited) } : {}),
@@ -2264,12 +2293,19 @@ export function planSpeech(
     // where the question's row lets that side use one, tied to the question;
     // what the speaker believes, by the question's family and the speaker's
     // pole of it; and the ask, plainly for or against.
-    theme: () =>
-      hurtOrder([
-        // A crisis or combative address's first point is the term's worst
-        // condition, said with its fact; its answer from the speaker's record
-        // follows in the same paragraph, then a turn to the theme (hurtOrder).
-        ...(crisis ? [crisisDraft(crisis)] : []),
+    theme: () => {
+      // A crisis or combative address's first point is the term's worst
+      // condition, said with its fact; its answer from the speaker's record
+      // follows in the same paragraph, then a turn to the theme (hurtOrder).
+      const crisisDrafts = crisis ? [crisisDraft(crisis)] : [];
+      // A number of years is said once in an address (words lead, Nov 14,
+      // rule 39): the first figure that says it keeps it, and a later point
+      // goes without a figure.
+      let yearsSaid = crisisDrafts.some(
+        (draft) => draft.facts["context-years"],
+      );
+      return hurtOrder([
+        ...crisisDrafts,
         ...pointStands.map((stand, at): Draft => {
           const plan = planned[at]!;
           const shape = OUTLINES.pointShapes.shapes[plan.shape]!;
@@ -2294,23 +2330,37 @@ export function planSpeech(
           const topic = topicOf.get(stand.question);
           const belief = plan.belief?.text ?? null;
           const cited = [`question:${stand.question}`, stand.law.id];
-          const figureMoves = topic
-            ? [
-                move("context", { topic }),
-                move("meaning", { topic }),
-                // The year's claim, only by one who governed it.
-                ...(ownRecord ? [move("story-says", { topic })] : []),
-                move("tie"),
-              ]
-            : [];
+          const figured: Facts =
+            topic && !yearsSaid
+              ? contextFacts(core, topic, country, speaker.serviceStart)
+              : {};
+          if (figured["context-years"]) yearsSaid = true;
+          const figureMoves =
+            topic && (figured["context-years"] || !yearsSaid)
+              ? [
+                  move("context", { topic }),
+                  move("meaning", { topic }),
+                  // The year's claim, only by one who governed it.
+                  ...(ownRecord ? [move("story-says", { topic })] : []),
+                  move("tie"),
+                ]
+              : [];
           return {
             key: `point-${stand.question}`,
             level: "country",
             facts: {
               ...themeFacts,
-              ...(topic
+              ...(theme && OUTLINES.themeShort[theme]
                 ? {
-                    ...contextFacts(core, topic, country, speaker.serviceStart),
+                    "theme-short": fact(
+                      OUTLINES.themeShort[theme]!,
+                      ...themeCited,
+                    ),
+                  }
+                : {}),
+              ...(topic && figureMoves.length
+                ? {
+                    ...figured,
                     "figure-ties": fact("yes", ...cited),
                   }
                 : {}),
@@ -2356,7 +2406,8 @@ export function planSpeech(
             ),
           };
         }),
-      ]),
+      ]);
+    },
     people: () => [
       {
         key: "people",
@@ -2398,7 +2449,10 @@ export function planSpeech(
           key: "close",
           level: "close",
           // Its own paragraph: the close returns to the theme in one sentence.
-          facts: (closing
+          // A close never says the ask again in the words the speech used
+          // (words lead, Nov 14, rule 41): only a floor speech or a stump
+          // speech, which has the one ask, still ends on it.
+          facts: (closing && SAYS_ASK_AGAIN.has(kind)
             ? {
                 "first-side": fact(
                   questionSide(
@@ -2456,7 +2510,15 @@ export function planSpeech(
     ? worldFacts(core, person, kind, voice, country, points)
     : {
         ...(realm
-          ? { "realm-name": fact(realm, speaker.jurisdiction ?? person.id) }
+          ? {
+              // "the Northern Mariana Islands" where a sentence needs the
+              // article (rule 49); the bare name for a vocative or a title.
+              "realm-name": fact(
+                level === "state" ? stateInSentence(realm) : realm,
+                speaker.jurisdiction ?? person.id,
+              ),
+              "realm-bare": fact(realm, speaker.jurisdiction ?? person.id),
+            }
           : {}),
         ...(local?.body ? { body: fact(local.body, local.officeId) } : {}),
         // A greeting says the body by the name its record gives it.
@@ -2487,6 +2549,16 @@ export function planSpeech(
   // paragraph, so the greeting never stands alone, and the close joins the
   // one before it.
   let part = -P.one;
+  // The body is named in the greeting and in the first ask; after that it is
+  // "this council" or "this board" (words lead, Nov 14, rule 40: never named
+  // five times).
+  const bodyAgain = local?.body
+    ? fact(
+        `this ${local.body.replace(/^the /, "")}`,
+        local.officeId as EntityId,
+      )
+    : null;
+  let bodyAsked = false;
   const blocks = drafts.map((draft, at): Block => {
     // No paragraph of one aside: what the speaker believes joins the
     // greeting's paragraph, and the hope joins the close.
@@ -2504,6 +2576,10 @@ export function planSpeech(
         ([, value]) => value !== undefined,
       ),
     ) as Facts;
+    if (bodyAgain && facts["body-name"] && draft.key !== "salutation") {
+      if (bodyAsked) facts["body-name"] = bodyAgain;
+      else if (draft.key.startsWith("point-")) bodyAsked = true;
+    }
     return { ...rest, facts, part };
   });
   return {
@@ -2521,6 +2597,12 @@ export function planSpeech(
     points: planned,
   };
 }
+
+/** The speeches whose close still says its one ask again. */
+const SAYS_ASK_AGAIN: ReadonlySet<string> = new Set([
+  "floor-speech",
+  "campaign-speech",
+]);
 
 /** An office row's kind, from the offices engine. */
 function officeKindOf(core: CoreState, officeId: string): string | undefined {

@@ -78,7 +78,9 @@
     "body-name": "the body a local speaker addresses, by the name its record gives it, said as to its face ('the Groton Select Board'), from the office record",
     "condition-measure": "a hurt address's worst condition: the area's measure that moved furthest the wrong way, in its measure words (area-names.json), from the term read",
     "condition-change": "how far that measure moved since the speaker took office, through the count-words reader (changeSaid), from the term read's two web rows",
-    "turn-to": "the speech's theme by its spoken name, where a hurt address turns from its answer to the theme"
+    "turn-to": "the speech's theme by its spoken name, where a hurt address turns from its answer to the theme",
+    "realm-bare": "the governor's state or the mayor's town by name, from the speaker's jurisdiction record",
+    "context-name": "The measure said short, from the speaker's record."
   },
   "maxWords": 40,
   "mining": {
@@ -8067,7 +8069,7 @@
       "key": "opening-speech.salutation.plain-ina-hopeful-core-thanks-to-vice-president-vice-president-and-i-ll",
       "move": "salutation",
       "kind": "spoken",
-      "text": "thanks to {vice-president-object}. I'm starting this job feeling hopeful about where we can go.",
+      "text": "thanks to {vice-president-object}, I'm starting this job feeling hopeful about where we can go.",
       "uses": [
         {
           "move": "salutation",
@@ -76048,21 +76050,21 @@
       "key": "opening-speech.meaning.polished-inflation-over-years-that-adds-up-and-the-same",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-years} years that adds up, and the same groceries, the same rent and the same tank of gas now cost a family far more than they did.",
+      "text": "On {context-name}, that adds up, and the same groceries, the same rent and the same tank of gas now cost a family far more than they did.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-inflation", "context-years"]
+          "requiresFacts": ["context-inflation", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-inflation", "context-years"]
+          "requiresFacts": ["context-inflation", "context-name"]
         }
       ],
       "voice": "polished",
@@ -76076,21 +76078,21 @@
       "key": "opening-speech.meaning.plain-inflation-add-that-up-over-years-and-the-same",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Add that up over {context-years} years, and the same cart of groceries costs a whole lot more than it used to.",
+      "text": "On {context-name}, add that up, and the same cart of groceries costs a whole lot more than it used to.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-inflation", "context-years"]
+          "requiresFacts": ["context-inflation", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-inflation", "context-years"]
+          "requiresFacts": ["context-inflation", "context-name"]
         }
       ],
       "voice": "plain",
@@ -76216,21 +76218,21 @@
       "key": "opening-speech.meaning.polished-wages-for-a-working-family-each-of-those-raises",
       "move": "meaning",
       "kind": "spoken",
-      "text": "For a working family, each of those raises has had to stretch across {context-years} years of rising bills.",
+      "text": "On {context-name}, for a working family, each of those raises has had to stretch across years of rising bills.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-wages", "context-years"]
+          "requiresFacts": ["context-wages", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-wages", "context-years"]
+          "requiresFacts": ["context-wages", "context-name"]
         }
       ],
       "voice": "polished",
@@ -76244,21 +76246,21 @@
       "key": "opening-speech.meaning.plain-wages-for-working-folks-every-raise-has-had-to",
       "move": "meaning",
       "kind": "spoken",
-      "text": "For working folks, every raise has had to cover {context-years} years of rising bills.",
+      "text": "On {context-name}, for working folks, every raise has had to cover years of rising bills.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-wages", "context-years"]
+          "requiresFacts": ["context-wages", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-wages", "context-years"]
+          "requiresFacts": ["context-wages", "context-name"]
         }
       ],
       "voice": "plain",
@@ -76272,21 +76274,21 @@
       "key": "opening-speech.meaning.polished-growth-that-growth-is-real-but-over-years-too",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That growth is real, but over {context-years} years too little of it has reached the kitchen table.",
+      "text": "On {context-name}, that growth is real, but over those years too little of it has reached the kitchen table.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-growth", "context-years"]
+          "requiresFacts": ["context-growth", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-growth", "context-years"]
+          "requiresFacts": ["context-growth", "context-name"]
         }
       ],
       "voice": "polished",
@@ -76300,21 +76302,21 @@
       "key": "opening-speech.meaning.plain-growth-that-s-real-growth-but-over-years-not",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's real growth, but over {context-years} years not enough of it has made it to the kitchen table.",
+      "text": "On {context-name}, that's real growth, but over those years not enough of it has made it to the kitchen table.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-growth", "context-years"]
+          "requiresFacts": ["context-growth", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-growth", "context-years"]
+          "requiresFacts": ["context-growth", "context-name"]
         }
       ],
       "voice": "plain",
@@ -76328,49 +76330,49 @@
       "key": "opening-speech.meaning.polished-rent-over-years-that-has-meant-giving-more-of",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-years} years, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
+      "text": "On {context-name}, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         }
       ],
       "voice": "polished",
@@ -76384,49 +76386,49 @@
       "key": "opening-speech.meaning.plain-rent-that-s-years-of-folks-handing-more-of",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-years} years of folks handing more of every check to the landlord.",
+      "text": "On {context-name}, that's year after year of folks handing more of every check to the landlord.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "context-years"]
+          "requiresFacts": ["context-rent", "context-name"]
         }
       ],
       "voice": "plain",
@@ -76440,49 +76442,49 @@
       "key": "opening-speech.meaning.polished-crime-over-years-that-has-meant-parents-worrying-a",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-years} years, that has meant parents worrying a little more each time their children walk out the door.",
+      "text": "On {context-name}, that has meant parents worrying a little more each time their children walk out the door.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         }
       ],
       "voice": "polished",
@@ -76496,49 +76498,49 @@
       "key": "opening-speech.meaning.plain-crime-that-s-years-of-folks-locking-up-a",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-years} years of folks locking up a little tighter at night.",
+      "text": "On {context-name}, that's year after year of folks locking up a little tighter at night.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "context-years"]
+          "requiresFacts": ["context-crime", "context-name"]
         }
       ],
       "voice": "plain",
@@ -76552,49 +76554,49 @@
       "key": "opening-speech.meaning.polished-schools-over-years-that-has-meant-classrooms-asking-less",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-years} years, that has meant classrooms asking less of our children than they deserve.",
+      "text": "On {context-name}, that has meant classrooms asking less of our children than they deserve.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         }
       ],
       "voice": "polished",
@@ -76608,49 +76610,49 @@
       "key": "opening-speech.meaning.plain-schools-that-s-years-of-kids-getting-less-out",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-years} years of kids getting less out of school than they should.",
+      "text": "On {context-name}, that's year after year of kids getting less out of school than they should.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "context-years"]
+          "requiresFacts": ["context-schools", "context-name"]
         }
       ],
       "voice": "plain",
@@ -76664,49 +76666,49 @@
       "key": "opening-speech.meaning.polished-health-over-years-that-has-meant-too-many-people",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-years} years, that has meant too many people waiting too long to see a doctor, or going without.",
+      "text": "On {context-name}, that has meant too many people waiting too long to see a doctor, or going without.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         }
       ],
       "voice": "polished",
@@ -76720,49 +76722,49 @@
       "key": "opening-speech.meaning.plain-health-that-s-years-of-folks-putting-off-the",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-years} years of folks putting off the doctor because they couldn't get in.",
+      "text": "On {context-name}, that's year after year of folks putting off the doctor because they couldn't get in.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "context-years"]
+          "requiresFacts": ["context-health", "context-name"]
         }
       ],
       "voice": "plain",
@@ -76776,49 +76778,49 @@
       "key": "opening-speech.meaning.polished-roads-over-years-every-pothole-and-closed-bridge-has",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-years} years, every pothole and closed bridge has cost a family time and money.",
+      "text": "On {context-name}, every pothole and closed bridge has cost a family time and money.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         }
       ],
       "voice": "polished",
@@ -76832,49 +76834,49 @@
       "key": "opening-speech.meaning.plain-roads-that-s-years-of-potholes-detours-and-repair",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-years} years of potholes, detours and repair bills.",
+      "text": "On {context-name}, that's year after year of potholes, detours and repair bills.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "context-years"]
+          "requiresFacts": ["context-roads", "context-name"]
         }
       ],
       "voice": "plain",
@@ -76888,49 +76890,49 @@
       "key": "opening-speech.meaning.polished-environment-over-years-families-have-paid-for-dirtier-air",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Over {context-years} years, families have paid for dirtier air and water with their health.",
+      "text": "On {context-name}, families have paid for dirtier air and water with their health.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         }
       ],
       "voice": "polished",
@@ -76944,49 +76946,49 @@
       "key": "opening-speech.meaning.plain-environment-that-s-years-of-folks-breathing-air-that",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's {context-years} years of folks breathing air that's worse than it should be.",
+      "text": "On {context-name}, that's year after year of folks breathing air that's worse than it should be.",
       "uses": [
         {
           "move": "meaning",
           "subject": "inaugural",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-union",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "floor-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "campaign-speech",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "context-years"]
+          "requiresFacts": ["context-environment", "context-name"]
         }
       ],
       "voice": "plain",
@@ -77198,126 +77200,6 @@
         }
       ],
       "voice": ["polished", "plain"],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-this-country-will-be-the-stronger-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, this country will be the stronger for it. Thank you, {vice-president-addressed}, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-this-country-will-be-the-stronger-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, this country will be the stronger for it. Thank you, {speaker-addressed}, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-leave-our-children-a-better-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and leave our children a better country for it. Thank you, {vice-president-addressed}, and God bless you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-leave-our-children-a-better-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and leave our children a better country for it. Thank you, {speaker-addressed}, and God bless you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-this-country-s-better-off-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, and this country's better off for it. Thank you, {vice-president-addressed}, and God bless.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-this-country-s-better-off-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, and this country's better off for it. Thank you, {speaker-addressed}, and God bless.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
       "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-C, speech outline)",
@@ -88748,126 +88630,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.close.polished-inaugural-if-we-the-generations-after-us-will-thank-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, the generations after us will thank us for it. Thank you, {vice-president-addressed}, and may God bless you, and may God bless the United States of America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-the-generations-after-us-will-thank-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, the generations after us will thank us for it. Thank you, {speaker-addressed}, and may God bless you, and may God bless the United States of America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-we-can-and-we-ll-all-be-better-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We can {first-side}, and we'll all be better off. Thanks, {vice-president-addressed}, everybody, and God bless.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-we-can-and-we-ll-all-be-better-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We can {first-side}, and we'll all be better off. Thanks, {speaker-addressed}, everybody, and God bless.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-so-let-s-and-get-folks-the-better-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "So let's {first-side} and get folks the better deal they've earned. Thank you, {vice-president-addressed}, and all of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-so-let-s-and-get-folks-the-better-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "So let's {first-side} and get folks the better deal they've earned. Thank you, {speaker-addressed}, and all of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.salutation.plain-inaugural-friends-and-neighbors-here-and-at-home-",
       "move": "salutation",
       "kind": "spoken",
@@ -88935,366 +88697,6 @@
         "of": "opening-salutation",
         "part": "opener"
       },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-do-it-together-thank-you-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and do it together. Thank you, {vice-president-addressed}, and good night.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-do-it-together-thank-you-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and do it together. Thank you, {speaker-addressed}, and good night.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-we-will-keep-faith-with-those-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, we will keep faith with those who come after us. Thank you, {vice-president-addressed}, and god bless you all.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-we-will-keep-faith-with-those-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, we will keep faith with those who come after us. Thank you, {speaker-addressed}, and god bless you all.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-let-history-judge-us-by-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and let history judge us by it. Thank you, {vice-president-addressed}, and may God keep this country.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-let-history-judge-us-by-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and let history judge us by it. Thank you, {speaker-addressed}, and may God keep this country.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-we-will-have-done-right-by-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, we will have done right by this country. I thank you, {vice-president-addressed}, and God bless.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-we-will-have-done-right-by-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, we will have done right by this country. I thank you, {speaker-addressed}, and God bless.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-begin-tomorrow-thank-you-my-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and begin tomorrow. Thank you, {vice-president-addressed}, my fellow Americans.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-begin-tomorrow-thank-you-my-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and begin tomorrow. Thank you, {speaker-addressed}, my fellow Americans.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-this-will-be-a-better-nation-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, this will be a better nation for our children. Good night, {vice-president-addressed}, and God bless you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-this-will-be-a-better-nation-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, this will be a better nation for our children. Good night, {speaker-addressed}, and God bless you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-let-s-get-going-thanks-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, and let's get going. Thanks for listening, and God bless, {vice-president-addressed}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-let-s-get-going-thanks-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, and let's get going. Thanks for listening, and God bless, {speaker-addressed}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-we-can-and-folks-will-see-the-difference-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We can {first-side}, and folks will see the difference. Thank you, {vice-president-addressed}, and take care, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-we-can-and-folks-will-see-the-difference-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We can {first-side}, and folks will see the difference. Thank you, {speaker-addressed}, and take care, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-do-it-right-god-bless-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, and do it right. Thank you, {vice-president-addressed}, and god bless you, and thank you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-do-it-right-god-bless-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, and do it right. Thank you, {speaker-addressed}, and god bless you, and thank you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
       "date": "2026-11-12"
@@ -89399,7 +88801,7 @@
       "key": "opening-speech.tie.polished-inaugural-we-cannot-go-another-years-like-that-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "We cannot go another {context-years} years like that.",
+      "text": "On {theme-short}, we cannot go on like that.",
       "uses": [
         {
           "move": "tie",
@@ -89410,7 +88812,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89422,7 +88824,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89434,7 +88836,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89446,7 +88848,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89458,7 +88860,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89470,7 +88872,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -89484,7 +88886,7 @@
       "key": "opening-speech.tie.plain-inaugural-we-can-t-keep-that-up-for-another-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "We can't keep that up for another {context-years} years.",
+      "text": "On {theme-short}, we can't keep that up any longer.",
       "uses": [
         {
           "move": "tie",
@@ -89495,7 +88897,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89507,7 +88909,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89519,7 +88921,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89531,7 +88933,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89543,7 +88945,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89555,7 +88957,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -89569,7 +88971,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-this-is-no-time-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, this is no time to lose ground.",
+      "text": "After all of that on {theme-short}, this is no time to lose ground.",
       "uses": [
         {
           "move": "tie",
@@ -89580,7 +88982,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89592,7 +88994,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89604,7 +89006,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89616,7 +89018,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89628,7 +89030,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89640,7 +89042,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -89654,7 +89056,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-we-can-t-afford-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, we can't afford to go backward.",
+      "text": "After all of that on {theme-short}, we can't afford to go backward.",
       "uses": [
         {
           "move": "tie",
@@ -89665,7 +89067,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89677,7 +89079,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89689,7 +89091,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89701,7 +89103,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89713,7 +89115,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89725,7 +89127,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -89739,7 +89141,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-families-do-not-need-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, families do not need one more cost.",
+      "text": "After all of that on {theme-short}, families do not need one more cost.",
       "uses": [
         {
           "move": "tie",
@@ -89750,7 +89152,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89762,7 +89164,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89774,7 +89176,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89786,7 +89188,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89798,7 +89200,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89810,7 +89212,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -89824,7 +89226,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-folks-don-t-need-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, folks don't need one more thing to pay for.",
+      "text": "After all of that on {theme-short}, folks don't need one more thing to pay for.",
       "uses": [
         {
           "move": "tie",
@@ -89835,7 +89237,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89847,7 +89249,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89859,7 +89261,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89871,7 +89273,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89883,7 +89285,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89895,7 +89297,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -89909,7 +89311,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-it-is-time-for-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, it is time for a change.",
+      "text": "After all of that on {theme-short}, it is time for a change.",
       "uses": [
         {
           "move": "tie",
@@ -89920,7 +89322,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89932,7 +89334,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89944,7 +89346,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89956,7 +89358,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89968,7 +89370,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -89980,7 +89382,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -89994,7 +89396,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-it-s-time-we-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, it's time we tried something else.",
+      "text": "After all of that on {theme-short}, it's time we tried something else.",
       "uses": [
         {
           "move": "tie",
@@ -90005,7 +89407,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -90017,7 +89419,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -90029,7 +89431,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -90041,7 +89443,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -90053,7 +89455,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -90065,7 +89467,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -90232,46 +89634,6 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-so-let-s-starting-tomorrow-good-night-everybody-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "So let's {first-side}, starting tomorrow. Good night, {vice-president-addressed}, everybody.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-so-let-s-starting-tomorrow-good-night-everybody-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "So let's {first-side}, starting tomorrow. Good night, {speaker-addressed}, everybody.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
         }
       ],
       "voice": "plain",
@@ -91135,7 +90497,7 @@
       "key": "opening-speech.tie.polished-inaugural-another-years-of-that-would-be-a-failure-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "Another {context-years} years of that would be a failure of this government.",
+      "text": "More of that on {theme-short} would be a failure of this government.",
       "uses": [
         {
           "move": "tie",
@@ -91146,7 +90508,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91158,7 +90520,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91170,7 +90532,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91182,7 +90544,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91194,7 +90556,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91206,7 +90568,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -91220,7 +90582,7 @@
       "key": "opening-speech.tie.polished-inaugural-we-were-not-sent-here-to-watch-that-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "We were not sent here to watch that go on for {context-years} more years.",
+      "text": "We were not sent here to leave {theme-short} as it is.",
       "uses": [
         {
           "move": "tie",
@@ -91231,7 +90593,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91243,7 +90605,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91255,7 +90617,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91267,7 +90629,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91279,7 +90641,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91291,7 +90653,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -91305,7 +90667,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-waiting-is-no-longer-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, waiting is no longer an answer.",
+      "text": "After all of that on {theme-short}, waiting is no longer an answer.",
       "uses": [
         {
           "move": "tie",
@@ -91316,7 +90678,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91328,7 +90690,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91340,7 +90702,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91352,7 +90714,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91364,7 +90726,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91376,7 +90738,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -91390,7 +90752,7 @@
       "key": "opening-speech.tie.polished-inaugural-years-of-that-is-long-enough-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that is long enough.",
+      "text": "On {theme-short}, that has gone on long enough.",
       "uses": [
         {
           "move": "tie",
@@ -91401,7 +90763,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91413,7 +90775,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91425,7 +90787,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91437,7 +90799,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91449,7 +90811,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91461,7 +90823,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -91475,7 +90837,7 @@
       "key": "opening-speech.tie.polished-inaugural-no-one-should-have-to-live-through-more-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "No one should have to live through {context-years} more years of that.",
+      "text": "No one should have to live through more of that on {theme-short}.",
       "uses": [
         {
           "move": "tie",
@@ -91486,7 +90848,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91498,7 +90860,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91510,7 +90872,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91522,7 +90884,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91534,7 +90896,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91546,7 +90908,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -91560,7 +90922,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-is-plenty-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that is plenty.",
+      "text": "On {theme-short}, that is plenty.",
       "uses": [
         {
           "move": "tie",
@@ -91571,7 +90933,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91583,7 +90945,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91595,7 +90957,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91607,7 +90969,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91619,7 +90981,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91631,7 +90993,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -91645,7 +91007,7 @@
       "key": "opening-speech.tie.plain-inaugural-nobody-signed-up-for-more-years-of-that-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "Nobody signed up for {context-years} more years of that.",
+      "text": "Nobody signed up for more of that on {theme-short}.",
       "uses": [
         {
           "move": "tie",
@@ -91656,7 +91018,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91668,7 +91030,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91680,7 +91042,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91692,7 +91054,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91704,7 +91066,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91716,7 +91078,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -91730,7 +91092,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-folks-are-done-waiting-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, folks are done waiting.",
+      "text": "After all of that on {theme-short}, folks are done waiting.",
       "uses": [
         {
           "move": "tie",
@@ -91741,7 +91103,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91753,7 +91115,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91765,7 +91127,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91777,7 +91139,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91789,7 +91151,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91801,7 +91163,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -91815,7 +91177,7 @@
       "key": "opening-speech.tie.plain-inaugural-we-ve-had-years-of-that-and-that-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "We've had {context-years} years of that, and that's enough.",
+      "text": "We've had enough of that on {theme-short}.",
       "uses": [
         {
           "move": "tie",
@@ -91826,7 +91188,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91838,7 +91200,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91850,7 +91212,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91862,7 +91224,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91874,7 +91236,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91886,7 +91248,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -91900,7 +91262,7 @@
       "key": "opening-speech.tie.plain-inaugural-folks-shouldn-t-sit-through-more-years-of-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "Folks shouldn't sit through {context-years} more years of that.",
+      "text": "Folks shouldn't sit through more of that on {theme-short}.",
       "uses": [
         {
           "move": "tie",
@@ -91911,7 +91273,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91923,7 +91285,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91935,7 +91297,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91947,7 +91309,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91959,7 +91321,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -91971,7 +91333,7 @@
             "stance-for",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -91985,7 +91347,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-like-these-we-should-not-give-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years like these, we should not give back what we have won.",
+      "text": "After all of this on {theme-short}, we should not give back what we have won.",
       "uses": [
         {
           "move": "tie",
@@ -91996,7 +91358,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92008,7 +91370,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92020,7 +91382,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92032,7 +91394,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92044,7 +91406,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92056,7 +91418,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92070,7 +91432,7 @@
       "key": "opening-speech.tie.polished-inaugural-years-of-that-is-a-reason-to-hold-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that is a reason to hold firm.",
+      "text": "On {theme-short}, that is a reason to hold firm.",
       "uses": [
         {
           "move": "tie",
@@ -92081,7 +91443,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92093,7 +91455,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92105,7 +91467,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92117,7 +91479,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92129,7 +91491,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92141,7 +91503,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92155,7 +91517,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-retreat-would-be-a-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, retreat would be a mistake.",
+      "text": "After all of that on {theme-short}, retreat would be a mistake.",
       "uses": [
         {
           "move": "tie",
@@ -92166,7 +91528,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92178,7 +91540,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92190,7 +91552,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92202,7 +91564,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92214,7 +91576,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92226,7 +91588,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92240,7 +91602,7 @@
       "key": "opening-speech.tie.polished-inaugural-having-come-through-years-of-that-we-should-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "Having come through {context-years} years of that, we should keep what works.",
+      "text": "Having come through all of that on {theme-short}, we should keep what works.",
       "uses": [
         {
           "move": "tie",
@@ -92251,7 +91613,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92263,7 +91625,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92275,7 +91637,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92287,7 +91649,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92299,7 +91661,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92311,7 +91673,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92325,7 +91687,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-this-is-no-time-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, this is no time to give up ground.",
+      "text": "After all of that on {theme-short}, this is no time to give up ground.",
       "uses": [
         {
           "move": "tie",
@@ -92336,7 +91698,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92348,7 +91710,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92360,7 +91722,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92372,7 +91734,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92384,7 +91746,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92396,7 +91758,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92410,7 +91772,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-tells-me-we-hold-the-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that tells me we hold the line.",
+      "text": "On {theme-short}, that tells me we hold the line.",
       "uses": [
         {
           "move": "tie",
@@ -92421,7 +91783,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92433,7 +91795,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92445,7 +91807,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92457,7 +91819,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92469,7 +91831,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92481,7 +91843,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92495,7 +91857,7 @@
       "key": "opening-speech.tie.plain-inaugural-we-ve-had-years-of-that-so-we-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "We've had {context-years} years of that, so we keep what's working.",
+      "text": "We've seen {theme-short} work, so we keep what's working.",
       "uses": [
         {
           "move": "tie",
@@ -92506,7 +91868,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92518,7 +91880,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92530,7 +91892,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92542,7 +91904,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92554,7 +91916,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92566,7 +91928,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92580,7 +91942,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-like-that-going-backward-makes-no-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years like that, going backward makes no sense.",
+      "text": "After all of that on {theme-short}, going backward makes no sense.",
       "uses": [
         {
           "move": "tie",
@@ -92591,7 +91953,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92603,7 +91965,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92615,7 +91977,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92627,7 +91989,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92639,7 +92001,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92651,7 +92013,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92665,7 +92027,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-is-no-time-to-start-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that is no time to start over.",
+      "text": "On {theme-short}, that is no time to start over.",
       "uses": [
         {
           "move": "tie",
@@ -92676,7 +92038,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92688,7 +92050,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92700,7 +92062,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92712,7 +92074,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92724,7 +92086,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92736,7 +92098,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92750,7 +92112,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-the-last-thing-families-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, the last thing families need is a new burden.",
+      "text": "After all of that on {theme-short}, the last thing families need is a new burden.",
       "uses": [
         {
           "move": "tie",
@@ -92761,7 +92123,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92773,7 +92135,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92785,7 +92147,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92797,7 +92159,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92809,7 +92171,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92821,7 +92183,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92835,7 +92197,7 @@
       "key": "opening-speech.tie.polished-inaugural-years-of-that-have-asked-enough-of-working-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that have asked enough of working people.",
+      "text": "On {theme-short}, that has asked enough of working people.",
       "uses": [
         {
           "move": "tie",
@@ -92846,7 +92208,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92858,7 +92220,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92870,7 +92232,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92882,7 +92244,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92894,7 +92256,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92906,7 +92268,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -92920,7 +92282,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-this-is-the-wrong-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, this is the wrong time for another mandate.",
+      "text": "After all of that on {theme-short}, this is the wrong time for another mandate.",
       "uses": [
         {
           "move": "tie",
@@ -92931,7 +92293,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92943,7 +92305,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92955,7 +92317,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92967,7 +92329,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92979,7 +92341,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -92991,7 +92353,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93005,7 +92367,7 @@
       "key": "opening-speech.tie.polished-inaugural-families-who-have-carried-years-of-that-deserve-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "Families who have carried {context-years} years of that deserve relief, not a new bill.",
+      "text": "Families who have carried all of that on {theme-short} deserve relief, not a new bill.",
       "uses": [
         {
           "move": "tie",
@@ -93016,7 +92378,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93028,7 +92390,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93040,7 +92402,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93052,7 +92414,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93064,7 +92426,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93076,7 +92438,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93090,7 +92452,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-no-one-should-add-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, no one should add to the load.",
+      "text": "After all of that on {theme-short}, no one should add to the load.",
       "uses": [
         {
           "move": "tie",
@@ -93101,7 +92463,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93113,7 +92475,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93125,7 +92487,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93137,7 +92499,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93149,7 +92511,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93161,7 +92523,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93175,7 +92537,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-nobody-needs-another-bill-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, nobody needs another bill to pay.",
+      "text": "After all of that on {theme-short}, nobody needs another bill to pay.",
       "uses": [
         {
           "move": "tie",
@@ -93186,7 +92548,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93198,7 +92560,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93210,7 +92572,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93222,7 +92584,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93234,7 +92596,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93246,7 +92608,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93260,7 +92622,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-is-enough-on-folks-plates-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that is enough on folks' plates already.",
+      "text": "On {theme-short}, that is enough on folks' plates already.",
       "uses": [
         {
           "move": "tie",
@@ -93271,7 +92633,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93283,7 +92645,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93295,7 +92657,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93307,7 +92669,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93319,7 +92681,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93331,7 +92693,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93345,7 +92707,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-piling-more-on-makes-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, piling more on makes no sense.",
+      "text": "After all of that on {theme-short}, piling more on makes no sense.",
       "uses": [
         {
           "move": "tie",
@@ -93356,7 +92718,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93368,7 +92730,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93380,7 +92742,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93392,7 +92754,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93404,7 +92766,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93416,7 +92778,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93430,7 +92792,7 @@
       "key": "opening-speech.tie.plain-inaugural-folks-who-ve-lived-through-years-of-that-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "Folks who've lived through {context-years} years of that need a break, not a new cost.",
+      "text": "Folks who've lived through all of that on {theme-short} need a break, not a new cost.",
       "uses": [
         {
           "move": "tie",
@@ -93441,7 +92803,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93453,7 +92815,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93465,7 +92827,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93477,7 +92839,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93489,7 +92851,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93501,7 +92863,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93515,7 +92877,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-let-s-not-make-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, let's not make it harder.",
+      "text": "After all of that on {theme-short}, let's not make it harder.",
       "uses": [
         {
           "move": "tie",
@@ -93526,7 +92888,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93538,7 +92900,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93550,7 +92912,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93562,7 +92924,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93574,7 +92936,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93586,7 +92948,7 @@
             "stance-against",
             "law-not-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93600,7 +92962,7 @@
       "key": "opening-speech.tie.polished-inaugural-years-of-that-is-reason-enough-to-change-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that is reason enough to change course.",
+      "text": "On {theme-short}, that is reason enough to change course.",
       "uses": [
         {
           "move": "tie",
@@ -93611,7 +92973,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93623,7 +92985,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93635,7 +92997,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93647,7 +93009,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93659,7 +93021,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93671,7 +93033,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93685,7 +93047,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-the-old-way-has-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, the old way has had its chance.",
+      "text": "After all of that on {theme-short}, the old way has had its chance.",
       "uses": [
         {
           "move": "tie",
@@ -93696,7 +93058,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93708,7 +93070,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93720,7 +93082,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93732,7 +93094,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93744,7 +93106,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93756,7 +93118,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93770,7 +93132,7 @@
       "key": "opening-speech.tie.polished-inaugural-years-of-that-should-teach-us-something-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that should teach us something.",
+      "text": "On {theme-short}, that should teach us something.",
       "uses": [
         {
           "move": "tie",
@@ -93781,7 +93143,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93793,7 +93155,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93805,7 +93167,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93817,7 +93179,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93829,7 +93191,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93841,7 +93203,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93855,7 +93217,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-we-owe-people-a-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, we owe people a different answer.",
+      "text": "After all of that on {theme-short}, we owe people a different answer.",
       "uses": [
         {
           "move": "tie",
@@ -93866,7 +93228,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93878,7 +93240,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93890,7 +93252,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93902,7 +93264,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93914,7 +93276,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93926,7 +93288,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -93940,7 +93302,7 @@
       "key": "opening-speech.tie.polished-inaugural-the-record-of-years-of-that-speaks-for-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "The record of {context-years} years of that speaks for itself.",
+      "text": "The record on {theme-short} speaks for itself.",
       "uses": [
         {
           "move": "tie",
@@ -93951,7 +93313,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93963,7 +93325,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93975,7 +93337,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93987,7 +93349,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -93999,7 +93361,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94011,7 +93373,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -94025,7 +93387,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-is-long-enough-to-know-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that is long enough to know it isn't working.",
+      "text": "On {theme-short}, that has gone on long enough to know it isn't working.",
       "uses": [
         {
           "move": "tie",
@@ -94036,7 +93398,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94048,7 +93410,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94060,7 +93422,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94072,7 +93434,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94084,7 +93446,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94096,7 +93458,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -94110,7 +93472,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-folks-deserve-a-new-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, folks deserve a new approach.",
+      "text": "After all of that on {theme-short}, folks deserve a new approach.",
       "uses": [
         {
           "move": "tie",
@@ -94121,7 +93483,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94133,7 +93495,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94145,7 +93507,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94157,7 +93519,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94169,7 +93531,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94181,7 +93543,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -94195,7 +93557,7 @@
       "key": "opening-speech.tie.plain-inaugural-we-gave-it-years-and-that-s-what-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "We gave it {context-years} years, and that's what we got.",
+      "text": "We gave {theme-short} a fair try, and that's what we got.",
       "uses": [
         {
           "move": "tie",
@@ -94206,7 +93568,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94218,7 +93580,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94230,7 +93592,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94242,7 +93604,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94254,7 +93616,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94266,7 +93628,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -94280,7 +93642,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-says-it-s-time-to-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "{context-years} years of that says it's time to switch.",
+      "text": "On {theme-short}, that says it's time to switch.",
       "uses": [
         {
           "move": "tie",
@@ -94291,7 +93653,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94303,7 +93665,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94315,7 +93677,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94327,7 +93689,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94339,7 +93701,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94351,7 +93713,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -94365,7 +93727,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-i-d-say-we-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, I'd say we've seen enough.",
+      "text": "After all of that on {theme-short}, I'd say we've seen enough.",
       "uses": [
         {
           "move": "tie",
@@ -94376,7 +93738,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94388,7 +93750,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94400,7 +93762,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94412,7 +93774,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94424,7 +93786,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -94436,7 +93798,7 @@
             "stance-against",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -96922,7 +96284,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-we-should-not-undo-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After {context-years} years of that, we should not undo our own progress.",
+      "text": "After all of that on {theme-short}, we should not undo our own progress.",
       "uses": [
         {
           "move": "tie",
@@ -96933,7 +96295,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -96945,7 +96307,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -96957,7 +96319,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -96969,7 +96331,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -96981,7 +96343,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         },
         {
@@ -96993,7 +96355,7 @@
             "stance-for",
             "law-in-force",
             "figure-ties",
-            "context-years"
+            "theme-short"
           ]
         }
       ],
@@ -97637,7 +96999,7 @@
       "key": "opening-speech.question.polished-inaugural-should-we-go-on-like-this-when-today-question-stance-for-law-not-in-force",
       "move": "question",
       "kind": "spoken",
-      "text": "Should we go on like this, when {today-question}?",
+      "text": "Is it right that {today-question}?",
       "uses": [
         {
           "move": "question",
@@ -97722,7 +97084,7 @@
       "key": "opening-speech.question.polished-inaugural-should-we-go-on-like-this-when-today-question-stance-for-law-not-in-force-2",
       "move": "question",
       "kind": "spoken",
-      "text": "Should we go on like this, when {today-question-second}?",
+      "text": "Is it right that {today-question-second}?",
       "uses": [
         {
           "move": "question",
@@ -97807,7 +97169,7 @@
       "key": "opening-speech.question.polished-inaugural-should-we-go-on-like-this-when-today-question-stance-for-law-not-in-force-3",
       "move": "question",
       "kind": "spoken",
-      "text": "Should we go on like this, when {today-question-third}?",
+      "text": "Is it right that {today-question-third}?",
       "uses": [
         {
           "move": "question",
@@ -98866,21 +98228,21 @@
       "key": "opening-speech.occasion.plain-state-of-the-state-i-want-to-talk-to-you-tonight-about-realm-name-theme-name",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I want to talk to you tonight, {realm-name}, about {theme-name}.",
+      "text": "I want to talk to you tonight, {realm-bare}, about {theme-name}.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-name", "theme-name"]
+          "requiresFacts": ["realm-bare", "theme-name"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-name", "theme-name"]
+          "requiresFacts": ["realm-bare", "theme-name"]
         }
       ],
       "voice": "plain",
@@ -100029,14 +99391,14 @@
       "key": "opening-speech.close.polished-campaign-speech-if-we-will-be-the-better-for-it-first-side-realm-name",
       "move": "close",
       "kind": "spoken",
-      "text": "If we {first-side}, {realm-name} will be the better for it. Thank you.",
+      "text": "If we {first-side}, {realm-bare} will be the better for it. Thank you.",
       "uses": [
         {
           "move": "close",
           "subject": "campaign-speech",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["first-side", "realm-name"]
+          "requiresFacts": ["first-side", "realm-bare"]
         }
       ],
       "voice": "polished",
@@ -100069,14 +99431,14 @@
       "key": "opening-speech.close.plain-campaign-speech-let-s-thanks-and-i-ll-see-you-first-side-realm-name",
       "move": "close",
       "kind": "spoken",
-      "text": "Let's {first-side}, {realm-name}. Thanks, and I'll see you at the polls.",
+      "text": "Let's {first-side}, {realm-bare}. Thanks, and I'll see you at the polls.",
       "uses": [
         {
           "move": "close",
           "subject": "campaign-speech",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["first-side", "realm-name"]
+          "requiresFacts": ["first-side", "realm-bare"]
         }
       ],
       "voice": "plain",
@@ -100084,6 +99446,542 @@
       "origin": "authored",
       "author": "Claude (Words builder, local speeches)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-thank-you-vice-president-addressed-and-god-bless-america",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you, {vice-president-addressed}, and God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["vice-president-addressed"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-on-theme-short-you-have-my-word-thank-you-vice-president-add",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {theme-short}, you have my word. Thank you, {vice-president-addressed}, and God bless you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["theme-short", "vice-president-addressed"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-i-hold-to-this-because-first-reason-thank-you-vice-president",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I hold to this because {first-reason}. Thank you, {vice-president-addressed}, and God bless this nation.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-reason", "vice-president-addressed"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-if-we-do-first-after-thank-you-vice-president-addressed-and-",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we do, {first-after} Thank you, {vice-president-addressed}, and may God keep this country.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-after", "vice-president-addressed"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-state-of-the-union-thank-you-speaker-addressed-and-god-bless-the-united-states-",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you, {speaker-addressed}, and God bless the United States of America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["speaker-addressed"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-state-of-the-union-on-theme-short-you-have-my-word-thank-you-speaker-addressed-",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {theme-short}, you have my word. Thank you, {speaker-addressed}, and God bless you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["theme-short", "speaker-addressed"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-state-of-the-union-i-hold-to-this-because-first-reason-thank-you-speaker-addres",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I hold to this because {first-reason}. Thank you, {speaker-addressed}, and God bless this country.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-reason", "speaker-addressed"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-state-of-the-union-if-we-do-first-after-thank-you-speaker-addressed-and-may-god",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we do, {first-after} Thank you, {speaker-addressed}, and may God keep this nation.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-after", "speaker-addressed"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-state-of-the-state-thank-you-realm-bare-and-good-night",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you, {realm-bare}, and good night.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["realm-bare"]
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["realm-bare"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-state-of-the-state-on-theme-short-you-have-my-word-thank-you-realm-bare",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {theme-short}, you have my word. Thank you, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["theme-short", "realm-bare"]
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["theme-short", "realm-bare"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-state-of-the-state-i-hold-to-this-because-first-reason-thank-you-realm-bare-and",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I hold to this because {first-reason}. Thank you, {realm-bare}, and good night.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-reason", "realm-bare"]
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-reason", "realm-bare"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.polished-state-of-the-state-if-we-do-first-after-thank-you-realm-bare",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we do, {first-after} Thank you, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-after", "realm-bare"]
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-after", "realm-bare"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-thanks-vice-president-addressed-everybody-and-god-bless",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thanks, {vice-president-addressed}, everybody, and God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["vice-president-addressed"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-on-theme-short-i-mean-what-i-said-thanks-vice-president-addr",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {theme-short}, I mean what I said. Thanks, {vice-president-addressed}, and God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["theme-short", "vice-president-addressed"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-here-s-why-first-reason-thank-you-vice-president-addressed-a",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Here's why: {first-reason}. Thank you, {vice-president-addressed}, and God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-reason", "vice-president-addressed"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-if-we-do-first-after-thanks-vice-president-addressed-and-goo",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we do, {first-after} Thanks, {vice-president-addressed}, and good night.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-after", "vice-president-addressed"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-state-of-the-union-thanks-speaker-addressed-everybody-and-god-bless",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thanks, {speaker-addressed}, everybody, and God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["speaker-addressed"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-state-of-the-union-on-theme-short-i-mean-what-i-said-thanks-speaker-addressed-a",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {theme-short}, I mean what I said. Thanks, {speaker-addressed}, and God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["theme-short", "speaker-addressed"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-state-of-the-union-here-s-why-first-reason-thank-you-speaker-addressed-and-god-",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Here's why: {first-reason}. Thank you, {speaker-addressed}, and God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-reason", "speaker-addressed"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-state-of-the-union-if-we-do-first-after-thanks-speaker-addressed-and-good-night",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we do, {first-after} Thanks, {speaker-addressed}, and good night.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-after", "speaker-addressed"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-state-of-the-state-thanks-realm-bare-and-good-night",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thanks, {realm-bare}, and good night.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["realm-bare"]
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-state-of-the-state-on-theme-short-i-mean-what-i-said-thanks-realm-bare",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {theme-short}, I mean what I said. Thanks, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["theme-short", "realm-bare"]
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["theme-short", "realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-state-of-the-state-here-s-why-first-reason-good-night-realm-bare",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Here's why: {first-reason}. Good night, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-reason", "realm-bare"]
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-reason", "realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.close.plain-state-of-the-state-if-we-do-first-after-thanks-realm-bare",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we do, {first-after} Thanks, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-after", "realm-bare"]
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-after", "realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder D (Claude Code), by the words lead's rule 41",
+      "date": "2026-11-14"
     },
     {
       "key": "opening-speech.year-condition.polished-we-have-not-forgotten-this-past-year-s-condition-disaster",
@@ -100993,806 +100891,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-give-our-children-reason-to-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and give our children reason to be proud of us. Thank you, {vice-president-addressed}, and may God watch over this land.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-give-our-children-reason-to-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and give our children reason to be proud of us. Thank you, {speaker-addressed}, and may God watch over this land.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-we-will-have-kept-our-promise-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, we will have kept our promise to the people who sent us. Thank you, {vice-president-addressed}, and may God bless our country.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-we-will-have-kept-our-promise-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, we will have kept our promise to the people who sent us. Thank you, {speaker-addressed}, and may God bless our country.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-let-us-start-in-the-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and let us start in the morning. Thank you, {vice-president-addressed}, and I am grateful to you all, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-let-us-start-in-the-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and let us start in the morning. Thank you, {speaker-addressed}, and I am grateful to you all, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-the-years-ahead-will-be-kind-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, the years ahead will be kind to us. Thank you, {vice-president-addressed}, and God bless every one of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-the-years-ahead-will-be-kind-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, the years ahead will be kind to us. Thank you, {speaker-addressed}, and God bless every one of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-do-the-people-s-business-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and do the people's business well. Thank you, {vice-president-addressed}, and may God guide us.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-do-the-people-s-business-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and do the people's business well. Thank you, {speaker-addressed}, and may God guide us.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-we-will-have-earned-the-trust-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, we will have earned the trust placed in us. Thank you, {vice-president-addressed}, and God bless this nation.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-we-will-have-earned-the-trust-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, we will have earned the trust placed in us. Thank you, {speaker-addressed}, and God bless this nation.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-with-courage-and-with-care-thank-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, with courage and with care. Thank you, {vice-president-addressed}, and may God keep you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-with-courage-and-with-care-thank-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, with courage and with care. Thank you, {speaker-addressed}, and may God keep you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-history-will-remember-that-we-did-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, history will remember that we did not flinch. Thank you, {vice-president-addressed}, and God bless our republic.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-history-will-remember-that-we-did-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, history will remember that we did not flinch. Thank you, {speaker-addressed}, and God bless our republic.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-keep-the-faith-we-were-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and keep the faith we were given. Good night, {vice-president-addressed}, and may God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-let-us-and-keep-the-faith-we-were-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}, and keep the faith we were given. Good night, {speaker-addressed}, and may God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-we-will-hand-on-a-stronger-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, we will hand on a stronger country than we found. With gratitude, I thank you, {vice-president-addressed}, and all of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-inaugural-if-we-we-will-hand-on-a-stronger-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "If we {first-side}, we will hand on a stronger country than we found. With gratitude, I thank you, {speaker-addressed}, and all of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-let-s-not-wait-around-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, and let's not wait around. Thanks, {vice-president-addressed}, folks, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-let-s-not-wait-around-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, and let's not wait around. Thanks, {speaker-addressed}, folks, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-we-can-and-we-ll-be-glad-we-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We can {first-side}, and we'll be glad we did. Thank you, {vice-president-addressed}, and God bless all of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-we-can-and-we-ll-be-glad-we-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We can {first-side}, and we'll be glad we did. Thank you, {speaker-addressed}, and God bless all of you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-get-it-done-thanks-a-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side} and get it done. Thanks, {vice-president-addressed}, a lot, everybody.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-get-it-done-thanks-a-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side} and get it done. Thanks, {speaker-addressed}, a lot, everybody.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-so-let-s-and-show-folks-we-listened-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "So let's {first-side}, and show folks we listened. Thank you, {vice-president-addressed}, and take care of each other.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-so-let-s-and-show-folks-we-listened-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "So let's {first-side}, and show folks we listened. Thank you, {speaker-addressed}, and take care of each other.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-together-good-night-and-god-bless-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, together. Good night, {vice-president-addressed}, and God bless this country.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-together-good-night-and-god-bless-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, together. Good night, {speaker-addressed}, and God bless this country.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-we-can-and-the-kids-will-thank-us-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We can {first-side}, and the kids will thank us. Thanks for having me, and God bless, {vice-president-addressed}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-we-can-and-the-kids-will-thank-us-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We can {first-side}, and the kids will thank us. Thanks for having me, and God bless, {speaker-addressed}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-let-s-start-tomorrow-morning-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, and let's start tomorrow morning. Thanks, {vice-president-addressed}, again, everybody.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-let-s-start-tomorrow-morning-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, and let's start tomorrow morning. Thanks, {speaker-addressed}, again, everybody.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-so-let-s-because-folks-are-counting-on-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "So let's {first-side}, because folks are counting on us. Thank you, {vice-president-addressed}, and good luck to all of us.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-so-let-s-because-folks-are-counting-on-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "So let's {first-side}, because folks are counting on us. Thank you, {speaker-addressed}, and good luck to all of us.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-keep-our-word-thanks-everybody-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side} and keep our word. Thanks, {vice-president-addressed}, everybody, and God bless the USA.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-let-s-and-keep-our-word-thanks-everybody-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side} and keep our word. Thanks, {speaker-addressed}, everybody, and God bless the USA.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-we-can-and-we-will-thank-you-and-first-side.vice-president",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We can {first-side}, and we will. Thank you, {vice-president-addressed}, and God keep you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "vice-president-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-inaugural-we-can-and-we-will-thank-you-and-first-side.speaker",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We can {first-side}, and we will. Thank you, {speaker-addressed}, and God keep you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "speaker-addressed"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.budget-condition.plain-state-of-the-state-we-re-still-short-in-but-by-less-condition-budget-short-condition-budget-better-budget-year",
       "move": "budget-condition",
       "kind": "spoken",
@@ -101911,14 +101009,14 @@
       "key": "opening-speech.salutation.polished-sos-members-of-the-realm-legislature",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of the {realm-name} legislature, and my fellow citizens.",
+      "text": "Members of the {realm-bare} legislature, and my fellow citizens.",
       "uses": [
         {
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
           "choice": "salutation",
-          "requiresFacts": ["realm-name"]
+          "requiresFacts": ["realm-bare"]
         }
       ],
       "voice": "polished",
@@ -101951,14 +101049,14 @@
       "key": "opening-speech.salutation.plain-sos-members-of-the-realm-legislature-and-folks-at-home",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of the {realm-name} legislature, and folks at home.",
+      "text": "Members of the {realm-bare} legislature, and folks at home.",
       "uses": [
         {
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
           "choice": "salutation",
-          "requiresFacts": ["realm-name"]
+          "requiresFacts": ["realm-bare"]
         }
       ],
       "voice": "plain",
@@ -102026,166 +101124,6 @@
       "origin": "authored",
       "author": "Claude (Opus words builder, speech staging)",
       "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-sos-twn-let-us-ask-then-after",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let us {first-side}. Then {first-after} Thank you, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "first-after", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Opus words builder, speech staging)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-sos-twn-lets-ask-and-then-after",
-      "move": "close",
-      "kind": "spoken",
-      "text": "So let's {first-side}, and then {first-after} Thanks, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "first-after", "realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Opus words builder, speech staging)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-sos-twn-i-ask-you-to-ask-because-reason",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I ask you to {first-side}, because {first-reason}. Good night, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "first-reason", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Opus words builder, speech staging)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-sos-twn-lets-ask-because-reason",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Let's {first-side}, because {first-reason}. Thank you, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "first-reason", "realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Opus words builder, speech staging)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-sos-twn-on-theme-short-let-us-ask",
-      "move": "close",
-      "kind": "spoken",
-      "text": "On {theme-short}, let us {first-side}. Thank you, and good night, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "theme-short", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Opus words builder, speech staging)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.plain-sos-twn-on-theme-short-lets-ask",
-      "move": "close",
-      "kind": "spoken",
-      "text": "On {theme-short}, let's {first-side}. Thanks, {realm-name}, and good night.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "theme-short", "realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Opus words builder, speech staging)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-twn-i-ask-body-to-ask",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I ask {body-name} to {first-side} this year. Thank you, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "realm-name", "body-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.close.plain-twn-im-asking-body-to-ask",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I'm asking {body-name} to {first-side} this year. Thanks, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side", "realm-name", "body-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
     },
     {
       "key": "opening-speech.salutation.plain-twn-mourning-everybody-in-this-room-and-everybody-watching-before-anything",
@@ -102954,156 +101892,6 @@
       "origin": "authored",
       "author": "Words builder, hurt terms (Claude Code)",
       "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.close.polished-twn-on-theme-short-i-ask-body-name",
-      "move": "close",
-      "kind": "spoken",
-      "text": "On {theme-short}, I ask {body-name} to {first-side}. Thank you, and good night, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "theme-short",
-            "realm-name",
-            "body-name"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.close.plain-twn-on-theme-short-im-asking-body-name",
-      "move": "close",
-      "kind": "spoken",
-      "text": "On {theme-short}, I'm asking {body-name} to {first-side}. Thanks, {realm-name}, and good night.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "theme-short",
-            "realm-name",
-            "body-name"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.close.polished-twn-i-ask-bodyname-to-firstside-then-firstafter-thank",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I ask {body-name} to {first-side}. Then {first-after} Thank you, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "first-after",
-            "realm-name",
-            "body-name"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.close.plain-twn-so-im-asking-bodyname-to-firstside-and-then",
-      "move": "close",
-      "kind": "spoken",
-      "text": "So I'm asking {body-name} to {first-side}, and then {first-after} Thanks, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "first-after",
-            "realm-name",
-            "body-name"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.close.polished-twn-i-ask-bodyname-to-firstside-because-firstreason-good",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I ask {body-name} to {first-side}, because {first-reason}. Good night, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "first-reason",
-            "realm-name",
-            "body-name"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "opening-speech.close.plain-twn-im-asking-bodyname-to-firstside-because-firstreason-thank",
-      "move": "close",
-      "kind": "spoken",
-      "text": "I'm asking {body-name} to {first-side}, because {first-reason}. Thank you, {realm-name}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": [
-            "first-side",
-            "first-reason",
-            "realm-name",
-            "body-name"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code), by the words lead's direction",
-      "date": "2026-11-13"
     }
   ]
 }

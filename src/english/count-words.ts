@@ -102,3 +102,9 @@ export function changeSaid(
   const said = percentSaid(moved);
   return said === percentSaid(0) ? null : words.by.replace("{change}", said);
 }
+
+/** A whole count as people say it: below ten in words ("two years"), else in digits. */
+export function countSaid(count: number): string {
+  const word = data.smallCounts.words[count];
+  return word && Number.isInteger(count) ? word : count.toLocaleString("en-US");
+}

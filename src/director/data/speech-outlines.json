@@ -231,6 +231,12 @@
       "tag": "TUNABLE",
       "spread": "0.25 to 1",
       "note": "The speaker's recorded traits toward a theme's subjects (subjectPull), 0 to 1 against their strongest pull: after their own signature issues, before the world, so two Presidents of one party with no cause in reach still differ."
+    },
+    "closeSharedWordsLeast": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "1 to 3",
+      "note": "A close's own reason or after-sentence is left out when it shares this many subject words with what the speech said already, the ask included (words lead, Nov 14, rule 41: a close says something new)."
     }
   },
   "topicsBySubject": {
@@ -505,5 +511,20 @@
       "note": "A gap under one percent of spending is what a budget officer calls balanced; checked by reading the composed addresses."
     },
     "budgetThemes": ["budget", "taxes"]
+  },
+  "topicWords": {
+    "about": "Each measure said short, where a figure's meaning names it (\"On crime, that has meant ...\"): the slot context-name, read in speech-outline.ts contextFacts (words lead, Nov 14, rules 39 and 41: the years are said once, so the meaning names its measure instead).",
+    "inflation": "prices",
+    "wages": "pay",
+    "growth": "the economy",
+    "unemployment": "jobs",
+    "mortgage": "home loans",
+    "jobs": "jobs",
+    "rent": "rent",
+    "crime": "crime",
+    "schools": "our schools",
+    "health": "health care",
+    "roads": "our roads",
+    "environment": "our air and water"
   }
 }

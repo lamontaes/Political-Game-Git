@@ -145,5 +145,20 @@
       "spread": [1, 10],
       "checkedAgainst": "Below this many percent a figure keeps one decimal (\"about 4.5 percent\"); above it, whole percents, as a speech rounds (State of the City addresses, Ginther 2024)."
     }
+  },
+  "smallCounts": {
+    "about": "A whole count below ten said in words, as the owner's rule says (\"counts under ten in words\"): a number of years in an address. Read by countSaid in src/english/count-words.ts; ten and more stay digits.",
+    "words": [
+      "zero",
+      "one",
+      "two",
+      "three",
+      "four",
+      "five",
+      "six",
+      "seven",
+      "eight",
+      "nine"
+    ]
   }
 }

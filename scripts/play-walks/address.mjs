@@ -1,4 +1,4 @@
-/* global process, document, fetch */
+/* global process */
 // The local address as a player meets it: a new life, the days jumped on the
 // calendar to the eve of the town's address (local-address.json, `town`
 // monthDay), then Day pressed and the scene played and pictured, every line

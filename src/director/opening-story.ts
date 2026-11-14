@@ -164,6 +164,7 @@ const WORLD_NAMES: readonly string[] = [
   // The governor's state or the local head's place (speech-has-one-theme:
   // "Tennessee" four times in one address).
   "realm-name",
+  "realm-bare",
 ];
 
 /** The world's names that are never said more than `namesSaid` times unless a required move needs them: its people and the President's own office. */
