@@ -34,6 +34,7 @@ import {
   judgesScenes,
   judgesSpots,
   lineSubjects,
+  pieceVerdictId,
   spotSubjects,
   type LineRule,
   type RulePiece,
@@ -319,8 +320,17 @@ export function foldVerdicts(
         no.delete(id);
         dropped += 1;
       }
+    // A spot rule keeps a line's own "yes" from before it judged spots: it
+    // stands for each spot of the line until a spot is judged (`spotVerdict`).
+    const lines = judgesSpots(rule)
+      ? new Set(
+          spotSubjects(rule, source.pieces, source.ledger).map((subject) =>
+            pieceVerdictId(subject.piece),
+          ),
+        )
+      : undefined;
     for (const id of [...yes])
-      if (!current.has(id)) {
+      if (!current.has(id) && !lines?.has(id)) {
         yes.delete(id);
         dropped += 1;
       }
