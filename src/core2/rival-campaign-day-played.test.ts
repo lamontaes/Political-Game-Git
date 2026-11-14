@@ -190,7 +190,7 @@ it("a rival with doors left leans on money and standing, over days of their own 
   expect(share(), `better known, fewer doors: ${where}`).toBeLessThan(
     shareBefore,
   );
-}, 240_000);
+}, 110_000);
 
 it("a candidate for a statewide race holds no town event from the town's share of its voters", () => {
   const { api, filing, bank, where } = rivalIn(KIRBY, 120);
@@ -203,7 +203,7 @@ it("a candidate for a statewide race holds no town event from the town's share o
     turn.dayAct,
     `no town event from a share of ${share}: ${where}`,
   ).toBeNull();
-}, 240_000);
+}, 75_000);
 
 it("a rival whose town's doors are all knocked adds none", () => {
   const { api, filing, campaign, candidate, bank, where } = rivalIn(CAPAC);
@@ -225,4 +225,4 @@ it("a rival whose town's doors are all knocked adds none", () => {
     doorsKnockedOf(api, campaign.id).length,
     `another day adds no door: ${where}`,
   ).toBe(knocked);
-}, 240_000);
+}, 35_000);
