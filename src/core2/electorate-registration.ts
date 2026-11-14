@@ -28,8 +28,11 @@ import { addDays, ageInYears, daysBetween, makeIsoDate } from "./kernel/dates";
 import { campaignParameter } from "./campaign-data";
 import { cpsAgeBand, cpsRegistered } from "./electorate-places";
 import { dwellingMovedIn } from "./modules/housing";
-import { PERSON_MOVED_IN, PERSON_MOVED_WITHIN } from "./past-moves";
-import { preStartHistory } from "./pre-start";
+import {
+  PERSON_MOVED_IN,
+  PERSON_MOVED_WITHIN,
+  preStartHistory,
+} from "./past-module";
 import { openingVoterCarry } from "./turnout";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState, PersonState } from "./types";

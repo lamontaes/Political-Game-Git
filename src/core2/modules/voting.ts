@@ -2213,7 +2213,7 @@ function decideTurnout(
   const reg = registrationReading(api, voter, input.date, duty);
   const webFactor = web ? web.factor : 1;
   const base = Math.min(1, propensityOf(parts) * webFactor);
-  const onRolls = Math.min(1, base / Math.max(0.01, reg.rate));
+  const onRolls = Math.min(1, base / Math.max(0.01, reg.surveyShare));
   const atPolls = reg.sameDay
     ? Math.min(
         1,
@@ -3422,7 +3422,7 @@ interface RegistrationReading {
   /** Why a named person is not on the rolls. */
   readonly why: "on" | "old-address" | "not-registered" | "after-deadline";
   /** The survey's registered share of citizens like them (the turnout calibration's), 0 to 1. */
-  readonly rate: number;
+  readonly surveyShare: number;
   readonly sameDay: boolean;
 }
 
@@ -3448,7 +3448,7 @@ function registrationReading(
   if (person) {
     const deadline = sameDay ? null : addDays(makeIsoDate(date), -deadlineDays);
     const why = onTheList(deps, person, deadline);
-    return { share: why === "on" ? 1 : 0, why, rate, sameDay };
+    return { share: why === "on" ? 1 : 0, why, surveyShare: rate, sameDay };
   }
   const counted = voter as {
     readonly weight?: number;
@@ -3467,7 +3467,7 @@ function registrationReading(
     deadlineDays,
   });
   const share = Math.min(1, Math.max(0, (1 - keptOffOf(deps, age)) * a + b));
-  return { share, why: "on", rate, sameDay };
+  return { share, why: "on", surveyShare: rate, sameDay };
 }
 
 /**

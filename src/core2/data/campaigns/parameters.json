@@ -302,30 +302,35 @@
     },
     "registrationLagMedianDays": {
       "value": 80,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "Days a mover of average sense of duty takes to register at the new address (half of people like them have by then). Not from a fetched source: the figure was set so that people who moved in the last year are registered at about 70% of the rate of long-time residents, which is the gap the Census Bureau's Current Population Survey voting supplements have shown between recent movers and people in the same home five years or more (recalled, not checked against the table; research item research-registration-lag-source).",
       "spread": [30, 180]
     },
     "registrationLagDutySlope": {
       "value": 0.6,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "How much a voter's sense of duty (the turnout scale's duty term) shortens their wait to register after a move or after turning 18: the wait is the median wait times e to the minus this slope times their duty. Own estimate; the direction (people more engaged in politics update their registration sooner) is from the CPS supplements, the size is not sourced (research item research-registration-lag-source).",
       "spread": [0.2, 1.2]
     },
     "registrationDeadlineDays": {
       "value": 25,
+      "role": "level",
       "tag": "ESTIMATED",
       "source": "Days before an election by which a registration must be on the rolls to count in it, where the state has no same-day registration. Most states' deadlines are 15 to 30 days; the value is a national middle, not a figure for any one state (no per-state deadline table is in the repository; research item research-registration-lag-source).",
       "spread": [10, 30]
     },
     "sameDayPollRegistrationCost": {
       "value": 1.0,
+      "role": "coefficient",
       "tag": "TUNABLE",
       "source": "What it adds to a person's cost of voting to register at the polls on election day, on the turnout scale, for someone not on the rolls where the state allows same-day registration. Checked against Grumbach and Hill (Journal of Politics, 2022): same-day registration raises turnout about 3 points among 18 to 24 year olds and about 1 to 2 points overall, measured on the opening world's turnout with and without the law in three drawn places.",
       "spread": [0.5, 3]
     },
     "registrationCalibrationRelief": {
       "value": 0.02,
+      "role": "coefficient",
       "tag": "TUNABLE",
       "source": "What the turnout calibration carried for registration laws in every place before registration was a record: the flat relief the automatic and same-day registration laws took off a voter's cost, averaged over the states that have them (about 0.4 of states with automatic registration at 0.03, and 0.4 with same-day at 0.06 times the age weight of a typical voter, about 0.33). The record now carries those laws state by state, so this is taken off every town voter's cost to leave the calibrated turnout where it was. Checked so a town's turnout with and without the registration record differs by about a point at an election in three drawn places.",
       "spread": [0, 0.05]
