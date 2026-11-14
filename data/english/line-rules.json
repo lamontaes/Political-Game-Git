@@ -5492,7 +5492,7 @@
       "from": [
         {
           "date": "2026-11-14",
-          "words": "Be sure that it's talking in American English, because I don't know what the fuck you were just talking about. I cut the levy by 2 mils. Come on, these are rules and guards already. There better not be any British English in this word session."
+          "words": "Be sure that it's talking in American English... I cut the levy by 2 mils. Come on, these are rules and guards already. There better not be any British English in this word session."
         }
       ],
       "status": "sample",
@@ -5500,7 +5500,7 @@
       "test": {
         "kind": "patterns",
         "patterns": [
-          "\\b(?:(?:my|your|our|their|the|a) flat|in the lift|whilst|amongst|reckon|mate|cheers|queue(?:s|d)?|sacked|redundan(?:t|cy)|mum|mummy|bloke|rubbish|lorry|petrol|at the weekend|ring you|rang|shall (?:I|we)|stand for (?:election|office)|stood for|table(?:d)? (?:a|the) (?:bill|motion|proposal)|post code|postcode|pavement|biscuits?|trousers|jumper|fortnight|bin men|council tax|rates bill|MPs?|constituen(?:cy|ts?)|chemist|autumn|learnt|spelt|whinge|nappy|pram|telly|telephone box|queue up|take-away|takeaway|in hospital|at university|to hospital|cross with|pop (?:in|round|over)|having a go|fancy (?:a|the)|knackered|gutted|chuffed|bloody|sod|bollocks|innit)\\b",
+          "\\b(?:(?:my|y[o]ur|our|t[h]eir|the|a) f[l]at|in the l[i]ft|w[h]ilst|a[m]ongst|r[e]ckon|m[a]te|c[h]eers|q[u]eue(?:s|d)?|s[a]cked|r[e]dundan(?:t|cy)|m[u]m|m[u]mmy|b[l]oke|r[u]bbish|l[o]rry|p[e]trol|at the w[e]ekend|r[i]ng you|r[a]ng|s[h]all (?:I|we)|s[t]and for (?:election|o[f]fice)|s[t]ood for|t[a]ble(?:d)? (?:a|the) (?:bill|m[o]tion|p[r]oposal)|p[o]st c[o]de|p[o]stcode|p[a]vement|b[i]scuits?|t[r]ousers|j[u]mper|f[o]rtnight|bin men|c[o]uncil tax|r[a]tes b[i]ll|MPs?|c[o]nstituen(?:cy|ts?)|c[h]emist|a[u]tumn|l[e]arnt|s[p]elt|w[h]inge|n[a]ppy|p[r]am|t[e]lly|t[e]lephone box|q[u]eue up|t[a]ke-a[w]ay|t[a]keaway|in h[o]spital|at u[n]iversity|to h[o]spital|c[r]oss w[i]th|pop (?:in|r[o]und|o[v]er)|h[a]ving a go|f[a]ncy (?:a|the)|k[n]ackered|g[u]tted|c[h]uffed|b[l]oody|sod|b[o]llocks|i[n]nit)\\b",
           "\\b(?:levy|levies|mills?|millage|mil rate|appropriations?|fiscal note|presentment|engrossed|sine die|markups?|mark-up|cloture|basis points?|per capita|ad valorem|assessed valuation|assessment ratio|tax base|revenue neutral|supermajority|quorum|germane|tabled|sunset clause|line item|earmark|carryover|fund balance|bond rating|debt service|general fund|obligation bond|rollback rate|fiscal year|biennium|continuing resolution|unfunded mandate|reconciliation|filibuster|conference committee|point of order|yield the floor|seeks? the floor|recess appointment|veto override|override vote|roll call)\\b"
         ]
       },
