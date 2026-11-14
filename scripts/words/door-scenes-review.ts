@@ -82,6 +82,16 @@ interface ManifestEntry {
     end?: string;
     /** One cell of a markdown table: the row containing `row`, the column's number from 1. */
     table?: { row: string; column: number };
+    /**
+     * The quoted pieces of one line, in order, said by `roles` in turn: the line
+     * is found by `row` text, searched from `after` (a place's heading line).
+     */
+    quoted?: {
+      row: string;
+      after?: string;
+      roles: ("resident" | "you")[];
+      who?: string;
+    };
   };
   /** A slot for a scene not built yet: its title says what is coming. */
   coming?: boolean;
@@ -443,6 +453,24 @@ function linesFromRange(from: NonNullable<ManifestEntry["from"]>): {
       throw new Error(`no table row "${from.table.row}" in ${from.file}`);
     const cell = row.split("|").map((c) => c.trim())[from.table.column];
     return { lines: [{ role: "plain", text: cell ?? "" }], context };
+  }
+  if (from.quoted) {
+    const q = from.quoted;
+    const begin = q.after ? all.findIndex((r) => r.includes(q.after!)) : 0;
+    const row = all.slice(Math.max(begin, 0)).find((r) => r.includes(q.row));
+    if (!row) throw new Error(`no line "${q.row}" in ${from.file}`);
+    const pieces = [...row.matchAll(/"([^"]+)"/g)].map((m) => m[1]!);
+    return {
+      lines: pieces.map((text, i) => {
+        const role = q.roles[i % q.roles.length]!;
+        return {
+          role,
+          who: role === "you" ? "You" : (q.who ?? "Resident"),
+          text,
+        };
+      }),
+      context: `${context}, ${(q.after ?? "").slice(0, 60)}`,
+    };
   }
   const first = from.start ? all.findIndex((r) => r.includes(from.start!)) : 0;
   const last = from.end
