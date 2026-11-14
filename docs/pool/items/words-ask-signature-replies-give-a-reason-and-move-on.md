@@ -34,4 +34,4 @@ source: M5's offer-placed sheets, Nov 14, 2026, pairs-offer-placed/noes.md; file
 
 **Files.** data/english/parts/scene-talk.json, src/director/data/purpose-arcs.json, src/director/purpose-scene.ts
 
-**Notes.** Filed by hand on the #9262 branch, Nov 14.
+**Notes.** Filed by hand on the #9262 branch, Nov 14. M5's desk sheets at 8bb1ff9d (/mnt/project-files/words-lead/pr-desk-replies/pairs-8bb1ff9d/noes.md): later-replies-move-the-talk-on no on every variant (plain, caring, knows-you, lost-job, rent-notice, sick: 6 of 6), and replies-may-be-long-and-substantive 1 of 8 (lost-job); the later set restates the first round's sign and won't-sign answers.

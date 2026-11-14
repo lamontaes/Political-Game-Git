@@ -34,4 +34,4 @@ source: M5's offer-placed sheets, Nov 14, 2026, pairs-offer-placed/noes.md; file
 
 **Files.** data/english/parts/scene-talk.json, src/director/data/purpose-arcs.json, src/director/purpose-scene.ts
 
-**Notes.** Filed by hand on the #9262 branch, Nov 14.
+**Notes.** Filed by hand on the #9262 branch, Nov 14. M5's desk sheets at 8bb1ff9d (/mnt/project-files/words-lead/pr-desk-replies/pairs-8bb1ff9d/noes.md): later-replies-move-the-talk-on 2 of 2 no on gathering-missing; the later set restates the first yes, the promise and the refusal.
