@@ -53,20 +53,62 @@
   "lateSteps": {
     "about": "How long rent has gone unpaid, said as people say it in talk (the notice at home, Nov 8: a shortfall left for two months is 'about two months', never '61 days'). Each row: the days below which the phrase is said. Read by lateSaid in src/english/count-words.ts; the director passes the days.",
     "rows": [
-      { "below": 10, "said": "a week or so" },
-      { "below": 21, "said": "a couple of weeks" },
-      { "below": 45, "said": "about a month" },
-      { "below": 76, "said": "about two months" },
-      { "below": 106, "said": "about three months" },
-      { "below": 137, "said": "about four months" },
-      { "below": 167, "said": "about five months" },
-      { "below": 198, "said": "about six months" },
-      { "below": 228, "said": "about seven months" },
-      { "below": 259, "said": "about eight months" },
-      { "below": 289, "said": "about nine months" },
-      { "below": 320, "said": "about ten months" },
-      { "below": 350, "said": "about eleven months" },
-      { "below": null, "said": "a year or more" }
+      {
+        "below": 10,
+        "said": "a week or so"
+      },
+      {
+        "below": 21,
+        "said": "a couple of weeks"
+      },
+      {
+        "below": 45,
+        "said": "about a month"
+      },
+      {
+        "below": 76,
+        "said": "about two months"
+      },
+      {
+        "below": 106,
+        "said": "about three months"
+      },
+      {
+        "below": 137,
+        "said": "about four months"
+      },
+      {
+        "below": 167,
+        "said": "about five months"
+      },
+      {
+        "below": 198,
+        "said": "about six months"
+      },
+      {
+        "below": 228,
+        "said": "about seven months"
+      },
+      {
+        "below": 259,
+        "said": "about eight months"
+      },
+      {
+        "below": 289,
+        "said": "about nine months"
+      },
+      {
+        "below": 320,
+        "said": "about ten months"
+      },
+      {
+        "below": 350,
+        "said": "about eleven months"
+      },
+      {
+        "below": null,
+        "said": "a year or more"
+      }
     ],
     "daysPerMonth": 30.4,
     "tag": "ESTIMATED",
@@ -75,5 +117,91 @@
   "vote": "{count} vote",
   "votes": "{count} votes",
   "aboutVotes": "about {count} votes",
-  "aboutMoney": "about ${count}"
+  "aboutMoney": "about ${count}",
+  "clock": {
+    "about": "A time of day and a span of work hours as people say them in talk (\"I'm on at seven-thirty\", \"eight hours\"): the hour in words on a twelve-hour clock, the minutes rounded to the quarter hour, noon and midnight by name. Words composer, talk on ordinary days (Nov 12).",
+    "stepMinutes": {
+      "value": 15,
+      "tag": "TUNABLE",
+      "spread": [5, 30],
+      "checkedAgainst": "People give a shift's start to the quarter hour in speech (\"seven-thirty\", \"a quarter to nine\"); work slots in the work-spans engine start on the quarter hour or the hour."
+    },
+    "numbers": [
+      "twelve",
+      "one",
+      "two",
+      "three",
+      "four",
+      "five",
+      "six",
+      "seven",
+      "eight",
+      "nine",
+      "ten",
+      "eleven",
+      "twelve"
+    ],
+    "quarters": {
+      "15": "{hour}-fifteen",
+      "30": "{hour}-thirty",
+      "45": "{hour}-forty-five"
+    },
+    "noon": "noon",
+    "midnight": "midnight",
+    "hour": "an hour",
+    "hours": "{count} hours",
+    "days": {
+      "0": "today",
+      "1": "tomorrow",
+      "more": "in {count} days"
+    }
+  },
+  "term": {
+    "about": "A term of office in years as people say it in a speech (\"four years\"), from the term record's length: the number in words up to twelve. Words composer, an address's occasion (lead, Nov 13).",
+    "year": "one year",
+    "years": "{count} years"
+  },
+  "moneyUnits": {
+    "about": "A sum of a million dollars or more said in the unit people use (\"about $40 million\", \"about $2.3 billion\"), never the dollars written out; one decimal below ten of the unit, whole units above. Read by moneySaid in src/english/count-words.ts.",
+    "rows": [
+      {
+        "atLeast": 1000000000,
+        "divisor": 1000000000,
+        "word": "billion"
+      },
+      {
+        "atLeast": 1000000,
+        "divisor": 1000000,
+        "word": "million"
+      }
+    ],
+    "decimalBelow": 10
+  },
+  "percentWords": {
+    "about": "A change in a measure said aloud (\"by about 9 percent\", \"from about 12 percent to about 14 percent\"): a share said by where it stood and where it stands, any other measure by how far it moved against where it stood. Whole percents, one decimal below decimalBelow. Read by changeSaid in src/english/count-words.ts.",
+    "percent": "about {count} percent",
+    "by": "by {change}",
+    "fromTo": "from {from} to {to}",
+    "decimalBelow": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "spread": [1, 10],
+      "checkedAgainst": "Below this many percent a figure keeps one decimal (\"about 4.5 percent\"); above it, whole percents, as a speech rounds (State of the City addresses, Ginther 2024)."
+    }
+  },
+  "smallCounts": {
+    "about": "A whole count below ten said in words, as the owner's rule says (\"counts under ten in words\"): a number of years in an address. Read by countSaid in src/english/count-words.ts; ten and more stay digits.",
+    "words": [
+      "zero",
+      "one",
+      "two",
+      "three",
+      "four",
+      "five",
+      "six",
+      "seven",
+      "eight",
+      "nine"
+    ]
+  }
 }

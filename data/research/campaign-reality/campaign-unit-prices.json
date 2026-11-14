@@ -52,6 +52,13 @@
       "priceMinorUnits": 7500,
       "estimated": true,
       "derivation": "B01 reports a $75 Provo, Utah city-council filing-fee example; used as the unread-place fallback until candidate-filing-terms.json supplies local law."
+    },
+    "petition-signature": {
+      "label": "Paid petition signature",
+      "unit": "signature",
+      "priceMinorUnits": 895,
+      "estimated": true,
+      "derivation": "What a campaign pays a petition firm's circulators for each signature it needs: the 38 statewide ballot measures of 2020 that used paid signature gatherers averaged $8.95 per required signature, against $6.52 in 2018 and $4.70 across 2010 to 2018 (Ballotpedia, 'Ballot measure signature costs, 2020', ballotpedia.org/Ballot_measure_signature_costs,_2020). Measures' totals include the extra signatures gathered against the clerk's strikes, as a candidate's paid circulators do; the world's draw spreads it."
     }
   },
   "householdCount": {

@@ -7,7 +7,7 @@ import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { personWorkOf } from "../core2/person-work";
+import { jobTitleSaid, personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -50,7 +50,12 @@ import {
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
-import { properName, spokenDate, stateInSentence } from "./words";
+import {
+  organizationName,
+  properName,
+  spokenDate,
+  stateInSentence,
+} from "./words";
 import { graduationResults, schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
@@ -257,7 +262,7 @@ function employerName(
   // town, never an employer to name (skill words-engine).
   return org && org.kind !== "outside-market"
     ? {
-        text: employerSaid(properName(org.name), org),
+        text: employerSaid(organizationName(org), org),
         sourceRecordIds: [...recordIds, org.id],
       }
     : undefined;
@@ -560,7 +565,7 @@ function householdMoments(
           ...(job
             ? {
                 job: {
-                  text: withArticle(job.title),
+                  text: withArticle(jobTitleSaid(core, job)),
                   sourceRecordIds: [job.id],
                 },
                 ...(side ? { workplace: side } : {}),
@@ -611,7 +616,10 @@ function householdMoments(
       counterpartIds: [earner.id],
       beat: "work",
       actFacts: {
-        job: { text: withArticle(job.title), sourceRecordIds: [job.id] },
+        job: {
+          text: withArticle(jobTitleSaid(core, job)),
+          sourceRecordIds: [job.id],
+        },
         ...(employer ? { employer } : {}),
         ...(remembered
           ? {
@@ -870,11 +878,22 @@ function sceneEndingMoments(
           id,
           date: reply.date as IsoDate,
           causeId: id,
-          // A promise given only as "I'll look at it" is told as that.
+          // A promise made on someone's own question is told by its name
+          // (ruling 72, a door); one given only as "I'll look at it" is told
+          // as that.
           causeKind:
-            keeps === "promise" && reply.facts?.firmness === "vague"
-              ? "scene-ending:vague-promise"
-              : `scene-ending:${keeps}`,
+            keeps === "promise" && typeof reply.facts?.about === "string"
+              ? "scene-ending:view-promise"
+              : keeps === "promise" && reply.facts?.firmness === "vague"
+                ? "scene-ending:vague-promise"
+                : `scene-ending:${keeps}`,
+          ...(keeps === "promise" && typeof reply.facts?.about === "string"
+            ? {
+                actFacts: {
+                  about: { text: reply.facts.about, sourceRecordIds: [id] },
+                },
+              }
+            : {}),
           counterpartIds: [otherId as PersonId],
           selfNamed: true,
           hindsight: zero,
@@ -1257,7 +1276,10 @@ export function composeJournal(
       // An organization the event is about is named from its own record.
       const value =
         spec.format === "organization"
-          ? core.organizations.get(logged?.topic ?? "")?.name
+          ? (() => {
+              const org = core.organizations.get(logged?.topic ?? "");
+              return org ? organizationName(org) : undefined;
+            })()
           : spec.format === "billName" || spec.format === "billNumberAndName"
             ? billName(
                 core,
@@ -2019,7 +2041,10 @@ export function composeJournal(
             recordId: row.recordId,
             school:
               row.kind === "schoolmate"
-                ? core.organizations.get(row.recordId)?.name
+                ? (() => {
+                    const org = core.organizations.get(row.recordId);
+                    return org ? organizationName(org) : undefined;
+                  })()
                 : undefined,
           })),
       );

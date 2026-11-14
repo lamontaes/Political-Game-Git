@@ -1,6 +1,6 @@
 {
   "schema": "english-composed-checks/1",
-  "about": "What the composed checks (src/english/composed-checks.ts) read whole texts with: the numbers, each TUNABLE with the spread it is checked against, and the word lists, each from the owner's notes of Nov 11 and 12, 2026 or the words skill. Development-time only: no list here picks a line in play.",
+  "about": "What the composed checks (src/english/composed-checks.ts) read whole texts with: the numbers, each TUNABLE with the spread it is checked against, and the word lists, each from the owner's notes of Nov 11 and 12, 2026 or the words skill. Development-time only: no list here picks a line in play. Stopwords include comparatives (\"higher\", \"lower\", \"bigger\", \"fewer\"; \"more\" was already there): a comparative says how much, never what a speech is about, so the subject budget does not count it (W-E, Nov 12, when \"higher\" in three different questions' names counted as one subject four times). The body's measure word (\"bill\", \"ordinance\") is a stopword too: it says what form an ask takes in that body (speech-outlines.json measureWords), never what the speech is about (Nov 12, when \"bill\" in three asks counted as one subject four times).",
   "parameters": {
     "seriesMostParts": {
       "value": 3,
@@ -50,6 +50,12 @@
       "spread": "2 to 3",
       "note": "An answer this short that only acknowledges is a non-reply (owner, Nov 12; replies of one to three words stay for the player, call 12)."
     },
+    "shortQuestionMostWords": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "spread": "2 to 3",
+      "note": "A question this short (\"Why?\") carries no fact of its own, so when an address is cut into sentences to count what worlds share, it is read with the sentence after it as one thought (src/director/address-sentences.ts). The words lead's ruling of Nov 12 on local-address-versions, seed bab4ffbbf3ef6ae3, from the owner's Nov 11 call 12: \"Replies of one to three words and action names stay\"."
+    },
     "echoLeastWords": {
       "value": 4,
       "tag": "TUNABLE",
@@ -83,7 +89,9 @@
   },
   "placeSaidOnlyAs": {
     "note": "A place whose bare name means something else in a speech, with the spelling that means the place. Alone, the first is the federal capital, so the stray-place check counts only the spelling given here.",
-    "names": { "Washington": "Washington State" }
+    "names": {
+      "Washington": "Washington State"
+    }
   },
   "roleWords": [
     "President",
@@ -140,6 +148,8 @@
     "coworker",
     "roommate"
   ],
+  "actStandIn": "\\b(?:to|not|and|plan to|trying to) do (?:that|it)\\b",
+  "actStandInNote": "A stance verb whose object is the stand-in \"do that\" instead of the act it means (check act-named).",
   "acknowledgments": [
     "okay",
     "ok",
@@ -161,7 +171,13 @@
     "noted",
     "good to know",
     "makes sense",
-    "fine"
+    "fine",
+    "wow",
+    "no",
+    "yes",
+    "really",
+    "i know",
+    "oh my"
   ],
   "checkInClose": [
     "\\b(?:let's|we'll|i'll|we can)\\b[^.?!]*\\b(?:pick (?:this|it) up|talk (?:again|later|soon|more)|catch up|check in|circle back|come back to (?:this|it))\\b",
@@ -179,6 +195,7 @@
     "\\b(?:after|end of) (?:a|the) long day\\b",
     "\\bhow did (?:work|school) go\\b"
   ],
+  "endOfDaySpared": ["\\b(?:yesterday|last night|last evening)\\b"],
   "askAfter": [
     "\\b(?:have you|did you) (?:talked?|spoken|heard from|seen|checked (?:in )?(?:on|with)|called)\\b[^.?!]*\\b{name}\\b[^.?!]*\\?",
     "\\bhow(?:'s| is| are| has| have)\\b[^.?!]*\\b{name}\\b[^.?!]*\\?",
@@ -475,6 +492,69 @@
     "that's",
     "it's",
     "don't",
-    "won't"
+    "won't",
+    "higher",
+    "lower",
+    "bigger",
+    "smaller",
+    "less",
+    "fewer",
+    "larger",
+    "longer",
+    "shorter",
+    "bill",
+    "bills",
+    "ordinance",
+    "ordinances"
+  ],
+  "concession": "\\b(?:even so|all the same|just the same|anyway)[.!]?$",
+  "concessionNote": "A sentence that concedes ('even so', 'all the same') must follow something it concedes: an earlier sentence of the same line with a contrary word (concessionBefore). Words composer, Nov 12: \"I'd vote to make the nation's capital a state even so\" with nothing before it to concede.",
+  "concessionBefore": "\\b(?:but|though|although|against|won't|wouldn't|doesn't|didn't|isn't|not|no|never|wrong|mistake)\\b",
+  "agreementOnly": [
+    "^(?:good\\.\\s*)?glad you see it like i do\\b",
+    "^(?:good\\.\\s*)?somebody in this house agrees with me\\b",
+    "^(?:good\\.\\s*)?then we(?:'re| are) on the same side of it\\b",
+    "^fair enough\\b[^.]*\\.\\s*we don't have to agree\\b",
+    "^we see it differently, then\\b"
+  ],
+  "agreementOnlyNote": "An answer to the player's agreeing or disagreeing reply that only says the two agree or differ, and adds nothing: what the speaker expects to happen, who they will tell or what they will do (words composer, Nov 12: \"Glad you see it like I do\" in every world).",
+  "voteMonth": "\\b(?:come|in|next|this) (January|February|March|April|May|June|July|August|September|October|November|December)\\b",
+  "voteMonthNote": "A line that names the month a question is voted on is true only when the world's election calendar holds an election in that month within the year after the line is said (owner via the coordinator, Nov 12: 'come November' said on January 20).",
+  "organizationWords": [
+    "Company",
+    "Associates",
+    "Market",
+    "Store",
+    "Schools",
+    "School",
+    "Home",
+    "Hospital",
+    "Bank",
+    "Supply",
+    "Inc",
+    "Corporation",
+    "Center",
+    "Clinic",
+    "Services",
+    "Group",
+    "Press"
+  ],
+  "organizationNote": "A capitalized name of two words or more ending in one of these words is an organization: named once in one exchange (one screen's lines and replies), then said by the tie ('work', 'school'; said-as ownPlace).",
+  "ownPay": "\\$(\\d[\\d,]*)(?:\\.\\d+)? an hour",
+  "ownPayNote": "Words builder, Nov 12 (reason-fits-the-side): a speaker's own hourly pay said as a reason, and the minimum-wage questions with the wage each proposes (dollars an hour, the same proposals as src/director/data/conversation-rules.json stands.reasonFits.wages). Pay at or under the proposal times payNear argues for a raise; any other own pay is no reason on either side.",
+  "payQuestions": {
+    "a higher federal minimum wage": 17,
+    "a higher minimum wage": 15,
+    "letting cities set their own minimum wage": 15
+  },
+  "payNear": 1.25,
+  "againstFrames": [
+    "\\bagainst\\b",
+    "draw the line",
+    "count me out",
+    "fight hardest",
+    "fought",
+    "don't want",
+    "say no to"
   ]
 }

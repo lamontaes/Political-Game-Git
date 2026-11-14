@@ -1,0 +1,236 @@
+{
+  "version": "life-stakes-v1",
+  "about": "How a person's own circumstances, read from the records the engines keep, move their stance on a policy question beyond their lean, faith and degree (owner, Nov 14: build the simulation so it simulates these things; Account lead ruling: a view comes from the person's own simulated life). Each fact is measured against the nation's average, so a town of renters and a town of owners differ for a reason. How strongly the person weighs their own stake follows their traits (decision views.own-stake). Values are on the views scale (-1 to 1) per unit of the fact.",
+  "careDecision": "views.own-stake",
+  "lifeEvents": {
+    "about": "The events on which a full person's circumstances change and their stance is told the same day (the stance listeners: interest-group membership follows the view): a job lost, a home bought, an eviction, a birth in the household. Every other change (a hire, a lease, a health plan, a child turning 6, the income fifth) is told at the first of the month, when the views engine reads again everyone whose circumstances it has read.",
+    "kinds": [
+      "work.job-lost",
+      "housing.purchase",
+      "housing.eviction",
+      "person-birth"
+    ]
+  },
+  "ages": {
+    "workingFrom": {
+      "value": 18,
+      "tag": "SOURCED",
+      "citation": "The youngest age of the work and health-plan references (BLS CPS table 3 rows 18 and 19 and up; NHIS 2023 adults 18 to 64).",
+      "role": "level"
+    },
+    "workingTo": {
+      "value": 65,
+      "tag": "SOURCED",
+      "citation": "Medicare age (42 U.S.C. 1395c), the end of the work and health-plan references' age band (18 to 64).",
+      "role": "level"
+    },
+    "youngChildUnder": {
+      "value": 6,
+      "tag": "SOURCED",
+      "citation": "The young-child age of the reference: families with own children under 6 (BLS, Employment Characteristics of Families, table 4).",
+      "role": "level"
+    }
+  },
+  "facts": {
+    "rents": {
+      "about": "1 when the person's household rents its home (a lease on the books for a full household; tenure rent for a counted one), else 0.",
+      "reference": {
+        "value": 0.348,
+        "tag": "SOURCED",
+        "citation": "Renter-occupied share of the nation's occupied homes, 45,431,634 of 130,518,362 (ACS 2020-2024 B25003, the county tenure table the housing engine opens from, src/core2/data/housing/housing.json). A household share, used for adults.",
+        "role": "level"
+      }
+    },
+    "incomeFifth": {
+      "about": "The national household-income fifth of the person's household, 0 (lowest) to 4 (highest), from the readers the crime, health and school engines use (fullHouseholdIncomes; residents' householdIncome).",
+      "reference": {
+        "value": 2,
+        "tag": "SOURCED",
+        "citation": "The middle of the national fifths by construction (countedIncomeFifthLimit1Dollars to 4 in src/core2/data/counted/parameters.json).",
+        "role": "level"
+      }
+    },
+    "noWork": {
+      "about": "For an adult 18 to 64: 1 with no open job or work commitment, else 0 (for a counted household, its working-age members working outside a recorded job are counted as working). Older adults sit at the reference.",
+      "reference": {
+        "value": 0.259,
+        "tag": "SOURCED",
+        "citation": "Adults 18 to 64 not employed: 1 - 150,137 / 202,528 thousand (BLS, Current Population Survey 2025 annual averages, table 3, employment status by age; 11-month average).",
+        "role": "level"
+      }
+    },
+    "noPrivatePlan": {
+      "about": "For an adult 18 to 64: 1 with no private health plan on the coverage engine's records (for a counted household, the share of its members under 65 its plan does not cover), else 0. Older adults sit at the reference.",
+      "reference": {
+        "value": 0.319,
+        "tag": "SOURCED",
+        "citation": "Adults 18 to 64 without private coverage: 1 - 0.681 (CDC NCHS, Health Insurance Coverage: Early Release of Estimates From the National Health Interview Survey, 2023, June 2024, 95 percent interval 67.0 to 69.2 percent private).",
+        "role": "level"
+      }
+    },
+    "youngChild": {
+      "about": "1 when a child under 6 lives in the person's household, else 0.",
+      "reference": {
+        "value": 0.1,
+        "tag": "ESTIMATED",
+        "citation": "Adults living with a child under 6: 13,422 thousand families with own children under 6 (BLS, Employment Characteristics of Families 2025, table 4), about 23.1 million parents (9,716 thousand married couples times two plus 3,707 thousand other families), with other adults in those homes, of about 263 million adults. Spread 0.08 to 0.12.",
+        "role": "level"
+      }
+    },
+    "publicWorker": {
+      "about": "1 when the person works for a government (an employer whose class is a public employer's, src/core2/public-pay-floor.ts), else 0.",
+      "reference": {
+        "value": 0.084,
+        "tag": "ESTIMATED",
+        "citation": "Government wage and salary workers, 22,100 thousand (BLS, Current Population Survey 2025 annual averages, table 42; federal 4,131, state 7,783, local 10,186), of about 263 million adults. Spread 0.075 to 0.095.",
+        "role": "level"
+      }
+    }
+  },
+  "stakes": {
+    "us-policy-positions:housing-land-use.rent-stabilization": {
+      "rents": {
+        "value": 0.3,
+        "tag": "TUNABLE",
+        "citation": "A renter gains from rules that hold rent down or keep a tenant housed; an owner pays for them in property value or tax. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.15 to 0.45.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+      "rents": {
+        "value": 0.2,
+        "tag": "TUNABLE",
+        "citation": "A renter gains from rules that hold rent down or keep a tenant housed; an owner pays for them in property value or tax. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.1 to 0.3.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
+      "rents": {
+        "value": 0.15,
+        "tag": "TUNABLE",
+        "citation": "Renters gain from more homes being built; owners in single-family zones bear the change next door. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.05 to 0.25.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:housing-land-use.inclusionary-requirement": {
+      "rents": {
+        "value": 0.1,
+        "tag": "TUNABLE",
+        "citation": "A renter gains from rules that hold rent down or keep a tenant housed; an owner pays for them in property value or tax. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.05 to 0.2.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:fiscal.cap-property-tax-growth": {
+      "rents": {
+        "value": -0.25,
+        "tag": "TUNABLE",
+        "citation": "An owner pays property tax directly and gains from a cap; a renter pays it only through the rent. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.4 to -0.1.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:labor-workforce.raise-minimum-wage": {
+      "incomeFifth": {
+        "value": -0.07,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.12 to -0.03.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "incomeFifth": {
+        "value": -0.04,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.08 to -0.01.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:labor-workforce.paid-family-leave": {
+      "youngChild": {
+        "value": 0.25,
+        "tag": "TUNABLE",
+        "citation": "A household with a young child is the one that takes the leave. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.1 to 0.4.",
+        "role": "coefficient"
+      },
+      "incomeFifth": {
+        "value": -0.03,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.06 to 0.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:education.universal-preschool": {
+      "youngChild": {
+        "value": 0.3,
+        "tag": "TUNABLE",
+        "citation": "A household with a child under 6 is the one the preschool serves. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.15 to 0.45.",
+        "role": "coefficient"
+      },
+      "incomeFifth": {
+        "value": -0.03,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.06 to 0.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "noPrivatePlan": {
+        "value": 0.3,
+        "tag": "TUNABLE",
+        "citation": "An adult with no private plan is the one a wider Medicaid would cover. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.15 to 0.45.",
+        "role": "coefficient"
+      },
+      "incomeFifth": {
+        "value": -0.05,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.1 to -0.01.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "noPrivatePlan": {
+        "value": -0.2,
+        "tag": "TUNABLE",
+        "citation": "An adult with no private plan is the one the requirement would be asked of. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.35 to -0.05.",
+        "role": "coefficient"
+      },
+      "noWork": {
+        "value": -0.25,
+        "tag": "TUNABLE",
+        "citation": "An adult out of work is the one who would lose coverage under it. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.4 to -0.1.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+      "publicWorker": {
+        "value": 0.35,
+        "tag": "TUNABLE",
+        "citation": "A government worker is the one the bargaining covers. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.2 to 0.5.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:education.raise-teacher-minimum-salary": {
+      "publicWorker": {
+        "value": 0.15,
+        "tag": "TUNABLE",
+        "citation": "A government worker, a teacher among them, is paid from the same public payroll the floor raises. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.05 to 0.25.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:fiscal.graduated-income-tax": {
+      "incomeFifth": {
+        "value": -0.06,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.1 to -0.02.",
+        "role": "coefficient"
+      }
+    },
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+      "incomeFifth": {
+        "value": -0.05,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.09 to -0.01.",
+        "role": "coefficient"
+      }
+    }
+  }
+}

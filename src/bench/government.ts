@@ -1,5 +1,6 @@
 import { lastTimeOf } from "./last-time";
 import { raceTitle } from "./race-words";
+import { saidOffice, spokenOffice } from "../director/filing-visit";
 import { properName } from "../director/words";
 import { ageOnDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
@@ -22,11 +23,12 @@ import { lawChain } from "../core2/modules/laws";
 import { repealFor } from "./legislature";
 import { LAW_SERIES } from "../core2/laws-in-force";
 import {
+  atLargeGroup,
   checkEligibility,
+  ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingOfficeFor,
   filingWindowOpen,
-  incumbentOf,
   playerContests,
   playerMayFileFor,
   standing,
@@ -34,6 +36,7 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { candidateIdentity, resultOf } from "../core2/modules/voting";
+import { platformForContest } from "../core2/modules/candidacy";
 import {
   PARTIES_MODULE_ID,
   joinParty,
@@ -323,7 +326,26 @@ export function governmentView(core: CoreState, personId: string) {
     // The player files only for the offices player-offices.json lists (owner, Oct 29); the rest run in the world.
     contests: playerContests(api).map((contest) => ({
       contest,
-      filingOffice: filingOfficeFor(api, contest.id),
+      // The office as people say it, one name for the counter and Travel.
+      filingOffice: {
+        ...filingOfficeFor(api, contest.id),
+        said:
+          saidOffice(filingOfficeFor(api, contest.id).filedWith, [
+            {
+              title: contest.title,
+              seat: {
+                bodyName:
+                  (
+                    api
+                      .moduleState(OFFICES_MODULE_ID)
+                      .table("offices")
+                      .get(contest.officeId) as unknown as
+                      { bodyName?: string } | undefined
+                  )?.bodyName ?? null,
+              },
+            },
+          ]) ?? spokenOffice(filingOfficeFor(api, contest.id).filedWith),
+      },
       checks: core.people.has(personId)
         ? checkEligibility(api, personId, contest.id)
         : [],
@@ -412,14 +434,22 @@ export function localRaces(core: CoreState) {
   // The viewer's room, for the candidates' headshots (the same faces the
   // People map draws).
   const place = facePlace(core, core.playerId ?? undefined);
+  // A body's at-large seats up together are one race (the voting engine
+  // counts them together and seats the top finishers, `atLargeGroup`): the
+  // screen shows it once, as its first contest, the one the player files for,
+  // with everyone filed for any of its seats.
   const races = contests
     .filter((contest) => contest.electionDate === date)
-    .map((contest) => {
-      const filers = (
-        elections
-          .table("filings")
-          .query("byContest", [contest.id]) as unknown as FilingRow[]
-      )
+    .map((contest) => ({ contest, group: atLargeGroup(api, contest) }))
+    .filter(({ contest, group }) => group[0]!.id === contest.id)
+    .map(({ contest, group }) => {
+      const filers = group
+        .flatMap(
+          (seat) =>
+            elections
+              .table("filings")
+              .query("byContest", [seat.id]) as unknown as FilingRow[],
+        )
         .filter(standing)
         .map((row) => {
           const who = candidateIdentity(api, row.personId);
@@ -450,6 +480,9 @@ export function localRaces(core: CoreState) {
       return {
         contestId: contest.id,
         title: raceTitle(contest.title, contest.district),
+        // How many seats the race fills, and every contest it counts.
+        seats: group.length,
+        contestIds: group.map((seat) => seat.id),
         electionDate: contest.electionDate,
         filingDeadline: contest.filingDeadline,
         // The day filing opens, from the contest's record: null where the
@@ -472,19 +505,6 @@ export function localRaces(core: CoreState) {
         lastTime: lastTimeOf(api, contest.id),
         filers,
       };
-    })
-    // Two seats of one office on the ballot (two council seats) read the same;
-    // each is told apart by whoever holds it now, from its term record.
-    .map((race, _at, all) => {
-      if (all.filter((other) => other.title === race.title).length < 2)
-        return race;
-      const holder = incumbentOf(api, race.contestId);
-      return holder
-        ? {
-            ...race,
-            title: `${race.title} (${holder.identity.givenName} ${holder.identity.familyName})`,
-          }
-        : race;
     })
     .sort(
       (a, b) =>
@@ -612,10 +632,23 @@ export function fileForOffice(
     throw new Error(
       "The player files only for the place's own council or its equivalent, its mayor or its equivalent, the state legislature, governor, Congress and president.",
     );
-  return fileCandidacy(coreAPI(core), {
+  const api = coreAPI(core);
+  // Nothing handed in: the filing carries the filer's own stands, read from
+  // their views on the questions this seat takes up (the same read a
+  // simulated candidate's filing makes), and none for a question they have no
+  // view on.
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow | undefined;
+  return fileCandidacy(api, {
     personId,
     contestId,
-    platform: choices.platform ?? [],
+    platform:
+      choices.platform ??
+      (contest
+        ? platformForContest(api, personId, choices.party ?? null, contest)
+        : []),
     party: choices.party ?? null,
   });
 }

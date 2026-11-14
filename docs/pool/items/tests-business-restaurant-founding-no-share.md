@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/business.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=sweep-restaurant-1 (the item names no seed): 14 of 14 passed. Fresh draw GOLDEN_PATH_SEED=sweep-fresh-<random> (number not kept): 14 of 14 passed. Green on both. Proposed for the CTO: drop as fixed on main.
 
 Cause finder (Nov 11, 2026, for Fable B): one more run on main 4d33029c, seed b0baff9250453770: 14 of 14 passed. With the two Nov 10 runs it does not reproduce. Proposed: close.
+
+Dropped Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: `npx vitest run src/core2/business.test.ts` passes on the train (3 files, 18 tests with press-staff-cash and consumer-credit; the restaurant case builds its own small world and draws no place). No longer reproduces; the Oct 28 cause was not traced.

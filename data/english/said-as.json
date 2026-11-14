@@ -1,0 +1,172 @@
+{
+  "about": "The words the one said-as reader (src/english/said-as.ts) says a person, an office and a job with, and the telling's clock and budgets (src/english/telling.ts). Words composer, part 1 and 2 (docs/design/words-composer.md, Nov 12). A person is said by role and name the first time a text says them, then by the role, a pronoun or their first name; an office's words come from its record's office kind; a job held outside the town is said the way people say it, never as a title.",
+  "clock": {
+    "afternoonFromMinute": {
+      "value": 720,
+      "tag": "TUNABLE",
+      "spread": [720, 720],
+      "checkedAgainst": "Noon, as src/director/data/scene-talk-rules.json timeOfDay.afternoonFromMinute."
+    },
+    "eveningFromMinute": {
+      "value": 1020,
+      "tag": "TUNABLE",
+      "spread": [1020, 1080],
+      "checkedAgainst": "5:00 PM, as src/director/data/scene-talk-rules.json timeOfDay.eveningFromMinute: from then a line looking ahead says tomorrow, never tonight."
+    }
+  },
+  "budgets": {
+    "fullName": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": [1, 1],
+      "checkedAgainst": "Owner, Nov 12: no full name twice on one screen (\"saying the full name every time\")."
+    },
+    "subject": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "spread": [2, 3],
+      "checkedAgainst": "Words skill, Nov 11: a subject's word at most three times in one speech or scene."
+    }
+  },
+  "offices": {
+    "president": {
+      "before": "President",
+      "again": "the President"
+    },
+    "vice-president": {
+      "before": "Vice President",
+      "again": "the Vice President"
+    },
+    "governor": {
+      "before": "Governor",
+      "again": "the governor"
+    },
+    "lieutenant-governor": {
+      "before": "Lieutenant Governor",
+      "again": "the lieutenant governor"
+    },
+    "us-senate": {
+      "before": "Senator",
+      "again": "the senator"
+    },
+    "us-house": {
+      "before": "Representative",
+      "again": "the congressman"
+    },
+    "us-house-delegate": {
+      "before": "Delegate",
+      "again": "the delegate"
+    },
+    "legislature-lower": {
+      "before": "Representative",
+      "again": "the representative"
+    },
+    "legislature-upper": {
+      "before": "Senator",
+      "again": "the senator"
+    },
+    "legislature-unicameral": {
+      "before": "Senator",
+      "again": "the senator"
+    },
+    "council": {
+      "before": "Council member",
+      "again": "the council member"
+    },
+    "mayor": {
+      "before": "Mayor",
+      "again": "the mayor"
+    },
+    "us-house:presiding": {
+      "before": "Speaker",
+      "again": "the Speaker"
+    },
+    "legislature-lower:presiding": {
+      "before": "Speaker",
+      "again": "the Speaker"
+    },
+    "council:presiding": {
+      "before": "Council President",
+      "again": "the council president"
+    },
+    "county-executive": {
+      "before": "County Executive",
+      "again": "the county executive"
+    },
+    "county-board": { "before": "Commissioner", "again": "the commissioner" },
+    "township-board": { "before": "Trustee", "again": "the trustee" },
+    "county-board:presiding": { "before": "Chair", "again": "the chair" },
+    "township-board:presiding": { "before": "Chair", "again": "the chair" }
+  },
+  "they": {
+    "about": "Someone with no he or she on record is said again as they (src/english/said-as.ts wordPersonSlots), never by their role twice in one line (owner, Nov 12: \"There needs to be pronouns and titles\"). A line's verbs are written for one person, so the word after they (\"knows\" to \"know\") and a question's verb before it (\"does\" to \"do\") take the plural.",
+    "lower": "they",
+    "object": "them",
+    "possessive": "their",
+    "after": {
+      "'s": "'re",
+      "is": "are",
+      "isn't": "aren't",
+      "was": "were",
+      "wasn't": "weren't",
+      "has": "have",
+      "hasn't": "haven't",
+      "does": "do",
+      "doesn't": "don't",
+      "says": "say",
+      "wants": "want",
+      "knows": "know",
+      "thinks": "think",
+      "means": "mean",
+      "needs": "need",
+      "gets": "get",
+      "goes": "go",
+      "tries": "try",
+      "likes": "like",
+      "talks": "talk"
+    },
+    "before": {
+      "does": "do",
+      "doesn't": "don't",
+      "is": "are",
+      "was": "were",
+      "has": "have"
+    }
+  },
+  "relation": {
+    "yours": "your {relation} {given}",
+    "mine": "my {relation} {given}",
+    "possessive": "{name}'s"
+  },
+  "outsideJob": {
+    "about": "A job the residents engine fills in for a commuter, held with the outside market that stands in for work out of town: its title (\"Works outside the town\") is a placeholder, never said as a job.",
+    "title": "Works outside the town",
+    "does": "works outside the town",
+    "job": "a job out of town"
+  },
+  "federal": {
+    "about": "How talk says the federal government (src/director/conversation.ts pointSubject): by its capital, or plainly in a state that goes by the capital's name (composed-checks.json placeSaidOnlyAs), so \"whatever Washington says\" never means the state (owner, Nov 12: \"Which Washington?\").",
+    "name": "Washington",
+    "plain": "the federal government"
+  },
+  "deciders": {
+    "about": "Who decides a question, by its level, said in talk where a line names who should act (never 'somebody'; lead, Nov 12).",
+    "federal": "Congress",
+    "state": "the legislature",
+    "local": "the council",
+    "county": "the county board",
+    "town": "the council",
+    "city": "the council"
+  },
+  "ownPlace": {
+    "about": "Owner via the coordinator, Nov 12: a district's or employer's name is never spoken as the place someone goes. A student says their own school as 'school'; a worker names the employer once in a talk and then says 'work'. By the tie between the person and the organization.",
+    "student": "school",
+    "worker": "work"
+  },
+  "questionAgain": {
+    "about": "Lead, Nov 12 (\"say no to raising the debt limit only with spending cuts to match\" right after the opener named it in full): once a line has named a question, its act is said again in a short form, by the slot it fills. Lead, Nov 13: while it is the only question on the table, a later mention of its name in the talk is `it`. Words only; the composer reads them.",
+    "against": "say no to it",
+    "to": "pass it",
+    "it": "it"
+  }
+}

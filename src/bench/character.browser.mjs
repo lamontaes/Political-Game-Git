@@ -1,7 +1,8 @@
-/* global console, document, process, URL */
+/* global console, document, process */
 // Run against the bench; a fresh bench draws a new world, otherwise uses its current life.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { startLife } from "./start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER || undefined,
 });
@@ -10,28 +11,10 @@ page.setDefaultTimeout(30000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
-  const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto(process.env.BENCH_URL ?? "http://localhost:3000/play");
-  await ready;
-  if (await page.locator("#front-continue").isEnabled()) {
-    await page.locator("#front-continue").click();
-  } else {
-    const response = page.waitForResponse(
-      (r) => new URL(r.url()).pathname === "/api/newlife",
-      { timeout: 300000 },
-    );
-    await page.locator("#new-life").click();
-    await page.locator("#new-advanced").click();
-    await page.locator("#new-world").click();
-    const r = await response;
-    assert.equal(r.status(), 200);
-    console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-  }
-  await page.waitForFunction(
-    () =>
-      document.getElementById("card-name").textContent.trim() &&
-      document.getElementById("card-clock").textContent.trim(),
-  );
+  // The one start: a new life (or the saved one) with its opening played through.
+  await startLife(page, {
+    url: process.env.BENCH_URL ?? "http://localhost:3000/play",
+  });
   const name = await page.locator("#card-name").innerText();
   const clock = await page.locator("#card-clock").textContent();
   console.log(

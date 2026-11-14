@@ -10,12 +10,13 @@
  * never play.
  */
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { jobTitleByKind } from "../core2/person-work";
 import { FAMILY_MARRIED } from "../core2/modules/partnerships";
 import type { CoreState, PersonId } from "../core2/types";
 import { withArticle } from "../english/journal-words";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { newsSince, seekerWithoutJob, type NewsFact } from "./life-news";
-import { properName } from "./words";
+import { organizationName } from "./words";
 
 /** The situation type that reads these facts. */
 export const CELEBRATION_TYPE = "celebration";
@@ -76,10 +77,10 @@ export function celebrationFacts(
   if (job && org) {
     const cited = [job.id, org.id];
     facts["new-job"] = { text: "yes", sourceRecordIds: cited };
-    facts.employer = { text: properName(org.name), sourceRecordIds: cited };
+    facts.employer = { text: organizationName(org), sourceRecordIds: cited };
     if (job.title)
       facts.position = {
-        text: withArticle(job.title),
+        text: withArticle(jobTitleByKind(job.title, org.name)),
         sourceRecordIds: [job.id],
       };
   }

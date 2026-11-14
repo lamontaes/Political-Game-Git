@@ -78,6 +78,8 @@ export const STORY_KINDS = {
     only: /\{\{subject\}\} (?:is opening|opened|is hiring|plans|is expanding)/,
     headline: ["organization.opened"],
     lede: ["organization.opened"],
+    // Who started it, what it is and where, and how many it took on.
+    context: ["opening-owner", "opening-what", "opening-staff"],
     brief: true,
   },
   "jobs-report": {
@@ -270,11 +272,12 @@ export const STORY_KINDS = {
   },
   ad: { headline: ["ad"], lede: ["ad"] },
   // A group or a person backing a candidate in a race, from the campaign's
-  // endorsement record: a headline and one line.
+  // endorsement record: a headline and a line, then what a group works for
+  // from its own record (a person has none, so the story stays one line).
   endorsement: {
     headline: ["endorsement"],
     lede: ["endorsement"],
-    brief: true,
+    context: ["endorsement-work"],
   },
   "campaign-gift": {
     headline: ["campaign-gift"],
@@ -300,6 +303,13 @@ export const STORY_KINDS = {
   retirement: {
     headline: ["retirement"],
     lede: ["retirement"],
+    // The years of work, then where they live.
+    context: [
+      "retirement-service",
+      "retirement-years",
+      "retirement-service-gov",
+      "retirement-place",
+    ],
     brief: true,
   },
   // A reader's letter to the editor, from the press's weekly letters step.
@@ -369,7 +379,20 @@ export const STORY_KINDS = {
   // The month's police log: the crimes residents reported, as a count.
   "police-log": { headline: ["police-log"], lede: ["police-log"], brief: true },
   // A school honor: a spelling bee won, seniors signing to play Division I.
-  honor: { headline: ["honor"], lede: ["honor"], brief: true },
+  honor: {
+    headline: ["honor"],
+    lede: ["honor"],
+    context: [
+      "honor-school-grade",
+      "honor-school",
+      "honor-school-unnamed",
+      "honor-grade",
+      "honor-family",
+      "honor-next",
+      "honor-next-soon",
+    ],
+    brief: true,
+  },
   graduation: { headline: ["graduation"], lede: ["graduation"], brief: true },
   "school-tests": {
     headline: ["school-tests"],
@@ -485,8 +508,29 @@ export interface NewsStory {
 export function composeNewsStory(
   packet: GroundedEnglishPacket,
   kind: StoryKind,
+  turn?: number,
 ): NewsStory {
   const roles = STORY_KINDS[kind];
+  // Several outlets printing one record each take their own wordings, by
+  // their order among those that printed it (Words lead, Nov 13, rule 37):
+  // of the sentences a role can say with the story's facts, in key order,
+  // the outlet's turn picks the one it says. The lede turns first; the
+  // body's other sentences turn once more for every round of ledes, so no
+  // two outlets print the same body while there are ledes and sentences
+  // enough.
+  const sayable = (parts: MinedVariant[]) =>
+    parts
+      .filter((part) =>
+        (part.requiresFacts ?? []).every((key) => packet.facts[key]),
+      )
+      .sort((a, b) => a.key.localeCompare(b.key));
+  let ledes = 1;
+  const turned = (parts: MinedVariant[], step = 0): MinedVariant[] => {
+    if (turn === undefined) return parts;
+    const can = sayable(parts);
+    if (!can.length) return parts;
+    return [can[(turn + step) % can.length]!];
+  };
   const ids = new Set<string>();
   const keep = (
     composed: { text: string; sourceRecordIds: string[] } | null,
@@ -501,25 +545,23 @@ export function composeNewsStory(
       `${kind}/headline`,
       "news",
       "tell",
-      variants(
-        HEADLINES_BANK,
-        (use) => (roles.headline as readonly string[]).includes(use.role),
-        packet.facts,
+      turned(
+        variants(
+          HEADLINES_BANK,
+          (use) => (roles.headline as readonly string[]).includes(use.role),
+          packet.facts,
+        ),
       ),
     ),
   );
+  const ledeParts = variants(
+    NEWS_BANK,
+    (use) => (roles.lede as readonly string[]).includes(use.role),
+    packet.facts,
+  );
+  ledes = Math.max(1, sayable(ledeParts).length);
   const lede = keep(
-    line(
-      packet,
-      `${kind}/lede`,
-      "news",
-      "tell",
-      variants(
-        NEWS_BANK,
-        (use) => (roles.lede as readonly string[]).includes(use.role),
-        packet.facts,
-      ),
-    ),
+    line(packet, `${kind}/lede`, "news", "tell", turned(ledeParts)),
   );
   // A kind with context says one sentence per context role whose facts the
   // record carries, in order, after the lede. A brief says only its line.
@@ -527,16 +569,39 @@ export function composeNewsStory(
   const context: string[] = [];
   // Every story may end on what its subject told a reporter about it, or
   // that they declined (press.ts keepComment).
-  const contextRoles = !brief
-    ? [...("context" in roles ? roles.context : []), "comment"]
-    : [];
+  // A brief with context roles (a school honor) opens: it says its context
+  // sentences too, but never the comment a subject gives a reporter.
+  const contextRoles =
+    !brief || "context" in roles
+      ? [
+          ...("context" in roles ? roles.context : []),
+          ...(brief ? [] : ["comment"]),
+        ]
+      : [];
+  const winner = packet.facts.name?.text;
   for (const name of contextRoles) {
+    // No two sentences in a row open with the same person's name (Words
+    // lead, Nov 14): after one that does, a sentence that would open with
+    // the name again gives way to another wording of its role.
+    const previous = context.at(-1) ?? lede ?? "";
+    const wordings = variants(
+      NEWS_BANK,
+      (use) => use.role === name,
+      packet.facts,
+    );
+    const spread =
+      winner && previous.startsWith(winner)
+        ? wordings.filter((part) => !part.text.startsWith("{{name}}"))
+        : wordings;
     const composed = line(
       packet,
       `${kind}/${name}`,
       "news",
       "tell",
-      variants(NEWS_BANK, (use) => use.role === name, packet.facts),
+      turned(
+        spread.length ? spread : wordings,
+        Math.floor((turn ?? 0) / ledes),
+      ),
     );
     if (!composed) continue;
     // A sentence that only repeats what the lede or an earlier sentence said
@@ -655,7 +720,9 @@ export function composeNewsStory(
     ...(headline ? { headline } : {}),
     ...(lede ? { lede } : {}),
     ...(brief ? { brief: true as const } : {}),
-    ...(!brief && ("context" in roles || context.length) && lede
+    ...((!brief || context.length) &&
+    ("context" in roles || context.length) &&
+    lede
       ? { paragraphs: [lede, ...context] }
       : {}),
     broadcast,

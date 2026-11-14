@@ -7,9 +7,15 @@
 // The town is drawn from all 56 places with the repo's drawPlace helper; the
 // run seed is logged, so BENCH_SEED reproduces the same draws.
 import assert from "node:assert/strict";
-import { randomUUID } from "node:crypto";
 import { chromium } from "playwright";
 import { drawPlace } from "../../scripts/core2-year/place.ts";
+import { finishTalk } from "./start-life.mjs";
+import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
+// The run is pinned: BENCH_SEED names the seed the places are drawn from, and
+// without it the check runs the seed below, which draws Hampstead, Maryland
+// and a race that files straight onto the ballot (a petition race reaches it
+// only with signatures this check does not gather). It never goes red by draw.
+const PINNED_SEED = "39ec0fdc-2c02-4e33-a7b7-e193551af953";
 const PORT = process.env.BENCH_PORT ?? "3000";
 const BASE = `http://localhost:${PORT}`;
 const browser = await chromium.launch({
@@ -28,11 +34,63 @@ const toBallot = async () => {
   await page.getByRole("button", { name: "Go vote", exact: true }).click();
   await page.locator("#ballot:not([hidden])").waitFor();
 };
+// Joining a party is on the Parties tab of Politics, one party's page at a
+// time (the Politics ring opens Government): each page with a Join button,
+// by the party's roster key and the button's words.
+const partiesTab = async () => {
+  // A talk under an open sheet is played once the sheet is closed.
+  if (await page.locator("#sheet:not([hidden])").count())
+    await page.locator("#sheet-close").click();
+  await finishTalk(page);
+  await page
+    .locator('[data-tab="politics"]')
+    .first()
+    .evaluate((e) => e.click());
+  await page.locator("#sheet-tabs").waitFor({ timeout: 20000 });
+  await page
+    .locator("#sheet-tabs")
+    .getByRole("button", { name: "Parties", exact: true })
+    .click();
+  await page
+    .locator("#sheet-body .parties-screen, #sheet-body .record-empty")
+    .first()
+    .waitFor({ timeout: 20000 })
+    .catch(() => {});
+};
+const joinable = async () => {
+  await partiesTab();
+  const keys = await page
+    .locator("#sheet-body .parties-screen .roster-row")
+    .evaluateAll((rows) => rows.map((row) => row.dataset.key));
+  const found = [];
+  for (const key of keys) {
+    await page
+      .locator(`#sheet-body .parties-screen .roster-row[data-key="${key}"]`)
+      .click();
+    await page
+      .locator(`#sheet-body .roster-page[data-key="${key}"]`)
+      .waitFor({ timeout: 10000 })
+      .catch(() => {});
+    const join = page.locator("#sheet-body .roster-page button", {
+      hasText: /^Join /,
+    });
+    if (await join.count())
+      found.push({ key, label: (await join.first().innerText()).trim() });
+  }
+  return found;
+};
 page.setDefaultTimeout(60000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 let filedContest = "";
+let filedStatus = "";
+// The counter's latest visit, as the filing routes answer it.
+let lastVisit = null;
 page.on("response", async (r) => {
+  if (new URL(r.url()).pathname.startsWith("/api/filing/")) {
+    const body = await r.json().catch(() => null);
+    if (body?.visit) lastVisit = body.visit;
+  }
   if (new URL(r.url()).pathname === "/api/filing/choose") {
     try {
       const j = await r.json();
@@ -40,15 +98,17 @@ page.on("response", async (r) => {
         "CHOOSE RESULT:",
         JSON.stringify(j.result ?? null).slice(0, 300),
       );
-      if (["petitioning", "on-ballot"].includes(j.result?.status ?? ""))
+      if (["petitioning", "on-ballot"].includes(j.result?.status ?? "")) {
         filedContest = j.result.filing.contestId;
+        filedStatus = j.result.status;
+      }
     } catch {
       // Non-JSON filing response; the UI state below is the evidence.
     }
   }
 });
 const draws = [];
-const runSeed = process.env.BENCH_SEED ?? randomUUID();
+const runSeed = process.env.BENCH_SEED ?? PINNED_SEED;
 console.log("Run seed:", runSeed);
 // The creator draws its world seed from /api/seed; derive it from the run
 // seed and the draw number so BENCH_SEED alone replays the same worlds.
@@ -63,6 +123,7 @@ try {
   // A life with a parties module (tiny towns have none): redraw, all draws logged.
   let seed = "";
   let place = "";
+  let parties = [];
   for (let attempt = 0; attempt < 6; attempt += 1) {
     drawNumber = attempt;
     const titled = page.waitForResponse((r) => r.url().endsWith("/api/title"));
@@ -114,167 +175,97 @@ try {
     place = await page.locator("#card-place").innerText();
     draws.push(`${place} (seed ${seed})`);
     console.log("Draw", attempt + 1, ":", place, seed);
-    await page
-      .locator('[data-tab="politics"]')
-      .first()
-      .evaluate((e) => e.click());
-    await page
-      .locator("#sheet-body")
-      .waitFor({ timeout: 20000 })
-      .catch(() => {});
-    for (let w = 0; w < 10; w += 1) {
-      await page.evaluate(() => {
-        document.getElementById("sheet-body")?.scrollTo(0, 999999);
-      });
-      await page.waitForTimeout(1500);
-      if (
-        await page.locator("#sheet-body button", { hasText: /join/i }).count()
-      )
-        break;
-    }
-    if (await page.locator("#sheet-body button", { hasText: /join/i }).count())
-      break;
+    parties = await joinable();
+    if (parties.length) break;
     seed = "";
     place = "";
   }
-  assert.ok(place, "no drawn town had a parties module in 6 draws");
+  assert.ok(place, "no drawn town offered a party to join in 6 draws");
   console.log("Draws:", draws.join(" | "));
   // The joinable parties, through the UI.
-  const joinLabels = await page
-    .locator("#sheet-body button", { hasText: /join/i })
-    .evaluateAll((els) => els.map((e) => e.textContent.trim()));
-  console.log("Parties:", joinLabels.join(" | "));
-  assert.ok(joinLabels.length, "no joinable party");
+  console.log("Parties:", parties.map((p) => p.label).join(" | "));
+  assert.ok(parties.length, "no joinable party");
+  // Join the first party on offer, on its own page, as a player does.
+  const party = parties[0];
+  await partiesTab();
+  await page
+    .locator(`#sheet-body .parties-screen .roster-row[data-key="${party.key}"]`)
+    .click();
+  await page
+    .locator("#sheet-body .roster-page button", { hasText: party.label })
+    .first()
+    .click();
+  await page.waitForTimeout(2000);
+  console.log("Joined:", party.label);
+  await page
+    .locator("#sheet-close")
+    .click()
+    .catch(() => {});
+  // A seat the player may file for has its window open: dev mode runs the world until one does.
+  await finishTalk(page);
+  await devModeOn(page);
+  const opened = await devRunUntilMayFile(page);
+  assert.equal(opened.reason, "event", "no seat opened its filing window");
+  console.log(
+    "Filing open:",
+    (await page.locator("#card-clock").innerText()).replace(/\s+/g, " "),
+  );
+  // The town's filing office, from Travel, during its hours.
   let filed = "";
-  for (const joinLabel of joinLabels) {
-    if (filed) break;
-    await page
-      .locator('[data-tab="politics"]')
-      .first()
-      .evaluate((e) => e.click());
-    await page.waitForTimeout(1000);
-    await page.evaluate(() => {
-      document.getElementById("sheet-body")?.scrollTo(0, 999999);
-    });
-    await page.waitForTimeout(500);
-    const jb = page.locator("#sheet-body button", { hasText: joinLabel });
-    if (await jb.count()) {
-      await jb.first().click();
-      await page.waitForTimeout(2000);
-      console.log("Joined:", joinLabel);
-    }
-    // File for a 2026 race first, a council seat if one is open.
+  for (let visit = 0; visit < 3 && !filed; visit += 1) {
+    await finishTalk(page);
     await page
       .locator('[data-tab="travel"]')
       .first()
       .evaluate((e) => e.click());
-    const visited = new Set();
-    for (let round = 0; round < 12 && !filed; round += 1) {
-      await page
-        .locator('[data-tab="travel"]')
-        .first()
-        .evaluate((e) => e.click());
-      await page.waitForTimeout(1000);
-      if (!(await page.locator("#sheet:not([hidden])").count())) continue;
-      const labels = await page
-        .locator("#sheet-body button", { hasText: /Go/ })
-        .evaluateAll((els) => els.map((e) => e.getAttribute("aria-label")))
-        .catch(() => []);
-      console.log("Travel round", round, "destinations:", labels.length);
-      const label = labels.find((l) => !visited.has(l));
-      if (!label) break;
-      visited.add(label);
-      await page
-        .locator(`#sheet-body button[aria-label="${label}"]`)
-        .evaluate((e) => e.click());
-      const talked = await page
-        .locator("#talk:not([hidden])")
-        .waitFor({ timeout: 5000 })
-        .then(() => true)
-        .catch(() => false);
-      if (!talked) continue;
-      await page
-        .locator("#talk-choices button")
-        .first()
-        .waitFor({ timeout: 10000 })
-        .catch(() => {});
-      for (let r = 0; r < 6 && !filed; r += 1) {
-        const choices = page.locator("#talk-choices button");
-        const n = await choices.count();
-        if (!n) {
-          await page.waitForTimeout(1500);
-          continue;
-        }
-        const texts = [];
-        for (let c = 0; c < n; c += 1)
-          texts.push(await choices.nth(c).innerText());
-        if (!texts.some((t) => /20\d\d/i.test(t))) {
-          console.log("No dated race here, moving on");
-          await page
-            .locator("#talk-leave")
-            .click()
-            .catch(() => {});
-          continue;
-        }
-        const order = [...Array(n).keys()].sort((a, b) => {
-          // A 2026 race fills a multi-page general-election ballot, which is
-          // what the pager proof needs; nearer races fit on one page.
-          const rank = (t) =>
-            /council.*2026/i.test(t)
-              ? 0
-              : /2026/i.test(t)
-                ? 1
-                : /council/i.test(t)
-                  ? 2
-                  : /mayor/i.test(t)
-                    ? 3
-                    : /I want to run for/i.test(t)
-                      ? 4
-                      : 5;
-          return rank(texts[a]) - rank(texts[b]);
-        });
-        let acted = false;
-        for (const c of order) {
-          if (!/I want to run for/i.test(texts[c])) continue;
-          console.log("Filing as:", texts[c]);
-          await choices.nth(c).click();
-          await page.waitForTimeout(2000);
-          console.log(
-            "choices:",
-            await page
-              .locator("#talk-choices button")
-              .allInnerTexts()
-              .catch(() => []),
-          );
-          // No form at the counter: the filing carries the party on record.
-          const confirm = page.locator("#talk-choices button", {
-            hasText: /file for this office/i,
-          });
-          if (await confirm.count()) {
-            await confirm.first().click();
-            await page.waitForTimeout(2000);
-          }
-          acted = true;
-          break;
-        }
-        if (acted) break;
-        await choices.first().click();
-        await page.waitForTimeout(1500);
-      }
-      const lines = await page
-        .locator("#talk-lines")
-        .innerText()
-        .catch(() => "");
-      if (/filed|thank you|congratulations|on the ballot/i.test(lines))
-        filed = lines.slice(-120);
-      if (filedContest) filed = `on-ballot ${filedContest}`;
-      await page
-        .locator("#talk-leave")
-        .click()
-        .catch(() => {});
+    const office = page.locator(".travel-tile[data-filing]").first();
+    await office.waitFor();
+    await office.click();
+    await page.locator('[data-testid="place-go"]').click();
+    await page.locator("#talk:not([hidden])").waitFor();
+    // The narrator sets the counter up first; Continue until the races are offered.
+    const races = page.locator("#talk-choices button", {
+      has: page.locator(".reply-facts"),
+    });
+    for (let line = 0; line < 12 && !(await races.count()); line += 1) {
+      const next = page.locator("#talk-next:visible");
+      if (await next.count()) await next.click();
+      else await page.waitForTimeout(500);
     }
+    if (!(await races.count())) continue;
+    const texts = await races.allInnerTexts();
+    // A council seat first, as the pager proof wants a full general-election ballot.
+    const at = Math.max(
+      0,
+      texts.findIndex((t) => /council/i.test(t)),
+    );
+    console.log("Race:", texts[at].replace(/\s+/g, " "));
+    await races.nth(at).click();
+    await page.waitForTimeout(800);
+    // The counter's own file choice, by its key in the visit record.
+    const fileText = lastVisit?.choices?.find((c) => c.key === "file")?.text;
+    const choices = page.locator("#talk-choices button");
+    const labels = await choices.allInnerTexts();
+    const fileAt = fileText
+      ? labels.findIndex((l) => l.trim().startsWith(fileText.trim()))
+      : -1;
+    assert.ok(fileAt >= 0, `no File choice: ${labels.join(" | ")}`);
+    const chosen = page.waitForResponse(
+      (r) => new URL(r.url()).pathname === "/api/filing/choose",
+    );
+    await choices.nth(fileAt).click();
+    await chosen;
+    await page.waitForTimeout(800);
+    if (filedContest) filed = `${filedStatus} ${filedContest}`;
   }
   assert.ok(filed, "could not file for a seat through the UI");
+  // A race filed by petition reaches the ballot only with its signatures, which
+  // this check does not gather: the draw is named and the run stops honestly.
+  assert.equal(
+    filedStatus,
+    "on-ballot",
+    `the open race files by petition (${filedContest}); this check gathers no signatures, so draw again`,
+  );
   console.log("PASS filed:", filed);
   // The target election comes from the filed contest, not a fixed date.
   const targetDate = filedContest.split(":").pop();
@@ -289,6 +280,40 @@ try {
     year: "numeric",
   });
   console.log("Target election:", targetDate, targetMonth, targetClock);
+  // A race months away: dev mode runs the world to the week before it (the
+  // same run that opened the filing), so the calendar's legs walk only the
+  // last week, where every stop on the way still plays.
+  const today = (await (await page.request.get(`${BASE}/api/title`)).json())
+    .life?.date;
+  const daysAway = today
+    ? Math.round((Date.parse(targetDate) - Date.parse(today)) / 86400000)
+    : 0;
+  if (daysAway > 14) {
+    await finishTalk(page);
+    const ran = await page.request.post(`${BASE}/api/dev/run-until`, {
+      data: { days: daysAway - 7 },
+      timeout: 1800000,
+    });
+    assert.equal(ran.status(), 200, await ran.text());
+    await page.reload();
+    await page
+      .locator("#front-continue")
+      .click()
+      .catch(() => {});
+    await page.waitForFunction(() =>
+      document.getElementById("card-name").textContent.trim(),
+    );
+    // Whatever the run left open (a stop, a talk) is played first.
+    await finishTalk(page);
+    if (await page.locator("#continue:not([hidden]):visible").count())
+      await page.locator("#continue").click();
+    console.log(
+      "Dev run:",
+      daysAway - 7,
+      "days to",
+      (await page.locator("#card-clock").innerText()).replace(/\s+/g, " "),
+    );
+  }
   // Run the clock to election day with the calendar's skip-forward.
   await page
     .locator('[data-tab="calendar"]')
@@ -340,7 +365,10 @@ try {
     await skip.first().click();
     await page.waitForTimeout(3000);
   }
-  for (let leg = 0; leg < 48; leg += 1) {
+  // A race a year or more away has a talk every week or two on the way.
+  let stuckLegs = 0;
+  let lastLegClock = "";
+  for (let leg = 0; leg < 100; leg += 1) {
     await toBallot();
     if (await page.locator("#ballot:not([hidden])").count()) {
       const clock = await page
@@ -362,43 +390,24 @@ try {
       ).includes(targetClock)
     )
       break;
-    // Answer whatever stop is open.
-    const talk = page.locator(
-      "#talk:not([hidden]) #talk-choices button:visible",
-    );
-    if (await talk.count()) {
+    // Answer whatever stop is open: a talk is played to its end as a player
+    // would (Continue on each line, the first reply, Leave), a stop's Continue pressed.
+    if (await page.locator("#talk:not([hidden])").count()) {
       console.log(
         "Stop: talk,",
-        (
-          await talk
-            .first()
-            .innerText()
-            .catch(() => "?")
-        ).slice(0, 60),
-      );
-      await talk.first().click();
-      await page.waitForTimeout(2000);
-    } else if (await page.locator("#talk:not([hidden])").count()) {
-      console.log(
-        "Stop: choiceless talk:",
         (
           (await page
             .locator("#talk-lines")
             .innerText()
             .catch(() => "?")) ?? ""
-        ).slice(-160),
+        )
+          .replace(/\s+/g, " ")
+          .slice(0, 100),
       );
-      await page.screenshot({
-        path: "docs/reports/ballot-pages-2026-10-24/stop.png",
-      });
-      const left = page.locator("#talk-leave:visible");
-      if (await left.count()) await left.click().catch(() => {});
-      else
-        await page
-          .locator("#talk-silent:visible")
-          .click()
-          .catch(() => {});
-      await page.waitForTimeout(2000);
+      // A talk under the calendar is played once the sheet is closed.
+      if (await page.locator("#sheet:not([hidden])").count())
+        await page.locator("#sheet-close").click();
+      await finishTalk(page);
     } else if (await page.locator("#continue:not([hidden]):visible").count()) {
       console.log("Stop: player Continue");
       await page
@@ -416,24 +425,30 @@ try {
         .catch(() => {});
       await page.waitForTimeout(1000);
     }
-    // Run the clock again from the calendar.
+    // Run the clock again from the calendar. A talk that opened meanwhile
+    // keeps the calendar shut: the loop looks again and plays it first.
     await page
       .locator('[data-tab="calendar"]')
       .first()
       .evaluate((e) => e.click());
-    await page
+    const calendarUp = await page
       .locator(".calendar-heading h3")
       .waitFor({ timeout: 15000 })
-      .catch(() => {});
+      .then(() => true)
+      .catch(() => false);
+    if (!calendarUp) continue;
     for (let m = 0; m < 30; m += 1) {
       const heading = await page
         .locator(".calendar-heading h3")
         .innerText()
         .catch(() => "?");
       if (heading.includes(targetMonth)) break;
-      await page
+      const moved = await page
         .getByRole("button", { name: "Next month", exact: true })
-        .click();
+        .click({ timeout: 5000 })
+        .then(() => true)
+        .catch(() => false);
+      if (!moved) break;
       await page.waitForTimeout(500);
     }
     await page
@@ -483,12 +498,20 @@ try {
       await skip2.first().click();
       await page.waitForTimeout(4000);
     }
-    console.log(
-      "Leg clock:",
-      await page
-        .locator("#card-clock")
-        .innerText()
-        .catch(() => "?"),
+    const legClock = await page
+      .locator("#card-clock")
+      .innerText()
+      .catch(() => "?");
+    console.log("Leg clock:", legClock);
+    // A clock that does not move over three legs is named, not walked 100 times:
+    // at Hampstead, Maryland (seed above) Hour, Day and Week all answer 400
+    // "Player stop clock cannot cross an unresolved stop." with nothing on
+    // screen to resolve (pool: play-clock-refuses-to-cross-a-stop-nothing-shows).
+    stuckLegs = legClock === lastLegClock ? stuckLegs + 1 : 0;
+    lastLegClock = legClock;
+    assert.ok(
+      stuckLegs < 3,
+      `the clock did not move over three legs (${legClock}); a stop the screen does not show holds it`,
     );
   }
   console.log(
@@ -524,24 +547,9 @@ try {
         .innerText()
         .catch(() => "?"),
     );
-    const talk = page.locator(
-      "#talk:not([hidden]) #talk-choices button:visible",
-    );
-    if (await talk.count()) {
-      console.log("Election day stop: talk");
-      await talk.first().click();
-      await page.waitForTimeout(2000);
-      continue;
-    }
     if (await page.locator("#talk:not([hidden])").count()) {
-      const left = page.locator("#talk-leave:visible");
-      if (await left.count()) await left.click().catch(() => {});
-      else
-        await page
-          .locator("#talk-silent:visible")
-          .click()
-          .catch(() => {});
-      await page.waitForTimeout(2000);
+      console.log("Election day stop: talk");
+      await finishTalk(page);
       continue;
     }
     if (await page.locator("#continue:not([hidden]):visible").count()) {
@@ -615,18 +623,16 @@ try {
     path: "docs/reports/ballot-pages-2026-10-24/own-race.png",
   });
   // Mark the own race; the mark response carries the ballot (visit) id.
-  const sceneBefore = await (
-    await page.request.get(`${BASE}/api/polling-place`)
-  ).json();
-  const ownPersonId = sceneBefore?.people?.find(
-    (x) => x.reason === "you",
-  )?.personId;
+  // The player, by the life's own record.
+  const ownPersonId = (
+    await (await page.request.get(`${BASE}/api/title`)).json()
+  ).life?.personId;
   const marked = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/polling-place/mark",
     { timeout: 30000 },
   );
   await page
-    .locator("#ballot-races .race button", {
+    .locator("#ballot .ballot-choice", {
       hasText: "Test Voter",
     })
     .first()
@@ -638,7 +644,7 @@ try {
   // The visit id exists before any vote (marked: {}), so assert the mark
   // itself: the player's candidateId under the filed contest's id.
   const playerId = ownPersonId;
-  assert.ok(playerId, "scene named no 'you' person before marking");
+  assert.ok(playerId, "the title names no player");
   assert.ok(filedContest, "no accepted filing contest id captured");
   assert.equal(
     record.marked?.[filedContest],
@@ -666,6 +672,30 @@ try {
   await page.screenshot({
     path: "docs/reports/ballot-pages-2026-10-24/after-mark.png",
   });
+  // Leaving the polls takes the ballot with it: no race button stays in the page to post a mark
+  // to polls that are closed ("The polls aren't open for this character." once per later press).
+  await page.locator("#ballot-leave").click();
+  await page.waitForTimeout(800);
+  assert.equal(
+    await page.locator("#ballot .ballot-choice").count(),
+    0,
+    "a ballot's race buttons stay in the page after the visit ends",
+  );
+  assert.deepEqual(
+    errors.filter((message) => /polls aren't open/.test(message)),
+    [],
+    "the page raised the closed-polls error",
+  );
+  console.log(
+    "PASS after the visit: no ballot buttons left, no closed-polls error",
+  );
+} catch (error) {
+  // Where it stopped, for whoever reads the failure (POLL_SHOTS: a folder).
+  if (process.env.POLL_SHOTS)
+    await page
+      .screenshot({ path: `${process.env.POLL_SHOTS}/polling-stopped.png` })
+      .catch(() => {});
+  throw error;
 } finally {
   await browser.close();
 }

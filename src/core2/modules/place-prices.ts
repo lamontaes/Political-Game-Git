@@ -35,6 +35,7 @@ import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { onStoryHeard } from "./news-listeners";
+import { onTaxWithheld, TAX_LAW_SERIES } from "../tax-listeners";
 import { lawApplied, type AppliedTarget } from "../law-reach/applied";
 import type {
   CoreAPI,
@@ -597,6 +598,34 @@ function learnFromStory(
   const law = lawOf(rule);
   const moved = Math.round(change.refundMinor) - Math.round(change.payMinor);
   if (!law || !moved) return;
+  learnFromLaw(
+    api,
+    { ...law, ruleId: rule.id },
+    personId,
+    householdId,
+    moved,
+    monthlyEarningsMinor,
+  );
+}
+
+/**
+ * The one reader of what a person paid under a law (a price rule's charge or
+ * a naturally voted tax's withholding): the same felt row, the same heard
+ * story, the same learned event.
+ */
+function learnFromLaw(
+  api: CoreAPI,
+  rule: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly ruleId: string;
+  },
+  personId: string,
+  householdId: string,
+  moved: number,
+  monthlyEarningsMinor: number,
+): void {
+  const law = rule;
   if (store(api).table("learned").get(`${personId}|${law.lawId}`)) return;
   // What the household paid under the law, for a story heard later.
   store(api)
@@ -605,7 +634,7 @@ function learnFromStory(
       id: `${householdId}|${law.lawId}`,
       householdId,
       payerId: personId,
-      ruleId: rule.id,
+      ruleId: rule.ruleId,
       key: law.key,
       lawId: law.lawId,
       movedMinor: moved,
@@ -636,12 +665,32 @@ function learnFromStory(
       personId,
       lawId: law.lawId,
       key: law.key,
-      ruleId: rule.id,
+      ruleId: rule.ruleId,
       moved,
       monthlyEarningsMinor,
       storyId,
     });
 }
+
+/**
+ * A naturally voted income tax a payday took from a person: the price
+ * engine's reader ties it to its law once they have heard a story about it
+ * (`learnFromLaw`). Registered with the withholding's listener list, which
+ * sits in its own file so budgets and prices do not import each other.
+ */
+onTaxWithheld((api, paid) => {
+  const person = api.state.people.get(paid.personId);
+  if (!person?.householdId || !api.state.modules.has(PLACE_PRICES_MODULE_ID))
+    return;
+  learnFromLaw(
+    api,
+    { key: paid.key, lawId: paid.lawId, ruleId: `withholding:${paid.id}` },
+    paid.personId,
+    person.householdId,
+    -paid.taxMinor,
+    paid.monthlyEarningsMinor,
+  );
+});
 
 /**
  * A story about a law reaches a person. If their household already paid
@@ -687,7 +736,11 @@ function learnOnHearing(api: CoreAPI, personId: string, story: Story): void {
     api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
       { series?: string } | undefined
   )?.series;
-  if (!series || !PRICE_LAW_QUESTIONS.has(series)) return;
+  if (
+    !series ||
+    !(PRICE_LAW_QUESTIONS.has(series) || TAX_LAW_SERIES.has(series))
+  )
+    return;
   // What they now know of the story, kept with the memory: the news forgets
   // a story's key after its days, and the views engine reads it.
   const known = api.knows(personId, newsKey(story.id));

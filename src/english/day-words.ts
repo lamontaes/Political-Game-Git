@@ -36,12 +36,6 @@ export function dayOpening(iso: string, minuteOfDay: number): string {
   return part.said.replace("{date}", dateSaid(iso));
 }
 
-/** The part of the day as said in passing ("this morning", "tonight"), by the mark a scene's hour gives; undefined for a mark with no words. */
-export function dayPartSaid(mark: string): string | undefined {
-  const said = (data.spokenParts as Readonly<Record<string, string>>)[mark];
-  return mark === "about" ? undefined : said;
-}
-
 /**
  * A record's own day told as past from the day a scene plays: "yesterday",
  * "the other day", "on January 3rd", and for a day in another year "last
@@ -76,4 +70,34 @@ export function daySince(recordIso: string, playIso: string): string | null {
   return row.said
     .replace("{weekday}", weekday)
     .replace("{date}", dateSaid(recordIso));
+}
+
+/**
+ * A later day said from the day a scene plays: its weekday within the next
+ * six days ("Friday"), else its date ("June 7th"). Null on the same day or
+ * an earlier one, so a promise never names a day already here (Fable A, Nov
+ * 13, rule 22).
+ */
+export function dayAhead(targetIso: string, playIso: string): string | null {
+  const day = 24 * 60 * 60 * 1000;
+  const days = Math.round(
+    (Date.parse(`${targetIso.slice(0, 10)}T00:00:00Z`) -
+      Date.parse(`${playIso.slice(0, 10)}T00:00:00Z`)) /
+      day,
+  );
+  if (!(days > 0)) return null;
+  return days < data.weekdays.length
+    ? data.weekdays[
+        new Date(`${targetIso.slice(0, 10)}T00:00:00Z`).getUTCDay()
+      ]!
+    : dateSaid(targetIso);
+}
+
+/** Whether a later day falls in the calendar month after the day a scene plays. */
+export function inNextMonth(targetIso: string, playIso: string): boolean {
+  const months =
+    (Number(targetIso.slice(0, 4)) - Number(playIso.slice(0, 4))) * 12 +
+    Number(targetIso.slice(5, 7)) -
+    Number(playIso.slice(5, 7));
+  return months === 1;
 }

@@ -16,6 +16,7 @@
 /src/core2/stopgaps.ts @lamontaes
 /src/core2/seeded.ts @lamontaes
 /src/core2/world-base-rates.ts @lamontaes
+/src/core2/shares.ts @lamontaes
 /src/core2/world-draw.ts @lamontaes
 /src/core2/union-rate.ts @lamontaes
 /src/core2/module-*.ts @lamontaes
@@ -49,6 +50,7 @@
 /src/core2/modules/campaigns.ts @lamontaes
 /src/core2/modules/candidacy.ts @lamontaes
 /src/core2/modules/filing-clerk.ts @lamontaes
+/src/core2/modules/serve-asks.ts @lamontaes
 /src/core2/recount-rules.ts @lamontaes
 /src/core2/modules/ballot-measures.ts @lamontaes
 /src/core2/modules/recalls.ts @lamontaes
@@ -280,6 +282,7 @@
 /src/core2/home-distance.ts @lamontaes
 /src/core2/sibling-names.ts @lamontaes
 /src/core2/modules/partnerships.ts @lamontaes
+/src/core2/modules/owed-talks.ts @lamontaes
 /src/core2/modules/kin-contact.ts @lamontaes
 /src/core2/modules/mentorship.ts @lamontaes
 /src/core2/modules/rescue.ts @lamontaes
@@ -289,18 +292,24 @@
 /src/core2/husk-promoters.ts @lamontaes
 /src/core2/opening-ties.ts @lamontaes
 /src/core2/household-cost.ts @lamontaes
+/src/core2/life-plan-readers.ts @lamontaes
+/src/core2/life-stake-rule.ts @lamontaes
+/src/core2/life-stakes.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
 /src/core2/past-*.ts @lamontaes
 /src/core2/deep-past.ts @lamontaes
 /src/core2/own-past-kinds.ts @lamontaes
+/src/core2/places-elsewhere.ts @lamontaes
 /src/core2/pre-start.ts @lamontaes
 /src/core2/shared-history.ts @lamontaes
 
 # The clock, the world and places (clock-places)
 /src/core2/modules/world.ts @lamontaes
 /src/core2/modules/world-metrics.ts @lamontaes
+/src/core2/output-numbers.ts @lamontaes
+/src/core2/output-number-readers.ts @lamontaes
 /src/core2/modules/disasters.ts @lamontaes
 /src/core2/life.ts @lamontaes
 /src/core2/calendar.ts @lamontaes
@@ -309,10 +318,11 @@
 /src/core2/place-map.ts @lamontaes
 /src/core2/place-lookup.ts @lamontaes
 /src/core2/coarse-place.ts @lamontaes
+/src/core2/community-events-table.ts @lamontaes
 /src/core2/world-settings.ts @lamontaes
 /src/core2/player-*.ts @lamontaes
 /src/core2/opening-*.ts @lamontaes
-/src/core2/fast-forward.ts @lamontaes
+/src/core2/place-race-origin.generated.ts @lamontaes
 /src/core2/modules/national-events.ts @lamontaes
 /src/core2/national-disaster-event.ts @lamontaes
 /src/core2/modules/climate.ts @lamontaes

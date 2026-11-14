@@ -24,7 +24,7 @@ import {
   type BringWords,
 } from "../english/bring-it-up-words";
 import rowsJson from "./data/bring-it-up-rows.json" with { type: "json" };
-import { possessive, properName } from "./words";
+import { organizationName, possessive } from "./words";
 
 /** `data/bring-it-up-rows.json`: the structure, holding no sentences. */
 export interface BringRows {
@@ -181,7 +181,7 @@ export function believedCause(
 
 function nameOf(core: Readonly<CoreState>, id: string): string | null {
   const org = core.organizations.get(id);
-  if (org) return properName(org.name);
+  if (org) return organizationName(org);
   const person = core.people.get(id);
   return person ? `${person.givenName} ${person.familyName}` : null;
 }
