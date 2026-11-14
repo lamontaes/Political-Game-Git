@@ -58,7 +58,7 @@ import {
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
-import { startPublicJob } from "../public-payroll";
+import { lineHourlyMinor, startPublicJob } from "../public-payroll";
 import { giveLivingCost, spendLivingCost } from "../official-living";
 import {
   postPayCapDaily,
@@ -1235,21 +1235,14 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       campaignParameter("staffPerOfficial")
     )
       continue;
-    // The money the line can actually carry (as `hireStaff` caps the aide's pay): a line with no room
-    // gets no hire, and an applicant weighs the pay the post will really pay, not the full staff wage.
+    // The pay the line can actually carry (what `startPublicJob` will post): a line that cannot pay
+    // the post at all gets no hire, and an applicant weighs the pay the post will really pay.
     const employer = employerOf(api, officialId);
     const capDaily = employer
       ? postPayCapDaily(api, employer, `staff:${officialId}`, 1)
       : undefined;
-    if (capDaily !== undefined && capDaily <= 0) continue;
-    const postPay =
-      capDaily === undefined
-        ? postHourly
-        : Math.min(
-            postHourly,
-            (capDaily * treasuryParameter("daysPerYear")) /
-              treasuryParameter("fullTimeHoursPerYear"),
-          );
+    const postPay = lineHourlyMinor(api, postHourly, capDaily);
+    if (postPay <= 0) continue;
     if (
       !leanedYes(
         api.state,
