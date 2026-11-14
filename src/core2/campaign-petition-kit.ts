@@ -3,7 +3,7 @@
  * a petition (owner, Oct 28), so each candidate campaigns for signatures as
  * a candidate would, a canvass each day through the campaign engine's own
  * day choice (the player's, or a world candidate's), until each petition
- * holds what the clerk will count or its deadline comes, and then the world
+ * holds what the law asks or its deadline comes, and then the world
  * lives to the clerk's check the morning after the last deadline. Nothing is
  * signed by hand: every name comes from a person met at a door or asked in
  * the circle, answering for their own reasons.

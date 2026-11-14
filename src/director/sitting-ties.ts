@@ -8,7 +8,7 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { outletsHere } from "../core2/modules/press";
 import type { Facts } from "./sitting";
-import { properName } from "./words";
+import { organizationName } from "./words";
 
 /**
  * How the asker stands with the candidate, as the flag a line is fitted by:
@@ -46,7 +46,7 @@ export function outletFact(
   return org
     ? {
         outlet: {
-          text: properName(org.name),
+          text: organizationName(org),
           sourceRecordIds: [org.id, recordId],
         },
       }

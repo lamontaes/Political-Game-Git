@@ -179,8 +179,17 @@ export function wordConversationMove(request: {
     facts: request.facts,
   });
   // A wording the listener heard today is held back while another fits.
+  // A wording whose slots the facts cannot fill does not count as one that
+  // fits (else the heard-today hold-back leaves only wordings that cannot be
+  // said, and the answer is lost).
+  const sayable = (row: Move) =>
+    [...row.text.matchAll(/\{\{([\w-]+)\}\}/g)].every(
+      (slot) => !!request.facts[slot[1]!]?.text,
+    );
   const fresh = request.avoid
-    ? fitting?.filter((row) => !row.part || !request.avoid!.has(row.part))
+    ? fitting?.filter(
+        (row) => (!row.part || !request.avoid!.has(row.part)) && sayable(row),
+      )
     : fitting;
   const usable = fresh?.length ? fresh : fitting;
   const bank = `conversation:${request.subject}:${request.part}`;

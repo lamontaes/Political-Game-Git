@@ -9,7 +9,12 @@
  */
 import { execSync } from "node:child_process";
 import { knownPairs } from "./reply-pairs";
-import { readBankPieces, readLedger, readRules } from "./run-rules";
+import {
+  exchangePairs,
+  readBankPieces,
+  readLedger,
+  readRules,
+} from "./run-rules";
 import { foldVerdicts } from "./verdicts";
 
 function main() {
@@ -21,6 +26,7 @@ function main() {
     pieces: readBankPieces(),
     ledger: readLedger(),
     pairs: knownPairs,
+    exchangePairs,
   });
   if (result.written.length)
     execSync(

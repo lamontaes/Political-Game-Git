@@ -250,12 +250,10 @@ function fromSnapshot(save: SaveV1, options: GameOptions): Game | undefined {
  * longer applies.
  */
 export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
-  if (save.format !== SAVE_FORMAT)
-    throw new Error(`Unknown save format: ${String(save.format)}`);
+  const upgradedFrom = openSave(save);
   const restored = fromSnapshot(save, options);
   const game = restored ?? newGame(save.recipe, options);
-  if (save.coreApiVersion !== CORE_API_VERSION)
-    game.upgradedFrom = save.coreApiVersion;
+  if (upgradedFrom) game.upgradedFrom = upgradedFrom;
   const later = restored
     ? save.commands.slice(save.snapshot!.commandCount)
     : save.commands;
@@ -265,10 +263,7 @@ export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
         runCommand(game, "advance", { through: command.date });
       runCommand(game, command.kind, command.payload);
     } catch (error) {
-      game.skipped.push({
-        command,
-        reason: error instanceof Error ? error.message : String(error),
-      });
+      game.skipped.push(skippedFor(command, error));
       // A choice that no longer exists: the character decides for itself.
       if (command.kind === "player.resume") {
         const payload = command.payload as { pauseId?: string };
@@ -287,4 +282,47 @@ export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
   if (save.savedAt > game.core.date)
     runCommand(game, "advance", { through: save.savedAt });
   return game;
+}
+
+/** A save's format checked; the version it was made under when it is not this one. */
+function openSave(save: SaveV1): string | undefined {
+  if (save.format !== SAVE_FORMAT)
+    throw new Error(`Unknown save format: ${String(save.format)}`);
+  return save.coreApiVersion !== CORE_API_VERSION
+    ? save.coreApiVersion
+    : undefined;
+}
+
+/** The one skip rule: a command this version cannot replay is kept with its reason, and the replay goes on. */
+function skippedFor(
+  command: SaveCommand,
+  error: unknown,
+): Game["skipped"][number] {
+  return {
+    command,
+    reason: error instanceof Error ? error.message : String(error),
+  };
+}
+
+/**
+ * Replays a save whose commands a host runs itself (the bench's recorded
+ * requests, which rebuild the world from their first one): checks the format,
+ * notes the version it was made under, and runs each command through `run`
+ * in order, skipping one that fails with its reason, by the same rule as
+ * `loadGame`.
+ */
+export async function replaySave(
+  save: SaveV1,
+  run: (command: SaveCommand) => unknown,
+): Promise<Pick<Game, "skipped" | "upgradedFrom">> {
+  const upgradedFrom = openSave(save);
+  const skipped: Game["skipped"] = [];
+  for (const command of save.commands) {
+    try {
+      await run(command);
+    } catch (error) {
+      skipped.push(skippedFor(command, error));
+    }
+  }
+  return { skipped, ...(upgradedFrom ? { upgradedFrom } : {}) };
 }

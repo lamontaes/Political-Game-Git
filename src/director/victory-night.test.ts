@@ -1,7 +1,5 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { gameStartDate } from "../core2/game-start";
@@ -13,11 +11,11 @@ import {
   checkEligibility,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
-  openContests,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { advanceToRaceFiling } from "../core2/gov-test-clock";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -28,29 +26,39 @@ import { purposeScene } from "./purpose-scene";
 // opponent the room asks about. Before, the opponent was read only from a
 // rival the record named, which a result record never does, so the scene
 // was skipped ("the ask that states victory-night cannot be worded").
-// Drawn places and a fresh seed; place and seed in every message.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 16;
-const YEAR = 365;
+// One pinned place and race (see Pin); place and seed in every message.
 
-const run = (drawSeed: string): { done: boolean; note: string } => {
-  const place = drawPlace(drawSeed, "victory-night");
-  const where = `${place.name} (${place.key}), seed ${drawSeed}`;
+/**
+ * A place and race pinned from data (the calendar the world is built with,
+ * read without playing a day: a small town with a local race early in the
+ * year), so a failure can only mean the code failed.
+ */
+interface Pin {
+  readonly name: string;
+  readonly key: string;
+  readonly worldSeed: string;
+  readonly contestId: string;
+}
+
+const run = (pin: Pin): { done: boolean; note: string } => {
+  const where = `${pin.name} (${pin.key}), world seed ${pin.worldSeed}`;
   setBookkeeping(false);
-  const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
+  const { core, director } = buildBenchWorld(pin.worldSeed, gameStartDate(), {
     twoLevel: true,
-    placeKey: place.key,
+    placeKey: pin.key,
   });
   const api = coreAPI(core);
-  const end = addDays(makeIsoDate(core.date), YEAR);
   // Residents of the town file: a filing refuses a resident of another place.
   const townId = core.people.get(core.playerId!)?.placeId;
-  // The weeks pass, bounded, until a race opens that two residents can file
-  // for: each race is tried once, the week it is first open. Only residents
-  // who may run and are not already running file.
-  const tried = new Set<string>();
-  let contest: ContestRow | undefined;
-  let filings: FilingRow[] = [];
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(pin.contestId) as unknown as ContestRow | undefined;
+  if (!contest)
+    return {
+      done: false,
+      note: `${where}: no ${pin.contestId} on the calendar`,
+    };
   const running = (personId: string) =>
     (
       api
@@ -58,54 +66,50 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
         .table("filings")
         .query("byPerson", [personId]) as unknown as FilingRow[]
     ).some((row) => ["petitioning", "on-ballot"].includes(row.status));
-  for (let day = 0; !contest && day < YEAR; day += 7) {
-    for (const race of [...openContests(api)]
-      .filter(
-        (row) =>
-          !tried.has(row.id) &&
-          addDays(makeIsoDate(row.electionDate), 2) <= end,
-      )
-      .sort((a, b) => a.id.localeCompare(b.id))) {
-      tried.add(race.id);
-      const clerkId = filingClerkFor(api, race.id)?.personId;
-      const town = [...core.people.values()]
-        .filter(
-          (p) =>
-            p.alive &&
-            p.placeId === townId &&
-            p.id !== core.playerId &&
-            p.id !== clerkId &&
-            !running(p.id) &&
-            !checkEligibility(api, p.id, race.id, null).some((c) => !c.met),
-        )
-        .sort((a, b) => a.id.localeCompare(b.id))
-        .slice(0, 40);
-      filings = [];
-      for (const person of town) {
-        if (filings.length >= 3) break;
-        director.watch(core, person.id);
-        // The log keeps a private record only for the people in focus.
-        core.focusPersonIds.add(person.id);
-        const result = fileCandidacy(api, {
-          personId: person.id,
-          contestId: race.id,
-          platform: [],
-        });
-        if (["petitioning", "on-ballot"].includes(result.status ?? ""))
-          filings.push(result.filing);
-      }
-      if (filings.length >= 2) {
-        contest = race;
-        break;
-      }
-    }
-    if (!contest) advanceCore(core, addDays(makeIsoDate(core.date), 7));
+  advanceToRaceFiling(core, contest);
+  const clerkId = filingClerkFor(api, contest.id)?.personId;
+  const filings: FilingRow[] = [];
+  for (const person of [...core.people.values()]
+    .filter(
+      (p) =>
+        p.alive &&
+        p.placeId === townId &&
+        p.id !== core.playerId &&
+        p.id !== clerkId &&
+        !running(p.id) &&
+        !checkEligibility(api, p.id, contest.id, null).some((c) => !c.met),
+    )
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .slice(0, 40)) {
+    if (filings.length >= 3) break;
+    director.watch(core, person.id);
+    // The log keeps a private record only for the people in focus.
+    core.focusPersonIds.add(person.id);
+    const result = fileCandidacy(api, {
+      personId: person.id,
+      contestId: contest.id,
+      platform: [],
+    });
+    if (["petitioning", "on-ballot"].includes(result.status ?? ""))
+      filings.push(result.filing);
   }
-  if (!contest) return { done: false, note: `${where}: fewer than two filers` };
+  if (filings.length < 2)
+    return {
+      done: false,
+      note: `${where}: ${contest.id} took ${filings.length} filers`,
+    };
   gatherSignatures(core, ...filings.map((f) => f.id));
   // Everyone else running for the seat is followed too: whoever wins the
   // count, a resident who filed on their own among them, has their night.
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
+  // Two or more on the ballot on the eve: a filer short of signatures at
+  // the deadline is off it.
+  const onBallot = ballot(api, contest.id).length;
+  if (onBallot < 2)
+    return {
+      done: false,
+      note: `${where}: ${contest.id} has ${onBallot} on the ballot on the eve (the filers fell short of signatures)`,
+    };
   for (const row of ballot(api, contest.id)) {
     director.watch(core, row.personId as PersonId);
     core.focusPersonIds.add(row.personId as PersonId);
@@ -131,6 +135,19 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
     .sort((x, y) => y[1] - x[1])[0]?.[0] as PersonId | undefined;
   if (!loser) return { done: false, note: `${where}: no runner-up` };
   const winner = result.winnerId as PersonId;
+  // The winner is one who filed for the race, a full person with a
+  // campaign to stage a night in.
+  const winnerFiled = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [winner]) as unknown as FilingRow[]
+  ).some((row) => row.contestId === contest.id);
+  if (!core.people.has(winner) || !winnerFiled)
+    return {
+      done: false,
+      note: `${where}: ${contest.id} was won by ${winner}, who filed no candidacy here`,
+    };
   const here = `${where}: ${winner}`;
   const entry = director.ledger.people
     .get(winner)
@@ -155,12 +172,14 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   return { done: true, note: here };
 };
 
-it(`the winner's victory night is worded from the count (seed ${seed})`, () => {
-  const notes: string[] = [];
-  for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
-    const { done, note } = run(`${seed}:${attempt}`);
-    if (done) return;
-    notes.push(note);
-  }
-  throw new Error(`No drawn place staged a victory night: ${notes.join("; ")}`);
-}, 3_600_000);
+const NORTH_WESTMINSTER: Pin = {
+  name: "North Westminster, Vermont",
+  key: "5052375",
+  worldSeed: "18d0fb93fe003b8a20a3e4ce1848cd57da4a5e825a8dd4eab5c799ee23806b39",
+  contestId: "contest:seat:gus2025:211883:board:0:2025-03-04",
+};
+
+it(`${NORTH_WESTMINSTER.name}: the winner's victory night is worded from the count`, () => {
+  const out = run(NORTH_WESTMINSTER);
+  expect(out.done, out.note).toBe(true);
+}, 600_000);

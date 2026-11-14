@@ -764,6 +764,26 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
     const base = budgetLine ? lastYearMinor : inForceMinor;
     const changeMinor =
       amountMinor !== null && base !== null ? amountMinor - base : null;
+    const inserted = clauseOf(bill.provisions, index);
+    const struck =
+      before &&
+      typeof before.value === "number" &&
+      !budgetLine &&
+      (provision.kind !== "policy-question" || before.value > 0)
+        ? clauseOf(
+            bill.provisions.map((p, i) => {
+              if (i !== index) return p;
+              if (p.kind !== "policy-question")
+                return { ...p, value: before.value } as Provision;
+              // A rule in force worded by its own value: a catalog
+              // operation ("repeal") is the bill's, not the law's.
+              const { operation: _bills, ...law } = p;
+              void _bills;
+              return { ...law, value: before.value } as Provision;
+            }),
+            index,
+          )
+        : null;
     return {
       budgetLine,
       section: {
@@ -772,18 +792,13 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
         // The clause as the bill words it (inserted) and as it would read with the law in force
         // today in its place (struck), for a screen to strike and insert; null where the law in
         // force gives no value to put back.
-        inserted: clauseOf(bill.provisions, index),
-        struck:
-          before && typeof before.value === "number" && !budgetLine
-            ? clauseOf(
-                bill.provisions.map((p, i) =>
-                  i === index
-                    ? ({ ...p, value: before.value } as Provision)
-                    : p,
-                ),
-                index,
-              )
-            : null,
+        inserted,
+        // A yes-or-no section strikes only a rule in force (its value above
+        // 0): with none in force there is nothing to strike, and wording the
+        // 0 would read as a repeal ("the rules now in force ... are repealed").
+        // A section that sets what the law already says strikes nothing: the
+        // struck side is dropped when it reads the same as the added side.
+        struck: struck === inserted ? null : struck,
         // The law the section changes, to open: its record id and the citation the records give.
         amends:
           before && (before.lawId || before.statute)

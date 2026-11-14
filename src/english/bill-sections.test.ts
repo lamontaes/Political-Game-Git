@@ -127,6 +127,25 @@ describe("a section reads the record's numbers", () => {
     expect(made.title.split(purpose).length - 1, made.title).toBe(1);
     expect(made.sections).toHaveLength(2);
   });
+  it("edge fixture: a phase-in's sections each say when they take effect", () => {
+    const one = input(1100);
+    const made = composeBill({
+      ...one,
+      provisions: [
+        { ...one.provisions[0]!, effectiveDate: "2027-01-02" },
+        { ...one.provisions[0]!, value: 1200, effectiveDate: "2028-01-02" },
+      ],
+      before: [one.before[0]!, { ...one.before[0]!, value: 1100 }],
+    })!;
+    expect(made.sections[0], made.sections[0]).toMatch(
+      /Section 1 takes effect on January 2, 2027\.$/,
+    );
+    expect(made.sections[1], made.sections[1]).toMatch(
+      /Section 2 takes effect on January 2, 2028\.$/,
+    );
+    // One bill with one date says it once, in its closing section, not in each section.
+    expect(composeBill(input(1100))!.sections[0]).not.toMatch(/takes effect/);
+  });
   it("words a dated section and the sections the rule dates, in each form", () => {
     for (const form of [
       BILL_SECTIONS.forms.ordinance,

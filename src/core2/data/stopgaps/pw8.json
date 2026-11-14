@@ -8,8 +8,10 @@
     "why": "The opening writes partnerships without a start date for many couples, so a long marriage looked brand new on the opening day.",
     "addedBy": "PW-8 (Opus builder)",
     "addedAt": "2026-10-13",
-    "replacement": "Partnerships carry their own recorded start date from the opening's partnership model (OPUS-PEOPLE, opening-partnership).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Partnerships carry their own recorded start date from the opening's partnership model (OPUS-PEOPLE, opening-partnership).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-PW8-counted-arrivals",

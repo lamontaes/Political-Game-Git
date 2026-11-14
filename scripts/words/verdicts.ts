@@ -28,6 +28,8 @@ import {
   REPLY_RULE,
 } from "../../src/english/reply-follows";
 import {
+  exchangeSubjects,
+  judgesExchanges,
   lineSubjects,
   type LineRule,
   type RulePiece,
@@ -62,11 +64,13 @@ export interface Subject {
   readonly keys: readonly string[];
 }
 
-/** What the subjects are read from. `pairs` is only asked for the reply rule. */
+/** What the subjects are read from. `pairs` is only asked for the reply rule and the exchange rules. */
 export interface SubjectSource {
   readonly pieces: readonly RulePiece[];
   readonly ledger: PartGradeLedger;
   readonly pairs: () => readonly { before: string; reply: string }[];
+  /** The pairs the exchange rules judge (`exchangePairs`, what the run and the sheets read); `pairs` when not given. */
+  readonly exchangePairs?: () => readonly { before: string; reply: string }[];
 }
 
 /** The text of every bank piece, by key. */
@@ -75,9 +79,9 @@ export const textsOf = (pieces: readonly RulePiece[]) =>
 
 /**
  * What a rule judges now: the lines it applies to (a rule about one line, or
- * one line in its spot), the pairs play can offer (the reply rule), and none
- * yet for a rule about a set or an exchange (words-machine part 3 builds
- * those keys).
+ * one line in its spot), the pairs play can offer (the reply rule), each line
+ * after each line it can answer (an exchange rule, `exchangeSubjects`), and
+ * none yet for a rule about a set (words-machine part 3's set reader).
  */
 export function subjectsOf(rule: LineRule, source: SubjectSource): Subject[] {
   if (rule.id === REPLY_RULE) {
@@ -93,6 +97,13 @@ export function subjectsOf(rule: LineRule, source: SubjectSource): Subject[] {
       };
     });
   }
+  if (judgesExchanges(rule))
+    return exchangeSubjects(
+      rule,
+      source.pieces,
+      source.ledger,
+      (source.exchangePairs ?? source.pairs)(),
+    ).map(({ id, keys }) => ({ id, keys }));
   return lineSubjects(rule, source.pieces, source.ledger).map((piece) => ({
     id: verdictId([piece.key], [piece.text]),
     keys: [piece.key],
@@ -267,10 +278,13 @@ export function foldVerdicts(
     }
     // A verdict is tied to the exact words: a "no" goes when its lines are
     // gone or say something else; a "yes" (an id alone) goes when the rule no
-    // longer judges that subject in those words.
+    // longer judges that subject in those words. An exchange rule's "no" also
+    // goes when the rule no longer judges that subject: a line judged alone
+    // that now has lines before it is judged after each of them instead.
     let dropped = 0;
     for (const [id, row] of [...no])
       if (
+        (judgesExchanges(rule) && !current.has(id)) ||
         row.keys.some((key) => !text.has(key)) ||
         verdictId(
           row.keys,

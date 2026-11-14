@@ -215,9 +215,16 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
     while (player.packet?.kind === "stop")
       player.resume({ kind: "stop", pauseId: player.packet.pauseId });
     expect(core.date, `${where}: election morning`).toBe(filed.electionDate);
-    player.advance("day");
+    // A Week pressed on election day stops at that night's returns; it never
+    // runs past them (playtest, Nov 13: a Week from the vote to the third
+    // day left the player no election night at all).
+    player.advance("week");
     while (player.packet?.kind === "stop")
       player.resume({ kind: "stop", pauseId: player.packet.pauseId });
+    expect(
+      core.date <= addDays(makeIsoDate(filed.electionDate), 1),
+      `${where}: the Week stopped on election night, not ${core.date}`,
+    ).toBe(true);
     // The voting engine's own ballot record for the player: kept at the
     // count, not cast.
     const ballot = ballotOf(api, filed.id, playerId!);

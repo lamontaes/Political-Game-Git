@@ -92,9 +92,10 @@ it(`the clerk tells the petition's signatures and due day once, in the scene aft
     expect(result.status, where).not.toBe("refused");
     const petition = petitionOf(api, result.filing!.id);
     expect(petition, `${where}: ${result.filing!.id}`).toBeTruthy();
-    // The counter ends on the player's filing: the clerk's petition talk is
-    // the scene's, not said at the counter too.
-    expect(counter.visit.lines.at(-1)!.speaker, where).toBe("player");
+    // The counter's talk ends on the clerk taking the filing (the clerk's
+    // scene, filing-clerk); the petition talk is the next day's scene's, not
+    // said at the counter too.
+    expect(counter.visit.lines.at(-1)!.speaker, where).toBe("clerk");
     expect(
       counter.visit.lines.some((line) =>
         line.sourceRecordIds.includes(petition!.id),
@@ -118,7 +119,19 @@ it(`the clerk tells the petition's signatures and due day once, in the scene aft
     if (scene?.kind !== "composed") return;
     const { talk } = scene.scene;
     expect(scene.scene.purpose, where).toBe("filing-petition");
+    // It reads the record of the reply that filed at the counter, so the
+    // clerk does not take the papers a second time: the narration finds the
+    // filing on the desk, never stamps it again.
+    const counterReply = `scene-reply:filing-counter:${result.filing!.id}`;
+    expect(core.durableLog.has(counterReply), where).toBe(true);
+    expect(
+      scene.scene.facts.find((row) => row.key === "filed-at-counter")
+        ?.recordIds,
+      where,
+    ).toContain(counterReply);
     expect(talk.narration.length, where).toBeGreaterThan(0);
+    for (const line of talk.narration)
+      expect(line.text, where).not.toMatch(/stamps|initials|wire tray/);
     // The statement is the petition, cited to its record.
     expect(talk.state.slotRecordIds, where).toContain(petition!.id);
     if (petition!.needed > 1) {

@@ -1152,6 +1152,14 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.follow-answer.short-ill-have-a-real-count-by-count-by": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day": {
       "good": 0,
       "bad": 1,

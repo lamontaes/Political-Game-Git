@@ -25,14 +25,15 @@
     "office": "The office a race, a filing, an oath or an appointment is for, as people say it, from the contest or office record.",
     "bill": "The bill a vote, a signing, a hearing or a question is about, by its name, from the legislature's bill record.",
     "org": "The employer or school the moment's record names (the job offered, begun or lost), from the organization record.",
-    "outlet": "The paper or station the moment's record names, from the organization record.",
+    "outlet": "The paper or station the moment's record names, from the organization record; for a broadcast heard at home, the place's own outlet that carried it, from the press records.",
     "title": "The job's title in lower case, from the job offer's record.",
     "party": "The party that asked, by its name, from the party's record.",
     "offense": "The charge, from the case record.",
     "term": "The prison term as people say it, from the sentence record.",
-    "speaker": "Who gave the speech, by first name, from the speech record.",
+    "speaker": "Who gave the speech, by first name, from the speech record; for a broadcast heard at home, by office first ('Governor Lori Lopez'), from the address record and said-as.",
     "rival": "A rival in the race by full name, from the filing or message record.",
-    "landlord": "The landlord who evicted the household, from the eviction record."
+    "landlord": "The landlord who evicted the household, from the eviction record.",
+    "occasion": "the broadcast's occasion as people say it after a possessive ('State of the State address'), from local-address.json heard.occasions"
   },
   "maxWords": 10,
   "mining": {
@@ -212,9 +213,9 @@
       }
     },
     {
-      "key": "scene-words.setting-letter-letter.a-letter-has-come-from-who",
+      "key": "scene-words.setting-letter-letter.a-letter-came-from-who",
       "move": "setting-letter-letter",
-      "text": "A letter has come from {who}.",
+      "text": "A letter came from {who}.",
       "uses": [
         {
           "move": "setting-letter-letter",
@@ -613,9 +614,9 @@
       }
     },
     {
-      "key": "scene-words.cause-illness-other.other-has-fallen-seriously-ill",
+      "key": "scene-words.cause-illness-other.other-has-gotten-seriously-ill",
       "move": "cause-illness-other",
-      "text": "{other} has fallen seriously ill.",
+      "text": "{other} has gotten seriously ill.",
       "uses": [
         {
           "move": "cause-illness-other",
@@ -2597,10 +2598,10 @@
       }
     },
     {
-      "key": "scene-words.cause-circumstance:hallway-colleague-other.other-wants-a-word-before-the-vote",
+      "key": "scene-words.cause-circumstance:hallway-colleague-other.other-wants-to-talk-before-the-vote",
       "move": "cause-circumstance:hallway-colleague-other",
       "kind": "spoken",
-      "text": "{other} wants a word before the vote.",
+      "text": "{other} wants to talk before the vote.",
       "uses": [
         {
           "move": "cause-circumstance:hallway-colleague-other",
@@ -5166,10 +5167,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-public-other.begins-name-walks-up-to-you-in-the-street",
+      "key": "scene-words.arrival-public-other.begins-name-walks-up-to-you-on-the-street",
       "move": "arrival-public-other",
       "kind": "spoken",
-      "text": "{begins}, {name} walks up to you in the street.",
+      "text": "{begins}, {name} walks up to you on the street.",
       "uses": [
         {
           "move": "arrival-public-other",
@@ -5826,10 +5827,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-public-other.begins-name-stops-you-in-the-street-about-what-happened-sinc",
+      "key": "scene-words.arrival-public-other.begins-name-stops-you-on-the-street-about-what-happened-since",
       "move": "arrival-public-other",
       "kind": "spoken",
-      "text": "{begins}, {name} stops you in the street about what happened {since}.",
+      "text": "{begins}, {name} stops you on the street about what happened {since}.",
       "uses": [
         {
           "move": "arrival-public-other",
@@ -5901,6 +5902,126 @@
       "origin": "authored",
       "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
       "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-television.last-night-you-watched-speakers-occasion-on-outlet",
+      "move": "opening-heard-television",
+      "kind": "spoken",
+      "text": "Last night you watched {speaker}'s {occasion} on {outlet}.",
+      "uses": [
+        {
+          "move": "opening-heard-television",
+          "subject": "opening",
+          "role": "heard-television",
+          "choice": "heard-television"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-television.you-caught-speakers-occasion-on-outlet",
+      "move": "opening-heard-television",
+      "kind": "spoken",
+      "text": "You caught {speaker}'s {occasion} on {outlet} last night.",
+      "uses": [
+        {
+          "move": "opening-heard-television",
+          "subject": "opening",
+          "role": "heard-television",
+          "choice": "heard-television"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-radio.last-night-speakers-occasion-came-over-outlet",
+      "move": "opening-heard-radio",
+      "kind": "spoken",
+      "text": "Last night {speaker}'s {occasion} came over {outlet}.",
+      "uses": [
+        {
+          "move": "opening-heard-radio",
+          "subject": "opening",
+          "role": "heard-radio",
+          "choice": "heard-radio"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-radio.you-heard-speakers-occasion-on-outlet",
+      "move": "opening-heard-radio",
+      "kind": "spoken",
+      "text": "You heard {speaker}'s {occasion} on {outlet} last night.",
+      "uses": [
+        {
+          "move": "opening-heard-radio",
+          "subject": "opening",
+          "role": "heard-radio",
+          "choice": "heard-radio"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-newspaper.outlet-prints-speakers-occasion-in-full",
+      "move": "opening-heard-newspaper",
+      "kind": "spoken",
+      "text": "This morning {outlet} prints {speaker}'s {occasion} in full.",
+      "uses": [
+        {
+          "move": "opening-heard-newspaper",
+          "subject": "opening",
+          "role": "heard-newspaper",
+          "choice": "heard-newspaper"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-newspaper.outlet-runs-speakers-occasion-word-for-word",
+      "move": "opening-heard-newspaper",
+      "kind": "spoken",
+      "text": "{outlet} runs {speaker}'s {occasion} this morning, word for word.",
+      "uses": [
+        {
+          "move": "opening-heard-newspaper",
+          "subject": "opening",
+          "role": "heard-newspaper",
+          "choice": "heard-newspaper"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
       "tag": {
         "move": "narrate"
       }

@@ -999,6 +999,13 @@ export interface CoreModule {
    * to date with its own functions, so day-by-day play resumes after the skip.
    */
   onResultsMonth?: (api: CoreAPI) => void;
+  /**
+   * Results mode, every skipped day: an engine whose work is due on exact
+   * days it keeps in its own queues (who weighs and files for a race on the
+   * day filing opens) runs only what has come due, as the module calendar
+   * does for dated work. Not a day's work: no person acts.
+   */
+  onResultsDay?: (api: CoreAPI) => void;
   /** A household's people have just been filled in from the counts (or returned to them and filled in again): its engines move what they kept on the counted household to the full one. */
   onFillIn?: (
     api: CoreAPI,

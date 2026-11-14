@@ -51,6 +51,7 @@ import {
 import { ownPastKind } from "./own-past-kinds";
 import { pastArrestOf, type PrisonTerm } from "./past-justice";
 import { residenceOn } from "./past-moves";
+import { ELSEWHERE_EMPLOYER, elsewhereEmployerId } from "./places-elsewhere";
 import { openingWorkStatus } from "./modules/jobs";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
@@ -807,6 +808,16 @@ export function runPastWork(
       for (const firm of town)
         if (!best || remaining(firm) > remaining(best)) best = firm;
     if (best) openings.set(`${best.id}|${quarter}`, remaining(best) - 1);
+    // Before they came to town, where the world keeps no employer: one of
+    // that place's, named from the place and the seed (an estimate), the
+    // same every time they are opened.
+    if (!best && livedIn !== run.plan.person.placeId)
+      return elsewhereEmployerId(
+        c,
+        run.plan.person,
+        livedIn,
+        run.spells.length,
+      );
     return best?.id;
   };
   const begin = (
@@ -1072,6 +1083,10 @@ function recordsOf(
         hourlyMinor: row.spell.hourlyMinor,
         ...(row.spell.organizationId
           ? { organizationId: row.spell.organizationId }
+          : {}),
+        // An employer named for a place the world keeps none for.
+        ...(row.spell.organizationId?.startsWith(ELSEWHERE_EMPLOYER)
+          ? { employerEstimated: "true" }
           : {}),
         ...(row.endedAt ? { endedAt: row.endedAt } : {}),
         ...(row.end ? { end: row.end } : {}),

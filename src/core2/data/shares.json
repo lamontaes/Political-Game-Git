@@ -1,0 +1,99 @@
+{
+  "about": "Shares the town and the council rules read, each in a parameter row tagged SOURCED (with citation), ESTIMATED (with source and spread) or TUNABLE (with the spread it is checked against). Read only by src/core2/shares.ts.",
+  "scalars": {
+    "sameSexCoupleShare": {
+      "value": 0.015,
+      "role": "opening",
+      "tag": "ESTIMATED",
+      "source": "Share of the town's couples who are two women or two men, about 1.3 million of roughly 65 million couple households in the Census Bureau's American Community Survey same-sex couple tables; one rule for every state (Claude CTO ruling, Sept 27, 2026). Inferred, not read from a file in the repository.",
+      "spread": [0.012, 0.02]
+    },
+    "evenSplit": {
+      "value": 0.5,
+      "role": "coefficient",
+      "tag": "TUNABLE",
+      "source": "The even split of a two-way contest: a side with no lean either way takes half. Structural, so its spread is a point.",
+      "spread": [0.5, 0.5]
+    },
+    "townPartTimeDefault": {
+      "value": 0.08,
+      "role": "opening",
+      "tag": "TUNABLE",
+      "source": "GAME ASSUMPTION: the share of a workplace's staff who work part-time where its kind has no row below.",
+      "spread": [0.05, 0.15]
+    }
+  },
+  "tables": {
+    "councilSize": {
+      "tag": "SOURCED",
+      "source": "ICMA 2018 Municipal Form of Government Survey, council size, n=3,910; the 8 or more band is spread over the read sizes 8 to 15 (docs/research/chatgpt-answers/2026-09-22-nationwide-2235/).",
+      "rows": [
+        {
+          "value": 4,
+          "percent": 12.0
+        },
+        {
+          "value": 5,
+          "percent": 39.3
+        },
+        {
+          "value": 6,
+          "percent": 12.5
+        },
+        {
+          "value": 7,
+          "percent": 26.1
+        },
+        {
+          "value": 8,
+          "percent": 10.1
+        }
+      ]
+    },
+    "councilTermYears": {
+      "tag": "SOURCED",
+      "source": "ICMA 2018 Municipal Form of Government Survey, at-large council terms in years, n=3,254, 'other' left out (docs/research/chatgpt-answers/2026-09-22-nationwide-2235/).",
+      "rows": [
+        {
+          "value": 2,
+          "percent": 18.6
+        },
+        {
+          "value": 3,
+          "percent": 13.1
+        },
+        {
+          "value": 4,
+          "percent": 63.6
+        },
+        {
+          "value": 6,
+          "percent": 2.8
+        }
+      ]
+    }
+  },
+  "townPartTime": {
+    "tag": "TUNABLE",
+    "source": "GAME ASSUMPTION: the share of each workplace's staff who work part-time, under 35 hours a week. Checked against the national share of about one worker in six.",
+    "spread": [0.5, 1.5],
+    "spreadNote": "each share times 0.5 to 1.5",
+    "shares": {
+      "restaurant": 0.45,
+      "retail": 0.35,
+      "recreation": 0.5,
+      "personal-care": 0.3,
+      "inn": 0.3,
+      "building-services": 0.25,
+      "care-home": 0.25,
+      "private-school": 0.15,
+      "public-school": 0.08,
+      "congregation": 0.3,
+      "farm": 0.15,
+      "hospital": 0.15,
+      "clinic": 0.2,
+      "campaign-staff": 0.2,
+      "organizing": 0.2
+    }
+  }
+}

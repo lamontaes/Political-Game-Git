@@ -1396,6 +1396,7 @@ function holdForFloorVotes(api: CoreAPI): void {
       minuteOfDay: stateDayParameter("holdMinute"),
       reasonKey: "office-day-state.floor-vote",
       source: { tag: "SOURCED", citation: bill.id, asOf: api.state.date },
+      voteOn: bill.id,
     });
     if (held) {
       table(api, "floorHolds").put({
