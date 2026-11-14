@@ -15,6 +15,8 @@
  * only mean the code failed. Residents file one more than the seats, so
  * someone misses the cut, and two for the single seat, whose record keeps
  * every candidate named and the runner-up as the caller.
+ * The same race with nobody filing for the test fills its seats exactly, so
+ * no winner is called.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -288,4 +290,47 @@ it(`${NORTH_COURTLAND.name}: every candidate of an at-large race is named once, 
   process.stdout.write(
     `AT LARGE ${where}: ${line}; single ${single!.id}: ${others.length + 1} named, caller ${runnerUp}\n`,
   );
+}, 600_000);
+
+// The same race with nobody filing for the test: the town's own five
+// candidates fill the five seats, nobody misses the cut, so every winner is
+// elected once and no concession call reaches any of them (the case the
+// replays on main showed wrong: every winner also "lost", another calling).
+it(`${NORTH_COURTLAND.name}: with nobody outside the cut, no winner is called`, () => {
+  setBookkeeping(false);
+  const pin = NORTH_COURTLAND;
+  const where = `${pin.name} (${pin.key}), world seed ${pin.worldSeed}, no test filers`;
+  const { core } = buildBenchWorld(pin.worldSeed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: pin.key,
+  });
+  const api = coreAPI(core);
+  const first = contestsOf(core).find((c) => c.id === pin.raceId);
+  expect(first, `${where}: ${pin.raceId} on the calendar`).toBeDefined();
+  const race = [...atLargeGroup(api, first!)];
+  advanceCore(core, addDays(makeIsoDate(race[0]!.electionDate), 2));
+  const settled = recordsOf(core, race);
+  expect(
+    settled.every((r) => !!r),
+    `${where}: every seat of ${race[0]!.id} decided`,
+  ).toBe(true);
+  const field = new Set(
+    race.flatMap((c) => filingsOf(core, c.id).map((f) => f.personId)),
+  );
+  expect(field.size, `${where}: the field fills the seats exactly`).toBe(
+    race.length,
+  );
+  const line = checkRace(core, race, where);
+  for (const r of settled) {
+    const winnerId = String(r!.facts?.winnerId);
+    expect(
+      callersOf(core, winnerId, r!.id),
+      `${where}: ${winnerId} called`,
+    ).toEqual([]);
+    expect(
+      JSON.parse(String(r!.facts?.outIds ?? "[]")),
+      `${r!.id} outIds`,
+    ).toEqual([]);
+  }
+  process.stdout.write(`AT LARGE NO CUT ${where}: ${line}\n`);
 }, 600_000);
