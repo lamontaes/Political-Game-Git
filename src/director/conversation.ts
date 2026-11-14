@@ -4232,6 +4232,10 @@ function raiseSubject(
     conversation.topics.push(raised.id);
   }
   offerChoices(core, conversation, data);
+  // A line the player has no reply to is the other person's last word: the
+  // talk ends there with their goodbye, never on a statement left hanging.
+  if (!conversation.choices.length && !conversation.look)
+    endConversation(core, conversation, data);
   return true;
 }
 
