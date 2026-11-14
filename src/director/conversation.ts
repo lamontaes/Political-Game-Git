@@ -127,8 +127,8 @@ import {
   conversationHas,
   conversationMoves,
   CONVERSATION_WORDS,
-  HELD_SAID,
-  heldPieces,
+  SAID_ONCE_FACTS,
+  piecesSaidOnce,
   joinedReply,
   wordConversationMove,
   type ConversationPart,
@@ -3713,19 +3713,26 @@ export function composedLine(
   momentKey: string,
   recentPartKeys: readonly string[] = [],
 ): Said | null {
-  // How long they have held a stand, said once in this talk (the parts this
-  // speaker said in it), is not said again (lead, Nov 13).
-  const held = heldPieces();
-  const heldSaid = recentPartKeys.some((key) => held.has(key));
+  // What is said once in a talk (how long they have held a stand; being
+  // glad to hear the player's voice) is not said again in it (lead, Nov 13;
+  // Words lead, Nov 14).
+  const onceSaid = SAID_ONCE_FACTS.filter((fact) =>
+    recentPartKeys.some((key) => piecesSaidOnce(fact).has(key)),
+  );
   const line = composeConversationLine({
     seed: core.seed,
     subject,
     speakerId,
     traits: core.people.get(speakerId)?.traits ?? {},
-    facts: heldSaid
+    facts: onceSaid.length
       ? {
           ...facts,
-          [HELD_SAID]: { text: "yes", sourceRecordIds: [speakerId] },
+          ...Object.fromEntries(
+            onceSaid.map((fact) => [
+              fact,
+              { text: "yes", sourceRecordIds: [speakerId] },
+            ]),
+          ),
         }
       : facts,
     stage,

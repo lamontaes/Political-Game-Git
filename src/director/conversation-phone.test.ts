@@ -17,7 +17,7 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { buildBenchWorld } from "../bench/world";
 import bank from "../../data/english/parts/conversation.json" with { type: "json" };
-import { openConversation, say } from "./conversation";
+import { meetOverTalk, noteHeard, openConversation, say } from "./conversation";
 
 /** Words that need the two people in one room. */
 const IN_ROOM =
@@ -26,6 +26,9 @@ const IN_ROOM =
 const ON_THE_LINE =
   /^(hello\?|yes, hello\?)$|it's (me|[A-Z][a-z]+)\.$|thanks for (calling|the call)|glad you called|call (me )?anytime|hear your voice|let you go/i;
 
+/** A hello said as a question ("What's up?") is a greeting, not a question that wants an answer. */
+const GREETING_FORMULA =
+  /^((Oh, hi|Hey|Hey, you)\. )?(What's up|What's going on|How are you doing)\?$|^(Hello|Yes, hello)\?$/;
 /** The days a call is tried on: a world at opening has little news yet. */
 const NEAR_DAYS = [0, 10, 30];
 /** A long gap: the three "it's been a while" lines need `when-long`; at Deepstep, day 300 has three people long out of touch, enough for the rotation (least recently said first) to reach all three. */
@@ -205,6 +208,10 @@ describe("every call is a call (Words lead, Nov 14: five faults)", () => {
           if (offered && !call.lines.length) offeredEmpty += 1;
           if (!call.lines.length) continue;
           callsOffered += 1;
+          // What the game does as a call opens: the two have spoken, and what
+          // was said is heard today (the talk's own bench road).
+          meetOverTalk(core, call);
+          noteHeard(core, call);
           // The person answering says hello, as a call is answered.
           expect(call.lines[0]!.speakerId, where).toBe(row.id);
           expect(call.lines[0]!.text, where).toMatch(
@@ -232,6 +239,30 @@ describe("every call is a call (Words lead, Nov 14: five faults)", () => {
               `${process.env.PHONE_OUT}-${seed}${name.endsWith("long-gap") ? "-long-gap" : ""}.md`,
               transcript.join("\n"),
             );
+          // A question the person puts to the player gives the player the
+          // next turn: the person never goes straight on to their own news
+          // (Words lead, Nov 14), and the hello's own "Hello?" is answered.
+          talk.lines.forEach((line, at) => {
+            const next = talk.lines[at + 1];
+            if (
+              next &&
+              line.speakerId === row.id &&
+              next.speakerId === row.id &&
+              /\?$/.test(line.text) &&
+              !GREETING_FORMULA.test(line.text)
+            )
+              expect.fail(
+                `${where}: "${line.text}" is followed at once by "${next.text}"`,
+              );
+          });
+          // The goodbye never says again what the hello said (Words lead, Nov 14).
+          const said = talk.lines
+            .filter((line) => line.speakerId === row.id)
+            .map((line) => line.text.toLowerCase());
+          expect(
+            said.filter((text) => /hear your voice/.test(text)).length,
+            `${where}: glad to hear the voice, once`,
+          ).toBeLessThanOrEqual(1);
           // A question the player asked is answered: the call never ends on it.
           const last = talk.lines.at(-1)!;
           expect(last.text, `${where}: ends on a question`).not.toMatch(/\?$/);
