@@ -307,6 +307,25 @@
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     },
     {
+      "id": "hearing-witness",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "serving"
+      },
+      "recordKinds": ["committee-hearing"],
+      "recordFacts": ["witnessIds"],
+      "place": "seat",
+      "pool": ["fact:witnessIds"],
+      "where": "pool",
+      "player": "named-in-it",
+      "playerNamed": true,
+      "cast": "a resident who testified at the committee's hearing on a bill, catching the player (its sponsor or a member of the committee) on the way out to say what the bill does to their own life",
+      "typeKey": "hearing-witness",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "receive": {
         "age": "any",
