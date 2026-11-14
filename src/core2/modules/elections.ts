@@ -1146,27 +1146,6 @@ function townName(api: CoreAPI): string | null {
   return place ? placeNameWithinState(place) : null;
 }
 
-/**
- * Where a person's records put them, said as the same kind of place as the
- * rule's own: a town against a town, a state race's state against where they
- * live. A place of another kind (a county around the town) is not a reason,
- * so the clerk says only "somewhere else" ("lives elsewhere").
- */
-function residentPlaceNamed(
-  api: CoreAPI,
-  placeId: string,
-  level: string,
-): string {
-  const here = corePlaceByJurisdictionId(placeId as never);
-  if (!here) return "lives elsewhere";
-  if (level === "federal" || level === "state") return here.displayName;
-  const home = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
-  if (!home || home.scope !== here.scope) return "lives elsewhere";
-  return home.stateJurisdictionKey === here.stateJurisdictionKey
-    ? placeNameWithinState(here)
-    : here.displayName;
-}
-
 /** Every rule for one person filing in one contest, checked today. */
 export function checkEligibility(
   api: CoreAPI,
@@ -1259,7 +1238,8 @@ export function checkEligibility(
             "lives in the area the office serves"),
       actual: resident
         ? "lives here"
-        : residentPlaceNamed(api, person.placeId, contest.level),
+        : (corePlaceByJurisdictionId(person.placeId as never)?.displayName ??
+          "lives elsewhere"),
       source: rules.source,
     },
   ];

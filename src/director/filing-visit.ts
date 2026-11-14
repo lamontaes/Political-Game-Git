@@ -325,13 +325,11 @@ export function pickContest(
     const line = visitLine(core, visit, "clerk", `rule-${check.rule}`, {
       ...facts,
       required: { text: required, sourceRecordIds: ids },
-      // Where the records put them, when they say a place; "somewhere else"
-      // only when they do not (T47's line lost the found place).
-      ...(check.rule === "residency" && !/^lives /.test(actual)
-        ? { actual: { text: actual, sourceRecordIds: [visit.playerId] } }
-        : check.rule === "residency"
-          ? { "no-actual": { text: "yes", sourceRecordIds: [visit.playerId] } }
-          : { actual: { text: actual, sourceRecordIds: [visit.playerId] } }),
+      // Where the records put them is never said as a place: the player never
+      // lives in another town (nothing moves them), so the clerk says "somewhere else".
+      ...(check.rule === "residency"
+        ? { "no-actual": { text: "yes", sourceRecordIds: [visit.playerId] } }
+        : { actual: { text: actual, sourceRecordIds: [visit.playerId] } }),
     });
     if (line) visit.lines.push({ speaker: "clerk", ...line });
   }
