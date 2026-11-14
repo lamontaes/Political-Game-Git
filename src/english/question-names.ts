@@ -8,6 +8,7 @@
 import data from "../../data/english/question-names.json" with { type: "json" };
 import yearData from "../../data/english/year-claims.json" with { type: "json" };
 import townData from "../../data/english/town-figures.json" with { type: "json" };
+import complaintData from "../../data/english/today-complaints.json" with { type: "json" };
 
 const NAMES = data.names as Readonly<
   Record<
@@ -74,6 +75,19 @@ export function questionTodayWordings(
     ...(first ? [first] : []),
     ...(more ? (inForce ? more.with : more.without)[side] : []),
   ];
+}
+
+const COMPLAINTS: ReadonlySet<string> = new Set(complaintData.complaints);
+
+/**
+ * Whether a wording of how the question stands today complains about how
+ * things are (`data/english/today-complaints.json`), as against stating
+ * something the speaker is glad of. A speaker defending what is in force is
+ * asked "Why would we change course, when ..." only with a wording that is not
+ * a complaint.
+ */
+export function questionTodayComplains(text: string): boolean {
+  return COMPLAINTS.has(text);
 }
 
 /** The family of questions that share a real reason on each side, and the pole of it a supporter stands on; null for a question with none. */

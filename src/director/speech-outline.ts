@@ -73,6 +73,7 @@ import {
   questionLaw,
   questionReasons,
   questionToday,
+  questionTodayComplains,
   questionTodayWordings,
   questionPoint,
 } from "../english/question-names";
@@ -2029,6 +2030,7 @@ export function planSpeech(
   const beliefsHere = new Set<string>();
   // What the points planned so far say, in order.
   const spoken: string[] = [];
+  const shapesUsed = new Set<string>();
   const planned: PlannedPoint[] = pointStands.map((stand, at) => {
     const side = stand.stance > P.zero ? "for" : "against";
     const family = questionFamily(stand.question);
@@ -2087,9 +2089,29 @@ export function planSpeech(
         (text): text is string => !!text,
       ),
     );
+    // The first shape in the speaker's order that the point can open on and no
+    // earlier point of the speech opened on: a shape says something about the
+    // point, so one the point cannot bear stays unpicked (the second reader,
+    // Nov 14). A figure first needs a measure to show; the question first
+    // needs a wording its question can be asked of; and one who defends what
+    // is in force (a supporter of a law in force, an opponent of one not) asks
+    // "Why would we change course, when ..." only of a wording that is not a
+    // complaint.
+    const defends = stand.stance > P.zero === stand.law.inForce;
+    const fits = (name: string) =>
+      name === "figure-first"
+        ? topicOf.has(stand.question)
+        : name === "question-first"
+          ? todays.some((text) => !defends || !questionTodayComplains(text))
+          : todays.length > P.zero;
+    const shape =
+      order.find((name) => fits(name) && !shapesUsed.has(name)) ??
+      order.find(fits) ??
+      order[at % order.length]!;
+    shapesUsed.add(shape);
     return {
       question: stand.question,
-      shape: order[at % order.length]!,
+      shape,
       side,
       today: todays[P.zero] ?? null,
       todays,
@@ -2448,6 +2470,11 @@ export function planSpeech(
                   if (n === undefined) return [];
                   return [
                     [`today${n}`, fact(said, ...cited)],
+                    // A wording that is not a complaint, for a speaker who
+                    // defends what is in force to ask about.
+                    ...(questionTodayComplains(said)
+                      ? []
+                      : [[`today-works${n}`, fact("yes", ...cited)]]),
                     // A condition said in the past takes no "As of right
                     // now" or "For now" opener (round 6).
                     ...(PAST_TENSE.test(said)
