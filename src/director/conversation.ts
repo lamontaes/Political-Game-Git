@@ -2262,8 +2262,14 @@ function introduction(
   speaker: Readonly<PersonState>,
   listener: Readonly<PersonState>,
   work: ReturnType<typeof sayJob>,
-  room: { visitOrganizationId?: string },
+  room: { visitOrganizationId?: string; byPhone?: boolean },
 ): Subject | null {
+  // A call is never to a stranger, so nobody introduces themselves on one.
+  if (room.byPhone) return null;
+  // Two who have met before are not strangers: no one introduces themselves
+  // to someone they have already talked with (Words lead, Nov 14).
+  if (lastContact(core, speaker.id as PersonId, listener.id as PersonId))
+    return null;
   if (
     speaker.householdId === listener.householdId ||
     speaker.familyIds.has(listener.id as PersonId) ||
@@ -2298,6 +2304,8 @@ export function subjectsBetween(
     presentIds?: readonly PersonId[];
     minuteOfDay?: number;
     visitOrganizationId?: string;
+    /** The talk is a phone call. */
+    byPhone?: boolean;
   } = {},
 ): Subject[] {
   const speaker = core.people.get(speakerId)!;
@@ -5116,7 +5124,9 @@ function openConversationNow(
   // People who live together don't greet each other at home.
   const housemate =
     core.people.get(otherId)?.householdId === player.householdId;
-  const greeting = housemate
+  // A call opens as a call even to someone in the player's own house: the
+  // person answering says hello first (Words lead, Nov 14).
+  const greeting = housemate && !options.byPhone
     ? null
     : greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone);
   if (greeting) {

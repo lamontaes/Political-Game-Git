@@ -185,12 +185,14 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "greet-opener",
           "subject": "greet",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 304,
@@ -231,12 +233,14 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "greet-opener",
           "subject": "greet",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 300,
@@ -276,12 +280,14 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "greet-opener",
           "subject": "greet",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 107,
@@ -324,12 +330,14 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "greet-opener",
           "subject": "greet",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 9,
@@ -361,12 +369,14 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "greet-opener",
           "subject": "greet",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 4,
@@ -396,7 +406,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 697,
@@ -440,7 +451,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 692,
@@ -479,7 +491,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 73,
@@ -510,7 +523,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 10,
@@ -581,7 +595,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 284,
@@ -621,7 +636,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 44,
@@ -657,7 +673,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 53,
@@ -690,7 +707,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 3,
@@ -721,7 +739,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 2,
@@ -25624,7 +25643,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-recent"]
+          "requiresFacts": ["when-recent"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -25670,7 +25690,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-recent"]
+          "requiresFacts": ["when-recent"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -25693,7 +25714,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-recent"]
+          "requiresFacts": ["when-recent"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -26988,7 +27010,8 @@
             "at-their-work",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -27095,7 +27118,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -29395,7 +29419,8 @@
             "at-their-work",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40162,7 +40187,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -44679,6 +44705,25 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["by-phone", "kin-or-household"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.phone-talk-soon",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Talk soon.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
           "closesTalk": true
         }
       ],

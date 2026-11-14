@@ -6,6 +6,7 @@
  * goodbye never invites a stop-in. A visit, with the same people, never says
  * what only a call says.
  */
+import { writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -13,7 +14,8 @@ import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { buildBenchWorld } from "../bench/world";
-import { openConversation } from "./conversation";
+import bank from "../../data/english/parts/conversation.json" with { type: "json" };
+import { openConversation, say } from "./conversation";
 
 /** Words that need the two people in one room. */
 const IN_ROOM =
@@ -49,10 +51,14 @@ describe("a call is greeted and ended as a call", () => {
             row.alive &&
             row.tier !== "husk" &&
             row.id !== me.id &&
-            row.householdId !== me.householdId &&
-            row.jobId !== undefined,
+            (row.householdId === me.householdId || row.jobId !== undefined),
         )
-        .slice(0, 6);
+        .sort(
+          (a, b) =>
+            Number(b.householdId === me.householdId) -
+            Number(a.householdId === me.householdId),
+        )
+        .slice(0, 8);
       for (const row of others)
         api.meet(me.id, row.id, {
           placeId: me.placeId,
@@ -80,14 +86,11 @@ describe("a call is greeted and ended as a call", () => {
             true,
             false,
           ]);
-          if (/it's [A-Z]/.test(greet[1]!.text)) named += 1;
+          if (/it's (me|[A-Z])/.test(greet[1]!.text)) named += 1;
         }
       }
       expect(answered, `${place.name}: calls answered`).toBeGreaterThan(0);
-      expect(
-        named,
-        `${place.name}: the player names themselves to a stranger`,
-      ).toBe(answered);
+      expect(named, `${place.name}: the player says who it is`).toBe(answered);
       for (const [at, row] of others.entries()) {
         const visit = openConversation(core, playerId as PersonId, row.id, {
           director,
@@ -100,4 +103,194 @@ describe("a call is greeted and ended as a call", () => {
     },
     120_000,
   );
+});
+
+/** What only a doorway says, and a stranger's first words. */
+const AT_THE_DOOR =
+  /^(heading out|see you again)\.?$|^i'm [A-Z][a-z]+\. i don't think we've met\./i;
+
+describe("every call is a call (Words lead, Nov 14: five faults)", () => {
+  it.each(SEEDS)(
+    "%s: a call to a housemate, a relative or someone met says hello first, never introduces, never says a doorway goodbye",
+    (_name, seed) => {
+      setBookkeeping(false);
+      const place = drawPlace(seed, "phone:0");
+      const { core, director, playerId } = buildBenchWorld(
+        place.seed,
+        gameStartDate(),
+        { twoLevel: true, placeKey: place.key },
+      );
+      director.watch(core, playerId);
+      core.focusPersonIds.add(playerId);
+      const me = core.people.get(playerId as PersonId)!;
+      const api = coreAPI(core);
+      const housemates = [...core.people.values()].filter(
+        (row) =>
+          row.alive && row.id !== me.id && row.householdId === me.householdId,
+      );
+      const relatives = [...core.people.values()].filter(
+        (row) =>
+          row.alive &&
+          row.householdId !== me.householdId &&
+          me.familyIds.has(row.id as PersonId),
+      );
+      const met = [...core.people.values()]
+        .filter(
+          (row) =>
+            row.alive &&
+            row.tier !== "husk" &&
+            row.id !== me.id &&
+            row.householdId !== me.householdId &&
+            !me.familyIds.has(row.id as PersonId) &&
+            row.jobId !== undefined,
+        )
+        .slice(0, 8);
+      for (const row of met)
+        api.meet(me.id, row.id, {
+          placeId: me.placeId,
+          sourceId: "fixture-meeting",
+          cause: "met-in-group",
+          hours: 1,
+        });
+      const callees = [
+        ...housemates.slice(0, 3),
+        ...relatives.slice(0, 3),
+        ...met,
+      ];
+      expect(callees.length, `${place.name}: someone to call`).toBeGreaterThan(
+        0,
+      );
+      let heardGoodbye = 0;
+      let callsOffered = 0;
+      const transcript: string[] = [
+        `## ${place.name} (${place.key}), seed ${seed}`,
+      ];
+      let offeredEmpty = 0;
+      // Every call is opened (and looked at) before any is played: opening writes nothing.
+      const opened: {
+        row: (typeof callees)[number];
+        call: ReturnType<typeof openConversation>;
+        where: string;
+      }[] = [];
+      for (const row of callees) {
+        const where = `${place.name} call to ${row.givenName}`;
+        // A call with nothing to say is not offered: the room's own check
+        // (look) says so, and the call the player would make says nothing.
+        const lookTalk = openConversation(core, playerId as PersonId, row.id, {
+          director,
+          byPhone: true,
+          look: true,
+        });
+        const offered = lookTalk.lines.length > 0;
+        const call = openConversation(core, playerId as PersonId, row.id, {
+          director,
+          byPhone: true,
+        });
+        // The room's check can say a call is on when the call itself opens on
+        // nothing (counted below, not asserted: the room's check is the
+        // handler's own); a call that is opened and has lines starts as a call.
+        if (offered && !call.lines.length) offeredEmpty += 1;
+        if (call.lines.length) opened.push({ row, call, where });
+      }
+      for (const { row, call, where } of opened) {
+        callsOffered += 1;
+        // The person answering says hello, as a call is answered.
+        expect(call.lines[0]!.speakerId, where).toBe(row.id);
+        expect(call.lines[0]!.text, where).toMatch(/^(Hello\?|Yes, hello\?)$/);
+        expect(call.lines[1]!.speakerId, where).toBe(playerId);
+        // The talk goes on and ends: every line, and the goodbye.
+        let talk = call;
+        for (let turn = 0; turn < 8 && talk.choices.length; turn += 1) {
+          const goodbye = talk.choices.find((choice) =>
+            /bye|talk|go\b|got to|let you/i.test(choice.text),
+          );
+          talk = say(
+            core,
+            talk,
+            (goodbye ?? talk.choices[turn % talk.choices.length]!).key,
+          );
+          if (goodbye) break;
+        }
+        transcript.push(
+          `### ${where}`,
+          ...talk.lines.map(
+            (line) =>
+              `  ${line.speakerId === playerId ? "You" : row.givenName}: ${line.text}`,
+          ),
+        );
+        for (const line of talk.lines) {
+          expect(line.text, where).not.toMatch(AT_THE_DOOR);
+          expect(line.text, where).not.toMatch(IN_ROOM);
+          if (/farewell|part/.test(line.kind ?? "")) {
+            heardGoodbye += 1;
+          }
+        }
+      }
+      expect(
+        callsOffered,
+        `${place.name}: a call is offered to someone`,
+      ).toBeGreaterThan(0);
+      if (process.env.PHONE_OUT)
+        writeFileSync(
+          `${process.env.PHONE_OUT}-${seed}.md`,
+          transcript.join("\n"),
+        );
+      process.stdout.write(
+        `PHONE ${place.name}: ${callees.length} people, ${callsOffered} calls with words, ${offeredEmpty} the room's check offered that opened on nothing, ${heardGoodbye} goodbyes\n`,
+      );
+    },
+    180_000,
+  );
+});
+
+describe("the bank holds the doorway words off a call", () => {
+  type Part = {
+    key: string;
+    move: string;
+    text: string;
+    uses: { requiresFacts?: string[]; excludesFacts?: string[] }[];
+  };
+  const parts = (bank as unknown as { parts: Part[] }).parts;
+  const offCalls = (part: Part) =>
+    part.uses.every((use) => use.excludesFacts?.includes("by-phone"));
+  it("every hello that is not the phone's own is held off a call", () => {
+    const hellos = parts.filter(
+      (part) => part.move === "greet-open-hello" && !/\.phone-/.test(part.key),
+    );
+    expect(hellos.length).toBeGreaterThan(0);
+    for (const part of hellos)
+      expect(offCalls(part), `"${part.text}" can open a call`).toBe(true);
+  });
+  it("the doorway goodbyes and in-person greetings are held off a call", () => {
+    for (const text of [
+      "Heading out.",
+      "See you again.",
+      "Thanks for stopping, {player-first}.",
+      "Thanks for stopping by, {player-first}.",
+      "Nice to see a friendly face, {player-first}.",
+      "You again. I saw you {when}.",
+      "Back again? I saw you just {when}.",
+      "{name}, back again? I saw you {when}.",
+    ]) {
+      const part = parts.find((row) => row.text === text);
+      expect(part, `"${text}" is in the bank`).toBeDefined();
+      expect(offCalls(part!), `"${text}" can be said on a call`).toBe(true);
+    }
+  });
+  it("a call has its own goodbyes", () => {
+    const own = parts
+      .filter((part) =>
+        part.uses.some((use) => use.requiresFacts?.includes("by-phone")),
+      )
+      .filter((part) => part.move === "farewell-core")
+      .map((part) => part.text);
+    expect(own).toEqual(
+      expect.arrayContaining([
+        "Talk soon.",
+        "I'll let you go.",
+        "Thanks for calling.",
+        "Glad you called.",
+      ]),
+    );
+  });
 });
