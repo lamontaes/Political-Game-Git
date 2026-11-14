@@ -18,6 +18,25 @@ export const FEE_LEVEL_SERVICES: Readonly<Record<string, string>> = {
   "fee-level:education": "education",
 };
 
+/**
+ * What shows a government runs the thing a fee is for: the spending lines of
+ * its own budget that pay for it (null: the charges row alone shows it, as
+ * sewer and trash is billed per dwelling). A fee with an empty list has no
+ * record of a facility anywhere in the world yet (a toll road, a parking
+ * system), so no government is offered it (pool item
+ * gov-fee-facility-record-for-tolls-and-parking).
+ */
+export const FEE_LEVEL_RUNS: Readonly<
+  Record<string, readonly string[] | null>
+> = {
+  "parks-and-recreation": ["parks"],
+  "sewerage-and-solid-waste": null,
+  "highways-and-tolls": [],
+  "airports-ports-and-parking": [],
+  hospitals: ["healthAndHospitals"],
+  education: ["schools", "higherEducation"],
+};
+
 export const FEE_LEVEL_SERIES: readonly string[] =
   Object.keys(FEE_LEVEL_SERVICES);
 

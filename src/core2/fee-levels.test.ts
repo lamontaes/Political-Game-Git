@@ -21,12 +21,13 @@ import {
   FEE_LEVEL_SERVICES,
   isFeeLevelSeries,
 } from "./fee-levels";
+import { FEE_LEVEL_RUNS } from "./fee-levels";
 import { billCatalog } from "./bill-catalog";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { enactLaw, lawChain } from "./modules/laws";
-import { chargedServicesOf, governments } from "./modules/budgets";
+import { budgetsOf, chargedServicesOf, governments } from "./modules/budgets";
 import { coreAPI } from "./state";
 
 const SEED = "fee-level-by-bill-pinned-1";
@@ -148,12 +149,22 @@ it("a law raising the park fee at each level a bill can reach raises what the to
   );
 }, 180_000);
 
-it("a government is offered a fee line only for a service its charges row holds", () => {
+it("a government is offered a fee line only for a service its charges row holds and its own budget shows it runs", () => {
   setBookkeeping(false);
   const { api, draw } = world();
   const where = `${draw.key} [${draw.state}], seed ${draw.seed}`;
   for (const gov of governments(api).filter((g) => g.level !== "federal")) {
     const held = new Set(chargedServicesOf(api, gov.id).map((c) => c.service));
+    const spending = budgetsOf(api, gov.id)
+      .filter((b) => b.startsOn <= api.state.date)
+      .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]?.spendingMinor;
+    // Runs the thing: its budget spends on it (sewer and trash by its own billing; no toll or parking record exists yet).
+    const runs = (service: string) => {
+      const lines = FEE_LEVEL_RUNS[service];
+      return (
+        lines === null || (lines ?? []).some((l) => (spending?.[l] ?? 0) > 0)
+      );
+    };
     const offered = billCatalog(
       api,
       gov.level === "city" ? "city" : gov.level,
@@ -167,7 +178,7 @@ it("a government is offered a fee line only for a service its charges row holds"
       `${where} ${gov.name} (${gov.level})`,
     ).toEqual(
       Object.values(FEE_LEVEL_SERVICES)
-        .filter((service) => held.has(service))
+        .filter((service) => held.has(service) && runs(service))
         .sort(),
     );
     // Each offered fee says what the charge brings in a year here.

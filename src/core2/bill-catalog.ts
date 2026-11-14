@@ -20,8 +20,16 @@ import {
 } from "./modules/legislature";
 import { billLevelJurisdiction, billValueInForce } from "./modules/laws";
 import { policyAuthority } from "./modules/laws";
-import { chargedServicesOf, governmentOfJurisdiction } from "./modules/budgets";
-import { FEE_LEVEL_SERVICES, isFeeLevelSeries } from "./fee-levels";
+import {
+  budgetsOf,
+  chargedServicesOf,
+  governmentOfJurisdiction,
+} from "./modules/budgets";
+import {
+  FEE_LEVEL_RUNS,
+  FEE_LEVEL_SERVICES,
+  isFeeLevelSeries,
+} from "./fee-levels";
 
 export type Operation =
   "raise" | "lower" | "expand" | "restrict" | "enact" | "repeal";
@@ -84,7 +92,21 @@ export function billCatalog(
       c,
     ]),
   );
-  const charges = { has: (service: string) => charged.has(service) };
+  // A government is offered a fee only where its records show it runs the thing: its charges row
+  // holds the service and, where a facility is needed, its own budget spends on it.
+  const spending = government
+    ? budgetsOf(api, government.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]?.spendingMinor
+    : undefined;
+  const charges = {
+    has: (service: string) => {
+      if (!charged.has(service)) return false;
+      const runs = FEE_LEVEL_RUNS[service];
+      if (runs === null || runs === undefined) return runs === null;
+      return runs.some((line) => (spending?.[line] ?? 0) > 0);
+    },
+  };
   return subjects.map((subject) => ({
     id: subject.id,
     name: subject.name,
