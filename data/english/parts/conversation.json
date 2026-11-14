@@ -44505,7 +44505,8 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-bad", "chances-not-sure"]
+          "requiresFacts": ["town-bad", "chances-not-sure"],
+          "setsFacts": ["work-scarce"]
         }
       ],
       "piece": {
@@ -44518,16 +44519,17 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.job-lost-say-reason.there-s-nothing-out-there-you",
+      "key": "conversation.job-lost-say-reason.there-s-nothing-out-there",
       "move": "job-lost-say-reason",
       "kind": "spoken",
-      "text": "There's nothing out there, {you}.",
+      "text": "There's nothing out there.",
       "uses": [
         {
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-bad", "chances-not-sure"]
+          "requiresFacts": ["town-bad", "chances-not-sure"],
+          "setsFacts": ["work-scarce"]
         }
       ],
       "piece": {
@@ -44535,50 +44537,6 @@
         "part": "reason"
       },
       "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words lead (rulings-2, how things are, Nov 14, 2026), carried by S2",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-say-reason.half-this-town-is-looking-for-work",
-      "move": "job-lost-say-reason",
-      "kind": "spoken",
-      "text": "Half this town is looking for work.",
-      "uses": [
-        {
-          "move": "job-lost-say-reason",
-          "subject": "job-lost-say",
-          "role": "reason",
-          "requiresFacts": ["town-bad", "chances-not-sure"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-say",
-        "part": "reason"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words lead (rulings-2, how things are, Nov 14, 2026), carried by S2",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-say-reason.there-s-work-just-not-what-i-did",
-      "move": "job-lost-say-reason",
-      "kind": "spoken",
-      "text": "There's work, just not what I did.",
-      "uses": [
-        {
-          "move": "job-lost-say-reason",
-          "subject": "job-lost-say",
-          "role": "reason",
-          "requiresFacts": ["town-middling"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-say",
-        "part": "reason"
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words lead (rulings-2, how things are, Nov 14, 2026), carried by S2",
       "date": "2026-11-14"
@@ -44593,7 +44551,8 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-middling", "chances-not-sure"]
+          "requiresFacts": ["town-middling", "chances-not-sure"],
+          "setsFacts": ["chances-sure"]
         }
       ],
       "piece": {
@@ -44615,7 +44574,8 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-good", "chances-not-unsure"]
+          "requiresFacts": ["town-good", "chances-not-unsure"],
+          "setsFacts": ["work-plenty"]
         }
       ],
       "piece": {
@@ -44637,7 +44597,8 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-good", "chances-not-unsure"]
+          "requiresFacts": ["town-good", "chances-not-unsure"],
+          "setsFacts": ["work-plenty"]
         }
       ],
       "piece": {
@@ -44746,7 +44707,8 @@
           "subject": "job-lost-back-back",
           "role": "core",
           "stages": ["where"],
-          "requiresFacts": ["seeking"]
+          "requiresFacts": ["seeking"],
+          "excludesFacts": ["work-scarce", "work-plenty"]
         }
       ],
       "origin": "authored",
@@ -44760,10 +44722,10 @@
       "bearing": "braced"
     },
     {
-      "key": "conversation.job-lost-back-back-core.i-hope-so-you",
+      "key": "conversation.job-lost-back-back-core.i-hope-so",
       "move": "job-lost-back-back-core",
       "kind": "spoken",
-      "text": "I hope so, {you}.",
+      "text": "I hope so.",
       "uses": [
         {
           "move": "job-lost-back-back-core",
@@ -44794,7 +44756,8 @@
           "subject": "job-lost-back-back",
           "role": "core",
           "stages": ["find"],
-          "requiresFacts": ["seeking"]
+          "requiresFacts": ["seeking"],
+          "excludesFacts": ["chances-sure"]
         }
       ],
       "origin": "authored",
@@ -44818,7 +44781,8 @@
           "subject": "job-lost-back-back",
           "role": "core",
           "stages": ["find"],
-          "requiresFacts": ["seeking"]
+          "requiresFacts": ["seeking", "chances-not-unsure"],
+          "excludesFacts": ["work-scarce"]
         }
       ],
       "origin": "authored",

@@ -23,8 +23,6 @@ const LEVEL_SENTENCE = new RegExp(
   [
     "Nobody's hiring around here\\.",
     "There's nothing out there",
-    "Half this town is looking for work\\.",
-    "There's work, just not what I did\\.",
     "I'll find something\\. It may take a while\\.",
     "Places are hiring\\. I'll land somewhere\\.",
     "I won't be out long\\.",

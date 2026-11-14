@@ -416,6 +416,23 @@ export function heldPieces(): ReadonlySet<string> {
   return HELD_PIECES;
 }
 
+let SET_BY: ReadonlyMap<string, readonly string[]> | null = null;
+
+/**
+ * The facts the pieces a line was made of set for the rest of the talk (an
+ * opener's bearing on its chances, a town sentence's read of the work): what
+ * a speaker's own words set stays true of them in the replies that follow.
+ */
+export function factsSetBy(pieceKeys: readonly string[]): string[] {
+  SET_BY ??= new Map(
+    admittedParts(CONVERSATION_BANK.parts).map((piece) => [
+      piece.key,
+      piece.uses.flatMap((use) => use.setsFacts ?? []),
+    ]),
+  );
+  return [...new Set(pieceKeys.flatMap((key) => SET_BY!.get(key) ?? []))];
+}
+
 /**
  * The bank a subject's composed lines are made from: its pieces in the
  * conversation bank by the part of the line each says (opener, core, reason,

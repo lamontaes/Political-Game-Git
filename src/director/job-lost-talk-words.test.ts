@@ -168,4 +168,44 @@ describe("a lost job told through the composer", () => {
         ).toBe(move === "where" && trade);
       }
   });
+
+  it("answers 'You'll find something.' in the bearing of the teller's own telling", () => {
+    const answers = (set: string[]) => {
+      const texts = new Set<string>();
+      for (let draw = 0; draw < 40; draw += 1) {
+        const back = composeConversationLine({
+          seed: `job-lost-bearing-${draw}`,
+          subject: "job-lost-back-back",
+          speakerId: `person_test_${draw}` as PersonId,
+          traits: {},
+          facts: {
+            employer: fact("Lopez's Market"),
+            you: fact("Eva"),
+            seeking: fact("yes"),
+            ...Object.fromEntries(set.map((key) => [key, fact("yes")])),
+          },
+          stage: "find",
+          momentKey: `bearing:${draw}`,
+        });
+        texts.add(back!.text);
+      }
+      return [...texts];
+    };
+    // Said nobody is hiring: never "it's just a matter of when".
+    expect(answers(["chances-not-sure", "work-scarce"])).not.toContain(
+      "I will. It's just a matter of when.",
+    );
+    // Said "I'll find something": never scoffs at the same words.
+    expect(answers(["chances-sure", "chances-not-unsure"])).not.toContain(
+      "Easy to say.",
+    );
+    // Unsure of their chances: never "I will".
+    expect(answers(["chances-unsure", "chances-not-sure"])).not.toContain(
+      "I will. It's just a matter of when.",
+    );
+    // A teller who is not unsure and has not said it is bleak may.
+    expect(answers(["chances-not-sure", "chances-not-unsure"])).toContain(
+      "I will. It's just a matter of when.",
+    );
+  });
 });

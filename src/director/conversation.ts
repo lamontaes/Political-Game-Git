@@ -129,6 +129,7 @@ import {
   HELD_SAID,
   heldPieces,
   joinedReply,
+  factsSetBy,
   wordConversationMove,
   type ConversationPart,
   type Fact,
@@ -7355,11 +7356,33 @@ function sayNow(
       told.has(key) && DAY_TALK.toldFigures.includes(key);
     // What was left out is marked told, so an answer can lean on it ("I go
     // in soon.") without saying it again.
-    const backFacts = Object.fromEntries(
-      Object.entries(last.facts).flatMap(([key, value]) =>
-        omitted(key) ? [[`told-${key}`, value]] : [[key, value]],
-      ),
+    // What their own telling set (how sure they sound of their chances, how
+    // they read the town's work) holds in what they say back.
+    const telling = [...conversation.lines]
+      .reverse()
+      .find(
+        (line) =>
+          line.speakerId === otherId &&
+          (line.subjectId === choice.answers ||
+            line.subjectId.endsWith(`>${choice.answers}`)),
+      );
+    const setByTelling = Object.fromEntries(
+      factsSetBy(telling?.wording?.parts ?? []).map((key) => [
+        key,
+        {
+          text: "yes",
+          sourceRecordIds: telling?.sourceRecordIds ?? [],
+        } as Fact,
+      ]),
     );
+    const backFacts = {
+      ...setByTelling,
+      ...Object.fromEntries(
+        Object.entries(last.facts).flatMap(([key, value]) =>
+          omitted(key) ? [[`told-${key}`, value]] : [[key, value]],
+        ),
+      ),
+    };
     const back = composedLine(
       core,
       otherId,
