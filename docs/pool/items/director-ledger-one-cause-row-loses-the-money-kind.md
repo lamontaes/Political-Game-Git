@@ -1,6 +1,6 @@
 ---
 id: director-ledger-one-cause-row-loses-the-money-kind
-title: "A closure that also forms a drive is labelled for the drive, so the job's end is not found by its label"
+title: "A closure that also forms a drive is labeled for the drive, so the job's end is not found by its label"
 area: director
 kind: bug
 priority: 2
@@ -19,7 +19,7 @@ source: Account lead thread S2 while merging the Train into PR 9122, Nov 14, 202
 checked: S2 2026-11-14
 ---
 
-**What.** When an employer closes, the same cause id (`employer-closed:<date>:<organization>`) is the source of a drive the worker forms and the record that names their lost pay. The ledger keeps one row for one cause id, so the day's moment is labelled for the first kind written (`cause:drive:status-ambition`) and its money kind (`job-ended`) is dropped from the label. Seen: a staged closure at Charlotte Amalie West in the Virgin Islands left the relative with no `money:job-ended` moment, and the talk opened on the employer's closing in the news.
+**What.** When an employer closes, the same cause id (`employer-closed:<date>:<organization>`) is the source of a drive the worker forms and the record that names their lost pay. The ledger keeps one row for one cause id, so the day's moment is labeled for the first kind written (`cause:drive:status-ambition`) and its money kind (`job-ended`) is dropped from the label. Seen: a staged closure at Charlotte Amalie West in the Virgin Islands left the relative with no `money:job-ended` moment, and the talk opened on the employer's closing in the news.
 
 **Cause.** Found in code: `change()` in `src/director/ledger.ts` (near line 907) returns the existing row for a cause id and keeps its `causeKind`; the drive loop runs before the money loop, so the money kind never labels the row. PR 9122 reads the job's end from the person's own `job:<id>:status` record when the moment carries a money channel (`jobEndedWithMoment` in `src/director/conversation.ts`); every other reader of `money:job-ended` (the Journal at `journal.ts` near line 1827, the eviction telling's lost-job read) still misses it.
 
