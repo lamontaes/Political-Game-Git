@@ -689,8 +689,7 @@ export function campaignAct(
         spentMinor: campaignFor(api, input.filingId).spentMinor - before,
       };
     }
-    case "circulators": // Paid circulators for the race's voters outside the town: the amount
-    // the player chose is set aside from what the campaign holds and paid
+    case "circulators": // the player chose is set aside from what the campaign holds and paid // Paid circulators for the race's voters outside the town: the amount
     // as the signatures come in, until the petition is due.
     {
       const setAsideMinor = hireCirculators(
