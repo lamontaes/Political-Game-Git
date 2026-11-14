@@ -91,25 +91,33 @@ function play(draw: number): Evidence | string {
       return [question!, Number(position)] as const;
     }),
   );
-  const contest = [...openContests(api)]
-    .filter((c) => c.electionDate >= addDays(makeIsoDate(core.date), 120))
-    .sort(
-      (a, b) =>
-        a.electionDate.localeCompare(b.electionDate) ||
-        a.id.localeCompare(b.id),
-    )
-    .find((c) =>
-      ["petitioning", "on-ballot"].includes(
-        (
-          fileCandidacy(api, {
-            personId: me,
-            contestId: c.id,
-            platform,
-            party: null,
-          }) as { filing?: { status?: string } }
-        ).filing?.status ?? "",
-      ),
-    );
+  const findContest = () =>
+    [...openContests(api)]
+      .filter((c) => c.electionDate >= addDays(makeIsoDate(core.date), 120))
+      .sort(
+        (a, b) =>
+          a.electionDate.localeCompare(b.electionDate) ||
+          a.id.localeCompare(b.id),
+      )
+      .find((c) =>
+        ["petitioning", "on-ballot"].includes(
+          (
+            fileCandidacy(api, {
+              personId: me,
+              contestId: c.id,
+              platform,
+              party: null,
+            }) as { filing?: { status?: string } }
+          ).filing?.status ?? "",
+        ),
+      );
+  // The world opens on a day when no filing window is open; play on a week at
+  // a time (up to a year) until a race the player could enter opens.
+  let contest = findContest();
+  for (let week = 0; week < 52 && !contest; week += 1) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    contest = findContest();
+  }
   if (!contest)
     return `${where}: no race four months out the player could enter`;
   const petition = gatherSignatures(core, `filing:${contest.id}:${me}`);
