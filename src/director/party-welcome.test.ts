@@ -130,6 +130,12 @@ function welcome(tag: string, withRace: boolean) {
         `${where}: the leader answers "${reply.line.text}"`,
       ).toBeGreaterThan(0);
     const answer = talk.tree.replies[ask]!.next!.lines[0]!.text;
+    // Where the town's own government is filed at the state level (DC), the
+    // party that holds its mayor's office says it holds a seat.
+    if (place.name.startsWith("Washington") && !withRace)
+      expect(answer, `${where}: the party holds the mayor's seat`).not.toMatch(
+        /hold a seat here|hold anything/,
+      );
     expect(answer, `${where}: no unfilled slot`).not.toMatch(/[{}]/);
     if (withRace)
       expect(answer, `${where}: the answer names the race`).toContain(

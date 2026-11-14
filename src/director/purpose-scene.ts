@@ -1410,9 +1410,16 @@ function composeBinding(
     // the open races' filings: the leader's answer to "what do you do here".
     const api = coreAPI(core as CoreState);
     const named = said.party.toLowerCase();
-    const held = townSeats(api).find(
+    // A place whose own government is filed at the state level (it has no
+    // city, township or county offices, as in the District of Columbia and the
+    // territories) counts those offices as its local ones; read from the data.
+    const seats = townSeats(api);
+    const own = seats.some((row) => LOCAL_GOVERNMENTS.has(row.office.level))
+      ? LOCAL_GOVERNMENTS
+      : new Set([...LOCAL_GOVERNMENTS, "state"]);
+    const held = seats.find(
       (row) =>
-        LOCAL_GOVERNMENTS.has(row.office.level) &&
+        own.has(row.office.level) &&
         (row.holder?.party?.toLowerCase() === named ||
           (row.holder?.personId
             ? partyTie(api, row.holder.personId)?.partyId === said.partyId
@@ -1420,7 +1427,7 @@ function composeBinding(
     );
     const race = openContests(api).find(
       (contest) =>
-        LOCAL_GOVERNMENTS.has(contest.level) &&
+        own.has(contest.level) &&
         ballot(api, contest.id).some(
           (filing) => filing.party?.toLowerCase() === named,
         ),
