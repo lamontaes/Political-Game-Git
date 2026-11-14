@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1288,
+  "judged": 1276,
   "no": {
     "00hg2m3h12p": {
       "keys": [
@@ -717,20 +717,6 @@
         "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today"
       ],
       "why": "Telling all of it and \"I'm sorry. I knew it was wrong\" restate the explain and apology first options, two of three."
-    },
-    "0a3txbs284y": {
-      "keys": [
-        "scene-talk.follow-answer.the-vote-was-roll-ask-the-other-side-about-cost",
-        "scene-talk.reply-agree.it-passed-i-ll-sign-it",
-        "scene-talk.reply-refuse.not-as-written-i-m-sorry",
-        "scene-talk.reply-bargain.give-me-your-word-on-a-follow-up-and-i-ll-sign",
-        "scene-talk.reply-ask.what-does-it-cost",
-        "scene-talk.reply-agree.then-it-deserves-a-signature-bring-the-pen",
-        "scene-talk.reply-refuse.it-goes-back-with-a-veto",
-        "scene-talk.reply-bargain.bring-me-the-fix-in-writing-and-i-ll-sign-it-today",
-        "scene-talk.reply-leave.leave-me-the-file-i-ll-call-the-other-side-before-i-decide"
-      ],
-      "why": "Signing, a veto and a signature-for-a-written-fix repeat the first sign, refuse and follow-up options; only calling the other side is new."
     },
     "0aiylznt24u": {
       "keys": [
@@ -1871,19 +1857,6 @@
       ],
       "why": "'I went after the idea, not you' restates the going-after-your-argument option and 'say it in public' repeats the public dare, leaving only 'Thursday' new."
     },
-    "0swr2exr5v3": {
-      "keys": [
-        "scene-talk.beat-beat.down-the-hall-a-phone-rings-and-rings",
-        "scene-talk.reply-agree.it-passed-i-ll-sign-it",
-        "scene-talk.reply-refuse.not-as-written-i-m-sorry",
-        "scene-talk.reply-bargain.give-me-your-word-on-a-follow-up-and-i-ll-sign",
-        "scene-talk.reply-ask.what-does-it-cost",
-        "scene-talk.reply-relent.fine-i-ll-sign-it-then",
-        "scene-talk.reply-refuse.i-can-t-put-my-name-on-this-as-it-stands",
-        "scene-talk.reply-leave.i-ll-decide-by-the-deadline-you-ll-hear-from-my-office"
-      ],
-      "why": "'Fine. I'll sign it' and 'can't put my name on this as it stands' restate the first sign and 'not as written' options."
-    },
     "0sxrldn57ne": {
       "keys": [
         "scene-talk.follow-ask.friend.is-that-all-of-it-first",
@@ -2380,19 +2353,6 @@
         "scene-talk.reply-leave.this-conversation-is-over"
       ],
       "why": "Refusing, taking it, reporting it and ending the talk are the first bribe choices again in new words."
-    },
-    "12b3e2jg7qm": {
-      "keys": [
-        "scene-talk.follow-answer.we-never-caught-up-after-one-bad-month-then-it-got-away-from-me",
-        "scene-talk.reply-promise.i-ll-find-the-money-i-don-t-know-how-yet-but-i-will",
-        "scene-talk.reply-ask.how-did-we-get-behind",
-        "scene-talk.reply-offer.i-can-give-you-what-i-ve-saved-it-s-not-much",
-        "scene-talk.reply-deflect.it-s-a-letter-they-always-send-a-letter-first",
-        "scene-talk.reply-promise.then-we-fix-it-now-i-ll-help",
-        "scene-talk.reply-offer.i-ve-got-a-little-put-away-use-it",
-        "scene-talk.reply-deflect.maybe-they-ll-wait-if-we-ask"
-      ],
-      "why": "Fixing it now, using what's put away and maybe they'll wait reword the first find-the-money, savings and just-a-letter options."
     },
     "12inebytgb4": {
       "keys": [
@@ -3306,19 +3266,6 @@
       ],
       "why": "\"Let me tell you all of it\" re-offers the explain option and \"I was wrong... I'm sorry\" re-offers the apology, two of three."
     },
-    "1itp2r48mfs": {
-      "keys": [
-        "scene-talk.follow-answer.you-d-be-position-at-pay-an-hour-to-start",
-        "scene-talk.reply-ask.tell-me-more-about-it",
-        "scene-talk.reply-agree.yes-i-ll-take-it",
-        "scene-talk.reply-decline.i-appreciate-it-but-position-isn-t-the-work-i-want-to-do",
-        "scene-talk.reply-stall.i-d-like-to-talk-it-over-at-home-first",
-        "scene-talk.reply-agree.that-s-great-news-count-me-in",
-        "scene-talk.reply-decline.thank-you-but-i-m-going-to-pass-on-working-as-position-it-isn-t-what-i-m-looking-for",
-        "scene-talk.reply-leave.i-can-t-decide-this-right-now"
-      ],
-      "why": "Taking the job, passing on {position} and not deciding now restate the first yes, no and talk-it-over options."
-    },
     "1iw6wfbpfns": {
       "keys": [
         "scene-talk.follow-answer.the-landlord-s-agent-signed-it-he-told-me-in-the-hallway-there-s-nothing-to-talk",
@@ -3990,20 +3937,6 @@
         "scene-talk.reply-deflect.let-me-think-about-whether-i-m-the-right-person-to-help-and-i-ll-tell-you-tomorrow"
       ],
       "why": "'I'll help you', 'I'll take care of it' and 'tell you tomorrow' are the first glad-to-help, I-will and find-me-tomorrow replies again."
-    },
-    "1wspx49jkfp": {
-      "keys": [
-        "scene-talk.follow-plea.please-a-lot-of-people-put-their-names-on-this",
-        "scene-talk.reply-agree.it-passed-i-ll-sign-it",
-        "scene-talk.reply-refuse.not-as-written-i-m-sorry",
-        "scene-talk.reply-bargain.give-me-your-word-on-a-follow-up-and-i-ll-sign",
-        "scene-talk.reply-ask.what-does-it-cost",
-        "scene-talk.reply-relent.fine-i-ll-sign-it-then",
-        "scene-talk.reply-refuse.it-goes-back-with-a-veto",
-        "scene-talk.reply-bargain.bring-me-the-fix-in-writing-and-i-ll-sign-it-today",
-        "scene-talk.reply-leave.i-ll-sleep-on-it-and-tell-you-in-the-morning"
-      ],
-      "why": "'Fine, I'll sign', 'goes back with a veto' and 'bring me the fix in writing and I'll sign' restate the first sign, refuse and follow-up options."
     },
     "1wwoogpps24": {
       "keys": [
@@ -4739,5 +4672,5 @@
       "why": "\"A real answer\" rewords the truth promise and \"Ask me about my worst habit\" rewords \"start smaller,\" leaving only one new reply."
     }
   },
-  "yesHash": "18fzporcrl2"
+  "yesHash": "1qg86cgzwar"
 }

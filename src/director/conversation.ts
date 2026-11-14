@@ -163,6 +163,7 @@ import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
 import {
   clockSaid,
   daysSaid,
+  countSaid,
   hoursSaid,
   lateSaid,
   lengthSaid,
@@ -849,6 +850,29 @@ function seekingOf(
     : undefined;
 }
 
+/**
+ * Whether a moment is the day the person's job ended when the ledger kept the
+ * day's one cause under another kind: a closure that also formed a drive
+ * shares the drive's cause id, so the moment is labeled for the drive and its
+ * money channel carries the pay lost. The jobs record says which: the person's
+ * own record of a job ending was learned that day.
+ */
+function jobEndedWithMoment(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  moment: { date: string; channels?: readonly { channel: string }[] },
+): boolean {
+  if (!moment.channels?.some((row) => row.channel === "money")) return false;
+  for (const [key, row] of core.knowledgeByPerson.get(personId) ?? [])
+    if (
+      /^job:.+:status$/.test(key) &&
+      row.value === "ended" &&
+      row.learnedAt === moment.date
+    )
+      return true;
+  return false;
+}
+
 /** The job a person last saw end, from their own record of it. */
 function lastEndedJob(core: Readonly<CoreState>, personId: PersonId) {
   let best: { jobId: string; at: string } | undefined;
@@ -1351,6 +1375,61 @@ function caseFacts(
  * The justice engine's events a person can talk about, by the ledger label
  * of the moment they made and the subject each is told as.
  */
+/**
+ * A job the speaker lost, as they tell it (words composer, a subject of
+ * their own: `job-lost-say`, answered back under `job-lost-back` by the
+ * reply's move), from the jobs engine's records: the employer and what they
+ * did there (the ended job's record), how long they had been there (their
+ * working life's record of the start), when it ended (the money moment),
+ * why (the search record's reason: a layoff, the employer closing) and
+ * that they are looking (the search record), with what it paid an hour.
+ */
+function jobLost(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+  lost: Moment,
+): Subject | null {
+  const ended = lastEndedJob(core, speaker.id);
+  const org = ended ? core.organizations.get(ended.organizationId) : undefined;
+  const employer = org ? employerWords(org) : null;
+  if (!ended || !org || !employer) return null;
+  const cites = [lost.causeId, ended.id];
+  const fact = (text: string, ids: readonly string[] = cites): Fact => ({
+    text,
+    sourceRecordIds: [...ids],
+  });
+  const facts: Facts = {
+    employer: fact(employer, [ended.id, org.id]),
+    when: fact(spokenWhen(lost.date, core.date)),
+  };
+  const position = sayableTitle(ended.title)
+    ? withArticle(ended.title)
+    : undefined;
+  if (position) facts.position = fact(position, [ended.id]);
+  const held = heldSinceRecord(core as CoreState, speaker.id, ended.id);
+  const years = tenureYears(
+    held ? { date: String(held.facts.startedAt), factId: held.id } : null,
+    lost.date,
+  );
+  if (years)
+    facts.years = { ...years, text: countSaid(Number(years.text), Infinity) };
+  Object.assign(facts, hourlyFact(core, ended.id));
+  const seeking = seekingOf(core, speaker.id);
+  const reason = seeking && JOB_LOSS_STAGES[seeking.reasonKey];
+  if (seeking) {
+    facts.seeking = fact("yes", [seeking.id]);
+    if (reason) facts[reason] = fact("yes", [seeking.id, ...cites]);
+  }
+  const place = corePlaceByJurisdictionId(speaker.placeId as never);
+  if (place) facts.place = fact(spoken(place), [speaker.householdId]);
+  return {
+    id: `job-lost:${lost.causeId}`,
+    kind: "job-lost",
+    aboutId: lost.causeId,
+    facts,
+  };
+}
+
 const JUSTICE_SUBJECTS: Readonly<Record<string, string>> = {
   "feeling:event:justice.charged": "charge",
   "feeling:event:justice.convicted": "conviction",
@@ -2484,7 +2563,9 @@ export function subjectsBetween(
   const lost =
     recentMoments(core, director, speakerId).find(
       (moment) =>
-        moment.label === "money:job-ended" && !moment.counterpartIds.length,
+        !moment.counterpartIds.length &&
+        (moment.label === "money:job-ended" ||
+          jobEndedWithMoment(core, speakerId, moment)),
     ) ??
     recentMoments(core, director, listenerId).find(
       (moment) =>
@@ -2492,46 +2573,8 @@ export function subjectsBetween(
         moment.counterpartIds.includes(speakerId),
     );
   if (lost && !mine) {
-    out.push({
-      id: `job-lost:${lost.causeId}`,
-      kind: "job-lost",
-      aboutId: lost.causeId,
-      facts: { lost: { text: "yes", sourceRecordIds: [lost.causeId] } },
-    });
-    // Why, and what now: the jobs engine's record of their search, which
-    // names the reason (a layoff, the employer closing) and that they are
-    // looking.
-    const seeking = seekingOf(core, speakerId);
-    const ended = lastEndedJob(core, speakerId);
-    const stage = seeking && JOB_LOSS_STAGES[seeking.reasonKey];
-    if (seeking && stage) {
-      const org = ended
-        ? core.organizations.get(ended.organizationId)
-        : undefined;
-      out.push({
-        id: `job-cause:${lost.causeId}`,
-        kind: "job-cause",
-        aboutId: lost.causeId,
-        stage,
-        facts: {
-          reason: { text: "", sourceRecordIds: [seeking.id] },
-          ...(org
-            ? {
-                employer: {
-                  text: organizationName(org),
-                  sourceRecordIds: [ended!.id, org.id],
-                },
-              }
-            : {}),
-        },
-      });
-      out.push({
-        id: `job-hope:${seeking.id}`,
-        kind: "job-hope",
-        aboutId: lost.causeId,
-        facts: { seeking: { text: "", sourceRecordIds: [seeking.id] } },
-      });
-    }
+    const told = jobLost(core, speaker, lost);
+    if (told) out.push(told);
   }
   // A new job of the speaker's own, from the money moment of its start: the
   // job record names the employer, so the talk opens on it ("I got a job at
@@ -4981,8 +5024,6 @@ const talkedKey = (playerId: PersonId, topic: string) =>
 /** The subjects a person tells as news of their own life; a reaction to one is never answered with small talk. */
 const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "job-lost",
-  "job-cause",
-  "job-hope",
   "eviction",
   "victimization",
   "death-news",
@@ -6128,6 +6169,17 @@ function offerChoices(
     // The other person's given name, as the player says it to them.
     ...(other
       ? { "their-first": { text: other.givenName, sourceRecordIds: [otherId] } }
+      : {}),
+    // News of their own life: each fact the telling just said is marked
+    // `told-<fact>`, so a reply that would ask it again ("How?" after "It
+    // was a car crash.") is held back (`excludesFacts`; W1's strict review).
+    ...(DAY_TALK.backOmitsTold.includes(last.kind)
+      ? Object.fromEntries(
+          (conversation.lines.at(-one)?.wording?.facts ?? []).map((key) => [
+            `told-${key}`,
+            { text: "yes", sourceRecordIds: [otherId] },
+          ]),
+        )
       : {}),
     // They have held the job long enough to say how long: the question
     // "How long?" is offered only then (a question is answered).

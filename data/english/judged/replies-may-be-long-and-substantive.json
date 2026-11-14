@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1292,
+  "judged": 1277,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -96,14 +96,6 @@
         "scene-talk.reply-leave.this-conversation-is-over"
       ],
       "why": "'My answer doesn't change', 'Fine' and 'This conversation is over' give no reason."
-    },
-    "012kh8bmok8": {
-      "keys": [
-        "scene-talk.beat-beat.name-straightens-the-page-and-says-nothing-for-a-moment",
-        "scene-talk.reply-decline.not-this-time-i-m-sorry",
-        "scene-talk.reply-leave.i-ll-call-you-after-i-talk-to-the-council-chair"
-      ],
-      "why": "\"Not this time\" and a callback carry no reason."
     },
     "014fusi998i": {
       "keys": [
@@ -496,16 +488,6 @@
         "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry"
       ],
       "why": "Promising to tell, blaming whoever named the player and leaving carry no reason."
-    },
-    "07wbw36jmem": {
-      "keys": [
-        "scene-talk.follow-plea.please-a-lot-of-people-put-their-names-on-this",
-        "scene-talk.reply-relent.fine-i-ll-sign-it-then",
-        "scene-talk.reply-refuse.it-goes-back-with-a-veto",
-        "scene-talk.reply-bargain.bring-me-the-fix-in-writing-and-i-ll-sign-it-today",
-        "scene-talk.reply-leave.i-ll-sleep-on-it-and-tell-you-in-the-morning"
-      ],
-      "why": "The replies are a sign, a veto, a condition for a written fix and a delay, and none says why."
     },
     "07wn32el3sl": {
       "keys": [
@@ -2483,14 +2465,6 @@
       ],
       "why": "Denial, a promise, \"can't take it back\" and \"We're finished\" carry no reason."
     },
-    "12cqzc9a7ce": {
-      "keys": [
-        "scene-talk.follow-answer.say-it-after-me-a-line-at-a-time-i-will-support-the-constitution-and-the",
-        "scene-talk.reply-agree.i-will-support-the-constitution-and-the-laws-and-i-will-serve-as-office",
-        "scene-talk.reply-promise.i-will-support-the-constitution-and-the-laws-i-will-carry-out-the-duties"
-      ],
-      "why": "Both oath replies are pledges with no reason."
-    },
     "12g7vhobdo2": {
       "keys": [
         "scene-talk.state-tell.i-keep-reading-about-bill-i-want-to-know-what-it-means-for-us",
@@ -2600,14 +2574,6 @@
         "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public"
       ],
       "why": "\"Thursday, on the record\" and \"That's the apology I have\" commit or refuse without a reason."
-    },
-    "14yyg514i0a": {
-      "keys": [
-        "scene-talk.follow-plea.everyone-who-backed-it-will-hear-how-you-decided",
-        "scene-talk.reply-refuse.i-understand-i-m-still-where-i-was",
-        "scene-talk.reply-leave.i-ll-sleep-on-it-and-tell-you-in-the-morning"
-      ],
-      "why": "\"I'm still where I was\" and sleeping on it are a bare stance and a delay."
     },
     "15p26mf2a1v": {
       "keys": [
@@ -3566,14 +3532,6 @@
         "scene-talk.reply-leave.we-re-done-here"
       ],
       "why": "\"When you called my office\" is a bare date and \"We're done here\" ends the talk."
-    },
-    "1lobwcbrek3": {
-      "keys": [
-        "scene-talk.follow-press.the-ones-who-voted-for-it-expected-you-to-sign",
-        "scene-talk.reply-decline.i-can-t-not-on-this-one",
-        "scene-talk.reply-leave.leave-me-the-file-i-ll-call-the-other-side-before-i-decide"
-      ],
-      "why": "\"I can't. Not on this one.\" and the plan to call the other side state no reason for the stance."
     },
     "1mcr98k08q2": {
       "keys": [
@@ -4706,14 +4664,6 @@
       ],
       "why": "\"Even then. It's the right call\" restates the stance without saying why it is right, and the others deny or leave."
     },
-    "2641ch6gg9v": {
-      "keys": [
-        "scene-talk.follow-answer.bad-enough-that-i-haven-t-slept-i-ll-show-you-the-estimate",
-        "scene-talk.reply-promise.then-let-s-get-it-done-i-ll-start-with-the-contractor",
-        "scene-talk.reply-deflect.let-s-get-a-second-estimate-before-we-decide-anything"
-      ],
-      "why": "Starting with the contractor and getting a second estimate state plans without a reason."
-    },
     "26azqxokkcc": {
       "keys": [
         "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
@@ -4820,16 +4770,6 @@
       ],
       "why": "Refusal, report threat, silence and exit with no reason among them."
     },
-    "27xhzukr3un": {
-      "keys": [
-        "scene-talk.state-request.right-hand-up-first-do-you-swear-to-support-the-constitution-and-the-law",
-        "scene-talk.reply-agree.i-do",
-        "scene-talk.reply-promise.i-do-and-i-ll-keep-to-every-word-of-it",
-        "scene-talk.reply-thank.i-do-and-thank-you-for-trusting-me-with-it",
-        "scene-talk.reply-ask.do-i-say-it-after-you"
-      ],
-      "why": "The oath answers are \"I do\" variants and a question, with no argument."
-    },
     "287ua27ueks": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -4839,15 +4779,6 @@
       ],
       "why": "A promise, soup and coming back in the morning carry no argument."
     },
-    "28arqpf7j5k": {
-      "keys": [
-        "scene-talk.beat-beat.down-the-hall-a-phone-rings-and-rings",
-        "scene-talk.reply-relent.fine-i-ll-sign-it-then",
-        "scene-talk.reply-refuse.i-can-t-put-my-name-on-this-as-it-stands",
-        "scene-talk.reply-leave.i-ll-decide-by-the-deadline-you-ll-hear-from-my-office"
-      ],
-      "why": "Signing, refusing \"as it stands\" and deciding by the deadline all come without any reason."
-    },
     "28f33fgjjl0": {
       "keys": [
         "scene-talk.follow-ask.so-what-do-you-want-to-do-now",
@@ -4855,14 +4786,6 @@
         "scene-talk.reply-promise.ill-finish-summer-school-or-the-equivalency-test"
       ],
       "why": "\"Go back, I think. One more try\" and the promise to finish carry no reason."
-    },
-    "28ineg9d9ox": {
-      "keys": [
-        "scene-talk.beat-beat.down-the-hall-a-phone-rings-and-rings",
-        "scene-talk.reply-refuse.i-ve-heard-you-the-answer-stays-the-same",
-        "scene-talk.reply-leave.i-ll-decide-by-the-deadline-you-ll-hear-from-my-office"
-      ],
-      "why": "Both replies only hold the answer or promise a decision by the deadline, with no reason given."
     },
     "28o2ynsgjkq": {
       "keys": [
@@ -5017,15 +4940,6 @@
         "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say-my-office-has-the-rest"
       ],
       "why": "Asking for word-for-word printing, refusing, demanding names and pointing to the office give no reason for the stance."
-    },
-    "2bke9ro20lr": {
-      "keys": [
-        "scene-talk.follow-answer.we-never-caught-up-after-one-bad-month-then-it-got-away-from-me",
-        "scene-talk.reply-promise.then-we-fix-it-now-i-ll-help",
-        "scene-talk.reply-offer.i-ve-got-a-little-put-away-use-it",
-        "scene-talk.reply-deflect.maybe-they-ll-wait-if-we-ask"
-      ],
-      "why": "Fixing it now, offering savings and hoping they wait carry no argument."
     },
     "2bzgcqxdtbw": {
       "keys": [
@@ -5331,5 +5245,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "10jirz5hyml"
+  "yesHash": "06d7h6sm51g"
 }

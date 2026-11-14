@@ -25,6 +25,7 @@ import {
   askToSign,
   campaignFor,
   doorsKnockedOf,
+  eveningMoneyMinor,
   townDoorCount,
   giftOf,
   donorMeetingHost,
@@ -430,8 +431,7 @@ function openToday(
   const candidateAlive = () =>
     !!api.state.people.get(campaign.candidateId)?.alive;
   const affords = () =>
-    (api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0) >=
-    unitPrice(api, "event-venue");
+    eveningMoneyMinor(api, campaign) >= unitPrice(api, "event-venue");
   switch (kind) {
     case "canvass":
       return townHasDoor(api);
@@ -653,8 +653,7 @@ export function campaignDayChoices(
     households - doorsKnockedOf(api, campaign.id).length,
   );
 
-  const cash =
-    api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
+  const cash = eveningMoneyMinor(api, campaign);
   const price = unitPrice(api, "event-venue");
   const candidateAlive = !!api.state.people.get(campaign.candidateId)?.alive;
   // A forum is the meetings engine's town hall, hosted by the candidate: one
