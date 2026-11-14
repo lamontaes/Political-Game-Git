@@ -1,6 +1,6 @@
 ---
 name: words-reads
-description: How the Words lead of Our Civic Duty reads a change to anything a player reads (a scene, a talk, the paper, a speech, the Journal, a screen label) before it joins a train or main, and the numbered rules those reads have set since Nov 13 (rules 30 to 100, after the first twenty-nine on the crew issue). Use when you build or change player words and want to know what the read will ask for, when you are the Words lead or a builder working for it, and when writing lines for a door, a first meeting, home talk, an address, the Journal or an election story. Not for the engine's mechanics (words-engine), the standard a scene must meet to exist (scene-standard) or checking a screen for developer text (player-screen-text).
+description: How the Words lead of Our Civic Duty reads a change to anything a player reads (a scene, a talk, the paper, a speech, the Journal, a screen label) before it joins a train or main, and the numbered rules those reads have set since Nov 13 (rules 30 to 107, after the first twenty-nine on the crew issue). Use when you build or change player words and want to know what the read will ask for, when you are the Words lead or a builder working for it, and when writing lines for a door, a first meeting, home talk, an address, the Journal or an election story. Not for the engine's mechanics (words-engine), the standard a scene must meet to exist (scene-standard) or checking a screen for developer text (player-screen-text).
 ---
 
 # Words reads
@@ -118,6 +118,20 @@ description: How the Words lead of Our Civic Duty reads a change to anything a p
 100.  A seat is said aloud with the area it covers ("Congress, the 3rd District", "the state Senate in the 17th District"); a statewide seat takes no place at the counter, and a town's own office takes nothing after it at its own counter.
 
 Three rulings that go with these. The rules that a scene names its stake and that a promise names who, what and why judge a scene's path up to its ask, never one line or one pair of lines. An offered reply that nothing later reads is not offered: keep the offer as a fact a later talk brings up, or cut the reply. And before lines are written for a scene kind, it is played with the player in the right seat in three drawn places: a kind that never stages, or whose packet holds no facts, needs a producer or a fact first (skill `scene-producers`).
+
+## Rules 101 to 107: how people talk (owner, Nov 14 2026)
+
+His words: "they shouldn't just say the unemployment rate is 4.6, it should say like, times are tough... Like in normal life, people don't say, oh, the unemployment rate is 4.6%"; "When I give examples, don't just limit it to those examples. I'm giving generalities. Your job is to see the bigger picture and build that as a system"; "Be sure that it's talking in American English... There better not be any British English in this word session."
+
+101. In talk nobody says a rate, a percentage, an index or a statistic about the world. They say how it sits for them, and the record and the speaker's own situation choose the wording on a sliding scale. A figure may be said once where people say figures: a prepared speech, a paper story, a hearing, a reporter's question, and an official about their own act. A sum the speaker pays or is paid is their own fact and may be said once.
+102. An example from the owner is a generality: build the system that covers every case like it, and say what you took the general rule to be.
+103. A view is said as what it does to the speaker, from their own record, never as a bill's name plus "I'm for it". Where their record holds nothing the question touches, they do not volunteer a view.
+104. Fact first, figures when asked. News is told flat and stops; tenure, pay and the employer's whole name come out only when the listener asks, and none is said twice.
+105. A name marks attention. A speaker uses the listener's name in at most one line of a talk, where it does work, and never to pass the insert guard. No line explains a feeling ("Thanks for asking.", not "Just knowing you asked helps").
+106. A price is never named in the same breath as the vote. A member says the history or what they need and lets it hang. A refusal is a pending fact, a prior word, a smaller offer or a need for cover; yes is said once.
+107. Plain American talk an ordinary person understands on first hearing: no British spelling or phrasing, and no insider words of government, finance or the office in a person's mouth. Say what the thing does ("I cut your property taxes."). An insider word may pass between insiders in a chamber or hearing, once.
+
+How soon a speaker's own hard news is told slides with the tie: close, it leads; an acquaintance gives a guarded line and the fact only if asked; a stranger does not volunteer it. A scene is a tree: at least two turns past its ask on two branches that end differently and write back. Guides to how real people talk in twelve settings were written from transcripts on Nov 14 2026 and are kept off main; ask the Words lead for the one for your setting before writing lines.
 
 ## Traps
 
