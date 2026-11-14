@@ -422,4 +422,75 @@ describe("a note on the click-through page's batch", () => {
       ["1.1.2", ""],
     ]);
   });
+
+  it("never swaps two keyless lines of different scenes (the dry run's failing case)", () => {
+    const two: BatchMoment[] = [
+      {
+        moment: 17,
+        description: "Filing counter",
+        lines: [
+          {
+            id: "17.1.4",
+            key: "",
+            line: "That's it. Your name's in for the senate.",
+          },
+        ],
+      },
+      {
+        moment: 19,
+        description: "A law in another state",
+        lines: [
+          {
+            id: "19.1.2",
+            key: "",
+            line: "That one isn't ours. Nothing in Nashville changed.",
+          },
+        ],
+      },
+    ];
+    const { grades } = readVoiceNote(
+      "17.1.4, I like that a lot. 19.1.2, that doesn't make sense.",
+      two,
+    );
+    const net = (id: string) =>
+      grades
+        .find((g) => g.id === id)!
+        .spans.reduce((sum, span) => sum + span.strength, 0);
+    expect(grades).toHaveLength(2);
+    expect(net("17.1.4")).toBe(1);
+    expect(net("19.1.2")).toBe(-1);
+  });
+
+  it("lists a grade on a key that is no bank piece as unplaced, never as a grade", () => {
+    const rows: BatchMoment[] = [
+      {
+        moment: 8,
+        description: "First meeting",
+        lines: [
+          {
+            id: "8.1.4",
+            key: "here-back/tell",
+            line: "Good to meet you, Kevin.",
+          },
+          { id: "8.1.5", key: "real.piece", line: "I work for the neighbors." },
+          { id: "8.1.6", key: "", line: "Continue" },
+        ],
+      },
+    ];
+    const { grades, unplaced } = readVoiceNote(
+      "8.1.4, that's solid. 8.1.5, awkward.",
+      rows,
+      new Set(["real.piece"]),
+    );
+    expect(grades.map((g) => g.key)).toEqual(["real.piece"]);
+    expect(unplaced).toEqual([
+      {
+        remark: "8.1.4, that's solid.",
+        moment: 8,
+        scene: "First meeting",
+        line: "8.1.4",
+        why: '"here-back/tell" is not a bank piece',
+      },
+    ]);
+  });
 });

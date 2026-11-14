@@ -37,6 +37,7 @@
  * A development tool. It never words anything.
  */
 import { readFileSync } from "node:fs";
+import { readBankPieces } from "../words/run-rules";
 import { type SpokenSpan, strengthOf } from "./spoken-grades";
 
 export interface BatchLine {
@@ -69,6 +70,9 @@ export interface Unplaced {
   readonly remark: string;
   readonly moment?: number;
   readonly scene?: string;
+  /** The line he did grade, when the grade could not be kept (its key is no bank piece). */
+  readonly line?: string;
+  readonly why?: string;
 }
 
 export interface VoiceRule {
@@ -381,6 +385,8 @@ const FILLER =
 export function readVoiceNote(
   note: string,
   moments: readonly BatchMoment[],
+  /** The keys of the bank's pieces. With it, a grade on any other key is listed as unplaced, never graded. */
+  pieceKeys?: ReadonlySet<string>,
 ): { grades: VoiceGrade[]; rules: VoiceRule[]; unplaced: Unplaced[] } {
   const lines = moments.flatMap((moment) => moment.lines);
   const byMoment = new Map(moments.map((moment) => [moment.moment, moment]));
@@ -749,7 +755,7 @@ export function readVoiceNote(
     part = undefined;
   }
 
-  const grades = [...notes.values()]
+  const all = [...notes.values()]
     .filter((row) => row.spans.length > 0 || row.rewrites.length > 0)
     .map((row) => ({
       key: row.line.key,
@@ -759,6 +765,20 @@ export function readVoiceNote(
       ...(row.rating !== undefined ? { rating: row.rating } : {}),
       ...(row.rewrites.length > 0 ? { rewrites: row.rewrites } : {}),
     }));
+  const grades = all.filter((row) => !pieceKeys || pieceKeys.has(row.key));
+  for (const row of all)
+    if (pieceKeys && !pieceKeys.has(row.key)) {
+      const at = moments.find((m) => m.lines.some((l) => l.id === row.id));
+      unplaced.push({
+        remark: row.note || (row.rewrites ?? []).join(" "),
+        ...(at ? { moment: at.moment } : {}),
+        ...(at?.description ? { scene: at.description } : {}),
+        line: row.id,
+        why: row.key
+          ? `"${row.key}" is not a bank piece`
+          : "the line has no bank piece",
+      });
+    }
   return { grades, rules, unplaced };
 }
 
@@ -771,7 +791,12 @@ function main(batchPath: string, notePath: string) {
     }[];
   };
   const note = readFileSync(notePath, "utf8");
-  const { grades, rules, unplaced } = readVoiceNote(note, batch.moments);
+  const pieceKeys = new Set(readBankPieces().map((piece) => piece.key));
+  const { grades, rules, unplaced } = readVoiceNote(
+    note,
+    batch.moments,
+    pieceKeys,
+  );
   console.log(
     JSON.stringify(
       { batch: batch.id, from: notePath, grades, rules, unplaced },
