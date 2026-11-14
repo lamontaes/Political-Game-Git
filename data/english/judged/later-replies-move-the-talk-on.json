@@ -2,11 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-<<<<<<< HEAD
-  "judged": 1386,
-=======
-  "judged": 1321,
->>>>>>> origin/claude/project-thread-lhbwzt
+  "judged": 1319,
   "no": {
     "0012mo3zvry": {
       "keys": [

@@ -2,11 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-<<<<<<< HEAD
-  "judged": 1381,
-=======
-  "judged": 1334,
->>>>>>> origin/claude/project-thread-lhbwzt
+  "judged": 1331,
   "no": {
     "0038nen24jy": {
       "keys": [

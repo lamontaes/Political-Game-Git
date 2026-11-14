@@ -358,11 +358,8 @@
 23ks48dc5us
 23sg63oz9ct
 24eh9lwk1po
-<<<<<<< HEAD
 24mri4wo7vm
-=======
 24ohgy0wrlo
->>>>>>> origin/claude/project-thread-lhbwzt
 24xwd3ckrj9
 25668hzbqvt
 25akta2ib0w
