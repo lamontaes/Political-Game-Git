@@ -1,4 +1,4 @@
-<title>Door Scenes Review</title>
+<title>Scene Review</title>
 <meta name="claude:viewport-fit-sides" content="cover" />
 <style>
   /* Layout: a scene list beside one conversation that plays as the game shows it. */
@@ -362,6 +362,62 @@
   .notshown td {
     background: var(--accent-soft);
   }
+  .plain .bubble {
+    border: 0;
+    padding: 2px 0;
+    max-width: 62ch;
+  }
+  .search {
+    width: 100%;
+    padding: 6px 8px;
+    margin: 0 0 6px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--fg);
+    font: inherit;
+    font-size: 13px;
+  }
+  nav details {
+    margin: 4px 0;
+  }
+  nav summary {
+    cursor: pointer;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+    padding: 6px;
+  }
+  .rev {
+    font-size: 10.5px;
+    color: var(--warn);
+    border: 1px solid var(--warn);
+    border-radius: 4px;
+    padding: 0 4px;
+    margin-left: auto;
+    flex: none;
+    line-height: 1.5;
+  }
+  .soon {
+    color: var(--muted);
+    font-style: italic;
+    padding: 7px 8px;
+    font-size: 13px;
+  }
+  .banner {
+    border: 1px dashed var(--warn);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 0 0 12px;
+    font-size: 13px;
+    color: var(--warn);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
   .toast {
     position: fixed;
     left: 50%;
@@ -408,6 +464,8 @@
     tab: "play",
     keys: false,
     all: false,
+    old: false,
+    q: "",
   };
 
   const sceneOf = (id) => D.scenes.find((s) => s.id === id);
@@ -450,42 +508,81 @@
     const bub = el("div", "bubble");
     if (l.who) bub.appendChild(el("span", "who", l.who));
     bub.appendChild(document.createTextNode(l.text));
-    const k = el(
-      "div",
-      "key",
-      bankIdFor(scene, l.key) + "  " + l.key + "  [" + l.move + "]",
-    );
-    bub.appendChild(k);
+    if (l.key)
+      bub.appendChild(
+        el(
+          "div",
+          "key",
+          bankIdFor(scene, l.key) +
+            "  " +
+            l.key +
+            (l.move ? "  [" + l.move + "]" : ""),
+        ),
+      );
     row.appendChild(bub);
     return row;
   }
 
   function renderNav() {
     const nav = $("nav");
+    const keep = nav.querySelector(".search");
+    const q = keep ? keep.value.trim().toLowerCase() : state.q;
+    state.q = q;
     nav.textContent = "";
-    for (const door of ["Signature", "Vote"]) {
-      nav.appendChild(
-        el(
-          "h2",
-          "",
-          door === "Signature" ? "Asking for a signature" : "Asking for a vote",
-        ),
+    const box = el("input", "search");
+    box.type = "search";
+    box.id = "search";
+    box.placeholder = "Jump to a scene by title or number";
+    box.value = q;
+    box.addEventListener("input", () => {
+      renderNav();
+      const n = $("search");
+      n.focus();
+      n.setSelectionRange(n.value.length, n.value.length);
+    });
+    nav.appendChild(box);
+    const kinds = [];
+    for (const s of D.scenes) if (!kinds.includes(s.kind)) kinds.push(s.kind);
+    for (const kind of kinds) {
+      const list = D.scenes.filter(
+        (x) =>
+          x.kind === kind &&
+          (!q || (x.id + " " + x.title + " " + kind).toLowerCase().includes(q)),
       );
-      for (const s of D.scenes.filter((x) => x.door === door)) {
+      if (!list.length) continue;
+      const det = el("details");
+      det.open =
+        !!q || kinds.length < 4 || list.some((x) => x.id === state.scene);
+      det.appendChild(el("summary", "", kind + " (" + list.length + ")"));
+      for (const s of list) {
         const b = el("button");
         b.type = "button";
         b.setAttribute("aria-current", String(s.id === state.scene));
         b.appendChild(el("span", "sid", s.id));
-        b.appendChild(el("span", "", s.variant));
+        b.appendChild(el("span", "", s.title));
+        if (s.revised) b.appendChild(el("span", "rev", "revised"));
         b.addEventListener("click", () => {
           state.scene = s.id;
           state.path = [];
           state.tab = "play";
+          state.old = false;
+          state.v = 1;
+          state.ans = "yes";
           render();
           location.hash = "scene-" + s.id;
         });
-        nav.appendChild(b);
+        det.appendChild(b);
       }
+      nav.appendChild(det);
+    }
+    if (D.notReady && D.notReady.length) {
+      const det = el("details");
+      det.appendChild(
+        el("summary", "", "Not ready (" + D.notReady.length + ")"),
+      );
+      for (const n of D.notReady)
+        det.appendChild(el("div", "soon", n.title + ": " + n.why));
+      nav.appendChild(det);
     }
   }
 
@@ -502,7 +599,29 @@
     group.appendChild(g);
   }
 
-  function renderPlay(main, scene, ans) {
+  function endBox(node) {
+    const e = el("div", "end");
+    e.appendChild(document.createTextNode("Ends: "));
+    e.appendChild(el("b", "", node.end.label || "no named ending"));
+    return e;
+  }
+  function walkAll(conv, scene, node) {
+    for (const l of node.lines) conv.appendChild(lineRow(scene, l));
+    if (node.end && node.end.close)
+      conv.appendChild(lineRow(scene, node.end.close));
+    for (const c of node.choices) {
+      conv.appendChild(lineRow(scene, c.line));
+      if (c.next) {
+        const inner = el("div", "conv");
+        inner.style.marginLeft = "18px";
+        walkAll(inner, scene, c.next);
+        conv.appendChild(inner);
+      }
+    }
+    if (node.end) conv.appendChild(endBox(node));
+  }
+
+  function renderPlay(scene, ans) {
     const conv = el("div", "conv" + (state.keys ? " showkeys" : ""));
     for (const l of ans.opening) conv.appendChild(lineRow(scene, l));
     let node = ans.tree;
@@ -516,8 +635,7 @@
         const box = el("div", "choices");
         box.appendChild(el("div", "lead", "All replies:"));
         for (const c of node.choices) {
-          const r = lineRow(scene, c.line);
-          box.appendChild(r);
+          box.appendChild(lineRow(scene, c.line));
           if (c.next) {
             const inner = el("div", "conv");
             inner.style.marginLeft = "18px";
@@ -537,16 +655,13 @@
           b.type = "button";
           b.appendChild(idChip(c.line.id));
           b.appendChild(el("span", "", c.line.text));
+          b.appendChild(
+            el("span", "key", bankIdFor(scene, c.line.key) + "  " + c.line.key),
+          );
           b.addEventListener("click", () => {
             state.path.push(i);
             render();
           });
-          const k = el(
-            "span",
-            "key",
-            bankIdFor(scene, c.line.key) + "  " + c.line.key,
-          );
-          b.appendChild(k);
           box.appendChild(b);
         });
         conv.appendChild(box);
@@ -558,37 +673,12 @@
       node = c.next;
       depth += 1;
     }
-    if (node.end) {
-      const e = el("div", "end");
-      e.appendChild(document.createTextNode("Ends: "));
-      e.appendChild(el("b", "", node.end.label || "no named ending"));
-      conv.appendChild(e);
-    }
+    if (node.end) conv.appendChild(endBox(node));
     return conv;
-  }
-  function walkAll(conv, scene, node) {
-    for (const l of node.lines) conv.appendChild(lineRow(scene, l));
-    if (node.end && node.end.close)
-      conv.appendChild(lineRow(scene, node.end.close));
-    for (const c of node.choices) {
-      conv.appendChild(lineRow(scene, c.line));
-      if (c.next) {
-        const inner = el("div", "conv");
-        inner.style.marginLeft = "18px";
-        walkAll(inner, scene, c.next);
-        conv.appendChild(inner);
-      }
-    }
-    if (node.end) {
-      const e = el("div", "end");
-      e.appendChild(document.createTextNode("Ends: "));
-      e.appendChild(el("b", "", node.end.label || "no named ending"));
-      conv.appendChild(e);
-    }
   }
 
   function renderBank(main, scene) {
-    const wrap = el("div", "tablewrap");
+    const wrap = el("div", "tablewrap" + (state.keys ? " showkeys" : ""));
     const t = el("table");
     const head = el("tr");
     for (const h of ["Id", "Step", "Move", "Line as written", "Needs"])
@@ -603,7 +693,7 @@
       tr.appendChild(el("td", "", b.move || ""));
       const td = el("td", "t", b.text);
       if (!b.shown)
-        td.appendChild(el("div", "tag", "not in the wordings shown above"));
+        td.appendChild(el("div", "tag", "not in the wordings shown"));
       if (b.family)
         td.appendChild(el("div", "tag", "shared with the plain scene"));
       td.appendChild(el("div", "key", b.key));
@@ -613,7 +703,21 @@
     }
     wrap.appendChild(t);
     main.appendChild(wrap);
-    if (state.keys) wrap.classList.add("showkeys");
+  }
+
+  function checkbox(id, label, key) {
+    const l = el("label");
+    const c = el("input");
+    c.type = "checkbox";
+    c.id = id;
+    c.checked = state[key];
+    c.addEventListener("change", () => {
+      state[key] = c.checked;
+      render();
+    });
+    l.appendChild(c);
+    l.appendChild(document.createTextNode(" " + label));
+    return l;
   }
 
   function render() {
@@ -621,39 +725,72 @@
     const main = $("main");
     main.textContent = "";
     const scene = sceneOf(state.scene);
-    const h = el(
-      "h1",
-      "",
-      "Scene " +
-        scene.id +
-        ": " +
-        (scene.door === "Signature" ? "signature" : "vote") +
-        ", " +
-        scene.variant,
-    );
-    main.appendChild(h);
+    main.appendChild(el("h1", "", "Scene " + scene.id + ": " + scene.title));
+    const pic = scene.picture
+      ? " Picture: " +
+        scene.picture.filter((x) => x[0] !== "@").join(", ") +
+        "."
+      : "";
     main.appendChild(
       el(
         "p",
         "meta",
-        "Picture: " +
-          (scene.picture
-            ? scene.picture.filter((x) => x[0] !== "@").join(", ") +
-              " (the door picture family; one row for every door scene)"
-            : "none yet") +
-          ". Lines in the bank for this scene: " +
-          scene.bank.length +
-          ". Ids: scene.wording+answer.line, for example " +
+        scene.kind +
+          (scene.place ? " · " + scene.place : "") +
+          "." +
+          pic +
+          (scene.bank.length
+            ? " Lines in the bank for this scene: " + scene.bank.length + "."
+            : "") +
+          " Ids read like " +
           scene.id +
-          ".2y.5.",
+          ".1" +
+          (scene.asking ? "y" : "") +
+          ".3: scene, wording, line.",
       ),
     );
+    if (scene.coming) {
+      main.appendChild(
+        el(
+          "div",
+          "banner",
+          "This one is not built yet. It will appear here when it is.",
+        ),
+      );
+      main.appendChild(footer());
+      return;
+    }
+    if (scene.revised) {
+      const ban = el(
+        "div",
+        "banner",
+        "Revised " + scene.revised + " after your feedback. ",
+      );
+      if (scene.previous) {
+        const tg = el(
+          "button",
+          "act",
+          state.old ? "Show the new text" : "Show the earlier text",
+        );
+        tg.type = "button";
+        tg.addEventListener("click", () => {
+          state.old = !state.old;
+          state.path = [];
+          render();
+        });
+        ban.appendChild(tg);
+      }
+      main.appendChild(ban);
+    }
 
     const tabs = el("div", "tabs");
-    for (const [val, text] of [
-      ["play", "Play it"],
-      ["bank", "Every line in the bank"],
-    ]) {
+    const tabList = scene.bank.length
+      ? [
+          ["play", "Play it"],
+          ["bank", "Every line in the bank"],
+        ]
+      : [["play", "Read it"]];
+    for (const [val, text] of tabList) {
       const b = el("button", "seg", text);
       b.type = "button";
       b.setAttribute("aria-pressed", String(state.tab === val));
@@ -666,100 +803,88 @@
     main.appendChild(tabs);
 
     const tools = el("div", "tools");
-    const k = el("label");
-    const kc = el("input");
-    kc.type = "checkbox";
-    kc.id = "keys";
-    kc.checked = state.keys;
-    kc.addEventListener("change", () => {
-      state.keys = kc.checked;
-      render();
-    });
-    k.appendChild(kc);
-    k.appendChild(document.createTextNode(" Show piece keys"));
-    tools.appendChild(k);
-    if (state.tab === "play") {
-      const a = el("label");
-      const ac = el("input");
-      ac.type = "checkbox";
-      ac.id = "all";
-      ac.checked = state.all;
-      ac.addEventListener("change", () => {
-        state.all = ac.checked;
-        render();
-      });
-      a.appendChild(ac);
-      a.appendChild(document.createTextNode(" Read every branch at once"));
-      tools.appendChild(a);
-    }
+    tools.appendChild(checkbox("keys", "Show piece keys", "keys"));
+    if (state.tab === "play" && scene.type !== "text")
+      tools.appendChild(checkbox("all", "Read every branch at once", "all"));
     main.appendChild(tools);
 
-    if (state.tab === "bank") {
+    if (state.tab === "bank" && scene.bank.length) {
       renderBank(main, scene);
       main.appendChild(footer());
       return;
     }
 
-    const ctl = el("div", "controls");
-    seg(
-      ctl,
-      "Wording",
-      scene.versions.map((v) => [v.v, "" + v.v]),
-      state.v,
-      (v) => {
-        state.v = v;
+    const shownVersions =
+      state.old && scene.previous ? scene.previous.versions : scene.versions;
+    const text = scene.type === "text";
+    if (!text) {
+      const ctl = el("div", "controls");
+      if (shownVersions.length > 1)
+        seg(
+          ctl,
+          "Wording",
+          shownVersions.map((v) => [v.v, "" + v.v]),
+          state.v,
+          (v) => {
+            state.v = v;
+            state.path = [];
+            render();
+          },
+        );
+      if (scene.asking)
+        seg(
+          ctl,
+          "The records say they",
+          [
+            ["yes", "agree"],
+            ["maybe", "hold back"],
+            ["no", "decline"],
+          ],
+          state.ans,
+          (a) => {
+            state.ans = a;
+            state.path = [];
+            render();
+          },
+        );
+      const back = el("button", "act", "Back one reply");
+      back.type = "button";
+      back.disabled = state.path.length === 0;
+      back.addEventListener("click", () => {
+        state.path.pop();
+        render();
+      });
+      const start = el("button", "act", "Start over");
+      start.type = "button";
+      start.addEventListener("click", () => {
         state.path = [];
         render();
-      },
-    );
-    seg(
-      ctl,
-      "The records say they",
-      [
-        ["yes", "agree"],
-        ["maybe", "hold back"],
-        ["no", "decline"],
-      ],
-      state.ans,
-      (a) => {
-        state.ans = a;
-        state.path = [];
-        render();
-      },
-    );
-    const back = el("button", "act", "Back one reply");
-    back.type = "button";
-    back.disabled = state.path.length === 0;
-    back.addEventListener("click", () => {
-      state.path.pop();
-      render();
-    });
-    const start = el("button", "act", "Start over");
-    start.type = "button";
-    start.addEventListener("click", () => {
-      state.path = [];
-      render();
-    });
-    const list = el("button", "act", "Back to the list");
-    list.type = "button";
-    list.addEventListener("click", () => {
-      document.getElementById("nav").scrollIntoView({ behavior: "smooth" });
-    });
-    const g = el("div", "group");
-    g.appendChild(back);
-    g.appendChild(start);
-    g.appendChild(list);
-    ctl.appendChild(g);
-    main.appendChild(ctl);
+      });
+      const list = el("button", "act", "Back to the list");
+      list.type = "button";
+      list.addEventListener("click", () => {
+        $("nav").scrollIntoView({ behavior: "smooth" });
+      });
+      const g = el("div", "group");
+      g.appendChild(back);
+      g.appendChild(start);
+      g.appendChild(list);
+      ctl.appendChild(g);
+      main.appendChild(ctl);
+    }
 
     const version =
-      scene.versions.find((v) => v.v === state.v) || scene.versions[0];
-    const ans = version.answers.find((a) => a.answer === state.ans);
-    if (!ans || ans.skipped)
+      shownVersions.find((v) => v.v === state.v) || shownVersions[0];
+    const ans = scene.asking
+      ? version.answers.find((a) => a.answer === state.ans)
+      : version.answers[0];
+    if (!ans || !ans.opening)
+      main.appendChild(el("p", "meta", "This one did not compose."));
+    else main.appendChild(renderPlay(scene, ans));
+    if (state.old && scene.previous)
       main.appendChild(
-        el("p", "meta", "This answer did not compose: " + (ans && ans.skipped)),
+        el("p", "meta", "Earlier text, from " + scene.previous.date + "."),
       );
-    else main.appendChild(renderPlay(main, scene, ans));
     main.appendChild(footer());
   }
   function footer() {
@@ -773,9 +898,7 @@
       D.place.name +
       " (seed " +
       D.seed +
-      '). Names, the employer and the amounts are filled from that world or marked samples. Say a line aloud by its id, for example "' +
-      state.scene +
-      '.2y.5", and the note ties to the exact line. Tap an id to copy it.';
+      "). Names, the employer and the amounts are filled from that world or marked samples, and a slot with no sample shows in brackets. Say a scene by its title or number, or a line by its id, and the note ties to the exact line. Tap an id to copy it.";
     return n;
   }
   function fromHash() {
