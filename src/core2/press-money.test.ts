@@ -10,6 +10,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
+import news from "../../data/research/press/local-news-2026.json" with { type: "json" };
 import { STOPGAPS as stopgaps } from "./stopgaps";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { gameStartDate } from "./game-start";
@@ -106,7 +107,8 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
     const subs = (m: OutletRevenueMonthRow) =>
       m.subscriptionsFullMinor + m.subscriptionsCountedMinor;
     const price =
-      (pressParameter("newspaperRevenuePerFollowerYear") *
+      ((pressParameter("newspaperRevenuePerAdultYear") /
+        news.habits.national.localNewspapers) *
         pressParameter("newspaperCirculationShare")) /
       pressParameter("monthsPerYear");
     // The first paper that stayed open and whose readers both rose and fell.

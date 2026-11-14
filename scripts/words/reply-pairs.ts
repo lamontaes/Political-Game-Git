@@ -381,6 +381,7 @@ export interface PathSheet {
     readonly after: PathSubject["after"];
     readonly options?: PathSubject["options"];
     readonly first?: PathSubject["first"];
+    readonly variants?: PathSubject["variants"];
   }[];
 }
 
@@ -408,6 +409,7 @@ export function pathSheets(
         after: path.after,
         ...(path.options ? { options: path.options } : {}),
         ...(path.first ? { first: path.first } : {}),
+        ...(path.variants ? { variants: path.variants } : {}),
       })),
     });
   return files;

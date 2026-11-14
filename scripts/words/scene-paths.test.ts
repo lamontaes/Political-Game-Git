@@ -117,7 +117,10 @@ describe("scene paths", () => {
     expect(paths.map((p) => p.scenes)).toEqual([2, 2]);
   });
 
-  const setRule = (sets: "every" | "later", moves?: string): LineRule => ({
+  const setRule = (
+    sets: "every" | "later" | "variants",
+    moves?: string,
+  ): LineRule => ({
     ...rule("unused"),
     id: "replies-differ",
     judges: "set",
@@ -167,5 +170,37 @@ describe("scene paths", () => {
     expect(
       scenePaths({ ...rule("promise"), judges: "line" }, PIECES, [talk("a")]),
     ).toEqual([]);
+  });
+
+  it("reads a slot's variants whatever facts each one needs", () => {
+    const use = {
+      purpose: "rescue-ask",
+      key: "k",
+      step: "reply",
+      move: "promise",
+      role: "asked",
+    };
+    const variants = [
+      {
+        ...piece("v1", "I'll be there by six.", "reply-promise"),
+        uses: [{ ...use, requiresFacts: ["after-work"] }],
+      },
+      {
+        ...piece("v2", "I'll bring the truck.", "reply-promise"),
+        uses: [{ ...use, requiresFacts: ["owns-truck"] }],
+      },
+      {
+        ...piece("v3", "Alone, I'll be no help.", "reply-promise"),
+        uses: [{ ...use, role: "asker" }],
+      },
+    ];
+    const slots = scenePaths(setRule("variants"), variants, []);
+    expect(slots.map((slot) => [slot.scene, slot.keys])).toEqual([
+      ["rescue-ask/k/reply/promise/asked", ["v1", "v2"]],
+    ]);
+    expect(slots[0]!.variants!.map((v) => v.needs)).toEqual([
+      ["after-work"],
+      ["owns-truck"],
+    ]);
   });
 });

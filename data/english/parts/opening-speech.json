@@ -841,62 +841,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-says.polished-sos-fewer-of-the-people-of-this-state-have-work-than-when-this",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Fewer of the people of {realm-name} have work than when this term began, and a paycheck missing is a hard thing to explain at a kitchen table.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["jobs-worse", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["jobs-worse", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "jobs",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-fewer-people-here-have-work-than-when-this-term-began-and-a",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Fewer people in {realm-name} have work than when this term began, and a missing paycheck is hard to explain at a kitchen table.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["jobs-worse", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["jobs-worse", "realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "jobs",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.story-says.polished-sos-more-of-the-people-of-this-state-are-working-than-when-this",
       "move": "story-says",
       "kind": "spoken",
@@ -948,27 +892,6 @@
       "voice": "plain",
       "bearing": "glad",
       "topic": "jobs",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-pay-in-this-state-has-fallen-behind-what-a-family-needs-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Pay in {realm-name} has fallen behind what a family needs, and the shortfall is bigger than when this term began.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["pay-worse", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "pay",
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-08"
@@ -1046,27 +969,6 @@
       "voice": "plain",
       "bearing": "glad",
       "topic": "pay",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-prices-in-this-state-have-climbed-faster-than-they-should-and-families",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Prices in {realm-name} have climbed faster than they should, and families feel it every time they fill a cart or a tank.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["prices-worse", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "prices",
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-08"
@@ -113723,6 +113625,13 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-better", "good-name"]
         }
       ],
       "voice": ["polished", "plain"],
@@ -113744,6 +113653,13 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-better", "good-name"]
         }
       ],
       "voice": "polished",
@@ -113762,6 +113678,13 @@
         {
           "move": "story-says",
           "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"]
@@ -113814,6 +113737,13 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-better", "good-name"]
         }
       ],
       "voice": ["polished", "plain"],
@@ -113832,6 +113762,13 @@
         {
           "move": "story-says",
           "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-better", "good-name"]
@@ -113856,6 +113793,13 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-better", "good-name"]
         }
       ],
       "voice": ["polished", "plain"],
@@ -113863,6 +113807,370 @@
       "topic": "prices",
       "origin": "authored",
       "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-jobs-worse-fewer-people-have-jobs-than-when-this-term-began-and-a-missing-paycheck-is-hard-",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Fewer people have jobs than when this term began, and a missing paycheck is hard to explain at a kitchen table.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "jobs",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-jobs-worse-good-jobs-are-harder-to-find-than-when-this-term-began-and-families-are-feeling-",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Good jobs are harder to find than when this term began, and families are feeling it.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "jobs",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-jobs-worse-more-people-are-looking-for-work-than-when-this-term-began-and-jobs-are-not-keep",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "More people are looking for work than when this term began, and jobs are not keeping up.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "jobs",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-jobs-worse-i-hear-it-from-neighbors-every-week-jobs-are-scarce-and-too-many-homes-are-waiti",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "I hear it from neighbors every week: jobs are scarce, and too many homes are waiting on a paycheck.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "jobs",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-pay-worse-a-family-s-pay-has-fallen-behind-what-it-needs-and-it-is-further-behind-than-whe",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "A family's pay has fallen behind what it needs, and it is further behind than when this term began.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "pay",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-pay-worse-the-month-runs-out-sooner-than-it-did-because-pay-has-not-kept-up",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "The month runs out sooner than it did, because pay has not kept up.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "pay",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-pay-worse-families-are-working-as-hard-as-ever-and-pay-still-falls-short-of-the-bills",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Families are working as hard as ever, and pay still falls short of the bills.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "pay",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-pay-worse-a-paycheck-covers-less-of-the-month-than-when-this-term-began-people-feel-it-eve",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "A paycheck covers less of the month than when this term began. People feel it every week.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "pay",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-prices-worse-families-pay-more-at-the-register-than-when-this-term-began-and-they-notice-ever",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Families pay more at the register than when this term began, and they notice every time.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "prices",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-prices-worse-the-month-stretches-less-far-than-it-did-because-prices-have-climbed",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "The month stretches less far than it did, because prices have climbed.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "prices",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-prices-worse-a-trip-for-groceries-or-gas-costs-more-than-it-used-to-and-prices-have-kept-clim",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "A trip for groceries or gas costs more than it used to, and prices have kept climbing.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "prices",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-prices-worse-a-family-s-dollar-buys-less-than-when-this-term-began-nobody-needs-me-to-tell-th",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "A family's dollar buys less than when this term began. Nobody needs me to tell them that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-worse"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "prices",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-prices-better-groceries-and-gas-cost-families-less-than-when-this-term-began-and-that-is-real-",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Groceries and gas cost families less than when this term began, and that is real money back in a family's week.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-better"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "prices",
+      "origin": "authored",
+      "author": "Claude (Words builder S, local work, pay and prices)",
       "date": "2026-11-14"
     }
   ]
