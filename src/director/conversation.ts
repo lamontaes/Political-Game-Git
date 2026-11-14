@@ -4490,6 +4490,19 @@ function askSubject(
 }
 
 /** The other person raises one of their own subjects. */
+/**
+ * A race's result as a talk's subject: the paper's story with the question
+ * the winner ran on taken out (its `about` and the news question), so the
+ * player answers who won ("Really?", "I saw that.") and never takes a stand
+ * on, or says they have no view of, a question nobody said.
+ */
+function resultSubject(subject: Subject): Subject {
+  const { about: _about, ...facts } = subject.facts;
+  const { news, ...rest } = subject;
+  const { question: _question, ...said } = news ?? {};
+  return { ...rest, facts, ...(news ? { news: said } : {}) };
+}
+
 function raiseSubject(
   core: Readonly<CoreState>,
   conversation: Conversation,
@@ -5424,7 +5437,10 @@ function openConversationNow(
           core,
           conversation,
           data,
-          news,
+          // A race's result is told by who won, not by a question the
+          // winner ran on: the player answers who won, never a stand on a
+          // question nobody said.
+          brought.resultId ? resultSubject(news) : news,
           false,
           // A race's result is told by who won and how it sits with them,
           // not by the paper's headline.

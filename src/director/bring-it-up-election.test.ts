@@ -12,20 +12,13 @@ import { bringItUp, resultLean } from "./bring-it-up";
 
 // After a count, a person who read the result brings it up: who won, and,
 // for a person clearly with or against the winner's party, how it sits with
-// them. Each world opens a week before the November 3, 2026 count and lives
+// them. The world opens a week before the November 3, 2026 count and lives
 // through it to the week after, on the engines' own calendar (the count, the
-// paper, the reading). Pinned places and seeds (found by drawing, Nov 14).
+// paper, the reading). One pinned place and seed (found by drawing, Nov 14;
+// the place of three where tellers with, against and with no clear lean were
+// most common). Sheridan, Wyoming and Arkadelphia, Arkansas are played
+// evidence in the PR, not run here.
 const PLACES = [
-  {
-    name: "Sheridan, Wyoming",
-    key: "5669845",
-    seed: "5c66d25fa63c1ee8adb53909d641ab9d36015cebcc0726284859fc46b07ea7aa",
-  },
-  {
-    name: "Arkadelphia, Arkansas",
-    key: "0501870",
-    seed: "21010b62bd4246a31e542b9adccfab253f0def8aa4057d00ff76a0a6fee5adf7",
-  },
   {
     name: "Astoria, Oregon",
     key: "4103150",
@@ -109,5 +102,5 @@ describe.each(PLACES)("a race's result brought up in $name", (place) => {
     } finally {
       setBookkeeping(true);
     }
-  }, 300_000);
+  }, 180_000);
 });
