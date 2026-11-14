@@ -1042,133 +1042,6 @@
       "seconds": 30
     },
     {
-      "key": "us-federal-positions:immigration.admit-more-immigrants",
-      "kind": "question",
-      "family": "immigration",
-      "inForceAtOpening": false,
-      "change": "enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
-      "lawIds": [
-        "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
-        "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-02-26:law-wiring-b8da9dc9-b"
-      ],
-      "openingReach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 0,
-        "governments": 0,
-        "other": 0,
-        "open": 0,
-        "ended": 0,
-        "sample": []
-      },
-      "reach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 0,
-        "governments": 0,
-        "other": 0,
-        "open": 0,
-        "ended": 0,
-        "sample": []
-      },
-      "reachAtEnd": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 0,
-        "governments": 0,
-        "other": 0,
-        "open": 0,
-        "ended": 0,
-        "sample": []
-      },
-      "inPlay": [],
-      "applied": {
-        "rows": 0,
-        "withAmount": 0,
-        "sample": []
-      },
-      "readers": {
-        "src/core2/modules/counted-moves.ts:204": 126,
-        "src/core2/life.ts:552": 5,
-        "src/core2/modules/outcome-web.ts:208": 4
-      },
-      "openingRow": "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:starting",
-      "money": {
-        "direct": [],
-        "diff": [],
-        "diffKinds": 0,
-        "cited": [],
-        "controlCited": [],
-        "own": {
-          "targets": 0,
-          "among": "reached",
-          "pairs": [],
-          "paid": 0,
-          "pick": null,
-          "sample": [],
-          "near": []
-        }
-      },
-      "web": {
-        "links": [
-          {
-            "key": "more-immigration-to-workforce",
-            "status": "size-not-set",
-            "to": "labor.workforce"
-          },
-          {
-            "key": "immigration-to-crime",
-            "status": "about-zero",
-            "to": "crime.rate-index"
-          }
-        ],
-        "fired": [],
-        "firedCount": 0,
-        "windowDays": 35,
-        "cause": [],
-        "reenacted": null
-      },
-      "heard": {
-        "people": 108,
-        "sample": [
-          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
-          "person_02352023b68716b3:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
-          "person_36eb45b694f405d5:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9"
-        ]
-      },
-      "afterUndo": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 0,
-        "governments": 0,
-        "other": 0,
-        "open": 0,
-        "ended": 0,
-        "sample": []
-      },
-      "afterUndoChanged": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 0,
-        "governments": 0,
-        "other": 0,
-        "open": 0,
-        "ended": 0,
-        "sample": []
-      },
-      "seconds": 29
-    },
-    {
       "key": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
       "kind": "question",
       "family": "justice",
@@ -1330,6 +1203,151 @@
         "sample": []
       },
       "seconds": 34
+    },
+    {
+      "key": "us-federal-positions:immigration.admit-more-immigrants",
+      "kind": "question",
+      "family": "immigration",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+        "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-02-26:law-wiring-b8da9dc9-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 56,
+        "countedPeople": 4635,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 56,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DC",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:FL",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:GA"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 56,
+        "countedPeople": 4635,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 56,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DC",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:FL",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:GA"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 56,
+        "withAmount": 0,
+        "sample": [
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DC",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:FL"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/counted-moves.ts:206": 122,
+        "src/core2/modules/legislature.ts:4653": 52,
+        "src/core2/modules/world-legislating.ts:375": 18,
+        "src/core2/modules/world-legislating.ts:310": 11,
+        "src/core2/modules/outcome-web.ts:208": 8,
+        "src/core2/life.ts:552": 5,
+        "src/core2/modules/counted-moves.ts:1181": 2
+      },
+      "openingRow": "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 56,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "more-immigration-to-workforce",
+            "status": "size-not-set",
+            "to": "labor.workforce"
+          },
+          {
+            "key": "immigration-to-crime",
+            "status": "about-zero",
+            "to": "crime.rate-index"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 112,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+          "person_168a7ae4bab9237d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+          "person_38beca3061cd6599:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 32
     }
   ]
 }

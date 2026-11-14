@@ -187,7 +187,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | protect farmland from development                                 | agriculture        | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | Local power: protect farmland from development                    | agriculture        | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired      | none                                |
 | Spending: parks                                                   | parks-culture      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
-| admit more immigrants                                             | immigration        | yes    | yes    | NO    | yes     | NO    | NO  | yes     | NO     | NO        | partly     | none                                |
+| admit more immigrants                                             | immigration        | yes    | yes    | yes   | yes     | n/a   | NO  | yes     | yes    | yes       | partly     | none                                |
 | Spending: National defense                                        | defense-veterans   | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
 | Spending: Veterans benefits and services                          | defense-veterans   | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
 | Spending: International affairs and foreign aid                   | foreign-trade      | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
@@ -1174,11 +1174,8 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **admit more immigrants** (`us-federal-positions:immigration.admit-more-immigrants`)
 
-- reach: no law-reach row: nothing records who it applies to
-- money: no money flow: nobody pays or receives anything because of it
+- money: its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held
 - web: every link is unbuilt: size-not-set
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **Spending: National defense** (`budget-line:nationalDefense`)
 

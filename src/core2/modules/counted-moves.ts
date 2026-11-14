@@ -30,6 +30,7 @@ import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { returnedMembersLeave } from "../returned-members-move";
 import { isDemoted } from "../counted-groups";
 import { stateFigures, type RegionMonth } from "../regional-model";
+import { lawApplied } from "../law-reach/applied";
 import { LAWS_MODULE_ID, lawInForce, stateLawInForce } from "./laws";
 import { REGIONAL_MODULE_ID } from "./regional";
 import { webFactorFor, type Subject } from "../outcome-web-reach";
@@ -1183,10 +1184,30 @@ function month(api: CoreAPI): void {
   // (the age mix of the nation's arrivals from abroad). They come from no
   // state's leavers, so a state's count grows by them; the town's state sends
   // its counted places their share to settle as households.
+  const admitLaw = api.state.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, ADMIT_MORE_IMMIGRANTS)
+    : undefined;
+  const extraShare =
+    RATES.national.admitMoreImmigrantsLaw.shareOfArrivalsFromAbroad;
   for (const st of stateList) {
     const stateTotal =
       st.people.reduce((a, b) => a + b, 0) + (st === home ? counted : 0);
     const monthly = (stateTotal * abroadRate(api, st.usps)) / 12;
+    // The law reached the state's arrivals it added: the share of this
+    // month's arrivals from abroad that come because it stands.
+    if (admitLaw?.value === 1 && admitLaw.governing && monthly > 0)
+      lawApplied(api, {
+        key: ADMIT_MORE_IMMIGRANTS,
+        lawId: admitLaw.governing.id,
+        targetId: `${COUNTED_MOVES_MODULE_ID}:from-abroad:${st.usps}`,
+        target: "group",
+        engine: COUNTED_MOVES_MODULE_ID,
+        what: "admitted-from-abroad",
+        count: Math.max(
+          1,
+          Math.round((monthly * extraShare) / (1 + extraShare)),
+        ),
+      });
     COARSE.forEach(([name], band) => {
       const added = monthly * (RATES.national.abroadAgeShare[name] ?? 0);
       if (st !== home) {
