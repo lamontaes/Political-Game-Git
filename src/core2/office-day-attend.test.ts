@@ -137,6 +137,8 @@ interface Spoke {
   readonly body: string;
   /** Whether the bill's public comment was taken on its committee's day, before the meeting. */
   readonly afterCommittee: boolean;
+  /** The members who already knew the player before they spoke: their first tie keeps its own record. */
+  readonly knewBefore: ReadonlySet<string>;
 }
 
 /**
@@ -197,6 +199,13 @@ function speakAtAMeeting(place: {
     const earlierSpeeches = earlier.map(
       (id) => addressesGivenBy(api, id).length,
     );
+    const knewBefore = new Set(
+      members(api, meeting.officeId).flatMap((t) =>
+        t.personId && core.people.get(t.personId)?.knownIds.has(me)
+          ? [t.personId]
+          : [],
+      ),
+    );
     speakOnItem(api, meeting.id, billId, 1);
     expect(
       earlier.map((id) => addressesGivenBy(api, id).length),
@@ -220,6 +229,7 @@ function speakAtAMeeting(place: {
       billId,
       body: meeting.officeId,
       afterCommittee,
+      knewBefore,
     };
   }
   if (!spoke)
@@ -277,11 +287,20 @@ function speakAtAMeeting(place: {
       core.people.get(id)!.knownIds.has(me),
       `${where}: ${id} knows the player`,
     ).toBe(true);
-    // Each member's tie cites the bill's public comment, by its record.
+    // Every member heard the remark, once (an event enters once).
     expect(
-      core.knowledgeByPerson.get(id)?.get(`person:${me}:met`)?.sourceId,
-      `${where}: ${id} met the player at the public comment`,
-    ).toBe(`public-comment:${spoke.billId}`);
+      core.knowledgeByPerson
+        .get(id)
+        ?.has(`event:speech:remark:${spoke.billId}:${me}:experienced`),
+      `${where}: ${id} heard the remark`,
+    ).toBe(true);
+    // A member who met the player here cites the bill's public comment, by
+    // its record; one who already knew them keeps the earlier tie's record.
+    if (!spoke.knewBefore.has(id))
+      expect(
+        core.knowledgeByPerson.get(id)?.get(`person:${me}:met`)?.sourceId,
+        `${where}: ${id} met the player at the public comment`,
+      ).toBe(`public-comment:${spoke.billId}`);
     expect(
       core.eventIds.has(`public-comment:${spoke.billId}`),
       `${where}: the public comment is on the record`,
