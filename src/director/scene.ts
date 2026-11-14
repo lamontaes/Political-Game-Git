@@ -20,7 +20,7 @@ import {
   type SceneBinding,
   type ScheduleEntry,
 } from "./scheduling";
-import { organizationName, spoken } from "./words";
+import { organizationName, properName, spoken } from "./words";
 import { dayOpening, daySince } from "../english/day-words";
 import { officeWords } from "../english/said-as";
 import { outletsHere } from "../core2/modules/press";
