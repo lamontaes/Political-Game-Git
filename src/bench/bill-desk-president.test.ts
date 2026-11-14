@@ -11,7 +11,7 @@ import {
   executiveLean,
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
-  holdVote,
+  holdEveryChamber,
   memberKey,
   members,
   type Provision,
@@ -96,7 +96,7 @@ describe(`the president's desk in the stage view (seed ${seed})`, () => {
         });
         if (draft.status === "blocked") continue;
         for (const id of everyone) castMemberVote(api, draft.id, id, "yes");
-        holdVote(api, draft.id);
+        holdEveryChamber(api, draft.id);
         if (!deskWaiting(api).some((b) => b.id === draft.id)) continue;
         reached += 1;
         const waiting = billStage(core, draft.id, president!);

@@ -63,6 +63,7 @@ import {
   executiveOf,
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
+  holdEveryChamber,
   holdVote,
   learnStake,
   sectionsAddedTo,
@@ -1180,16 +1181,7 @@ export class DevMode {
     if (veto && options.sign !== undefined)
       executiveDecision(api, billId, options.sign);
     // Each chamber votes in its turn; dev mode holds the next chamber's vote now, not on its sitting.
-    let held = holdVote(api, billId, { anyDay: true });
-    for (
-      let turn = held.chambersPassed?.length ?? 0;
-      held.status === "drafted" && turn > 0 && turn < chambers.length;
-    ) {
-      held = holdVote(api, billId, { anyDay: true });
-      const now = held.chambersPassed?.length ?? 0;
-      if (now === turn) break;
-      turn = now;
-    }
+    const held = holdEveryChamber(api, billId);
     const records = committeeRecords(api, billId).map((c) => ({
       chamber: c.chamber,
       heard: c.heard,

@@ -5372,6 +5372,24 @@ export function holdVote(
   return result;
 }
 
+/**
+ * Dev mode's and the tests' hold: each chamber votes in its turn now, one
+ * after another, rather than each on its own sitting. Play never calls it.
+ */
+export function holdEveryChamber(api: CoreAPI, billId: string): BillRow {
+  let held = holdVote(api, billId, { anyDay: true });
+  for (
+    let turn = held.chambersPassed?.length ?? 0;
+    held.status === "drafted" && turn > 0;
+  ) {
+    held = holdVote(api, billId, { anyDay: true });
+    const now = held.chambersPassed?.length ?? 0;
+    if (now === turn) break;
+    turn = now;
+  }
+  return held;
+}
+
 function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
   let bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted" && bill.status !== "blocked") return bill;
@@ -5474,16 +5492,12 @@ function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
   if (before.length + 1 < chambers.length) {
     // Carried here, the bill goes over to the next chamber and waits for its
     // own sitting, booked the way the first chamber's was.
-    const sent: BillRow = {
-      ...bill,
-      chambersPassed: [...before, roll],
-      nextChamberOn: undefined,
-    };
+    const sent: BillRow = { ...bill, chambersPassed: [...before, roll] };
     table(api, "bills").put(sent as unknown as ModuleRow);
     const on = sittingReader?.(api, bill.bodyOfficeId)
       ? scheduleVote(api, bill.id)
       : undefined;
-    const booked: BillRow = { ...sent, nextChamberOn: on };
+    const booked: BillRow = on ? { ...sent, nextChamberOn: on } : sent;
     table(api, "bills").put(booked as unknown as ModuleRow);
     return booked;
   }
