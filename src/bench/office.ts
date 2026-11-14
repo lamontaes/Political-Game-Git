@@ -395,10 +395,12 @@ function seatSwitches(api: ReturnType<typeof coreAPI>, personId: string) {
   });
   const federal = federalSeatOf(api, personId);
   const has: Record<(typeof STOP_SWITCHES)[number]["key"], boolean> = {
-    // A seat whose body meets: a mayor's office has a body record but no meetings, so no switch for nothing.
-    meetings: officeJobsOf(api, personId).some((j) =>
-      nextMeetingDate(api, j.officeId),
-    ),
+    // A seat in a body that meets, whether or not a meeting is on the calendar this week: a mayor's
+    // office has a body record (kind "mayor") but no meetings, so no switch for nothing.
+    meetings: officeJobsOf(api, personId).some((j) => {
+      const body = bodyOf(api, j.officeId);
+      return body !== undefined && !EXECUTIVE_OFFICE.test(body.kind);
+    }),
     floor:
       stateOfficeOf(api, personId)?.role === "legislator" ||
       (federal !== null && votesOnPassage(federal.kind)),
