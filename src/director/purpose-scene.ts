@@ -90,6 +90,10 @@ import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
+import {
+  CASES_MODULE_ID,
+  handleCase,
+} from "../core2/modules/constituent-cases";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -1953,6 +1957,9 @@ function walkThroughFacts(
   };
 }
 
+/** The scene type of a resident's visit to the official's office (situation-types.json). */
+const OFFICE_HOURS_TYPE = "office-hours";
+
 /** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
   Record<string, { value: number } | undefined>
@@ -2076,6 +2083,19 @@ export function replyInScene(
     },
   });
   entry.replies = [...(entry.replies ?? []), id];
+  // Office hours: the official's answer settles the resident's case through the
+  // cases engine, the way the desk's decision does, citing this reply. "I'll
+  // make the call" and "Let me refer you" are help; "I can't help" is a decline;
+  // a reply that leaves it waiting settles nothing.
+  const caseId = scene.cause.facts.caseId;
+  const caseDecision = ending?.settles;
+  if (
+    scene.typeKey === OFFICE_HOURS_TYPE &&
+    caseId &&
+    caseDecision &&
+    core.modules.has(CASES_MODULE_ID)
+  )
+    handleCase(coreAPI(core), caseId, caseDecision, null, id);
   // A swearing-in that ended in an address: the speech engine records it as
   // heard by the people the scene named in the room (swearing-in.ts).
   if (ending?.keeps === ADDRESS_KEEPS)

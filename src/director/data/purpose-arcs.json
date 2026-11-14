@@ -468,6 +468,7 @@
       "endings": [
         {
           "id": "will-call",
+          "settles": "help",
           "label": "You'll make the call",
           "keeps": "promise",
           "when": {
@@ -476,6 +477,7 @@
         },
         {
           "id": "caseworker",
+          "settles": "help",
           "label": "Handed to a caseworker",
           "keeps": "meeting-set",
           "when": {
@@ -484,6 +486,7 @@
         },
         {
           "id": "cant-help",
+          "settles": "decline",
           "label": "Can't help",
           "keeps": "relationship-strained",
           "when": {
