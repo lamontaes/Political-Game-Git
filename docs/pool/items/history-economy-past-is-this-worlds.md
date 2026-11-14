@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-wuv4fd
-pr:
+pr: #9089
 after:
 blocked-on:
 lead: money
