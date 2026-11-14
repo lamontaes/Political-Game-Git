@@ -92,13 +92,18 @@ describe("property tax bills", () => {
       api = coreAPI(core);
     advanceCore(core, "2021-01-02");
     const table = api.moduleState("housing").table("assessments");
-    const paid = billPropertyTax(api, table, [
-      {
-        householdId: "household:owner",
-        placeId: place,
-        valueMinor: 40_000_000,
-      },
-    ]);
+    const paid = billPropertyTax(
+      api,
+      table,
+      [
+        {
+          householdId: "household:owner",
+          placeId: place,
+          valueMinor: 40_000_000,
+        },
+      ],
+      () => true,
+    );
     expect(paid).toBe(0);
     expect(table.rows()).toHaveLength(0);
   });
@@ -122,16 +127,76 @@ describe("property tax bills", () => {
       advanceCore(core, "2021-01-02");
       const table = api.moduleState("housing").table("assessments");
       const home = { householdId: "household:owner", placeId: place };
-      const first = billPropertyTax(api, table, [
-        { ...home, valueMinor: 40_000_000 },
-      ]);
+      const first = billPropertyTax(
+        api,
+        table,
+        [{ ...home, valueMinor: 40_000_000 }],
+        () => true,
+      );
       expect(first).toBe(Math.round((40_000_000 * 0.02) / 12));
       advanceCore(core, "2022-01-05");
-      const second = billPropertyTax(api, table, [
-        { ...home, valueMinor: 44_000_000 },
-      ]);
+      const second = billPropertyTax(
+        api,
+        table,
+        [{ ...home, valueMinor: 44_000_000 }],
+        () => true,
+      );
       expect(second).toBe(Math.round((40_800_000 * 0.02) / 12));
       expect(core.organizations.get(county)!.liquidMinor).toBe(first + second);
+    },
+  );
+  it.each([
+    // New Jersey: four installments due the 1st of Feb, May, Aug and Nov.
+    ["NJ", 4, [1, 4, 7, 10]],
+    // Tennessee: one installment due the first Monday of October (2021-10-04).
+    ["TN", 1, [9]],
+  ] as const)(
+    "an owner without a mortgage pays %s's installments at the review before each due date, not a twelfth a month (%s)",
+    (state, installments, billedMonths) => {
+      registerPropertyTax(() => ({
+        rate: 0.02,
+        payeeId: county,
+        source: src,
+      }));
+      const base = input();
+      const core = createLifeCore(
+          {
+            ...base,
+            placeMetadata: { housingState: state },
+            people: base.people.map((p) => ({ ...p, liquidMinor: 5_000_000 })),
+          },
+          { data: worldCoreData(), modules: [HOUSING_MODULE] },
+        ),
+        api = coreAPI(core);
+      advanceCore(core, "2021-01-02");
+      const assessments = api.moduleState("housing").table("assessments");
+      const homes = [
+        {
+          householdId: "household:owner",
+          placeId: place,
+          valueMinor: 40_000_000,
+        },
+      ];
+      const annual = 40_000_000 * 0.02;
+      const billed: number[] = [];
+      let total = 0;
+      for (let month = 1; month <= 12; month++) {
+        advanceCore(core, `2021-${String(month).padStart(2, "0")}-07`);
+        const paid = billPropertyTax(api, assessments, homes, () => false);
+        if (paid > 0) billed.push(month);
+        if (paid > 0)
+          expect(paid, `${state} month ${month}`).toBe(
+            Math.round(annual / installments),
+          );
+        total += paid;
+      }
+      expect(billed, state).toEqual(billedMonths);
+      expect(total, state).toBe(
+        Math.round(annual / installments) * installments,
+      );
+      // A mortgage's escrow still pays a twelfth every month.
+      const escrowPaid = billPropertyTax(api, assessments, homes, () => true);
+      expect(escrowPaid).toBe(Math.round(annual / 12));
     },
   );
   it("tax an owner can't pay is kept as an arrears row; the next bill adds it, is paid it first, clears the row, and every dollar balances", () => {
@@ -173,7 +238,7 @@ describe("property tax bills", () => {
     ];
     const bill = Math.round((40_000_000 * 0.02) / 12);
     const have = core.people.get("owner")!.liquidMinor;
-    const paid = billPropertyTax(api, assessments, homes, arrears);
+    const paid = billPropertyTax(api, assessments, homes, () => true, arrears);
     expect(paid).toBe(have);
     expect(arrears.get("tax-arrears:household:owner")).toMatchObject({
       householdId: "household:owner",
@@ -194,7 +259,13 @@ describe("property tax bills", () => {
       src,
     );
     const before = core.organizations.get(county)!.liquidMinor;
-    const second = billPropertyTax(api, assessments, homes, arrears);
+    const second = billPropertyTax(
+      api,
+      assessments,
+      homes,
+      () => true,
+      arrears,
+    );
     expect(second).toBe(bill + (bill - have));
     expect(core.organizations.get(county)!.liquidMinor - before).toBe(second);
     expect(arrears.get("tax-arrears:household:owner")).toBeUndefined();

@@ -91,6 +91,7 @@ import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
+import { CASES_MODULE_ID, handleCase } from "../core2/modules/offices";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -1008,12 +1009,27 @@ function composeBinding(
     if (said.size)
       facts.number = { text: said.size, sourceRecordIds: [said.actionId] };
   }
-  // What an offer asks in return (a vote, a contract): the lines about that favor need it.
-  if (said.favor)
+  // What an offer asks in return (a vote, a contract): the lines about that
+  // favor need it, and the thing itself is named so the one offering says
+  // what they want (Words lead, Nov 14): the bill for a vote (`bill`, above),
+  // the award for a contract by the work it pays for (`contract`). `wanted`
+  // is whichever of the two the record names, for lines either side shares.
+  if (said.favor) {
     facts[`favor-${said.favor}`] = {
       text: said.favor,
       sourceRecordIds: [moment.causeId],
     };
+    const work = (
+      lineNames.lines as Record<string, { readonly name: string } | undefined>
+    )[said.contractLine ?? ""]?.name;
+    if (said.favor === "contract" && work)
+      facts.contract = {
+        text: `the ${work.charAt(P.zero).toLowerCase()}${work.slice(P.one)} contract`,
+        sourceRecordIds: [moment.causeId, said.contractId ?? moment.causeId],
+      };
+    const wanted = said.favor === "vote" ? facts.bill : facts.contract;
+    if (wanted) facts.wanted = wanted;
+  }
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
   if (record?.kind === PRESS_STORY_EVENT) {
@@ -2078,6 +2094,9 @@ function walkThroughFacts(
   };
 }
 
+/** The scene type of a resident's visit to the official's office (situation-types.json). */
+const OFFICE_HOURS_TYPE = "office-hours";
+
 /**
  * The pieces each door scene said, by the player and the cause, kept the
  * first time the scene is composed (per world, never saved): the doors of
@@ -2262,6 +2281,20 @@ export function replyInScene(
     },
   });
   entry.replies = [...(entry.replies ?? []), id];
+  // Office hours: the official's answer settles the resident's case through the
+  // cases engine, the way the desk's decision does, citing this reply. "I'll
+  // make the call" and "Let me refer you" are help; "I can't help" is a decline;
+  // a reply that leaves it waiting settles nothing.
+  const caseId = scene.cause.facts.caseId;
+  const caseDecision = ending?.settles;
+  if (
+    scene.typeKey === OFFICE_HOURS_TYPE &&
+    caseId &&
+    caseDecision &&
+    core.modules.has(CASES_MODULE_ID)
+  )
+    handleCase(coreAPI(core), caseId, caseDecision, null, id);
+
   // Asked at the door what matters to them, a resident says their strongest
   // question and their side (ruling 72): the player holds it as a talk's
   // listener does (the views engine's records, by the learned-view keys the
