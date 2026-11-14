@@ -24,7 +24,27 @@ const template = readFileSync(
 const data = JSON.parse(readFileSync(dataPath, "utf8"));
 for (const scene of data.scenes) {
   delete scene.bank;
-  if (scene.previous) delete scene.previous.bank;
+  if (scene.previous) {
+    // The page needs only the earlier text of each line, by line id.
+    const was = {};
+    const take = (t) => {
+      for (const l of t?.lines ?? []) was[l.id] = l.text;
+      for (const c of t?.choices ?? []) {
+        was[c.line.id] = c.line.text;
+        take(c.next);
+      }
+    };
+    for (const v of scene.previous.versions ?? [])
+      for (const a of v.answers) {
+        for (const l of a.opening) was[l.id] = l.text;
+        take(a.tree);
+      }
+    scene.previous = {
+      date: scene.previous.date,
+      commit: scene.previous.commit,
+      was,
+    };
+  }
 }
 const json = JSON.stringify(data).replace(/</g, "\\u003c");
 writeFileSync(

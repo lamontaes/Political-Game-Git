@@ -489,24 +489,7 @@
     s.rev = !!s.revised || (NEWS.revised || []).includes(s.title);
     s.isNew = (s.fresh || s.rev) && !s.coming && seen[s.title] !== s.hash;
     // earlier text by line id
-    s.was = {};
-    const p = s.previous;
-    if (p) {
-      const take = (t) => {
-        if (!t) return;
-        (t.lines || []).forEach((l) => (s.was[l.id] = l.text));
-        (t.choices || []).forEach((c) => {
-          s.was[c.line.id] = c.line.text;
-          take(c.next);
-        });
-      };
-      (p.versions || []).forEach((v) =>
-        v.answers.forEach((a) => {
-          a.opening.forEach((l) => (s.was[l.id] = l.text));
-          take(a.tree);
-        }),
-      );
-    }
+    s.was = (s.previous && s.previous.was) || {};
   });
   const ORDER = [
     "At the door",
