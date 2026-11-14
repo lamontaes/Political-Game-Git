@@ -16,17 +16,17 @@ export function addressSentences(text: string): string[] {
     .map((row) => row.trim())
     .filter(Boolean);
   const out: string[] = [];
-  for (let at = 0; at < cut.length; at += 1) {
-    const sentence = cut[at]!;
-    const next = cut[at + 1];
-    if (
-      next !== undefined &&
-      sentence.endsWith("?") &&
-      sentence.split(/\s+/).length <= SHORT
-    ) {
-      out.push(`${sentence} ${next}`);
-      at += 1;
-    } else out.push(sentence);
+  // A short question waits for the sentence after it and is said with it.
+  let waiting: string | undefined;
+  for (const sentence of cut) {
+    if (waiting !== undefined) {
+      out.push(`${waiting} ${sentence}`);
+      waiting = undefined;
+    } else if (sentence.endsWith("?") && sentence.split(/\s+/).length <= SHORT)
+      waiting = sentence;
+    else out.push(sentence);
   }
+  // A short question that ends the address has no sentence to join.
+  if (waiting !== undefined) out.push(waiting);
   return out;
 }
