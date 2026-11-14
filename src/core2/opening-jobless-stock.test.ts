@@ -69,6 +69,6 @@ describe("a town's jobless count holds near its opening rate where nothing has c
         ).toBeGreaterThanOrEqual(opening * 0.4);
         expect(stock).toBeLessThanOrEqual(opening * 2.2);
       }
-    }, 300_000);
+    }, 120_000);
   }
 });
