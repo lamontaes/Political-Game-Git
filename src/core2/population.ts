@@ -1392,18 +1392,24 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           livingCostsRegionForState(place.stateJurisdictionKey),
           plan.ids.length,
         );
+    const dailyPay = plan.ids.reduce(
+      (sum, id) => sum + (jobByPerson.get(id)?.wageDailyMinor ?? p("zero")),
+      p("zero"),
+    );
+    // A household with pay spends by its pay (the same curve an official's
+    // household uses); one with none, and a room an institution houses, keeps
+    // the region's basket.
     const householdDailyCost = householdDailyCostMinor({
       seed: options.seed,
       stateKey: place.stateJurisdictionKey,
       size: plan.ids.length,
       rent: plan.quarters ? undefined : rent,
       everydayMonthlyMinor: costs.monthlyMinor,
+      ...(dailyPay > p("zero") && !plan.quarters
+        ? { annualPayMinor: dailyPay * p("daysPerMeanYear") }
+        : {}),
       parameter: p,
     });
-    const dailyPay = plan.ids.reduce(
-      (sum, id) => sum + (jobByPerson.get(id)?.wageDailyMinor ?? p("zero")),
-      p("zero"),
-    );
     const reserve =
       dailyPay > p("zero")
         ? Math.round(

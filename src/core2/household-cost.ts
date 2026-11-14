@@ -54,6 +54,14 @@ export function householdMonthlyCostMinor(i: HouseholdCostInput): number {
  * spending against income says a household at that pay spends (a smooth power,
  * no step), never more than most of the pay itself: the curve runs above
  * income at low pay because those households draw on transfers.
+ *
+ * Shelter is paid once: the cost carries the Fair Market Rent as its shelter,
+ * and housing-shelter.ts takes what the housing engine charges (rent, a
+ * mortgage, property tax) out of it, up to that rent. So the curve's total
+ * less the rent is what a household spends on everything else, and a
+ * household that pays more than the rent for its home pays the difference on
+ * top, once. An official, who has no other shelter writer, pays the rent inside
+ * the cost. One rule for both.
  */
 export function householdDailyCostMinor(i: HouseholdCostInput): number {
   const p = i.parameter;

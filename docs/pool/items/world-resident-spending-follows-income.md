@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #PRNUM
 blocked-on:
 source: "asked for by the Account lead on the owner-cash fix: no resident path scales spending with income, Nov 14"
 claimed-at:
@@ -36,4 +36,4 @@ checked: sonnet 2026-11-14
 
 **Files.** src/core2/household-cost.ts; src/core2/population.ts; src/core2/modules/residents.ts
 
-**Notes.** The curve and its four rows are in `src/core2/data/parameters.json` (`householdSpending*`); their figures are recalled, not yet checked (research-official-spending-by-pay).
+**Notes.** Built: `buildPopulation` passes each paid town household's yearly wages (not group-quarters rooms) to `householdDailyCostMinor`; the kin households are unchanged (their pay is not recorded). Shelter is paid once with no new number: the cost carries the Fair Market Rent as its shelter and `housing-shelter.ts` takes what the housing engine charges out of it up to that rent, so a renter at the rent costs the curve's total once and an owner pays only what their home costs above the rent on top. The part of the curve's shelter above the rent is utilities, insurance and upkeep, which no other writer charges. Year 1 with and without, each side run twice (counts agree exactly between the two runs of a side; time is within noise): Matagorda TX, kept receipts 1,625 vs 1,692, property tax receipts 19 vs 32, arrears rows 64 vs 57; Henlopen Acres DE, 2,341 vs 2,420, 17 vs 27, 42 vs 39; Gibraltar MI, 1,235 vs 246, 19 vs 6, 127 vs 124. Time 40.7 to 44.2 s vs 41.1 to 43.8 s, 36.4 s vs 33.9 to 34.5 s, 147 to 150 s vs 142 to 149 s. Median no-mortgage owner cash at Gibraltar day 365: 24,036 vs 24,218. The arrears rise is the real effect of households that spend more by income paying their tax later. The Gibraltar kept-receipts change is the retained rows of the player's circle: the same 13 people are in focus at the start in both, but with the change 19 of them pay a monthly outside living cost that is now more than the contracts already bound (before, 2 did), and the journal keeps every receipt a focus person is on. The extra spending beyond the basket leaves the town as outside living cost, the same as the rest of the plan above the bound contracts; moving it to local sellers is a separate item. The curve and its four rows are in `src/core2/data/parameters.json` (`householdSpending*`); their figures are recalled, not yet checked (research-official-spending-by-pay).
