@@ -2,7 +2,7 @@
 id: words-funeral-plain-scene-with-no-cause-on-record
 title: "A death in the player's family with no recorded cause of the dead person's plays no funeral scene at all"
 area: words
-kind: words
+kind: feature
 priority: 2
 size: M
 status: open

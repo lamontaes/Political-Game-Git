@@ -2,13 +2,13 @@
 id: words-thin-scene-banks-need-alternates
 title: "Scenes a player meets twice read the same twice: nine scene purposes hold fewer than 30 lines, and funeral-cause never plays at all"
 area: words
-kind: words
+kind: feature
 priority: 1
 size: L
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-13bhdd
-pr:
+pr: #9127
 after:
 blocked-on:
 lead: words
