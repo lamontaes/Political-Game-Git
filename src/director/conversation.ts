@@ -2367,7 +2367,7 @@ export function subjectsBetween(
   if (!mine || theirs?.org.id !== mine.org.id)
     out.push({ id: `their-work:${listenerId}`, kind: "their-work", facts: {} });
   // Asked only right after they name their work.
-  if (theirs)
+  if (theirs && tenureYears(startedOf(core, listener), core.date))
     out.push({
       id: `their-tenure:${listenerId}`,
       kind: "their-tenure",
@@ -5796,6 +5796,11 @@ function offerChoices(
     // The other person's given name, as the player says it to them.
     ...(other
       ? { "their-first": { text: other.givenName, sourceRecordIds: [otherId] } }
+      : {}),
+    // They have held the job long enough to say how long: the question
+    // "How long?" is offered only then (a question is answered).
+    ...(other && tenureYears(startedOf(core, other), core.date)
+      ? { "their-tenure": { text: "yes", sourceRecordIds: [otherId] } }
       : {}),
     // Their workplace once it has been named, as people say it: "there"
     // (round 11, rule 74: never "worked at work?").
