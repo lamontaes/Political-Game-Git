@@ -380,4 +380,25 @@ describe("a note on the click-through page's batch", () => {
       grades.find((grade) => grade.id === "1.1y.5")?.rewrites?.join(" "),
     ).toMatch(/how are you feeling/);
   });
+
+  it("keeps every remark it cannot tie to a line, with the scene he was on", () => {
+    const { unplaced, grades } = readVoiceNote(
+      "The sick door. 1.1y.3, that doesn't make sense. Honestly the whole mood of the pacing across these feels off. Scene four, wording one. Nobody talks like that in a real campaign.",
+      batch.moments,
+    );
+    expect(unplaced).toEqual([
+      {
+        remark: "Honestly the whole mood of the pacing across these feels off.",
+        moment: 1,
+        scene: "Signature at a sick door",
+      },
+      {
+        remark: "Nobody talks like that in a real campaign.",
+        moment: 4,
+        scene: "Vote ask, plain door",
+      },
+    ]);
+    // The remarks grade nothing.
+    expect(grades).toHaveLength(1);
+  });
 });

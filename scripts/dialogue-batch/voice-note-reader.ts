@@ -64,6 +64,13 @@ export interface VoiceGrade {
   readonly rewrites?: readonly string[];
 }
 
+/** A remark of his that ties to no line, with the scene he was on when he said it. */
+export interface Unplaced {
+  readonly remark: string;
+  readonly moment?: number;
+  readonly scene?: string;
+}
+
 export interface VoiceRule {
   readonly rule: string;
   readonly line?: string;
@@ -374,7 +381,7 @@ const FILLER =
 export function readVoiceNote(
   note: string,
   moments: readonly BatchMoment[],
-): { grades: VoiceGrade[]; rules: VoiceRule[] } {
+): { grades: VoiceGrade[]; rules: VoiceRule[]; unplaced: Unplaced[] } {
   const lines = moments.flatMap((moment) => moment.lines);
   const byMoment = new Map(moments.map((moment) => [moment.moment, moment]));
   const byId = new Map(lines.map((line) => [line.id, line]));
@@ -410,6 +417,14 @@ export function readVoiceNote(
     }
   >();
   const rules: VoiceRule[] = [];
+  /** Remarks that judge something but tie to no line: kept for the Words lead, never dropped. */
+  const unplaced: Unplaced[] = [];
+  const keep = (remark: string) =>
+    unplaced.push({
+      remark,
+      ...(moment ? { moment: moment.moment } : {}),
+      ...(moment?.description ? { scene: moment.description } : {}),
+    });
   let moment: BatchMoment | undefined;
   let current: BatchLine | undefined;
   /** A part of the current line he just read back, waiting for his judgment. */
@@ -650,7 +665,18 @@ export function readVoiceNote(
     }
     if (ruleSaid(sentence))
       rules.push({ rule: sentence, ...(current ? { line: current.id } : {}) });
-    if (!current) continue;
+    if (!current) {
+      if (
+        strengthOf(sentence) !== undefined ||
+        rating !== undefined ||
+        (place === undefined &&
+          titleSaid(sentence, moments) === undefined &&
+          !FILLER.test(sentence) &&
+          wordsOf(sentence).length >= 4)
+      )
+        keep(sentence);
+      continue;
+    }
     if (rating !== undefined) {
       const row = entry(current);
       row.rating = rating;
@@ -666,26 +692,30 @@ export function readVoiceNote(
       // A sentence that is neither a judgment, a rating, a place nor filler
       // is him reading something else: the line he was on is done.
       const named = place !== undefined || ordinalSaid(sentence) !== undefined;
-      if (
-        !named &&
-        since > 2 &&
-        !FILLER.test(sentence) &&
-        wordsOf(sentence).length >= 4
-      ) {
+      const remark =
+        !named && !FILLER.test(sentence) && wordsOf(sentence).length >= 4;
+      if (remark && since > 2) {
         current = undefined;
         part = undefined;
       }
+      // A remark tied to no line is kept for the Words lead, never dropped.
+      if (remark) keep(sentence);
       continue;
     }
-    if (judgments >= JUDGMENTS_PER_READING) continue;
+    if (judgments >= JUDGMENTS_PER_READING) {
+      keep(sentence);
+      continue;
+    }
     // "Like the other ones kind of are awkward": about the other lines, not this one.
     if (
       /\b(the other ones?|the others|the rest( of them)?|all these responses)\b/i.test(
         sentence,
       ) ||
       /^(they|those|these)\b/i.test(sentence)
-    )
+    ) {
+      keep(sentence);
       continue;
+    }
     judgments += 1;
     const row = entry(current);
     const named = /\b(the )?(first part|beginning|opening|start)\b/i.test(
@@ -725,7 +755,7 @@ export function readVoiceNote(
       ...(row.rating !== undefined ? { rating: row.rating } : {}),
       ...(row.rewrites.length > 0 ? { rewrites: row.rewrites } : {}),
     }));
-  return { grades, rules };
+  return { grades, rules, unplaced };
 }
 
 function main(batchPath: string, notePath: string) {
@@ -737,9 +767,13 @@ function main(batchPath: string, notePath: string) {
     }[];
   };
   const note = readFileSync(notePath, "utf8");
-  const { grades, rules } = readVoiceNote(note, batch.moments);
+  const { grades, rules, unplaced } = readVoiceNote(note, batch.moments);
   console.log(
-    JSON.stringify({ batch: batch.id, from: notePath, grades, rules }, null, 2),
+    JSON.stringify(
+      { batch: batch.id, from: notePath, grades, rules, unplaced },
+      null,
+      2,
+    ),
   );
 }
 
