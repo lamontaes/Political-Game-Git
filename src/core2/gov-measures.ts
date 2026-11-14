@@ -41,6 +41,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import {
   BUDGETS_MODULE_ID,
   baseBudget,
+  lineWithoutBills,
   budgetsOf,
   governments,
   townShareOf,
@@ -118,9 +119,7 @@ function townLineAddedPct(api: CoreAPI, line: string): number | null {
       .at(-1);
     const share = townShareOf(api, gov);
     if (!budget || !share) continue;
-    base +=
-      share *
-      (baseBudget(api, gov, budget.fiscalYear).spendingMinor[line] ?? 0);
+    base += share * lineWithoutBills(api, gov, budget.fiscalYear, line);
     now += share * (budget.spendingMinor[line] ?? 0);
   }
   return base ? ((now - base) / base) * 100 : null;
@@ -313,8 +312,7 @@ export function budgetLineAddedPct(
       .at(-1);
     const share = budget ? townShare(api, gov) : 0;
     if (!budget || !share) continue;
-    const was =
-      baseBudget(api, gov, budget.fiscalYear).spendingMinor[line] ?? 0;
+    const was = lineWithoutBills(api, gov, budget.fiscalYear, line);
     const is = budget.spendingMinor[line] ?? 0;
     base += was * share;
     now += is * share;
@@ -380,9 +378,7 @@ export function defenseBoostPct(
         .at(-1)
     : undefined;
   if (!us || !budget) return null;
-  const base = baseBudget(api, us, budget.fiscalYear).spendingMinor[
-    DEFENSE_LINE
-  ];
+  const base = lineWithoutBills(api, us, budget.fiscalYear, DEFENSE_LINE);
   if (!base) return null;
   const added = (budget.spendingMinor[DEFENSE_LINE] ?? 0) / base - 1;
   return {
@@ -424,11 +420,20 @@ export function federalDeficitChangePct(
   if (!us || !budget) return null;
   const total = (side: Readonly<Record<string, number>>) =>
     Object.values(side).reduce((sum, v) => sum + v, 0);
-  const base = baseBudget(api, us, budget.fiscalYear);
+  // The base row's spending is the sum of every line as it would stand with no bill or act; its receipts are the base row's.
+  const baseSpending = Object.keys(budget.spendingMinor).reduce(
+    (sum, line) => sum + lineWithoutBills(api, us, budget.fiscalYear, line),
+    0,
+  );
+  const baseRevenue = total(
+    baseBudget(api, us, budget.fiscalYear).revenueMinor,
+  );
   const deficit = (row: typeof budget) =>
     total(row.spendingMinor) - total(row.revenueMinor);
   return {
-    value: ((deficit(budget) - deficit(base)) / NATIONAL_GDP_MINOR) * 100,
+    value:
+      ((deficit(budget) - (baseSpending - baseRevenue)) / NATIONAL_GDP_MINOR) *
+      100,
     recordId: budget.id,
   };
 }

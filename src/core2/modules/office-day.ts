@@ -196,6 +196,7 @@ export const OFFICE_DAY_MODULE: CoreModule = {
   // Filled from every registered level's kit when the engine opens.
   offerProviders: {},
   effectHandlers: {},
+  reasonProviders: {},
   onDay(api) {
     // A job starts or ends before a day's work, so the roster is read here
     // and the office jobs change in the next day's calendar work: when the
@@ -261,9 +262,13 @@ export const officeHost: OfficeActHost = {
   clearPrepared: (api, personId, actId) =>
     table(api, "prepared").remove(`${personId}|${actId}`),
   given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
-  lastGiven: (api, personId, kind) =>
+  lastGiven: (api, personId, kind, recordId) =>
     officeActsOf(api, personId)
-      .filter((row) => row.kind === kind)
+      .filter(
+        (row) =>
+          row.kind === kind &&
+          (recordId === undefined || row.recordId === recordId),
+      )
       .map((row) => row.date)
       .sort()
       .at(-1),
@@ -278,7 +283,9 @@ export function openOfficeDay(core: CoreState, worldSeed: string): void {
   registerBudgetMeeting({ place: placeBudgetVote, votes: votesBudgetToday });
   const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
   const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
+  const reasons = OFFICE_DAY_MODULE.reasonProviders as Record<string, unknown>;
   for (const kit of officeActKits()) {
+    Object.assign(reasons, kit.reasonProviders ?? {});
     Object.assign(providers, kit.providers ?? {});
     Object.assign(handlers, kit.handlers ?? {});
   }
