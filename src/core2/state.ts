@@ -3,6 +3,7 @@ import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
   CLOSENESS,
+  bloodKin,
   closenessAfter,
   openingClosenessHours,
   temperedHours,
@@ -1664,21 +1665,22 @@ export function coreAPI(core: CoreState): CoreAPI {
       actor.familyName = family;
       actor.birthDate = identity.birthDate;
       // A chosen look from another origin than the household's drawn one
-      // carries its family with it (owner, Nov 8: "I'm Mexican and my son is
-      // white"): the household and its members' kin who shared the drawn
-      // origin take the chosen one, so the family looks related.
+      // carries the player's blood family with it (owner, Nov 8: "I'm
+      // Mexican and my son is white"): the parents, siblings, children and
+      // other blood kin who shared the drawn origin take the chosen one, so
+      // the family looks related. A partner, or someone who only shares the
+      // home, keeps the origin they were drawn with, so a partner or housemate
+      // is never painted to match.
       const drawnOrigin = actor.looks?.origin;
       const chosenOrigin = identity.looks.origin;
       if (chosenOrigin && drawnOrigin && chosenOrigin !== drawnOrigin) {
-        const members = [
-          ...(core.households.get(actor.householdId)?.memberIds ?? []),
-        ];
-        const kin = [actor.id, ...members].flatMap((id) => [
-          ...(core.people.get(id)?.familyIds ?? []),
-        ]);
-        for (const id of new Set([...members, ...kin])) {
+        const members = core.households.get(actor.householdId)?.memberIds ?? [];
+        for (const id of new Set([...members, ...(actor.familyIds ?? [])])) {
           const other = core.people.get(id);
-          if (other?.looks?.origin === drawnOrigin)
+          if (
+            other?.looks?.origin === drawnOrigin &&
+            bloodKin(core, actor.id, id)
+          )
             other.looks = { ...other.looks, origin: chosenOrigin };
         }
       }
