@@ -127,7 +127,12 @@ for (let draw = 0; draw < draws; draw += 1) {
         talks += 1;
         if (process.env.PROOF_DEBUG)
           console.log(
-            `  DEBUG heard keys with illness: ${[...(core.knowledgeByPerson.get(playerId) ?? [])].map(([k]) => k).filter((k) => k.includes("illness-news")).join(" | ") || "(none)"}`,
+            `  DEBUG heard keys with illness: ${
+              [...(core.knowledgeByPerson.get(playerId) ?? [])]
+                .map(([k]) => k)
+                .filter((k) => k.includes("illness-news"))
+                .join(" | ") || "(none)"
+            }`,
           );
         const row = familyFactsOf(core.people.get(playerId)!).get(
           subject.aboutId as PersonId,
