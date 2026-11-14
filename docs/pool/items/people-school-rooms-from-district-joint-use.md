@@ -5,9 +5,9 @@ area: people
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/project-thread-86yqt4
-pr:
+pr: "#9276"
 blocked-on:
 source: stopgap plan cluster 29 part 3 (Nov 14, 2026); Account lead, Nov 14 17:21Z
 claimed-at: 2026-11-14T17:30:00Z
