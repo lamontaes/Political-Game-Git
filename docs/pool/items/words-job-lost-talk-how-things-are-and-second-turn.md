@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/words-job-lost-how-things-are
-pr:
+pr: 9298
 after:
 blocked-on:
 lead: words
