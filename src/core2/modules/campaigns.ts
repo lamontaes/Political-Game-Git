@@ -3347,8 +3347,12 @@ export function askToSign(
  * A race's electorate where it reaches past the town, read for its
  * petition's circulators: the town's voters set apart (`wideElectorate`).
  */
-function petitionReach(api: CoreAPI, contestId: string) {
-  const held = reaches.get(api.state) ?? new Map();
+function petitionReach(
+  api: CoreAPI,
+  contestId: string,
+): ReturnType<typeof wideElectorate> {
+  const held: NonNullable<ReturnType<typeof reaches.get>> =
+    reaches.get(api.state) ?? new Map();
   reaches.set(api.state, held);
   const kept = held.get(contestId);
   if (kept && daysBetween(kept.asOf, api.state.date) < 90) return kept.reach;
