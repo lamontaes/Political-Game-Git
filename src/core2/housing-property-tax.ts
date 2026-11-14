@@ -68,6 +68,42 @@ export function stateEffectiveRate(usps: string): number {
   return RATES[usps] ?? taxData.national;
 }
 
+/** The property tax terms in force at a place (rate, payee, law row), or none where nothing is billed. */
+export function propertyTaxTermsFor(
+  api: CoreAPI,
+  placeId: string,
+): PropertyTaxTerms | undefined {
+  return terms(api, placeId);
+}
+
+/**
+ * A business's premises tax for one quarter: its premises are assessed at a
+ * share of a year's sales (an estimate, `businessPremises` in the data file),
+ * and a quarter pays a quarter of the annual rate on that value. The same rate
+ * and payee as homes read.
+ */
+export function premisesTaxMinor(
+  quarterSalesMinor: number,
+  rate: number,
+): number {
+  const premises = taxData.businessPremises;
+  const assessed =
+    quarterSalesMinor *
+    premises.quartersPerYear *
+    premises.valueShareOfAnnualSales;
+  return Math.max(0, Math.round((assessed * rate) / premises.quartersPerYear));
+}
+
+/** The estimate's source, named on every premises bill. */
+export function premisesSource(asOf: string): Source {
+  return {
+    tag: "ESTIMATED",
+    citation: taxData.businessPremises.citation,
+    asOf,
+    estimatedFrom: taxData.businessPremises.estimatedFrom,
+  };
+}
+
 /** One bill date: a day of the month, the month's last day, or the nth weekday (1 = Monday). */
 export type PropertyTaxDueDate =
   | { readonly month: number; readonly day: number | "last" }
