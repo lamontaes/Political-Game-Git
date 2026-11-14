@@ -20,7 +20,7 @@ checked:
 claimed-at:
 ---
 
-**What.** A member of Congress is in Washington on the weeks their chamber sits and at home in the district on the weeks it does not. The player cannot choose otherwise: no screen offers a week at home or a week in Washington, so the "Absent: at home in the district" line in Your office shows only on a recess week. Seen: Politics, then Your office, for a U.S. Representative (the stop switches added by office-stops-control-the-player-cannot-switch-a-stop-off have a Floor votes switch and no week choice).
+**What.** A member of Congress is in Washington on the weeks their chamber sits and at home in the district on the weeks it does not. The player cannot choose otherwise: no screen offers a week at home or a week in Washington, so the "Absent: at home in the district" line in Your office shows only on a recess week. The stop switches added by office-stops-control-the-player-cannot-switch-a-stop-off have a Floor votes switch and no week choice. Seen: Politics, then Your office, for a member of the House.
 
 **Cause.** Found in code: `chooseWeek` in src/core2/office-day-federal.ts writes the player's choice into the federal day's `weeks` table, and `whereOn` reads it; nothing in src/bench calls `chooseWeek`, and src/bench/handler.ts has no route for it.
 
@@ -31,6 +31,8 @@ claimed-at:
 **Rules.** No hand-written player text; labels in controls.json with the Words lead's read. A week chosen is a choice the player pressed, never one made for them. Words-bar screens at three places.
 
 **Done when.** A second session plays a U.S. Representative in a drawn place, on main, chooses a week at home on Your office for a week their chamber sits, and Your office lists "Absent: at home in the district" for that week's floor votes. They choose Washington for the next sitting week and a floor vote holds them.
+
+**Waits on.** office-stops-control-the-player-cannot-switch-a-stop-off reaching the train.
 
 **Files.** src/bench/play.mjs, src/bench/handler.ts, src/bench/office.ts, src/bench/data/controls.json
 
