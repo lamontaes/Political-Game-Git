@@ -19,11 +19,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "The impact at which a moment takes over the screen.",
-    "why": "A pacing choice by the owner, which no study measures (Oct 16, 2026 research); the marriage anchor is 50 units on both the 1967 scale and its 2021 replication, so the line holds if the scale is updated. Stays TUNABLE against play.",
+    "why": "A pacing choice by the owner, which no study measures (Oct 16, 2026 research); the marriage anchor is 50 units on both the 1967 scale and its 2021 replication, so the line holds if the scale is updated. Stays TUNABLE against play. Resolved Nov 14, 2026 (stopgap disposal, owner rule: a number is kept as a TUNABLE row with its spread in the parameter table): the value stays as the game's answer, tagged TUNABLE with its check range, and is read from director.json only.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026: kept as TUNABLE rows in director.json parameters with their spreads. Was: An owner answer or a tested calibration for the same quantity.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "stopgap disposal W15"
   },
   {
     "id": "SG-P13-param-directorScaleHealth",
@@ -31,11 +33,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How much the watched person's own death counts.",
-    "why": "The watched person's own death is a design weight at the top of the scale; no stress scale rates one's own death (Oct 16, 2026 research). Stays TUNABLE against play.",
+    "why": "The watched person's own death is a design weight at the top of the scale; no stress scale rates one's own death (Oct 16, 2026 research). Stays TUNABLE against play. Resolved Nov 14, 2026 (stopgap disposal, owner rule: a number is kept as a TUNABLE row with its spread in the parameter table): the value stays as the game's answer, tagged TUNABLE with its check range, and is read from director.json only.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026: kept as TUNABLE rows in director.json parameters with their spreads. Was: An owner answer or a tested calibration for the same quantity.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "stopgap disposal W15"
   },
   {
     "id": "SG-P13-param-directorWeightTieSociability",
@@ -85,11 +89,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "Standing ties for family and a shared home, the partner tie, and the fading discount.",
-    "why": "The partner tie is now scaled from the spouse-to-close-family ratio on the 1967 scale (0.79; 0.57 on the 2021 replication). No source ranks sibling, grandparent, grandchild or shared-home ties or measures the fading discount; they stay the October 8, 2026 design weights until the replay calibration.",
+    "why": "The partner tie is now scaled from the spouse-to-close-family ratio on the 1967 scale (0.79; 0.57 on the 2021 replication). No source ranks sibling, grandparent, grandchild or shared-home ties or measures the fading discount; they stay the October 8, 2026 design weights until the replay calibration. Resolved Nov 14, 2026 (stopgap disposal, owner rule: a number is kept as a TUNABLE row with its spread in the parameter table): the value stays as the game's answer, tagged TUNABLE with its check range, and is read from director.json only.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "A calibration of thread importance against recorded closeness in replayed lives.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026: kept as TUNABLE rows in director.json parameters with their spreads. Was: A calibration of thread importance against recorded closeness in replayed lives.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "stopgap disposal W15"
   },
   {
     "id": "SG-P13-param-directorHalfLives",
@@ -145,11 +151,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How fast an anniversary's weight falls away from the date.",
-    "why": "The owner's answer 7. The only measured window is one week and no study calibrates the half-life (Oct 16, 2026 research).",
+    "why": "The owner's answer 7. The only measured window is one week and no study calibrates the half-life (Oct 16, 2026 research). Resolved Nov 14, 2026 (stopgap disposal, owner rule: a number is kept as a TUNABLE row with its spread in the parameter table): the value stays as the game's answer, tagged TUNABLE with its check range, and is read from director.json only.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "A calibration against when people recall shared events.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026: kept as TUNABLE rows in director.json parameters with their spreads. Was: A calibration against when people recall shared events.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "stopgap disposal W15"
   },
   {
     "id": "SG-P13-past-fact-estimates",
@@ -171,11 +179,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How long a watched person keeps every moment in full, and how many older moments they keep one by one.",
-    "why": "No study sets either; chosen so memory stays about the same size across a year while the recent season stays whole.",
+    "why": "No study sets either; chosen so memory stays about the same size across a year while the recent season stays whole. Resolved Nov 14, 2026 (stopgap disposal, owner rule: a number is kept as a TUNABLE row with its spread in the parameter table): the value stays as the game's answer, tagged TUNABLE with its check range, and is read from director.json only.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "A calibration against what people bring up in play (M4-05) and the owner's grading of the journal.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026: kept as TUNABLE rows in director.json parameters with their spreads. Was: A calibration against what people bring up in play (M4-05) and the owner's grading of the journal.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "stopgap disposal W15"
   },
   {
     "id": "SG-P15-journal-banks",
@@ -305,11 +315,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How long ago a recorded event still makes something two people talk about, and lets someone not in the room be asked after.",
-    "why": "The owner ruled what a talk opens on (Oct 14, 2026, night), not how long news stays news; one season is a guess checked against played talks.",
+    "why": "The owner ruled what a talk opens on (Oct 14, 2026, night), not how long news stays news; one season is a guess checked against played talks. Resolved Nov 14, 2026 (stopgap disposal, owner rule: a number is kept as a TUNABLE row with its spread in the parameter table): the value stays as the game's answer, tagged TUNABLE with its check range, and is read from director.json only.",
     "addedBy": "OPUS-WORDS",
     "addedAt": "2026-10-14",
-    "replacement": "A tested calibration against played talks, or an owner answer.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026: kept as TUNABLE rows in director.json parameters with their spreads. Was: A tested calibration against played talks, or an owner answer.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "stopgap disposal W15"
   },
   {
     "id": "SG-WORDS-param-directorTalkSeenLittleDays",
@@ -317,11 +329,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How many days since two people last spent time together before one may say they have not seen much of the other.",
-    "why": "A reading of the line in play (Amanave, American Samoa, Oct 29, 2026: \"since yesterday\"), not a measured quantity; a week is a guess checked against played household talks.",
+    "why": "A reading of the line in play (Amanave, American Samoa, Oct 29, 2026: \"since yesterday\"), not a measured quantity; a week is a guess checked against played household talks. Resolved Nov 14, 2026 (stopgap disposal, owner rule: a number is kept as a TUNABLE row with its spread in the parameter table): the value stays as the game's answer, tagged TUNABLE with its check range, and is read from director.json only.",
     "addedBy": "OPUS-WORDS",
     "addedAt": "2026-10-29",
-    "replacement": "A tested calibration against played household talks, or an owner answer.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026: kept as TUNABLE rows in director.json parameters with their spreads. Was: A tested calibration against played household talks, or an owner answer.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "stopgap disposal W15"
   },
   {
     "id": "SG-WORDS-param-directorTalkAddressImpact",
@@ -408,11 +422,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How often a scene from circumstance may come (the days between two), how strongly it orders the journal, and how the cast is weighed (named, witnessed, the player's tie, sociability).",
-    "why": "A pacing choice under the owner's Wildermyth ruling (Oct 26) with no study behind it; set so a played year in a drawn place carries scenes from circumstance about weekly while a quiet stretch carries none.",
+    "why": "A pacing choice under the owner's Wildermyth ruling (Oct 26) with no study behind it; set so a played year in a drawn place carries scenes from circumstance about weekly while a quiet stretch carries none. Resolved Nov 14, 2026 (stopgap disposal, owner rule: a number is kept as a TUNABLE row with its spread in the parameter table): the value stays as the game's answer, tagged TUNABLE with its check range, and is read from director.json only.",
     "addedBy": "director",
     "addedAt": "2026-10-27",
-    "replacement": "A calibration against the owner's playtests: scenes from circumstance per played month and how many he skips.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026: kept as TUNABLE rows in director.json parameters with their spreads. Was: A calibration against the owner's playtests: scenes from circumstance per played month and how many he skips.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "stopgap disposal W15"
   },
   {
     "id": "SG-WORDS-family-limit-unread",

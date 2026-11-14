@@ -593,6 +593,12 @@
       "stopgapId": "SG-P15-memory-forgetting",
       "checkRange": {
         "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
+      },
+      "spread": {
+        "low": 60,
+        "high": 182,
+        "unit": "days",
+        "citation": "Unverified estimate: two to six months of whole memory around the season kept now (91 days); checked so a watched person's memory stays about the same size across a played year (P15-MEMORY-SIZE-FLAT-YEAR)."
       }
     },
     "directorMemoryKeptMoments": {
@@ -602,6 +608,12 @@
       "stopgapId": "SG-P15-memory-forgetting",
       "checkRange": {
         "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
+      },
+      "spread": {
+        "low": 12,
+        "high": 48,
+        "unit": "moments",
+        "citation": "Unverified estimate: one to four older moments kept a month over a year (24 kept now); checked against memory staying about the same size across a played year (P15-MEMORY-SIZE-FLAT-YEAR)."
       }
     },
     "directorBribeOfferImpact": {
