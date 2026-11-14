@@ -5261,9 +5261,10 @@ function openConversationNow(
     core.people.get(otherId)?.householdId === player.householdId;
   // A call opens as a call even to someone in the player's own house: the
   // person answering says hello first (Words lead, Nov 14).
-  const greeting = housemate && !options.byPhone
-    ? null
-    : greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone);
+  const greeting =
+    housemate && !options.byPhone
+      ? null
+      : greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone);
   if (greeting) {
     // The hello is its own short turn, as people say it ("Hi." then "Back
     // again?"): a composed greeting's opener is said first, the rest after.
@@ -6988,7 +6989,9 @@ function endConversation(
   const lastFromOther = [...conversation.lines]
     .reverse()
     .find((line) => line.speakerId === otherId && line.kind !== "ack");
+  // A call is the exception: it is closed by the person called, or it hangs.
   if (
+    !conversation.byPhone &&
     lastFromOther &&
     asksQuestion(lastFromOther) &&
     conversation.lines.indexOf(lastFromOther) < conversation.lines.length - one
@@ -6996,9 +6999,12 @@ function endConversation(
     return;
   // People who live together close a talk as housemates do: never "Come
   // back soon." at home, and no hello passed on to their own family.
+  // A call is ended as a call, even between people who live together: the
+  // goodbye is the phone's own (Words lead, Nov 14: calls ended with none).
   const housemate =
+    !conversation.byPhone &&
     core.people.get(otherId)?.householdId ===
-    core.people.get(playerId)?.householdId;
+      core.people.get(playerId)?.householdId;
   // A talk between people who live together ends on its last line that says
   // something: nobody at home announces where they will be or that they will
   // check in (owner, Nov 12: "the same bullshit ... with the just
@@ -7008,7 +7014,11 @@ function endConversation(
   // a job lost, a death): it ends on their last answer, never "Come back
   // soon." or "Say hello to Mom." to someone who just lost their home (W1's
   // strict review, Nov 12).
-  if (NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))) return;
+  if (
+    !conversation.byPhone &&
+    NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))
+  )
+    return;
   // "Say hello to {name}." only for someone in the player's family they know.
   const family = housemate
     ? undefined

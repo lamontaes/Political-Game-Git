@@ -11,6 +11,8 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { buildBenchWorld } from "../bench/world";
@@ -23,6 +25,13 @@ const IN_ROOM =
 /** Words only a call says. */
 const ON_THE_LINE =
   /^(hello\?|yes, hello\?)$|it's (me|[A-Z][a-z]+)\.$|thanks for (calling|the call)|glad you called|call (me )?anytime|hear your voice|let you go/i;
+
+/** The days a call is tried on: a world at opening has little news yet. */
+const CALL_DAYS = (process.env.PHONE_DAYS ?? "0,10,30,150")
+  .split(",")
+  .map(Number);
+/** Every line said in any call of the run. */
+const PLAYED = new Set<string>();
 
 const SEEDS = [
   ["phone-pin-a", "b550a10bcd3bf708"],
@@ -162,67 +171,73 @@ describe("every call is a call (Words lead, Nov 14: five faults)", () => {
       );
       let heardGoodbye = 0;
       let callsOffered = 0;
+      let offeredEmpty = 0;
       const transcript: string[] = [
+        `# Played at ${process.env.PHONE_SHA ?? "(sha not given)"}`,
         `## ${place.name} (${place.key}), seed ${seed}`,
       ];
-      let offeredEmpty = 0;
-      // Every call is opened (and looked at) before any is played: opening writes nothing.
-      const opened: {
-        row: (typeof callees)[number];
-        call: ReturnType<typeof openConversation>;
-        where: string;
-      }[] = [];
-      for (const row of callees) {
-        const where = `${place.name} call to ${row.givenName}`;
-        // A call with nothing to say is not offered: the room's own check
-        // (look) says so, and the call the player would make says nothing.
-        const lookTalk = openConversation(core, playerId as PersonId, row.id, {
-          director,
-          byPhone: true,
-          look: true,
-        });
-        const offered = lookTalk.lines.length > 0;
-        const call = openConversation(core, playerId as PersonId, row.id, {
-          director,
-          byPhone: true,
-        });
-        // The room's check can say a call is on when the call itself opens on
-        // nothing (counted below, not asserted: the room's check is the
-        // handler's own); a call that is opened and has lines starts as a call.
-        if (offered && !call.lines.length) offeredEmpty += 1;
-        if (call.lines.length) opened.push({ row, call, where });
-      }
-      for (const { row, call, where } of opened) {
-        callsOffered += 1;
-        // The person answering says hello, as a call is answered.
-        expect(call.lines[0]!.speakerId, where).toBe(row.id);
-        expect(call.lines[0]!.text, where).toMatch(/^(Hello\?|Yes, hello\?)$/);
-        expect(call.lines[1]!.speakerId, where).toBe(playerId);
-        // The talk goes on and ends: every line, and the goodbye.
-        let talk = call;
-        for (let turn = 0; turn < 8 && talk.choices.length; turn += 1) {
-          const goodbye = talk.choices.find((choice) =>
-            /bye|talk|go\b|got to|let you/i.test(choice.text),
+      const start = makeIsoDate(core.date);
+      for (const day of CALL_DAYS) {
+        if (day) advanceCore(core, addDays(start, day));
+        // One call at a time, as a player makes them: looked at, opened,
+        // then played, so what one call told is heard by the next.
+        for (const row of callees) {
+          const where = `${place.name} day ${day}, call to ${row.givenName}`;
+          // A call with nothing to say is not offered: the room's own check
+          // (look) says so, and the call the player would make says nothing.
+          const offered =
+            openConversation(core, playerId as PersonId, row.id, {
+              director,
+              byPhone: true,
+              look: true,
+            }).lines.length > 0;
+          const call = openConversation(core, playerId as PersonId, row.id, {
+            director,
+            byPhone: true,
+          });
+          if (offered && !call.lines.length) offeredEmpty += 1;
+          if (!call.lines.length) continue;
+          callsOffered += 1;
+          // The person answering says hello, as a call is answered.
+          expect(call.lines[0]!.speakerId, where).toBe(row.id);
+          expect(call.lines[0]!.text, where).toMatch(
+            /^(Hello\?|Yes, hello\?)$/,
           );
-          talk = say(
-            core,
-            talk,
-            (goodbye ?? talk.choices[turn % talk.choices.length]!).key,
+          expect(call.lines[1]!.speakerId, where).toBe(playerId);
+          // The talk goes on to its end: each offered reply in turn.
+          let talk = call;
+          for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
+            talk = say(
+              core,
+              talk,
+              talk.choices[turn % talk.choices.length]!.key,
+            );
+          transcript.push(
+            `### ${where}`,
+            ...talk.lines.map(
+              (line) =>
+                `  ${line.speakerId === playerId ? "You" : row.givenName}: ${line.text}`,
+            ),
+            "",
           );
-          if (goodbye) break;
-        }
-        transcript.push(
-          `### ${where}`,
-          ...talk.lines.map(
-            (line) =>
-              `  ${line.speakerId === playerId ? "You" : row.givenName}: ${line.text}`,
-          ),
-        );
-        for (const line of talk.lines) {
-          expect(line.text, where).not.toMatch(AT_THE_DOOR);
-          expect(line.text, where).not.toMatch(IN_ROOM);
-          if (/farewell|part/.test(line.kind ?? "")) {
-            heardGoodbye += 1;
+          if (process.env.PHONE_OUT)
+            writeFileSync(
+              `${process.env.PHONE_OUT}-${seed}.md`,
+              transcript.join("\n"),
+            );
+          // A question the player asked is answered: the call never ends on it.
+          const last = talk.lines.at(-1)!;
+          expect(last.text, `${where}: ends on a question`).not.toMatch(/\?$/);
+          // A call ends on a goodbye, always the other person's.
+          expect(last.kind, `${where}: a call ends on a goodbye`).toBe(
+            "farewell",
+          );
+          expect(last.speakerId, where).toBe(row.id);
+          for (const line of talk.lines) {
+            expect(line.text, where).not.toMatch(AT_THE_DOOR);
+            expect(line.text, where).not.toMatch(IN_ROOM);
+            PLAYED.add(line.text);
+            if (line.kind === "farewell") heardGoodbye += 1;
           }
         }
       }
@@ -239,7 +254,7 @@ describe("every call is a call (Words lead, Nov 14: five faults)", () => {
         `PHONE ${place.name}: ${callees.length} people, ${callsOffered} calls with words, ${offeredEmpty} the room's check offered that opened on nothing, ${heardGoodbye} goodbyes\n`,
       );
     },
-    180_000,
+    300_000,
   );
 });
 
@@ -292,5 +307,37 @@ describe("the bank holds the doorway words off a call", () => {
         "Glad you called.",
       ]),
     );
+  });
+});
+
+describe("every line the call has of its own is played", () => {
+  it("each phone hello, self line, go-on and goodbye is said in the pinned calls", () => {
+    type Part = {
+      key: string;
+      text: string;
+      uses: { requiresFacts?: string[] }[];
+    };
+    const own = (bank as unknown as { parts: Part[] }).parts.filter(
+      (part) =>
+        part.key.split(".").at(-1)!.startsWith("phone-") &&
+        part.uses.some((use) => use.requiresFacts?.includes("by-phone")),
+    );
+    const escape = (text: string) =>
+      text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const missing = own
+      .filter(
+        (part) =>
+          ![...PLAYED].some((line) =>
+            new RegExp(
+              `^${part.text
+                .split(/\{[a-z-]+\}/)
+                .map(escape)
+                .join(".+?")}$`,
+            ).test(line),
+          ),
+      )
+      .map((part) => part.text);
+    process.stdout.write(`PHONE-UNSEEN ${JSON.stringify(missing)}\n`);
+    expect(missing, "phone lines never played in the pinned calls").toEqual([]);
   });
 });

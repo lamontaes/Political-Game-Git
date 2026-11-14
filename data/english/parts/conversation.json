@@ -9189,7 +9189,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 2,
@@ -9219,7 +9220,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 5,
@@ -9256,7 +9258,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 11,
@@ -9291,7 +9294,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 2,
@@ -9353,7 +9357,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 4,
@@ -11313,7 +11318,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 2,
@@ -23656,7 +23662,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["no-when"]
+          "requiresFacts": ["no-when"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -23679,7 +23686,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["no-when"]
+          "requiresFacts": ["no-when"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -23750,7 +23758,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["no-when"]
+          "requiresFacts": ["no-when"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -23797,7 +23806,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-month"]
+          "requiresFacts": ["when-month"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -23820,7 +23830,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-long"]
+          "requiresFacts": ["when-long"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -23867,7 +23878,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-long"]
+          "requiresFacts": ["when-long"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -23890,7 +23902,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-recent"]
+          "requiresFacts": ["when-recent"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -23913,7 +23926,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-recent"]
+          "requiresFacts": ["when-recent"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -23936,7 +23950,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-month", "when-since"]
+          "requiresFacts": ["when-month", "when-since"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -23959,7 +23974,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-long", "when-since"]
+          "requiresFacts": ["when-long", "when-since"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -23982,7 +23998,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-long"]
+          "requiresFacts": ["when-long"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24005,7 +24022,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-long"]
+          "requiresFacts": ["when-long"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24026,7 +24044,8 @@
         {
           "move": "farewell-core",
           "subject": "farewell",
-          "role": "core"
+          "role": "core",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24047,7 +24066,8 @@
         {
           "move": "farewell-core",
           "subject": "farewell",
-          "role": "core"
+          "role": "core",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24070,7 +24090,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-employer-yours"]
+          "requiresFacts": ["about-employer-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24093,7 +24114,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-employer-yours"]
+          "requiresFacts": ["about-employer-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24116,7 +24138,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-employer-yours"]
+          "requiresFacts": ["about-employer-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24139,7 +24162,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-employer-yours"]
+          "requiresFacts": ["about-employer-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24162,7 +24186,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-employer-mine", "on-shift"]
+          "requiresFacts": ["about-employer-mine", "on-shift"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24185,7 +24210,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-employer-mine", "on-shift"]
+          "requiresFacts": ["about-employer-mine", "on-shift"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24208,7 +24234,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-employer-mine", "on-shift"]
+          "requiresFacts": ["about-employer-mine", "on-shift"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24231,7 +24258,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-school"]
+          "requiresFacts": ["about-school"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24254,7 +24282,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-school"]
+          "requiresFacts": ["about-school"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24277,7 +24306,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-topic"]
+          "requiresFacts": ["about-topic"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24300,7 +24330,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-topic"]
+          "requiresFacts": ["about-topic"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24347,7 +24378,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-place-yours"]
+          "requiresFacts": ["about-place-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24393,7 +24425,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24415,7 +24448,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24437,7 +24471,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24459,7 +24494,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24481,7 +24517,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24504,7 +24541,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-month"]
+          "requiresFacts": ["when-month"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24527,7 +24565,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-long", "when-since"]
+          "requiresFacts": ["when-long", "when-since"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24574,7 +24613,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-recent"]
+          "requiresFacts": ["when-recent"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24597,7 +24637,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-long"]
+          "requiresFacts": ["when-long"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24620,7 +24661,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-long"]
+          "requiresFacts": ["when-long"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -26423,7 +26465,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-recent"]
+          "requiresFacts": ["when-recent"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -26518,7 +26561,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-month"]
+          "requiresFacts": ["when-month"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -26541,7 +26585,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-month", "when-since"]
+          "requiresFacts": ["when-month", "when-since"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -26564,7 +26609,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-month"]
+          "requiresFacts": ["when-month"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -27555,7 +27601,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"]
+          "requiresFacts": ["about-again", "player-first", "met-before"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -27579,7 +27626,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -27603,7 +27651,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -27627,7 +27676,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -27796,7 +27846,8 @@
             "long-talk",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -27820,7 +27871,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -27904,7 +27956,8 @@
             "at-their-work",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -29927,7 +29980,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -29981,7 +30035,8 @@
             "player-works",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30010,7 +30065,8 @@
             "at-their-work",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30034,7 +30090,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30058,7 +30115,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30087,7 +30145,8 @@
             "daytime",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30146,7 +30205,8 @@
             "at-their-work",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30200,7 +30260,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30224,7 +30285,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30248,7 +30310,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30272,7 +30335,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30296,7 +30360,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30320,7 +30385,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30344,7 +30410,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30368,7 +30435,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30392,7 +30460,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30416,7 +30485,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -36676,12 +36746,14 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "farewell-leave-bye",
           "subject": "farewell",
-          "role": "closer"
+          "role": "closer",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -36701,12 +36773,14 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "farewell-leave-bye",
           "subject": "farewell",
-          "role": "closer"
+          "role": "closer",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -36751,12 +36825,14 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "farewell-leave-bye",
           "subject": "farewell",
-          "role": "closer"
+          "role": "closer",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -36801,12 +36877,14 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "farewell-leave-bye",
           "subject": "farewell",
-          "role": "closer"
+          "role": "closer",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -36827,7 +36905,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "requiresFacts": ["first-meeting"]
+          "requiresFacts": ["first-meeting"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -36848,7 +36927,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "requiresFacts": ["first-meeting"]
+          "requiresFacts": ["first-meeting"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -36869,7 +36949,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "requiresFacts": ["first-meeting"]
+          "requiresFacts": ["first-meeting"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -36890,7 +36971,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "requiresFacts": ["daytime"]
+          "requiresFacts": ["daytime"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -36911,7 +36993,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -36956,12 +37039,14 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "farewell-leave-bye",
           "subject": "farewell",
-          "role": "closer"
+          "role": "closer",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -37027,12 +37112,14 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "farewell-leave-bye",
           "subject": "farewell",
-          "role": "closer"
+          "role": "closer",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -37052,12 +37139,14 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["by-phone"]
         },
         {
           "move": "farewell-leave-bye",
           "subject": "farewell",
-          "role": "closer"
+          "role": "closer",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -38047,7 +38136,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-yours", "player-works"]
+          "requiresFacts": ["about-employer-yours", "player-works"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38072,7 +38162,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-yours"]
+          "requiresFacts": ["about-employer-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38097,7 +38188,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-yours"]
+          "requiresFacts": ["about-employer-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38122,7 +38214,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-yours"]
+          "requiresFacts": ["about-employer-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38147,7 +38240,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-yours"]
+          "requiresFacts": ["about-employer-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38172,7 +38266,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-yours"]
+          "requiresFacts": ["about-employer-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38197,7 +38292,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-yours"]
+          "requiresFacts": ["about-employer-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38222,7 +38318,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-mine", "met-before"]
+          "requiresFacts": ["about-employer-mine", "met-before"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38247,7 +38344,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-mine"]
+          "requiresFacts": ["about-employer-mine"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38298,7 +38396,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-mine", "on-shift"]
+          "requiresFacts": ["about-employer-mine", "on-shift"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38323,7 +38422,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-mine", "on-shift"]
+          "requiresFacts": ["about-employer-mine", "on-shift"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38348,7 +38448,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-mine", "on-shift"]
+          "requiresFacts": ["about-employer-mine", "on-shift"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -38373,7 +38474,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-mine", "on-shift"]
+          "requiresFacts": ["about-employer-mine", "on-shift"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -39341,7 +39443,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39365,7 +39468,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39389,7 +39493,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39413,7 +39518,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39437,7 +39543,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39466,7 +39573,8 @@
             "daytime",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39490,7 +39598,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39514,7 +39623,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39538,7 +39648,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39562,7 +39673,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39586,7 +39698,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39610,7 +39723,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39634,7 +39748,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39658,7 +39773,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39682,7 +39798,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39711,7 +39828,8 @@
             "daytime",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39740,7 +39858,8 @@
             "evening",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39769,7 +39888,8 @@
             "evening",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39793,7 +39913,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39817,7 +39938,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39841,7 +39963,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39865,7 +39988,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39889,7 +40013,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39913,7 +40038,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39937,7 +40063,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -39961,7 +40088,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40463,7 +40591,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40481,7 +40610,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40499,7 +40629,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40517,7 +40648,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40535,7 +40667,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40553,7 +40686,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40590,7 +40724,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40608,7 +40743,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40626,7 +40762,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40644,7 +40781,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40662,7 +40800,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40680,7 +40819,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40698,7 +40838,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40716,7 +40857,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40734,7 +40876,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40752,7 +40895,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40770,7 +40914,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40788,7 +40933,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40806,7 +40952,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40824,7 +40971,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40842,7 +40990,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40860,7 +41009,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40878,7 +41028,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40896,7 +41047,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40914,7 +41066,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40932,7 +41085,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -40988,7 +41142,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41006,7 +41161,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41024,7 +41180,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41042,7 +41199,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41060,7 +41218,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41097,7 +41256,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41115,7 +41275,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41133,7 +41294,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41151,7 +41313,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41169,7 +41332,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41187,7 +41351,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41205,7 +41370,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41223,7 +41389,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41241,7 +41408,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41259,7 +41427,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41277,7 +41446,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41295,7 +41465,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41313,7 +41484,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41331,7 +41503,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41350,7 +41523,8 @@
           "role": "core",
           "stages": ["default"],
           "closesTalk": true,
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41369,7 +41543,8 @@
           "role": "core",
           "stages": ["default"],
           "closesTalk": true,
-          "requiresFacts": ["daytime"]
+          "requiresFacts": ["daytime"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41388,7 +41563,8 @@
           "role": "core",
           "stages": ["default"],
           "closesTalk": true,
-          "requiresFacts": ["daytime"]
+          "requiresFacts": ["daytime"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
