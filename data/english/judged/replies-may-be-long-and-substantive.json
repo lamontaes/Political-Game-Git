@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1107,
+  "judged": 1104,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -792,15 +792,6 @@
       ],
       "why": "'This isn't it', keeping it and 'Take the gift with you' answer 'won't you look at it?' with no reason."
     },
-    "0clmwd75bot": {
-      "keys": [
-        "scene-talk.follow-answer.thank-you-chair-ill-yield-for-the-question",
-        "scene-talk.reply-agree.thank-you-chair-ill-be-voting-with-the-member",
-        "scene-talk.reply-disagree.thank-you-chair-i-cant-go-along-with-that",
-        "scene-talk.reply-leave.thank-you-chair-ill-hear-the-rest-from-my-seat"
-      ],
-      "why": "The three floor replies state positions without a reason."
-    },
     "0d2z8vjvbyn": {
       "keys": [
         "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
@@ -985,16 +976,6 @@
       ],
       "why": "Confession, denial, defiance and an exit carry no argument."
     },
-    "0g3yi5tgx2m": {
-      "keys": [
-        "scene-talk.state-tell.thank-you-chair-i-ask-the-body-to-hear-me-on-this",
-        "scene-talk.reply-agree.chair-i-stand-with-the-member-on-this",
-        "scene-talk.reply-disagree.chair-i-respectfully-disagree-with-the-member",
-        "scene-talk.reply-ask.will-the-member-yield-for-a-question",
-        "scene-talk.reply-deflect.chair-i-have-nothing-to-add"
-      ],
-      "why": "Standing with, disagreeing, asking a question and having nothing to add carry no argument."
-    },
     "0g4i121ued3": {
       "keys": [
         "scene-talk.follow-press.you-cant-just-leave-it-though",
@@ -1052,15 +1033,6 @@
         "scene-talk.reply-lie.nobody-s-even-asked-me-that-before"
       ],
       "why": "A yes vote, a callback, an accusation of bias, a goodbye and a surprised remark carry no reason."
-    },
-    "0gpmx4qxl1x": {
-      "keys": [
-        "scene-talk.follow-press.thank-you-chair-id-ask-the-member-to-look-at-the-bill",
-        "scene-talk.reply-agree.thank-you-chair-ill-be-voting-with-the-member",
-        "scene-talk.reply-disagree.thank-you-chair-i-cant-go-along-with-that",
-        "scene-talk.reply-leave.thank-you-chair-ill-hear-the-rest-from-my-seat"
-      ],
-      "why": "Voting with, not going along and listening from the seat give no reason."
     },
     "0grqztuxd0q": {
       "keys": [

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1224,
+  "judged": 1219,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -320,14 +320,6 @@
         "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
       ],
       "why": "Both lines need the same stake and both just say count me in and tell me when you decide."
-    },
-    "058dosmqqce": {
-      "keys": [
-        "scene-talk.narrate-narrate.nobody-else-asks-to-speak-the-chair-calls-on-name",
-        "scene-talk.narrate-narrate.the-chair-recognizes-name",
-        "scene-talk.narrate-narrate.the-chair-recognizes-name-on-bill"
-      ],
-      "why": "All three lines just have the chair call on the speaker, and naming the bill adds nothing new."
     },
     "05iy1uff4e6": {
       "keys": [
@@ -1823,13 +1815,6 @@
         "scene-talk.state-request.we-d-like-to-offer-you-the-job-you-d-start-as-position-at-pay-an-hour"
       ],
       "why": "Both lines make the same job offer with the same {position} and {pay}, reworded."
-    },
-    "0tejnx3eham": {
-      "keys": [
-        "scene-talk.reply-disagree.chair-i-respectfully-disagree-with-the-member",
-        "scene-talk.reply-disagree.thank-you-chair-i-cant-go-along-with-that"
-      ],
-      "why": "Both lines disagree with the member in other words."
     },
     "0th6x2coxvo": {
       "keys": [
@@ -4084,13 +4069,6 @@
       ],
       "why": "Both lines say I do and promise to keep the oath."
     },
-    "1uweoa6tyye": {
-      "keys": [
-        "scene-talk.reply-agree.chair-i-stand-with-the-member-on-this",
-        "scene-talk.reply-agree.thank-you-chair-ill-be-voting-with-the-member"
-      ],
-      "why": "Both lines say the speaker will vote with the member, with nothing in the world to choose."
-    },
     "1uxmqumhbiq": {
       "keys": [
         "scene-talk.reply-thank.going-away-okay-that-s-what-i-needed-to-hear",
@@ -5477,5 +5455,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "0rrq0yiuh43"
+  "yesHash": "079mwbiq1nn"
 }

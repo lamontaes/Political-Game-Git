@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1105,
+  "judged": 1103,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -461,19 +461,6 @@
         "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet"
       ],
       "why": "'Tell you exactly how it went' rewords 'Let me explain' and 'nothing to do with any payment' rewords 'Nobody can show I touched that money', two of three."
-    },
-    "06we9e4yrlj": {
-      "keys": [
-        "scene-talk.follow-press.thank-you-chair-id-ask-the-member-to-look-at-the-bill",
-        "scene-talk.reply-agree.chair-i-stand-with-the-member-on-this",
-        "scene-talk.reply-disagree.chair-i-respectfully-disagree-with-the-member",
-        "scene-talk.reply-ask.will-the-member-yield-for-a-question",
-        "scene-talk.reply-deflect.chair-i-have-nothing-to-add",
-        "scene-talk.reply-agree.thank-you-chair-ill-be-voting-with-the-member",
-        "scene-talk.reply-disagree.thank-you-chair-i-cant-go-along-with-that",
-        "scene-talk.reply-leave.thank-you-chair-ill-hear-the-rest-from-my-seat"
-      ],
-      "why": "Voting with the member, not going along and listening from the seat restate the first stand-with, disagree and nothing-to-add options."
     },
     "06ysau1bm6j": {
       "keys": [
@@ -2448,19 +2435,6 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "'I'll tell you everything' rewords 'Let me tell you' and 'It isn't true' rewords 'that's not what happened', two of three."
-    },
-    "15q7z8c4b01": {
-      "keys": [
-        "scene-talk.follow-answer.thank-you-chair-ill-yield-for-the-question",
-        "scene-talk.reply-agree.chair-i-stand-with-the-member-on-this",
-        "scene-talk.reply-disagree.chair-i-respectfully-disagree-with-the-member",
-        "scene-talk.reply-ask.will-the-member-yield-for-a-question",
-        "scene-talk.reply-deflect.chair-i-have-nothing-to-add",
-        "scene-talk.reply-agree.thank-you-chair-ill-be-voting-with-the-member",
-        "scene-talk.reply-disagree.thank-you-chair-i-cant-go-along-with-that",
-        "scene-talk.reply-leave.thank-you-chair-ill-hear-the-rest-from-my-seat"
-      ],
-      "why": "After the yield the replies only restate the first agree, disagree and nothing-to-add options."
     },
     "15qot65ok50": {
       "keys": [
