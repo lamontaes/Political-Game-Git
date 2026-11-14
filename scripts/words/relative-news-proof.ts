@@ -121,6 +121,9 @@ for (let draw = 0; draw < draws; draw += 1) {
           `\n### ${core.date}: ${subject.kind}, record ${subject.id}; ${nameOf(core, id)} (${id}) tells the player about ${nameOf(core, subject.aboutId as string)} (${row?.relation ?? "relation unrecorded"})`,
         );
         console.log(
+          `  teller's own word for them: ${subject.facts.kin?.text ?? "(none on record; the listener's word is used)"}`,
+        );
+        console.log(
           `  ${nameOf(core, id)}: ${line.text}  [${line.wording?.facts.join(", ")}; ${line.sourceRecordIds.join(", ")}]`,
         );
         for (const choice of first.choices)

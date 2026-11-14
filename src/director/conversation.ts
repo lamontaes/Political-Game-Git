@@ -851,12 +851,29 @@ function relativeNewsFacts(
   kind: string,
   moment: Moment,
   about: Readonly<PersonState>,
+  speaker: Readonly<PersonState>,
+  listener: Readonly<PersonState>,
 ): Facts {
   const event = core.durableLog.get(moment.causeId as never) as
     { id: string; facts?: Readonly<Record<string, string>> } | undefined;
   const cites = [moment.causeId];
   const fact = (text: string): Fact => ({ text, sourceRecordIds: cites });
   const facts: Facts = { when: fact(spokenWhen(moment.date, core.date)) };
+  // The teller's own tie to the relative, from the teller's family record
+  // ("my father", or "Dad" when the listener has the same tie to them); a
+  // tie the record does not hold (a spouse's parent) leaves it unset, and the
+  // line says the listener's word for them ("your grandfather").
+  const tie = familyFactsOf(speaker).get(about.id);
+  if (tie) {
+    const gender = about.looks?.gender ?? "other";
+    const shared = familyFactsOf(listener).get(about.id);
+    const said =
+      (shared?.relation === tie.relation
+        ? kinAddress(tie.relation, gender)
+        : undefined) ?? relationPhrase(tie.relation, gender, "journal");
+    if (said)
+      facts.kin = { text: said, sourceRecordIds: [tie.factId, ...cites] };
+  }
   const recorded = (key: string) =>
     event?.facts?.[`event:${event.id}:${key}`] ?? event?.facts?.[key];
   if (kind === "death-news") {
@@ -2385,7 +2402,7 @@ export function subjectsBetween(
           sourceRecordIds: [row.factId, moment.causeId],
         },
         name: { text: about.givenName, sourceRecordIds: [row.factId] },
-        ...relativeNewsFacts(core, kind, moment, about),
+        ...relativeNewsFacts(core, kind, moment, about, speaker, listener),
       },
     });
   }
