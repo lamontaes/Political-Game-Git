@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1321,
+  "judged": 1319,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -3524,19 +3524,6 @@
       ],
       "why": "\"Let me tell you all of it\" re-offers the explain option and \"I was wrong... I'm sorry\" re-offers the apology, two of three."
     },
-    "1itp2r48mfs": {
-      "keys": [
-        "scene-talk.follow-answer.you-d-be-position-at-pay-an-hour-to-start",
-        "scene-talk.reply-ask.tell-me-more-about-it",
-        "scene-talk.reply-agree.yes-i-ll-take-it",
-        "scene-talk.reply-decline.i-appreciate-it-but-position-isn-t-the-work-i-want-to-do",
-        "scene-talk.reply-stall.i-d-like-to-talk-it-over-at-home-first",
-        "scene-talk.reply-agree.that-s-great-news-count-me-in",
-        "scene-talk.reply-decline.thank-you-but-i-m-going-to-pass-on-working-as-position-it-isn-t-what-i-m-looking-for",
-        "scene-talk.reply-leave.i-can-t-decide-this-right-now"
-      ],
-      "why": "Taking the job, passing on {position} and not deciding now restate the first yes, no and talk-it-over options."
-    },
     "1iw6wfbpfns": {
       "keys": [
         "scene-talk.follow-answer.the-landlord-s-agent-signed-it-he-told-me-in-the-hallway-there-s-nothing-to-talk",
@@ -5097,5 +5084,5 @@
       "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "1m4i35s193y"
+  "yesHash": "22szrdi1m04"
 }

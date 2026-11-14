@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1334,
+  "judged": 1331,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -2546,14 +2546,6 @@
       ],
       "why": "Denial, a promise, \"can't take it back\" and \"We're finished\" carry no reason."
     },
-    "12cqzc9a7ce": {
-      "keys": [
-        "scene-talk.follow-answer.say-it-after-me-a-line-at-a-time-i-will-support-the-constitution-and-the",
-        "scene-talk.reply-agree.i-will-support-the-constitution-and-the-laws-and-i-will-serve-as-office",
-        "scene-talk.reply-promise.i-will-support-the-constitution-and-the-laws-i-will-carry-out-the-duties"
-      ],
-      "why": "Both oath replies are pledges with no reason."
-    },
     "12g7vhobdo2": {
       "keys": [
         "scene-talk.state-tell.i-keep-reading-about-bill-i-want-to-know-what-it-means-for-us",
@@ -5005,16 +4997,6 @@
       ],
       "why": "Refusal, report threat, silence and exit with no reason among them."
     },
-    "27xhzukr3un": {
-      "keys": [
-        "scene-talk.state-request.right-hand-up-first-do-you-swear-to-support-the-constitution-and-the-law",
-        "scene-talk.reply-agree.i-do",
-        "scene-talk.reply-promise.i-do-and-i-ll-keep-to-every-word-of-it",
-        "scene-talk.reply-thank.i-do-and-thank-you-for-trusting-me-with-it",
-        "scene-talk.reply-ask.do-i-say-it-after-you"
-      ],
-      "why": "The oath answers are \"I do\" variants and a question, with no argument."
-    },
     "287ua27ueks": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -5534,5 +5516,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "12zefujgou4"
+  "yesHash": "13immp3zgsu"
 }
