@@ -522,6 +522,7 @@
     "seat": "Seat",
     "heldBy": "Held by",
     "openSeat": "No one holds it now",
+    "whatElse": "What else is open?",
     "election": "Election"
   },
   "authority": {
@@ -561,6 +562,7 @@
     "nextMeeting": "Next meeting",
     "heads": "Posts you name",
     "acts": "What you have done",
+    "stops": "Stop me for",
     "left": "Laws that gave way",
     "mySeat": "My seat",
     "onMyDesk": "On my desk",
@@ -583,6 +585,28 @@
     "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
     "adjourned": "Cast when you adjourned",
+    "votes": {
+      "yes": "Yes",
+      "no": "No",
+      "abstain": "Abstained"
+    },
+    "bodySwitches": [
+      { "has": ["council"], "label": "Council meetings" },
+      { "has": ["police jury"], "label": "Police Jury meetings" },
+      { "has": ["town meeting"], "label": "Town Meeting" },
+      { "has": ["governing body"], "label": "Governing Body meetings" },
+      { "has": ["board"], "label": "Board meetings" },
+      { "has": ["commission"], "label": "Commission meetings" },
+      { "has": ["committee"], "label": "Committee meetings" },
+      { "has": ["assembly"], "label": "Assembly meetings" },
+      { "has": ["legislature"], "label": "Legislature sessions" },
+      { "has": ["aldermen"], "label": "Aldermen meetings" }
+    ],
+    "switches": {
+      "meetings": "Meetings",
+      "floor": "Floor votes",
+      "desk": "Bills on my desk"
+    },
     "absent": {
       "stop-off": "Absent: you did not attend",
       "district": "Absent: at home in the district"
@@ -757,6 +781,7 @@
     "title": "News",
     "nation": "Nation",
     "briefs": "Briefs",
+    "backFront": "Back to the front page",
     "noStoryText": "The paper ran this story as a headline only; the full account has not come in.",
     "nothingYet": "Nothing here yet.",
     "desk": "Around town",
