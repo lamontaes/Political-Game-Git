@@ -694,7 +694,12 @@ export function leanIfHedged(row: ServeAskRow): number {
   const hedged =
     w(row.seat, "apart") *
     (w(row.seat, "agreeAt") - Math.abs(grounds.theirStance) / 2);
-  return row.standing.lean - (terms.question ?? 0) + hedged;
+  const lean = row.standing.lean - (terms.question ?? 0) + hedged;
+  // A drop too small for them to feel costs nothing: the dodge weighs as
+  // the stance on the record (willingness.json `dodgeNoticed`).
+  return row.standing.lean - lean < w(row.seat, "dodgeNoticed")
+    ? row.standing.lean
+    : lean;
 }
 
 /** The running mate choice as the player is offered it: with the willing read. */

@@ -66,7 +66,7 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import { areaName } from "../english/area-names";
-import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
+import { NAMED_QUESTIONS, questionAbout, questionSaid } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import {
   questionSubject,
@@ -1848,7 +1848,7 @@ function composeBinding(
         sourceRecordIds: [...why, ...serve.grounds.stories],
       };
     // The question they hold most strongly, as the read found it.
-    const issue = questionAbout(serve.question);
+    const issue = questionSaid(serve.question);
     if (issue)
       facts.issue = {
         text: issue,

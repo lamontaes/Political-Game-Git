@@ -28,6 +28,7 @@ import {
 import {
   askToServe,
   chooseRunningMateForMe,
+  leanIfHedged,
   offeredRunningMates,
   serveAsk,
   ticketAsks,
@@ -384,9 +385,21 @@ it(
  * A stranger who would say yes asks the player one thing first, chosen by
  * their reason for the yes (Words lead, Nov 14 16:30Z): the player's answers
  * come from the record, and a hedge on their own question is weighed as no
- * stance. Each case pins a place, a seed and the person asked.
+ * stance. A dodge is offered only when it costs them something they feel
+ * (Words lead, Nov 14 21:35Z): Mary Conway's lean drops by about 0.0001 if
+ * the stance is left unsaid, her own on the minimum wage being mild, so she
+ * is not offered one, and with one answer left there is no choice to make:
+ * she says yes at once (`answer: null`). Each case pins a place, a seed and
+ * the person asked.
  */
-const ASKS_FIRST = [
+const ASKS_FIRST: {
+  key: string;
+  seed: string;
+  asked: string;
+  question: string;
+  reply: string;
+  answer: string | null;
+}[] = [
   {
     key: "territory:GU:santa-rita",
     seed: "8d04db587cd640d7",
@@ -399,9 +412,9 @@ const ASKS_FIRST = [
     key: "territory:GU:santa-rita",
     seed: "11aa22bb33cc44dd",
     asked: "Mary Conway",
-    question: "ask",
+    question: "agree",
     reply: "deflect",
-    answer: "agree",
+    answer: null,
   },
   {
     key: "territory:GU:yona",
@@ -441,6 +454,24 @@ for (const place of ASKS_FIRST)
         throw new Error(`${w.where}: ${JSON.stringify(result)}`);
       const tree = result.scene.talk.tree;
       expect(tree.lines[0]?.move, w.where).toBe(place.question);
+      if (place.answer === null) {
+        expect(
+          tree.replies.map((r) => r.line.move),
+          `${w.where}: a ${place.reply} that costs nothing`,
+        ).not.toContain(place.reply);
+        expect(leanIfHedged(row), w.where).toBe(row.standing.lean);
+        process.stdout.write(
+          [
+            `SERVE ASKS FIRST ${w.where} (no ${place.reply} offered)`,
+            `  lean ${row.standing.lean.toFixed(4)} (question ${(row.standing.terms.question ?? 0).toFixed(4)}); after a dodge ${leanIfHedged(row).toFixed(4)}`,
+            `${tree.lines[0]!.speaker}: ${tree.lines[0]!.text}`,
+            ...tree.replies.map(
+              (r) => `  (choice) ${r.line.speaker}: ${r.line.text}`,
+            ),
+          ].join("\n") + "\n",
+        );
+        return;
+      }
       expect(tree.replies.length, w.where).toBeGreaterThanOrEqual(2);
       const index = tree.replies.findIndex((r) => r.line.move === place.reply);
       expect(index, `${w.where}: no ${place.reply}`).toBeGreaterThanOrEqual(0);
@@ -449,6 +480,9 @@ for (const place of ASKS_FIRST)
       process.stdout.write(
         [
           `SERVE ASKS FIRST ${w.where}`,
+          // What a dodge weighs: the question term read with the player's
+          // stance unsaid, in place of the stance on their record.
+          `  lean ${row.standing.lean.toFixed(4)} (question ${(row.standing.terms.question ?? 0).toFixed(4)}); after a dodge ${leanIfHedged(row).toFixed(4)}`,
           ...result.scene.talk.narration.map((l) => `Narrator: ${l.text}`),
           `${result.scene.talk.state.speaker}: ${result.scene.talk.state.text}`,
           `${tree.lines[0]!.speaker}: ${tree.lines[0]!.text}`,

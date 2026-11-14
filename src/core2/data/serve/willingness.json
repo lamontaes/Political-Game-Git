@@ -100,6 +100,13 @@
         "tag": "TUNABLE",
         "source": "Dollars raised at which that part of standing is half: $100,000, a modest early statewide treasury.",
         "spread": [2500000, 50000000]
+      },
+      "dodgeNoticed": {
+        "value": 0.01,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "The smallest drop in the lean a person notices when the player leaves their stance unsaid. Below it the dodge costs them nothing they can feel, so it is not offered as a dodge (Words lead, Nov 14).",
+        "spread": [0.005, 0.03]
       }
     },
     "post": {
@@ -173,6 +180,13 @@
         "tag": "TUNABLE",
         "source": "Stories at which the scandal term is half its weight.",
         "spread": [0.5, 2]
+      },
+      "dodgeNoticed": {
+        "value": 0.01,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "The smallest drop in the lean a person notices when the player leaves their stance unsaid. Below it the dodge costs them nothing they can feel, so it is not offered as a dodge (Words lead, Nov 14).",
+        "spread": [0.005, 0.03]
       }
     }
   },
