@@ -21,8 +21,9 @@
  * give. The player is never decided for: an action the player's own life is
  * touched by is left open for them (`playerTouched`), and the scene is theirs.
  *
- * stopgapId: SG-WORDS-public-action-counted-share (the counted population is
- * not asked to join: an action's size is its named participants).
+ * The wider town's counted people are asked by the same decision, by their
+ * count: the school's staff, the renters, the jobless and every counted
+ * resident, each as many as their record stands for (one model, two tiers).
  */
 import { countedPersonOf } from "../counted-actor";
 import { residentsRuntime } from "./residents";
@@ -172,6 +173,74 @@ function countedSchoolStaff(core: CoreState, placeId: string): string[] {
   return out.sort();
 }
 
+/** A counted person asked to join, and how many real people their record stands for. */
+interface CountedAsked {
+  readonly id: string;
+  readonly weight: number;
+}
+
+/**
+ * The wider town's counted adults an area touches, from the counts: the
+ * school's staff by the wage flows, the renters by their household's tenure,
+ * the jobless by the jobs engine's counted seekers, every resident by being
+ * counted here. Each carries the households its record stands for.
+ */
+function countedTouchedIn(
+  api: CoreAPI,
+  core: CoreState,
+  placeId: string,
+  touches: Touches,
+): CountedAsked[] {
+  if (touches === "school-staff")
+    return countedSchoolStaff(core, placeId).map((id) => ({ id, weight: 1 }));
+  const rt = residentsRuntime(core);
+  if (!rt) return [];
+  const store = rt.store;
+  const out: CountedAsked[] = [];
+  const adult = (birthDate: string) =>
+    ageOnDate(birthDate, core.date) >= ADULT_AGE;
+  if (touches === "jobless") {
+    if (!core.modules.has("jobs")) return [];
+    const seekers = api
+      .moduleState("jobs")
+      .table("countedSeekers")
+      .rows() as unknown as {
+      personId: string;
+      placeId: string;
+      employed: boolean;
+    }[];
+    for (const row of seekers) {
+      if (row.employed || row.placeId !== placeId) continue;
+      const member = store.countedMember(row.personId);
+      if (member === undefined || !store.isCounted(member)) continue;
+      const householdId = rt.householdOfPerson.get(row.personId);
+      const household = householdId
+        ? store.liveHousehold(householdId)
+        : undefined;
+      out.push({
+        id: row.personId,
+        weight: household ? store.weightOf(household) : 1,
+      });
+    }
+    return out.sort((a, b) => a.id.localeCompare(b.id));
+  }
+  for (const group of store.groups) {
+    if (group.placeId !== placeId) continue;
+    if (touches === "renters" && group.tenure !== "rent") continue;
+    if (group.tenure === "group") continue;
+    for (const index of group.households) {
+      const h = store.households[index]!;
+      if (h.gone) continue;
+      for (const member of store.countedMembers(h)) {
+        const facts = store.factsOf(member);
+        if (adult(facts.birthDate))
+          out.push({ id: facts.id, weight: store.weightOf(h) });
+      }
+    }
+  }
+  return out.sort((a, b) => a.id.localeCompare(b.id));
+}
+
 /** The people the jobs engine records as looking for work and not yet employed. */
 function jobSeekers(api: CoreAPI): Set<string> {
   const core = api.state as CoreState;
@@ -231,26 +300,26 @@ function organize(
   return rows;
 }
 
-/** The people in the town who are in the action this month, deciding one at a time who is drawn in by those already there. */
+/** The counted people in the action this month, each asked by the same decision and counted as many as their record stands for. */
 function gatherCounted(
   api: CoreAPI,
-  counted: readonly string[],
+  counted: readonly CountedAsked[],
   level: number,
 ): number {
   let joined = 0;
-  for (const id of counted) {
-    const person = countedPersonOf(api.state as CoreState, id);
+  for (const asked of counted) {
+    const person = countedPersonOf(api.state as CoreState, asked.id);
     if (!person) continue;
     if (
       joinsGroup(
         api,
-        { ...person, id } as unknown as PersonState,
+        { ...person, id: asked.id } as unknown as PersonState,
         Math.min(1, level),
         true,
         0,
       )
     )
-      joined += 1;
+      joined += asked.weight;
   }
   return joined;
 }
@@ -410,10 +479,14 @@ function monthlyRun(api: CoreAPI): void {
           ? touchedIn(core, placeId, rule.touches, renters, seekers)
           : [];
       const participants = pool.length ? gather(api, pool, stock.level) : [];
-      // The wider town's school staff are asked the same question, by their count.
+      // The wider town's counted people the area touches are asked the same question, by their count.
       const countedJoined =
-        stock.level > 0 && rule.touches === "school-staff"
-          ? gatherCounted(api, countedSchoolStaff(core, placeId), stock.level)
+        stock.level > 0
+          ? gatherCounted(
+              api,
+              countedTouchedIn(api, core, placeId, rule.touches),
+              stock.level,
+            )
           : 0;
       const formed =
         participants.length + countedJoined >= PAR.minimumParticipants.value;
