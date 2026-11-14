@@ -862,7 +862,7 @@
     "why": "Without it every opening lease renewed on the same review, a year after the opening, so a rent law could reach no tenant in the first year and rents stepped once a year. Leases are signed through the year; the Census table of renters by year moved in (ACS B25038) would give the true spread but is not in the data yet.",
     "addedBy": "claude/laws-nine-links-housing-credit",
     "addedAt": "2026-10-24",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each opening lease's anniversary drawn from the place's renters by year moved in (ACS B25038), by the same lease-id hash.",
+    "replacement": "Replaced Nov 14, 2026 by the housing history (src/core2/housing-past.ts): each opening lease renews on the anniversary of the month its tenancy began, from the moves pass or the household's years in place; the hash is deleted. Before that, dropped Nov 10, 2026 (too in depth, owner). Was: Each opening lease's anniversary drawn from the place's renters by year moved in (ACS B25038), by the same lease-id hash.",
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T4"

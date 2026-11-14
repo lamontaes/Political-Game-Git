@@ -173,6 +173,55 @@ export function putOutputNumber(
 }
 
 /**
+ * A year of the place's past, written by an engine's pre-start pass from its
+ * own history (owner, Nov 13, 2026: the past is simulated so the present
+ * makes sense): the figures it read on `date`, by registered number id, into
+ * the place's year row, with the history record kept beside each figure for
+ * dev mode's Trace. A year before the world's start is closed; the start
+ * year's row is the one play folds its months into. Other engines' figures
+ * already on the row are kept.
+ */
+export function putPastYear(
+  api: CoreAPI,
+  past: {
+    readonly placeId: string;
+    readonly year: number;
+    /** The day the figures were read. */
+    readonly date: string;
+    /** True for a year before the start: nothing adds to it after. */
+    readonly closed: boolean;
+    /** The history record the figures were read from. */
+    readonly recordId: string;
+    readonly values: Readonly<Record<string, number>>;
+  },
+): void {
+  if (!(api.state as CoreState).modules.has(OUTPUT_NUMBERS_MODULE_ID)) return;
+  const table = years(api);
+  const rowId = yearRowId(past.placeId, past.year);
+  const row = (table.get(rowId) as OutputYearRow | undefined) ?? {
+    id: rowId,
+    placeId: past.placeId,
+    year: past.year,
+    openedAt: past.closed ? `${past.year}-01-01` : past.date,
+    updatedAt: past.date,
+  };
+  const written: Record<string, unknown> = {
+    ...row,
+    updatedAt: past.date,
+    ...(past.closed ? { closedAt: `${past.year + 1}-01-01` } : {}),
+  };
+  const inputs = { ...row.inputs };
+  for (const [id, value] of Object.entries(past.values)) {
+    const number = NUMBERS[id];
+    if (!number?.kept) throw new Error(`No kept output number "${id}".`);
+    if (!Number.isFinite(value)) continue;
+    written[number.kept.field] = value;
+    inputs[id] = { historyRecordId: past.recordId };
+  }
+  table.put({ ...written, inputs } as never);
+}
+
+/**
  * World-metrics' monthly step folds the town's month row into its year row:
  * every registered figure the month row holds, in one write. The first step
  * of a new year closes the year before.
