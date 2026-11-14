@@ -1,7 +1,7 @@
 ---
 id: press-reporter-fee-bill-says-cuts-the-program
 title: "A reporter's question about a park fee bill says it cuts a program most people use"
-area: press
+area: words
 kind: bug
 priority: 3
 size: S
