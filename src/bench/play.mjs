@@ -1667,8 +1667,9 @@ function renderFiling(value) {
   });
   fillTalk({ replies: buttons });
   // The filing's record once it is made: its status, shown as the record's
-  // label under the talk, not as words in the clerk's mouth.
-  if (value.result?.petition)
+  // label under the talk, not as words in the clerk's mouth. A race whose law
+  // asks no signatures has a petition of none: nothing to collect, no line.
+  if (value.result?.petition?.needed)
     addTalkLine(
       talkLine({
         kind: "label",
@@ -2124,7 +2125,8 @@ async function campaignParts() {
               { label: labelsC.doors, value: String(campaign.doors) },
               // The petition record: the signatures held against those the
               // clerk will count, and the clerk's verdict once it has checked.
-              ...(petition
+              // A race that asks no signatures shows no petition.
+              ...(petition?.needed
                 ? [
                     {
                       label: labelsC.signatures,
