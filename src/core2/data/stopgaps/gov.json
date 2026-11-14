@@ -662,21 +662,6 @@
     "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
   },
   {
-    "id": "SG-GOV-REACH-B-property-tax-bills",
-    "kind": "faked-mechanic",
-    "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 178,
-    "whatItFakes": "The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law still uses a generic estimated assessment cap rather than statutory levy-versus-assessment scope, exemptions or ownership-reset terms.",
-    "why": "Session A wires the existing property-tax engine. The catalog has no numeric statutory cap or exemption terms, and the world has no delivered tax notice linking the assessment to an informed stance and director line.",
-    "addedBy": "OPUS-GOV (sub-agent B)",
-    "addedAt": "2026-10-12",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Record each cap statute's size, scope, exemptions and ownership-reset terms; apply them at assessment and prove the bill, received notice, informed stance and director line for a named owner.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
     "id": "SG-GOV-REACH-B-sales-tax-collection",
     "kind": "missing-core-api",
     "file": "src/core2/data/laws/reach-group-b.json",
@@ -2233,18 +2218,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
-  },
-  {
-    "id": "SG-GOV-property-tax-aggregate-calibration",
-    "kind": "assumed-data",
-    "file": "src/core2/laws-starting.ts",
-    "line": 163,
-    "whatItFakes": "A sourced survey ratio of all property taxes paid to home value stands in for researched individual statutory levies. The shared reader uses it only until an actual property-tax amount supplies the series; it cannot reconstruct the separate levies from that aggregate.",
-    "why": "The ACS source reports combined taxes across all taxing bodies, not a county statute. Classifying the estimate as calibration repairs the false law record but does not provide each levy rate.",
-    "addedBy": "Astra (Codex)",
-    "addedAt": "2026-11-07",
-    "replacement": "Source each applicable levy and its taxing body, assessment base and effective dates; combine actual levies through the existing resolver and tax engine.",
-    "status": "open"
   },
   {
     "id": "SG-GOV-discharge-no-wait",
