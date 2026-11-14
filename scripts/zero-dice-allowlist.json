@@ -363,28 +363,6 @@
       "replacement": null
     },
     {
-      "file": "src/core2/places-elsewhere.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "stableHash(`${core.seed}:town-within:${personId}:${placeId}`).slice(0, 8), 16, ); const town = corePlaceByKey(towns[pick % towns.length]!.key);",
-      "class": "GENERATION",
-      "keyedBy": "person id + place",
-      "reason": "Which town in a state a person lived in before they came to town: where their past was, keyed by the person; their own town is excluded.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/places-elsewhere.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "stableHash( `${core.seed}:elsewhere-employer:${person.id}:${placeId}:${nth}`, ).slice(0, 8), 16, ); return `${ELSEWHERE_EMPLOYER}${kinds[pick % kinds.length]}:${placeId}`;",
-      "class": "GENERATION",
-      "keyedBy": "person id + place + spell number",
-      "reason": "Which kind of employer a person worked for before they came to town, from their schooling: their past, keyed by the person; nobody acts on it.",
-      "replacement": null
-    },
-    {
       "file": "src/core2/population.ts",
       "kind": "list-pick",
       "build": null,

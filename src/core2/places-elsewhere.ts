@@ -22,6 +22,8 @@ import {
   corePlaceByKey,
 } from "./place-lookup";
 import { placeLocalities } from "./places";
+import { placeReferencePopulation } from "./gov-rules/place-population";
+import { townWorkplaceWeights } from "./modules/jobs";
 import schoolDays from "./data/school-days.json" with { type: "json" };
 import employers from "./data/history/elsewhere-employers.json" with { type: "json" };
 import type { CoreState, PersonState } from "./types";
@@ -36,6 +38,26 @@ const BY_EDUCATION = employers.byEducation as Readonly<
 >;
 /** The level read when a person has none on record. */
 const FALLBACK_LEVEL = "no-college";
+
+/**
+ * A person's own place in a weighted list: the person's fixed number from the
+ * world's seed (who exists, so the same every time) walks the cumulative
+ * weights, so a heavier row holds more of the line and a row of no weight
+ * none. Undefined where nothing has weight.
+ */
+function weighted<T>(
+  rows: readonly (readonly [T, number])[],
+  key: string,
+): T | undefined {
+  const total = rows.reduce((sum, [, weight]) => sum + weight, 0);
+  if (!(total > 0)) return undefined;
+  let at = (parseInt(stableHash(key).slice(0, 8), 16) / 0x1_0000_0000) * total;
+  for (const [row, weight] of rows) {
+    if (weight > 0 && at < weight) return row;
+    at -= weight;
+  }
+  return rows.filter(([, weight]) => weight > 0).at(-1)?.[0];
+}
 
 /** A place a school or employer can be named in: a town or county the lookup knows, never a whole state. */
 const known = (placeId: string) => {
@@ -68,11 +90,19 @@ export function townWithin(
     (row) => corePlaceByKey(row.key)?.context.jurisdiction.id !== home,
   );
   if (!towns.length) return undefined;
-  const pick = parseInt(
-    stableHash(`${core.seed}:town-within:${personId}:${placeId}`).slice(0, 8),
-    16,
+  // Weighted by each town's population in this world, so a person from
+  // "elsewhere in the state" most likely came from where most people live.
+  const key = weighted(
+    towns.map((row) => {
+      const geoid = corePlaceByKey(row.key)?.sourceGeoid;
+      return [
+        row.key,
+        (geoid && placeReferencePopulation(geoid, core.seed)?.value) || 0,
+      ] as const;
+    }),
+    `${core.seed}:town-within:${personId}:${placeId}`,
   );
-  const town = corePlaceByKey(towns[pick % towns.length]!.key);
+  const town = key ? corePlaceByKey(key) : undefined;
   return town?.context.jurisdiction.id;
 }
 
@@ -111,13 +141,21 @@ export function elsewhereEmployerId(
     (person.pastFacts ?? []).find((fact) => fact.kind === "profile:education")
       ?.facts?.level ?? FALLBACK_LEVEL;
   const kinds = BY_EDUCATION[String(level)] ?? BY_EDUCATION[FALLBACK_LEVEL]!;
-  const pick = parseInt(
-    stableHash(
-      `${core.seed}:elsewhere-employer:${person.id}:${placeId}:${nth}`,
-    ).slice(0, 8),
-    16,
-  );
-  return `${ELSEWHERE_EMPLOYER}${kinds[pick % kinds.length]}:${placeId}`;
+  // Of the kinds common for their schooling, weighted by how many jobs the
+  // place has in each (the sourced county mix, moved by this world's offset).
+  const jobs = townWorkplaceWeights(placeId as never, core.seed);
+  const draw = `${core.seed}:elsewhere-employer:${person.id}:${placeId}:${nth}`;
+  // A place with none of those kinds is read from all its private employers.
+  const kind =
+    weighted(
+      kinds.map((each) => [each, jobs.get(each) ?? 0] as const),
+      draw,
+    ) ??
+    weighted(
+      [...jobs].filter(([each]) => businessNameStyles(each).length > 0),
+      draw,
+    );
+  return kind ? `${ELSEWHERE_EMPLOYER}${kind}:${placeId}` : undefined;
 }
 
 /** An employer's name from its id (`elsewhereEmployerId`). */
