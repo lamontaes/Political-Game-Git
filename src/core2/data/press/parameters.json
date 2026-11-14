@@ -207,6 +207,24 @@
       "source": "Short items a local outlet prints in its side column in a week (a police log, births, school results, new businesses), beside its reporters' stories; a weekly community paper's briefs and police-log columns run a handful of items an issue. Only items the town recorded are printed: a quiet week prints fewer, never padding.",
       "spread": [2, 10]
     },
+    "usualMonths": {
+      "value": 12,
+      "tag": "TUNABLE",
+      "source": "The closed months a town's own usual is the mean of (a year, so a season's swing evens out); a paper's police log is read against the town's year, not against another town.",
+      "spread": [6, 24]
+    },
+    "briefUsualFloor": {
+      "value": 0.7,
+      "tag": "TUNABLE",
+      "source": "How far under the town's own usual a brief's measure can fall before its space on the page is gone: at this share of usual the brief has none, and its space rises evenly to the ceiling. No cutoff: every share between has its own share of the space.",
+      "spread": [0.5, 0.9]
+    },
+    "briefUsualCeiling": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "source": "The share of the town's usual at which a brief has all the space the desk gives a brief; above it a brief's space no longer grows.",
+      "spread": [1.2, 2]
+    },
     "storyProximityTown": {
       "value": 1,
       "tag": "TUNABLE",

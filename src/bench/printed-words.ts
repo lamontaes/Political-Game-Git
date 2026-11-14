@@ -3503,8 +3503,21 @@ const REPORT_NOUNS: Readonly<Record<string, string>> = {
   robbery: "robberies",
   assault: "assaults",
 };
+/** What a kind of report is called when one kind rose, as people say it. */
+const RISING_NOUNS: Readonly<Record<string, string>> = {
+  burglary: "break-ins",
+  "other-property": "thefts",
+  vandalism: "vandalism",
+  robbery: "robberies",
+  assault: "assaults",
+};
+/** The town's usual month of police reports, from the wire item's record. */
+const usualOf = (f: Record<string, unknown>): number | undefined => {
+  const value = Number(f.usual);
+  return Number.isFinite(value) && value > 0 ? value : undefined;
+};
 /** The month's police log: how many crimes residents reported, and what most were. */
-const policeLog: Builder = (read) => {
+const policeLog: Builder = (read, f) => {
   const month = /^police-log:(\d{4}-\d{2})$/.exec(read.sourceId)?.[1];
   const place = read.place();
   const row = month
@@ -3522,6 +3535,7 @@ const policeLog: Builder = (read) => {
   const top = [...reported].sort(
     (a, b) => b.n - a.n || a.type.localeCompare(b.type),
   )[0]!;
+  const rising = f.rising ? RISING_NOUNS[String(f.rising)] : undefined;
   return story(
     "police-log",
     {
@@ -3530,6 +3544,21 @@ const policeLog: Builder = (read) => {
       number: read.fact(count(total), row.id),
       crimes: read.fact(REPORT_NOUNS[top.type]!, row.id),
       ...(reported.length === 1 ? { "one-kind": read.yes() } : {}),
+      // How the month stands against the town's own usual, from the wire
+      // item's record: said only when the month is over it.
+      ...(usualOf(f) && Math.round(total - usualOf(f)!) >= 1
+        ? {
+            // A town whose usual month rounds to none says only how many
+            // more, never "about zero".
+            ...(Math.round(usualOf(f)!) >= 1
+              ? { usual: read.fact(count(Math.round(usualOf(f)!)), row.id) }
+              : {}),
+            extra: read.fact(count(Math.round(total - usualOf(f)!)), row.id),
+          }
+        : {}),
+      ...(rising && f.vsUsual && Number(f.vsUsual) > 1
+        ? { rising: read.fact(rising, row.id) }
+        : {}),
     },
     ["place", "number"],
   );

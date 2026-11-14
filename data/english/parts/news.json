@@ -108,7 +108,10 @@
     "kin": "What the winner is to their parents (daughter, son or child), from the family records.",
     "parents": "The winner's parents, by name, from the family records.",
     "a-grade": "The winner's grade with its article ('a seventh', 'an eighth'), for 'a seventh grader'.",
-    "soon": "'later this month', when the regional bee is held in the month the paper is printed."
+    "soon": "'later this month', when the regional bee is held in the month the paper is printed.",
+    "usual": "How many police reports the town's month usually holds, the mean of its last closed months, from the crime engine's month rows.",
+    "extra": "How many reports a month ran over the town's usual, from the crime engine's month rows.",
+    "rising": "The kind of police report that rose most over its own usual that month, from the crime engine's month rows."
   },
   "maxWords": 14,
   "mining": {
@@ -10805,7 +10808,7 @@
       "key": "news.honor.a-student-from-place-won-the-regional-spelling-bee-and-goes-on-to-the-national-bee",
       "move": "honor",
       "kind": "spoken",
-      "text": "A student from {place} won the regional spelling bee and goes on to the national bee.",
+      "text": "A student from {place} won the regional bee and goes on to the national bee.",
       "uses": [
         {
           "move": "honor",
@@ -14251,7 +14254,7 @@
       }
     },
     {
-      "key": "news.honor-school-grade.name-is-a-grade-grader-in-school",
+      "key": "news.honor.honor-school-grade-name-is-a-grade-grader-in-school",
       "move": "honor",
       "kind": "written",
       "text": "{name} is {a-grade} grader in {school}.",
@@ -14273,7 +14276,7 @@
       }
     },
     {
-      "key": "news.honor-school-grade.a-grade-grader-in-school-name-took-the-title",
+      "key": "news.honor.honor-school-grade-a-grade-grader-in-school-name-took-the-title",
       "move": "honor",
       "kind": "written",
       "text": "{a-grade} grader in {school}, {name} took the title.",
@@ -14295,7 +14298,7 @@
       }
     },
     {
-      "key": "news.honor-school-grade.the-champion-is-a-grade-grader-in-school",
+      "key": "news.honor.honor-school-grade-the-champion-is-a-grade-grader-in-school",
       "move": "honor",
       "kind": "written",
       "text": "The champion is {a-grade} grader in {school}.",
@@ -14317,7 +14320,7 @@
       }
     },
     {
-      "key": "news.honor-school-grade.name-a-grade-grader-spelled-for-school",
+      "key": "news.honor.honor-school-grade-name-a-grade-grader-spelled-for-school",
       "move": "honor",
       "kind": "written",
       "text": "{name}, {a-grade} grader, spelled for {school}.",
@@ -14339,7 +14342,7 @@
       }
     },
     {
-      "key": "news.honor-school.name-is-enrolled-in-school",
+      "key": "news.honor.honor-school-name-is-enrolled-in-school",
       "move": "honor",
       "kind": "written",
       "text": "{name} is enrolled in {school}.",
@@ -14362,7 +14365,7 @@
       }
     },
     {
-      "key": "news.honor-school.name-is-a-student-in-school",
+      "key": "news.honor.honor-school-name-is-a-student-in-school",
       "move": "honor",
       "kind": "written",
       "text": "{name} is a student in {school}.",
@@ -14385,7 +14388,7 @@
       }
     },
     {
-      "key": "news.honor-school.name-spelled-for-school",
+      "key": "news.honor.honor-school-name-spelled-for-school",
       "move": "honor",
       "kind": "written",
       "text": "{name} spelled for {school}.",
@@ -14408,7 +14411,7 @@
       }
     },
     {
-      "key": "news.honor-school-unnamed.the-winner-is-a-student-in-school",
+      "key": "news.honor.honor-school-unnamed-the-winner-is-a-student-in-school",
       "move": "honor",
       "kind": "written",
       "text": "The winner is a student in {school}.",
@@ -14431,7 +14434,7 @@
       }
     },
     {
-      "key": "news.honor-school-unnamed.the-champion-is-enrolled-in-school",
+      "key": "news.honor.honor-school-unnamed-the-champion-is-enrolled-in-school",
       "move": "honor",
       "kind": "written",
       "text": "The champion is enrolled in {school}.",
@@ -14454,7 +14457,7 @@
       }
     },
     {
-      "key": "news.honor-school-unnamed.the-winner-spelled-for-school",
+      "key": "news.honor.honor-school-unnamed-the-winner-spelled-for-school",
       "move": "honor",
       "kind": "written",
       "text": "The winner spelled for {school}.",
@@ -14477,7 +14480,7 @@
       }
     },
     {
-      "key": "news.honor-school-unnamed.the-winning-speller-comes-from-school",
+      "key": "news.honor.honor-school-unnamed-the-winning-speller-comes-from-school",
       "move": "honor",
       "kind": "written",
       "text": "The winning speller comes from {school}.",
@@ -14500,7 +14503,7 @@
       }
     },
     {
-      "key": "news.honor-grade.name-is-in-the-grade-grade",
+      "key": "news.honor.honor-grade-name-is-in-the-grade-grade",
       "move": "honor",
       "kind": "written",
       "text": "{name} is in the {grade} grade.",
@@ -14523,7 +14526,7 @@
       }
     },
     {
-      "key": "news.honor-grade.the-champion-is-a-grade-grader",
+      "key": "news.honor.honor-grade-the-champion-is-a-grade-grader",
       "move": "honor",
       "kind": "written",
       "text": "The champion is {a-grade} grader.",
@@ -14546,7 +14549,7 @@
       }
     },
     {
-      "key": "news.honor-grade.name-is-a-grade-grader",
+      "key": "news.honor.honor-grade-name-is-a-grade-grader",
       "move": "honor",
       "kind": "written",
       "text": "{name} is {a-grade} grader.",
@@ -14569,7 +14572,7 @@
       }
     },
     {
-      "key": "news.honor-grade.a-grade-grader-name-took-the-title",
+      "key": "news.honor.honor-grade-a-grade-grader-name-took-the-title",
       "move": "honor",
       "kind": "written",
       "text": "{a-grade} grader, {name} took the title.",
@@ -14592,7 +14595,7 @@
       }
     },
     {
-      "key": "news.honor-next.the-winner-goes-on-to-the-regional-bee-in-month",
+      "key": "news.honor.honor-next-the-winner-goes-on-to-the-regional-bee-in-month",
       "move": "honor",
       "kind": "written",
       "text": "The winner goes on to the regional bee in {month}.",
@@ -14615,7 +14618,7 @@
       }
     },
     {
-      "key": "news.honor-next.next-comes-the-regional-bee-in-month",
+      "key": "news.honor.honor-next-next-comes-the-regional-bee-in-month",
       "move": "honor",
       "kind": "written",
       "text": "Next comes the regional bee in {month}.",
@@ -14638,7 +14641,7 @@
       }
     },
     {
-      "key": "news.honor-next.the-regional-bee-follows-in-month",
+      "key": "news.honor.honor-next-the-regional-bee-follows-in-month",
       "move": "honor",
       "kind": "written",
       "text": "The regional bee follows in {month}.",
@@ -14661,7 +14664,7 @@
       }
     },
     {
-      "key": "news.honor-family.name-is-the-kin-of-parents-of-place",
+      "key": "news.honor.honor-family-name-is-the-kin-of-parents-of-place",
       "move": "honor",
       "kind": "written",
       "text": "{name} is the {kin} of {parents} of {place}.",
@@ -14683,7 +14686,7 @@
       }
     },
     {
-      "key": "news.honor-family.name-s-parents-are-parents-of-place",
+      "key": "news.honor.honor-family-name-s-parents-are-parents-of-place",
       "move": "honor",
       "kind": "written",
       "text": "{name}'s parents are {parents} of {place}.",
@@ -14705,7 +14708,7 @@
       }
     },
     {
-      "key": "news.honor-family.parents-of-place-are-the-winner-s-parents",
+      "key": "news.honor.honor-family-parents-of-place-are-the-winner-s-parents",
       "move": "honor",
       "kind": "written",
       "text": "{parents} of {place} are the winner's parents.",
@@ -14727,7 +14730,7 @@
       }
     },
     {
-      "key": "news.honor-family.the-winner-is-the-kin-of-parents-of-place",
+      "key": "news.honor.honor-family-the-winner-is-the-kin-of-parents-of-place",
       "move": "honor",
       "kind": "written",
       "text": "The winner is the {kin} of {parents} of {place}.",
@@ -14749,7 +14752,7 @@
       }
     },
     {
-      "key": "news.opening-owner.owner-is-the-owner",
+      "key": "news.organization.opened.opening-owner-owner-is-the-owner",
       "move": "organization.opened",
       "kind": "written",
       "text": "{owner} is the owner.",
@@ -14771,7 +14774,7 @@
       }
     },
     {
-      "key": "news.opening-owner.owner-started-the-business",
+      "key": "news.organization.opened.opening-owner-owner-started-the-business",
       "move": "organization.opened",
       "kind": "written",
       "text": "{owner} started the business.",
@@ -14793,7 +14796,7 @@
       }
     },
     {
-      "key": "news.opening-owner.owner-is-the-one-who-opened-it",
+      "key": "news.organization.opened.opening-owner-owner-is-the-one-who-opened-it",
       "move": "organization.opened",
       "kind": "written",
       "text": "{owner} is the one who opened it.",
@@ -14815,7 +14818,7 @@
       }
     },
     {
-      "key": "news.opening-what.it-does-business-in-industry-in-place",
+      "key": "news.organization.opened.opening-what-it-does-business-in-industry-in-place",
       "move": "organization.opened",
       "kind": "written",
       "text": "It does business in {industry}, in {place}.",
@@ -14837,7 +14840,7 @@
       }
     },
     {
-      "key": "news.opening-what.the-business-works-in-industry",
+      "key": "news.organization.opened.opening-what-the-business-works-in-industry",
       "move": "organization.opened",
       "kind": "written",
       "text": "The business works in {industry}.",
@@ -14859,7 +14862,7 @@
       }
     },
     {
-      "key": "news.opening-what.its-line-is-industry-in-place",
+      "key": "news.organization.opened.opening-what-its-line-is-industry-in-place",
       "move": "organization.opened",
       "kind": "written",
       "text": "Its line is {industry}, in {place}.",
@@ -14881,7 +14884,7 @@
       }
     },
     {
-      "key": "news.opening-what.it-is-in-industry-in-place",
+      "key": "news.organization.opened.opening-what-it-is-in-industry-in-place",
       "move": "organization.opened",
       "kind": "written",
       "text": "It is in {industry}, in {place}.",
@@ -14903,7 +14906,7 @@
       }
     },
     {
-      "key": "news.opening-staff.it-has-staff-people-on-staff",
+      "key": "news.organization.opened.opening-staff-it-has-staff-people-on-staff",
       "move": "organization.opened",
       "kind": "written",
       "text": "It has {staff} people on staff.",
@@ -14925,7 +14928,7 @@
       }
     },
     {
-      "key": "news.opening-staff.there-are-staff-people-on-staff-there",
+      "key": "news.organization.opened.opening-staff-there-are-staff-people-on-staff-there",
       "move": "organization.opened",
       "kind": "written",
       "text": "There are {staff} people on staff there.",
@@ -14947,7 +14950,7 @@
       }
     },
     {
-      "key": "news.opening-staff.it-took-on-staff-people",
+      "key": "news.organization.opened.opening-staff-it-took-on-staff-people",
       "move": "organization.opened",
       "kind": "written",
       "text": "It took on {staff} people.",
@@ -14969,7 +14972,7 @@
       }
     },
     {
-      "key": "news.opening-staff.it-hired-staff-people",
+      "key": "news.organization.opened.opening-staff-it-hired-staff-people",
       "move": "organization.opened",
       "kind": "written",
       "text": "It hired {staff} people.",
@@ -14991,7 +14994,7 @@
       }
     },
     {
-      "key": "news.retirement-service.name-put-in-years-years-at-employer",
+      "key": "news.retirement.retirement-service-name-put-in-years-years-at-employer",
       "move": "retirement",
       "kind": "written",
       "text": "{name} put in {years} years at {employer}.",
@@ -15013,7 +15016,7 @@
       }
     },
     {
-      "key": "news.retirement-service.it-was-years-years-of-work-at-employer",
+      "key": "news.retirement.retirement-service-it-was-years-years-of-work-at-employer",
       "move": "retirement",
       "kind": "written",
       "text": "It was {years} years of work at {employer}.",
@@ -15035,7 +15038,7 @@
       }
     },
     {
-      "key": "news.retirement-service.employer-had-been-name-s-workplace-for-years-years",
+      "key": "news.retirement.retirement-service-employer-had-been-name-s-workplace-for-years-years",
       "move": "retirement",
       "kind": "written",
       "text": "{employer} had been {name}'s workplace for {years} years.",
@@ -15057,10 +15060,10 @@
       }
     },
     {
-      "key": "news.retirement-service.name-worked-at-employer-for-years-years",
+      "key": "news.retirement.retirement-service-name-was-at-employer-for-years-years",
       "move": "retirement",
       "kind": "written",
-      "text": "{name} worked at {employer} for {years} years.",
+      "text": "{name} was at {employer} for {years} years.",
       "uses": [
         {
           "move": "retirement",
@@ -15079,7 +15082,7 @@
       }
     },
     {
-      "key": "news.retirement-service-gov.name-put-in-years-years-with-government",
+      "key": "news.retirement.retirement-service-gov-name-put-in-years-years-with-government",
       "move": "retirement",
       "kind": "written",
       "text": "{name} put in {years} years with {government}.",
@@ -15101,7 +15104,7 @@
       }
     },
     {
-      "key": "news.retirement-service-gov.it-was-years-years-of-work-for-government",
+      "key": "news.retirement.retirement-service-gov-it-was-years-years-of-work-for-government",
       "move": "retirement",
       "kind": "written",
       "text": "It was {years} years of work for {government}.",
@@ -15123,10 +15126,10 @@
       }
     },
     {
-      "key": "news.retirement-service-gov.name-worked-for-government-for-years-years",
+      "key": "news.retirement.retirement-service-gov-name-was-with-government-for-years-years",
       "move": "retirement",
       "kind": "written",
-      "text": "{name} worked for {government} for {years} years.",
+      "text": "{name} was with {government} for {years} years.",
       "uses": [
         {
           "move": "retirement",
@@ -15145,7 +15148,7 @@
       }
     },
     {
-      "key": "news.retirement-place.name-lives-in-place",
+      "key": "news.retirement.retirement-place-name-lives-in-place",
       "move": "retirement",
       "kind": "written",
       "text": "{name} lives in {place}.",
@@ -15167,7 +15170,7 @@
       }
     },
     {
-      "key": "news.retirement-place.place-is-where-name-lives",
+      "key": "news.retirement.retirement-place-place-is-where-name-lives",
       "move": "retirement",
       "kind": "written",
       "text": "{place} is where {name} lives.",
@@ -15189,7 +15192,7 @@
       }
     },
     {
-      "key": "news.retirement-place.name-is-a-resident-of-place",
+      "key": "news.retirement.retirement-place-name-is-a-resident-of-place",
       "move": "retirement",
       "kind": "written",
       "text": "{name} is a resident of {place}.",
@@ -15211,7 +15214,7 @@
       }
     },
     {
-      "key": "news.retirement-years.it-came-after-years-years-in-the-job",
+      "key": "news.retirement.retirement-years-it-came-after-years-years-in-the-job",
       "move": "retirement",
       "kind": "written",
       "text": "It came after {years} years in the job.",
@@ -15234,7 +15237,7 @@
       }
     },
     {
-      "key": "news.retirement-years.name-had-held-the-job-for-years-years",
+      "key": "news.retirement.retirement-years-name-had-held-the-job-for-years-years",
       "move": "retirement",
       "kind": "written",
       "text": "{name} had held the job for {years} years.",
@@ -15257,7 +15260,7 @@
       }
     },
     {
-      "key": "news.retirement-years.name-has-years-years-in-the-job",
+      "key": "news.retirement.retirement-years-name-has-years-years-in-the-job",
       "move": "retirement",
       "kind": "written",
       "text": "{name} has {years} years in the job.",
@@ -15280,7 +15283,7 @@
       }
     },
     {
-      "key": "news.organization-opened.owner-has-opened-subject-in-place",
+      "key": "news.organization.opened.owner-has-opened-subject-in-place",
       "move": "organization.opened",
       "kind": "written",
       "text": "{owner} has opened {subject} in {place}.",
@@ -15302,7 +15305,7 @@
       }
     },
     {
-      "key": "news.organization-opened.subject-opened-its-doors-in-place",
+      "key": "news.organization.opened.subject-opened-its-doors-in-place",
       "move": "organization.opened",
       "kind": "written",
       "text": "{subject} opened its doors in {place}.",
@@ -15324,7 +15327,7 @@
       }
     },
     {
-      "key": "news.honor-next-soon.the-winner-goes-on-to-the-regional-bee-soon",
+      "key": "news.honor.honor-next-soon-the-winner-goes-on-to-the-regional-bee-soon",
       "move": "honor",
       "kind": "written",
       "text": "The winner goes on to the regional bee {soon}.",
@@ -15346,7 +15349,7 @@
       }
     },
     {
-      "key": "news.honor-next-soon.the-regional-bee-follows-soon",
+      "key": "news.honor.honor-next-soon-the-regional-bee-follows-soon",
       "move": "honor",
       "kind": "written",
       "text": "The regional bee follows {soon}.",
@@ -15368,7 +15371,7 @@
       }
     },
     {
-      "key": "news.honor-next-soon.next-comes-the-regional-bee-soon",
+      "key": "news.honor.honor-next-soon-next-comes-the-regional-bee-soon",
       "move": "honor",
       "kind": "written",
       "text": "Next comes the regional bee, {soon}.",
@@ -15383,6 +15386,226 @@
       ],
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.police-in-place-took-number-reports-in-month-extra-more-than-usual",
+      "move": "police-log",
+      "kind": "written",
+      "text": "Police in {place} took {number} reports in {month}, {extra} more than usual.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log",
+          "choice": "lede",
+          "requiresFacts": ["several", "extra"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.month-brought-number-police-reports-in-place",
+      "move": "police-log",
+      "kind": "written",
+      "text": "{month} brought {number} police reports in {place}.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.month-was-a-busier-month-for-police-in-place-number-reports",
+      "move": "police-log",
+      "kind": "written",
+      "text": "{month} was a busier month for police in {place}: {number} reports.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log",
+          "choice": "lede",
+          "requiresFacts": ["several", "extra"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.the-month-police-log-for-place-runs-to-number-reports",
+      "move": "police-log",
+      "kind": "written",
+      "text": "The {month} police log for {place} runs to {number} reports.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.police-log-usual-that-is-extra-more-than-a-usual-month",
+      "move": "police-log",
+      "kind": "written",
+      "text": "That is {extra} more than a usual month.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log-usual",
+          "choice": "context",
+          "requiresFacts": ["extra"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.police-log-usual-a-usual-month-brings-about-usual",
+      "move": "police-log",
+      "kind": "written",
+      "text": "A usual month brings about {usual}.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log-usual",
+          "choice": "context",
+          "requiresFacts": ["usual", "extra"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.police-log-usual-the-town-sees-about-usual-in-a-usual-month",
+      "move": "police-log",
+      "kind": "written",
+      "text": "The town sees about {usual} in a usual month.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log-usual",
+          "choice": "context",
+          "requiresFacts": ["usual", "extra"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.police-log-rising-the-biggest-jump-was-in-rising",
+      "move": "police-log",
+      "kind": "written",
+      "text": "The biggest jump was in {rising}.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log-rising",
+          "choice": "context",
+          "requiresFacts": ["rising", "extra"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.police-log-rising-reports-of-rising-went-up-the-most",
+      "move": "police-log",
+      "kind": "written",
+      "text": "Reports of {rising} went up the most.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log-rising",
+          "choice": "context",
+          "requiresFacts": ["rising", "extra"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.police-log-rising-of-all-the-reports-rising-rose-the-most",
+      "move": "police-log",
+      "kind": "written",
+      "text": "Of all the reports, {rising} rose the most.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log-rising",
+          "choice": "context",
+          "requiresFacts": ["rising", "extra"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
       "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",

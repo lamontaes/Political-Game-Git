@@ -3392,6 +3392,7 @@ function policeLog(api: CoreAPI): void {
     0,
   );
   if (!(reported > 0)) return;
+  const usual = usualMonth(api, town, month);
   const item: WireItem = {
     id,
     kind: "crime.month",
@@ -3401,9 +3402,72 @@ function policeLog(api: CoreAPI): void {
     desiredChange: "crime.month",
     ending: false,
     subjectIds: [],
-    facts: { monthId: `${town}:${month}` },
+    facts: {
+      monthId: `${town}:${month}`,
+      // How far the month stands from the town's own usual: the desk's
+      // space for the log slides with it, down to nothing (Words lead,
+      // Nov 14). A town with no earlier months has no usual to compare.
+      ...(usual
+        ? {
+            vsUsual: String(Math.round((reported / usual.total) * 1000) / 1000),
+            usual: String(Math.round(usual.total * 10) / 10),
+            ...(usual.rising ? { rising: usual.rising } : {}),
+          }
+        : {}),
+    },
   };
   table(api, "wire").put(item as unknown as ModuleRow);
+}
+
+/**
+ * What the town's police log usually holds: the mean of what was reported in
+ * its last twelve closed months before this one (at least two), and the
+ * crime type whose count most passed its own usual this month. Read from the
+ * crime engine's month rows; nothing is kept here.
+ */
+function usualMonth(
+  api: CoreAPI,
+  town: string,
+  month: string,
+): { total: number; rising?: string } | undefined {
+  type Month = {
+    readonly month: string;
+    readonly types?: Record<string, { readonly reported?: number }>;
+  };
+  const rows = (
+    api
+      .moduleState(CRIME_MODULE_ID)
+      .table("months")
+      .query("byPlace", [town]) as unknown as Month[]
+  )
+    .filter((row) => row.month < month)
+    .sort((a, b) => b.month.localeCompare(a.month))
+    .slice(0, pressParameter("usualMonths"));
+  if (rows.length < 2) return undefined;
+  const mean = (read: (row: Month) => number) =>
+    rows.reduce((sum, row) => sum + read(row), 0) / rows.length;
+  const total = mean((row) =>
+    Object.values(row.types ?? {}).reduce(
+      (sum, type) => sum + (type.reported ?? 0),
+      0,
+    ),
+  );
+  if (!(total > 0)) return undefined;
+  const now = api
+    .moduleState(CRIME_MODULE_ID)
+    .table("months")
+    .get(`${town}:${month}`) as unknown as Month | undefined;
+  let rising: string | undefined;
+  let most = 0;
+  for (const [type, tally] of Object.entries(now?.types ?? {})) {
+    const over =
+      (tally.reported ?? 0) - mean((row) => row.types?.[type]?.reported ?? 0);
+    if (over > most) {
+      most = over;
+      rising = type;
+    }
+  }
+  return { total, ...(rising ? { rising } : {}) };
 }
 
 function freshWire(api: CoreAPI): WireItem[] {

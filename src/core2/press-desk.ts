@@ -66,6 +66,26 @@ const raceTold = (item: WireItem): string | null =>
 
 /** The record kinds a local outlet prints in its briefs column. */
 const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
+
+/**
+ * The share of a brief's space a measure that stands off the place's own
+ * usual gets (Words lead, Nov 14: a police log's space slides with how far
+ * the month is from the town's usual, down to nothing). The record carries
+ * `vsUsual`, this month's measure over the place's usual; a share at or under
+ * the floor has no space, one at the ceiling or over it has all of it, and
+ * every share between has its own. A brief with no usual to compare keeps all
+ * its space.
+ */
+function usualSpace(
+  item: { readonly facts?: Readonly<Record<string, unknown>> },
+  p: (key: string) => number,
+): number {
+  const share = Number(item.facts?.vsUsual);
+  if (!Number.isFinite(share)) return 1;
+  const floor = p("briefUsualFloor");
+  const ceiling = p("briefUsualCeiling");
+  return Math.min(1, Math.max(0, (share - floor) / (ceiling - floor)));
+}
 /** The briefs about the whole town, which name no one: they involve every follower. */
 const TOWN_WIDE_BRIEFS: ReadonlySet<string> = new Set(briefs.townWide);
 
@@ -978,11 +998,15 @@ export function runDesk(
   if (outlet.tier !== "national" && filer) {
     const column = base
       .filter(
-        (row) => !taken.has(row.item.id) && BRIEF_KINDS.has(row.item.kind),
+        (row) =>
+          !taken.has(row.item.id) &&
+          BRIEF_KINDS.has(row.item.kind) &&
+          usualSpace(row.item, p) > 0,
       )
       .map((row) => ({
         ...row,
         score:
+          usualSpace(row.item, p) *
           row.proximity *
           (1 +
             p("storyReaderCareWeight") * row.readerCare +
