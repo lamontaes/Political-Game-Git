@@ -125531,6 +125531,58 @@
       }
     },
     {
+      "key": "scene-talk.state-ask.outlet-asked-you-to-sit-down-you-said-no",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{outlet} asked you to sit down. You said no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-wouldn-t-talk-to-outlet-why-not",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You wouldn't talk to {outlet}. Why not?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.state-ask.i-ll-be-blunt-why-bill-and-why-now",
       "move": "state-ask",
       "kind": "spoken",
