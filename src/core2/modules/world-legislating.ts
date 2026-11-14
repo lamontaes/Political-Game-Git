@@ -2037,9 +2037,15 @@ function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
 
 /**
  * The floor's weeks from `first` to adjournment, each with the bills it
- * takes up: as many as the week allows, each once committee has had it, in
- * the leader's order. The floor week votes the first of them; the floor
- * date and the agenda the members read ahead come from the same weeks.
+ * takes up, each once committee has had it, in the leader's order. The
+ * leader paces the floor by the session's own calendar: the bills still
+ * waiting (filed or yet to be filed) are spread evenly over the floor weeks
+ * left before adjournment (a week takes its share, rounded, so a short list
+ * is spread out rather than taken a bill a week from the start), at most as
+ * many as the week's floor days allow, and the last week takes what is
+ * left. The floor sits with business until the session ends instead of
+ * clearing it in the first weeks. The floor week votes the first of them; the floor date and
+ * the agenda the members read ahead come from the same weeks.
  */
 function* floorWeeks(
   api: CoreAPI,
@@ -2051,9 +2057,14 @@ function* floorWeeks(
   const done = new Set<number>();
   for (let date = first; date < row.adjournAt; date = plusDays(date, 7)) {
     const ready = plusDays(date, -committee);
+    const weeksLeft = Math.ceil(daysBetween(date, row.adjournAt) / 7);
+    const pace = Math.min(
+      row.perWeek,
+      Math.round((queue.length - done.size) / Math.max(1, weeksLeft)),
+    );
     const taken: Queued[] = [];
     for (const [i, q] of queue.entries()) {
-      if (taken.length >= row.perWeek) break;
+      if (taken.length >= pace) break;
       if (done.has(i) || q.introduced > ready) continue;
       done.add(i);
       taken.push(q);
