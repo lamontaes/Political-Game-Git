@@ -3938,6 +3938,57 @@ export function platformAnswers(
   });
 }
 
+/** A stand on a question and where it comes from. */
+export interface StandOnRecord {
+  readonly question: string;
+  /** In [-1, 1], or null where the candidate holds none of their own. */
+  readonly position: number | null;
+  /** The filed platform, a vote, their own view; null for none (a stand only their party takes is not theirs). */
+  readonly source: "platform" | "vote" | "view" | null;
+}
+
+/**
+ * What a candidate holds on each question, on the record, when a sitting
+ * puts it: the stand their filed platform states; where it states none, a
+ * vote of theirs or their own view (`candidateStance`, the read the platform
+ * itself is built from, blended with their party's position). A stand that
+ * rests only on their party's position is not theirs and counts as none.
+ * Nothing is made up and nothing is said for them: the sitting offers the
+ * candidate this stand as one of the sides they may take.
+ */
+export function standsOnRecord(
+  api: CoreAPI,
+  filingId: string | null,
+  questions: readonly string[],
+): readonly StandOnRecord[] {
+  const filing = filingId
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filingId) as unknown as FilingRow | undefined)
+    : undefined;
+  const reader = filing
+    ? stanceReader(api, filing.personId, filing.party ?? null)
+    : null;
+  return platformAnswers(api, filingId, questions).map(
+    ({ question, position }): StandOnRecord => {
+      if (position !== null) return { question, position, source: "platform" };
+      const grounds = reader?.grounds(question) ?? null;
+      const stance =
+        grounds === "vote" || grounds === "view"
+          ? reader!.stance(question)
+          : null;
+      return stance === null
+        ? { question, position: null, source: null }
+        : {
+            question,
+            position: Math.round(stance * 1000) / 1000,
+            source: grounds as "vote" | "view",
+          };
+    },
+  );
+}
+
 /**
  * The answer to an outlet's invitation, said in its scene: a yes puts the
  * sitting on the record (`interview-accepted`, one for the outlet that

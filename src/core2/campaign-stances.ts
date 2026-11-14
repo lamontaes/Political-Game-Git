@@ -238,6 +238,17 @@ export class StanceReader {
     return clamp((1 - weight) * held + weight * voted);
   }
 
+  /**
+   * What their stand on a question rests on: a vote they cast, their own
+   * view (their lean and what has reached them), or only their party's
+   * position; null where they have none of the three.
+   */
+  grounds(question: string): "vote" | "view" | "party" | null {
+    if (this.votesOn(question).length) return "vote";
+    if (this.ownStance(question) !== null) return "view";
+    return positionOf(this.ofParty(), question) === null ? null : "party";
+  }
+
   /** Their record's last vote on a question, or undefined for none. */
   lastVote(question: string): VoteRecordRow | undefined {
     return this.votesOn(question).at(-1);
