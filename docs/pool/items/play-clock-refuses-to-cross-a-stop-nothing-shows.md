@@ -20,16 +20,16 @@ root: none
 
 **What.** On the bench, seed 39ec0fdc-2c02-4e33-a7b7-e193551af953 (the check's pinned run seed; place Hampstead, Maryland, key 2436500), the player files for the U.S. House race on the ballot of Nov 3, 2026, the world runs 304 days (`POST /api/dev/run-until`) to Tuesday, Oct 27, 2026 8:30 PM, and from then on every clock button fails: Hour answers `/api/wait` 400, Day and Week answer `/api/advance` 400, and the screen shows only the room, the buttons and the line "Player stop clock cannot cross an unresolved stop." No talk, no sheet and no Continue is open (a screenshot is in the thread's files). A player cannot get past it: the clock stays at 8:30 PM on Oct 27 through 100 attempts.
 
-**Cause.** Found in code: the refusal is thrown at `src/core2/player-stops-v1.ts` lines 494 and 527 (`bindModuleStopClockV1` and its `setFrontier`) when the earliest registered stop for the player is earlier than the moment asked for. Stops are registered by `src/director/ledger.ts` `registerInterrupts` (line 1658, an interrupt at or over the director's impact line) and by modules through `registerStop` in `src/core2/module-calendar.ts` (line 197). Which one registered the stop here, and why no screen opens it, was not traced: the bench has no route that lists the player's registered stops.
+**Cause.** Found in code: the stop is the story director's interrupt for a "party asked" moment, registered by `src/director/ledger.ts:1658` (`registerInterrupts`) on 2025-12-27 for 2025-12-28 10:00 (record `person_3730523104093c5a:2025-12-27:party-asked:contest:seat:US-MD:governor:2026-11-03:party:US-MD:republican:person_3730523104093c5a`, kind `interrupt`, module `p13-story-director`). It was found by listing the player's registry rows on that seed on Oct 27, 2026 (the registry held it, ten months old, and `earliestModuleStopsV1` from today returned none). The polling check then runs the world 304 days with dev mode's run-until, which goes through `advance` in `src/bench/dev-mode.ts:1748`: that calls `this.player?.release()` and runs `advanceCore` on the world's own clock, so the player's clock never reaches the stop and nothing acknowledges it (`acknowledgeModuleStopsV1` is called only from `src/core2/player-v1.ts:712`, when the player's clock stops at it). When the player's clock is bound again, `bindModuleStopClockV1` (`src/core2/player-stops-v1.ts:494`) and `setFrontier` (`:527`) see the earliest registered stop is before the moment asked for and refuse every Hour, Day and Week. No scene or Continue is raised because the stop's moment is already in the past. So a player cannot pass it, but only after dev mode skipped past a stop the player had not yet answered; a player's own clock halts at the stop first. Not checked: whether any play path other than dev run-until leaves a stop behind.
 
-**Fix.** Trace the registrant on that seed (list the player's registry rows at Oct 27, 2026), then make the stop open its prompt as a stop does, or release it when nothing can resolve it.
+**Fix.** When dev mode's `advance` takes the clock from the player, it releases (acknowledges) the player's registered stops that fall before the target date, the way the player's own resume does, and a stop with `hold` stays until answered. Then prove it on this seed and place: Day and Week move the clock to Nov 3, 2026.
 
-**Time box.** 3 hours to trace.
+**Time box.** 2 hours.
 
 **Rules.** Nothing may hold the player's clock with no way to resolve it; a stop is a screen the player can answer.
 
-**Done when.** On that seed and place, after the 304-day run, Day and Week move the clock to Nov 3, 2026 and the polling check in `src/bench/polling.browser.mjs` reaches the ballot.
+**Done when.** (Dev mode, owner-visible.) On that seed and place, after the 304-day run, Day and Week move the clock to Nov 3, 2026 and the polling check in `src/bench/polling.browser.mjs` reaches the ballot.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/player-stops-v1.ts, src/director/ledger.ts, src/core2/module-calendar.ts
+**Files.** src/bench/dev-mode.ts, src/core2/player-stops-v1.ts, src/core2/player-v1.ts
