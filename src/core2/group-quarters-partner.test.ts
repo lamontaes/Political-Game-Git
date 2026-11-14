@@ -14,7 +14,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { inGroupQuarters } from "./modules/moves";
-import { PARTNERSHIPS_MODULE_ID } from "./modules/partnerships";
+import { movingOrder, PARTNERSHIPS_MODULE_ID } from "./modules/partnerships";
 import { coreAPI } from "./state";
 import type { PersonId } from "./types";
 
@@ -68,5 +68,11 @@ describe("a room resident's partner", { timeout: 600_000 }, () => {
       before,
     );
     expect(partner.placeId).toBe(resident!.placeId);
+    // While the resident lives in a room nobody is asked to move in and
+    // nobody moves, whoever's yes it would be, so a yes is never given and
+    // then undone.
+    expect(movingOrder(api, resident!, partner)).toBeUndefined();
+    expect(movingOrder(api, partner, resident!, resident!.id)).toBeUndefined();
+    expect(movingOrder(api, resident!, partner, partner.id)).toBeUndefined();
   });
 });

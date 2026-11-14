@@ -618,7 +618,8 @@ function knownSingle(
 /**
  * Who of a couple would move in with the other, and with whom: the one with
  * less cash goes, unless they cannot leave; `chosenBy` is the one whose yes
- * lets their own household change. Undefined when neither can leave.
+ * lets their own household change. Undefined when neither can leave, and
+ * while either lives in a room.
  */
 export function movingOrder(
   api: CoreAPI,
@@ -626,6 +627,11 @@ export function movingOrder(
   b: Readonly<PersonState>,
   chosenBy?: PersonId,
 ): [PersonState, PersonState] | undefined {
+  const core = api.state as CoreState;
+  // Nobody moves into a room, and a room's resident leaves it only by the
+  // institution's own discharge: while either lives in one, nobody is asked
+  // and nobody moves (so a yes can never be given and then undone).
+  if (inGroupQuarters(core, a) || inGroupQuarters(core, b)) return undefined;
   const adultAge = api.parameter("votingAge");
   const [mover, host]: [PersonState, PersonState] =
     a.liquidMinor < b.liquidMinor ||
@@ -652,9 +658,6 @@ function moveIn(
 ): boolean {
   const core = api.state as CoreState;
   if (a.householdId === b.householdId) return true;
-  // Nobody moves into a room: a room's resident shares a home with a partner
-  // only after leaving the room by the institution's own discharge.
-  if (inGroupQuarters(core, a) || inGroupQuarters(core, b)) return false;
   const order = movingOrder(api, a, b, chosenBy);
   if (!order) return false;
   api.changeHouseholdV1({
