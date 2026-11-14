@@ -1026,23 +1026,6 @@ function composeBinding(
       };
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
     if (wanted) facts.wanted = wanted;
-    // The sum offered, as people say money ("about five hundred dollars"),
-    // from the crime record. The bank says it only where the one offering
-    // answers "How much?" or bargains after a refusal (Words lead, Nov 14).
-    // The laws family's own table, read without a deep import of its module.
-    const crime =
-      said.bribeId && core.modules.has("corruption")
-        ? (coreAPI(core as CoreState)
-            .moduleState("corruption")
-            .table("crimes")
-            .get(said.bribeId) as unknown as
-            { id: string; amountMinor: number } | undefined)
-        : undefined;
-    if (crime && crime.amountMinor > P.zero)
-      facts.amount = {
-        text: moneySaid(crime.amountMinor),
-        sourceRecordIds: [moment.causeId, crime.id],
-      };
   }
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.

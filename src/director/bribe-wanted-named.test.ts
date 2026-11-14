@@ -6,12 +6,7 @@ import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
-import {
-  BRIBE_OFFERED,
-  considerBribe,
-  crimeRecord,
-} from "../core2/modules/corruption";
-import { moneySaid } from "../english/count-words";
+import { BRIBE_OFFERED, considerBribe } from "../core2/modules/corruption";
 import { coreAPI } from "../core2/state";
 import { purposeScene } from "./purpose-scene";
 
@@ -93,10 +88,6 @@ describe("a bribe offer names what it wants", () => {
     expect(said("contract")?.recordIds, where).toContain(subjectId);
     expect(said("wanted")?.text, where).toBe("the road contract");
     expect(said("favor-vote"), where).toBeFalsy();
-    // The sum, as people say money, cited to the crime record.
-    const crime = crimeRecord(coreAPI(core), crimeId!)!;
-    expect(said("amount")?.text, where).toBe(moneySaid(crime.amountMinor));
-    expect(said("amount")?.recordIds, where).toContain(crimeId);
     process.stdout.write(
       `BRIBE WANTED ${where}: ${said("wanted")?.text}; ${scene.scene.talk.state.text}\n`,
     );
