@@ -3725,7 +3725,8 @@
           "role": "answer",
           "choice": "tenure",
           "stages": ["working"],
-          "raises": "their-tenure"
+          "raises": "their-tenure",
+          "requiresFacts": ["their-tenure"]
         }
       ],
       "transcriptsUsing": 27,
@@ -29285,7 +29286,8 @@
           "role": "answer",
           "choice": "tenure",
           "stages": ["working"],
-          "raises": "their-tenure"
+          "raises": "their-tenure",
+          "requiresFacts": ["their-tenure"]
         }
       ],
       "bearing": "curious",
@@ -29305,7 +29307,8 @@
           "role": "answer",
           "choice": "tenure",
           "stages": ["working"],
-          "raises": "their-tenure"
+          "raises": "their-tenure",
+          "requiresFacts": ["their-tenure"]
         }
       ],
       "bearing": "curious",
@@ -29325,7 +29328,8 @@
           "role": "answer",
           "choice": "tenure",
           "stages": ["working"],
-          "raises": "their-tenure"
+          "raises": "their-tenure",
+          "requiresFacts": ["their-tenure"]
         }
       ],
       "bearing": "curious",
@@ -29345,7 +29349,8 @@
           "role": "answer",
           "choice": "tenure",
           "stages": ["working"],
-          "raises": "their-tenure"
+          "raises": "their-tenure",
+          "requiresFacts": ["their-tenure"]
         }
       ],
       "bearing": "curious",
