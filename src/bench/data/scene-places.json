@@ -410,6 +410,7 @@
     "address:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:venue": ["public-meeting-room"],
+    "move-in:home": ["@home"],
     "party-welcome:venue": ["campaign-office-storefront"],
     "party-welcome:public": ["campaign-office-storefront"]
   },

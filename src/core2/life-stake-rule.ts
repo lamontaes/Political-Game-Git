@@ -30,10 +30,16 @@ interface Valued {
 }
 export const DATA = stakesJson as unknown as {
   careDecision: string;
+  lifeEvents: { kinds: readonly string[] };
   ages: Record<"workingFrom" | "workingTo" | "youngChildUnder", Valued>;
   facts: Record<LifeFact, { reference: Valued }>;
   stakes: Record<string, Partial<Record<LifeFact, Valued>>>;
 };
+
+/** The events on which a full person's changed circumstances are told the same day. */
+export const LIFE_EVENT_KINDS: ReadonlySet<string> = new Set(
+  DATA.lifeEvents.kinds,
+);
 
 const FACTS = Object.keys(DATA.facts) as LifeFact[];
 export const reference = (fact: LifeFact): number =>
@@ -94,4 +100,17 @@ export function stakeShift(
 /** Whether any recorded circumstance bears on a question. */
 export function hasStake(question: string): boolean {
   return DATA.stakes[question] !== undefined;
+}
+
+/** The facts in which two readings of a person's circumstances differ. */
+export function changedFacts(before: LifeFacts, after: LifeFacts): LifeFact[] {
+  return FACTS.filter((fact) => before[fact] !== after[fact]);
+}
+
+/** The questions any of these facts bears on, in the table's order. */
+export function questionsReading(facts: readonly LifeFact[]): string[] {
+  if (!facts.length) return [];
+  return Object.keys(DATA.stakes).filter((question) =>
+    facts.some((fact) => DATA.stakes[question]![fact] !== undefined),
+  );
 }
