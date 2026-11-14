@@ -2610,6 +2610,19 @@ export function writeArchiveStory(
   return written.story;
 }
 
+/**
+ * The outlet that runs the town's own police log: the town's outlet of record
+ * (`townOutlet`), or, when it has no reporter living to file it, the first
+ * local outlet that has one.
+ */
+export function recordOutletOf(api: CoreAPI): string | undefined {
+  const alive = (o: OutletRow) =>
+    (o.reporterIds ?? []).some((id) => api.state.people.get(id)?.alive);
+  const town = townOutlet(api);
+  if (town && alive(town)) return town.id;
+  return outletsHere(api).find((o) => o.tier === "local" && alive(o))?.id;
+}
+
 /** What the reporter's desk reads from the press. */
 export function deskContext(api: CoreAPI): DeskContext {
   // Read once per desk run: a race's rivals and a campaign's ad money hold
@@ -2620,6 +2633,7 @@ export function deskContext(api: CoreAPI): DeskContext {
     parameter: pressParameter,
     followers: (outletId) => followersOf(api, outletId),
     townPlaceId: lawChain(api).townPlaceId,
+    recordOutletId: () => recordOutletOf(api),
     adMoney: (outlet, personId) => {
       const key = `${outlet.organizationId}|${personId}`;
       let held = ads.get(key);
@@ -3600,10 +3614,15 @@ function policeLog(api: CoreAPI): void {
             vsUsual: String(Math.round((reported / usual.total) * 1000) / 1000),
             usual: String(Math.round(usual.total * 10) / 10),
             ...(usual.rising ? { rising: usual.rising } : {}),
-            // Halfway from the usual to the share where a brief has all its
-            // space: the log may say "busier" only from here on.
-            ...(reported / usual.total >=
-            1 + (pressParameter("briefUsualCeiling") - 1) / 2
+            // How many closed months the usual rests on, and how often a
+            // month this busy comes by chance at that usual: a town with a
+            // short record or a small usual is not called busy on chance.
+            monthsOfRecord: String(usual.months),
+            chance: String(
+              Math.round(chanceOfMonthAtLeast(reported, usual.total) * 10000) /
+                10000,
+            ),
+            ...(monthIsWellOver(usual.months, reported, usual.total)
               ? { busier: "yes" }
               : {}),
           }
@@ -3623,7 +3642,7 @@ function usualMonth(
   api: CoreAPI,
   town: string,
   month: string,
-): { total: number; rising?: string } | undefined {
+): { total: number; months: number; rising?: string } | undefined {
   type Month = {
     readonly month: string;
     readonly types?: Record<string, { readonly reported?: number }>;
@@ -3669,7 +3688,36 @@ function usualMonth(
       rising = type;
     }
   }
-  return { total, ...(rising ? { rising } : {}) };
+  return { total, months: rows.length, ...(rising ? { rising } : {}) };
+}
+
+/** True when the usual rests on enough months and chance rarely gives a month this busy. */
+export function monthIsWellOver(
+  months: number,
+  count: number,
+  usual: number,
+): boolean {
+  return (
+    months >= pressParameter("briefUsualMinMonths") &&
+    chanceOfMonthAtLeast(count, usual) < pressParameter("briefChanceBar")
+  );
+}
+
+/**
+ * How often a month at least this busy comes by chance in a town whose usual
+ * month is `usual`: the chance of `count` or more reports when reports arrive
+ * independently at the usual rate (the upper tail of a count with that mean).
+ * A measure of the record against its own history, never a roll for what
+ * anyone does.
+ */
+export function chanceOfMonthAtLeast(count: number, usual: number): number {
+  let term = Math.exp(-usual);
+  let below = 0;
+  for (let k = 0; k < count; k += 1) {
+    below += term;
+    term *= usual / (k + 1);
+  }
+  return Math.max(0, 1 - below);
 }
 
 function freshWire(api: CoreAPI): WireItem[] {
