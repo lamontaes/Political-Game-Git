@@ -247,7 +247,6 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         ? out.talk.lines.map((row) => row.text).join("|")
         : out.reason;
     };
-    process.stdout.write(`SAY+ ${sayWith(2)}\nSAY- ${sayWith(-2)}\n`);
     expect(sayWith(2), where).toBe(sayWith(2));
     expect(sayWith(2), where).not.toBe(sayWith(-2));
 
