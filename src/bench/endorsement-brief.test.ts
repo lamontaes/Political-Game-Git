@@ -100,7 +100,7 @@ it(`an endorsement keeps the group's name and number, says what it works for and
     else expect(text, where).not.toMatch(/ back | endorse | are backing /);
     // The body says what the group works for, the second sentence.
     expect(body.join(" "), `${where}: what the group works for`).toMatch(
-      /works for|Its cause is/,
+      /The group wants|It wants/,
     );
     // The body says something the headline does not: the vote's day.
     expect(body.join(" "), where).toMatch(

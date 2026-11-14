@@ -1,0 +1,27 @@
+{
+  "schema": "english-judged/2",
+  "rule": "narration-assumes-no-reason",
+  "rubric": "Narration never gives the player a reason or a history they were not given (why they came, what forms they carry).",
+  "judged": 413,
+  "no": {
+    "04nu70cpu2j": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off"
+      ],
+      "why": "States the player put off the earlier ask without a fact recording it."
+    },
+    "0uqf037g5xw": {
+      "keys": [
+        "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face"
+      ],
+      "why": "States as fact that the player offered this person money."
+    },
+    "1a2dx297a58": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over"
+      ],
+      "why": "Claims the player has things to settle with this person, an intent not given."
+    }
+  },
+  "yesHash": "1z2au8w7bpx"
+}

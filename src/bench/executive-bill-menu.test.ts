@@ -18,12 +18,11 @@ import { isByRequest, seatAsk, seatView } from "./legislature";
 const OFFICES = "core2-offices-v1";
 const RUN = "8341-pin";
 const PLACES = [
-  // Ridgeville, Alabama (0164656): mayor, county executive, governor.
-  {
-    purpose: "p6",
-    key: "0164656",
-    kinds: ["mayor", "county-executive", "governor"],
-  },
+  // Ridgeville, Alabama (0164656): mayor, governor. Its county executive presides over the
+  // board and drafts as its chair (executive-presides-over-board.test.ts).
+  { purpose: "p6", key: "0164656", kinds: ["mayor", "governor"] },
+  // Monserrate, Puerto Rico (7253979): its municipio mayor is a separate elected executive.
+  { purpose: "p8", key: "7253979", kinds: ["county-executive", "governor"] },
   // Brogan, Oregon (4108600): mayor, governor.
   { purpose: "p0", key: "4108600", kinds: ["mayor", "governor"] },
 ];
@@ -55,6 +54,7 @@ for (const pinned of PLACES) {
           office &&
           office.seats < 2 &&
           office.kind === kind &&
+          !office.presidesOverBody &&
           proposalRight(api, office.kind).mode === "by-request"
         );
       });

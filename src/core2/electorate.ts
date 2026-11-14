@@ -34,6 +34,7 @@ import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
 import { reportOutcome } from "./trait-decisions";
 import { traitProbe } from "./trait-probe";
+import type { GroupQuartersType } from "./group-quarters-types";
 import type { CoreState } from "./types";
 
 export interface CountedVoter {
@@ -59,6 +60,8 @@ export interface CountedVoter {
   readonly yearsInPlace?: number;
   /** The sampled county employer they work at, where the county's sample holds one. */
   readonly employerId?: string;
+  /** The group-quarters type of their room (a cell, a dormitory, a nursing-home room); absent for a household member. */
+  readonly quarters?: GroupQuartersType;
 }
 
 const employerOf = (
@@ -232,6 +235,7 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
       weight: store.weightOf(h),
       ...(h.since ? { yearsInPlace: ageOn(h.since, core.date) } : {}),
       ...(h.employment ? employerOf(h.employment, id) : {}),
+      ...(h.quarters ? { quarters: h.quarters } : {}),
       ...rolesOf(store, m),
     });
     slot[m] = walked.length - 1;

@@ -259,7 +259,7 @@ export function federalSeatOf(
 }
 
 /** A member who votes on final passage (a delegate or resident commissioner does not, House Rule III). */
-const votesOnPassage = (kind: FederalSeatKind) =>
+export const votesOnPassage = (kind: FederalSeatKind) =>
   kind === "us-house" || kind === "us-senate";
 
 // ---- The week --------------------------------------------------------------

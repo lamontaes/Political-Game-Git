@@ -68,6 +68,7 @@ import {
   touchImpression,
   registerAdOutlet,
   parsePlatform,
+  contestPositions,
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
@@ -1496,6 +1497,27 @@ export function townConcernReader(api: CoreAPI): (question: string) => number {
 }
 
 /**
+ * The questions the seat a speaker runs for or holds decides (the same read
+ * the filing panel lists its positions from), or null where they have none.
+ */
+function seatQuestions(
+  api: CoreAPI,
+  speaker: Speaker,
+): ReadonlySet<string> | null {
+  const offices = speaker.filing
+    ? [contestOf(api, speaker.filing.contestId).officeId]
+    : servingTerms(api, speaker.personId).map((t) => t.officeId);
+  if (!offices.length) return null;
+  const positions = new Set(
+    offices.flatMap((officeId) => contestPositions(api, { officeId })),
+  );
+  // A body whose list is empty (a world that keeps no budget for it and whose
+  // state lets it decide none of the platform questions) leaves nothing to
+  // restrict to, so the reporter asks as before.
+  return positions.size ? positions : null;
+}
+
+/**
  * What the reporter asks: the questions the race's record puts in play,
  * scored by every reason a reporter has to ask each one: a promise the
  * candidate broke; the incumbent's recent recorded votes; how far apart the
@@ -1638,6 +1660,15 @@ export function interviewQuestions(
         ),
     );
   }
+  // A reporter asks what the seat's own body decides, and otherwise only what
+  // is truly in the news in the town: a question the body cannot decide keeps
+  // nothing but the town's concern for it, so it is asked as the town's news
+  // and never for the candidate's record or the rivals' gap.
+  const seat = seatQuestions(api, speaker);
+  if (seat)
+    for (const [q] of score)
+      if (!seat.has(q))
+        score.set(q, pressParameter("townConcernNewsWeight") * concern(q));
   // Asked before, on the record: less to learn from asking again.
   const asked = new Map<string, number>();
   for (const row of table(api, "interviews").query("byCandidate", [
@@ -3905,6 +3936,57 @@ export function platformAnswers(
       move: "plain",
     };
   });
+}
+
+/** A stand on a question and where it comes from. */
+export interface StandOnRecord {
+  readonly question: string;
+  /** In [-1, 1], or null where the candidate holds none of their own. */
+  readonly position: number | null;
+  /** The filed platform, a vote, their own view; null for none (a stand only their party takes is not theirs). */
+  readonly source: "platform" | "vote" | "view" | null;
+}
+
+/**
+ * What a candidate holds on each question, on the record, when a sitting
+ * puts it: the stand their filed platform states; where it states none, a
+ * vote of theirs or their own view (`candidateStance`, the read the platform
+ * itself is built from, blended with their party's position). A stand that
+ * rests only on their party's position is not theirs and counts as none.
+ * Nothing is made up and nothing is said for them: the sitting offers the
+ * candidate this stand as one of the sides they may take.
+ */
+export function standsOnRecord(
+  api: CoreAPI,
+  filingId: string | null,
+  questions: readonly string[],
+): readonly StandOnRecord[] {
+  const filing = filingId
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filingId) as unknown as FilingRow | undefined)
+    : undefined;
+  const reader = filing
+    ? stanceReader(api, filing.personId, filing.party ?? null)
+    : null;
+  return platformAnswers(api, filingId, questions).map(
+    ({ question, position }): StandOnRecord => {
+      if (position !== null) return { question, position, source: "platform" };
+      const grounds = reader?.grounds(question) ?? null;
+      const stance =
+        grounds === "vote" || grounds === "view"
+          ? reader!.stance(question)
+          : null;
+      return stance === null
+        ? { question, position: null, source: null }
+        : {
+            question,
+            position: Math.round(stance * 1000) / 1000,
+            source: grounds as "vote" | "view",
+          };
+    },
+  );
 }
 
 /**

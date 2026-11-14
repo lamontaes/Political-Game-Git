@@ -79,13 +79,13 @@
   {
     "id": "SG-GOV-views-stand-in",
     "kind": "missing-engine",
-    "file": "src/core2/modules/campaigns.ts",
-    "line": 590,
-    "whatItFakes": "A person's opening stance on a policy question is their lean times the question's measured left-right axis, plus, for the eight questions the CES 2020 has an item for, a stored opening record with its reasons (src/core2/modules/views.ts openingRecord, data/research/people/opening-stance-loadings.json) holding what their faith and four-year degree add beyond the lean. Every other question, and every person with no recorded faith or schooling, opens as the lean alone, and no trait loading exists because the CES has no personality measure.",
+    "file": "src/core2/campaign-views.ts",
+    "line": 5,
+    "whatItFakes": "A person's opening stance on a policy question is their lean times the question's measured left-right axis, plus, for the eight questions the CES 2020 has an item for, a stored opening record with its reasons (src/core2/modules/views.ts openingRecord, data/research/people/opening-stance-loadings.json) holding what their faith and four-year degree add beyond the lean, plus, for the fifteen questions a recorded circumstance bears on (src/core2/data/views/stakes.json: housing, the wage floor, Medicaid, preschool, family leave, public bargaining, the teacher floor and two taxes), what their own life adds (src/core2/life-stakes.ts: whether their household rents, its income fifth, work, a private health plan, a young child at home, a government job, against the nation's average, weighed by their traits). Every other question opens as the lean, faith and degree alone.",
     "why": "OPUS-PEOPLE's views engine (values and stances formed from each person's life) isn't on core2 yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Per-question opening records for the questions the survey did not ask (a source with loadings for each), until every question opens as a stored record formed from the person's life.",
+    "replacement": "A stake row, or a recorded no-stake row, for every question and budget line (cuts 3 and 4 of pool item people-views-stances-from-life), with ballot measures, recalls and officials outside the town reading the same life term; then this row is resolved and the stand-in comment in campaign-views.ts deleted.",
     "status": "open"
   },
   {
@@ -99,51 +99,6 @@
     "addedAt": "2026-10-12",
     "replacement": "Each person's media habits and real outlets (PEOPLE and the news engine); ads bought from those outlets.",
     "status": "resolved"
-  },
-  {
-    "id": "SG-GOV-campaign-pollster-seller",
-    "kind": "missing-data",
-    "file": "src/core2/modules/campaigns.ts",
-    "line": 915,
-    "whatItFakes": "Where the town records no professional-services business (NAICS 5419 includes public opinion polling), a campaign's poll interviews are paid to a stand-in pollster organization in town.",
-    "why": "Small towns often have no polling firm; the region's businesses outside the town aren't recorded as sellers a campaign can reach.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The region's or state's real polling firms as recorded organizations a campaign buys from. Researched Oct 23, 2026 (research-elections-sourced-parameters): data/research/elections/cbp-2023-campaign-sellers.json holds the U.S. Census Bureau's County Business Patterns 2023 establishment counts for NAICS 541910 (polling) and 541820 (public relations) for all 56 places and by county: 4,419 polling establishments nationally, published in only 260 of 3,246 county equivalents, so a town's own pollster is the exception. The builder item elections-campaign-sellers-beyond-town reads it in src/core2/modules/campaigns.ts seller() (town, then county, then state) in place of the stand-in.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
-    "id": "SG-GOV-campaign-mail-seller",
-    "kind": "missing-data",
-    "file": "src/core2/modules/campaigns.ts",
-    "line": 918,
-    "whatItFakes": "Where the town records no professional-services or manufacturing business (direct mail advertising, NAICS 54186; printing, NAICS 323), a campaign's mailers are paid to a stand-in mail house in town, postage included.",
-    "why": "The region's printers and mail houses outside the town aren't recorded as sellers, and postage isn't paid to a postal organization.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The region's printers and mail houses as recorded sellers, with postage paid to the Postal Service's account. Researched Oct 23, 2026 (research-elections-sourced-parameters): data/research/elections/cbp-2023-campaign-sellers.json holds County Business Patterns 2023 counts for NAICS 541860 (direct mail, 1,705 establishments in 166 county equivalents) and 323111 (commercial printing, 15,271 in 837) for all 56 places and by county. The builder item elections-campaign-sellers-beyond-town reads it in src/core2/modules/campaigns.ts seller() and sendMail(), and pays the postage share to a Postal Service organization.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
-    "id": "SG-GOV-campaign-venue-seller",
-    "kind": "missing-data",
-    "file": "src/core2/modules/campaigns.ts",
-    "line": 921,
-    "whatItFakes": "Where the town records no recreation, lodging or food-service business, a campaign event's venue rent is paid to a stand-in venue in town.",
-    "why": "Public halls (a town's own community center, a school gym) aren't recorded as places a campaign rents.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The town's public buildings and halls as rentable places with their fee schedules, and the region's venues. Researched Oct 23, 2026 (research-elections-sourced-parameters): data/research/elections/cbp-2023-campaign-sellers.json holds County Business Patterns 2023 counts for NAICS 713, 721, 722, 722320 and 813410 for all 56 places: food services and drinking places are published in 3,152 of 3,246 county equivalents, so a stand-in is needed only where the town records none. No public hall fee schedule was sourced; the builder item elections-campaign-sellers-beyond-town reads the counts in src/core2/modules/campaigns.ts seller() and records the town's own halls.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
   },
   {
     "id": "SG-GOV-rival-donor-meeting",
@@ -707,21 +662,6 @@
     "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
   },
   {
-    "id": "SG-GOV-REACH-B-property-tax-bills",
-    "kind": "faked-mechanic",
-    "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 178,
-    "whatItFakes": "The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law still uses a generic estimated assessment cap rather than statutory levy-versus-assessment scope, exemptions or ownership-reset terms.",
-    "why": "Session A wires the existing property-tax engine. The catalog has no numeric statutory cap or exemption terms, and the world has no delivered tax notice linking the assessment to an informed stance and director line.",
-    "addedBy": "OPUS-GOV (sub-agent B)",
-    "addedAt": "2026-10-12",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Record each cap statute's size, scope, exemptions and ownership-reset terms; apply them at assessment and prove the bill, received notice, informed stance and director line for a named owner.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
     "id": "SG-GOV-REACH-B-sales-tax-collection",
     "kind": "missing-core-api",
     "file": "src/core2/data/laws/reach-group-b.json",
@@ -906,30 +846,6 @@
     "addedAt": "2026-10-13",
     "replacement": "RESOLVED (owner, Oct 14, 2026: ties follow the law of the state, a recorded lot where the law says lot): src/core2/election-ties.ts draws the lot from a stable hash of the contest and the tied candidates and keeps it as a tie record (citation, tied candidates, each slip, the result).",
     "status": "resolved"
-  },
-  {
-    "id": "SG-GOV-filing-deadline-estimate",
-    "kind": "estimated-calendar",
-    "file": "src/core2/modules/elections.ts",
-    "line": 402,
-    "whatItFakes": "For 4 of the 56 places a town's filing deadline is the estimate, because each municipality's charter or code sets it (Alaska, Delaware, Florida and Maryland, the rows marked unread in src/core2/data/elections/filing-deadlines.json): the median number of days between the candidate filing deadline and the primary over the places with a 2026 row (85 days before the election). 39 more rows there are tagged ESTIMATED (New York's among them: its party date, the first Thursday in April, is read, but an independent's petition closes 24 to 23 weeks before the general election and the row holds one date, so independents close about eight weeks early): read from search excerpts or summaries, not the current code.",
-    "why": "Many states write the deadline against a primary, a charter or a window the town calendar does not hold, and each statute must be read to structure it.",
-    "addedBy": "OPUS-GOV-ELECTIONS",
-    "addedAt": "2026-10-14",
-    "replacement": "Narrowed Oct 23, 2026 (research-elections-sourced-parameters): Guam (3 GCA 15201, 15206) and Puerto Rico (Electoral Code art. 7.14) read from their codes and tagged SOURCED, and New York (Elec. Law 6-158, 8-100) read for the party date and tagged ESTIMATED until a side-specific deadline is wired, read by src/core2/elections-calendar.ts municipalFilingDeadline. Still to do, in research-elections-filing-rules-statutes: each charter place's deadline estimated from a sample of its own municipal codes, and each ESTIMATED row checked against the current statute.",
-    "status": "open"
-  },
-  {
-    "id": "SG-GOV-filing-fallbacks",
-    "kind": "missing-data",
-    "file": "src/core2/modules/elections.ts",
-    "line": 257,
-    "whatItFakes": "Where a place's filing row carries no filing office, minimum age or voter-registration rule, the median of the read values for that office family and the generic clerk title stand in: the voter-registration rule of 27 statewide-executive rows and 8 state-legislative rows that say 'not specified' in data/research/elections/filing-requirements.json (the fallback requires registration), and every rule of the county rows of places with no county government (Alaska, Connecticut, Rhode Island, D.C. and the territories) and the municipal rows of Hawaii and two territories, where a contest of that family would have no law to read.",
-    "why": "The place's law was not read into filing-requirements.json.",
-    "addedBy": "OPUS-GOV-ELECTIONS",
-    "addedAt": "2026-10-14",
-    "replacement": "Narrowed Oct 23, 2026 (research-elections-sourced-parameters): the 50 state U.S. House rows now read registeredVoterRequired false from U.S. Const. art. I, sec. 2, cl. 2 and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995), and Vermont's legislature takes 18 (Vt. Const. ch. II, sec. 15 sets no age), read by src/core2/modules/elections.ts filingRequirements. Still to do, in research-elections-filing-rules-statutes: each 'not specified' registration rule read from its state constitution or code.",
-    "status": "open"
   },
   {
     "id": "SG-GOV-special-election-timing",
@@ -1372,51 +1288,6 @@
     "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
   },
   {
-    "id": "SG-GOV-recall-bars-national",
-    "kind": "assumed-data",
-    "file": "src/core2/modules/recalls.ts",
-    "line": 388,
-    "whatItFakes": "A recall's earliest start and its bar after a failed recall use one national rule where the state's statute isn't read (Mississippi; bars counted from an election and after a failed recall are not read in any state). Twenty-one of 22 places with a petitioned local recall read their own bar (src/core2/data/campaigns/recall-bars.json).",
-    "why": "The owner's ruling (Oct 14): the recall rule reads the place's statute (grounds, signatures, cooling period). The municipal rule pack holds grounds, threshold and circulation window, but no cooling period yet.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each state's recall timing bars read into the municipal rule pack and resolved like its threshold and window. Oct 23, 2026 (research-core-sourced-parameters): twelve more places read from statute (AK, DC, FL, GA, LA, MT, NE, NV, ND, SD, WA, WY; 5 SOURCED and 7 ESTIMATED: ND and WA where the bar counts from an election, FL where the bar is a fraction of the term, SG-GOV-recall-bars-term-fraction, and LA, MT, NE and NV where the bar is counted in calendar months and stored as days, SG-GOV-recall-bars-calendar-months) into src/core2/data/campaigns/recall-bars.json, read by recallBarsFor in src/core2/modules/recalls.ts, with the quotes and each state's bar after a failed recall in data/research/core/recall-timing-statutes-2026.json (checked by scripts/research/check-core-research.ts); 21 of the 22 places with a petitioned local recall now have a bar read from their own statute, seven of the twelve new ones estimates. Still open: no Mississippi timing bar was read, so the national estimate stands there; bars counted from an election (NE, WA, ND) and each state's rule after a failed recall wait on the builder item gov-recall-bars-election-clock.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
-    "id": "SG-GOV-recall-bars-calendar-months",
-    "kind": "estimated-rule",
-    "file": "src/core2/modules/recalls.ts",
-    "line": 207,
-    "whatItFakes": "A recall bar that a statute counts in calendar months is stored in src/core2/data/campaigns/recall-bars.json as a fixed number of days: six months as 182 days (Louisiana's closing bar, Nebraska's and Nevada's opening bars, and the earlier Arizona and Oregon opening bars and California's closing bar) and two months as 61 days (Montana's opening bar). Six calendar months run 181 to 184 days and two run 59 to 62, depending on the date counted from, so the stored bar can admit a date the statute bars or bar one it admits by up to three days: for a term ending January 1, 2027, July 2, 2026 is inside six months but 183 days away, and Louisiana's 182-day bar admits it. Each of these rows is ESTIMATED with its spread.",
-    "why": "The bar table and recallBarsFor count days into the term and days before its end; a calendar month has no fixed length in days, and counting by months changes engine logic, which is builder work, not research.",
-    "addedBy": "claude/dreamy-tesla-bgi3ui research",
-    "addedAt": "2026-10-24",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Builder item gov-recall-bars-calendar-months: a bar row may state calendar months (opening and closing), and the recall engine compares the date with the term's start plus those months, or its end less them, so the rows are SOURCED from their statute quotes. Until then they are ESTIMATED in src/core2/data/campaigns/recall-bars.json and data/research/core/recall-timing-statutes-2026.json, and scripts/research/check-core-research.ts recomputes each spread from the calendar.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
-    "id": "SG-GOV-recall-bars-term-fraction",
-    "kind": "estimated-rule",
-    "file": "src/core2/modules/recalls.ts",
-    "line": 208,
-    "whatItFakes": "A recall bar that a statute sets as a fraction of the term (Florida: one-fourth of the term, Fla. Stat. 100.361(8)) is stored as two day counts: one for terms of up to longTermAboveYears years and one for longer terms. recallBarsFor returns the same 365 days for a three-year term as for a four-year term, 91 days more than one-fourth of three years (273.75 days), and about 183 days fewer than one-fourth of a six-year term (547.5 days). The row is ESTIMATED with a spread of 182 to 365 days, the statute's bar for terms of 2, 3 and 4 years. Today every Florida council, mayor and county commission seat takes four years, where the value is exact.",
-    "why": "recall-bars.json holds days into the term, with one value per term band; every other bar in it is counted in days or months, so no row had to scale with the term until Florida's statute was read on Oct 23, 2026. Encoding a fraction of the term changes engine logic, which is builder work, not research.",
-    "addedBy": "claude/dreamy-tesla-bgi3ui research",
-    "addedAt": "2026-10-24",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Builder item gov-recall-bars-fraction-of-term: a bar row may state a fraction of the term, and recallBarsFor in src/core2/modules/recalls.ts turns it into days for the term at hand (term years x 365.25 x the fraction), so the row is SOURCED from the statute's own quote. Until then the row is ESTIMATED in src/core2/data/campaigns/recall-bars.json and data/research/core/recall-timing-statutes-2026.json, and scripts/research/check-core-research.ts checks that the statute's days for terms of 2, 3 and 4 years fall inside its spread.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
     "id": "SG-GOV-local-bill-numbering",
     "kind": "assumed-data",
     "file": "src/core2/modules/legislature.ts",
@@ -1625,18 +1496,6 @@
     "addedAt": "2026-10-14",
     "replacement": "Every seat's holder filled in as a person before they vote, so floor tactics read their temperament like anyone's. Done Oct 16: a seat whose holder has no living person record casts no vote and moves no pill, so the stand-in is gone.",
     "status": "resolved"
-  },
-  {
-    "id": "SG-GOV-municipal-body-name",
-    "kind": "missing-record",
-    "file": "src/core2/data/offices/body-names.json",
-    "line": 6,
-    "whatItFakes": "A municipal collective whose listing name gives no kind of municipality (no \"CITY OF\", \"TOWN OF\", \"VILLAGE OF\" or \"BOROUGH OF\") and whose government the game has not compiled is named after the town and \"Council\"; a compiled town's body takes the name its charter gives it, and any other town the usual body of its kind in its state (municipalByState and municipalByKind in the same file).",
-    "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
-    "addedBy": "SESSION-C",
-    "addedAt": "2026-10-15",
-    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
-    "status": "open"
   },
   {
     "id": "SG-GOV-dual-office-law",
@@ -1961,32 +1820,6 @@
     "resolvedBy": "stand-in triage T2"
   },
   {
-    "id": "SG-GOV-petition-count-estimated",
-    "kind": "estimated-data",
-    "file": "src/core2/modules/elections.ts",
-    "line": 452,
-    "whatItFakes": "Where a place's filing row in data/research/elections/filing-requirements.json gives its signature rule as a formula (for example a share of the votes cast for the office at its last election: 27 municipal, 21 county, 14 state legislative, 13 statewide and 13 U.S. House party rows) or gives nothing, the filing's petition asks the median of the read counts for its office family and side (an independents' row that is not its own reads the party row): for a party filing 28 municipal, 50 county, 113 state legislative, 2,000 statewide and 500 U.S. House; for an independent 30, 25, 125, 3,501 and 1,000.",
-    "why": "The formulas are kept as free text; no structured threshold (share, base, minimum and maximum) is read for them yet.",
-    "addedBy": "claude/elections-petition-filing",
-    "addedAt": "2026-10-28",
-    "replacement": "A structured threshold for each formula row, its base read from the world's own results through the recall engine's signatureBase (src/core2/modules/recalls.ts), the median kept only where a row gives nothing.",
-    "status": "open"
-  },
-  {
-    "id": "SG-GOV-petition-town-share",
-    "kind": "partial-model",
-    "file": "src/core2/modules/voting.ts",
-    "line": 572,
-    "whatItFakes": "Where a contest's district reaches past the town (a county seat drawn as a state's places, a legislative, U.S. House or statewide race), the clerk counts the town's share of the law's signatures, by the town's eligible voters over the district's, at least one: the signatures a candidate would gather in the places the world holds only as counts are neither gathered nor checked.",
-    "why": "The world holds people one by one only in the town (two-level population); a canvass, an event and a circle reach only the town.",
-    "addedBy": "claude/elections-petition-filing",
-    "addedAt": "2026-10-28",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Signatures gathered in the district's other places at a coarse step, from the campaign's effort there, checked against the law's whole count.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T2"
-  },
-  {
     "id": "SG-GOV-territory-legislature-race",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
@@ -2161,11 +1994,11 @@
     "kind": "uncalibrated-tunable",
     "file": "src/core2/campaign-stances.ts",
     "line": 366,
-    "whatItFakes": "platformSupportSlope is the study's domestic coefficient carried over, and the played total it is checked against does not reach the research's band. The research's C1 (docs/research/platform-emphasis-2026-10-30.md, as its quote verification restates it: +16% to +86% emphasis per 10 points of support), measured from what candidates said by record (messages and speeches on each question they hold a view on, silences included, each candidate offset by how many questions they hold a view on) over 42 candidates in four drawn places' years (run seed b6c9d59eda6a31f1, src/core2/campaign-platform-played.test.ts), gives -3% at the slope's value 0.035; with each campaign's lead chosen again from the recorded scores, -16% at 0 (the old rule), -10% at 0.015 and -3% at 0.028, 0.043 and 0.062. No slope in the research's spread brings it in. Every act carries the campaign's lead alone (SG-GOV-platform-emphasis-lead-only), so each candidate's emphasis is all on their top score, the fit within one candidate's questions has no finite value, and the pooled total is set by the differences between candidates; over every slope from 0.028 up the top score does not change. Earlier measures on score shares (-13% pooled, +345% to +712% within candidates) overshoot or miss for the same reasons: picking the top 3 with silences sharpens the slope, as the research's C1 warns.",
+    "whatItFakes": "platformSupportSlope is the study's domestic coefficient carried over, and the played total it is checked against does not reach the research's band. The research's C1 (docs/research/platform-emphasis-2026-10-30.md, as its quote verification restates it: +16% to +86% emphasis per 10 points of support), measured from what candidates said by record (messages and speeches on each question they hold a view on, silences included, each candidate offset by how many questions they hold a view on) over 42 candidates in four drawn places' years (run seed b6c9d59eda6a31f1, src/core2/campaign-platform-played.test.ts), gives -3% at the slope's value 0.035; with each campaign's lead chosen again from the recorded scores, -16% at 0 (the old rule), -10% at 0.015 and -3% at 0.028, 0.043 and 0.062. No slope in the research's spread brings it in. Every act carries the campaign's lead alone (every act carrying the lead alone), so each candidate's emphasis is all on their top score, the fit within one candidate's questions has no finite value, and the pooled total is set by the differences between candidates; over every slope from 0.028 up the top score does not change. Earlier measures on score shares (-13% pooled, +345% to +712% within candidates) overshoot or miss for the same reasons: picking the top 3 with silences sharpens the slope, as the research's C1 warns.",
     "why": "The study followed one candidate who spoke on many issues in graded amounts; the played world's candidates each speak on one question, and their support varies mostly between candidates (a candidate on the town's minority side has low support on most questions), not between one candidate's questions. Which total C1 holds in a world of many candidates, and whether a campaign's acts should share its emphasis over the platform by score as the research's emphasis share has it, is the governing lead's ruling.",
     "addedBy": "governing lead",
     "addedAt": "2026-10-30",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The slope measured into the C1 band once a campaign's acts share its emphasis over the platform by score (SG-GOV-platform-emphasis-lead-only's replacement), by the pooled total with each candidate's offset, and the played-year test holds the band again: pool item campaign-platform-emphasis-c1. Until then the test prints C1 and does not hold it (governing lead, Nov 2, under the CTO's Nov 1 ruling that an unmet calibration line is reported in the PR and carried to its own item, never tuned or widened to pass).",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The slope measured into the C1 band once a campaign's acts share its emphasis over the platform by score (every act carrying the lead alone's replacement), by the pooled total with each candidate's offset, and the played-year test holds the band again: pool item campaign-platform-emphasis-c1. Until then the test prints C1 and does not hold it (governing lead, Nov 2, under the CTO's Nov 1 ruling that an unmet calibration line is reported in the PR and carried to its own item, never tuned or widened to pass).",
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
@@ -2195,18 +2028,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
-  },
-  {
-    "id": "SG-GOV-platform-emphasis-lead-only",
-    "kind": "missing-mechanic",
-    "file": "src/core2/campaign-data.ts",
-    "line": 27,
-    "whatItFakes": "Every campaign act that carries one question (a donor meeting, an event, an ad, a mailer, an evening of doors) carries the campaign's lead (platformLead), so everything a candidate chooses to say in a race is on one question, the top score of their platform; the other platform questions are heard only where the whole platform is (a door, an interview answer).",
-    "why": "The research's emphasis share gives each platform question its score's share of the space in speeches, flyers, ads and news quotes (docs/research/platform-emphasis-2026-10-30.md, section 1), and no campaign engine yet takes its acts' topics in turn over the platform.",
-    "addedBy": "governing lead",
-    "addedAt": "2026-10-30",
-    "replacement": "Each act's topic taken in turn over the platform, the question furthest behind its score's share of what the campaign has said so far (no roll), so a candidate's messages and speeches follow the score shares; C1 then measured from those records.",
-    "status": "open"
   },
   {
     "id": "SG-GOV-counted-lean-spread",
@@ -2323,18 +2144,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
-  },
-  {
-    "id": "SG-GOV-property-tax-aggregate-calibration",
-    "kind": "assumed-data",
-    "file": "src/core2/laws-starting.ts",
-    "line": 163,
-    "whatItFakes": "A sourced survey ratio of all property taxes paid to home value stands in for researched individual statutory levies. The shared reader uses it only until an actual property-tax amount supplies the series; it cannot reconstruct the separate levies from that aggregate.",
-    "why": "The ACS source reports combined taxes across all taxing bodies, not a county statute. Classifying the estimate as calibration repairs the false law record but does not provide each levy rate.",
-    "addedBy": "Astra (Codex)",
-    "addedAt": "2026-11-07",
-    "replacement": "Source each applicable levy and its taxing body, assessment base and effective dates; combine actual levies through the existing resolver and tax engine.",
-    "status": "open"
   },
   {
     "id": "SG-GOV-discharge-no-wait",
