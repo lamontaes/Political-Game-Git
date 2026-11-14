@@ -487,6 +487,10 @@ export interface AssistanceTimeLimit {
   readonly reachedIds: ReadonlySet<string>;
   /** The people each counted row it reaches stands for. */
   readonly counts: ReadonlyMap<string, number>;
+  /** Months a person may draw under the requirement. */
+  readonly limitMonths: number;
+  /** The months the limit counts within; null counts every month on record (a lifetime limit). */
+  readonly windowMonths: number | null;
 }
 
 /** Whole months from one day to another. */
@@ -555,21 +559,23 @@ interface DrawRow {
 export function timeLimitUsed(
   api: CoreAPI,
   id: string,
-  since: string,
+  limit: Pick<AssistanceTimeLimit, "since" | "limitMonths" | "windowMonths">,
   kind: DrawKind = FOOD_AID_DRAWS,
 ): boolean {
   const today = api.state.date;
   const thisMonth = today.slice(0, 7);
-  const window = reachParameter("snapWorkTimeLimitWindowMonths");
   const drawn = (
     getRow<DrawRow>(api, "taken", `${kind}|${id}`)?.months ?? []
   ).filter(
     (m) =>
       m !== thisMonth &&
-      m >= since.slice(0, 7) &&
-      monthsBetween(`${m}-01`, today) < window,
+      // A lifetime limit counts every month on record; a windowed one counts
+      // the months since the requirement took effect and within its window.
+      (limit.windowMonths === null ||
+        (m >= limit.since.slice(0, 7) &&
+          monthsBetween(`${m}-01`, today) < limit.windowMonths)),
   );
-  return drawn.length >= reachParameter("snapWorkTimeLimitMonths");
+  return drawn.length >= limit.limitMonths;
 }
 
 /**
@@ -590,7 +596,7 @@ export function timeLimitedNow(
   if (!limit) return stopped;
   const today = api.state.date;
   for (const id of limit.reachedIds) {
-    if (!timeLimitUsed(api, id, limit.since, kind)) continue;
+    if (!timeLimitUsed(api, id, limit, kind)) continue;
     stopped.add(id);
     if (api.state.people.has(id))
       putRow(api, "taken", {
@@ -622,6 +628,26 @@ export function recordDraws(
     putRow(api, "taken", {
       id: `${kind}|${id}`,
       key: kind,
+      months: [...(row?.months ?? []), month],
+    } satisfies DrawRow);
+  }
+}
+
+/**
+ * Every month a person draws the welfare line goes on their own record, rule
+ * in force or not, so a lifetime limit counts months from before the rule.
+ */
+export function recordWelfareMonths(
+  api: CoreAPI,
+  drawing: Iterable<string>,
+): void {
+  const month = api.state.date.slice(0, 7);
+  for (const id of drawing) {
+    const row = getRow<DrawRow>(api, "taken", `${WELFARE_DRAWS}|${id}`);
+    if (row?.months.includes(month)) continue;
+    putRow(api, "taken", {
+      id: `${WELFARE_DRAWS}|${id}`,
+      key: WELFARE_DRAWS,
       months: [...(row?.months ?? []), month],
     } satisfies DrawRow);
   }
@@ -709,7 +735,7 @@ export function payBenefits(
       }
     }
   }
-  recordDraws(api, input.timeLimit, paid, WELFARE_DRAWS);
+  recordWelfareMonths(api, paid);
   putRow(api, "taken", {
     id: `assist|${input.key}`,
     key: "assist",
