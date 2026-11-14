@@ -2565,7 +2565,36 @@ async function personCardNode(
       onOpen: () => openOther({ personId: k.personId }),
     })),
   );
+  // What the player can do about them from here (Visit, Call): each shown,
+  // closed ones with the reason in plain words under them.
+  const acts = person.personId === me.id ? [] : (c.acts ?? []);
+  const actsSection = acts.length
+    ? [
+        stripSection(
+          1,
+          labels.actsTitle,
+          buttonRow(
+            ...acts.map((act) =>
+              makeButton({
+                className: "action",
+                textContent: labels.acts[act.kind],
+                disabled: !act.open,
+                onclick: () => doAct(act.kind, person.personId),
+              }),
+            ),
+          ),
+          ...acts
+            .filter((act) => !act.open && labels.actReasons[act.reason])
+            .map((act) =>
+              noteLine(
+                `${labels.acts[act.kind]}: ${labels.actReasons[act.reason]}`,
+              ),
+            ),
+        ),
+      ]
+    : [];
   const firstColumn = [
+    ...actsSection,
     ...(c.summary?.length
       ? [
           stripSection(
@@ -2701,6 +2730,34 @@ async function visit(organizationId) {
   $("card-place").textContent = v.name;
   // The visit's hour moved the clock: the card shows the new time.
   if (v.packet) renderPacket(v.packet);
+}
+
+// ---- An act from a person's card: Visit goes to where they are, Call rings them ----
+async function doAct(kind, personId) {
+  closePerson();
+  closeSheet();
+  lying = false;
+  $("talk-name").textContent = "";
+  renderTalk(undefined);
+  const done = await post(
+    `/api/act?kind=${encodeURIComponent(kind)}&other=${encodeURIComponent(personId)}`,
+  );
+  if (kind === "visit") {
+    me.names = { ...me.names, ...done.names };
+    $("backdrop").src = done.backdrop.url;
+    drawHere(done, (p) => talkTo(p.personId));
+    me.scene = done;
+    // A visit to a home is the host's home; a workplace is named as it is.
+    $("card-place").textContent = done.hostId
+      ? controls.person.homeOf.replace("{name}", done.name)
+      : done.name;
+    // The trip and the visit's hours moved the clock.
+    if (done.packet) renderPacket(done.packet);
+  }
+  // The talk opens where they are, or on the phone; nothing to say hands the
+  // room back, as after any talk's end.
+  if (done.talk) renderTalk(done.talk);
+  else await renderScene();
 }
 
 // ---- Go home from a place: the trip back, then the room the day has you in ----

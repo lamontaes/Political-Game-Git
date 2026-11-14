@@ -547,6 +547,16 @@
       "reason": "traffic on a tie between two people, not an event of a life"
     },
     {
+      "kind": "contact.visit",
+      "from": "event",
+      "reason": "traffic on a tie between the player and one person, not an event of a life; a promise to visit reads it"
+    },
+    {
+      "kind": "contact.call",
+      "from": "event",
+      "reason": "traffic on a tie between the player and one person, not an event of a life; a promise to call reads it"
+    },
+    {
       "kind": "family.gathering-missed",
       "from": "event",
       "reason": "traffic on a tie between two people, not an event of a life"

@@ -177,6 +177,17 @@
     "newsToastSeconds": 8
   },
   "person": {
+    "actsTitle": "Reach out",
+    "acts": { "visit": "Visit", "call": "Call" },
+    "actReasons": {
+      "here": "They are here with you.",
+      "elsewhere": "They live too far away to visit.",
+      "away": "You can't get to where they are right now.",
+      "held": "Finish what you're in the middle of first.",
+      "silent": "They have nothing to say right now.",
+      "gone": "They're gone."
+    },
+    "homeOf": "{name}'s home",
     "whoIs": "Who {lower} is",
     "whoAre": "Who they are",
     "howISee": "How I see {object}",

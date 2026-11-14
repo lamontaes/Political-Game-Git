@@ -1,6 +1,6 @@
 import { makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { addDays } from "../kernel/dates";
-import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
+import { ENCOUNTERS, meetAtJoin, recordVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
 import { closenessBetween } from "../closeness";
 import { VIEWS_MODULE_ID, stanceRow } from "./views";
@@ -389,16 +389,13 @@ export const LIFE_MODULE: CoreModule = {
     },
     contact: (api, actorId, chosen, _date, _days, decision) => {
       // P15: the visit's hours are time together, saved with their reason.
-      const hours =
-        chosen.effortHours ?? p(api, chosen.definition.effortParameter);
-      api.relationship(actorId, chosen.targetId, "contact", hours, decision, {
-        cause: ENCOUNTERS.causes.visit,
-        sourceId: `visit:${api.state.date}:${actorId}:${chosen.targetId}`,
-      });
-      api.updatePerson(actorId, { lastContactDate: api.state.date });
-      api.updatePerson(chosen.targetId, { lastContactDate: api.state.date });
-      // P15 part 5: the visitor meets the people who live with the host.
-      meetAtVisit(api, actorId, chosen.targetId, hours);
+      recordVisit(
+        api,
+        actorId,
+        chosen.targetId,
+        chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+        decision,
+      );
     },
     care: (api, actorId, chosen, _date, _days, decision) => {
       api.relationship(
