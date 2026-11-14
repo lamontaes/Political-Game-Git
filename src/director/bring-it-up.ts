@@ -402,7 +402,12 @@ function electionLines(
 }
 
 export interface BroughtUp {
-  lines: { text: string; sourceRecordIds: readonly string[] }[];
+  lines: {
+    text: string;
+    sourceRecordIds: readonly string[];
+    /** How the teller feels about the news, not the news itself. */
+    feeling?: boolean;
+  }[];
   change: KnownChange;
   attribution: Attribution;
   toldEventId: string;
@@ -524,7 +529,7 @@ export function bringItUp(
       fallbackSourceId: change.eventId,
       ...(options.words ? { words: options.words } : {}),
     });
-  const lines: Said[] = [];
+  const lines: BroughtUp["lines"] = [];
   const topic = story ? storyTopic(change) : null;
   const facts = {
     subject: {
@@ -564,7 +569,7 @@ export function bringItUp(
     say({ part: "change", eventKind: change.kind }, facts);
   if (first) lines.push(first);
   const leanLine = election?.[P.one];
-  if (leanLine) lines.push(leanLine);
+  if (leanLine) lines.push({ ...leanLine, feeling: true });
   // A printed story blames no one: the outlet only printed it. Someone who
   // holds no cause, or none they can name, says nothing more ("I have no
   // idea" answers nothing; owner, Nov 12, on non-replies): the change is

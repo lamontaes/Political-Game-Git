@@ -347,6 +347,11 @@ export interface ConversationLine {
   text: string;
   sourceRecordIds: readonly string[];
   wording?: Wording;
+  /**
+   * A told line that says how the teller feels about the news, not the news
+   * itself ("Good night for our side."): the reply answers the feeling.
+   */
+  feeling?: boolean;
 }
 
 export interface ConversationChoice {
@@ -3949,6 +3954,8 @@ function playerFacts(
   playerId: PersonId,
   last: LastLine,
   otherId?: PersonId,
+  /** The other person's line the answer follows. */
+  before?: ConversationLine,
 ): { facts: Facts; stage?: string } {
   const player = core.people.get(playerId)!;
   const facts: Facts = {};
@@ -4061,10 +4068,21 @@ function playerFacts(
       };
     else facts["my-not"] = { text: "", sourceRecordIds: [playerId] };
   }
-  if (last.kind === "news" && last.subject.aboutId)
-    stage = knowsNews(core, playerId, last.subject.aboutId)
-      ? "heard"
-      : "not-heard";
+  // News, by what the line before was (M5's pairs, Nov 14): a question
+  // ("Did you hear ...?") is answered yes or no; the news told outright is
+  // never answered "I haven't heard." or "Tell me." (only by taking it in,
+  // or by saying the player knew); a feeling about it is never answered
+  // "Yes, ... had it." (`before-feeling` holds that wording back).
+  if (last.kind === "news" && last.subject.aboutId) {
+    const heard = knowsNews(core, playerId, last.subject.aboutId);
+    const asked = !!before && asksQuestion(before);
+    stage = heard ? "heard" : asked ? "not-heard" : "told";
+    if (before?.feeling && !asked)
+      facts["before-feeling"] = {
+        text: "yes",
+        sourceRecordIds: before.sourceRecordIds,
+      };
+  }
   if (last.kind === "school") stage = schoolStage(core, player);
   if (last.kind === "kin" && last.subject.aboutId) {
     const relative = core.people.get(last.subject.aboutId);
@@ -4556,7 +4574,11 @@ function raiseSubject(
   /** A side remark on the topic in hand, not a topic of its own. */
   remark = false,
   /** Lines already worded that raise it (what they brought up), said instead. */
-  said?: readonly { text: string; sourceRecordIds: readonly string[] }[],
+  said?: readonly {
+    text: string;
+    sourceRecordIds: readonly string[];
+    feeling?: boolean;
+  }[],
 ): boolean {
   const { playerId, otherId } = conversation;
   conversation.used.push(`${otherId}>${subject.id}`);
@@ -6160,7 +6182,13 @@ function offerChoices(
   const last = conversation.last!;
   conversation.choices = [];
   conversation.lies = [];
-  const own = playerFacts(core, playerId, last, otherId);
+  const own = playerFacts(
+    core,
+    playerId,
+    last,
+    otherId,
+    conversation.lines.at(-one),
+  );
   const other = core.people.get(otherId);
   const facts: Facts = {
     ...own.facts,

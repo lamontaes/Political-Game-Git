@@ -9,6 +9,24 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { bringItUp, resultLean } from "./bring-it-up";
+import { openConversation } from "./conversation";
+import { asksQuestion } from "../english/conversation-words";
+import conversationParts from "../../data/english/parts/conversation.json";
+
+// The wordings a feeling about the news holds back ("Yes, ... had it."
+// confirms the news, not "Good night for our side."), from the bank.
+const NOT_AFTER_FEELING = new Set(
+  (
+    conversationParts.parts as {
+      key: string;
+      uses: { excludesFacts?: string[] }[];
+    }[]
+  )
+    .filter((part) =>
+      part.uses.some((use) => use.excludesFacts?.includes("before-feeling")),
+    )
+    .map((part) => part.key),
+);
 
 // After a count, a person who read the result brings it up: who won, and,
 // for a person clearly with or against the winner's party, how it sits with
@@ -99,6 +117,44 @@ describe.each(PLACES)("a race's result brought up in $name", (place) => {
           where,
         ).not.toBe(own);
       }
+      // The player's replies follow the line before (M5's pairs, Nov 14):
+      // after the result told outright or a feeling about it, never "I
+      // haven't heard." or "Tell me."; after a feeling, never "Yes, ... had
+      // it.".
+      let talks = 0;
+      let feelings = 0;
+      for (const person of core.people.values()) {
+        if (talks === 12) break;
+        if (!person.alive || person.tier === "husk" || person.id === playerId)
+          continue;
+        const talk = openConversation(core, playerId, person.id);
+        const before = talk.lines.at(-1);
+        if (
+          !before ||
+          !before.sourceRecordIds.some((id) =>
+            id.startsWith("election-result:"),
+          )
+        )
+          continue;
+        talks += 1;
+        if (before.feeling) feelings += 1;
+        const shown = `${where}: ${talk.lines.map((l) => l.text).join(" / ")} -> ${talk.choices.map((c) => c.text).join(" | ")}`;
+        if (!asksQuestion(before))
+          for (const choice of talk.choices)
+            expect(choice.wording?.stage, shown).not.toBe("not-heard");
+        if (before.feeling)
+          for (const choice of talk.choices)
+            expect(
+              (choice.wording?.parts ?? []).some((id) =>
+                NOT_AFTER_FEELING.has(id),
+              ),
+              shown,
+            ).toBe(false);
+      }
+      expect(talks, `${where}: result talks`).toBeGreaterThan(3);
+      expect(feelings, `${where}: result talks with a feeling`).toBeGreaterThan(
+        0,
+      );
     } finally {
       setBookkeeping(true);
     }

@@ -22742,7 +22742,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "excludesFacts": ["before-feeling"]
         }
       ],
       "origin": "authored",
