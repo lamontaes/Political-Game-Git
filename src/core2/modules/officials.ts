@@ -1529,6 +1529,12 @@ function seatFacts(api: CoreAPI, seatId: string) {
   };
 }
 
+/** The party an independent's running mate is weighed under. */
+export const INDEPENDENT = "Independent";
+
+/** Newcomers drawn at most for a pick offered to a player: three to choose from at the least, four at most. */
+const CHOICE_NEWCOMERS = 4;
+
 /** The contest a state or federal party candidate is weighed for. */
 interface CandidateContest {
   readonly id: string;
@@ -1538,13 +1544,16 @@ interface CandidateContest {
 
 /**
  * Everyone who could run for a party in a state or federal contest, ranked
- * by their reasons (strongest first, the newcomer among them), and the
- * newcomer as drawn. Null where the office isn't one officials run for.
+ * by their reasons (strongest first, the newcomers among them), and each
+ * newcomer as drawn. One newcomer by default; a pick offered to a player
+ * draws more where the state has too few officeholders to offer. Null where
+ * the office isn't one officials run for.
  */
 function rankCandidates(
   api: CoreAPI,
   contest: CandidateContest,
   party: string,
+  newcomerCount = 1,
 ) {
   const side = partySide(party);
   const facts = seatFacts(api, contest.seatId);
@@ -1591,38 +1600,44 @@ function rankCandidates(
       !running.has(row.id) &&
       // Someone on the ballot for their own seat that year stays there.
       row.nextElectionYear !== year &&
-      partySide(row.independent?.caucus ?? row.party) === side &&
+      (side !== 0
+        ? partySide(row.independent?.caucus ?? row.party) === side
+        : (row.party ?? INDEPENDENT) === party) &&
       (row.bodyKind !== "executive" ||
         (row.officeKind !== "governor" && row.officeKind !== "president")) &&
       api.state.people.get(row.id)?.alive !== false,
   );
-  // The newcomer: someone with no office who could run, drawn once from the
-  // world's seed for this contest and party.
-  const newcomerId = `official:candidate:${contest.id}:${partyKey(party)}`;
-  const newcomer = drawOfficialIdentity({
-    worldSeed: facts.seed,
-    seatKey: newcomerId,
-    stateUsps: facts.stateKey.slice(3),
-    role: "state-executive-challenger",
-    referenceDate: api.state.date,
-  });
-  const drawn = drawOfficial({
-    seed: facts.seed,
-    key: newcomerId,
-    body: facts.bodyKind,
-    party,
-    districtZ: 0,
-    districtLean: seatLeanNow,
-    leader: false,
-    temperament: temperamentOf(api.state as CoreState, newcomerId, newcomer),
+  // The newcomers: people with no office who could run, each drawn once
+  // from the world's seed for this contest and party (the first keeps the
+  // key it always had).
+  const newcomers = Array.from({ length: newcomerCount }, (_, i) => {
+    const id = `official:candidate:${contest.id}:${partyKey(party)}${i ? `:${i + 1}` : ""}`;
+    const identity = drawOfficialIdentity({
+      worldSeed: facts.seed,
+      seatKey: id,
+      stateUsps: facts.stateKey.slice(3),
+      role: "state-executive-challenger",
+      referenceDate: api.state.date,
+    });
+    const drawn = drawOfficial({
+      seed: facts.seed,
+      key: id,
+      body: facts.bodyKind,
+      party,
+      districtZ: 0,
+      districtLean: seatLeanNow,
+      leader: false,
+      temperament: temperamentOf(api.state as CoreState, id, identity),
+    });
+    return { id, identity, drawn };
   });
   const order: {
     id: string;
     row: OfficialRow | null;
     parts: ReturnType<typeof reasons>;
   }[] = [
-    {
-      id: newcomerId,
+    ...newcomers.map(({ id, drawn }) => ({
+      id,
       row: null,
       parts: reasons(
         drawn.ambition,
@@ -1632,14 +1647,14 @@ function rankCandidates(
         ),
         false,
       ),
-    },
+    })),
     ...weighed.map((row) => ({
       id: row.id,
       row,
       parts: reasons(row.ambition, officialLean(row), true),
     })),
   ].sort((a, b) => b.parts.total - a.parts.total || a.id.localeCompare(b.id));
-  return { facts, year, weighed, newcomer, newcomerId, drawn, order };
+  return { facts, year, weighed, newcomers, order };
 }
 
 /**
@@ -1659,16 +1674,28 @@ export function candidateChoices(
   /** The seat they hold now; null for a newcomer. */
   readonly fromSeatId: string | null;
 }[] {
-  if (!api.state.modules.has(OFFICIALS_MODULE_ID) || partySide(party) === 0)
-    return [];
+  if (!api.state.modules.has(OFFICIALS_MODULE_ID)) return [];
   const ranked = rankCandidates(api, contest, party);
   if (!ranked) return [];
-  return ranked.order.slice(0, count).map((c) => {
+  const list = ranked.order.slice(0, count);
+  // Where the state has too few officeholders to offer, more newcomers are
+  // drawn (owner, Nov 14: three or four to choose from); the world's own
+  // pick stays first.
+  const more =
+    list.length >= Math.min(count, CHOICE_NEWCOMERS - 1)
+      ? null
+      : rankCandidates(api, contest, party, CHOICE_NEWCOMERS);
+  const extra = (more?.order ?? [])
+    .filter((c) => !c.row && !list.some((l) => l.id === c.id))
+    .slice(0, Math.min(count, CHOICE_NEWCOMERS - 1) - list.length);
+  const newcomers = more?.newcomers ?? ranked.newcomers;
+  return [...list, ...extra].map((c) => {
     const person = api.state.people.get(c.id);
+    const identity = newcomers.find((n) => n.id === c.id)?.identity;
     return {
       id: c.id,
-      givenName: person?.givenName ?? ranked.newcomer.givenName,
-      familyName: person?.familyName ?? ranked.newcomer.familyName,
+      givenName: person?.givenName ?? identity?.givenName ?? "",
+      familyName: person?.familyName ?? identity?.familyName ?? "",
       fromSeatId: c.row?.seatId ?? null,
     };
   });
@@ -1688,22 +1715,34 @@ export function officialCandidate(
   party: string,
   /** One of `candidateChoices`' ids: the pick a player made in place of the strongest. */
   chosenId?: string,
+  /**
+   * A running mate: a third party's or an independent's too (an independent
+   * passes `INDEPENDENT`), weighed among that party's own officeholders.
+   */
+  anyParty = false,
 ): string | null {
   if (!api.state.modules.has(OFFICIALS_MODULE_ID)) return null;
   const side = partySide(party);
-  if (side === 0) return null;
+  if (side === 0 && !anyParty) return null;
   const filed = (
     table(api, "candidates").query("byContest", [
       contest.id,
     ]) as unknown as CandidateRow[]
-  ).find((c) => partySide(c.party) === side);
+  ).find((c) => (side !== 0 ? partySide(c.party) === side : c.party === party));
   if (filed) return filed.personId;
-  const ranked = rankCandidates(api, contest, party);
+  const ranked = rankCandidates(
+    api,
+    contest,
+    party,
+    chosenId ? CHOICE_NEWCOMERS : 1,
+  );
   if (!ranked) return null;
-  const { facts, year, weighed, newcomer, drawn } = ranked;
+  const { facts, year, weighed } = ranked;
   const best = ranked.order.find((c) => c.id === chosenId) ?? ranked.order[0]!;
-  if (!best.row) {
-    const identity = newcomer;
+  const newcomer = ranked.newcomers.find((n) => n.id === best.id);
+  const drawn = newcomer?.drawn;
+  if (!best.row && newcomer) {
+    const { identity } = newcomer;
     fillInIdentity(api.state as CoreState, {
       id: best.id,
       givenName: identity.givenName,
@@ -1713,7 +1752,7 @@ export function officialCandidate(
       gender: identity.gender,
       party,
       seatKey: contest.seatId,
-      traits: drawn.traits,
+      traits: newcomer.drawn.traits,
       tier: OFFICIALS_DATA.tier,
       source: source(api.state.date),
     });
@@ -1728,7 +1767,7 @@ export function officialCandidate(
     fromSeatId: best.row?.seatId ?? null,
     ...best.parts,
     weighed: weighed.length,
-    drawn: best.row
+    drawn: !drawn
       ? null
       : {
           ideal: drawn.ideal,

@@ -208,7 +208,7 @@ describe("governor running mates", () => {
               expect(mate, `${where}: ${f.id}`).not.toBeNull();
               expect(mate!.party).toBe(f.party ?? null);
             }
-          expect(choice.choices.length, where).toBeGreaterThanOrEqual(1);
+          expect(choice.choices.length, where).toBeGreaterThanOrEqual(3);
           expect(choice.choices.length).toBeLessThanOrEqual(4);
           const picked = choice.choices.at(-1)!;
           const named = chooseRunningMate(api, own.id, picked.id);
@@ -228,6 +228,16 @@ describe("governor running mates", () => {
           holdPrimary(api, governor!.id);
           holdPrimary(api, ticket!.id);
         }
+        // Once the nominations are made the ballot is final: every other
+        // candidate's ticket is whole before anyone votes, each running mate
+        // a person in the world, whatever their party.
+        for (const [f, mate] of mates())
+          if (f.personId !== playerId) {
+            expect(mate, `${where}: ${f.id} (${f.party})`).not.toBeNull();
+            expect(api.state.people.has(mate!.personId), mate!.personId).toBe(
+              true,
+            );
+          }
         formTickets(api, governor!, "election");
         // Every governor candidate on the ballot runs with exactly one running mate.
         for (const [f, mate] of mates()) {

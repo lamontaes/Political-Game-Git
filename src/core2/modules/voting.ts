@@ -142,6 +142,7 @@ import {
   type TermRow,
 } from "./offices";
 import {
+  INDEPENDENT,
   candidateChoices,
   holderOf,
   officialCandidate,
@@ -6418,12 +6419,12 @@ export function runningMateChoice(
     office: ticket.title,
     mateId: mate?.personId ?? null,
     choices:
-      mate || !mayNameRunningMate(api, governor, ticket) || !filing.party
+      mate || !mayNameRunningMate(api, governor, ticket)
         ? []
         : candidateChoices(
             api,
             ticketOf(filing, ticket),
-            filing.party,
+            filing.party ?? INDEPENDENT,
             RUNNING_MATE_CHOICES,
           ).map((c) => ({
             id: c.id,
@@ -6495,17 +6496,15 @@ export function nameRunningMate(
   const held = runningMateOf(api, governorFiling, ticketContest);
   if (held) return held;
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
-  const picked = governorFiling.party
-    ? officialCandidate(
-        api,
-        ticketOf(governorFiling, ticketContest),
-        governorFiling.party,
-        chosenId,
-      )
-    : null;
-  // An independent's running mate, or one where the officials engine isn't
-  // installed: a named official not yet filled in, as a party's nominee is
-  // (`fileStandingCandidates`).
+  const picked = officialCandidate(
+    api,
+    ticketOf(governorFiling, ticketContest),
+    governorFiling.party ?? INDEPENDENT,
+    chosenId,
+    true,
+  );
+  // Where the officials engine isn't installed: a named official not yet
+  // filled in, as a party's nominee is (`fileStandingCandidates`).
   if (!picked) {
     // stopgapId: SG-GOV-who-runs-stand-in
     api.stopgap("SG-GOV-who-runs-stand-in");
@@ -6575,6 +6574,13 @@ export function formTickets(
     ballot(api, governor.id).filter((f) => !runningMateOf(api, f, ticket));
   if (stage === "separate-primary") {
     const unpaired = () => ballot(api, ticket.id).filter((f) => !f.ticketWith);
+    // Once both nominations are made, every ticket is whole: a nominee
+    // with no governor candidate of their party leaves the race.
+    const settled =
+      when === "election" ||
+      (when === "primary" &&
+        nominated(api, governor) &&
+        nominated(api, ticket));
     for (const f of alone()) {
       const mates = unpaired().filter((m) => f.party && m.party === f.party);
       const sameParty = ballot(api, governor.id).filter(
@@ -6585,9 +6591,9 @@ export function formTickets(
           ...mates[0]!,
           ticketWith: f.id,
         } as unknown as ModuleRow);
-      else if (!f.party || when === "election") nameRunningMate(api, f, ticket);
+      else if (!f.party || settled) nameRunningMate(api, f, ticket);
     }
-    if (when === "election")
+    if (settled)
       for (const m of unpaired())
         filings.put({ ...m, status: "withdrawn" } as unknown as ModuleRow);
     return;
@@ -6608,6 +6614,20 @@ export function formTickets(
   )
     for (const f of alone())
       if (!playerWaits(f)) nameRunningMate(api, f, ticket);
+}
+
+/**
+ * Whether a contest's nominees are settled: no primary, or its primary
+ * counted (a primary later today has not run yet), so a ticket formed now
+ * is the one on the ballot.
+ */
+function nominated(api: CoreAPI, contest: ContestRow): boolean {
+  if (!contest.primaryDate || contest.primaryDate < api.state.date) return true;
+  if (contest.primaryDate > api.state.date) return false;
+  return (
+    api.moduleCalendar(VOTING_MODULE_ID).get(`primary:${contest.id}`)
+      ?.status !== "pending"
+  );
 }
 
 /**
