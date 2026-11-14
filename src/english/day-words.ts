@@ -42,6 +42,15 @@ export function dayPartSaid(mark: string): string | undefined {
   return mark === "about" ? undefined : said;
 }
 
+/** What is left of the day as a line looking ahead says it ("later", "tomorrow"), by the telling's `dayLeft`. */
+export function dayAheadSaid(
+  left: "later" | "tomorrow" | undefined,
+): string | undefined {
+  return left
+    ? (data.ahead as Readonly<Record<string, string>>)[left]
+    : undefined;
+}
+
 /**
  * A record's own day told as past from the day a scene plays: "yesterday",
  * "the other day", "on January 3rd", and for a day in another year "last
