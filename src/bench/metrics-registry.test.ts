@@ -138,7 +138,8 @@ describe("Metrics reads the registry in a played world", () => {
       const placeId = world.placeId;
       const where = `${world.place.displayName} (seed ${seed})`;
 
-      // The first day: nothing has kept a year before, so no town row carries a last year.
+      // The first day: housing's past ran before the start (src/core2/housing-past.ts),
+      // so rent and home value carry last year; no other town row has kept a year.
       advanceCore(core, "2025-01-21" as never);
       const opening = metricsView(core, placeId);
       expect(
@@ -148,7 +149,15 @@ describe("Metrics reads the registry in a played world", () => {
       for (const section of ["city", "housing", "evictions", "benefits"])
         for (const row of opening.sections.find((s) => s.key === section)
           ?.rows ?? [])
-          expect(row.before, `${where}: ${section}.${row.key}`).toBeNull();
+          if (
+            section === "housing" &&
+            (row.key === "rent" || row.key === "homeValue")
+          )
+            expect(
+              row.before,
+              `${where}: ${section}.${row.key}`,
+            ).toBeGreaterThan(0);
+          else expect(row.before, `${where}: ${section}.${row.key}`).toBeNull();
 
       advanceCore(core, AFTER_FOURTEEN_MONTHS as never);
       const counted = noticesCounted(core);

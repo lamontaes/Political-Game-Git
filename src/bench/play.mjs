@@ -9,7 +9,6 @@ import {
   talkReply,
   fillTalk,
   talkControls,
-  addTalkLine,
   mountTalkKeys,
   mountSpeakers,
 } from "./ui/talk-box.mjs";
@@ -868,6 +867,14 @@ function inMeeting() {
       // A resident's one line under the title: an empty agenda, or what they can do here.
       if (scene.note)
         $("meeting-items").prepend(prose(scene.note, "meeting-note"));
+      // Said before the press: what Adjourn does with the items still open.
+      $("meeting-adjourn-note")?.remove();
+      if (scene.items.some((item) => !item.takenUp))
+        $("meeting-adjourn").before(
+          Object.assign(prose(words.adjournNote ?? "", "meeting-note"), {
+            id: "meeting-adjourn-note",
+          }),
+        );
       $("meeting-adjourn").onclick = async () => {
         $("meeting-adjourn").disabled = true;
         await post(
@@ -2079,7 +2086,8 @@ async function campaignParts() {
     ];
     // The campaign board (the mock's pl-campaign): where the race stands in sentences the
     // English engine wrote, the money, and the way out onto the trail.
-    const part = { filing, contest, trail };
+    // Its card in Travel shows the street the trail starts on, as each act's tile shows its place.
+    const part = { filing, contest, trail, picture: pictures?.doors };
     const labelsC = controls.campaignBoard ?? {};
     const out = makeButton({ textContent: labelsC.trail });
     out.addEventListener("click", () => trailView(part));
@@ -2733,7 +2741,7 @@ async function officeParts() {
               v.acts.map((a) =>
                 row(
                   `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
-                  `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
+                  `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
                 ),
               ),
               { rows: 4, columns: 1, rowHeight: 48, className: "office-paged" },
@@ -4478,6 +4486,7 @@ const sheets = {
     const trails = (await campaignParts()).map((part) => ({
       name: labels.trail,
       trail: part,
+      presentation: { imageUrl: part.picture },
       presentCount: 0,
       presentNames: [],
       reasons: [],

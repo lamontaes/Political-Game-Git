@@ -95821,7 +95821,7 @@
       "key": "scene-talk.reply-confront.that-many-for-one-seat",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "That many? For one seat?",
+      "text": "That many? Just to run for {seat}?",
       "uses": [
         {
           "subject": "scene",
@@ -95846,7 +95846,7 @@
       "key": "scene-talk.reply-confront.who-decided-it-takes-that-many",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Who decided it takes that many?",
+      "text": "Who decided {office} takes that many?",
       "uses": [
         {
           "subject": "scene",
@@ -95946,7 +95946,7 @@
       "key": "scene-talk.follow-thank.good-count-them-before-you-bring-them-in",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. Go over them before you bring them in. I only take the ones that hold up.",
+      "text": "Good. Go over them before {due}. I only take the ones that hold up.",
       "uses": [
         {
           "subject": "scene",
@@ -96074,7 +96074,7 @@
       "key": "scene-talk.follow-refuse.the-law-sets-the-number-i-just-count-them",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "The law sets the number. I just check them.",
+      "text": "The law sets the number, and the day, {due}. I just check them.",
       "uses": [
         {
           "subject": "scene",
@@ -96100,7 +96100,7 @@
       "key": "scene-talk.follow-refuse.that-s-the-law-s-number-not-mine",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "That's the law's number, not mine.",
+      "text": "That's the law's number, not mine, and so is the {due} deadline.",
       "uses": [
         {
           "subject": "scene",
@@ -96126,7 +96126,7 @@
       "key": "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll go start knocking on doors.",
+      "text": "I'll go start knocking on doors in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -101437,7 +101437,7 @@
       "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-ge-2",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Start with the signatures. Knock on doors, set up a table where people shop, and get your friends to carry a sheet each. Then money: ask everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "text": "Start with the signatures for {office}. Knock on doors, set up a table where people shop, and get your friends to carry a sheet each. Then money: ask everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
       "uses": [
         {
           "subject": "scene",
@@ -161217,10 +161217,10 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-party-member.you-d-have-to-be-registered-with-the-party-to-file-in-its-primary-and-you-re-not-on-my-rol",
+      "key": "scene-talk.state-rule-party-member.you-d-have-to-be-registered-with-the-party-to-file-in-its-primary-for-office-and-you-re-no",
       "move": "state-rule-party-member",
       "kind": "spoken",
-      "text": "You'd have to be registered with the party to file in its primary, and you're not on my rolls as a member.",
+      "text": "You'd have to be registered with the party to file in its primary for {office}, and you're not on my rolls as a member.",
       "uses": [
         {
           "subject": "scene",
@@ -161241,10 +161241,10 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-party-member.i-can-only-take-a-primary-filing-from-a-member-of-that-party-and-my-rolls-don-t-show-you-a",
+      "key": "scene-talk.state-rule-party-member.i-can-only-take-a-primary-filing-for-office-from-a-member-of-that-party-and-my-rolls-don-t",
       "move": "state-rule-party-member",
       "kind": "spoken",
-      "text": "I can only take a primary filing from a member of that party, and my rolls don't show you as one.",
+      "text": "I can only take a primary filing for {office} from a member of that party, and my rolls don't show you as one.",
       "uses": [
         {
           "subject": "scene",
@@ -161265,10 +161265,10 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-district-residency.that-seat-is-for-people-who-live-in-its-district-and-my-records-have-you-outside-it",
+      "key": "scene-talk.state-rule-district-residency.that-seat-on-office-belongs-to-one-district-and-my-records-have-you-outside-it",
       "move": "state-rule-district-residency",
       "kind": "spoken",
-      "text": "That seat is for people who live in its district, and my records have you outside it.",
+      "text": "That seat on {office} belongs to one district, and my records have you outside it.",
       "uses": [
         {
           "subject": "scene",
@@ -161289,10 +161289,10 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-district-residency.i-can-t-file-you-for-that-seat-you-don-t-live-in-the-part-of-town-it-stands-for",
+      "key": "scene-talk.state-rule-district-residency.i-can-t-file-you-for-that-seat-on-office-you-don-t-live-in-the-part-of-town-it-stands-for",
       "move": "state-rule-district-residency",
       "kind": "spoken",
-      "text": "I can't file you for that seat. You don't live in the part of town it stands for.",
+      "text": "I can't file you for that seat on {office}. You don't live in the part of town it stands for.",
       "uses": [
         {
           "subject": "scene",

@@ -26,6 +26,7 @@ import {
   members,
   openLegislature,
 } from "./modules/legislature";
+import { openLeadership } from "./modules/leadership";
 import {
   electoralCollege,
   openWorldRaces,
@@ -331,6 +332,9 @@ describe("M2-10 state and federal races in the world", () => {
     openParties(core);
     openVoting(core);
     openLegislature(core);
+    // The House's Speaker, who acts when neither the House nor the Senate
+    // chooses, is the leadership module's post, as in the played world.
+    openLeadership(core);
     openWorldRaces(core);
     const api = coreAPI(core);
     const where = `seed ${seed}, ${state} place ${key}`;
