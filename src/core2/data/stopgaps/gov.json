@@ -2009,18 +2009,6 @@
     "resolvedBy": "stand-in triage T2"
   },
   {
-    "id": "SG-GOV-budget-line-stance-lean-only",
-    "kind": "assumed-data",
-    "file": "src/core2/modules/voting.ts",
-    "line": 1617,
-    "whatItFakes": "A voter's stance on spending more on a budget line (\"budget-line:<line>\") is their lean times the line's party direction (budget-line-axes.json, GSS 2024 by party) and nothing else: no faith, degree or age term as the policy questions have, and no term for the town's overall wish to spend more or less on it. Every line therefore splits the electorate the same way, the share on the right of the town's lean order against the share on the left, so a candidate's support on every spending line they hold a view on is the same number, and the platform rule chooses among spending lines by conviction alone.",
-    "why": "The opening-stance loadings (opening-stance-loadings.json, CES 2020) cover the survey's policy items only; no loading table exists for the GSS spending items, and the spending preferences in data/research/money are kept by party only.",
-    "addedBy": "governing lead",
-    "addedAt": "2026-10-30",
-    "replacement": "Faith, degree and age loadings for each budget line from the GSS spending items (NATEDUC, NATHEAL, NATCRIME and the rest, 2024 cumulative file) and the national share wanting more spent on each, read into the opening stance by the views engine for named and counted voters alike. Resolved 2026-11-14 (views from life, cuts 3a and 3b, and campaign-money-refit-after-views-carry-popularity): a voter's stance on a spending line now carries how popular the line is across the world's country (`popularity` in src/core2/campaign-views.ts, from the national share wanting more spent among those wanting a change, scripts/research/build-budget-line-axes.py) and the person's own circumstances (stake rows in src/core2/data/views/stakes.json), for full people and counted residents by one rule, so lines no longer split the town alike. Faith and degree loadings for spending lines are not held, as for 47 of the 55 policy questions; the views-from-life item's cut 4 covers both.",
-    "status": "resolved"
-  },
-  {
     "id": "SG-GOV-platform-record-term-left-out",
     "kind": "missing-mechanic",
     "file": "src/core2/campaign-stances.ts",

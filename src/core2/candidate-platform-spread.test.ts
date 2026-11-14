@@ -8,10 +8,18 @@
  * the township board seat 0 race had no pair of rivals on opposite sides of
  * more than 5 of 29 questions, and every voter's reason to give doubled.
  *
- * Pinned: Marshfield MA, world seed 75d9b7ad, the race on Oct 15, 2025, when
- * the candidates' platforms hold their full set of questions (on Aug 15 they
- * share three). Building the world and running it to Oct 15 takes about three
- * minutes, so the test sets its own timeout.
+ * Pinned: Marshfield MA, world seed 75d9b7ad, the race on Oct 1, 2025. The
+ * world opens on the game's start date because the moderate in this race files
+ * on a cause formed at a Feb 3 board meeting; a world opened later has no cause
+ * lived before its start and fields only the two liberals (pool item
+ * opening-world-holds-causes-lived-before-its-start, which moves this test to
+ * a late opening once that is built). The case ends on Oct 1: the candidates
+ * file on Aug 1 with three questions each and share none until their campaigns
+ * start saying more in late September; on Oct 1 two of them are opposed on 9 of
+ * 12 shared questions, and with the country's view in platforms the most was
+ * 2 of 12. Building the world takes about 18 seconds and playing Jan 20 to
+ * Sep 15 about 80 (the year's days, not this race); Sep 15 to Oct 1 adds 8.
+ * The test sets its own timeout near twice its 100 seconds.
  */
 import { afterAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -47,7 +55,7 @@ describe("rival candidates keep their own platforms", () => {
       twoLevel: true,
       placeKey: MARSHFIELD.key,
     });
-    advanceCore(core as CoreState, makeIsoDate("2025-10-15"));
+    advanceCore(core as CoreState, makeIsoDate("2025-10-01"));
     const api = coreAPI(core as CoreState);
     const rivals = (
       api
@@ -77,5 +85,5 @@ describe("rival candidates keep their own platforms", () => {
         if (shared > 0 && opposite > shared / 2) apart = true;
       }
     expect(apart, `${where}: ${pairs.join("; ")}`).toBe(true);
-  }, 300_000);
+  }, 200_000);
 });
