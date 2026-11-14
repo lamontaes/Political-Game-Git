@@ -1,5 +1,5 @@
 import { MEETINGS_MODULE_ID, type RemarkRow } from "../core2/modules/meetings";
-import { SPEECH_OCCASION_ID } from "../core2/modules/speech";
+import { SPEECH_OCCASION_ID } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 

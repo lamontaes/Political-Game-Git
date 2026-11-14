@@ -18,7 +18,7 @@ import {
   SPEECH_HEARD,
   SPEECH_OCCASION_ID,
   SPEECH_OCCASION_KIND,
-} from "../core2/modules/speech";
+} from "../core2/modules/people";
 import { remarkOf } from "./remark";
 import { speechAct, speechOccasion } from "./scheduling";
 
