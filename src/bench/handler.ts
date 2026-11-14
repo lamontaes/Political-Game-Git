@@ -67,6 +67,7 @@ import {
   isByRequest,
   seatAct,
   seatAsk,
+  seatAskOptions,
   seatView,
 } from "./legislature";
 import {
@@ -150,6 +151,8 @@ import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
 import {
   meetOverTalk,
+  noteHeard,
+  noteSceneHeard,
   openConversation,
   say,
   sayNothing,
@@ -374,6 +377,9 @@ function openTalk(otherId: string, occasionId?: string, byPhone = false) {
   // The player talked with them: the two have met (the encounters
   // engine's meeting, through the director's one entry for it).
   meetOverTalk(requireCore(), state.conversation);
+  // What they said is heard today by the player (the telling's "said
+  // today"): the next housemate says something else.
+  noteHeard(requireCore(), state.conversation);
   return talkView(state.conversation);
 }
 
@@ -1783,6 +1789,26 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
+  // Who an executive may ask to carry the bill just drafted, the likeliest yes marked.
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/seat/ask-options",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const q = (key: string) => url.searchParams.get(key) ?? undefined;
+      send(
+        200,
+        seatAskOptions(requireCore(), state.player.personId, {
+          officeId: q("officeId"),
+          series: q("series"),
+          question: q("question"),
+          line: q("line"),
+          value: q("value") === undefined ? undefined : Number(q("value")),
+        }),
+      );
+      return;
+    },
+  },
   {
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/seat/act",
@@ -1798,6 +1824,7 @@ const ROUTES: readonly Route[] = [
             question: q("question"),
             line: q("line"),
             value: q("value") === undefined ? undefined : Number(q("value")),
+            memberId: q("memberId"),
           }),
         );
         return;
@@ -1944,6 +1971,13 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       if (!state.player?.personId || !state.director)
         throw new Error("Choose a resident first.");
+      // The scene's story is heard for the day: talk does not tell it again.
+      noteSceneHeard(
+        requireCore(),
+        state.director,
+        state.player.personId,
+        url.searchParams.get("momentId") ?? "",
+      );
       send(
         200,
         storyReply(
