@@ -3451,6 +3451,20 @@ function freeMinor(campaign: CampaignRow): number {
 }
 
 /**
+ * What an evening out may cost the campaign: the cash it holds less the
+ * money it has set aside for circulators and for a poll, which an evening
+ * never takes (the money set aside for an event is the event's own).
+ */
+export function eveningMoneyMinor(api: CoreAPI, campaign: CampaignRow): number {
+  const cash =
+    api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
+  return Math.max(
+    0,
+    cash - (campaign.circulatorFundMinor ?? 0) - (campaign.pollFundMinor ?? 0),
+  );
+}
+
+/**
  * The campaign hires paid petition circulators to gather signatures among
  * its race's voters outside the town (a county, district, state or federal
  * race: the town holds only part of the electorate the law counts). The
