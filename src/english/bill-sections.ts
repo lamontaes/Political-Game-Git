@@ -269,7 +269,6 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
     if (!w) return null;
     words.push(w);
   }
-  const allRepeal = words.every((w) => w.repeal);
   // Two sections on one law (a raise in dated steps) state its purpose once.
   // A repeal is worded from the repeal, never from the purpose of the law it
   // ends, and every repealed law shares the one repeal phrase.
