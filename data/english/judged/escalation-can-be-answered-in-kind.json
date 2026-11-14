@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "escalation-can-be-answered-in-kind",
   "rubric": "When the other person escalates, the player can escalate back, not only calm down or leave.",
-  "judged": 210,
+  "judged": 163,
   "no": {
     "00jwepcdcwk": {
       "keys": [
@@ -125,5 +125,5 @@
       "why": "A concession, a question and a pause; none pushes back."
     }
   },
-  "yesHash": "29m8i0i33y2"
+  "yesHash": "1jfc2un0woe"
 }

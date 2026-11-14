@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1388,
+  "judged": 1126,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -57,33 +57,6 @@
       ],
       "why": "'Not yet. I'm sorry' and 'splash some water on my face first' repeat the first refusal and stall options, leaving only 'For them' new."
     },
-    "00lc79zoi01": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "\"I never offered you anything\" restates the denial and \"not afraid of an investigation\" restates the prosecutor dare, two of three."
-    },
-    "00x8wkrte10": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.it-wasn-t-how-you-took-it-let-me-tell-you-what-i-meant",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Explaining, apologizing and \"Put it in writing\" restate three of the four first stances."
-    },
     "00z2fl9pzpz": {
       "keys": [
         "scene-talk.follow-press.pressed.i-believe-you-first-i-just-can-t-afford-to-be-wrong-again",
@@ -97,86 +70,6 @@
         "scene-talk.reply-confront.pressed.you-re-not-the-only-one-counting-every-dollar"
       ],
       "why": "The payment apology, 'It's late' as an exit and 'You're not the only one counting every dollar' (the 'stretched thin too' line again) outweigh the one new promise."
-    },
-    "0119owvf536": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "\"I never offered you anything\" restates the denial and \"let the prosecutor sort it out\" restates \"not afraid of an investigation,\" two of three."
-    },
-    "015u4mjs8be": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor"
-      ],
-      "why": "\"Start to finish,\" \"Rumors ruin people,\" and \"more than a rumor\" restate the explain and rumor first replies, three of four."
-    },
-    "01ezaq9gift": {
-      "keys": [
-        "scene-talk.follow-confront.i-will",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-confront.say-that-on-the-record-if-you-believe-it",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "\"No. Where did you hear that?\" restates the first denial and \"Say that on the record\" restates the unafraid challenge, two of three."
-    },
-    "01k7wd9w6z1": {
-      "keys": [
-        "scene-talk.follow-ask.taken.who-else-knew-first",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-deny.taken.i-had-nothing-to-do-with-any-payment",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'Tell you exactly how it went' and 'nothing to do with any payment' restate the opening explain and denial, two of three."
-    },
-    "01kga7evvli": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "\"I never offered you anything\" restates the first denial and \"not afraid of an investigation\" restates the prosecutor challenge, two of three."
-    },
-    "01q9cox3drk": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "The apology, the flat denial and the prosecutor challenge repeat three of the four first stances; only \"I'm done talking\" is new."
     },
     "01r6m7uykp0": {
       "keys": [
@@ -202,19 +95,6 @@
         "scene-talk.reply-leave.im-going-to-leave-it-there"
       ],
       "why": "The same four replies restate the first vote defense, invitation, threat answer and exit."
-    },
-    "01uitvgpiub": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Telling all of it and \"Put it in writing\" restate the explain and defiant first options, two of three."
     },
     "01vq72jfrth": {
       "keys": [
@@ -280,20 +160,6 @@
       ],
       "why": "Won't be bought, keeping it, reporting it and 'take it with you' are the first refuse, accept, report and take-it-back options."
     },
-    "02u6kd631yc": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor"
-      ],
-      "why": "\"Where did you hear that?\" restates \"by whom,\" and \"Rumors ruin people\" and \"more than a rumor\" restate the first rumor reply, three of four."
-    },
     "02va9peyr84": {
       "keys": [
         "scene-talk.follow-plea.its-only-a-gift-wont-you-at-least-look-at-whats-in-it",
@@ -306,19 +172,6 @@
         "scene-talk.reply-leave.thank-you-for-stopping-by-take-the-gift-with-you"
       ],
       "why": "Keeping it and handing the gift back are the first accept and can't-take options again, leaving one new line."
-    },
-    "02x9ngjhxoe": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "'You deserve the truth' and 'I'm sorry. You deserved to hear it' are the opening explanation and apology again, two of three."
     },
     "0336hngltdj": {
       "keys": [
@@ -452,18 +305,6 @@
       ],
       "why": "'Count me in', 'sit this one out' and 'call me back later' reword the first yes, no and when-do-you-need-it options."
     },
-    "05owvunenp8": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-        "scene-talk.reply-ask.hearsay.who-told-you-that",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "Both replies return to demanding the source, rewording 'Who told you that?' instead of answering why someone said otherwise."
-    },
     "05qa93svl0x": {
       "keys": [
         "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
@@ -477,19 +318,6 @@
         "scene-talk.reply-leave.im-walking-away-now-dont-follow-me"
       ],
       "why": "No to threats, reporting, nothing to say and walking away reword the first no, clerk and finished options."
-    },
-    "0628j8mmi2y": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "\"I never offered\" restates the denial and \"let the prosecutor sort it out\" restates the unafraid option, two of three."
     },
     "06plc6apeeq": {
       "keys": [
@@ -546,19 +374,6 @@
       ],
       "why": "Three of four replies say the openers again: \"I'll vote yes, and I'll own it\" restates print-this-I-stand-behind-my-vote, and both \"give me until after the next meeting\" and \"call me tomorrow\" restate the opening call-you-back offer."
     },
-    "06uxpakrpi0": {
-      "keys": [
-        "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'You deserve the truth' and 'that's not what happened' reword the opening explanation and denial, two of three."
-    },
     "06w4aiw0hrz": {
       "keys": [
         "scene-talk.follow-answer.i-m-only-asking-for-whatever-you-can-manage-first-you-re-the-one-i-thought-of-first",
@@ -585,19 +400,6 @@
       ],
       "why": "Voting with the member, not going along and listening from the seat restate the first stand-with, disagree and nothing-to-add options."
     },
-    "06ya2zenovr": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Telling all of it and \"Put it in writing\" re-offer the explain and dare options, two of three."
-    },
     "06ya852l8xs": {
       "keys": [
         "scene-talk.follow-press.think-it-over-it-s-not-offered-twice",
@@ -611,19 +413,6 @@
       ],
       "why": "The yes, still-no and call-back-tomorrow replies are the first three stances again in new words."
     },
-    "0728jygwo8w": {
-      "keys": [
-        "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry",
-        "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
-        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
-        "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
-      ],
-      "why": "'Hear all of it from me' rewords 'Let me explain' and 'I should have walked away... I'm sorry' rewords the opening apology, two of three."
-    },
     "07a6u355s1e": {
       "keys": [
         "scene-talk.follow-press.you-cant-ignore-me-forever-first",
@@ -635,19 +424,6 @@
         "scene-talk.reply-leave.im-done-talking"
       ],
       "why": "Same answer and done talking repeat the first no and finished options."
-    },
-    "07d7l6ee5fj": {
-      "keys": [
-        "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
-        "scene-talk.reply-ask.hearsay.who-told-you-that",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
-        "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there"
-      ],
-      "why": "\"Part of it's true\" restates \"let me explain\" and \"took somebody's word over mine\" restates \"should have come to me first,\" two of three."
     },
     "07ec5d1he5w": {
       "keys": [
@@ -795,19 +571,6 @@
       ],
       "why": "\"Won't argue,\" \"you have my word\" and \"can't do that right now\" restate the first yes, promise and refusal."
     },
-    "09zg5afjor3": {
-      "keys": [
-        "scene-talk.follow-ask.witness.then-why-offer-it-at-all-first",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today"
-      ],
-      "why": "Telling all of it and \"I'm sorry. I knew it was wrong\" restate the explain and apology first options, two of three."
-    },
     "0a3txbs284y": {
       "keys": [
         "scene-talk.follow-answer.the-vote-was-roll-ask-the-other-side-about-cost",
@@ -848,19 +611,6 @@
       ],
       "why": "'Count me in', 'I'll do it. I'm in' and 'I still can't do it' are the first yes, promise and refusal again."
     },
-    "0aiylznt24u": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "Telling all of it and \"Put it in writing\" restate the explain and defiant first options, two of three."
-    },
     "0am0do7dnem": {
       "keys": [
         "scene-talk.follow-press.the-offer-s-good-until-friday-after-that-it-s-somebody-else-s",
@@ -899,19 +649,6 @@
         "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
       ],
       "why": "Sending the paycheck to the labor office, the caseworker form and 'it's the state' repeat the first labor office, caseworker and state options."
-    },
-    "0b91de400ak": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "'You deserve the truth' and 'I'm sorry you had to be the one' restate the opening explanation and apology, two of three."
     },
     "0bljejzqwm2": {
       "keys": [
@@ -952,18 +689,6 @@
         "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe"
       ],
       "why": "'We're not getting anywhere' redoes 'Let's stop here' and 'don't lecture me about what I owe' redoes the defensive money reply, leaving only the tone apology new."
-    },
-    "0c2fsw7ylzo": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "Both \"Where did you hear that?\" and \"answer when I know who said it\" restate the first \"by whom\" question."
     },
     "0cax200wkto": {
       "keys": [
@@ -1046,32 +771,6 @@
       ],
       "why": "Making the call, waiting till morning and stepping out repeat the opening dial, not-tonight and delay replies."
     },
-    "0czhdybqffb": {
-      "keys": [
-        "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'You deserve the truth' rewords 'Let me tell you' and 'No. I swear I didn't' rewords 'that's not what happened', two of three."
-    },
-    "0d1root682g": {
-      "keys": [
-        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry",
-        "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
-        "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of",
-        "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
-      ],
-      "why": "'Hear all of it from me' and 'I'm sorry. I got into something' reword the opening explain and apology, two of three."
-    },
     "0dc3974nusy": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -1137,45 +836,6 @@
       ],
       "why": "The hurt apology, the promise to do better and 'didn't think it would matter' reword three first options."
     },
-    "0eqzqdmbtsh": {
-      "keys": [
-        "scene-talk.follow-ask.friend.is-that-all-of-it-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-deny.friend.it-isn-t-true-i-d-never-do-that-to-you",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'I'll tell you everything' and 'It isn't true' are the opening explanation and 'I swear I didn't' reworded, two of three."
-    },
-    "0fijxdih01h": {
-      "keys": [
-        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry",
-        "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
-        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
-        "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
-      ],
-      "why": "'Hear all of it from me' and 'I should have walked away... I'm sorry' reword the opening explain and apology, two of three."
-    },
-    "0g9mhcn890g": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "\"Start to finish\" restates \"let me explain\" and \"answer when I know who said it\" restates \"by whom,\" two of three."
-    },
     "0g9wfzifzca": {
       "keys": [
         "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
@@ -1201,33 +861,6 @@
         "scene-talk.reply-decline.thanks-for-explaining-i-still-can-t-though-i-m-sorry"
       ],
       "why": "'Count me in', 'You have my promise' and 'I still can't' restate the first yes, word-given and can't options."
-    },
-    "0ggrv8dc0j0": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "\"I'm sorry,\" \"I never offered,\" and \"not afraid of an investigation\" restate three of the four first stances."
-    },
-    "0gluoi07lqc": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "\"I never offered you anything\" restates the first denial and \"let the prosecutor sort it out\" restates \"not afraid of an investigation,\" two of three."
     },
     "0gps3441b81": {
       "keys": [
@@ -1346,19 +979,6 @@
       ],
       "why": "\"Yes, I'll do that,\" \"I'll do it. I promise\" and \"I still can't\" repeat the first yes, promise and refusal."
     },
-    "0ip7hhsauw0": {
-      "keys": [
-        "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry",
-        "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'Hear all of it from me' and 'Whoever put my name... was wrong' restate the opening explain and denial, two of three."
-    },
     "0iqohywhcob": {
       "keys": [
         "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
@@ -1387,20 +1007,6 @@
         "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
       ],
       "why": "'You win', 'No' and 'Stand next to me... and I'll vote yes' restate the first yes, refusal and hear-me-out condition."
-    },
-    "0j9wmsdnb47": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "The apology, \"I never offered,\" and \"let the prosecutor sort it out\" restate three of the four first stances."
     },
     "0jqbdtcktqt": {
       "keys": [
@@ -1471,18 +1077,6 @@
         "scene-talk.reply-leave.i-have-to-get-back-to-work-take-that-with-you"
       ],
       "why": "Thanking and taking it, declining all gifts and reporting it are the first take, can't-take and report options again."
-    },
-    "0kjg3nbwilj": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "Both \"Where did you hear that?\" and \"answer when I know who said it\" restate the first by-whom question."
     },
     "0kjs9oldpq3": {
       "keys": [
@@ -1602,32 +1196,6 @@
         "scene-talk.reply-decline.i-understand-why-you-asked-but-i-still-can-t-do-it-i-m-sorry"
       ],
       "why": "'I'll do it', 'You have my word' and 'I still can't do it' redo the first acceptance, promise and refusal."
-    },
-    "0m1s3bcridc": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "\"Start to finish\" restates explain, \"Whoever told you has it wrong\" restates \"nothing to it,\" and \"answer when I know who\" restates \"by whom,\" all three."
-    },
-    "0m80wej0oza": {
-      "keys": [
-        "scene-talk.follow-ask.taken.who-else-knew-first",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-deny.taken.i-had-nothing-to-do-with-any-payment",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'I'll tell you exactly how it went' repeats 'Let me explain' and 'nothing to do with any payment' repeats the opening denial, two of three."
     },
     "0mbuudwmknc": {
       "keys": [
@@ -1762,18 +1330,6 @@
       ],
       "why": "Still no, reporting it and pointing to honest help restate the first refusal, clerk and honest-help options."
     },
-    "0n9w2x8v97e": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "Both \"Where did you hear that?\" and \"answer when I know who said it\" restate the first \"by whom\" question."
-    },
     "0ngbuawzmxn": {
       "keys": [
         "scene-talk.follow-press.place-votes-in-november-people-will-want-this-before-then",
@@ -1814,32 +1370,6 @@
       ],
       "why": "'Welcome aboard', keeping it small and 'later' restate the first yes, covered and call-you options."
     },
-    "0npcpgt2k75": {
-      "keys": [
-        "scene-talk.follow-answer.friend.because-i-was-afraid-you-d-tell-me-it-was-true-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-deny.friend.it-isn-t-true-i-d-never-do-that-to-you",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first"
-      ],
-      "why": "'I'll tell you everything', 'It isn't true' and 'I'm sorry' are the opening explanation, denial and apology in new words."
-    },
-    "0nvg6ezs6yn": {
-      "keys": [
-        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of",
-        "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
-      ],
-      "why": "'Tell you exactly how it went' and 'I'm sorry. I got into something' are the opening explain and apology in new words, two of three."
-    },
     "0nx9esbkjmg": {
       "keys": [
         "scene-talk.follow-press.think-it-over-it-s-not-offered-twice",
@@ -1852,19 +1382,6 @@
         "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
       ],
       "why": "'Fine. Yes', 'It's still no' and 'call you back tomorrow' are the first yes, refusal and few-days options again."
-    },
-    "0o5vzwflmum": {
-      "keys": [
-        "scene-talk.follow-answer.friend.because-i-wasn-t-sure-i-could-ask-you-and-still-do-what-was-right-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position"
-      ],
-      "why": "'You deserve the truth', 'No. I swear I didn't' and 'I'm sorry you had to be the one' are the opening explain, denial and apology reworded."
     },
     "0o9zlii2zwg": {
       "keys": [
@@ -1985,18 +1502,6 @@
       ],
       "why": "'I'll do it', 'Of course, put me down' and 'I can't' are the first yes, promise and refusal said again."
     },
-    "0py10fh82u5": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "Both \"Where did you hear that?\" and \"answer when I know who said it\" restate the first \"by whom\" question."
-    },
     "0q403h3qk2l": {
       "keys": [
         "scene-talk.follow-press.then-who-everyone-else-stopped-answering",
@@ -2009,20 +1514,6 @@
         "scene-talk.reply-leave.time-s-up-i-ll-write-before-i-come-back"
       ],
       "why": "\"I'll do it\" and \"I'll do it this week\" restate the first agreement; only the time-up exit is new."
-    },
-    "0q7eehgxj40": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor"
-      ],
-      "why": "\"Has it wrong,\" \"start to finish,\" and \"more than a rumor\" restate \"nothing to it,\" explain, and \"Rumors ruin people,\" three of four."
     },
     "0qbe72q9koj": {
       "keys": [
@@ -2182,31 +1673,6 @@
       ],
       "why": "'Fine. I'll sign it' and 'can't put my name on this as it stands' restate the first sign and 'not as written' options."
     },
-    "0sxrldn57ne": {
-      "keys": [
-        "scene-talk.follow-ask.friend.is-that-all-of-it-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-deny.friend.it-isn-t-true-i-d-never-do-that-to-you"
-      ],
-      "why": "'I'll tell you everything' rewords 'Let me tell you' and 'It isn't true' rewords the opening denial, both replies rehash."
-    },
-    "0syssmn1v3q": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "Telling all of it and \"Put it in writing\" restate the explain and prosecutor-dare options, two of three."
-    },
     "0t64nz65wb7": {
       "keys": [
         "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
@@ -2285,19 +1751,6 @@
         "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
       ],
       "why": "Making the call, waiting till morning and stepping out reword the opening dial, wait-for-certification and time-alone replies."
-    },
-    "0v1dbum76j7": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "'I'll tell you everything' and 'I'm sorry. You deserved to hear it from me' reword the opening explanation and apology, two of three."
     },
     "0v3ur2s3mjw": {
       "keys": [
@@ -2378,31 +1831,6 @@
         "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too"
       ],
       "why": "'I'm sorry, and I mean it' and the keep-score counter repeat the first apology and not-the-only-one options, leaving one new reply."
-    },
-    "0vfbv35791e": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-ask.hearsay.who-told-you-that",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "Both 'Where did you hear that?' and 'I'll answer when I know who said it' just ask again who told them, the first opener reworded."
-    },
-    "0vkew60d4rc": {
-      "keys": [
-        "scene-talk.follow-confront.i-will",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-confront.say-that-on-the-record-if-you-believe-it",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "\"Where did you hear that?\" repeats the denial and \"Say that on the record\" repeats the dare to go to the prosecutor, two of three."
     },
     "0vz4009tmyv": {
       "keys": [
@@ -2559,19 +1987,6 @@
       ],
       "why": "No, telling the clerk, not here and done talking restate all four first options."
     },
-    "0xwdq8hn76y": {
-      "keys": [
-        "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-tell.witness.it-wasn-t-how-you-took-it-let-me-tell-you-what-i-meant",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-leave.witness.i-need-to-think-before-i-say-another-word"
-      ],
-      "why": "\"Let me tell you what I meant\" restates the explain option and \"I was wrong... sorry\" restates the apology, two of three."
-    },
     "0y8ztba0pki": {
       "keys": [
         "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
@@ -2650,19 +2065,6 @@
       ],
       "why": "'I'm with you' and 'I'm not sold yet' restate the first yes and no rather than answering 'What's holding you back?'."
     },
-    "105xnsutloj": {
-      "keys": [
-        "scene-talk.follow-ask.taken.who-else-knew-first",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
-        "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry"
-      ],
-      "why": "'Hear all of it from me' and 'Nobody can show I touched that money' reword the opening explain and denial, two of three."
-    },
     "109earimalg": {
       "keys": [
         "scene-talk.follow-bargain.name-a-number-everyone-has-one",
@@ -2676,32 +2078,6 @@
       ],
       "why": "Keeping it quiet, 'pick that up and go' and reporting the bribe are the first accept, take-back and report options in new words."
     },
-    "10i3q9xsoro": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-        "scene-talk.reply-ask.hearsay.who-told-you-that",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "Two of the three replies ask again where it came from or who said it, rewording the opener 'Who told you that?'."
-    },
-    "10k49huilfe": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "'I'll tell you everything' and 'I'm sorry. You deserved to hear it' are the opening explanation and apology again, two of three."
-    },
     "10sxn8id1qd": {
       "keys": [
         "scene-talk.follow-answer.only-that-you-think-i-should-be-on-the-ballot-by-due-your-vote-stays-yours",
@@ -2714,19 +2090,6 @@
         "scene-talk.reply-leave.i-can-t-self-i-m-sorry"
       ],
       "why": "'Print or sign?', 'I don't think so' and 'I can't' restate the first sign-quick and can't-stand-here replies."
-    },
-    "10yhowvd29m": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "'I'll tell you everything' and 'I'm sorry. I let you down' restate the opening explanation and apology, two of three."
     },
     "1177gapgv93": {
       "keys": [
@@ -2768,19 +2131,6 @@
         "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
       ],
       "why": "'I'm in', 'I can't be on it' and 'I'll take that trade' restate the first yes, refusal and trade replies."
-    },
-    "12199sybpy7": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'I'll tell you everything' and 'I'm sorry. You deserved to hear it' repeat the opening explanation and apology, two of three."
     },
     "127r47vzkto": {
       "keys": [
@@ -2888,19 +2238,6 @@
       ],
       "why": "'I'm with you' and 'I still don't see it your way' are the first yes and not-sold replies reworded, not an answer to what it would take."
     },
-    "13y5gvpobba": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "'I'll tell you everything' and 'I'm sorry you had to be the one' restate the opening explanation and apology, two of three."
-    },
     "14gcvd3bjqz": {
       "keys": [
         "scene-talk.follow-answer.i-only-want-you-taken-care-of-first-whatever-you-can-manage-is-enough-for-me",
@@ -2926,19 +2263,6 @@
         "scene-talk.reply-leave.that-s-all-i-have-tonight-i-ll-find-you-in-the-morning"
       ],
       "why": "'We'll do it your way', 'You'll see it this week' and 'I'll find you in the morning' repeat the first agree, 'You'll see' and not-tonight options in new words."
-    },
-    "153ofr8iimt": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today"
-      ],
-      "why": "\"Part of it's true\" restates explain and \"That's a rumor... prosecutor\" restates \"Rumors ruin people,\" two of three."
     },
     "1551cvfgk88": {
       "keys": [
@@ -3100,33 +2424,6 @@
       ],
       "why": "'Fair. I'm sorry' repeats the first apology and 'count what I've covered for you' restates the not-the-only-one counter, leaving only 'done for now' new."
     },
-    "178y7ma3j5j": {
-      "keys": [
-        "scene-talk.follow-ask.taken.who-else-knew-first",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-deny.taken.i-had-nothing-to-do-with-any-payment",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet"
-      ],
-      "why": "'Tell you exactly how it went' rewords 'Let me explain' and 'nothing to do with any payment' rewords 'Nobody can show I touched that money', two of three."
-    },
-    "17qbdw17rpc": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "Telling all of it, \"I was wrong... sorry,\" and \"Put it in writing\" restate the explain, apology and defiant first options, three of four."
-    },
     "17xg1kffa02": {
       "keys": [
         "scene-talk.follow-press.you-cant-ignore-me-forever-first",
@@ -3216,18 +2513,6 @@
       ],
       "why": "All three replies restate the first yes, promise and refusal."
     },
-    "18lrlveav2c": {
-      "keys": [
-        "scene-talk.follow-ask.friend.is-that-all-of-it-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-deny.friend.it-isn-t-true-i-d-never-do-that-to-you"
-      ],
-      "why": "'I'll tell you everything' rewords 'Let me tell you' and 'It isn't true' rewords 'I swear I didn't', both replies rehash."
-    },
     "18v4qkjpnxf": {
       "keys": [
         "scene-talk.follow-plea.then-where-do-i-take-it-i-can-t-get-to-three-different-offices-with-someone-who",
@@ -3268,19 +2553,6 @@
       ],
       "why": "Same answer, reporting, nothing to say and done talking reword the first no, clerk and finished options."
     },
-    "19733v0lx30": {
-      "keys": [
-        "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'You deserve the truth' and 'that's not what happened' restate the opening explanation and denial, two of three."
-    },
     "1997kqn9vsd": {
       "keys": [
         "scene-talk.follow-plea.please-dont-report-it-it-would-finish-me",
@@ -3295,19 +2567,6 @@
         "scene-talk.reply-leave.i-cant-do-this-please-take-it-home"
       ],
       "why": "'Take it home', finding another way to help and 'I'll do what I can' are the first no, sit-down and accept options in new words."
-    },
-    "199jld7gp6x": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "Telling all of it and \"Put it in writing\" restate the explain and defiant first options, two of three."
     },
     "19cjqvk4nml": {
       "keys": [
@@ -3345,19 +2604,6 @@
         "scene-talk.reply-decline.same-party-doesn-t-mean-i-owe-you-self"
       ],
       "why": "'Count on me' repeats the first yes and 'Same party doesn't mean I owe you' rewords 'Being on the same side isn't enough anymore'."
-    },
-    "1a9jvwfja01": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Telling all of it and \"Put it in writing\" restate the explain and defiant first options, two of three."
     },
     "1ab9lwe9qwa": {
       "keys": [
@@ -3464,20 +2710,6 @@
       ],
       "why": "'I'll help you', 'I'll take care of it' and 'tell you tomorrow' redo the first help, word-given and tomorrow replies."
     },
-    "1bp4mci27j1": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Telling all about the money restates \"let me explain,\" the apology restates \"I'm sorry,\" and \"Put it in writing\" restates the defiant stance, so three of four rehash."
-    },
     "1bz4xjkker7": {
       "keys": [
         "scene-talk.follow-plea.please-after-all-the-years-youd-really-say-no",
@@ -3518,19 +2750,6 @@
       ],
       "why": "'I'll make the call', 'Not yet. I'm not ready' and 'I'll be right back' repeat dial, wait and step away from the start."
     },
-    "1clvw07hdip": {
-      "keys": [
-        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of",
-        "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
-      ],
-      "why": "'Tell you exactly how it went' and 'I'm sorry. I got into something' restate the opening explain and apology, two of three."
-    },
     "1cm9ync7yrh": {
       "keys": [
         "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
@@ -3543,33 +2762,6 @@
         "scene-talk.reply-leave.i-m-tired-and-i-can-t-keep-talking-about-my-illness-today-i-ll-come-to-you-when-i-m-ready"
       ],
       "why": "\"Yes,\" \"I promise\" and \"I'm tired\" repeat the first agreement, promise and refusal."
-    },
-    "1cxlzsa2uha": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "Telling all of it, \"I was wrong... sorry,\" and \"Put it in writing\" restate three of the four first stances."
-    },
-    "1czy78u3x9p": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "\"Start to finish,\" \"has it wrong\" and \"answer when I know who\" restate explain, \"nothing to it\" and \"by whom,\" all three."
     },
     "1d4lsch935c": {
       "keys": [
@@ -3609,19 +2801,6 @@
       ],
       "why": "'No, this changes nothing' and 'not discussing this here' restate two of the first options, leaving only the request to leave as new."
     },
-    "1dq0wcv47go": {
-      "keys": [
-        "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today"
-      ],
-      "why": "Telling all of it and \"I was wrong... sorry\" restate the explain and apology options, two of three."
-    },
     "1du3lvubwwp": {
       "keys": [
         "scene-talk.follow-answer.close.i-only-want-to-know-i-can-count-on-you-first-that-s-all",
@@ -3634,19 +2813,6 @@
         "scene-talk.reply-deflect.it-was-a-tense-night-for-everybody"
       ],
       "why": "'You're the last person I wanted to let down' and 'I'll make it up to you... won't happen again' reword the first two apologies."
-    },
-    "1dv3kh82ac8": {
-      "keys": [
-        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
-        "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
-      ],
-      "why": "'Tell you exactly how it went' rewords 'Let me explain' and 'I should have walked away... I'm sorry' rewords 'I'm sorry, and I'll answer for it', two of three."
     },
     "1dw1t98lewn": {
       "keys": [
@@ -3701,19 +2867,6 @@
       ],
       "why": "'Print or sign?', 'I don't think so' and 'I can't' restate the first give-it-here and won't-sign replies."
     },
-    "1g70ty430im": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "'I'll tell you everything' and 'I'm sorry. You deserved to hear it' are the opening explanation and apology again, two of three."
-    },
     "1gd00awvinc": {
       "keys": [
         "scene-talk.follow-plea.your-volunteers-are-in-that-room-they-want-to-hear-it-from-you-not-fro",
@@ -3740,19 +2893,6 @@
         "scene-talk.reply-confront.pressed.i-don-t-see-you-offering-to-cover-for-me"
       ],
       "why": "Only the pay-the-next-one plan is new; the due-date sorry, 'can't talk about money today' and 'I don't see you offering to cover' redo the first apology, exit and lecture replies."
-    },
-    "1gkdf1u8np3": {
-      "keys": [
-        "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'Tell you exactly how it went' and 'I'm sorry. I got into something' restate the opening explain and apology, two of three."
     },
     "1go4xep0p68": {
       "keys": [
@@ -3889,19 +3029,6 @@
       ],
       "why": "'I stand where I said', 'call my office' and 'I wish I had more time' restate the first answer, come-see-me and another-night options."
     },
-    "1ipys136e29": {
-      "keys": [
-        "scene-talk.follow-ask.witness.then-why-offer-it-at-all-first",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today"
-      ],
-      "why": "\"Let me tell you all of it\" re-offers the explain option and \"I was wrong... I'm sorry\" re-offers the apology, two of three."
-    },
     "1itp2r48mfs": {
       "keys": [
         "scene-talk.follow-answer.you-d-be-position-at-pay-an-hour-to-start",
@@ -3928,19 +3055,6 @@
         "scene-talk.reply-leave.i-have-people-waiting-but-you-re-not-leaving-empty-go-to-the-desk-and-my-staff-w"
       ],
       "why": "Legal aid, staff calling the landlord and 'I can't stop a landlord' restate the first legal aid, caseworker call and town-can't-pay options."
-    },
-    "1j6h0jxgc6e": {
-      "keys": [
-        "scene-talk.follow-answer.friend.because-i-wasn-t-sure-i-could-ask-you-and-still-do-what-was-right-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first"
-      ],
-      "why": "'You deserve the truth', 'that's not what happened' and 'I'm sorry. You deserved to hear it' reword the opening explanation, denial and apology."
     },
     "1jva5uzhfu7": {
       "keys": [
@@ -3992,33 +3106,6 @@
       ],
       "why": "No and 'said all I'm going to say' restate the first no and finished options."
     },
-    "1m9gxjwbdm9": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "\"Let me tell you all of it\" restates the explain option and \"Put it in writing\" restates the unafraid challenge, two of three."
-    },
-    "1mh9zrubvtr": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
-      ],
-      "why": "The apology, the flat denial and the prosecutor dare restate three of the four first replies."
-    },
     "1mj8gxki68v": {
       "keys": [
         "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
@@ -4042,32 +3129,6 @@
         "scene-talk.reply-decline.i-can-t-say-yes-i-m-happy-with-what-we-have-i-just-can-t-picture-the-w"
       ],
       "why": "\"I've been wondering when you'd ask\" and \"can't picture the wedding\" are the first yes and no reworded."
-    },
-    "1npghldi4t2": {
-      "keys": [
-        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'Tell you exactly how it went' and 'I'm sorry. I got into something' are the opening explain and apology reworded, two of three."
-    },
-    "1nqwbjwdsmi": {
-      "keys": [
-        "scene-talk.follow-ask.friend.is-that-all-of-it-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-deny.friend.it-isn-t-true-i-d-never-do-that-to-you",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'I'll tell you everything' and 'It isn't true' reword 'Let me tell you' and 'I swear I didn't', two of three."
     },
     "1o5h0mcj8jn": {
       "keys": [
@@ -4323,19 +3384,6 @@
       ],
       "why": "\"Won't argue,\" \"you have my word\" and \"I'm tired\" restate the first yes, promise and \"still can't.\""
     },
-    "1s01tqs1h6y": {
-      "keys": [
-        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
-        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
-      ],
-      "why": "'Tell you exactly how it went' rewords 'Let me explain' and 'I'm sorry, and I'll answer for it' rewords the walked-away apology, two of three."
-    },
     "1s498lny7l8": {
       "keys": [
         "scene-talk.follow-plea.i-m-not-holding-it-over-you-i-just-don-t-have-anyone-else-to-ask",
@@ -4365,19 +3413,6 @@
       ],
       "why": "Refusing, keeping it, reporting and 'take it with you' replay the first set's options."
     },
-    "1sjfwajsai8": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-ask.hearsay.who-told-you-that",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "'Where did you hear that?' and 'I'll answer when I know who said it' both restate 'Who told you that?', two of three replies."
-    },
     "1sjot01o3k1": {
       "keys": [
         "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
@@ -4401,18 +3436,6 @@
         "scene-talk.reply-decline.maybe-later-self-i-really-have-to-go"
       ],
       "why": "'Count on me' repeats the first yes and 'Maybe later... I really have to go' rewords the first 'all I can think about' refusal."
-    },
-    "1t5xlvptekf": {
-      "keys": [
-        "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened"
-      ],
-      "why": "'You deserve the truth' rewords 'Let me tell you' and 'that's not what happened' rewords 'I swear I didn't', both replies rehash."
     },
     "1tsngpkbap4": {
       "keys": [
@@ -4441,19 +3464,6 @@
       ],
       "why": "Going nowhere and the same-speech jab restate the first walk-away and stop-reminding-me options."
     },
-    "1tvaxc1i61l": {
-      "keys": [
-        "scene-talk.follow-answer.hearsay.it-came-from-someone-i-trust-first-that-s-all-i-ll-say",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today"
-      ],
-      "why": "\"Part of it's true, I'll tell you which\" restates \"let me explain\" and \"That's a rumor... prosecutor\" restates \"Rumors ruin people,\" two of three."
-    },
     "1tzm3l6n6kn": {
       "keys": [
         "scene-talk.follow-answer.i-found-out-who-was-paying-for-the-other-side-i-didn-t-like-it",
@@ -4467,19 +3477,6 @@
       ],
       "why": "'Come Thursday' and 'say that in public' are the opening 'come by Thursday' and 'say it at Tuesday's meeting' in new words."
     },
-    "1u1syqgjr46": {
-      "keys": [
-        "scene-talk.follow-ask.witness.then-why-offer-it-at-all-first",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.it-wasn-t-how-you-took-it-let-me-tell-you-what-i-meant",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-leave.witness.i-need-to-think-before-i-say-another-word"
-      ],
-      "why": "\"Let me tell you what I meant\" restates explain and \"You're right, and I'm sorry\" restates the apology, two of three."
-    },
     "1ufzof4n438": {
       "keys": [
         "scene-talk.follow-answer.only-that-you-think-i-should-be-on-the-ballot-by-due-your-vote-stays-yours",
@@ -4492,19 +3489,6 @@
         "scene-talk.reply-leave.i-can-t-self-i-m-sorry"
       ],
       "why": "'Print or sign?', 'I don't think so' and 'I can't' restate the first give-me-the-pen and won't-sign replies."
-    },
-    "1unktr46o2r": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "'I'll tell you everything' and 'I'm sorry. I let you down' reword the opening explanation and apology, two of three."
     },
     "1uxkxyj7tty": {
       "keys": [
@@ -4561,19 +3545,6 @@
       ],
       "why": "Going over it together, hearing him as a friend but not voting as one and 'I can't' replay the first read, can't-promise and sorry options."
     },
-    "1vj7rv0ya1n": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-        "scene-talk.reply-ask.hearsay.who-told-you-that",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "'I'll tell you what happened' repeats 'Let me explain' and 'I'll answer when I know who said it' repeats 'Who told you that?', so two of three rehash."
-    },
     "1vtje8v5ynn": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -4586,20 +3557,6 @@
         "scene-talk.reply-leave.i-ll-come-back-tomorrow-try-to-sleep"
       ],
       "why": "\"I'll call tonight\" and the soup offer repeat the first yes and the eating deflection."
-    },
-    "1vv1kw7itov": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Telling all of it, \"You're right, and I'm sorry,\" and \"Put it in writing\" restate the explain, apology and defiant options, three of four."
     },
     "1w5yrxutrrm": {
       "keys": [
@@ -4679,19 +3636,6 @@
         "scene-talk.reply-leave.enough-please-leave"
       ],
       "why": "Same answer, report, nothing to say and leave restate the first no, clerk and finished options."
-    },
-    "1wn0u0o8jzz": {
-      "keys": [
-        "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
-        "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry"
-      ],
-      "why": "'You should hear all of it from me' rewords 'Let me explain' and 'Nobody can show I touched that money' rewords the complaint-was-wrong denial, so most rehash."
     },
     "1wrvcafkokb": {
       "keys": [
@@ -4826,32 +3770,6 @@
         "scene-talk.reply-leave.this-conversation-is-over"
       ],
       "why": "The four replies are the first refuse, accept, report and leave choices again after he already said he is reporting it."
-    },
-    "1zkuizw2e46": {
-      "keys": [
-        "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
-        "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there"
-      ],
-      "why": "\"Start to finish\" restates explain and \"took somebody's word over mine\" restates \"should have come to me first,\" two of three."
-    },
-    "1zp1yjcqecw": {
-      "keys": [
-        "scene-talk.follow-confront.i-will",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-deny.no-where-did-you-hear-that",
-        "scene-talk.reply-confront.say-that-on-the-record-if-you-believe-it",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "\"Where did you hear that?\" restates the denial and \"Say that on the record\" restates the unafraid dare, two of three."
     },
     "1zr6hwd5zlg": {
       "keys": [
@@ -5039,19 +3957,6 @@
       ],
       "why": "\"Yes, I'll do that\" and \"I promise\" restate the first \"won't argue\" and \"you have my word.\""
     },
-    "25bjs9osdk5": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "\"Whoever told you has it wrong\" restates \"nothing to it\" and \"answer when I know who said it\" restates \"by whom,\" two of three."
-    },
     "25fiwtirrm1": {
       "keys": [
         "scene-talk.follow-press.id-hoped-for-more-than-that-from-you",
@@ -5104,32 +4009,6 @@
         "scene-talk.reply-decline.i-m-sorry-but-i-still-can-t-do-it-i-just-don-t-have-the-time-for-it"
       ],
       "why": "The three replies are the first yes, promise and no-time refusal reworded."
-    },
-    "267tl3obc23": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "\"Start to finish\" restates \"let me explain\" and \"answer when I know who said it\" restates \"by whom,\" two of three."
-    },
-    "26nwbywexvq": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
-        "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "\"Has it wrong\" restates \"nothing to it\" and \"answer when I know who\" restates \"by whom,\" two of three."
     },
     "26ribcjin5v": {
       "keys": [
@@ -5292,32 +4171,6 @@
       ],
       "why": "All three are the first stances again: a payment apology, a stop-here exit and the drowning-too defense."
     },
-    "2ahe7eied7q": {
-      "keys": [
-        "scene-talk.follow-answer.hearsay.it-came-from-someone-i-trust-first-that-s-all-i-ll-say",
-        "scene-talk.reply-ask.hearsay.who-told-you-that",
-        "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
-        "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
-        "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
-        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-        "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
-        "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
-      ],
-      "why": "\"Start to finish\" restates \"let me explain\" and \"answer when I know who said it\" restates \"Who told you that?\", two of three."
-    },
-    "2aph9n4ad7z": {
-      "keys": [
-        "scene-talk.follow-ask.friend.is-that-all-of-it-first",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
-        "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-        "scene-talk.reply-deny.friend.it-isn-t-true-i-d-never-do-that-to-you",
-        "scene-talk.reply-leave.we-re-voting"
-      ],
-      "why": "'I'll tell you everything' rewords 'Let me tell you' and 'It isn't true' rewords 'that's not what happened', two of three."
-    },
     "2aroh3u69d8": {
       "keys": [
         "scene-talk.follow-answer.child-needs-to-be-fed-and-get-to-school-that-s-all-i-need-from-you",
@@ -5395,19 +4248,6 @@
       ],
       "why": "'Keep this between us', 'Pick that up and go' and 'I have to report this' restate the first accept, take-back and report options."
     },
-    "2c00hnjhapy": {
-      "keys": [
-        "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
-        "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
-        "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry"
-      ],
-      "why": "'Hear all of it from me' rewords 'Let me explain' and 'Whoever put my name... was wrong' rewords 'Nobody can show I touched that money', two of three."
-    },
     "2c2efs236au": {
       "keys": [
         "scene-talk.follow-ask.here-doing-what",
@@ -5447,20 +4287,6 @@
         "scene-talk.reply-leave.were-finished-here-take-your-envelope-and-go"
       ],
       "why": "Won't be bought, leaving it for him to handle, reporting and 'take your envelope' replay the first four options."
-    },
-    "2cy6u1opwoa": {
-      "keys": [
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
-        "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
-      ],
-      "why": "Telling all of it, \"I'm sorry,\" and \"Put it in writing\" restate the explain, apology and prosecutor-challenge first options, three of four."
     },
     "2db4mc268hx": {
       "keys": [
@@ -5514,32 +4340,6 @@
         "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
       ],
       "why": "'Okay. For them', 'Not yet' and splashing water reword dial, not tonight and step away from the start."
-    },
-    "2eu568th6pd": {
-      "keys": [
-        "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-tell.witness.it-wasn-t-how-you-took-it-let-me-tell-you-what-i-meant",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
-        "scene-talk.reply-leave.witness.i-need-to-think-before-i-say-another-word"
-      ],
-      "why": "\"Let me tell you what I meant\" re-offers the first explain option and \"You're right, and I'm sorry\" re-offers the apology, two of three."
-    },
-    "2exmpcpoprq": {
-      "keys": [
-        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
-        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
-        "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
-        "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
-        "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
-        "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
-        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
-        "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
-      ],
-      "why": "'You deserve the truth' and 'I'm sorry you had to be the one' restate the opening explanation and apology, two of three."
     },
     "2eyxd2lu58c": {
       "keys": [
@@ -5646,5 +4446,5 @@
       "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "1zude8kjct8"
+  "yesHash": "26bx8yo98qc"
 }

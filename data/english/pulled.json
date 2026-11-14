@@ -138,9 +138,6 @@
     "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off": [
       "narration-assumes-no-reason"
     ],
-    "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face": [
-      "narration-assumes-no-reason"
-    ],
     "scene-talk.open-greet.deceased-talked-about-you-you-know": ["no-filler"],
     "scene-talk.open-greet.hey-sit-down-for-a-minute-would-you-it-s-not-about-the-bills-well-not-": [
       "no-filler"
@@ -177,6 +174,9 @@
     ],
     "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself": [
       "no-stock-phrases"
+    ],
+    "scene-talk.reply-leave.hearsay.we-re-going-in-circles-the-prosecutor-has-it-so-let-the": [
+      "plain-american-reads-stiff"
     ],
     "scene-talk.reply-leave.i-hear-you-and-i-have-to-take-the-next-question": [
       "no-stock-phrases"
@@ -233,9 +233,6 @@
       "conflict-accuse.hearsay/deny",
       "conflict-accuse.taken/deny"
     ],
-    "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first": [
-      "conflict-accuse.hearsay/tell"
-    ],
     "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me": [
       "conflict-accuse.hearsay/tell"
     ],
@@ -276,15 +273,6 @@
     ],
     "scene-talk.reply-agree.count-me-in-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
-    "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
-      "conflict-accuse.hearsay/confront"
-    ],
-    "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor": [
-      "conflict-accuse.hearsay/confront"
-    ],
-    "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation": [
-      "conflict-accuse.witness/confront"
-    ],
     "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say": [
       "conflict-accuse.witness/confront"
     ],
@@ -296,15 +284,6 @@
     ],
     "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida": [
       "favor-job/press"
-    ],
-    "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up": [
-      "conflict-accuse.friend/ask"
-    ],
-    "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish": [
-      "conflict-accuse.hearsay/ask"
-    ],
-    "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge": [
-      "conflict-accuse.taken/ask"
     ]
   },
   "barred": {},
