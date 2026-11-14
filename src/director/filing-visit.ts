@@ -31,7 +31,7 @@ import {
 import { dayOpening } from "../english/day-words";
 import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
-import { agencyHeadSaid } from "../english/said-as";
+import { agencyHeadSaid, counterSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 
 const zero = P.zero;
@@ -762,6 +762,11 @@ export function counterNarration(
       text: clerk.heads
         ? agencyHeadSaid(clerk.heads)
         : titleInSentence(clerk.title),
+      sourceRecordIds: [clerk.recordId],
+    },
+    // Where the player goes: the clerk's office, or the agency itself.
+    counter: {
+      text: counterSaid(titleInSentence(clerk.title), clerk.heads),
       sourceRecordIds: [clerk.recordId],
     },
   };

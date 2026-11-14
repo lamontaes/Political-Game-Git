@@ -11,7 +11,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
-import { agencyHeadSaid } from "../english/said-as";
+import { agencyHeadSaid, counterSaid } from "../english/said-as";
 import { counterNarration, openFilingVisit } from "../director/filing-visit";
 import { filingClerkFor } from "./modules/filing-clerk";
 
@@ -47,9 +47,10 @@ it(
           continue;
         }
         expect(clerk.heads, `${where}: ${clerk.recordId}`).toBe(clerk.title);
-        expect(agencyHeadSaid(clerk.heads), where).toBe(
-          `head of the ${clerk.title}`,
-        );
+        // The agency's name is said without a form's parenthesis; a name that
+        // is itself an office is said as the office.
+        const saidHead = agencyHeadSaid(clerk.heads);
+        expect(saidHead, where).not.toMatch(/[()]/);
         // As the counter says it: the person by what they do, the agency once.
         const me =
           core.people.get(core.playerId as never) ??
@@ -82,7 +83,13 @@ it(
         const said = lines.map((l) => l.text).join(" ");
         expect(lines.length, where).toBeGreaterThan(0);
         // The person by what they do, with the agency named once.
-        expect(said, where).toContain(`head of the ${clerk.title}`);
+        expect(said, where).toContain(saidHead);
+        // The counter is the agency itself, never "the head of the ...'s office".
+        expect(said, where).not.toMatch(/head of the [^.]*'s (office|counter)/);
+        expect(said, where).not.toMatch(/\bthe the\b/);
+        // Where a line sends the player, it is the agency's own place.
+        if (/head to|step into|back at/.test(said))
+          expect(said, where).toContain(counterSaid(clerk.title, clerk.heads));
         return;
       }
       notes.push(`${where}: no state counter with an agency head`);
