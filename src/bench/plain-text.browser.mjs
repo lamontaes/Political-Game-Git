@@ -113,13 +113,10 @@ if (placeKey)
       url.searchParams.set("placeKey", placeKey);
     return route.continue({ url: url.toString() });
   });
-// The counter's latest visit, as the filing routes answer it.
-let lastVisit = null;
 let filingWaited = false;
 page.on("response", async (response) => {
   if (!new URL(response.url()).pathname.startsWith("/api/filing/")) return;
   const body = await response.json().catch(() => null);
-  if (body?.visit) lastVisit = body.visit;
   // Something that came up on the way is lived first; the counter waits.
   if (new URL(response.url()).pathname === "/api/filing/open")
     filingWaited = Boolean(body?.waiting);

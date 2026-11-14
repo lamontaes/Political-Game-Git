@@ -1,4 +1,4 @@
-/* global document, console, process */
+/* global document, console, URL, process */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { startLife } from "./start-life.mjs";
