@@ -1,0 +1,129 @@
+{
+  "schema": "english-judged/2",
+  "rule": "escalation-can-be-answered-in-kind",
+  "rubric": "When the other person escalates, the player can escalate back, not only calm down or leave.",
+  "judged": 210,
+  "no": {
+    "00jwepcdcwk": {
+      "keys": [
+        "scene-talk.follow-confront.little-bit-the-last-two-didn-t-make-it-to-spring",
+        "scene-talk.reply-apologize.sorry-first-day-nerves",
+        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
+      ],
+      "why": "Only an apology or a sidestep to the boss; nothing answers the warning."
+    },
+    "036ix51a6qq": {
+      "keys": [
+        "scene-talk.follow-confront.little-bit-the-last-two-didn-t-make-it-to-spring",
+        "scene-talk.reply-apologize.sorry-i-talk-too-much-when-i-m-nervous",
+        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself",
+        "scene-talk.reply-leave.let-me-get-my-bearings-first"
+      ],
+      "why": "An apology, a sidestep to the boss and a pause; nothing answers the warning."
+    },
+    "0fit00s0ocm": {
+      "keys": [
+        "scene-talk.follow-confront.prove-it-by-lunch",
+        "scene-talk.reply-apologize.sorry-i-talk-too-much-when-i-m-nervous",
+        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself",
+        "scene-talk.reply-leave.let-me-get-my-bearings-first"
+      ],
+      "why": "\"Prove it by lunch\" gets an apology, a sidestep to the boss or a pause; none takes up the dare."
+    },
+    "0gxe0irtuml": {
+      "keys": [
+        "scene-talk.follow-confront.welcome-to-public-service",
+        "scene-talk.reply-apologize.okay-okay-point-taken",
+        "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work"
+      ],
+      "why": "A concession and a sincere question; neither pushes back."
+    },
+    "0h1lzn5vkoo": {
+      "keys": [
+        "scene-talk.follow-confront.welcome-to-public-service",
+        "scene-talk.reply-apologize.okay-okay-point-taken",
+        "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
+        "scene-talk.reply-leave.let-me-get-my-bearings-first"
+      ],
+      "why": "A concession, a question and a pause; none pushes back."
+    },
+    "0n73d5iwm8y": {
+      "keys": [
+        "scene-talk.follow-threaten.other-candidates-in-this-town-return-calls",
+        "scene-talk.reply-agree.all-right-i-ll-do-it",
+        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
+        "scene-talk.reply-leave.i-ll-let-you-know"
+      ],
+      "why": "The replies give in, defer or stall; none answers the pressure firmly."
+    },
+    "0o743fqwqo6": {
+      "keys": [
+        "scene-talk.follow-confront.prove-it-by-lunch",
+        "scene-talk.reply-apologize.fair-i-ll-keep-my-head-down",
+        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself",
+        "scene-talk.reply-leave.let-me-get-my-bearings-first"
+      ],
+      "why": "\"Prove it by lunch\" gets only a concession, a sidestep to the boss, or a pause; none takes up the dare."
+    },
+    "0u26unx9raw": {
+      "keys": [
+        "scene-talk.follow-confront.prove-it-by-lunch",
+        "scene-talk.reply-apologize.sorry-first-day-nerves",
+        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself",
+        "scene-talk.reply-leave.let-me-get-my-bearings-first"
+      ],
+      "why": "\"Prove it by lunch\" gets an apology, a sidestep to the boss or a pause; none takes up the dare."
+    },
+    "0zjqpfntw64": {
+      "keys": [
+        "scene-talk.follow-confront.nobody-plans-on-it",
+        "scene-talk.reply-apologize.sorry-first-day-nerves",
+        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
+      ],
+      "why": "Only an apology or a sidestep to the boss; nothing answers the jab."
+    },
+    "18dkhes6zv6": {
+      "keys": [
+        "scene-talk.follow-confront.welcome-to-public-service",
+        "scene-talk.reply-apologize.sorry-first-day-nerves",
+        "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work"
+      ],
+      "why": "An apology and a sincere question; neither pushes back."
+    },
+    "1hrvuol09ho": {
+      "keys": [
+        "scene-talk.follow-confront.sure-you-did-barely",
+        "scene-talk.reply-apologize.fine-fine-i-couldn-t-have-done-it-alone",
+        "scene-talk.reply-boast.a-little-just-for-today",
+        "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me"
+      ],
+      "why": "All three replies concede the jab; none answers it."
+    },
+    "29xpbfjbjx1": {
+      "keys": [
+        "scene-talk.follow-confront.nobody-plans-on-it",
+        "scene-talk.reply-apologize.okay-okay-point-taken",
+        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
+      ],
+      "why": "Only \"Point taken\" or a sidestep to the boss; nothing answers the jab firmly."
+    },
+    "2adbmijzzu2": {
+      "keys": [
+        "scene-talk.follow-confront.little-bit-the-last-two-didn-t-make-it-to-spring",
+        "scene-talk.reply-apologize.okay-okay-point-taken",
+        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
+      ],
+      "why": "Only a concession or a sidestep to the boss; nothing answers the warning itself."
+    },
+    "2erb6mjxv42": {
+      "keys": [
+        "scene-talk.follow-confront.welcome-to-public-service",
+        "scene-talk.reply-apologize.fair-i-ll-keep-my-head-down",
+        "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
+        "scene-talk.reply-leave.let-me-get-my-bearings-first"
+      ],
+      "why": "A concession, a question and a pause; none pushes back."
+    }
+  },
+  "yesHash": "29m8i0i33y2"
+}
