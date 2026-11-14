@@ -106,8 +106,6 @@ interface PurposeArc {
   acts?: Record<string, string[] | string>;
   /** Facts an act makes no longer true (a deadline once the bill is decided): the closing line after an act is worded without them. */
   actEnds?: string[];
-  /** Facts of which at most one holds in one talk (the visitor is for the bill or against it). */
-  apart?: string[][];
   /** Reply moves that may be offered again after an asker move: { askerMove: [replyMoves] }. */
   repeatable?: Record<string, string[]>;
   /** When an exchange resolves the purpose may go on instead of closing: played once. */
