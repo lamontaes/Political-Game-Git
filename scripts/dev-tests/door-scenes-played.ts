@@ -100,6 +100,12 @@ let mattersNoView = 0;
 let officeDecides = 0;
 let aboveOffice = 0;
 let promisedAbove = 0;
+// Batch 3 (Words lead, Nov 14): of the plain doors with no view, how many
+// residents tell what is going on in their life instead, and of which kinds
+// (the scene's own life-* facts, from doorLifeFacts).
+let noViewDoors = 0;
+let noViewWithLife = 0;
+const lifeKindCounts = new Map<string, number>();
 const townOfficeLines: string[] = [];
 let drawn = 0;
 for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
@@ -319,6 +325,17 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
       };
       if (scene.purpose.endsWith(".plain")) findTell(scene.talk.tree);
       const fromViews = scene.facts.some((row) => row.key === "about");
+      if (scene.purpose.endsWith(".plain") && !fromViews) {
+        const kinds = scene.facts
+          .map((row) => row.key)
+          .filter((key) => key.startsWith("life-"));
+        if (kinds.length || scene.facts.some((row) => row.key === "no-view")) {
+          noViewDoors += 1;
+          if (kinds.length) noViewWithLife += 1;
+          for (const kind of kinds)
+            lifeKindCounts.set(kind, (lifeKindCounts.get(kind) ?? 0) + 1);
+        }
+      }
       for (const text of tells) {
         matters.set(text, (matters.get(text) ?? 0) + 1);
         if (fromViews) mattersFromViews += 1;
@@ -398,9 +415,12 @@ out.push(
     .map(([n, c]) => `${n}: ${c} scenes`)
     .join(
       ", ",
-    )}.\n\n${townOfficeLines.map((line) => `- ${line}`).join("\n")}\n\nWhat matters, asked at a plain door: ${matters.size} distinct answers in ${mattersFromViews + mattersNoView}; ${mattersFromViews} name the resident's own question from their views record, ${mattersNoView} say they hold no view strong enough. Of those with a view, ${officeDecides} name a question this office decides and ${aboveOffice} one above it (scenes offering a promise on one above it: ${promisedAbove}).\n\n${[
-    ...matters,
-  ]
+    )}.\n\n${townOfficeLines.map((line) => `- ${line}`).join("\n")}\n\nWhat matters, asked at a plain door: ${matters.size} distinct answers in ${mattersFromViews + mattersNoView}; ${mattersFromViews} name the resident's own question from their views record, ${mattersNoView} say they hold no view strong enough. Of those with a view, ${officeDecides} name a question this office decides and ${aboveOffice} one above it (scenes offering a promise on one above it: ${promisedAbove}).\n\nPlain doors with no view: ${noViewDoors}; telling their life instead: ${noViewWithLife}. By kind: ${
+    [...lifeKindCounts]
+      .sort((a, b) => b[1] - a[1])
+      .map(([k, n]) => `${k} ${n}`)
+      .join(", ") || "none"
+  }.\n\n${[...matters]
     .sort((a, b) => b[1] - a[1])
     .map(([t, n]) => `- ${n}: ${t}`)
     .join("\n")}\n`,
