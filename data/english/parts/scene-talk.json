@@ -97723,10 +97723,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.first-i-ve-been-thinking-about-this-campaign-all-week",
+      "key": "scene-talk.open-greet.first-i-ve-been-thinking-about-this-campaign-since-i-heard-you-filed",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "{first}. I've been thinking about this campaign all week.",
+      "text": "{first}. I've been thinking about this campaign since I heard you filed.",
       "uses": [
         {
           "subject": "scene",
@@ -98008,52 +98008,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.let-me-work-out-what-i-need-first",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Let me work out what I need first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-to-run",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-stall.give-me-a-few-days-with-it",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Give me a few days with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-to-run",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.one-list-of-everyone-you-know-one-calendar-and-the-money-counted-every-week",
       "move": "follow-answer",
       "kind": "spoken",
@@ -98198,10 +98152,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-the-offer-stays-open",
+      "key": "scene-talk.follow-accept.fair-it-s-your-campaign",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair. The offer stays open.",
+      "text": "Fair. It's your campaign.",
       "uses": [
         {
           "subject": "scene",
@@ -98257,7 +98211,8 @@
           "key": "favor-asked",
           "step": "close",
           "move": "promise",
-          "role": "asker"
+          "role": "asker",
+          "outcome": "resolved"
         }
       ],
       "bearing": "firm",
@@ -98281,7 +98236,8 @@
           "key": "favor-asked",
           "step": "close",
           "move": "thank",
-          "role": "asker"
+          "role": "asker",
+          "outcome": "resolved"
         }
       ],
       "bearing": "glad",
@@ -98305,7 +98261,8 @@
           "key": "favor-asked",
           "step": "close",
           "move": "press",
-          "role": "asker"
+          "role": "asker",
+          "outcome": "open"
         }
       ],
       "bearing": "calm",
@@ -98318,10 +98275,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.can-we-talk-about-this-another-night",
+      "key": "scene-talk.reply-leave.not-tonight-i-m-not-ready-to-say",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Can we talk about this another night?",
+      "text": "Not tonight. I'm not ready to say.",
       "uses": [
         {
           "subject": "scene",
@@ -98329,7 +98286,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -98341,10 +98299,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.not-tonight-ask-me-again-this-weekend",
+      "key": "scene-talk.reply-leave.i-can-t-decide-this-right-now",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Not tonight. Ask me again this weekend.",
+      "text": "I can't decide this right now.",
       "uses": [
         {
           "subject": "scene",
@@ -98352,8 +98310,7 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked",
-          "excludesFacts": ["daytime"]
+          "role": "asked"
         }
       ],
       "origin": "authored",
