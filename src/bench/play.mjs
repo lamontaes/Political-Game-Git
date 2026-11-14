@@ -1848,7 +1848,9 @@ function ticketSection(filing, ticket) {
     if (asked.packet) renderPacket(asked.packet);
     const moment = storyStop(asked.packet);
     closeSheet();
-    if (moment) await showStory(moment.recordId);
+    // The sit-down itself first; anything else that came up waits behind it.
+    if (asked.story) await showStory(asked.story);
+    else if (moment) await showStory(moment.recordId);
   };
   const rowLabel = (c) =>
     (c.work && c.place

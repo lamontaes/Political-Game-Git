@@ -129,7 +129,8 @@
     "back-again": "Set when the player is back at a counter where their own filing is already in, for another race.",
     "self-full": "The player's full name, as a stranger is introduced to them.",
     "race-office": "The office the player is running for, from the contest record.",
-    "their-office": "The seat the person asked to serve holds now, as people say it, from their serving term's office record."
+    "their-office": "The seat the person asked to serve holds now, as people say it, from their serving term's office record.",
+    "their-first": "The first name of the person the player asks to serve, said by the player after the introduction."
   },
   "maxWords": 70,
   "parts": [
@@ -7168,6 +7169,22 @@
           "role": "asker",
           "purpose": "talk",
           "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
         }
       ],
       "bearing": "calm",
@@ -163750,10 +163767,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-asked-name-for-an-hour-this-morning-name-is-here-now",
+      "key": "scene-talk.narrate-narrate.you-asked-name-for-an-hour-this-morning-you-get-right-to-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You asked {name} for an hour this morning. {name} is here now.",
+      "text": "You asked {name} for an hour this morning. You get right to it.",
       "uses": [
         {
           "subject": "scene",
@@ -163846,10 +163863,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-ve-never-met-name-you-introduce-yourself-at-the-door",
+      "key": "scene-talk.narrate-narrate.you-ve-never-met-name-you-introduce-yourself",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You've never met {name}. You introduce yourself at the door.",
+      "text": "You've never met {name}. You introduce yourself.",
       "uses": [
         {
           "subject": "scene",
@@ -163921,10 +163938,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.we-haven-t-met-so-i-ll-be-plain-name-i-want-you-on-my-ticket-for-office",
+      "key": "scene-talk.state-request.we-haven-t-met-so-i-ll-be-plain-i-want-you-on-my-ticket-for-office",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We haven't met, so I'll be plain, {name}. I want you on my ticket for {office}.",
+      "text": "We haven't met, so I'll be plain. I want you on my ticket for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -163946,10 +163963,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.name-you-know-me-i-want-you-beside-me-on-the-ballot-for-office-will-you-run-with-me",
+      "key": "scene-talk.state-request.their-first-you-know-me-i-want-you-beside-me-on-the-ballot-for-office-will-you-run-with-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{name}, you know me. I want you beside me on the ballot for {office}. Will you run with me?",
+      "text": "{their-first}, you know me. I want you beside me on the ballot for {office}. Will you run with me?",
       "uses": [
         {
           "subject": "scene",
@@ -163971,10 +163988,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-ll-get-right-to-it-name-i-want-you-as-my-office-will-you-do-it",
+      "key": "scene-talk.state-request.i-ll-get-right-to-it-their-first-i-want-you-as-my-office-will-you-do-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'll get right to it, {name}. I want you as my {office}. Will you do it?",
+      "text": "I'll get right to it, {their-first}. I want you as my {office}. Will you do it?",
       "uses": [
         {
           "subject": "scene",
@@ -163996,10 +164013,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.you-re-family-name-but-that-isn-t-why-i-m-asking-i-d-want-you-for-office-either-way",
+      "key": "scene-talk.state-request.you-re-family-their-first-but-that-isn-t-why-i-m-asking-i-d-want-you-for-office-either-way",
       "move": "state-request",
       "kind": "spoken",
-      "text": "You're family, {name}, but that isn't why I'm asking. I'd want you for {office} either way.",
+      "text": "You're family, {their-first}, but that isn't why I'm asking. I'd want you for {office} either way.",
       "uses": [
         {
           "subject": "scene",
@@ -164021,10 +164038,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-ve-thought-hard-about-who-should-run-with-me-for-office-i-d-like-it-to-be-you-name",
+      "key": "scene-talk.state-request.i-ve-thought-hard-about-who-should-run-with-me-for-office-i-d-like-it-to-be-you-their-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I've thought hard about who should run with me for {office}. I'd like it to be you, {name}.",
+      "text": "I've thought hard about who should run with me for {office}. I'd like it to be you, {their-first}.",
       "uses": [
         {
           "subject": "scene",
@@ -164045,10 +164062,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.we-can-win-this-name-and-i-want-you-with-me-as-office",
+      "key": "scene-talk.state-request.we-can-win-this-their-first-and-i-want-you-with-me-as-office",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We can win this, {name}, and I want you with me as {office}.",
+      "text": "We can win this, {their-first}, and I want you with me as {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -164070,10 +164087,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-know-it-s-a-lot-to-ask-name-would-you-run-for-office-with-me",
+      "key": "scene-talk.state-request.i-know-it-s-a-lot-to-ask-their-first-would-you-run-for-office-with-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I know it's a lot to ask, {name}. Would you run for {office} with me?",
+      "text": "I know it's a lot to ask, {their-first}. Would you run for {office} with me?",
       "uses": [
         {
           "subject": "scene",
@@ -164594,10 +164611,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-name-you-won-t-be-sorry",
+      "key": "scene-talk.follow-thank.thank-you-their-first-you-won-t-be-sorry",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you, {name}. You won't be sorry.",
+      "text": "Thank you, {their-first}. You won't be sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -164618,10 +164635,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-means-a-lot-name-thank-you",
+      "key": "scene-talk.follow-thank.that-means-a-lot-their-first-thank-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That means a lot, {name}. Thank you.",
+      "text": "That means a lot, {their-first}. Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -164642,10 +164659,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.good-we-start-tomorrow-name",
+      "key": "scene-talk.follow-thank.good-we-start-tomorrow-their-first",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. We start tomorrow, {name}.",
+      "text": "Good. We start tomorrow, {their-first}.",
       "uses": [
         {
           "subject": "scene",
@@ -164666,10 +164683,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-name-let-s-do-this-right",
+      "key": "scene-talk.follow-thank.thank-you-their-first-let-s-do-this-right",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you, {name}. Let's do this right.",
+      "text": "Thank you, {their-first}. Let's do this right.",
       "uses": [
         {
           "subject": "scene",
@@ -164690,10 +164707,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.is-there-anything-that-would-change-your-mind-name",
+      "key": "scene-talk.follow-press.is-there-anything-that-would-change-your-mind-their-first",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Is there anything that would change your mind, {name}?",
+      "text": "Is there anything that would change your mind, {their-first}?",
       "uses": [
         {
           "subject": "scene",
@@ -164714,10 +164731,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.hear-me-out-name-nobody-fits-this-like-you-do",
+      "key": "scene-talk.follow-press.hear-me-out-their-first-nobody-fits-this-like-you-do",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Hear me out, {name}. Nobody fits this like you do.",
+      "text": "Hear me out, {their-first}. Nobody fits this like you do.",
       "uses": [
         {
           "subject": "scene",
@@ -164738,10 +164755,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-m-not-asking-lightly-name-think-it-over-once-more",
+      "key": "scene-talk.follow-press.i-m-not-asking-lightly-their-first-think-it-over-once-more",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'm not asking lightly, {name}. Think it over once more.",
+      "text": "I'm not asking lightly, {their-first}. Think it over once more.",
       "uses": [
         {
           "subject": "scene",
@@ -164762,10 +164779,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.tell-me-what-it-would-take-name",
+      "key": "scene-talk.follow-press.tell-me-what-it-would-take-their-first",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Tell me what it would take, {name}.",
+      "text": "Tell me what it would take, {their-first}.",
       "uses": [
         {
           "subject": "scene",
@@ -164786,10 +164803,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-name-thank-you-for-hearing-me-out",
+      "key": "scene-talk.follow-accept.i-understand-their-first-thank-you-for-hearing-me-out",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand, {name}. Thank you for hearing me out.",
+      "text": "I understand, {their-first}. Thank you for hearing me out.",
       "uses": [
         {
           "subject": "scene",
@@ -164810,10 +164827,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-name-i-m-glad-we-talked",
+      "key": "scene-talk.follow-accept.fair-enough-their-first-i-m-glad-we-talked",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough, {name}. I'm glad we talked.",
+      "text": "Fair enough, {their-first}. I'm glad we talked.",
       "uses": [
         {
           "subject": "scene",
@@ -164834,10 +164851,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.all-right-name-no-hard-feelings",
+      "key": "scene-talk.follow-accept.alright-their-first-no-hard-feelings",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right, {name}. No hard feelings.",
+      "text": "Alright, {their-first}. No hard feelings.",
       "uses": [
         {
           "subject": "scene",
@@ -164858,10 +164875,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-respect-that-name-my-door-stays-open",
+      "key": "scene-talk.follow-accept.i-respect-that-their-first-my-door-stays-open",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I respect that, {name}. My door stays open.",
+      "text": "I respect that, {their-first}. My door stays open.",
       "uses": [
         {
           "subject": "scene",
@@ -164878,6 +164895,54 @@
       "date": "2026-11-14",
       "tag": {
         "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
         "key": "serve-asked"
       }
     },
@@ -165215,10 +165280,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.that-talk-about-you-has-died-down-self-all-right-yes",
+      "key": "scene-talk.reply-agree.that-talk-about-you-has-died-down-self-alright-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That talk about you has died down, {self}. All right. Yes.",
+      "text": "That talk about you has died down, {self}. Alright. Yes.",
       "uses": [
         {
           "subject": "scene",

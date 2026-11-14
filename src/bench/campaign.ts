@@ -272,8 +272,8 @@ export function runningMateAsked(
     .get(filingId) as unknown as FilingRow | undefined;
   if (filing?.personId !== personId)
     throw new Error("That isn't one of your races.");
-  askToServe(api, { seat: "ticket", filingId, personId: askedId });
-  return { hours: serveAskHours() };
+  const row = askToServe(api, { seat: "ticket", filingId, personId: askedId });
+  return { hours: serveAskHours(), eventId: row.eventId };
 }
 
 /**

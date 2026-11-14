@@ -160,7 +160,7 @@ import {
 } from "./government";
 import { governmentBodies } from "./government-bodies";
 import type { Director } from "../director/ledger";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
@@ -1864,11 +1864,20 @@ const ROUTES: readonly Route[] = [
         url.searchParams.get("filingId") ?? "",
         url.searchParams.get("personId") ?? "",
       );
-      const spent = state.player.spend(asked.hours);
-      send(
-        200,
-        spent ? { packet: spent.packet, names: namesFor(spent.packet) } : {},
+      // The sit-down opens at once: the ask is the player's own press, so
+      // its scene is staged now and shown, not held for the day's close.
+      const staged = state.director?.stageOwnPress(
+        requireCore(),
+        state.player.personId as PersonId,
+        asked.eventId,
       );
+      const spent = state.player.spend(asked.hours);
+      send(200, {
+        ...(staged ? { story: staged.momentId } : {}),
+        ...(spent
+          ? { packet: spent.packet, names: namesFor(spent.packet) }
+          : {}),
+      });
       return;
     },
   },

@@ -67,6 +67,7 @@ import {
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { petitionAtDoor } from "./doors";
+import { officeInSentence } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
   type ScheduleEntry,
@@ -1335,8 +1336,14 @@ function composeBinding(
       sourceRecordIds: [askerId],
     };
     facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
+    // After the introduction the player says their first name, never the
+    // full name again (Words lead, Nov 14).
+    facts["their-first"] = {
+      text: asker.givenName,
+      sourceRecordIds: [askerId],
+    };
     facts.office = {
-      text: titleInSentence(serve.office),
+      text: officeSaidAloud(serve.office),
       sourceRecordIds: [moment.causeId, serve.askId],
     };
     // Why a no is a no: the term that weighed most against the ask, which
@@ -1363,7 +1370,7 @@ function composeBinding(
     };
     if (serve.raceOffice)
       facts["race-office"] = {
-        text: titleInSentence(serve.raceOffice),
+        text: officeSaidAloud(serve.raceOffice),
         sourceRecordIds: why,
       };
     // The player may say the race can be won only where their standing in it
@@ -1378,7 +1385,7 @@ function composeBinding(
     // The seat they would give up, as people say it.
     if (serve.grounds.seatTitle && serve.grounds.seatTermId)
       facts["their-office"] = {
-        text: titleInSentence(serve.grounds.seatTitle),
+        text: officeSaidAloud(serve.grounds.seatTitle),
         sourceRecordIds: [...why, serve.grounds.seatTermId],
       };
     // Where they read what was printed about the player: the outlet of the
@@ -1623,6 +1630,18 @@ function serveStanding(
     grounds: row.standing.grounds,
     moved: row.moved ?? null,
   };
+}
+
+/**
+ * An office as a person says it aloud (Words lead, rule 100): "lieutenant
+ * governor", "state representative", the place it is of kept as named
+ * ("attorney general of Guam").
+ */
+function officeSaidAloud(title: string): string {
+  const at = title.indexOf(" of ");
+  return at < 0
+    ? officeInSentence(title)
+    : `${officeInSentence(title.slice(0, at))}${title.slice(at)}`;
 }
 
 /**
