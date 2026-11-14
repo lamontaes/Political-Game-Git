@@ -29,6 +29,7 @@
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
+import { jobTitleByKind } from "../core2/person-work";
 import {
   PERSON_MOVED_IN,
   heldSinceRecord,
@@ -133,7 +134,11 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { kinAddress, relationPhrase } from "../english/journal-words";
+import {
+  kinAddress,
+  relationPhrase,
+  withArticle,
+} from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { answerInTalk } from "./scene-talk";
 import {
@@ -168,7 +173,6 @@ import {
 import { dayParts, sceneMinute } from "./day-part";
 import {
   employerSaidAs,
-  jobSaidAs,
   officeWords,
   personSlot,
   nameOnceThen,
@@ -430,7 +434,10 @@ function fullName(core: Readonly<CoreState>, id: PersonId): string {
 function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
-  return job && org ? { job, org } : null;
+  // The title as people say it of that kind of government ("town clerk").
+  return job && org
+    ? { job, org, title: jobTitleByKind(job.title, org.name) }
+    : null;
 }
 
 /**
@@ -455,20 +462,16 @@ function sayJob(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   return held && employer ? { ...held, employer } : null;
 }
 
-/** A job's title as said after "works as" ("a stocker"), through the said-as reader; undefined when it cannot be said. */
-function titleWords(
-  title: string | undefined,
-  org: Readonly<OrganizationInput> | undefined,
-): string | undefined {
-  const said = jobSaidAs(
-    title,
-    org ? { outside: !!org.outsideFlow } : undefined,
-  );
-  return said?.kind === "title" ? said.asJob : undefined;
-}
-
 const HEAD_TITLE =
   /\b(chief|director|manager|officer|superintendent|administrator|commissioner|supervisor|principal|clerk of|head|president)\b/i;
+
+/**
+ * Whether a job's title can be said the way people say a job: never a form's
+ * title with a parenthesis, a comma or a slash in it.
+ */
+function sayableTitle(title: string | undefined): title is string {
+  return !!title && !/[(),/]/.test(title);
+}
 
 /**
  * What a person does at their job and, when the employer is out of their
@@ -483,12 +486,14 @@ function workDetail(
   slots: { position: string; place?: string },
 ): Facts {
   const facts: Facts = {};
-  const title = titleWords(held.job.title, held.org);
-  if (title) {
-    facts[slots.position] = { text: title, sourceRecordIds: [held.job.id] };
+  if (sayableTitle(held.title)) {
+    facts[slots.position] = {
+      text: withArticle(held.title),
+      sourceRecordIds: [held.job.id],
+    };
     // A title that heads a department or a body is not "just" anything
     // (round 11, rule 81).
-    if (HEAD_TITLE.test(title))
+    if (HEAD_TITLE.test(held.title))
       facts[`${slots.position}-head`] = {
         text: "yes",
         sourceRecordIds: [held.job.id],
@@ -2089,7 +2094,7 @@ export function subjectsBetween(
       },
       own: { key: `person:${speakerId}:employer`, value: mine.org.id },
       // A true answer also tells what they do there, for the person card.
-      ...(titleWords(mine.job.title, mine.org)
+      ...(sayableTitle(mine.title)
         ? {
             alsoOwn: [
               {
@@ -2180,7 +2185,9 @@ export function subjectsBetween(
     });
     // What the new job is, from its record, for the listener who asks
     // ("What will you be doing there?"): a question is never left unanswered.
-    const position = titleWords(startedJob.title, startedOrg);
+    const position = sayableTitle(startedJob.title)
+      ? withArticle(startedJob.title)
+      : undefined;
     if (position)
       out.push({
         id: `job-new-detail:${started.causeId}`,
@@ -2263,7 +2270,7 @@ export function subjectsBetween(
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
   const theirSaid = theirs ? employerWords(theirs.org) : null;
-  if (theirs && theirSaid && titleWords(theirs.job.title, theirs.org))
+  if (theirs && theirSaid && sayableTitle(theirs.title))
     out.push({
       id: `their-position:${listenerId}`,
       kind: "their-position",
@@ -3397,7 +3404,7 @@ function replyFacts(
     }
     case "their-position": {
       const theirs = sayJob(core, listener);
-      return theirs && titleWords(theirs.job.title, theirs.org)
+      return theirs && sayableTitle(theirs.title)
         ? {
             facts: {
               employer: {
@@ -4670,6 +4677,16 @@ function mainTopic(
     if (
       conversation.used.includes(subject.id) ||
       conversation.used.includes(`${otherId}>${subject.id}`)
+    )
+      return;
+    // A scene's talk does not turn to the day's news the occasion is not
+    // about: bring-it-up, which says what the news is, is skipped in a
+    // scene, so "What do you think?" would ask about nothing (a death
+    // told at home, a letter, a friend met on the street).
+    if (
+      occasion &&
+      subject.kind === "news" &&
+      !isAbout(subject, occasion, data)
     )
       return;
     // A scene's moment with the other person in it (a reunion) is about the

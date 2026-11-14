@@ -61,7 +61,13 @@ import {
 } from "./election-night";
 import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
 import { openingsView } from "./openings";
-import { billPaper, seatAct, seatView } from "./legislature";
+import {
+  billPaper,
+  isByRequest,
+  seatAct,
+  seatAsk,
+  seatView,
+} from "./legislature";
 import {
   billPageView,
   billStage,
@@ -93,6 +99,7 @@ import {
   nominationsView,
   budgetLinePick,
   officeView,
+  officeStops,
 } from "./office";
 import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
@@ -1609,6 +1616,23 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/office/stops",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        officeStops(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("key") ?? "",
+          url.searchParams.get("on") === "true",
+        ),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/office/hire-aide",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
@@ -1663,6 +1687,19 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
       const q = (key: string) => url.searchParams.get(key) ?? undefined;
+      if (isByRequest(requireCore(), state.player.personId, q("officeId"))) {
+        send(
+          200,
+          seatAsk(requireCore(), state.player.personId, {
+            officeId: q("officeId"),
+            series: q("series"),
+            question: q("question"),
+            line: q("line"),
+            value: q("value") === undefined ? undefined : Number(q("value")),
+          }),
+        );
+        return;
+      }
       send(
         200,
         seatAct(requireCore(), state.player.personId, {

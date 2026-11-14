@@ -18175,7 +18175,7 @@
           "subject": "interview-question",
           "role": "answer",
           "choice": "plain",
-          "requiresFacts": ["stance-for"]
+          "requiresFacts": ["stance-for", "on-platform"]
         }
       ],
       "bearing": "guarded",
@@ -18241,7 +18241,7 @@
           "subject": "interview-question",
           "role": "answer",
           "choice": "plain",
-          "requiresFacts": ["stance-against"]
+          "requiresFacts": ["stance-against", "on-platform"]
         }
       ],
       "bearing": "guarded",
@@ -18417,7 +18417,7 @@
           "subject": "interview-question",
           "role": "answer",
           "choice": "brief",
-          "requiresFacts": ["no-stand"]
+          "requiresFacts": ["no-stand", "no-record"]
         }
       ],
       "bearing": "guarded",

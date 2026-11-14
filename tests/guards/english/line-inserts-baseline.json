@@ -1,6 +1,6 @@
 {
-  "about": "For each bank under data/english/parts, how many of its lines carry no insert (a slot in braces the English engine fills from the world's records) and are not excused by the owner's ruling of Nov 11, 2026 (call 12: \"Replies of one to three words and action names stay; everything else is rewritten.\"; a piece the engine joins counts as composed when the sentence it makes carries an insert). tests/guards/english/line-inserts.test.ts holds each count: it may only go down, and a bank not named here may hold none.",
-  "total": 4982,
+  "about": "For each bank under data/english/parts, how many of its lines carry no insert (a slot in braces the English engine fills from the world's records) and are not excused by the owner's ruling of Nov 11, 2026 (call 12: \"Replies of one to three words and action names stay; everything else is rewritten.\"; a piece the engine joins counts as composed when the sentence it makes carries an insert). tests/guards/english/line-inserts.test.ts holds each count: it may only go down, and a bank not named here may hold none. Nov 14, 2026 (owner, 06:38Z card, \"Yes, change the rule\"): a part the world places (every place it is said has a condition on a fact, a scene purpose whose situation types each name a cause record, or a subject raised only from a record; a bearing alone does not count) is excused too; the count of lines that excuse covers is in excusedOnNov14.",
+  "total": 341,
   "excusedOnNov11": {
     "short": 660,
     "action-name": 43
@@ -12,10 +12,10 @@
     "calendar": 0,
     "campaign-standing": 0,
     "choice-names": 0,
-    "conversation": 226,
+    "conversation": 162,
     "headlines": 0,
     "hearing": 0,
-    "journal": 51,
+    "journal": 44,
     "legislation": 0,
     "minutes": 0,
     "news": 0,
@@ -23,8 +23,11 @@
     "notice": 0,
     "opening-speech": 2,
     "person-history": 0,
-    "scene-talk": 4703,
+    "scene-talk": 133,
     "scene-words": 0,
     "speech-stages": 0
+  },
+  "excusedOnNov14": {
+    "placed": 4641
   }
 }

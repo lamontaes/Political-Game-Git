@@ -454,6 +454,17 @@ const FIXTURES: Record<
       ]),
     ),
   },
+  "no-figure-in-talk": {
+    catches: sampleOf(
+      talk("sis", [[["sis", "The unemployment rate is 4.6% now, you know."]]]),
+    ),
+    spares: sampleOf(
+      talk("sis", [
+        [["sis", "Times are hard. Nobody's hiring."]],
+        [[PLAYER, "My rent went up two hundred dollars."]],
+      ]),
+    ),
+  },
   "note-stands-alone": {
     catches: sampleOf(
       text("journal:note", [["Six weeks later, I quit the bakery."]]),
