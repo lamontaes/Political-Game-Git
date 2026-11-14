@@ -656,17 +656,20 @@
     "federal": "Federal"
   },
   "travel": {
-    "why": "Why here",
+    "why": "Why it's listed",
     "reasons": {
       "work": "You work here",
-      "family": "Your family works here",
-      "study": "Your household's school",
-      "known": "People you know work here",
+      "family": "Someone in your family works here",
+      "study": "Someone in your home goes to school here",
+      "studySelf": "You go to school here",
+      "known": "Someone you know works here",
       "action": "Something to do now",
       "serve": "You serve in office",
       "member": "Your party's office",
-      "seat": "You hold a seat on its board",
+      "seat": "Your office",
+      "ownMeeting": "Your board meets today",
       "meeting": "Its board meets today",
+      "filing": "You can file to run for office here",
       "public": "Open to the public"
     },
     "memberHere": "Your party's office",

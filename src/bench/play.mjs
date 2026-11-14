@@ -4727,7 +4727,7 @@ const sheets = {
       // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
       // of the records' reasons once, or open to the public where none.
       const why = p.filing
-        ? []
+        ? [labels.reasons?.filing].filter(Boolean)
         : [
             ...new Set(
               (p.reasons ?? [])

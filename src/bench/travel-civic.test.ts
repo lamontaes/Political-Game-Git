@@ -92,6 +92,31 @@ describe(`Travel and political business (seed ${seed})`, () => {
         card!.reasons.some((r) => r.kind === "meeting"),
         `${where}: with the meeting reason`,
       ).toBe(true);
+      // The body's own member sees it as their own board meeting, beside their office.
+      const own = officeCard(member);
+      expect(
+        own?.reasons.map((r) => r.kind).sort(),
+        `${where}: the member's reasons on the meeting day`,
+      ).toEqual(expect.arrayContaining(["ownMeeting", "seat"]));
+      expect(
+        own?.reasons.some((r) => r.kind === "meeting"),
+        `${where}: a member's board is never "its board"`,
+      ).toBe(false);
+      // Every card says one work tie at most (the closest), never the same thing twice.
+      for (const id of [member, resident])
+        for (const card of townPlaces(core, id))
+          expect(
+            card.reasons.filter((r) =>
+              ["work", "family", "known"].includes(r.kind),
+            ).length > 0
+              ? new Set(
+                  card.reasons
+                    .map((r) => r.kind)
+                    .filter((k) => ["work", "family", "known"].includes(k)),
+                ).size
+              : 1,
+            `${where}: ${card.name} for ${id} gives one work tie`,
+          ).toBe(1);
       console.log(
         `travel-civic: ${where}: ${office.name} for seat ${council.seat.id}; meeting day ${core.date}`,
       );
