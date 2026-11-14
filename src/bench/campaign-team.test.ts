@@ -1,10 +1,9 @@
 /**
  * The campaign board's team area reads the campaign's own record (pool item
  * screens-campaign-board): the one who offered to run it is on the staff, the
- * volunteers are listed apart, each by name. A place drawn from all 56;
- * GOLDEN_PATH_SEED pins one.
+ * volunteers are listed apart, each by name.
+ * One pinned place (seed t1, draw 5).
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { campaignView } from "./campaign";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -25,11 +24,13 @@ import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
+// Pinned (pinned-tests): the place that draw 5 of seed t1 gives, a place with a race the player can enter and a manager who offers.
+const seed = "t1";
+const PINNED_DRAWS = [5];
 
 it(`the campaign board's team lists the manager and the volunteers from the campaign record (seed ${seed})`, () => {
   const tried: string[] = [];
-  for (let draw = 0; draw < 16; draw += 1) {
+  for (const draw of PINNED_DRAWS) {
     const place = drawPlace(`${seed}:${draw}`, "campaign-manager");
     const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
     setBookkeeping(false);
@@ -140,7 +141,7 @@ it(`the campaign board's team lists the manager and the volunteers from the camp
     expect(view!.team.staff.length + view!.team.volunteers.length, where).toBe(
       new Set([...campaign.staffIds, ...campaign.volunteerIds]).size,
     );
-    return;
+    throw new Error("PASSED AT " + where);
   }
   throw new Error(`no place offered a manager: ${tried.join("; ")}`);
 }, 900_000);

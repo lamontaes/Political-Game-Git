@@ -509,8 +509,9 @@ export function raceStanding(
                   : "moved-none",
             id,
             {
-              warmer: mine.warmer,
-              cooler: mine.cooler,
+              // A side no one moved to is not a fact: the lines that need it say so.
+              ...(mine.warmer > 0 ? { warmer: mine.warmer } : {}),
+              ...(mine.cooler > 0 ? { cooler: mine.cooler } : {}),
               reached: mine.reached,
             },
           ),

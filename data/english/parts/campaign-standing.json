@@ -330,7 +330,8 @@
           "move": "moved-all-warmer",
           "subject": "campaign",
           "role": "standing",
-          "choice": "moved-all-warmer"
+          "choice": "moved-all-warmer",
+          "requiresFacts": ["warmer"]
         }
       ],
       "origin": "authored",
@@ -351,7 +352,8 @@
           "move": "moved-all-warmer",
           "subject": "campaign",
           "role": "standing",
-          "choice": "moved-all-warmer"
+          "choice": "moved-all-warmer",
+          "requiresFacts": ["warmer"]
         }
       ],
       "origin": "authored",
@@ -372,7 +374,8 @@
           "move": "moved-all-cooler",
           "subject": "campaign",
           "role": "standing",
-          "choice": "moved-all-cooler"
+          "choice": "moved-all-cooler",
+          "requiresFacts": ["cooler"]
         }
       ],
       "origin": "authored",
@@ -393,7 +396,8 @@
           "move": "moved-all-cooler",
           "subject": "campaign",
           "role": "standing",
-          "choice": "moved-all-cooler"
+          "choice": "moved-all-cooler",
+          "requiresFacts": ["cooler"]
         }
       ],
       "origin": "authored",
@@ -876,7 +880,8 @@
           "move": "moved-none",
           "subject": "campaign",
           "role": "standing",
-          "choice": "moved-none"
+          "choice": "moved-none",
+          "excludesFacts": ["warmer", "cooler"]
         }
       ],
       "origin": "authored",
@@ -897,7 +902,8 @@
           "move": "moved-none",
           "subject": "campaign",
           "role": "standing",
-          "choice": "moved-none"
+          "choice": "moved-none",
+          "excludesFacts": ["warmer", "cooler"]
         }
       ],
       "origin": "authored",
