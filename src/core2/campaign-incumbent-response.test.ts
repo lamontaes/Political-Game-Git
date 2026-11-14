@@ -1131,12 +1131,18 @@ describe("the incumbent's own doors tell them the race", () => {
 
 describe("a challenger who leads the town is heard to lead at the incumbent's doors", () => {
   // Waits on campaign-door-warmth-follows-the-canvasser-not-the-platform:
-  // today every first visit warms nearly everyone to whoever knocks, so one
-  // run of the incumbent's evenings turns the challenger's pledges into the
-  // incumbent's (Monroe, US-SD: 75 and 0 before, 30 and 45 after, the
-  // incumbent's doors told 0.67 to 0.01; with 50, 75 and 82 more days of the
-  // challenger's own canvass the threat stays at -0.25 to -0.36). That
-  // item's builder un-skips this case as its test that fails before.
+  // today every first visit warms nearly everyone to whoever knocks, so the
+  // incumbent's evenings (the day's own hours, one a day) turn the
+  // challenger's pledges into the incumbent's. Monroe, US-SD, pledges to the
+  // challenger and to the incumbent before and after 1, 3, 5, 10 and 20
+  // evenings of the incumbent's doors: with no extra canvass by the
+  // challenger 75 and 0, then 54 and 26, 23 and 62, 10 and 80, 8 and 106,
+  // 11 and 123 (the doors told them 0.47 to 0.02 after one evening, 0.83 to 0
+  // after twenty); with fifty more days of the challenger's canvass 121 and
+  // 38, then 109 and 50, 83 and 76, 70 and 90, 51 and 112, 35 and 128 (threat
+  // -0.04 after one evening, -0.68 after twenty). A visit moves a few
+  // people in a hundred in life. That item's builder un-skips this case as
+  // its test that fails before.
   it.skip("after the challenger's own canvass for weeks, the incumbent's evenings of doors tell them the challenger is ahead, the day steps up, and the turn keeps the evening with the doors as its source", () => {
     const { core, api, where, race, holder, town } = wordOfDoors();
     const filingId = race.incumbent.id;
