@@ -186,7 +186,7 @@ const api = coreAPI(core);
 const me = core.people.get(player.id)!;
 const myOrg = () =>
   core.jobs.get(core.people.get(player.id)!.jobId!)?.organizationId;
-const strangers = [...core.people.values()].filter(
+const unrelated = [...core.people.values()].filter(
   (row) =>
     row.alive &&
     row.tier !== "husk" &&
@@ -197,6 +197,23 @@ const strangers = [...core.people.values()].filter(
     core.jobs.get(row.jobId)!.organizationId !== myOrg() &&
     age(row.birthDate) >= 18,
 );
+// A stranger who shares a school or a workplace with the player asks about
+// that first (nothing to lie about); the cases below that turn on a lie need
+// strangers whose first question is the player's work, so those come first
+// in the list, in the order the population keeps them (drawn-place-tests:
+// the draw may hold a shared school, and the cases no longer depend on it).
+const asksWork = (id: PersonId) => {
+  const kinds = subjectsBetween(core, id, me.id).map((row) => row.kind);
+  return (
+    kinds.includes("own-work") &&
+    !kinds.includes("shared-school") &&
+    !kinds.includes("shared-work")
+  );
+};
+const strangers = [
+  ...unrelated.filter((row) => asksWork(row.id as PersonId)),
+  ...unrelated.filter((row) => !asksWork(row.id as PersonId)),
+];
 // The people already known, before the player meets three strangers: the
 // first, then two whose traits give a claim the benefit of the doubt (a hearer
 // who leans hard toward doubt keeps no belief; see the last test).

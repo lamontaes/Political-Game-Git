@@ -4354,36 +4354,6 @@
       }
     },
     {
-      "key": "conversation.home-new-ask-where.where-do-you-come-from",
-      "move": "home-new-ask-where",
-      "kind": "spoken",
-      "text": "Where do you come from?",
-      "uses": [
-        {
-          "move": "home-new-ask-where",
-          "subject": "home-new",
-          "role": "ask",
-          "choice": "where"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 1,
-        "dcpd": 3
-      },
-      "source": {
-        "document": "Remarks to the United Nations General Assembly in New York City",
-        "date": "2025-09-23",
-        "granule": "DCPD-202500944",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500944/html/DCPD-202500944.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
       "key": "conversation.home-new-answer-plain.im-from-place",
       "move": "home-new-answer-plain",
       "kind": "spoken",
@@ -17149,7 +17119,7 @@
       "key": "conversation.job-hope-reply-answer-help.tell-me-what-needs-doing-and-i-ll-do-it",
       "move": "job-hope-reply-answer-help",
       "kind": "spoken",
-      "text": "Tell me what needs doing, and I'll do it.",
+      "text": "Tell me what to do, and I'll do it.",
       "uses": [
         {
           "move": "job-hope-reply-answer-help",
@@ -17245,7 +17215,7 @@
       "key": "conversation.illness-news-raise-raise.relation-is-in-a-bad-way",
       "move": "illness-news-raise-raise",
       "kind": "spoken",
-      "text": "{relation} is in a bad way.",
+      "text": "{relation} is in bad shape.",
       "uses": [
         {
           "move": "illness-news-raise-raise",
@@ -17534,7 +17504,7 @@
       "key": "conversation.job-new-detail-raise.they-took-me-on-as-position",
       "move": "job-new-detail-raise",
       "kind": "spoken",
-      "text": "They took me on as {position}.",
+      "text": "They hired me as {position}.",
       "uses": [
         {
           "move": "job-new-detail-raise",
@@ -17551,7 +17521,7 @@
       "key": "conversation.job-new-detail-raise.employer-took-me-on-as-position",
       "move": "job-new-detail-raise",
       "kind": "spoken",
-      "text": "{employer} took me on as {position}.",
+      "text": "{employer} hired me as {position}.",
       "uses": [
         {
           "move": "job-new-detail-raise",
@@ -24660,7 +24630,7 @@
       "key": "conversation.greet-core.it-s-been-ages-i-last-saw-you-when",
       "move": "greet-core",
       "kind": "spoken",
-      "text": "It's been ages. I last saw you {when}.",
+      "text": "It's been forever. I last saw you {when}.",
       "piece": {
         "of": "greet-open",
         "part": "core",
@@ -25226,7 +25196,7 @@
       "key": "conversation.greet-core.name-i-only-just-saw-you-when",
       "move": "greet-core",
       "kind": "spoken",
-      "text": "{name}, I only just saw you {when}.",
+      "text": "{name}, I just saw you {when}.",
       "piece": {
         "of": "greet-open",
         "part": "core",
@@ -25272,7 +25242,7 @@
       "key": "conversation.greet-core.name-it-s-been-ages-i-last-saw-you-when",
       "move": "greet-core",
       "kind": "spoken",
-      "text": "{name}, it's been ages. I last saw you {when}.",
+      "text": "{name}, it's been forever. I last saw you {when}.",
       "piece": {
         "of": "greet-open",
         "part": "core",
@@ -27549,7 +27519,7 @@
       "key": "conversation.news-back-core.they-re-on-about-about-it-ran-ran",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "They're on about {about}. It ran {ran}.",
+      "text": "They're talking about {about}. It ran {ran}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -27773,7 +27743,7 @@
       "key": "conversation.own-view-answer-disagree.i-come-down-the-other-side-first",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
-      "text": "I come down the other side, {first}.",
+      "text": "I come down on the other side, {first}.",
       "uses": [
         {
           "move": "own-view-answer-disagree",
@@ -27845,7 +27815,7 @@
       "key": "conversation.own-view-answer-disagree.we-ll-have-to-differ-first",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
-      "text": "We'll have to differ, {first}.",
+      "text": "We'll have to agree to disagree, {first}.",
       "uses": [
         {
           "move": "own-view-answer-disagree",
@@ -28115,7 +28085,7 @@
       "key": "conversation.news-back-core.that-s-the-whole-of-it-it-ran-ran",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "That's the whole of it. It ran {ran}.",
+      "text": "That's all of it. It ran {ran}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -28404,7 +28374,7 @@
       "key": "conversation.farewell-core.good-of-you-to-stop-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Good of you to stop, {player-first}.",
+      "text": "Thanks for stopping, {player-first}.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -28753,7 +28723,7 @@
       "key": "conversation.work-reason.theyve-got-me-on-as-position",
       "move": "work-reason",
       "kind": "spoken",
-      "text": "They've got me on as {position}.",
+      "text": "They've got me working as {position}.",
       "uses": [
         {
           "move": "work-reason",
@@ -29922,29 +29892,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.family-answer-ill.name-fell-ill-when",
-      "move": "family-answer-ill",
-      "kind": "spoken",
-      "text": "{name} fell ill {when}.",
-      "uses": [
-        {
-          "move": "family-answer-ill",
-          "subject": "family",
-          "role": "answer",
-          "choice": "ill",
-          "stages": ["ill"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.family-answer-ill.name-started-feeling-poorly-when",
       "move": "family-answer-ill",
       "kind": "spoken",
-      "text": "{name} started feeling poorly {when}.",
+      "text": "{name} started feeling sick {when}.",
       "uses": [
         {
           "move": "family-answer-ill",
@@ -31072,7 +31023,7 @@
       "key": "conversation.farewell-core.good-chatting-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Good chatting, {player-first}.",
+      "text": "Good talking to you, {player-first}.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -40703,52 +40654,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-with.rightly-so",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "Rightly so.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "requiresFacts": ["about"],
-          "stages": ["with"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 75)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-m-with-that",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I'm with that.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "requiresFacts": ["about"],
-          "stages": ["with"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 75)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.address-point-core-with.can-t-argue",
       "move": "address-point-core-with",
       "kind": "spoken",
@@ -41002,29 +40907,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.see-it-differently",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "See it differently.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "requiresFacts": ["about"],
-          "stages": ["against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 75)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.address-point-core-against.not-for-me",
       "move": "address-point-core-against",
       "kind": "spoken",
@@ -41216,46 +41098,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.farewell-core.nice-chat",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Nice chat.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.farewell-core.good-talk",
       "move": "farewell-core",
       "kind": "spoken",
       "text": "Good talk.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.good-chat",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Good chat.",
       "uses": [
         {
           "move": "farewell-core",
@@ -41310,24 +41156,6 @@
       "move": "farewell-core",
       "kind": "spoken",
       "text": "Be good.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.see-you-then",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "See you then.",
       "uses": [
         {
           "move": "farewell-core",
@@ -41720,78 +41548,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.farewell-core.right-see-you",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Right, see you.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.talk-to-you",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Talk to you.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.see-you-tomorrow",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "See you tomorrow.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.see-you-monday",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "See you Monday.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.farewell-core.see-you-again",
       "move": "farewell-core",
       "kind": "spoken",
@@ -41850,24 +41606,6 @@
       "move": "farewell-core",
       "kind": "spoken",
       "text": "Bye, now.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.bye-for-today",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Bye for today.",
       "uses": [
         {
           "move": "farewell-core",
@@ -42012,42 +41750,6 @@
       "move": "farewell-core",
       "kind": "spoken",
       "text": "Talk later.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.enjoy-yourself",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Enjoy yourself.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.have-fun",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Have fun.",
       "uses": [
         {
           "move": "farewell-core",
