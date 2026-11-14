@@ -91,6 +91,7 @@ import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
 import { BUSINESS_MODULE_ID, enrollBusinessOwner, ownerOf } from "./business";
 import { publicOffset, questionAxis } from "../campaign-views";
 import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
+import { contestPositions } from "../contest-positions";
 import {
   hireStaffMember,
   nationalOutletName,
@@ -1495,6 +1496,27 @@ export function townConcernReader(api: CoreAPI): (question: string) => number {
 }
 
 /**
+ * The questions the seat a speaker runs for or holds decides (the same read
+ * the filing panel lists its positions from), or null where they have none.
+ */
+function seatQuestions(
+  api: CoreAPI,
+  speaker: Speaker,
+): ReadonlySet<string> | null {
+  const offices = speaker.filing
+    ? [contestOf(api, speaker.filing.contestId).officeId]
+    : servingTerms(api, speaker.personId).map((t) => t.officeId);
+  if (!offices.length) return null;
+  const positions = new Set(
+    offices.flatMap((officeId) => contestPositions(api, { officeId })),
+  );
+  // A body whose list is empty (a world that keeps no budget for it and whose
+  // state lets it decide none of the platform questions) leaves nothing to
+  // restrict to, so the reporter asks as before.
+  return positions.size ? positions : null;
+}
+
+/**
  * What the reporter asks: the questions the race's record puts in play,
  * scored by every reason a reporter has to ask each one: a promise the
  * candidate broke; the incumbent's recent recorded votes; how far apart the
@@ -1637,6 +1659,15 @@ export function interviewQuestions(
         ),
     );
   }
+  // A reporter asks what the seat's own body decides, and otherwise only what
+  // is truly in the news in the town: a question the body cannot decide keeps
+  // nothing but the town's concern for it, so it is asked as the town's news
+  // and never for the candidate's record or the rivals' gap.
+  const seat = seatQuestions(api, speaker);
+  if (seat)
+    for (const [q] of score)
+      if (!seat.has(q))
+        score.set(q, pressParameter("townConcernNewsWeight") * concern(q));
   // Asked before, on the record: less to learn from asking again.
   const asked = new Map<string, number>();
   for (const row of table(api, "interviews").query("byCandidate", [
