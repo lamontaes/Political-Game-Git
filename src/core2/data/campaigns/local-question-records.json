@@ -1,0 +1,24 @@
+{
+  "version": "local-question-records-v1",
+  "about": "What a town's, township's or county's own records must hold before its seats run on a question (the lead, Nov 12: a council candidate in a town of a few hundred campaigning on civilian oversight of the police; contest-positions.ts `contestPositions`). Each question names the line of the local government's latest budget it is about: `spending`, a line it spends on (a town with no police spending has no police department to oversee or to send to federal immigration enforcement), or `revenue`, a line it takes in (a town with no sales tax of its own takes none off groceries). A local question not listed here needs no record beyond the state's law letting the place act on it. TUNABLE by question, checked against what a local government must run before it can act on the question.",
+  "needs": {
+    "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
+      "spending": "police"
+    },
+    "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "spending": "police"
+    },
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+      "revenue": "generalSalesTax"
+    },
+    "us-policy-positions:civil-family-community.dedicated-parks-funding": {
+      "spending": "parks"
+    },
+    "us-policy-positions:health-human-services.work-requirement-for-assistance": {
+      "spending": "welfareAndMedicaid"
+    },
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
+      "spending": "highways"
+    }
+  }
+}
