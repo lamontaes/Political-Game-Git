@@ -68,6 +68,7 @@ import { basePlaces } from "../race-places";
 import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
+import { notifySalesReceipt } from "./finance";
 import { medianTransactionBalance } from "../starting-cash";
 import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
@@ -3996,7 +3997,7 @@ function spend(
       throw new Error(
         "A campaign's purchase outside the town was not paid in full.",
       );
-  } else
+  } else {
     postMoney(
       api,
       input.kind === "ad" ? AD_KIND : PURCHASE_KIND,
@@ -4007,6 +4008,19 @@ function spend(
       input.citation,
       false,
     );
+    // A sale to a business in town is noticed the way any customer's is, so a
+    // sales tax in force reaches it and its seller remits.
+    notifySalesReceipt(api, {
+      id: moneyId,
+      date: api.state.date,
+      sellerId: input.sellerId,
+      buyerIds: [campaign.organizationId],
+      kind: `campaign-${input.kind}`,
+      paidMinor: input.amountMinor,
+      placeId: api.state.organizations.get(input.sellerId)?.placeId ?? "",
+      counted: false,
+    });
+  }
   const byKind = { ...(campaign.spentByKind ?? {}) };
   byKind[input.kind] = (byKind[input.kind] ?? 0) + input.amountMinor;
   save(api, {

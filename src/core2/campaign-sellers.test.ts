@@ -132,8 +132,6 @@ for (const place of [
     ).townPlaceId;
     api.addOrganization(outsideMarketAccount(town, START));
     const outside = townOutsideOf(core.organizations.values(), town)!;
-    const employers = core.organizationsByPlaceKind.get(`${town}:employer`);
-    for (const id of [...(employers ?? [])]) employers!.delete(id);
     const residents = [...core.people.values()]
       .filter(
         (p) =>
@@ -175,6 +173,33 @@ for (const place of [
       kind: "contribute",
       amountMinor: Math.floor(candidate.liquidMinor / 2),
     });
+    // First, a hall bought from a business in town: its cash rises through the
+    // journal and the sale is noticed as any customer's is (sales tax reads it).
+    const sales: { sellerId: string; paidMinor: number; kind: string }[] = [];
+    core.modules.set("zz-sale-probe", {
+      id: "zz-sale-probe",
+      onSalesReceipt: (_api, sale) => sales.push(sale),
+    } as never);
+    const hall = seller(api, "event");
+    let hallPosted = 0;
+    setJournalTrace((input) => {
+      for (const q of input.postings)
+        if (q.accountId === `cash:${hall}:residual`) hallPosted += q.deltaMinor;
+    });
+    try {
+      rentVenue(api, filingId!, "event");
+    } finally {
+      setJournalTrace(null);
+    }
+    expect(sales.length, `${place.name}: sale noticed`).toBe(1);
+    expect(sales[0]!.sellerId, place.name).toBe(hall);
+    expect(sales[0]!.kind, place.name).toBe("campaign-event");
+    expect(hallPosted, place.name).toBe(sales[0]!.paidMinor);
+    core.modules.delete("zz-sale-probe");
+    // Then a town with none: everything goes outside.
+    const employers = core.organizationsByPlaceKind.get(`${town}:employer`);
+    for (const id of [...(employers ?? [])]) employers!.delete(id);
+    const spentBefore = campaignFor(api, filingId!).spentMinor;
     const payments: {
       postings: { accountId: string; deltaMinor: number }[];
     }[] = [];
@@ -201,7 +226,8 @@ for (const place of [
     );
     expect(toOutside.length, place.name).toBe(3);
     for (const paid of toOutside) expect(paid, place.name).toBeGreaterThan(0);
-    expect(campaignFor(api, filingId!).spentMinor, place.name).toBe(
-      toOutside.reduce((x, y) => x + y, 0),
-    );
+    expect(
+      campaignFor(api, filingId!).spentMinor - spentBefore,
+      place.name,
+    ).toBe(toOutside.reduce((x, y) => x + y, 0));
   }, 600_000);
