@@ -250,9 +250,6 @@ const ENGINE_READERS: Readonly<
   // have closed (press.local-newspaper), counted from the finance ledger's
   // closing dates; null where the press keeps no outlet for the place.
   "newspapers-closed": (api, placeId) => {
-    // stopgapId: SG-WEB-voting-newspaper-closure (a paper closes only by its
-    // owner's choice, and no paper's books show the losses that choice weighs)
-    api.stopgap("SG-WEB-voting-newspaper-closure");
     const closed = closedNewspapers(api, placeId);
     return closed ? { value: closed.count, recordId: closed.recordId } : null;
   },

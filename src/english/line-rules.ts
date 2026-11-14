@@ -159,9 +159,12 @@ export interface LineRule {
    * which reply sets it reads. `every` is each set of two or more replies the
    * player is offered; `later` is only those after the first exchange. The
    * rule's `applies` is tested on the line the set answers. A set rule
-   * without it waits for its own reader (variants of a slot, a speech).
+   * without it waits for its own reader (a speech). `variants` reads the
+   * variants of one slot instead: the bank pieces that share a use (purpose,
+   * key, step, move and role) whatever facts each one requires, with `applies`
+   * tested on each piece.
    */
-  readonly sets?: "every" | "later";
+  readonly sets?: "every" | "later" | "variants";
   readonly catches?: readonly RuleCase[];
   readonly spares?: readonly RuleCase[];
   /**

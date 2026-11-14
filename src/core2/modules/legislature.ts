@@ -4638,10 +4638,7 @@ export interface CommitteeRecord {
     readonly vote: "yes" | "no" | "abstain";
     readonly position: MemberPosition;
   }[];
-  readonly witnesses: readonly {
-    readonly personId: string;
-    readonly stake: string;
-  }[];
+  readonly witnesses: readonly HearingWitness[];
   readonly yes: number;
   readonly no: number;
   readonly reported: boolean;
@@ -4759,12 +4756,29 @@ export function committeeMemberKeys(
  * typical standing committee's (`committeeSize`); seats go by seniority
  * until leadership appoints them (SG-GOV-committee-structure).
  */
+/**
+ * One witness at a hearing: their side on the bill, and what in their own life the bill reaches, as a
+ * kind (`life`) and the record it rests on (`lifeRecordId`: their job, their lease, their child), so a
+ * scene says what the bill does to them, never a side alone or a figure.
+ */
+export interface HearingWitness {
+  readonly personId: string;
+  /** Their side: "for" or "against" the bill. */
+  readonly stake: "for" | "against";
+  /**
+   * What the bill reaches in their life: "paid-under-the-floor", "works-where-it-binds", "works",
+   * "rents", "owns", "children-at-home", "own-age-health", or "believes" (a view, and no life it touches).
+   */
+  readonly life: string;
+  readonly lifeRecordId?: string;
+}
+
 /** Who else a hearing hears on a bill's question, from another engine's records (the interest groups). */
 type HearingWitnessProvider = (
   api: CoreAPI,
   bill: BillRow,
   question: string,
-) => readonly { readonly personId: string; readonly stake: string }[];
+) => readonly HearingWitness[];
 const hearingWitnessProviders: HearingWitnessProvider[] = [];
 /**
  * A chamber's members taking a bill from a committee that did not report it: each member signs by their
@@ -4903,7 +4917,7 @@ function committeeStage(
   // The chair's reasons are kept on the committee record; no scene or story
   // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
   api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
-  const witnesses: { personId: string; stake: string }[] = [];
+  const witnesses: HearingWitness[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
     if (wage) {
@@ -4914,9 +4928,12 @@ function committeeStage(
           (a, b) => a.hourlyMinor - b.hourlyMinor || a.id.localeCompare(b.id),
         )
         .slice(0, campaignParameter("hearingWitnesses")))
+        // A worker paid under the proposed floor: the raise would reach their own pay.
         witnesses.push({
           personId: c.personId,
-          stake: `paid ${c.hourlyMinor} an hour, under the proposed floor`,
+          stake: "for",
+          life: "paid-under-the-floor",
+          lifeRecordId: c.id,
         });
     }
   }
@@ -4953,8 +4970,10 @@ function committeeStage(
           speakerId: w.personId,
           placeId: lawChain(api).townPlaceId,
           topic: question.question,
-          // A witness paid under the proposed floor speaks for the raise.
-          desiredChange: question.position > 0 ? "enact" : "repeal",
+          // A witness speaks for their own side: one for the bill asks for what it does, one
+          // against it for the opposite (a worker paid under the proposed floor is for the raise).
+          desiredChange:
+            question.position > 0 === (w.stake === "for") ? "enact" : "repeal",
           audienceIds: room.filter((id) => id !== w.personId),
           // The hearing's own record, written below (`committee:<bill>:<chamber>`).
           occasion: {
@@ -5046,6 +5065,17 @@ function committeeStage(
       chair: record.chairId,
       yes: String(yes),
       no: String(no),
+      // Who testified, in order, with each one's side and what the bill reaches in their life (a
+      // scene after the hearing is cast from these).
+      witnessIds: witnesses.map((w) => w.personId).join(","),
+      witnessSides: witnesses.map((w) => w.stake).join(","),
+      witnessLives: witnesses.map((w) => w.life).join(","),
+      witnessLifeRecords: witnesses.map((w) => w.lifeRecordId ?? "").join(","),
+      // What the bill is about, so a witness's line fits it: a wage bill, or the
+      // policy area of the question it was heard on.
+      area: bill.provisions.some((p) => p.series === "minimum-wage")
+        ? "wage"
+        : (question?.question.split(":")[1]?.split(".")[0] ?? ""),
     },
   });
   return record;
@@ -5080,6 +5110,18 @@ export function committeeRecords(
  * those voting passes it in each, and in the U.S. Senate only after three
  * fifths of its members vote to end debate. Every vote is on the record.
  */
+/** A member's own stance on a policy question: an official's record and causes, a town member's views today. */
+function memberStanceOn(
+  api: CoreAPI,
+  memberId: string,
+  question: string,
+): number {
+  const official = officialOf(api, memberId);
+  return official
+    ? ownStance(official.ideal, official.signature, question)
+    : viewOn(api, memberId, question, leanOf(api, memberId));
+}
+
 /**
  * The sections a member would add to a bill: the questions they care most
  * about that the bill doesn't touch and its body may answer, each in the
@@ -5105,12 +5147,7 @@ function ownSections(
   );
   // An official's own stance is their record and causes; a town member's,
   // where they stand today.
-  const official = officialOf(api, memberId);
-  const lean = leanOf(api, memberId);
-  const stanceOn = (q: string) =>
-    official
-      ? ownStance(official.ideal, official.signature, q)
-      : viewOn(api, memberId, q, lean);
+  const stanceOn = (q: string) => memberStanceOn(api, memberId, q);
   // A member asks for a section only where it would change their body's law:
   // not one that repeats the law in force or an act already passed, nor one
   // that cuts across an act waiting on its effective date.
@@ -6173,18 +6210,51 @@ function decideAtDesk(
     });
   // The signature, the veto and any override vote are public record the
   // press reads, like the floor's roll call.
+  executiveActionRecord(
+    api,
+    bill,
+    key,
+    executive.personId,
+    status,
+    override
+      ? {
+          override: override.tallies
+            .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
+            .join(","),
+        }
+      : {},
+  );
+  return { status, decision: { executiveId: key, action: status }, override };
+}
+
+/**
+ * What the executive did with a bill on their desk, on the public record the
+ * press, the reporter's question and the Journal read: signed, vetoed,
+ * overridden, or let become law unsigned when the deadline passed.
+ */
+function executiveActionRecord(
+  api: CoreAPI,
+  bill: BillRow,
+  executiveId: string,
+  personId: string | null | undefined,
+  action: string,
+  extra: Readonly<Record<string, string>> = {},
+): void {
   api.emit({
     id: `executive-action:${bill.id}`,
     date: api.state.date,
     kind: "executive-action",
     personIds: [
-      ...(executive.personId ? [executive.personId] : []),
+      ...(personId ? [personId] : []),
       ...(api.state.people.has(bill.sponsorId) ? [bill.sponsorId] : []),
     ],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
-      citation: `${status === "signed" ? "Signing" : "Veto"} of ${bill.number}`,
+      citation:
+        action === "unsigned"
+          ? `${bill.number} became law unsigned when the deadline to act passed`
+          : `${action === "signed" ? "Signing" : "Veto"} of ${bill.number}`,
       asOf: api.state.date,
     },
     publicRecord: true,
@@ -6193,18 +6263,52 @@ function decideAtDesk(
       billId: bill.id,
       number: bill.number,
       level: billReach(api, bill).level,
-      executiveId: key,
-      action: status,
-      ...(override
-        ? {
-            override: override.tallies
-              .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
-              .join(","),
-          }
-        : {}),
+      executiveId,
+      action,
+      ...extra,
     },
   });
-  return { status, decision: { executiveId: key, action: status }, override };
+}
+
+/**
+ * How many of a body's whole membership an override takes: two thirds (not
+ * of those voting) by default, the state's own share for a mayor's veto,
+ * plus one where its law says so.
+ */
+function overrideNeeded(
+  mayorRule: ReturnType<typeof mayorVeto> | null,
+): (members: number) => number {
+  const share =
+    mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
+  return (n) =>
+    mayorRule?.plusOne
+      ? Math.floor(n * share) + 1
+      : Math.ceil(n * share - 1e-9);
+}
+
+/**
+ * How a bill waiting on the executive's desk passed, by the narrowest of its
+ * chambers' recorded tallies: with no vote against it, with enough yes votes
+ * in every chamber to override a veto, or short of that. Null for a bill with
+ * no tallies on record.
+ */
+export function deskPassage(
+  api: CoreAPI,
+  billId: string,
+): "unopposed" | "veto-proof" | "short-of-override" | null {
+  const bill = table(api, "bills").get(billId) as unknown as
+    | (BillRow & { tallies?: { yes: number; no: number; members: number }[] })
+    | undefined;
+  const tallies = bill?.tallies ?? [];
+  if (!bill || !tallies.length) return null;
+  if (tallies.every((t) => t.no === 0)) return "unopposed";
+  const office = executiveOf(api, bill.bodyOfficeId).office;
+  const needed = overrideNeeded(
+    office?.kind === "mayor" ? mayorVeto(api) : null,
+  );
+  return tallies.every((t) => t.yes >= needed(t.members))
+    ? "veto-proof"
+    : "short-of-override";
 }
 
 /** The vote to override a veto, run and put on the public record (the same for any executive and body). */
@@ -6215,17 +6319,11 @@ function runOverride(
   executive: NonNullable<ReturnType<typeof executiveOf>["term"]>,
   mayorRule: ReturnType<typeof mayorVeto> | null,
 ): ReturnType<typeof overrideVote> {
-  // Two thirds of each body's whole membership (not of those voting).
-  const share =
-    mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
   const override = overrideVote(
     api,
     bill,
     memberSide(api, key, executive.party),
-    (n) =>
-      mayorRule?.plusOne
-        ? Math.floor(n * share) + 1
-        : Math.ceil(n * share - 1e-9),
+    overrideNeeded(mayorRule),
   );
   // The override vote is a public record of its own, beside the veto's.
   api.emit({
@@ -6917,7 +7015,17 @@ function enact(
         estimate,
         // The bill itself, not only its number: numbers repeat across bodies
         // and sessions, and a recall or the record finds the bill by this.
-        terms: { ...(terms ?? {}), enactedByBill: bill.id },
+        terms: {
+          ...(terms ?? {}),
+          enactedByBill: bill.id,
+          // How strongly the sponsor holds the question (their own record or
+          // views), for a reader that needs the rate or size they would
+          // write: a flat tax that replaces a graduated one is read from it.
+          sponsorStance:
+            Math.round(
+              memberStanceOn(api, bill.sponsorId, provision.question) * 1000,
+            ) / 1000,
+        },
       });
     }
   }
@@ -7094,6 +7202,10 @@ function deadlinePassed(api: CoreAPI, billId: string): void {
     executiveId: executiveId ?? "",
     action: "unsigned",
   });
+  // The lapse is the executive's act as much as a signature is (owner's
+  // card, Nov 14 2026, 06:08Z: "the Journal says so"), on the same record.
+  if (executiveId)
+    executiveActionRecord(api, unsigned, executiveId, executiveId, "unsigned");
 }
 
 /** The body's next sitting day after today, with where its date comes from. */

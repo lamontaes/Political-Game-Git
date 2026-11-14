@@ -161,6 +161,13 @@
     "year": "one year",
     "years": "{count} years"
   },
+  "length": {
+    "about": "A prison term or other length of months as people say it in talk (\"eight months\", \"three years\"): whole years when the months make whole years, else months. Read by lengthSaid in src/english/count-words.ts.",
+    "month": "a month",
+    "months": "{count} months",
+    "year": "a year",
+    "years": "{count} years"
+  },
   "moneyUnits": {
     "about": "A sum of a million dollars or more said in the unit people use (\"about $40 million\", \"about $2.3 billion\"), never the dollars written out; one decimal below ten of the unit, whole units above. Read by moneySaid in src/english/count-words.ts.",
     "rows": [
@@ -190,7 +197,7 @@
     }
   },
   "smallCounts": {
-    "about": "A whole count below ten said in words, as the owner's rule says (\"counts under ten in words\"): a number of years in an address. Read by countSaid in src/english/count-words.ts; ten and more stay digits.",
+    "about": "A whole count below ten said in words, as the owner's rule says (\"counts under ten in words\"): a number of years in an address. Read by countSaid in src/english/count-words.ts; a caller may ask for words up to ninety-nine (a line opening on \"Thirteen years there\"); beyond the limit it stays digits.",
     "words": [
       "zero",
       "one",
@@ -201,7 +208,29 @@
       "six",
       "seven",
       "eight",
-      "nine"
+      "nine",
+      "ten",
+      "eleven",
+      "twelve",
+      "thirteen",
+      "fourteen",
+      "fifteen",
+      "sixteen",
+      "seventeen",
+      "eighteen",
+      "nineteen"
+    ],
+    "tens": [
+      "",
+      "",
+      "twenty",
+      "thirty",
+      "forty",
+      "fifty",
+      "sixty",
+      "seventy",
+      "eighty",
+      "ninety"
     ]
   }
 }

@@ -3220,6 +3220,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "sets": "variants",
+      "applies": {
+        "banks": ["scene-talk"]
       }
     },
     {
@@ -4808,19 +4812,26 @@
     },
     {
       "id": "pronoun-fits-the-person",
-      "says": "A line uses the pronoun the person goes by or avoids it (\"like they've done a hundred times\" for one man reads wrong).",
+      "says": "A line that speaks of one named person uses the pronoun that person's record holds; \"they\" for one named person is a fault when the record holds he or she.",
       "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-19",
           "words": "avoid the pronoun or use the person's own.",
           "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-06",
+          "words": "There needs to be pronouns and titles.",
+          "via": "owner, quoted in src/director/opening-story.ts"
         }
       ],
-      "note": "Awaits a tag: no use carries the pronoun the person goes by, and the banks have no pronoun slot, so \"they\" for one named person cannot be told right from wrong.",
-      "status": "awaiting-test",
+      "note": "Rule 109. Composed: a sentence that names a person whose record says he or she (`pronounFor` of `looks.gender`) and says they, them or their in it or the next sentence. A plural in the same sentence can be listed wrongly. Sample: it reports over played worlds (`npm run words:composed`), it pulls no bank line. The 62 scene-talk lines are listed in words-machine/rule-109-they-lines.md for the Words lead.",
+      "status": "sample",
       "test": {
-        "kind": "judged"
+        "kind": "composed",
+        "check": ["pronoun-fits-the-person"],
+        "applies": ["talk:home", "talk:town", "scene", "narration"]
       }
     },
     {
@@ -5743,6 +5754,42 @@
             "person-history"
           ]
         }
+      ]
+    },
+    {
+      "id": "question-offered-only-when-a-record-answers",
+      "says": "A question is offered only when the scene can answer it from a record in the same talk; one nothing in the game holds an answer to is not offered.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-11-14",
+          "words": "Whenever a line asks something, in any voice, the scene must be able to say the answer from a record, in that same talk. If it cannot, the question is not offered or said.",
+          "via": "Words lead, rule 108"
+        }
+      ],
+      "note": "Rule 108, first slice: the questions the Words lead ruled have no record today (how to pay for it, what to say to them, the put-offs, the hour of an outing, what is in it for my district and the trade line). Each comes back when its record exists and its answer line carries the fact. The rest of rule 108 is the composed check. The answer that invents an hour and a room for the outing goes with its question. Two lines the rule would flag stay out of its patterns until their replacements are written: 'Thursday works. What time?' and its 'Seven. The back room...' answer (the outing record holds a day and place, not an hour). The appointment put-off is reworded to a statement, not a question.",
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": [
+          "^How would you pay for it\\?$",
+          "^What would you like me to say to them\\?$",
+          "^When do you need an answer\\?$",
+          "Can I call you back before you file\\?$",
+          "^Can we talk later\\?$",
+          "^I can't talk now\\. Later\\?$",
+          "^What's in it for my district\\?$",
+          "^Then let's call it a trade\\. What do I get on \\{bill\\} that I didn't get last time\\?$"
+        ],
+        "applies": {
+          "banks": ["scene-talk"]
+        }
+      },
+      "catches": [
+        "How would you pay for it?",
+        "Can we talk later?",
+        "What's in it for my district?"
       ]
     }
   ]

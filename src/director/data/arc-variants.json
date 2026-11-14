@@ -3292,6 +3292,22 @@
                   {
                     "move": "comfort",
                     "carries": "none"
+                  },
+                  {
+                    "move": "defer",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
+                    "carries": "none"
                   }
                 ]
               }
@@ -3399,6 +3415,18 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -3511,6 +3539,18 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -3854,6 +3894,18 @@
                     "carries": "none"
                   }
                 ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
+                    "carries": "none"
+                  }
+                ]
               }
             },
             "replies": ["ask", "agree", "decline", "deflect"],
@@ -3957,6 +4009,22 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "defer",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -4065,6 +4133,18 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -4177,6 +4257,18 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -4520,6 +4612,18 @@
                     "carries": "none"
                   }
                 ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
+                    "carries": "none"
+                  }
+                ]
               }
             },
             "replies": ["ask", "agree", "decline", "deflect"],
@@ -4625,6 +4729,18 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]

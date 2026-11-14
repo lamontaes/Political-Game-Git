@@ -2736,6 +2736,50 @@
       }
     },
     {
+      "key": "headlines.signed.designation-becomes-law-without-name-s-signature",
+      "move": "signed",
+      "kind": "written",
+      "text": "{designation} becomes law without {name}'s signature",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "headline",
+          "role": "signed",
+          "choice": "headline",
+          "requiresFacts": ["unsigned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.signed.office-name-lets-designation-become-law-unsigned",
+      "move": "signed",
+      "kind": "written",
+      "text": "{office} {name} lets {designation} become law unsigned",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "headline",
+          "role": "signed",
+          "choice": "headline",
+          "requiresFacts": ["unsigned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.hearing.number-speak-at-the-hearing-on-designation",
       "move": "hearing",
       "kind": "written",
@@ -9056,6 +9100,31 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.election-notice.notice-of-election",
+      "move": "election-notice",
+      "kind": "written",
+      "text": "Notice of election",
+      "uses": [
+        {
+          "move": "election-notice",
+          "subject": "headline",
+          "role": "election-notice",
+          "choice": "headline"
+        }
+      ],
+      "source": {
+        "document": "Notice of Election, General Municipal Election",
+        "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf",
+        "date": "2026-07-01"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "restoredFrom": "notice.election.notice-of-election",
+      "restoredOn": "2026-11-08"
     }
   ]
 }

@@ -53,27 +53,11 @@
       "stage": "default"
     },
     "job-lost": {
-      "kind": "job-lost-reply",
-      "stage": "default"
-    },
-    "job-cause": {
-      "kind": "job-cause-reply",
-      "stage": "default"
-    },
-    "job-hope": {
-      "kind": "job-hope-reply",
+      "kind": "job-lost",
       "stage": "default"
     },
     "eviction": {
-      "kind": "eviction-reply",
-      "stage": "default"
-    },
-    "eviction-cause": {
-      "kind": "eviction-cause-reply",
-      "stage": "default"
-    },
-    "eviction-where": {
-      "kind": "eviction-where-reply",
+      "kind": "eviction",
       "stage": "default"
     },
     "job-new": {
@@ -81,15 +65,15 @@
       "stage": "default"
     },
     "death-news": {
-      "kind": "death-news-reply",
+      "kind": "death-news",
       "stage": "default"
     },
     "illness-news": {
-      "kind": "illness-news-reply",
+      "kind": "illness-news",
       "stage": "default"
     },
     "prison-news": {
-      "kind": "prison-news-reply",
+      "kind": "prison-news",
       "stage": "default"
     },
     "job-new-told": {
@@ -185,9 +169,7 @@
     "mutual": ["family"],
     "news": ["own-view", "address"],
     "address": ["news"],
-    "address-point": ["news", "own-view"],
-    "job-lost": ["job-hope"],
-    "eviction": ["eviction-where"]
+    "address-point": ["news", "own-view"]
   },
   "topicOfLabel": {
     "about": "A recorded moment of the speaker's own (no one else in it) is talked about as this subject, by the moment's label: a new job is their work, a move is their home.",
@@ -221,19 +203,6 @@
   },
   "tells": {
     "about": "Owner, Oct 14, 2026, night (Q10: one 'listen' and one 'ask more'): when the player answers the other person's line with a choice that asks for more, the other person tells this subject of their own, from their records, as a side remark on the same topic. By the line's kind, then the choice.",
-    "job-lost-reply": {
-      "ask": "job-cause"
-    },
-    "job-cause-reply": {
-      "ask": "job-hope"
-    },
-    "eviction-reply": {
-      "ask": "eviction-cause",
-      "where": "eviction-where"
-    },
-    "eviction-cause-reply": {
-      "where": "eviction-where"
-    },
     "address": {
       "agree": "address-point",
       "doubt": "address-point",
@@ -347,6 +316,35 @@
     "government-news": {
       "for": "agree",
       "against": "disagree"
+    },
+    "death-news": {
+      "ask": "request",
+      "okay": "request",
+      "help": "answer",
+      "condole": "answer"
+    },
+    "illness-news": {
+      "ask": "request",
+      "help": "answer",
+      "comfort": "answer"
+    },
+    "prison-news": {
+      "ask": "request",
+      "what": "request",
+      "comfort": "answer"
+    },
+    "eviction": {
+      "ask": "request",
+      "where": "request",
+      "comfort": "answer",
+      "what": "request",
+      "owed": "request"
+    },
+    "job-lost": {
+      "ask": "request",
+      "hope": "request",
+      "help": "answer",
+      "comfort": "answer"
     }
   },
   "addressPoint": {
@@ -481,7 +479,7 @@
     }
   },
   "dayTalk": {
-    "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift: the day ahead or a day off for work-day, the shift just worked for work-done): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day. The rent coming due (rent-due) is told by a payer on the household's lease in the days before it is due, once for each due date, and answered from the household's cash against it. A school day missed (school-missed) is read the next morning from the school engine's closed day: a school day with no attendance row; a day they went is the usual day and no news. A morning shift is told only when it differs from the job's usual day (its hours by unusualShiftMinutes); a usual day or a day off is no news. A story in the paper that names the speaker's own employer or someone they know (news-touch) is told once, by the story's own record.",
+    "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift: the day ahead or a day off for work-day, the shift just worked for work-done): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day. The rent coming due (rent-due) is told by a payer on the household's lease in the days before it is due, once for each due date, and answered from the household's cash against it. A school day missed (school-missed) is read the next morning from the school engine's closed day: a school day with no attendance row; a day they went is the usual day and no news. A morning shift is told only when it differs from the job's usual day (its hours by unusualShiftMinutes); a usual day or a day off is no news. A story in the paper that names the speaker's own employer or someone they know (news-touch) is told once, by the story's own record. A household put out of its home (eviction) is told once by an adult of it, from the housing engine's case and status: when, what was owed and how many months of rent that was, a job the teller lost before it, and where they went (a relative's, a shelter bed, nowhere); answered back by the reply's move from the same records. For the kinds in backOmitsTold, the answer back leaves out the figures (toldFigures) the telling just said, so it says what comes next, never the same figure again. A relative's death, serious illness or prison term (death-news, illness-news, prison-news) is told once by someone the player lives with, from the record it cites: when, the age at death and a cause said plainly, the illness's common name, the term's length. A housemate's charge, conviction or acquittal (charge, conviction, acquittal) is told through `<kind>-say` from the justice engine's case, pretrial and sentence records (the offense from the defendant's own side, a plea or the trial day, bail, the prison term, fine or probation); the kinds in answersBack (charge-reply, conviction-reply, acquittal-reply) are answered back in composed words from what the telling left out. A job lost (job-lost) is told once by the person who lost it, from the ended job's record, their working life's start, and the search record's reason and search; answered back by the reply's move from the same records.",
     "kinds": [
       "here",
       "player-day",
@@ -491,7 +489,12 @@
       "rent-due",
       "news-touch",
       "player-news",
-      "government-news"
+      "government-news",
+      "eviction",
+      "death-news",
+      "illness-news",
+      "prison-news",
+      "job-lost"
     ],
     "againAfterDays": {
       "value": 3,
@@ -530,7 +533,39 @@
       "tag": "TUNABLE",
       "spread": [14, 56],
       "checkedAgainst": "Lead, Nov 12 (Brett states his hourly wage in three of four talks): a person's own pay, rent or hours figure is said to the same listener once, then not again for this many days (four weeks) unless it changed. A month is about how often a household's money comes up again (a rent or pay cycle; BLS: most workers are paid weekly or biweekly, rent monthly)."
-    }
+    },
+    "evictionJobLostDays": {
+      "value": 365,
+      "tag": "TUNABLE",
+      "spread": [180, 730],
+      "checkedAgainst": "A job lost within the year before an eviction is told as why the rent fell behind: most evicted renters fall behind after a loss of income in the months before (Desmond and Gershenson 2016, 'Housing and Employment Insecurity among the Working Poor'; Census Household Pulse Survey, renters behind by recent loss of employment income)."
+    },
+    "backOmitsTold": [
+      "eviction",
+      "job-lost",
+      "death-news",
+      "illness-news",
+      "prison-news",
+      "charge-reply",
+      "conviction-reply",
+      "acquittal-reply"
+    ],
+    "toldFigures": [
+      "owed",
+      "behind",
+      "wage",
+      "years",
+      "when",
+      "age",
+      "cause",
+      "illness",
+      "term",
+      "offense",
+      "plea",
+      "trial",
+      "probation"
+    ],
+    "answersBack": ["charge-reply", "conviction-reply", "acquittal-reply"]
   },
   "stands": {
     "about": "Owner, Nov 12, via the coordinator: children do not take stands on the President's address. A person younger than this takes no stand in talk: no point of an address, no stand of their own, no policy story told with a side; a child talks about school, friends and home.",

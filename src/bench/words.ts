@@ -84,6 +84,22 @@ export function choiceName(
 }
 
 /**
+ * The name the journal of acts and a place's reasons give an act, from the
+ * choice-names bank's slot-free wording ("Hold a meeting"), keyed by the act's
+ * id. An act the bank has no slot-free name for is left out.
+ */
+export function actionNames(): Record<string, string> {
+  const names: Record<string, string> = {};
+  for (const move of new Set(
+    (choiceBank.parts as ChoicePart[]).map((p) => p.move),
+  )) {
+    const named = choiceName(move, undefined);
+    if (named) names[move] = named.text.replace(/\.$/, "");
+  }
+  return names;
+}
+
+/**
  * A law's measure as a sentence says it, from its catalog label: a label
  * kept as "what: for whom" ("State campaign contribution limit: governor")
  * is said as a phrase ("campaign contribution limit for governor"), and

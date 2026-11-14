@@ -273,8 +273,9 @@ export function personStance(lean: number, question: string): number {
   return lean * questionAxis(question);
 }
 
-const lineAxis = (lineAxes as { lines: Record<string, { axis: number }> })
-  .lines;
+const lineAxis = (
+  lineAxes as { lines: Record<string, { axis: number; support?: number }> }
+).lines;
 
 /**
  * A question's left-right direction: a recorded policy question's, or for
@@ -293,6 +294,8 @@ const supportOf = (
 
 /** The national polled share for a question's "yes", as published (calibration only). */
 export function publishedSupportShare(question: string): number | undefined {
+  if (question.startsWith("budget-line:"))
+    return lineAxis[question.slice("budget-line:".length)]?.support;
   return supportOf[question]?.support;
 }
 
@@ -334,7 +337,7 @@ export function publicSupport(
 export function publicOffset(
   question: string,
   seed: string,
-  axis = axisOf[question]?.axis ?? 0,
+  axis = questionAxis(question),
   share = supportShare(seed, question),
 ): number {
   return Math.abs(axis) * (2 * share - 1);
