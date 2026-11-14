@@ -161,10 +161,12 @@ describe("the filing visit", () => {
       .filter((row) => row.speaker === "clerk")
       .map((row) => row.text)
       .join(" ");
-    // The turndown says where the person must live and where their records
-    // put them, never the filing office's research note.
+    // The turndown says where the person must live and that their records put
+    // them somewhere else; no player lives in another town (nothing moves
+    // them), so the clerk never names a second place. Never the research note.
     expect(told).toMatch(/live in Springfield/);
-    expect(told).toMatch(/has you in Shelbyville/);
+    expect(told).toMatch(/my record has you somewhere else/);
+    expect(told).not.toMatch(/Shelbyville/);
     expect(told).toMatch(/registered voter/);
   });
 

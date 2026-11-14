@@ -7444,6 +7444,58 @@
       "citation": "From half the all-family dispersion the SCF median and mean imply (2.03) up to that dispersion; the bribe take rate in a played year is measured at this value in the PR."
     }
   },
+  "householdSpendingReferencePayUsd": {
+    "value": 66000,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "FROM RECALL, NOT VERIFIED AGAINST THE PUBLISHED TABLE (the container cannot reach the publisher). The income before taxes of a household in the middle fifth of incomes, where an official's spending is anchored. An official's pay sets how much they spend on living; before this the whole public payroll spent a fixed one-person basket and the rest piled up as cash.",
+    "estimatedFrom": "BLS Consumer Expenditure Survey, average annual expenditures and income before taxes by income quintile (middle and top quintiles), recalled from the 2023 tables and not yet checked against the published tables (pool item research-official-spending-by-pay).",
+    "spread": {
+      "low": 58000,
+      "high": 75000,
+      "unit": "dollars a year",
+      "citation": "Neighboring quintile pairs in the BLS Consumer Expenditure Survey 2023 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "householdSpendingAtReferencePayUsd": {
+    "value": 65000,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "FROM RECALL, NOT VERIFIED AGAINST THE PUBLISHED TABLE (the container cannot reach the publisher). What a household in the middle fifth of incomes spends in a year, all categories including shelter, transport and insurance, which the retained basket leaves to other writers.",
+    "estimatedFrom": "BLS Consumer Expenditure Survey, average annual expenditures and income before taxes by income quintile (middle and top quintiles), recalled from the 2023 tables and not yet checked against the published tables (pool item research-official-spending-by-pay).",
+    "spread": {
+      "low": 58000,
+      "high": 72000,
+      "unit": "dollars a year",
+      "citation": "Neighboring quintile pairs in the BLS Consumer Expenditure Survey 2023 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "householdSpendingMostOfPayShare": {
+    "value": 0.7,
+    "tag": "ESTIMATED",
+    "role": "level",
+    "citation": "FROM RECALL, NOT VERIFIED AGAINST THE PUBLISHED TABLE (the container cannot reach the publisher). The most of their pay an official spends on living: what is left after the income and payroll taxes taken from pay (about a quarter) and a household's usual saving (about a twentieth). The Survey's spending curve runs above income for pay under the middle fifth, because those households also draw on transfers an official does not have; this ceiling keeps a mid-paid official from spending more than they earn.",
+    "estimatedFrom": "Tax Policy Center average federal income plus payroll tax shares of income for households between the middle and top fifths, and the BEA personal saving rate, both recalled and not yet checked (pool item research-official-spending-by-pay).",
+    "spread": {
+      "low": 0.6,
+      "high": 0.8,
+      "unit": "share of pay",
+      "citation": "Roughly 20 to 30 percent withheld plus 0 to 10 percent saved (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "householdSpendingPayElasticity": {
+    "value": 0.58,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "FROM RECALL, NOT VERIFIED AGAINST THE PUBLISHED TABLE (the container cannot reach the publisher). How much more an official spends for each extra percent of pay: the slope of spending against income before taxes from the middle to the top fifth, 0.55 to 0.6 across neighboring quintile pairs.",
+    "estimatedFrom": "BLS Consumer Expenditure Survey, average annual expenditures and income before taxes by income quintile (middle and top quintiles), recalled from the 2023 tables and not yet checked against the published tables (pool item research-official-spending-by-pay).",
+    "spread": {
+      "low": 0.5,
+      "high": 0.7,
+      "unit": "elasticity of spending to income",
+      "citation": "Neighboring quintile pairs in the BLS Consumer Expenditure Survey 2023 (approximate; a researcher should confirm the figures)"
+    }
+  },
   "worldLivingCostSpreadShare": {
     "value": 0.1,
     "tag": "ESTIMATED",
@@ -8445,6 +8497,19 @@
       "high": 1100,
       "unit": "days",
       "citation": "One year (an annual address on the same day) to three (a race decided and contested); checked against the records proof of a two-year Montpelier run."
+    }
+  },
+  "electionNoticeLeadDays": {
+    "value": 21,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "No place's notice-of-election period is read yet (pool item research-election-notice-days-per-place). Statutes set how many days before an election the notice is published, and they differ by place and by kind of election; 21 days sits inside the span they commonly use. It is not taken from one place's law.",
+    "estimatedFrom": "How many days before an election day the clerk or board of elections posts the notice and the paper prints it (voting.ts postElectionNotice). One flat lead for every place until each place's own period is read from its law.",
+    "spread": {
+      "low": 7,
+      "high": 90,
+      "unit": "days",
+      "citation": "From a week to about three months, the span statutory notice periods commonly cover; not a measured distribution."
     }
   },
   "countedBallotRetentionDays": {
