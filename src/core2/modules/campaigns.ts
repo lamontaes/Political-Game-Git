@@ -114,7 +114,13 @@ import {
 } from "./legislature";
 import { promisesOf, recordAppeal, votesOf } from "./record";
 import { withholdingOnPay } from "./budgets";
-import { lawInForce, LAWS_MODULE_ID } from "./laws";
+import {
+  areasAnswered,
+  jurisdictionTermRead,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "./laws";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
@@ -808,10 +814,86 @@ export function campaignFor(api: CoreAPI, filingId: string): CampaignRow {
   };
   const opened: CampaignRow = {
     ...row,
-    platformShares: platformShares(api, row.platform),
+    platformShares: recordTilted(
+      api,
+      filingId,
+      row.platform,
+      platformShares(api, row.platform),
+    ),
   };
   table(api, "campaigns").put(opened as unknown as ModuleRow);
   return opened;
+}
+
+/**
+ * A campaign's shares of what it says, leaned toward the questions whose area
+ * of the term read went the way the candidate runs on: a challenger's toward
+ * the areas the incumbent's term hurt (pay, prices, jobs, rent, schools), the
+ * incumbent's toward the areas it helped, each by the area's slide on that
+ * side (0 to 1) times `platformRecordTilt`, then renormalized. The term read
+ * is the seat's own jurisdiction's, since the incumbent's term began; an open
+ * seat, or a place with no record yet (the first year), leans nothing. No
+ * roll: the same record gives the same shares.
+ */
+function recordTilted(
+  api: CoreAPI,
+  filingId: string,
+  platform: readonly Stance[],
+  shares: Readonly<Record<string, number>>,
+): Readonly<Record<string, number>> {
+  const filing = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  const contest = filing
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(filing.contestId) as unknown as ContestRow | undefined)
+    : undefined;
+  if (!filing || !contest?.incumbentTermId) return shares;
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return shares;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const term = offices
+    .table("terms")
+    .get(contest.incumbentTermId) as unknown as TermRow | undefined;
+  const office = offices.table("offices").get(contest.officeId) as unknown as
+    { jurisdiction?: string } | undefined;
+  if (!term || !office?.jurisdiction) return shares;
+  // A state's or the country's office is read where it serves; a town's, a
+  // county's or a board's is the town's own record, the web's place.
+  const jurisdiction = /^US(-|$)/.test(String(office.jurisdiction))
+    ? String(office.jurisdiction)
+    : lawChain(api).townPlaceId;
+  const reads = jurisdictionTermRead(
+    api,
+    jurisdiction,
+    term.serviceStart ?? term.startDate,
+  );
+  if (!reads.length) return shares;
+  const holds = term.status === "serving" && term.personId === filing.personId;
+  const tilt = campaignParameter("platformRecordTilt");
+  const needOf = (question: string) =>
+    Math.max(
+      0,
+      ...areasAnswered(question).map((area) => {
+        const slide = reads.find((read) => read.area === area)?.slide ?? 0;
+        return holds ? slide : -slide;
+      }),
+    );
+  const leaned = platform.map(
+    (stance) =>
+      [
+        stance.question,
+        (shares[stance.question] ?? 0) * (1 + tilt * needOf(stance.question)),
+      ] as const,
+  );
+  const total = leaned.reduce((sum, [, share]) => sum + share, 0);
+  return total > 0
+    ? Object.fromEntries(
+        leaned.map(([question, share]) => [question, share / total]),
+      )
+    : shares;
 }
 
 function save(api: CoreAPI, row: CampaignRow) {
