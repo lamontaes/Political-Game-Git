@@ -44687,11 +44687,36 @@
           "subject": "job-lost-back-back",
           "role": "core",
           "stages": ["where"],
-          "requiresFacts": ["seeking"]
+          "requiresFacts": ["seeking"],
+          "excludesFacts": ["outlook-sure", "outlook-bright"]
         }
       ],
       "origin": "authored",
       "author": "Words lead (rulings-2, the second turn, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "job-lost-back-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.job-lost-back-back-core.i-have-a-few-places-in-mind",
+      "move": "job-lost-back-back-core",
+      "kind": "spoken",
+      "text": "I have a few places in mind.",
+      "uses": [
+        {
+          "move": "job-lost-back-back-core",
+          "subject": "job-lost-back-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["seeking", "outlook-not-unsure"]
+        }
+      ],
+      "origin": "authored",
+      "author": "S2, Nov 14, 2026 (a sure teller's answer to Where?; held until M5 and the second reader have read it played)",
       "date": "2026-11-14",
       "piece": {
         "of": "job-lost-back-back",
@@ -44711,7 +44736,8 @@
           "subject": "job-lost-back-back",
           "role": "core",
           "stages": ["where"],
-          "requiresFacts": ["position", "seeking"]
+          "requiresFacts": ["position", "seeking"],
+          "excludesFacts": ["outlook-sure", "outlook-bright"]
         }
       ],
       "origin": "authored",
@@ -44736,7 +44762,7 @@
           "role": "core",
           "stages": ["where"],
           "requiresFacts": ["seeking"],
-          "excludesFacts": ["outlook-bleak", "outlook-bright"]
+          "excludesFacts": ["outlook-bleak", "outlook-bright", "outlook-sure"]
         }
       ],
       "origin": "authored",

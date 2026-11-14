@@ -220,4 +220,46 @@ describe("a lost job told through the composer", () => {
       "I will. It's just a matter of when.",
     );
   });
+
+  it("answers 'Where?' in the bearing of the teller's own telling", () => {
+    const where = (set: string[]) => {
+      const texts = new Set<string>();
+      for (let draw = 0; draw < 40; draw += 1) {
+        const back = composeConversationLine({
+          seed: `job-lost-where-${draw}`,
+          subject: "job-lost-back-back",
+          speakerId: `person_test_${draw}` as PersonId,
+          traits: {},
+          facts: {
+            employer: fact("Lopez's Market"),
+            you: fact("Eva"),
+            seeking: fact("yes"),
+            position: fact("a cashier"),
+            ...Object.fromEntries(set.map((key) => [key, fact("yes")])),
+          },
+          stage: "where",
+          momentKey: `where:${draw}`,
+        });
+        expect(back, set.join(",")).toBeTruthy();
+        texts.add(back!.text);
+      }
+      return [...texts];
+    };
+    // A teller who sounded sure or said work is plentiful has places in mind.
+    for (const set of [
+      ["outlook-sure", "outlook-not-unsure"],
+      ["outlook-bright", "outlook-not-unsure"],
+    ])
+      expect(where(set), set.join(",")).toEqual([
+        "I have a few places in mind.",
+      ]);
+    // One who sounded unsure or said nobody is hiring never does.
+    for (const set of [
+      ["outlook-unsure", "outlook-not-sure"],
+      ["outlook-bleak", "outlook-not-sure"],
+    ])
+      expect(where(set), set.join(",")).not.toContain(
+        "I have a few places in mind.",
+      );
+  });
 });
