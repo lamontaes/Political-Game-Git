@@ -155,7 +155,6 @@ import {
   outgoingHolder,
   swornOffice,
 } from "./swearing-in";
-import { officeInSentence } from "../core2/person-work";
 
 export interface PurposeScene {
   typeKey: string;
