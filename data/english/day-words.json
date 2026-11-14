@@ -81,5 +81,10 @@
     "Thursday",
     "Friday",
     "Saturday"
-  ]
+  ],
+  "ahead": {
+    "about": "What is left of the day as a line that looks ahead says it, by the telling's dayLeft (src/english/telling.ts clockOf): \"later\" while the evening is ahead, \"tomorrow\" once it is the evening. Read by dayAheadSaid in src/english/day-words.ts.",
+    "later": "later",
+    "tomorrow": "tomorrow"
+  }
 }

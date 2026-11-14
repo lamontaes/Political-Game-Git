@@ -1,6 +1,6 @@
 {
   "schema": "english-composed-checks/1",
-  "about": "What the composed checks (src/english/composed-checks.ts) read whole texts with: the numbers, each TUNABLE with the spread it is checked against, and the word lists, each from the owner's notes of Nov 11 and 12, 2026 or the words skill. Development-time only: no list here picks a line in play.",
+  "about": "What the composed checks (src/english/composed-checks.ts) read whole texts with: the numbers, each TUNABLE with the spread it is checked against, and the word lists, each from the owner's notes of Nov 11 and 12, 2026 or the words skill. Development-time only: no list here picks a line in play. Stopwords include comparatives (\"higher\", \"lower\", \"bigger\", \"fewer\"; \"more\" was already there): a comparative says how much, never what a speech is about, so the subject budget does not count it (W-E, Nov 12, when \"higher\" in three different questions' names counted as one subject four times). The body's measure word (\"bill\", \"ordinance\") is a stopword too: it says what form an ask takes in that body (speech-outlines.json measureWords), never what the speech is about (Nov 12, when \"bill\" in three asks counted as one subject four times).",
   "parameters": {
     "seriesMostParts": {
       "value": 3,
@@ -50,6 +50,12 @@
       "spread": "2 to 3",
       "note": "An answer this short that only acknowledges is a non-reply (owner, Nov 12; replies of one to three words stay for the player, call 12)."
     },
+    "shortQuestionMostWords": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "spread": "2 to 3",
+      "note": "A question this short (\"Why?\") carries no fact of its own, so when an address is cut into sentences to count what worlds share, it is read with the sentence after it as one thought (src/director/address-sentences.ts). The words lead's ruling of Nov 12 on local-address-versions, seed bab4ffbbf3ef6ae3, from the owner's Nov 11 call 12: \"Replies of one to three words and action names stay\"."
+    },
     "echoLeastWords": {
       "value": 4,
       "tag": "TUNABLE",
@@ -83,7 +89,9 @@
   },
   "placeSaidOnlyAs": {
     "note": "A place whose bare name means something else in a speech, with the spelling that means the place. Alone, the first is the federal capital, so the stray-place check counts only the spelling given here.",
-    "names": { "Washington": "Washington State" }
+    "names": {
+      "Washington": "Washington State"
+    }
   },
   "roleWords": [
     "President",
@@ -475,6 +483,19 @@
     "that's",
     "it's",
     "don't",
-    "won't"
+    "won't",
+    "higher",
+    "lower",
+    "bigger",
+    "smaller",
+    "less",
+    "fewer",
+    "larger",
+    "longer",
+    "shorter",
+    "bill",
+    "bills",
+    "ordinance",
+    "ordinances"
   ]
 }

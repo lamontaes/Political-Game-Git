@@ -814,10 +814,10 @@
       }
     },
     {
-      "key": "choice-names.carry-on.carry-on",
+      "key": "choice-names.carry-on.keep-at-it",
       "move": "carry-on",
       "kind": "spoken",
-      "text": "Carry on.",
+      "text": "Keep at it.",
       "uses": [
         {
           "move": "carry-on",

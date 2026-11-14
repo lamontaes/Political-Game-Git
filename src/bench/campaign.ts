@@ -7,11 +7,14 @@ import {
   donationAsksFor,
   askToVolunteer,
   campaignFor,
+  petitionAsksAtDoors,
   commissionPoll,
   endorsementsOf,
   giveSpeech,
   runAd,
   sendMail,
+  hireCirculators,
+  circulatorsCanWork,
   statementSpeechId,
   type CauseRow,
 } from "../core2/modules/campaigns";
@@ -56,6 +59,7 @@ import { campaignParameter } from "../core2/campaign-data";
 import { backdropFor, homeOf, peopleHere } from "./scene";
 import { doorPlaceFor } from "./scene-picture-steps";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
+import { personName } from "./legislature";
 import { campaignAnswer } from "../director/campaign-answer";
 import { spokenDate as dateSaid, stateInSentence } from "../director/words";
 import { seatSaid } from "../english/journal-words";
@@ -66,7 +70,13 @@ import {
   corePlaceStateIdentities,
 } from "../core2/place-lookup";
 import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
-import { chooseRunningMate, runningMateChoice } from "../core2/modules/voting";
+import {
+  askToServe,
+  chooseRunningMateForMe,
+  offeredRunningMates,
+  serveAskHours,
+  ticketAsks,
+} from "../core2/modules/serve-asks";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -89,6 +99,11 @@ export function petitionView(api: CoreAPI, filingId: string) {
     needed: petition.needed,
     due: petition.due,
     signed: petition.signed,
+    // Whether paid circulators can gather the race's signatures outside the
+    // town: a county, district, state or federal race while it circulates.
+    outside: circulatorsCanWork(api, filingId),
+    /** Whether the doors still ask for signatures; past the target plus the cushion they ask for the vote. */
+    asksAtDoors: petitionAsksAtDoors(api, filingId),
   };
 }
 const CAMPAIGNS = "core2-campaigns-v1";
@@ -159,12 +174,23 @@ export function campaignView(core: CoreState, personId: string) {
           : null,
         campaign: {
           ...campaign,
-          volunteers: campaign.volunteerIds.length,
+          volunteers: volunteersApart(campaign).length,
           doors: campaign.doorsKnockedCount ?? 0,
           // The people and groups who said yes, from the endorsement records.
           endorsements: endorsementsOf(api, filing.id).filter(
             (row) => row.answer === "yes",
           ).length,
+        },
+        // The people on the campaign's own record: who runs it and helps, by name, so the board reads the one source.
+        team: {
+          staff: campaign.staffIds.map((id) => ({
+            id,
+            name: personName(core, id),
+          })),
+          volunteers: volunteersApart(campaign).map((id) => ({
+            id,
+            name: personName(core, id),
+          })),
         },
         polls: polls.slice(-3),
         petition: petitionView(api, filing.id),
@@ -225,12 +251,15 @@ export function campaignView(core: CoreState, personId: string) {
   };
 }
 
-/** The player names their running mate on one of their own filings; the campaigns as they stand after. */
+/**
+ * "Choose for me" on one of the player's own filings: no scene; the strongest
+ * of the people offered who would say yes is named. The campaigns as they
+ * stand after.
+ */
 export function runningMatePicked(
   core: CoreState,
   personId: string,
   filingId: string,
-  pick: string | null,
 ) {
   const api = coreAPI(core);
   const filing = api
@@ -239,8 +268,29 @@ export function runningMatePicked(
     .get(filingId) as unknown as FilingRow | undefined;
   if (filing?.personId !== personId)
     throw new Error("That isn't one of your races.");
-  chooseRunningMate(api, filingId, pick);
+  chooseRunningMateForMe(api, filingId);
   return campaignView(core, personId);
+}
+
+/**
+ * The player asks one of the people offered to run as their running mate: the
+ * ask is kept and plays as a scene; only the scene's ending names anyone.
+ */
+export function runningMateAsked(
+  core: CoreState,
+  personId: string,
+  filingId: string,
+  askedId: string,
+) {
+  const api = coreAPI(core);
+  const filing = api
+    .moduleState(ELECTIONS)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  if (filing?.personId !== personId)
+    throw new Error("That isn't one of your races.");
+  const row = askToServe(api, { seat: "ticket", filingId, personId: askedId });
+  return { hours: serveAskHours(), eventId: row.eventId };
 }
 
 /**
@@ -258,7 +308,7 @@ function groupName(title: string): boolean {
  * where it is not yet the candidate's to name. Null for a race with no ticket.
  */
 function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
-  const ticket = runningMateChoice(api, filingId);
+  const ticket = offeredRunningMates(api, filingId);
   if (!ticket) return null;
   const nameOf = (id: string) => {
     const person = core.people.get(id as PersonId);
@@ -269,6 +319,9 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
     .table("contests")
     .get(ticket.ticketContestId) as unknown as ContestRow;
   const mateName = ticket.mateId ? nameOf(ticket.mateId) : null;
+  // Who turned the player down, and who may be asked now (owner, Nov 14: a
+  // no stands for now; ask again later).
+  const asks = new Map(ticketAsks(api, filingId).map((a) => [a.personId, a]));
   return {
     office: ticket.office,
     // The office as a sentence says it ("lieutenant governor").
@@ -361,6 +414,8 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
         name: c.name,
         work: said,
         place: townName ? (away ? `${townName}, ${away}` : townName) : away,
+        declined: !!asks.get(c.id)?.declined,
+        mayAsk: asks.get(c.id)?.mayAsk ?? true,
       };
     }),
   };
@@ -401,6 +456,7 @@ export function raceSaid(api: CoreAPI, contest: ContestRow): RaceSaid {
       seats: office?.seats ?? 1,
       bodyName: (office?.seats ?? 1) > 1 ? (office?.bodyName ?? null) : null,
       district: contest.district,
+      level: contest.level,
     }),
     when: primaryAhead
       ? { primary: dateSaid(contest.primaryDate!, today) }
@@ -422,6 +478,17 @@ function saidAgain(
   return all.filter((who) => who.name.split(" ")[0] === first).length > 1
     ? name
     : first;
+}
+
+/**
+ * The volunteers who are not on the staff: the one read behind the board's
+ * count, the team list beside it and the shift's count, so the three agree.
+ */
+function volunteersApart(campaign: {
+  volunteerIds: readonly string[];
+  staffIds: readonly string[];
+}): string[] {
+  return campaign.volunteerIds.filter((id) => !campaign.staffIds.includes(id));
 }
 
 /**
@@ -471,14 +538,20 @@ export function raceStanding(
             mine.warmer > 0 && mine.cooler > 0
               ? "moved-both"
               : mine.warmer > 0
-                ? "moved-warmer"
+                ? // Everyone reached moved the same way: said once, without the figure twice.
+                  mine.warmer >= mine.reached
+                  ? "moved-all-warmer"
+                  : "moved-warmer"
                 : mine.cooler > 0
-                  ? "moved-cooler"
+                  ? mine.cooler >= mine.reached
+                    ? "moved-all-cooler"
+                    : "moved-cooler"
                   : "moved-none",
             id,
             {
-              warmer: mine.warmer,
-              cooler: mine.cooler,
+              // A side no one moved to is not a fact: the lines that need it say so.
+              ...(mine.warmer > 0 ? { warmer: mine.warmer } : {}),
+              ...(mine.cooler > 0 ? { cooler: mine.cooler } : {}),
               reached: mine.reached,
             },
           ),
@@ -586,7 +659,7 @@ export function campaignAct(
       // The count shown is the campaign record's, the one the header reads.
       return {
         answers,
-        volunteers: campaignFor(api, input.filingId).volunteerIds.length,
+        volunteers: volunteersApart(campaignFor(api, input.filingId)).length,
         // The shift is at the campaign office, the player at it.
         scene: askScene(core, personId, scenePlaces.volunteerOfficePlace),
       };
@@ -679,6 +752,35 @@ export function campaignAct(
       return {
         ...summary(read),
         spentMinor: campaignFor(api, input.filingId).spentMinor - before,
+      };
+    }
+    case "circulators": {
+      // Paid circulators for the race's voters outside the town: the amount
+      // the player chose is set aside from what the campaign holds and paid
+      // as the signatures come in, until the petition is due.
+      const setAsideMinor = hireCirculators(
+        api,
+        input.filingId,
+        input.amountMinor ?? 0,
+      );
+      const after = campaignFor(api, input.filingId);
+      const petition = petitionView(api, input.filingId);
+      // What the money bought, from the campaign and petition records: the
+      // amount set aside and the signatures held, or why nothing was.
+      return {
+        setAsideMinor,
+        line:
+          setAsideMinor > 0 && petition
+            ? controls.campaignGatherers.hired
+                .replace("{cost}", dollarsOf(setAsideMinor))
+                .replace("{due}", dateSaid(petition.due, core.date))
+                .replace("{signed}", petition.signed.toLocaleString("en-US"))
+            : after.raisedMinor > 0
+              ? controls.campaignGatherers.noMoney.replace(
+                  "{raised}",
+                  dollarsOf(after.raisedMinor),
+                )
+              : controls.campaignGatherers.noMoneyYet,
       };
     }
     case "poll":
@@ -918,22 +1020,32 @@ export function campaignDay(
   // signer rows, some days none and some days many.
   const doorSigners = () =>
     petitionSigners(api, input.filingId).filter((s) => s.via === "door").length;
-  const petitionOut =
+  const canvassing =
     kind === "canvass" && petitionCirculating(api, input.filingId);
-  const signedBefore = petitionOut ? doorSigners() : 0;
-  // Counted residents who opened stay a count (two-level population), so the
-  // doors answered are the people met plus that count's growth: every door
-  // that opened, which is everyone asked to sign.
+  const signedBefore = canvassing ? doorSigners() : 0;
+  // Doors that opened stay a count for counted residents (two-level
+  // population), so the doors answered are the people met plus that count's
+  // growth. A door asks for a signature while the petition needs more and
+  // for the vote after (`petitionAsksAtDoors`), the crossing outing both.
   const countedBefore = campaignFor(api, input.filingId).countedReached ?? 0;
+  const askedBefore = campaignFor(api, input.filingId).doorSignAsks ?? 0;
   const result = takeCampaignDayChoice(api, input.filingId, kind, {
     ...(input.outletId ? { outletId: input.outletId } : {}),
   });
-  const signed = petitionOut ? doorSigners() - signedBefore : null;
-  const answered = petitionOut
+  const opened = canvassing
     ? result.causeIds.length +
       (campaignFor(api, input.filingId).countedReached ?? 0) -
       countedBefore
-    : null;
+    : 0;
+  const signAsks = canvassing
+    ? (campaignFor(api, input.filingId).doorSignAsks ?? 0) - askedBefore
+    : 0;
+  /** Signatures the doors brought in; null when no door of this outing asked for one. */
+  const signed = signAsks > 0 ? doorSigners() - signedBefore : null;
+  /** Doors that opened (everyone asked, for a signature or the vote); null off a petition. */
+  const answered = canvassing ? opened : null;
+  /** Doors that opened and were asked for the vote instead of a signature. */
+  const votesAsked = canvassing ? opened - signAsks : null;
   const met = outingPeople(core, kind, result);
   // Each person asked for money: their name, what they gave or why not, in words.
   const calls = result.answers.map((answer) => {
@@ -982,6 +1094,7 @@ export function campaignDay(
     signed,
     /** Doors that opened on a petition outing (everyone asked to sign); null otherwise. */
     answered,
+    votesAsked,
     raisedMinor: result.raisedMinor,
     gifts: result.giftIds.length,
     // A forum's town hall: the meetings engine's row, who came and what they asked.

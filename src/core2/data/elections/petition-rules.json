@@ -1,0 +1,1447 @@
+{
+  "about": "How many signatures a candidate's petition asks, for every family of offices, where data/research/elections/filing-requirements.json gives the place's rule as a formula, a percentage, a floor, a ceiling, a count by town size or nothing. Read by petitionRule in src/core2/modules/elections.ts and computed for the race's own electorate by petitionNeededHere in src/core2/modules/voting.ts: the town's voters for a municipal office; the district's or the state's for a county, legislative, statewide or U.S. House office (owner, Nov 14: a race needs the number its own law sets for its own electorate, never a town's share). A side with no row here keeps what its research row gives: a fixed count, or none. Every row is ESTIMATED from its own text, quoted in `text`.",
+  "share": "The fraction of the base the law asks. `base` is \"registered\" (registered voters) or \"votes\" (votes cast for the office or at the last election); the world keeps no voter rolls, so a registered base is the town's eligible voters times registeredShareOfEligible and a votes base the town's people times localElectorateShareOfPopulation (both in campaigns/parameters.json; the latter is a presidential year's, so it overstates a local election's); where the world has recorded the office's last election, a \"votes\" base reads those votes.",
+  "fields": {
+    "share": "fraction of the base",
+    "base": "registered | votes | eligible | population: registered voters (the electorate's eligible voters times registeredShareOfEligible), votes cast (`election`), eligible voters, or residents (the electorate's eligible voters times the town's own people per eligible voter)",
+    "min": "floor on the count, where the law sets one",
+    "max": "ceiling on the count, where the law sets one",
+    "orFixed": "the count when the law says the fixed number or the share, whichever is less",
+    "byPopulation": "fixed counts by the town's population: the first tier whose belowPopulation exceeds the town's applies; the tier without belowPopulation is for larger towns",
+    "election": "for a votes base, which recorded election it is: \"office\" (votes for the office being sought at its last election), \"level\" (the most votes cast in any one contest at the last election of the same level, the municipal election), or the kind of another office whose votes in the town the law counts (\"governor\", \"secretary-of-state\", \"legislature-lower\"): the town's own residents' votes (named and counted) at that office's last recorded election, which the town's world records for the offices that cover it. Before that race has been held in the run, or where the world seats no such office for the town, the base is sized from the town's people times the votes-cast share. For a county, district or state race the same names read the race's own electorate: \"office\" the votes recorded for the office being sought, or before it has been held in the run, the two-party votes its places last cast; \"governor\", \"secretary-of-state\", \"president\" and \"us-house\" the two-party votes its places last cast.",
+    "count": "a fixed count where the law's number is known but the research row did not hold it; 0 where the law asks no petition (a fee, an endorsement or a declaration files the candidate)",
+    "party": "true where the base is the candidate's own party's voters: the base times the share of the electorate on the candidate's side of the lean order (an even split for a candidate with no party)",
+    "winner": "true where the base is the votes for the last successful candidate: the larger side of the base"
+  },
+  "families": {
+    "statewideExecutive": {
+      "US-AL": {
+        "party": {
+          "count": 0,
+          "text": "party candidates qualify with their party's state or county executive committee; no petition (estimate)"
+        },
+        "independent": {
+          "share": 0.03,
+          "base": "votes",
+          "election": "governor",
+          "text": "3% of votes cast for governor in the last general election (statewide); Ballotpedia 2026 table lists 2% of votes for U.S. Representative statewide"
+        }
+      },
+      "US-AR": {
+        "independent": {
+          "share": 0.03,
+          "base": "registered",
+          "orFixed": 10000,
+          "text": "3% of qualified voters statewide or 10,000, whichever is less"
+        }
+      },
+      "US-AZ": {
+        "party": {
+          "share": 0.0025,
+          "base": "registered",
+          "party": true,
+          "text": "at least 1/4 of 1% of qualified signers statewide (max 10%)"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "registered",
+          "text": "3% of registered voters not affiliated with a recognized party; estimate: unaffiliated and other voters are about a third of Arizona's registered voters (Arizona Secretary of State registration reports, 2024), so 3% of them is about 1% of all registered"
+        }
+      },
+      "US-CO": {
+        "party": {
+          "count": 12000,
+          "text": "1,500 from each congressional district (or 30% of party assembly delegates instead): 1,500 in each of Colorado's 8 districts"
+        },
+        "independent": {
+          "count": 8000,
+          "text": "1,000 from each congressional district (Ballotpedia 2026 table): 1,000 in each of Colorado's 8 districts"
+        }
+      },
+      "US-CT": {
+        "party": {
+          "count": 0,
+          "text": "none if endorsed at convention; otherwise 2% of enrolled party members statewide (or 15% of convention delegates); the party's endorsed candidate files with no petition"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "orFixed": 7500,
+          "text": "1% of votes cast for the office at the last election or 7,500, whichever is less"
+        }
+      },
+      "US-DE": {
+        "independent": {
+          "share": 0.01,
+          "base": "eligible",
+          "text": "1% of eligible voters statewide as of December 31 of the prior year"
+        }
+      },
+      "US-GA": {
+        "independent": {
+          "share": 0.01,
+          "base": "registered",
+          "text": "1% of registered voters eligible to vote in the last election for the office"
+        }
+      },
+      "US-IN": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "secretary-of-state",
+          "text": "2% of votes cast for secretary of state at the last election"
+        }
+      },
+      "US-MO": {
+        "party": {
+          "count": 0,
+          "text": "the petition is only for a candidate unable to pay the fee (inability-to-pay petition); the fee files the candidate"
+        }
+      },
+      "US-MT": {
+        "independent": {
+          "share": 0.05,
+          "base": "votes",
+          "election": "office",
+          "winner": true,
+          "text": "5% of votes cast for the last successful candidate for the office (Ballotpedia: 4%)"
+        }
+      },
+      "US-NC": {
+        "independent": {
+          "share": 0.015,
+          "base": "votes",
+          "election": "governor",
+          "text": "1.5% of votes cast for governor at the last election, with 200 from each of three congressional districts"
+        }
+      },
+      "US-NM": {
+        "party": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "governor",
+          "party": true,
+          "min": 230,
+          "text": "2% of the party's statewide gubernatorial primary vote (min 230) for pre-primary convention route; 4% if the candidate fails to get 20% at convention"
+        },
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "governor",
+          "text": "2% of votes cast for governor at the last general election"
+        }
+      },
+      "US-NV": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "min": 250,
+          "text": "1% of votes cast for the office at the last general, or 250 statewide (read as the greater; estimate)"
+        }
+      },
+      "US-OR": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "president",
+          "text": "1% of votes cast for president statewide (2026: 22,445), or nomination by an assembly of 1,000 electors"
+        }
+      },
+      "US-SD": {
+        "party": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "party": true,
+          "text": "1% of votes cast for the party's gubernatorial candidate at the last election (2026: Democratic 1,232; Republican 2,171; Libertarian 741)"
+        }
+      },
+      "US-TX": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "1% of all votes cast for governor at the last election"
+        }
+      },
+      "US-WV": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "min": 25,
+          "text": "1% of the vote cast for the office at the last general, minimum 25"
+        }
+      },
+      "US-WY": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "us-house",
+          "text": "2% of all votes cast for U.S. Representative at the last general"
+        }
+      },
+      "US-PR": {
+        "party": {
+          "share": 0.005,
+          "base": "registered",
+          "party": true,
+          "text": "endorsement petitions (peticiones de endoso) set by Código Electoral Art. 7.15 and the CEE guide (thousands statewide; estimate) (estimate: half of one percent of the registered voters, in the range of the CEE's endorsement counts)"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "independent candidates: petitions equal to a share of the last governor vote set by the CEE (estimate) (estimate: 1% of the last governor vote)"
+        }
+      },
+      "US-VI": {
+        "party": {
+          "count": 50,
+          "text": "party nomination petition signed by enrolled party members (count not read; estimate 25-100, 50 taken)"
+        },
+        "independent": {
+          "count": 50,
+          "text": "nomination paper signed by registered voters (18 V.I.C. 381; count not read; estimate 50)"
+        }
+      }
+    },
+    "stateLegislative": {
+      "US-AL": {
+        "party": {
+          "count": 0,
+          "text": "party candidates qualify with their party's state or county executive committee; no petition (estimate)"
+        },
+        "independent": {
+          "share": 0.03,
+          "base": "votes",
+          "election": "governor",
+          "text": "3% of votes cast for governor in the district at the last general election"
+        }
+      },
+      "US-AR": {
+        "independent": {
+          "share": 0.03,
+          "base": "registered",
+          "max": 2000,
+          "text": "3% of qualified voters in the district, capped at 2,000"
+        }
+      },
+      "US-AZ": {
+        "party": {
+          "share": 0.005,
+          "base": "registered",
+          "party": true,
+          "text": "at least 1/2 of 1% of qualified signers in the district (max 3%)"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "registered",
+          "text": "3% of unaffiliated registered voters in the district; estimate: unaffiliated and other voters are about a third of Arizona's registered voters (Arizona Secretary of State registration reports, 2024), so 3% of them is about 1% of all registered"
+        }
+      },
+      "US-CO": {
+        "party": {
+          "share": 0.3,
+          "base": "votes",
+          "election": "office",
+          "party": true,
+          "orFixed": 1000,
+          "text": "1,000 or 30% of votes cast in the district's last party primary for the office, whichever is less"
+        },
+        "independent": {
+          "share": 0.05,
+          "base": "votes",
+          "election": "office",
+          "orFixed": 1000,
+          "text": "1,000 or 5% of votes cast for the office in the last general, whichever is less"
+        }
+      },
+      "US-CT": {
+        "party": {
+          "count": 0,
+          "text": "none if endorsed; otherwise 5% of enrolled party members in the district; the party's endorsed candidate files with no petition"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "orFixed": 7500,
+          "text": "1% of votes cast for the office at the last election or 7,500, whichever is less"
+        }
+      },
+      "US-DE": {
+        "independent": {
+          "share": 0.01,
+          "base": "registered",
+          "text": "1% of registered voters in the district"
+        }
+      },
+      "US-GA": {
+        "independent": {
+          "share": 0.05,
+          "base": "registered",
+          "text": "5% of registered voters eligible to vote in the last election for the office"
+        }
+      },
+      "US-IL": {
+        "independent": {
+          "share": 0.05,
+          "base": "votes",
+          "election": "office",
+          "text": "5% of the number who voted at the last general election in the district"
+        }
+      },
+      "US-IN": {
+        "party": {
+          "count": 0,
+          "text": "declaration of candidacy only"
+        },
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "secretary-of-state",
+          "text": "2% of votes cast for secretary of state in the district at the last election"
+        }
+      },
+      "US-KS": {
+        "independent": {
+          "share": 0.04,
+          "base": "registered",
+          "text": "4% of registered voters in the district"
+        }
+      },
+      "US-MD": {
+        "independent": {
+          "share": 0.01,
+          "base": "eligible",
+          "orFixed": 10000,
+          "text": "1% of eligible voters in the district or 10,000, whichever is less"
+        }
+      },
+      "US-MO": {
+        "party": {
+          "count": 0,
+          "text": "the petition is only for a candidate unable to pay the fee (inability-to-pay petition); the fee files the candidate"
+        },
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "office",
+          "orFixed": 10000,
+          "text": "2% of votes cast for the office at the last election or 10,000, whichever is less"
+        }
+      },
+      "US-MT": {
+        "independent": {
+          "share": 0.05,
+          "base": "votes",
+          "election": "office",
+          "winner": true,
+          "text": "5% of votes cast for the last successful candidate for the office (Ballotpedia: 4%)"
+        }
+      },
+      "US-NC": {
+        "independent": {
+          "share": 0.04,
+          "base": "registered",
+          "text": "4% of registered voters in the district as of January 1"
+        }
+      },
+      "US-ND": {
+        "party": {
+          "share": 0.01,
+          "base": "population",
+          "text": "1% of the district's resident population (2020 census)"
+        }
+      },
+      "US-NM": {
+        "party": {
+          "share": 0.03,
+          "base": "votes",
+          "election": "office",
+          "party": true,
+          "min": 10,
+          "text": "3% of the party's total vote in the district or 10 voters, whichever is greater"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "1-2% of votes cast for governor in the district at the last general (Ballotpedia: 1% in table, 2% in text)"
+        }
+      },
+      "US-NV": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "min": 100,
+          "text": "1% of votes cast for the office at the last general, or 100 (read as the greater; estimate)"
+        }
+      },
+      "US-OH": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "1% of votes for governor in the district (or 5%/25 if fewer than 5,000 voted)"
+        }
+      },
+      "US-OR": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "president",
+          "text": "1% of votes cast for president in the district, or assembly of 250 electors"
+        }
+      },
+      "US-PA": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "office",
+          "text": "2% of the largest vote cast for any elected candidate in the district at the last election"
+        }
+      },
+      "US-SC": {
+        "independent": {
+          "share": 0.05,
+          "base": "registered",
+          "max": 10000,
+          "text": "5% of active registered voters in the district, capped at 10,000"
+        }
+      },
+      "US-SD": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "1% of the combined vote for governor in the district"
+        }
+      },
+      "US-WV": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "min": 25,
+          "text": "1% of the vote cast for the office, minimum 25"
+        }
+      },
+      "US-WY": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "office",
+          "text": "2% of votes cast for the office in the district at the last general"
+        }
+      },
+      "US-PR": {
+        "party": {
+          "share": 0.005,
+          "base": "registered",
+          "party": true,
+          "text": "endorsement petitions per CEE guide (estimate) (estimate: half of one percent of the registered voters, in the range of the CEE's endorsement counts)"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "petitions per CEE guide (estimate) (estimate: 1% of the last governor vote)"
+        }
+      },
+      "US-VI": {
+        "party": {
+          "count": 25,
+          "text": "enrolled party members of the district (count not read; estimate 25)"
+        },
+        "independent": {
+          "count": 34,
+          "text": "registered voters of the district (a 2026 delegate petition needed 34 per district)"
+        }
+      }
+    },
+    "countyOffice": {
+      "US-AL": {
+        "party": {
+          "count": 0,
+          "text": "party candidates qualify with their party's state or county executive committee; no petition (estimate)"
+        },
+        "independent": {
+          "share": 0.03,
+          "base": "votes",
+          "election": "governor",
+          "text": "3% of votes cast for governor in the county at the last general election"
+        }
+      },
+      "US-AR": {
+        "independent": {
+          "share": 0.03,
+          "base": "registered",
+          "max": 2000,
+          "text": "3% of qualified electors in the county, capped at 2,000"
+        }
+      },
+      "US-AZ": {
+        "party": {
+          "share": 0.005,
+          "base": "registered",
+          "party": true,
+          "text": "party candidates: 1/2 of 1% (supervisor) of qualified signers in the district; independents: 3% of unaffiliated voters"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "registered",
+          "text": "3% of unaffiliated registered voters in the district; estimate: unaffiliated and other voters are about a third of Arizona's registered voters (Arizona Secretary of State registration reports, 2024), so 3% of them is about 1% of all registered"
+        }
+      },
+      "US-CO": {
+        "party": {
+          "share": 0.1,
+          "base": "votes",
+          "election": "office",
+          "party": true,
+          "orFixed": 1000,
+          "text": "assembly (30% of delegates) or petition: 1,000 or 10-20% of the party's last primary vote for the office, whichever is less"
+        },
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "office",
+          "orFixed": 1000,
+          "text": "unaffiliated: 2% of votes cast for the office at the last general or 1,000 (estimate)"
+        }
+      },
+      "US-CT": {
+        "party": {
+          "count": 0,
+          "text": "Connecticut has no county government; no county office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "Connecticut has no county government; no county office files"
+        }
+      },
+      "US-DE": {
+        "independent": {
+          "share": 0.01,
+          "base": "registered",
+          "text": "1% of registered voters in the county or district"
+        }
+      },
+      "US-GA": {
+        "independent": {
+          "share": 0.05,
+          "base": "registered",
+          "text": "5% of registered voters eligible to vote in the last election for the office"
+        }
+      },
+      "US-IA": {
+        "party": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "party": true,
+          "min": 10,
+          "text": "1% of the party's votes in the county or district for governor/president at the last general, minimum 10 (estimate)"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "text": "1% of votes cast for the office (estimate)"
+        }
+      },
+      "US-IL": {
+        "party": {
+          "share": 0.005,
+          "base": "votes",
+          "election": "office",
+          "party": true,
+          "text": "0.5% of the party's primary vote in the county or district (county board); set by statute"
+        },
+        "independent": {
+          "share": 0.05,
+          "base": "votes",
+          "election": "office",
+          "text": "5% to 8% of the last general vote in the county or district"
+        }
+      },
+      "US-IN": {
+        "party": {
+          "count": 0,
+          "text": "declaration of candidacy only"
+        },
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "secretary-of-state",
+          "text": "2% of votes cast for secretary of state in the county"
+        }
+      },
+      "US-KS": {
+        "independent": {
+          "share": 0.04,
+          "base": "registered",
+          "text": "4% of registered voters in the county or district"
+        }
+      },
+      "US-MD": {
+        "independent": {
+          "share": 0.01,
+          "base": "eligible",
+          "orFixed": 10000,
+          "text": "1% of eligible voters in the county or district or 10,000, whichever is less"
+        }
+      },
+      "US-MI": {
+        "independent": {
+          "count": 75,
+          "text": "population scale (3x party): three times the party's 25 (estimate)"
+        }
+      },
+      "US-MO": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "office",
+          "text": "2% of votes cast for the office at the last election"
+        }
+      },
+      "US-MT": {
+        "independent": {
+          "share": 0.05,
+          "base": "votes",
+          "election": "office",
+          "winner": true,
+          "text": "5% of votes cast for the successful candidate for the office at the last general (Ballotpedia: 4%)"
+        }
+      },
+      "US-NC": {
+        "independent": {
+          "share": 0.04,
+          "base": "registered",
+          "text": "4% of registered voters in the county or district"
+        }
+      },
+      "US-ND": {
+        "party": {
+          "share": 0.1,
+          "base": "votes",
+          "election": "office",
+          "orFixed": 300,
+          "text": "county offices are nonpartisan: 300 signatures or 10% of the vote (estimate)"
+        }
+      },
+      "US-NE": {
+        "independent": {
+          "share": 0.1,
+          "base": "votes",
+          "election": "governor",
+          "max": 2000,
+          "text": "10% of votes for governor/president in the county or district, capped at 2,000"
+        }
+      },
+      "US-NH": {
+        "independent": {
+          "count": 750,
+          "text": "nomination papers (estimate 750)"
+        }
+      },
+      "US-NM": {
+        "party": {
+          "share": 0.03,
+          "base": "votes",
+          "election": "governor",
+          "party": true,
+          "text": "3% of the party's total gubernatorial vote in the county or district"
+        },
+        "independent": {
+          "share": 0.03,
+          "base": "votes",
+          "election": "governor",
+          "text": "3% of votes cast for governor in the county or district"
+        }
+      },
+      "US-NV": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "text": "1% of votes cast for the office at the last general"
+        }
+      },
+      "US-NY": {
+        "party": {
+          "share": 0.05,
+          "base": "registered",
+          "party": true,
+          "max": 1500,
+          "text": "5% of enrolled party voters in the county or district, capped by statute (countywide: 1,500; legislature district: 500 (estimate) estimate)"
+        },
+        "independent": {
+          "share": 0.05,
+          "base": "votes",
+          "election": "governor",
+          "max": 3000,
+          "text": "5% of the last gubernatorial vote in the county or district, capped (countywide 3,000; district 1,500 (estimate) estimate)"
+        }
+      },
+      "US-OH": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "1% of votes for governor in the county"
+        }
+      },
+      "US-PA": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "office",
+          "text": "2% of the largest vote cast for any officer in the county at the last election"
+        }
+      },
+      "US-SC": {
+        "independent": {
+          "share": 0.05,
+          "base": "registered",
+          "max": 10000,
+          "text": "5% of registered voters in the county or district, capped at 10,000"
+        }
+      },
+      "US-SD": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "1% of the combined vote for governor in the county or district"
+        }
+      },
+      "US-TX": {
+        "independent": {
+          "share": 0.05,
+          "base": "votes",
+          "election": "governor",
+          "orFixed": 500,
+          "text": "5% of votes cast for governor in the area or 500, whichever is less"
+        }
+      },
+      "US-UT": {
+        "party": {
+          "share": 0.02,
+          "base": "registered",
+          "party": true,
+          "text": "signature path (2% of party voters (estimate) estimate) or convention"
+        },
+        "independent": {
+          "share": 0.05,
+          "base": "registered",
+          "orFixed": 300,
+          "text": "300 or 5% of registered voters, whichever is less"
+        }
+      },
+      "US-VT": {
+        "party": {
+          "share": 0.01,
+          "base": "registered",
+          "text": "party primary petitions (county office: 1% of the county's legal voters (estimate) estimate)"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "registered",
+          "text": "party primary petitions (county office: 1% of the county's legal voters (estimate) estimate)"
+        }
+      },
+      "US-WV": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "min": 25,
+          "text": "1% of the vote cast for the office at the last general, minimum 25"
+        }
+      },
+      "US-WY": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "office",
+          "text": "2% of votes cast for the office at the last general"
+        }
+      },
+      "US-AK": {
+        "party": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        }
+      },
+      "US-RI": {
+        "party": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        }
+      },
+      "US-DC": {
+        "party": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        }
+      },
+      "US-PR": {
+        "party": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        }
+      },
+      "US-GU": {
+        "party": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        }
+      },
+      "US-VI": {
+        "party": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        }
+      },
+      "US-AS": {
+        "party": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        }
+      },
+      "US-MP": {
+        "party": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no county government in this place; no county office files"
+        }
+      }
+    },
+    "usHouse": {
+      "US-AL": {
+        "party": {
+          "count": 0,
+          "text": "party candidates qualify with their party's state or county executive committee; no petition (estimate)"
+        },
+        "independent": {
+          "share": 0.03,
+          "base": "votes",
+          "election": "governor",
+          "text": "3% of votes cast for governor in the district at the last general election"
+        }
+      },
+      "US-AR": {
+        "independent": {
+          "share": 0.03,
+          "base": "registered",
+          "max": 2000,
+          "text": "3% of qualified voters in the district, capped at 2,000"
+        }
+      },
+      "US-AZ": {
+        "party": {
+          "share": 0.005,
+          "base": "registered",
+          "party": true,
+          "text": "at least 1/2 of 1% of qualified signers in the district (max 10%)"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "registered",
+          "text": "3% of unaffiliated registered voters in the district; estimate: unaffiliated and other voters are about a third of Arizona's registered voters (Arizona Secretary of State registration reports, 2024), so 3% of them is about 1% of all registered"
+        }
+      },
+      "US-CO": {
+        "party": {
+          "share": 0.1,
+          "base": "votes",
+          "election": "office",
+          "party": true,
+          "orFixed": 1500,
+          "text": "1,500 or 10% of votes cast in the last party primary for the office, whichever is less (Ballotpedia 2026)"
+        },
+        "independent": {
+          "share": 0.025,
+          "base": "votes",
+          "election": "office",
+          "orFixed": 1500,
+          "text": "1,500 or 2.5% of votes cast for the office in the last general, whichever is less"
+        }
+      },
+      "US-CT": {
+        "party": {
+          "count": 0,
+          "text": "none if endorsed; otherwise 2% of enrolled party members in the district; the party's endorsed candidate files with no petition"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "orFixed": 7500,
+          "text": "1% of votes cast for the office at the last election or 7,500, whichever is less"
+        }
+      },
+      "US-DE": {
+        "independent": {
+          "share": 0.01,
+          "base": "eligible",
+          "text": "1% of eligible voters"
+        }
+      },
+      "US-GA": {
+        "independent": {
+          "share": 0.05,
+          "base": "registered",
+          "text": "5% of registered voters eligible to vote in the last election for the office"
+        }
+      },
+      "US-IL": {
+        "party": {
+          "share": 0.005,
+          "base": "votes",
+          "election": "office",
+          "party": true,
+          "text": "0.5% of the party's primary electors in the district"
+        },
+        "independent": {
+          "share": 0.05,
+          "base": "votes",
+          "election": "office",
+          "text": "5% to 8% of the number who voted at the last general election in the district"
+        }
+      },
+      "US-IN": {
+        "party": {
+          "count": 0,
+          "text": "declaration of candidacy only"
+        },
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "secretary-of-state",
+          "text": "2% of votes cast for secretary of state in the district at the last election"
+        }
+      },
+      "US-KS": {
+        "independent": {
+          "share": 0.04,
+          "base": "registered",
+          "min": 25,
+          "max": 5000,
+          "text": "4% of registered voters in the district (minimum 25, maximum 5,000)"
+        }
+      },
+      "US-MD": {
+        "independent": {
+          "share": 0.01,
+          "base": "eligible",
+          "orFixed": 10000,
+          "text": "1% of eligible voters in the district or 10,000, whichever is less"
+        }
+      },
+      "US-MO": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "office",
+          "orFixed": 10000,
+          "text": "2% of votes cast for the office at the last election or 10,000, whichever is less"
+        }
+      },
+      "US-MT": {
+        "independent": {
+          "share": 0.04,
+          "base": "votes",
+          "election": "office",
+          "winner": true,
+          "text": "4% of votes cast for the last successful candidate for the office"
+        }
+      },
+      "US-NC": {
+        "independent": {
+          "share": 0.015,
+          "base": "registered",
+          "text": "1.5% of registered voters in the district as of January 1"
+        }
+      },
+      "US-NM": {
+        "party": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "office",
+          "party": true,
+          "min": 77,
+          "text": "2% of the party's district vote (min 77) - 2026: Democratic 835, Republican 783"
+        }
+      },
+      "US-NV": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "min": 100,
+          "text": "1% of votes cast for the office at the last general, or 100 (read as the greater; estimate)"
+        }
+      },
+      "US-OH": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "1% of votes for governor in the district"
+        }
+      },
+      "US-OR": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "president",
+          "text": "1% of votes cast for president in the district, or assembly of 500 electors"
+        }
+      },
+      "US-PA": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "election": "office",
+          "text": "2% of the largest vote cast in the district at the last election"
+        }
+      },
+      "US-SC": {
+        "independent": {
+          "share": 0.05,
+          "base": "registered",
+          "max": 10000,
+          "text": "5% of active registered voters in the district, capped at 10,000"
+        }
+      },
+      "US-SD": {
+        "party": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "party": true,
+          "text": "same as statewide (at-large district): 1% of votes cast for the party's gubernatorial candidate at the last election"
+        }
+      },
+      "US-WV": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "office",
+          "min": 25,
+          "text": "1% of the vote cast for the office, minimum 25"
+        }
+      },
+      "US-PR": {
+        "party": {
+          "share": 0.005,
+          "base": "registered",
+          "party": true,
+          "text": "endorsement petitions per CEE guide (estimate) (estimate: half of one percent of the registered voters, in the range of the CEE's endorsement counts)"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "(estimate) (estimate: 1% of the last governor vote)"
+        }
+      },
+      "US-VI": {
+        "party": {
+          "count": 25,
+          "text": "(count not read; estimate 25, as for a district's party petition)"
+        },
+        "independent": {
+          "count": 68,
+          "text": "18 V.I.C. 381(b); 2026 report: 34 valid signatures needed from each district, two districts"
+        }
+      }
+    },
+    "municipalOffice": {
+      "US-AZ": {
+        "party": {
+          "share": 0.05,
+          "base": "votes",
+          "spread": [0.05, 0.1],
+          "text": "5% to 10% of the vote for the office at the last city election (by charter; general-law default)",
+          "election": "office"
+        }
+      },
+      "US-CO": {
+        "party": {
+          "byPopulation": [
+            {
+              "belowPopulation": 2000,
+              "count": 10
+            },
+            {
+              "count": 25
+            }
+          ],
+          "text": "at least 25 eligible electors (10 in towns of fewer than 2,000)"
+        }
+      },
+      "US-CT": {
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "min": 25,
+          "text": "1% of votes cast for the office at the last election (minimum about 25 in small towns)",
+          "election": "office"
+        },
+        "party": {
+          "count": 0,
+          "text": "party endorsement by caucus or convention, or primary petition of 5% of enrolled party members in the town; the endorsed candidate files with no petition"
+        }
+      },
+      "US-GA": {
+        "independent": {
+          "share": 0.05,
+          "base": "registered",
+          "text": "5% of registered voters (independent in partisan cities)"
+        }
+      },
+      "US-IA": {
+        "party": {
+          "share": 0.02,
+          "base": "votes",
+          "min": 10,
+          "text": "2% of votes cast for the office at the last regular city election, minimum 10 (Iowa Code 45.1)",
+          "election": "office"
+        }
+      },
+      "US-IN": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "text": "2% of the last secretary of state vote in the city",
+          "election": "secretary-of-state"
+        },
+        "party": {
+          "count": 0,
+          "text": "declaration of candidacy only (major party)"
+        }
+      },
+      "US-MA": {
+        "party": {
+          "share": 0.01,
+          "base": "votes",
+          "min": 20,
+          "max": 50,
+          "text": "town offices: 1% of votes for governor in the town, minimum 20, maximum 50",
+          "election": "governor"
+        }
+      },
+      "US-MP": {
+        "party": {
+          "share": 0.05,
+          "base": "registered",
+          "orFixed": 100,
+          "text": "5% of the island's registered voters or 100, whichever is less"
+        }
+      },
+      "US-MS": {
+        "independent": {
+          "byPopulation": [
+            {
+              "belowPopulation": 1000,
+              "count": 15
+            },
+            {
+              "count": 50
+            }
+          ],
+          "text": "50 (cities over 1,000) or 15 (smaller)"
+        }
+      },
+      "US-ND": {
+        "party": {
+          "share": 0.1,
+          "base": "votes",
+          "max": 300,
+          "text": "10% of the votes cast for the office at the last election, maximum 300 (city)",
+          "election": "office"
+        }
+      },
+      "US-NJ": {
+        "party": {
+          "share": 0.05,
+          "base": "votes",
+          "orFixed": 50,
+          "text": "50 party voters, or 5% of the party's last Assembly vote, whichever is less (N.J.S.A. 19:23-8)",
+          "election": "legislature-lower"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "text": "1% of votes cast for the General Assembly in the town",
+          "election": "legislature-lower"
+        }
+      },
+      "US-NY": {
+        "party": {
+          "share": 0.05,
+          "base": "registered",
+          "max": 500,
+          "text": "5% of enrolled party voters, capped by statute (city council outside NYC: 500)"
+        },
+        "independent": {
+          "share": 0.05,
+          "base": "votes",
+          "max": 500,
+          "text": "5% of the last gubernatorial vote, capped (the cap is the party row's 500)",
+          "election": "governor"
+        }
+      },
+      "US-OH": {
+        "party": {
+          "byPopulation": [
+            {
+              "belowPopulation": 5000,
+              "count": 10
+            },
+            {
+              "count": 50
+            }
+          ],
+          "text": "50 for city council in most cities; 10 for villages (a municipality of 5,000 people is a city, Ohio Revised Code 703.01)"
+        }
+      },
+      "US-PA": {
+        "independent": {
+          "share": 0.02,
+          "base": "votes",
+          "text": "2% of the largest vote in the municipality",
+          "election": "level"
+        }
+      },
+      "US-SD": {
+        "party": {
+          "share": 0.03,
+          "base": "votes",
+          "min": 10,
+          "spread": [0.01, 0.05],
+          "text": "1% to 5% of the votes cast at the last municipal election; minimum 10",
+          "election": "level"
+        }
+      },
+      "US-VT": {
+        "party": {
+          "share": 0.01,
+          "base": "registered",
+          "orFixed": 30,
+          "text": "30 voters or 1% of the town's voters, whichever is less"
+        }
+      },
+      "US-PR": {
+        "party": {
+          "share": 0.005,
+          "base": "registered",
+          "party": true,
+          "text": "endorsement petitions per CEE guide (estimate) (estimate: half of one percent of the registered voters, in the range of the CEE's endorsement counts)"
+        },
+        "independent": {
+          "share": 0.01,
+          "base": "votes",
+          "election": "governor",
+          "text": "(estimate) (estimate: 1% of the last governor vote)"
+        }
+      },
+      "US-HI": {
+        "party": {
+          "count": 0,
+          "text": "no municipal government below the county or territory; no municipal office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no municipal government below the county or territory; no municipal office files"
+        }
+      },
+      "US-VI": {
+        "party": {
+          "count": 0,
+          "text": "no municipal government below the county or territory; no municipal office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no municipal government below the county or territory; no municipal office files"
+        }
+      },
+      "US-AS": {
+        "party": {
+          "count": 0,
+          "text": "no municipal government below the county or territory; no municipal office files"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no municipal government below the county or territory; no municipal office files"
+        }
+      },
+      "US-AK": {
+        "party": {
+          "count": 25,
+          "text": "some codes require a petition of 10-50 voters (estimate: 25)"
+        },
+        "independent": {
+          "count": 25,
+          "text": "some codes require a petition of 10-50 voters (estimate: 25)"
+        }
+      },
+      "US-DE": {
+        "party": {
+          "count": 0,
+          "text": "some charters require a petition; the general-law default asks none (estimate)"
+        },
+        "independent": {
+          "count": 0,
+          "text": "some charters require a petition; the general-law default asks none (estimate)"
+        }
+      },
+      "US-IL": {
+        "party": {
+          "byPopulation": [
+            {
+              "belowPopulation": 5000,
+              "count": 25
+            },
+            {
+              "count": 50
+            }
+          ],
+          "text": "by municipal type: commonly 25-50 for villages, a percentage of the last vote for larger cities (10 ILCS 5/10-3.1) (estimate: 25 below 5,000 people, 50 above)"
+        },
+        "independent": {
+          "byPopulation": [
+            {
+              "belowPopulation": 5000,
+              "count": 25
+            },
+            {
+              "count": 50
+            }
+          ],
+          "text": "by municipal type: commonly 25-50 for villages, a percentage of the last vote for larger cities (10 ILCS 5/10-3.1) (estimate: 25 below 5,000 people, 50 above)"
+        }
+      },
+      "US-MD": {
+        "party": {
+          "count": 0,
+          "text": "some charters require a petition; the general-law default asks none (estimate)"
+        },
+        "independent": {
+          "count": 0,
+          "text": "some charters require a petition; the general-law default asks none (estimate)"
+        }
+      },
+      "US-MO": {
+        "party": {
+          "count": 0,
+          "text": "a declaration of candidacy files the candidate; no petition in general law (estimate)"
+        },
+        "independent": {
+          "count": 0,
+          "text": "a declaration of candidacy files the candidate; no petition in general law (estimate)"
+        }
+      },
+      "US-MT": {
+        "party": {
+          "count": 0,
+          "text": "no petition for nonpartisan municipal declaration"
+        },
+        "independent": {
+          "count": 0,
+          "text": "no petition for nonpartisan municipal declaration"
+        }
+      },
+      "US-NM": {
+        "party": {
+          "count": 50,
+          "text": "set by the municipality (Local Election Act; commonly a petition of 50-200 signatures or none) (estimate: 50)"
+        },
+        "independent": {
+          "count": 50,
+          "text": "set by the municipality (Local Election Act; commonly a petition of 50-200 signatures or none) (estimate: 50)"
+        }
+      },
+      "US-OR": {
+        "party": {
+          "count": 50,
+          "text": "petition per charter (commonly 25-100) (estimate: 50)"
+        },
+        "independent": {
+          "count": 50,
+          "text": "petition per charter (commonly 25-100) (estimate: 50)"
+        }
+      },
+      "US-UT": {
+        "party": {
+          "count": 0,
+          "text": "a declaration and fee file the candidate; the nomination petition of 25 signatures is an alternative to the fee"
+        },
+        "independent": {
+          "count": 0,
+          "text": "a declaration and fee file the candidate; the nomination petition of 25 signatures is an alternative to the fee"
+        }
+      },
+      "US-WV": {
+        "party": {
+          "count": 0,
+          "text": "a certificate of announcement files the candidate; no petition in general law (estimate)"
+        },
+        "independent": {
+          "count": 0,
+          "text": "a certificate of announcement files the candidate; no petition in general law (estimate)"
+        }
+      },
+      "US-GU": {
+        "party": {
+          "count": 50,
+          "text": "registered voters of the village (count not read; estimate 50-100, 50 taken)"
+        },
+        "independent": {
+          "count": 50,
+          "text": "(estimate: as the party side, 50)"
+        }
+      }
+    }
+  }
+}

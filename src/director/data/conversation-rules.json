@@ -268,7 +268,9 @@
   },
   "addressPoint": {
     "about": "Owner, Nov 11, 2026: the relative raises a real thing the President said in the address and where they stand on it from their own life. Which of the address's points a hearer raises reads these lists: a point on work or pay (by the bill catalog's subject) for someone who lost a job this year or is looking for one, a point on prices, rent or housing (the catalog's subjects, and the questions about prices by name) for someone money is hard for. `back` is the subject the hearer's answer to the player's reply is composed under. Names only; no sentence.",
-    "work": { "subjects": ["labor"] },
+    "work": {
+      "subjects": ["labor"]
+    },
     "money": {
       "subjects": ["housing"],
       "questions": [
@@ -281,19 +283,58 @@
     "back": "address-point-back",
     "claims": {
       "about": "What each claim about the country's year is about and which way it says things went. A hearer stands on a year point by whether their own life bears it out: a claim that work got worse is borne out by a job lost or looked for, or the town's unemployment above the country's; a claim that money got worse by hardship, an eviction, or the town's rent above the burden line; a claim that things got better by the opposite. By claim fact; no sentence.",
-      "prices-high": { "area": "money", "says": "worse" },
-      "prices-up": { "area": "money", "says": "worse" },
-      "inflation-up": { "area": "money", "says": "worse" },
-      "inflation-down": { "area": "money", "says": "better" },
-      "wages-up": { "area": "money", "says": "better" },
-      "wages-ahead-of-prices": { "area": "money", "says": "better" },
-      "wages-behind-prices": { "area": "money", "says": "worse" },
-      "mortgage-up": { "area": "money", "says": "worse" },
-      "mortgage-down": { "area": "money", "says": "better" },
-      "unemployment-up": { "area": "work", "says": "worse" },
-      "unemployment-down": { "area": "work", "says": "better" },
-      "jobs-up": { "area": "work", "says": "better" },
-      "growth-up": { "area": "work", "says": "better" }
+      "prices-high": {
+        "area": "money",
+        "says": "worse"
+      },
+      "prices-up": {
+        "area": "money",
+        "says": "worse"
+      },
+      "inflation-up": {
+        "area": "money",
+        "says": "worse"
+      },
+      "inflation-down": {
+        "area": "money",
+        "says": "better"
+      },
+      "wages-up": {
+        "area": "money",
+        "says": "better"
+      },
+      "wages-ahead-of-prices": {
+        "area": "money",
+        "says": "better"
+      },
+      "wages-behind-prices": {
+        "area": "money",
+        "says": "worse"
+      },
+      "mortgage-up": {
+        "area": "money",
+        "says": "worse"
+      },
+      "mortgage-down": {
+        "area": "money",
+        "says": "better"
+      },
+      "unemployment-up": {
+        "area": "work",
+        "says": "worse"
+      },
+      "unemployment-down": {
+        "area": "work",
+        "says": "better"
+      },
+      "jobs-up": {
+        "area": "work",
+        "says": "better"
+      },
+      "growth-up": {
+        "area": "work",
+        "says": "better"
+      }
     }
   },
   "greetAndPart": {
@@ -346,5 +387,14 @@
       "cause:event:election-result",
       "cause:event:candidate-filed"
     ]
+  },
+  "smallTalk": {
+    "about": "Words composer, unit 2 (owner, Nov 12: the 7:00 a.m. work talk every morning for four weeks). Small talk (the day itself, with nothing but the clock behind it) ranks below every subject with a record, and once raised with a person it is not raised with them again for this many days.",
+    "againAfterDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [5, 7],
+      "checkedAgainst": "A week, the owner's words (\"not raised again with the same person that week\", words skill, Nov 11)."
+    }
   }
 }

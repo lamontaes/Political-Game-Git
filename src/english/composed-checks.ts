@@ -15,6 +15,8 @@
  * Every number and word list is in data/english/composed-checks.json.
  */
 import data from "../../data/english/composed-checks.json" with { type: "json" };
+import lineRules from "../../data/english/line-rules.json" with { type: "json" };
+import questionNames from "../../data/english/question-names.json" with { type: "json" };
 import {
   linesOf,
   plainSentence,
@@ -24,6 +26,13 @@ import {
   type ComposedText,
   type NamedPerson,
 } from "./composed-text";
+
+/** The most words a question may have and still be read with the sentence after it as one thought. */
+export const SHORT_QUESTION_MOST_WORDS = (
+  data as unknown as {
+    parameters: { shortQuestionMostWords: { value: number } };
+  }
+).parameters.shortQuestionMostWords.value;
 
 /** One break: which check, in which text and screen, why, and the words. */
 export interface ComposedBreak {
@@ -625,6 +634,18 @@ export const askSaidOnce: ComposedCheck = (text) => {
   return found;
 };
 
+/**
+ * The subject words of a sentence and how many times one speech may say
+ * each: the same reader the composed check uses, so the one address writer
+ * holds the rule as it composes (src/director/opening-story.ts
+ * `composeBlocks`) and the check reads what it held.
+ */
+export const SUBJECT_WORDS = {
+  of: (sentence: string): string[] => subjectWords(sentence),
+  most: (): number => value("subjectBudget"),
+  wordsOf: (text: string): string[] => words(text),
+};
+
 /** A subject's word said more than `subjectBudget` times in one speech (names of people set aside). */
 export const subjectBudget: ComposedCheck = (text, sample) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
@@ -648,6 +669,52 @@ export const subjectBudget: ComposedCheck = (text, sample) => {
         word,
       ),
     );
+};
+
+// ---- point-made-once ----
+
+/** A wording as it is found inside a sentence: lower case, plain quotes, no closing period. */
+const asFound = (text: string): string =>
+  plainQuotes(text)
+    .toLocaleLowerCase("en-US")
+    .replace(/[.!?]+$/, "")
+    .trim();
+
+/** Every group of wordings that make one claim (question-names.json `points`), by question and tag. */
+const POINT_GROUPS: readonly { tag: string; texts: readonly string[] }[] =
+  Object.entries(
+    questionNames.names as Record<
+      string,
+      { points?: Readonly<Record<string, readonly string[]>> }
+    >,
+  ).flatMap(([question, row]) =>
+    Object.entries(row.points ?? {}).map(([tag, texts]) => ({
+      tag: `${question}#${tag}`,
+      texts: [...new Set(texts.map(asFound))],
+    })),
+  );
+
+/** One paragraph of a speech that makes one point twice: two wordings of one `points` group (the lead, Nov 12: "to people who know the work. Because I believe an officer should be judged by people who have done the job"). */
+export const pointMadeOnce: ComposedCheck = (text) => {
+  if (!SPEECH_KINDS.includes(text.kind)) return [];
+  const found: ComposedBreak[] = [];
+  screenTexts(text).forEach((screen, at) => {
+    const said = asFound(screen);
+    for (const group of POINT_GROUPS) {
+      const twice = group.texts.filter((wording) => said.includes(wording));
+      if (twice.length > one)
+        found.push(
+          breakOf(
+            "point-made-once",
+            text,
+            at,
+            `makes one point twice (${group.tag.split("#")[one]})`,
+            twice.join(" / "),
+          ),
+        );
+    }
+  });
+  return found;
 };
 
 // ---- note-stands-alone ----
@@ -683,6 +750,42 @@ export const noteStandsAlone: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- no-figure-in-talk (rule 101) ----
+
+/**
+ * The words that make a spoken figure are the line rule's own patterns
+ * (`no-figure-in-talk` in data/english/line-rules.json), so a bank line and a
+ * composed text are judged by one list.
+ */
+const FIGURE_PATTERNS: RegExp[] = (
+  (
+    lineRules.rules.find((rule) => rule.id === "no-figure-in-talk")?.test as
+      { patterns?: string[] } | undefined
+  )?.patterns ?? []
+).map((source) => new RegExp(source, "i"));
+
+/** A spoken line that quotes a rate, a percentage, an index or a statistic (owner, Nov 14: people say how it sits, not the figure). */
+export const noFigureInTalk: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      if (
+        line.speakerId &&
+        FIGURE_PATTERNS.some((pattern) => pattern.test(line.text))
+      )
+        found.push(
+          breakOf(
+            "no-figure-in-talk",
+            text,
+            at,
+            "a spoken line quotes a figure",
+            line.text,
+          ),
+        );
+  });
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -697,7 +800,9 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "speech-names-no-stray-place": speechNamesNoStrayPlace,
   "ask-said-once": askSaidOnce,
   "subject-budget": subjectBudget,
+  "point-made-once": pointMadeOnce,
   "note-stands-alone": noteStandsAlone,
+  "no-figure-in-talk": noFigureInTalk,
 };
 
 /** A composed rule's checks, as a list. */
@@ -769,9 +874,16 @@ export function baselineFailures(
       failures.push(
         `COVERAGE: ${rule} read no texts; the baseline read ${was.read}. A rule that reads nothing has checked nothing.`,
       );
-    else if (now !== undefined && now.per100 > was.per100)
+    // A rate rises only with its count where fewer texts were read (lead,
+    // Nov 12): fewer texts can neither fake a rise (the same breaks over a
+    // smaller count) nor hide one (more breaks in fewer texts is a rise).
+    else if (
+      now !== undefined &&
+      now.per100 > was.per100 &&
+      (now.read >= was.read || now.breaks > was.breaks)
+    )
       failures.push(
-        `ROSE: ${rule} ${was.per100} -> ${now.per100} breaks per 100 texts`,
+        `ROSE: ${rule} ${was.per100} -> ${now.per100} breaks per 100 texts (${was.breaks} -> ${now.breaks} breaks in ${was.read} -> ${now.read} texts)`,
       );
   }
   return failures;

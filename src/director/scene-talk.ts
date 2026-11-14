@@ -62,6 +62,8 @@ interface Ending {
    * the promise record reads it.
    */
   firmness?: string;
+  /** What this ending does to the resident's case at office hours: the cases engine's decision. */
+  settles?: "help" | "decline";
   when: {
     reply?: string[];
     asker?: string[];
@@ -109,6 +111,18 @@ interface PurposeArc {
     thanks: string;
     /** The player's second ask after a "not yet" or a no, and what it weighs. */
     again: { move: string; carries: "favor" | "lean" | "none" }[];
+    /**
+     * A middle exchange about the one asked's own matter (Words lead, Nov 14,
+     * rulings 62 and 63: a scene has a middle, and one button is not a
+     * choice): offered beside the thanks or the second ask, the player asks
+     * after them (`ask`), they say what the player did not know (`tell`),
+     * and the player chooses among the `then` replies, which end differently.
+     */
+    middle?: {
+      ask: string;
+      tell: string;
+      then: { move: string; carries: "favor" | "lean" | "none" }[];
+    };
   };
 }
 
@@ -203,6 +217,7 @@ export interface TreeNode {
       label: string;
       keeps: string;
       firmness?: string;
+      settles?: "help" | "decline";
     };
   };
 }
@@ -741,6 +756,7 @@ export function composeSceneTalk(
           label: found.label,
           keeps: found.keeps,
           ...(found.firmness ? { firmness: found.firmness } : {}),
+          ...(found.settles ? { settles: found.settles } : {}),
         };
         endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
       } else
@@ -983,6 +999,98 @@ export function composeSceneTalk(
       }
       next.end = { outcome: outcomeOf(last?.move ?? first.move) };
     }
+    // The middle: asking after the one asked, who tells their own matter,
+    // and two or more replies to it that end apart.
+    const middleLed = new Map<TreeNode, TreeReply>();
+    if (ask.middle) {
+      const heardFirst = addParts(said, first);
+      const opener = mine(
+        {
+          step: "follow",
+          move: ask.middle.ask,
+          after: first.move,
+          ...(first.parts[zero] ? { afterPiece: first.parts[zero] } : {}),
+        },
+        `middle:${ask.middle.ask}`,
+        heardFirst,
+      );
+      const told = opener
+        ? theirs(
+            [ask.middle.tell],
+            opener,
+            "middle-tell",
+            addParts(heardFirst, opener),
+          )
+        : null;
+      if (opener && told) {
+        opener.round = two;
+        told.round = two;
+        const node: TreeNode = { lines: [told], replies: [] };
+        const heard = addParts(addParts(heardFirst, opener), told);
+        for (const then of ask.middle.then) {
+          const line = mine(
+            {
+              step: "follow",
+              move: then.move,
+              after: told.move,
+              ...(told.parts[zero] ? { afterPiece: told.parts[zero] } : {}),
+            },
+            `middle:${then.move}`,
+            heard,
+          );
+          if (!line) {
+            gap("follow", then.move, told.move);
+            continue;
+          }
+          line.round = three;
+          const next: TreeNode = { lines: [], replies: [] };
+          const carries =
+            then.carries === "favor"
+              ? carried
+              : then.carries === "lean"
+                ? standing.lean > zero
+                : undefined;
+          const last =
+            carries === undefined
+              ? null
+              : theirs(
+                  carries ? ask.relent : [ask.no],
+                  line,
+                  `middle-last:${then.move}`,
+                  addParts(heard, line),
+                );
+          if (last) {
+            last.round = three;
+            next.lines.push(last);
+          }
+          next.end = { outcome: outcomeOf(last?.move ?? first.move) };
+          node.replies.push({ line, next });
+        }
+        // Fewer than two replies to what they told is no choice: the scene
+        // ends on what they said (one with nothing to name says so, ruling
+        // 72), and the ending reads the first answer.
+        if (node.replies.length < two) {
+          node.replies = [];
+          node.end = { outcome: outcomeOf(first.move) };
+        }
+        root.replies.push({ line: opener, next: node });
+        count += one + node.replies.length;
+        const [ledThen] = [...node.replies].sort(
+          (a, b) =>
+            leanOf(core, b.line.move, askedTraits) -
+              leanOf(core, a.line.move, askedTraits) ||
+            stableHash(`${scene}:middle:${a.line.move}`).localeCompare(
+              stableHash(`${scene}:middle:${b.line.move}`),
+            ),
+        );
+        if (ledThen) {
+          ledThen.line.chosen = true;
+          middleLed.set(node, ledThen);
+        }
+      } else gap("follow", ask.middle.ask, first.move);
+    }
+    // One button is not a choice: a scene whose middle can be worded never
+    // leaves the player a single reply.
     if (!yes && root.replies.length < two)
       return {
         kind: "skipped",
@@ -1006,7 +1114,10 @@ export function composeSceneTalk(
       statement: request,
       root,
       nodes: count,
-      ledChoices: new Map(led ? [[root, led]] : []),
+      ledChoices: new Map([
+        ...(led ? [[root, led] as const] : []),
+        ...middleLed,
+      ]),
       ledBranch: new Map(),
     });
   }
