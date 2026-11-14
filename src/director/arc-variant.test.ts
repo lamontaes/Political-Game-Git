@@ -115,7 +115,9 @@ const accuseFacts: Record<string, Fact> = { ...generic, bill: fact("Bill 14") };
 // What a complaint to the prosecutor hands the other arcs (purpose-scene.ts,
 // justice.accused): what the money was for, whether it moved, the accused's
 // part, the reason that weighed most and how the accuser knows. A witness
-// was offered the money and refused it; a taken bribe moved.
+// was offered the money and refused it, and so was the friend here (a friend
+// who was there takes a plain account; one who was told asks for more); a
+// taken bribe moved.
 const complaintFacts = (variant: string): Record<string, Fact> => ({
   ...generic,
   wanted: fact("Bill 14"),
@@ -123,7 +125,8 @@ const complaintFacts = (variant: string): Record<string, Fact> => ({
   "you-offered": fact("yes"),
   "motive-stake": fact("yes"),
   [variant === "taken" ? "money-moved" : "no-money-moved"]: fact("yes"),
-  [variant === "witness" ? "saw-it" : "secondhand"]: fact("yes"),
+  [variant === "witness" || variant === "friend" ? "saw-it" : "secondhand"]:
+    fact("yes"),
 });
 // What a colleague's ask for a vote hands the scene: the bill, the bill the
 // asker already voted for (`earlier`) and the reads that came to something.

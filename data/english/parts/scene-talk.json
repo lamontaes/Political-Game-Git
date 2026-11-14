@@ -148754,6 +148754,39 @@
       }
     },
     {
+      "key": "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You've made up your mind, so there's nothing left to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today",
       "move": "reply-leave",
       "kind": "spoken",
@@ -151127,6 +151160,15 @@
           "purpose": "conflict-accuse.friend",
           "key": "threat",
           "after": "scene-talk.reply-tell.accused.i-did-it-because-it-was-a-lot-of-money-to-me"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "scene-talk.reply-tell.friend.i-offered-you-money-over-wanted-and-you-said-no-you-were"
         }
       ],
       "origin": "authored",

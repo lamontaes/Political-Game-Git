@@ -53,7 +53,12 @@ const lineSources = (purpose: string) =>
     .map(
       (part) =>
         new RegExp(
-          `^${(part.text as string).replace(/[.*+?^$()|[\]\\]/g, "\\$&").replace(/\{[a-z-]+\}/g, ".+")}$`,
+          // A name tagged after a comma is said without it once the voice
+          // has used it (scene-talk-words.ts, TAIL_NAME).
+          `^${(part.text as string)
+            .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
+            .replace(/, \{first\}(?=\\?[.?!,;])/g, "(?:, .+)?")
+            .replace(/\{[a-z-]+\}/g, ".+")}$`,
         ),
     );
 
