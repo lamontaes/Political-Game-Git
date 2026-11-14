@@ -49,6 +49,7 @@ import {
   addCountedPerson,
   countedEstateOf,
   countedHouseholdsByPlace,
+  countedPartDeath,
   householdIncome,
   incomeBandOf,
   removeCountedPerson,
@@ -624,7 +625,6 @@ export function applyCountedFlows(
       // of its people die, by cause in real people, and the record stands
       // for that many fewer households (the people who lived with them stay
       // in the counts, in the group's other households).
-      // stopgapId: SG-HEALTH-counted-part-death-no-estate
       const whole = weightOfPerson(person);
       if (found.share !== undefined && found.share < whole) {
         const died = assignDeathCause(api, {
@@ -636,11 +636,37 @@ export function applyCountedFlows(
         row.deathCauses[died.cause] =
           (row.deathCauses[died.cause] ?? 0) + found.share;
         carry.died += found.share;
-        const h = counted?.liveHousehold(person.householdId);
-        if (h) {
-          counted!.dieInPart(h, found.share);
-          for (const member of byHousehold.get(person.householdId) ?? [])
-            weightOf.set(member.id, counted!.weightOf(h));
+        const part = countedPartDeath(core, person.id, found.share);
+        if (part) {
+          // The estate passes as a whole death's does, for the households
+          // that share stands for, and the survivors hear of the death.
+          settleCountedEstate(api, {
+            deceasedId: person.id,
+            placeId,
+            estate: { ...part.estate, households: found.share },
+          });
+          if (part.survivors.length)
+            api.emit({
+              id: `event:${DEFAULT_HEALTH_DATA.countedDeathEventKind}:${person.id}:${date}`,
+              date,
+              kind: DEFAULT_HEALTH_DATA.countedDeathEventKind,
+              personIds: [],
+              placeId,
+              topic: `${DEFAULT_HEALTH_DATA.topicPrefix}:${died.cause}`,
+              desiredChange: `${DEFAULT_HEALTH_DATA.desiredChangePrefix}:${died.cause}`,
+              ...severityImpulse(api, DEFAULT_HEALTH_DATA.deathSeverity),
+              publicRecord: false,
+              source: { ...DEFAULT_HEALTH_DATA.source, asOf: date },
+              facts: {
+                "counted-subject": person.id,
+                "counted-household": person.householdId,
+                "counted-perceivers": JSON.stringify(part.survivors),
+              },
+            });
+          const kept = counted?.liveHousehold(person.householdId);
+          if (kept)
+            for (const member of byHousehold.get(person.householdId) ?? [])
+              weightOf.set(member.id, counted!.weightOf(kept));
         }
         continue;
       }
