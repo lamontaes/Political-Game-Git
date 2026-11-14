@@ -2764,7 +2764,6 @@ function payProjectGrant(
  * state allows it) and what it costs; blocked while any section is beyond
  * the body's power.
  */
-/** The level of government a lawmaking body belongs to: its body row's (a town's own body where it has none). */
 /** A body's government by kind: its level, or for a municipality the kind its recorded name gives. */
 function governmentKind(api: CoreAPI, bodyOfficeId: string): string {
   const level = bodyLevel(api, bodyOfficeId);
@@ -2777,6 +2776,7 @@ function governmentKind(api: CoreAPI, bodyOfficeId: string): string {
   return of === "OF" && kind ? kind.toLowerCase() : level;
 }
 
+/** The level of government a lawmaking body belongs to: its body row's (a town's own body where it has none). */
 function bodyLevel(api: CoreAPI, bodyOfficeId: string): GovernmentLevel {
   return bodyRow(bodyOf(api, bodyOfficeId)?.kind ?? "")?.level ?? "city";
 }
