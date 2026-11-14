@@ -571,6 +571,7 @@
           "move": "greet-opener",
           "subject": "greet",
           "role": "opener",
+          "requiresFacts": ["name"],
           "excludesFacts": ["by-phone"]
         }
       ],
@@ -718,6 +719,7 @@
           "subject": "greet",
           "role": "open",
           "choice": "hello",
+          "requiresFacts": ["name"],
           "excludesFacts": ["by-phone"]
         }
       ],
@@ -750,6 +752,7 @@
           "subject": "greet",
           "role": "open",
           "choice": "hello",
+          "requiresFacts": ["name"],
           "excludesFacts": ["by-phone"]
         }
       ],
