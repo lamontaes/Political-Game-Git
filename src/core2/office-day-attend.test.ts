@@ -530,9 +530,20 @@ const SEATED_COMMITTEE_PLACE = {
   name: "Adjuntas, Puerto Rico",
   seed: "46df10dad049f2497d21e51cb6bfb6a949ec55a83040f6eb601b9d1cf1eb2472",
 };
+/**
+ * The playtest's place for the budget (Nov 13, 2026): its council heard the
+ * mayor's budget on Jun 1 and votes it at its Jul 1 meeting. Kept, played past
+ * that day, so the budget is proved decided alike held and away.
+ */
+const BUDGET_PLACE = {
+  key: "1918435",
+  name: "Danville, Iowa",
+  seed: "4b0fc31d-ba59-4168-8b84-d7c0e3f826b6",
+  days: 165,
+};
 const DAYS = Number(process.env.TWIN_DAYS ?? 100);
-const endOf = (core: CoreState) =>
-  new Date(Date.parse(`${core.date}T00:00:00Z`) + DAYS * 86_400_000)
+const endOf = (core: CoreState, days = DAYS) =>
+  new Date(Date.parse(`${core.date}T00:00:00Z`) + days * 86_400_000)
     .toISOString()
     .slice(0, 10);
 
@@ -720,12 +731,16 @@ it("a member the player plays decides alike at the stop and away from it: the me
   for (const place of named ?? [
     SAME_DAY_PLACE,
     COMMITTEE_PLACE,
+    BUDGET_PLACE,
     SEATED_COMMITTEE_PLACE,
     ...twinPlaces("seated-holds"),
   ]) {
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     console.log(`seated-holds builds ${where}`);
-    const kept = place === SAME_DAY_PLACE || place === COMMITTEE_PLACE;
+    const kept =
+      place === SAME_DAY_PLACE ||
+      place === COMMITTEE_PLACE ||
+      place === BUDGET_PLACE;
     const run = (
       present: boolean,
       mode: "own" | "silent" | "adjourn" = "own",
@@ -753,7 +768,7 @@ it("a member the player plays decides alike at the stop and away from it: the me
         "own-bill-vote": present,
         "deciding-vote": present,
       });
-      const end = endOf(core);
+      const end = endOf(core, "days" in place ? place.days : DAYS);
       let held = 0;
       let items = 0;
       const sat: string[] = [];
@@ -909,6 +924,12 @@ it("a member the player plays decides alike at the stop and away from it: the me
         held.committees.length,
         `${where}: a committee the player sits on`,
       ).toBeGreaterThan(0);
+    // The budget is voted at the Jul 1 meeting on both paths, alike.
+    if (place === BUDGET_PLACE)
+      expect(
+        held.bills.some((line) => / 2025-6 /.test(line)),
+        `${where}: the budget decided`,
+      ).toBe(true);
     if (place.key === COMMITTEE_PLACE.key) {
       run(true, "silent");
       run(true, "adjourn");

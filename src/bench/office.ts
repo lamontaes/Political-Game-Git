@@ -78,6 +78,7 @@ import {
   takeUpItem,
   upcomingMeeting,
   type MeetingRow,
+  nextMeetingDate,
 } from "../core2/modules/office-day";
 import { dateWords } from "../english/plain-words.mjs";
 import { screenPick, screenWays } from "../english/screen-words";
@@ -366,7 +367,7 @@ export function officeView(core: CoreState, personId: string) {
       payer: core.organizations.get(j.payerId)?.name ?? j.payerId,
       lastPaid: j.lastPaid ?? null,
       citation: j.citation,
-      nextMeeting: upcomingMeeting(api, j.officeId)?.date ?? null,
+      nextMeeting: nextMeetingDate(api, j.officeId),
     })),
     // The town posts the official appoints that stand open, each with the people it could go to, best first by the official's own reasons.
     heads: [
