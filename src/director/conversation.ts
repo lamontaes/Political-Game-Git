@@ -112,6 +112,7 @@ import { questionSubject } from "../english/policy-names";
 import {
   NAMED_QUESTIONS,
   questionAbout,
+  questionSaid,
   questionSide,
   questionTo,
   townFigureWords,
@@ -1790,6 +1791,7 @@ function governmentNews(
     out["knows-record"] = fact("yes");
     const question = about ? QUESTION_BY_ABOUT.get(about) : undefined;
     if (about) out.about = fact(about);
+    if (about) out.said = fact((question && questionSaid(question)) || about);
     if (question && lean !== undefined) {
       const held = viewOn(api, speaker.id, question, lean);
       if (held !== zero) {
@@ -1996,6 +1998,10 @@ function printedSubject(
       news,
       facts: {
         about: { text: about, sourceRecordIds: [story.id] },
+        said: {
+          text: questionSaid(story.topic!) ?? about,
+          sourceRecordIds: [story.id],
+        },
         ...stakeMarks(stake, "their-"),
         // A printed story, told by what it is about (never its headline).
         story: { text: "yes", sourceRecordIds: cited },
@@ -2674,6 +2680,10 @@ export function subjectsBetween(
         ...(top
           ? {
               about: { text: top.about, sourceRecordIds: [top.recordId] },
+              said: {
+                text: questionSaid(top.question) ?? top.about,
+                sourceRecordIds: [top.recordId],
+              },
               [`side-${top.side}`]: {
                 text: "yes",
                 sourceRecordIds: [top.recordId],
@@ -3109,6 +3119,13 @@ function pointSubject(
   const who = [eventId, ...president.sourceRecordIds];
   const facts: Facts = {
     about: { text: pick.point.about, sourceRecordIds: said },
+    said: {
+      text:
+        (pick.point.kind === "policy"
+          ? questionSaid(pick.point.question)
+          : null) ?? pick.point.about,
+      sourceRecordIds: said,
+    },
     president: {
       text: personSlot(president.id, "subject"),
       sourceRecordIds: who,
@@ -5337,9 +5354,14 @@ function questionOnce(conversation: Conversation): void {
       [
         ...(conversation.questions ?? [])
           .filter((question) => !question.startsWith("="))
-          .map((question) => questionAbout(question)),
+          .flatMap((question) => [
+            questionAbout(question),
+            questionSaid(question),
+          ]),
         conversation.topicFacts?.about?.text,
+        conversation.topicFacts?.said?.text,
         conversation.last?.facts.about?.text,
+        conversation.last?.facts.said?.text,
       ].filter((text): text is string => !!text),
     ),
   ].sort((a, b) => b.length - a.length);

@@ -65,7 +65,8 @@
     "their_name": "A stranger's own first name, as they give it.",
     "self": "The player's own first name, as the player gives it.",
     "rent_again": "The rent after its figure was said (\"the rent\"), so the figure is said once in a talk.",
-    "there": "A workplace already named, as people say it afterward (\"there\"), so a reply never repeats the employer or says \"at work\"."
+    "there": "A workplace already named, as people say it afterward (\"there\"), so a reply never repeats the employer or says \"at work\".",
+    "said": "The subject of a policy question as a person names it after 'on' or 'about' (\"drug prices\"), from the question's `said` in data/english/question-names.json; never a side (the side is said as what it does to the speaker). `about` stays for lines that name the thing itself."
   },
   "maxWords": 10,
   "lineWords": {
@@ -22770,7 +22771,7 @@
       "key": "conversation.address-point-answer-instead.what-would-you-do-about-about-instead",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "What would you do about {about} instead?",
+      "text": "What would you do about {said} instead?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -22788,7 +22789,7 @@
       "key": "conversation.address-point-answer-instead.what-would-you-rather-see-on-about",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "What would you rather see on {about}?",
+      "text": "What would you rather see on {said}?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -22806,7 +22807,7 @@
       "key": "conversation.address-point-answer-instead.how-would-you-handle-about",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "How would you handle {about}?",
+      "text": "How would you handle {said}?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -22824,7 +22825,7 @@
       "key": "conversation.address-point-answer-instead.what-should-happen-with-about-then",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "What should happen with {about}, then?",
+      "text": "What should happen with {said}, then?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -22842,7 +22843,7 @@
       "key": "conversation.address-point-answer-instead.where-do-you-think-about-goes-from-here",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "Where do you think {about} goes from here?",
+      "text": "Where do you think {said} goes from here?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -22860,7 +22861,7 @@
       "key": "conversation.address-point-answer-instead.what-should-capital-do-next-about-about",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "What should {capital} do next about {about}?",
+      "text": "What should {capital} do next about {said}?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -22878,7 +22879,7 @@
       "key": "conversation.address-point-answer-instead.what-happens-next-with-about",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "What happens next with {about}?",
+      "text": "What happens next with {said}?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -22896,7 +22897,7 @@
       "key": "conversation.address-point-answer-instead.so-what-comes-next-for-about",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "So what comes next for {about}?",
+      "text": "So what comes next for {said}?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -25753,7 +25754,7 @@
       "key": "conversation.news-answer-opinion.i-don-t-know-enough-about-about-yet",
       "move": "news-answer-opinion",
       "kind": "spoken",
-      "text": "I don't know enough about {about} yet.",
+      "text": "I don't know enough about {said} yet.",
       "uses": [
         {
           "move": "news-answer-opinion",
@@ -25771,7 +25772,7 @@
       "key": "conversation.news-answer-opinion.i-haven-t-made-up-my-mind-on-about",
       "move": "news-answer-opinion",
       "kind": "spoken",
-      "text": "I haven't made up my mind on {about}.",
+      "text": "I haven't made up my mind on {said}.",
       "uses": [
         {
           "move": "news-answer-opinion",
@@ -26496,7 +26497,7 @@
       "key": "conversation.own-view-say-core.ask-me-about-about-i-m-all-for-it",
       "move": "own-view-say-core",
       "kind": "spoken",
-      "text": "Ask me about {about}. I'm all for it.",
+      "text": "Ask me about {said}. I'm all for it.",
       "piece": {
         "of": "own-view-say",
         "part": "core",
@@ -26700,7 +26701,7 @@
       "key": "conversation.own-view-say-core.ask-me-about-about-i-m-dead-set-against-it",
       "move": "own-view-say-core",
       "kind": "spoken",
-      "text": "Ask me about {about}. I'm dead set against it.",
+      "text": "Ask me about {said}. I'm dead set against it.",
       "piece": {
         "of": "own-view-say",
         "part": "core",
@@ -27409,7 +27410,7 @@
       "key": "conversation.news-back-core.the-story-said-it-s-about-about",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "The story said it's about {about}.",
+      "text": "The story said it's about {said}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -27431,7 +27432,7 @@
       "key": "conversation.news-back-core.it-comes-down-to-about-the-way-they-told-it",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "It comes down to {about}, the way they told it.",
+      "text": "It comes down to {said}, the way they told it.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -27475,7 +27476,7 @@
       "key": "conversation.news-back-core.it-s-about-about-it-ran-ran",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "It's about {about}. It ran {ran}.",
+      "text": "It's about {said}. It ran {ran}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -27497,7 +27498,7 @@
       "key": "conversation.news-back-core.it-ran-ran-the-whole-thing-is-about-about",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "It ran {ran}. The whole thing is about {about}.",
+      "text": "It ran {ran}. The whole thing is about {said}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -27519,7 +27520,7 @@
       "key": "conversation.news-back-core.they-re-on-about-about-it-ran-ran",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "They're talking about {about}. It ran {ran}.",
+      "text": "They're talking about {said}. It ran {ran}.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -31047,7 +31048,7 @@
       "key": "conversation.news-ask-core.i-read-about-about-ran-i-m-for-it-myself",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "I read about {about} {ran}. I'm for it, myself.",
+      "text": "I read about {said} {ran}. I'm for it, myself.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -31069,7 +31070,7 @@
       "key": "conversation.news-ask-core.about-made-the-news-ran-i-m-for-it",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} made the news {ran}. I'm for it.",
+      "text": "{said} made the news {ran}. I'm for it.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -31091,7 +31092,7 @@
       "key": "conversation.news-ask-core.about-was-in-the-news-ran-about-time-i-say",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} was in the news {ran}. About time, I say.",
+      "text": "{said} came up in the news {ran}. About time, I say.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -31113,7 +31114,7 @@
       "key": "conversation.news-ask-core.i-read-about-about-ran-i-m-against-it-myself",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "I read about {about} {ran}. I'm against it, myself.",
+      "text": "I read about {said} {ran}. I'm against it, myself.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -31135,7 +31136,7 @@
       "key": "conversation.news-ask-core.about-made-the-news-ran-i-m-against-it",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} made the news {ran}. I'm against it.",
+      "text": "{said} made the news {ran}. I'm against it.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -31157,7 +31158,7 @@
       "key": "conversation.news-ask-core.about-was-in-the-news-ran-i-don-t-like-it",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} was in the news {ran}. I don't like it.",
+      "text": "{said} came up in the news {ran}. I don't like it.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -35652,7 +35653,7 @@
       "key": "conversation.government-news-say-core.i-caught-who-s-speech-when-mostly-about",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "I caught {who}'s speech {when}. Mostly {about}.",
+      "text": "I caught {who}'s speech {when}. Mostly {said}.",
       "uses": [
         {
           "move": "government-news-say-core",
@@ -35676,7 +35677,7 @@
       "key": "conversation.government-news-say-core.i-was-at-the-town-hall-when-all-about",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "I was at the town hall {when}. All {about}.",
+      "text": "I was at the town hall {when}. All {said}.",
       "uses": [
         {
           "move": "government-news-say-core",
@@ -35700,7 +35701,7 @@
       "key": "conversation.government-news-say-core.the-town-hall-when-was-packed-everyone-was-on-about",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "The town hall {when} was packed. Everyone was on {about}.",
+      "text": "The town hall {when} was packed. Everyone was on {said}.",
       "uses": [
         {
           "move": "government-news-say-core",
@@ -36007,7 +36008,7 @@
       "key": "conversation.government-news-say-closer.i-don-t-know-what-i-think-about-about-yet",
       "move": "government-news-say-closer",
       "kind": "spoken",
-      "text": "I don't know what I think about {about} yet.",
+      "text": "I don't know what I think about {said} yet.",
       "uses": [
         {
           "move": "government-news-say-closer",
@@ -36031,7 +36032,7 @@
       "key": "conversation.government-news-say-closer.i-could-go-either-way-on-about",
       "move": "government-news-say-closer",
       "kind": "spoken",
-      "text": "I could go either way on {about}.",
+      "text": "I could go either way on {said}.",
       "uses": [
         {
           "move": "government-news-say-closer",
@@ -36200,7 +36201,7 @@
       "key": "conversation.government-news-back-core.we-re-on-the-same-side-of-about-then",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "We're on the same side of {about}, then.",
+      "text": "We're on the same side of {said}, then.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -36224,7 +36225,7 @@
       "key": "conversation.government-news-back-core.glad-you-see-about-the-way-i-do",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "Glad you see {about} the way I do.",
+      "text": "Glad you see {said} the way I do.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -36297,7 +36298,7 @@
       "key": "conversation.government-news-back-core.then-we-split-on-about",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "Then we split on {about}.",
+      "text": "Then we split on {said}.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -36442,7 +36443,7 @@
       "key": "conversation.government-news-back-core.so-we-re-together-on-about-you-and-i",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "So we're together on {about}, you and I.",
+      "text": "So we're together on {said}, you and I.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -36539,7 +36540,7 @@
       "key": "conversation.government-news-back-core.we-won-t-agree-on-about-then",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "We won't agree on {about}, then.",
+      "text": "We won't agree on {said}, then.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -36635,7 +36636,7 @@
       "key": "conversation.government-news-back-core.you-may-be-right-about-about",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "You may be right about {about}.",
+      "text": "You may be right about {said}.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -36660,7 +36661,7 @@
       "key": "conversation.government-news-back-core.maybe-so-i-haven-t-settled-on-about-myself",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "Maybe so. I haven't settled on {about} myself.",
+      "text": "Maybe so. I haven't settled on {said} myself.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -36710,7 +36711,7 @@
       "key": "conversation.government-news-back-core.i-ll-think-about-about-some-more",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "I'll think about {about} some more.",
+      "text": "I'll think about {said} some more.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -36834,7 +36835,7 @@
       "key": "conversation.government-news-back-core.i-ll-keep-that-in-mind-about-about",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "I'll keep that in mind about {about}.",
+      "text": "I'll keep that in mind about {said}.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -39261,7 +39262,7 @@
       "key": "conversation.own-view-say-core.here-s-where-i-stand-on-about-i-m-for-it",
       "move": "own-view-say-core",
       "kind": "spoken",
-      "text": "Here's where I stand on {about}. I'm for it.",
+      "text": "Here's where I stand on {said}. I'm for it.",
       "uses": [
         {
           "move": "own-view-say-core",
@@ -39311,7 +39312,7 @@
       "key": "conversation.own-view-say-core.here-s-where-i-stand-on-about-i-m-against-it",
       "move": "own-view-say-core",
       "kind": "spoken",
-      "text": "Here's where I stand on {about}. I'm against it.",
+      "text": "Here's where I stand on {said}. I'm against it.",
       "uses": [
         {
           "move": "own-view-say-core",
