@@ -9,7 +9,6 @@ import {
   talkReply,
   fillTalk,
   talkControls,
-  addTalkLine,
   mountTalkKeys,
   mountSpeakers,
 } from "./ui/talk-box.mjs";
@@ -845,16 +844,14 @@ function inMeeting() {
             );
             return b;
           });
-          // A resident in the room speaks, where the body hears them; only the seated vote.
+          // Anyone in the room speaks, at any board; only the seated vote.
           return billBlock(
             item,
             scene.members ?? [],
-            item.takenUp
+            // A bill a committee already failed stays listed, with nothing to press.
+            item.takenUp || item.status !== "drafted"
               ? []
-              : [
-                  ...(scene.speaks ? [speak] : []),
-                  ...(scene.seated ? [vote] : []),
-                ],
+              : [speak, ...(scene.seated ? [vote] : [])],
             (billId) =>
               openBillPaper(
                 billId,
@@ -1007,7 +1004,15 @@ function atNominations() {
                       { value: "", label: words.own ?? "" },
                       ...entry.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: (value) => {
@@ -1069,7 +1074,15 @@ function atOrders() {
                       { value: "", label: words["post-own"] ?? "" },
                       ...item.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: (value) => {
@@ -1674,32 +1687,8 @@ function renderFiling(value) {
     buttons[i].append(" ", smallText(factsOf(choice), "reply-facts"));
   });
   fillTalk({ replies: buttons });
-  // The filing's record once it is made: its status, shown as the record's
-  // label under the talk, not as words in the clerk's mouth. A race whose law
-  // asks no signatures has a petition of none: nothing to collect, no line.
-  if (value.result?.petition?.needed)
-    addTalkLine(
-      talkLine({
-        kind: "label",
-        text: controls.filing.petition
-          .replace("{needed}", String(value.result.petition.needed))
-          .replace("{date}", dateWords(value.result.petition.due)),
-      }),
-    );
-  if (value.result)
-    addTalkLine(
-      talkLine({
-        kind: "label",
-        text: value.result.filing
-          ? (controls.filing?.status?.[value.result.status] ??
-            words(value.result.status))
-          : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
-              value.result.unmet ?? []
-            )
-              .map((u) => controls.filing?.rules?.[u.rule] ?? words(u.rule))
-              .join(", ")}`,
-      }),
-    );
+  // What the filing asks next is said by the clerk, once, in the talk: no
+  // count or status label sits under the dialogue (owner, Nov 14).
   setScales({ available: false });
 }
 async function openFiling(filedWith, contestId) {
@@ -1720,6 +1709,8 @@ async function openFiling(filedWith, contestId) {
       return;
     }
   }
+  // Nothing to file and no petition out: the counter has no scene.
+  if (opened.nothing) return;
   const pick =
     contestId &&
     opened.visit?.choices.find(
@@ -1821,6 +1812,68 @@ function playAsks({ asked, summary, scene }) {
   };
   step(0);
 }
+/**
+ * A governor's race that carries the office the law elects on its ticket: the running mate
+ * once named, else the people of the player's party the world's own pick ranks, best first, to
+ * choose from, and Choose for me for the world's pick (owner, Nov 14).
+ */
+function ticketSection(filing, ticket) {
+  const words = controls.runningMate ?? {};
+  const title = words.title;
+  if (ticket.mate) return stripSection(1, title, introText(ticket.mate.name));
+  if (!ticket.choices.length)
+    return stripSection(
+      1,
+      title,
+      introText(
+        ticket.joinsAfterPrimary
+          ? words.nominee.replace("{ticket}", ticket.officeSaid)
+          : words.later,
+      ),
+    );
+  let picked = ticket.choices[0].id;
+  const choose = async (personId) => {
+    await post(
+      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id, ...(personId ? { personId } : {}) })}`,
+    );
+    await openSheet("campaign");
+  };
+  return stripSection(
+    1,
+    title,
+    select({
+      options: ticket.choices.map((c) => ({
+        value: c.id,
+        label: (c.work && c.place
+          ? words.row
+          : c.place
+            ? words.rowPlace
+            : c.work
+              ? words.rowWork
+              : "{name}"
+        )
+          .replace("{name}", c.name)
+          .replace("{work}", c.work ?? "")
+          .replace("{place}", c.place ?? ""),
+      })),
+      onChange: (value) => {
+        picked = value;
+      },
+    }),
+    buttonRow(
+      makeButton({
+        className: "action primary",
+        textContent: words.choose,
+        onclick: () => choose(picked),
+      }),
+      makeButton({
+        className: "action",
+        textContent: words.own,
+        onclick: () => choose(null),
+      }),
+    ),
+  );
+}
 async function campaignParts() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const parts = [];
@@ -1834,6 +1887,7 @@ async function campaignParts() {
     standing,
     debates,
     pictures,
+    runningMate,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
       const kindOf = {
@@ -1867,9 +1921,20 @@ async function campaignParts() {
         result.doorsKnocked
           ? controls.campaignResults.doors.replace("{n}", result.doorsKnocked)
           : "",
-        result.reached
-          ? controls.campaignResults.reached.replace("{n}", result.reached)
-          : "",
+        // A petition outing says the doors that opened, everyone asked to
+        // sign (the Words lead, Nov 14); "reached" stays for vote-asking doors.
+        result.answered !== null && result.answered !== undefined
+          ? controls.campaignResults.answered.replace("{n}", result.answered)
+          : result.reached
+            ? controls.campaignResults.reached.replace("{n}", result.reached)
+            : "",
+        // How many signed at the doors, a day of none included (owner, Nov 14:
+        // "Tab total and each outing"), outside the dialogue.
+        result.signed === null || result.signed === undefined
+          ? ""
+          : result.signed === 0
+            ? controls.campaignResults.signedNone
+            : controls.campaignResults.signed.replace("{n}", result.signed),
         result.raisedMinor ? moneyWords(result.raisedMinor) : "",
       ]
         .filter(Boolean)
@@ -2118,6 +2183,7 @@ async function campaignParts() {
             controls.raceStanding.title,
             ...(standing ?? []).map((text) => introText(text)),
           ),
+          ...(runningMate ? [ticketSection(filing, runningMate)] : []),
         ],
         [
           stripSection(
@@ -2133,8 +2199,8 @@ async function campaignParts() {
               { label: labelsC.volunteers, value: String(campaign.volunteers) },
               { label: labelsC.doors, value: String(campaign.doors) },
               // The petition record: the signatures held against those the
-              // clerk will count, and the clerk's verdict once it has checked.
-              // A race that asks no signatures shows no petition.
+              // law asks, and the day they are due (owner, Nov 14: the tab keeps
+              // the running total). A race that asks no signatures shows none.
               ...(petition?.needed
                 ? [
                     {
@@ -2144,19 +2210,6 @@ async function campaignParts() {
                         .replace("{needed}", String(petition.needed))
                         .replace("{date}", dateWords(petition.due)),
                     },
-                    ...(petition.check
-                      ? [
-                          {
-                            label: labelsC.clerkCount,
-                            value: labelsC.clerkCounted
-                              .replace("{valid}", String(petition.check.valid))
-                              .replace(
-                                "{struck}",
-                                String(petition.check.struck),
-                              ),
-                          },
-                        ]
-                      : []),
                   ]
                 : []),
               ...(campaign.endorsements
@@ -2691,7 +2744,15 @@ async function officeParts() {
                       { value: "", label: words.ownChoice ?? "" },
                       ...head.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: async (nomineeId) => {
@@ -3241,11 +3302,16 @@ async function seatRows() {
                 ? policyLabel(item.question)
                 : item.name
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          // What the law in force holds, as the bill's paper cites it.
+          // What the law in force holds, as the bill's paper cites it: a
+          // yes-or-no question reads Yes or No, as the Issues tab says it.
           today:
-            item.today?.value != null
-              ? amount(item.today.value, item.today.unit)
-              : null,
+            item.today?.value == null
+              ? null
+              : item.kind === "policy-question"
+                ? item.today.value
+                  ? controls.politics.yes
+                  : controls.politics.no
+                : amount(item.today.value, item.today.unit),
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
@@ -3877,7 +3943,7 @@ const sheets = {
               : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
             row.before === null
               ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : `${Math.abs(moved).toFixed(1)} ${words.points}`) : "", words.since].filter(Boolean).join(" ")}`,
           );
         }),
       ),
@@ -4485,7 +4551,7 @@ const sheets = {
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
-      const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      const name = c.filingOffice.said;
       // A town's or county's own clerk is named for the place ("City or town
       // clerk, Point Pleasant"); a state's or the nation's office already is.
       const title =

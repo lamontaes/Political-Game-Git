@@ -10,12 +10,14 @@ const facts = {
   time: "7 p.m.",
   date: "March 4",
   count: "three",
+  item: "Budget Ordinance",
 };
 const cases = [
   ["calendar", "calendar.meeting-plan.1", 3],
   ["meeting", "meeting.empty-agenda.1", 3],
   ["meeting", "meeting.resident-can-speak.1", 1],
   ["meeting", "meeting.resident-can-speak-one.1", 1],
+  ["meeting", "meeting.resident-can-speak-one-named.1", 2],
   ["meeting", "meeting.resident-can-speak-two.1", 1],
 ] as const;
 
