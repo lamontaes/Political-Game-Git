@@ -30,6 +30,9 @@ function fixture() {
   player.select(world.core.playerId);
   // The character's clock binds on its first advance.
   player.advance("day");
+  // The world's own stops for the character (the story director's address on the first days)
+  // are answered first, so each case below sees only the stops it registers.
+  dev.advance(addDays(makeIsoDate(world.core.date), 4));
   const calendar = coreAPI(world.core).moduleCalendar(OFFICE_DAY_MODULE_ID);
   const stop = (recordId: string, daysOn: number, hold: boolean) =>
     calendar.registerStop({
