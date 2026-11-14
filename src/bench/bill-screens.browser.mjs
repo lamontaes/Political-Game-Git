@@ -193,6 +193,17 @@ try {
   const paper = await page.locator("#sheet-body").innerText();
   console.log("phase-in paper:", paper.replace(/\s+/g, " ").slice(0, 2400));
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/phase-in-paper.png` });
+  // Only the first step's left box says "In force today"; later steps say "Until then".
+  assert.equal(
+    (paper.match(/In force today/g) ?? []).length,
+    1,
+    "In force today once",
+  );
+  assert.equal(
+    (paper.match(/Until then/g) ?? []).length,
+    2,
+    "Until then on steps 2 and 3",
+  );
   // The estimate lists every step with its day, in order, and each section of the
   // bill's text says when it takes effect.
   for (const [at, year] of years.entries()) {

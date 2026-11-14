@@ -60,8 +60,24 @@ export function billPaper(paper) {
   const dated = paper.sections.filter((section) => section.estimate.dated);
   const estimates = (section) =>
     dated.length > 1
-      ? dated.map((step) =>
-          el("div", { className: "bill-step" }, ...estimateOf(step.estimate)),
+      ? dated.map((step, at) =>
+          el(
+            "div",
+            { className: "bill-step" },
+            // Only the first step's left box is the law in force today; a later
+            // step's is what stands until it takes effect.
+            ...estimateOf(
+              at && step.estimate.compare
+                ? {
+                    ...step.estimate,
+                    compare: {
+                      ...step.estimate.compare,
+                      todayLabel: paper.untilLabel,
+                    },
+                  }
+                : step.estimate,
+            ),
+          ),
         )
       : estimateOf(section.estimate);
   const aside = makeCard(

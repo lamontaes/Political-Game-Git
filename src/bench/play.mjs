@@ -3104,6 +3104,8 @@ async function openBillPaper(billId, show, back, backLabel) {
       },
       views: { clean: pageWords.clean, compare: pageWords.compare },
       amendsLabel: words.amends ?? "",
+      // A phase-in's later steps: what stands until the step takes effect.
+      untilLabel: words.untilThen ?? "",
       // Each chamber's result as the English engine words it, from the stage view, then the floor's
       // vote by party and those who cast none, from the page view.
       votes: [...stage.floor, ...stage.override].map((entry) => {
