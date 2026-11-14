@@ -1691,7 +1691,12 @@ function renderFiling(value) {
       counterTurn += 1;
       renderFiling(value);
     });
-    buttons.push(whatElse);
+    // With the races, ahead of any way out: the way out is always last.
+    buttons.splice(
+      choices.filter((choice) => choice.action.kind === "pick").length,
+      0,
+      whatElse,
+    );
   }
   fillTalk({ replies: buttons });
   // What the filing asks next is said by the clerk, once, in the talk: no
