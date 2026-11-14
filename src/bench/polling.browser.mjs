@@ -366,6 +366,8 @@ try {
     await page.waitForTimeout(3000);
   }
   // A race a year or more away has a talk every week or two on the way.
+  let stuckLegs = 0;
+  let lastLegClock = "";
   for (let leg = 0; leg < 100; leg += 1) {
     await toBallot();
     if (await page.locator("#ballot:not([hidden])").count()) {
@@ -496,12 +498,20 @@ try {
       await skip2.first().click();
       await page.waitForTimeout(4000);
     }
-    console.log(
-      "Leg clock:",
-      await page
-        .locator("#card-clock")
-        .innerText()
-        .catch(() => "?"),
+    const legClock = await page
+      .locator("#card-clock")
+      .innerText()
+      .catch(() => "?");
+    console.log("Leg clock:", legClock);
+    // A clock that does not move over three legs is named, not walked 100 times:
+    // at Hampstead, Maryland (seed above) Hour, Day and Week all answer 400
+    // "Player stop clock cannot cross an unresolved stop." with nothing on
+    // screen to resolve (pool: play-clock-refuses-to-cross-a-stop-nothing-shows).
+    stuckLegs = legClock === lastLegClock ? stuckLegs + 1 : 0;
+    lastLegClock = legClock;
+    assert.ok(
+      stuckLegs < 3,
+      `the clock did not move over three legs (${legClock}); a stop the screen does not show holds it`,
     );
   }
   console.log(
