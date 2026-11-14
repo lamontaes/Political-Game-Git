@@ -38,18 +38,18 @@ import { appliedOn } from "./law-reach/applied";
 import { BUSINESS_MODULE_ID } from "./modules/business";
 import { advanceCore } from "./life";
 import { healthDeathWebOf } from "./modules/health";
-import { enactLaw, lawChain } from "./modules/laws";
-import {
-  lawValue,
-  OUTCOME_WEB_MODULE_ID,
-  type WebMonth,
-} from "./modules/outcome-web";
+import { enactLaw, lawChain, yesLevels } from "./modules/laws";
+import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { countedHouseholdsByPlace, incomeBandOf } from "./modules/residents";
 import { CALIBRATED_AT, WEB_LINKS } from "./outcome-web-model";
 import { webLevel, webReach } from "./outcome-web-reach";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
+
+/** The law on a question for the town on a date, by the laws engine's one lookup: 1 when a level says yes. */
+const lawSaysYes = (api: CoreAPI, series: string, date: string) =>
+  yesLevels(api, series, date).length ? 1 : 0;
 
 const seed = process.env.ENV_PLAYED_SEED || randomBytes(8).toString("hex");
 const DRAWS = 8;
@@ -170,7 +170,7 @@ function play(drawSeed: string) {
   // The research's base levels include the law each place really had then;
   // only a change from it moves an outcome.
   const atBase = Object.fromEntries(
-    LAWS.map((series) => [series, lawValue(api, series, CALIBRATED_AT, true)]),
+    LAWS.map((series) => [series, lawSaysYes(api, series, CALIBRATED_AT)]),
   ) as Record<string, number>;
   const already = DUE.filter((series) => atBase[series] !== 0);
   if (already.length) return { place, drawSeed, already, result: undefined };

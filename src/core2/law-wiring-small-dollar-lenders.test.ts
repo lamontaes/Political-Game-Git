@@ -167,7 +167,7 @@ interface InPlayRow {
 /**
  * The cap rows a legislature, Congress, the county or the council passed in
  * play since the opening: the outcome web reads a cap as in force where any
- * level's row says yes (lawValue, src/core2/modules/outcome-web.ts), so a row
+ * level's row says yes (yesLevels, src/core2/modules/laws.ts), so a row
  * the test's hold put back days later can still stand in a month's cause.
  */
 function inPlayRows(core: CoreState, since: string): InPlayRow[] {
