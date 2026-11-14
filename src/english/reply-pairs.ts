@@ -231,8 +231,13 @@ export function replyPairs(
           const asked: (ReplyScene & { family?: string })[] = [scene];
           if (scene.family && !options.everyFit)
             asked.push({ purpose: scene.family, key: scene.key });
+          // A line's guard facts (`onlyWhen`) are facts a world can hold too.
           const factSets = new Set(
-            candidates.map((row) => (row.use.requiresFacts ?? []).join(",")),
+            candidates.map((row) =>
+              [...(row.use.requiresFacts ?? []), ...(row.use.onlyWhen ?? [])]
+                .sort()
+                .join(","),
+            ),
           );
           for (const outcome of outcomes)
             for (const where of asked)

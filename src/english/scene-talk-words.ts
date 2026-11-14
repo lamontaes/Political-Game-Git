@@ -64,6 +64,14 @@ export interface PartUse {
   after?: string;
   outcome?: "resolved" | "refused" | "open";
   requiresFacts?: string[];
+  /**
+   * Facts the line needs only to be true, never to be preferred: they filter
+   * exactly as `requiresFacts` does and add nothing to its rank, so a guarded
+   * line ties with its siblings and the speaker's bearing picks.
+   * `requiresFacts` is for a fact the line is about; `onlyWhen` for one that
+   * only keeps the line from being false.
+   */
+  onlyWhen?: string[];
   /** Facts that rule the piece out ("elder": nobody tells an 80-year-old to wait a cycle). */
   excludesFacts?: string[];
 }
@@ -209,6 +217,7 @@ export function useFit(
     return -one;
   if (u.outcome && u.outcome !== use.outcome) return -one;
   if (u.requiresFacts?.some((name) => !facts[name])) return -one;
+  if (u.onlyWhen?.some((name) => !facts[name])) return -one;
   if (u.excludesFacts?.some((name) => facts[name])) return -one;
   return (
     // A piece written for a variant beats the family's, whatever facts either needs.
