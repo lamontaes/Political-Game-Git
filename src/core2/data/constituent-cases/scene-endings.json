@@ -1,0 +1,7 @@
+{
+  "about": "What the office-hours scene's ending (src/director/data/purpose-arcs.json, constituent-help) decides on the constituent's case (constituent-cases.ts handleCase): a call made or a caseworker given is the office taking the case up, which refers it as helping does; a no is the case turned away. Any other ending leaves the case to the office's own call by its deadline. Names only; nothing here is a number the world runs on.",
+  "typeKey": "office-hours",
+  "causePrefix": "office-approached:",
+  "help": ["will-call", "caseworker"],
+  "decline": ["cant-help"]
+}
