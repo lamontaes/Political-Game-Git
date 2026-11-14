@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1422,
+  "judged": 1388,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -16,20 +16,6 @@
         "scene-talk.reply-deflect.let-me-think-it-over-before-i-say-yes"
       ],
       "why": "'Alright. I can do that' and 'Let me think it over before I say yes' restate the first agree and think-it-over options, so most of the set rehashes."
-    },
-    "003v0mi3k7x": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-like-it-i-m-asking-you-to-vote-it",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.i-ll-be-off-the-floor-before-the-roll-that-s-the-most-i-can-do",
-        "scene-talk.reply-bargain.what-does-leadership-give-me-for-it-i-ve-been-asking-for-a-hearing-on-my-own-bil",
-        "scene-talk.reply-stall.put-me-down-as-leaning-leaning-not-yes",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-relent.all-right-mark-me-yes-and-mark-that-i-didn-t-enjoy-it",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-      ],
-      "why": "'Mark me yes' repeats 'Put me down yes' and 'What's in it for my district?' rewords 'What does leadership give me for it?', so two of three rehash."
     },
     "00hg2m3h12p": {
       "keys": [
@@ -676,20 +662,6 @@
       ],
       "why": "\"I'll call tonight\" and the soup offer restate the first yes and \"Did you eat anything today?\""
     },
-    "08bz6dmwl87": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-like-it-i-m-asking-you-to-vote-it",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.put-me-down-present-i-can-t-vote-for-it-and-i-won-t-vote-against-you",
-        "scene-talk.reply-bargain.i-ll-carry-it-if-my-committee-seat-stays-where-it-is",
-        "scene-talk.reply-stall.come-back-after-caucus-i-want-to-hear-what-the-others-say-first",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-relent.fine-i-m-in-tell-leadership-i-m-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-      ],
-      "why": "'I'm in', 'I can't vote for {bill}' and 'What's in it for my district?' restate the first yes, present-can't-vote and committee-seat bargain."
-    },
     "08evi7xprti": {
       "keys": [
         "scene-talk.follow-answer.just-a-few-minutes-whenever-you-have-them-and-a-straight-answer-you-seemed-like-someone-who-d-give-me-one",
@@ -981,20 +953,6 @@
       ],
       "why": "'We're not getting anywhere' redoes 'Let's stop here' and 'don't lecture me about what I owe' redoes the defensive money reply, leaving only the tone apology new."
     },
-    "0buhkp04icg": {
-      "keys": [
-        "scene-talk.follow-plea.i-was-there-when-you-needed-votes",
-        "scene-talk.reply-agree.you-have-my-vote",
-        "scene-talk.reply-withdraw.i-m-really-worried-about-this-vote-i-can-t-do-it",
-        "scene-talk.reply-bargain.keep-my-section-in-and-you-have-my-vote",
-        "scene-talk.reply-stall.i-m-not-there-yet",
-        "scene-talk.reply-lie.nothing-s-changed-you-have-my-vote",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "'Count me in' and 'I can't vote for {bill}' are the first 'you have my vote' and can't-do-it options again, with only an exit added."
-    },
     "0c2fsw7ylzo": {
       "keys": [
         "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
@@ -1205,18 +1163,6 @@
       ],
       "why": "'Hear all of it from me' and 'I should have walked away... I'm sorry' reword the opening explain and apology, two of three."
     },
-    "0g5udbacibv": {
-      "keys": [
-        "scene-talk.follow-plea.i-need-this-one-i-promised-my-district-i-d-deliver",
-        "scene-talk.reply-agree.fine-section-section-comes-out",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.what-if-we-change-section-section-instead-of-dropping-it",
-        "scene-talk.reply-stall.ask-me-thursday",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill"
-      ],
-      "why": "'Count me in' and 'I'm a no' simply restate the first accept and refuse options."
-    },
     "0g9mhcn890g": {
       "keys": [
         "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
@@ -1309,21 +1255,6 @@
       ],
       "why": "'I'll take it' and reporting the bribe restate the first accept and report options; only 'Not for any price' answers the new ask."
     },
-    "0ha02avlg39": {
-      "keys": [
-        "scene-talk.follow-plea.i-was-there-when-you-needed-votes",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote",
-        "scene-talk.reply-stall.put-me-down-undecided",
-        "scene-talk.reply-lie.i-m-leaning-your-way",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
-        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "'Count me in', 'I'm a no on {bill}' and 'I'll vote yes, but I'm going to need a favor' rehash the first yes, no and conditional replies."
-    },
     "0hd622dxb4h": {
       "keys": [
         "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
@@ -1414,21 +1345,6 @@
         "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now"
       ],
       "why": "\"Yes, I'll do that,\" \"I'll do it. I promise\" and \"I still can't\" repeat the first yes, promise and refusal."
-    },
-    "0ioyoe9gilt": {
-      "keys": [
-        "scene-talk.follow-press.leaning-doesn-t-help-me-the-board-only-has-two-columns",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.put-me-down-present-i-can-t-vote-for-it-and-i-won-t-vote-against-you",
-        "scene-talk.reply-bargain.i-ll-carry-it-if-my-committee-seat-stays-where-it-is",
-        "scene-talk.reply-stall.come-back-after-caucus-i-want-to-hear-what-the-others-say-first",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-relent.fine-i-m-in-tell-leadership-i-m-in",
-        "scene-talk.reply-decline.i-m-not-a-yes-i-m-not-going-to-help-the-other-side-either",
-        "scene-talk.reply-bargain.what-does-leadership-give-me-for-it-i-ve-been-asking-for-a-hearing-on-my-own-bil",
-        "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
-      ],
-      "why": "The yes, the not-a-yes-but-not-against line and 'I'll tell you before the vote' replay the first yes, present and wait-for-caucus options."
     },
     "0ip7hhsauw0": {
       "keys": [
@@ -1950,20 +1866,6 @@
       ],
       "why": "'You deserve the truth', 'No. I swear I didn't' and 'I'm sorry you had to be the one' are the opening explain, denial and apology reworded."
     },
-    "0o92niyp7cr": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-holding-this-list-together-by-hand-could-you-stay-with-us-this-once",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.i-ll-be-off-the-floor-before-the-roll-that-s-the-most-i-can-do",
-        "scene-talk.reply-bargain.what-does-leadership-give-me-for-it-i-ve-been-asking-for-a-hearing-on-my-own-bil",
-        "scene-talk.reply-stall.put-me-down-as-leaning-leaning-not-yes",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
-        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you"
-      ],
-      "why": "'You win. I'm in' repeats the first yes and 'I'll vote yes, but I'm going to need a favor' rewords the first leadership bargain, so two of three rehash."
-    },
     "0o9zlii2zwg": {
       "keys": [
         "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
@@ -1975,19 +1877,6 @@
         "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
       ],
       "why": "Both replies restate the first no and 'I've said what I'm going to say'."
-    },
-    "0ocsimsaj8v": {
-      "keys": [
-        "scene-talk.follow-plea.without-this-i-ve-got-nothing-to-take-home",
-        "scene-talk.reply-agree.you-have-my-vote",
-        "scene-talk.reply-withdraw.i-m-really-worried-about-this-vote-i-can-t-do-it",
-        "scene-talk.reply-bargain.keep-my-section-in-and-you-have-my-vote",
-        "scene-talk.reply-stall.i-m-not-there-yet",
-        "scene-talk.reply-lie.nothing-s-changed-you-have-my-vote",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
-      ],
-      "why": "Both replies, a yes and a no, are the first set's 'you have my vote' and 'I can't do it' said again."
     },
     "0oehpujgp2i": {
       "keys": [
@@ -2028,21 +1917,6 @@
         "scene-talk.reply-decline.thank-you-for-asking-but-i-can-t-do-it-i-m-sorry"
       ],
       "why": "'Count me in', 'You have my word' and 'I can't do it, I'm sorry' are the first yes, promise and refusal said again."
-    },
-    "0p5mloeee5l": {
-      "keys": [
-        "scene-talk.follow-press.what-would-change-it",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote",
-        "scene-talk.reply-stall.put-me-down-undecided",
-        "scene-talk.reply-lie.i-m-leaning-your-way",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "'Count me in', 'I can't be on it' and 'Fix the funding section' restate the first yes, no and take-out-a-section replies."
     },
     "0pap53c18v1": {
       "keys": [
@@ -2530,35 +2404,6 @@
       ],
       "why": "\"Where did you hear that?\" repeats the denial and \"Say that on the record\" repeats the dare to go to the prosecutor, two of three."
     },
-    "0vnvxcfcjfg": {
-      "keys": [
-        "scene-talk.follow-bargain.i-ll-make-sure-your-district-comes-first-in-the-next-budget",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote",
-        "scene-talk.reply-stall.put-me-down-undecided",
-        "scene-talk.reply-lie.i-m-leaning-your-way",
-        "scene-talk.reply-agree.you-have-my-vote",
-        "scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine",
-        "scene-talk.reply-stall.depends-on-the-amendment"
-      ],
-      "why": "'You have my vote' repeats 'Count me in' and 'Depends on the amendment' rewords 'Take out section {section}', so two of three rehash."
-    },
-    "0vz0j5bgh0p": {
-      "keys": [
-        "scene-talk.follow-press.can-t-or-won-t",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.put-me-down-present-i-can-t-vote-for-it-and-i-won-t-vote-against-you",
-        "scene-talk.reply-bargain.i-ll-carry-it-if-my-committee-seat-stays-where-it-is",
-        "scene-talk.reply-stall.come-back-after-caucus-i-want-to-hear-what-the-others-say-first",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-decline.i-m-not-a-yes-i-m-not-going-to-help-the-other-side-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
-      ],
-      "why": "'Count me in', 'not going to help the other side', 'Fix the funding section' and 'I'll tell you before the vote' restate the first yes, present, bargain and after-caucus replies."
-    },
     "0vz4009tmyv": {
       "keys": [
         "scene-talk.follow-plea.the-people-out-there-gave-you-six-months-give-them-the-ending",
@@ -2883,21 +2728,6 @@
       ],
       "why": "'I'll tell you everything' and 'I'm sorry. I let you down' restate the opening explanation and apology, two of three."
     },
-    "11707nvpoq2": {
-      "keys": [
-        "scene-talk.follow-press.can-t-or-won-t",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.i-ll-be-off-the-floor-before-the-roll-that-s-the-most-i-can-do",
-        "scene-talk.reply-bargain.what-does-leadership-give-me-for-it-i-ve-been-asking-for-a-hearing-on-my-own-bil",
-        "scene-talk.reply-stall.put-me-down-as-leaning-leaning-not-yes",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-decline.i-m-not-a-yes-i-m-not-going-to-help-the-other-side-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
-      ],
-      "why": "'Count me in', 'I'm not going to help the other side either' and 'I'll tell you before the vote' restate the first yes, stay-off-the-floor and leaning replies."
-    },
     "1177gapgv93": {
       "keys": [
         "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
@@ -2938,20 +2768,6 @@
         "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
       ],
       "why": "'I'm in', 'I can't be on it' and 'I'll take that trade' restate the first yes, refusal and trade replies."
-    },
-    "11trk7x6wwu": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-short-on-votes-i-need-yours",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.i-ll-be-off-the-floor-before-the-roll-that-s-the-most-i-can-do",
-        "scene-talk.reply-bargain.what-does-leadership-give-me-for-it-i-ve-been-asking-for-a-hearing-on-my-own-bil",
-        "scene-talk.reply-stall.put-me-down-as-leaning-leaning-not-yes",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
-      ],
-      "why": "'You win. I'm in' repeats 'Put me down yes' and 'Take out section {section}' rewords the first leadership bargain, so two of three rehash."
     },
     "12199sybpy7": {
       "keys": [
@@ -3205,20 +3021,6 @@
       ],
       "why": "'No, this changes nothing' and 'not discussing this here' reword two first options out of three."
     },
-    "164oul6h5lp": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-short-on-votes-i-need-yours",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you",
-        "scene-talk.reply-stall.put-me-down-undecided",
-        "scene-talk.reply-lie.sure-i-ll-be-there",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
-      ],
-      "why": "'Count me in' and 'I'm a no on {bill}' repeat the first yes and can't-vote replies, so two of three rehash."
-    },
     "168ef32uudj": {
       "keys": [
         "scene-talk.follow-press.write-it-down-so-you-don-t-lose-it-please",
@@ -3231,20 +3033,6 @@
         "scene-talk.reply-leave.the-guard-is-waving-me-out-i-ll-write"
       ],
       "why": "\"I'll do it\" and \"I'll do it this week\" repeat the first promises; only the guard waving me out is new."
-    },
-    "16aa5skykqu": {
-      "keys": [
-        "scene-talk.follow-plea.without-this-i-ve-got-nothing-to-take-home",
-        "scene-talk.reply-agree.fine-section-section-comes-out",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.what-if-we-change-section-section-instead-of-dropping-it",
-        "scene-talk.reply-stall.ask-me-thursday",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.section-section-stays",
-        "scene-talk.reply-bargain.i-ll-cut-half-of-section-section-not-all-of-it",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Giving in, keeping the section, cutting half of it and leaving for the floor rewrite the first accept, refuse, change and defer options."
     },
     "16ew83x8nz4": {
       "keys": [
@@ -4061,20 +3849,6 @@
       ],
       "why": "'Nothing has changed', reporting, 'just this once' and 'take that with you' are the four first options reworded."
     },
-    "1hkpbr98u9n": {
-      "keys": [
-        "scene-talk.follow-plea.i-need-this-one-i-promised-my-district-i-d-deliver",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote",
-        "scene-talk.reply-stall.put-me-down-undecided",
-        "scene-talk.reply-lie.i-m-leaning-your-way",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-      ],
-      "why": "'You win. I'm in' and 'I can't vote for {bill}' are the first 'Count me in' and 'It's no' again, so two of three rehash."
-    },
     "1hqvgzm41gd": {
       "keys": [
         "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
@@ -4168,20 +3942,6 @@
       ],
       "why": "'You deserve the truth', 'that's not what happened' and 'I'm sorry. You deserved to hear it' reword the opening explanation, denial and apology."
     },
-    "1jstdk7tqgn": {
-      "keys": [
-        "scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you",
-        "scene-talk.reply-agree.i-ll-vote-yes-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill-i-m-telling-you-now-so-you-don-t-read-it-in-the-paper",
-        "scene-talk.reply-bargain.put-an-end-date-on-it-and-i-can-explain-a-yes-at-the-grocery-store",
-        "scene-talk.reply-stall.let-me-count-my-own-mail-on-bill-first",
-        "scene-talk.reply-lie.i-m-a-yes-i-ll-tell-my-district-tonight",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
-        "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-      ],
-      "why": "'Count me in' and 'I'm a no on {bill}' restate the first yes and can't-vote replies, so two of three rehash."
-    },
     "1jva5uzhfu7": {
       "keys": [
         "scene-talk.follow-plea.the-people-out-there-gave-you-six-months-give-them-the-ending",
@@ -4208,20 +3968,6 @@
       ],
       "why": "'We're not getting anywhere' and 'I'm drowning just like you' rehash the first exit and stretched-thin defense, leaving only the tone apology new."
     },
-    "1k3y4szqybq": {
-      "keys": [
-        "scene-talk.follow-press.what-do-you-need-to-get-there",
-        "scene-talk.reply-agree.fine-section-section-comes-out",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.what-if-we-change-section-section-instead-of-dropping-it",
-        "scene-talk.reply-stall.ask-me-thursday",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Counting in, fixing a section and calling tonight rephrase the first accept, change and defer options; only the neutral stance is new."
-    },
     "1kf24isfou9": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -4245,21 +3991,6 @@
         "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
       ],
       "why": "No and 'said all I'm going to say' restate the first no and finished options."
-    },
-    "1l1ktncdhii": {
-      "keys": [
-        "scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you",
-        "scene-talk.reply-stall.put-me-down-undecided",
-        "scene-talk.reply-lie.sure-i-ll-be-there",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "'You win. I'm in', 'It's no' and 'I'll need your vote on mine' restate the first yes, can't-vote and favor replies."
     },
     "1m9gxjwbdm9": {
       "keys": [
@@ -4406,20 +4137,6 @@
       ],
       "why": "Apart from the pay-the-next-one plan, the replies redo the apology, the come-back-later exit and the 'don't ask me' defense from the first set."
     },
-    "1ows1pvyt9m": {
-      "keys": [
-        "scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you",
-        "scene-talk.reply-relent.i-owe-you-that-much-put-me-down-yes-on-bill",
-        "scene-talk.reply-refuse.a-vote-isn-t-a-loan-i-can-t-be-a-yes-on-bill-because-you-were-a-yes-on-mine",
-        "scene-talk.reply-bargain.i-ll-take-that-trade-if-you-carry-my-amendment-onto-bill",
-        "scene-talk.reply-stall.i-ll-pay-it-back-i-just-need-to-see-what-i-m-paying-it-back-on",
-        "scene-talk.reply-lie.consider-it-paid",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you"
-      ],
-      "why": "Count me in, a no and 'yes but I need a favor' are the first yes, refusal and trade options in new words."
-    },
     "1p42l7olixe": {
       "keys": [
         "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
@@ -4539,21 +4256,6 @@
       ],
       "why": "'Fine. We cancel' rewords 'Then cancel it' and meeting them at the door rewords 'go out and meet them', and none answer the overtime question."
     },
-    "1q6oqnvijfj": {
-      "keys": [
-        "scene-talk.follow-press.you-can-t-sit-this-one-out",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you",
-        "scene-talk.reply-stall.put-me-down-undecided",
-        "scene-talk.reply-lie.sure-i-ll-be-there",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
-      ],
-      "why": "'I'm in', 'Fix the funding section' and 'I'll tell you before the vote' restate the first yes, conditional and undecided replies."
-    },
     "1qxzsjm4o0f": {
       "keys": [
         "scene-talk.follow-answer.because-as-office-you-d-be-the-one-deciding-instead-of-the-one-asking-",
@@ -4607,20 +4309,6 @@
         "scene-talk.reply-confront.repeat.if-it-s-going-to-be-a-fight-every-time-why-should-i-bother"
       ],
       "why": "Only 'Thursday, on the record' is new; 'It's late' echoes walking away and 'why should I bother' echoes the resentful 'stop reminding me' reply."
-    },
-    "1rpk6ku0oct": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-like-it-i-m-asking-you-to-vote-it",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.put-me-down-present-i-can-t-vote-for-it-and-i-won-t-vote-against-you",
-        "scene-talk.reply-bargain.i-ll-carry-it-if-my-committee-seat-stays-where-it-is",
-        "scene-talk.reply-stall.come-back-after-caucus-i-want-to-hear-what-the-others-say-first",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
-      ],
-      "why": "'Count me in' and 'I can't vote for {bill}' are the first yes and can't-vote options again, leaving only the section demand as new."
     },
     "1rww9upyhj7": {
       "keys": [
@@ -4725,20 +4413,6 @@
         "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened"
       ],
       "why": "'You deserve the truth' rewords 'Let me tell you' and 'that's not what happened' rewords 'I swear I didn't', both replies rehash."
-    },
-    "1toge4lp3ax": {
-      "keys": [
-        "scene-talk.follow-press.what-would-it-take",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote",
-        "scene-talk.reply-stall.put-me-down-undecided",
-        "scene-talk.reply-lie.i-m-leaning-your-way",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "'Fix the funding section and I'm there' rewords 'Take out section {section}' and 'I can't be on it' rewords the first no, so most restate first positions."
     },
     "1tsngpkbap4": {
       "keys": [
@@ -4912,20 +4586,6 @@
         "scene-talk.reply-leave.i-ll-come-back-tomorrow-try-to-sleep"
       ],
       "why": "\"I'll call tonight\" and the soup offer repeat the first yes and the eating deflection."
-    },
-    "1vuevs8iy36": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-like-it-i-m-asking-you-to-vote-it",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.i-ll-be-off-the-floor-before-the-roll-that-s-the-most-i-can-do",
-        "scene-talk.reply-bargain.what-does-leadership-give-me-for-it-i-ve-been-asking-for-a-hearing-on-my-own-bil",
-        "scene-talk.reply-stall.put-me-down-as-leaning-leaning-not-yes",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-      ],
-      "why": "'Count me in' repeats 'Put me down yes' and 'What's in it for my district?' rewords the first leadership bargain, so two of three rehash."
     },
     "1vv1kw7itov": {
       "keys": [
@@ -5566,21 +5226,6 @@
       ],
       "why": "\"I promise\" and the tea offer restate the first yes and the eating deflection."
     },
-    "295sosv7kv3": {
-      "keys": [
-        "scene-talk.follow-press.leaning-doesn-t-help-me-the-board-only-has-two-columns",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.i-ll-be-off-the-floor-before-the-roll-that-s-the-most-i-can-do",
-        "scene-talk.reply-bargain.what-does-leadership-give-me-for-it-i-ve-been-asking-for-a-hearing-on-my-own-bil",
-        "scene-talk.reply-stall.put-me-down-as-leaning-leaning-not-yes",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-relent.all-right-mark-me-yes-and-mark-that-i-didn-t-enjoy-it",
-        "scene-talk.reply-decline.i-m-not-a-yes-i-m-not-going-to-help-the-other-side-either",
-        "scene-talk.reply-bargain.i-ll-carry-it-if-my-committee-seat-stays-where-it-is",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "'Mark me yes', 'not going to help the other side' and the committee-seat bargain restate the first yes, stay-off-the-floor and leadership-trade replies."
-    },
     "29c0w7223y7": {
       "keys": [
         "scene-talk.follow-press.certification-takes-a-week-every-hour-you-wait-it-looks-worse",
@@ -5711,21 +5356,6 @@
         "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
       ],
       "why": "'I'll make the call' is 'Dial it' again and 'I'll be right back' is another stall like talking to the volunteers first, so most rehash."
-    },
-    "2b5ofabic1t": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-holding-it-over-you-i-just-don-t-have-anyone-else-to-ask",
-        "scene-talk.reply-relent.i-owe-you-that-much-put-me-down-yes-on-bill",
-        "scene-talk.reply-refuse.a-vote-isn-t-a-loan-i-can-t-be-a-yes-on-bill-because-you-were-a-yes-on-mine",
-        "scene-talk.reply-bargain.then-let-s-call-it-a-trade-what-do-i-get-on-bill-that-i-didn-t-get-last-time",
-        "scene-talk.reply-stall.give-me-until-the-roll-i-m-not-saying-no",
-        "scene-talk.reply-lie.consider-it-paid",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.i-ll-take-that-trade-if-you-carry-my-amendment-onto-bill",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "'Count me in', 'It's no' and taking the trade for an amendment restate the first yes, the vote-isn't-a-loan refusal and 'let's call it a trade'."
     },
     "2bdhtcy12v5": {
       "keys": [
@@ -6016,5 +5646,5 @@
       "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "0vg6p0pzv1o"
+  "yesHash": "1zude8kjct8"
 }

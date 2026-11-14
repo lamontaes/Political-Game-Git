@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1421,
+  "judged": 1384,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -314,26 +314,6 @@
       ],
       "why": "Accepting on their terms, agreeing to talk, a polite no and a callback give no reason of the player's own."
     },
-    "041m2o09f4u": {
-      "keys": [
-        "scene-talk.follow-press.not-there-on-what-tell-me-which-part",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Asked which part, the replies give in, stay neutral, name a funding condition or leave, without a why."
-    },
-    "042aw14cvfd": {
-      "keys": [
-        "scene-talk.follow-press.can-t-or-won-t",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-decline.i-m-not-a-yes-i-m-not-going-to-help-the-other-side-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
-      ],
-      "why": "Giving in, neutrality, a funding condition and a later answer state no reason."
-    },
     "04dqg8bqxmo": {
       "keys": [
         "scene-talk.follow-confront.i-swung-at-your-bill-you-swung-at-me",
@@ -341,16 +321,6 @@
         "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here"
       ],
       "why": "Taking up the Tuesday fight or saying it's going nowhere answers \"you swung at me\" without a reason."
-    },
-    "04dwl78yb20": {
-      "keys": [
-        "scene-talk.follow-plea.without-this-i-ve-got-nothing-to-take-home",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.section-section-stays",
-        "scene-talk.reply-bargain.i-ll-cut-half-of-section-section-not-all-of-it",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Giving in, \"Section stays\", cutting half and rushing to the floor carry no argument that keeps the talk going."
     },
     "04n3cmy93v8": {
       "keys": [
@@ -495,16 +465,6 @@
         "scene-talk.reply-leave.i-m-too-tired-to-do-this-right-tomorrow"
       ],
       "why": "Accepting a fight at the mic or being too tired gives no argument in reply."
-    },
-    "06fmpo33t6x": {
-      "keys": [
-        "scene-talk.follow-press.you-can-t-sit-this-one-out",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
-      ],
-      "why": "Giving in, neutrality, a funding condition and a later answer give no reason."
     },
     "06mqy4lk430": {
       "keys": [
@@ -743,17 +703,6 @@
       ],
       "why": "'Keep this between us', 'Pick that up and go' and 'You know I have to report this' give no reason."
     },
-    "09lxmwcj8tb": {
-      "keys": [
-        "scene-talk.state-request.i-need-your-vote-on-bill",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you",
-        "scene-talk.reply-stall.put-me-down-undecided",
-        "scene-talk.reply-lie.sure-i-ll-be-there"
-      ],
-      "why": "Yes, a bare can't, a yes-for-favor, undecided and \"Sure\" carry no reason."
-    },
     "09w81e2x6kx": {
       "keys": [
         "scene-talk.follow-confront.ask-away-you-ll-hear-the-same-thing-from-everybody",
@@ -761,15 +710,6 @@
         "scene-talk.reply-confront.then-maybe-everybody-s-wrong"
       ],
       "why": "\"Point taken\" and \"Then maybe everybody's wrong\" carry no reason for the claim."
-    },
-    "0ab5z5nsql3": {
-      "keys": [
-        "scene-talk.follow-press.what-would-it-take",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Staying neutral, a funding condition and a call-me exit carry no reason."
     },
     "0ag3qunuf40": {
       "keys": [
@@ -1392,16 +1332,6 @@
       ],
       "why": "Answering 'No one else will see it' with 'my answer doesn't change', keeping it, reporting it or 'I'm done' gives no reason."
     },
-    "0jet43smluh": {
-      "keys": [
-        "scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Giving in, a flat no, a vote-trade demand and a floor exit carry no reason."
-    },
     "0jfa07w3m53": {
       "keys": [
         "scene-talk.follow-warn.careful-whatever-you-start-with-they-ll-hand-you-forever",
@@ -1522,16 +1452,6 @@
         "scene-talk.reply-leave.enough-please-leave"
       ],
       "why": "The same answer, a report threat, silence and \"Please leave\" give no argument."
-    },
-    "0kp8j075zig": {
-      "keys": [
-        "scene-talk.follow-plea.i-was-there-when-you-needed-votes",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
-        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Counting in, a sorry no, a yes-for-favor and a floor exit carry no reason."
     },
     "0kzs2i2snwe": {
       "keys": [
@@ -1788,15 +1708,6 @@
         "scene-talk.reply-leave.we-re-done-here"
       ],
       "why": "\"When you called my office\" is a bare date, and the refusal, counter-question and exit carry no reason."
-    },
-    "0p6a48mry6j": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-holding-this-list-together-by-hand-could-you-stay-with-us-this-once",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
-        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you"
-      ],
-      "why": "Giving in, a sorry no and a yes-for-favor carry no argument."
     },
     "0pbdoxihne4": {
       "keys": [
@@ -2206,17 +2117,6 @@
       ],
       "why": "A question, a veiled threat and a dismissal hold no reason."
     },
-    "0ve8fxzf394": {
-      "keys": [
-        "scene-talk.state-request.tell-me-you-re-a-yes-on-bill-and-i-can-stop-counting-you",
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-decline.put-me-down-present-i-can-t-vote-for-it-and-i-won-t-vote-against-you",
-        "scene-talk.reply-bargain.i-ll-carry-it-if-my-committee-seat-stays-where-it-is",
-        "scene-talk.reply-stall.come-back-after-caucus-i-want-to-hear-what-the-others-say-first",
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud"
-      ],
-      "why": "Yes, present, a seat deal, waiting for caucus and a quiet yes carry no reasoning on the bill."
-    },
     "0vfiovoe4q5": {
       "keys": [
         "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
@@ -2235,16 +2135,6 @@
       ],
       "why": "Coming to one meeting, thinking it over and returning books carry no reason."
     },
-    "0vmrq8gm2op": {
-      "keys": [
-        "scene-talk.follow-press.leaning-doesn-t-help-me-the-board-only-has-two-columns",
-        "scene-talk.reply-relent.all-right-mark-me-yes-and-mark-that-i-didn-t-enjoy-it",
-        "scene-talk.reply-decline.i-m-not-a-yes-i-m-not-going-to-help-the-other-side-either",
-        "scene-talk.reply-bargain.i-ll-carry-it-if-my-committee-seat-stays-where-it-is",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "A reluctant yes, neutrality, a committee-seat deal and an exit carry no reason."
-    },
     "0vs4syr6yms": {
       "keys": [
         "scene-talk.state-request.the-youngest-in-the-house-child-was-in-the-room-when-you-got-sick-will-you-talk-to-them-yourself-first",
@@ -2254,17 +2144,6 @@
         "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now"
       ],
       "why": "A yes, a bare promise, a question and an unexplained refusal give no reason."
-    },
-    "0vwd2j7x5vc": {
-      "keys": [
-        "scene-talk.state-ask.your-amendment-is-in-bill-are-you-still-with-me",
-        "scene-talk.reply-agree.you-have-my-vote",
-        "scene-talk.reply-withdraw.i-m-really-worried-about-this-vote-i-can-t-do-it",
-        "scene-talk.reply-bargain.keep-my-section-in-and-you-have-my-vote",
-        "scene-talk.reply-stall.i-m-not-there-yet",
-        "scene-talk.reply-lie.nothing-s-changed-you-have-my-vote"
-      ],
-      "why": "\"I'm really worried about this vote\" voices a feeling without a reason, and the rest are yes or conditions."
     },
     "0vxs1whdp0l": {
       "keys": [
@@ -3044,15 +2923,6 @@
       ],
       "why": "Two agreements and an \"I still can't\" refusal carry no reason for the answer to the letter."
     },
-    "1863366g56i": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-like-it-i-m-asking-you-to-vote-it",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
-      ],
-      "why": "Giving in, a bare can't and a section condition carry no reason."
-    },
     "18b7g8ablv0": {
       "keys": [
         "scene-talk.follow-confront.that-s-the-whole-idea",
@@ -3076,15 +2946,6 @@
         "scene-talk.reply-leave.enough-please-leave"
       ],
       "why": "Repeating the answer and \"Please leave\" give no reason."
-    },
-    "18g139cezzc": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-short-on-votes-i-need-yours",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
-      ],
-      "why": "Giving in, a sorry no and a section condition carry no argument."
     },
     "18kdhowew2l": {
       "keys": [
@@ -3220,15 +3081,6 @@
       ],
       "why": "A concession, a bare promise, a question and an unexplained refusal give no reason."
     },
-    "1a851rgo2np": {
-      "keys": [
-        "scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you"
-      ],
-      "why": "Giving in, a flat no and a yes-for-favor carry no reason."
-    },
     "1abb0rvho98": {
       "keys": [
         "scene-talk.follow-ask.taken.who-else-knew-first",
@@ -3264,17 +3116,6 @@
         "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here"
       ],
       "why": "\"I'm ahead\" is a taunt without a reason, and the other reply just says it's going nowhere."
-    },
-    "1awnu79tbwe": {
-      "keys": [
-        "scene-talk.state-request.i-need-your-vote-on-bill",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote",
-        "scene-talk.reply-stall.put-me-down-undecided",
-        "scene-talk.reply-lie.i-m-leaning-your-way"
-      ],
-      "why": "Yes, no, a condition on a section, undecided and leaning give no reason for the stance."
     },
     "1aynrlbteuh": {
       "keys": [
@@ -3331,16 +3172,6 @@
       ],
       "why": "\"I'd do it again,\" \"You're not going to like any answer,\" goodbye and \"Nobody's even asked me that\" give no reason."
     },
-    "1bsbrstyxdu": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-holding-it-over-you-i-just-don-t-have-anyone-else-to-ask",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.i-ll-take-that-trade-if-you-carry-my-amendment-onto-bill",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Giving in, a flat no, an amendment trade and a floor exit carry no reason."
-    },
     "1bvqg39jt0h": {
       "keys": [
         "scene-talk.follow-plea.i-can-t-carry-it-alone-with-the-whole-town-watching",
@@ -3384,15 +3215,6 @@
         "scene-talk.reply-leave.im-done-talking"
       ],
       "why": "Three bare shutdowns with no reason."
-    },
-    "1cb6fony74e": {
-      "keys": [
-        "scene-talk.follow-plea.i-was-there-when-you-needed-votes",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Giving in, a bare can't and a floor exit carry no reason."
     },
     "1chs9ombzfo": {
       "keys": [
@@ -3586,16 +3408,6 @@
         "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
       ],
       "why": "Giving in, a promise of a hearing, listening without promise and an exit carry no reason."
-    },
-    "1erlmem7nro": {
-      "keys": [
-        "scene-talk.follow-press.can-t-or-won-t",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-decline.i-ll-be-off-the-floor-before-the-roll-that-s-the-most-i-can-do",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Giving in, skipping the roll, a funding condition and an exit carry no reason."
     },
     "1ev204ltqgc": {
       "keys": [
@@ -4012,14 +3824,6 @@
       ],
       "why": "\"I can't. Not on this one.\" and the plan to call the other side state no reason for the stance."
     },
-    "1lrrdasax80": {
-      "keys": [
-        "scene-talk.follow-plea.without-this-i-ve-got-nothing-to-take-home",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
-      ],
-      "why": "Giving in and \"I've made up my mind. It's no\" carry no argument."
-    },
     "1m2agkph34q": {
       "keys": [
         "scene-talk.follow-press.what-would-it-take-to-get-you-there",
@@ -4160,14 +3964,6 @@
       ],
       "why": "A promise to tell, a flat denial and a conditional refusal hold no reason."
     },
-    "1o6bslvet2p": {
-      "keys": [
-        "scene-talk.follow-plea.i-need-this-one-i-promised-my-district-i-d-deliver",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill"
-      ],
-      "why": "Counting in or \"I'm a no on {bill}\" are bare positions with no reason."
-    },
     "1oi92ms0bvd": {
       "keys": [
         "scene-talk.state-tell.tell-me-straight-what-bill-does-for-people-like-me",
@@ -4223,15 +4019,6 @@
         "scene-talk.reply-lie.nobody-told-me-what-to-do-that-vote-was-mine"
       ],
       "why": "\"Alright, plainly: I stand by it\" and \"Nobody told me what to do\" are stances without a reason, and the others close the talk."
-    },
-    "1pni6b7k0f0": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-like-it-i-m-asking-you-to-vote-it",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-      ],
-      "why": "Giving in, \"I've made up my mind\" and a district question carry no reason."
     },
     "1pnmq8eq90q": {
       "keys": [
@@ -4443,16 +4230,6 @@
       ],
       "why": "\"I stand by it\" and \"That vote was mine\" are claims with no reason, and the name-demand and office line add none."
     },
-    "1srlb2ncqtb": {
-      "keys": [
-        "scene-talk.follow-plea.i-need-this-one-i-promised-my-district-i-d-deliver",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-m-sorry-i-just-can-t",
-        "scene-talk.reply-request.give-me-a-list-of-everyone-who-s-undecided",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Giving in, a sorry can't, a list request and a floor exit carry no reason."
-    },
     "1t0syfl9zd8": {
       "keys": [
         "scene-talk.follow-ask.can-i-quote-you-on-that",
@@ -4477,15 +4254,6 @@
         "scene-talk.reply-leave.we-re-done-here"
       ],
       "why": "\"I meant every word\" and \"We're done here\" carry no reason."
-    },
-    "1tc4g4g4n34": {
-      "keys": [
-        "scene-talk.follow-plea.i-was-there-when-you-needed-votes",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
-      ],
-      "why": "Giving in, a flat no and a section condition carry no argument."
     },
     "1tfpjrxhejb": {
       "keys": [
@@ -4754,15 +4522,6 @@
       ],
       "why": "Standing by the stance, pointing to the office and lacking time carry no argument."
     },
-    "1x0fzynxtgu": {
-      "keys": [
-        "scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
-        "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-      ],
-      "why": "Asked about fixing the problem, the replies are a yes, a sorry no and a district question."
-    },
     "1x2s044o9it": {
       "keys": [
         "scene-talk.follow-press.then-where-you-re-the-one-we-elected",
@@ -4858,16 +4617,6 @@
         "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
       ],
       "why": "Handing it over, an apology and an exit contain no reason."
-    },
-    "1yqiqjk228j": {
-      "keys": [
-        "scene-talk.follow-press.what-would-change-it",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Asked what would change it, the replies are a yes, neutrality, a condition and an exit, none with a why."
     },
     "1z1tb7vja6b": {
       "keys": [
@@ -5149,16 +4898,6 @@
       ],
       "why": "\"No. And this changes nothing\" and having said all carry no reason."
     },
-    "22effhinnmf": {
-      "keys": [
-        "scene-talk.state-bargain.i-can-live-with-bill-i-can-t-live-with-section-section",
-        "scene-talk.reply-agree.fine-section-section-comes-out",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.what-if-we-change-section-section-instead-of-dropping-it",
-        "scene-talk.reply-stall.ask-me-thursday"
-      ],
-      "why": "The replies agree, refuse, float changing the section or defer to Thursday, none with a reason behind it."
-    },
     "22ki1vk214i": {
       "keys": [
         "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
@@ -5168,24 +4907,6 @@
         "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
       ],
       "why": "Refusal, clerk, not here and said all carry no reason."
-    },
-    "22kojbmshxq": {
-      "keys": [
-        "scene-talk.follow-bargain.i-ll-make-sure-your-district-comes-first-in-the-next-budget",
-        "scene-talk.reply-agree.you-have-my-vote",
-        "scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine",
-        "scene-talk.reply-stall.depends-on-the-amendment"
-      ],
-      "why": "A yes, a vote-trade demand and \"Depends on the amendment\" give no reason."
-    },
-    "234kfssvuyl": {
-      "keys": [
-        "scene-talk.follow-plea.i-need-this-one-i-promised-my-district-i-d-deliver",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-      ],
-      "why": "Giving in, a bare can't, and \"What's in it for my district?\" carry no argument."
     },
     "23lnuvp6mpf": {
       "keys": [
@@ -5549,16 +5270,6 @@
       ],
       "why": "Giving in, a bare can't, a trade question and a floor exit carry no argument."
     },
-    "29c8v3wmczv": {
-      "keys": [
-        "scene-talk.follow-press.what-do-you-need-to-get-there",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Joining, staying neutral, asking to fix the funding section and leaving all lack a stated reason."
-    },
     "29dq4w45r5i": {
       "keys": [
         "scene-talk.beat-beat.two-people-near-the-back-lean-together-and-whisper",
@@ -5821,15 +5532,6 @@
       ],
       "why": "Restating disagreement, repeating the answer and ending the interview carry no reason."
     },
-    "2d2cgt3t792": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-short-on-votes-i-need-yours",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
-      ],
-      "why": "Giving in, a sorry no and a section condition carry no argument."
-    },
     "2d8w9tbblu0": {
       "keys": [
         "scene-talk.follow-confront.no-you-owe-it-to-the-people-signing",
@@ -6064,5 +5766,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "00x4bnjltin"
+  "yesHash": "1go131kpbt3"
 }
