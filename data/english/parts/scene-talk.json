@@ -89149,10 +89149,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.bill-passed-roll-i-m-asking-you-to-sign-it",
+      "key": "scene-talk.state-request.nobody-voted-against-bill-sign-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{bill} passed {ayes} to {nays}. I'm asking you to sign it.",
+      "text": "Nobody voted against {bill}. Sign it.",
       "uses": [
         {
           "subject": "scene",
@@ -89161,23 +89161,23 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "bill", "roll"]
+          "requiresFacts": ["for", "bill", "unopposed"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "request",
         "key": "desk-visit"
       }
     },
     {
-      "key": "scene-talk.state-request.bill-is-on-your-desk-it-cleared-roll-sign-it",
+      "key": "scene-talk.state-request.not-one-vote-against-bill-i-don-t-see-what-there-is-to-think-about",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{bill} is on your desk. It cleared {ayes} to {nays}. Sign it.",
+      "text": "Not one vote against {bill}. I don't see what there is to think about.",
       "uses": [
         {
           "subject": "scene",
@@ -89186,15 +89186,660 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "bill", "roll"]
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-passed-with-enough-votes-to-override-a-veto-i-d-rather-it-had-your-name-on-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} passed with enough votes to override a veto. I'd rather it had your name on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "veto-proof"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.they-d-override-you-on-bill-sign-it-and-it-s-yours-too",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They'd override you on {bill}. Sign it and it's yours too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "veto-proof"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-passed-but-not-by-enough-to-survive-a-veto-that-s-why-i-m-here",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} passed, but not by enough to survive a veto. That's why I'm here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "short-of-override"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-barely-got-through-i-need-you-on-this-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} barely got through. I need you on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "short-of-override"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.nobody-voted-against-bill-that-doesn-t-make-it-right-veto-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody voted against {bill}. That doesn't make it right. Veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "unopposed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.they-have-the-votes-to-override-you-i-know-veto-bill-anyway-so-it-s-on-the-record",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They have the votes to override you, I know. Veto {bill} anyway, so it's on the record.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "veto-proof"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-barely-passed-your-veto-ends-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} barely passed. Your veto ends it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "short-of-override"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-purpose-that-s-all-bill-does",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's {purpose}. That's all {bill} does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "purpose"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-means-purpose-that-s-the-whole-of-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} means {purpose}. That's the whole of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "purpose"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-say-their-neighbors-don-t-want-bill-i-think-their-neighbors-will-come-around",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They say their neighbors don't want {bill}. I think their neighbors will come around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-voters"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.on-bill-they-re-scared-of-their-own-voters-that-s-the-whole-of-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "On {bill}, they're scared of their own voters. That's the whole of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-voters"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-against-it-heard-from-group",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones against it heard from {group}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-groups", "group"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.look-at-who-group-met-with-that-s-your-opposition",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Look at who {group} met with. That's your opposition.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-groups", "group"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.bill-is-a-party-vote-for-them-they-d-have-voted-no-on-anything-i-brought",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{bill} is a party vote for them. They'd have voted no on anything I brought.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-voted-with-their-party-not-on-bill",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They voted with their party, not on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-don-t-believe-in-bill-i-respect-that-i-think-they-re-wrong",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They don't believe in {bill}. I respect that. I think they're wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-views"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-re-against-this-kind-of-thing-nothing-i-said-moved-them",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They're against this kind of thing. Nothing I said moved them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-views"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.names",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{names}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "names"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nobody-bill-had-no-votes-against-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nobody. {bill} had no votes against it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "unopposed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-whose-voters-don-t-want-bill",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones whose voters don't want {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "opposed-voters"],
+          "excludesFacts": ["names"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-group-met-with",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones {group} met with.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "opposed-groups", "group"],
+          "excludesFacts": ["names"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-who-vote-with-their-party-bill-never-had-a-chance-with-them",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones who vote with their party. {bill} never had a chance with them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "opposed-party"],
+          "excludesFacts": ["names"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-who-don-t-believe-in-bill",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones who don't believe in {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "opposed-views"],
+          "excludesFacts": ["names"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.about-budget-cost-a-year",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "About {budget-cost} a year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-does-it-cost",
+          "requiresFacts": ["for", "budget-cost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-the-budget-shows",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nothing the budget shows.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-does-it-cost",
+          "requiresFacts": ["for", "no-cost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
         "key": "desk-visit"
       }
     },
@@ -89340,31 +89985,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.bill-passed-roll-that-doesn-t-make-it-right-i-m-asking-you-to-veto-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{bill} passed {ayes} to {nays}. That doesn't make it right. I'm asking you to veto it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against", "bill", "roll"]
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Helper D (words and scenes)",
       "date": "2026-10-27",
@@ -89836,7 +90456,7 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for", "opposed"]
         }
       ],
       "bearing": "curious",
@@ -90128,110 +90748,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "press",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-passed-roll-that-s-the-record",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It passed {ayes} to {nays}. That's the record.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "ask",
-          "requiresFacts": ["for", "roll"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-vote-was-roll-ask-the-other-side-about-cost",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The vote was {ayes} to {nays}. Ask the other side about cost.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "ask",
-          "requiresFacts": ["for", "roll"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.ask-the-people-against-it-they-have-their-own-numbers",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Ask the people against it. They have their own numbers.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "ask",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.ask-the-other-side-they-ll-tell-you-what-i-won-t",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Ask the other side. They'll tell you what I won't.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "ask",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
         "key": "desk-visit"
       }
     },

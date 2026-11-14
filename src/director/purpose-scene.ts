@@ -64,6 +64,7 @@ import {
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { withArticle } from "../english/journal-words";
+import { causeGroupName } from "../english/group-names";
 import {
   JOBS_MODULE_ID,
   JOB_OFFERED_EVENT,
@@ -1676,11 +1677,18 @@ function deskFacts(
   // Why the members who voted no did, from the reasons their positions on
   // record weigh most against it: their voters, the groups that pressed
   // them, their party, or their own views (rule 93: the other side's reason
-  // on record; with nobody against it there is none to tell).
+  // on record; with nobody against it there is none to tell). The groups are
+  // a reason only when the group that met them has a name to say.
   const against = votesOn(api, bill.id).filter((row) => row.vote === "no");
-  if (against.length)
-    facts.opposed = { text: "yes", sourceRecordIds: [causeId, bill.id] };
+  const cited = [causeId, bill.id];
   if (against.length) {
+    facts.opposed = { text: "yes", sourceRecordIds: cited };
+    const group = opposingGroup(
+      core,
+      meetingsOn(api, bill.id),
+      new Set(against.map((row) => row.memberId)),
+    );
+    if (group) facts.group = { text: group.said, sourceRecordIds: [group.id] };
     const weight = { voters: 0, groups: 0, party: 0, views: 0 };
     for (const { position } of against) {
       weight.voters += position.constituents;
@@ -1688,15 +1696,35 @@ function deskFacts(
       weight.party += (position.party ?? 0) + (position.wing ?? 0);
       weight.views += position.views + position.trait + position.consistency;
     }
-    const [reason, most] = Object.entries(weight).sort(
-      (a, b) => a[1] - b[1] || a[0].localeCompare(b[0]),
-    )[0]!;
-    if (most < P.zero)
-      facts[`opposed-${reason}`] = {
-        text: "yes",
-        sourceRecordIds: [causeId, bill.id],
+    const reason = Object.entries(weight)
+      .filter(([why, most]) => most < P.zero && (why !== "groups" || group))
+      .sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0]))[0]?.[0];
+    if (reason)
+      facts[`opposed-${reason}`] = { text: "yes", sourceRecordIds: cited };
+    // Who they are: by name when they are few enough to say (Words lead,
+    // Nov 14: three or fewer), else by the reason they share.
+    const names = against.map((row) => core.people.get(row.memberId));
+    if (against.length <= P.two + P.one && names.every(Boolean))
+      facts.names = {
+        text: new Intl.ListFormat("en-US").format(
+          names.map((person) => `${person!.givenName} ${person!.familyName}`),
+        ),
+        sourceRecordIds: [...cited, ...against.map((row) => row.memberId)],
       };
   }
+  // What it costs, from the budget lines it adds to: one rounded sum a year,
+  // or nothing the budget shows (Words lead, Nov 14).
+  const added = bill.provisions.reduce(
+    (sum, p) =>
+      p.kind === "budget-line" && p.value > P.zero ? sum + p.value : sum,
+    P.zero,
+  );
+  if (added > P.zero)
+    facts["budget-cost"] = {
+      text: roundedDollars(added),
+      sourceRecordIds: [bill.id],
+    };
+  else facts["no-cost"] = { text: "yes", sourceRecordIds: [bill.id] };
   if (bill.sponsorId === visitorId) {
     facts.for = {
       text: said.number ?? bill.number,
@@ -1720,6 +1748,49 @@ function deskFacts(
       text: roundedDollars(largest.annualCostMinor),
       sourceRecordIds: [causeId, largest.id],
     };
+}
+
+/**
+ * The group that pressed the members who voted no hardest (the most
+ * meetings with them, then the largest case), as people say its name, or
+ * null when none met them or its record has no name to say.
+ */
+function opposingGroup(
+  core: Readonly<CoreState>,
+  meetings: readonly {
+    groupId: string;
+    memberId: string;
+    side?: number;
+    annualCostMinor: number;
+  }[],
+  noVoters: ReadonlySet<string>,
+): { id: string; said: string } | null {
+  const tally = new Map<string, { met: number; cost: number }>();
+  for (const row of meetings) {
+    if ((row.side ?? -P.one) >= P.zero || !noVoters.has(row.memberId)) continue;
+    const seen = tally.get(row.groupId) ?? { met: P.zero, cost: P.zero };
+    tally.set(row.groupId, {
+      met: seen.met + P.one,
+      cost: Math.max(seen.cost, row.annualCostMinor),
+    });
+  }
+  const ranked = [...tally].sort(
+    (a, b) =>
+      b[1].met - a[1].met || b[1].cost - a[1].cost || a[0].localeCompare(b[0]),
+  );
+  for (const [groupId] of ranked) {
+    const org = core.organizations.get(`organization:${groupId}` as never) as
+      { id: string; name: string; kind?: string; topic?: string } | undefined;
+    if (!org) continue;
+    const said =
+      org.kind === "cause-group" && org.topic
+        ? causeGroupName(org.id, org.topic)
+        : /[:_]/.test(org.name)
+          ? null
+          : `the ${org.name.charAt(P.zero).toLowerCase()}${org.name.slice(P.one)}`;
+    if (said) return { id: org.id, said };
+  }
+  return null;
 }
 
 /** The petition a filing opened, as the clerk says it, or nothing where none is on record. */
