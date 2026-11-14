@@ -176104,15 +176104,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-signature.knows-you",
-          "key": "door"
-        },
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-support.knows-you",
-          "key": "door"
+          "key": "door",
+          "requiresFacts": ["due"]
         }
       ],
       "bearing": "calm",
@@ -176168,15 +176161,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-signature.knows-you",
-          "key": "door"
-        },
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-support.knows-you",
-          "key": "door"
+          "key": "door",
+          "requiresFacts": ["due"]
         }
       ],
       "bearing": "calm",
@@ -177461,30 +177447,6 @@
       "move": "narrate-narrate",
       "kind": "written",
       "text": "{name} answers, already half smiling.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-support.same-party",
-          "key": "door"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-sees-the-clipboard-and-nods-before-you-say-anything",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} sees the clipboard and nods before you say anything.",
       "uses": [
         {
           "subject": "scene",

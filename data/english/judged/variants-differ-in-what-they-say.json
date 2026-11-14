@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1348,
+  "judged": 1347,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -1599,15 +1599,6 @@
         "scene-talk.reply-agree.yes-i-d-rather-it-was-you-than-anyone"
       ],
       "why": "Both lines accept the offer in other words."
-    },
-    "0opatm1inu0": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-answers-already-half-smiling",
-        "scene-talk.narrate-narrate.name-answers-and-steps-out-onto-the-step-to-talk",
-        "scene-talk.narrate-narrate.name-opens-the-door-and-hears-you-out-with-a-nod",
-        "scene-talk.narrate-narrate.name-sees-the-clipboard-and-nods-before-you-say-anything"
-      ],
-      "why": "All four narrations show a friendly same-party voter answering the door, reworded with nothing to choose between them."
     },
     "0opmvu5zjlj": {
       "keys": [
