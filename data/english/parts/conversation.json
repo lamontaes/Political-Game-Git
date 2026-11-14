@@ -65,6 +65,7 @@
     "their_name": "A stranger's own first name, as they give it.",
     "self": "The player's own first name, as the player gives it.",
     "rent_again": "The rent after its figure was said (\"the rent\"), so the figure is said once in a talk.",
+    "bill": "A bill by its said name with its article (\"the Fair Wage Act\"), from the bill record (src/english/bill-names.ts billNameOf), said once.",
     "there": "A workplace already named, as people say it afterward (\"there\"), so a reply never repeats the employer or says \"at work\"."
   },
   "maxWords": 10,
@@ -42237,6 +42238,384 @@
       "origin": "authored",
       "author": "Words builder A (round 11, rule 75)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-said-youd-vote-for-bill-and-you-did",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You said you'd vote for {bill}, and you did.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-kept-your-word-on-bill-you",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You kept your word on {bill}, {you}.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill", "you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-voted-the-way-you-said-i-noticed",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You voted the way you said. I noticed.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-did-what-you-said-not-everyone-does",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You did what you said. Not everyone does.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.promise-broken-raise.you-told-me-yes-on-bill-you-then-you-voted-no",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "You told me yes on {bill}, {you}. Then you voted no.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill", "you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-counted-on-your-vote-for-bill-i-wont-again",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I counted on your vote for {bill}. I won't again.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-broken-raise.you-gave-me-your-word-on-bill-what-happened",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "You gave me your word on {bill}. What happened?",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-told-people-you-were-with-us-on-bill",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I told people you were with us on {bill}.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "nervous"
+    },
+    {
+      "key": "conversation.promise-kept-raise.youve-paid-on-time-since-you-thank-you",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You've paid on time since, {you}. Thank you.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time", "you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.the-bills-have-been-paid-i-noticed",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "The bills have been paid. I noticed.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-said-youd-pay-on-time-you-have",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You said you'd pay on time. You have.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-broken-raise.you-said-it-wouldnt-happen-again-you",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "You said it wouldn't happen again, {you}.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time", "you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.its-late-again-you-promised-me",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "It's late again. You promised me.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-cant-cover-it-again-you",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I can't cover it again, {you}.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time", "you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "nervous"
+    },
+    {
+      "key": "conversation.promise-broken-raise.we-talked-about-this-already",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "We talked about this already.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-kept-raise.thanks-for-showing-me-around-you",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "Thanks for showing me around, {you}.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-show-around", "you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-made-the-first-week-easier",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You made the first week easier.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-show-around"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-did-what-you-said-i-appreciate-it",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You did what you said. I appreciate it.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-show-around"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-figured-the-place-out-myself-you",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I figured the place out myself, {you}.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-show-around", "you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.you-said-youd-show-me-around",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "You said you'd show me around.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-show-around"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-thought-youd-forgotten-me-you",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I thought you'd forgotten me, {you}.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-show-around", "you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "nervous"
     }
   ]
 }

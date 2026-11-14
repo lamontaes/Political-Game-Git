@@ -35,10 +35,46 @@ import {
 import { townSeats } from "../core2/modules/offices";
 import { openConversation, say } from "./conversation";
 import type { Director } from "./ledger";
+import { wordConversationMove } from "../english/conversation-words";
+import { promiseSubject } from "./promise-talk";
 import { promisesBetween } from "./promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { ScheduleEntry } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
+
+/**
+ * What the one owed says of a settled promise at the next talk: the
+ * conversation bank's raise line for its subject, worded for the speaker
+ * (promise-talk.ts gives the subject; the talk engine says it).
+ */
+function saidOf(
+  core: CoreState,
+  director: Director,
+  speakerId: PersonId,
+  listenerId: PersonId,
+  where: string,
+): string {
+  const subject = promiseSubject(core, director, speakerId, listenerId);
+  expect(subject, `${where}: nothing to say`).toBeTruthy();
+  const line = wordConversationMove({
+    seed: core.seed,
+    subject: subject!.kind,
+    part: "raise",
+    speakerId,
+    traits: core.people.get(speakerId)?.traits ?? {},
+    facts: {
+      ...subject!.facts,
+      you: {
+        text: core.people.get(listenerId)!.givenName,
+        sourceRecordIds: [listenerId],
+      },
+    },
+    momentKey: `${speakerId}:${subject!.id}`,
+  });
+  expect(line?.text, `${where}: ${subject!.kind} has no line`).toBeTruthy();
+  expect(line!.text, where).not.toMatch(/\{|\}/);
+  return `${subject!.kind}: "${line!.text}"`;
+}
 
 /** The fixed seed the places are drawn on. */
 const SEED = "promises-kept-and-broken-1";
@@ -223,8 +259,9 @@ it(
             );
         }
         const ended = find();
+        const said = saidOf(core, director, made.owedId, id, where);
         done.push(
-          `${where}: ${factId} owed to ${made.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, made.owedId).toFixed(5)}`,
+          `${where}: ${said}\n    ${factId} owed to ${made.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, made.owedId).toFixed(5)}`,
         );
       }
       if (done.length === 2) {
@@ -398,8 +435,9 @@ it(
           expect(find().endedAt, where).toBe(addDays(makeIsoDate(since), 14));
         }
         const ended = find();
+        const said = saidOf(core, director, newcomer, id, where);
         done.push(
-          `${where}: ${factId} owed to ${newcomer}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, newcomer).toFixed(5)}`,
+          `${where}: ${said}\n    ${factId} owed to ${newcomer}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, newcomer).toFixed(5)}`,
         );
       }
       if (done.length === 2) {
@@ -572,8 +610,9 @@ it(
           expect(ended.endedBy, where).toMatch(
             new RegExp(`^bill-vote:${billId}`),
           );
+          const said = saidOf(core, director, askerId, colleagueId, where);
           done.push(
-            `${where}: ${factId} (${path.ending}) held by ${colleagueId}, owed to ${askerId} (player ${player}), on ${billId}; voted ${vote.vote} on ${ended.endedAt} by ${ended.endedBy}: ${ended.outcome}`,
+            `${where}: ${said}\n    ${factId} (${path.ending}) held by ${colleagueId}, owed to ${askerId} (player ${player}), on ${billId}; voted ${vote.vote} on ${ended.endedAt} by ${ended.endedBy}: ${ended.outcome}`,
           );
         }
         if (!bothSeen())
