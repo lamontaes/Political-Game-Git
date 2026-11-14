@@ -35,3 +35,5 @@ claimed-at:
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/press.ts, src/core2/campaign-views.ts, data/english/parts/conversation.json
+
+**Notes (Nov 14, campaign events report 1).** Seen again in played campaigns: a county commissioner at Patrick AFB FL (seed `q3`) is asked by a national cable network about student loans, congressional stock trading and the federal debt limit; a township supervisor at Chalkhill PA (seed `q2`) the same. Evidence: /mnt/project-files/words-lead/campaign-events/report-1.md. The empty-platform half is the builder "Give the player a platform at filing".
