@@ -31,7 +31,7 @@ import { townOutsideOf } from "./opening-outside-market";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
-  baseBudget,
+  lineWithoutBills,
   budgetWorldFactor,
   budgetWorldShares,
   budgetsOf,
@@ -1929,8 +1929,12 @@ export function socialSecurityLevel(api: CoreAPI): number {
   const federal = governments(api).find((g) => g.level === "federal");
   const budget = federal && budgetInForce(api, federal.id);
   if (!federal || !budget) return 1;
-  const base = baseBudget(api, federal, Number(budget.startsOn.slice(0, 4)))
-    .spendingMinor.socialSecurity;
+  const base = lineWithoutBills(
+    api,
+    federal,
+    Number(budget.startsOn.slice(0, 4)),
+    "socialSecurity",
+  );
   const now = budget.spendingMinor.socialSecurity;
   return base && now !== undefined ? now / base : 1;
 }

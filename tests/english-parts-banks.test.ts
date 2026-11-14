@@ -241,12 +241,12 @@ describe("English part banks", () => {
 // that plays later falls to a piece that names no day.
 describe("relative days in scene narration", () => {
   const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
-  type Use = { step?: string; requiresFacts?: string[] };
+  type Use = { step?: string; requiresFacts?: string[]; onlyWhen?: string[] };
   it("says today, tonight, tomorrow or yesterday only with the fact that makes it true", () => {
     const wrong: string[] = [];
     for (const part of sceneTalk.parts as (Part & { uses: Use[] })[])
       for (const use of part.uses.filter((row) => row.step === "narrate")) {
-        const needs = use.requiresFacts ?? [];
+        const needs = [...(use.requiresFacts ?? []), ...(use.onlyWhen ?? [])];
         if (
           /\b(?:today|tonight|this (?:morning|afternoon|evening))\b/i.test(
             part.text,
@@ -308,7 +308,6 @@ const EVENING_AHEAD = new Set([
   "scene-talk.reply-deflect.give-me-tonight-sunday-we-sit-down-with-the-bills-and-count-it-all",
   "scene-talk.follow-plea.pick-a-number-and-say-it-tonight",
   "scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight",
-  "scene-talk.follow-thank.thank-you-i-ll-tell-the-floor-tonight",
   "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
   "scene-talk.follow-comfort.take-it-easy-tonight",
   "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
