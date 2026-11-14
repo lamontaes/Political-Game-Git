@@ -162254,7 +162254,7 @@
       "key": "scene-talk.follow-accept.your-name-s-in-for-seat-in-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "your name's in for {seat} in {place}.",
+      "text": "your name's in for {seat} in {seat-place}.",
       "uses": [
         {
           "subject": "scene",
@@ -162264,7 +162264,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "place"]
+          "requiresFacts": ["seat", "seat-place"]
         }
       ],
       "origin": "authored",
@@ -162404,7 +162404,7 @@
       "key": "scene-talk.follow-accept.you-re-on-file-for-seat-in-place-as-of-now",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "you're on file for {seat} in {place} as of now.",
+      "text": "you're on file for {seat} in {seat-place} as of now.",
       "uses": [
         {
           "subject": "scene",
@@ -162414,7 +162414,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "place"]
+          "requiresFacts": ["seat", "seat-place"]
         }
       ],
       "origin": "authored",
