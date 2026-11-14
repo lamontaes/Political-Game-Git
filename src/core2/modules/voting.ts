@@ -2114,6 +2114,8 @@ export interface TurnoutDecision extends TurnoutParts {
   readonly votes: boolean;
   /** The share of the voter's people on the rolls for the election (1 or 0 for a named person). */
   readonly registered: number;
+  /** The survey's registered share of citizens like them, which their propensity on the rolls is divided by. */
+  readonly surveyRegistered: number;
   /** The share of them who registered at the polls and voted. */
   readonly atPolls: number;
   /** The share of them who would have voted and were turned away for not being on the rolls. */
@@ -2267,6 +2269,7 @@ function decideTurnout(
     propensity,
     votes,
     registered: reg.share,
+    surveyRegistered: reg.surveyShare,
     atPolls: named ? registeredAtPolls : (1 - reg.share) * atPolls,
     turnedAway: named
       ? turnedAway
