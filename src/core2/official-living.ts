@@ -35,29 +35,15 @@ export function officialHousehold(
   personId: string,
 ): OfficialHousehold {
   const p = (key: string) => api.parameter(key);
-  const basketDaily = householdDailyCostMinor({
-    seed: api.state.seed,
-    stateKey,
-    size: p("one"),
-    rent: hudStateRentRow(stateKey, api.state.seed),
-    parameter: p,
-  });
-  // What a household at this pay spends in a year, on the Survey's curve of
-  // spending against income (a smooth power, no step), per day.
-  const payUsd = annualPayMinor / p("minorPerDollar");
-  const paySpendingDaily = Math.min(
-    (p("officialSpendingAtReferencePayUsd") *
-      p("minorPerDollar") *
-      (Math.max(payUsd, 0) / p("officialSpendingReferencePayUsd")) **
-        p("officialSpendingPayElasticity")) /
-      p("daysPerMeanYear"),
-    // Never more than most of the pay itself: the curve runs above income at
-    // low pay because those households draw on transfers an official lacks.
-    (annualPayMinor * p("officialSpendingMostOfPayShare")) /
-      p("daysPerMeanYear"),
-  );
   return {
-    livingCostDailyMinor: Math.max(basketDaily, Math.round(paySpendingDaily)),
+    livingCostDailyMinor: householdDailyCostMinor({
+      seed: api.state.seed,
+      stateKey,
+      size: p("one"),
+      rent: hudStateRentRow(stateKey, api.state.seed),
+      annualPayMinor,
+      parameter: p,
+    }),
     savingsMinor: Math.round(
       medianTransactionBalance(
         annualPayMinor / p("minorPerDollar"),
