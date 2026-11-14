@@ -211,6 +211,13 @@ export interface KeptPromise {
   outcome?: "kept" | "broken" | "lapsed";
   /** Once the one owed has said it to the one who promised (promise-talk.ts). */
   saidAt?: IsoDate;
+  /** The answer the one who promised gave when it was said (promise-talk.ts). */
+  answer?: string;
+  /**
+   * The second and last time a broken promise is held against the one who
+   * promised: their next ask of the one owed (the bargaining read).
+   */
+  heldAt?: IsoDate;
 }
 
 export interface BackdropEntry {

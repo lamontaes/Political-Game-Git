@@ -929,6 +929,20 @@
       "citation": "As scene-talk-rules endingStrain trust-lost: a promise broken costs what trust lost costs (promises.ts).",
       "spread": "1 to 4",
       "checkRange": { "min": 1, "max": 4 }
+    },
+    "promiseOwnShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "Words lead rulings 2 (Nov 14): owning a broken promise wins back a part of what it cost; at most this share, for one who smooths things over and has not been let down before (promise-talk.ts).",
+      "spread": "0.25 to 0.75",
+      "checkRange": { "min": 0.25, "max": 0.75 }
+    },
+    "promiseDeniedHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "Words lead rulings 2 (Nov 14): denying a broken promise cools the tie further; half of what the promise cost (promise-talk.ts).",
+      "spread": "0.5 to 2",
+      "checkRange": { "min": 0.5, "max": 2 }
     }
   },
   "channels": [
@@ -1008,7 +1022,10 @@
       "id": "promise",
       "endsOn": "settling-record",
       "producedBy": [],
-      "producedByFact": [{ "eventKind": "scene.reply", "fact": "promise" }]
+      "producedByFact": [
+        { "eventKind": "scene.reply", "fact": "promise" },
+        { "eventKind": "promise.answer", "fact": "promise" }
+      ]
     }
   ],
   "broadEventFlags": ["publicRecord", "news"],

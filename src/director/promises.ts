@@ -45,6 +45,20 @@ interface PromiseKindRow {
   windowDays: string;
   /** What the window's close means: kept, broken or lapsed. */
   windowEnds: "kept" | "broken" | "lapsed";
+  /** The one owed counted on it: explaining a break goes worse than owning it. */
+  countedOn: boolean;
+  /** A record can settle a new promise of this kind ("I'll make it right"). */
+  renewable: boolean;
+}
+
+export interface PromiseAnswerRow {
+  id: string;
+  trait?: string;
+  sign?: number;
+  recovers?: boolean;
+  countedOnFactor?: boolean;
+  cools?: boolean;
+  renews?: boolean;
 }
 
 interface PromiseEndingRow {
@@ -60,6 +74,11 @@ export interface PromiseKinds {
   schema: string;
   endings: readonly PromiseEndingRow[];
   kinds: readonly PromiseKindRow[];
+  answers: {
+    kept: readonly PromiseAnswerRow[];
+    keptOffered: number;
+    broken: readonly PromiseAnswerRow[];
+  };
 }
 
 export const PROMISE_KINDS = kindsJson as unknown as PromiseKinds;
@@ -67,7 +86,7 @@ export const PROMISE_KINDS = kindsJson as unknown as PromiseKinds;
 /** The fact on a `scene.reply` record that names a promise's kind. */
 export const PROMISE_FACT = "promise";
 
-const kindOf = (id: string): PromiseKindRow => {
+export const kindOf = (id: string): PromiseKindRow => {
   const row = PROMISE_KINDS.kinds.find((entry) => entry.id === id);
   if (!row) throw new Error(`Unknown promise kind: ${id}`);
   return row;
@@ -345,6 +364,8 @@ export interface PromiseBetween {
   endedBy?: string;
   endedAt?: IsoDate;
   saidAt?: IsoDate;
+  answer?: string;
+  heldAt?: IsoDate;
 }
 
 /**
@@ -379,6 +400,8 @@ export function promisesBetween(
         ...(fact.endedBy ? { endedBy: fact.endedBy } : {}),
         ...(fact.endedAt ? { endedAt: fact.endedAt } : {}),
         ...(fact.promise.saidAt ? { saidAt: fact.promise.saidAt } : {}),
+        ...(fact.promise.answer ? { answer: fact.promise.answer } : {}),
+        ...(fact.promise.heldAt ? { heldAt: fact.promise.heldAt } : {}),
       });
     }
   }
@@ -395,4 +418,14 @@ export function markPromiseSaid(
 ): void {
   for (const fact of copiesOf(ledger, factId))
     if (fact.promise) fact.promise = { ...fact.promise, saidAt: date };
+}
+
+/** Set a field on every copy of a kept fact's promise. */
+export function markPromise(
+  ledger: Ledger,
+  factId: string,
+  fields: Partial<Pick<KeptPromise, "answer" | "heldAt">>,
+): void {
+  for (const fact of copiesOf(ledger, factId))
+    if (fact.promise) fact.promise = { ...fact.promise, ...fields };
 }

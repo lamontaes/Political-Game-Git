@@ -47,7 +47,9 @@
         }
       ],
       "windowDays": "promiseVoteWindowDays",
-      "windowEnds": "lapsed"
+      "windowEnds": "lapsed",
+      "countedOn": true,
+      "renewable": false
     },
     {
       "id": "pay-on-time",
@@ -60,7 +62,9 @@
         }
       ],
       "windowDays": "promisePayWindowDays",
-      "windowEnds": "kept"
+      "windowEnds": "kept",
+      "countedOn": true,
+      "renewable": true
     },
     {
       "id": "show-around",
@@ -73,7 +77,9 @@
         }
       ],
       "windowDays": "promiseShowAroundWindowDays",
-      "windowEnds": "broken"
+      "windowEnds": "broken",
+      "countedOn": false,
+      "renewable": true
     },
     {
       "id": "reach-someone",
@@ -81,7 +87,9 @@
       "tie": {},
       "settle": [],
       "windowDays": "promiseShowAroundWindowDays",
-      "windowEnds": "broken"
+      "windowEnds": "broken",
+      "countedOn": false,
+      "renewable": false
     },
     {
       "id": "see-a-doctor",
@@ -89,7 +97,24 @@
       "tie": {},
       "settle": [],
       "windowDays": "promiseShowAroundWindowDays",
-      "windowEnds": "broken"
+      "windowEnds": "broken",
+      "countedOn": false,
+      "renewable": false
     }
-  ]
+  ],
+  "answersNote": "The player's answers when the one owed raises a settled promise (Words lead rulings 2, Nov 14). Each is read, or it is not offered. Kept: two of three courtesy answers, the two the player's traits lean to most (a trait's value is -2 to 2; `sign` -1 reads its low end); none moves the tie, which warmed when the promise was kept. Broken: `recovers` gives back a share (promiseOwnShare) of the hours the broken promise cost, times the one owed's lean to smooth things over (low `people-mind-v1:conflict`), divided by one more than the promises this person broke to them before (the ledger); `countedOnFactor` takes it down again by the one owed's own reliability where the kind is one they counted on. `cools` takes more hours off (promiseDeniedHours). `renews` writes a new promise of the same kind, offered only where the kind is renewable (a record can settle the new one). The answer is a `promise.answer` record either way.",
+  "answers": {
+    "kept": [
+      { "id": "plain", "trait": "people-mind-v1:reliability", "sign": 1 },
+      { "id": "modest", "trait": "people-mind-v1:deliberation", "sign": -1 },
+      { "id": "warm", "trait": "people-mind-v1:sociability", "sign": 1 }
+    ],
+    "keptOffered": 2,
+    "broken": [
+      { "id": "own-it", "recovers": true },
+      { "id": "explain", "recovers": true, "countedOnFactor": true },
+      { "id": "deny", "cools": true },
+      { "id": "make-it-right", "renews": true }
+    ]
+  }
 }

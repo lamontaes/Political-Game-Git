@@ -36,7 +36,7 @@ import { townSeats } from "../core2/modules/offices";
 import { openConversation, say } from "./conversation";
 import type { Director } from "./ledger";
 import { wordConversationMove } from "../english/conversation-words";
-import { promiseSubject } from "./promise-talk";
+import { answerPromise, promiseAnswers, promiseSubject } from "./promise-talk";
 import { promisesBetween } from "./promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { ScheduleEntry } from "./scheduling";
@@ -73,7 +73,54 @@ function saidOf(
   });
   expect(line?.text, `${where}: ${subject!.kind} has no line`).toBeTruthy();
   expect(line!.text, where).not.toMatch(/\{|\}/);
-  return `${subject!.kind}: "${line!.text}"`;
+  // The answers the one who promised is offered, and the one given is read
+  // (Words lead rulings 2): a courtesy to a kept one; to a broken one, making
+  // it right where a record could settle a new one, else owning it.
+  const offered = promiseAnswers(core, subject!, listenerId);
+  let answered: string;
+  if (subject!.kind === "promise-kept") {
+    expect(offered.length, where).toBe(2);
+    for (const id of offered)
+      expect(["plain", "modest", "warm"], where).toContain(id);
+    const recordId = answerPromise(
+      core,
+      director,
+      subject!,
+      listenerId,
+      offered[0]!,
+    );
+    expect(core.durableLog.get(recordId!)?.kind, where).toBe("promise.answer");
+    answered = offered[0]!;
+  } else {
+    expect(offered.slice(0, 3), where).toEqual(["own-it", "explain", "deny"]);
+    const renewable = subject!.promiseKind !== "vote";
+    expect(offered.includes("make-it-right"), where).toBe(renewable);
+    const choice = renewable ? "make-it-right" : "own-it";
+    const before = closenessBetween(core, listenerId, speakerId);
+    const recordId = answerPromise(
+      core,
+      director,
+      subject!,
+      listenerId,
+      choice,
+    );
+    if (renewable) {
+      // A new promise of the same kind, open, made by the answer's record.
+      const renewed = promisesBetween(
+        director.ledger,
+        listenerId,
+        speakerId,
+      ).find((row) => row.sourceId === recordId);
+      expect(renewed?.kind, where).toBe(subject!.promiseKind);
+      expect(renewed?.outcome, where).toBe("open");
+      answered = `${choice} (new promise ${renewed!.id})`;
+    } else {
+      const after = closenessBetween(core, listenerId, speakerId);
+      expect(after, where).toBeGreaterThanOrEqual(before);
+      answered = `${choice} (closeness ${before.toFixed(5)} to ${after.toFixed(5)})`;
+    }
+  }
+  return `${subject!.kind}: "${line!.text}"; answered ${answered}`;
 }
 
 /** The fixed seed the places are drawn on. */

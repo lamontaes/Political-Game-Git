@@ -42616,6 +42616,125 @@
       "author": "Words lead (promises rulings-1, Nov 14)",
       "date": "2026-11-14",
       "bearing": "nervous"
+    },
+    {
+      "key": "conversation.promise-kept-answer-plain.i-said-i-would",
+      "move": "promise-kept-answer-plain",
+      "kind": "spoken",
+      "text": "I said I would.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-plain",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-kept-answer-modest.it-was-the-right-thing-to-do",
+      "move": "promise-kept-answer-modest",
+      "kind": "spoken",
+      "text": "It was the right thing to do.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-modest",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "modest"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-kept-answer-warm.im-glad-it-helped",
+      "move": "promise-kept-answer-warm",
+      "kind": "spoken",
+      "text": "I'm glad it helped.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-warm",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "warm"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-broken-answer-own-it.youre-right-i-didnt-do-what-i-said",
+      "move": "promise-broken-answer-own-it",
+      "kind": "spoken",
+      "text": "You're right. I didn't do what I said.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-own-it",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "own-it"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-broken-answer-explain.things-changed-i-couldnt-do-it",
+      "move": "promise-broken-answer-explain",
+      "kind": "spoken",
+      "text": "Things changed. I couldn't do it.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-explain",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "explain"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-broken-answer-deny.thats-not-how-i-remember-it",
+      "move": "promise-broken-answer-deny",
+      "kind": "spoken",
+      "text": "That's not how I remember it.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-deny",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "deny"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-broken-answer-make-it-right.ill-make-it-right",
+      "move": "promise-broken-answer-make-it-right",
+      "kind": "spoken",
+      "text": "I'll make it right.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-make-it-right",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "make-it-right"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
     }
   ]
 }
