@@ -185987,10 +185987,10 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.you-skipped-issue-tonight-i-wouldn-t-have",
+      "key": "scene-talk.state-confront.you-skipped-issue-up-there-i-wouldn-t-have",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "You skipped {issue} tonight. I wouldn't have.",
+      "text": "You skipped {issue} up there. I wouldn't have.",
       "uses": [
         {
           "subject": "scene",
@@ -186012,10 +186012,10 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.we-agreed-on-more-than-i-expected-tonight",
+      "key": "scene-talk.state-confront.we-agreed-on-more-than-i-expected-up-there",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "We agreed on more than I expected tonight.",
+      "text": "We agreed on more than I expected up there.",
       "uses": [
         {
           "subject": "scene",
@@ -186038,10 +186038,10 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.nothing-to-fight-about-tonight-we-ll-find-something",
+      "key": "scene-talk.state-confront.nothing-to-fight-about-up-there-we-ll-find-something",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "Nothing to fight about tonight. We'll find something.",
+      "text": "Nothing to fight about up there. We'll find something.",
       "uses": [
         {
           "subject": "scene",
@@ -186191,31 +186191,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.think-what-you-like",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Think what you like.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "requiresFacts": ["debate"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Campaign events builder, draft for the Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deflect",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.then-we-ll-let-them-choose",
       "move": "follow-accept",
       "kind": "spoken",
@@ -186266,10 +186241,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.the-town-heard-both-of-us-tonight-now-it-decides",
+      "key": "scene-talk.close-warn.the-town-heard-both-of-us-on-that-stage-now-it-decides",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "The town heard both of us tonight. Now it decides.",
+      "text": "The town heard both of us on that stage. Now it decides.",
       "uses": [
         {
           "subject": "scene",
