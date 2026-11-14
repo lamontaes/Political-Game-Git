@@ -94,7 +94,7 @@ import { townOutsideOf } from "../opening-outside-market";
 import { townJobRate, townPayPercentile } from "../town-pay";
 import type { EntityId } from "../kernel/brands";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
-import { meetAtWork } from "../encounters";
+import { knownAmong, meetAtWork } from "../encounters";
 import { lawApplied } from "../law-reach/applied";
 import {
   addCountedJob,
@@ -119,7 +119,7 @@ import type {
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
-import { fillInPerson } from "../state";
+import { fillInPerson, personOrFillIn } from "../state";
 import { bookkeeping } from "../bookkeeping";
 import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
 
@@ -222,6 +222,15 @@ interface EmployerRow {
   };
   /** A new business's template for its first roles. */
   templateFromId?: string;
+  /**
+   * A new business still hiring its opening staff: while the openings it
+   * posted at its first review stand and nobody is hired yet, it serves no
+   * one (its service level is zero, so its outside buyers buy from its
+   * rivals and it is paid nothing for them), but it plans its staff from the
+   * demand its founding won, not from the sales it cannot yet make, so its
+   * openings stand. Its first hire, or its openings lapsing, ends it.
+   */
+  hiring?: true;
   /** The staff mix at the opening: each role's head count and a job to copy for it. */
   mix?: Record<string, { count: number; templateJobId: string }>;
   /** Fraction of a posting's withdrawal carried to the next review. */
@@ -1389,8 +1398,9 @@ function reviewEmployers(api: CoreAPI): void {
       seasonalStaffing(book.kindId, c.date, opened, c.seed);
     const trading = businessTradingMonth(api, row.id);
     raiseUnfilledPay(api, row.id, positions, trading, staff);
+    // A new business still hiring has made no sales of its own to read: it plans from its books' demand.
     const observedStaff =
-      trading && trading.days > 0 && book.capacityMinor > 0
+      !row.hiring && trading && trading.days > 0 && book.capacityMinor > 0
         ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
           (trading.days *
             (book.price / book.anchorPrice || 1) *
@@ -1642,11 +1652,16 @@ function reviewEmployers(api: CoreAPI): void {
         ),
       });
     }
+    // A new business is hiring while its opening postings stand; its first hire, or the postings lapsing, ends it.
+    const { hiring, ...kept } = row;
+    const stillHiring =
+      hiring && !(staff > 0) && (!row.staffing || positions.length > 0);
     // Leavers not refilled this month wait while staff is below target; above it, attrition does the shrinking.
     store(api)
       .table("employers")
       .put({
-        ...row,
+        ...kept,
+        ...(stillHiring ? { hiring: true as const } : {}),
         need,
         salesStaff,
         hoursFactor,
@@ -1678,7 +1693,8 @@ export interface FirmStaffing {
 /**
  * The one read the business engine takes of a firm's staffing (owner, Nov 9:
  * firms diverge by service level): the employer's last review, or none for a
- * firm the jobs engine does not run or has not yet reviewed. The service level
+ * firm the jobs engine does not run or has not yet reviewed (a new business
+ * still hiring reads as serving no one). The service level
  * is staff over target, one where the firm is fully staffed.
  */
 export function firmStaffing(
@@ -1689,6 +1705,16 @@ export function firmStaffing(
   const row = store(api).table("employers").get(organizationId) as
     EmployerRow | undefined;
   const read = row?.staffing;
+  // A new business not yet reviewed has nobody working: it serves no one until its first hire.
+  if (!read && row?.hiring)
+    return {
+      staff: api.parameter("zero"),
+      target: row.openingStaff,
+      projected: row.openingStaff,
+      observedStaff: api.parameter("zero"),
+      serviceLevel: api.parameter("zero"),
+      at: api.state.date,
+    };
   if (!read) return undefined;
   return {
     ...read,
@@ -4667,6 +4693,50 @@ export function declineJobOffer(api: CoreAPI, offerId: string): boolean {
   return true;
 }
 
+/**
+ * The coworkers a new hire is to meet, nearest first: people in the same role
+ * work beside the hire, then the rest of the staff by id (`meetAtWork` meets
+ * as many as the staff's size lets one know). The person the player controls
+ * also meets the employer's counted coworkers: each one inside that room is
+ * filled in from the books (`personOrFillIn`, so the same household, job and
+ * pay the counts already held) and listed. Everyone else's hire lists full
+ * people only and fills in no one (two-level population).
+ */
+export function coworkersToMeet(
+  api: CoreAPI,
+  position: Pick<PositionRow, "organizationId" | "title">,
+  personId: string,
+): string[] {
+  const c = core(api);
+  const near = (a: JobInput, b: JobInput) =>
+    Number(b.title === position.title) - Number(a.title === position.title) ||
+    (a.personId < b.personId ? -1 : a.personId > b.personId ? 1 : 0);
+  const full = fullJobs(api, position.organizationId).sort(near);
+  if (!controlled(c, personId)) return full.map((row) => row.personId);
+  // One counted worker is one household's record: list each person once.
+  const counted = countedJobsOf(c, position.organizationId)
+    .filter((row) => row.personId !== personId)
+    .sort(near);
+  const jobs = [...full, ...counted].sort(near);
+  const knownIds = c.people.get(personId)?.knownIds;
+  // The room `meetAtWork` will allow for a list this long; people already
+  // known use it up the same way.
+  let room = knownAmong(api, jobs.length);
+  // The whole list goes to `meetAtWork`, which skips whoever is still counted
+  // and counts room as this loop does, so exactly the ones filled in here are met.
+  const ids = jobs
+    .filter((row) => row.personId !== personId)
+    .map((row) => row.personId);
+  for (const id of ids) {
+    if (room <= api.parameter("zero")) break;
+    // A worker returned to the counts keeps a record with no job (their job is a counted one), so they are filled in too.
+    const held = c.people.get(id);
+    if ((!held || isDemoted(held)) && !knownIds?.has(id)) personOrFillIn(c, id);
+    room -= api.parameter("one");
+  }
+  return ids;
+}
+
 function hire(
   api: CoreAPI,
   position: PositionRow,
@@ -4703,16 +4773,7 @@ function hire(
   }
   const pay = hirePay(api, position, person.id);
   const startsAt = addDays(makeIsoDate(api.state.date), 1);
-  // Nearest first: people in the same role work beside the hire, then the
-  // rest of the staff by id (`meetAtWork` meets as many as the staff's size lets one know).
-  const coworkerIds = fullJobs(api, position.organizationId)
-    .sort(
-      (a, b) =>
-        Number(b.title === position.title) -
-          Number(a.title === position.title) ||
-        (a.personId < b.personId ? -1 : a.personId > b.personId ? 1 : 0),
-    )
-    .map((row) => row.personId);
+  const coworkerIds = coworkersToMeet(api, position, person.id);
   const jobId = `job:${position.id}:${person.id}`,
     commitmentId = `work-commitment:${jobId}`;
   const jobSource = source(
@@ -5199,7 +5260,9 @@ export function registerEmployer(
       isEmployer: true,
       openingStaff,
       ...(scale !== undefined ? { openingScale: scale } : {}),
-      need: 0,
+      // It posts its opening staff at its first review, as a new business hires before it opens.
+      need: openingStaff,
+      hiring: true,
       // An employer registered after the opening keeps the roles its staff is
       // made of, so a role it loses is refilled as that role even when its
       // last holder leaves (a reporter at an outlet with only an editor left).
