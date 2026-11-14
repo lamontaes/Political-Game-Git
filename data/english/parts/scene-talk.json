@@ -125355,10 +125355,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.people-keep-asking-me-why-you-voted-the-way-you-did-on-bill-what-do-i",
+      "key": "scene-talk.state-ask.readers-keep-asking-why-you-voted-that-way-on-bill",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "People keep asking me why you voted the way you did on {bill}. What do I tell them?",
+      "text": "Readers keep asking why you voted that way on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -125367,7 +125367,7 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill", "vote-held"]
         }
       ],
       "bearing": "braced",
