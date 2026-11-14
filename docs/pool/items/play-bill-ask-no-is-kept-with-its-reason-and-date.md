@@ -8,6 +8,7 @@ size: S
 status: in-pr
 claimed-by: claude/play-declined-bill-ask-kept-with-reason
 branch: claude/play-declined-bill-ask-kept-with-reason
+pr: #9186
 standard: 2
 after: play-bill-menu-for-mayors-and-governors
 blocked-on:
