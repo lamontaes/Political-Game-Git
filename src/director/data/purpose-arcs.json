@@ -1132,9 +1132,9 @@
       },
       "endings": [
         {
-          "id": "words-promised",
-          "label": "You promised to say a few words",
-          "keeps": "promise",
+          "id": "words-said",
+          "label": "You said a few words",
+          "keeps": "none",
           "when": {
             "reply": ["promise"]
           }
