@@ -12,7 +12,7 @@
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
 import {
-  baseBudget,
+  lineWithoutBills,
   governments,
   type GovernmentRow,
 } from "../modules/budgets";
@@ -109,8 +109,7 @@ export function schoolAidShares(api: CoreAPI): Map<string, number> {
       continue;
     const budget = budgetInForce(api, gov.id);
     if (!budget || !gov.residents) continue;
-    const line =
-      baseBudget(api, gov, budget.fiscalYear).spendingMinor.schools ?? 0;
+    const line = lineWithoutBills(api, gov, budget.fiscalYear, "schools");
     if (line > 0) carrying.push({ gov, perResident: line / gov.residents });
   }
   const carried = carrying.reduce((n, c) => n + c.perResident, 0);
