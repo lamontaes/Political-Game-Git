@@ -27,6 +27,10 @@ source: Account lead T49 building world-home-prices-from-housing (Nov 14, 2026)
 
 **Time box.** 4 hours for one session of the Opus model, the trace first. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Done when.** At three drawn places over ten unattended years, a town's median pay at its own firms moves year to year with its firms' hiring and the economy's pay, never stuck at exactly day one's for years and never down a quarter and back within three years, unless a named firm's closing or opening explains it. The table is in the PR body.
+**Rules.** One engine per mechanic: a wage fault is fixed in the jobs engine's wage step, and every reader of the town's pay gets the same fix. No dice: a firm's pay moves with its own revenue, the labor market and the economy's pay, never by a roll. One rule, all 56 places: the check draws its places from all 56.
+
+**Done when.** A second session plays a drawn place for ten years in dev mode and sees Metrics' pay figures move year to year with the town's firms. At three drawn places over ten unattended years, a town's median pay at its own firms moves year to year with its firms' hiring and the economy's pay, never stuck at exactly day one's for years and never down a quarter and back within three years, unless a named firm's closing or opening explains it. The table is in the PR body.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/jobs.ts (wages), src/core2/modules/housing.ts (`townPayByPlace`)
