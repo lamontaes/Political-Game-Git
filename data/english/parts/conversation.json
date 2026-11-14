@@ -41999,6 +41999,90 @@
       "origin": "authored",
       "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-closer.what-do-you-make-of-it",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "What do you make of it?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "setsFacts": ["asks-player"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Words builder A (the address point asks the player, the train's question kept)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-closer.what-did-you-think-of-that",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "What did you think of that?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "setsFacts": ["asks-player"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Words builder A (the address point asks the player, the train's question kept)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-closer.does-that-sound-right-to-you",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "Does that sound right to you?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "setsFacts": ["asks-player"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Words builder A (the address point asks the player, the train's question kept)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-closer.where-do-you-come-down-on-that",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "Where do you come down on that?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "setsFacts": ["asks-player"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "origin": "authored",
+      "author": "Words builder A (the address point asks the player, the train's question kept)",
+      "date": "2026-11-14"
     }
   ]
 }
