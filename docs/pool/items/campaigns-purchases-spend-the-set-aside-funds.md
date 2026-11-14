@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #9318
 after:
 blocked-on:
 lead: elections
