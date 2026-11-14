@@ -7928,6 +7928,13 @@
           "move": "victimization-reply-answer-ask",
           "role": "answer",
           "subject": "victimization-reply"
+        },
+        {
+          "choice": "what",
+          "move": "eviction-answer-what",
+          "requiresFacts": ["guarded"],
+          "role": "answer",
+          "subject": "eviction"
         }
       ]
     },
@@ -10038,7 +10045,7 @@
         },
         {
           "choice": "comfort",
-          "excludesFacts": ["together"],
+          "excludesFacts": ["guarded", "together"],
           "move": "eviction-answer-comfort",
           "role": "answer",
           "subject": "eviction"
@@ -35494,7 +35501,8 @@
           "move": "eviction-say-core",
           "requiresFacts": ["together"],
           "role": "core",
-          "subject": "eviction-say"
+          "subject": "eviction-say",
+          "excludesFacts": ["guarded"]
         }
       ]
     },
@@ -35502,7 +35510,7 @@
       "author": "Words builder W1 (eviction told through the composer)",
       "bearing": "braced",
       "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.they-put-us-out-when-we-owed-owed",
+      "key": "conversation.eviction-say-core.they-put-us-out-when",
       "kind": "spoken",
       "move": "eviction-say-core",
       "origin": "authored",
@@ -35511,13 +35519,14 @@
         "part": "core",
         "required": true
       },
-      "text": "They put us out {when}. We owed {owed}.",
+      "text": "They put us out {when}.",
       "uses": [
         {
           "move": "eviction-say-core",
-          "requiresFacts": ["together", "owed"],
+          "requiresFacts": ["together"],
           "role": "core",
-          "subject": "eviction-say"
+          "subject": "eviction-say",
+          "excludesFacts": ["guarded"]
         }
       ]
     },
@@ -35525,7 +35534,7 @@
       "author": "Words builder W1 (eviction told through the composer)",
       "bearing": "solemn",
       "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.the-landlord-put-us-out-when-we-owed-owed",
+      "key": "conversation.eviction-say-core.the-landlord-put-us-out-when",
       "kind": "spoken",
       "move": "eviction-say-core",
       "origin": "authored",
@@ -35534,12 +35543,11 @@
         "part": "core",
         "required": true
       },
-      "text": "The landlord put us out {when}. We owed {owed}.",
+      "text": "The landlord put us out {when}.",
       "uses": [
         {
-          "excludesFacts": ["together", "alone"],
+          "excludesFacts": ["alone", "guarded", "together"],
           "move": "eviction-say-core",
-          "requiresFacts": ["owed"],
           "role": "core",
           "subject": "eviction-say"
         }
@@ -35561,7 +35569,7 @@
       "text": "The landlord had us put out {when}. We were {behind} behind.",
       "uses": [
         {
-          "excludesFacts": ["together", "alone"],
+          "excludesFacts": ["alone", "guarded", "together"],
           "move": "eviction-say-core",
           "requiresFacts": ["behind"],
           "role": "core",
@@ -35585,7 +35593,7 @@
       "text": "We lost our place {when}, {behind} behind on the rent.",
       "uses": [
         {
-          "excludesFacts": ["together", "alone"],
+          "excludesFacts": ["alone", "guarded", "together"],
           "move": "eviction-say-core",
           "requiresFacts": ["behind"],
           "role": "core",
@@ -35597,7 +35605,7 @@
       "author": "Words builder W1 (eviction told through the composer)",
       "bearing": "solemn",
       "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.the-landlord-put-me-out-when-i-owed-owed",
+      "key": "conversation.eviction-say-core.the-landlord-put-me-out-when",
       "kind": "spoken",
       "move": "eviction-say-core",
       "origin": "authored",
@@ -35606,13 +35614,14 @@
         "part": "core",
         "required": true
       },
-      "text": "The landlord put me out {when}. I owed {owed}.",
+      "text": "The landlord put me out {when}.",
       "uses": [
         {
           "move": "eviction-say-core",
-          "requiresFacts": ["owed", "alone"],
+          "requiresFacts": ["alone"],
           "role": "core",
-          "subject": "eviction-say"
+          "subject": "eviction-say",
+          "excludesFacts": ["guarded"]
         }
       ]
     },
@@ -35635,7 +35644,8 @@
           "move": "eviction-say-core",
           "requiresFacts": ["behind", "alone"],
           "role": "core",
-          "subject": "eviction-say"
+          "subject": "eviction-say",
+          "excludesFacts": ["guarded"]
         }
       ]
     },
@@ -35658,7 +35668,8 @@
           "move": "eviction-say-core",
           "requiresFacts": ["behind", "alone"],
           "role": "core",
-          "subject": "eviction-say"
+          "subject": "eviction-say",
+          "excludesFacts": ["guarded"]
         }
       ]
     },
@@ -35676,7 +35687,8 @@
           "choice": "where",
           "move": "eviction-answer-where",
           "role": "answer",
-          "subject": "eviction"
+          "subject": "eviction",
+          "excludesFacts": ["guarded"]
         }
       ]
     },
@@ -35692,7 +35704,7 @@
       "uses": [
         {
           "choice": "where",
-          "excludesFacts": ["together"],
+          "excludesFacts": ["guarded", "together"],
           "move": "eviction-answer-where",
           "role": "answer",
           "subject": "eviction"
@@ -35714,7 +35726,8 @@
           "move": "eviction-answer-where",
           "requiresFacts": ["together"],
           "role": "answer",
-          "subject": "eviction"
+          "subject": "eviction",
+          "excludesFacts": ["guarded"]
         }
       ]
     },
@@ -35733,7 +35746,8 @@
           "move": "eviction-answer-ask",
           "requiresFacts": ["lost-at"],
           "role": "answer",
-          "subject": "eviction"
+          "subject": "eviction",
+          "excludesFacts": ["guarded"]
         }
       ]
     },
@@ -35752,7 +35766,8 @@
           "move": "eviction-answer-comfort",
           "requiresFacts": ["together"],
           "role": "answer",
-          "subject": "eviction"
+          "subject": "eviction",
+          "excludesFacts": ["guarded"]
         }
       ]
     },
@@ -36203,7 +36218,7 @@
       "author": "Words builder W1 (eviction told through the composer)",
       "bearing": "nervous",
       "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.i-ll-find-a-bed-somewhere-the-shelter-in-no-bed-place-is-full",
+      "key": "conversation.eviction-back-core.i-ll-find-a-bed-somewhere-the-shelter-in-no-bed-place-was-full",
       "kind": "spoken",
       "move": "eviction-back-core",
       "origin": "authored",
@@ -36212,7 +36227,7 @@
         "part": "core",
         "required": true
       },
-      "text": "I'll find a bed somewhere. The shelter in {no-bed-place} is full.",
+      "text": "I'll find a bed somewhere. The shelter in {no-bed-place} was full.",
       "uses": [
         {
           "move": "eviction-back-core",
@@ -36227,7 +36242,7 @@
       "author": "Words builder W1 (eviction told through the composer)",
       "bearing": "nervous",
       "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.we-ll-find-beds-somewhere-the-shelter-in-no-bed-place-is-full",
+      "key": "conversation.eviction-back-core.we-ll-find-beds-somewhere-the-shelter-in-no-bed-place-was-full",
       "kind": "spoken",
       "move": "eviction-back-core",
       "origin": "authored",
@@ -36236,7 +36251,7 @@
         "part": "core",
         "required": true
       },
-      "text": "We'll find beds somewhere. The shelter in {no-bed-place} is full.",
+      "text": "We'll find beds somewhere. The shelter in {no-bed-place} was full.",
       "uses": [
         {
           "excludesFacts": ["alone"],
@@ -42969,6 +42984,337 @@
           "stages": ["comfort"],
           "subject": "eviction-back",
           "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-say-core.i-ve-had-a-rough-week-you",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "text": "I've had a rough week, {you}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["guarded", "alone"],
+          "role": "core",
+          "subject": "eviction-say"
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-say-core.we-ve-had-a-rough-week-you",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "text": "We've had a rough week, {you}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["guarded"],
+          "role": "core",
+          "subject": "eviction-say",
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-say-core.it-s-been-a-hard-few-days-you",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "text": "It's been a hard few days, {you}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["guarded"],
+          "role": "core",
+          "subject": "eviction-say"
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-say-core.things-aren-t-good-right-now-you",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "text": "Things aren't good right now, {you}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["guarded"],
+          "role": "core",
+          "subject": "eviction-say"
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-say-core.don-t-ask",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "text": "Don't ask.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["guarded"],
+          "role": "core",
+          "subject": "eviction-say"
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "solemn",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.the-landlord-had-me-put-out-when",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "The landlord had me put out {when}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["guarded", "alone"],
+          "role": "core",
+          "stages": ["what"],
+          "subject": "eviction-back"
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "solemn",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.the-landlord-had-us-put-out-when",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "The landlord had us put out {when}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["guarded"],
+          "role": "core",
+          "stages": ["what"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-was-put-out-when-behind-behind-on-rent",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "I was put out {when}, {behind} behind on rent.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["guarded", "alone", "behind"],
+          "role": "core",
+          "stages": ["what"],
+          "subject": "eviction-back"
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-were-put-out-when-behind-behind-on-rent",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "We were put out {when}, {behind} behind on rent.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["guarded", "behind"],
+          "role": "core",
+          "stages": ["what"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-owed-owed",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "I owed {owed}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["owed", "alone"],
+          "role": "core",
+          "stages": ["owed"],
+          "subject": "eviction-back"
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.it-came-to-owed",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "It came to {owed}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["owed"],
+          "role": "core",
+          "stages": ["owed"],
+          "subject": "eviction-back"
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-owed-owed",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "We owed {owed}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["owed"],
+          "role": "core",
+          "stages": ["owed"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "solemn",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.owed-all-told",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "{owed}, all told.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["owed"],
+          "role": "core",
+          "stages": ["owed"],
+          "subject": "eviction-back"
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "curious",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-answer-owed.how-much",
+      "kind": "spoken",
+      "move": "eviction-answer-owed",
+      "origin": "authored",
+      "text": "How much?",
+      "uses": [
+        {
+          "choice": "owed",
+          "move": "eviction-answer-owed",
+          "requiresFacts": ["owed"],
+          "role": "answer",
+          "subject": "eviction",
+          "excludesFacts": ["guarded"]
         }
       ]
     }

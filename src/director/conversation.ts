@@ -869,6 +869,16 @@ function evictionSubjects(
   const speaker = core.people.get(speakerId)!;
   const together =
     core.people.get(listenerId)?.householdId === speaker.householdId;
+  // How soon hard news is told slides with the tie (Words lead, Nov 14):
+  // someone close (kin, or in the same house) leads with it; someone who
+  // knew the player before today says only that it has been a hard time,
+  // and the fact follows if the player asks; a stranger does not volunteer
+  // it at all.
+  const close =
+    together ||
+    speaker.familyIds.has(listenerId) ||
+    core.people.get(listenerId)?.familyIds.has(speakerId) === true;
+  if (!close && !saysName(core, speakerId, listenerId)) return [];
   const evicted = [
     ...recentMoments(core, director, speakerId),
     ...(together ? recentMoments(core, director, listenerId) : []),
@@ -907,6 +917,7 @@ function evictionSubjects(
   ).filter((id) => core.people.get(id)?.alive);
   // What the speaker calls the listener to their face.
   facts.you = calledBy(core, speakerId, listenerId);
+  if (!close) facts.guarded = fact("yes");
   if (together) facts.together = fact("yes");
   else if (members.length <= one)
     facts.alone = fact("yes", [speaker.householdId]);
