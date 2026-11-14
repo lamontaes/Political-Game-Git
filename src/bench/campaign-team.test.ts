@@ -141,7 +141,7 @@ it(`the campaign board's team lists the manager and the volunteers from the camp
     expect(view!.team.staff.length + view!.team.volunteers.length, where).toBe(
       new Set([...campaign.staffIds, ...campaign.volunteerIds]).size,
     );
-    throw new Error("PASSED AT " + where);
+    return;
   }
   throw new Error(`no place offered a manager: ${tried.join("; ")}`);
 }, 900_000);
