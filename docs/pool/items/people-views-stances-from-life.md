@@ -11,6 +11,7 @@ claimed-by: claude/project-thread-hjvzia
 pr: #9162
 after:
 blocked-on:
+root: design-one-model-two-tiers
 lead: views
 model: opus
 effort: medium
