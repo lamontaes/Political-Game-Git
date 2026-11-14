@@ -66,6 +66,8 @@ import {
   type SeatInput,
   type VacancyRule,
 } from "../offices-state";
+// The record shapes, for engines that read offices through this entry (families guard).
+export type { OfficeInput, SeatInput };
 import stateOfficesResearch from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import { worldSeatParty } from "./elections";
 // A screen reads which district a town votes in through this entry.

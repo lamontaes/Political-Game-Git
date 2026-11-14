@@ -166,8 +166,7 @@ import {
   officialCandidate,
   researchedHolderParty,
 } from "./officials";
-import type { SeatInput } from "../offices-state";
-import type { OfficeInput } from "../offices-local";
+import type { OfficeInput, SeatInput } from "./offices";
 import {
   novemberGeneralElectionDay,
   termEndAfter,
