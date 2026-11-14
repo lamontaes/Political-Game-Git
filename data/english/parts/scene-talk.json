@@ -167882,30 +167882,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.tell-me-one-thing-you-d-want-from-whoever-wins-on-vote-day",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Tell me one thing you'd want from whoever wins on {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-support",
-          "key": "door"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.anything-persuade-you",
       "move": "follow-press",
       "kind": "spoken",
