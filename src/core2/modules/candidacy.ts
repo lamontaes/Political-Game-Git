@@ -80,7 +80,10 @@ import { countedResidents, type CountedVoter } from "../electorate";
 import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
 import { partySide } from "../appointments";
 import { approvalGapPoints } from "./national-opinion";
-import { revolvingDoorFor } from "../law-reach/group-a-voting";
+import {
+  prisonersBarredHere,
+  revolvingDoorFor,
+} from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 
@@ -1218,8 +1221,9 @@ function countedScreen(
     held.year !== year ||
     !placeIds.every((id) => held!.places.includes(id))
   ) {
-    // Counted residents of adult correctional rooms may be drawn to run.
-    // stopgapId: SG-GQ-counted-prisoners-vote
+    // Counted residents of adult correctional rooms are not drawn to run
+    // where the state bars people held in prison (`incarceratedMayVote`).
+    const barredRooms = prisonersBarredHere(api);
     const places = [
       ...new Set([...(held?.year === year ? held.places : []), ...placeIds]),
     ];
@@ -1227,7 +1231,11 @@ function countedScreen(
       year,
       places,
       rows: countedResidents(api.state as CoreState)
-        .filter((voter) => places.includes(voter.placeId))
+        .filter(
+          (voter) =>
+            places.includes(voter.placeId) &&
+            !(barredRooms && voter.quarters === "adultCorrectional"),
+        )
         .map((voter) => {
           // The pull apart from the seat: an open town seat with no one
           // running yet, which bounds every seat's pull from above but for
