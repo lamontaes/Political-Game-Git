@@ -76,6 +76,8 @@ interface Ending {
 }
 
 interface PurposeArc {
+  /** Facts of which at most one holds in one talk (the visitor is for the bill or against it). */
+  apart?: string[][];
   state: string;
   /**
    * A statement said as several moves in order, one breath (the clerk tells

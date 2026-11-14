@@ -38,6 +38,26 @@ import {
 import purposeArcs from "./data/purpose-arcs.json" with { type: "json" };
 import { SITUATION_LIBRARY } from "./scheduling";
 import { expectUpToFourDifferent } from "./reply-set-check";
+import purposeArcs from "./data/purpose-arcs.json" with { type: "json" };
+
+// The arc's apart sets say at most one of their facts holds in one visit;
+// the pair sheets leave out pairs that need two of one set, so every visit
+// the desk stages checks that the facts it was given never hold two.
+const APART = (
+  purposeArcs as unknown as {
+    purposes: Record<string, { apart?: string[][] }>;
+  }
+).purposes["desk-visit"]!.apart!;
+function expectApart(facts: readonly { key: string }[], where: string): void {
+  const held = new Set(facts.map((row) => row.key));
+  for (const names of APART) {
+    const both = names.filter((name) => held.has(name));
+    expect(
+      both.length,
+      `${where}: ${both.join(" and ")} hold together`,
+    ).toBeLessThan(2);
+  }
+}
 
 // Someone comes to argue before the decision (episode desk-decision-both-sides,
 // docs/design/scenes/from-life/desk-decision-both-sides.md). When a bill is
@@ -210,6 +230,7 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     );
     if (result?.kind !== "composed") return;
     const { scene } = result;
+    expectApart(scene.facts, where);
     expect(scene.typeKey, where).toBe("desk-visit");
     // Pictured at the office, never in a dwelling
     // (director-scene-settings-chamber-office-seat).
@@ -429,6 +450,7 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     const asked = purposeScene(core, director, mayor!, second.entry!);
     expect(asked?.kind, where).toBe("composed");
     if (asked?.kind !== "composed") return;
+    expectApart(asked.scene.facts, where);
     const stood = (key: string) =>
       asked.scene.facts.find((row) => row.key === key);
     expect(stood("against"), where).toBeTruthy();
@@ -600,6 +622,7 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
           scene.scene.typeKey === "desk-visit"
         ) {
           visits += 1;
+          expectApart(scene.scene.facts, `${where}: ${record.id}`);
           first ||= `${record.id}, sponsor ${sponsor!.sponsorId}`;
           shown ||= scene.scene.talk.lines
             .slice(0, 4)
