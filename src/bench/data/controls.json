@@ -584,7 +584,7 @@
     "ownChoice": "Decided for me",
     "adjourned": "Cast when you adjourned",
     "absent": {
-      "stop-off": "Absent: you were not stopped for this vote",
+      "stop-off": "Absent: you did not attend",
       "district": "Absent: at home in the district"
     },
     "nameHeadPick": "Name to the post"
