@@ -14,7 +14,7 @@
     "my_place": "The player's town, from their household record.",
     "school": "A school, from the school record.",
     "years": "A count of years, computed from two dated records.",
-    "since": "The month the illness began, as people say it (\"January\", \"last March\"), from the health engine's onset record; set only for a death of someone whose illness the house knew of.",
+    "since": "A month and year from a dated record, as people say it.",
     "my_since": "The month and year the player started, from their job record.",
     "when": "When something happened, from a dated record (a contact, a crime), as the director says it in passing.",
     "my_when": "When the player last saw that person, from a contact record, said the same way.",
@@ -72,6 +72,8 @@
     "shelter-place": "The town whose shelter took an evicted household in, from the housing status record.",
     "no-bed-place": "The town whose shelters had no bed for an evicted household, from the housing status record.",
     "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record.",
+    "there": "A workplace already named, as people say it afterward (\"there\"), so a reply never repeats the employer or says \"at work\".",
+    "host-here": "The player's own household when it takes an evicted relative in, said to the player (\"you\", or \"you all\" when others live there), from the housing status and the host household's record.",
     "young": "A mark: the age at death is below the age people call too soon (data/english/relative-news-words.json).",
     "cause": "A cause of death as family says it plainly (\"a car crash\"), from the health engine's record; absent for causes not said aloud.",
     "illness": "A serious illness by its common name (\"cancer\", \"a stroke\"), from the health engine's condition record.",
@@ -14304,1475 +14306,6 @@
       }
     },
     {
-      "key": "conversation.illness-news-say-core.kin-is-very-sick-it-s-illness",
-      "move": "illness-news-say-core",
-      "kind": "spoken",
-      "text": "{kin} is very sick. It's {illness}.",
-      "uses": [
-        {
-          "move": "illness-news-say-core",
-          "subject": "illness-news-say",
-          "role": "core",
-          "requiresFacts": ["kin", "illness"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-say-core.i-got-a-call-about-kin-it-s-serious",
-      "move": "illness-news-say-core",
-      "kind": "spoken",
-      "text": "I got a call about {kin}. It's serious.",
-      "uses": [
-        {
-          "move": "illness-news-say-core",
-          "subject": "illness-news-say",
-          "role": "core",
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-say-core.relation-got-very-sick-when",
-      "move": "illness-news-say-core",
-      "kind": "spoken",
-      "text": "{relation} got very sick {when}.",
-      "uses": [
-        {
-          "move": "illness-news-say-core",
-          "subject": "illness-news-say",
-          "role": "core",
-          "excludesFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-say-core.relation-is-seriously-ill-we-heard-when",
-      "move": "illness-news-say-core",
-      "kind": "spoken",
-      "text": "{relation} is seriously ill. We heard {when}.",
-      "uses": [
-        {
-          "move": "illness-news-say-core",
-          "subject": "illness-news-say",
-          "role": "core",
-          "excludesFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-answer-ask.how-bad",
-      "move": "illness-news-answer-ask",
-      "kind": "spoken",
-      "text": "How bad?",
-      "uses": [
-        {
-          "move": "illness-news-answer-ask",
-          "subject": "illness-news",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-answer-help.need-anything",
-      "move": "illness-news-answer-help",
-      "kind": "spoken",
-      "text": "Need anything?",
-      "uses": [
-        {
-          "move": "illness-news-answer-help",
-          "subject": "illness-news",
-          "role": "answer",
-          "choice": "help"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.i-know-you-i-can-t-stop-thinking-about-it",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "I know, {you}. I can't stop thinking about it.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.thank-you-you-i-m-trying-to-stay-calm",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "Thank you, {you}. I'm trying to stay calm.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.it-s-a-lot",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "It's a lot.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.don-t-know-yet",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "Don't know yet.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["ask"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.the-doctors-haven-t-said-you-we-re-waiting",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "The doctors haven't said, {you}. We're waiting.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["ask"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.bad-enough-that-i-m-worried-about-kin",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "Bad enough that I'm worried about {kin}.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.bad-enough-that-i-m-worried-about-relation-no-tie",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "Bad enough that I'm worried about {relation}.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.not-yet-you-nothing-i-can-think-of",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "Not yet, {you}. Nothing I can think of.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.thanks-for-asking",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "Thanks for asking.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.not-sure-yet",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "Not sure yet.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-say-core.kin-died-when-it-was-cause",
-      "move": "death-news-say-core",
-      "kind": "spoken",
-      "text": "{kin} died {when}. It was {cause}.",
-      "uses": [
-        {
-          "move": "death-news-say-core",
-          "subject": "death-news-say",
-          "role": "core",
-          "requiresFacts": ["kin", "cause"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-say-core.kin-died-when-he-was-only-age",
-      "move": "death-news-say-core",
-      "kind": "spoken",
-      "text": "{kin} died {when}. He was only {age}.",
-      "uses": [
-        {
-          "move": "death-news-say-core",
-          "subject": "death-news-say",
-          "role": "core",
-          "requiresFacts": ["kin", "young", "he"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-say-core.kin-died-when-she-was-only-age",
-      "move": "death-news-say-core",
-      "kind": "spoken",
-      "text": "{kin} died {when}. She was only {age}.",
-      "uses": [
-        {
-          "move": "death-news-say-core",
-          "subject": "death-news-say",
-          "role": "core",
-          "requiresFacts": ["kin", "young", "she"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-say-core.kin-died-when-they-were-only-age",
-      "move": "death-news-say-core",
-      "kind": "spoken",
-      "text": "{kin} died {when}. They were only {age}.",
-      "uses": [
-        {
-          "move": "death-news-say-core",
-          "subject": "death-news-say",
-          "role": "core",
-          "requiresFacts": ["kin", "young", "they"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-say-core.kin-passed-away-when",
-      "move": "death-news-say-core",
-      "kind": "spoken",
-      "text": "{kin} passed away {when}.",
-      "uses": [
-        {
-          "move": "death-news-say-core",
-          "subject": "death-news-say",
-          "role": "core",
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-say-core.relation-passed-away-when",
-      "move": "death-news-say-core",
-      "kind": "spoken",
-      "text": "{relation} passed away {when}.",
-      "uses": [
-        {
-          "move": "death-news-say-core",
-          "subject": "death-news-say",
-          "role": "core",
-          "excludesFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-say-core.relation-died-when-at-age",
-      "move": "death-news-say-core",
-      "kind": "spoken",
-      "text": "{relation} died {when}, at {age}.",
-      "uses": [
-        {
-          "move": "death-news-say-core",
-          "subject": "death-news-say",
-          "role": "core",
-          "excludesFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-answer-condole.i-m-so-sorry",
-      "move": "death-news-answer-condole",
-      "kind": "spoken",
-      "text": "I'm so sorry.",
-      "uses": [
-        {
-          "move": "death-news-answer-condole",
-          "subject": "death-news",
-          "role": "answer",
-          "choice": "condole"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-answer-ask.how",
-      "move": "death-news-answer-ask",
-      "kind": "spoken",
-      "text": "How?",
-      "uses": [
-        {
-          "move": "death-news-answer-ask",
-          "subject": "death-news",
-          "role": "answer",
-          "choice": "ask",
-          "excludesFacts": ["told-cause"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-answer-okay.are-you-okay",
-      "move": "death-news-answer-okay",
-      "kind": "spoken",
-      "text": "Are you okay?",
-      "uses": [
-        {
-          "move": "death-news-answer-okay",
-          "subject": "death-news",
-          "role": "answer",
-          "choice": "okay"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.thank-you-you-it-hasn-t-sunk-in",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Thank you, {you}. It hasn't sunk in.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["condole"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.thanks-i-m-okay",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Thanks. I'm okay.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["condole"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.cause-i-m-still-taking-it-in",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "{cause}. I'm still taking it in.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["cause"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.nobody-has-told-us-how-kin-died",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody has told us how {kin} died.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "illness-known"],
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.nobody-has-told-us-how-relation-died-no-tie",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody has told us how {relation} died.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "kin", "illness-known"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.not-really-you-i-keep-expecting-a-call",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Not really, {you}. I keep expecting a call.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["okay"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.i-m-managing",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "I'm managing.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["okay"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.ask-me-tomorrow",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Ask me tomorrow.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["okay"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.just-be-here-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Just be here, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.nothing-yet-you-just-stay-close",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nothing yet, {you}. Just stay close.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.sit-with-me",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Sit with me.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-say-core.kin-got-term-for-offense",
-      "move": "prison-news-say-core",
-      "kind": "spoken",
-      "text": "{kin} got {term} for {offense}.",
-      "uses": [
-        {
-          "move": "prison-news-say-core",
-          "subject": "prison-news-say",
-          "role": "core",
-          "requiresFacts": ["kin", "term", "offense"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-say-core.kin-was-sentenced-when-it-s-term",
-      "move": "prison-news-say-core",
-      "kind": "spoken",
-      "text": "{kin} was sentenced {when}. It's {term}.",
-      "uses": [
-        {
-          "move": "prison-news-say-core",
-          "subject": "prison-news-say",
-          "role": "core",
-          "requiresFacts": ["kin", "term"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-say-core.kin-was-sent-to-prison-when",
-      "move": "prison-news-say-core",
-      "kind": "spoken",
-      "text": "{kin} was sent to prison {when}.",
-      "uses": [
-        {
-          "move": "prison-news-say-core",
-          "subject": "prison-news-say",
-          "role": "core",
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-say-core.relation-was-sent-to-prison-when",
-      "move": "prison-news-say-core",
-      "kind": "spoken",
-      "text": "{relation} was sent to prison {when}.",
-      "uses": [
-        {
-          "move": "prison-news-say-core",
-          "subject": "prison-news-say",
-          "role": "core",
-          "excludesFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-answer-ask.for-how-long",
-      "move": "prison-news-answer-ask",
-      "kind": "spoken",
-      "text": "For how long?",
-      "uses": [
-        {
-          "move": "prison-news-answer-ask",
-          "subject": "prison-news",
-          "role": "answer",
-          "choice": "ask",
-          "excludesFacts": ["told-term"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-answer-what.what-for",
-      "move": "prison-news-answer-what",
-      "kind": "spoken",
-      "text": "What for?",
-      "uses": [
-        {
-          "move": "prison-news-answer-what",
-          "subject": "prison-news",
-          "role": "answer",
-          "choice": "what",
-          "excludesFacts": ["told-offense"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-back-core.term-i-m-still-taking-it-in",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "{term}. I'm still taking it in.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["term"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-back-core.a-long-time",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "A long time.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["term"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-back-core.thank-you-you-it-s-hard-to-say-out-loud",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "Thank you, {you}. It's hard to say out loud.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-back-core.angry-and-sad",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "Angry and sad.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-back-core.the-case-is-public-you-ask-me-later",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "The case is public, {you}. Ask me later.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["what"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-back-core.i-d-rather-not-get-into-it-you",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "I'd rather not get into it, {you}.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["what"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-back-core.that-s-all-i-know-you",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "That's all I know, {you}.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["term"]
-        },
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "illness-known"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.i-keep-waiting-for-the-phone-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "I keep waiting for the phone, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["okay"]
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.he-had-been-sick-since-since",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "He had been sick since {since}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["he", "illness-known", "since"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.you-knew-he-was-sick-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "You knew he was sick, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["he", "illness-known"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.he-never-got-better-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "He never got better, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["he", "illness-known"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.she-had-been-sick-since-since",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "She had been sick since {since}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["she", "illness-known", "since"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.you-knew-she-was-sick-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "You knew she was sick, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["she", "illness-known"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.she-never-got-better-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "She never got better, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["she", "illness-known"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.they-had-been-sick-since-since",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "They had been sick since {since}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["they", "illness-known", "since"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.you-knew-they-were-sick-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "You knew they were sick, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["they", "illness-known"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.death-news-back-core.they-never-got-better-you",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "They never got better, {you}.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["they", "illness-known"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.illness-news-say-core.it-s-kin-you-something-s-wrong",
-      "move": "illness-news-say-core",
-      "kind": "spoken",
-      "text": "It's {kin}, {you}. Something's wrong.",
-      "uses": [
-        {
-          "move": "illness-news-say-core",
-          "subject": "illness-news-say",
-          "role": "core",
-          "requiresFacts": ["kin"],
-          "excludesFacts": ["illness"]
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "illness-news-say",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.illness-news-say-core.i-heard-about-kin-today-it-isn-t-good",
-      "move": "illness-news-say-core",
-      "kind": "spoken",
-      "text": "I heard about {kin} today. It isn't good.",
-      "uses": [
-        {
-          "move": "illness-news-say-core",
-          "subject": "illness-news-say",
-          "role": "core",
-          "requiresFacts": ["kin"],
-          "excludesFacts": ["illness"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "illness-news-say",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.illness-news-say-core.kin-is-in-a-bad-way-you",
-      "move": "illness-news-say-core",
-      "kind": "spoken",
-      "text": "{kin} is in a bad way, {you}.",
-      "uses": [
-        {
-          "move": "illness-news-say-core",
-          "subject": "illness-news-say",
-          "role": "core",
-          "requiresFacts": ["kin"],
-          "excludesFacts": ["illness"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "illness-news-say",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.illness-news-say-core.i-have-hard-news-about-kin-you",
-      "move": "illness-news-say-core",
-      "kind": "spoken",
-      "text": "I have hard news about {kin}, {you}.",
-      "uses": [
-        {
-          "move": "illness-news-say-core",
-          "subject": "illness-news-say",
-          "role": "core",
-          "requiresFacts": ["kin"],
-          "excludesFacts": ["illness"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
-      "date": "2026-11-14",
-      "piece": {
-        "of": "illness-news-say",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "conversation.job-new-told-raise-raise.congratulations-on-the-job-at-employer",
       "move": "job-new-told-raise-raise",
       "kind": "spoken",
@@ -29305,7 +27838,7 @@
       "key": "conversation.other-work-answer-tenure.how-long-have-you-worked-",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How long have you worked there?",
+      "text": "How long have you worked {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -29325,7 +27858,7 @@
       "key": "conversation.other-work-answer-tenure.how-long-have-you-been-wo",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How long have you been working there?",
+      "text": "How long have you been working {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -29345,7 +27878,7 @@
       "key": "conversation.other-work-answer-tenure.how-many-years-have-you-p",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How many years have you put in there?",
+      "text": "How many years have you put in {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -29517,7 +28050,7 @@
       "key": "conversation.other-work-answer-detail.what-do-you-do-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do you do there?",
+      "text": "What do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -29535,7 +28068,7 @@
       "key": "conversation.other-work-answer-detail.what-s-your-job-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What's your job there?",
+      "text": "What's your job {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -29553,7 +28086,7 @@
       "key": "conversation.other-work-answer-detail.what-kind-of-work-do-you-",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What kind of work do you do there?",
+      "text": "What kind of work do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -29571,7 +28104,7 @@
       "key": "conversation.other-work-answer-detail.what-do-they-have-you-doi",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do they have you doing there?",
+      "text": "What do they have you doing {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -29589,7 +28122,7 @@
       "key": "conversation.other-work-answer-detail.and-what-do-you-do-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "And what do you do there?",
+      "text": "And what do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -29607,7 +28140,7 @@
       "key": "conversation.other-work-answer-detail.what-do-you-do-over-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do you do over there?",
+      "text": "What do you do over {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -36545,44 +35078,6 @@
     },
     {
       "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "tender",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-answer-help.need-help-moving",
-      "kind": "spoken",
-      "move": "eviction-answer-help",
-      "origin": "authored",
-      "text": "Need help moving?",
-      "uses": [
-        {
-          "choice": "help",
-          "excludesFacts": ["together"],
-          "move": "eviction-answer-help",
-          "role": "answer",
-          "subject": "eviction"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "tender",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-answer-help.i-ll-help-carry",
-      "kind": "spoken",
-      "move": "eviction-answer-help",
-      "origin": "authored",
-      "text": "I'll help carry.",
-      "uses": [
-        {
-          "choice": "help",
-          "move": "eviction-answer-help",
-          "requiresFacts": ["together"],
-          "role": "answer",
-          "subject": "eviction"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
       "bearing": "calm",
       "date": "2026-11-12",
       "key": "conversation.eviction-answer-comfort.we-ll-manage",
@@ -36971,102 +35466,6 @@
     },
     {
       "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "glad",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.sure-it-s-all-going-to-host-s",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Sure. It's all going to {host}'s.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["host"],
-          "role": "core",
-          "stages": ["help"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.thanks-the-shelter-in-shelter-place-takes-only-what-we-carry",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Thanks. The shelter in {shelter-place} takes only what we carry.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["shelter-place"],
-          "role": "core",
-          "stages": ["help"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.thanks-but-there-s-no-bed-for-me-in-no-bed-place-yet",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Thanks, but there's no bed for me in {no-bed-place} yet.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["no-bed-place", "alone"],
-          "role": "core",
-          "stages": ["help"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "tender",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.thanks-we-owe-host-for-taking-us-in",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Thanks. We owe {host} for taking us in.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["together", "host"],
-          "role": "core",
-          "stages": ["help"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
       "bearing": "calm",
       "date": "2026-11-12",
       "key": "conversation.eviction-back-core.i-ll-be-fine-at-host-s-a-while",
@@ -37234,31 +35633,6 @@
           "requiresFacts": ["lost-at", "alone"],
           "role": "core",
           "stages": ["comfort"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.thanks-but-there-are-no-beds-for-us-in-no-bed-place-yet",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Thanks, but there are no beds for us in {no-bed-place} yet.",
-      "uses": [
-        {
-          "excludesFacts": ["alone"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["no-bed-place"],
-          "role": "core",
-          "stages": ["help"],
           "subject": "eviction-back"
         }
       ]
@@ -43183,10 +41557,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.i-see-it-differently",
+      "key": "conversation.address-point-core-against.see-it-differently",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I see it differently.",
+      "text": "See it differently.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -43227,6 +41601,2184 @@
       "origin": "authored",
       "author": "Words builder A (round 11, rule 75)",
       "date": "2026-11-14"
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-alright-i-m-at-host-s",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm alright. I'm at {host}'s.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-alright-we-re-at-host-s",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're alright. We're at {host}'s.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-trying-not-to-think-host-has-room-anyway",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm trying not to think. {host} has room, anyway.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-trying-not-to-think-host-has-room-anyway",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're trying not to think. {host} has room, anyway.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.it-happens-host-took-me-in",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "It happens. {host} took me in.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.it-happens-host-took-us-in",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "It happens. {host} took us in.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.not-your-fault-host-didn-t-hesitate-at-least",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Not your fault. {host} didn't hesitate, at least.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.with-host-for-now",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "With {host}, for now.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.host-said-yes-i-m-not-sure-for-how-long",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "{host} said yes. I'm not sure for how long.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.host-said-yes-we-re-not-sure-for-how-long",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "{host} said yes. We're not sure for how long.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.host-s-i-ll-sort-out-the-rest-from-there",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "{host}'s. I'll sort out the rest from there.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.host-s-we-ll-sort-out-the-rest-from-there",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "{host}'s. We'll sort out the rest from there.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.the-landlord-left-me-one-choice-host-s",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "The landlord left me one choice. {host}'s.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.the-landlord-left-us-one-choice-host-s",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "The landlord left us one choice. {host}'s.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-coming-to-stay-with-host-here-for-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm coming to stay with {host-here} for a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-coming-to-stay-with-host-here-for-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're coming to stay with {host-here} for a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.with-host-here-if-that-s-alright",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "With {host-here}, if that's alright.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-hope-it-s-alright-me-staying-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I hope it's alright, me staying with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-hope-it-s-alright-us-staying-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I hope it's alright, us staying with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-moving-in-with-host-here-nowhere-else",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm moving in with {host-here}. Nowhere else.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-moving-in-with-host-here-nowhere-else",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're moving in with {host-here}. Nowhere else.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-ll-be-fine-with-host-here-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'll be fine with {host-here} a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-ll-be-fine-with-host-here-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We'll be fine with {host-here} a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-alright-i-ll-be-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm alright. I'll be with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-alright-we-ll-be-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're alright. We'll be with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-just-glad-i-can-stay-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm just glad I can stay with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-just-glad-we-can-stay-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're just glad we can stay with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "tender",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.thanks-for-having-me-you",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Thanks for having me, {you}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "tender",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.thanks-for-having-us-you",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Thanks for having us, {you}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "key": "conversation.illness-news-say-core.kin-is-very-sick-it-s-illness",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "{kin} is very sick. It's {illness}.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "requiresFacts": ["kin", "illness"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-say-core.i-got-a-call-about-kin-it-s-serious",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "I got a call about {kin}. It's serious.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-say-core.relation-got-very-sick-when",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "{relation} got very sick {when}.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "excludesFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-say-core.relation-is-seriously-ill-we-heard-when",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "{relation} is seriously ill. We heard {when}.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "excludesFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-answer-ask.how-bad",
+      "move": "illness-news-answer-ask",
+      "kind": "spoken",
+      "text": "How bad?",
+      "uses": [
+        {
+          "move": "illness-news-answer-ask",
+          "subject": "illness-news",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-answer-help.need-anything",
+      "move": "illness-news-answer-help",
+      "kind": "spoken",
+      "text": "Need anything?",
+      "uses": [
+        {
+          "move": "illness-news-answer-help",
+          "subject": "illness-news",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-back-core.i-know-you-i-can-t-stop-thinking-about-it",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "I know, {you}. I can't stop thinking about it.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-back-core.thank-you-you-i-m-trying-to-stay-calm",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "Thank you, {you}. I'm trying to stay calm.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-back-core.it-s-a-lot",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "It's a lot.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-back-core.don-t-know-yet",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "Don't know yet.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-back-core.the-doctors-haven-t-said-you-we-re-waiting",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "The doctors haven't said, {you}. We're waiting.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-back-core.bad-enough-that-i-m-worried-about-kin",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "Bad enough that I'm worried about {kin}.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-back-core.bad-enough-that-i-m-worried-about-relation-no-tie",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "Bad enough that I'm worried about {relation}.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "excludesFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-back-core.not-yet-you-nothing-i-can-think-of",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "Not yet, {you}. Nothing I can think of.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-back-core.thanks-for-asking",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "Thanks for asking.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.illness-news-back-core.not-sure-yet",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "Not sure yet.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-say-core.kin-died-when-it-was-cause",
+      "move": "death-news-say-core",
+      "kind": "spoken",
+      "text": "{kin} died {when}. It was {cause}.",
+      "uses": [
+        {
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core",
+          "requiresFacts": ["kin", "cause"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-say-core.kin-died-when-he-was-only-age",
+      "move": "death-news-say-core",
+      "kind": "spoken",
+      "text": "{kin} died {when}. He was only {age}.",
+      "uses": [
+        {
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core",
+          "requiresFacts": ["kin", "young", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-say-core.kin-died-when-she-was-only-age",
+      "move": "death-news-say-core",
+      "kind": "spoken",
+      "text": "{kin} died {when}. She was only {age}.",
+      "uses": [
+        {
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core",
+          "requiresFacts": ["kin", "young", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-say-core.kin-died-when-they-were-only-age",
+      "move": "death-news-say-core",
+      "kind": "spoken",
+      "text": "{kin} died {when}. They were only {age}.",
+      "uses": [
+        {
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core",
+          "requiresFacts": ["kin", "young", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-say-core.kin-passed-away-when",
+      "move": "death-news-say-core",
+      "kind": "spoken",
+      "text": "{kin} passed away {when}.",
+      "uses": [
+        {
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core",
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-say-core.relation-passed-away-when",
+      "move": "death-news-say-core",
+      "kind": "spoken",
+      "text": "{relation} passed away {when}.",
+      "uses": [
+        {
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core",
+          "excludesFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-say-core.relation-died-when-at-age",
+      "move": "death-news-say-core",
+      "kind": "spoken",
+      "text": "{relation} died {when}, at {age}.",
+      "uses": [
+        {
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core",
+          "excludesFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-answer-condole.i-m-so-sorry",
+      "move": "death-news-answer-condole",
+      "kind": "spoken",
+      "text": "I'm so sorry.",
+      "uses": [
+        {
+          "move": "death-news-answer-condole",
+          "subject": "death-news",
+          "role": "answer",
+          "choice": "condole"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-answer-ask.how",
+      "move": "death-news-answer-ask",
+      "kind": "spoken",
+      "text": "How?",
+      "uses": [
+        {
+          "move": "death-news-answer-ask",
+          "subject": "death-news",
+          "role": "answer",
+          "choice": "ask",
+          "excludesFacts": ["told-cause"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-answer-okay.are-you-okay",
+      "move": "death-news-answer-okay",
+      "kind": "spoken",
+      "text": "Are you okay?",
+      "uses": [
+        {
+          "move": "death-news-answer-okay",
+          "subject": "death-news",
+          "role": "answer",
+          "choice": "okay"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.thank-you-you-it-hasn-t-sunk-in",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Thank you, {you}. It hasn't sunk in.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["condole"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.thanks-i-m-okay",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Thanks. I'm okay.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["condole"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.cause-i-m-still-taking-it-in",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "{cause}. I'm still taking it in.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.nobody-has-told-us-how-kin-died",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Nobody has told us how {kin} died.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "excludesFacts": ["cause", "illness-known"],
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.nobody-has-told-us-how-relation-died-no-tie",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Nobody has told us how {relation} died.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "excludesFacts": ["cause", "kin", "illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.not-really-you-i-keep-expecting-a-call",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Not really, {you}. I keep expecting a call.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["okay"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.i-m-managing",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "I'm managing.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["okay"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.ask-me-tomorrow",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Ask me tomorrow.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["okay"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.just-be-here-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Just be here, {you}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.nothing-yet-you-just-stay-close",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Nothing yet, {you}. Just stay close.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.sit-with-me",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Sit with me.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-say-core.kin-got-term-for-offense",
+      "move": "prison-news-say-core",
+      "kind": "spoken",
+      "text": "{kin} got {term} for {offense}.",
+      "uses": [
+        {
+          "move": "prison-news-say-core",
+          "subject": "prison-news-say",
+          "role": "core",
+          "requiresFacts": ["kin", "term", "offense"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-say-core.kin-was-sentenced-when-it-s-term",
+      "move": "prison-news-say-core",
+      "kind": "spoken",
+      "text": "{kin} was sentenced {when}. It's {term}.",
+      "uses": [
+        {
+          "move": "prison-news-say-core",
+          "subject": "prison-news-say",
+          "role": "core",
+          "requiresFacts": ["kin", "term"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-say-core.kin-was-sent-to-prison-when",
+      "move": "prison-news-say-core",
+      "kind": "spoken",
+      "text": "{kin} was sent to prison {when}.",
+      "uses": [
+        {
+          "move": "prison-news-say-core",
+          "subject": "prison-news-say",
+          "role": "core",
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-say-core.relation-was-sent-to-prison-when",
+      "move": "prison-news-say-core",
+      "kind": "spoken",
+      "text": "{relation} was sent to prison {when}.",
+      "uses": [
+        {
+          "move": "prison-news-say-core",
+          "subject": "prison-news-say",
+          "role": "core",
+          "excludesFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-answer-ask.for-how-long",
+      "move": "prison-news-answer-ask",
+      "kind": "spoken",
+      "text": "For how long?",
+      "uses": [
+        {
+          "move": "prison-news-answer-ask",
+          "subject": "prison-news",
+          "role": "answer",
+          "choice": "ask",
+          "excludesFacts": ["told-term"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-answer-what.what-for",
+      "move": "prison-news-answer-what",
+      "kind": "spoken",
+      "text": "What for?",
+      "uses": [
+        {
+          "move": "prison-news-answer-what",
+          "subject": "prison-news",
+          "role": "answer",
+          "choice": "what",
+          "excludesFacts": ["told-offense"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-back-core.term-i-m-still-taking-it-in",
+      "move": "prison-news-back-core",
+      "kind": "spoken",
+      "text": "{term}. I'm still taking it in.",
+      "uses": [
+        {
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-back-core.a-long-time",
+      "move": "prison-news-back-core",
+      "kind": "spoken",
+      "text": "A long time.",
+      "uses": [
+        {
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-back-core.thank-you-you-it-s-hard-to-say-out-loud",
+      "move": "prison-news-back-core",
+      "kind": "spoken",
+      "text": "Thank you, {you}. It's hard to say out loud.",
+      "uses": [
+        {
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-back-core.angry-and-sad",
+      "move": "prison-news-back-core",
+      "kind": "spoken",
+      "text": "Angry and sad.",
+      "uses": [
+        {
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-back-core.the-case-is-public-you-ask-me-later",
+      "move": "prison-news-back-core",
+      "kind": "spoken",
+      "text": "The case is public, {you}. Ask me later.",
+      "uses": [
+        {
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["what"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-back-core.i-d-rather-not-get-into-it-you",
+      "move": "prison-news-back-core",
+      "kind": "spoken",
+      "text": "I'd rather not get into it, {you}.",
+      "uses": [
+        {
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["what"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.prison-news-back-core.that-s-all-i-know-you",
+      "move": "prison-news-back-core",
+      "kind": "spoken",
+      "text": "That's all I know, {you}.",
+      "uses": [
+        {
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "excludesFacts": ["term"]
+        },
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "excludesFacts": ["cause", "illness-known"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "prison-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.death-news-back-core.i-keep-waiting-for-the-phone-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "I keep waiting for the phone, {you}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["okay"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.death-news-back-core.he-had-been-sick-since-since",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He had been sick since {since}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["he", "illness-known", "since"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.death-news-back-core.you-knew-he-was-sick-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "You knew he was sick, {you}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["he", "illness-known"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.death-news-back-core.he-never-got-better-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He never got better, {you}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["he", "illness-known"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.death-news-back-core.she-had-been-sick-since-since",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She had been sick since {since}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["she", "illness-known", "since"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.death-news-back-core.you-knew-she-was-sick-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "You knew she was sick, {you}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["she", "illness-known"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.death-news-back-core.she-never-got-better-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She never got better, {you}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["she", "illness-known"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.death-news-back-core.they-had-been-sick-since-since",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They had been sick since {since}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["they", "illness-known", "since"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.death-news-back-core.you-knew-they-were-sick-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "You knew they were sick, {you}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["they", "illness-known"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.death-news-back-core.they-never-got-better-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They never got better, {you}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["they", "illness-known"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.illness-news-say-core.it-s-kin-you-something-s-wrong",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "It's {kin}, {you}. Something's wrong.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "requiresFacts": ["kin"],
+          "excludesFacts": ["illness"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.illness-news-say-core.i-heard-about-kin-today-it-isn-t-good",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "I heard about {kin} today. It isn't good.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "requiresFacts": ["kin"],
+          "excludesFacts": ["illness"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.illness-news-say-core.kin-is-in-a-bad-way-you",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "{kin} is in a bad way, {you}.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "requiresFacts": ["kin"],
+          "excludesFacts": ["illness"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.illness-news-say-core.i-have-hard-news-about-kin-you",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "I have hard news about {kin}, {you}.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "requiresFacts": ["kin"],
+          "excludesFacts": ["illness"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's rulings of Nov 14)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      }
     }
   ]
 }

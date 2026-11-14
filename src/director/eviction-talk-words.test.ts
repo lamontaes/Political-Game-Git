@@ -63,7 +63,7 @@ describe("an eviction told through the composer", () => {
     expect(rules.dayTalk.backOmitsTold).toContain("eviction");
     for (const [who, people] of Object.entries(WHO))
       for (const [where, place] of Object.entries(WHERE))
-        for (const move of ["where", "help", "comfort"]) {
+        for (const move of ["where", "comfort"]) {
           // The telling said what was owed, so the answer is handed the rest.
           const facts = { when: fact("yesterday"), ...people, ...place };
           const back = say(

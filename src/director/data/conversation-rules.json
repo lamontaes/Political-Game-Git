@@ -11,6 +11,12 @@
   },
   "toldEvent": "conversation.told",
   "lieEvent": "conversation.lie",
+  "longTalkLines": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "spread": [6, 12],
+    "checkedAgainst": "A talk of four exchanges is eight lines, the length at which a thanks for the company is earned (lead, round 11, rule 80)."
+  },
   "minutesPerExchange": 2,
   "answerMoves": {
     "school": ["at", "done"]
@@ -345,7 +351,6 @@
     "eviction": {
       "ask": "request",
       "where": "request",
-      "help": "answer",
       "comfort": "answer"
     }
   },
