@@ -89,6 +89,7 @@ import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { careFacts } from "./care-facts";
+import { moveInFacts } from "./move-in-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
@@ -713,6 +714,8 @@ function composeBinding(
     ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A visit to someone seriously ill in town: the relative still to be told.
     ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A partner's ask to live together: who would move, and the asked's kin.
+    ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(

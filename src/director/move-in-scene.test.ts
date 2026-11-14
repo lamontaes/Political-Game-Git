@@ -9,6 +9,7 @@ import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { FAMILY_MOVE_IN_ASKED } from "../core2/modules/partnerships";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { purposeScene } from "./purpose-scene";
 
 // Living together changes the player's home, so a partner asks and the
 // player's answer in the scene decides (family life question 2, ruled Nov 14
@@ -97,6 +98,14 @@ it("a partner asks the player to live together, and the player's yes moves them 
   expect(entry, `${where}: the ask binds the move-in scene`).toBeTruthy();
   expect(entry!.outcome, `${where}: it stops the day`).toBe("scene-now");
   const causeId = book.momentsById.get(entry!.momentId)!.causeId;
+  const scene = purposeScene(core, director, me, entry!, {
+    typeKey: "move-in",
+  });
+  expect(scene?.kind, `${where}: ${JSON.stringify(scene)}`).toBe("composed");
+  if (scene?.kind === "composed") {
+    expect(scene.scene.askerId, where).toBe(other.id);
+    expect(scene.scene.askedId, where).toBe(me);
+  }
 
   // The scene's reply, as the bench sends it when the talk ends on a yes.
   api.emit({

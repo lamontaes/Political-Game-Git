@@ -597,6 +597,30 @@ function knownSingle(
 }
 
 /**
+ * Who of a couple would move in with the other, and with whom: the one with
+ * less cash goes, unless they cannot leave; `chosenBy` is the one whose yes
+ * lets their own household change. Undefined when neither can leave.
+ */
+export function movingOrder(
+  api: CoreAPI,
+  a: Readonly<PersonState>,
+  b: Readonly<PersonState>,
+  chosenBy?: PersonId,
+): [PersonState, PersonState] | undefined {
+  const adultAge = api.parameter("votingAge");
+  const [mover, host]: [PersonState, PersonState] =
+    a.liquidMinor < b.liquidMinor ||
+    (a.liquidMinor === b.liquidMinor && a.id > b.id)
+      ? [a, b]
+      : [b, a];
+  return canLeave(api, mover, adultAge, mover.id === chosenBy)
+    ? [mover, host]
+    : canLeave(api, host, adultAge, host.id === chosenBy)
+      ? [host, mover]
+      : undefined;
+}
+
+/**
  * One of the couple moves into the other's household: the one with less cash
  * goes, the lease and the spending share follow. `chosenBy` is the one who
  * said yes in a scene, whose household may then change.
@@ -609,22 +633,7 @@ function moveIn(
 ): boolean {
   const core = api.state as CoreState;
   if (a.householdId === b.householdId) return true;
-  const adultAge = api.parameter("votingAge");
-  const [mover, host]: [PersonState, PersonState] =
-    a.liquidMinor < b.liquidMinor ||
-    (a.liquidMinor === b.liquidMinor && a.id > b.id)
-      ? [a, b]
-      : [b, a];
-  const order: [PersonState, PersonState] | undefined = canLeave(
-    api,
-    mover,
-    adultAge,
-    mover.id === chosenBy,
-  )
-    ? [mover, host]
-    : canLeave(api, host, adultAge, host.id === chosenBy)
-      ? [host, mover]
-      : undefined;
+  const order = movingOrder(api, a, b, chosenBy);
   if (!order) return false;
   api.changeHouseholdV1({
     personIds: [order[0].id],
