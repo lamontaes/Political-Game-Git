@@ -28,18 +28,6 @@
     "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
-    "id": "SG-GQ-no-turnover",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/counted-moves.ts",
-    "line": 1319,
-    "whatItFakes": "Institutions refill a room when a resident dies or is filled in (admitToRooms in counted-moves.ts), but nobody is discharged on the institution's own calendar: students and service members still age in place and an institution never grows or shrinks from its beds.",
-    "why": "The moves engines move households by the ACS leaving rates, which would drift a SOURCED count of residents who arrive and leave by an institution's own calendar (a college's intake, a prison's admissions), so rooms are skipped, by the same rule for counted and full residents, and no intake is built yet.",
-    "addedBy": "claude/speed-group-quarters-population",
-    "addedAt": "2026-11-01",
-    "replacement": "Discharge by each type's own calendar (a college's graduating class each spring and intake each fall, a prison's releases and admissions, a nursing home's stays) so rooms turn over; today only the vacancy refill (admitToRooms in counted-moves.ts) exists.",
-    "status": "open"
-  },
-  {
     "id": "SG-GQ-census-day-2020",
     "kind": "assumed-data",
     "file": "src/core2/gov-rules/place-population.ts",
@@ -52,18 +40,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
-  },
-  {
-    "id": "SG-GQ-counted-prisoners-vote",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/voting.ts",
-    "line": 3357,
-    "whatItFakes": "Counted residents of adult correctional facilities vote at the town's counted scale (src/core2/modules/voting.ts, countedScale and the counted voter loops) like any other counted adult, and may be drawn to run for a local seat (src/core2/modules/candidacy.ts, countedScreen). The state's barred share of the counted electorate still covers prisoners on average (src/core2/law-reach/group-a-voting.ts), but not concentrated in a prison town.",
-    "why": "Room records are counted households to the voting and candidacy engines, which read no group-quarters type; the governing lead owns the counted electorate.",
-    "addedBy": "claude/speed-group-quarters-population",
-    "addedAt": "2026-11-01",
-    "replacement": "Skip counted correctional residents in the counted voter loops unless the state's law lets incarcerated people vote (incarceratedMayVote, src/core2/justice-law.ts), take the prison part out of the state's barred share, and leave them out of the counted candidacy draw; governing lead's chain (pool item gov-group-quarters-electorate).",
-    "status": "open"
   },
   {
     "id": "SG-GQ-institution-costs",
@@ -108,18 +84,6 @@
     "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
-    "id": "SG-GQ-means-tests-poverty",
-    "kind": "faked-mechanic",
-    "file": "src/core2/counted-reach.ts",
-    "line": 207,
-    "whatItFakes": "Narrowed Nov 11, 2026: the poverty count (src/core2/world-poverty.ts) and counted law reach (src/core2/counted-reach.ts) no longer read a group-quarters room as a poor household. What remains is law reach in src/core2/law-reach/group-b-people.ts, which still reads zero-income group-quarters room records as poor households: an inmate or a nursing-home resident reads as eligible there; no program records whether it serves group quarters (Medicaid does, SNAP and cash assistance do not). A room's counted group is keyed to the income fifth its zero or student income reads as (src/core2/modules/residents.ts, groupKeyOf); the jobs, health and births webs read no fifth for a room.",
-    "why": "Room records are counted households to those readers, which read no group-quarters type.",
-    "addedBy": "claude/speed-group-quarters-population",
-    "addedAt": "2026-11-01",
-    "replacement": "The Census poverty universe (no institutional, military or college-dormitory residents) for the poverty count, and each program's own eligibility for law reach; laws lead (pool item laws-group-quarters-means-tests).",
-    "status": "open"
-  },
-  {
     "id": "SG-GQ-crime-exposure",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/crime.ts",
@@ -129,18 +93,6 @@
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
     "replacement": "The National Crime Victimization Survey's universe (households and noninstitutional residents) for exposure, with institutions' own incidents apart.",
-    "status": "open"
-  },
-  {
-    "id": "SG-GQ-campaign-doors",
-    "kind": "faked-mechanic",
-    "file": "src/core2/campaign-day.ts",
-    "line": 232,
-    "whatItFakes": "Group-quarters room records are doors a campaign knocks on (src/core2/campaign-day.ts): a canvasser reaches a prison cell or a nursing-home room like a house.",
-    "why": "The campaign day reads counted households as doors and reads no group-quarters type; the governing lead owns it.",
-    "addedBy": "claude/speed-group-quarters-population",
-    "addedAt": "2026-11-01",
-    "replacement": "Skip institutional rooms as doors (a dormitory may stay one where a campus allows canvassing); governing lead (pool item gov-group-quarters-electorate).",
     "status": "open"
   },
   {

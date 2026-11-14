@@ -390,6 +390,8 @@ export interface SchoolSpan {
   from: number;
   to: number;
   recordId: string;
+  /** The run ends with the person's last school year (they graduate from it). */
+  final?: boolean;
 }
 
 /**
@@ -417,11 +419,15 @@ export function schoolSpans(
   return rows.map((row, index) => {
     const from = kindergarten + row.grade;
     const next = rows[index + 1];
+    const graduation =
+      kindergarten + SCHOOL_STAGE_CALENDAR.endsAfterYears.high - 1;
+    const to = next ? kindergarten + next.grade - 1 : lastYear;
     return {
       schoolId: row.schoolId,
       from,
-      to: next ? kindergarten + next.grade - 1 : lastYear,
+      to,
       recordId: row.recordId,
+      ...(!next && to === graduation ? { final: true } : {}),
     };
   });
 }

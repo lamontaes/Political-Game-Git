@@ -28,3 +28,5 @@ claimed-at: 2026-11-09T13:40:00.000Z
 **Screenshot.** Not a screen; the test output in the PR body.
 
 **Files.** scripts/dialogue-batch/voice-note-reader.ts, scripts/dialogue-batch/spoken-grades.ts, scripts/dialogue-batch/apply-grades.ts
+
+**Notes.** 2026-11-14 (M2): #8053 and #8169 are both merged into main and on the train (reader, spoken-grades, the five rewrites; pulled is empty). What this item still needed was the click-through page's batch format (ids `scene.wording.line`, `scene.wordingLETTER.line`, scene titles); carried in this PR with a fixture in our own words.

@@ -15,7 +15,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { preStartHistory } from "../core2/pre-start";
-import { publishedMonth } from "../core2/macro-model";
+import { worldPublishedMonth } from "../core2/macro-model";
 import { governments } from "../core2/modules/budgets";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 
@@ -73,17 +73,23 @@ for (const p of people)
   );
 
 // 3. The economy's recent path: every record of the twelve months before the
-// start (the pass steps coarsely, src/core2/pre-start.ts coarseSteps) is the
-// published national figures, and there are at least three.
+// start (the pass steps coarsely, src/core2/pre-start.ts coarseSteps) is this
+// world's month (the published figures moved by its own offsets), and there
+// are at least three.
 const yearBefore = addDays(makeIsoDate(start), -365);
 let months = 0;
 for (const row of preStartHistory(core, { kind: "economy.conditions" })) {
   if (row.date < yearBefore) continue;
   const month = row.date.slice(0, 7);
-  const published = publishedMonth(month);
+  const published = worldPublishedMonth(
+    month,
+    core.startedAt,
+    core.seed,
+    (key) => coreAPI(core).parameter(key),
+  );
   const recorded = row.facts as Record<string, number>;
   months += 1;
-  check(published, `${where}: ${row.id} has no published month behind it`);
+  check(published, `${where}: ${row.id} has no world month behind it`);
   if (published)
     for (const key of [
       "unemploymentPct",
@@ -92,7 +98,7 @@ for (const row of preStartHistory(core, { kind: "economy.conditions" })) {
     ] as const)
       check(
         published[key] === undefined || recorded[key] === published[key],
-        `${where}: ${row.id} ${key} recorded ${recorded[key]}, published ${published[key]}`,
+        `${where}: ${row.id} ${key} recorded ${recorded[key]}, this world's ${published[key]}`,
       );
 }
 check(

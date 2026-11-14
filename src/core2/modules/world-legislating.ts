@@ -97,6 +97,7 @@ import {
   executiveOf,
   FEDERAL_HOUSE,
   holdVote,
+  voteKeyOf,
   leanOf,
   memberKey,
   members,
@@ -1957,7 +1958,7 @@ function chamberBills(
       (b) =>
         chambers.has(b.bodyOfficeId) &&
         !filed.has(b.id) &&
-        !calendar.get(`meeting:${b.id}`),
+        !calendar.get(voteKeyOf(b)),
     )
     .sort(
       (a, b) =>
@@ -2015,6 +2016,7 @@ function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
   const waiting = (b: BillRow | undefined): b is BillRow =>
     !!b &&
     b.status === "drafted" &&
+    !b.chambersPassed?.length &&
     !decided.has(b.number) &&
     !refusedByLeader(api, b.id);
   const today = api.state.date;
@@ -2147,9 +2149,7 @@ export function floorDateOf(api: CoreAPI, billId: string): string | null {
     .table("bills")
     .get(billId) as unknown as BillRow | undefined;
   if (!bill || bill.status !== "drafted") return null;
-  const set = api
-    .moduleCalendar(LEGISLATURE_MODULE_ID)
-    .get(`meeting:${billId}`);
+  const set = api.moduleCalendar(LEGISLATURE_MODULE_ID).get(voteKeyOf(bill));
   if (set) return set.date;
   const row = sittingFor(api, bill.bodyOfficeId);
   if (!row) return null;
@@ -2225,6 +2225,32 @@ function closeSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       decidedOn: api.state.date,
     });
   }
+  // A bill one chamber passed is on the list as the floor left it that day:
+  // its ending is the bill's own now, and one the other chamber never took
+  // up dies with the session.
+  const chambers = sessionChambers(api, row);
+  for (const sent of (
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as BillRow[]
+  ).filter((b) => b.chambersPassed?.length && chambers.has(b.bodyOfficeId))) {
+    const crossed = sent.chambersPassed![0]!.on;
+    if (crossed < row.conveneAt || crossed > row.adjournAt) continue;
+    const ended = sent.status === "drafted" ? dieOnCalendar(api, sent) : sent;
+    const at = bills.findIndex(
+      (b) => b.number === sent.number && b.decidedOn === crossed,
+    );
+    if (at >= 0) bills[at] = { ...bills[at]!, status: ended.status };
+    else if (sent.status === "drafted")
+      bills.push({
+        number: ended.number,
+        ...sessionBillOf(sent),
+        status: ended.status,
+        fate: "voted",
+        decidedOn: api.state.date,
+      });
+  }
   sessionTable(api).put({ ...row, bills } as unknown as ModuleRow);
   scheduleOpening(api, row.jurisdiction, row.adjournAt, false);
 }
@@ -2292,7 +2318,8 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     allowed: (question, value) =>
       levelMayDecide(api, office?.level ?? "city", question, value),
     barred: (question, direction) =>
-      recentlyDefeated(api, officeId, question, direction),
+      recentlyDefeated(api, officeId, question, direction) ||
+      stillWaiting(api, officeId, question, direction),
   });
 }
 
@@ -2359,6 +2386,40 @@ function recentlyDefeated(
           status !== "awaiting-signature"
         );
       }),
+  );
+}
+
+/**
+ * A change the body already has waiting on its agenda (filed after a
+ * meeting's hour, it waits for the next meeting) is not filed again.
+ */
+function stillWaiting(
+  api: CoreAPI,
+  officeId: string,
+  question: string,
+  direction: number,
+): boolean {
+  const change = direction > 0 ? "enact" : "repeal";
+  let live: Map<string, BillRow> | undefined;
+  return (
+    api
+      .moduleState(WORLD_LEGISLATING_MODULE_ID)
+      .table("sessions")
+      .rows() as unknown as {
+      bodyOfficeId: string | null;
+      bills?: SessionBill[];
+    }[]
+  ).some(
+    (s) =>
+      s.bodyOfficeId === officeId &&
+      (s.bills ?? []).some(
+        (b) =>
+          b.question === question &&
+          b.change === change &&
+          b.status === "drafted" &&
+          (live ??= liveBills(api, officeId)).get(b.number)?.status ===
+            "drafted",
+      ),
   );
 }
 

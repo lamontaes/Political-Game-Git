@@ -45,7 +45,15 @@
     "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
     "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records.",
     "year": "A budget's fiscal year, from the budget record.",
-    "spending": "What a budget plans to spend in all, rounded as people say it, from the budget record."
+    "spending": "What a budget plans to spend in all, rounded as people say it, from the budget record.",
+    "last": "The winner's last name, or full name where another in the story shares it, from the person record.",
+    "rival": "The runner-up's last name, or full name where another in the story shares it, from the person record.",
+    "lasts": "The winners of a race for several seats by last name, from the race's count.",
+    "winners": "The winners of a race for several seats by full name, from the race's count.",
+    "seats": "How many seats a race filled, in words, from the race's count.",
+    "day": "The day of the count as the paper says it (on Tuesday, on November 4), from the result record.",
+    "short": "The winner's last name, or full name where another winner that day shares it, from the person record.",
+    "plural-subject": "Set when the group's name takes a plural verb (\"Friends of policing\"), from its name's form in data/english/group-names.json."
   },
   "maxWords": 14,
   "mining": {
@@ -2135,10 +2143,10 @@
       }
     },
     {
-      "key": "headlines.law.law-now-in-force-in-place",
+      "key": "headlines.law.law-now-in-effect-in-place",
       "move": "law",
       "kind": "written",
-      "text": "{law} now in force in {place}",
+      "text": "{law} now in effect in {place}",
       "uses": [
         {
           "move": "law",
@@ -3882,56 +3890,12 @@
           "role": "election",
           "choice": "headline",
           "requiresFacts": ["won"],
-          "excludesFacts": ["district", "atLarge"]
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.election.name-takes-district",
-      "move": "election",
-      "kind": "written",
-      "text": "{name} takes District {district}",
-      "uses": [
-        {
-          "move": "election",
-          "subject": "headline",
-          "role": "election",
-          "choice": "headline",
-          "requiresFacts": ["won", "district"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.election.name-wins-at-large-seat",
-      "move": "election",
-      "kind": "written",
-      "text": "{name} wins at-large seat",
-      "uses": [
-        {
-          "move": "election",
-          "subject": "headline",
-          "role": "election",
-          "choice": "headline",
-          "requiresFacts": ["won", "atLarge"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
-      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -3948,7 +3912,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won"]
+          "requiresFacts": ["won"],
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -7783,12 +7748,35 @@
           "move": "endorsement",
           "subject": "headline",
           "role": "endorsement",
-          "choice": "headline"
+          "choice": "headline",
+          "excludesFacts": ["plural-subject"]
         }
       ],
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.endorsement.subject-endorse-name",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} endorse {name}",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "headline",
+          "role": "endorsement",
+          "choice": "headline",
+          "requiresFacts": ["plural-subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -7804,12 +7792,35 @@
           "move": "endorsement",
           "subject": "headline",
           "role": "endorsement",
-          "choice": "headline"
+          "choice": "headline",
+          "excludesFacts": ["plural-subject"]
         }
       ],
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.endorsement.subject-back-name-for-office",
+      "move": "endorsement",
+      "kind": "written",
+      "text": "{subject} back {name} for {office}",
+      "uses": [
+        {
+          "move": "endorsement",
+          "subject": "headline",
+          "role": "endorsement",
+          "choice": "headline",
+          "requiresFacts": ["plural-subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -8057,10 +8068,10 @@
       }
     },
     {
-      "key": "headlines.public-action.neighbors-in-place-turn-out-glad-of-how-area-has",
+      "key": "headlines.public-action.neighbors-in-place-turn-out-happy-with-how-area-has-gone",
       "move": "public-action",
       "kind": "written",
-      "text": "Neighbors in {place} turn out, glad of how {area} has gone",
+      "text": "Neighbors in {place} turn out, happy with how {area} has gone",
       "uses": [
         {
           "move": "public-action",
@@ -8660,6 +8671,387 @@
       "origin": "authored",
       "author": "Words builder W3",
       "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.short-elected-office",
+      "move": "election",
+      "kind": "written",
+      "text": "{short} elected {office}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "contested", "short", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.short-defeats-rival-for-office",
+      "move": "election",
+      "kind": "written",
+      "text": "{short} defeats {rival} for {office}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "contested", "short", "rival", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.short-wins-race-for-office",
+      "move": "election",
+      "kind": "written",
+      "text": "{short} wins race for {office}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "contested", "short", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.short-elected-office-of-place",
+      "move": "election",
+      "kind": "written",
+      "text": "{short} elected {office} of {place}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "contested", "short", "office", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.short-elected-office-without-opposition",
+      "move": "election",
+      "kind": "written",
+      "text": "{short} elected {office} without opposition",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "unopposed", "short", "office"],
+          "excludesFacts": ["atLarge"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.short-unopposed-for-office",
+      "move": "election",
+      "kind": "written",
+      "text": "{short} unopposed for {office}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "unopposed", "short", "office"],
+          "excludesFacts": ["atLarge"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.no-challenger-for-short-in-race-for-office",
+      "move": "election",
+      "kind": "written",
+      "text": "No challenger for {short} in race for {office}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "unopposed", "short", "office"],
+          "excludesFacts": ["atLarge"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.lasts-elected-to-body",
+      "move": "election",
+      "kind": "written",
+      "text": "{lasts} elected to {body}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge", "lasts", "body"],
+          "excludesFacts": ["unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.lasts-win-seats-on-body",
+      "move": "election",
+      "kind": "written",
+      "text": "{lasts} win seats on {body}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge", "lasts", "body"],
+          "excludesFacts": ["unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.seats-elected-to-body",
+      "move": "election",
+      "kind": "written",
+      "text": "{seats} elected to {body}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge", "seats", "body"],
+          "excludesFacts": ["unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.lasts-win-seats-open-seats",
+      "move": "election",
+      "kind": "written",
+      "text": "{lasts} win {seats} open seats",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge", "lasts", "seats"],
+          "excludesFacts": ["body", "unopposed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.short-wins-office",
+      "move": "election",
+      "kind": "written",
+      "text": "{short} wins {office}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "seat", "short", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.short-elected-to-office",
+      "move": "election",
+      "kind": "written",
+      "text": "{short} elected to {office}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "seat", "short", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.short-takes-office",
+      "move": "election",
+      "kind": "written",
+      "text": "{short} takes {office}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "seat", "short", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.lasts-elected-to-body-without-opposition",
+      "move": "election",
+      "kind": "written",
+      "text": "{lasts} elected to {body} without opposition",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge", "unopposed", "lasts", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.lasts-unopposed-for-body",
+      "move": "election",
+      "kind": "written",
+      "text": "{lasts} unopposed for {body}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge", "unopposed", "lasts", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.no-contest-for-seats-seats-on-body",
+      "move": "election",
+      "kind": "written",
+      "text": "No contest for {seats} seats on {body}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge", "unopposed", "seats", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-14",
       "tag": {
         "move": "headline",
         "key": "news-received"

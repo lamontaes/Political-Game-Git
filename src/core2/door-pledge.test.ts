@@ -33,6 +33,7 @@ import {
   openElections,
   petitionCirculating,
   petitionOf,
+  type ContestRow,
   type FilingRow,
 } from "./modules/elections";
 import {
@@ -44,7 +45,9 @@ import {
   type PledgeRow,
 } from "./modules/campaigns";
 import { openLaws } from "./modules/laws";
-import { openParties } from "./modules/parties";
+import { openParties, partiesHere } from "./modules/parties";
+import { novemberGeneralElectionDay } from "./gov-rules/town-election-calendar";
+import type { CoreAPI } from "./types";
 import {
   VOTING_MODULE_ID,
   countedBallotsOf,
@@ -57,14 +60,18 @@ import {
   type BallotRow,
 } from "./modules/voting";
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
+import campaignParameters from "./data/campaigns/parameters.json" with { type: "json" };
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceToFilingOpen } from "./gov-test-clock";
 
 const START = "2026-01-05";
-const seed =
-  process.env.GOLDEN_PATH_SEED ??
-  createHash("sha256").update(`door-pledge:${Date.now()}`).digest("hex");
+/**
+ * The file's seed: fixed, so every run draws the same places and the same
+ * people, and printed with every place it names; GOLDEN_PATH_SEED replays
+ * another draw.
+ */
+const seed = process.env.GOLDEN_PATH_SEED ?? "door-pledge-2026-11-13";
 const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
@@ -90,7 +97,10 @@ function randomPlace(salt: string) {
  * file for that day, so the clock moves to the first day one opens, as a
  * player there would wait for it.
  */
-function filedRace(place: string) {
+function filedRace(
+  place: string,
+  takes: (api: CoreAPI, contest: ContestRow) => boolean = () => true,
+) {
   const core = createLifeCore(
     buildPopulation({
       seed,
@@ -113,7 +123,9 @@ function filedRace(place: string) {
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   const platform = [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];
   const against = [`${pick(PLATFORM_QUESTIONS, "q1")}=-1`];
-  for (const open of openContests(api).filter((c) => c.level !== "federal")) {
+  for (const open of openContests(api).filter(
+    (c) => c.level !== "federal" && takes(api, c),
+  )) {
     const filed: FilingRow[] = [];
     for (const [n, person] of adults.slice(0, 2).entries()) {
       const result = fileCandidacy(api, {
@@ -128,6 +140,134 @@ function filedRace(place: string) {
     if (filed.length === 2) return { core, api, contest: open, filed };
   }
   return undefined;
+}
+
+/** Places a pledge-turnout case draws, at most, before it gives up. */
+const TURNOUT_DRAWS = 12;
+
+/**
+ * One race of the kind asked for, in the first drawn place that has one whose
+ * candidate reaches the November ballot whatever the primary does: a contest
+ * with no primary, or a state whose primary is a party's (two residents filing
+ * with no party go straight to November). A top-two or top-four primary
+ * could put the test's candidate out before the knocks count (Alaska's
+ * governor race, seed e22c12e6, Nov 13), so such a race is never taken. The
+ * candidate knocks fourteen evenings once the petitions are in; the rival
+ * knocks one. Every place passed over is named with its reason.
+ */
+function pledgeTurnoutRace(
+  kind: string,
+  takes: (contest: ContestRow) => boolean,
+  only?: string,
+) {
+  const previousWhy = setKeepEveryonesWhy(true);
+  const passedOver: string[] = [];
+  try {
+    const draws = only
+      ? [only]
+      : Array.from(
+          { length: TURNOUT_DRAWS },
+          (_, n) => randomPlace(`:turnout:${kind}:${n}`).key,
+        );
+    for (const place of draws) {
+      const world = filedRace(
+        place,
+        (api, contest) =>
+          takes(contest) &&
+          (!contest.primaryDate ||
+            !/top-(two|four)/.test(
+              partiesHere(api)[0]?.nominationMethod ?? "",
+            )),
+      );
+      if (!world) {
+        passedOver.push(`${place}: no ${kind} two residents could file for`);
+        continue;
+      }
+      const { core, api, contest, filed } = world;
+      openVoting(core);
+      const [mine, theirs] = filed as [FilingRow, FilingRow];
+      const dues = filed
+        .filter((f) => petitionCirculating(api, f.id))
+        .map((f) => petitionOf(api, f.id)!.due)
+        .sort();
+      if (dues.length) advanceCore(core, addDays(makeIsoDate(dues.at(-1)!), 1));
+      if (core.date >= contest.electionDate) {
+        passedOver.push(`${place}: the petitions close after the election`);
+        continue;
+      }
+      for (let evening = 0; evening < 14; evening++)
+        knockDoors(api, {
+          filingId: mine.id,
+          canvasserId: mine.personId,
+          hours: 4,
+        });
+      knockDoors(api, {
+        filingId: theirs.id,
+        canvasserId: theirs.personId,
+        hours: 6,
+        fillCounted: false,
+      });
+      advanceCore(core, contest.electionDate);
+      const where = `${place}, ${contest.id} (seed ${seed}); passed over: ${passedOver.join("; ") || "none"}`;
+      // Chosen so: the candidate is still on the ballot to hold anyone to a yes.
+      expect(
+        ballot(api, contest.id).some((f) => f.personId === mine.personId),
+        `${where}: the candidate left the ballot before election day`,
+      ).toBe(true);
+      const holds = new Set(
+        (
+          api
+            .moduleState(CAMPAIGNS_MODULE_ID)
+            .table("pledges")
+            .query("byCandidate", [mine.personId]) as unknown as PledgeRow[]
+        )
+          .filter((p) => p.contestId === contest.id)
+          .map((p) => p.voterId),
+      );
+      const ballots = (
+        api
+          .moduleState(VOTING_MODULE_ID)
+          .table("ballots")
+          .query("byContest", [contest.id]) as unknown as BallotRow[]
+      ).filter((b) => !filed.some((f) => f.personId === b.voterId));
+      const propensity = (b: BallotRow) =>
+        (b.turnoutReasons as unknown as { propensity?: number }).propensity ??
+        0;
+      const held = ballots.filter((b) => holds.has(b.voterId));
+      const other = ballots.filter(
+        (b) =>
+          !holds.has(b.voterId) &&
+          !pledgesOf(api, b.voterId).some((p) => p.contestId === contest.id),
+      );
+      if (held.length < 10 || other.length < 10) {
+        passedOver.push(
+          `${place}: ${held.length} holding a yes, ${other.length} others (fewer than ten)`,
+        );
+        continue;
+      }
+      // Each voter turns out by their own reasons; the shares check the
+      // total, never one voter.
+      const mean = (rows: readonly BallotRow[]) =>
+        rows.reduce((t, b) => t + propensity(b), 0) / rows.length;
+      const race = {
+        place,
+        held: held.length,
+        heldShare: mean(held),
+        otherShare: mean(other),
+        heldVoted: held.filter((b) => b.voted).length / held.length,
+        otherVoted: other.filter((b) => b.voted).length / other.length,
+        line: "",
+      };
+      race.line = `PLEDGE TURNOUT, ${kind}: ${where}; ${held.filter((b) => b.voted).length} of ${held.length} holding a yes voted (share ${race.heldShare.toFixed(3)}), ${other.filter((b) => b.voted).length} of ${other.length} others (share ${race.otherShare.toFixed(3)})`;
+      process.stdout.write(`${race.line}\n`);
+      return race;
+    }
+    throw new Error(
+      `seed ${seed}: no drawn place had a ${kind}; passed over: ${passedOver.join("; ")}`,
+    );
+  } finally {
+    setKeepEveryonesWhy(previousWhy);
+  }
 }
 
 describe("a door yes is near-binding", () => {
@@ -384,116 +524,69 @@ describe("a door yes is near-binding", () => {
     }
   }, 300_000);
 
-  it("the pledged as a group turn out at the rate stated intent predicts, above the town's others (the parameter's total check)", () => {
-    // campaign-door-pledge-turnout-total: over played races in three drawn
-    // places, the voters who still hold a yes on election day turn out
-    // inside the cited 46% to 87% (Rogers and Aida; Pew's 61% to 73%), and
-    // more than the adults who gave no yes. Each voter turns out by their
-    // own reasons; the band checks the total, never one voter.
-    const previousWhy = setKeepEveryonesWhy(true);
-    const draws = Array.from(
-      { length: 12 },
-      (_, n) => randomPlace(`:total:${n}`).key,
+  it("in a general election, the pledged as a group turn out at the rate stated intent predicts, above the town's others (the parameter's total check)", () => {
+    // campaign-door-pledge-turnout-total: the voters who still hold a yes on
+    // election day turn out inside the cited 46% to 87% (Rogers and Aida,
+    // measured in a general and a statewide off-year election; Pew's 61% to
+    // 73%, a midterm), and more than the adults who gave no yes. The band is
+    // sourced from general and statewide elections, so it is read only on
+    // one: a state race on November's general election day.
+    const race = pledgeTurnoutRace(
+      "state race on November's general election day",
+      (contest) =>
+        contest.level === "state" &&
+        contest.electionDate ===
+          novemberGeneralElectionDay(Number(contest.electionDate.slice(0, 4))),
     );
-    const lines: string[] = [];
-    let heldN = 0;
-    let heldVoted = 0;
-    let heldShare = 0;
-    let otherN = 0;
-    let otherVoted = 0;
-    let places = 0;
-    for (const place of draws) {
-      if (places >= 3) break;
-      const world = filedRace(place);
-      if (!world) {
-        lines.push(
-          `${place}: no race two residents could file for (no window opens, or the first one refused two residents)`,
-        );
-        continue;
-      }
-      const { core, api, contest, filed } = world;
-      openVoting(core);
-      const [mine, theirs] = filed as [FilingRow, FilingRow];
-      const dues = filed
-        .filter((f) => petitionCirculating(api, f.id))
-        .map((f) => petitionOf(api, f.id)!.due)
-        .sort();
-      if (dues.length) advanceCore(core, addDays(makeIsoDate(dues.at(-1)!), 1));
-      if (core.date >= contest.electionDate) {
-        lines.push(`${place}: the petitions close after the election`);
-        continue;
-      }
-      for (let evening = 0; evening < 14; evening++)
-        knockDoors(api, {
-          filingId: mine.id,
-          canvasserId: mine.personId,
-          hours: 4,
-        });
-      knockDoors(api, {
-        filingId: theirs.id,
-        canvasserId: theirs.personId,
-        hours: 6,
-        fillCounted: false,
-      });
-      advanceCore(core, contest.electionDate);
-      const holds = new Set(
-        (
-          api
-            .moduleState(CAMPAIGNS_MODULE_ID)
-            .table("pledges")
-            .query("byCandidate", [mine.personId]) as unknown as PledgeRow[]
-        )
-          .filter((p) => p.contestId === contest.id)
-          .map((p) => p.voterId),
-      );
-      const ballots = (
-        api
-          .moduleState(VOTING_MODULE_ID)
-          .table("ballots")
-          .query("byContest", [contest.id]) as unknown as BallotRow[]
-      ).filter((b) => !filed.some((f) => f.personId === b.voterId));
-      const propensity = (b: BallotRow) =>
-        (b.turnoutReasons as unknown as { propensity?: number }).propensity ??
-        0;
-      const held = ballots.filter((b) => holds.has(b.voterId));
-      const other = ballots.filter(
-        (b) =>
-          !holds.has(b.voterId) &&
-          !pledgesOf(api, b.voterId).some((p) => p.contestId === contest.id),
-      );
-      if (!held.length || !other.length) {
-        lines.push(
-          `${place}: ${held.length} holding a yes, ${other.length} others`,
-        );
-        continue;
-      }
-      const mean = (rows: readonly BallotRow[]) =>
-        rows.reduce((n, b) => n + propensity(b), 0) / rows.length;
-      // In each race the pledged are likelier to vote than their neighbors.
-      expect(mean(held), `${place} (seed ${seed})`).toBeGreaterThan(
-        mean(other),
-      );
-      heldN += held.length;
-      heldVoted += held.filter((b) => b.voted).length;
-      heldShare += held.reduce((n, b) => n + propensity(b), 0);
-      otherN += other.length;
-      otherVoted += other.filter((b) => b.voted).length;
-      places += 1;
-      lines.push(
-        `${place}: ${held.filter((b) => b.voted).length} of ${held.length} holding a yes voted (share ${mean(held).toFixed(2)}), ${other.filter((b) => b.voted).length} of ${other.length} others (${mean(other).toFixed(2)})`,
-      );
-    }
-    process.stdout.write(
-      `PLEDGE TURNOUT seed ${seed}: ${lines.join("; ")}; pooled ${heldVoted} of ${heldN} pledged voted (share ${(heldShare / heldN).toFixed(3)}) against ${otherVoted} of ${otherN} others\n`,
-    );
-    expect(places, `seed ${seed}: ${lines.join("; ")}`).toBe(3);
     // The pledged's own shares, pooled, sit inside the cited band, and more
     // of them voted than of the others.
-    expect(heldShare / heldN).toBeGreaterThanOrEqual(0.46);
-    expect(heldShare / heldN).toBeLessThanOrEqual(0.87);
-    expect(heldVoted / heldN).toBeGreaterThan(otherVoted / otherN);
-    setKeepEveryonesWhy(previousWhy);
-  }, 1_800_000);
+    expect(race.heldShare, race.line).toBeGreaterThanOrEqual(0.46);
+    expect(race.heldShare, race.line).toBeLessThanOrEqual(0.87);
+    expect(race.heldVoted, race.line).toBeGreaterThan(race.otherVoted);
+  }, 300_000);
+
+  it("in an off-cycle local race, the pledged turn out above their neighbors, and above what the same people would without their word", () => {
+    // A city race off November's general election day draws few voters (the
+    // adults who gave no yes voted at 0.04 to 0.12 in the off-cycle council
+    // races measured on Nov 13), and the cited band, measured in general
+    // elections, is not a target here. What the mechanic promises in every
+    // race is the lift. The people who say yes at a door already lean toward
+    // voting (the race matters more to them), so their neighbors are not the
+    // whole comparison: the same race is played again with the pledge's
+    // turnout weight at zero, the same people saying yes, and the pledged
+    // must turn out more with their word than without it. Measured on Nov 13
+    // (5465956, seed door-pledge-2026-11-13): 0.417 with the word, 0.153
+    // without it, 0.043 for their neighbors, a lift from a low base that the
+    // weight's source predicts (about 10% to about half).
+    const kind = "local race off November's general election day";
+    const takes = (contest: ContestRow) => {
+      const year = Number(contest.electionDate.slice(0, 4));
+      return (
+        contest.level !== "state" &&
+        (year % 2 === 1 ||
+          contest.electionDate !== novemberGeneralElectionDay(year))
+      );
+    };
+    const race = pledgeTurnoutRace(kind, takes);
+    const row = campaignParameters.parameters.doorPledgeTurnoutWeight;
+    const weight = row.value;
+    row.value = 0;
+    let without: ReturnType<typeof pledgeTurnoutRace>;
+    try {
+      without = pledgeTurnoutRace(
+        `${kind}, no word to vote`,
+        takes,
+        race.place,
+      );
+    } finally {
+      row.value = weight;
+    }
+    const line = `${race.line}; without the word: share ${without.heldShare.toFixed(3)} of ${without.held}`;
+    // The same people said yes in both plays: the doors do not read turnout.
+    expect(without.held, line).toBe(race.held);
+    expect(race.heldShare, line).toBeGreaterThan(without.heldShare);
+    expect(race.heldShare, line).toBeGreaterThan(race.otherShare);
+  }, 300_000);
 });
 
 /** Places the weighted-record case draws before it gives up (each costs a world build and a few evenings of knocking). */

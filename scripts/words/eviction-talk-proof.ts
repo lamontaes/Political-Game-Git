@@ -37,6 +37,8 @@ const wanted = Number(option("talks", "2"));
 const manyOnly = option("many", "0") === "1";
 // Edge case only, never a drawn one: make the adult an acquaintance (they knew the player before today).
 const acquaint = option("acquaint", "0") === "1";
+// Edge case only: a person the housing engine itself left on the street (no kin with room, no bed free) is made the player's sibling, so the close telling reaches the shelter line.
+const closeIfStreet = option("close-if-street", "0") === "1";
 
 const nameOf = (core: CoreState, id: string) => {
   const row = core.people.get(id as PersonId);
@@ -105,6 +107,23 @@ for (let draw = 0; draw < draws; draw += 1) {
         .moduleState("housing")
         .table("statuses")
         .get(row.householdId) as { status?: string } | undefined;
+      if (closeIfStreet && status?.status === "unsheltered") {
+        const person = core.people.get(adult)! as unknown as {
+          familyIds: Set<PersonId>;
+          knownIds: Set<PersonId>;
+        };
+        const you = core.people.get(playerId)! as unknown as {
+          familyIds: Set<PersonId>;
+          knownIds: Set<PersonId>;
+        };
+        person.familyIds.add(playerId);
+        person.knownIds.add(playerId);
+        you.familyIds.add(adult);
+        you.knownIds.add(adult);
+        console.log(
+          "  (staged: made kin of the player; the street status is the engine's own)",
+        );
+      }
       console.log(
         `\n### ${core.date}: case ${row.id}, removed ${row.removedAt}, owed ${row.owedAtRemovalMinor} cents, status ${status?.status ?? "none"}; ${nameOf(core, adult)} (${adult}) talks with the player (to the player: ${familyFactsOf(core.people.get(playerId)!).get(adult)?.relation ?? "not family"}; knows the player: ${core.people.get(adult)?.knownIds.has(playerId) ? "yes" : "no"})`,
       );

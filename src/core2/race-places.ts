@@ -16,6 +16,8 @@ import { partySide } from "./appointments";
 import { townDistrict, type SeatInput } from "./offices-state";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import territoryPlaces from "./data/places/territory-places.json" with { type: "json" };
+import { shareValue } from "./shares";
 import type { CoreAPI } from "./types";
 
 function raceTown(api: CoreAPI) {
@@ -113,4 +115,107 @@ export function basePlaces(
       : { places: [], home: null };
   }
   return { places: [], home: null };
+}
+
+/** The people of each island area's villages (their 2020 counts), by state code. */
+const islandPeople = new Map<string, number>();
+for (const row of territoryPlaces.rows as readonly (readonly unknown[])[])
+  islandPeople.set(
+    String(row[2]),
+    (islandPeople.get(String(row[2])) ?? 0) + Number(row[5]),
+  );
+
+/** One place of a race's electorate outside the town: its counted voters. */
+export interface OutsideVoters {
+  readonly id: string;
+  /** Eligible voters outside the town. */
+  readonly eligible: number;
+  /** The Republican two-party share its people stand at on the lean order. */
+  readonly rightShare: number;
+  /** Its last two-party votes, outside the town. */
+  readonly votes: number;
+}
+
+/**
+ * A race's whole electorate where it reaches past the town, for its petition
+ * (owner, Nov 14: a race needs the number its own law sets for its own
+ * electorate, never a town's share): its eligible voters, their last
+ * two-party votes and lean, and the counted voters outside the town by
+ * place, whom a campaign's paid circulators can reach. The places are the
+ * race's (`basePlaces`), the town's own voters set apart from its home
+ * place. An island area's state or federal race, whose villages' voters are
+ * not on record, reads the island's people (shared among the office's
+ * districts) at the town's own voters per resident. Null for a town race, or
+ * a race the world holds no one outside the town for.
+ */
+export function wideElectorate(
+  api: CoreAPI,
+  contest: ContestRow,
+  town: { readonly voters: number; readonly population: number },
+): {
+  readonly eligible: number;
+  readonly votes: number;
+  readonly rightShare: number;
+  readonly outside: readonly OutsideVoters[];
+} | null {
+  const { places, home } = basePlaces(api, contest);
+  if (places.length) {
+    const outside = places.map((p) => {
+      const kept =
+        p.id === home && p.eligible > 0
+          ? Math.max(0, p.eligible - town.voters) / p.eligible
+          : 1;
+      return {
+        id: p.id,
+        eligible: p.eligible * kept,
+        rightShare: p.rightShare,
+        votes: p.votes2024 * kept,
+      };
+    });
+    const eligible = places.reduce((n, p) => n + p.eligible, 0);
+    if (eligible <= 0) return null;
+    return {
+      eligible,
+      votes: places.reduce((n, p) => n + p.votes2024, 0),
+      rightShare:
+        places.reduce((n, p) => n + p.rightShare * p.eligible, 0) / eligible,
+      outside: outside.filter((p) => p.eligible >= 1),
+    };
+  }
+  if (contest.level !== "state" && contest.level !== "federal") return null;
+  const { stateKey } = raceTown(api);
+  const people = islandPeople.get(stateKey.slice(3)) ?? 0;
+  if (people <= 0 || town.population <= 0) return null;
+  const districts =
+    contest.family === "stateLegislative"
+      ? new Set(
+          (
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("seats")
+              .query("byOffice", [contest.officeId]) as unknown as SeatInput[]
+          ).map((s) => s.district ?? ""),
+        ).size || 1
+      : 1;
+  const eligible = Math.max(
+    town.voters,
+    ((people / districts) * town.voters) / town.population,
+  );
+  const even = shareValue("evenSplit");
+  return {
+    eligible,
+    votes: 0,
+    rightShare: even,
+    outside:
+      eligible - town.voters >= 1
+        ? [
+            {
+              id: `island:${stateKey}:${contest.seatId}`,
+              eligible: eligible - town.voters,
+              rightShare: even,
+              votes: 0,
+            },
+          ]
+        : [],
+  };
 }

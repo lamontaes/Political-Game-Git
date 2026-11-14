@@ -61,6 +61,8 @@ import {
 export { webReach, webFactorFor } from "../outcome-web-reach";
 // The town's modeled people (named and counted), for the screens.
 export { townFacts } from "../law-reach/group-b-people";
+/** Who a law reached, by key, for the speeches that say what a law did. */
+export { reachedBy } from "../law-reach/host";
 export { assistanceIncomeByHousehold } from "../law-reach/group-b-money";
 /** The researched starting answers by state, for an engine in another family that reads which states' law lets a product operate (the credit engine's small-dollar lenders). */
 export { POLICY_QUESTIONS } from "../policy-answers";
