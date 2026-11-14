@@ -8,6 +8,7 @@
  * record; for a minimum wage, every job in the town paying under the new floor
  * is raised to it that day. Later engines read law through `lawInForce`.
  */
+import { FEE_LEVEL_SERIES } from "../fee-levels";
 import { addDays, makeIsoDate } from "../kernel/dates";
 export { billLevelJurisdiction, billValueInForce } from "../laws-bill-values";
 import type {
@@ -1120,6 +1121,7 @@ export function lawHere(
   date: string = api.state.date,
   series: readonly string[] = [
     ...AMOUNT_SERIES,
+    ...FEE_LEVEL_SERIES,
     ...Object.keys(POLICY_QUESTIONS),
   ],
 ): readonly LawInForceAnswer[] {
