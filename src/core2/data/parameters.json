@@ -8438,7 +8438,6 @@
     "role": "opening",
     "tag": "TUNABLE",
     "citation": "Years after voting age before the engine lets someone be drawn as an employer's owner (25 in all). No source was fetched for owners' ages: this floor only keeps students and the youngest adults from owning firms, and the draw within it is a hash, not an age curve. Source it from the Census Bureau's Annual Business Survey owner-age table.",
-    "stopgapId": "SG-LIVES-civic-roles-not-recorded",
     "spread": {
       "status": "unmeasured",
       "reason": "No owner-age table was read; the floor is a modeling choice."

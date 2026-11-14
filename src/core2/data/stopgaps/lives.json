@@ -184,20 +184,6 @@
     "status": "open"
   },
   {
-    "id": "SG-LIVES-civic-roles-not-recorded",
-    "kind": "missing-record",
-    "file": "src/core2/opening-roles.ts",
-    "line": 42,
-    "whatItFakes": "No one holds a civic role (a board seat, the party committee, the volunteer fire department) at the opening: the `civicRoles` field exists on every person and counted member but is never written, and party activity is one national share for every county.",
-    "why": "The repository holds no list of a place's boards, committees or volunteer departments with their members, and no county share of party activity.",
-    "addedBy": "Tiers (Nov 8)",
-    "addedAt": "2026-11-08",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Roles from the place's own records where they exist (the municipal governance and special-district data), and a county share of party activity from state party-registration counts.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
-  },
-  {
     "id": "SG-LIVES-past-read-where-opened",
     "kind": "partial-model",
     "file": "src/core2/past-work.ts",
