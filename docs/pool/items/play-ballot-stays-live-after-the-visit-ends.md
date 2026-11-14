@@ -20,9 +20,11 @@ checked:
 claimed-at:
 ---
 
-**What.** After the player votes, the page's ballot stays in the document with every race button still live, only hidden. A click on one (a script or a replay that clicks what it finds) posts a mark to polls that are closed, and the page logs "The polls aren't open for this character." Seen: the replay at New Haven, Vermont (bench place key 5048550, seed c9053b03e98d459361bb0fc1feab0c7eaaa5f1ad789861d85de6bc69a18ad2f8) logged 40 marks after the March 4 vote, the first two real and the rest against a visit that was over.
+**What.** After the player votes, the page's ballot stays in the document with every race button still live, only hidden. A click on one (a script or a replay that clicks what it finds) posts a mark to polls that are closed, and the page logs "The polls aren't open for this character.
 
-**Cause.** Found in code: atThePolls in src/bench/play.mjs ended with show("ballot", false) and never emptied the ballot paper, and its mark and leave handlers let a failed post escape as an uncaught page error.
+Seen: on the election-day ballot panel of the page, in the replay at New Haven, Vermont (bench place key 5048550, seed c9053b03e98d459361bb0fc1feab0c7eaaa5f1ad789861d85de6bc69a18ad2f8) logged 40 marks after the March 4 vote, the first two real and the rest against a visit that was over.
+
+**Cause.** Found in code: the finish function of atThePolls in src/bench/play.mjs (line 1370) ended with show("ballot", false) and never emptied the ballot paper, and its mark and leave handlers let a failed post escape as an uncaught page error.
 
 **Fix.** Design: the ballot paper goes when the visit ends (finish empties the panel), and a mark or leave that fails because the visit is over closes the ballot instead of raising. One engine: the handler already refuses a mark with no visit; only the page stops offering one.
 
