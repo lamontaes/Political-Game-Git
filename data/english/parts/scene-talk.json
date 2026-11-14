@@ -90260,7 +90260,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "bargain"
+          "after": "bargain",
+          "requiresFacts": ["against"]
         }
       ],
       "bearing": "guarded",
@@ -90285,13 +90286,66 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "bargain"
+          "after": "bargain",
+          "requiresFacts": ["against"]
         }
       ],
       "bearing": "guarded",
       "origin": "authored",
       "author": "Helper D (words and scenes)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.it-passed-as-written-i-won-t-open-it-back-up",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It passed as written. I won't open it back up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Desk thread (Words lead ruling, #9240 replay 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-not-carrying-a-second-bill-to-get-the-first-one-signed",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm not carrying a second bill to get the first one signed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain",
+          "requiresFacts": ["for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Desk thread (Words lead ruling, #9240 replay 2)",
+      "date": "2026-11-14",
       "tag": {
         "move": "press",
         "key": "desk-visit"
@@ -91463,10 +91517,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-i-ll-tell-the-others-the-desk-is-clear",
+      "key": "scene-talk.close-thank.thank-you-i-ll-tell-the-others-you-re-signing",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll tell the others the desk is clear.",
+      "text": "Thank you. I'll tell the others you're signing.",
       "uses": [
         {
           "subject": "scene",
@@ -91481,7 +91535,7 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
+      "date": "2026-11-14",
       "tag": {
         "move": "thank",
         "key": "desk-visit"
@@ -91538,83 +91592,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.you-ll-hear-from-me-before-you-decide",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "You'll hear from me before you decide.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.you-ll-hear-from-me-before-the-deadline",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "You'll hear from me before the deadline.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["deadline"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.close-accept.understood-i-ll-leave-you-to-it",
       "move": "close-accept",
       "kind": "spoken",
       "text": "Understood. I'll leave you to it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.then-i-ll-wait-for-your-decision",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Then I'll wait for your decision.",
       "uses": [
         {
           "subject": "scene",
