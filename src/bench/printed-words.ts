@@ -59,10 +59,10 @@ import {
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
-import { causeGroupName } from "../english/group-names";
+import { causeGroupForm, causeGroupName } from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
-import { policyNames } from "./words";
+import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
 import { stateInSentence } from "../director/words";
 import { beatenRunnerUp, VOTING_MODULE_ID } from "../core2/modules/voting";
@@ -212,7 +212,10 @@ const appointerWords = (appointedBy: string | undefined) => {
  * without its article, else the key read as words.
  */
 const measureName = (series: string) =>
-  storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series);
+  // A label kept as "what: for whom" ("State campaign contribution limit:
+  // governor") is said as a phrase ("campaign contribution limit for
+  // governor"); whose law it is the sentence says (Fable A, Nov 13, rule 15).
+  measureSaid(storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series));
 /** A record key read as words: "finance-director" and "financeDirector" are "finance director". */
 const spaced = (key: string) =>
   key
@@ -1597,10 +1600,25 @@ const debate: Builder = (read, f) => {
 const endorsement: Builder = (read, f) => {
   const group = read.organization(f.organizationId);
   // A group takes its article ("the Republican Party"), and a name that is
-  // no proper name is said in lower case ("the employers' association").
+  // no proper name is said in lower case ("the employers' association"). A
+  // founded group's name is a proper name, cased whole: it keeps its
+  // capitals and takes the verb its number needs (P2, Fruitland, Idaho, Nov
+  // 13: "The friends of policing backs Clara Evans", rule 15).
+  const form = group ? causeGroupForm(group) : null;
+  // A founded group's name is said as its record names it, with no article
+  // added ("Friends of Transportation back ..."; Fable A, Nov 13).
   const said = group
-    ? `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
+    ? form
+      ? group
+      : `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
     : undefined;
+  // The vote the endorsement is for, from the contest's record, so the brief
+  // says something its headline does not.
+  const vote = read.row<{ electionDate?: string }>(
+    ELECTIONS_MODULE_ID,
+    "contests",
+    f.contestId,
+  )?.electionDate;
   const stance = f.stanceQuestion
     ? read.purpose(f.stanceQuestion, Number(f.stancePosition) < 0)
     : {};
@@ -1617,7 +1635,20 @@ const endorsement: Builder = (read, f) => {
     {
       ...read.who(f.candidateId, "name", false),
       ...backer,
+      ...(said && form?.plural
+        ? { "plural-subject": read.fact("yes", f.organizationId ?? "") }
+        : {}),
+      // What the group works for, from the stance its endorsement stood on
+      // (a group told by that stance already says it in its lede).
+      ...(said && "purpose" in stance && stance.purpose
+        ? { work: stance.purpose }
+        : {}),
       ...(office ? { office: read.fact(office, f.contestId ?? "") } : {}),
+      ...(vote
+        ? {
+            when: read.fact(spokenDate(vote), f.contestId ?? ""),
+          }
+        : {}),
     },
     [
       "name",
@@ -3629,6 +3660,10 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       POLICIES[f.question ?? ""]?.purpose ?? ISSUES[f.question ?? ""];
     if (yes === undefined || no === undefined || !body || !measure) return null;
     const margin = Math.abs(yes - no);
+    // A bill that failed fell short by the votes it lacked for a majority of
+    // those cast (the engine passes a bill when its yeas outnumber its nays),
+    // never by the margin (Fable A, Nov 13, rule 15: 61 to 89 is 15 short).
+    const shortBy = Math.floor((yes + no) / 2) + 1 - yes;
     return story(
       "vote-or-law",
       {
@@ -3642,6 +3677,9 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
           : margin > 1
             ? { margin: read.fact(count(margin)) }
             : {}),
+        ...(f.passed !== "true" && shortBy > 1
+          ? { "short-by": read.fact(count(shortBy)) }
+          : {}),
       },
       ["body", "measure"],
     );
