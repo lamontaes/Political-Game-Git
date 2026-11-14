@@ -1146,7 +1146,7 @@ function billTopic(bill: BillRow): string | undefined {
       .find(Boolean);
     if (name) counts.set(name, (counts.get(name) ?? zero) + one);
   }
-  const top = [...counts].sort((a, b) => b[one] - a[one])[zero]?.[zero];
+  const [top] = [...counts].sort(([, a], [, b]) => b - a)[zero] ?? [];
   // Said inside a sentence: a capitalized word is lowered, an initialism
   // ("K-12") is kept.
   return top?.replace(
@@ -2911,7 +2911,7 @@ export function composeJournal(
       if (text) tally.set(text, [...(tally.get(text) ?? []), unit]);
     }
     const [topText, topUnits] =
-      [...tally].sort((a, b) => b[one].length - a[one].length)[zero] ?? [];
+      [...tally].sort(([, a], [, b]) => b.length - a.length)[zero] ?? [];
     const most =
       topText && topUnits && topUnits.length * P.two > group.length
         ? {
@@ -3034,6 +3034,7 @@ export function composeJournal(
         kind: string;
         parentId?: string;
         change: number;
+        follow?: number;
       }[];
     } | null;
     const out: JournalWorded[] = [];
