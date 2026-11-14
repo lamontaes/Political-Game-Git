@@ -63,7 +63,9 @@
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
     "replacement": "Skip counted correctional residents in the counted voter loops unless the state's law lets incarcerated people vote (incarceratedMayVote, src/core2/justice-law.ts), take the prison part out of the state's barred share, and leave them out of the counted candidacy draw; governing lead's chain (pool item gov-group-quarters-electorate).",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "gov-group-quarters-electorate"
   },
   {
     "id": "SG-GQ-institution-costs",
@@ -141,7 +143,9 @@
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
     "replacement": "Skip institutional rooms as doors (a dormitory may stay one where a campus allows canvassing); governing lead (pool item gov-group-quarters-electorate).",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "gov-group-quarters-electorate"
   },
   {
     "id": "SG-GQ-juvenile-school",
