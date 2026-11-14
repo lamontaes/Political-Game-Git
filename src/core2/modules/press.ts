@@ -14,6 +14,8 @@
  * decide for themselves, with a recorded cause, and the story is a public
  * record the news carries.
  */
+import { contestPositions } from "../contest-positions";
+import { P } from "../parameters";
 import news from "../../../data/research/press/local-news-2026.json" with { type: "json" };
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "../data/press/parameters.json" with { type: "json" };
@@ -1648,11 +1650,29 @@ export function interviewQuestions(
   for (const [q, times] of asked)
     if (score.has(q))
       score.set(q, score.get(q)! - pressParameter("askedAgainPenalty") * times);
-  return [...score]
+  const ranked = [...score]
     .filter(([, v]) => v > 0)
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-    .slice(0, pressParameter("questionsPerInterview"))
     .map(([q]) => q);
+  const limit = pressParameter("questionsPerInterview");
+  // What the seat can decide comes first (owner rule 99: a question above the
+  // office is asked only when nothing local is live, and then once): a
+  // council candidate is asked about the town's own records before the
+  // nation's questions, a state candidate about what the state decides.
+  const seat = filing ? contestOf(api, filing.contestId) : null;
+  if (!seat) return ranked.slice(0, limit);
+  const decides = new Set(contestPositions(api, seat));
+  // The race's own record: the stands the candidates filed on, where the seat
+  // may decide them, ask even when nothing about them scored.
+  const filed = [
+    ...own.map((stand) => stand.question),
+    ...rivals.flatMap((rival) => platformOf(api, rival).map((s) => s.question)),
+  ].filter((q) => decides.has(q));
+  const local = [
+    ...new Set([...ranked.filter((q) => decides.has(q)), ...filed]),
+  ];
+  const above = ranked.filter((q) => !decides.has(q));
+  return (local.length ? local : above.slice(0, P.one)).slice(0, limit);
 }
 
 /**
