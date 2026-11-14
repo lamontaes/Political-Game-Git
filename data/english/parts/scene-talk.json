@@ -40,7 +40,7 @@
     "reporter": "The reporter who wrote a story, by name, from the press record.",
     "lead": "How far ahead the winner finished, in votes, from the result record's totals.",
     "first": "The given name of the person spoken to, from their record.",
-    "seat-place": "The place a filed seat is in (\"Alcorn County\"), from the seat's place record, said where the seat is not the town's own.",
+    "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer).",
     "counter": "The place the player goes to at a filing counter, as people say it: the clerk's office (\"the town clerk's office\"), or the agency itself when the person heads a state agency.",
     "post": "The post the person holds, as people say it (\"Secretary of State\", \"city clerk\"), from the office record of the seat the person holds.",
     "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
@@ -146,7 +146,6 @@
     "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
     "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
     "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
-    "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer).",
     "rent": "The rent a renter pays each month, as said money, from their home's record."
   },
   "maxWords": 70,
@@ -92830,30 +92829,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-can-t-decide-this-right-now",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I can't decide this right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "job-offer",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.close-thank.glad-to-have-you-we-ll-go-over-the-details-on-your-first-day",
       "move": "close-thank",
       "kind": "spoken",
@@ -97855,6 +97830,14 @@
       "kind": "spoken",
       "text": "I can't decide this right now.",
       "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        },
         {
           "subject": "scene",
           "purpose": "offer-to-run",
