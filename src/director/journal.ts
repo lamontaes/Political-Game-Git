@@ -2615,6 +2615,20 @@ export function composeJournal(
     const endedOut =
       lastUnit.moment.causeKind.startsWith("job-ended") && !lastUnit.facts.next;
     const ended = lastUnit.facts.next ?? lastUnit.facts.employer;
+    // A spell under a season, with the working years told in a later stretch,
+    // is folded into them, never told alone ("For one month, I worked
+    // around McConnell AFB, Kansas."; Words lead, rule 87).
+    if (
+      !lastPart &&
+      daysBetween(
+        makeIsoDate(first.moment.date),
+        makeIsoDate(
+          endedOut ? lastUnit.moment.date : (until ?? core.startedAt),
+        ),
+      ) <
+        core.data.parameters.yearSpanDays!.value / (P.two * P.two)
+    )
+      return [];
     const lostIds = told
       .filter((unit) => unit.moment.causeKind === "job-ended:let-go")
       .map((unit) => unit.moment.causeId);

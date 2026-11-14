@@ -6548,6 +6548,110 @@
       }
     },
     {
+      "key": "journal.office-line-took-office.law-became-law-without-my-signature",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{law} became law without my signature.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-let-law-become-law-unsigned",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I let {law} become law unsigned.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-never-signed-law-it-is-law-anyway",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I never signed {law}. It is law anyway.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.law-became-law-other-never-signed-it",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{law} became law. {other} never signed it.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.scene-line-vague-promise.i-told-other-i-d-look-at-it",
       "move": "scene-line-vague-promise",
       "kind": "spoken",
