@@ -2192,42 +2192,42 @@
     },
     "filing-clerk": {
       "state": "tell",
-      "replies": ["ask", "tell", "confront", "leave"],
+      "stateMoves": ["tell-running", "tell-race", "tell-duty", "tell-deadline"],
+      "replies": ["agree", "ask", "confront", "leave"],
       "follow": {
-        "ask": ["answer"],
-        "tell": ["accept"],
-        "confront": ["refuse"],
         "agree": ["accept"],
-        "boast": ["accept"]
+        "ask": ["answer"],
+        "confront": ["answer"]
       },
       "again": {
-        "answer": ["agree", "boast", "leave"],
-        "refuse": ["agree", "leave"]
+        "answer": ["agree", "leave"]
       },
       "endings": [
+        {
+          "id": "sized-up",
+          "opens": "filing",
+          "label": "You filed, and sized up the race",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask", "confront"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "filed",
+          "opens": "filing",
+          "label": "You filed",
+          "keeps": "none",
+          "when": {
+            "asker": ["accept"]
+          }
+        },
         {
           "id": "cold-feet",
           "label": "Not today",
           "keeps": "none",
           "when": {
             "reply": ["leave"]
-          }
-        },
-        {
-          "id": "sized-up",
-          "label": "You filed, and sized up the race",
-          "keeps": "none",
-          "when": {
-            "anyReply": ["ask"],
-            "asker": ["accept"]
-          }
-        },
-        {
-          "id": "filed",
-          "label": "You filed",
-          "keeps": "promise",
-          "when": {
-            "asker": ["accept"]
           }
         },
         {

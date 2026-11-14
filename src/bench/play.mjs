@@ -868,6 +868,14 @@ function inMeeting() {
       // A resident's one line under the title: an empty agenda, or what they can do here.
       if (scene.note)
         $("meeting-items").prepend(prose(scene.note, "meeting-note"));
+      // Said before the press: what Adjourn does with the items still open.
+      $("meeting-adjourn-note")?.remove();
+      if (scene.items.some((item) => !item.takenUp))
+        $("meeting-adjourn").before(
+          Object.assign(prose(words.adjournNote ?? "", "meeting-note"), {
+            id: "meeting-adjourn-note",
+          }),
+        );
       $("meeting-adjourn").onclick = async () => {
         $("meeting-adjourn").disabled = true;
         await post(
@@ -2079,7 +2087,8 @@ async function campaignParts() {
     ];
     // The campaign board (the mock's pl-campaign): where the race stands in sentences the
     // English engine wrote, the money, and the way out onto the trail.
-    const part = { filing, contest, trail };
+    // Its card in Travel shows the street the trail starts on, as each act's tile shows its place.
+    const part = { filing, contest, trail, picture: pictures?.doors };
     const labelsC = controls.campaignBoard ?? {};
     const out = makeButton({ textContent: labelsC.trail });
     out.addEventListener("click", () => trailView(part));
@@ -2733,7 +2742,7 @@ async function officeParts() {
               v.acts.map((a) =>
                 row(
                   `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
-                  `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
+                  `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
                 ),
               ),
               { rows: 4, columns: 1, rowHeight: 48, className: "office-paged" },
@@ -4478,6 +4487,7 @@ const sheets = {
     const trails = (await campaignParts()).map((part) => ({
       name: labels.trail,
       trail: part,
+      presentation: { imageUrl: part.picture },
       presentCount: 0,
       presentNames: [],
       reasons: [],
@@ -4674,7 +4684,17 @@ const sheets = {
     };
     const labels = controls.localRaces;
     const stance = voteWords();
-    const filed = new Set(v.filings.map((f) => f.contestId));
+    const filedFor = new Set(v.filings.map((f) => f.contestId));
+    // A filing for any seat of an at-large race is a filing for the race.
+    const filed = {
+      has: (contestId) =>
+        filedFor.has(contestId) ||
+        ballot.races.some(
+          (race) =>
+            race.contestId === contestId &&
+            race.contestIds?.some((id) => filedFor.has(id)),
+        ),
+    };
     const status = (race) =>
       filed.has(race.contestId)
         ? labels.youFiled
@@ -4740,6 +4760,16 @@ const sheets = {
           // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
           stripSection(1, labels.whoIsRunning, ...candidates),
           rosterSide(
+            // An at-large race fills several seats at once.
+            ...(race.seats > 1
+              ? [
+                  stripSection(
+                    3,
+                    labels.seats,
+                    dotRows([{ label: labels.seatsToFill, value: race.seats }]),
+                  ),
+                ]
+              : []),
             ...(race.lastTime
               ? [
                   stripSection(
@@ -5879,7 +5909,8 @@ async function openSheet(tab) {
  * No menu scrolls (owner, Oct 29; Lane 4, path 11): once a sheet is on
  * screen, each pager in a part of it that runs past its foot (the sheet's
  * body, or a split screen's side or main) gives back a row at a time until
- * the part fits or the pager holds one row. A screen counts its rows from the
+ * the part fits, the pager holds one row, or a row given back no longer
+ * shortens the part (something else in it is the taller). A screen counts its rows from the
  * window; what sits above a pager (a tray of buttons, a long title) is only
  * known once drawn.
  */
@@ -5908,8 +5939,20 @@ function fitPagersNow(root, waits = 30) {
       while (
         (over(part) || over(screen) || over($("sheet-body"))) &&
         box.rowCount() > 1
-      )
+      ) {
+        // A row given back only where it makes the part shorter: a list
+        // beside a taller page (a race's page of candidates) keeps its rows.
+        const tall = over(part)
+          ? part
+          : over(screen)
+            ? screen
+            : $("sheet-body");
+        const before = tall.scrollHeight;
         box.setRows(box.rowCount() - 1);
+        if (tall.scrollHeight < before) continue;
+        box.setRows(box.rowCount() + 1);
+        break;
+      }
     }
     // A side still past its foot: its list of recent votes keeps the newest
     // that fit (at least one).

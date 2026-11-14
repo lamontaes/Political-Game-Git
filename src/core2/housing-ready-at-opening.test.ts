@@ -35,7 +35,9 @@ for (const seed of ["6e32d4b3c4eb3d6e", replay]) {
     const home = homes.get(`dwelling:${player.householdId}`)!;
     expect(home).toBeDefined();
     expect(personCard(core, player.id).dwelling).toEqual(home);
-    expect(home.since).toBe(gameStartDate());
+    // The home's tenancy began before the start, on the household's own date (housing's past).
+    expect(home.since <= gameStartDate()).toBe(true);
+    expect(home.since).toBe(core.households.get(player.householdId)!.since);
     const room = homeOf(core, player.id);
     expect(room).not.toBe("");
     const conditions = roomCondition(core, player.id);

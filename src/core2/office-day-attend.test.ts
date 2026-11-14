@@ -17,6 +17,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import {
+  castMemberVote,
   billOf,
   bodyOf,
   LEGISLATURE_MODULE_ID,
@@ -137,6 +138,8 @@ interface Spoke {
   readonly body: string;
   /** Whether the bill's public comment was taken on its committee's day, before the meeting. */
   readonly afterCommittee: boolean;
+  /** The members who already knew the player before they spoke: their first tie keeps its own record. */
+  readonly knewBefore: ReadonlySet<string>;
 }
 
 /**
@@ -197,6 +200,13 @@ function speakAtAMeeting(place: {
     const earlierSpeeches = earlier.map(
       (id) => addressesGivenBy(api, id).length,
     );
+    const knewBefore = new Set(
+      members(api, meeting.officeId).flatMap((t) =>
+        t.personId && core.people.get(t.personId)?.knownIds.has(me)
+          ? [t.personId]
+          : [],
+      ),
+    );
     speakOnItem(api, meeting.id, billId, 1);
     expect(
       earlier.map((id) => addressesGivenBy(api, id).length),
@@ -220,6 +230,7 @@ function speakAtAMeeting(place: {
       billId,
       body: meeting.officeId,
       afterCommittee,
+      knewBefore,
     };
   }
   if (!spoke)
@@ -277,11 +288,20 @@ function speakAtAMeeting(place: {
       core.people.get(id)!.knownIds.has(me),
       `${where}: ${id} knows the player`,
     ).toBe(true);
-    // Each member's tie cites the bill's public comment, by its record.
+    // Every member heard the remark, once (an event enters once).
     expect(
-      core.knowledgeByPerson.get(id)?.get(`person:${me}:met`)?.sourceId,
-      `${where}: ${id} met the player at the public comment`,
-    ).toBe(`public-comment:${spoke.billId}`);
+      core.knowledgeByPerson
+        .get(id)
+        ?.has(`event:speech:remark:${spoke.billId}:${me}:experienced`),
+      `${where}: ${id} heard the remark`,
+    ).toBe(true);
+    // A member who met the player here cites the bill's public comment, by
+    // its record; one who already knew them keeps the earlier tie's record.
+    if (!spoke.knewBefore.has(id))
+      expect(
+        core.knowledgeByPerson.get(id)?.get(`person:${me}:met`)?.sourceId,
+        `${where}: ${id} met the player at the public comment`,
+      ).toBe(`public-comment:${spoke.billId}`);
     expect(
       core.eventIds.has(`public-comment:${spoke.billId}`),
       `${where}: the public comment is on the record`,
@@ -759,6 +779,14 @@ it("a member the player plays decides alike at the stop and away from it: the me
                 .get(`${id}|${member}`),
               `${where}: ${id} voted before Adjourn`,
             ).toBeUndefined();
+          // The player spoke on the first open item and said nothing on the rest:
+          // Adjourn casts the stated side, and abstains where none was stated.
+          const spokeOn = open[0];
+          if (spokeOn) speakOnItem(api, meeting.id, spokeOn, -1);
+          // A vote the player already put on the record (the bill's page, an
+          // agreement in a scene) stands: Adjourn leaves it and keeps no act of its own.
+          const onPaper = open.length >= 3 ? open[2] : undefined;
+          if (onPaper) castMemberVote(api, onPaper, member, "yes");
           adjourn(api, meeting.id);
           for (const id of open) {
             if (billOf(api, id).moot) continue;
@@ -767,15 +795,18 @@ it("a member the player plays decides alike at the stop and away from it: the me
               .table("choices")
               .get(`${id}|${member}`) as unknown as
               { vote?: string } | undefined;
-            expect(
-              chosen?.vote,
-              `${where}: ${id} cast at Adjourn`,
-            ).toBeDefined();
+            expect(chosen?.vote, `${where}: ${id} cast at Adjourn`).toBe(
+              id === spokeOn ? "no" : id === onPaper ? "yes" : "abstain",
+            );
             const act = officeActsOf(api, member).find(
               (a) => a.kind === "vote" && a.recordId === id,
             );
+            if (id === onPaper) {
+              expect(act, `${where}: ${id} kept its own vote`).toBeUndefined();
+              continue;
+            }
             expect(act?.how, `${where}: ${id} act at Adjourn`).toBe(
-              "own-choice",
+              "adjourned",
             );
             expect(act?.date, `${where}: ${id} Adjourn day`).toBe(core.date);
             adjourned += 1;

@@ -131,5 +131,16 @@
     "addedAt": "2026-11-11",
     "replacement": "The share of stays by age, sex and condition (HCUP National Inpatient Sample by diagnosis), weighed by the person's health record and traits, with injuries told apart from illnesses.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-housing-past-todays-households",
+    "kind": "partial-model",
+    "file": "src/core2/housing-past.ts",
+    "whatItFakes": "The town's rents and home values before the start are read from the households living there on day one: a household that lived in the town and left before the start is not in the world, so it is in no past figure, and a home's earlier owners or tenants are not told. Rents before the start move with the nation's pay (the economy pass's months) and the vacancy factor is one, since the housing stock keeps no history; a rent law in force before the start does not cap them.",
+    "why": "Owner, Nov 13, 2026: the past is simulated so the present makes sense, general, with no depth (Oct 28). The people and moves passes write only the people who live in the world on day one.",
+    "addedBy": "Account lead T45 (Claude)",
+    "addedAt": "2026-11-14",
+    "replacement": "A coarse count of the households that left the town before the start, with their rents and homes, from the moves engine's leaving rate, so the past town holds the people who left as well as those who stayed.",
+    "status": "open"
   }
 ]
