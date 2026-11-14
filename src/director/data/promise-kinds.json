@@ -213,6 +213,16 @@
         "min": 0.5,
         "max": 2
       }
+    },
+    "promiseTalkImpact": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "citation": "A promise kept or broken weighs as a talk's topic as a moment of this impact (conversation.ts topicWeight): above the President's address and a stand on the news (directorTalkAddressImpact and directorTalkViewImpact times engagement, at most 0.2 and 0.3), so the one owed brings it up at the next talk, and below a life event of their own (a lost job or a death, about 0.6), which leads first (promise-talk.ts).",
+      "spread": "0.3 to 0.6, checked by reading whole talks at three places (promises.test.ts)",
+      "checkRange": {
+        "min": 0.3,
+        "max": 0.6
+      }
     }
   }
 }

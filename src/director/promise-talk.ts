@@ -8,8 +8,8 @@
  * the speaker's own hard news leads, then brought-up news, then this.
  *
  * The conversation engine asks `promiseSubject` for the subject between the
- * two and calls `markPromiseSaid` once it is said; nothing here writes a
- * line or a record of its own.
+ * two, calls `promiseSaid` once it is said and `answerPromise` with the
+ * player's answer; nothing else here writes a line.
  */
 import { billNameOf, billTitleSaid } from "../english/bill-names";
 import type { Fact } from "../english/conversation-words";
@@ -39,6 +39,8 @@ export interface PromiseSubject {
   facts: Record<string, Fact>;
   /** The scene reply that made it and the record that settled it. */
   aboutId: string;
+  /** How much it weighs as the talk's topic (promise-kinds.json promiseTalkImpact). */
+  weight?: number;
 }
 
 /**
@@ -74,11 +76,40 @@ export function promiseSubject(
   return {
     id: row.id,
     promiseKind: row.kind,
+    weight: promiseParam("promiseTalkImpact"),
     kind: row.outcome === "kept" ? "promise-kept" : "promise-broken",
     facts,
     aboutId: row.sourceId,
   };
 }
+
+/**
+ * The promise a subject of a talk says, from the conversation's own subject
+ * (a raised subject's id is the speaker's id, ">", then the kept fact's id);
+ * null for any other subject.
+ */
+export function promiseOfRaised(subject: {
+  id: string;
+  kind: string;
+  facts: Record<string, Fact>;
+  aboutId?: string;
+}): PromiseSubject | null {
+  if (subject.kind !== "promise-kept" && subject.kind !== "promise-broken")
+    return null;
+  const key = Object.keys(subject.facts).find((name) =>
+    name.startsWith(PROMISE_PREFIX),
+  );
+  if (!key) return null;
+  return {
+    id: subject.id.slice(subject.id.indexOf(">") + CORE.one),
+    promiseKind: key.slice(PROMISE_PREFIX.length),
+    kind: subject.kind,
+    facts: subject.facts,
+    aboutId: subject.aboutId ?? "",
+  };
+}
+
+const PROMISE_PREFIX = "promise-";
 
 /** Once said: the promise is not brought up again by anyone. */
 export function promiseSaid(

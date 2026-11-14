@@ -35,92 +35,117 @@ import {
 import { townSeats } from "../core2/modules/offices";
 import { openConversation, say } from "./conversation";
 import type { Director } from "./ledger";
-import { wordConversationMove } from "../english/conversation-words";
-import { answerPromise, promiseAnswers, promiseSubject } from "./promise-talk";
+import { promiseAnswers, promiseSubject } from "./promise-talk";
+import { restoreWorld, snapshotWorld } from "../core2/snapshot";
 import { promisesBetween } from "./promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { ScheduleEntry } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
 
+/** The ledger put back as it was, in place (the director keeps its own reference). */
+function restoreInPlace(target: object, saved: object): void {
+  for (const [key, value] of Object.entries(structuredClone(saved))) {
+    const now = (target as Record<string, unknown>)[key];
+    if (now instanceof Map && value instanceof Map) {
+      now.clear();
+      for (const [k, v] of value) now.set(k, v);
+    } else if (Array.isArray(now) && Array.isArray(value))
+      now.splice(0, now.length, ...value);
+    else (target as Record<string, unknown>)[key] = value;
+  }
+}
+
 /**
- * What the one owed says of a settled promise at the next talk: the
- * conversation bank's raise line for its subject, worded for the speaker
- * (promise-talk.ts gives the subject; the talk engine says it).
+ * The next talk between the one owed and the player, played: the greeting,
+ * the promise brought up, the answers offered, and each answer in its own
+ * branch (the world and the ledger put back between branches) with what the
+ * other says after it and what the answer did. The talk engine says it
+ * (subjectsBetween, promiseSaid, answerPromise); nothing is worded here.
  */
-function saidOf(
+function talkOf(
   core: CoreState,
   director: Director,
   speakerId: PersonId,
-  listenerId: PersonId,
+  playerId: PersonId,
   where: string,
 ): string {
-  const subject = promiseSubject(core, director, speakerId, listenerId);
+  const subject = promiseSubject(core, director, speakerId, playerId);
   expect(subject, `${where}: nothing to say`).toBeTruthy();
-  const line = wordConversationMove({
-    seed: core.seed,
-    subject: subject!.kind,
-    part: "raise",
-    speakerId,
-    traits: core.people.get(speakerId)?.traits ?? {},
-    facts: {
-      ...subject!.facts,
-      you: {
-        text: core.people.get(listenerId)!.givenName,
-        sourceRecordIds: [listenerId],
-      },
-    },
-    momentKey: `${speakerId}:${subject!.id}`,
-  });
-  expect(line?.text, `${where}: ${subject!.kind} has no line`).toBeTruthy();
-  expect(line!.text, where).not.toMatch(/\{|\}/);
-  // The answers the one who promised is offered, and the one given is read
-  // (Words lead rulings 2): a courtesy to a kept one; to a broken one, making
-  // it right where a record could settle a new one, else owning it.
-  const offered = promiseAnswers(core, subject!, listenerId);
-  let answered: string;
+  const offered = promiseAnswers(core, subject!, playerId);
   if (subject!.kind === "promise-kept") {
     expect(offered.length, where).toBe(2);
     for (const id of offered)
       expect(["plain", "modest", "warm"], where).toContain(id);
-    const recordId = answerPromise(
-      core,
-      director,
-      subject!,
-      listenerId,
-      offered[0]!,
-    );
-    expect(core.durableLog.get(recordId!)?.kind, where).toBe("promise.answer");
-    answered = offered[0]!;
   } else {
     expect(offered.slice(0, 3), where).toEqual(["own-it", "explain", "deny"]);
-    const renewable = subject!.promiseKind !== "vote";
-    expect(offered.includes("make-it-right"), where).toBe(renewable);
-    const choice = renewable ? "make-it-right" : "own-it";
-    const before = closenessBetween(core, listenerId, speakerId);
-    const recordId = answerPromise(
-      core,
-      director,
-      subject!,
-      listenerId,
-      choice,
+    expect(offered.includes("make-it-right"), where).toBe(
+      subject!.promiseKind !== "vote",
     );
-    if (renewable) {
-      // A new promise of the same kind, open, made by the answer's record.
-      const renewed = promisesBetween(
-        director.ledger,
-        listenerId,
-        speakerId,
-      ).find((row) => row.sourceId === recordId);
+  }
+  const savedWorld = JSON.parse(JSON.stringify(snapshotWorld(core)));
+  const savedLedger = structuredClone(director.ledger);
+  const name = (id: PersonId) => core.people.get(id)?.givenName ?? id;
+  const open = () => openConversation(core, playerId, speakerId, { director });
+  const first = open();
+  const raised = first.lines.findIndex(
+    (line) => line.kind === subject!.kind && line.speakerId === speakerId,
+  );
+  const shown = first.lines
+    .map((line) => `${name(line.speakerId)}: ${line.text}`)
+    .join(" / ");
+  expect(raised, `${where}: not brought up: ${shown}`).toBeGreaterThan(-1);
+  expect(first.lines.at(-1)?.kind, `${where}: ${shown}`).toBe(subject!.kind);
+  const keys = first.choices.map((choice) => choice.move);
+  expect([...keys].sort(), where).toEqual([...offered].sort());
+  // Said once: the next talk does not bring it up again.
+  expect(promiseSubject(core, director, speakerId, playerId), where).toBeNull();
+  const out = [
+    `talk on ${core.date} (weight ${subject!.weight ?? 0}): ${shown}`,
+    `    offered: ${first.choices.map((choice) => `${choice.move} "${choice.text}"`).join("; ")}`,
+  ];
+  // Each branch's closeness after its answer: the talk's own time together
+  // warms every branch alike, so the answers are compared with each other.
+  const closeness = new Map<string, number>();
+  for (const id of offered) {
+    restoreWorld(core, JSON.parse(JSON.stringify(savedWorld)));
+    restoreInPlace(director.ledger, savedLedger);
+    const talk = open();
+    const before = closenessBetween(core, playerId, speakerId);
+    const from = talk.lines.length;
+    const pick = talk.choices.find((choice) => choice.move === id);
+    expect(pick, `${where}: ${id} not offered`).toBeTruthy();
+    say(core, talk, pick!.key);
+    const after = closenessBetween(core, playerId, speakerId);
+    const answer = [...core.durableLog.values()].find(
+      (event) =>
+        event.kind === "promise.answer" &&
+        event.date === core.date &&
+        event.personIds.includes(playerId) &&
+        event.facts?.answer === id,
+    );
+    expect(answer, `${where}: ${id} wrote no answer record`).toBeTruthy();
+    const renewed = promisesBetween(director.ledger, playerId, speakerId).find(
+      (row) => row.sourceId === answer!.id,
+    );
+    if (id === "make-it-right") {
       expect(renewed?.kind, where).toBe(subject!.promiseKind);
       expect(renewed?.outcome, where).toBe("open");
-      answered = `${choice} (new promise ${renewed!.id})`;
-    } else {
-      const after = closenessBetween(core, listenerId, speakerId);
-      expect(after, where).toBeGreaterThanOrEqual(before);
-      answered = `${choice} (closeness ${before.toFixed(5)} to ${after.toFixed(5)})`;
     }
+    closeness.set(id, after);
+    out.push(
+      `    ${id}: ${talk.lines
+        .slice(from)
+        .map((line) => `${name(line.speakerId)}: ${line.text}`)
+        .join(
+          " / ",
+        )} [${answer!.id}; closeness ${before.toFixed(5)} to ${after.toFixed(5)}${renewed ? `; new promise ${renewed.id}` : ""}]`,
+    );
   }
-  return `${subject!.kind}: "${line!.text}"; answered ${answered}`;
+  if (closeness.has("deny"))
+    expect(closeness.get("deny")!, where).toBeLessThan(
+      closeness.get("own-it")!,
+    );
+  return out.join("\n");
 }
 
 /** The fixed seed the places are drawn on. */
@@ -306,7 +331,7 @@ it(
             );
         }
         const ended = find();
-        const said = saidOf(core, director, made.owedId, id, where);
+        const said = talkOf(core, director, made.owedId, id, where);
         done.push(
           `${where}: ${said}\n    ${factId} owed to ${made.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, made.owedId).toFixed(5)}`,
         );
@@ -464,8 +489,10 @@ it(
         expect(find().outcome, where).toBe("open");
         const before = closenessBetween(core, id, newcomer);
         if (!done.length) {
-          // Kept: the player talks with the newcomer (the conversation
-          // engine's own time together, cause "conversation").
+          // Kept: the player talks with the newcomer on a later day (the
+          // conversation engine's own time together, cause "conversation");
+          // the day it was promised does not keep it.
+          play(core, id, 2);
           const talk = openConversation(core, id, newcomer, { director });
           const choice = talk.choices[0];
           expect(choice, `${where}: nothing to say`).toBeTruthy();
@@ -482,7 +509,7 @@ it(
           expect(find().endedAt, where).toBe(addDays(makeIsoDate(since), 14));
         }
         const ended = find();
-        const said = saidOf(core, director, newcomer, id, where);
+        const said = talkOf(core, director, newcomer, id, where);
         done.push(
           `${where}: ${said}\n    ${factId} owed to ${newcomer}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, newcomer).toFixed(5)}`,
         );
@@ -657,7 +684,7 @@ it(
           expect(ended.endedBy, where).toMatch(
             new RegExp(`^bill-vote:${billId}`),
           );
-          const said = saidOf(core, director, askerId, colleagueId, where);
+          const said = talkOf(core, director, askerId, colleagueId, where);
           done.push(
             `${where}: ${said}\n    ${factId} (${path.ending}) held by ${colleagueId}, owed to ${askerId} (player ${player}), on ${billId}; voted ${vote.vote} on ${ended.endedAt} by ${ended.endedBy}: ${ended.outcome}`,
           );

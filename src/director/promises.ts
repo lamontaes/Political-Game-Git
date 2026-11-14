@@ -333,7 +333,10 @@ export function settlePromisesOnTie(
     `pair-talk|${pairKey(notice.actorId, notice.otherId)}`,
   );
   if (!ids) return;
-  for (const id of [...ids])
+  for (const id of [...ids]) {
+    // The talk it was promised in (or answered in) is not the one that
+    // keeps it: a later day's talk is.
+    if (copiesOf(ledger, id)[zero]?.since === api.state.date) continue;
     endPromise(
       api,
       ledger,
@@ -342,6 +345,7 @@ export function settlePromisesOnTie(
       notice.reason?.sourceId ?? notice.relationshipId,
       param,
     );
+  }
 }
 
 /** Promises whose window closes today end as their kind says. One lookup a day. */
