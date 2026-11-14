@@ -3525,8 +3525,15 @@ export function circulatorsCanWork(api: CoreAPI, filingId: string): boolean {
   );
 }
 
-/** What a campaign holds and has not set aside: raised less spent, less its funds for an event, a poll and circulators. */
-function freeMinor(campaign: CampaignRow): number {
+/**
+ * What a campaign holds and has not set aside: raised less spent, less its
+ * funds for an event, a poll and circulators. The one figure every purchase
+ * (an ad, a poll, mail, a venue) and every hire budgets from, so none spends
+ * money another has been promised (a purchase from the raised-less-spent
+ * total once spent the circulators' fund, and their pay then fell due with
+ * the cash gone: Tutu, U.S. Virgin Islands, 2026-05-09, "owner after").
+ */
+export function freeMinor(campaign: CampaignRow): number {
   return Math.max(
     0,
     campaign.raisedMinor -
@@ -5374,7 +5381,7 @@ export function runAd(
   const available = (api.state as CoreState).cashJournal.accounts.get(
     `cash:${campaign.organizationId}:residual`,
   )
-    ? campaign.raisedMinor - campaign.spentMinor
+    ? freeMinor(campaign)
     : 0;
   // A campaign for an office the town is only part of spreads its ad money
   // over the whole district, so this town's outlet sells it the town's share.
@@ -6274,10 +6281,11 @@ export function commissionPoll(
   const frame = pollFrame(api, town, date, adultAge);
   // The pollster is paid per completed interview, from the campaign's money.
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
+  // The poll's own set-aside fund pays for it, with what is free.
   const available = core.cashJournal.accounts.get(
     `cash:${campaign.organizationId}:residual`,
   )
-    ? campaign.raisedMinor - campaign.spentMinor
+    ? freeMinor(campaign) + (campaign.pollFundMinor ?? 0)
     : 0;
   const affordable = Math.min(
     input.sampleSize,
@@ -6662,7 +6670,7 @@ export function sendMail(
   const available = (api.state as CoreState).cashJournal.accounts.get(
     `cash:${campaign.organizationId}:residual`,
   )
-    ? campaign.raisedMinor - campaign.spentMinor
+    ? freeMinor(campaign)
     : 0;
   // The mail a district campaign sends is spread over the district: the
   // town gets its share of the pieces.
