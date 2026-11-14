@@ -1963,6 +1963,18 @@ async function campaignParts() {
                 label: T.howLong,
                 value: `${choice.hours} ${controls.campaignOutings.hours}`,
               },
+              // What the doors ask for now: signatures while the petition is
+              // short of its target, votes after it and in a race with none.
+              ...(choice.outing === "doors"
+                ? [
+                    {
+                      label: T.asking,
+                      value: petition?.asksAtDoors
+                        ? T.askingSignatures
+                        : T.askingVotes,
+                    },
+                  ]
+                : []),
             ],
             does: why ? [why] : [],
           }),
@@ -2130,7 +2142,10 @@ async function campaignParts() {
                 ? [
                     {
                       label: labelsC.signatures,
-                      value: labelsC.signaturesHeld
+                      value: (petition.signed >= petition.needed
+                        ? labelsC.signaturesEnough
+                        : labelsC.signaturesHeld
+                      )
                         .replace("{signed}", String(petition.signed))
                         .replace("{needed}", String(petition.needed))
                         .replace("{date}", dateWords(petition.due)),

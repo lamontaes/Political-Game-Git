@@ -27,6 +27,6 @@ Otisville NY (place 3655673, seed 580915c5…), needs 23, gathers 35:
 - Knock on doors · 45 doors · 20 answered · 8 signed · 6 reached (crossing outing)
 - Knock on doors · 45 doors · 15 answered · 8 reached
 
-Campaign tab, 1440x900 (Otisville, a federal-level seat at the same place, needs 5): `campaign-tab-filed-1440x900-otisville.png` reads "Signatures … 0 of 5, due May 26, 2026"; `campaign-tab-full-1440x900-otisville.png`, the day the doors switched, reads "Signatures … 8 of 5, due May 26, 2026". The row has no "enough" wording and the Knock on doors card has no line saying what the outing asks for now; both are missing labels for the Words lead. The view now carries `asksAtDoors` (petitionView) for them to read.
+Words lead's two labels (Nov 14), Otisville NY, 1440x900: the Campaign tab's Signatures row reads "0 of 5, due May 26, 2026" when filed (`campaign-tab-filed-…`) and "8 of 5, enough for the ballot" the day it fills (`campaign-tab-full-…`). The Knock on doors card on Travel has a row "Asking for" under "How long": "Signatures" while the petition is short (`travel-card-filed-…`), "Votes" once it is not (`travel-card-full-…`), and "Votes" in a race with no petition. The row is read from `petition.asksAtDoors`.
 
 A rival or unattended candidate walks the same `walkWith` and the same `petitionAsksAtDoors`, and its pull toward the doors uses the same `signaturesToGather` target, so after its own target its doors ask for votes.
