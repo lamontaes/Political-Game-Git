@@ -2928,7 +2928,7 @@ const townShares = new WeakMap<
  * race's eligible voters (Census counts in the places' rows). Read again a
  * quarter after it was last read, since a town's size moves slowly.
  */
-function townShareOfRace(api: CoreAPI, contestId: string): number {
+export function townShareOfRace(api: CoreAPI, contestId: string): number {
   const held = townShares.get(api.state) ?? new Map();
   townShares.set(api.state, held);
   const kept = held.get(contestId);
