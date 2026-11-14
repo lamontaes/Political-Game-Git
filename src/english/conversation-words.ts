@@ -157,6 +157,8 @@ export function wordConversationMove(request: {
   statementsOnly?: boolean;
   /** The bank the wordings come from, when it is not the line's own (an acknowledgment offered as an answer). */
   from?: { subject: string; part: ConversationPart };
+  /** Pieces the listener already heard today (the telling): not picked again while another fits. */
+  avoid?: ReadonlySet<string>;
   words?: ConversationWords;
 }): Said | null {
   const words = request.words ?? CONVERSATION_WORDS;
@@ -168,12 +170,17 @@ export function wordConversationMove(request: {
       (!request.keys || request.keys.includes(move.key)) &&
       (!request.statementsOnly || !asks(move.text)),
   );
-  const usable = fitMoves(moves, {
+  const fitting = fitMoves(moves, {
     about: request.about,
     relationWord: request.relationText?.split(" ").at(-one),
     relationWords: RELATION_WORDS,
     facts: request.facts,
   });
+  // A wording the listener heard today is held back while another fits.
+  const fresh = request.avoid
+    ? fitting?.filter((row) => !row.part || !request.avoid!.has(row.part))
+    : fitting;
+  const usable = fresh?.length ? fresh : fitting;
   const bank = `conversation:${request.subject}:${request.part}`;
   // A line with reasons on record is composed: one of its wordings as the
   // core, then a reason the engine joins after it when the facts it names are
