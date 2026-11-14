@@ -93,7 +93,7 @@
     "opened": "The month and year a business opened, from its founding record, when it was open less than two years.",
     "members": "How many sit on a study committee, said in words, from the study's row.",
     "until": "The day a study committee reports by, from the study's row.",
-    "last": "The winner's last name, or full name where another in the story shares it, from the person record.",
+    "last": "The last name of the person the story already named (an election's winner, an interview's candidate), or full name where another in the story shares it, from the person record.",
     "rival": "The runner-up's last name, or full name where another in the story shares it, from the person record.",
     "lasts": "The winners of a race for several seats by last name, from the race's count.",
     "winners": "The winners of a race for several seats by full name, from the race's count.",
@@ -102,6 +102,11 @@
     "field": "How many were on the ballot in a race, in words, from the race's count.",
     "short-by": "The votes a failed bill lacked for a majority of those cast, as a number, from the vote's yeas and nays.",
     "work": "What the endorsing group works for, from the stance its endorsement stood on (the group's own record), as the paper says it.",
+    "issue-for": "That the candidate answered the interview's headline question for, from the interview's answers.",
+    "issue-against": "That the candidate answered the interview's headline question against, from the interview's answers.",
+    "for-issues": "The questions an interview's candidate answered for, each by the name the reporter asked it by, from the interview's answers.",
+    "against-issues": "The questions an interview's candidate answered against, each by the name the reporter asked it by, from the interview's answers.",
+    "declined-issues": "The questions an interview's candidate gave no answer on, each by the name the reporter asked it by, from the interview's answers.",
     "plural-subject": "Set when the group's name takes a plural verb (\"Friends of policing\"), from its name's form in data/english/group-names.json.",
     "school": "The school the honor row names, from the school's record.",
     "grade": "The winner's grade that school year, as a word, from their birth date and the school year.",
@@ -3365,42 +3370,88 @@
       }
     },
     {
-      "key": "news.interview.we-asked-name-about-issue",
+      "key": "news.interview.name-backs-issue",
       "move": "interview",
       "kind": "written",
-      "text": "We asked {name} about {issue}.",
+      "text": "{name} backs {issue}.",
       "uses": [
         {
           "move": "interview",
           "subject": "news",
           "role": "interview",
-          "choice": "lede"
+          "choice": "lede",
+          "requiresFacts": ["name", "issue", "issue-for"]
         }
       ],
       "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
+      "author": "Interview check thread (press-interview-story-reports-the-stands)",
+      "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
       }
     },
     {
-      "key": "news.interview.name-sat-down-with-us-to-talk-about-issue",
+      "key": "news.interview.name-is-for-issue",
       "move": "interview",
       "kind": "written",
-      "text": "{name} sat down with us to talk about {issue}.",
+      "text": "{name} is for {issue}.",
       "uses": [
         {
           "move": "interview",
           "subject": "news",
           "role": "interview",
-          "choice": "lede"
+          "choice": "lede",
+          "requiresFacts": ["name", "issue", "issue-for"]
         }
       ],
       "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
+      "author": "Interview check thread (press-interview-story-reports-the-stands)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.interview.name-opposes-issue",
+      "move": "interview",
+      "kind": "written",
+      "text": "{name} opposes {issue}.",
+      "uses": [
+        {
+          "move": "interview",
+          "subject": "news",
+          "role": "interview",
+          "choice": "lede",
+          "requiresFacts": ["name", "issue", "issue-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Interview check thread (press-interview-story-reports-the-stands)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.interview.name-is-against-issue",
+      "move": "interview",
+      "kind": "written",
+      "text": "{name} is against {issue}.",
+      "uses": [
+        {
+          "move": "interview",
+          "subject": "news",
+          "role": "interview",
+          "choice": "lede",
+          "requiresFacts": ["name", "issue", "issue-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Interview check thread (press-interview-story-reports-the-stands)",
+      "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -8153,6 +8204,72 @@
       ],
       "origin": "authored",
       "author": "Account lead F5 (carried #9046, second sentence)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.interview-for.last-backs-for-issues",
+      "move": "interview-for",
+      "kind": "written",
+      "text": "{last} backs {for-issues}.",
+      "uses": [
+        {
+          "move": "interview-for",
+          "subject": "news",
+          "role": "interview-for",
+          "choice": "context",
+          "requiresFacts": ["last", "for-issues"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Interview check thread (press-interview-story-reports-the-stands)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.interview-against.last-opposes-against-issues",
+      "move": "interview-against",
+      "kind": "written",
+      "text": "{last} opposes {against-issues}.",
+      "uses": [
+        {
+          "move": "interview-against",
+          "subject": "news",
+          "role": "interview-against",
+          "choice": "context",
+          "requiresFacts": ["last", "against-issues"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Interview check thread (press-interview-story-reports-the-stands)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.interview-declined.last-declined-to-take-a-side-on-declined-issues",
+      "move": "interview-declined",
+      "kind": "written",
+      "text": "{last} declined to take a side on {declined-issues}.",
+      "uses": [
+        {
+          "move": "interview-declined",
+          "subject": "news",
+          "role": "interview-declined",
+          "choice": "context",
+          "requiresFacts": ["last", "declined-issues"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Interview check thread (press-interview-story-reports-the-stands)",
       "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
