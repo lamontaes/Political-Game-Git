@@ -31,7 +31,7 @@ branch:
 
 **Rules.** One rule, all 56 places: no place is named in logic, titles are data rows and the test draws places. A view that computes its own version of a fact is a duplicate (owner, Oct 28).
 
-**Done when.** A test pinned to South Congaree SC, Lonoke AR and Ogallala NE and a test that draws places from all 56 and shows every contest title is in the one form and says whose it is; a second session reads a played town's notice of election and sees every office in the same form.
+**Done when.** A test pinned to South Congaree SC, Lonoke AR and Ogallala NE and a test that draws places from all 56 and shows every contest title is in the one form and says whose it is; a second session reads, in a drawn place, a played town's notice of election and sees every office in the same form.
 
 **Waits on.** Nothing; the notice itself is words-election-notice-printed.
 
