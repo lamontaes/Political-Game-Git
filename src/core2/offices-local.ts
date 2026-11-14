@@ -170,8 +170,8 @@ export function townAndBody(town: string, body: string): string {
  * The council's name: as its charter names it where the town's government is
  * compiled, else the usual body of its kind of municipality in its state
  * ("VILLAGE OF EOLIA" in a state whose villages elect a board of trustees is
- * "Eolia Board of Trustees"), else the generic municipal name
- * (SG-GOV-municipal-body-name).
+ * "Eolia Board of Trustees"), else the generic municipal name, an ESTIMATED
+ * row in `data/offices/body-names.json`.
  */
 function municipalBodyName(unit: GovernmentUnitIdentity): string {
   const charter = localGoverningBodyName(unit);
@@ -185,7 +185,7 @@ function municipalBodyName(unit: GovernmentUnitIdentity): string {
   const proper = governmentProperName(unit.name, unit.id);
   if (usual)
     return townAndBody(proper.split(" ").slice(2).join(" "), usual.value);
-  // stopgapId: SG-GOV-municipal-body-name (a listing name that gives no kind)
+  // A listing name that gives no kind: the estimated generic body name.
   return `${proper} ${bodyNames.municipal.value}`;
 }
 

@@ -54,7 +54,6 @@ import {
   type OfficeFamily,
 } from "../elections-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
 import {
   governorTicketStage,
   OFFICES_MODULE_ID,
@@ -105,7 +104,7 @@ export interface FilingRequirements {
   readonly registeredVoter: boolean;
   readonly source: string;
   readonly estimate: boolean;
-  /** Which of these rules came from the fallback data, not the place's own row (SG-GOV-filing-fallbacks). */
+  /** Which of these rules came from the fallback data (an ESTIMATED row in `data/elections/filing-fallbacks.json`), not the place's own row. */
   readonly fallbacks: readonly (
     "filedWith" | "minimumAge" | "registeredVoter"
   )[];
@@ -563,10 +562,6 @@ export function filingRulesFor(
     contest.family,
     side,
   );
-  if (stateRules.fallbacks.length) {
-    // stopgapId: SG-GOV-filing-fallbacks
-    api.stopgap("SG-GOV-filing-fallbacks");
-  }
   // Where the place's row gives a formula or no signature count, the
   // petition asks the read counts' median (`petitionRule`).
   if (
@@ -736,7 +731,6 @@ function contestFor(
   }
   if (!dates || dates.electionDate <= api.state.date) return null;
   const family = officeFamily(office);
-  noteEstimates(api, dates);
   const row = withFilingLawDeadline(api, {
     ...dates,
     id: `contest:${seat.id}:${dates.electionDate}`,
@@ -766,17 +760,6 @@ function contestFor(
       `filing opens ${opens}: estimated, ${electionsParameter("filingWindowDays")} days before the deadline (elections parameter filingWindowDays)`,
     ],
   };
-}
-
-/**
- * A contest whose dates rest on an estimate registers it where it runs
- * (the filing lead, SG-GOV-filing-deadline-estimate).
- */
-function noteEstimates(api: CoreAPI, dates: ElectionDates): void {
-  if (dates.sources.includes(FILING_LEAD_SOURCE)) {
-    // stopgapId: SG-GOV-filing-deadline-estimate
-    api.stopgap("SG-GOV-filing-deadline-estimate");
-  }
 }
 
 /**
@@ -1399,7 +1382,10 @@ export function announce(
       asOf: api.state.date,
       ...(contest.basis === "read"
         ? {}
-        : { estimatedFrom: "SG-GOV-filing-deadline-estimate" }),
+        : {
+            estimatedFrom:
+              "The filing deadline is the estimated lead before the first vote (FILING_LEAD_DAYS, the median over the places with a read 2026 row)",
+          }),
     },
     publicRecord: true,
     news: true,
