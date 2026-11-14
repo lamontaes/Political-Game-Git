@@ -22,7 +22,7 @@ root: none
 
 **Cause.** Found in code: the place's one corporation location (organization_5a54c273f2fc0be3, losing money: quarter minor -8,164,536 against sales 8,540,084) closed on 2025-07-01, the quarter day itself. A closed business's books are skipped by the profit tax (`payProfitTaxes` in src/core2/modules/employer-taxes.ts continues on `books.closedAt`), so no record is written, and the test read one. The test took its location the day before, when it was still open; it redraws a place with no open location in October but not in July.
 
-**Fix.** In the test only, every assertion kept: a place whose every July location closed on the quarter day is redrawn like one with none open, and named in the tried list.
+**Fix.** In the test only, every assertion kept: the case is pinned to Newport, Delaware (place 1051190, world seed bcec8e61...), a small place with a federal and a state corporate rate whose eight locations stay open through July 1 (55 s). Grace is not used because its one location closes that day; the test fails with that reason if every location closes.
 
 **Time box.** 2 hours.
 

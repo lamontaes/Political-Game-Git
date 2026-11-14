@@ -22,7 +22,7 @@ root: none
 
 **Cause.** Found in code: two causes, both in the test's setup, none in the game. (1) The test passed the growth cap at the town's own level, but Massachusetts bars its places from making that cap (`localPowerBarred`, starting law `preempts`), so the town's act is void, the cap stays 0 and `propertyTaxTerms` registers no assessment cap. Measured at the seed: levels federal, state, county, township, city; barred true; the act at the city leaves the governing row at the state's starting row, value 0. (2) Behind it, the estate case picked the richest person with heirs: a House member (official:seat:US-CA:us-house:41) whose only heir, a partner aged 37 (person_55958daf6e076808), died of heart disease on 2025-10-25, inside the 270 days probate waits. With no heir the estate escheats and is assessed on nothing (`distribute` in src/core2/estates.ts, 26 U.S.C. 2055(a)(1)), so the estate tax paid was 0. Ordinary mortality, no bug in the estate code.
 
-**Fix.** In the test only, every assertion kept: the cap is passed at the state level where the state bars local caps (`levelFor`), and the estate case picks the person with the most heirs (up to two), then the richest.
+**Fix.** In the test only, every assertion kept: the cap is passed at the state level where the state bars local caps (`levelFor`), the estate case picks the person with the most heirs (up to two), then the richest, and the case is pinned to Dennis at its world seed (156 s, most of it the 270 days of probate the game waits).
 
 **Time box.** 2 hours.
 
