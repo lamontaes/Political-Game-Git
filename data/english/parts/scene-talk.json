@@ -146528,7 +146528,7 @@
       "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-fought-over-money-before-and-the-missed-payment-has-opened-it-up-again",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The missed payment has opened money up between you and {name}.",
+      "text": "The missed payment has come between you and {name}.",
       "uses": [
         {
           "subject": "scene",
