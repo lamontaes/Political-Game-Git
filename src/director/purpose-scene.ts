@@ -1110,9 +1110,9 @@ function composeBinding(
   // A published interview the official answered only in part (press.ts
   // publish: the record's `declined` counts the questions left unanswered): a
   // reporter may ask the skipped ones again.
-  if (record?.kind === "interview-published" && Number(said.declined) > 0)
+  if (record?.kind === "interview-published" && Number(said.declined) > P.zero)
     facts["skipped-some"] = {
-      text: said.declined,
+      text: String(said.declined),
       sourceRecordIds: [moment.causeId],
     };
   // The race's debate the two candidates just stood in (meetings.ts
