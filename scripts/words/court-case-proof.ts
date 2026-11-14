@@ -125,7 +125,7 @@ for (let draw = 0; draw < draws; draw += 1) {
     kind: "bribe",
     date: core.date,
     offererId: accused,
-    officialId: refused ? (otherId ?? playerId) : playerId,
+    officialId: refused || playerCharged ? (otherId ?? housemate!) : playerId,
     amountMinor,
     subjectId: "",
     offered: true,

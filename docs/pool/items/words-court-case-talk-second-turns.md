@@ -36,3 +36,5 @@ checked: s3 2026-11-14
 **Files.** src/director/data/conversation-rules.json, src/director/conversation.ts, data/english/parts/conversation.json
 
 **Notes.** Filed on the court-case carry branch (claude/words-carry-8979-court-talk), twin of words-relative-news-talk-second-turns.
+
+- Nov 14 (second reader, #9190): when the player is the one charged and a housemate asks, the player's replies ("I did it." and three others) get no answer back; give them composed answers from the record in the same pass as the second turns.
