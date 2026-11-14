@@ -345,7 +345,7 @@
         "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
         "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
       ],
-      "why": "'There is' answers nothing in A's statement about being told."
+      "why": "A insists someone really told them, but B opens with \"There is,\" which confirms something A never asked about, and then defends its own reporting instead of answering where A's claim came from."
     },
     "0xg45rgwav2": {
       "keys": [
@@ -660,7 +660,7 @@
         "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
         "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
       ],
-      "why": "'There is' answers nothing A said; A made no question or claim to affirm."
+      "why": "A says the prosecutor has it, so it isn't a rumor, but B's \"There is\" has nothing to point back to and doesn't take up the prosecutor's role."
     },
     "1sf94tox9vo": {
       "keys": [
