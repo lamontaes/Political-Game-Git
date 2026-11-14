@@ -3288,6 +3288,23 @@ function sellCountedHome(
     ]);
 }
 
+/**
+ * A counted household moving away sells the home it owned, as a full one
+ * does: the outside market pays its value times the households the record
+ * stands for, the lender is paid first, and the rest leaves town with the
+ * household (money from the outside market to a household leaving for
+ * outside is not on the books).
+ */
+function sellLeavingHome(rt: ResidentsRuntime, h: CountedHousehold): void {
+  const api = rt.api;
+  if (!api || !rt.funded || h.group < 0) return;
+  sellHome(api, h.id, "moves.counted-departure", undefined, {
+    placeId: h.placeId,
+    weight: rt.store.weightOf(h),
+    surplus: (amountMinor) => amountMinor,
+  });
+}
+
 /** A household leaving the counts: its purchases, mortgage, rent and awards stop here. */
 function endHouseholdFlows(
   rt: ResidentsRuntime,
@@ -3355,6 +3372,8 @@ export function departCountedHousehold(
   const h = ix === undefined ? undefined : rt!.store.households[ix];
   if (!rt || !h || h.gone) return undefined;
   const store = rt.store;
+  // The home it owned is sold before it goes, as a full household's is when it leaves town (moves.ts).
+  sellLeavingHome(rt, h);
   endHouseholdFlows(rt, h, makeIsoDate(core.date));
   const placeId = h.placeId;
   const own = store.countedMembers(h).reduce((n, m) => n + store.liquid[m]!, 0);
