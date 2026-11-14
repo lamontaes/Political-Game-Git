@@ -158,6 +158,7 @@
     "src/core2/past-laws.ts": 5,
     "src/core2/past-public.ts": 1,
     "src/core2/past-work.ts": 2,
+    "src/core2/places-elsewhere.ts": 2,
     "src/core2/person-names.ts": 1,
     "src/core2/player-control-state-v1.ts": 1,
     "src/core2/player-stops-v1.ts": 1,
