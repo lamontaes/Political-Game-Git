@@ -33,7 +33,6 @@ import contingentData from "../data/elections/contingent-election.json" with { t
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
 import { contingentElection } from "../contingent-election";
 import { lawChain } from "./laws";
-import territoryPlaces from "../data/places/territory-places.json" with { type: "json" };
 import {
   NATIONAL_ENGAGEMENT,
   townEngagementCenter,
@@ -107,7 +106,8 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { groupStance, personLean, type StanceProfile } from "../campaign-views";
 import { campaignParameter, platformLead, type Stance } from "../campaign-data";
-import { basePlaces } from "../race-places";
+import { basePlaces, wideElectorate } from "../race-places";
+import { shareValue } from "../shares";
 import { holdoverRule } from "../office-holdover";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
@@ -615,7 +615,7 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
   ).petition;
   const petition = openPetition(api, filing, {
     rule,
-    needed: petitionNeededHere(api, contest, rule),
+    needed: petitionNeededHere(api, contest, rule, filing.party ?? null),
   });
   // Where the law asks no signatures, the clerk takes the filing at the
   // counter: nothing to circulate.
@@ -631,17 +631,10 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
     date: dayAfter(petition.due),
     kind: "petition-check",
     source: {
-      tag: rule.basis === "read" ? "SOURCED" : "ESTIMATED",
+      tag: rule.scale ? "ESTIMATED" : "SOURCED",
       citation: rule.source,
       asOf: api.state.date,
-      ...(rule.basis === "read"
-        ? {}
-        : {
-            estimatedFrom:
-              rule.basis === "scaled"
-                ? SCALED_PETITION_ESTIMATE
-                : "SG-GOV-petition-count-estimated",
-          }),
+      ...(rule.scale ? { estimatedFrom: SCALED_PETITION_ESTIMATE } : {}),
     },
     sourceRecordIds: [petition.id],
   });
@@ -776,80 +769,96 @@ export function recordedBase(
 }
 
 /**
- * The signatures a petition needs in this world. Where the law scales the
- * count to the town (a municipal "scaled" rule), the town's own voters set
- * it. Otherwise the law's count where the town is the district; where the
- * district reaches past the town, the world holds no one outside it to sign,
- * so the clerk counts the town's share of the law's count by eligible voters,
- * at least one; where the district's voters are not on record (an island
- * area's), by the town's share of its people (`districtPeopleShare`). No
- * petition asks more signatures than the town has voters.
+ * The signatures a petition needs in this world: the number the race's own
+ * law sets for the race's own electorate (owner, Nov 14). A town race reads
+ * the town's voters, and its petition asks no more names than the town has.
+ * A county, district, state or federal race reads its whole electorate
+ * (`wideElectorate`): the law's count, or its formula computed from those
+ * voters (the votes the world recorded for the office, else the two-party
+ * votes the race's places last cast), gathered in the town and, outside it,
+ * by the campaign's paid circulators (`circulatorShift`).
  */
-function petitionNeededHere(
+export function petitionNeededHere(
   api: CoreAPI,
   contest: ContestRow,
   rule: PetitionRule,
+  party: string | null,
 ): number {
   const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
-  if (rule.basis === "scaled" && rule.scale)
+  const population = Number(api.state.placeMetadata.referencePopulation) || 0;
+  const wide = wideElectorate(api, contest, { voters, population });
+  if (rule.basis === "scaled" && rule.scale) {
+    if (!wide)
+      return petitionSignatures(rule.scale, {
+        eligible: voters,
+        votesCast: recordedBase(api, contest, rule.scale),
+        population,
+      });
+    const side = partySide(party);
+    const recorded =
+      rule.scale.election === "office"
+        ? lastVotesForOffice(api, contest.officeId)?.votes
+        : undefined;
     return petitionSignatures(rule.scale, {
-      eligible: voters,
-      votesCast: recordedBase(api, contest, rule.scale),
-      population: Number(api.state.placeMetadata.referencePopulation) || 0,
+      eligible: wide.eligible,
+      population: voters > 0 ? (wide.eligible * population) / voters : 0,
+      votesCast:
+        recorded ??
+        (wide.votes > 0
+          ? wide.votes * namedElectionTurnout(api, contest, rule.scale.election)
+          : undefined),
+      aligned:
+        side > 0
+          ? wide.rightShare
+          : side < 0
+            ? 1 - wide.rightShare
+            : shareValue("evenSplit"),
+      winnerShare: Math.max(wide.rightShare, 1 - wide.rightShare),
     });
+  }
   const count = rule.count;
   if (count <= 0) return 0;
-  const { places } = basePlaces(api, contest);
-  const total = places.reduce((n, p) => n + p.eligible, 0);
-  const share =
-    places.length && total > 0
-      ? Math.min(1, voters / total)
-      : contest.level === "state" || contest.level === "federal"
-        ? districtPeopleShare(api, contest)
-        : 1;
-  let scaled = count;
-  if (share < 1) {
-    // stopgapId: SG-GOV-petition-town-share
-    api.stopgap("SG-GOV-petition-town-share");
-    scaled = Math.max(1, Math.ceil(count * share));
-  }
-  if (contest.level === "state" || contest.level === "federal") return scaled;
-  // A local petition cannot ask more names than the town has voters.
-  return voters > 0
-    ? Math.max(1, Math.min(scaled, Math.floor(voters)))
-    : scaled;
+  // No petition asks more names than its electorate has voters.
+  const most = Math.floor(wide ? wide.eligible : voters);
+  return most > 0 ? Math.max(1, Math.min(count, most)) : count;
 }
 
-const islandPeople = new Map<string, number>();
-for (const row of territoryPlaces.rows as readonly (readonly unknown[])[])
-  islandPeople.set(
-    String(row[2]),
-    (islandPeople.get(String(row[2])) ?? 0) + Number(row[5]),
-  );
-
 /**
- * The town's share of a state or federal district's people where its
- * voters are not on record: the town's people over the island area's
- * villages' people (their 2020 counts), shared among the office's
- * districts; the whole count where neither is recorded.
+ * The turnout of the election a petition's law names, against the
+ * presidential year whose votes the race's places last cast: a president's
+ * race whole; a U.S. House race at the last even-year November before the
+ * contest; a governor's or secretary of state's at their own race's cycle
+ * where the world has one open, else a midterm's; the office's own (and any
+ * other) at the contest's own cycle (`cycleTurnout`).
  */
-function districtPeopleShare(api: CoreAPI, contest: ContestRow): number {
-  const people = islandPeople.get(town(api).stateKey.slice(3)) ?? 0;
-  const districts =
-    contest.family === "stateLegislative"
-      ? new Set(
-          (
-            api
-              .moduleState(OFFICES_MODULE_ID)
-              .table("seats")
-              .query("byOffice", [contest.officeId]) as unknown as {
-              district?: string | null;
-            }[]
-          ).map((s) => s.district ?? ""),
-        ).size || 1
-      : 1;
-  const own = Number(api.state.placeMetadata.referencePopulation);
-  return people > 0 && own > 0 ? Math.min(1, (own * districts) / people) : 1;
+function namedElectionTurnout(
+  api: CoreAPI,
+  contest: ContestRow,
+  election: string | undefined,
+): number {
+  if (election === "president") return 1;
+  if (election === "us-house") {
+    const year = Number(contest.electionDate.slice(0, 4));
+    const last = year % 2 ? year - 1 : year - 2;
+    return cycleTurnout(`${last}-11-03`).share;
+  }
+  if (election === "governor" || election === "secretary-of-state") {
+    const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+    const theirs = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    ).find(
+      (c) =>
+        (offices.get(c.officeId) as unknown as { kind?: string } | undefined)
+          ?.kind === election,
+    );
+    return theirs
+      ? cycleTurnout(theirs.electionDate).share
+      : campaignParameter("midtermShareOfPresidential");
+  }
+  return cycleTurnout(contest.electionDate).share;
 }
 
 /**
@@ -862,17 +871,22 @@ function checkPetition(api: CoreAPI, petitionId: string): void {
   const filingId = petitionId.slice("petition:".length);
   const petition = petitionOf(api, filingId);
   if (!petition || petition.check) return;
-  // A counted resident who signs stands for the people like them, as at the
-  // count (one rule for both tiers, times the count).
-  const roll = new Map(electorateRoll(api).map((v) => [v.id, v.count]));
+  // One standing signature row is one signature, a counted resident's as a
+  // full person's (pool item elections-petition-check-miscount): the clerk
+  // counts names on paper, so every row ends up counted or struck.
+  const roll = new Set(electorateRoll(api).map((v) => v.id));
   const signers = petitionSigners(api, filingId);
   const struckIds = signers
     .filter((s) => !roll.has(s.personId))
     .map((s) => s.personId);
+  // The signatures circulators gathered outside the town are the counted
+  // voters of the race's places beyond it, on that place's roll.
+  const outside = Object.values(petition.outsideSigned ?? {}).reduce(
+    (n, k) => n + k,
+    0,
+  );
   keepPetitionCheck(api, filingId, {
-    valid: Math.round(
-      signers.reduce((n, s) => n + (roll.get(s.personId) ?? 0), 0),
-    ),
+    valid: signers.length - struckIds.length + outside,
     struckIds,
   });
 }

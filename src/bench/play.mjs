@@ -1979,23 +1979,25 @@ async function campaignParts() {
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
       );
       campaignResult =
-        result.volunteers !== undefined
-          ? controls.campaignVolunteers.asked
-              .replace("{asked}", String(result.answers.length))
-              .replace(
-                "{yes}",
-                String(result.answers.filter((a) => a.yes).length),
-              )
-              .replace("{volunteers}", volunteerCount(result.volunteers))
-          : result.contacted !== undefined
-            ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
-                result.answers,
-              )
-                .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
-                .join(" · ")}`
-            : result.reached !== undefined
-              ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-              : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+        typeof result.line === "string" && result.setAsideMinor !== undefined
+          ? result.line
+          : result.volunteers !== undefined
+            ? controls.campaignVolunteers.asked
+                .replace("{asked}", String(result.answers.length))
+                .replace(
+                  "{yes}",
+                  String(result.answers.filter((a) => a.yes).length),
+                )
+                .replace("{volunteers}", volunteerCount(result.volunteers))
+            : result.contacted !== undefined
+              ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
+                  result.answers,
+                )
+                  .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
+                  .join(" · ")}`
+              : result.reached !== undefined
+                ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+                : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A volunteer shift is a scene: each person asked is the next Continue.
       if (kind === "ad" && result.scene) {
         playAsks({ asked: [], summary: result.line, scene: result.scene });
@@ -2107,6 +2109,36 @@ async function campaignParts() {
           return { nodes: [buttonRow(dollarsOut, send)] };
         },
       },
+      // Paid circulators gather the signatures a county, district or
+      // statewide race needs outside the town while its petition circulates.
+      ...(petition?.outside
+        ? [
+            {
+              group: T.groupMoney,
+              title: controls.campaignActs.circulators,
+              picture: pictures?.mail,
+              load: async () => {
+                const dollarsOut = numberBox({
+                  value: 500,
+                  min: 0,
+                  step: 1,
+                  label: controls.campaignContribute.dollars,
+                });
+                const hire = button(
+                  controls.campaignActs.circulators,
+                  "circulators",
+                  () => ({
+                    amountMinor: String(
+                      Math.round(Number(dollarsOut.value) * 100),
+                    ),
+                  }),
+                );
+                hire.dataset.testid = "campaign-circulators";
+                return { nodes: [buttonRow(dollarsOut, hire)] };
+              },
+            },
+          ]
+        : []),
       {
         group: T.groupMoney,
         title: controls.campaignContribute.give,
