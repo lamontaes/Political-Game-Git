@@ -252,6 +252,12 @@ export interface BudgetRow {
   readonly source: string;
   /** Another state's budget: the country tier's row whose ledger it is a view of (outside-budgets). */
   readonly ledgerId?: string;
+  /**
+   * What a state's or county's receipts scaled its Census base lines by when this budget was written
+   * (`receiptsFactor`; absent means 1). Kept on the row because the factor reads the treasury months of the
+   * year before, which fill in after a budget is adopted: a line's zero is read with the factor it was adopted with.
+   */
+  readonly receiptsFactor?: number;
 }
 
 interface WithholdingRecord {
@@ -1500,7 +1506,7 @@ function legislatedBudget(
   for (const set of [enactedBudgetChanges(api, gov.id), changes])
     for (const [line, delta] of Object.entries(set))
       spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
-  return { ...base, spendingMinor: spending };
+  return { ...base, spendingMinor: spending, receiptsFactor: receipts };
 }
 
 /**
@@ -1622,10 +1628,51 @@ export function lineWithoutBills(
   fy: number,
   line: string,
 ): number {
+  // The row for the year carries the receipts factor it was written with, so the zero is the line as it was
+  // scaled then; today's factor reads treasury months that filled in after the budget was adopted.
+  const row = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy);
+  if (row?.receiptsFactor !== undefined) return lineBase(api, gov, row, line);
   return Math.max(
     0,
     adoptedLine(api, gov, fy, line) -
       (enactedBudgetChanges(api, gov.id)[line] ?? 0),
+  );
+}
+
+/**
+ * A line as the government's receipts scale its Census base, with no bill and no act: the zero a budget row's
+ * line is read against. The factor is the one the row was written with, not today's (see `BudgetRow.receiptsFactor`).
+ */
+function lineBase(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  budget: BudgetRow,
+  line: string,
+): number {
+  return Math.round(
+    (baseBudget(api, gov, budget.fiscalYear).spendingMinor[line] ?? 0) *
+      (budget.receiptsFactor ?? 1),
+  );
+}
+
+/**
+ * A line's spending above what it would be with no budget bill and no act: the budget row's line less
+ * `lineBase`, so every bill the body enacted and every act that amended the line counts. The one reading of
+ * "how far a line stands above its base" (owner rule: one engine per mechanic). Subtracting `baseBudget`
+ * from a line is wrong for a state or county, whose adopted lines are scaled by `receiptsFactor`, which
+ * `baseBudget` leaves out: a line no bill raised read as raised (Whitney, Nevada: 475,182,513 of a county's
+ * housing line), and a factor below one hid a real raise (Fort Carson, Colorado). A guard
+ * (tests/guards/line-extra.test.ts) fails when a reader subtracts it again.
+ */
+export function lineExtra(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  budget: BudgetRow,
+  line: string,
+): number {
+  return (
+    (budget.spendingMinor[line] ?? 0) -
+    lineWithoutBills(api, gov, budget.fiscalYear, line)
   );
 }
 

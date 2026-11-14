@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1348,
+  "judged": 1311,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -555,13 +555,6 @@
         "scene-talk.close-accept.go-on-then-i-ll-be-here"
       ],
       "why": "All three lines let the player go in other words."
-    },
-    "0963rzwwb9z": {
-      "keys": [
-        "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face",
-        "scene-talk.narrate-narrate.witness.name-says-you-offered-them-money-and-has-gone-to-the-prosecutor-about-it"
-      ],
-      "why": "Both lines say the person reported the offered money."
     },
     "096cz6vkq6q": {
       "keys": [
@@ -1323,26 +1316,12 @@
       ],
       "why": "Both say it is fair that it is a lot, nearly identical."
     },
-    "0ko86z6wfu8": {
-      "keys": [
-        "scene-talk.narrate-narrate.pressed.money-is-tight-for-name-as-well-and-they-have-come-to-talk-about-the-missed-payment",
-        "scene-talk.narrate-narrate.pressed.name-is-short-on-money-too-and-the-missed-payment-has-made-it-worse"
-      ],
-      "why": "Both lines say the person is short on money too and came about the payment."
-    },
     "0kobzqb1370": {
       "keys": [
         "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no",
         "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no"
       ],
       "why": "Both lines repeat the same no."
-    },
-    "0kqrisumwfb": {
-      "keys": [
-        "scene-talk.close-accept.then-i-ll-wait-for-your-decision",
-        "scene-talk.close-accept.understood-i-ll-leave-you-to-it"
-      ],
-      "why": "Both lines are the same acceptance that the visitor will wait for the decision."
     },
     "0ktkaiumpar": {
       "keys": [
@@ -2882,13 +2861,6 @@
       ],
       "why": "Both put off the answer and say don't call, in other words."
     },
-    "18420ab728t": {
-      "keys": [
-        "scene-talk.narrate-narrate.friend.name-did-not-want-to-make-this-complaint-and-has-come-to-you-before-anyone-else",
-        "scene-talk.narrate-narrate.friend.name-is-close-to-you-and-went-to-the-prosecutor-anyway-now-they-are-asking-you-to-tell-them-the-truth"
-      ],
-      "why": "Both lines say a close person reluctantly filed and came first."
-    },
     "188k22dpsss": {
       "keys": [
         "scene-talk.narrate-narrate.name-comes-by-with-a-covered-dish-to-meet-kid",
@@ -3743,13 +3715,6 @@
       ],
       "why": "Both are generic openers from the friend, with nothing in the record to choose between them."
     },
-    "1l7aghl8isx": {
-      "keys": [
-        "scene-talk.follow-press.a-fix-that-comes-later-doesn-t-help-the-people-it-hits-now",
-        "scene-talk.follow-press.that-s-a-hope-not-a-promise"
-      ],
-      "why": "Both lines make the same point, that a later fix is no real promise, with nothing in the world to choose between them."
-    },
     "1l9t8sv0bpi": {
       "keys": [
         "scene-talk.follow-answer.everything-i-have-is-on-the-record-i-d-rather-print-your-answer-than-guess-at-it",
@@ -4545,13 +4510,6 @@
       ],
       "why": "Both lines say that is what people are saying."
     },
-    "1zr38mfq3xa": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-to-you",
-        "scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name"
-      ],
-      "why": "Both narrations have {name} approach after the service, reworded."
-    },
     "1zv77d7mqpv": {
       "keys": [
         "scene-talk.reply-leave.i-need-to-head-home",
@@ -4886,13 +4844,6 @@
         "scene-talk.open-greet.have-you-got-a-few-minutes"
       ],
       "why": "All four lines ask for a moment of the player's time in other words."
-    },
-    "24cmlbd10vb": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
-        "scene-talk.narrate-narrate.name-is-there-again-this-is-not-their-first-visit-about-it-and-you-bot"
-      ],
-      "why": "Both lines describe the same repeat visit."
     },
     "24f8tpnvwks": {
       "keys": [
@@ -5243,13 +5194,6 @@
         "scene-talk.reply-comfort.it-looks-worse-than-it-is-people-are-upset-and-theyre-allowed"
       ],
       "why": "Both lines reassure that things are fine, with no fact to separate them."
-    },
-    "29ib021xj8a": {
-      "keys": [
-        "scene-talk.state-request.about-cost-a-year-that-s-what-bill-takes-from-the-people-i-speak-for-we-d-like-a-veto",
-        "scene-talk.state-request.bill-costs-the-people-i-speak-for-about-cost-a-year-i-m-asking-you-to"
-      ],
-      "why": "Both lines need the same facts and say the same thing, that {bill} costs about {cost} a year and a veto is wanted."
     },
     "29kqf82vzdx": {
       "keys": [
@@ -5747,5 +5691,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "00yvi5cndux"
+  "yesHash": "1qo7pjdmrwn"
 }
