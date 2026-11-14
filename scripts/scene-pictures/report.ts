@@ -37,6 +37,7 @@ interface Category {
   serves: string[];
   offices?: string[];
   scenes?: string[];
+  basis: "image" | "name";
 }
 const categories = read<{
   groups: string[];
@@ -317,7 +318,7 @@ export function buildReport(): Report {
     `- Pictures wanted (named in a list, not painted): ${wanted.length}.`,
     `- Painted places the scenes use with no night picture: ${nightWanted.length}.`,
     `- Pairs still on a setting default with no row of their own: ${unmapped.length} (types not grandfathered in \`unmappedToday\` must have a row or a wantedScenes line).`,
-    `- Painted places: ${variantsOf.size}, sorted into ${categories.groups.length} groups in art/backdrops/categories.json.`,
+    `- Painted places: ${variantsOf.size}, sorted into ${categories.groups.length} groups in art/backdrops/categories.json (${Object.values(categories.places).filter((row) => row.basis === "image").length} looked at, the rest sorted from the name and tags).`,
     "",
     "## Rows that name something that does not exist",
     "",
