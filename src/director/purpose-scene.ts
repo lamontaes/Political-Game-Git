@@ -89,6 +89,7 @@ import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
+import { funeralFacts } from "./funeral-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
@@ -710,6 +711,8 @@ function composeBinding(
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
     ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A funeral (`life.death`): who died, and who they were to the player.
+    ...funeralFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(
