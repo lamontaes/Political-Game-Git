@@ -1469,7 +1469,9 @@ function composeBinding(
           (filing) => filing.party?.toLowerCase() === named,
         ),
     );
-    if (held)
+    // A race the party is running now is what its chair talks about; the seat
+    // it holds is said when nothing is running.
+    if (held && !race)
       facts["office-held"] = {
         text: seatPhrase(held.office),
         sourceRecordIds: [held.holder!.id],

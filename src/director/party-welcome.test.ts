@@ -126,11 +126,11 @@ function welcome(tag: string, withRace: boolean) {
         /hold a seat here|hold anything/,
       );
     expect(answer, `${where}: no unfilled slot`).not.toMatch(/[{}]/);
-    // The party's candidate is on the ballot, and the leader answers from the
-    // race or from a seat the party holds (both are in the record).
+    // The party has a candidate in a local race, so its chair talks about the
+    // race, whatever seat the party also holds.
     if (withRace)
-      expect(answer, `${where}: the answer reads the record`).toMatch(
-        new RegExp(`${raceTitle}|a seat on|'s office`),
+      expect(answer, `${where}: the answer names the race`).toContain(
+        raceTitle,
       );
     const yes = talk.tree.replies.findIndex(
       (reply) => reply.line.move === "agree" || reply.line.move === "promise",
