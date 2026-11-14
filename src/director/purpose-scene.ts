@@ -1812,6 +1812,11 @@ const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
   Record<string, { value: number } | undefined>
 >;
 
+/** Hours of time well spent an ending that warms a tie writes to closeness, by what it keeps. */
+const ENDING_WARMTH = rulesFile.endingWarmth as unknown as Readonly<
+  Record<string, { value: number } | undefined>
+>;
+
 /**
  * The player's reply in a scene with a purpose, by its path through the tree
  * (the index of each reply chosen, from the first). The reply is a record of
@@ -1964,6 +1969,18 @@ export function replyInScene(
       hours,
       undefined,
       { cause: "scene-reply", sourceId: id },
+    );
+  // An ending that warms a tie (a few words said for someone grieving) adds to
+  // the time together the reply already wrote.
+  const warmth = ending ? ENDING_WARMTH[ending.keeps]?.value : undefined;
+  if (warmth)
+    coreAPI(core).relationship(
+      scene.askedId,
+      scene.askerId,
+      "contact",
+      warmth,
+      undefined,
+      { cause: `scene-ending:${ending!.keeps}`, sourceId: id },
     );
   // stopgapId: SG-WORDS-favor-promise-keeps-unread
   const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;

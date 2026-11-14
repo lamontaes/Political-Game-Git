@@ -1134,7 +1134,7 @@
         {
           "id": "words-said",
           "label": "You said a few words",
-          "keeps": "none",
+          "keeps": "tie-warmed",
           "when": {
             "reply": ["promise"]
           }
@@ -1154,6 +1154,15 @@
           "keeps": "relationship-strained",
           "when": {
             "reply": ["leave"]
+          }
+        },
+        {
+          "id": "turned-down-twice",
+          "label": "You turned them down twice",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline"],
+            "asker": ["press"]
           }
         },
         {

@@ -6,7 +6,8 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { PersonId } from "../core2/types";
-import { purposeScene } from "./purpose-scene";
+import { closenessBetween } from "../core2/closeness";
+import { purposeScene, replyInScene } from "./purpose-scene";
 
 // A funeral the player hears of (a death in their circle, the health engine's
 // `life.death` record) is staged by the director and worded by the English
@@ -73,6 +74,32 @@ it(
           ...scene.talk.tree.replies.map((r) => r.line),
         ])
           expect(line.text, where).not.toMatch(/[{}]|undefined/);
+        // Saying a few words writes back: the reply is a record, and the tie to
+        // the mourner is warmer after it than after a plain reply (the ending's
+        // `tie-warmed` write, `endingWarmth`).
+        const yes = scene.talk.tree.replies.findIndex(
+          (reply) => reply.line.move === "promise",
+        );
+        if (scene.purpose === "funeral-words" && yes >= 0) {
+          const before = closenessBetween(core, scene.askedId, scene.askerId);
+          const replyId = replyInScene(
+            core,
+            director,
+            personId as PersonId,
+            entry,
+            [yes],
+            {
+              typeKey: "funeral",
+            },
+          );
+          expect(replyId, where).toMatch(/^scene-reply:/);
+          const record = core.durableLog.get(replyId!);
+          expect(record?.facts?.keeps, where).toBe("tie-warmed");
+          expect(
+            closenessBetween(core, scene.askedId, scene.askerId),
+            where,
+          ).toBeGreaterThan(before);
+        }
         const said = scene.facts.find((row) => row.key === "cause");
         composed.push(
           `${personId}: ${scene.talk.state.text} (tie: ${scene.facts.find((row) => row.key === "deceased-tie")?.text ?? "none"}; cause: ${said?.text ?? "none"})`,

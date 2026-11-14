@@ -99,6 +99,15 @@
       "checkedAgainst": "Twice a strained ending: trust lost (a lie found out, a promise broken to their face) costs more than a talk left unfinished."
     }
   },
+  "endingWarmth": {
+    "about": "What an ending that warms a tie writes to closeness: a kindness done to someone in grief (saying a few words at a funeral) is more than the time spent together, which every reply already writes. The closeness engine reads positive hours as time well spent.",
+    "tie-warmed": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": [1, 4],
+      "checkedAgainst": "Twice one talk's length: a favor asked in grief and given warms a tie more than a talk, and less than the two-talk quarrel of a lost trust."
+    }
+  },
   "timeOfDay": {
     "about": "When a scene's lines may say what hour it is (words-scene-time-of-day-words). The hour is the player's clock as the scene plays. Before noon the scene is in the morning, and a morning greeting (\"Morning. Here to file?\") may play; from noon it is the afternoon; both are the daytime, when a line that says the afternoon is still ahead (\"I'm vetoing it this afternoon.\") may play. From the evening minute on, a line that says the present is the evening (\"Thanks for your time tonight.\") may play. A scene whose hour no clock keeps sets no mark.",
     "afternoonFromMinute": {
