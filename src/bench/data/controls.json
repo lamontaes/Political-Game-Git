@@ -656,6 +656,19 @@
     "federal": "Federal"
   },
   "travel": {
+    "why": "Why here",
+    "reasons": {
+      "work": "You work here",
+      "family": "Your family works here",
+      "study": "Your household's school",
+      "known": "People you know work here",
+      "action": "Something to do now",
+      "serve": "You serve in office",
+      "member": "Your party's office",
+      "seat": "You hold a seat on its board",
+      "meeting": "Its board meets today",
+      "public": "Open to the public"
+    },
     "memberHere": "Your party's office",
     "filing": "Filing office",
     "go": "Go to",
