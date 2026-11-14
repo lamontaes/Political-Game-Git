@@ -13999,6 +13999,15 @@
           "purpose": "last-day-farewell",
           "key": "departure",
           "after": "scene-talk.reply-deflect.ask-me-over-a-drink-sometime-not-today"
+        },
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise"
         }
       ],
       "bearing": "tender",
@@ -27597,6 +27606,14 @@
           "purpose": "*",
           "key": "departure",
           "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
         }
       ],
       "bearing": "tender",
@@ -80028,31 +80045,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-ll-hold-you-to-that-first",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I'll hold you to that, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.then-where-you-re-the-one-we-elected",
       "move": "follow-press",
       "kind": "spoken",
@@ -82838,6 +82830,14 @@
           "subject": "scene",
           "purpose": "rival-word",
           "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
           "step": "open",
           "move": "greet",
           "role": "asker"
@@ -97250,30 +97250,6 @@
       "date": "2026-10-29",
       "tag": {
         "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.got-a-minute-first-it-s-about-your-race",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Got a minute, {first}? It's about your race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-to-run",
-          "key": "favor-asked",
-          "step": "open",
-          "move": "greet",
-          "role": "asker"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet",
         "key": "favor-asked"
       }
     },
@@ -135218,30 +135194,6 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.take-care-of-yourself-first",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Take care of yourself, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "thank",
-        "key": "moving-goodbye"
-      }
-    },
-    {
       "key": "scene-talk.close-promise.i-ll-send-word-when-i-m-settled",
       "move": "close-promise",
       "kind": "spoken",
@@ -136782,6 +136734,14 @@
           "role": "asked",
           "purpose": "homecoming",
           "key": "arrival"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
         }
       ],
       "origin": "authored",
@@ -137575,30 +137535,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-do-my-part-first-you-ll-see",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll do my part, {first}. You'll see.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, return and visit purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "arrival"
       }
     },
@@ -158762,30 +158698,6 @@
       "bearing": "steady",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      },
-      "key": "scene-talk.close-promise.i-ll-write-again-soon-take-care-of-yourself-first",
-      "text": "I'll write again soon. Take care of yourself.",
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
       "date": "2026-11-10"
     },
     {
