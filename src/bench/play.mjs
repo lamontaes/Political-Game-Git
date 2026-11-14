@@ -3309,11 +3309,9 @@ async function seatRows() {
     seatText = r.text ?? [];
     // An executive's bill goes through a member: who was asked and what they said.
     const askedWord = r.asked
-      ? (r.asked.awaitingPlayer
-          ? controls.seat.askedWaiting
-          : r.asked.carried
-            ? controls.seat.askedCarried
-            : controls.seat.askedRefused
+      ? (r.asked.carried
+          ? controls.seat.askedCarried
+          : controls.seat.askedRefused
         ).replace("{name}", r.asked.name)
       : "";
     seatResult = r.asked

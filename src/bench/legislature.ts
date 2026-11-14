@@ -878,12 +878,18 @@ export function seatAsk(
   });
   if (!asked)
     throw new Error("No member of that body can be asked to carry it.");
+  // The member asked is never the player: `proposeAsExecutive` skips the executive's own key,
+  // and `bodiesOf` offers an executive only a body they do not sit on, so the engine's held
+  // ask for the player (`awaitingPlayer`) cannot come back here and the screen has no line for it.
+  if (asked.awaitingPlayer)
+    throw new Error(
+      "An executive's bill was asked of the player; the menu should not offer this body.",
+    );
   return {
     asked: {
       memberId: asked.memberId,
       name: personName(core, asked.memberId),
       carried: asked.carried,
-      awaitingPlayer: asked.awaitingPlayer ?? false,
       askId: asked.id,
       billId: asked.billId,
     },

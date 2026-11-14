@@ -1118,8 +1118,7 @@
     "firstStep": "Takes effect when it becomes law",
     "stepDate": "Takes effect on",
     "askedCarried": "{name} agreed to carry your bill.",
-    "askedRefused": "{name} declined to carry your bill, and nothing was filed.",
-    "askedWaiting": "{name} is weighing it."
+    "askedRefused": "{name} declined to carry your bill, and nothing was filed."
   },
   "journal": {
     "title": "My story",
