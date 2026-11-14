@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 470,
+  "judged": 27,
   "no": {
     "00nxu254m0b": {
       "keys": ["scene-talk.follow-threaten.don-t-count-on-my-help-next-time"],
@@ -85,5 +85,5 @@
       "why": "Promise to make it count names nothing specific."
     }
   },
-  "yesHash": "1glio86ohts"
+  "yesHash": "1cazuqocbme"
 }

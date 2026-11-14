@@ -156,6 +156,17 @@
       "note": "Graded good with no note. (batch 1 item 4)",
       "parts": ["hearing.thanks.thank-you-mr-chairman"],
       "restoredFrom": "bank:hearing.thanks.thank-you-mr-chairman"
+    },
+    {
+      "i": 17,
+      "grade": "good",
+      "by": "owner (graded good before the rewrite); restored Nov 14, 2026 (words-machine part 7)",
+      "line": "Short. I'll have a real count by Friday.",
+      "note": "Reworded to {count-by} by rule 22 (#9048); the live piece carries the grade.",
+      "parts": [
+        "scene-talk.follow-answer.short-ill-have-a-real-count-by-count-by"
+      ],
+      "restoredFrom": "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday"
     }
   ]
 }

@@ -1208,11 +1208,11 @@
       },
       "applies": {
         "banks": ["scene-talk"],
-        "moves": "(?:promise|refuse|threaten)"
+        "moves": "^state-.*(?:promise|refuse|threaten)"
       },
       "catches": ["I really need this one."],
       "spares": ["I wish I could, but I can't."],
-      "note": "A sample (Nov 14): whether a promise, refusal or threat names who, what or why is meaning, so a reviewer judged the 470 lines once; the 16 \"no\" lines are listed for the owner and none is pulled."
+      "note": "A sample (Nov 14): only lines that open a commitment are judged. A reply or follow that promises answers an ask whose what is in the line before; that is an exchange check (words-machine part 3). Nothing is narrowed or pulled for the threat lines until the owner's exact words on them are quoted."
     },
     {
       "id": "stake-is-named",
@@ -1308,7 +1308,7 @@
       },
       "applies": {
         "banks": ["scene-talk"],
-        "moves": "-(?:plea|bargain|complain)$"
+        "moves": "^state-(?:plea|bargain|offer)$|^(?:reply|follow|continue)-offer$"
       },
       "catches": [
         "Across the country, unemployment is {unemployment-rate} percent.",
@@ -1323,7 +1323,7 @@
         "I could lose my primary over this",
         "this is a two-way street"
       ],
-      "note": "A sample (Nov 14): a stake can be a figure, a favor or a name in any words, so a reviewer judged the 196 plea and bargain lines once; the 27 \"no\" lines are listed for the owner and none is pulled."
+      "note": "A sample (Nov 14): a stake can be a figure, a favor or a name in any words. Only the line that opens a plea or a bargain, and any line that makes an offer, is judged; a reply or follow leans on the stake named in the line before (Words lead, Nov 14)."
     },
     {
       "id": "reply-follows-the-line-before",

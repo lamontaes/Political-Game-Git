@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "stake-is-named",
   "rubric": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-  "judged": 196,
+  "judged": 133,
   "no": {
     "05b5ifghb3m": {
       "keys": [
@@ -94,6 +94,12 @@
       "keys": ["scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you"],
       "why": "No stake named."
     },
+    "1jra634qvdc": {
+      "keys": [
+        "scene-talk.reply-offer.come-in-we-ll-figure-out-the-rest-together-as-it-comes"
+      ],
+      "why": "Offers only a vague \"figure it out together\" with no thing, favor or consequence named."
+    },
     "1uxosvsxbec": {
       "keys": [
         "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me"
@@ -131,5 +137,5 @@
       "why": "No stake named."
     }
   },
-  "yesHash": "0eppstk0tu1"
+  "yesHash": "0uzuj9kjqgg"
 }
