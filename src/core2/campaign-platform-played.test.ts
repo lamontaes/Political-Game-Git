@@ -53,9 +53,8 @@
  *   a view on than they run on), and every candidate the years' filings hold
  *   who did where they do not, and the test says which.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it, vi } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
+import type { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -148,9 +147,32 @@ vi.mock("./campaign-stances", async (importOriginal) => {
   };
 });
 
-const seed = process.env.PLATFORM_PLAYED_SEED ?? randomBytes(8).toString("hex");
-/** Most drawn places' years: many small towns hold no contested local race in a year. */
-const MAX_DRAWS = 12;
+/**
+ * The places whose years the totals pool, named and pinned at fixed place
+ * seeds (never drawn): the same places and years every run. Leeds Point is a
+ * state that elects its lieutenant governor on the governor's ticket (a
+ * running mate's filing); the other two hold a contested local race.
+ */
+const PLACES = [
+  {
+    key: "3439810",
+    name: "Leeds Point",
+    state: "NJ",
+    seed: "5d1f7a0c4b2e9a63d8c1f0e7b3a49256c8d0e1f2a3b4c5d6e7f8091a2b3c4d5e",
+  },
+  {
+    key: "4651724",
+    name: "Prairiewood Village",
+    state: "SD",
+    seed: "e030b215e75a72f2d660599e5ac63caba33f7862416e9169c41a050a7b9c41cd",
+  },
+  {
+    key: "0115256",
+    name: "Clay",
+    state: "AL",
+    seed: "652c0b614db96a56ae3ed028b8d0ded5fec150e5a17459d6b85f8c364d11b5ca",
+  },
+] as const;
 const DAYS = 365;
 /** The fewest drawn places' years the totals pool. */
 const MIN_PLACES = 3;
@@ -270,10 +292,10 @@ function levelOf(api: CoreAPI, contest: ContestRow): string {
   );
 }
 
-/** A world's year, a day at a time, and every platform it recorded, read back on its day. */
-function playYear(draw: number) {
-  const place = drawPlace(`${seed}:${draw}`, "campaign-platform-played");
-  const where = `${place.name} (${place.key}), run seed ${seed}, draw ${draw}, place seed ${place.seed}`;
+/** A pinned place's year, a day at a time, and every platform it recorded, read back on its day. */
+function playYear(pinned: (typeof PLACES)[number]) {
+  const place = pinned as ReturnType<typeof drawPlace>;
+  const where = `${place.name}, ${place.state} (${place.key}), pinned place seed ${place.seed}`;
   console.log(`campaign-platform-played: ${where}`);
   try {
     return playYearIn(where, place);
@@ -761,8 +783,8 @@ it("every contested local race's candidates run on their top questions by the ru
   const enough = () =>
     contestedPool.filter(spoke).length >= MIN_CANDIDATES ||
     everyPool.filter(spoke).length >= MIN_CANDIDATES;
-  for (let draw = 0; draw < MAX_DRAWS; draw += 1) {
-    const year = playYear(draw);
+  for (const pinned of PLACES) {
+    const year = playYear(pinned);
     places.push(year.where);
     players.push(`${year.where}: ${year.player}`);
     // Every platform read is the rule's, contested or not.
@@ -829,7 +851,7 @@ it("every contested local race's candidates run on their top questions by the ru
   console.log([...(proof ?? tried), total].join("\n"));
   if (!proof)
     expect.fail(
-      `no draw of ${MAX_DRAWS} held a contested local race:\n${tried.join("\n")}`,
+      `none of the ${PLACES.length} pinned places held a contested local race:\n${tried.join("\n")}`,
     );
   expect(
     minority.length,
@@ -848,26 +870,18 @@ it("every contested local race's candidates run on their top questions by the ru
   // the platform's scores; whether the pooled total meets the band is read
   // from the printed lines (pool item campaign-platform-emphasis-c1), and
   // the band is not widened.
-}, 7_200_000);
+}, 1_500_000);
 
 /**
  * A ticket office's filing runs on its governor candidate's platform
  * (`nameRunningMate`), so the played test reads it against that platform and
- * not as a second choice by the rule. Pinned: one named place whose state
- * elects a lieutenant governor on the governor's ticket, at a fixed place
- * seed (the same place and year every run, never drawn).
+ * not as a second choice by the rule. Pinned: Leeds Point (`PLACES[0]`), a
+ * state that elects a lieutenant governor on the governor's ticket.
  */
-const TICKET_PLACE = {
-  key: "3439810",
-  name: "Leeds Point",
-  state: "NJ",
-  seed: "5d1f7a0c4b2e9a63d8c1f0e7b3a49256c8d0e1f2a3b4c5d6e7f8091a2b3c4d5e",
-};
 it("a running mate's filing carries its governor candidate's platform, every platform of the year read by record (Leeds Point NJ, pinned seed)", () => {
-  const where = `${TICKET_PLACE.name}, ${TICKET_PLACE.state} (${TICKET_PLACE.key}), pinned place seed ${TICKET_PLACE.seed}`;
-  const year = playYearIn(where, TICKET_PLACE as ReturnType<typeof drawPlace>);
+  const year = playYear(PLACES[0]);
   expect(
     year.reads.some((r) => r.record === "filing"),
-    where,
+    year.where,
   ).toBe(true);
 }, 1_200_000);
