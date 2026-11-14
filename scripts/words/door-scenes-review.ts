@@ -73,7 +73,7 @@ interface ManifestEntry {
    * higher level. Lines read "Name: text   (tag)", "- **Name:** text" or
    * "- _narration_"; anything else is plain text.
    */
-  from?: { file: string; heading: string };
+  from?: { file: string; heading: string | string[] };
   /** A slot for a scene not built yet: its title says what is coming. */
   coming?: boolean;
   /** Where the text came from and what it was played in (part, place, seed, commit). */
@@ -420,10 +420,24 @@ const manifest: ManifestEntry[] = manifestPath
   : defaultManifest();
 
 /** The lines of one section of a markdown file of text as played. */
-function linesFromFile(file: string, heading: string): StaticLine[] {
+function linesFromFile(
+  file: string,
+  heading: string | string[],
+): { lines: StaticLine[]; context: string } {
   const rows = readFileSync(file, "utf8").split("\n");
-  const at = rows.findIndex((r) => /^#{1,6} /.test(r) && r.includes(heading));
-  if (at < 0) throw new Error(`no heading "${heading}" in ${file}`);
+  // Each name narrows the search: the next heading after the last one found.
+  let at = -1;
+  for (const name of [heading].flat()) {
+    const next = rows.findIndex(
+      (r, i) => i > at && /^#{2,6} /.test(r) && r.includes(name),
+    );
+    if (next < 0) throw new Error(`no heading "${name}" in ${file}`);
+    at = next;
+  }
+  const place = rows
+    .slice(0, at)
+    .reverse()
+    .find((r) => /^## /.test(r));
   const level = /^(#+)/.exec(rows[at]!)![1]!.length;
   const out: StaticLine[] = [];
   for (const raw of rows.slice(at + 1)) {
@@ -451,7 +465,10 @@ function linesFromFile(file: string, heading: string): StaticLine[] {
     }
     out.push({ role: "plain", text: row.replace(/^[-*]\s+/, "") });
   }
-  return out;
+  return {
+    lines: out,
+    context: `${file.split("/").slice(-2).join("/")}${place ? `, ${place.replace(/^## /, "").slice(0, 140)}` : ""}`,
+  };
 }
 
 const sentence = (s: string) => s.replace(/[-.]/g, " ");
@@ -461,8 +478,12 @@ const places = placesFile.situationPlaces as Record<string, string[]>;
 let sceneNo = 0;
 
 for (const entry of manifest) {
-  if (entry.from)
-    entry.lines = linesFromFile(entry.from.file, entry.from.heading);
+  let context = "";
+  if (entry.from) {
+    const read = linesFromFile(entry.from.file, entry.from.heading);
+    entry.lines = read.lines;
+    context = read.context;
+  }
   if (entry.coming || entry.lines) {
     sceneNo += 1;
     const n = { i: 0 };
@@ -483,9 +504,7 @@ for (const entry of manifest) {
       variant: "plain",
       purpose: "",
       revised: entry.revised ?? "",
-      place:
-        entry.source ??
-        (entry.from ? `${entry.from.file.split("/").slice(-2).join("/")}` : ""),
+      place: entry.source ?? context,
       picture: null,
       asking: false,
       coming: !!entry.coming,
