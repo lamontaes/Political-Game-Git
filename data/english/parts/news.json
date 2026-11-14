@@ -2258,6 +2258,50 @@
       }
     },
     {
+      "key": "news.signed.designation-the-law-became-law-on-date-without-name-s-signature",
+      "move": "signed",
+      "kind": "written",
+      "text": "{designation}, the {law}, became law on {date} without {name}'s signature.",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "news",
+          "role": "signed",
+          "choice": "lede",
+          "requiresFacts": ["unsigned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed.name-let-designation-become-law-on-date-without-signing-it",
+      "move": "signed",
+      "kind": "written",
+      "text": "{name} let {designation} become law on {date} without signing it.",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "news",
+          "role": "signed",
+          "choice": "lede",
+          "requiresFacts": ["unsigned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.hearing.at-the-hearing-on-designation-for-spoke-for-it-and-against-a",
       "move": "hearing",
       "kind": "written",
@@ -12568,6 +12612,50 @@
       "origin": "authored",
       "author": "Words builder W3",
       "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.the-body-passed-it-and-the-deadline-came-with-no-word-from-the-desk",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "The {body} passed it, and the deadline came with no word from the desk.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["unsigned", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed-next.designation-takes-effect-without-a-signature-as-the-law-allows-when-the-deadline",
+      "move": "signed-next",
+      "kind": "written",
+      "text": "{designation} takes effect without a signature, as the law allows when the deadline passes.",
+      "uses": [
+        {
+          "move": "signed-next",
+          "subject": "news",
+          "role": "signed-next",
+          "choice": "context",
+          "requiresFacts": ["unsigned", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

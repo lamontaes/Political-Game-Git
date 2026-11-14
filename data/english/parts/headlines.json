@@ -2736,6 +2736,50 @@
       }
     },
     {
+      "key": "headlines.signed.designation-becomes-law-without-name-s-signature",
+      "move": "signed",
+      "kind": "written",
+      "text": "{designation} becomes law without {name}'s signature",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "headline",
+          "role": "signed",
+          "choice": "headline",
+          "requiresFacts": ["unsigned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.signed.office-name-lets-designation-become-law-unsigned",
+      "move": "signed",
+      "kind": "written",
+      "text": "{office} {name} lets {designation} become law unsigned",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "headline",
+          "role": "signed",
+          "choice": "headline",
+          "requiresFacts": ["unsigned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.hearing.number-speak-at-the-hearing-on-designation",
       "move": "hearing",
       "kind": "written",
