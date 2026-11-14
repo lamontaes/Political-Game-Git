@@ -14,6 +14,7 @@ import type {
   CoreData,
   DecisionResult,
   PersonState,
+  ReasonProvider,
 } from "./types";
 
 export type OfficeOfferProvider = (
@@ -41,6 +42,8 @@ export interface OfficeActKit {
   readonly providers?: Readonly<Record<string, OfficeOfferProvider>>;
   /** By effect; an act's `effect` names its handler. */
   readonly handlers?: Readonly<Record<string, OfficeEffectHandler>>;
+  /** By provider id; an act's reason bindings name them. */
+  readonly reasonProviders?: Readonly<Record<string, ReasonProvider>>;
 }
 
 /** A kind of moment that may stop the player, and whether it does by default. */
