@@ -94,6 +94,12 @@ describe("scene paths", () => {
     ).toEqual([["set", "ask"]]);
   });
 
+  it("shows what the scene can say after a refusal, where a reason given if asked would be", () => {
+    const [refusal] = scenePaths(rule("refuse"), PIECES, [talk("a")]);
+    expect(refusal!.keys).toEqual(["set", "ask", "no"]);
+    expect(refusal!.after.map((line) => line.key)).toEqual(["press", "read"]);
+  });
+
   it("counts the same path in two scenes once", () => {
     const paths = scenePaths(rule("promise"), PIECES, [talk("a"), talk("b")]);
     expect(paths).toHaveLength(2);

@@ -338,6 +338,7 @@ export interface PathSheet {
     readonly scene: string;
     readonly scenes: number;
     readonly lines: PathSubject["lines"];
+    readonly after: PathSubject["after"];
   }[];
 }
 
@@ -362,6 +363,7 @@ export function pathSheets(
         scene: path.scene,
         scenes: path.scenes,
         lines: path.lines,
+        after: path.after,
       })),
     });
   return files;
