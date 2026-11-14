@@ -35,3 +35,5 @@ source: found by the Account lead's carry of #8804 on Nov 14, 2026
 **Files.** src/core2/births-counted.ts, src/core2/counted-deaths-opening.test.ts
 
 **Notes.** Opened with the carry of #8804 (part deaths). The whole-population measurement of Nov 14 (death-rate/report.md) found full people at 0.7 to 0.9 of the table; counted residents at San Isidro were at about half before this change.
+
+Also read with the age-band breakout (Nov 14, the carry of #8804): North Vacherie, Louisiana took in less counted estate tax over year 1 with part deaths (5,420,666 minor over 51 rows, 24 paying) than without (8,541,914 over 37 rows, 21 paying) although more people died (352 against 313.6). Cause untraced. A likely reading: a whole-record death without part deaths stands for every household of a heavy record and taxes all of them at once, while a part death taxes only its share. Check it by listing each death's households and tax by record.
