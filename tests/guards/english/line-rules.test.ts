@@ -157,7 +157,7 @@ describe("line rules: each rule does what it says", () => {
       } else if (rule.test.kind === "place") {
         // An enforced place rule names the verdict file its reader folds, or
         // the test that proves the composer places it.
-        expect(placeRuleProblems(rule, REPO_FILES)).toEqual([]);
+        expect(placeRuleProblems(rule, REPO_FILES), rule.id).toEqual([]);
       } else expect(tested(rule), rule.id).toBe(true);
   });
 });

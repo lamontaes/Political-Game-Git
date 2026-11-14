@@ -145,7 +145,7 @@ describe("where an enforced place rule points", () => {
       placeRuleProblems(reads, files({ "data/english/judged/x.json": "{}" })),
     ).toEqual([]);
     expect(placeRuleProblems(reads, files({}))).toEqual([
-      "placed-rule: data/english/judged/x.json does not exist",
+      "data/english/judged/x.json does not exist",
     ]);
   });
 
@@ -154,16 +154,16 @@ describe("where an enforced place rule points", () => {
     const test = { "src/english/x.test.ts": "// Words rule placed-rule" };
     expect(placeRuleProblems(by, files(test))).toEqual([]);
     expect(placeRuleProblems(by, files({}))).toEqual([
-      "placed-rule: src/english/x.test.ts does not exist",
+      "src/english/x.test.ts does not exist",
     ]);
     expect(
       placeRuleProblems(by, files({ "src/english/x.test.ts": "// another" })),
-    ).toEqual(["placed-rule: src/english/x.test.ts does not name the rule"]);
+    ).toEqual(["src/english/x.test.ts does not name the rule"]);
     expect(placeRuleProblems(by, files(test, []))).toEqual([
-      "placed-rule: src/english/x.test.ts is not in the gate's test set",
+      "src/english/x.test.ts is not in the gate's test set",
     ]);
     expect(placeRuleProblems(placed({}), files({}))).toEqual([
-      "placed-rule: names neither a verdict file nor a test",
+      "names neither a verdict file nor a test",
     ]);
   });
 });

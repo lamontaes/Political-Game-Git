@@ -960,23 +960,21 @@ export interface RuleFiles {
 }
 
 /**
- * Why an enforced place rule's pointer does not hold, or nothing: it names
+ * Why an enforced place rule's pointer does not hold, or nothing (the
+ * caller names the rule): it names
  * the verdict file its reader folds, or a test file that exists, names the
  * rule's id and runs in the gate, so the pointer cannot rot.
  */
 export function placeRuleProblems(rule: LineRule, files: RuleFiles): string[] {
   if (rule.test.kind !== "place" || rule.status !== "enforced") return [];
   const { reads, by } = rule.test;
-  if (reads)
-    return files.exists(reads) ? [] : [`${rule.id}: ${reads} does not exist`];
-  if (!by) return [`${rule.id}: names neither a verdict file nor a test`];
-  if (!files.exists(by)) return [`${rule.id}: ${by} does not exist`];
+  if (reads) return files.exists(reads) ? [] : [`${reads} does not exist`];
+  if (!by) return ["names neither a verdict file nor a test"];
+  if (!files.exists(by)) return [`${by} does not exist`];
   return [
     ...(files.read(by).includes(rule.id)
       ? []
-      : [`${rule.id}: ${by} does not name the rule`]),
-    ...(files.inTestSet(by)
-      ? []
-      : [`${rule.id}: ${by} is not in the gate's test set`]),
+      : [`${by} does not name the rule`]),
+    ...(files.inTestSet(by) ? [] : [`${by} is not in the gate's test set`]),
   ];
 }
