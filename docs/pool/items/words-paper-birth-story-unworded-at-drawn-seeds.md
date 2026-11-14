@@ -23,6 +23,8 @@ checked: m3 2026-11-14
 
 **Cause.** Measured: with `GOLDEN_PATH_SEED=2d805cf4d2aceff57ef3 npx vitest run src/bench/press-briefs.test.ts` (Cavetown, Maryland) the story `printed:outlet:newspaper:0:jurisdiction_ed5d137178b367c7:person_3d5bf95178ff7f1c:birth` is unworded; with `GOLDEN_PATH_SEED=a841494a2ab44f7b8e5d1e3ac07b89b7d5410140 npx vitest run src/bench/printed-words.test.ts` (Crystal Lake, Connecticut) the story `person_b18ec3285e5ebafd:birth` is unworded. The `birth` builder in src/bench/printed-words.ts needs a name and a parent; the first step is to read which of the two is missing for those records (a counted mother or an unnamed child) and why the press printed a birth the builder cannot say.
 
+**More evidence (Nov 14, train head 8bb1ff9d and 8b6c8903).** At Camp Verde, Arizona, seed e124c6c734c6455d7462dce0f0828ae050a5d34b, `src/bench/printed-words.test.ts` (words every story the press prints in a year) leaves 54 stories unworded on the train head without the police-log changes: `cause-group.ad:...:budget-line:naturalResources:<date>` ads and `justice.visiting-access:custody-referral:case:<person>:<date>` stories. Same class: the press prints a story the English engine cannot word, and the test draws its seed.
+
 **Fix.** Find why the builder gets no name or no parent for those two records and make the press print a birth only when it can be worded, or read the missing fact from the record that holds it; pin both tests to named places with seeds in the test file.
 
 **Time box.** 2 hours.
