@@ -594,6 +594,7 @@
     "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
     "adjourned": "Cast when you adjourned",
+    "voteCast": { "yes": "Yes", "no": "No", "abstain": "Abstained" },
     "nameHeadPick": "Name to the post"
   },
   "floor": {

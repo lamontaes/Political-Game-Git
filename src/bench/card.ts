@@ -1,6 +1,10 @@
 import { governmentProperName } from "../core2/government-proper-name";
 import { openPastTerms, servingTermsOf } from "../core2/modules/offices";
-import { officeInSentence, personWorkOf } from "../core2/person-work";
+import {
+  jobTitleSaid,
+  officeInSentence,
+  personWorkOf,
+} from "../core2/person-work";
 import {
   ageInYears,
   ageOnDate,
@@ -32,7 +36,11 @@ import {
   screenPick,
   screenWays,
 } from "../english/screen-words";
-import { articleFor, framedByAge } from "../english/journal-words";
+import {
+  articleFor,
+  employerSaid,
+  framedByAge,
+} from "../english/journal-words";
 import controls from "./data/controls.json" with { type: "json" };
 import {
   pronounSetOfGender,
@@ -47,7 +55,7 @@ import {
   coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
-import { stateInSentence } from "../director/words";
+import { properName, stateInSentence } from "../director/words";
 import { relationWord, schoolsOf } from "./words";
 import { faceOf, scenePlace } from "./scene";
 import {
@@ -75,8 +83,10 @@ function employerName(
   organizationId: string,
 ): string | undefined {
   const organization = core.organizations.get(organizationId);
+  // Said the way the journal says it ("the Town of Ranchester"; a government's
+  // payroll is the government, never "TOWN OF RANCHESTER treasury").
   return organization && organization.outsideFlow === undefined
-    ? organization.name
+    ? employerSaid(properName(organization.name), organization)
     : undefined;
 }
 
@@ -176,7 +186,7 @@ export function personCard(core: CoreState, personId: string) {
     },
     job: job && {
       jobId: job.id,
-      title: job.title,
+      title: jobTitleSaid(core, job),
       employer,
       wageDailyMinor: job.wageDailyMinor,
       hoursDaily: job.hoursDaily,
@@ -1761,7 +1771,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           // work outside the town they live in.
           { title: null, employer: null, outside: homePlace }
         : {
-            title: job.title,
+            title: jobTitleSaid(core, job),
             employer: employerName(core, job.organizationId) ?? null,
           }
       : null,

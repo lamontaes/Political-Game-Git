@@ -17,6 +17,7 @@ import {
 } from "./grounded-english";
 import { journalDataFromBank } from "./mined/journal-bank";
 import articleSounds from "../../data/english/article-sounds.json" with { type: "json" };
+import { ordinalDay } from "./day-words";
 import seatWords from "../../data/english/seat-words.json" with { type: "json" };
 
 const zero = P.zero;
@@ -618,6 +619,14 @@ export interface SeatRecord {
   readonly bodyName?: string | null;
   /** The district the seat is for, as its record codes it ("2", "038"). */
   readonly district?: string | null;
+  /**
+   * The level of government the office belongs to, as its record names it
+   * ("city", "township", "county", "state", "federal"). Only a town's own
+   * body is said short after the first time ("the council"); a county's,
+   * state's or federal body is always said whole, so "the senate" never
+   * stands for a body that covers more than the town.
+   */
+  readonly level?: string | null;
 }
 
 /**
@@ -625,8 +634,10 @@ export interface SeatRecord {
  * a seat on a body by the body, "the Mutual Village Council" the first time a
  * screen says it and "the council" after (`first: false`); a single office by
  * its title in lower case, "mayor"; a district's seat with its district,
- * "state representative in District 38", then "the seat". The title's
- * parenthesis (a form's note) is never said. Nothing here names an office or
+ * "state representative in District 38", then "the seat". A county, state or
+ * federal body is said whole every time ("the U.S. Senate", "the
+ * state Senate"), never by its last word. The title's parenthesis (a form's
+ * note) is never said. Nothing here names an office or
  * a place: each comes from the record.
  */
 export function seatSaid(
@@ -640,23 +651,53 @@ export function seatSaid(
   const district = (seat.district ?? "").trim().replace(/^0+(?=\w)/, "");
   const districted =
     !!district && !/^0+$/.test(district) && !/^at[- ]large$/i.test(district);
+  const level = seat.level ?? "";
+  const aboveTown =
+    level === "county" || level === "state" || level === "federal";
+  const bodied = (seat.seats ?? one) > one;
+  // The body by its record's name, or the title without its member word or
+  // seat number ("City Council, Seat 2" is a seat on the city council).
+  // A body's own name that starts with "the" keeps it once.
+  const body =
+    seat.bodyName?.trim().replace(/^the\s+/i, "") ||
+    title
+      .replace(/,.*$/, "")
+      .replace(/\s+(?:member|seat)$/i, "")
+      .trim();
+  const named = seat.bodyName?.trim() ? body : jobSaid(body);
+  // A state's chamber as people say it: "the state Senate", "the state House",
+  // and where the state calls it by another word ("the Assembly", "the House
+  // of Delegates") by that word without "State" before it.
+  const chamber = () =>
+    seatWords.chambers.find((row) => new RegExp(row.match, "i").test(named))
+      ?.said ??
+    seatWords.body.replace("{body}", named.replace(/^state\s+/i, ""));
+  const congress =
+    level === "federal" && /house of representatives/i.test(named);
+  if (districted && aboveTown && bodied && seat.bodyName?.trim()) {
+    // Above the town a district's seat is said whole every time, by its body
+    // and its district as an ordinal, never as "the seat".
+    if (congress)
+      return seatWords.federalHouseDistrict.replace(
+        "{ordinal}",
+        ordinalDay(Number(district)),
+      );
+    if (level === "state")
+      return seatWords.chamberDistrict
+        .replace("{chamber}", chamber())
+        .replace("{ordinal}", ordinalDay(Number(district)));
+  }
   if (districted)
-    return first
+    return first || aboveTown
       ? seatWords.district
           .replace("{office}", jobSaid(title))
           .replace("{n}", district)
       : seatWords.districtAgain;
-  if ((seat.seats ?? one) > one) {
-    // The body by its record's name, or the title without its member word or
-    // seat number ("City Council, Seat 2" is a seat on the city council).
-    // A body's own name that starts with "the" keeps it once.
-    const body =
-      seat.bodyName?.trim().replace(/^the\s+/i, "") ||
-      title
-        .replace(/,.*$/, "")
-        .replace(/\s+(?:member|seat)$/i, "")
-        .trim();
-    const named = seat.bodyName?.trim() ? body : jobSaid(body);
+  if (bodied) {
+    if (congress) return seatWords.federalHouse;
+    if (level === "federal") return seatWords.federalSenate;
+    if (level === "state") return chamber();
+    if (level === "county") return seatWords.body.replace("{body}", named);
     const last = body.split(/\s+/).at(-one) ?? body;
     return seatWords.body.replace("{body}", first ? named : jobSaid(last));
   }

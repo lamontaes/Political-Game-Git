@@ -282,7 +282,9 @@ export function pickContest(
   });
   const ids = [contest.id, ...contest.sourceIds];
   const facts: Record<string, Fact> = {
-    ...placeFact(core, visit.playerId),
+    // "In {place}" is the town only for a town's seat filed at another
+    // government's counter (Words lead, Nov 14: "for the senate in Edgar").
+    ...seatPlaceFact(core, visit.playerId, contest),
     ...clerkFact(core, visit.clerkId),
     ...raceFacts(core, contest, ids),
     deadline: {
@@ -542,6 +544,24 @@ function placeFact(
     : null;
   return town
     ? { place: { text: spoken(town), sourceRecordIds: [person!.placeId] } }
+    : {};
+}
+
+/**
+ * The "in {place}" of a filing line says the town only where a town's own
+ * seat is filed at another government's counter (a county or the state); at
+ * the town's own counter, and for any seat above the town, no place is said
+ * (Words lead, Nov 14, rule 100: "Your name's in for mayor.", "for governor").
+ */
+function seatPlaceFact(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contest: FilingContest,
+): Record<string, Fact> {
+  const level = contest.seat?.level;
+  const townsOwn = !level || level === "city" || level === "township";
+  return townsOwn && !contest.kind?.startsWith("municipalOffice")
+    ? placeFact(core, playerId)
     : {};
 }
 

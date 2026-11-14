@@ -33,15 +33,22 @@ import { governmentProperName } from "./government-proper-name";
  * The place as its body's name says it: a town's, village's or city's class
  * word goes where the body's own name follows ("Town of Montville" seats the
  * "Montville Board of Selectmen"), a township's follows its name ("Township
- * of Ocean" seats the "Ocean Township Committee"), and a Puerto Rico
+ * of Ocean" seats the "Ocean Township Committee", and so does a charter
+ * township's: "Charter Township of Green" seats the "Green Township Board"), and a Puerto Rico
  * municipio is said by its name alone ("Ciales Municipal Legislature").
  * Counties, parishes and boroughs keep theirs ("Example County Commission").
  * One rule in the name reader (Words lead, Nov 14), so the paper, the
  * meeting panel and every other view read one name from the office record.
  */
 function placeOfBody(area: string): string {
-  const of = /^(Town|Village|City|Plantation|Township) of (.+)$/.exec(area);
-  if (of) return of[1] === "Township" ? `${of[2]} Township` : of[2]!;
+  // A charter, civil or metro township is a township: the listing's extra word
+  // is its legal form, which people leave out ("Charter Township of Green" is
+  // "Green Township").
+  const of =
+    /^(Town|Village|City|Plantation|(?:Charter |Civil |Metro )?Township) of (.+)$/.exec(
+      area,
+    );
+  if (of) return of[1]!.endsWith("Township") ? `${of[2]} Township` : of[2]!;
   return area.replace(/ Municipio$/, "");
 }
 

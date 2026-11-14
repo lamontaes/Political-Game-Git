@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr:
 blocked-on:
@@ -34,4 +34,4 @@ after:
 
 **Files.** src/core2/town-workplaces.ts, src/core2/opening-town-jobs.ts, src/bench/card.ts, src/english/journal-words.ts
 
-**Notes.** Filed by Words builder B, Nov 14.
+**Notes.** Filed by Words builder B, Nov 14. Built by S4: `jobTitleByKind` in `src/core2/person-work.ts` takes the kind from the employer's name ("town clerk" at "Town of Ranchester", "township clerk" at "Charter Township of Green", "attorney" at "City of Raymond", never "city" twice); the card, the Journal, talk and the party facts read it. The payroll jobs ("City Attorney" at the treasury) are titled by their source data, so the fix reads at the point of saying, not at the title's source.

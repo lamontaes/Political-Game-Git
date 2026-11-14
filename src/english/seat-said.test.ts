@@ -43,4 +43,93 @@ describe("seatSaid", () => {
       }),
     ).toBe("U.S. representative in District 2");
   });
+
+  it("says a body above the town whole every time, never by its last word", () => {
+    // Words lead, Nov 14: "Your name's in for the senate in Edgar."
+    const senate = {
+      title: "U.S. Senator",
+      seats: 2,
+      bodyName: "United States Senate",
+      level: "federal",
+    };
+    expect(seatSaid(senate)).toBe("the U.S. Senate");
+    expect(seatSaid(senate, { first: false })).toBe("the U.S. Senate");
+    const state = {
+      title: "State Senator",
+      seats: 33,
+      bodyName: "Senate",
+      level: "state",
+    };
+    expect(seatSaid(state, { first: false })).toBe("the state Senate");
+    expect(seatSaid({ ...state, bodyName: "House of Representatives" })).toBe(
+      "the state House",
+    );
+    expect(seatSaid({ ...state, bodyName: "State Assembly", seats: 99 })).toBe(
+      "the Assembly",
+    );
+    expect(seatSaid({ ...state, bodyName: "House of Delegates" })).toBe(
+      "the House of Delegates",
+    );
+    expect(
+      seatSaid(
+        {
+          title: "Commissioner",
+          seats: 5,
+          bodyName: "Dane County Board of Supervisors",
+          level: "county",
+        },
+        { first: false },
+      ),
+    ).toBe("the Dane County Board of Supervisors");
+    // A town's own body keeps its short form.
+    expect(
+      seatSaid(
+        {
+          title: "Council member",
+          seats: 5,
+          bodyName: "Edgar Village Board",
+          level: "city",
+        },
+        { first: false },
+      ),
+    ).toBe("the board");
+  });
+
+  it("says a district's seat above the town by its chamber and its ordinal every time", () => {
+    const seat = {
+      title: "State Senator",
+      seats: 33,
+      bodyName: "Senate",
+      district: "17",
+      level: "state",
+    };
+    expect(seatSaid(seat)).toBe("the state Senate in the 17th District");
+    expect(seatSaid(seat, { first: false })).toBe(
+      "the state Senate in the 17th District",
+    );
+    expect(
+      seatSaid({
+        title: "U.S. Representative",
+        seats: 8,
+        bodyName: "United States House of Representatives",
+        district: "03",
+        level: "federal",
+      }),
+    ).toBe("Congress in the 3rd District");
+    expect(
+      seatSaid({
+        title: "U.S. Representative",
+        seats: 1,
+        bodyName: "United States House of Representatives",
+        level: "federal",
+      }),
+    ).toBe("U.S. representative");
+    // A county's seat says its office and district.
+    expect(
+      seatSaid(
+        { title: "Commissioner", district: "1", level: "county" },
+        { first: false },
+      ),
+    ).toBe("commissioner in District 1");
+  });
 });

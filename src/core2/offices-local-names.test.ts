@@ -51,6 +51,17 @@ describe("a local body is named the way people write it", () => {
     expect(boardBodyName("EXAMPLE MUNICIPIO", "Municipal Legislature")).toBe(
       "Example Municipal Legislature",
     );
+    // A charter township is a township (Paris, Michigan, Nov 14): the
+    // listing's "Charter" is its legal form, never part of the name said.
+    expect(boardBodyName("CHARTER TOWNSHIP OF GREEN", "Township Board")).toBe(
+      "Green Township Board",
+    );
+    expect(
+      boardBodyName("CHARTER TOWNSHIP OF GREEN", "Board of Trustees"),
+    ).toBe("Green Township Board of Trustees");
+    expect(boardBodyName("CIVIL TOWNSHIP OF EXAMPLE", "Township Board")).toBe(
+      "Example Township Board",
+    );
   });
 
   it(`names every body of places drawn from all 56 from its own record (seed ${seed})`, () => {

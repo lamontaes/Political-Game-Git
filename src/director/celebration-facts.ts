@@ -10,6 +10,7 @@
  * never play.
  */
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { jobTitleByKind } from "../core2/person-work";
 import { FAMILY_MARRIED } from "../core2/modules/partnerships";
 import type { CoreState, PersonId } from "../core2/types";
 import { withArticle } from "../english/journal-words";
@@ -79,7 +80,7 @@ export function celebrationFacts(
     facts.employer = { text: properName(org.name), sourceRecordIds: cited };
     if (job.title)
       facts.position = {
-        text: withArticle(job.title),
+        text: withArticle(jobTitleByKind(job.title, org.name)),
         sourceRecordIds: [job.id],
       };
   }

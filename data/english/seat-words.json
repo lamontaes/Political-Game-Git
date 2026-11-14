@@ -1,6 +1,20 @@
 {
-  "about": "How a seat is said inside a sentence (Fable B's ruling, Nov 11, on #8750): a seat on a body by the body (\"run for the Mutual Village Council\", then \"the council\"), a single office by its title in lower case (\"run for mayor\"), a district's seat with its district. Read by seatSaid in src/english/journal-words.ts.",
+  "about": "How a seat is said inside a sentence (Fable B's ruling, Nov 11, on #8750): a seat on a body by the body (\"run for the Mutual Village Council\", then \"the council\"), a single office by its title in lower case (\"run for mayor\"), a district's seat with its district. Read by seatSaid in src/english/journal-words.ts. Above the town (Words lead, Nov 14, rule 100): a district's seat in Congress is \"Congress in the 3rd District\", a state chamber's \"the state Senate in the 17th District\", the U.S. Senate \"the U.S. Senate\"; a county's or town's district seat stays \"commissioner in District 1\".",
   "body": "the {body}",
   "district": "{office} in District {n}",
-  "districtAgain": "the seat"
+  "districtAgain": "the seat",
+  "federalHouse": "Congress",
+  "federalHouseDistrict": "Congress in the {ordinal} District",
+  "chamberDistrict": "{chamber} in the {ordinal} District",
+  "federalSenate": "the U.S. Senate",
+  "chambers": [
+    {
+      "match": "^(?:state )?senate$",
+      "said": "the state Senate"
+    },
+    {
+      "match": "^(?:state )?house of representatives$",
+      "said": "the state House"
+    }
+  ]
 }
