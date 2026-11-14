@@ -384,7 +384,6 @@ export const LEGISLATURE_MODULE: CoreModule = {
       /** The evening before a floor vote, the sponsor's ask of a member the bill needs, by the record that names it. */
       voteAsks: {},
       /** The player's ask of a colleague to sign on to a bill they drafted, by the record that names it (`askToSignOn`). */
-      signOnAsks: {},
       /**
        * Where a colleague stands on a bill, as someone learned it: in
        * conversation, from the record (an aide's brief) or the news. The
@@ -2497,34 +2496,16 @@ function signOnCandidates(api: CoreAPI, bill: BillRow): readonly string[] {
     .map((row) => row.key);
 }
 
-/** The player's ask of a colleague to sign on to their bill, waiting on the colleague's answer in the scene. */
-export interface SignOnAsk {
-  readonly id: string;
-  readonly billId: string;
-  readonly askedId: string;
-  readonly askerId: string;
-  readonly bodyOfficeId: string;
-  readonly date: string;
-}
-
 /**
  * The player drafts a bill and goes to the colleagues they know to sign on: one ask each, a record
  * the director stages as the player's own ask (`bill-sign-on`). The bill carries no co-sponsor until
- * one says yes in that scene (`answerSignOn`).
+ * one says yes in that scene (`answerSignOn`), which reads the ask from its own record.
  */
 function askToSignOn(api: CoreAPI, bill: BillRow): void {
   const section = bill.provisions[0];
   for (const askedId of signOnCandidates(api, bill)) {
     const id = `sign-on:${bill.id}:${askedId}`;
-    if (table(api, "signOnAsks").get(id)) continue;
-    table(api, "signOnAsks").put({
-      id,
-      billId: bill.id,
-      askedId,
-      askerId: bill.sponsorId,
-      bodyOfficeId: bill.bodyOfficeId,
-      date: api.state.date,
-    } satisfies SignOnAsk as unknown as ModuleRow);
+    if (api.state.durableLog.get(id)) continue;
     api.emit({
       id,
       date: api.state.date,
@@ -2554,8 +2535,14 @@ function askToSignOn(api: CoreAPI, bill: BillRow): void {
  * `sign-on`). A not-yet changes nothing.
  */
 function answerSignOn(api: CoreAPI, event: CoreEventInput, causeId: string) {
-  const ask = table(api, "signOnAsks").get(causeId) as unknown as
-    SignOnAsk | undefined;
+  const facts = api.state.durableLog.get(causeId)?.facts;
+  const ask = facts?.billId
+    ? {
+        billId: String(facts.billId),
+        askedId: String(facts.askedId),
+        askerId: String(facts.askerId),
+      }
+    : undefined;
   if (!ask || event.personIds[0] !== ask.askedId) return;
   const bill = table(api, "bills").get(ask.billId) as unknown as
     BillRow | undefined;
@@ -2589,7 +2576,7 @@ function answerSignOn(api: CoreAPI, event: CoreEventInput, causeId: string) {
     kind: "sign-on",
     askerId: ask.askerId,
     memberId: ask.askedId,
-    bodyOfficeId: ask.bodyOfficeId,
+    bodyOfficeId: bill.bodyOfficeId,
     date: event.date,
     provisions: bill.provisions,
     position: memberPosition(api, bill.id, ask.askedId),
