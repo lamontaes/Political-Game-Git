@@ -177,4 +177,34 @@ describe("bill names", () => {
     expect(budget?.title).toBe("Budget Ordinance");
     expect(budget?.sections.map((row) => row.key)).toEqual(["police", "parks"]);
   });
+
+  it("names a change to one spending line for that line, so two such bills differ", () => {
+    const form = { kind: "ordinance" };
+    const police = billTitleOf({
+      form,
+      provisions: [{ kind: "budget-line", line: "police", value: 27468165 }],
+    });
+    const parks = billTitleOf({
+      form,
+      provisions: [{ kind: "budget-line", line: "parks", value: -10865890 }],
+    });
+    expect(police?.title).toBe("Police Funding Increase Ordinance");
+    expect(parks?.title).toBe("Parks Funding Reduction Ordinance");
+    expect(police?.reverses).toBe(false);
+    expect(parks?.reverses).toBe(true);
+    // A line with no authored name, or a request carried at its enacted
+    // funding, is still the budget.
+    expect(
+      billTitleOf({
+        form,
+        provisions: [{ kind: "budget-line", line: "localAid", value: -62134 }],
+      })?.title,
+    ).toBe("Budget Ordinance");
+    expect(
+      billTitleOf({
+        form,
+        provisions: [{ kind: "budget-line", line: "police", value: 0 }],
+      })?.title,
+    ).toBe("Budget Ordinance");
+  });
 });
