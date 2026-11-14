@@ -19,8 +19,7 @@
  * already of another origin keeps it. No dice: the pick is by id and seed.
  */
 import { bloodKin, familyRelation } from "./closeness";
-import { childOrigin } from "./opening-origin";
-import { SeededRng } from "./kernel/rng";
+import { childOrigin, oneOfParents } from "./opening-origin";
 import type { CoreState, PersonId } from "./types";
 
 type Core = Pick<CoreState, "people" | "households" | "seed">;
@@ -62,10 +61,10 @@ export function familyTakesChosenOrigin(
   // One parent carries the chosen origin; the other keeps theirs.
   const parents = kin.filter((id) => PARENT.includes(relation(id))).sort();
   if (parents.length && !parents.some((id) => originOf(id) === chosen)) {
-    const pick = new SeededRng(core.seed)
-      .fork(`chosen-parent:${playerId}`)
-      .integer(0, parents.length);
-    if (originOf(parents[pick]!) === drawn) set(parents[pick]!, chosen);
+    // Which parent the player takes after: the same rule that picks a
+    // child's origin from the parents', here over the parents' ids.
+    const taken = oneOfParents(parents, playerId, core.seed);
+    if (taken && originOf(taken) === drawn) set(taken, chosen);
   }
   // Then each person below the parents, nearest first, from their own parents.
   const settled = new Set<PersonId>([playerId]);
