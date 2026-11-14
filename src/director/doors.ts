@@ -11,6 +11,7 @@
 import {
   CAMPAIGNS_MODULE_ID,
   causeSummaryOf,
+  petitionAsksAtDoors,
   type CauseRow,
 } from "../core2/modules/campaigns";
 import {
@@ -170,7 +171,9 @@ export function petitionAtDoor(
           .query("byPerson", [candidateId]) as unknown as FilingRow[]
       ).find((row) => row.contestId === contestId)
     : undefined;
-  return filing && petitionCirculating(api, filing.id)
-    ? { signed: petitionSignerIds(api, filing.id).has(voterId) }
-    : null;
+  if (!filing || !petitionCirculating(api, filing.id)) return null;
+  // Past the target plus the cushion the doors ask for the vote, not a
+  // signature; a resident who signed before the switch still signed.
+  const signed = petitionSignerIds(api, filing.id).has(voterId);
+  return signed || petitionAsksAtDoors(api, filing.id) ? { signed } : null;
 }

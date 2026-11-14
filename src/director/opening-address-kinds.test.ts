@@ -85,28 +85,30 @@ describe("the address picks its kind and subjects from the world", () => {
           row.facts.filter((key) => /-(?:worse|better)$/.test(key)),
         ),
       );
-    expect(
-      [...claims(bad)].some((key) => key.endsWith("-worse")),
-      where,
-    ).toBe(true);
-    expect(
-      [...claims(bad)].some((key) => key.endsWith("-better")),
-      where,
-    ).toBe(false);
-    expect(
-      [...claims(good)].some((key) => key.endsWith("-better")),
-      where,
-    ).toBe(true);
-    expect(bad.address.text, where).not.toBe(good.address.text);
-    expect(bad.addressKind, where).not.toBe(good.addressKind);
-    // The areas the bad year said cite the web's rows for the town.
-    const cited = bad.address.sentences
-      .filter((row) => row.facts.some((key) => key.endsWith("-worse")))
-      .flatMap((row) => row.sourceRecordIds);
-    expect(
-      cited.some((id) => id.startsWith(`web:${world.placeId}:`)),
-      where,
-    ).toBe(true);
+    // Since the speech outline (Nov 12) the President's address tells only
+    // its theme's measures, and its theme comes from the President's own
+    // issues, not the town's term read (a national speech, owner, Oct 27). So
+    // what it tells of schools, crime or health is checked only where its
+    // theme is one of them; the kind of address still follows the year.
+    if (claims(bad).size) {
+      expect(
+        [...claims(bad)].some((key) => key.endsWith("-better")),
+        where,
+      ).toBe(false);
+      const cited = bad.address.sentences
+        .filter((row) => row.facts.some((key) => key.endsWith("-worse")))
+        .flatMap((row) => row.sourceRecordIds);
+      expect(
+        cited.some((id) => id.startsWith("web:")),
+        where,
+      ).toBe(true);
+    }
+    // A President whose full list of points makes the policy push score
+    // highest gives that address in any year, by the sliding scores and not
+    // by a gap (as local-address.test.ts allows); otherwise the kind follows
+    // the year.
+    if (bad.addressKind !== "policy" || good.addressKind !== "policy")
+      expect(bad.addressKind, where).not.toBe(good.addressKind);
   });
 
   it("holds a piece, in both voices, for every area's good and bad news", () => {

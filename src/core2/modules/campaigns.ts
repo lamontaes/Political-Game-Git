@@ -141,6 +141,8 @@ import {
 
 export { candidatePlatform } from "../campaign-stances";
 export { contestPositions } from "../contest-positions";
+/** A side's stance on a question, for the speeches that say where a speaker stands. */
+export { stanceReader } from "../campaign-stances";
 
 export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
 const DONATION_KIND = "campaigns:donation";
@@ -188,6 +190,8 @@ export interface CampaignRow {
   readonly mailCursor?: number;
   /** Counted adults (not yet full people) its doors, mail and ads reached. */
   readonly countedReached?: number;
+  /** Doors that opened and were asked for a signature (a door past the petition's target asks for the vote instead). */
+  readonly doorSignAsks?: number;
   /** What each ad bought reached: the outlet, the full followers and the counted adults, one record per buy. */
   readonly adReaches?: readonly {
     readonly id: string;
@@ -1373,10 +1377,10 @@ interface DoorWalk {
   readonly owed: { carry: number };
   readonly walked: string[];
   readonly cursor: { list: readonly Address[] | null; at: number };
-  /** Whether the filing's petition circulates: whoever opens is asked to sign. */
-  readonly petition: boolean;
   /** Counted residents who opened, reached as a count. */
   counted: number;
+  /** Doors that opened and were asked to sign. */
+  asked: number;
 }
 
 function openDoorWalk(api: CoreAPI, filingId: string): DoorWalk {
@@ -1398,8 +1402,8 @@ function openDoorWalk(api: CoreAPI, filingId: string): DoorWalk {
     owed: { carry: campaign.doorAnswerCarry ?? OPENING_CARRY },
     walked: [],
     cursor: { list: null, at: 0 },
-    petition: petitionCirculating(api, filingId),
     counted: 0,
+    asked: 0,
   };
 }
 
@@ -1450,7 +1454,10 @@ function walkWith(
     if (!api.state.people.has(openerId)) {
       if (!fill.has(openerId)) {
         walk.counted += 1;
-        if (walk.petition) askToSign(api, walk.filingId, opener, "door");
+        if (petitionAsksAtDoors(api, walk.filingId)) {
+          walk.asked += 1;
+          askToSign(api, walk.filingId, opener, "door");
+        }
         // Asked for their vote, a counted resident answers by the rule a
         // first visit applies to a full person: what they make of the
         // platform from their own record, and how the visit went.
@@ -1488,8 +1495,10 @@ function walkWith(
     retell(api, campaign, answers, cause);
     // A door that carries a petition asks for a signature; any other asks
     // for the vote, and the answer is how warm the visit left them.
-    if (walk.petition) askToSign(api, walk.filingId, answers, "door");
-    else
+    if (petitionAsksAtDoors(api, walk.filingId)) {
+      walk.asked += 1;
+      askToSign(api, walk.filingId, answers, "door");
+    } else
       answerAtDoor(
         api,
         campaign,
@@ -1531,6 +1540,7 @@ function closeDoorWalk(api: CoreAPI, walk: DoorWalk): void {
     doorsKnockedCount: (campaign.doorsKnockedCount ?? 0) + walk.walked.length,
     doorAnswerCarry: walk.owed.carry,
     countedReached: (campaign.countedReached ?? 0) + walk.counted,
+    doorSignAsks: (campaign.doorSignAsks ?? 0) + walk.asked,
   });
 }
 
@@ -3278,6 +3288,20 @@ export function signaturesToGather(needed: number): number {
 }
 
 /**
+ * Whether a door asks for a signature: the petition circulates and holds less
+ * than what a campaign gathers (`signaturesToGather`: the clerk's count plus a
+ * cushion for struck names). Past that, a door asks for the vote (owner, Nov
+ * 14). One rule for the player's doors, a world candidate's and a volunteer's.
+ */
+export function petitionAsksAtDoors(api: CoreAPI, filingId: string): boolean {
+  if (!petitionCirculating(api, filingId)) return false;
+  const petition = petitionOf(api, filingId);
+  return (
+    !petition?.needed || petition.signed < signaturesToGather(petition.needed)
+  );
+}
+
+/**
  * Ask someone to sign a filing's circulating petition: an adult signs when
  * their reasons (`signReason`) and every trait's lean between signing and
  * declining say so, and the elections engine adds the name once. The
@@ -4738,7 +4762,15 @@ export function statementSpeechId(
   date: string,
   input: { readonly act: string; readonly venue: string },
 ): string {
-  return `speech:${candidateId}:${date}:${input.act}:${input.venue}`;
+  return `${statementSpeechPrefix(candidateId, date)}${input.act}:${input.venue}`;
+}
+
+/** What every speech a candidate's statements make on a day begins with: a scene tells a campaign speech from another speech by it. */
+export function statementSpeechPrefix(
+  candidateId: string,
+  date: string,
+): string {
+  return `speech:${candidateId}:${date}:`;
 }
 
 /** Where an ad is bought: an outlet and its followers (the press registers it). */
