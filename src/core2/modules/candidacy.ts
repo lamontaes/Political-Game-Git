@@ -30,7 +30,7 @@ import { votesOf } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
 import { bookkeeping } from "../bookkeeping";
-import { ageOnDate } from "../kernel/dates";
+import { ageOnDate, daysBetweenText } from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -69,6 +69,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
+  partyMeetings,
   partyTie,
   type PartyRow,
   type TieRow,
@@ -190,16 +191,46 @@ function cashShareOf(
 }
 
 /** A named person's roles, read from the same record a counted resident's are (opening-roles.ts). */
-function rolesOfNamed(person: Readonly<PersonState>) {
+function rolesOfNamed(api: CoreAPI, person: Readonly<PersonState>) {
   const looks = person.looks ?? {};
   return {
     partyActivity: Number(looks.partyActivity ?? 0) || 0,
     owner: Boolean(looks.ownedEmployerId),
-    civicRoles: looks.civicRoles
-      ? String(looks.civicRoles).split(",").length
-      : 0,
+    civicRoles: civicRolesOf(api, person.id),
   };
 }
+
+/**
+ * How many civic roles a person holds, read from the records that name them:
+ * a party's chair here, and a seat at a party's committee meetings in the
+ * last year (the meeting's own attendance). The same rule for a counted
+ * resident, whom no such record names. Read once a day for the whole town.
+ */
+export function civicRolesOf(api: CoreAPI, personId: string): number {
+  const date = api.state.date;
+  const kept = civicRoleCounts.get(api.state);
+  if (kept?.date === date) return kept.counts.get(personId) ?? 0;
+  const counts = new Map<string, number>();
+  const add = (id: string) => counts.set(id, (counts.get(id) ?? 0) + 1);
+  if (api.state.modules.has(PARTIES_MODULE_ID)) {
+    const year = api.parameter("daysPerMeanYear");
+    const committee = new Set<string>();
+    for (const party of partiesHere(api)) {
+      if (party.leaderId) add(party.leaderId);
+      for (const meeting of partyMeetings(api, party.id))
+        if (daysBetweenText(meeting.date, date) <= year)
+          for (const id of meeting.attendeeIds)
+            if (id !== meeting.leaderId) committee.add(id);
+    }
+    for (const id of committee) add(id);
+  }
+  civicRoleCounts.set(api.state, { date, counts });
+  return counts.get(personId) ?? 0;
+}
+const civicRoleCounts = new WeakMap<
+  object,
+  { readonly date: string; readonly counts: ReadonlyMap<string, number> }
+>();
 
 /** Each recorded reason for running, as a signed pull. */
 export function candidacyReasons(
@@ -239,7 +270,7 @@ export function candidacyReasons(
       cause,
       incumbentTie,
       recordGap,
-      ...rolesOfNamed(person),
+      ...rolesOfNamed(api, person),
       dependents: (
         api.state.households.get(person.householdId)?.memberIds ?? []
       )
@@ -455,7 +486,7 @@ export function countedCandidacyReasons(
       recordGap: recordGapOf(api, voter, contest, true),
       partyActivity: voter.partyActivity ?? zero,
       owner: Boolean(voter.ownedEmployerId),
-      civicRoles: voter.civicRoles?.length ?? 0,
+      civicRoles: civicRolesOf(api, voter.id),
       dependents: countedChildrenOf(
         api.state as CoreState,
         voter.id,
