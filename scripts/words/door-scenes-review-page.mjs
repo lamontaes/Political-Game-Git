@@ -6,10 +6,14 @@
  * Development tooling. See door-scenes-review.ts for how the data is made.
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import process from "node:process";
+import { URL } from "node:url";
 
 const [dataPath, outPath] = process.argv.slice(2);
 if (!dataPath || !outPath) {
-  console.error("usage: door-scenes-review-page.mjs <review.json> <out.html>");
+  process.stderr.write(
+    "usage: door-scenes-review-page.mjs <review.json> <out.html>\n",
+  );
   process.exit(1);
 }
 const template = readFileSync(
