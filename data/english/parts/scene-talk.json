@@ -147177,10 +147177,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-hourly-rate-on-the-pay-stub-name-slides-over-reads-pay-circled-twice-in-ink",
+      "key": "scene-talk.narrate-narrate.name-slides-a-paycheck-across-the-desk-and-taps-it-twice-with-one-finger",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The hourly rate on the paycheck {name} slides over reads {pay}, circled twice in ink.",
+      "text": "{name} slides a paycheck across the desk and taps it twice with one finger.",
       "uses": [
         {
           "subject": "scene",
@@ -147188,8 +147188,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "constituent-help.short-pay",
-          "key": "favor-asked",
-          "requiresFacts": ["pay"]
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -147202,10 +147201,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-make-pay-an-hour-the-law-says-floor-i-ve-done-the-math-every-way-and-it-s-stil",
+      "key": "scene-talk.state-request.i-ve-gone-over-my-checks-every-way-i-know-and-they-re-short-i-don-t-think-my-boss-is-paying",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I make {pay} an hour. The law says {floor}. I've done the math every way, and it's still short.",
+      "text": "I've gone over my checks every way I know, and they're short. I don't think my boss is paying what the law says.",
       "uses": [
         {
           "subject": "scene",
@@ -147213,8 +147212,7 @@
           "move": "request",
           "role": "asker",
           "purpose": "constituent-help.short-pay",
-          "key": "favor-asked",
-          "requiresFacts": ["pay", "floor"]
+          "key": "favor-asked"
         }
       ],
       "bearing": "braced",
@@ -147227,10 +147225,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.my-check-says-pay-an-hour-i-was-hired-at-that-rate-and-told-it-was-normal",
+      "key": "scene-talk.state-request.i-was-told-what-i-d-be-paid-when-i-started-and-i-was-told-it-was-normal-i-m-not-sure-it-is",
       "move": "state-request",
       "kind": "spoken",
-      "text": "My check says {pay} an hour. I was hired at that rate and told it was normal.",
+      "text": "I was told what I'd be paid when I started, and I was told it was normal. I'm not sure it is.",
       "uses": [
         {
           "subject": "scene",
@@ -147238,8 +147236,7 @@
           "move": "request",
           "role": "asker",
           "purpose": "constituent-help.short-pay",
-          "key": "favor-asked",
-          "requiresFacts": ["pay"]
+          "key": "favor-asked"
         }
       ],
       "bearing": "braced",
@@ -147252,10 +147249,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.the-minimum-is-floor-an-hour-i-haven-t-seen-that-number-on-a-check-since-i-start",
+      "key": "scene-talk.state-request.there-s-a-lowest-wage-a-boss-can-pay-and-i-haven-t-seen-a-check-that-comes-up-to-it-since-i",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The minimum is {floor} an hour. I haven't seen that number on a check since I started.",
+      "text": "There's a lowest wage a boss can pay, and I haven't seen a check that comes up to it since I started.",
       "uses": [
         {
           "subject": "scene",
@@ -147263,8 +147260,7 @@
           "move": "request",
           "role": "asker",
           "purpose": "constituent-help.short-pay",
-          "key": "favor-asked",
-          "requiresFacts": ["floor"]
+          "key": "favor-asked"
         }
       ],
       "bearing": "braced",
@@ -171081,7 +171077,7 @@
       "key": "scene-talk.state-request.case-help-7",
       "move": "state-request",
       "kind": "spoken",
-      "text": "My job pays {pay} an hour, and the minimum wage is {floor}.",
+      "text": "They pay me less than the minimum wage.",
       "uses": [
         {
           "subject": "scene",
@@ -171110,7 +171106,7 @@
       "key": "scene-talk.state-request.case-help-8",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm paid {pay} an hour. The minimum wage is {floor}, and my boss knows it.",
+      "text": "I'm paid under the minimum wage, and my boss knows it.",
       "uses": [
         {
           "subject": "scene",
@@ -171139,7 +171135,7 @@
       "key": "scene-talk.state-request.case-help-9",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The law says {floor} an hour. My check says {pay}.",
+      "text": "The law sets a minimum wage. My check is under it.",
       "uses": [
         {
           "subject": "scene",
@@ -171690,7 +171686,7 @@
       "key": "scene-talk.reply-ask.case-help-4",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Does every check say {pay} an hour?",
+      "text": "How much do they pay you an hour?",
       "uses": [
         {
           "subject": "scene",
@@ -171719,7 +171715,7 @@
       "key": "scene-talk.reply-ask.case-help-5",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Is {pay} what they've paid you all along?",
+      "text": "What do they pay you an hour?",
       "uses": [
         {
           "subject": "scene",
@@ -171748,7 +171744,7 @@
       "key": "scene-talk.reply-ask.case-help-6",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Has it been {pay} on every check?",
+      "text": "How much is on your check?",
       "uses": [
         {
           "subject": "scene",
@@ -171777,7 +171773,7 @@
       "key": "scene-talk.follow-answer.case-help-1",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{since}. And my savings are {money-left}.",
+      "text": "{since}, and nobody has called back.",
       "uses": [
         {
           "subject": "scene",
@@ -171837,7 +171833,7 @@
       "key": "scene-talk.follow-answer.case-help-3",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's been {since}, and what I saved is {money-left}.",
+      "text": "It's been {since} now.",
       "uses": [
         {
           "subject": "scene",
@@ -171867,7 +171863,7 @@
       "key": "scene-talk.follow-answer.case-help-4",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Yes. {pay} an hour, every check, when the law says {floor}.",
+      "text": "It's {pay} an hour, and the minimum wage is {floor}.",
       "uses": [
         {
           "subject": "scene",
@@ -171897,7 +171893,7 @@
       "key": "scene-talk.follow-answer.case-help-5",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Every check. {pay}, never {floor}.",
+      "text": "{pay} an hour. The law says {floor}.",
       "uses": [
         {
           "subject": "scene",
@@ -171927,7 +171923,7 @@
       "key": "scene-talk.follow-answer.case-help-6",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Yes, all along. {pay} an hour when the minimum wage is {floor}.",
+      "text": "{pay}, every check, when the minimum wage is {floor}.",
       "uses": [
         {
           "subject": "scene",
@@ -172676,7 +172672,17 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": []
+          "requiresFacts": [],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": [],
+          "after": "leave"
         }
       ],
       "origin": "authored",
@@ -172705,7 +172711,17 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": []
+          "requiresFacts": [],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": [],
+          "after": "leave"
         }
       ],
       "origin": "authored",
@@ -172734,7 +172750,17 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": []
+          "requiresFacts": [],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": [],
+          "after": "leave"
         }
       ],
       "origin": "authored",
@@ -172755,7 +172781,7 @@
       "key": "scene-talk.follow-press.case-help-4",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "My savings are {money-left}. I can't wait long.",
+      "text": "I can't wait long.",
       "uses": [
         {
           "subject": "scene",
@@ -172763,7 +172789,17 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["problem-work", "money-left"]
+          "requiresFacts": ["problem-work", "money-left"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-work", "money-left"],
+          "after": "leave"
         }
       ],
       "origin": "authored",
@@ -172784,7 +172820,7 @@
       "key": "scene-talk.follow-press.case-help-5",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "What I saved is {money-left}. Waiting costs me every week.",
+      "text": "Waiting costs me every week.",
       "uses": [
         {
           "subject": "scene",
@@ -172792,7 +172828,17 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["problem-work", "money-left"]
+          "requiresFacts": ["problem-work", "money-left"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-work", "money-left"],
+          "after": "leave"
         }
       ],
       "origin": "authored",
@@ -172813,7 +172859,7 @@
       "key": "scene-talk.follow-press.case-help-6",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Every week at {pay} costs me. I can't wait long.",
+      "text": "Every week I wait costs me.",
       "uses": [
         {
           "subject": "scene",
@@ -172821,7 +172867,17 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["problem-wage", "pay"]
+          "requiresFacts": ["problem-wage", "pay"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-wage", "pay"],
+          "after": "leave"
         }
       ],
       "origin": "authored",
@@ -172842,7 +172898,7 @@
       "key": "scene-talk.follow-press.case-help-7",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'm still at {pay} an hour while this drags on.",
+      "text": "I'm still being paid short while this drags on.",
       "uses": [
         {
           "subject": "scene",
@@ -172850,7 +172906,17 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["problem-wage", "pay"]
+          "requiresFacts": ["problem-wage", "pay"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-wage", "pay"],
+          "after": "leave"
         }
       ],
       "origin": "authored",
@@ -172961,7 +173027,7 @@
       "key": "scene-talk.follow-plea.case-help-4",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "My savings are {money-left}. Please.",
+      "text": "Please. Even a phone call would help.",
       "uses": [
         {
           "subject": "scene",
@@ -172991,7 +173057,7 @@
       "key": "scene-talk.follow-plea.case-help-5",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "What I saved is {money-left}. Please take it.",
+      "text": "Please take it. I don't know who else to ask.",
       "uses": [
         {
           "subject": "scene",
