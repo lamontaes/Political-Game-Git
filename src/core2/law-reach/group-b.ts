@@ -498,6 +498,8 @@ function runPolicy(
         lawId: input.lawId,
         enacting: input.enacting,
         graduated: def.mechanic === "income-tax-graduated",
+        sponsorStance: lawRow(api, input.lawId)?.terms?.sponsorStance as
+          number | undefined,
       });
       terms.wroteLaw = act?.lawRowId && !act.undone ? 1 : 0;
       // The act reaches people only through the tax it wrote. Where the level

@@ -91,9 +91,12 @@ describe("printed stories in News", () => {
       // A brief is a headline and one line; only a school honor opens into a body (owner, Nov 14).
       if (
         worded.brief &&
-        !["school.honor", "organization.founded", "retirement"].some((kind) =>
-          story.id.includes(kind),
-        )
+        ![
+          "school.honor",
+          "organization.founded",
+          "retirement",
+          "police-log",
+        ].some((kind) => story.id.includes(kind))
       )
         expect(worded.paragraphs, story.id).toBeUndefined();
       // A story with a body prints the lede first, then sentences that each

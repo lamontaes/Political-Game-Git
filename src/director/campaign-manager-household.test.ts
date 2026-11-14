@@ -46,6 +46,18 @@ const PATRICK_AFB = {
   answer: "decline" as const,
 };
 
+// A town's committee race, the offer staged from home with no other help
+// (pool item campaign-manager-offer-never-stages): the schedule once chose
+// the Journal line here.
+const MORGANVILLE = {
+  name: "Morganville, New Jersey",
+  place: "3448030",
+  seed: "cmp2:0",
+  contest: "contest:seat:gus2025:170316:board:0:2025-11-04",
+  opens: "2025-06-27",
+  answer: "agree" as const,
+};
+
 function offerAtHomeStopsTheDay(c: {
   name: string;
   place: string;
@@ -82,13 +94,19 @@ function offerAtHomeStopsTheDay(c: {
   const filingId = filed.filing?.id ?? `filing:${c.contest}:${me}`;
   gatherSignatures(core, filingId);
   const afterPetition = core.date;
-  advanceCore(core, addDays(makeIsoDate(afterPetition), 90));
+  const offersNow = () =>
+    [...(core.logByKind.get("volunteer-offered") ?? [])]
+      .map((id) => core.durableLog.get(id as never)!)
+      .filter(
+        (row) =>
+          row.facts?.filingId === filingId && row.facts.role === "manager",
+      );
+  // A week at a time, up to 90 days, stopping on the day the offer is made.
+  const until = addDays(makeIsoDate(afterPetition), 90);
+  while (core.date < until && offersNow().length === 0)
+    advanceCore(core, [addDays(makeIsoDate(core.date), 7), until].sort()[0]!);
 
-  const offers = [...(core.logByKind.get("volunteer-offered") ?? [])]
-    .map((id) => core.durableLog.get(id as never)!)
-    .filter(
-      (row) => row.facts?.filingId === filingId && row.facts.role === "manager",
-    );
+  const offers = offersNow();
   expect(
     offers.length,
     `${where}: nobody offered to run it by ${core.date} (petition done ${afterPetition})`,
@@ -154,5 +172,11 @@ it(
 it(
   "Patrick AFB, Florida: the same for a county race",
   () => offerAtHomeStopsTheDay(PATRICK_AFB),
+  240_000,
+);
+
+it(
+  "Morganville, New Jersey: the offer plays as the scene",
+  () => offerAtHomeStopsTheDay(MORGANVILLE),
   240_000,
 );

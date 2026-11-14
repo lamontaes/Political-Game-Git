@@ -177,7 +177,7 @@ import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
 import { patchNoteReleases } from "./patch-notes";
 import { governmentMap } from "./map";
-import { budgetLineNames, choiceName, policyNames } from "./words";
+import { actionNames, budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
 // This is a reference to engine-owned state, not a parallel state or writer.
@@ -1231,6 +1231,8 @@ const ROUTES: readonly Route[] = [
       send(200, {
         ...controls,
         policyNames: { ...policyNames(), ...budgetLineNames() },
+        // An act's name for the journal of acts and a place's reasons.
+        actions: actionNames(),
       });
       return;
     },
