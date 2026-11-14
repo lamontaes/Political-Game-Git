@@ -13,6 +13,8 @@ import {
   giveSpeech,
   runAd,
   sendMail,
+  hireCirculators,
+  circulatorsCanWork,
   statementSpeechId,
   type CauseRow,
 } from "../core2/modules/campaigns";
@@ -91,6 +93,9 @@ export function petitionView(api: CoreAPI, filingId: string) {
     needed: petition.needed,
     due: petition.due,
     signed: petition.signed,
+    // Whether paid circulators can gather the race's signatures outside the
+    // town: a county, district, state or federal race while it circulates.
+    outside: circulatorsCanWork(api, filingId),
     /** Whether the doors still ask for signatures; past the target plus the cushion they ask for the vote. */
     asksAtDoors: petitionAsksAtDoors(api, filingId),
   };
@@ -712,6 +717,35 @@ export function campaignAct(
       return {
         ...summary(read),
         spentMinor: campaignFor(api, input.filingId).spentMinor - before,
+      };
+    }
+    case "circulators": {
+      // Paid circulators for the race's voters outside the town: the amount
+      // the player chose is set aside from what the campaign holds and paid
+      // as the signatures come in, until the petition is due.
+      const setAsideMinor = hireCirculators(
+        api,
+        input.filingId,
+        input.amountMinor ?? 0,
+      );
+      const after = campaignFor(api, input.filingId);
+      const petition = petitionView(api, input.filingId);
+      // What the money bought, from the campaign and petition records: the
+      // amount set aside and the signatures held, or why nothing was.
+      return {
+        setAsideMinor,
+        line:
+          setAsideMinor > 0 && petition
+            ? controls.campaignGatherers.hired
+                .replace("{cost}", dollarsOf(setAsideMinor))
+                .replace("{due}", dateSaid(petition.due, core.date))
+                .replace("{signed}", petition.signed.toLocaleString("en-US"))
+            : after.raisedMinor > 0
+              ? controls.campaignGatherers.noMoney.replace(
+                  "{raised}",
+                  dollarsOf(after.raisedMinor),
+                )
+              : controls.campaignGatherers.noMoneyYet,
       };
     }
     case "poll":

@@ -1979,23 +1979,25 @@ async function campaignParts() {
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
       );
       campaignResult =
-        result.volunteers !== undefined
-          ? controls.campaignVolunteers.asked
-              .replace("{asked}", String(result.answers.length))
-              .replace(
-                "{yes}",
-                String(result.answers.filter((a) => a.yes).length),
-              )
-              .replace("{volunteers}", volunteerCount(result.volunteers))
-          : result.contacted !== undefined
-            ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
-                result.answers,
-              )
-                .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
-                .join(" · ")}`
-            : result.reached !== undefined
-              ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-              : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+        typeof result.line === "string" && result.setAsideMinor !== undefined
+          ? result.line
+          : result.volunteers !== undefined
+            ? controls.campaignVolunteers.asked
+                .replace("{asked}", String(result.answers.length))
+                .replace(
+                  "{yes}",
+                  String(result.answers.filter((a) => a.yes).length),
+                )
+                .replace("{volunteers}", volunteerCount(result.volunteers))
+            : result.contacted !== undefined
+              ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
+                  result.answers,
+                )
+                  .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
+                  .join(" · ")}`
+              : result.reached !== undefined
+                ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+                : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A volunteer shift is a scene: each person asked is the next Continue.
       if (kind === "ad" && result.scene) {
         playAsks({ asked: [], summary: result.line, scene: result.scene });
@@ -2107,6 +2109,36 @@ async function campaignParts() {
           return { nodes: [buttonRow(dollarsOut, send)] };
         },
       },
+      // Paid circulators gather the signatures a county, district or
+      // statewide race needs outside the town while its petition circulates.
+      ...(petition?.outside
+        ? [
+            {
+              group: T.groupMoney,
+              title: controls.campaignActs.circulators,
+              picture: pictures?.mail,
+              load: async () => {
+                const dollarsOut = numberBox({
+                  value: 500,
+                  min: 0,
+                  step: 1,
+                  label: controls.campaignContribute.dollars,
+                });
+                const hire = button(
+                  controls.campaignActs.circulators,
+                  "circulators",
+                  () => ({
+                    amountMinor: String(
+                      Math.round(Number(dollarsOut.value) * 100),
+                    ),
+                  }),
+                );
+                hire.dataset.testid = "campaign-circulators";
+                return { nodes: [buttonRow(dollarsOut, hire)] };
+              },
+            },
+          ]
+        : []),
       {
         group: T.groupMoney,
         title: controls.campaignContribute.give,
@@ -3405,10 +3437,35 @@ async function seatRows() {
     seatText = r.text ?? [];
     // An executive's bill goes through a member: who was asked and what they said.
     const askedWord = r.asked
-      ? (r.asked.carried
-          ? controls.seat.askedCarried
-          : controls.seat.askedRefused
-        ).replace("{name}", r.asked.name)
+      ? (() => {
+          const say = r.asked.pronouns;
+          const fill = (line) =>
+            line
+              .replace("{name}", r.asked.name)
+              .replace("{words}", r.asked.reasonWords ?? "")
+              .replace("{subject}", say?.lower ?? "they")
+              .replace("{object}", say?.object ?? "them")
+              .replace("{possessive}", say?.possessive ?? "their");
+          const reasons = say
+            ? controls.seat.askedReasons
+            : controls.seat.askedReasonsThey;
+          const reason = reasons[r.asked.reason];
+          const line = r.asked.carried
+            ? controls.seat.askedCarried
+            : r.asked.reasonWords
+              ? controls.seat.askedRefusedSaid
+              : reason
+                ? controls.seat.askedRefusedBecause.replace("{reason}", reason)
+                : controls.seat.askedRefused;
+          const earlier = r.asked.earlier ?? [];
+          const before = earlier.length
+            ? ` ${(earlier.length === 1
+                ? controls.seat.askedBefore
+                : controls.seat.askedBeforeMore
+              ).replace("{date}", dateWords(earlier.at(-1)))}`
+            : "";
+          return fill(line + before);
+        })()
       : "";
     seatResult = r.asked
       ? askedWord

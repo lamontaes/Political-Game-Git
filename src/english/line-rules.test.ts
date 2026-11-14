@@ -636,6 +636,9 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
         return row.note?.trim() ? [] : [`${row.id} waits with no reason`];
       // A composed rule reads whole texts; tests/guards/english/composed-rules.test.ts holds it.
       if (row.test.kind === "composed") return [];
+      // A judged rule is held by its saved verdicts, its catches and its
+      // spares: tests/guards/english/line-rules.test.ts holds it.
+      if (row.test.kind === "judged") return [];
       const tested = ["phrases", "patterns", "sentences"].includes(
         row.test.kind,
       );
@@ -687,13 +690,18 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
   });
 
   it('"can\'t afford a yes" is flagged outside a bribe offer and spared inside one', () => {
-    const talk = bank("scene-talk");
-    const keys = flagged("trade-not-bribe", talk);
-    expect(keys).toEqual([
-      "scene-talk.follow-answer.because-those-three-can-t-afford-a-yes-and-you-can",
-    ]);
-    const line = talk.find((p) => p.key === keys[0])!;
+    // The one talk line this rule flagged ("Because those three can't afford
+    // a yes, and you can.") went with the scenes that only talked in #8922
+    // (c87a517a79), so the bank holds none now. The rule is held by its own
+    // cases here, never by a count of bank lines.
+    expect(flagged("trade-not-bribe", bank("scene-talk"))).toEqual([]);
     const rule = byId.get("trade-not-bribe")!;
+    const line = piece(
+      "afford",
+      "Because those two can't afford a yes, and you can.",
+      [{ subject: "s", role: "asker", move: "m", purpose: "ask-vote" }],
+    );
+    expect(ruleFlags(rule, line)).toBe(true);
     expect(
       ruleFlags(rule, {
         ...line,
@@ -794,7 +802,7 @@ describe("the rules that judge one line", () => {
     expect(
       ruleFlags(
         traits,
-        piece("t", "Neither, much", [], { bank: "person-sketch" }),
+        piece("t", "Neither, much", [], { bank: "person-history" }),
       ),
     ).toBe(true);
     expect(ruleFlags(traits, piece("t", "Neither, much"))).toBe(false);
