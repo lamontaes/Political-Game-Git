@@ -507,8 +507,8 @@ function assistanceWorkCase(): void {
     Number(m.slice(5, 7));
   const draws = new Map(
     table<{ id: string; months: string[] }>("taken")
-      .filter((r) => r.id.startsWith("draw|"))
-      .map((r) => [r.id.slice("draw|".length), r.months]),
+      .filter((r) => r.id.startsWith("welfare-draw|"))
+      .map((r) => [r.id.slice("welfare-draw|".length), r.months]),
   );
   const usedUp = (id: string) =>
     (draws.get(id) ?? []).filter(

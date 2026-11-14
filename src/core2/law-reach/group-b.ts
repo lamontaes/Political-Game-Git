@@ -934,6 +934,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
       service,
       heads: selected,
       modeledShare: share,
+      timeLimit: assistanceTimeLimit(api, facts, chain.stateKey),
     });
   }
   if (def.roadCondition && api.state.modules.has(PLACE_PRICES_MODULE_ID)) {
