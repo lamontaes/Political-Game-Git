@@ -111,7 +111,6 @@ describe("a call is greeted and ended as a call", () => {
       }
     },
     70_000,
-    120_000,
   );
 });
 
