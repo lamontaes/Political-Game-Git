@@ -32,7 +32,7 @@ function atLevel(
   return typeof found.row.value === "number" ? found.row.value : null;
 }
 
-/** Where each federal budget line reaches a state (data/country/federal-lines.json). */
+/** Where each federal budget line reaches a state (src/core2/data/country/federal-lines.json). */
 const DESTINATIONS = federalLines.lines as Readonly<
   Record<string, CountryFederalDestination>
 >;
@@ -49,7 +49,7 @@ export interface CountryFederalBudget {
  * The federal budget in force as it reaches each state, line by line: each line's dollars shared
  * among the 56 places by population times the place's stake in the line (`stake`, the world's
  * stake around data/research/federal/federal-spending-by-state-fy2024.json), sent where the
- * line pays (data/country/federal-lines.json). Shares are worked out once per reader.
+ * line pays (src/core2/data/country/federal-lines.json). Shares are worked out once per reader.
  */
 export function federalSpendingReader(
   budget: CountryFederalBudget | undefined,
