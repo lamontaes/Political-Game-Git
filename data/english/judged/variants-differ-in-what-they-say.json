@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1284,
+  "judged": 1274,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -1403,14 +1403,6 @@
         "scene-talk.reply-apologize.you-re-right-i-m-sorry"
       ],
       "why": "Both lines admit fault at home in other words."
-    },
-    "0mf0tgg79u5": {
-      "keys": [
-        "scene-talk.follow-plea.i-backed-you-when-nobody-else-would",
-        "scene-talk.follow-plea.i-ve-stood-by-you-from-the-start",
-        "scene-talk.follow-plea.i-was-at-your-kickoff-when-there-were-nine-people-in-the-room"
-      ],
-      "why": "All three lines say the donor backed the player early, and the kickoff detail is not tied to any record."
     },
     "0myk27sperj": {
       "keys": [
@@ -3514,13 +3506,6 @@
       ],
       "why": "Both lines are the same vague warning reworded."
     },
-    "1ipku3huoez": {
-      "keys": [
-        "scene-talk.follow-thank.i-knew-i-could-count-on-you",
-        "scene-talk.follow-thank.thank-you-i-won-t-forget-it"
-      ],
-      "why": "Both lines are the same generic thanks."
-    },
     "1iwszhtq0nm": {
       "keys": [
         "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
@@ -4595,13 +4580,6 @@
       ],
       "why": "Both lines promise on-the-record answers backed by records or dates, the same reply in other words with no fact to choose between them."
     },
-    "210k60yep8o": {
-      "keys": [
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-agree.all-right-i-ll-look-at-it-again"
-      ],
-      "why": "Both lines are a reluctant yes to the donor, with nothing in the world to choose between them."
-    },
     "214il04yxib": {
       "keys": [
         "scene-talk.reply-decline.i-d-rather-let-the-campaign-speak-for-itself",
@@ -4812,13 +4790,6 @@
         "scene-talk.open-greet.have-you-got-a-few-minutes"
       ],
       "why": "All four lines ask for a moment of the player's time in other words."
-    },
-    "24f8tpnvwks": {
-      "keys": [
-        "scene-talk.reply-deflect.let-s-not-get-into-that-over-the-phone",
-        "scene-talk.reply-deflect.that-s-not-a-conversation-for-today"
-      ],
-      "why": "Both lines put off the subject in other words."
     },
     "24fsaew2ryk": {
       "keys": [
@@ -5287,13 +5258,6 @@
       ],
       "why": "Both lines thank the player for the help, with no fact behind either."
     },
-    "2akbit1sud9": {
-      "keys": [
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument"
-      ],
-      "why": "Both lines decline to commit while inviting an argument, the same line reworded."
-    },
     "2au6hszcn3d": {
       "keys": [
         "scene-talk.reply-leave.i-have-somewhere-to-be-excuse-me",
@@ -5645,5 +5609,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "1pa674iwbz8"
+  "yesHash": "1xn12phzhse"
 }
