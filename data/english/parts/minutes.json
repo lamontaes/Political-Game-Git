@@ -4,7 +4,8 @@
   "description": "Meeting-minutes wording the owner graded good that no engine reads yet. Restored Nov 8, 2026 from the minutes bank deleted in 3d6576e9. Registered stopgap SG-WORDS-minutes-no-reader.",
   "slots": {
     "topic": "An agenda topic.",
-    "members": "The members who voted that way, by name."
+    "members": "The members who voted that way, by name.",
+    "body": "The body that met, as its place names it, without its article: council, board of commissioners, school board."
   },
   "maxWords": 16,
   "parts": [
@@ -19,7 +20,10 @@
         "date": "2025-12-10",
         "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20251210.htm"
       },
-      "tag": { "move": "record", "key": "routine" },
+      "tag": {
+        "move": "record",
+        "key": "routine"
+      },
       "restoredOn": "2026-11-08"
     },
     {
@@ -72,6 +76,19 @@
         "key": "routine"
       },
       "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "minutes.discussion.the-body-discussed-topic",
+      "move": "discussion",
+      "text": "The {body} discussed {topic}.",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-11-14",
+      "kind": "written",
+      "tag": {
+        "move": "record",
+        "key": "routine"
+      }
     }
   ]
 }

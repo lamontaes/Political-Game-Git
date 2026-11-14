@@ -7,6 +7,7 @@
 import calendarJson from "../../data/english/parts/calendar.json" with { type: "json" };
 import personHistoryJson from "../../data/english/parts/person-history.json" with { type: "json" };
 import billPaperJson from "../../data/english/parts/bill-paper.json" with { type: "json" };
+import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
 import meetingJson from "../../data/english/parts/meeting.json" with { type: "json" };
 import { directorSlots, playable } from "./bank-parts";
 import {
@@ -28,6 +29,9 @@ const BANKS: Readonly<Record<string, ReadonlyMap<string, ScreenPart>>> = {
   ),
   "bill-paper": new Map(
     (billPaperJson.parts as ScreenPart[]).map((part) => [part.key, part]),
+  ),
+  minutes: new Map(
+    (minutesJson.parts as ScreenPart[]).map((part) => [part.key, part]),
   ),
   meeting: new Map(
     (meetingJson.parts as ScreenPart[]).map((part) => [part.key, part]),
