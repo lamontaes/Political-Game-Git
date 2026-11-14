@@ -1,6 +1,6 @@
 ---
 name: words-reads
-description: How the Words lead of Our Civic Duty reads a change to anything a player reads (a scene, a talk, the paper, a speech, the Journal, a screen label) before it joins a train or main, and the numbered rules those reads have set since Nov 13 (rules 30 to 61, after the first twenty-nine on the crew issue). Use when you build or change player words and want to know what the read will ask for, when you are the Words lead or a builder working for it, and when writing lines for a door, a first meeting, home talk, an address or an election story. Not for the engine's mechanics (words-engine), the standard a scene must meet to exist (scene-standard) or checking a screen for developer text (player-screen-text).
+description: How the Words lead of Our Civic Duty reads a change to anything a player reads (a scene, a talk, the paper, a speech, the Journal, a screen label) before it joins a train or main, and the numbered rules those reads have set since Nov 13 (rules 30 to 81, after the first twenty-nine on the crew issue). Use when you build or change player words and want to know what the read will ask for, when you are the Words lead or a builder working for it, and when writing lines for a door, a first meeting, home talk, an address or an election story. Not for the engine's mechanics (words-engine), the standard a scene must meet to exist (scene-standard) or checking a screen for developer text (player-screen-text).
 ---
 
 # Words reads
@@ -62,12 +62,42 @@ description: How the Words lead of Our Civic Duty reads a change to anything a p
 56. Six strangers in a day are six talks: what a person raises comes from that person.
 57. People at home ask questions, each with a record behind it (the player's day, the calendar, something heard).
 58. One opening line carries one thing.
-59. A line about the President says which side he took, then the speaker's view; no stock phrase stands in for the measure.
+59. A line about the President says which side the President took, then the speaker's view, as two parts (a lead and a stance) so the bank combines them; no line says "he" or "she" for the President unless it reads the record; no stock phrase stands in for the measure.
 60. An answer answers the question; with no local link on record the speaker says so or the question is not offered.
 61. One person in a room raises the address in an evening.
+
+## Rules 62 to 73: door scenes
+
+62. A scene has a middle: a door with a cause on record gets an exchange about the resident's own matter, with at least two replies that end differently.
+63. One button is not a choice. No scene offers a single reply.
+64. A name in narration comes from the household record, or nobody is named.
+65. He, she or they comes from the person's record.
+66. Narration states nothing the record does not hold: no pets, no other people, no objects that claim a fact. The door, the light, the hour, the dwelling kind and what the cause implies are free.
+67. No narration and no reply plays twice in one outing; which wording a resident uses comes from that resident.
+68. Nobody claims a past that is not on record ("I've been waiting for someone to ask").
+69. The office and the day are said as people say them ("running for council", "Election Day").
+70. Door endings have their own labels ("Promised you a vote", "Would not sign").
+71. Progress is not said aloud ("That's one closer" is a count).
+72. What a resident says matters to them is their own strongest question from their views record, with their side and a reason from their life; the player then holds it as a learned view. Stock answers for everyone are a fault.
+73. After the opening line the town and the office are each said at most once more in a scene. A line meets the insert guard with a record that belongs in it, or is three words or fewer; never pad with the place name.
+
+## Rules 74 to 81: conversation, second pass
+
+74. A player's reply never says a slot's own name ("How long have you been with work?"); it says "there".
+75. A stance must parse with its lead; mark which stances follow which leads in the pieces.
+76. A follow-up fits the side: "plan" and "pass it" only when the President is for the measure.
+77. One subject once per talk: nobody raises the same question under two headings.
+78. A reply answers the line before it, and an opener says the stand, not its history ("always").
+79. A figure is said once per talk; after that it is "that" or "the rent".
+80. A goodbye is one goodbye: a core that is already a goodbye takes no closer.
+81. A modest wording ("just a") fits the job; not for someone who heads a department or a body.
 
 ## Traps
 
 - A test that counts questions or wordings going red after a rule change is usually telling the truth. Find which change emptied the supply before touching the test.
 - A script that prints every wording of a story makes a paper look repetitive; say so in the lines file.
 - `data/english/parts/` edits can be refused by the permission check for a builder. Do not work around it: list the lines in bank shape for the lead.
+- The bank's limits shape every line the lead writes: a fixed line of four or more words needs a record slot (the line-inserts baseline only goes down) and a part is ten words at most. Write to both from the start, and never fill the slot with the town's name just to pass.
+- When a count test wants many different lines, do not write near-twins: split the line into two parts the bank combines (a lead and a stance), and delete the whole-line pieces they replace.
+- Read a builder's fault before ruling on it. A card that looked wrong ("Went to school together" in July) was right: the player had graduated in June. Ask whose card it is.
+- A picture of one screen can hide the next one: a drafting card passed while the bill it produced showed one step of three. Ask for the screen the player lands on after pressing the button.
