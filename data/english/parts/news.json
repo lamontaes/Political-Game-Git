@@ -12501,17 +12501,17 @@
       }
     },
     {
-      "key": "news.signed-next.it-takes-effect-without-a-signature-as-the-law-allows-when-the-deadline-passes",
+      "key": "news.signed-next.designation-takes-effect-without-a-signature-as-the-law-allows-when-the-deadline",
       "move": "signed-next",
       "kind": "written",
-      "text": "It takes effect without a signature, as the law allows when the deadline passes.",
+      "text": "{designation} takes effect without a signature, as the law allows when the deadline passes.",
       "uses": [
         {
           "move": "signed-next",
           "subject": "news",
           "role": "signed-next",
           "choice": "context",
-          "requiresFacts": ["unsigned"]
+          "requiresFacts": ["unsigned", "designation"]
         }
       ],
       "origin": "authored",

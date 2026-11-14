@@ -37,4 +37,5 @@ claimed-at: 2026-11-14
 **Files.** src/core2/modules/legislature.ts, src/english, src/bench/play.mjs
 
 **Notes.**
+
 - Nov 14 2026, desk thread (branch claude/project-thread-hkqdh2): `deadlinePassed` now writes the same `executive-action` record with action `unsigned` (one writer, `executiveActionRecord`, shared with the signature and the veto). The paper's builder words it as its own fact with six pieces the Words lead ruled; the Journal's four lines are handed to the Journal thread (#9119), which owns those files. Test: src/director/desk-unsigned-told.test.ts at Gates, Tennessee.
