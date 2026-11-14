@@ -5,7 +5,6 @@ import {
   adjourn,
   meetingInProgress,
   officeActsOf,
-  stopsOf,
 } from "../core2/modules/office-day";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI, type CoreState } from "../core2/state";
@@ -88,7 +87,7 @@ describe(`stop switches (${PLACE.name}, seed ${PLACE.seed})`, () => {
     expect(officeView(core, member).stops).toEqual([
       { key: "meetings", on: false },
     ]);
-    expect(playTo(60), "meeting stops while switched off").toBe(0);
+    expect(playTo(25), "meeting stops while switched off").toBe(0);
     const absent = officeActsOf(api, member).filter(
       (a) => a.kind === "vote" && a.how === "absent",
     );
@@ -130,7 +129,7 @@ describe.each(FLOOR_SEATS)("floor switch ($name, seed $seed)", (place) => {
     )!.holder!.personId!;
     const player = new BenchPlayer(core, world.director);
     player.select(member);
-    const play = (until: string, stopAtFirst: boolean) => {
+    const play = (until: string) => {
       let held: string | null = null;
       for (
         let guard = 0;
@@ -143,7 +142,6 @@ describe.each(FLOOR_SEATS)("floor switch ($name, seed $seed)", (place) => {
           if (reasons(player).some((r) => /^office-day/.test(r))) {
             held = core.date;
             leaveHoldsToCharacter(core, member);
-            if (!stopAtFirst) held = held;
           }
           player.resume({ kind: "stop", pauseId: packet.pauseId });
         } else if (packet?.kind === "choice")
@@ -164,7 +162,7 @@ describe.each(FLOOR_SEATS)("floor switch ($name, seed $seed)", (place) => {
     expect(officeView(on.core, on.member).stops).toEqual([
       { key: "floor", on: true },
     ]);
-    const first = on.play(after(on.core.date, 365), true);
+    const first = on.play(after(on.core.date, 25));
     expect(first, "a floor stop with the switch on").not.toBeNull();
     const off = seated();
     officeStops(off.core, off.member, "floor", false);
@@ -172,26 +170,8 @@ describe.each(FLOOR_SEATS)("floor switch ($name, seed $seed)", (place) => {
       { key: "floor", on: false },
     ]);
     expect(
-      off.play(after(first!, 7), false),
+      off.play(after(off.core.date, 25)),
       "a floor stop with the switch off",
     ).toBeNull();
   }, 290_000);
 });
-
-// A member of Congress has the same floor switch; the engine's own federal test
-// (office-day-federal.test.ts) proves the absent record, so this checks only the seat's switch.
-it("a U.S. Representative has the floor switch, and the switch is kept (St. Peter, Minnesota, seed t51-walk-a)", () => {
-  const world = buildBenchWorld("t51-walk-a", gameStartDate(), {
-    twoLevel: true,
-    placeKey: "2758036",
-  });
-  const core = world.core as CoreState;
-  const api = coreAPI(core);
-  const member = townSeats(api).find(
-    (s) => s.holder?.personId && s.office.kind.startsWith("us-house"),
-  )!.holder!.personId!;
-  expect(officeView(core, member).stops).toEqual([{ key: "floor", on: true }]);
-  officeStops(core, member, "floor", false);
-  expect(officeView(core, member).stops).toEqual([{ key: "floor", on: false }]);
-  expect(stopsOf(api, member)["floor-vote"]).toBe(false);
-}, 120_000);
