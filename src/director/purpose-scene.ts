@@ -12,8 +12,13 @@ import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
-import { policyAuthority, type PolicyLevel } from "../core2/policy-authority";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  policyAuthority,
+  type PolicyLevel,
+} from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
 import {
   LEGISLATURE_MODULE_ID,
