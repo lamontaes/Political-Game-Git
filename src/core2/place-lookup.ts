@@ -595,6 +595,16 @@ function labelMatches(label: string, needle: string): boolean {
   return needle.length === 0 || label.toLowerCase().includes(needle);
 }
 
+/** A place's name without its state, as people in the state say it ("Rienzi", not "Rienzi, Mississippi"). */
+export function placeNameWithinState(place: CorePlace): string {
+  return place.withinName
+    ? place.displayName.replace(
+        new RegExp(`,\\s*${place.withinName}$`, "i"),
+        "",
+      )
+    : place.displayName;
+}
+
 function authoredMatches(
   place: CorePlace,
   needle: string,

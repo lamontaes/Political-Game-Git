@@ -117280,7 +117280,7 @@
       "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-pick-up-the-papers",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}, you head to {counter}, and {name} comes over to talk about {office}.",
+      "text": "{begins}, you head to {counter} to run for {office}. {name} comes over to the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -117305,7 +117305,7 @@
       "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-and-speak-to-name-to",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}. {name} sees you come into {counter}, and the talk turns to {office}.",
+      "text": "{begins}. You head to {counter} and speak to {name} about running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -117380,7 +117380,7 @@
       "key": "scene-talk.narrate-narrate.youre-back-at-the-posts-office-name-looks-up-from-the-counter",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} looks up from the counter at {counter}. You've been here before.",
+      "text": "You've been to {counter} before. {name} looks up from the counter.",
       "uses": [
         {
           "subject": "scene",

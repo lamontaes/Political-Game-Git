@@ -198,9 +198,19 @@ export function agencyHeadSaid(agency: string): string {
     : data.agencyHead.said.replace("{agency}", name);
 }
 
-/** An agency's name as people say it: a form's parenthesis dropped ("Department of Elections (State Board)"). */
+/**
+ * An agency's name as people say it: a form's parenthesis dropped, and where the
+ * filing row names two bodies as an original and its duplicate ("State Election
+ * Commission (original) and Coordinator of Elections (duplicate)") the one that
+ * takes the original, since a person heads one body and the player walks into one.
+ */
 function agencyNameSaid(agency: string): string {
-  return agency
+  const { kept, dropped } = data.agencyHead.copies;
+  const copies = new RegExp(
+    `^(.*?)\\s*\\(${kept}\\)\\s+and\\s+.*\\(${dropped}\\)$`,
+    "i",
+  ).exec(agency);
+  return (copies?.[1] ?? agency)
     .replace(/\s*\([^)]*\)/g, "")
     .replace(/\s+/g, " ")
     .trim();

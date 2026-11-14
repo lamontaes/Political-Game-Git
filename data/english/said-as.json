@@ -91,6 +91,7 @@
     "said": "head of the {agency}",
     "office": "the {agency}",
     "ownOffice": "the {agency}'s office",
-    "namedAsOffice": ["Secretary of State"]
+    "namedAsOffice": ["Secretary of State"],
+    "copies": { "kept": "original", "dropped": "duplicate" }
   }
 }

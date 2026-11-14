@@ -42,6 +42,7 @@ import type { ModuleRow } from "../module-data";
 import {
   corePlaceByJurisdictionId,
   corePlaceByKey,
+  placeNameWithinState,
   coreStateName,
 } from "../place-lookup";
 import {
@@ -1136,6 +1137,36 @@ function birthdayOn(birthDate: string, years: number): string {
   return `${year}-${monthDay === "02-29" && !leap ? "03-01" : monthDay}`;
 }
 
+/**
+ * The town's own name, as its clerk says it: "Rienzi", never the state beside
+ * it (a clerk at the town's own counter does not say the state).
+ */
+function townName(api: CoreAPI): string | null {
+  const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
+  return place ? placeNameWithinState(place) : null;
+}
+
+/**
+ * Where a person's records put them, said as the same kind of place as the
+ * rule's own: a town against a town, a state race's state against where they
+ * live. A place of another kind (a county around the town) is not a reason,
+ * so the clerk says only "somewhere else" ("lives elsewhere").
+ */
+function residentPlaceNamed(
+  api: CoreAPI,
+  placeId: string,
+  level: string,
+): string {
+  const here = corePlaceByJurisdictionId(placeId as never);
+  if (!here) return "lives elsewhere";
+  if (level === "federal" || level === "state") return here.displayName;
+  const home = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
+  if (!home || home.scope !== here.scope) return "lives elsewhere";
+  return home.stateJurisdictionKey === here.stateJurisdictionKey
+    ? placeNameWithinState(here)
+    : here.displayName;
+}
+
 /** Every rule for one person filing in one contest, checked today. */
 export function checkEligibility(
   api: CoreAPI,
@@ -1223,14 +1254,12 @@ export function checkEligibility(
           ? (stateNameOf(api) ??
             rules.residency ??
             "lives in the area the office serves")
-          : (corePlaceByKey(api.state.placeMetadata.placeKey ?? "")
-              ?.displayName ??
+          : (townName(api) ??
             rules.residency ??
             "lives in the area the office serves"),
       actual: resident
         ? "lives here"
-        : (corePlaceByJurisdictionId(person.placeId as never)?.displayName ??
-          "lives elsewhere"),
+        : residentPlaceNamed(api, person.placeId, contest.level),
       source: rules.source,
     },
   ];
