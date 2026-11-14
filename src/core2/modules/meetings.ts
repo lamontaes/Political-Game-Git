@@ -284,6 +284,9 @@ const local = (bill: BillRow) =>
   !bill.bodyOfficeId.includes(":legislature-") &&
   !bill.bodyOfficeId.includes(":us-");
 
+/** A bill of a town or county body, not of a legislature. */
+export const isLocalBill = local;
+
 /** The question a town or county bill speaks to, or nothing for a bill of a legislature (it has testimony, not public comment). */
 export function localBillStance(
   api: CoreAPI,

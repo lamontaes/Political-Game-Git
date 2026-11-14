@@ -32,6 +32,7 @@ import {
 } from "./modules/constituent-cases";
 import {
   holdTownHall,
+  isLocalBill,
   MEETINGS_MODULE_ID,
   townHallId,
 } from "./modules/meetings";
@@ -45,6 +46,8 @@ import {
   requestInterview,
 } from "./modules/press";
 import { appoint, appointmentsIn, postsToFill } from "./modules/executive";
+import { townSeats } from "./modules/offices";
+import { leanedYesWithTerm } from "./trait-decisions";
 import { lawChain } from "./modules/laws";
 import {
   BUDGETS_MODULE_ID,
@@ -211,6 +214,22 @@ const LOCAL_PARAMETERS = {
     estimatedFrom: "Checked against a played year's press coverage.",
     spread: [30, 180],
   },
+  addressCauseWeight: {
+    value: 1,
+    tag: "TUNABLE",
+    citation:
+      "Weight on an official's reason to give the yearly address: how much the year gave them to report (laws their town or county body made in the last year, one at most). The same weight as the town hall's cause (townHallCauseWeight, 1).",
+    estimatedFrom: "Set equal to townHallCauseWeight.",
+    spread: [0.5, 2],
+  },
+  addressEffort: {
+    value: 0.5,
+    tag: "TUNABLE",
+    citation:
+      "Unverified estimate (builder, Nov 14, 2026): the effort of giving the yearly address, against which the year's reasons are weighed; below a town hall's effort (0.8) because it is one prepared speech. Stands only on the played-year check that world mayors give it in most towns that made laws.",
+    estimatedFrom: "Checked against a played year at three drawn places.",
+    spread: [0.3, 0.8],
+  },
   stateOfCityLastMonth: {
     value: 4,
     tag: "ESTIMATED",
@@ -268,6 +287,7 @@ export function localOfficeKit(host: OfficeActHost): OfficeActKit {
     parameters: LOCAL_PARAMETERS,
     providers: officeActProviders(host),
     reasonProviders: officeActReasons(host),
+    onDay: worldAddresses(host),
     handlers: officeActHandlers(host) as unknown as OfficeActKit["handlers"],
   };
 }
@@ -479,6 +499,64 @@ export function officeActProviders(host: OfficeActHost) {
 
 /** The executives who give an annual address. */
 const EXECUTIVE_KINDS = new Set(["mayor", "county-executive"]);
+
+/**
+ * The world's own mayors and county executives, in the address's season: the
+ * first of each month until the season ends, each one who has not given it
+ * this year weighs it (what the year gave them to report, their temperament,
+ * the effort), as the town hall decision does (`considerTownHalls`); the one
+ * who says yes gives it by the same act the player's character gives, so the
+ * speech, the record of it and the listeners' views are the one engine's. The
+ * extraversion row of `meetings.hold-town-hall` stands in for the host's pull:
+ * no study of officials giving an address was found.
+ */
+export function worldAddresses(host: OfficeActHost) {
+  const give = officeActHandlers(host)["state-of-the-city"];
+  return (api: CoreAPI): void => {
+    const date = api.state.date;
+    if (date.slice(8) !== "01") return;
+    if (Number(date.slice(5, 7)) > api.parameter("stateOfCityLastMonth"))
+      return;
+    const player = controlled(api);
+    const year = date.slice(0, 4);
+    const since = dateOffset(date, -365);
+    let enacted: number | null = null;
+    for (const row of townSeats(api)) {
+      if (!EXECUTIVE_KINDS.has(row.office.kind)) continue;
+      const id = row.holder?.personId;
+      const person = id ? api.state.people.get(id) : undefined;
+      if (!id || !person?.alive || id === player) continue;
+      if (host.given(api, id, "state-of-the-city", year)) continue;
+      if (enacted === null)
+        enacted = api.state.modules.has(LEGISLATURE_MODULE_ID)
+          ? (
+              api
+                .moduleState(LEGISLATURE_MODULE_ID)
+                .table("bills")
+                .rows() as unknown as BillRow[]
+            ).filter(
+              (b) =>
+                isLocalBill(b) &&
+                b.introduced >= since &&
+                (b.status === "signed" ||
+                  b.status === "enacted" ||
+                  b.status === "overridden"),
+            ).length
+          : 0;
+      const cause =
+        api.parameter("addressCauseWeight") * (1 - 1 / (1 + enacted));
+      const { yes } = leanedYesWithTerm(
+        api.state,
+        person,
+        "meetings.hold-town-hall",
+        "hold",
+        "skip",
+        cause - api.parameter("addressEffort"),
+      );
+      if (yes) give(api, id);
+    }
+  };
+}
 
 /** A mayor or county executive in the address's season who has not given it this year. */
 function addressDue(
@@ -797,6 +875,7 @@ export function officeActHandlers(host: OfficeActHost) {
           if (id !== actorId) audience.add(id);
       const id = `state-of-the-city:${actorId}:${api.state.date}`;
       deliverSpeech(api, {
+        groupUnwatched: true,
         id,
         speakerId: actorId,
         placeId: lawChain(api).townPlaceId,
