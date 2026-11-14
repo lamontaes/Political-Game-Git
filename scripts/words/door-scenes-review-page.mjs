@@ -20,7 +20,13 @@ const template = readFileSync(
   new URL("./door-scenes-review.template.html", import.meta.url),
   "utf8",
 );
-const json = readFileSync(dataPath, "utf8").replace(/</g, "\\u003c");
+// The page plays scenes; the bank lists stay in the file for the batch export.
+const data = JSON.parse(readFileSync(dataPath, "utf8"));
+for (const scene of data.scenes) {
+  delete scene.bank;
+  if (scene.previous) delete scene.previous.bank;
+}
+const json = JSON.stringify(data).replace(/</g, "\\u003c");
 writeFileSync(
   outPath,
   template.replace("/*__DATA__*/", () => json),

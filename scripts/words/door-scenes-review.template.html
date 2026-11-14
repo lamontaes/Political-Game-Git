@@ -1,974 +1,1033 @@
 <meta charset="utf-8" />
-<title>Scene Review</title>
-<meta name="claude:viewport-fit-sides" content="cover" />
+<title>Scenes</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover"
+/>
 <style>
-  /* Layout: a scene list beside one conversation that plays as the game shows it. */
   :root {
-    --bg: #f6f5f2;
-    --panel: #ffffff;
-    --fg: #1d2127;
-    --muted: #5c6470;
-    --line: #dcdad3;
-    --accent: #1f5f8b;
-    --accent-soft: #e2edf4;
-    --you: #e8f0e4;
-    --you-line: #b5cdae;
-    --narr: #6a5b3c;
-    --warn: #8a5a00;
-    --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --bg: #f2f2f7;
+    --card: #ffffff;
+    --fg: #1c1c1e;
+    --muted: #6c6c70;
+    --sep: #d8d8de;
+    --accent: #0a64d6;
+    --accent-fg: #ffffff;
+    --soft: #e6eefb;
+    --warn: #b25b00;
+    --you: #0a64d6;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #14181d;
-      --panel: #1c2128;
-      --fg: #e6e8eb;
-      --muted: #98a1ad;
-      --line: #2e353e;
-      --accent: #7fb4d9;
-      --accent-soft: #1f2f3c;
-      --you: #1f2d1d;
-      --you-line: #3a5636;
-      --narr: #cdb98a;
-      --warn: #e0b45a;
-      color-scheme: dark;
+      --bg: #000000;
+      --card: #1c1c1e;
+      --fg: #f2f2f7;
+      --muted: #98989f;
+      --sep: #38383a;
+      --accent: #4c9bff;
+      --accent-fg: #00142e;
+      --soft: #122a4a;
+      --warn: #ffb259;
+      --you: #6fb0ff;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #14181d;
-    --panel: #1c2128;
-    --fg: #e6e8eb;
-    --muted: #98a1ad;
-    --line: #2e353e;
-    --accent: #7fb4d9;
-    --accent-soft: #1f2f3c;
-    --you: #1f2d1d;
-    --you-line: #3a5636;
-    --narr: #cdb98a;
-    --warn: #e0b45a;
-    color-scheme: dark;
+    --bg: #000000;
+    --card: #1c1c1e;
+    --fg: #f2f2f7;
+    --muted: #98989f;
+    --sep: #38383a;
+    --accent: #4c9bff;
+    --accent-fg: #00142e;
+    --soft: #122a4a;
+    --warn: #ffb259;
+    --you: #6fb0ff;
   }
   * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
+  html,
   body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
     background: var(--bg);
     color: var(--fg);
-    font-family: var(--font);
-    font-size: 15px;
-    line-height: 1.5;
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
-    padding-block: 16px 48px;
+    font-family:
+      -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
-  .wrap {
-    max-width: 1100px;
+  button {
+    font: inherit;
+    color: inherit;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  #app {
+    position: fixed;
+    inset: 0;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 250px minmax(0, 1fr);
-    gap: 20px;
-    align-items: start;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
   }
-  @media (max-width: 760px) {
-    .wrap {
-      grid-template-columns: minmax(0, 1fr);
-    }
+  /* top bar */
+  .bar {
+    flex: none;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
-  h1 {
-    font-size: 1.15rem;
-    margin: 0 0 4px;
-    letter-spacing: -0.01em;
+  .bar .title {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tool {
+    min-width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    color: var(--accent);
+    padding: 0 8px;
+  }
+  .tool.on {
+    background: var(--soft);
+  }
+  .tool small {
+    font-size: 13px;
+    font-weight: 600;
+  }
+  /* home */
+  .large {
+    flex: none;
+    font-size: 34px;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 4px 0 2px;
   }
   .sub {
+    flex: none;
     color: var(--muted);
-    font-size: 13px;
-    margin: 0 0 14px;
+    font-size: 14px;
+    margin-bottom: 14px;
   }
-  .sub code,
-  .meta code {
-    font-family: var(--mono);
-    font-size: 12px;
-  }
-  nav {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 10px;
-    position: sticky;
-    top: 12px;
-    max-height: calc(100vh - 24px);
-    overflow: auto;
-  }
-  @media (max-width: 760px) {
-    nav {
-      position: static;
-      max-height: none;
-    }
-  }
-  nav h2 {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    margin: 10px 6px 4px;
-    font-weight: 600;
-  }
-  nav button {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: 0;
-    color: var(--fg);
-    padding: 7px 8px;
-    border-radius: 6px;
-    font: inherit;
-    cursor: pointer;
-  }
-  nav button:hover {
-    background: var(--accent-soft);
-  }
-  nav button[aria-current="true"] {
-    background: var(--accent-soft);
-    font-weight: 600;
-  }
-  nav .sid {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--accent);
-    min-width: 22px;
-  }
-  main {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 18px;
-    min-width: 0;
-  }
-  .meta {
-    color: var(--muted);
-    font-size: 13px;
-    margin: 2px 0 12px;
-  }
-  .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 14px;
-    align-items: center;
-    margin: 12px 0 16px;
+  .grid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 10px;
     padding-bottom: 14px;
-    border-bottom: 1px solid var(--line);
   }
-  .group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    align-items: center;
-  }
-  .group > span {
-    font-size: 12px;
-    color: var(--muted);
-    margin-right: 2px;
-  }
-  .seg {
-    background: var(--bg);
-    border: 1px solid var(--line);
-    color: var(--fg);
-    border-radius: 6px;
-    padding: 4px 10px;
-    font: inherit;
-    font-size: 13px;
-    cursor: pointer;
-  }
-  .seg[aria-pressed="true"] {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
-  :root[data-theme="dark"] .seg[aria-pressed="true"] {
-    color: #10161c;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .seg[aria-pressed="true"] {
-      color: #10161c;
-    }
-  }
-  .act {
-    background: none;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    border-radius: 6px;
-    padding: 5px 12px;
-    font: inherit;
-    font-size: 13px;
-    cursor: pointer;
-  }
-  .act:disabled {
-    opacity: 0.4;
-    cursor: default;
-  }
-  button:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-  .conv {
+  .tile {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 12px 14px;
+    text-align: left;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-width: 680px;
+    justify-content: space-between;
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .tile:active,
+  .row:active,
+  .opt:active {
+    transform: scale(0.985);
+    opacity: 0.85;
+  }
+  .tile b {
+    font-size: 18px;
+    line-height: 1.15;
+    font-weight: 650;
+  }
+  .tile span {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .dot {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background: var(--accent);
+  }
+  /* list */
+  .rows {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 8px;
   }
   .row {
+    flex: 1;
+    min-height: 0;
+    max-height: 84px;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 8px 16px;
+    text-align: left;
     display: flex;
+    align-items: center;
     gap: 10px;
-    align-items: baseline;
   }
-  .id {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    padding: 0 5px;
-    cursor: pointer;
-    flex: none;
-    line-height: 1.7;
-  }
-  .id:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-  .bubble {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--line);
+  .row .t {
+    flex: 1;
     min-width: 0;
-    overflow-wrap: anywhere;
+    font-size: 17px;
+    font-weight: 560;
+    line-height: 1.2;
   }
-  .narr .bubble {
-    border: 0;
-    padding: 2px 0;
-    color: var(--narr);
-    font-style: italic;
+  .row .t i {
+    display: block;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 2px;
   }
-  .resident .bubble {
-    background: var(--bg);
+  .row .chev {
+    color: var(--muted);
+    font-size: 22px;
   }
-  .you .bubble {
-    background: var(--you);
-    border-color: var(--you-line);
+  .row.off {
+    opacity: 0.5;
   }
-  .who {
+  .pill {
     font-size: 12px;
     font-weight: 600;
+    color: var(--accent);
+    background: var(--soft);
+    border-radius: 10px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+  .pager {
+    flex: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
     color: var(--muted);
-    display: block;
-    margin-bottom: 1px;
+    font-size: 14px;
   }
-  .key {
-    display: none;
-    font-family: var(--mono);
-    font-size: 10.5px;
+  /* scene */
+  .opts {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .seg {
+    flex: 1;
+    display: flex;
+    background: var(--sep);
+    border-radius: 10px;
+    padding: 2px;
+    gap: 2px;
+  }
+  .seg button {
+    flex: 1;
+    height: 34px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 560;
+    color: var(--fg);
+  }
+  .seg button.on {
+    background: var(--card);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  .step {
+    display: flex;
+    align-items: center;
     color: var(--muted);
-    margin-top: 3px;
-    overflow-wrap: anywhere;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
-  .showkeys .key {
-    display: block;
+  .step button {
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+    color: var(--accent);
   }
-  .choices {
+  .step button:disabled {
+    opacity: 0.3;
+  }
+  .stage {
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin: 4px 0 0 0;
+    justify-content: center;
+    padding: 8px 4px;
+    overflow: hidden;
   }
-  .choices .lead {
-    font-size: 12px;
+  .prev {
     color: var(--muted);
+    font-size: 15px;
+    line-height: 1.35;
+    margin-bottom: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-  .choice {
-    display: flex;
-    gap: 10px;
-    align-items: baseline;
-    text-align: left;
-    background: var(--panel);
-    border: 1px solid var(--accent);
-    color: var(--fg);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font: inherit;
-    cursor: pointer;
+  .prev b {
+    font-weight: 600;
   }
-  .choice:hover {
-    background: var(--accent-soft);
-  }
-  .choice .id {
-    cursor: inherit;
-  }
-  .end {
-    margin-top: 6px;
-    padding: 10px 12px;
-    border: 1px dashed var(--line);
-    border-radius: 8px;
-    color: var(--muted);
+  .who {
     font-size: 13px;
-  }
-  .end b {
-    color: var(--fg);
-  }
-  .tools {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin: 0 0 12px;
-    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--muted);
-  }
-  label {
-    cursor: pointer;
-  }
-  .tabs {
-    display: flex;
-    gap: 6px;
     margin-bottom: 8px;
   }
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 13px;
+  .who.you {
+    color: var(--you);
   }
-  .tablewrap {
-    overflow-x: auto;
+  .say {
+    font-weight: 560;
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+    overflow: hidden;
   }
-  th,
-  td {
-    text-align: left;
-    padding: 5px 8px;
-    border-bottom: 1px solid var(--line);
-    vertical-align: top;
-  }
-  th {
-    color: var(--muted);
-    font-weight: 600;
-    font-size: 12px;
-  }
-  td.t {
-    min-width: 240px;
-  }
-  .tag {
-    font-size: 11px;
-    color: var(--warn);
-  }
-  .notshown td {
-    background: var(--accent-soft);
-  }
-  .plain .bubble {
-    border: 0;
-    padding: 2px 0;
-    max-width: 62ch;
-  }
-  .search {
-    width: 100%;
-    padding: 6px 8px;
-    margin: 0 0 6px;
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    background: var(--bg);
-    color: var(--fg);
-    font: inherit;
-    font-size: 13px;
-  }
-  nav details {
-    margin: 4px 0;
-  }
-  nav summary {
-    cursor: pointer;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    font-weight: 600;
-    padding: 6px;
-  }
-  .rev {
-    font-size: 10.5px;
-    color: var(--warn);
-    border: 1px solid var(--warn);
-    border-radius: 4px;
-    padding: 0 4px;
-    margin-left: auto;
-    flex: none;
-    line-height: 1.5;
-  }
-  .soon {
-    color: var(--muted);
+  .say.nar {
     font-style: italic;
-    padding: 7px 8px;
-    font-size: 13px;
+    font-weight: 450;
   }
-  .banner {
-    border: 1px dashed var(--warn);
-    border-radius: 8px;
-    padding: 8px 12px;
-    margin: 0 0 12px;
-    font-size: 13px;
+  .meta {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .was {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--card);
+    font-size: 14px;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+  .was b {
     color: var(--warn);
+    font-weight: 650;
+  }
+  .choices {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .opt {
+    background: var(--card);
+    color: var(--fg);
+    border-radius: 16px;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.3;
+    border: 1.5px solid var(--sep);
+  }
+  .opt small {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .endcard {
+    text-align: center;
+  }
+  .endcard h2 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+  }
+  .endcard p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .dots {
+    flex: none;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    height: 14px;
+    align-items: center;
+  }
+  .dots i {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--sep);
+  }
+  .dots i.on {
+    background: var(--accent);
+    width: 16px;
+  }
+  .nav {
+    flex: none;
     display: flex;
     gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
+    padding: 8px 0 14px;
   }
-  .noids .id,
-  .noids .sid {
-    display: none;
+  .btn {
+    flex: 1;
+    height: 56px;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 620;
+    background: var(--card);
+    color: var(--accent);
   }
-  nav .kind {
-    font-size: 11px;
+  .btn.main {
+    flex: 2;
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  .btn:disabled {
+    opacity: 0.35;
+  }
+  .btn:active {
+    opacity: 0.8;
+  }
+  .coming {
+    text-align: center;
     color: var(--muted);
-    margin-left: auto;
-    text-align: right;
   }
-  .toast {
-    position: fixed;
-    left: 50%;
-    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    transform: translateX(-50%);
-    background: var(--fg);
-    color: var(--bg);
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none;
-  }
-  .toast.on {
-    opacity: 1;
-  }
-  .note {
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 18px;
-    padding-top: 12px;
-    border-top: 1px solid var(--line);
+  .coming h2 {
+    color: var(--fg);
+    margin: 0 0 6px;
+    font-size: 24px;
   }
 </style>
 
-<div class="wrap">
-  <nav id="nav" aria-label="Scenes"></nav>
-  <main id="main"></main>
-</div>
-<div class="toast" id="toast" role="status"></div>
+<div id="app"></div>
 
 <script id="data" type="application/json">
   /*__DATA__*/
 </script>
 <script>
   const D = JSON.parse(document.getElementById("data").textContent);
-  const $ = (id) => document.getElementById(id);
-  const state = {
-    scene: D.scenes[0].id,
-    v: 1,
-    ans: "yes",
-    path: [],
-    tab: "play",
-    keys: false,
-    ids: true,
-    order: "mixed",
-    all: false,
-    old: false,
-    q: "",
-  };
+  const app = document.getElementById("app");
+  const ANS = { yes: "Agrees", maybe: "Holds back", no: "Declines" };
+  const NEWS = D.news || { fresh: [], revised: [] };
 
-  const sceneOf = (id) => D.scenes.find((s) => s.id === id);
-  const el = (tag, cls, text) => {
-    const n = document.createElement(tag);
-    if (cls) n.className = cls;
-    if (text !== undefined) n.textContent = text;
-    return n;
-  };
-  function toast(msg) {
-    const t = $("toast");
-    t.textContent = msg;
-    t.classList.add("on");
-    setTimeout(() => t.classList.remove("on"), 1400);
-  }
-  function copy(text) {
-    const done = () => toast("Copied " + text);
-    if (navigator.clipboard)
-      navigator.clipboard.writeText(text).then(done, () => toast(text));
-    else toast(text);
-  }
-  function idChip(id) {
-    const b = el("button", "id", id);
-    b.type = "button";
-    b.title = "Copy id";
-    b.addEventListener("click", (e) => {
-      e.stopPropagation();
-      copy(id);
-    });
-    return b;
-  }
-  function bankIdFor(scene, key) {
-    const first = key.split(" + ")[0];
-    const row = scene.bank.find((b) => b.key === first);
-    return row ? row.id : "";
-  }
-  function lineRow(scene, l) {
-    const row = el("div", "row " + l.role);
-    row.appendChild(idChip(l.id));
-    const bub = el("div", "bubble");
-    if (l.who) bub.appendChild(el("span", "who", l.who));
-    bub.appendChild(document.createTextNode(l.text));
-    if (l.key || l.tag)
-      bub.appendChild(
-        el(
-          "div",
-          "key",
-          bankIdFor(scene, l.key) +
-            "  " +
-            l.key +
-            (l.move ? "  [" + l.move + "]" : ""),
-        ),
-      );
-    row.appendChild(bub);
-    return row;
-  }
-
-  function renderNav() {
-    const nav = $("nav");
-    const keep = nav.querySelector(".search");
-    const q = keep ? keep.value.trim().toLowerCase() : state.q;
-    state.q = q;
-    nav.textContent = "";
-    const box = el("input", "search");
-    box.type = "search";
-    box.id = "search";
-    box.placeholder = "Jump to a scene by title or number";
-    box.value = q;
-    box.addEventListener("input", () => {
-      renderNav();
-      const n = $("search");
-      n.focus();
-      n.setSelectionRange(n.value.length, n.value.length);
-    });
-    nav.appendChild(box);
-    const jump = (s) => {
-      state.scene = s.id;
-      state.path = [];
-      state.tab = "play";
-      state.old = false;
-      state.v = 1;
-      state.ans = "yes";
-      render();
-      location.hash = "scene-" + s.id;
-    };
-    const item = (s, withKind) => {
-      const b = el("button");
-      b.type = "button";
-      b.setAttribute("aria-current", String(s.id === state.scene));
-      b.appendChild(el("span", "sid", s.id));
-      b.appendChild(el("span", "", s.title));
-      if (withKind) b.appendChild(el("span", "kind", s.kind));
-      if (s.revised) b.appendChild(el("span", "rev", "revised"));
-      b.addEventListener("click", () => jump(s));
-      return b;
-    };
-    const news = D.news || { fresh: [], revised: [] };
-    if (!q && (news.fresh.length || news.revised.length)) {
-      const det = el("details");
-      det.open = true;
-      det.appendChild(el("summary", "", "New since last time"));
-      for (const [label, titles] of [
-        ["New: ", news.fresh],
-        ["Reworded: ", news.revised],
-      ])
-        for (const t of titles) {
-          const s = D.scenes.find((x) => x.title === t);
-          if (!s) continue;
-          const b = item(s, false);
-          b.firstChild.textContent = label.trim();
-          det.appendChild(b);
-        }
-      nav.appendChild(det);
+  // ---- remembered between visits (never needed) ----
+  function load(k, d) {
+    try {
+      const v = localStorage.getItem(k);
+      return v === null ? d : JSON.parse(v);
+    } catch (e) {
+      return d;
     }
-    const modes = el("div", "group");
-    for (const [val, text] of [
-      ["mixed", "Mixed order"],
-      ["kind", "By kind"],
-    ]) {
-      const bt = el("button", "seg", text);
-      bt.type = "button";
-      bt.setAttribute("aria-pressed", String(state.order === val));
-      bt.addEventListener("click", () => {
-        state.order = val;
-        renderNav();
+  }
+  function save(k, v) {
+    try {
+      localStorage.setItem(k, JSON.stringify(v));
+    } catch (e) {}
+  }
+  const seen = load("seen", {});
+  const prefs = load("prefs", { ids: true });
+
+  // ---- data ----
+  function scenesText(s) {
+    const out = [];
+    const walk = (t) => {
+      if (!t) return;
+      (t.lines || []).forEach((l) => out.push(l.text));
+      (t.choices || []).forEach((c) => {
+        out.push(c.line.text);
+        walk(c.next);
       });
-      modes.appendChild(bt);
-    }
-    nav.appendChild(modes);
-    const match = (x) =>
-      !q || (x.id + " " + x.title + " " + x.kind).toLowerCase().includes(q);
-    const kinds = [];
-    for (const s of D.scenes) if (!kinds.includes(s.kind)) kinds.push(s.kind);
-    if (state.order === "mixed") {
-      // Round robin across kinds, so no two of a kind sit side by side while others remain.
-      const queues = kinds.map((k) =>
-        D.scenes.filter((x) => x.kind === k && match(x)),
+    };
+    (s.versions || []).forEach((v) =>
+      v.answers.forEach((a) => {
+        a.opening.forEach((l) => out.push(l.text));
+        walk(a.tree);
+      }),
+    );
+    return out.join("|");
+  }
+  function hash(str) {
+    let h = 5381;
+    for (let i = 0; i < str.length; i++)
+      h = ((h * 33) ^ str.charCodeAt(i)) >>> 0;
+    return String(h);
+  }
+  D.scenes.forEach((s) => {
+    s.hash = hash(s.title + scenesText(s));
+    s.fresh = (NEWS.fresh || []).includes(s.title);
+    s.rev = !!s.revised || (NEWS.revised || []).includes(s.title);
+    s.isNew = (s.fresh || s.rev) && !s.coming && seen[s.title] !== s.hash;
+    // earlier text by line id
+    s.was = {};
+    const p = s.previous;
+    if (p) {
+      const take = (t) => {
+        if (!t) return;
+        (t.lines || []).forEach((l) => (s.was[l.id] = l.text));
+        (t.choices || []).forEach((c) => {
+          s.was[c.line.id] = c.line.text;
+          take(c.next);
+        });
+      };
+      (p.versions || []).forEach((v) =>
+        v.answers.forEach((a) => {
+          a.opening.forEach((l) => (s.was[l.id] = l.text));
+          take(a.tree);
+        }),
       );
-      const out = [];
-      let last = null;
-      while (queues.some((qq) => qq.length)) {
-        const pick =
-          queues
-            .map((qq, i) => [qq, i])
-            .filter(([qq, i]) => qq.length && kinds[i] !== last)
-            .sort((x, y) => y[0].length - x[0].length)[0] ||
-          queues.map((qq, i) => [qq, i]).find(([qq]) => qq.length);
-        out.push(pick[0].shift());
-        last = out[out.length - 1].kind;
-      }
-      const wrap = el("div");
-      for (const s of out) wrap.appendChild(item(s, true));
-      nav.appendChild(wrap);
-    } else
-      for (const kind of kinds) {
-        const list = D.scenes.filter((x) => x.kind === kind && match(x));
-        if (!list.length) continue;
-        const det = el("details");
-        det.open =
-          !!q || kinds.length < 4 || list.some((x) => x.id === state.scene);
-        det.appendChild(el("summary", "", kind));
-        for (const s of list) det.appendChild(item(s, false));
-        nav.appendChild(det);
-      }
-    if (D.notReady && D.notReady.length) {
-      const det = el("details");
-      det.appendChild(el("summary", "", "Not ready"));
-      for (const n of D.notReady)
-        det.appendChild(el("div", "soon", n.title + ": " + n.why));
-      nav.appendChild(det);
     }
-  }
+  });
+  const ORDER = [
+    "At the door",
+    "Campaign",
+    "In office",
+    "Money and favors",
+    "Press and the paper",
+    "Home and family",
+    "Work and school",
+    "The Journal",
+  ];
+  const kinds = [];
+  D.scenes.forEach((s) => {
+    let k = kinds.find((x) => x.name === s.kind);
+    if (!k) kinds.push((k = { name: s.kind, scenes: [] }));
+    k.scenes.push(s);
+  });
+  kinds.sort((a, b) => {
+    const x = ORDER.indexOf(a.name);
+    const y = ORDER.indexOf(b.name);
+    return (x < 0 ? 99 : x) - (y < 0 ? 99 : y);
+  });
+  // ---- state ----
+  const S = {
+    screen: "home",
+    kind: null,
+    sub: null,
+    page: 0,
+    scene: null,
+    v: 0,
+    ans: 0,
+    choices: [],
+    i: 0,
+    was: false,
+  };
 
-  function seg(group, label, items, current, on) {
-    const g = el("div", "group");
-    g.appendChild(el("span", "", label));
-    for (const [val, text] of items) {
-      const b = el("button", "seg", text);
-      b.type = "button";
-      b.setAttribute("aria-pressed", String(val === current));
-      b.addEventListener("click", () => on(val));
-      g.appendChild(b);
-    }
-    group.appendChild(g);
-  }
-
-  function endBox(node) {
-    const e = el("div", "end");
-    e.appendChild(document.createTextNode("Ends: "));
-    e.appendChild(el("b", "", node.end.label || "no named ending"));
+  // ---- helpers ----
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
     return e;
   }
-  function walkAll(conv, scene, node) {
-    for (const l of node.lines) conv.appendChild(lineRow(scene, l));
-    if (node.end && node.end.close)
-      conv.appendChild(lineRow(scene, node.end.close));
-    for (const c of node.choices) {
-      conv.appendChild(lineRow(scene, c.line));
-      if (c.next) {
-        const inner = el("div", "conv");
-        inner.style.marginLeft = "18px";
-        walkAll(inner, scene, c.next);
-        conv.appendChild(inner);
+  function btn(cls, text, fn) {
+    const b = el("button", cls, text);
+    b.onclick = fn;
+    return b;
+  }
+  function plural(n, one, many) {
+    return n + " " + (n === 1 ? one : many);
+  }
+  // Long lines page by sentence so nothing scrolls.
+  function pages(text) {
+    const MAX = 230;
+    if (text.length <= MAX) return [text];
+    const parts = text.match(/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g) || [text];
+    const out = [];
+    let cur = "";
+    parts.forEach((p) => {
+      if (cur && (cur + p).length > MAX) {
+        out.push(cur.trim());
+        cur = "";
       }
-    }
-    if (node.end) conv.appendChild(endBox(node));
+      cur += p;
+    });
+    if (cur.trim()) out.push(cur.trim());
+    return out;
+  }
+  function size(len) {
+    return len < 70 ? 30 : len < 130 ? 26 : len < 190 ? 23 : 20;
   }
 
-  function renderPlay(scene, ans) {
-    const conv = el("div", "conv" + (state.keys ? " showkeys" : ""));
-    for (const l of ans.opening) conv.appendChild(lineRow(scene, l));
-    let node = ans.tree;
-    let depth = 0;
-    for (;;) {
-      for (const l of node.lines) conv.appendChild(lineRow(scene, l));
-      if (node.end && node.end.close)
-        conv.appendChild(lineRow(scene, node.end.close));
-      if (!node.choices.length) break;
-      if (state.all) {
-        const box = el("div", "choices");
-        box.appendChild(el("div", "lead", "All replies:"));
-        for (const c of node.choices) {
-          box.appendChild(lineRow(scene, c.line));
-          if (c.next) {
-            const inner = el("div", "conv");
-            inner.style.marginLeft = "18px";
-            walkAll(inner, scene, c.next);
-            box.appendChild(inner);
-          }
+  // ---- beats of one scene ----
+  function current() {
+    const s = S.scene;
+    const ver = s.versions[S.v];
+    const a = ver.answers[Math.min(S.ans, ver.answers.length - 1)];
+    return { s, ver, a };
+  }
+  function beats() {
+    const { a } = current();
+    const out = [];
+    const add = (l, extra) => {
+      const ps = pages(l.text);
+      ps.forEach((t, n) =>
+        out.push(
+          Object.assign(
+            {
+              line: l,
+              text: t,
+              part: ps.length > 1 ? n + 1 + "/" + ps.length : "",
+            },
+            extra,
+          ),
+        ),
+      );
+    };
+    a.opening.forEach((l) => add(l));
+    let t = a.tree;
+    let k = 0;
+    let end = null;
+    while (t) {
+      (t.lines || []).forEach((l) => add(l));
+      if (t.end) end = t.end;
+      if (t.choices && t.choices.length) {
+        const pick = S.choices[k];
+        if (pick === undefined) {
+          out.push({ choice: t.choices, k });
+          return { out, end: null, pending: true };
         }
-        conv.appendChild(box);
-        return conv;
-      }
-      const pick = state.path[depth];
-      if (pick === undefined) {
-        const box = el("div", "choices");
-        box.appendChild(el("div", "lead", "Your reply:"));
-        node.choices.forEach((c, i) => {
-          const b = el("button", "choice");
-          b.type = "button";
-          b.appendChild(idChip(c.line.id));
-          b.appendChild(el("span", "", c.line.text));
-          b.appendChild(
-            el("span", "key", bankIdFor(scene, c.line.key) + "  " + c.line.key),
-          );
-          b.addEventListener("click", () => {
-            state.path.push(i);
-            render();
-          });
-          box.appendChild(b);
-        });
-        conv.appendChild(box);
-        return conv;
-      }
-      const c = node.choices[pick];
-      conv.appendChild(lineRow(scene, c.line));
-      if (!c.next) break;
-      node = c.next;
-      depth += 1;
+        add(t.choices[pick].line, { chosen: true });
+        t = t.choices[pick].next;
+        k++;
+      } else break;
     }
-    if (node.end) conv.appendChild(endBox(node));
-    return conv;
+    return { out, end, pending: false };
   }
 
-  function renderBank(main, scene) {
-    const wrap = el("div", "tablewrap" + (state.keys ? " showkeys" : ""));
-    const t = el("table");
-    const head = el("tr");
-    for (const h of ["Id", "Step", "Move", "Line as written", "Needs"])
-      head.appendChild(el("th", "", h));
-    t.appendChild(head);
-    for (const b of scene.bank) {
-      const tr = el("tr", b.shown ? "" : "notshown");
-      const idc = el("td");
-      idc.appendChild(idChip(b.id));
-      tr.appendChild(idc);
-      tr.appendChild(el("td", "", b.step || ""));
-      tr.appendChild(el("td", "", b.move || ""));
-      const td = el("td", "t", b.text);
-      if (!b.shown)
-        td.appendChild(el("div", "tag", "not in the wordings shown"));
-      if (b.family)
-        td.appendChild(el("div", "tag", "shared with the plain scene"));
-      td.appendChild(el("div", "key", b.key));
-      tr.appendChild(td);
-      tr.appendChild(el("td", "", (b.requires || []).join(", ")));
-      t.appendChild(tr);
-    }
-    wrap.appendChild(t);
-    main.appendChild(wrap);
+  // ---- screens ----
+  function home() {
+    app.replaceChildren();
+    const bar = el("div", "bar");
+    bar.append(el("div", "title", ""));
+    app.append(bar, el("div", "large", "Scenes"));
+    const n = D.scenes.filter((s) => !s.coming).length;
+    app.append(
+      el("div", "sub", plural(n, "scene", "scenes") + " from across the game"),
+    );
+    const grid = el("div", "grid");
+    kinds.forEach((k) => {
+      const real = k.scenes.filter((s) => !s.coming);
+      const t = btn("tile", "", () => openKind(k));
+      t.append(el("b", "", k.name));
+      t.append(
+        el(
+          "span",
+          "",
+          real.length ? plural(real.length, "scene", "scenes") : "Coming",
+        ),
+      );
+      if (k.scenes.some((s) => s.isNew)) t.append(el("div", "dot"));
+      grid.append(t);
+    });
+    app.append(grid);
   }
-
-  function checkbox(id, label, key) {
-    const l = el("label");
-    const c = el("input");
-    c.type = "checkbox";
-    c.id = id;
-    c.checked = state[key];
-    c.addEventListener("change", () => {
-      state[key] = c.checked;
+  // A group with many scenes first lists its sub-groups (the code's own kinds, in words).
+  function subsOf(k) {
+    const by = [];
+    k.scenes.forEach((s) => {
+      let g = by.find((x) => x.name === (s.sub || k.name));
+      if (!g) by.push((g = { name: s.sub || k.name, scenes: [] }));
+      g.scenes.push(s);
+    });
+    return by.length > 1 && k.scenes.length > 7 ? by : null;
+  }
+  function openKind(k) {
+    S.kind = k;
+    S.sub = null;
+    S.page = 0;
+    if (k.scenes.length === 1 && !k.scenes[0].coming)
+      return openScene(k.scenes[0]);
+    S.screen = "kind";
+    render();
+  }
+  function listed() {
+    return S.sub ? S.sub.scenes : S.kind.scenes;
+  }
+  function kindScreen() {
+    app.replaceChildren();
+    const k = S.kind;
+    const subs = subsOf(k);
+    const showSubs = subs && !S.sub;
+    const bar = el("div", "bar");
+    bar.append(
+      btn("tool", S.sub ? "‹ " + k.name : "‹ Scenes", () => {
+        if (S.sub) ((S.sub = null), (S.page = 0));
+        else S.screen = "home";
+        render();
+      }),
+      el("div", "title", ""),
+    );
+    const items = showSubs ? subs : listed();
+    app.append(bar, el("div", "large", S.sub ? S.sub.name : k.name));
+    const count = (S.sub ? S.sub.scenes : k.scenes).filter(
+      (s) => !s.coming,
+    ).length;
+    app.append(el("div", "sub", plural(count, "scene", "scenes")));
+    const per = Math.max(
+      3,
+      Math.floor((window.innerHeight - 52 - 120 - 60) / 76),
+    );
+    const pagesN = Math.ceil(items.length / per);
+    S.page = Math.min(S.page, pagesN - 1);
+    const rows = el("div", "rows");
+    items.slice(S.page * per, S.page * per + per).forEach((s) => {
+      if (showSubs) {
+        const r = btn("row", "", () => ((S.sub = s), (S.page = 0), render()));
+        const n = s.scenes.filter((x) => !x.coming).length;
+        const t = el("div", "t", s.name);
+        t.append(el("i", "", n ? plural(n, "scene", "scenes") : "Coming"));
+        r.append(t);
+        if (s.scenes.some((x) => x.isNew)) r.append(el("span", "pill", "New"));
+        r.append(el("span", "chev", "›"));
+        rows.append(r);
+        return;
+      }
+      const r = btn(
+        "row" + (s.coming ? " off" : ""),
+        "",
+        () => !s.coming && openScene(s),
+      );
+      const t = el("div", "t", s.title);
+      const sub = [
+        !S.sub && s.sub !== k.name ? s.sub : "",
+        s.type !== "text" ? s.place : "",
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      if (sub) t.append(el("i", "", sub));
+      r.append(t);
+      if (s.coming) r.append(el("span", "pill", "Coming"));
+      else if (s.isNew)
+        r.append(el("span", "pill", s.fresh ? "New" : "Revised"));
+      else if (s.rev) r.append(el("span", "pill", "Revised"));
+      if (!s.coming) r.append(el("span", "chev", "›"));
+      rows.append(r);
+    });
+    app.append(rows);
+    if (pagesN > 1) {
+      const pg = el("div", "pager");
+      const prev = btn("tool", "‹ Earlier", () => ((S.page -= 1), render()));
+      prev.disabled = S.page === 0;
+      prev.style.opacity = S.page === 0 ? 0.3 : 1;
+      const next = btn("tool", "More ›", () => ((S.page += 1), render()));
+      next.disabled = S.page >= pagesN - 1;
+      next.style.opacity = S.page >= pagesN - 1 ? 0.3 : 1;
+      pg.append(prev, el("span", "", S.page + 1 + " of " + pagesN), next);
+      app.append(pg);
+    }
+  }
+  function openScene(s) {
+    S.scene = s;
+    S.v = 0;
+    S.ans = 0;
+    S.choices = [];
+    S.i = 0;
+    S.was = false;
+    S.screen = "scene";
+    seen[s.title] = s.hash;
+    save("seen", seen);
+    s.isNew = false;
+    render();
+  }
+  function restart() {
+    S.choices = [];
+    S.i = 0;
+    S.was = false;
+    render();
+  }
+  function nextScene() {
+    const list = S.kind ? listed().filter((s) => !s.coming) : [];
+    const at = list.indexOf(S.scene);
+    return at >= 0 && at < list.length - 1 ? list[at + 1] : null;
+  }
+  function sceneScreen() {
+    app.replaceChildren();
+    const { s, ver, a } = current();
+    const bar = el("div", "bar");
+    const many = S.kind && S.kind.scenes.length > 1;
+    const back = btn(
+      "tool",
+      many ? "‹ " + (S.sub ? S.sub.name : S.kind.name) : "‹ Scenes",
+      () => {
+        S.screen = many ? "kind" : "home";
+        render();
+      },
+    );
+    bar.append(back, el("div", "title", ""));
+    const idb = btn("tool" + (prefs.ids ? " on" : ""), "", () => {
+      prefs.ids = !prefs.ids;
+      save("prefs", prefs);
       render();
     });
-    l.appendChild(c);
-    l.appendChild(document.createTextNode(" " + label));
-    return l;
+    idb.append(el("small", "", "ID"));
+    idb.setAttribute("aria-label", "Show line ids");
+    bar.append(idb, btn("tool", "↺", restart));
+    bar.lastChild.setAttribute("aria-label", "Start over");
+    app.append(bar);
+
+    // options: who answers (doors) and which wording
+    const multiAns = ver.answers.length > 1;
+    const multiVer = s.versions.length > 1;
+    if (multiAns || multiVer) {
+      const o = el("div", "opts");
+      if (multiAns) {
+        const seg = el("div", "seg");
+        ver.answers.forEach((x, n) =>
+          seg.append(
+            btn(
+              n === S.ans ? "on" : "",
+              ANS[x.answer] || x.label || x.answer,
+              () => {
+                S.ans = n;
+                S.choices = [];
+                S.i = 0;
+                render();
+              },
+            ),
+          ),
+        );
+        o.append(seg);
+      } else o.append(el("div", "seg"));
+      if (multiVer) {
+        const st = el("div", "step");
+        const p = btn(
+          "",
+          "‹",
+          () => ((S.v -= 1), (S.choices = []), (S.i = 0), render()),
+        );
+        p.disabled = S.v === 0;
+        const nx = btn(
+          "",
+          "›",
+          () => ((S.v += 1), (S.choices = []), (S.i = 0), render()),
+        );
+        nx.disabled = S.v >= s.versions.length - 1;
+        st.append(
+          p,
+          el("span", "", "Wording " + (S.v + 1) + "/" + s.versions.length),
+          nx,
+        );
+        o.append(st);
+      }
+      app.append(o);
+    }
+
+    const stage = el("div", "stage");
+    app.append(stage);
+    const B = beats();
+    const total = B.out.length;
+    if (S.i > total) S.i = total;
+    const cur = B.out[S.i];
+    const dots = el("div", "dots");
+
+    if (s.coming) {
+      const c = el("div", "coming");
+      c.append(
+        el("h2", "", s.title.replace(/^The paper: /, "")),
+        el("p", "", "Nothing here yet. It will appear in this spot."),
+      );
+      stage.append(c);
+    } else if (cur && cur.choice) {
+      // a choice: the line before stays visible
+      const before = B.out[S.i - 1];
+      if (before && !before.choice) {
+        const pv = el("div", "prev");
+        pv.append(
+          el("b", "", (before.line.who || "") + (before.line.who ? ": " : "")),
+          document.createTextNode(before.text),
+        );
+        stage.append(pv);
+      }
+      stage.append(el("div", "who you", "You say"));
+      const ch = el("div", "choices");
+      cur.choice.forEach((c, n) => {
+        const o = btn("opt", c.line.text, () => {
+          S.choices = S.choices.slice(0, cur.k);
+          S.choices[cur.k] = n;
+          S.i += 1;
+          render();
+        });
+        o.style.fontSize = (c.line.text.length > 120 ? 15 : 17) + "px";
+        if (prefs.ids) o.append(el("small", "", c.line.id));
+        ch.append(o);
+      });
+      stage.append(ch);
+      stage.style.justifyContent = "flex-end";
+    } else if (cur) {
+      const before = B.out[S.i - 1];
+      if (before && !before.choice) {
+        const pv = el("div", "prev");
+        if (before.line.who) pv.append(el("b", "", before.line.who + ": "));
+        pv.append(document.createTextNode(before.text));
+        stage.append(pv);
+      }
+      const l = cur.line;
+      const you = l.role === "you";
+      const nar = l.role === "narrator" || (!l.who && l.role !== "plain");
+      stage.append(
+        el(
+          "div",
+          "who" + (you ? " you" : ""),
+          you ? "You" : l.who || (nar ? "" : ""),
+        ),
+      );
+      const say = el("div", "say" + (nar ? " nar" : ""), cur.text);
+      say.style.fontSize = size(cur.text.length) + "px";
+      stage.append(say);
+      if (prefs.ids)
+        stage.append(
+          el(
+            "div",
+            "meta",
+            "Scene " +
+              s.id +
+              " · line " +
+              l.id +
+              (cur.part ? " · part " + cur.part : ""),
+          ),
+        );
+      const was = s.was[l.id];
+      if (s.rev && was !== undefined && was !== l.text) {
+        if (S.was) {
+          const w = el("div", "was");
+          w.append(el("b", "", "Earlier"), document.createTextNode(" " + was));
+          stage.append(w);
+        }
+      }
+      if (s.rev && was !== undefined && was !== l.text) {
+        const wb = btn(
+          "tool" + (S.was ? " on" : ""),
+          "",
+          () => ((S.was = !S.was), render()),
+        );
+        wb.append(el("small", "", "Revised · earlier text"));
+        wb.style.alignSelf = "flex-start";
+        wb.style.marginTop = "6px";
+        wb.style.paddingLeft = "0";
+        stage.append(wb);
+      }
+    } else {
+      // finished
+      const e = el("div", "endcard");
+      e.append(el("h2", "", B.end ? B.end.label : "End of scene"));
+      e.append(el("p", "", s.title));
+      stage.append(e);
+    }
+
+    // progress dots (one per beat, capped)
+    const n = Math.min(total + 1, 24);
+    for (let d = 0; d < n; d++)
+      dots.append(el("i", d === Math.min(S.i, n - 1) ? "on" : ""));
+    app.append(dots);
+
+    // bottom controls
+    const nav = el("div", "nav");
+    const last = S.i >= total && !B.pending;
+    const prev = btn("btn", "Back", () => {
+      S.i = Math.max(0, S.i - 1);
+      const b2 = beats().out[S.i];
+      if (b2 && b2.choice) S.choices = S.choices.slice(0, b2.k);
+      S.was = false;
+      render();
+    });
+    prev.disabled = S.i === 0;
+    nav.append(prev);
+    if (s.coming) {
+      nav.append(
+        btn(
+          "btn main",
+          "Back to the list",
+          () => ((S.screen = "kind"), render()),
+        ),
+      );
+    } else if (cur && cur.choice) {
+      const p = el("div", "btn");
+      p.style.visibility = "hidden";
+      nav.append(p);
+    } else if (!last) {
+      nav.append(
+        btn("btn main", "Next", () => {
+          S.i += 1;
+          S.was = false;
+          render();
+        }),
+      );
+    } else {
+      const ns = nextScene();
+      nav.append(
+        ns
+          ? btn("btn main", "Next scene", () => openScene(ns))
+          : btn(
+              "btn main",
+              "All scenes",
+              () => ((S.screen = "home"), render()),
+            ),
+      );
+    }
+    app.append(nav);
   }
 
   function render() {
-    document.body.classList.toggle("noids", !state.ids);
-    renderNav();
-    const main = $("main");
-    main.textContent = "";
-    const scene = sceneOf(state.scene);
-    main.appendChild(el("h1", "", scene.title));
-    const pic = scene.picture
-      ? " Picture: " +
-        scene.picture.filter((x) => x[0] !== "@").join(", ") +
-        "."
-      : "";
-    main.appendChild(
-      el(
-        "p",
-        "meta",
-        scene.kind + (scene.place ? " · " + scene.place : "") + "." + pic + "",
-      ),
-    );
-    if (scene.coming) {
-      main.appendChild(
-        el(
-          "div",
-          "banner",
-          "This one is not built yet. It will appear here when it is.",
-        ),
-      );
-      main.appendChild(footer());
-      return;
-    }
-    if (scene.revised) {
-      const ban = el(
-        "div",
-        "banner",
-        "Revised " + scene.revised + " after your feedback. ",
-      );
-      if (scene.previous) {
-        const tg = el(
-          "button",
-          "act",
-          state.old ? "Show the new text" : "Show the earlier text",
-        );
-        tg.type = "button";
-        tg.addEventListener("click", () => {
-          state.old = !state.old;
-          state.path = [];
-          render();
-        });
-        ban.appendChild(tg);
-      }
-      main.appendChild(ban);
-    }
-
-    const tabs = el("div", "tabs");
-    const tabList = scene.bank.length
-      ? [
-          ["play", "Play it"],
-          ["bank", "Every line in the bank"],
-        ]
-      : [["play", "Read it"]];
-    for (const [val, text] of tabList) {
-      const b = el("button", "seg", text);
-      b.type = "button";
-      b.setAttribute("aria-pressed", String(state.tab === val));
-      b.addEventListener("click", () => {
-        state.tab = val;
-        render();
-      });
-      tabs.appendChild(b);
-    }
-    main.appendChild(tabs);
-
-    const tools = el("div", "tools");
-    tools.appendChild(checkbox("ids", "Show ids", "ids"));
-    tools.appendChild(checkbox("keys", "Show piece keys", "keys"));
-    if (state.tab === "play" && scene.type !== "text")
-      tools.appendChild(checkbox("all", "Read every branch at once", "all"));
-    main.appendChild(tools);
-
-    if (state.tab === "bank" && scene.bank.length) {
-      renderBank(main, scene);
-      main.appendChild(footer());
-      return;
-    }
-
-    const shownVersions =
-      state.old && scene.previous ? scene.previous.versions : scene.versions;
-    const text = scene.type === "text";
-    if (!text) {
-      const ctl = el("div", "controls");
-      if (shownVersions.length > 1)
-        seg(
-          ctl,
-          "Wording",
-          shownVersions.map((v) => [v.v, "" + v.v]),
-          state.v,
-          (v) => {
-            state.v = v;
-            state.path = [];
-            render();
-          },
-        );
-      if (scene.asking)
-        seg(
-          ctl,
-          "The records say they",
-          [
-            ["yes", "agree"],
-            ["maybe", "hold back"],
-            ["no", "decline"],
-          ],
-          state.ans,
-          (a) => {
-            state.ans = a;
-            state.path = [];
-            render();
-          },
-        );
-      const back = el("button", "act", "Back one reply");
-      back.type = "button";
-      back.disabled = state.path.length === 0;
-      back.addEventListener("click", () => {
-        state.path.pop();
-        render();
-      });
-      const start = el("button", "act", "Start over");
-      start.type = "button";
-      start.addEventListener("click", () => {
-        state.path = [];
-        render();
-      });
-      const list = el("button", "act", "Back to the list");
-      list.type = "button";
-      list.addEventListener("click", () => {
-        $("nav").scrollIntoView({ behavior: "smooth" });
-      });
-      const g = el("div", "group");
-      g.appendChild(back);
-      g.appendChild(start);
-      g.appendChild(list);
-      ctl.appendChild(g);
-      main.appendChild(ctl);
-    }
-
-    const version =
-      shownVersions.find((v) => v.v === state.v) || shownVersions[0];
-    const ans = scene.asking
-      ? version.answers.find((a) => a.answer === state.ans)
-      : version.answers[0];
-    if (!ans || !ans.opening)
-      main.appendChild(el("p", "meta", "This one did not compose."));
-    else main.appendChild(renderPlay(scene, ans));
-    if (state.old && scene.previous)
-      main.appendChild(
-        el("p", "meta", "Earlier text, from " + scene.previous.date + "."),
-      );
-    main.appendChild(footer());
+    if (S.screen === "home") home();
+    else if (S.screen === "kind") kindScreen();
+    else sceneScreen();
   }
-  function footer() {
-    const n = el("div", "note");
-    n.textContent =
-      "Built from the game's own scene composer at commit " +
-      (D.commit ? D.commit.slice(0, 10) : "unknown") +
-      ", " +
-      D.generated +
-      ", in " +
-      D.place.name +
-      " (seed " +
-      D.seed +
-      "). Scenes from the game's files (first meetings, speeches, the journal, the paper) are pasted as played, with the place and seed in their line above. Names, the employer and the amounts in composed scenes are filled from that world or marked samples, and a slot with no sample shows in brackets. Say a scene by its title or number, or a line by its id, and the note ties to the exact line. Tap an id to copy it.";
-    return n;
-  }
-  function fromHash() {
-    const m = /^#scene-(\d+)$/.exec(location.hash);
-    if (m && sceneOf(m[1])) {
-      state.scene = m[1];
-      state.path = [];
-    }
-  }
-  window.addEventListener("hashchange", () => {
-    fromHash();
-    render();
+  // swipe and keys
+  let x0 = null;
+  document.addEventListener("touchstart", (e) => (x0 = e.touches[0].clientX), {
+    passive: true,
   });
-  fromHash();
+  document.addEventListener(
+    "touchend",
+    (e) => {
+      if (x0 === null || S.screen !== "scene") return;
+      const dx = e.changedTouches[0].clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) < 70) return;
+      const b = [...document.querySelectorAll(".nav .btn")];
+      const target = dx < 0 ? b[1] : b[0];
+      if (target && !target.disabled && target.style.visibility !== "hidden")
+        target.click();
+    },
+    { passive: true },
+  );
+  document.addEventListener("keydown", (e) => {
+    if (S.screen !== "scene") return;
+    const b = [...document.querySelectorAll(".nav .btn")];
+    if (e.key === "ArrowRight" && b[1]) b[1].click();
+    if (e.key === "ArrowLeft" && b[0] && !b[0].disabled) b[0].click();
+  });
+  window.addEventListener("resize", () => S.screen === "kind" && render());
   render();
 </script>

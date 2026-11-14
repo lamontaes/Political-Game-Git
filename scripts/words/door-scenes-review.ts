@@ -63,6 +63,8 @@ interface StaticLine {
   key?: string;
 }
 interface ManifestEntry {
+  /** Every situation type not listed by name in this manifest. */
+  all?: boolean;
   /** A situation type; absent for a text scene (`lines`) or an empty slot (`coming`). */
   type?: string;
   /** A scene that is text as played (a speech, a journal page, a paper story, a counter visit). */
@@ -77,6 +79,11 @@ interface ManifestEntry {
     file: string;
     /** A heading path; absent, the whole file (or the lines from `start` to `end`). */
     heading?: string | string[];
+    /**
+     * Read the section as a played talk: lines said, then "> You: ..." choices each
+     * followed by an indented reply (the shape of the talk files), as a tree.
+     */
+    talk?: boolean;
     /** The first line containing this text, and the line containing `end`, left out. */
     start?: string;
     end?: string;
@@ -434,9 +441,22 @@ function defaultManifest(): ManifestEntry[] {
   );
 }
 
-const manifest: ManifestEntry[] = manifestPath
+const listed: ManifestEntry[] = manifestPath
   ? (JSON.parse(readFileSync(manifestPath, "utf8")) as ManifestEntry[])
   : defaultManifest();
+// `{ "all": true }` stands for every situation type not listed by name.
+const manifest: ManifestEntry[] = listed.flatMap((entry) =>
+  entry.all
+    ? defaultManifest().filter(
+        (d) =>
+          !listed.some(
+            (e) =>
+              e.type === d.type &&
+              (e.variant ?? "plain") === (d.variant ?? "plain"),
+          ),
+      )
+    : [entry],
+);
 
 /** The lines of one section of a markdown file of text as played. */
 function linesFromRange(from: NonNullable<ManifestEntry["from"]>): {
@@ -486,10 +506,10 @@ function linesFromRange(from: NonNullable<ManifestEntry["from"]>): {
   };
 }
 
-function linesFromFile(
+function sectionOf(
   file: string,
   heading: string | string[],
-): { lines: StaticLine[]; context: string } {
+): { section: string[]; place: string | undefined } {
   const rows = readFileSync(file, "utf8").split("\n");
   // Each name narrows the search: the next heading after the last one found.
   let at = -1;
@@ -505,10 +525,124 @@ function linesFromFile(
     .reverse()
     .find((r) => /^## /.test(r));
   const level = /^(#+)/.exec(rows[at]!)![1]!.length;
-  const out: StaticLine[] = [];
+  const section: string[] = [];
   for (const raw of rows.slice(at + 1)) {
     const head = /^(#+) /.exec(raw);
     if (head && head[1]!.length <= level) break;
+    section.push(raw);
+  }
+  return { section, place };
+}
+
+/** A played talk: lines said, then choices each followed by an indented reply. */
+interface TalkChoice {
+  line: StaticLine;
+  replies: StaticLine[];
+  end?: string;
+}
+function talkOf(section: string[]): {
+  opening: StaticLine[];
+  choices: TalkChoice[];
+} {
+  const opening: StaticLine[] = [];
+  const choices: TalkChoice[] = [];
+  const SKIP =
+    /^(Records?:|Played:|facts:|STAGED|purpose |--|Offered|Written back|Count|Reads?:|[-*]\s+offered:)/;
+  const clean = (t: string) => {
+    let end: string | undefined;
+    let text = t.replace(/\s+\[ends?:\s*([^\]]+)\]\s*$/, (_m, e: string) => {
+      end = e;
+      return "";
+    });
+    text = text
+      .replace(/\s+_\[[^\]]*\]_\s*$/, "")
+      .replace(/\s{2,}\[.*$/, "")
+      .replace(/\s+\[[^\]]*\]$/, "");
+    return { text: text.trim(), end };
+  };
+  const say = (who: string, text: string): StaticLine => ({
+    role: /^Narrat/.test(who) ? "narrator" : who === "You" ? "you" : "resident",
+    who: /^Narrat/.test(who) ? "" : who,
+    text,
+  });
+  let inFence = false;
+  let nested = false;
+  const unquote = (t: string) => t.replace(/^"(.*)"$/, "$1");
+  for (const raw of section) {
+    if (/^\s*```/.test(raw)) {
+      inFence = !inFence;
+      continue;
+    }
+    const row = raw.trim();
+    if (!row || /^#{1,6} /.test(row) || SKIP.test(row)) continue;
+    const indent = raw.length - raw.trimStart().length;
+    // "**end: resolved / You promised to carry it on**" closes a choice.
+    const closing = /^\*\*end:\s*[^/]*\/\s*(.+?)\*\*$/.exec(row);
+    if (closing) {
+      const last = choices[choices.length - 1];
+      if (last && !nested) last.end = closing[1]!;
+      continue;
+    }
+    // "- You: Looking yet? -> Samir: "I'm looking."" is a choice with its reply.
+    const arrow = /^[-*]\s+You:\s+(.+?)\s+->\s+([^:]+):\s+(.+)$/.exec(row);
+    if (arrow) {
+      choices.push({
+        line: { role: "you", who: "You", text: arrow[1]! },
+        replies: [say(arrow[2]!, unquote(arrow[3]!.trim()))],
+      });
+      continue;
+    }
+    // "- You (promise): text" at the top level is a choice; deeper ones are skipped.
+    const dash = /^[-*]\s+You\s*(?:\([^)]*\))?:\s+(.+)$/.exec(row);
+    if (dash) {
+      nested = indent > 0;
+      if (!nested)
+        choices.push({
+          line: { role: "you", who: "You", text: clean(dash[1]!).text },
+          replies: [],
+        });
+      continue;
+    }
+    const pick = /^>\s*(?:\([^)]*\)\s*)?([A-Z][\w .'-]{0,40}?):\s+(.+)$/.exec(
+      row,
+    );
+    if (pick) {
+      nested = false;
+      const c = clean(pick[2]!);
+      choices.push({
+        line: { role: "you", who: "You", text: c.text },
+        replies: [],
+      });
+      continue;
+    }
+    const said = /^[-*]?\s*([A-Z][\w .'-]{0,40}?):\s+(.+)$/.exec(row);
+    if (!said) continue;
+    if (
+      !inFence &&
+      indent === 0 &&
+      !/^[-*]\s/.test(raw) &&
+      !/^Narration/.test(row)
+    )
+      continue;
+    if (nested) continue;
+    const c = clean(said[2]!);
+    const line = say(said[1]!, unquote(c.text));
+    const last = choices[choices.length - 1];
+    if (last && indent > 0) {
+      last.replies.push(line);
+      if (c.end) last.end = c.end;
+    } else if (!last) opening.push(line);
+  }
+  return { opening, choices };
+}
+
+function linesFromFile(
+  file: string,
+  heading: string | string[],
+): { lines: StaticLine[]; context: string } {
+  const { section, place } = sectionOf(file, heading);
+  const out: StaticLine[] = [];
+  for (const raw of section) {
     const row = raw.trim();
     if (!row || row === "---" || /^#{1,6} /.test(row)) continue;
     const narr = /^[-*]\s+_(.+)_$/.exec(row);
@@ -538,6 +672,28 @@ function linesFromFile(
 }
 
 const sentence = (s: string) => s.replace(/[-.]/g, " ");
+const capital = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/**
+ * The home screen groups scenes by where the player is in life, not by code
+ * names. A manifest kind (or a situation type's kind) maps to one group by the
+ * first matching prefix; the old name stays as the row's subtitle.
+ */
+const GROUPS: readonly [RegExp, string][] = [
+  [/^(Doors|Campaign: doors)/, "At the door"],
+  [/^(Running for office|Campaign|The filing counter|Speeches)/, "Campaign"],
+  [
+    /^(Votes and bills|Offices and appointments|Constituents|Meetings|Laws and the town|Office)/,
+    "In office",
+  ],
+  [/^(Money and favors)/, "Money and favors"],
+  [/^(Press|The paper|Paper)/, "Press and the paper"],
+  [/^(Work|School)/, "Work and school"],
+  [/^(Journal|The Journal)/, "The Journal"],
+  [/^(Home|First meetings|Conflict|Life|Places)/, "Home and family"],
+];
+const groupOf = (kind: string) =>
+  GROUPS.find(([re]) => re.test(kind))?.[1] ?? "Home and family";
 const scenes: unknown[] = [];
 const notReady: { title: string; kind: string; why: string }[] = [];
 const places = placesFile.situationPlaces as Record<string, string[]>;
@@ -545,12 +701,31 @@ let sceneNo = 0;
 
 for (const entry of manifest) {
   let context = "";
-  if (entry.from) {
-    const read = entry.from.heading
-      ? linesFromFile(entry.from.file, entry.from.heading)
-      : linesFromRange(entry.from);
-    entry.lines = read.lines;
-    context = read.context;
+  let talk: ReturnType<typeof talkOf> | null = null;
+  // A file the Words lead has since rewritten may lack the heading; that scene
+  // waits out this run instead of stopping the others.
+  try {
+    if (entry.from?.talk && entry.from.heading) {
+      const { section, place } = sectionOf(entry.from.file, entry.from.heading);
+      talk = talkOf(section);
+      entry.lines = talk.opening;
+      context = `${entry.from.file.split("/").slice(-2).join("/")}${place ? `, ${place.replace(/^## /, "").slice(0, 140)}` : ""}`;
+      if (!talk.opening.length && !talk.choices.length)
+        throw new Error("the section holds no lines");
+    } else if (entry.from) {
+      const read = entry.from.heading
+        ? linesFromFile(entry.from.file, entry.from.heading)
+        : linesFromRange(entry.from);
+      entry.lines = read.lines;
+      context = read.context;
+    }
+  } catch (error) {
+    notReady.push({
+      title: entry.title ?? "Untitled",
+      kind: entry.kind ?? "Other",
+      why: (error as Error).message,
+    });
+    continue;
   }
   if (entry.coming || entry.lines) {
     sceneNo += 1;
@@ -591,7 +766,31 @@ for (const entry of manifest) {
               answer: "play",
               label: "",
               opening: lines,
-              tree: { lines: [], choices: [] },
+              tree: {
+                lines: [],
+                choices: (talk?.choices ?? []).map((c) => ({
+                  line: {
+                    id: ids.next(),
+                    who: "You",
+                    role: "you" as const,
+                    text: c.line.text,
+                    key: "",
+                    move: "",
+                  },
+                  next: {
+                    lines: c.replies.map((r) => ({
+                      id: ids.next(),
+                      who: r.who ?? "",
+                      role: r.role,
+                      text: r.text,
+                      key: "",
+                      move: "",
+                    })),
+                    choices: [],
+                    ...(c.end ? { end: { label: c.end, keeps: "none" } } : {}),
+                  },
+                })),
+              },
             },
           ],
         },
@@ -610,7 +809,9 @@ for (const entry of manifest) {
   const base = library.find((row) => row.key === entry.type);
   const title =
     entry.title ??
-    `${sentence(entry.type)}${entry.variant ? `, ${sentence(entry.variant)}` : ""}`;
+    capital(
+      `${sentence(entry.type)}${entry.variant ? `, ${sentence(entry.variant)}` : ""}`,
+    );
   const kind = entry.kind ?? kindOf(entry.type);
   if (!base?.purpose) {
     notReady.push({ title, kind, why: "no scene purpose for this type" });
@@ -734,6 +935,10 @@ for (const entry of manifest) {
   });
 }
 
+for (const row of scenes as { kind: string; sub?: string }[]) {
+  row.sub = row.kind;
+  row.kind = groupOf(row.kind);
+}
 const generated = new Date().toISOString().slice(0, 10);
 const commit = process.env.REVIEW_COMMIT ?? "";
 const news: { fresh: string[]; revised: string[] } = {
