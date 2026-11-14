@@ -27,9 +27,9 @@ const ON_THE_LINE =
   /^(hello\?|yes, hello\?)$|it's (me|[A-Z][a-z]+)\.$|thanks for (calling|the call)|glad you called|call (me )?anytime|hear your voice|let you go/i;
 
 /** The days a call is tried on: a world at opening has little news yet. */
-const CALL_DAYS = (process.env.PHONE_DAYS ?? "0,10,30,150")
-  .split(",")
-  .map(Number);
+const NEAR_DAYS = [0, 10, 30];
+/** A long gap: the three "it's been a while" lines need `when-long`. */
+const LONG_DAYS = [150];
 /** Every line said in any call of the run. */
 const PLAYED = new Set<string>();
 
@@ -110,6 +110,7 @@ describe("a call is greeted and ended as a call", () => {
           );
       }
     },
+    70_000,
     120_000,
   );
 });
@@ -118,10 +119,19 @@ describe("a call is greeted and ended as a call", () => {
 const AT_THE_DOOR =
   /^(heading out|see you again)\.?$|^i'm [A-Z][a-z]+\. i don't think we've met\./i;
 
+const CALL_CASES = [
+  ["phone-pin-a", "b550a10bcd3bf708", NEAR_DAYS],
+  ["phone-pin-b", "18661a5958abacd3", NEAR_DAYS],
+  ["phone-pin-c", "5c1b2e77d3a94f10", NEAR_DAYS],
+  ["phone-pin-c-long-gap", "5c1b2e77d3a94f10", LONG_DAYS],
+  ["phone-pin-b-long-gap", "18661a5958abacd3", LONG_DAYS],
+  ["phone-pin-a-long-gap", "b550a10bcd3bf708", LONG_DAYS],
+] as const;
+
 describe("every call is a call (Words lead, Nov 14: five faults)", () => {
-  it.each(SEEDS)(
+  it.each(CALL_CASES)(
     "%s: a call to a housemate, a relative or someone met says hello first, never introduces, never says a doorway goodbye",
-    (_name, seed) => {
+    (name, seed, days) => {
       setBookkeeping(false);
       const place = drawPlace(seed, "phone:0");
       const { core, director, playerId } = buildBenchWorld(
@@ -177,7 +187,7 @@ describe("every call is a call (Words lead, Nov 14: five faults)", () => {
         `## ${place.name} (${place.key}), seed ${seed}`,
       ];
       const start = makeIsoDate(core.date);
-      for (const day of CALL_DAYS) {
+      for (const day of days) {
         if (day) advanceCore(core, addDays(start, day));
         // One call at a time, as a player makes them: looked at, opened,
         // then played, so what one call told is heard by the next.
@@ -222,7 +232,7 @@ describe("every call is a call (Words lead, Nov 14: five faults)", () => {
           );
           if (process.env.PHONE_OUT)
             writeFileSync(
-              `${process.env.PHONE_OUT}-${seed}.md`,
+              `${process.env.PHONE_OUT}-${seed}${name.endsWith("long-gap") ? "-long-gap" : ""}.md`,
               transcript.join("\n"),
             );
           // A question the player asked is answered: the call never ends on it.
@@ -247,14 +257,14 @@ describe("every call is a call (Words lead, Nov 14: five faults)", () => {
       ).toBeGreaterThan(0);
       if (process.env.PHONE_OUT)
         writeFileSync(
-          `${process.env.PHONE_OUT}-${seed}.md`,
+          `${process.env.PHONE_OUT}-${seed}${name.endsWith("long-gap") ? "-long-gap" : ""}.md`,
           transcript.join("\n"),
         );
       process.stdout.write(
         `PHONE ${place.name}: ${callees.length} people, ${callsOffered} calls with words, ${offeredEmpty} the room's check offered that opened on nothing, ${heardGoodbye} goodbyes\n`,
       );
     },
-    300_000,
+    240_000,
   );
 });
 
