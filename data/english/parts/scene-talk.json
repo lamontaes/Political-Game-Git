@@ -82077,6 +82077,14 @@
           "step": "reply",
           "move": "leave",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
         }
       ],
       "origin": "authored",
@@ -182741,30 +182749,6 @@
         "key": "honor"
       },
       "bearing": "braced",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "witness-stake",
-          "key": "honor"
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-can-t-stop-to-talk-right-now",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I can't stop to talk right now.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deflect",
-        "key": "honor"
-      },
-      "bearing": "guarded",
       "uses": [
         {
           "subject": "scene",
