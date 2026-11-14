@@ -93,6 +93,7 @@ import {
   nominationsView,
   budgetLinePick,
   officeView,
+  officeStops,
 } from "./office";
 import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
@@ -1585,6 +1586,23 @@ const ROUTES: readonly Route[] = [
           state.player.personId,
           url.searchParams.get("post") ?? "",
           url.searchParams.get("nomineeId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/office/stops",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        officeStops(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("key") ?? "",
+          url.searchParams.get("on") === "true",
         ),
       );
       return;

@@ -2685,6 +2685,25 @@ async function playAs(personId) {
   await refresh();
 }
 
+/** An On and Off toggle (the Options pattern): `on()` says which is lit, `set(bool)` changes it. */
+function onOffToggle({ attr, on, set, testid, labels }) {
+  const bar = tabBar({
+    attr,
+    active: on() ? "on" : "off",
+    tabs: ["on", "off"].map((key) => ({
+      key,
+      label: labels[key],
+      onSelect: async () => {
+        await set(key === "on");
+        chooseTab(bar, attr, on() ? "on" : "off");
+      },
+    })),
+  });
+  for (const tab of bar.querySelectorAll(".tab"))
+    tab.dataset.testid = `${testid}-${tab.dataset[attr]}`;
+  return bar;
+}
+
 // ---- The seat as a job, and what stops you (OFFICE-LOCAL) ----
 /**
  * What the player holds as an official, as plate-built nodes for Your office: the seat (office,
@@ -2693,7 +2712,8 @@ async function playAs(personId) {
  */
 async function officeParts() {
   const v = await api(`/api/office?id=${encodeURIComponent(me.id)}`);
-  if (!v.jobs.length) return { seat: [], budget: [], deals: [] };
+  if (!v.jobs.length && !v.stops.length)
+    return { seat: [], stops: [], budget: [], deals: [] };
   const words = controls.officeStops ?? {};
   const labels = controls.officeScreen ?? {};
   const paged = (items, { rows, columns, rowHeight, className }) =>
@@ -2706,6 +2726,34 @@ async function officeParts() {
       gap: 8,
       className,
     });
+  // What stops you: one On and Off switch per kind of vote this seat has. Off, you are away from
+  // that kind of vote: the record has you absent, a bill on your desk waits, nothing is cast for you.
+  const stops = v.stops.length
+    ? [
+        stripSection(
+          1,
+          labels.stops,
+          ...v.stops.map((stop) =>
+            settingRow(
+              words.switches?.[stop.key] ?? "",
+              onOffToggle({
+                attr: "stop",
+                testid: `office-stop-${stop.key}`,
+                labels: controls.options,
+                on: () => stop.on,
+                set: async (wanted) => {
+                  const next = await post(
+                    `/api/office/stops?${new URLSearchParams({ key: stop.key, on: String(wanted) })}`,
+                  );
+                  stop.on =
+                    next.stops.find((s) => s.key === stop.key)?.on ?? wanted;
+                },
+              }),
+            ),
+          ),
+        ),
+      ]
+    : [];
   const seat = [
     ...v.jobs.map((job) =>
       stripSection(
@@ -2835,7 +2883,7 @@ async function officeParts() {
                   `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
                   a.how === "absent"
                     ? (words.absent?.[a.detail] ?? "")
-                    : `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
+                    : `${a.kind === "vote" ? (words.votes?.[a.detail] ?? a.detail) : a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
                 ),
               ),
               { rows: 4, columns: 1, rowHeight: 48, className: "office-paged" },
@@ -2903,7 +2951,7 @@ async function officeParts() {
       ),
     ),
   );
-  return { seat, budget, deals };
+  return { seat, stops, budget, deals };
 }
 
 // ---- The bill on paper: one document, every section clickable ----
@@ -3449,6 +3497,7 @@ async function seatRows() {
       columns: [
         parts.seat,
         [
+          ...parts.stops,
           ...result,
           ...(desk.length
             ? [
@@ -4428,23 +4477,7 @@ const sheets = {
   async options() {
     await controlsReady;
     const labels = controls.options;
-    const toggle = ({ attr, on, set, testid }) => {
-      const bar = tabBar({
-        attr,
-        active: on() ? "on" : "off",
-        tabs: ["on", "off"].map((key) => ({
-          key,
-          label: labels[key],
-          onSelect: async () => {
-            await set(key === "on");
-            chooseTab(bar, attr, on() ? "on" : "off");
-          },
-        })),
-      });
-      for (const tab of bar.querySelectorAll(".tab"))
-        tab.dataset.testid = `${testid}-${tab.dataset[attr]}`;
-      return bar;
-    };
+    const toggle = (spec) => onOffToggle({ ...spec, labels });
     const seeing = document.fullscreenEnabled
       ? [
           settingRow(

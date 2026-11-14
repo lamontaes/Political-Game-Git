@@ -561,6 +561,7 @@
     "nextMeeting": "Next meeting",
     "heads": "Posts you name",
     "acts": "What you have done",
+    "stops": "What stops you",
     "left": "Laws that gave way",
     "mySeat": "My seat",
     "onMyDesk": "On my desk",
@@ -583,6 +584,16 @@
     "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
     "adjourned": "Cast when you adjourned",
+    "votes": {
+      "yes": "Yes",
+      "no": "No",
+      "abstain": "Abstained"
+    },
+    "switches": {
+      "meetings": "Meetings of your body",
+      "floor": "Floor votes",
+      "desk": "Bills on your desk"
+    },
     "absent": {
       "stop-off": "Absent: you did not attend",
       "district": "Absent: at home in the district"
