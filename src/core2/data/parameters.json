@@ -4007,6 +4007,17 @@
     },
     "stopgapId": "SG-P15-partnership-model"
   },
+  "workContactShare": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "The share of the minutes two coworkers' shifts overlap that the first spends in contact with the people they know there (talking, working side by side), before it is split among them (work-closeness.ts). Anchored on the American Time Use Survey's time at work spent with coworkers, whose exact figure was not fetched: the relationship (more shared minutes, more closeness) is what is used; the number is an estimate with the spread below.",
+    "estimatedFrom": "A quarter of a shift, between a mostly solitary job and a mostly team job.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.4,
+      "unit": "share of overlapping shift minutes spent in contact with known coworkers"
+    }
+  },
   "groupKnownScale": {
     "value": 4.5,
     "tag": "ESTIMATED",

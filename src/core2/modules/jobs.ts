@@ -99,6 +99,7 @@ import { townJobRate, townPayPercentile } from "../town-pay";
 import type { EntityId } from "../kernel/brands";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { knownAmong, meetAtWork } from "../encounters";
+import { creditWorkTime } from "../work-closeness";
 import { lawApplied } from "../law-reach/applied";
 import {
   addCountedJob,
@@ -5520,6 +5521,10 @@ export const JOBS_MODULE: CoreModule = {
     } else if (work.kind === "jobs-week") {
       payClaims(api, store(api).table("claims"));
       runWeek(api);
+      // The week's shared shifts grow the ties between known coworkers.
+      creditWorkTime(api, api.state.date, (organizationId) =>
+        staffHeads(core(api), currentJobs(api, organizationId)),
+      );
       scheduleWeek(api);
     }
   },

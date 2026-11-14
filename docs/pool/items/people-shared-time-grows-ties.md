@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/closeness.ts, src/core2/data/closeness.json
 
 **Notes.** Found by the director lead while diagnosing why becoming-friends never fired.
+
+Nov 14 (Account lead thread, built locally, PR to follow): the weekly jobs step now credits each known pair at one employer with the minutes their own work schedules overlap, times `workContactShare` (ESTIMATED, spread 0.1 to 0.4) split over the people the workplace lets one know (`knownAmong`), through the one relationship writer: `src/core2/work-closeness.ts`, called from the `jobs-week` handler in `modules/jobs.ts`; test `src/core2/work-closeness.test.ts` (Iron Station NC 3733820). Housemates are already credited weekly (`shareHomeTime` in `modules/people.ts`). Next steps, not in that PR: neighbors on one street or building (nothing credits shared time there), classmates once the school engine records a class, and group members from meeting attendance.
