@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -44,3 +44,5 @@ Oct 29 14:30 UTC (laws session): a second case on main, WEB_TURNOUT_SEED=88ebfe6
 **Notes (re-run, 2026-11-11, main 79d23fa596).** `WEB_TURNOUT_SEED=6b7ac4d1e81306af npx vitest run src/core2/turnout-web.test.ts` (Rosine, Kentucky): green. `WEB_TURNOUT_SEED=88ebfe6449fd8869` (As Rabagau, Northern Mariana Islands): green. Fresh draw `WEB_TURNOUT_SEED=1f9a70aa1a9c8e50`: green. Proposed for the CTO: drop as fixed on main.
 
 Nov 11 (cause finder for Fable B): both of the item's seeds pass on main. The cause, the day's cached web factor, was named by Fable on Nov 10 and the test already plays the day after the shift. Drop as done.
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): its own Fix section says "Nothing to build. The CTO drops the item as done by main." and its Cause says the fault does not reproduce on main. The reproduce-again advice in that Fix stays the way back: file a new item from the place and seed if it returns.
