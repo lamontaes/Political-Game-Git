@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by:
-pr: #PRNUM
+pr: #9355
 blocked-on:
 source: "asked for by the Account lead on the owner-cash fix: no resident path scales spending with income, Nov 14"
 claimed-at:
