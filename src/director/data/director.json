@@ -1148,6 +1148,12 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "serve-asked",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact",
+      "counterpartFact": "askedId"
+    },
+    {
       "eventKind": "bill-held-in-committee",
       "channel": "cause",
       "impactParameter": "directorFloorVoteImpact"
