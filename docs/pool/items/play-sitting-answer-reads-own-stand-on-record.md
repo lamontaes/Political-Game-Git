@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by:
-pr:
+pr: 9152
 after: elections-filing-platform-from-views
 blocked-on:
 source: campaign events playthrough Nov 14 (/mnt/project-files/words-lead/campaign-events/report-1.md)

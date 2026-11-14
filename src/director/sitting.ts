@@ -17,8 +17,9 @@
  * Nothing is typed here. Every line is a piece of the conversation bank
  * (`data/english/parts/conversation.json`), and a piece is said only when the
  * record holds the fact it needs: a vote to stand on, a rival with a stand of
- * their own. What the platform the player filed says is their stand; the
- * sitting never answers for them. A question the asker cannot put in words is
+ * their own. What the platform the player filed says (else what their own
+ * views, votes and party hold) is their stand; the sitting never answers
+ * for them. A question the asker cannot put in words is
  * left unanswered, and only then does the filed platform stand in.
  */
 import { P } from "../core2/parameters";
