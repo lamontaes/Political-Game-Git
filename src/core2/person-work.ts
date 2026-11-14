@@ -41,6 +41,43 @@ export interface PersonWork {
   readonly offices: readonly PersonOffice[];
 }
 
+/**
+ * A job title said by the place's own kind (Words lead, Nov 14: "city clerk at
+ * the Town of Ranchester"). Jobs on a government's payroll carry the title as
+ * its source writes it, which begins "City" ("City clerk", "City Attorney"),
+ * whatever kind of place employs them. The employer is the government, named
+ * by its kind ("Town of Ranchester", "Charter Township of Green"), so the
+ * title takes that kind: "town clerk" in a town, "township clerk" in a
+ * township, "village clerk" in a village. In a city the title is left as it
+ * is ("city clerk at the City of Raymond": people say both words, second
+ * words reader, Nov 14). A title that does not begin with "City", or one at an
+ * employer whose name carries no kind, is as stored.
+ */
+export function jobTitleByKind(
+  title: string,
+  employer: string | null | undefined,
+): string {
+  const rest = /^city (?<role>\S.*)$/i.exec(title)?.groups?.role;
+  const kind = employer
+    ? /^(?:(?:charter|civil|metro) )?(?<kind>town|city|village|borough|township|plantation) of /i
+        .exec(employer)
+        ?.groups?.kind?.toLowerCase()
+    : undefined;
+  if (!rest || !kind || kind === "city") return title;
+  return `${kind.charAt(0).toUpperCase()}${kind.slice(1)} ${rest}`;
+}
+
+/** A held job's title, said by the kind of government that employs them. */
+export function jobTitleSaid(
+  core: CoreState,
+  job: { readonly title: string; readonly organizationId: string },
+): string {
+  return jobTitleByKind(
+    job.title,
+    core.organizations.get(job.organizationId as never)?.name,
+  );
+}
+
 /** A form's note in parentheses, innermost first so a nested note goes whole. */
 const FORM_NOTE = /\s*\([^()]*\)/;
 /** A title that names a body of several members, not one seat in it. */

@@ -8,7 +8,7 @@
  * nothing. Run `npm run words:rules` after it.
  */
 import { execSync } from "node:child_process";
-import { knownPairs } from "./reply-pairs";
+import { knownPairs, pathsOf } from "./reply-pairs";
 import {
   exchangePairs,
   readBankPieces,
@@ -27,6 +27,7 @@ function main() {
     ledger: readLedger(),
     pairs: knownPairs,
     exchangePairs,
+    paths: pathsOf,
   });
   if (result.written.length)
     execSync(

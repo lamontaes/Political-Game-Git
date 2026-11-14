@@ -200,17 +200,22 @@ it("mail spends what the player set on mailers and reaches the households it buy
     (after.spentByKind?.mail ?? 0) - (before.spentByKind?.mail ?? 0),
     where,
   ).toBe(sent.spentMinor);
-  // One purchase on the cash journal, out of the campaign's cash.
+  // The print is one purchase on the cash journal, out of the campaign's
+  // cash; the postage is a transfer to the outside account (the Postal
+  // Service is never in town), so the print is the whole spend less it.
   expect(
     payments.map((p) => p.kind),
     `on the journal: ${where}`,
   ).toEqual(["campaigns:purchase"]);
-  expect(
+  const printed = -(
     payments[0]!.postings.find(
       (p) => p.accountId === `cash:${after.organizationId}:residual`,
-    )?.deltaMinor,
-    where,
-  ).toBe(-sent.spentMinor);
+    )?.deltaMinor ?? 0
+  );
+  expect(printed, where).toBeGreaterThan(0);
+  expect(sent.spentMinor - printed, `postage: ${where}`).toBe(
+    (sent.spentMinor / perPiece) * unitPrice(api, "postage"),
+  );
   // Each full adult it reached is a recorded mail cause; counted households
   // are counted as reached.
   expect(
