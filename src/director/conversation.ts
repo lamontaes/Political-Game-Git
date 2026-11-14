@@ -6141,20 +6141,28 @@ function endConversation(
   // A parting word is not one already said in this talk ("Nice to see you."
   // opening and closing it): a further wording of the same move stands in.
   const said = new Set(conversation.lines.map((row) => row.text));
+  // Whether this person closes a talk with a short goodbye of their own
+  // rather than one naming the topic: it comes from the person, so one person
+  // does not say goodbye a different way on the same day (Words lead,
+  // Nov 14). The short goodbyes may close any talk, whatever its topic.
+  const shortWay =
+    stableHash(`${otherId}:farewell-way`).charCodeAt(zero) % 2 === zero;
   let line: ReturnType<typeof words> = null;
   for (let attempt = zero; attempt < farewellWordings(); attempt += one) {
     const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell${attempt ? `:${attempt}` : ""}`;
     // Composed first: what the talk was about, someone of the player's they
     // know, or the hour at home; a short goodbye only when none is on record.
     const next =
-      partingLine(
-        core,
-        conversation,
-        otherId,
-        housemate,
-        family ? family.facts.name! : undefined,
-        momentKey,
-      ) ??
+      (shortWay
+        ? null
+        : partingLine(
+            core,
+            conversation,
+            otherId,
+            housemate,
+            family ? family.facts.name! : undefined,
+            momentKey,
+          )) ??
       words(
         core,
         data,
@@ -6166,7 +6174,7 @@ function endConversation(
           ...(family ? { name: family.facts.name! } : {}),
           ...nameless,
         },
-        momentKey,
+        shortWay && !attempt ? `${otherId}:farewell` : momentKey,
         housemate ? "home" : "default",
       );
     if (!next) break;
