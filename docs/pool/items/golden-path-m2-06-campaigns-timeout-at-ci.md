@@ -35,4 +35,4 @@ root: none
 
 **Files.** src/core2/campaigns.test.ts
 
-**Notes.** CI run https://github.com/lamontaes/Political-Game-Git/actions/runs/43618870786. Earlier validate runs on the train were cancelled by newer pushes, so no clean baseline exists yet. Filed by hand.
+**Notes.** CI run https://github.com/lamontaes/Political-Game-Git/actions/runs/43618870786. Earlier validate runs on the train were canceled by newer pushes, so no clean baseline exists yet. Filed by hand.
