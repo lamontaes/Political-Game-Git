@@ -18,7 +18,7 @@ root: none
 source: found by the layoff-in-the-paper thread, Nov 14, 2026, running the changed-file tests on PR 9304
 ---
 
-**What.** Seen: the paper prints a story the news screen cannot word: five unworded birth stories in one year at Alexandria, Virginia. A reader of the paper would see a blank or a bare record there, and a merger cannot tell this break from the draw.
+**What.** Seen: the paper prints a story the news screen cannot word: five unworded birth stories in one year at Alexandria, Virginia. A reader of the paper would see a blank or a bare record there, and a merger cannot tell this break from the draw. The player sees it on the News screen, in the town paper's list.
 
 **Cause.** Measured: Nov 14, `GOLDEN_PATH_SEED=6f15c6ad827663a7f5c2e6f1e039c1410580b053 npx vitest run src/bench/printed-words.test.ts -t "words every story the press prints"` fails the same on the Train head 8bb1ff9d and on PR 9304's head: Alexandria, Virginia (5101000), `unworded` is `person_76f51afcf84d2403:birth` five times (src/bench/printed-words.test.ts line 194). The test draws its place from a seed at run time, so it passes on other draws.
 
