@@ -66,6 +66,9 @@
     ],
     "person-history.story.school.elsewhere.they.w3": [
       "plain-american-spelling-and-phrasing"
+    ],
+    "scene-talk.follow-thank.good-the-body-will-take-its-cue-from-the-people-who": [
+      "plain-american-no-jargon"
     ]
   },
   "waiting": {},
@@ -93,6 +96,12 @@
     "scene-talk.close-accept.all-right-we-ll-sort-out-the-bills-this-week": [
       "plain-american-reads-stiff"
     ],
+    "scene-talk.close-accept.all-right-well-let-the-vote-settle-it": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk.close-accept.all-right-well-start-without-the-details-then": [
+      "alright-in-dialogue"
+    ],
     "scene-talk.close-accept.that-s-all-right-i-enjoyed-what-we-got-to-ask-me-again-whenever-you-wa": [
       "alright-in-dialogue"
     ],
@@ -101,6 +110,12 @@
     ],
     "scene-talk.close-press.we-still-have-to-settle-this-you-know": [
       "no-filler"
+    ],
+    "scene-talk.follow-accept.all-right-its-on-the-record-either-way": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk.follow-accept.all-right-the-committee-meets-whether-were-all-ready-or-not": [
+      "alright-in-dialogue"
     ],
     "scene-talk.follow-accept.i-hear-you-the-ring-goes-back-in-the-drawer-and-we-re-still-us-i-ll-ta": [
       "no-stock-phrases"
