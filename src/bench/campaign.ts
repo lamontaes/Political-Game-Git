@@ -70,7 +70,13 @@ import {
   corePlaceStateIdentities,
 } from "../core2/place-lookup";
 import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
-import { chooseRunningMate, runningMateChoice } from "../core2/modules/voting";
+import {
+  askToServe,
+  chooseRunningMateForMe,
+  offeredRunningMates,
+  serveAskHours,
+  ticketAsks,
+} from "../core2/modules/serve-asks";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -244,12 +250,15 @@ export function campaignView(core: CoreState, personId: string) {
   };
 }
 
-/** The player names their running mate on one of their own filings; the campaigns as they stand after. */
+/**
+ * "Choose for me" on one of the player's own filings: no scene; the strongest
+ * of the people offered who would say yes is named. The campaigns as they
+ * stand after.
+ */
 export function runningMatePicked(
   core: CoreState,
   personId: string,
   filingId: string,
-  pick: string | null,
 ) {
   const api = coreAPI(core);
   const filing = api
@@ -258,8 +267,29 @@ export function runningMatePicked(
     .get(filingId) as unknown as FilingRow | undefined;
   if (filing?.personId !== personId)
     throw new Error("That isn't one of your races.");
-  chooseRunningMate(api, filingId, pick);
+  chooseRunningMateForMe(api, filingId);
   return campaignView(core, personId);
+}
+
+/**
+ * The player asks one of the people offered to run as their running mate: the
+ * ask is kept and plays as a scene; only the scene's ending names anyone.
+ */
+export function runningMateAsked(
+  core: CoreState,
+  personId: string,
+  filingId: string,
+  askedId: string,
+) {
+  const api = coreAPI(core);
+  const filing = api
+    .moduleState(ELECTIONS)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  if (filing?.personId !== personId)
+    throw new Error("That isn't one of your races.");
+  const row = askToServe(api, { seat: "ticket", filingId, personId: askedId });
+  return { hours: serveAskHours(), eventId: row.eventId };
 }
 
 /**
@@ -277,7 +307,7 @@ function groupName(title: string): boolean {
  * where it is not yet the candidate's to name. Null for a race with no ticket.
  */
 function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
-  const ticket = runningMateChoice(api, filingId);
+  const ticket = offeredRunningMates(api, filingId);
   if (!ticket) return null;
   const nameOf = (id: string) => {
     const person = core.people.get(id as PersonId);
@@ -288,6 +318,9 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
     .table("contests")
     .get(ticket.ticketContestId) as unknown as ContestRow;
   const mateName = ticket.mateId ? nameOf(ticket.mateId) : null;
+  // Who turned the player down, and who may be asked now (owner, Nov 14: a
+  // no stands for now; ask again later).
+  const asks = new Map(ticketAsks(api, filingId).map((a) => [a.personId, a]));
   return {
     office: ticket.office,
     // The office as a sentence says it ("lieutenant governor").
@@ -380,6 +413,8 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
         name: c.name,
         work: said,
         place: townName ? (away ? `${townName}, ${away}` : townName) : away,
+        declined: !!asks.get(c.id)?.declined,
+        mayAsk: asks.get(c.id)?.mayAsk ?? true,
       };
     }),
   };
