@@ -67,6 +67,7 @@ import { basePlaces } from "../race-places";
 import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
+import { notifySalesReceipt } from "./finance";
 import { medianTransactionBalance } from "../starting-cash";
 import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
@@ -1707,8 +1708,11 @@ const sellerCache = new WeakMap<object, Map<string, string | null>>();
 
 /**
  * Who sells a campaign what it buys: a business in town of a fitting kind
- * (the first of the first fitting kind, in the order they're recorded), or
- * a registered stand-in seller where the town has none.
+ * (the first of the first fitting kind, in the order they're recorded), else
+ * the town's outside market, where the region's pollsters, printers and halls
+ * are paid from the town's outside account like every other purchase the town
+ * makes beyond its edge (opening-outside-market.ts). The dollars leave the
+ * town as outside money; nothing is made up in town to take them.
  */
 export function seller(api: CoreAPI, purchase: Purchase): string {
   const core = api.state as CoreState;
@@ -1729,38 +1733,20 @@ export function seller(api: CoreAPI, purchase: Purchase): string {
     }
     cache.set(key, found);
   }
-  if (found) return found;
-  return standInSeller(api, purchase);
+  return found ?? outsideSeller(api);
 }
 
-/** A stand-in seller where the town has no business of the kind (registered). */
-function standInSeller(api: CoreAPI, purchase: Purchase): string {
-  if (purchase === "poll") {
-    // stopgapId: SG-GOV-campaign-pollster-seller
-    api.stopgap("SG-GOV-campaign-pollster-seller");
-  } else if (purchase === "mail") {
-    // stopgapId: SG-GOV-campaign-mail-seller
-    api.stopgap("SG-GOV-campaign-mail-seller");
-  } else {
-    // stopgapId: SG-GOV-campaign-venue-seller
-    api.stopgap("SG-GOV-campaign-venue-seller");
-  }
-  const id = `organization:campaign-${purchase}:${townRow(api).townPlaceId}`;
-  if (!api.state.organizations.has(id))
-    api.addOrganization({
-      id,
-      placeId: townRow(api).townPlaceId,
-      name: purchase,
-      kind: `campaign-${purchase}-seller`,
-      liquidMinor: 0,
-      source: {
-        tag: "ESTIMATED",
-        citation: `Stand-in seller of campaign ${purchase} where the town records no business of the kind`,
-        asOf: api.state.date,
-        estimatedFrom: `SG-GOV-campaign-${purchase === "event" ? "venue" : purchase === "poll" ? "pollster" : "mail"}-seller`,
-      },
-    });
-  return id;
+/** The town's outside account, where a campaign buys what no business in town sells (the postage always: the Postal Service is not in town). */
+function outsideSeller(api: CoreAPI): string {
+  const outside = townOutsideOf(
+    api.state.organizations.values(),
+    townRow(api).townPlaceId,
+  );
+  if (!outside)
+    throw new Error(
+      "No outside market account: a campaign has nowhere to buy what the town does not sell.",
+    );
+  return outside.id;
 }
 
 function priceRow(kind: string) {
@@ -3993,17 +3979,47 @@ function spend(
   },
 ): string {
   const campaign = campaignFor(api, filingId);
-  const moneyId = `${input.kind}:${filingId}:${api.state.date}:${campaign.spentMinor}`;
-  postMoney(
-    api,
-    input.kind === "ad" ? AD_KIND : PURCHASE_KIND,
-    moneyId,
-    campaign.organizationId,
-    input.sellerId,
-    input.amountMinor,
-    input.citation,
-    false,
-  );
+  let moneyId = `${input.kind}:${filingId}:${api.state.date}:${campaign.spentMinor}`;
+  // A seller outside the town is paid through the accounts API, a flow
+  // recorded in outside-flows.json as goods and services bought outside.
+  if (api.state.organizations.get(input.sellerId)?.outsideFlow !== undefined) {
+    moneyId = `campaign-purchase:${moneyId}`;
+    const paid = transferCash(
+      api,
+      moneyId,
+      campaign.organizationId,
+      input.sellerId,
+      input.amountMinor,
+      { tag: "SOURCED", citation: input.citation, asOf: api.state.date },
+    );
+    if (paid !== input.amountMinor)
+      throw new Error(
+        "A campaign's purchase outside the town was not paid in full.",
+      );
+  } else {
+    postMoney(
+      api,
+      input.kind === "ad" ? AD_KIND : PURCHASE_KIND,
+      moneyId,
+      campaign.organizationId,
+      input.sellerId,
+      input.amountMinor,
+      input.citation,
+      false,
+    );
+    // A sale to a business in town is noticed the way any customer's is, so a
+    // sales tax in force reaches it and its seller remits.
+    notifySalesReceipt(api, {
+      id: moneyId,
+      date: api.state.date,
+      sellerId: input.sellerId,
+      buyerIds: [campaign.organizationId],
+      kind: `campaign-${input.kind}`,
+      paidMinor: input.amountMinor,
+      placeId: api.state.organizations.get(input.sellerId)?.placeId ?? "",
+      counted: false,
+    });
+  }
   const byKind = { ...(campaign.spentByKind ?? {}) };
   byKind[input.kind] = (byKind[input.kind] ?? 0) + input.amountMinor;
   save(api, {
@@ -6162,7 +6178,9 @@ export function sendMail(
   quiet = false,
 ): readonly CauseRow[] {
   const campaign = campaignFor(api, filingId);
-  const perPiece = unitPrice(api, "mailer-print") + unitPrice(api, "postage");
+  const printPerPiece = unitPrice(api, "mailer-print");
+  const postagePerPiece = unitPrice(api, "postage");
+  const perPiece = printPerPiece + postagePerPiece;
   const { list } = townAddresses(api);
   // Never more than the campaign holds, as an ad buy is.
   const available = (api.state as CoreState).cashJournal.accounts.get(
@@ -6181,12 +6199,19 @@ export function sendMail(
     ),
   );
   if (pieces <= 0) return [];
+  // The printer is paid for the print and the Postal Service, never in town,
+  // for the postage (campaign-unit-prices mailer-print and postage rows).
   spend(api, filingId, {
     kind: "mail",
     sellerId: seller(api, "mail"),
-    amountMinor: pieces * perPiece,
-    citation:
-      "Mailers at the campaign-unit-prices mailer-print and postage rows",
+    amountMinor: pieces * printPerPiece,
+    citation: "Mailers at the campaign-unit-prices mailer-print row",
+  });
+  spend(api, filingId, {
+    kind: "mail",
+    sellerId: outsideSeller(api),
+    amountMinor: pieces * postagePerPiece,
+    citation: "Postage at the campaign-unit-prices postage row",
   });
   let cursor = campaign.mailCursor ?? 0;
   let counted = 0;
