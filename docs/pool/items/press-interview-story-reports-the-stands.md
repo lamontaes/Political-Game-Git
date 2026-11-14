@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-sew1gc
-pr:
+pr: "#9332"
 after: press-first-week-interview-sittings-never-printed
 blocked-on:
 lead: elections
