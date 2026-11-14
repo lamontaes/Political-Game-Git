@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { officeActsOf } from "../core2/modules/office-day";
 import { OFFICE_DAY_STATE_MODULE_ID } from "../core2/office-day-state";
