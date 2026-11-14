@@ -125472,7 +125472,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill", "vote-held"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
