@@ -1,5 +1,5 @@
 ---
-id: words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge
+id: words-machine-part-7-narrowed-judged-rules
 impact: none
 ---
 
