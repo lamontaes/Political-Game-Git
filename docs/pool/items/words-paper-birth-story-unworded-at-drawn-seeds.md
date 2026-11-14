@@ -29,7 +29,7 @@ checked: m3 2026-11-14
 
 **Rules.** No dice; a counted household's birth is told by count, never by inventing a mother.
 
-**Done when.** In the running game, a second session reads News in the two places above and finds every printed birth worded, and both tests pass at their pinned places.
+**Done when.** In the running game, in a place and seed the builder did not choose (random one of the 56) and again at Cavetown, Maryland (seed 2d805cf4d2aceff57ef3) and Crystal Lake, Connecticut (seed a841494a2ab44f7b8e5d1e3ac07b89b7d5410140), a second session reads News and finds every printed birth worded, and both tests pass at their pinned places.
 
 **Waits on.** Nothing.
 
