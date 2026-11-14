@@ -11,6 +11,7 @@ import {
   filingOfficeFor,
   openContests,
   playerContests,
+  type FilingRow,
   type RequirementCheck,
 } from "../core2/modules/elections";
 import {
@@ -22,8 +23,9 @@ import { contestPositions } from "../core2/contest-positions";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
-  askAtCounter,
+  sayAtCounter,
   counterNarration,
+  spokenOffice,
   filedAtCounter,
   openFilingVisit,
   pickContest,
@@ -35,7 +37,7 @@ import { fileForOffice } from "./government";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
-import { petitionView } from "./campaign";
+import { petitionView, raceLive } from "./campaign";
 
 /** The picture for the office that takes a contest's filings. */
 export function officePlace(filedWith: string): string {
@@ -175,6 +177,7 @@ export function openBenchFilingVisit(
             first: {
               name: `${person.givenName} ${person.familyName}`,
               recordId: first.id,
+              filedOn: first.filedOn,
             },
           }
         : {}),
@@ -262,11 +265,16 @@ export function openBenchFilingVisit(
     // A first visit asks for the papers; a filing here still gathering
     // signatures brings the petition back, and one already on the ballot
     // comes back with nothing to bring, each by its record.
+    // The clerk's office is named one way, from the place's filing record
+    // (Fable A, Nov 13, rule 8: "Town clerk" in a town, never "City Clerk"
+    // beside it); the clerk's own title only where that record names a choice.
     intro: clerkRow
       ? counterNarration(
           core,
           visit,
-          clerkRow,
+          / or /i.test(spokenOffice(filedWith))
+            ? clerkRow
+            : { ...clerkRow, title: spokenOffice(filedWith) },
           filedHere(core, playerId, filedWith),
           minuteOfDay,
         )
@@ -279,26 +287,28 @@ export function openBenchFilingVisit(
 }
 
 /** The player's filing at this office still gathering signatures or on the ballot, if any. */
-function filedHere(
+export function filedHere(
   core: CoreState,
   playerId: string,
   filedWith: string,
 ): { id: string; status: string } | null {
-  const filings = coreAPI(core)
+  const api = coreAPI(core);
+  const filings = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
-    .query("byPerson", [playerId]) as unknown as {
-    id: string;
-    personId: string;
-    filedWith: string;
-    status: string;
-  }[];
+    .query("byPerson", [playerId]) as unknown as FilingRow[];
   const held =
     filings.find(
-      (row) => row.filedWith === filedWith && row.status === "petitioning",
+      (row) =>
+        row.filedWith === filedWith &&
+        row.status === "petitioning" &&
+        raceLive(api, row),
     ) ??
     filings.find(
-      (row) => row.filedWith === filedWith && row.status === "on-ballot",
+      (row) =>
+        row.filedWith === filedWith &&
+        row.status === "on-ballot" &&
+        raceLive(api, row),
     );
   return held ? { id: held.id, status: held.status } : null;
 }
@@ -329,8 +339,8 @@ export function chooseAtCounter(
       overlay: overlayFor(core, state.visit.playerId, action.contestId),
     };
   }
-  if (action.kind === "ask")
-    return { ...state, visit: askAtCounter(core, state.visit, key) };
+  if (action.kind === "say")
+    return { ...state, visit: sayAtCounter(core, state.visit, key) };
   if (action.kind === "file") {
     const result = fileForOffice(
       core,
@@ -357,7 +367,12 @@ export function chooseAtCounter(
           ],
           choices: [],
         }
-      : filedAtCounter(core, state.visit, choice);
+      : filedAtCounter(
+          core,
+          state.visit,
+          choice,
+          (result as { filing?: { id: string } }).filing?.id,
+        );
     const made = (result as { filing?: { id: string } }).filing;
     return {
       ...state,

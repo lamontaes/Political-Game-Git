@@ -811,6 +811,8 @@ function inMeeting() {
     const draw = (scene) => {
       if (!scene) return finish();
       $("meeting-adjourn").disabled = false;
+      $("meeting-adjourn").textContent =
+        (scene.seated ? words.adjourn : words.leave) ?? "";
       $("backdrop").src = scene.backdrop.url;
       drawHere(scene);
       $("card-place").textContent = scene.title;
@@ -843,10 +845,16 @@ function inMeeting() {
             );
             return b;
           });
+          // A resident in the room speaks, where the body hears them; only the seated vote.
           return billBlock(
             item,
             scene.members ?? [],
-            item.takenUp ? [] : [speak, vote],
+            item.takenUp
+              ? []
+              : [
+                  ...(scene.speaks ? [speak] : []),
+                  ...(scene.seated ? [vote] : []),
+                ],
             (billId) =>
               openBillPaper(
                 billId,
@@ -857,6 +865,9 @@ function inMeeting() {
           );
         }),
       );
+      // A resident's one line under the title: an empty agenda, or what they can do here.
+      if (scene.note)
+        $("meeting-items").prepend(prose(scene.note, "meeting-note"));
       $("meeting-adjourn").onclick = async () => {
         $("meeting-adjourn").disabled = true;
         await post(
@@ -1656,8 +1667,9 @@ function renderFiling(value) {
   });
   fillTalk({ replies: buttons });
   // The filing's record once it is made: its status, shown as the record's
-  // label under the talk, not as words in the clerk's mouth.
-  if (value.result?.petition)
+  // label under the talk, not as words in the clerk's mouth. A race whose law
+  // asks no signatures has a petition of none: nothing to collect, no line.
+  if (value.result?.petition?.needed)
     addTalkLine(
       talkLine({
         kind: "label",
@@ -2113,7 +2125,8 @@ async function campaignParts() {
               { label: labelsC.doors, value: String(campaign.doors) },
               // The petition record: the signatures held against those the
               // clerk will count, and the clerk's verdict once it has checked.
-              ...(petition
+              // A race that asks no signatures shows no petition.
+              ...(petition?.needed
                 ? [
                     {
                       label: labelsC.signatures,
@@ -3835,7 +3848,8 @@ const sheets = {
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
-        words[section.key],
+        // A section that shows one government's books is headed by that government's name.
+        section.name ?? words[section.key],
         ...section.rows.map((row) => {
           const moved = row.before === null ? null : row.now - row.before;
           const direction =
@@ -3848,7 +3862,10 @@ const sheets = {
                   : words.down;
           return typedRow(
             words[row.key],
-            figure(row, row.now),
+            // A small town's count shows the people behind it ("13 of 86").
+            row.of === undefined
+              ? figure(row, row.now)
+              : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
             row.before === null
               ? ""
               : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
@@ -3864,13 +3881,11 @@ const sheets = {
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    // The town's own books open first; a place with no city government opens
-    // on the county's, the local government that serves it.
-    const town = ["city", "county"]
-      .map((level) =>
-        view.governments.find((g) => g.level === level && g.latest),
-      )
-      .find(Boolean);
+    // The town's own books open first: the government the budget view names as the town's
+    // (its city, or the county that runs a town with no city government).
+    const town = view.governments.find(
+      (g) => g.id === view.townGovernmentId && g.latest,
+    );
     const chosen =
       view.governments.find((g) => g.id === budgetGovernment) ?? town;
     const gov = chosen ?? view.governments[0];
@@ -4103,10 +4118,17 @@ const sheets = {
         date,
         items,
         labels,
+        held: packet?.kind === "stop",
         onAdvance: (day) => {
           closeSheet();
           act(`/api/advance?mode=calendar&date=${day}`);
         },
+        onAttend: async ({ officeId, date: day }, attend) =>
+          (
+            await post(
+              `/api/meeting/attend?${new URLSearchParams({ officeId, date: day, attend: String(attend) })}`,
+            )
+          ).items,
       }),
       devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
       ...(devModeOn()
@@ -4682,7 +4704,17 @@ const sheets = {
     };
     const labels = controls.localRaces;
     const stance = voteWords();
-    const filed = new Set(v.filings.map((f) => f.contestId));
+    const filedFor = new Set(v.filings.map((f) => f.contestId));
+    // A filing for any seat of an at-large race is a filing for the race.
+    const filed = {
+      has: (contestId) =>
+        filedFor.has(contestId) ||
+        ballot.races.some(
+          (race) =>
+            race.contestId === contestId &&
+            race.contestIds?.some((id) => filedFor.has(id)),
+        ),
+    };
     const status = (race) =>
       filed.has(race.contestId)
         ? labels.youFiled
@@ -4748,6 +4780,16 @@ const sheets = {
           // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
           stripSection(1, labels.whoIsRunning, ...candidates),
           rosterSide(
+            // An at-large race fills several seats at once.
+            ...(race.seats > 1
+              ? [
+                  stripSection(
+                    3,
+                    labels.seats,
+                    dotRows([{ label: labels.seatsToFill, value: race.seats }]),
+                  ),
+                ]
+              : []),
             ...(race.lastTime
               ? [
                   stripSection(
@@ -5887,7 +5929,8 @@ async function openSheet(tab) {
  * No menu scrolls (owner, Oct 29; Lane 4, path 11): once a sheet is on
  * screen, each pager in a part of it that runs past its foot (the sheet's
  * body, or a split screen's side or main) gives back a row at a time until
- * the part fits or the pager holds one row. A screen counts its rows from the
+ * the part fits, the pager holds one row, or a row given back no longer
+ * shortens the part (something else in it is the taller). A screen counts its rows from the
  * window; what sits above a pager (a tray of buttons, a long title) is only
  * known once drawn.
  */
@@ -5916,8 +5959,20 @@ function fitPagersNow(root, waits = 30) {
       while (
         (over(part) || over(screen) || over($("sheet-body"))) &&
         box.rowCount() > 1
-      )
+      ) {
+        // A row given back only where it makes the part shorter: a list
+        // beside a taller page (a race's page of candidates) keeps its rows.
+        const tall = over(part)
+          ? part
+          : over(screen)
+            ? screen
+            : $("sheet-body");
+        const before = tall.scrollHeight;
         box.setRows(box.rowCount() - 1);
+        if (tall.scrollHeight < before) continue;
+        box.setRows(box.rowCount() + 1);
+        break;
+      }
     }
     // A side still past its foot: its list of recent votes keeps the newest
     // that fit (at least one).

@@ -27,6 +27,7 @@
  *   outlets of each a town has are GAME ASSUMPTIONS (`town-workplaces.ts`),
  *   until a researched occupation-by-industry table replaces them.
  */
+import { partTimeShare } from "./shares";
 import {
   businessName,
   businessNameContext,
@@ -59,8 +60,6 @@ import { townWorkplaceWeights } from "./town-employment-mix";
 import { parameter as p } from "./parameters";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
-  TOWN_PART_TIME_DEFAULT,
-  TOWN_PART_TIME_SHARE,
   TOWN_WORKPLACE_BY_KEY,
   TOWN_WORKPLACES,
   type OrganizationClassification,
@@ -764,9 +763,7 @@ function fillTownJobs(
         resident.parentOfYoungChild ||
         resident.age >= p("openingPartTimeOlderWorkerAge") ||
         (counted().partTime.get(organizationId) ?? 0) <
-          (TOWN_PART_TIME_SHARE[workplace.key] ?? TOWN_PART_TIME_DEFAULT) *
-            (staff + p("one")) -
-            p("half"));
+          partTimeShare(workplace.key) * (staff + p("one")) - p("half"));
     counted().kindOf.set(organizationId, workplace.key);
     countHire(counted(), organizationId, chosen.title, partTime);
     const [minimumHours, maximumHours] =

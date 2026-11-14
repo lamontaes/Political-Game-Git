@@ -12,17 +12,5 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
-  },
-  {
-    "id": "SG-BENCH-money-spending-reasons",
-    "kind": "missing-record",
-    "file": "src/bench/bank.ts",
-    "line": 94,
-    "whatItFakes": "Where last month went is grouped by the contract kind on each standing bill’s latest receipt plus the everyday living plan, standing in for the transfer’s reasonKey; a one-off transfer (a purchase, a fee, a gift) is not listed.",
-    "why": "The accounts engine (src/core2/accounts.ts) returns a transfer’s reasonKey on its receipt but keeps neither the receipt nor the reason; the cash journal keeps postings and a source id only, and the finance engine keeps only the latest receipt per standing contract.",
-    "addedBy": "claude/wire-opening-and-home",
-    "addedAt": "2026-10-28",
-    "replacement": "The accounts engine keeping each household transfer’s reasonKey on its journal receipt, so the sheet groups every outflow of the month by it.",
-    "status": "open"
   }
 ]

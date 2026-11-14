@@ -319,7 +319,19 @@ export function signUpToSpeak(
     signedUp: true,
     date: api.state.date,
   };
+  const spokeBefore = table(api, "remarks").get(row.id) !== undefined;
   table(api, "remarks").put(row as unknown as ModuleRow);
+  // A board with committees took the bill's public comment on its committee's
+  // day; a remark made after, at the board's own meeting, is heard there by
+  // the members in the room, by the same rule (`hearRemarks`), once: a
+  // speaker already on the bill's record was heard when they first spoke.
+  if (
+    stance &&
+    local(bill) &&
+    !spokeBefore &&
+    bill.hooksRun?.includes("public-comment")
+  )
+    hearRemarks(api, bill, stance, [row], new Map());
   return row;
 }
 
@@ -411,9 +423,6 @@ export function commentSpeakers(
  * and say so; the room is a public record.
  */
 function publicComment(api: CoreAPI, billId: string): void {
-  /** The counted resident's record by id, as the views store reads it. */
-  const countedVoter = (id: string) =>
-    countedResidents(api.state as CoreState).find((v) => v.id === id)!;
   if (!api.state.modules.has(MEETINGS_MODULE_ID)) return;
   const bill = billOf(api, billId);
   const stance = billQuestion(api, bill);
@@ -438,6 +447,34 @@ function publicComment(api: CoreAPI, billId: string): void {
   }
   const said = remarksOn(api, billId);
   if (!said.length) return;
+  hearRemarks(
+    api,
+    bill,
+    stance,
+    said,
+    new Map(speakers.map((x) => [x.p.id, x.p] as const)),
+  );
+}
+
+/**
+ * The members hear remarks on a bill: each speaker they did not know now
+ * knows them by name, the first tie holding the speaker's time at the podium,
+ * and each remark is a speech to the room (the members and the others who
+ * spoke), which moves them and lets them retell it. The comment is a public
+ * record (`public-comment:<bill>`), kept once per bill. A speaker still in the
+ * wider population is not met and speaks from their counted record
+ * (`counted`; two-level population).
+ */
+function hearRemarks(
+  api: CoreAPI,
+  bill: BillRow,
+  stance: { readonly question: string; readonly position: number },
+  said: readonly RemarkRow[],
+  counted: ReadonlyMap<string, Readonly<Pick<PersonState, "id" | "traits">>>,
+): void {
+  /** The counted resident's record by id, as the views store reads it. */
+  const countedVoter = (id: string) =>
+    countedResidents(api.state as CoreState).find((v) => v.id === id)!;
   // The members sit through the comment, so each speaker on the record (those
   // who signed up, the player among them, and those moved to stand up) they
   // did not know now knows them by name; the first tie holds the speaker's
@@ -468,7 +505,6 @@ function publicComment(api: CoreAPI, billId: string): void {
     // population speaks from their counted record: the room hears them with the
     // lean that record gives, by the same rule as a full person's (one model,
     // two tiers), and they are not filled in.
-    const counted = new Map(speakers.map((x) => [x.p.id, x.p] as const));
     for (const r of said) {
       const full = api.state.people.get(r.personId);
       const record = full ? undefined : counted.get(r.personId);
@@ -490,6 +526,8 @@ function publicComment(api: CoreAPI, billId: string): void {
       });
     }
   }
+  // The record is kept once per bill (an event id enters once): a remark heard
+  // after the bill's public comment was first kept cites that record.
   api.emit({
     id: `public-comment:${bill.id}`,
     date: api.state.date,

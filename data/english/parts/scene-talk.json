@@ -118,7 +118,9 @@
     "replaced": "The full name of the person whose job an opening fills.",
     "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
     "count-by": "The day before a bill's vote, said from the scene's day (\"Thursday\", \"June 7th\"), from the bill's floor date (floorDateOf).",
-    "vote-tonight": "Set when the bill's vote is on the scene's own day, from its floor date."
+    "vote-tonight": "Set when the bill's vote is on the scene's own day, from its floor date.",
+    "filed-at-counter": "That the player filed at the counter, in the clerk's scene there: the record of the reply that filed.",
+    "filed-so-far": "How many have filed for the office so far, said before the player files (\"two candidates\"), from the elections engine's filings."
   },
   "maxWords": 70,
   "parts": [
@@ -34603,24 +34605,26 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.you-re-not-the-first-for-seat-opponent-filed-when",
-      "move": "state-tell",
+      "key": "scene-talk.follow-answer.not-to-me-opponent-filed-for-seat-when-and-that-was-that",
+      "move": "follow-answer",
       "kind": "spoken",
-      "text": "You're not the first for {seat}. {opponent} filed {when}.",
+      "text": "Not to me. {opponent} filed for {seat} {when}, and that was that.",
       "uses": [
         {
           "subject": "scene",
-          "step": "state",
-          "move": "tell",
+          "step": "follow",
+          "move": "answer",
           "role": "asker",
           "purpose": "filing-clerk",
-          "key": "routine"
+          "key": "routine",
+          "after": "confront",
+          "requiresFacts": ["opponent", "when", "seat"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "tell",
         "key": "routine"
@@ -42533,24 +42537,26 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.heads-up-opponent-filed-for-seat-when-you-won-t-be-running-unopposed",
-      "move": "state-tell",
+      "key": "scene-talk.follow-answer.nothing-to-me-opponent-came-in-when-to-file-same-as-you",
+      "move": "follow-answer",
       "kind": "spoken",
-      "text": "Heads up: {opponent} filed for {seat} {when}. You won't be running unopposed.",
+      "text": "Nothing to me. {opponent} came in {when} to file, same as you.",
       "uses": [
         {
           "subject": "scene",
-          "step": "state",
-          "move": "tell",
+          "step": "follow",
+          "move": "answer",
           "role": "asker",
           "purpose": "filing-clerk",
-          "key": "routine"
+          "key": "routine",
+          "after": "confront",
+          "requiresFacts": ["opponent", "when", "seat"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "tell",
         "key": "routine"
@@ -54287,31 +54293,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.has-anyone-else-pulled-papers-for-seat",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Has anyone else pulled papers for {seat}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "after": "tell"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.close-promise.i-ll-call-if-anyone-else-files",
       "move": "close-promise",
       "kind": "spoken",
@@ -60248,31 +60229,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.title-we-wondered-when-you-d-come-in",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "{title}. We wondered when you'd come in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "requiresFacts": ["title"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
         "key": "routine"
       }
     },
@@ -95618,6 +95574,56 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-has-your-filing-for-office-on-the-desk-when-you-come-back-to-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has your filing for {office} on the desk when you come back to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["filed-at-counter", "name", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.back-at-the-counter-name-finds-your-papers-for-office-and-pulls-one-sheet-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Back at the counter, {name} finds your papers for {office} and pulls one sheet out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["filed-at-counter", "name", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-stamps-your-forms-and-slides-one-sheet-back-across-the-counter",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -95629,7 +95635,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-petition",
-          "key": "filed"
+          "key": "filed",
+          "excludesFacts": ["filed-at-counter"]
         }
       ],
       "bearing": "calm",
@@ -95653,7 +95660,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-petition",
-          "key": "filed"
+          "key": "filed",
+          "excludesFacts": ["filed-at-counter"]
         }
       ],
       "bearing": "calm",
@@ -95677,7 +95685,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-petition",
-          "key": "filed"
+          "key": "filed",
+          "excludesFacts": ["filed-at-counter"]
         }
       ],
       "bearing": "calm",
@@ -101606,56 +101615,6 @@
       "tag": {
         "move": "answer",
         "key": "filed"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-re-back-at-the-post-s-counter-your-name-already-on-the-ballot-name-looks-up",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You're back at the {post}'s counter, your name already on the ballot. {name} looks up and nods.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["on-ballot", "post"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-come-back-to-the-post-s-office-with-nothing-left-to-file-name-waves-you-over",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You come back to the {post}'s office with nothing left to file. {name} waves you over anyway.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["on-ballot", "post"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
       }
     },
     {
@@ -117166,56 +117125,6 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["begins", "returning", "post"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.begins-you-stop-by-the-posts-office-your-name-is-already-on",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{begins}, you stop by the {post}'s office. Your name is already on the ballot, and {name} looks up and nods.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "requiresFacts": ["begins", "on-ballot", "post"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.begins-name-the-post-waves-you-over-though-there-is-nothing-left",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{begins}. {name}, the {post}, waves you over, though there is nothing left for you to file.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "requiresFacts": ["begins", "on-ballot", "post"]
         }
       ],
       "bearing": "calm",
@@ -161611,7 +161520,7 @@
       "key": "scene-talk.follow-answer.filed-filed-before-you-opponent-was-first",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{filed} filed before you. {opponent} was first.",
+      "text": "So far it's {filed-so-far}. {opponent} was first.",
       "uses": [
         {
           "subject": "scene",
@@ -161621,12 +161530,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -161641,7 +161550,7 @@
       "key": "scene-talk.follow-answer.so-far-it-s-filed-and-opponent-was-the-first-one-in",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "so far it's {filed}, and {opponent} was the first one in.",
+      "text": "so far it's {filed-so-far}, and {opponent} was the first one in.",
       "uses": [
         {
           "subject": "scene",
@@ -161651,12 +161560,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -161671,7 +161580,7 @@
       "key": "scene-talk.follow-answer.opponent-filed-first-and-there-s-filed-on-the-list-so-far",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{opponent} filed first, and there's {filed} on the list so far.",
+      "text": "{opponent} filed first, and there's {filed-so-far} on the list so far.",
       "uses": [
         {
           "subject": "scene",
@@ -161681,12 +161590,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -161701,7 +161610,7 @@
       "key": "scene-talk.follow-answer.i-ve-had-filed-in-already-starting-with-opponent",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I've had {filed} in already, starting with {opponent}.",
+      "text": "I've had {filed-so-far} in already, starting with {opponent}.",
       "uses": [
         {
           "subject": "scene",
@@ -161711,12 +161620,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -161731,7 +161640,7 @@
       "key": "scene-talk.follow-answer.there-s-filed-already-opponent-beat-everybody-to-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "there's {filed} already. {opponent} beat everybody to it.",
+      "text": "there's {filed-so-far} already. {opponent} beat everybody to it.",
       "uses": [
         {
           "subject": "scene",
@@ -161741,12 +161650,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -161761,7 +161670,7 @@
       "key": "scene-talk.follow-answer.you-won-t-have-it-to-yourself-opponent-filed-and-that-makes-filed-so-far",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "you won't have it to yourself. {opponent} filed, and that makes {filed} so far.",
+      "text": "you won't have it to yourself. {opponent} filed, and that makes {filed-so-far} so far.",
       "uses": [
         {
           "subject": "scene",
@@ -161771,12 +161680,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -161791,7 +161700,7 @@
       "key": "scene-talk.follow-answer.the-list-has-filed-on-it-opponent-at-the-top",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "the list has {filed} on it, {opponent} at the top.",
+      "text": "the list has {filed-so-far} on it, {opponent} at the top.",
       "uses": [
         {
           "subject": "scene",
@@ -161801,12 +161710,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -161821,7 +161730,7 @@
       "key": "scene-talk.follow-answer.opponent-has-already-filed-that-s-filed-ahead-of-you",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{opponent} has already filed. That's {filed} ahead of you.",
+      "text": "{opponent} has already filed. That's {filed-so-far} on the list.",
       "uses": [
         {
           "subject": "scene",
@@ -161831,12 +161740,12 @@
           "move": "answer",
           "role": "asker",
           "after": "ask",
-          "requiresFacts": ["filed", "opponent"]
+          "requiresFacts": ["filed-so-far", "opponent"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "routine"
@@ -162081,330 +161990,6 @@
       "piece": {
         "of": "filing-who-filed",
         "part": "closer"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.got-a-pen",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Got a pen?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "opener"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.write-this-down",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Write this down.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "opener"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.okay-so",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Okay, so.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "opener"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.mark-primary-for-the-primary-and-general-for-the-general",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "mark {primary} for the primary and {general} for the general.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell",
-          "requiresFacts": ["primary", "general"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.primary-for-the-primary-if-you-get-through-it-general",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "{primary} for the primary. If you get through it, {general}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell",
-          "requiresFacts": ["primary", "general"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.papers-back-by-deadline-primary-primary-general-general",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "papers back by {deadline}, primary {primary}, general {general}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell",
-          "requiresFacts": ["deadline", "primary", "general"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-primary-comes-first-primary-then-everyone-votes-general",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "the primary comes first, {primary}. Then everyone votes {general}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell",
-          "requiresFacts": ["primary", "general"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.just-the-one-election-general-papers-back-to-me-by-deadline",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "just the one election, {general}. Papers back to me by {deadline}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell",
-          "requiresFacts": ["no-primary", "general", "deadline"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-general-no-primary-get-it-all-in-by-deadline",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "it's {general}, no primary. Get it all in by {deadline}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell",
-          "requiresFacts": ["no-primary", "general", "deadline"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-vote-s-general-before-that-the-papers-are-due-deadline",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "the vote's {general}. Before that, the papers are due {deadline}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell",
-          "requiresFacts": ["general", "deadline"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.deadline-for-the-papers-general-for-the-vote",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "{deadline} for the papers, {general} for the vote.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "tell",
-          "requiresFacts": ["general", "deadline"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-dates",
-        "part": "core",
-        "required": true
       }
     },
     {
@@ -163286,190 +162871,6 @@
       "date": "2026-11-11",
       "tag": {
         "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.so-the-papers-are-due-deadline",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "So the papers are due {deadline}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.deadline-for-the-papers-and-the-vote",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "{deadline} for the papers. And the vote?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.run-the-dates-by-me-again-papers-by-deadline",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Run the dates by me again. Papers by {deadline}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.if-i-file-before-deadline-when-s-the-vote",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "If I file before {deadline}, when's the vote?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.papers-by-deadline-and-then-what",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Papers by {deadline}, and then what?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.what-happens-after-deadline",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "What happens after {deadline}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.deadline-got-it-when-do-people-vote",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "{deadline}, got it. When do people vote?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.and-after-deadline-how-long-until-the-election",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "And after {deadline}, how long until the election?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "tell",
         "key": "routine"
       }
     },

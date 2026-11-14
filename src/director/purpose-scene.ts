@@ -73,6 +73,7 @@ import {
   type SituationType,
 } from "./scheduling";
 import type { Moment } from "./types";
+import { beatenRunnerUp } from "../core2/modules/voting";
 import {
   composeSceneTalk,
   lastAnswerAlong,
@@ -125,6 +126,7 @@ import { closenessBetween } from "../core2/closeness";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
+import { counterFilingReplyId } from "./filing-visit";
 import {
   numberWord,
   properName,
@@ -1136,20 +1138,13 @@ function composeBinding(
       text: `${winner.givenName} ${winner.familyName}`,
       sourceRecordIds: [moment.causeId, winner.id],
     };
-  // In a race the asked won, the opponent is the runner-up on the count.
+  // In a race the asked won, the opponent is the one they beat: first among
+  // those who missed the cut (in an at-large race the other winners were
+  // seated too).
   if (winner?.id === askedId && !facts.opponent && said.totals) {
-    let totals: Record<string, number> = {};
-    try {
-      totals = JSON.parse(said.totals) as Record<string, number>;
-    } catch {
-      totals = {};
-    }
-    const runnerUp = Object.entries(totals)
-      .filter(([id]) => id !== askedId && core.people.has(id as PersonId))
-      .sort(
-        ([aId, aVotes], [bId, bVotes]) =>
-          bVotes - aVotes || aId.localeCompare(bId),
-      )[P.zero]?.[P.zero];
+    const beaten = beatenRunnerUp(said, askedId);
+    const runnerUp =
+      beaten && core.people.has(beaten.id as PersonId) ? beaten.id : undefined;
     const other = runnerUp ? core.people.get(runnerUp as PersonId) : undefined;
     if (other)
       facts.opponent = {
@@ -1177,11 +1172,13 @@ function composeBinding(
   if (record?.kind === "election-result" && said.contestId)
     Object.assign(facts, raceTurnoutFacts(core, said.contestId));
   // The winner's side of a count: how far ahead they finished, from the
-  // result record's totals (votes, exact: a count is an integer).
+  // result record's totals (votes, exact: a count is an integer): over the
+  // first who missed the cut, so in an at-large race the margin of the cut.
   if (said.totals && said.winnerId === askedId) {
-    const counts = Object.values(
-      JSON.parse(said.totals) as Record<string, number>,
-    ).sort((a, b) => b - a);
+    const own =
+      (JSON.parse(said.totals) as Record<string, number>)[askedId] ?? P.zero;
+    const beaten = beatenRunnerUp(said, askedId);
+    const counts = beaten ? [own, beaten.votes] : [own];
     const ahead = (counts[P.zero] ?? P.zero) - (counts[P.one] ?? P.zero);
     // The count; the bank's lines say "votes", or "one vote" for one.
     if (counts.length > P.one && ahead > P.zero) {
@@ -1697,6 +1694,17 @@ function petitionFacts(
   const walk = {
     ...walkThroughFacts(core, petition),
     ...voteDay(core, petition),
+    // A filing made at the counter was taken there, in the clerk's scene:
+    // the record of the reply that filed is read so the clerk does not take
+    // the papers a second time (the narration of stamping them is left out).
+    ...(core.durableLog.has(counterFilingReplyId(petition.filingId))
+      ? {
+          "filed-at-counter": {
+            text: "yes",
+            sourceRecordIds: [counterFilingReplyId(petition.filingId)],
+          },
+        }
+      : {}),
   };
   if (petition.needed <= P.zero) return { "no-petition": fact("yes"), ...walk };
   const due = fact(spokenDate(petition.due, core.date));

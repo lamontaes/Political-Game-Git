@@ -5553,7 +5553,7 @@
   "campaignRecordRetentionMonths": {
     "value": 12,
     "tag": "ESTIMATED",
-    "citation": "How long a public campaign gift or endorsement stays as a row in the log: a year, past the news cycle that printed it and the scene that reads it within days. The gift's money and the endorsement's answer stay in the campaigns engine's own tables. CTO ruling, Nov 1: itemized cash receipts fold to totals; the same shape applies here.",
+    "citation": "How long a campaign gift or endorsement (public, or seen by the player's circle; one that names the player stays) stays as a row in the log: a year, past the news cycle that printed it and the scene that reads it within days. The gift's money and the endorsement's answer stay in the campaigns engine's own tables. CTO ruling, Nov 1: itemized cash receipts fold to totals; the same shape applies here.",
     "estimatedFrom": "One election cycle's news life; the log row is read only on the day by the director and the press.",
     "spread": {
       "low": 3,

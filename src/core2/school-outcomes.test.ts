@@ -57,7 +57,7 @@ let place = drawPlace(drawSeed, "school-outcomes");
 const SHIFT = 0.5;
 const LINKS = [
   "equalized-funding-to-math-proficiency",
-  "equalized-funding-to-graduation",
+  "school-spending-to-attainment",
 ];
 /** The measures those links move. */
 const LINKS_INTO = ["school.math-proficient-pct", "school.graduation-pct"];
@@ -229,7 +229,11 @@ describe(`school outcomes (seed ${seed})`, () => {
         } else
           expect(g.expected, `${g.id} at 100%`).toBeCloseTo(before.expected, 9);
       }
-      for (const g of b.filter((x) => x.incomeFifth >= 3))
+      // The math link is weighted to the low fifths; the graduation lever
+      // (school-spending-to-attainment, the schools line's effect) is not.
+      for (const g of b.filter(
+        (x) => x.incomeFifth >= 3 && measure === "school.math-proficient-pct",
+      ))
         expect(g.factor, g.id).toBeCloseTo(
           a.find((x) => x.id === g.id)!.factor,
           9,
