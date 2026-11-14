@@ -146,6 +146,7 @@ import {
   type DoorVisit,
   type PledgeRow,
 } from "./campaigns";
+import { caseWarmthsOf } from "./constituent-cases";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
@@ -1058,6 +1059,26 @@ export function pledgeDoubt(
 }
 
 /**
+ * What a counted voter's decided cases left them feeling toward the officials
+ * on this ballot (one model, two tiers): the warmth a full person's impression
+ * would hold, at the share of the record who brought the case.
+ */
+function countedWarmths(
+  api: CoreAPI,
+  voter: { readonly id: string; readonly weight?: number },
+  field: readonly CountedFieldEntry[],
+): Readonly<Record<string, number>> | undefined {
+  const kept = caseWarmthsOf(api, voter.id);
+  const share = 1 / Math.max(1, voter.weight ?? 1);
+  let out: Record<string, number> | undefined;
+  for (const entry of field) {
+    const w = kept[entry.id];
+    if (w) (out ??= {})[entry.id] = w * share;
+  }
+  return out;
+}
+
+/**
  * A counted voter's door "yes" in this contest, each held by how far the
  * town's scandal story about the candidate reached the town's people and the
  * voter trusts it: the one heavy reason a counted record can know (it has no
@@ -1678,6 +1699,7 @@ export function doorAppealOf(
       contestId,
       field,
     ),
+    warmths: countedWarmths(api, voter, field),
   });
   const met = visit ? appeal[visit.candidateId] : undefined;
   if (visit && met) {
@@ -2357,6 +2379,7 @@ function countPrimary(
         // The town's people hold each form of a rotated ballot in turn.
         ballotForm: form,
         profile: countedStanceProfile(api, voter),
+        warmths: countedWarmths(api, voter, entries),
         divides: true,
       };
       const pledges = countedPledges(api, voter.id, trust, contest.id, entries);
@@ -2743,6 +2766,11 @@ function atThePolls(
           inTown: true,
           local: true,
           incumbentLean,
+          warmths: countedWarmths(
+            api,
+            voter,
+            countedField(api, race.contest, race.field),
+          ),
           pledges: countedPledges(
             api,
             voter.id,

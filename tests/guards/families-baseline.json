@@ -127,7 +127,7 @@
     "src/core2/modules/staff.ts": 5,
     "src/core2/modules/succession.ts": 3,
     "src/core2/modules/views.ts": 2,
-    "src/core2/modules/voting.ts": 7,
+    "src/core2/modules/voting.ts": 8,
     "src/core2/modules/work.ts": 1,
     "src/core2/modules/world-metrics.ts": 1,
     "src/core2/modules/world-panels.ts": 1,

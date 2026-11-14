@@ -2453,17 +2453,5 @@
     "addedAt": "2026-11-11",
     "replacement": "Each place's rule by kind of race (legislative, local, primary) from its statute, as the table's quotes already name for several states (Iowa, Michigan, Vermont, South Dakota).",
     "status": "open"
-  },
-  {
-    "id": "SG-GOV-counted-case-view-kept-on-the-case",
-    "kind": "partial-model",
-    "file": "src/core2/modules/constituent-cases.ts",
-    "line": 678,
-    "whatItFakes": "A counted resident's case moves no view of the official while they stay counted: the case row keeps the outcome, and their impression of the official and their tie to them are written only when they are filled in, dated the day of the fill-in. A counted group's ballot does not read the cases its members brought.",
-    "why": "Counted residents keep no impression of an official of their own, and the counted electorate's warmth toward a candidate is read from the town's named adults (voting.ts, townContacts). Filling a resident in to hold the view was the largest part of a played year's memory growth (play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth).",
-    "addedBy": "opus-5251",
-    "addedAt": "2026-11-11",
-    "replacement": "The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
-    "status": "open"
   }
 ]
