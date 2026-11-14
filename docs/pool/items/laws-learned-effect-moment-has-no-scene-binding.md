@@ -28,7 +28,7 @@ root: rc10-screens-keep-own-facts
 
 **Rules.** Ask why (owner, Oct 14): the scene and the journal line cite the learned record by id, so a scene that cites nothing is a defect. The scene is a view of the same record (owner, Oct 28).
 
-**Done when.** A second session, not the builder, runs `src/core2/laws-end-to-end.test.ts` on main in a drawn place and sees the chain complete (a learned person with a scene line and a journal line citing the learned record), then plays the same place in dev mode and sees the scene for that person.
+**Done when.** A second session, not the builder, runs the laws-end-to-end test on main in a drawn place and sees the chain complete (a learned person with a scene line and a journal line citing the learned record), then plays the same place in dev mode and sees the scene for that person.
 
 **Waits on.** Nothing.
 
