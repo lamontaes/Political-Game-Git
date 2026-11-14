@@ -24,11 +24,11 @@ root: rc10-screens-keep-own-facts
 
 **Fix.** Build drawn worlds without playing a day, list which have an employer short on two paydays, pin one place and seed from that list, and fail with the place, the seed and the reason if the case does not finish. Keep the first case as it is. Check the case still fails when the one-draw-per-due-date rule is reverted.
 
-**Time box.** 90 minutes for one Sonnet session at medium effort. When it runs out, push what is found, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session at medium effort. When it runs out, push what is found, set the state honestly with a one-line note, and stop.
 
 **Rules.** Tests pick their place from data and finish in under about two minutes (skill `drawn-place-tests`). Ask why: the draw cites the employer's pay record by id.
 
-**Done when.** A second session, not the builder, runs the file on main and both cases pass in under two minutes with the pinned place and seed named in the output, and the case fails when the per-due-date rule is reverted.
+**Done when.** A second session, not the builder, runs the test file on main in a drawn place and a place nobody chose, and both cases pass in under two minutes with the pinned place and seed named in the output, and the case fails when the per-due-date rule is reverted.
 
 **Waits on.** Nothing.
 
