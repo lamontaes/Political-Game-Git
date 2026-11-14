@@ -12,11 +12,13 @@
  * moves when a life does. Sizes: `src/core2/data/views/stakes.json`.
  */
 import {
+  changedFacts,
   DATA,
   reference,
   WORKING_FROM,
   WORKING_TO,
   YOUNG_CHILD_UNDER,
+  type LifeFact,
   type LifeFacts,
   type LifeStake,
 } from "./life-stake-rule";
@@ -127,6 +129,59 @@ function incomeOf(core: CoreState, index: MonthIndex, householdId: string) {
   return index.incomes.byHousehold.get(householdId) ?? 0;
 }
 
+/**
+ * Each full person's circumstances as their stance was last told them: set
+ * the first time they are read, and moved on when a change is told
+ * (`lifeChangesOf`).
+ */
+const toldBy = new WeakMap<CoreState, Map<string, LifeFacts>>();
+function toldOf(core: CoreState): Map<string, LifeFacts> {
+  let told = toldBy.get(core);
+  if (!told) toldBy.set(core, (told = new Map()));
+  return told;
+}
+
+/** Keep a full person's reading for the day, and as what their stance was told if nothing was yet. */
+function keep(
+  core: CoreState,
+  index: MonthIndex,
+  person: Readonly<PersonState>,
+  stake: LifeStake,
+): LifeStake {
+  index.byPerson.set(person.id, { date: core.date, stake });
+  const told = toldOf(core);
+  if (!told.has(person.id)) told.set(person.id, stake.facts);
+  return stake;
+}
+
+/**
+ * Which of a full person's circumstances changed since their stance was last
+ * told, read from their records now (not the day's kept reading), and tell
+ * it: the next call compares against today. Empty the first time they are read.
+ */
+export function lifeChangesOf(
+  core: CoreState,
+  person: Readonly<PersonState>,
+): LifeFact[] {
+  const told = toldOf(core);
+  const before = told.get(person.id);
+  monthIndex(core).byPerson.delete(person.id);
+  const now = fullLifeStake(core, person);
+  if (!before) return [];
+  told.set(person.id, now.facts);
+  return changedFacts(before, now.facts);
+}
+
+/** The full people whose circumstances have been read, in the order first read: the ones a review reads again. */
+export function lifeReadPeople(core: CoreState): string[] {
+  return [...toldOf(core).keys()];
+}
+
+/** Stop following someone (died, or returned to the counts). */
+export function forgetLife(core: CoreState, personId: string): void {
+  toldOf(core).delete(personId);
+}
+
 const openJob = (core: CoreState, person: Readonly<PersonState>) => {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   return job && job.endsAt === undefined ? job : undefined;
@@ -148,9 +203,10 @@ export function fullLifeStake(
     // Someone living where the engines keep no records (a relative far
     // away): their circumstances are not known, so each sits at the nation's
     // average and adds nothing.
-    const stake: LifeStake = { facts: NATIONAL, care: lifeCare(core, person) };
-    index.byPerson.set(person.id, { date: core.date, stake });
-    return stake;
+    return keep(core, index, person, {
+      facts: NATIONAL,
+      care: lifeCare(core, person),
+    });
   }
   const age = ageOnDate(person.birthDate, core.date);
   const working = age >= WORKING_FROM && age < WORKING_TO;
@@ -192,8 +248,7 @@ export function fullLifeStake(
     },
     care: lifeCare(core, person),
   };
-  index.byPerson.set(person.id, { date: core.date, stake });
-  return stake;
+  return keep(core, index, person, stake);
 }
 
 /** A counted household's members' facts, kept until the household changes or the month turns. */

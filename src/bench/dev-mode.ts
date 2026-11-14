@@ -63,6 +63,7 @@ import {
   executiveOf,
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
+  holdEveryChamber,
   holdVote,
   learnStake,
   sectionsAddedTo,
@@ -101,7 +102,7 @@ import {
   healthReport,
 } from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
-import type { CoreAPI, CoreState } from "../core2/types";
+import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
 import { buildBenchWorld, buildRecipeOf } from "./world";
 import type { BenchPlayer } from "./player";
@@ -1156,7 +1157,8 @@ export class DevMode {
         vote(chamber, options.overrideMargin, true);
     if (veto && options.sign !== undefined)
       executiveDecision(api, billId, options.sign);
-    const held = holdVote(api, billId);
+    // Each chamber votes in its turn; dev mode holds the next chamber's vote now, not on its sitting.
+    const held = holdEveryChamber(api, billId);
     const records = committeeRecords(api, billId).map((c) => ({
       chamber: c.chamber,
       heard: c.heard,
@@ -1299,6 +1301,22 @@ export class DevMode {
   }
 
   /**
+   * The player's scenes that wait for them, highest rank first: each with its
+   * type, its rank against the life's pace, the day it was staged, the last
+   * day it may open and whether it is due now, from the director's one list
+   * (`waitingScenes`), so a second session can set the ledger beside what
+   * played.
+   */
+  waitingScenes() {
+    const personId = this.player?.personId;
+    if (!personId || !this.director) return [];
+    return this.director.waitingScenes(
+      personId as PersonId,
+      makeIsoDate(this.core.date),
+    );
+  }
+
+  /**
    * The pickers for one situation type's force-scene form, from the director's own records: `for` is
    * each person the director tells a story for; `mourned` (death scenes only) is each living person
    * they know whom the health module's illness could take; `where` is the kinds of place the type may
@@ -1340,6 +1358,35 @@ export class DevMode {
           : null,
       where: [...type.setting],
     };
+  }
+
+  /**
+   * Who falls ill to bring a type about: the player, unless the type's illness cause is about someone
+   * else (its match names a counterpart, as a care visit does), then the first of the player's
+   * household at home.
+   */
+  private illFor(
+    typeKey: string,
+    player: ReturnType<CoreState["people"]["get"]>,
+  ) {
+    if (!player) return undefined;
+    const aboutOther = SITUATION_LIBRARY.types
+      .find((row) => row.key === typeKey)
+      ?.causes?.some(
+        (cause) =>
+          cause.match?.label === "feeling:event:health.serious-illness" &&
+          cause.match?.counterpart === "some",
+      );
+    if (!aboutOther) return player.id;
+    const home = this.core.households.get(player.householdId);
+    return (
+      [...(home?.memberIds ?? [])].find(
+        (id) =>
+          id !== player.id &&
+          this.core.people.get(id)?.alive &&
+          this.core.people.get(id)?.placeId === player.placeId,
+      ) ?? player.id
+    );
   }
 
   /**
@@ -1417,7 +1464,7 @@ export class DevMode {
             (id) => id && this.core.people.get(id)?.jobId,
           )
         : scene.recipe === "illness"
-          ? player?.id
+          ? this.illFor(input.typeKey, player)
           : circle[0]);
     if (!personId)
       throw new Error("No one in the player's circle to bring it about for.");
@@ -1436,7 +1483,8 @@ export class DevMode {
       scene.recipe === "layoff"
         ? this.forceLayoff(personId)
         : this.forceIllness(personId);
-    // An illness is the player's own where the type is about them, so the scene follows from it.
+    // An illness is the player's own where the type is about them, or one at home's where the type is
+    // about the one who comes to them (a care visit), so the scene follows from it.
     return {
       ...out,
       recipe: scene.recipe,
@@ -1706,9 +1754,12 @@ export class DevMode {
     });
   }
 
-  /** The body holds its vote today. */
+  /**
+   * The body holds its vote today: in a two-chamber legislature, the vote of the chamber whose
+   * turn it is, now rather than on that chamber's sitting.
+   */
   holdVote(billId: string) {
-    const bill = holdVote(this.api, billId);
+    const bill = holdVote(this.api, billId, { anyDay: true });
     return {
       mark: this.mark("hold-vote", [billId], { billId, status: bill.status }),
       bill,

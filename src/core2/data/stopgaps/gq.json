@@ -28,18 +28,6 @@
     "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
-    "id": "SG-GQ-no-turnover",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/counted-moves.ts",
-    "line": 1319,
-    "whatItFakes": "Institutions refill a room when a resident dies or is filled in (admitToRooms in counted-moves.ts), but nobody is discharged on the institution's own calendar: students and service members still age in place and an institution never grows or shrinks from its beds.",
-    "why": "The moves engines move households by the ACS leaving rates, which would drift a SOURCED count of residents who arrive and leave by an institution's own calendar (a college's intake, a prison's admissions), so rooms are skipped, by the same rule for counted and full residents, and no intake is built yet.",
-    "addedBy": "claude/speed-group-quarters-population",
-    "addedAt": "2026-11-01",
-    "replacement": "Discharge by each type's own calendar (a college's graduating class each spring and intake each fall, a prison's releases and admissions, a nursing home's stays) so rooms turn over; today only the vacancy refill (admitToRooms in counted-moves.ts) exists.",
-    "status": "open"
-  },
-  {
     "id": "SG-GQ-census-day-2020",
     "kind": "assumed-data",
     "file": "src/core2/gov-rules/place-population.ts",
@@ -94,18 +82,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
-  },
-  {
-    "id": "SG-GQ-means-tests-poverty",
-    "kind": "faked-mechanic",
-    "file": "src/core2/counted-reach.ts",
-    "line": 207,
-    "whatItFakes": "Narrowed Nov 11, 2026: the poverty count (src/core2/world-poverty.ts) and counted law reach (src/core2/counted-reach.ts) no longer read a group-quarters room as a poor household. What remains is law reach in src/core2/law-reach/group-b-people.ts, which still reads zero-income group-quarters room records as poor households: an inmate or a nursing-home resident reads as eligible there; no program records whether it serves group quarters (Medicaid does, SNAP and cash assistance do not). A room's counted group is keyed to the income fifth its zero or student income reads as (src/core2/modules/residents.ts, groupKeyOf); the jobs, health and births webs read no fifth for a room.",
-    "why": "Room records are counted households to those readers, which read no group-quarters type.",
-    "addedBy": "claude/speed-group-quarters-population",
-    "addedAt": "2026-11-01",
-    "replacement": "The Census poverty universe (no institutional, military or college-dormitory residents) for the poverty count, and each program's own eligibility for law reach; laws lead (pool item laws-group-quarters-means-tests).",
-    "status": "open"
   },
   {
     "id": "SG-GQ-crime-exposure",

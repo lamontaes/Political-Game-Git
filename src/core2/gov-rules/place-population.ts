@@ -221,6 +221,23 @@ export function groupQuartersProfileOf(
   return groupQuartersProfile.types[type];
 }
 
+/** How long a type's residents stay and when its calendar admits and discharges them (TUNABLE, with a spread); none for a type whose stays end when the resident dies. */
+export interface GroupQuartersStay {
+  readonly years: number;
+  readonly spread: { readonly low: number; readonly high: number };
+  /** Months (1 to 12) the institution discharges in; absent means every month alike. */
+  readonly leaveMonths?: readonly number[];
+  /** Months it admits in; absent means a room refills as soon as it stands empty. */
+  readonly intakeMonths?: readonly number[];
+}
+
+export function groupQuartersStayOf(
+  type: GroupQuartersType,
+): GroupQuartersStay | undefined {
+  return (groupQuartersProfile.types[type] as { stay?: GroupQuartersStay })
+    .stay;
+}
+
 /** People in institutions and in the armed forces are outside the civilian labor force: they neither hold nor seek a civilian job. */
 export function outsideLaborForce(
   type: GroupQuartersType | undefined,
