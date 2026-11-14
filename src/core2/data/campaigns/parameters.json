@@ -1415,7 +1415,7 @@
     "recallTermOpeningDays": {
       "value": 180,
       "tag": "ESTIMATED",
-      "source": "Days into a term before a recall petition may be filed against the officeholder: state recall statutes commonly bar a petition in a term's first 90 days to 6 months, and once a recall fails, for the rest of the term (NCSL, Recall of Local Officials; e.g., Cal. Elec. Code 11007 at 90 days, Mich. Comp. Laws 168.951a at 6 months). One national bar stands until each state's statute is read (SG-GOV-recall-bars-national).",
+      "source": "Days into a term before a recall petition may be filed against the officeholder: state recall statutes commonly bar a petition in a term's first 90 days to 6 months, and once a recall fails, for the rest of the term (NCSL, Recall of Local Officials; e.g., Cal. Elec. Code 11007 at 90 days, Mich. Comp. Laws 168.951a at 6 months). This national estimate applies only to a state with a petitioned local recall and no row in recall-bars.json; every one of the 21 such places has a row read from its own statute.",
       "spread": [90, 365]
     },
     "budgetCompromiseRounds": {
