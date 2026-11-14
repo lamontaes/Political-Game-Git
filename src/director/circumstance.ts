@@ -77,6 +77,14 @@ export interface CircumstanceRow {
    */
   afterDays?: number;
   /**
+   * The news keeps: the most days after the record that the circumstance may
+   * still come, where the day it was due went to another scene. The record
+   * is offered again each day from `afterDays` until the row has staged its
+   * scene for it or the news is stale (a committee formed is news for a
+   * week or two). A row without it comes on its one day or not at all.
+   */
+  keepsDays?: number;
+  /**
    * The row follows a record of the player's own life (their school year
    * ending): the week's spacing between scenes from circumstance does not
    * hold it back.

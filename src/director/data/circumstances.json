@@ -622,7 +622,8 @@
       "typeKey": "study-formed",
       "outcome": "scene.reply",
       "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceHallwayEveryDays"
+      "everyParameter": "directorCircumstanceHallwayEveryDays",
+      "keepsDays": 14
     },
     {
       "id": "study-reported-member",
