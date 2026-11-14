@@ -2245,7 +2245,9 @@ function decideTurnout(
     votes = act.votes;
     // Not on the rolls: where they would have gone to vote, the day keeps
     // that they registered at the polls or were turned away.
-    if (reg.share < 1) {
+    // The player's own day is the player's to act: the engine keeps no
+    // poll-day row for a guess about them.
+    if (reg.share < 1 && voter.id !== (api.state as CoreState).playerId) {
       const person = api.state.people.get(voter.id)!;
       if (reg.sameDay && votes) {
         registeredAtPolls = 1;

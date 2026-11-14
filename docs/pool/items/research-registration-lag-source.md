@@ -1,6 +1,6 @@
 ---
 id: research-registration-lag-source
-title: "Research: source the wait to register after a move, and the registration deadline"
+title: "Research: check how movers register against long-time residents, and the deadline"
 area: elections
 kind: research
 priority: 3
@@ -19,19 +19,19 @@ source: Account lead thread "Voter registration as a record", Nov 14
 claimed-at:
 ---
 
-**What.** `registrationLagMedianDays` (80), `registrationLagDutySlope` (0.6) and `registrationDeadlineDays` (25) in src/core2/data/campaigns/parameters.json are the game's own estimates of how long a mover or a new 18-year-old takes to register, and how many days before an election a registration has to be on the rolls. Find public sources for the registration rate of recent movers against long-time residents (the Census Bureau's voting and registration supplement) and the registration deadline of each state, and replace the estimates with sourced values and ranges. Seen: in how many movers can't vote in the next election, and in who is turned away at the polls.
+**What.** The game's wait to register after a move (`registrationLagMedianDays` 80, `registrationLagDutySlope` 0.6 in src/core2/data/campaigns/parameters.json) rests on one relationship: recent movers are on the rolls at a lower rate than long-time residents, and people who care more about voting register sooner. The deadline row (`registrationDeadlineDays` 25) rests on a second: a registration has to be on the rolls some days before an election. Read public sources (the Census Bureau's voting and registration supplement, state election office pages) only to confirm the direction and rough size of those two relationships. The owner's ruling (Nov 14): sources establish relationships and effects, never exact figures, so no figure is asked for. Seen: in how many movers can't vote in the next election.
 
 **Cause.** Design: docs/research/stand-in-figures-2026-10-12.md lists the stand-in figures the research items replace; these three were set on Nov 14 with no source fetched (voter registration record PR), tagged ESTIMATED with spreads; the owner's rule is that every number is SOURCED, ESTIMATED or TUNABLE with its source and spread (AGENTS.md, Placeholders).
 
-**Fix.** Replace each row's value, citation and spread with what a fetched source says (publisher, year, URL, unit). Where the sources give a deadline per state, put the deadlines in a data table by state and read it where `registrationDeadlineDays` is read in src/core2/modules/voting.ts (`registrationReading`); keep the rule in src/core2/electorate-registration.ts as it is.
+**Fix.** Keep the three rows as unverified estimates with their spreads. Where a source shows the relationship is weaker, stronger or the other way, change the row to match it and say what was read in the row's citation. Nothing is held for an exact figure.
 
 **Time box.** 3 hours for one Sonnet session at medium effort. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Research before building: real data calibrates the wait and never decides whether one person registers; a person's wait comes from their own duty (no dice, `no-dice`). Estimate, never UNKNOWN: each stays an estimate until a source is read.
 
-**Done when.** A second session reads the three rows in a drawn place's played world (place and seed named, any of the 56) and finds each SOURCED or ESTIMATED with a fetched citation (publisher, year, URL) and a spread, and finds a named mover's registration at the new address dated by the sourced wait, by record id.
+**Done when.** A second session reads the three rows and finds each still an estimate with a spread, and a note that names what was read and whether it supports the direction of the relationship, and finds a named mover's registration at the new address in a drawn place's played world (place and seed named, any of the 56), by record id.
 
-**Waits on.** The voter registration record PR folding into the train.
+**Waits on.** Nothing.
 
 **Files.** src/core2/data/campaigns/parameters.json
 
