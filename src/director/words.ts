@@ -131,6 +131,8 @@ export function organizationName(org: {
   const key = org.governmentFacts?.governmentKey;
   if (typeof key !== "string") return properName(org.name);
   const treasury = /\s+treasury$/i.exec(org.name);
-  const government = treasury ? org.name.slice(P.zero, treasury.index) : org.name;
+  const government = treasury
+    ? org.name.slice(P.zero, treasury.index)
+    : org.name;
   return `${governmentProperName(government, key)}${treasury ? " treasury" : ""}`;
 }
