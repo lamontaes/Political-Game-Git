@@ -113,7 +113,7 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
-import { bargainFacts } from "./bargain-facts";
+import { bargainFacts, sponsorAmountFacts } from "./bargain-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
@@ -1627,6 +1627,9 @@ function composeBinding(
         : undefined;
   if (standing && !door && !serve && said.billId)
     bargainFacts(core, facts, said.billId, askerId, askedId, moment.causeId);
+  // A sponsor asking for the player's vote on their own amount bill.
+  if (!type.playerAsks && type.purpose === "ask-vote" && said.billId)
+    sponsorAmountFacts(core, facts, said.billId, askerId, moment.causeId);
   if (type.playerAsks && !standing)
     return {
       kind: "skipped",

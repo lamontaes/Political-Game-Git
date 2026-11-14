@@ -480,20 +480,20 @@
   },
   "amounts": {
     "income-tax": {
-      "subject": "the local income tax rate",
-      "purpose": "set the rate of the local income tax",
-      "raise": "the local income tax rate shall be raised from {before} to {value}",
-      "lower": "the local income tax rate shall be lowered from {before} to {value}",
-      "raiseTo": "the local income tax rate shall be raised to {value}",
-      "lowerTo": "the local income tax rate shall be lowered to {value}"
+      "subject": "the income tax rate",
+      "purpose": "set the income tax rate",
+      "raise": "the income tax rate shall be raised from {before} to {value}",
+      "lower": "the income tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the income tax rate shall be raised to {value}",
+      "lowerTo": "the income tax rate shall be lowered to {value}"
     },
     "sales-tax": {
-      "subject": "the local sales tax rate",
-      "purpose": "set the rate of the local sales tax",
-      "raise": "the local sales tax rate shall be raised from {before} to {value}",
-      "lower": "the local sales tax rate shall be lowered from {before} to {value}",
-      "raiseTo": "the local sales tax rate shall be raised to {value}",
-      "lowerTo": "the local sales tax rate shall be lowered to {value}"
+      "subject": "the sales tax rate",
+      "purpose": "set the sales tax rate",
+      "raise": "the sales tax rate shall be raised from {before} to {value}",
+      "lower": "the sales tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the sales tax rate shall be raised to {value}",
+      "lowerTo": "the sales tax rate shall be lowered to {value}"
     },
     "minimum-wage": {
       "subject": "the minimum wage",
