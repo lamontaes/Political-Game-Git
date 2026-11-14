@@ -58,6 +58,12 @@ export interface JournalWordRow {
   /** An event fact that, where it names the person, marks the stage ("signed:desk"). */
   stageSelf?: { fact: string; mark: string };
   /**
+   * Where the record names the person but not as the one who acted (a bill's
+   * sponsor, for the executive's act), these stages carry the mark
+   * ("overridden:sponsor"), so only the lines said by the one named fit.
+   */
+  stageNamed?: { mark: string; stages: readonly string[] };
+  /**
    * The person's own moment is told even when they do not know the other by
    * name (a recall's organizer): its lines that name the other are left out.
    */
@@ -111,6 +117,7 @@ export interface RowShape {
   stageWords?: Readonly<Record<string, string>>;
   stageMark?: JournalWordRow["stageMark"];
   stageSelf?: JournalWordRow["stageSelf"];
+  stageNamed?: JournalWordRow["stageNamed"];
   toldWithoutOther?: boolean;
   title?: JournalWordRow["title"];
   selfWhenNamed?: boolean;

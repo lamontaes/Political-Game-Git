@@ -1975,11 +1975,21 @@ export function composeJournal(
       return `${stage}:${row.stageMark.mark}`;
     // The one the record names in a fact (the executive who signed) tells
     // it in their own words, apart from the others it names (the sponsor).
-    return stage !== undefined &&
+    if (
+      stage !== undefined &&
       row.stageSelf &&
       logged?.[row.stageSelf.fact] === personId
-      ? `${stage}:${row.stageSelf.mark}`
-      : stage;
+    )
+      return `${stage}:${row.stageSelf.mark}`;
+    // The one the record names who did not act (the bill's sponsor) tells it
+    // as theirs: "My bill, ..., became law over Mara's veto."
+    if (
+      stage !== undefined &&
+      row.stageNamed?.stages.includes(stage) &&
+      core.durableLog.get(moment.causeId)?.personIds.includes(personId)
+    )
+      return `${stage}:${row.stageNamed.mark}`;
+    return stage;
   };
 
   const through = options.through ?? core.date;

@@ -14,6 +14,7 @@
     "office": "An office, from the candidate filing record.",
     "age": "An age, computed from the birth record.",
     "law": "A law or ordinance, as its record names it.",
+    "law-name": "A law or ordinance by its name alone, without its number: the Police Oversight Ordinance.",
     "name": "A person, by name, from the records.",
     "whose": "A person's name with 's, from the records.",
     "votes": "A vote margin, from the results record.",
@@ -6548,10 +6549,10 @@
       }
     },
     {
-      "key": "journal.office-line-took-office.law-became-law-without-my-signature",
+      "key": "journal.office-line-took-office.law-name-became-law-without-my-signature",
       "move": "office-line-took-office",
       "kind": "spoken",
-      "text": "{law} became law without my signature.",
+      "text": "{law-name} became law without my signature.",
       "uses": [
         {
           "move": "office-line-took-office",
@@ -6574,10 +6575,10 @@
       }
     },
     {
-      "key": "journal.office-line-took-office.i-let-law-become-law-unsigned",
+      "key": "journal.office-line-took-office.i-let-law-name-become-law-unsigned",
       "move": "office-line-took-office",
       "kind": "spoken",
-      "text": "I let {law} become law unsigned.",
+      "text": "I let {law-name} become law unsigned.",
       "uses": [
         {
           "move": "office-line-took-office",
@@ -6600,10 +6601,10 @@
       }
     },
     {
-      "key": "journal.office-line-took-office.i-never-signed-law-it-is-law-anyway",
+      "key": "journal.office-line-took-office.i-never-signed-law-name-it-is-law-anyway",
       "move": "office-line-took-office",
       "kind": "spoken",
-      "text": "I never signed {law}. It is law anyway.",
+      "text": "I never signed {law-name}. It is law anyway.",
       "uses": [
         {
           "move": "office-line-took-office",
@@ -6626,10 +6627,10 @@
       }
     },
     {
-      "key": "journal.office-line-took-office.law-became-law-other-never-signed-it",
+      "key": "journal.office-line-took-office.law-name-became-law-other-never-signed-it",
       "move": "office-line-took-office",
       "kind": "spoken",
-      "text": "{law} became law. {other} never signed it.",
+      "text": "{law-name} became law. {other} never signed it.",
       "uses": [
         {
           "move": "office-line-took-office",
