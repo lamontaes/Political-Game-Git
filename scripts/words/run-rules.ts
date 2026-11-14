@@ -24,6 +24,7 @@ import {
   REPLY_FOLLOWS,
   REPLY_RULE,
   REPLY_STORE,
+  REPLY_STORE_TABLE,
 } from "../../src/english/reply-follows";
 import { verdictId, type JudgedStores } from "../../src/english/judged";
 import { playable } from "../../src/english/bank-parts";
@@ -40,10 +41,13 @@ import {
 } from "../../src/english/rulings-read";
 import {
   awaitingAfter,
+  judgesExchanges,
+  PAIRS_COUNTED,
   pulledFileOf,
   runRules,
   usesWithTags,
   type PlaceReports,
+  type LinePair,
   type LineRule,
   type LineRulesFile,
   type PulledFile,
@@ -144,6 +148,31 @@ export function replyFollowsReport(
   });
 }
 
+/**
+ * The pairs the exchange rules judge: every (line before, line) the picker can
+ * offer, both with the pairs those rules barred kept out (what plays now) and
+ * with them left in (so a barred pair stays judged and stays barred).
+ */
+export function exchangePairs(): LinePair[] {
+  const parts = playableParts();
+  const seen = new Set<string>();
+  const out: LinePair[] = [];
+  for (const verdicts of [REPLY_FOLLOWS, REPLY_STORE_TABLE])
+    for (const pair of distinctPairs(
+      replyPairs(parts, {
+        scenes: talkScenes(),
+        flow: talkReplyFlow,
+        verdicts,
+      }),
+    )) {
+      const id = `${pair.before}\u0000${pair.reply}`;
+      if (seen.has(id)) continue;
+      seen.add(id);
+      out.push({ before: pair.before, reply: pair.reply });
+    }
+  return out;
+}
+
 /** What was read besides the rules' words: his grade notes and his rulings from the other places. */
 export function readReading(rules: readonly LineRule[]): ReadingReport {
   const files = readdirSync(GRADES_DIR)
@@ -196,6 +225,7 @@ export function freshRun(): {
     readLedger(),
     { [REPLY_RULE]: replyFollowsReport(pieces) } satisfies PlaceReports,
     stores,
+    rules.some(judgesExchanges) ? exchangePairs() : [],
   );
   const { counts, rose } = awaitingAfter(
     result.awaitingVerdict,
@@ -217,7 +247,7 @@ export const roseMessage = (row: {
   fresh: number;
   committed: number;
 }) =>
-  `${row.rule}: ${row.fresh} lines wait for a verdict, more than the ${row.committed} committed. Judge the new or changed lines: npm run words:pairs -- --rule ${row.rule} --out <dir outside the repository>, then npm run words:verdicts -- --from <dir>.`;
+  `${row.rule}: ${row.fresh} lines or pairs wait for a verdict, more than the ${row.committed} committed. Judge the new or changed lines: npm run words:pairs -- --rule ${row.rule.replace(PAIRS_COUNTED, "")} --out <dir outside the repository>, then npm run words:verdicts -- --from <dir>.`;
 
 const quote = (text: string) => `"${text.replace(/\s+/g, " ").trim()}"`;
 
@@ -290,7 +320,19 @@ export function reportOf(
       `Notes behind it: ${rule.from.length}${rule.research ? `, research ${rule.research.length}` : ""}. ` +
         `Lines it flags: ${row.flagged}. Pulled: ${row.pulled}. Waiting: ${row.waiting}.`,
     );
-    if (row.verdicts)
+    if (row.verdicts && judgesExchanges(rule)) {
+      const barredHere = Object.values(result.barred).reduce(
+        (sum, row) =>
+          sum +
+          Object.values(row).filter((at) => at.startsWith(`${rule.id}:`))
+            .length,
+        0,
+      );
+      lines.push(
+        "",
+        `Each line judged after each line it answers (alone when it answers none). Judged: ${row.verdicts.judged}. Judged bad: ${row.verdicts.bad}. Waiting for a verdict: ${row.verdicts.waiting}; they play. Pairs barred: ${barredHere}.`,
+      );
+    } else if (row.verdicts)
       lines.push(
         "",
         `Lines judged: ${row.verdicts.judged}. Judged bad: ${row.verdicts.bad}. Waiting for a verdict: ${row.verdicts.waiting}; they play.`,

@@ -179,7 +179,7 @@ export function strongestQuestion(
  * money (the question is about prices, rent or taxes, and the trait engine's
  * hardship stress is past zero), else none. Each cites its record.
  */
-function viewReason(
+export function viewReason(
   core: Readonly<CoreState>,
   personId: PersonId,
   question: string,
