@@ -447,6 +447,7 @@
   "housingPriceRateResponse": {
     "value": 0.6,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "Glaeser, Gottlieb and Gyourko, 'Can Cheap Credit Explain the Housing Boom?' (NBER w16230, 2010): a one-point fall in the real rate raised prices about 7 to 8 percent, against about 11 to 12 percent for the loan a fixed payment carries near a 5 percent rate, so prices pass on about 0.6 of the change in that loan.",
     "estimatedFrom": "How much of the change in the loan a fixed monthly payment carries at the 30-year rate reaches the price level (ln F = ln pay + this x ln A(rate)). Checked by scripts/research/home-price-fit.ts (fit period 2007-01 to 2024-12, monthly, against the unweighted mean of FHFA's 50 state and D.C. all-transactions indexes, published pay and 30-year rates): the free fit with momentum lands at 0.60.",
     "spread": {
@@ -459,6 +460,7 @@
   "housingPriceMomentum": {
     "value": 0.6,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "Capozza, Hendershott, Mack and Mayer, 'Determinants of Real House Price Dynamics' (NBER w9262, 2002): the serial correlation of yearly real house price changes across 62 metro areas, 1979-1995, averages about 0.6.",
     "estimatedFrom": "The share of last year's change in the level that carries into this year (buyers expect it to go on). Checked by scripts/research/home-price-fit.ts (fit period 2007-01 to 2024-12, monthly, against the unweighted mean of FHFA's 50 state and D.C. all-transactions indexes, published pay and 30-year rates): the free fit lands at 0.65.",
     "spread": {
@@ -471,6 +473,7 @@
   "housingPriceReversionPerYear": {
     "value": 0.17,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "Capozza, Hendershott, Mack and Mayer (NBER w9262, 2002): prices close about 17 percent a year of the gap to what fundamentals support, on average across metro areas.",
     "estimatedFrom": "The share of the gap between the level and what pay and rates support that closes in a year (a twelfth each month). Checked by scripts/research/home-price-fit.ts (fit period 2007-01 to 2024-12, monthly, against the unweighted mean of FHFA's 50 state and D.C. all-transactions indexes, published pay and 30-year rates).",
     "spread": {
@@ -483,6 +486,7 @@
   "housingPricePressureResponse": {
     "value": 0.01,
     "tag": "TUNABLE",
+    "role": "coefficient",
     "citation": "Housing engine: the largest monthly move the month's buyers against homes offered can make (one percent), reached smoothly through tanh.",
     "estimatedFrom": "Checked so the yearly change in a drawn town's level sits inside the spread of FHFA state yearly changes (about -10 to +20 percent a year, 1990-2024) over 30 unattended years (the PR's table).",
     "spread": {
@@ -494,6 +498,7 @@
   "housingPricePressureScale": {
     "value": 0.005,
     "tag": "TUNABLE",
+    "role": "coefficient",
     "citation": "Housing engine: the imbalance of buyers over homes offered, as a share of the homes owned in a month, at which the pressure term reaches about three quarters of its largest move. About 0.4 percent of owned homes sell in a month (NAR existing-home sales over the owner-occupied stock, about 5 percent a year), so a month whose buyers or homes offered run one turnover ahead moves the level most.",
     "estimatedFrom": "Checked with housingPricePressureResponse in the same table.",
     "spread": {

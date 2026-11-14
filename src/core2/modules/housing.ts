@@ -69,7 +69,6 @@ import {
   type PriceLevel,
 } from "../housing-prices";
 import { economyMonthBefore, pastPriceRatio } from "../housing-price-path";
-import { webReach } from "../outcome-web-reach";
 import {
   countBuyer,
   homeValueToday,
@@ -94,7 +93,7 @@ import {
   regroupHousehold,
   residentsRuntime,
 } from "./residents";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";

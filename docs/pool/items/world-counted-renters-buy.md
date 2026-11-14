@@ -46,3 +46,5 @@ Sent back 2026-10-20 from PR #5367 (branch claude/housing-construction-stopgap):
 Oct 25 audit: PR #5367 changes notes and a declaration only; the build is still to do (from the dropped world-counted-renters-buy-build).
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Nov 14, 2026 (Account lead T49): until counted renters buy, a town's home price level (world-home-prices-from-housing) counts counted owners' sales as homes offered but no counted purchases, so its buyers-against-homes-offered pressure leans down. Measured with `node --import tsx scripts/research/home-price-paths.ts --seed d4 --place 2132428 --years 30` (Gratz, Kentucky): no buyers in 30 years, 45 owned homes down to 9, the level flat in dollars over 30 years.
