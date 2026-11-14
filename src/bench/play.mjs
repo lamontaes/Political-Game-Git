@@ -1886,6 +1886,7 @@ async function campaignParts() {
     outings,
     standing,
     debates,
+    team,
     pictures,
     runningMate,
   } of v.campaigns) {
@@ -2243,7 +2244,41 @@ async function campaignParts() {
             ]),
           ),
         ],
-        [buttonTray(out)],
+        [
+          // The inbox: only requests a record holds (a debate the outlet invited you to), each
+          // opening where it is answered; no heading when there is none.
+          ...(debates?.length
+            ? [
+                stripSection(
+                  3,
+                  labelsC.inbox,
+                  ...debates.map((debate) => {
+                    const open = makeButton({ textContent: labelsC.inboxOpen });
+                    open.addEventListener("click", () => trailView(part));
+                    return deskBill(
+                      line(controls.debate?.title ?? labelsC.debate),
+                      line(dateWords(debate.date)),
+                      buttonRow(open),
+                    );
+                  }),
+                ),
+              ]
+            : []),
+          // The team: the people on the campaign's own record, who runs it and who helps.
+          ...(team?.staff.length || team?.volunteers.length
+            ? [
+                stripSection(
+                  4,
+                  labelsC.team,
+                  ...team.staff.map((p) => row(p.name, labelsC.staff)),
+                  ...team.volunteers.map((p) =>
+                    row(p.name, labelsC.volunteers),
+                  ),
+                ),
+              ]
+            : []),
+          buttonTray(out),
+        ],
       ],
     });
     parts.push(part);
