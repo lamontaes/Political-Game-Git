@@ -45,10 +45,10 @@
       "note": "How much the participant's closeness to the others in the crowd (the sum of their ties to them, at most one) weighs: an organizer's capacity is the people who will follow them."
     },
     "movementBar": {
-      "value": 2.5,
+      "value": 2,
       "tag": "TUNABLE",
       "spread": "1.5 to 3.5",
-      "note": "What the case for founding must clear, with the participant's temperament added by the interest-groups lobbyist decision (speak out and engage against stay quiet and withdraw). Set so a fierce, large, well-tied crowd founds a group in weeks, a middling one in a few months and a weak one never; movements form over weeks to months (the sample of forming times is checked in public-action-movement.test.ts, one to six months)."
+      "note": "What the case for founding must clear, with the participant's temperament added by the interest-groups lobbyist decision (speak out and engage against stay quiet and withdraw). Set so a fierce, large, well-tied crowd founds a group in weeks, a middling one in a few months and a weak one never (2.5 until Nov 14, 2026, when a protest stopped being the whole town and became the people whose own view and week send them; re-checked at three drawn places, one to two months); movements form over weeks to months (the sample of forming times is checked in public-action-movement.test.ts, one to six months)."
     }
   },
   "areas": {
