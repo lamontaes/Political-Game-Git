@@ -2900,80 +2900,6 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.we-won",
-      "move": "election-line-own-result",
-      "kind": "spoken",
-      "text": "We won.",
-      "uses": [
-        {
-          "move": "election-line-own-result",
-          "subject": "election",
-          "role": "line",
-          "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 49,
-      "bySource": {
-        "chrg": 4,
-        "dcpd": 40,
-        "nasa": 4,
-        "senate": 1
-      },
-      "source": {
-        "document": "Remarks on Affordability in Macungie, Pennsylvania",
-        "date": "2026-06-23",
-        "granule": "DCPD-202600423",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600423",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "journal.election-line-own-result.we-lost",
-      "move": "election-line-own-result",
-      "kind": "spoken",
-      "text": "We lost.",
-      "uses": [
-        {
-          "move": "election-line-own-result",
-          "subject": "election",
-          "role": "line",
-          "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 2,
-        "dcpd": 3
-      },
-      "source": {
-        "document": "Remarks During an Event With Seniors in Middleton, Florida",
-        "date": "2026-05-01",
-        "granule": "DCPD-202600300",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600300",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "loss"
-      }
-    },
-    {
       "key": "journal.election-line-own-result.i-won-by-votes-votes",
       "move": "election-line-own-result",
       "kind": "spoken",
@@ -3064,6 +2990,292 @@
         "url": "https://www.govinfo.gov/app/details/DCPD-202500556",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-won-by-a-handful-of-votes",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I won by a handful of votes.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-lost-by-a-handful-of-votes",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I lost by a handful of votes.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-won-but-it-was-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I won, but it was close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-was-close-but-i-won",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It was close, but I won.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-lost-but-it-was-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I lost, but it was close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-was-close-and-i-lost",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It was close, and I lost.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-won-and-it-wasn-t-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I won, and it wasn't close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-lost-and-it-wasn-t-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I lost, and it wasn't close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-wasn-t-close-i-lost",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It wasn't close. I lost.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-won-in-a-landslide",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I won in a landslide.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-lost-in-a-landslide",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I lost in a landslide.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }

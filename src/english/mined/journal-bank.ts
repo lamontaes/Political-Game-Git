@@ -46,7 +46,14 @@ function resultStages(text: string): string[] | undefined {
 }
 
 /** How a race was decided, as the result record's totals show it. */
-export const RACE_MARGINS = ["close", "wide", "middle", "alone"] as const;
+export const RACE_MARGINS = [
+  "handful",
+  "close",
+  "wide",
+  "landslide",
+  "middle",
+  "alone",
+] as const;
 
 /**
  * One's own race, said by result and by margin ("won:close"): a line that
@@ -55,11 +62,17 @@ export const RACE_MARGINS = ["close", "wide", "middle", "alone"] as const;
  */
 function ownRaceStages(text: string): string[] {
   const results = resultStages(text) ?? ["won", "lost"];
-  const margins = /\b(?:wasn't|was not|not) close\b|\blandslide\b/i.test(text)
-    ? ["wide"]
-    : /\bclose\b/i.test(text)
-      ? ["close"]
-      : [...RACE_MARGINS];
+  const margins: readonly string[] = /\bhandful\b/i.test(text)
+    ? ["handful"]
+    : /\blandslide\b/i.test(text)
+      ? ["landslide"]
+      : /\b(?:wasn't|was not|not) close\b/i.test(text)
+        ? ["wide"]
+        : /\bclose\b/i.test(text)
+          ? ["close"]
+          : /^I (?:won|lost)\.$/.test(text)
+            ? ["middle", "alone"]
+            : RACE_MARGINS;
   return results.flatMap((result) =>
     margins.map((margin) => `${result}:${margin}`),
   );

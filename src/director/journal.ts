@@ -237,9 +237,15 @@ function raceMargin(
   const cast = votes.reduce((sum, count) => sum + count, zero);
   if (votes.length < P.two || !(cast > zero)) return "middle";
   const lead = (votes[zero]! - votes[one]!) / cast;
-  const { journalRaceCloseMargin, journalRaceWideMargin } =
-    DEFAULT_DIRECTOR_DATA.parameters;
+  const {
+    journalRaceHandfulMargin,
+    journalRaceCloseMargin,
+    journalRaceWideMargin,
+    journalRaceLandslideMargin,
+  } = DEFAULT_DIRECTOR_DATA.parameters;
+  if (lead <= journalRaceHandfulMargin!.value) return "handful";
   if (lead <= journalRaceCloseMargin!.value) return "close";
+  if (lead >= journalRaceLandslideMargin!.value) return "landslide";
   if (lead >= journalRaceWideMargin!.value) return "wide";
   return "middle";
 }
