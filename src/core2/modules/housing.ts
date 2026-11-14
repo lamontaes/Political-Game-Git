@@ -1697,10 +1697,24 @@ function review(api: CoreAPI): void {
   // Mortgages behind past the federal period go to the state's foreclosure.
   for (const { caseId, saleAt } of startForeclosures(api, law.usps))
     schedule(api, `sale:${caseId}`, saleAt, "housing-foreclosure-sale", caseId);
+  // An owner with a mortgage pays property tax through the lender's escrow, a
+  // twelfth a month; the rest pay on their place's own due dates.
+  const escrowed = new Set(
+    (
+      store(api).table("mortgages").rows() as unknown as {
+        householdId: string;
+        monthsLeft: number;
+        foreclosedAt?: string;
+      }[]
+    )
+      .filter((row) => row.monthsLeft > 0 && !row.foreclosedAt)
+      .map((row) => row.householdId),
+  );
   billPropertyTax(
     api,
     store(api).table("assessments"),
     ownedHomes(api),
+    (householdId) => escrowed.has(householdId),
     store(api).table("taxArrears"),
   );
   build(api);

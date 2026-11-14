@@ -40,6 +40,7 @@ import {
   type PastTown,
 } from "./past-bodies";
 import {
+  keepPastRacesLost,
   pastParameter,
   seededBetween,
   shiftDays,
@@ -52,7 +53,8 @@ import { cpsAgeBand, cpsTurnout } from "./electorate-places";
 import { viewOf } from "./modules/views";
 import { worldLevel } from "./world-draw";
 import viewsData from "./data/views/views.json" with { type: "json" };
-import type { CoreAPI, CoreState } from "./types";
+import type { CoreAPI, CoreState, PersonId } from "./types";
+import type { HistoryRecord } from "./pre-start";
 
 const viewsLeanMax = (): number =>
   (viewsData as unknown as { parameters: Record<string, { value: number }> })
@@ -407,6 +409,60 @@ function groupSplit(
 }
 
 /** The prior election of every elected seat covering the town. */
+/**
+ * The town's full person who fits a past race's challenger, or null: alive,
+ * living in town now and of the age to stand then, on the challenger's side of the lean (any side where
+ * the race kept none), and not the winner, a seat's holder or someone
+ * already named in another race. Of those, the most engaged first (the candidacy rule's
+ * engagement), then the lean nearest the challenger's, then the id: fit in a
+ * fixed order, never a roll. A counted person is never filled in for this.
+ * Whether they lived in town on the race's day is known only after the
+ * people pass writes their moves, so the race is told on their past only
+ * then (past-module.ts, the past's pre-start pass).
+ */
+function pastChallenger(
+  api: CoreAPI,
+  town: PastTown,
+  date: string,
+  challengerLean: number,
+  winnerId: string,
+  taken: ReadonlySet<string>,
+): string | null {
+  const core = api.state as CoreState;
+  const minimumAge = api.parameter("votingAge");
+  const fits = [...core.people.values()]
+    .filter(
+      (person) =>
+        person.alive &&
+        person.tier !== "husk" &&
+        person.placeId === town.townPlaceId &&
+        person.id !== winnerId &&
+        !taken.has(person.id) &&
+        ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date)) >=
+          minimumAge,
+    )
+    .map((person) => ({
+      id: person.id,
+      lean: leanOf(api, person.id),
+      engagement: viewOf(api, person.id)?.engagement ?? 0,
+    }))
+    .filter(
+      (row) =>
+        challengerLean === 0 ||
+        Math.sign(row.lean) === Math.sign(challengerLean),
+    )
+    .sort(
+      (a, b) =>
+        b.engagement - a.engagement ||
+        Math.abs(a.lean - challengerLean) - Math.abs(b.lean - challengerLean) ||
+        a.id.localeCompare(b.id),
+    );
+  return fits[0]?.id ?? null;
+}
+
+/** The record kind of a race lost before the game began, told on the loser's own list (src/core2/data/life/remembered.json). */
+export const PAST_RACE_LOST = "election.lost-before-start";
+
 export function buildPriorElections(
   api: CoreAPI,
   town: PastTown,
@@ -420,6 +476,16 @@ export function buildPriorElections(
     : null;
   const perWinner = pastParameter(api, "pastPromisesPerWinner");
   const lead = pastParameter(api, "pastCampaignLeadDays");
+  // Who is already in the town's past races: everyone who holds a seat now,
+  // and each challenger once named. Nobody is named to lose twice.
+  const named = new Set<string>();
+  for (const office of townOffices(api))
+    for (const seat of seatsOf(api, office.id))
+      for (const term of terms(api, seat.id)) {
+        const holder = holderId(api, term);
+        if (holder) named.add(holder);
+      }
+  const lost: Omit<HistoryRecord, "moduleId">[] = [];
   for (const office of townOffices(api)) {
     if (!office.elected) continue;
     for (const seat of seatsOf(api, office.id)) {
@@ -489,11 +555,25 @@ export function buildPriorElections(
                 pastParameter(api, "pastChallengerLeanMin"),
               )
             : seededBetween(town.seed, `${key}:challenger-lean`, -1, 1);
-        const challengerName = pastIdentityName(
-          town,
-          `${key}:challenger`,
-          date,
-        );
+        // The town's own person who fits the challenger, where one does, in a
+        // race the town's own people stand in (its own and the county's
+        // offices, a legislative district's seat); else a name drawn for the
+        // race, no person of the world.
+        const ownRace =
+          (office.level !== "state" && office.level !== "federal") ||
+          (office.level === "state" &&
+            seat.district !== null &&
+            !/large/i.test(seat.district));
+        const challengerId = ownRace
+          ? pastChallenger(api, town, date, challengerLean, winnerId, named)
+          : null;
+        // Picked before their moves are written, so a person who moved into the
+        // county after the race keeps the name on it and the pre-start pass
+        // writes no lost race on their past (past-module.ts checks residenceOn).
+        if (challengerId) named.add(challengerId);
+        const challengerName = challengerId
+          ? personName(api, challengerId)
+          : pastIdentityName(town, `${key}:challenger`, date);
         const promises = strongestQuestions(api, winnerId, perWinner).map(
           (stance): PromiseRow => ({
             id: `promise:past:${seat.id}:${date}:${stance.question}`,
@@ -526,7 +606,7 @@ export function buildPriorElections(
             incumbent: (term.serviceStart ?? term.startDate) < term.startDate,
           },
           {
-            personId: null,
+            personId: challengerId,
             name: challengerName,
             party: challengerParty,
             lean: challengerLean,
@@ -569,8 +649,34 @@ export function buildPriorElections(
               },
         };
         out.push(row);
+        // The race the challenger lost, on their own past: the life record
+        // tells it as it tells a race lost in play.
+        if (challengerId)
+          lost.push({
+            id: `${PAST_RACE_LOST}:${id}:${challengerId}`,
+            date: makeIsoDate(date),
+            kind: PAST_RACE_LOST,
+            placeId: town.townPlaceId,
+            personIds: [challengerId as PersonId],
+            facts: {
+              contestId: id,
+              office: office.title ?? office.kind,
+              votes: total - winnerVotes,
+              winnerVotes,
+              winnerId,
+            },
+            publicRecord: true,
+            source: {
+              tag: "ESTIMATED",
+              asOf: api.state.date,
+              citation: `The past race ${id}: its challenger, the town's person who fits it (past-elections.ts, pastChallenger).`,
+              estimatedFrom:
+                "Who lived in town by the race's day, was of age, leaned the challenger's way and was the most engaged.",
+            },
+          });
       }
     }
   }
+  keepPastRacesLost(api.state as CoreState, lost);
   return out;
 }

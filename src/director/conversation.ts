@@ -29,6 +29,7 @@
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
+import { jobTitleByKind } from "../core2/person-work";
 import {
   PERSON_MOVED_IN,
   heldSinceRecord,
@@ -394,7 +395,10 @@ function fullName(core: Readonly<CoreState>, id: PersonId): string {
 function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
-  return job && org ? { job, org } : null;
+  // The title as people say it of that kind of government ("town clerk").
+  return job && org
+    ? { job, org, title: jobTitleByKind(job.title, org.name) }
+    : null;
 }
 
 /**
@@ -440,9 +444,9 @@ function workDetail(
   slots: { position: string; place?: string },
 ): Facts {
   const facts: Facts = {};
-  if (sayableTitle(held.job.title))
+  if (sayableTitle(held.title))
     facts[slots.position] = {
-      text: withArticle(held.job.title),
+      text: withArticle(held.title),
       sourceRecordIds: [held.job.id],
     };
   const away =
@@ -1232,7 +1236,7 @@ export function subjectsBetween(
       },
       own: { key: `person:${speakerId}:employer`, value: mine.org.id },
       // A true answer also tells what they do there, for the person card.
-      ...(sayableTitle(mine.job.title)
+      ...(sayableTitle(mine.title)
         ? {
             alsoOwn: [
               {
@@ -1403,7 +1407,7 @@ export function subjectsBetween(
     });
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
-  if (theirs && !theirs.org.outsideFlow && sayableTitle(theirs.job.title))
+  if (theirs && !theirs.org.outsideFlow && sayableTitle(theirs.title))
     out.push({
       id: `their-position:${listenerId}`,
       kind: "their-position",
@@ -2307,7 +2311,7 @@ function replyFacts(
     }
     case "their-position": {
       const theirs = namedJobOf(core, listener);
-      return theirs && sayableTitle(theirs.job.title)
+      return theirs && sayableTitle(theirs.title)
         ? {
             facts: {
               employer: {
@@ -3042,6 +3046,16 @@ function mainTopic(
     if (
       conversation.used.includes(subject.id) ||
       conversation.used.includes(`${otherId}>${subject.id}`)
+    )
+      return;
+    // A scene's talk does not turn to the day's news the occasion is not
+    // about: bring-it-up, which says what the news is, is skipped in a
+    // scene, so "What do you think?" would ask about nothing (a death
+    // told at home, a letter, a friend met on the street).
+    if (
+      occasion &&
+      subject.kind === "news" &&
+      !isAbout(subject, occasion, data)
     )
       return;
     // A scene's moment with the other person in it (a reunion) is about the

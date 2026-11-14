@@ -1836,6 +1836,22 @@
           "actKinds": ["distrust", "self-interest", "keep-same"]
         }
       ]
+    },
+    {
+      "id": "views.own-stake",
+      "site": "src/core2/life-stakes.ts",
+      "owner": "views",
+      "route": "formula",
+      "options": [
+        {
+          "id": "common-good",
+          "actKinds": ["help-others", "cooperate"]
+        },
+        {
+          "id": "own-stake",
+          "actKinds": ["self-interest"]
+        }
+      ]
     }
   ],
   "outside": [
