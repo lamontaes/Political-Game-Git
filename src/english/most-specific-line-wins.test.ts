@@ -130,8 +130,8 @@ describe("the most specific line that fits is said", () => {
 
 // The shipped bank: at every spot where a piece tied to a fact and a generic
 // piece both fit, the fact on record means the tied piece is said; without it,
-// a generic one. A spot whose pieces need other slots the test cannot fill is
-// passed over and counted.
+// a generic one. The bank is walked once with no draws; every other slot a
+// spot's pieces name is filled, and no spot may be passed over.
 describe("the shipped scene-talk bank says its most specific line", () => {
   const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
   const whole = PARTS.filter(
@@ -188,8 +188,25 @@ describe("the shipped scene-talk bank says its most specific line", () => {
         ...(first.after ? { after: first.after } : {}),
         ...(first.outcome ? { outcome: first.outcome } : {}),
       };
-      const withFact = said(at, { [name]: fact("x") }, undefined, "m");
-      const without = said(at, {}, undefined, "m");
+      // Every other slot the spot's pieces name is filled, so a piece is
+      // never passed over for a word the record would give it.
+      const slots: Facts = {};
+      for (const row of rows)
+        for (const [, slot] of row.part.text.matchAll(/\{([\w-]+)\}/g))
+          if (slot !== name) slots[slot] = fact("x");
+      const withFact = said(
+        at,
+        { ...slots, [name]: fact("x") },
+        undefined,
+        "m",
+      );
+      // Where every generic piece says the fact's own word too ("Do you want
+      // to hold {kid}?"), no line serves without it, so only the side with
+      // the fact is asked.
+      const servesWithout = generic.some(
+        (row) => !row.part.text.includes(`{${name}}`),
+      );
+      const without = servesWithout ? said(at, slots, undefined, "m") : null;
       if (withFact === undefined || without === undefined) {
         passedOver.push(spot);
         continue;
@@ -199,13 +216,13 @@ describe("the shipped scene-talk bank says its most specific line", () => {
       // generic piece never beats the tied one at the same spot.
       if (plain.has(withFact))
         wrong.push(`${spot}: with ${name} said ${withFact}`);
-      if (holders.has(without))
+      if (without && holders.has(without))
         wrong.push(`${spot}: without ${name} said ${without}`);
     }
-    expect(wrong, `passed over ${passedOver.length}`).toEqual([]);
+    expect(wrong).toEqual([]);
+    // Every spot is asked: none may be passed over.
+    expect(passedOver).toEqual([]);
     expect(checked).toBeGreaterThan(0);
-    console.log(
-      `most-specific-line-wins: ${checked} spots checked, ${passedOver.length} passed over (pieces need slots or facts the test does not give)`,
-    );
+    console.log(`most-specific-line-wins: ${checked} spots checked`);
   });
 });
