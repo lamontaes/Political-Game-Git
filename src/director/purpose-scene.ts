@@ -43,6 +43,7 @@ import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
+import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import { storyTopicName, topicInSentence } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
@@ -1170,6 +1171,22 @@ function composeBinding(
     // The bill the donor holds the strongest view on, when one is pending.
     if (said.billId && facts.bill) facts["donor-bill"] = facts.bill;
   }
+  // A donor's own reasons: their given name, where they work, what the bill
+  // they named is about and which side of it they are on, each from the
+  // records it came from (donor-ask-facts.ts).
+  if (type.key === DONOR_ASK_TYPE)
+    Object.assign(
+      facts,
+      donorAskFacts(
+        core,
+        askerId,
+        moment.causeId,
+        record?.kind === "campaign-gift" && facts["donor-bill"]
+          ? said.billId
+          : undefined,
+        personLean,
+      ),
+    );
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
   if (asked.familyIds.has(askerId))
