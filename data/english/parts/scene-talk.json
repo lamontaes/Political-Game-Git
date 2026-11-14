@@ -179396,31 +179396,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-spent-most-of-the-afternoon-with-you-saying-less-than-usual",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has spent most of the afternoon with you, saying less than usual.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["afternoon"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-pulls-up-a-chair-and-sits-across-from-you",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -179442,15 +179417,6 @@
           "purpose": "move-in-ask",
           "key": "favor-asked",
           "requiresFacts": ["daytime"]
-        },
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["evening"]
         }
       ],
       "bearing": "braced",
