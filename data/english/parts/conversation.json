@@ -71,7 +71,8 @@
     "host-place": "The town of the relative an evicted household moved in with, when it is not their own, from the housing status and the host household's record.",
     "shelter-place": "The town whose shelter took an evicted household in, from the housing status record.",
     "no-bed-place": "The town whose shelters had no bed for an evicted household, from the housing status record.",
-    "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record."
+    "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record.",
+    "there": "A workplace already named, as people say it afterward (\"there\"), so a reply never repeats the employer or says \"at work\"."
   },
   "maxWords": 10,
   "lineWords": {
@@ -28492,7 +28493,7 @@
       "key": "conversation.other-work-answer-tenure.how-long-have-you-worked-",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How long have you worked there?",
+      "text": "How long have you worked {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -28512,7 +28513,7 @@
       "key": "conversation.other-work-answer-tenure.how-long-have-you-been-wo",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How long have you been working there?",
+      "text": "How long have you been working {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -28532,7 +28533,7 @@
       "key": "conversation.other-work-answer-tenure.how-many-years-have-you-p",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How many years have you put in there?",
+      "text": "How many years have you put in {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -28704,7 +28705,7 @@
       "key": "conversation.other-work-answer-detail.what-do-you-do-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do you do there?",
+      "text": "What do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -28722,7 +28723,7 @@
       "key": "conversation.other-work-answer-detail.what-s-your-job-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What's your job there?",
+      "text": "What's your job {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -28740,7 +28741,7 @@
       "key": "conversation.other-work-answer-detail.what-kind-of-work-do-you-",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What kind of work do you do there?",
+      "text": "What kind of work do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -28758,7 +28759,7 @@
       "key": "conversation.other-work-answer-detail.what-do-they-have-you-doi",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do they have you doing there?",
+      "text": "What do they have you doing {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -28776,7 +28777,7 @@
       "key": "conversation.other-work-answer-detail.and-what-do-you-do-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "And what do you do there?",
+      "text": "And what do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -28794,7 +28795,7 @@
       "key": "conversation.other-work-answer-detail.what-do-you-do-over-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do you do over there?",
+      "text": "What do you do over {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -42370,10 +42371,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.i-see-it-differently",
+      "key": "conversation.address-point-core-against.see-it-differently",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I see it differently.",
+      "text": "See it differently.",
       "uses": [
         {
           "move": "address-point-core-against",
