@@ -97,6 +97,18 @@ describe("a relative put out who moves in with the player", () => {
                 facts.includes("host"),
                 `${name}: "${choice.text}" answered ${back.map((line) => line.text).join(" / ")}`,
               ).toBe(false);
+              // The player's name once in a talk (rule 105): a greeting that
+              // spent it leaves the answer without it.
+              const spoken = new RegExp(
+                `\\b${core.people.get(playerId)!.givenName}\\b`,
+              );
+              expect(
+                copy.lines.filter(
+                  (line) =>
+                    line.speakerId !== playerId && spoken.test(line.text),
+                ).length,
+                copy.lines.map((line) => line.text).join(" / "),
+              ).toBeLessThanOrEqual(1);
               expect(
                 back.every(
                   (line) =>

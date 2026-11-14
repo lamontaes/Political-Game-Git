@@ -3634,6 +3634,26 @@ function calledBy(
   };
 }
 
+/**
+ * What the speaker calls the player in an answer, left out when an earlier
+ * line of the same talk already said it (rule 105: a name once per talk), so
+ * the answer picks a wording without it.
+ */
+function youIn(
+  core: Readonly<CoreState>,
+  conversation: Pick<Conversation, "lines">,
+  speakerId: PersonId,
+  playerId: PersonId,
+): { you?: Fact } {
+  const you = calledBy(core, speakerId, playerId);
+  const said = conversation.lines.some(
+    (line) =>
+      line.speakerId === speakerId &&
+      new RegExp(`\\b${you.text}\\b`, "i").test(line.text),
+  );
+  return said ? {} : { you };
+}
+
 /** The facts the player's own answers can add, from the player's records. */
 function playerFacts(
   core: Readonly<CoreState>,
@@ -6882,7 +6902,7 @@ function sayNow(
       core,
       otherId,
       OWN_VIEW_BACK,
-      { ...last.facts, you: calledBy(core, otherId, playerId) },
+      { ...last.facts, ...youIn(core, conversation, otherId, playerId) },
       "default",
       `${eventId}:back`,
       saidParts(conversation, otherId),
@@ -6933,7 +6953,7 @@ function sayNow(
       core,
       otherId,
       OWN_VIEW_TAKE,
-      { ...last.facts, you: calledBy(core, otherId, playerId) },
+      { ...last.facts, ...youIn(core, conversation, otherId, playerId) },
       choice.move,
       `${eventId}:take`,
       saidParts(conversation, otherId),
@@ -7001,7 +7021,7 @@ function sayNow(
       core,
       otherId,
       `${last.kind}-back`,
-      { ...backFacts, you: calledBy(core, otherId, playerId) },
+      { ...backFacts, ...youIn(core, conversation, otherId, playerId) },
       choice.move,
       `${eventId}:back`,
       saidParts(conversation, otherId),
@@ -7197,7 +7217,10 @@ function answerPoint(
     otherId,
     POINT_BACK,
     // The answer may name the player as the speaker calls them.
-    { ...last.facts, you: calledBy(core, otherId, conversation.playerId) },
+    {
+      ...last.facts,
+      ...youIn(core, conversation, otherId, conversation.playerId),
+    },
     choice.move,
     `${eventId}:back`,
     saidParts(conversation, otherId),
