@@ -85,13 +85,10 @@ for (const seed of WORLDS) {
     let other: string | undefined;
     for (const candidate of town.slice(0, 60)) {
       const rows = await acts(candidate.id);
-      expect(
-        rows.map((r) => r.kind),
-        `${where}: both acts listed`,
-      ).toEqual(["visit", "call"]);
+      expect(rows[0]?.kind, `${where}: Visit is always listed`).toBe("visit");
       for (const row of rows)
         expect(row.open || !!row.reason, `${where}: reason`).toBe(true);
-      if (rows.every((r) => r.open)) {
+      if (rows.length === 2 && rows.every((r) => r.open)) {
         other = candidate.id;
         break;
       }

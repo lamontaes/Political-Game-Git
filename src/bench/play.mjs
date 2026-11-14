@@ -2568,28 +2568,35 @@ async function personCardNode(
   // What the player can do about them from here (Visit, Call): each shown,
   // closed ones with the reason in plain words under them.
   const acts = person.personId === me.id ? [] : (c.acts ?? []);
+  const first = c.name.split(" ")[0];
+  const died = acts.some((act) => act.reason === "died");
   const actsSection = acts.length
     ? [
         stripSection(
           1,
           labels.actsTitle,
-          buttonRow(
-            ...acts.map((act) =>
-              makeButton({
-                className: "action",
-                textContent: labels.acts[act.kind],
-                disabled: !act.open,
-                onclick: () => doAct(act.kind, person.personId),
-              }),
-            ),
-          ),
-          ...acts
-            .filter((act) => !act.open && labels.actReasons[act.reason])
-            .map((act) =>
-              noteLine(
-                `${labels.acts[act.kind]}: ${labels.actReasons[act.reason]}`,
-              ),
-            ),
+          // Someone who has died is one plain line, no buttons.
+          ...(died
+            ? [noteLine(labels.actReasons.died.replace("{first}", first))]
+            : [
+                buttonRow(
+                  ...acts.map((act) =>
+                    makeButton({
+                      className: "action",
+                      textContent: labels.acts[act.kind],
+                      disabled: !act.open,
+                      onclick: () => doAct(act.kind, person.personId),
+                    }),
+                  ),
+                ),
+                ...acts
+                  .filter((act) => !act.open && labels.actReasons[act.reason])
+                  .map((act) =>
+                    noteLine(
+                      labels.actReasons[act.reason].replace("{first}", first),
+                    ),
+                  ),
+              ]),
         ),
       ]
     : [];

@@ -27,10 +27,8 @@ export type ActReason =
   | "away"
   /** A stop or choice holds the clock, so a trip cannot be taken. */
   | "held"
-  /** The person has nothing to say to you now (a talk with no line is no talk). */
-  | "silent"
-  /** The person is gone. */
-  | "gone";
+  /** The person has died: the card says so and offers nothing. */
+  | "died";
 
 export interface PersonAct {
   kind: ActKind;
@@ -76,7 +74,8 @@ export function personActs(
     open: false,
     reason,
   });
-  if (!other.alive) return [closed("visit", "gone"), closed("call", "gone")];
+  // Someone who has died is one line on the card, not two closed buttons.
+  if (!other.alive) return [closed("visit", "died")];
   const visit = ((): PersonAct => {
     if (context.here.includes(otherId)) return closed("visit", "here");
     if (
@@ -93,21 +92,19 @@ export function personActs(
       return closed("visit", "away");
     return { kind: "visit", open: true };
   })();
-  const call = ((): PersonAct => {
-    const talk = openConversation(
-      core,
-      playerId as PersonId,
-      otherId as PersonId,
-      {
-        ...(context.director ? { director: context.director } : {}),
-        look: true,
-      },
-    );
-    return talk.lines.length
-      ? { kind: "call", open: true }
-      : closed("call", "silent");
-  })();
-  return [visit, call];
+  // A call that cannot open (the game has no talk for them) is not offered:
+  // no button and no reason, since "nothing to say" would not be true of them.
+  const talk = openConversation(
+    core,
+    playerId as PersonId,
+    otherId as PersonId,
+    {
+      ...(context.director ? { director: context.director } : {}),
+      byPhone: true,
+      look: true,
+    },
+  );
+  return talk.lines.length ? [visit, { kind: "call", open: true }] : [visit];
 }
 
 /**

@@ -304,7 +304,7 @@ const talkView = (value: Conversation | undefined) =>
  * visit, a person's card (Visit, Call). A talk with no line is no talk
  * (owner, Nov 1): nothing opens and the answer is none.
  */
-function openTalk(otherId: string, occasionId?: string) {
+function openTalk(otherId: string, occasionId?: string, byPhone = false) {
   if (!state.player?.personId) throw new Error("Choose a resident first.");
   if (!personOrFillIn(requireCore(), otherId)?.alive)
     throw new Error("Talk to a living resident.");
@@ -344,6 +344,7 @@ function openTalk(otherId: string, occasionId?: string) {
       ? {
           director: state.director,
           presentIds: room,
+          ...(byPhone ? { byPhone: true } : {}),
           ...(occasionId ? { occasionId } : {}),
           ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
           // The place the player came to, so a goodbye knows it is said
@@ -2350,7 +2351,7 @@ const ROUTES: readonly Route[] = [
         send(200, visitPerson(otherId));
         return;
       }
-      const talk = openTalk(otherId);
+      const talk = openTalk(otherId, undefined, true);
       if (talk)
         recordPlayerCall(
           requireCore(),
