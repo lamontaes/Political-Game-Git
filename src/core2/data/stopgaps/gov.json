@@ -848,30 +848,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-GOV-filing-deadline-estimate",
-    "kind": "estimated-calendar",
-    "file": "src/core2/modules/elections.ts",
-    "line": 402,
-    "whatItFakes": "For 4 of the 56 places a town's filing deadline is the estimate, because each municipality's charter or code sets it (Alaska, Delaware, Florida and Maryland, the rows marked unread in src/core2/data/elections/filing-deadlines.json): the median number of days between the candidate filing deadline and the primary over the places with a 2026 row (85 days before the election). 39 more rows there are tagged ESTIMATED (New York's among them: its party date, the first Thursday in April, is read, but an independent's petition closes 24 to 23 weeks before the general election and the row holds one date, so independents close about eight weeks early): read from search excerpts or summaries, not the current code.",
-    "why": "Many states write the deadline against a primary, a charter or a window the town calendar does not hold, and each statute must be read to structure it.",
-    "addedBy": "OPUS-GOV-ELECTIONS",
-    "addedAt": "2026-10-14",
-    "replacement": "Narrowed Oct 23, 2026 (research-elections-sourced-parameters): Guam (3 GCA 15201, 15206) and Puerto Rico (Electoral Code art. 7.14) read from their codes and tagged SOURCED, and New York (Elec. Law 6-158, 8-100) read for the party date and tagged ESTIMATED until a side-specific deadline is wired, read by src/core2/elections-calendar.ts municipalFilingDeadline. Still to do, in research-elections-filing-rules-statutes: each charter place's deadline estimated from a sample of its own municipal codes, and each ESTIMATED row checked against the current statute.",
-    "status": "open"
-  },
-  {
-    "id": "SG-GOV-filing-fallbacks",
-    "kind": "missing-data",
-    "file": "src/core2/modules/elections.ts",
-    "line": 257,
-    "whatItFakes": "Where a place's filing row carries no filing office, minimum age or voter-registration rule, the median of the read values for that office family and the generic clerk title stand in: the voter-registration rule of 27 statewide-executive rows and 8 state-legislative rows that say 'not specified' in data/research/elections/filing-requirements.json (the fallback requires registration), and every rule of the county rows of places with no county government (Alaska, Connecticut, Rhode Island, D.C. and the territories) and the municipal rows of Hawaii and two territories, where a contest of that family would have no law to read.",
-    "why": "The place's law was not read into filing-requirements.json.",
-    "addedBy": "OPUS-GOV-ELECTIONS",
-    "addedAt": "2026-10-14",
-    "replacement": "Narrowed Oct 23, 2026 (research-elections-sourced-parameters): the 50 state U.S. House rows now read registeredVoterRequired false from U.S. Const. art. I, sec. 2, cl. 2 and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995), and Vermont's legislature takes 18 (Vt. Const. ch. II, sec. 15 sets no age), read by src/core2/modules/elections.ts filingRequirements. Still to do, in research-elections-filing-rules-statutes: each 'not specified' registration rule read from its state constitution or code.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-special-election-timing",
     "kind": "estimated-calendar",
     "file": "src/core2/data/elections/parameters.json",
@@ -1520,18 +1496,6 @@
     "addedAt": "2026-10-14",
     "replacement": "Every seat's holder filled in as a person before they vote, so floor tactics read their temperament like anyone's. Done Oct 16: a seat whose holder has no living person record casts no vote and moves no pill, so the stand-in is gone.",
     "status": "resolved"
-  },
-  {
-    "id": "SG-GOV-municipal-body-name",
-    "kind": "missing-record",
-    "file": "src/core2/data/offices/body-names.json",
-    "line": 6,
-    "whatItFakes": "A municipal collective whose listing name gives no kind of municipality (no \"CITY OF\", \"TOWN OF\", \"VILLAGE OF\" or \"BOROUGH OF\") and whose government the game has not compiled is named after the town and \"Council\"; a compiled town's body takes the name its charter gives it, and any other town the usual body of its kind in its state (municipalByState and municipalByKind in the same file).",
-    "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
-    "addedBy": "SESSION-C",
-    "addedAt": "2026-10-15",
-    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
-    "status": "open"
   },
   {
     "id": "SG-GOV-dual-office-law",

@@ -62,9 +62,7 @@ const deadlineRows = readJson<{
   places: Record<string, { rule: { kind: string }; tag: string }>;
 }>("src/core2/data/elections/filing-deadlines.json");
 
-const SEVEN = [
-  "SG-GOV-filing-deadline-estimate",
-  "SG-GOV-filing-fallbacks",
+const STOPGAPS_WATCHED = [
   "SG-GOV-polling-place-kind",
   "SG-GOV-ballot-order-estimates",
 ];
@@ -242,5 +240,5 @@ console.log(
 );
 
 console.log("\nF. Stopgap hits in the year");
-for (const id of SEVEN)
+for (const id of STOPGAPS_WATCHED)
   console.log(`  ${id}: ${hits.has(id) ? "hit" : "not hit"}`);

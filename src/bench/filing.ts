@@ -462,9 +462,8 @@ export interface CounterOpening {
 
 /**
  * The spans of an office with no work record for its clerk: its estimated
- * weekday hours (`data/office-hours.json`), a stopgap that every office has
- * hours until the records give them.
- * stopgapId: SG-PLAY-office-hours-assumed
+ * weekday hours, an ESTIMATED place row (`data/office-hours.json`, with its
+ * source and spread), so that every office has hours.
  */
 function assumedSpans(
   date: string,
