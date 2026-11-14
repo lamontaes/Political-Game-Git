@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 630,
+  "judged": 579,
   "no": {
     "000kvn97gfw": {
       "keys": [
@@ -717,14 +717,6 @@
         "scene-talk.reply-refuse.no-and-this-changes-nothing"
       ],
       "why": "The returning briber never names what they want."
-    },
-    "0q7goi0up3p": {
-      "keys": [
-        "scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name",
-        "scene-talk.state-request.deceased-always-said-you-d-understand-what-was-left-undone",
-        "scene-talk.reply-promise.tell-me-what-it-was-i-can-t-promise-how-it-ends-but-i-ll-take-it-up-in-deceased-s-name"
-      ],
-      "why": "You pledge to take up {deceased}'s unfinished thing, but what it is is never named, not after either."
     },
     "0qhawwssxjp": {
       "keys": [
@@ -1839,16 +1831,6 @@
       ],
       "why": "The pressurer says only 'take the deal'. What they want is never named on this path, so the threat 'when it goes wrong' points at nothing a listener could name."
     },
-    "1rko8e38n3f": {
-      "keys": [
-        "scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name",
-        "scene-talk.state-request.deceased-always-said-you-d-understand-what-was-left-undone",
-        "scene-talk.reply-ask.what-was-it-exactly",
-        "scene-talk.follow-answer.deceased-kept-asking-for-the-same-thing-year-after-year-and-kept-being-told-next-year",
-        "scene-talk.reply-promise.then-i-ll-take-it-up-i-ll-tell-you-what-comes-of-it"
-      ],
-      "why": "'I'll take it up' refers to 'the same thing' the deceased asked for, never named."
-    },
     "1rqwmyz40cb": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-just-started-at-employer-and-belongs-to-the-party-like-you",
@@ -2523,5 +2505,5 @@
       "why": "The scandal interview never names its subject or the vote the player says yes to; the documentation question refers to an unnamed matter."
     }
   },
-  "yesHash": "13ia5awjwoz"
+  "yesHash": "02j0zx4pxax"
 }
