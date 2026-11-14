@@ -286,7 +286,7 @@ export function localOfficeKit(host: OfficeActHost): OfficeActKit {
     parameters: LOCAL_PARAMETERS,
     providers: officeActProviders(host),
     reasonProviders: officeActReasons(host),
-    onDay: worldAddresses(host),
+    onMonth: worldAddresses(host),
     handlers: officeActHandlers(host) as unknown as OfficeActKit["handlers"],
   };
 }
@@ -501,7 +501,7 @@ const EXECUTIVE_KINDS = new Set(["mayor", "county-executive"]);
 
 /**
  * The world's own mayors and county executives, in the address's season: the
- * first of each month until the season ends, each one who has not given it
+ * first of each month (the office-day module's monthly step) until the season ends, each one who has not given it
  * this year weighs it. The address is the office's custom, given whether or
  * not the year was busy (what the year held shapes what is said: the speech
  * argues the speaker's own strongest view); the custom's pull grows through
@@ -516,7 +516,6 @@ export function worldAddresses(host: OfficeActHost) {
   const give = officeActHandlers(host)["state-of-the-city"];
   return (api: CoreAPI): void => {
     const date = api.state.date;
-    if (date.slice(8) !== "01") return;
     const month = Number(date.slice(5, 7));
     const last = api.parameter("stateOfCityLastMonth");
     if (month > last) return;
