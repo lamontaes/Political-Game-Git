@@ -161,9 +161,13 @@ for (const place of PLACES)
       // 1. A no: kept with its reason and date; the post stays open and the
       // person is not offered again for now.
       const noId = offered(w, place.level, place.no);
-      expect(postStanding(api, w.playerId, noId)!.reason, w.where).toBe(
-        place.reason,
-      );
+      expect(
+        postStanding(api, w.playerId, noId, {
+          key: w.post,
+          level: place.level,
+        })!.reason,
+        w.where,
+      ).toBe(place.reason);
       const no = ask(w, noId);
       expect(no.row.standing.lean, w.where).toBeLessThanOrEqual(0);
       expect(no.reply.facts?.ending, no.lines.join("\n")).toBe("turned-down");

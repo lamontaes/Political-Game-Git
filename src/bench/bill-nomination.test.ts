@@ -2,7 +2,12 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
-import { appointmentsIn, statePostsToFill } from "../core2/modules/executive";
+import {
+  EXECUTIVE_MODULE_ID,
+  appointmentsIn,
+  statePostsToFill,
+} from "../core2/modules/executive";
+import type { CoreAPI } from "../core2/types";
 import { lawChain } from "../core2/modules/laws";
 import { memberKey } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
@@ -23,6 +28,42 @@ const seed =
   process.env.NOMINATION_SEED ??
   process.env.GOLDEN_PATH_SEED ??
   randomBytes(8).toString("hex");
+
+/**
+ * After a yes, the governor's nomination goes to the chamber: confirmed, the
+ * person holds the post; turned down, the nomination is on the record
+ * unconfirmed and the post stays open. Returns the confirmation either way.
+ */
+function seatedOrTurnedDown(
+  api: CoreAPI,
+  executiveId: string,
+  post: string,
+  nomineeId: string,
+  where: string,
+) {
+  const state = lawChain(api).stateKey;
+  const seated = appointmentsIn(api, state).find((row) => row.post === post);
+  if (seated?.holderId === nomineeId) {
+    expect(seated.appointedBy, where).toBe(executiveId);
+    expect(seated.confirmation?.confirmed, where).toBe(true);
+    expect(
+      statePostsToFill(api, executiveId).map((p) => p.key),
+      where,
+    ).not.toContain(post);
+    return seated.confirmation;
+  }
+  const nomination = api
+    .moduleState(EXECUTIVE_MODULE_ID)
+    .table("nominations")
+    .get(`nomination:${state}:${post}:${nomineeId}:${api.state.date}`) as
+    { confirmation: { confirmed: boolean } | null } | undefined;
+  expect(nomination?.confirmation?.confirmed, where).toBe(false);
+  expect(
+    statePostsToFill(api, executiveId).map((p) => p.key),
+    where,
+  ).toContain(post);
+  return nomination!.confirmation;
+}
 
 describe(`the governor names a cabinet post (seed ${seed})`, () => {
   it("shows the open post with its candidates and seats the one the player names", () => {
@@ -67,36 +108,41 @@ describe(`the governor names a cabinet post (seed ${seed})`, () => {
         (h) => h.post === held.post,
       );
       expect(head?.candidates.length, where).toBeGreaterThan(0);
-      // The first of them whose own record says yes.
-      const nominee = head!.candidates.find(
-        (c) => (postStanding(api, id, c.id)?.lean ?? 0) > 0,
+      // The player asks those whose own record says yes, best first, until
+      // the chamber confirms one; one it turns down is on the record
+      // unconfirmed, and the post stays open for the next.
+      const willing = head!.candidates.filter(
+        (c) =>
+          (postStanding(api, id, c.id, { key: held.post, level: "state" })
+            ?.lean ?? 0) > 0,
       );
+      let seated: ReturnType<typeof seatedOrTurnedDown> = null;
+      let nominee: (typeof willing)[number] | undefined;
+      for (const c of willing) {
+        const asked = askHead(core, governor.personId, held.post, c.id);
+        const played = playServeAsk(
+          core,
+          world.director,
+          governor.personId as PersonId,
+          asked.eventId,
+        );
+        expect(played.reply.facts?.ending, played.lines.join("\n")).toBe(
+          "serving",
+        );
+        seated = seatedOrTurnedDown(api, id, held.post, c.id, where);
+        if (seated?.confirmed) {
+          nominee = c;
+          break;
+        }
+      }
       if (!nominee) {
-        tried.push(`${where}: nobody offered for ${held.post} would say yes`);
+        tried.push(
+          `${where}: nobody offered for ${held.post} would say yes and be confirmed`,
+        );
         continue;
       }
-      const asked = askHead(core, governor.personId, held.post, nominee.id);
-      const played = playServeAsk(
-        core,
-        world.director,
-        governor.personId as PersonId,
-        asked.eventId,
-      );
-      expect(played.reply.facts?.ending, played.lines.join("\n")).toBe(
-        "serving",
-      );
-      const seated = appointmentsIn(api, state).find(
-        (row) => row.post === held.post,
-      );
-      expect(seated?.holderId, where).toBe(nominee.id);
-      expect(seated?.appointedBy, where).toBe(id);
-      expect(seated?.confirmation, where).toBeTruthy();
-      expect(
-        statePostsToFill(api, id).map((p) => p.key),
-        where,
-      ).not.toContain(held.post);
       console.log(
-        `nomination: ${where}, ${held.post} to ${nominee.name}, confirmation ${JSON.stringify(seated!.confirmation)}`,
+        `nomination: ${where}, ${held.post} to ${nominee.name}, ${JSON.stringify(seated)}`,
       );
       return;
     }
@@ -146,7 +192,10 @@ describe(`the governor names a cabinet post (seed ${seed})`, () => {
           // Naming someone at the desk asks them; the first whose own record says yes.
           const nominee = offer.candidates.find(
             (c) =>
-              (postStanding(api, memberKey(governor), c.id)?.lean ?? 0) > 0,
+              (postStanding(api, memberKey(governor), c.id, {
+                key: held.post,
+                level: "state",
+              })?.lean ?? 0) > 0,
           );
           if (!nominee) {
             tried.push(
@@ -165,13 +214,21 @@ describe(`the governor names a cabinet post (seed ${seed})`, () => {
           expect(played.reply.facts?.ending, played.lines.join("\n")).toBe(
             "serving",
           );
-          const seated = appointmentsIn(api, state).find(
-            (row) => row.post === held.post,
+          const seated = seatedOrTurnedDown(
+            api,
+            memberKey(governor),
+            held.post,
+            nominee.id,
+            where,
           );
-          expect(seated?.holderId, where).toBe(nominee.id);
-          expect(seated?.confirmation, where).toBeTruthy();
+          // The chamber turned the nominee down: on the record, the post open;
+          // draw again for a desk whose nominee is seated.
+          if (!seated?.confirmed) {
+            tried.push(`${where}: the chamber turned ${nominee.name} down`);
+            break;
+          }
           console.log(
-            `nomination stop: ${where}, ${held.post} to ${nominee.name}, confirmation ${JSON.stringify(seated!.confirmation)}`,
+            `nomination stop: ${where}, ${held.post} to ${nominee.name}, ${JSON.stringify(seated)}`,
           );
           return;
         }

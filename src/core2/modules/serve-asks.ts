@@ -56,6 +56,8 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { officialOf } from "./officials";
 import {
   headCandidates,
+  postConfirmed,
+  postRecord,
   postsToFill,
   stateCandidates,
   statePostsToFill,
@@ -126,6 +128,10 @@ export interface ServeGrounds {
   /** For a post: the job they hold now (its id), and its hourly pay. */
   readonly jobId?: string | null;
   readonly hourlyMinor?: number;
+  /** For a post: whether their work on the record is in the post's own field. */
+  readonly inField?: boolean;
+  /** For a post: whether a council or chamber still confirms whoever is named. */
+  readonly confirmed?: boolean;
 }
 
 export interface ServeStanding {
@@ -471,6 +477,7 @@ export function postStanding(
   api: CoreAPI,
   appointerId: string,
   askedId: string,
+  post: { readonly key: string; readonly level: "town" | "state" },
 ): ServeStanding | null {
   const asked = api.state.people.get(askedId);
   const player = api.state.people.get(appointerId);
@@ -552,6 +559,9 @@ export function postStanding(
       filingStatus: "",
       jobId: working ? job.id : null,
       hourlyMinor,
+      inField:
+        postRecord(api, asked, post.key, api.state.date).relatedYears > 0,
+      confirmed: postConfirmed(api, post.level, post.key),
     },
   };
 }
@@ -892,7 +902,7 @@ export function postAsks(
   return [...found.offered, ...kept].map((id) => {
     const row = serveAsk(api, `${found.seatKey}|${id}`);
     const now =
-      row?.answer === "no" ? postStanding(api, appointerId, id) : null;
+      row?.answer === "no" ? postStanding(api, appointerId, id, found) : null;
     return {
       personId: id,
       declined:
@@ -917,7 +927,7 @@ function askToTakePost(
   if (!found) throw new Error("Not an open post you appoint.");
   if (!found.offered.includes(input.personId))
     throw new Error("Not someone this post could go to.");
-  const standing = postStanding(api, input.appointerId, input.personId);
+  const standing = postStanding(api, input.appointerId, input.personId, found);
   if (!standing) throw new Error("That person can't be asked.");
   const id = `${found.seatKey}|${input.personId}`;
   const earlier = serveAsk(api, id);

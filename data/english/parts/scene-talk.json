@@ -164364,7 +164364,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "glad",
@@ -164388,7 +164389,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "warm",
@@ -164412,7 +164414,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "firm",
@@ -164436,7 +164439,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "calm",
@@ -187791,10 +187795,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-m-self-full-i-ve-been-looking-for-someone-to-serve-as-office-and-your-name-keeps-coming-up",
+      "key": "scene-talk.state-request.i-m-self-full-you-know-this-work-and-i-d-like-you-to-serve-as-office",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm {self-full}. I've been looking for someone to serve as {office}, and your name keeps coming up.",
+      "text": "I'm {self-full}. You know this work, and I'd like you to serve as {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -187803,7 +187807,7 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "stranger"]
+          "requiresFacts": ["serve-post", "stranger", "post-field"]
         }
       ],
       "bearing": "eager",
@@ -188028,7 +188032,7 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "reason-yes-pay"]
+          "requiresFacts": ["serve-post", "reason-yes-pay", "out-of-work"]
         }
       ],
       "bearing": "glad",
@@ -188053,7 +188057,7 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "reason-yes-pay"]
+          "requiresFacts": ["serve-post", "reason-yes-pay", "pay-raise"]
         }
       ],
       "bearing": "calm",
@@ -188062,6 +188066,159 @@
       "date": "2026-11-14",
       "tag": {
         "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.it-s-a-step-up-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "It's a step up. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-yes-pay", "pay-raise"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-need-someone-who-can-do-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I need someone who can do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["serve-post", "reason-yes-step-up"],
+          "excludesFacts": ["post-field"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-if-they-ll-have-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. If they'll have me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "confirm"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-if-they-ll-confirm-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, if they'll confirm me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "confirm"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-put-your-name-in",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll put your name in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "confirm"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-the-job-is-yours",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. The job is yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post"],
+          "excludesFacts": ["confirm"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
         "key": "serve-asked"
       }
     }
