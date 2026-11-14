@@ -57,7 +57,6 @@ import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { withArticle } from "../english/journal-words";
 import { contractSaid } from "../english/contract-words";
-import { crimeRecord } from "../core2/modules/corruption";
 import {
   JOBS_MODULE_ID,
   JOB_OFFERED_EVENT,
@@ -1030,9 +1029,15 @@ function composeBinding(
     // The sum offered, as people say money ("about five hundred dollars"),
     // from the crime record. The bank says it only where the one offering
     // answers "How much?" or bargains after a refusal (Words lead, Nov 14).
-    const crime = said.bribeId
-      ? crimeRecord(coreAPI(core as CoreState), said.bribeId)
-      : undefined;
+    // The laws family's own table, read without a deep import of its module.
+    const crime =
+      said.bribeId && core.modules.has("corruption")
+        ? (coreAPI(core as CoreState)
+            .moduleState("corruption")
+            .table("crimes")
+            .get(said.bribeId) as unknown as
+            { id: string; amountMinor: number } | undefined)
+        : undefined;
     if (crime && crime.amountMinor > P.zero)
       facts.amount = {
         text: moneySaid(crime.amountMinor),
