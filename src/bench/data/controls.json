@@ -501,6 +501,7 @@
     "abstain": "Abstain",
     "own": "Decide for me",
     "adjourn": "Adjourn",
+    "adjournNote": "Adjourning votes each open item on the side you spoke for, and abstains on any you said nothing about.",
     "for": "For",
     "against": "Against",
     "sign": "Signed",

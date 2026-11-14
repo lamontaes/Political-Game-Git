@@ -695,6 +695,10 @@ it("a member the player plays decides alike at the stop and away from it: the me
                 .get(`${id}|${member}`),
               `${where}: ${id} voted before Adjourn`,
             ).toBeUndefined();
+          // The player spoke on the first open item and said nothing on the rest:
+          // Adjourn casts the stated side, and abstains where none was stated.
+          const spokeOn = open[0];
+          if (spokeOn) speakOnItem(api, meeting.id, spokeOn, -1);
           adjourn(api, meeting.id);
           for (const id of open) {
             if (billOf(api, id).moot) continue;
@@ -703,10 +707,9 @@ it("a member the player plays decides alike at the stop and away from it: the me
               .table("choices")
               .get(`${id}|${member}`) as unknown as
               { vote?: string } | undefined;
-            expect(
-              chosen?.vote,
-              `${where}: ${id} cast at Adjourn`,
-            ).toBeDefined();
+            expect(chosen?.vote, `${where}: ${id} cast at Adjourn`).toBe(
+              id === spokeOn ? "no" : "abstain",
+            );
             const act = officeActsOf(api, member).find(
               (a) => a.kind === "vote" && a.recordId === id,
             );

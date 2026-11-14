@@ -857,6 +857,14 @@ function inMeeting() {
           );
         }),
       );
+      // Said before the press: what Adjourn does with the items still open.
+      $("meeting-adjourn-note")?.remove();
+      if (scene.items.some((item) => !item.takenUp))
+        $("meeting-adjourn").before(
+          Object.assign(prose(words.adjournNote ?? "", "meeting-note"), {
+            id: "meeting-adjourn-note",
+          }),
+        );
       $("meeting-adjourn").onclick = async () => {
         $("meeting-adjourn").disabled = true;
         await post(

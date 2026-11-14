@@ -17,7 +17,8 @@ import type { ItemVetoSelection } from "../state-item-veto";
  * - **Simulate or do.** Whatever the player does not decide, the character
  *   decides by the same rule every other member or executive uses: a member
  *   votes their own position, an executive signs or vetoes from theirs. The
- *   player never abstains because they looked away. Each such act is kept
+ *   player never abstains because they looked away. Adjourn is the one press
+ *   that casts their stated side or abstains (owner, Nov 13). Each such act is kept
  *   (`acts`) as the character's own, with its reasons.
  */
 import { coreAPI, registerModule } from "../state";
@@ -26,7 +27,7 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
-import { signUpToSpeak } from "./meetings";
+import { remarksOn, signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { governments } from "./budgets";
 import { payOfficialPaycheck } from "./official-pay";
@@ -821,7 +822,12 @@ export function speakOnItem(
   });
 }
 
-/** The chair adjourns: any item left is voted with the character's own votes, and the clock moves on. */
+/**
+ * The chair adjourns: each item left is voted on the position the player has
+ * stated on it, and abstained where they have stated none (owner, Nov 13:
+ * "Cast my position, else abstain"); the clock moves on. Every other member
+ * votes their own position.
+ */
 export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
   const row = meetingOf(api, meetingIdValue);
   // The player in the audience cannot adjourn the body; they leave (`leaveMeeting`).
@@ -845,12 +851,58 @@ export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
   }
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
   earlierMeetingsVote(api, row);
-  leavingToCharacter(api, left, () => {
-    for (const billId of left) voteItem(api, billId);
-  });
+  for (const billId of left) {
+    castStatedOrAbstain(api, billId);
+    voteItem(api, billId);
+  }
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
   releaseHeld(api, row.id);
   return meetingOf(api, row.id)!;
+}
+
+/**
+ * What the player has said about an item at this meeting: the side they spoke
+ * on (public comment), or yes on an ordinance they sponsored. Null where they
+ * have said nothing, which Adjourn does not read from the character's views.
+ */
+function statedPosition(
+  api: CoreAPI,
+  billId: string,
+  player: string,
+): number | null {
+  const bill = billOf(api, billId);
+  const spoke = remarksOn(api, billId).find((r) => r.personId === player);
+  if (spoke && spoke.position !== 0) return spoke.position;
+  return bill.sponsorId === player ? 1 : null;
+}
+
+/** Adjourn's cast for the player on one open item: their stated side, else an abstention. */
+function castStatedOrAbstain(api: CoreAPI, billId: string): void {
+  const player = playerOf(api);
+  const bill = billOf(api, billId);
+  if (
+    !player ||
+    bill.status !== "drafted" ||
+    !chambersOf(api, bill).some((chamber) =>
+      members(api, chamber).some(sits(player)),
+    ) ||
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("choices")
+      .get(`${billId}|${player}`)
+  )
+    return;
+  const position = statedPosition(api, billId, player);
+  const vote = position === null ? "abstain" : position > 0 ? "yes" : "no";
+  castMemberVote(api, billId, player, vote);
+  keepAct(api, {
+    personId: player,
+    kind: "vote",
+    how: "own-choice",
+    recordId: billId,
+    position,
+    detail: vote,
+  });
 }
 
 // ---- The character's own choices ---------------------------------------
