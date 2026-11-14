@@ -126,11 +126,20 @@ for (const pin of PINS) {
           carry: true,
         });
         seen.extraAtCut = lineExtra(api, county, row(county), "housing");
-        const amendmentsBefore = (row(county).adoptedBy.amendedBy ?? []).length;
+        const amendmentsBefore = row(county).adoptedBy.amendedBy ?? [];
         step(WINDOW);
         seen.paidAfterCut = paidBy(county, cutOn);
-        seen.billsInCutWindow =
-          (row(county).adoptedBy.amendedBy ?? []).length - amendmentsBefore;
+        // The county's own council may pass a budget bill in these days. Name each one; the case holds only
+        // if none of them put the line back above its base.
+        seen.billsInCutWindow = (row(county).adoptedBy.amendedBy ?? [])
+          .filter((id) => !amendmentsBefore.includes(id))
+          .join(", ");
+        seen.extraEndOfCutWindow = lineExtra(
+          api,
+          county,
+          row(county),
+          "housing",
+        );
         seen.budgets = budgetsOf(api, county.id).length;
       }, 900_000);
 
@@ -158,6 +167,11 @@ for (const pin of PINS) {
       it("a cut puts the line back to its base and ends the help", () => {
         expect(seen.extraAtCut, where).toBe(0);
         expect(seen.paidAfterCut, where).toBe(0);
+        // Bills in the window (named here when there are any) did not restore the line above its base.
+        expect(
+          Number(seen.extraEndOfCutWindow),
+          `${where}: bills in the cut window: ${seen.billsInCutWindow || "none"}`,
+        ).toBeLessThanOrEqual(0);
       });
     },
     1_000_000,
