@@ -178,20 +178,19 @@ const OUTLINES = outlineData as unknown as {
   themeShort: Readonly<Record<string, string>>;
   /** A measure said short, where a figure's meaning names it. */
   topicWords: Readonly<Record<string, string>>;
-  /** A budget line's name said with what the government spends on it now ("{about} beyond {spent} a year"). */
-  lineSpent: string;
   /** The slot endings of the first, second and third wordings of how a question stands. */
   todaySlots: readonly string[];
   /** What a body's measures are called by their form (bodyNumbering's kind). */
   measureWords: Readonly<Record<string, string>>;
   conditions: { budgetEvenBand: Weight; budgetThemes: readonly string[] };
+  /** How a point's belief joins its ask, one to a point in order (rule 38). */
+  beliefJoins: { readonly joins: readonly string[] };
   pointShapes: {
     shapes: Readonly<
       Record<
         string,
         {
           readonly moves: readonly string[];
-          readonly belief: "belief-leads" | "belief-stands" | "belief-after";
           readonly pull: readonly string[];
         }
       >
@@ -929,6 +928,8 @@ export interface PlannedPoint {
   readonly number: "one" | "many";
   /** What the speaker believes on it, as the bank's clause, and the piece it was said with; null when the bank holds none. */
   readonly belief: { readonly text: string; readonly piece: string } | null;
+  /** How the belief joins the ask (speech-outlines.json `beliefJoins`); null when the point says no belief. */
+  readonly join: string | null;
 }
 
 /**
@@ -1537,48 +1538,6 @@ function budgetsNow(
     : [];
 }
 
-/**
- * A budget line's ask said with what this government already spends on it
- * (the lead, Nov 12: three towns said "I am against more assistance
- * spending" word for word, the question, side and body the same; what
- * differs is each town's own spending): the line's name filled into
- * speech-outlines.json `lineSpent` with this year's amount through moneySaid,
- * citing the budget row. Null for a question that is not a budget line or a
- * line the budget does not fund.
- */
-/** What this government spends on a budget line this year, as people say it, with the budget row; null for any other question. */
-function lineSpentAmount(
-  core: CoreState,
-  level: PolicyLevel,
-  jurisdiction: string | null,
-  local: OutlineSpeaker["local"],
-  question: string,
-): { readonly said: string; readonly budgetId: string } | null {
-  if (!question.startsWith(BUDGET_LINE)) return null;
-  const [budget] = budgetsNow(core, level, jurisdiction, local);
-  const spent = budget?.spendingMinor[question.slice(BUDGET_LINE.length)];
-  return budget && spent
-    ? { said: moneySaid(spent), budgetId: budget.id }
-    : null;
-}
-
-function lineSpentFact(
-  core: CoreState,
-  level: PolicyLevel,
-  jurisdiction: string | null,
-  local: OutlineSpeaker["local"],
-  question: string,
-): GroundedEnglishFact | null {
-  const spent = lineSpentAmount(core, level, jurisdiction, local, question);
-  const about = questionAbout(question);
-  if (!spent || !about) return null;
-  return fact(
-    OUTLINES.lineSpent.replace("{about}", about).replace("{spent}", spent.said),
-    `question:${question}`,
-    spent.budgetId,
-  );
-}
-
 function conditionFacts(
   core: CoreState,
   level: PolicyLevel,
@@ -1905,7 +1864,14 @@ export function planSpeech(
     ...(firstYear || !row.ownRecord ? (["victory"] as const) : []),
     ...(crisisTopic ? [] : HURT_KINDS),
   ]);
-  const crisis = HURT_KINDS.includes(addressKind) ? crisisTopic : null;
+  // A bad term always shows (words lead, rule 47): a policy or hopeful
+  // address of a term whose year slid still states the worst condition
+  // and answers it; only grief and a victory lap leave it out.
+  const crisis =
+    HURT_KINDS.includes(addressKind) ||
+    (situation.slide < P.zero && !["mourning", "victory"].includes(addressKind))
+      ? crisisTopic
+      : null;
   const response = crisis ? answered!.response : null;
   // The answer is the first point, said with the condition in one paragraph;
   // the theme's points follow it. The answer's question is said once.
@@ -1996,6 +1962,24 @@ export function planSpeech(
     role: string,
     options: { topic?: string; required?: boolean } = {},
   ) => openingMove(kind, voice, role, { ...options, addressKind });
+  // An ask whose belief is folded into it is said by the bank's folded cores
+  // alone, else a plain core would do and the belief would go unsaid (rule 38).
+  const askMove = (join: string | null) => {
+    const plain = move("ask");
+    if (join !== "belief-folded" || !plain) return plain;
+    const folded = plain.bank.parts.core.variants.filter((variant) =>
+      variant.requiresFacts?.includes("belief-folded"),
+    );
+    return folded.length
+      ? {
+          ...plain,
+          bank: {
+            ...plain.bank,
+            parts: { ...plain.bank.parts, core: { variants: folded } },
+          },
+        }
+      : plain;
+  };
   const party = (official?.party ?? "").toLowerCase();
   const creedFacts: Facts = official
     ? {
@@ -2048,7 +2032,9 @@ export function planSpeech(
       stand.law.inForce,
       side,
     );
-    let belief = believe(new Set());
+    // One join to a point, in order: a point past the last says no belief.
+    const join = OUTLINES.beliefJoins.joins[at] ?? null;
+    let belief = join ? believe(new Set()) : null;
     // Where every wording of how it stands makes the belief's own point,
     // the belief gives way to one that makes another.
     if (
@@ -2087,6 +2073,7 @@ export function planSpeech(
       figure: topicOf.get(stand.question) ?? null,
       number: questionNumber(stand.question),
       belief,
+      join: belief ? join : null,
     };
   });
   type Draft = Omit<Block, "part"> & { readonly joins?: boolean };
@@ -2136,9 +2123,7 @@ export function planSpeech(
       ...(after && sayingNew(after) && !(plan?.todays ?? []).includes(after)
         ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
         : {}),
-      ...(reason &&
-      sayingNew(reason) &&
-      !(plan?.belief?.text ?? "").includes(reason)
+      ...(reason && sayingNew(reason) && !plan?.belief
         ? { "first-reason": fact(reason, cited) }
         : {}),
       ...(short ? { "theme-short": fact(short, cited) } : {}),
@@ -2301,48 +2286,83 @@ export function planSpeech(
       // A number of years is said once in an address (words lead, Nov 14,
       // rule 39): the first figure that says it keeps it, and a later point
       // goes without a figure.
-      let yearsSaid = crisisDrafts.some(
-        (draft) => draft.facts["context-years"],
+      // A good term says one good thing from the record first (rule 48),
+      // in an area no point's figure tells again.
+      const figured = new Set(
+        pointStands.map((stand) => topicOf.get(stand.question)),
       );
+      const goodTopic =
+        !crisis &&
+        !federal &&
+        ownRecord &&
+        addressKind !== "mourning" &&
+        situation.slide > P.zero
+          ? ([...TERM_AREAS, ...Object.keys(TOPIC_CLAIMS)]
+              .filter(
+                (topic) =>
+                  country.facts[`${topic}-better`] && !figured.has(topic),
+              )
+              .sort(
+                (a, b) =>
+                  (country.movement[b] ?? P.zero) -
+                    (country.movement[a] ?? P.zero) || a.localeCompare(b),
+              )[P.zero] ?? null)
+          : null;
+      const goodDrafts: Draft[] = goodTopic
+        ? [
+            {
+              key: `good-${goodTopic}`,
+              level: "country",
+              facts: {
+                [`${goodTopic}-better`]: country.facts[`${goodTopic}-better`]!,
+                ...contextFacts(core, goodTopic, country, speaker.serviceStart),
+              },
+              moves: [move("story-says", { topic: goodTopic })],
+            },
+          ]
+        : [];
+      let yearsSaid =
+        crisisDrafts.some((draft) => draft.facts["context-years"]) ||
+        goodDrafts.some((draft) => draft.facts["context-years"]);
       return hurtOrder([
         ...crisisDrafts,
+        ...goodDrafts,
         ...pointStands.map((stand, at): Draft => {
           const plan = planned[at]!;
           const shape = OUTLINES.pointShapes.shapes[plan.shape]!;
           const rank =
             stand.stance < P.zero ? "rank-line" : (RANKS[at] ?? "rank-line");
           const facts = standFacts(stand, person.id, rank);
-          // A budget line is said with what this government spends on it now.
-          const spent = lineSpentFact(
-            core,
-            level,
-            speaker.jurisdiction,
-            local,
-            stand.question,
-          );
-          if (spent) facts.about = spent;
+          // A budget line's ask is not padded with what the line spends now
+          // (rule 46): an amount is said only at the ask's own size.
           // An unnumbered speech lists no ranks ("no ask list by number"), and a
           // belief that leads into the ask takes the opener's place.
-          if (!row.numberedAsks || shape.belief === "belief-leads")
+          if (!row.numberedAsks || plan.join === "belief-leads")
             delete facts[rank];
           // A federal stand is said as federal only by a federal speaker.
           if (!federal) delete facts["federal-level"];
           const topic = topicOf.get(stand.question);
           const belief = plan.belief?.text ?? null;
           const cited = [`question:${stand.question}`, stand.law.id];
-          const figured: Facts =
+          const figuredFacts: Facts =
             topic && !yearsSaid
               ? contextFacts(core, topic, country, speaker.serviceStart)
               : {};
-          if (figured["context-years"]) yearsSaid = true;
+          if (figuredFacts["context-years"]) yearsSaid = true;
           const figureMoves =
-            topic && (figured["context-years"] || !yearsSaid)
+            topic && (figuredFacts["context-years"] || !yearsSaid)
               ? [
                   move("context", { topic }),
-                  move("meaning", { topic }),
-                  // The year's claim, only by one who governed it.
-                  ...(ownRecord ? [move("story-says", { topic })] : []),
-                  move("tie"),
+                  // A figure is called trouble only where the records say it
+                  // went the wrong way (rule 45); else it is stated plainly.
+                  ...(wrongBy(country, topic) > P.zero
+                    ? [
+                        move("meaning", { topic }),
+                        // The year's claim, only by one who governed it.
+                        ...(ownRecord ? [move("story-says", { topic })] : []),
+                        move("tie"),
+                      ]
+                    : []),
                 ]
               : [];
           return {
@@ -2360,7 +2380,7 @@ export function planSpeech(
                 : {}),
               ...(topic && figureMoves.length
                 ? {
-                    ...figured,
+                    ...figuredFacts,
                     "figure-ties": fact("yes", ...cited),
                   }
                 : {}),
@@ -2394,7 +2414,12 @@ export function planSpeech(
                       person.id,
                       `question:${stand.question}`,
                     ),
-                    [shape.belief]: fact("yes", person.id),
+                    "belief-sentence": fact(
+                      `${belief.charAt(P.zero).toLocaleUpperCase("en-US")}${belief.slice(P.one)}.`,
+                      person.id,
+                      `question:${stand.question}`,
+                    ),
+                    [plan.join!]: fact("yes", person.id),
                   }
                 : {}),
               ...(plan.shape === "question-first"
@@ -2402,7 +2427,9 @@ export function planSpeech(
                 : {}),
             },
             moves: shape.moves.flatMap((name) =>
-              name === "figure" ? figureMoves : [move(name)],
+              name === "figure"
+                ? figureMoves
+                : [name === "ask" ? askMove(plan.join) : move(name)],
             ),
           };
         }),

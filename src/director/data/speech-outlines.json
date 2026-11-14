@@ -393,11 +393,10 @@
     ]
   },
   "pointShapes": {
-    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. `belief` says where the belief goes: always leading into the ask it explains (`belief-leads`), in one sentence. A belief is never a sentence of its own in an address (the words lead's ruling, Nov 13: two speakers may hold the same principle, and no two give the same speech line), so the shapes differ by order: the ask may come first, last or between the figure and how things stand. A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll. The figure's tie names no question (\"After 4 years of that, folks don't need one more thing to pay for.\"), so the ask after it names the question once. The question-first shape asks the audience about how things stand (\"Is it fair that ...?\"), so it names no question and says no separate today sentence.",
+    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. A condition comes before its answer (the words lead, Nov 14, rule 44): no shape puts the figure after the ask. A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll. The figure's tie names no question, so the ask after it names the question once. The question-first shape asks the audience about how things stand (\"Is it fair that ...?\"), so it names no question and says no separate today sentence. Where a belief goes is `beliefJoins`, one join to a point, in order.",
     "shapes": {
       "context-first": {
         "moves": ["today", "figure", "ask"],
-        "belief": "belief-leads",
         "pull": [
           "personality-v1:facet-analytical",
           "personality-v1:facet-studious",
@@ -405,9 +404,8 @@
           "personality-v1:facet-guarded"
         ]
       },
-      "belief-first": {
-        "moves": ["ask", "today", "figure"],
-        "belief": "belief-leads",
+      "figure-first": {
+        "moves": ["figure", "today", "ask"],
         "pull": [
           "personality-v1:facet-sincere",
           "personality-v1:facet-duty-bound",
@@ -417,7 +415,6 @@
       },
       "question-first": {
         "moves": ["question", "figure", "ask"],
-        "belief": "belief-leads",
         "pull": [
           "personality-v1:facet-dramatic",
           "personality-v1:facet-charming",
@@ -427,7 +424,6 @@
       },
       "ask-first": {
         "moves": ["figure", "ask", "today"],
-        "belief": "belief-leads",
         "pull": [
           "personality-v1:facet-blunt",
           "personality-v1:facet-assertive",
@@ -489,8 +485,6 @@
   },
   "todaySlots": ["", "-second", "-third"],
   "todaySlotsAbout": "The slot endings of the first, second and third wordings of how a question stands today ({today}, {today-second}, {today-third}); a slot name holds no digit, so the bank test's no-figure check reads its text. A fourth wording is not offered: the bank says three.",
-  "lineSpent": "{about} on top of what we spend now, {spent} a year",
-  "lineSpentAbout": "A budget line's ask names what this government already spends on the line this year ({spent}, through moneySaid, from the budgets engine's row), so three towns asking against the same line do not say one sentence (local-address-versions, seed bab4ffbbf3ef6ae3): 'I am for more parks spending on top of what we spend now, about $84,000 a year'. Said in the ask's own point, never in the close (the words lead, Nov 12). TUNABLE wording, checked by reading composed addresses.",
   "themeShortWords": {
     "value": 3,
     "tag": "TUNABLE",
@@ -526,5 +520,9 @@
     "health": "health care",
     "roads": "our roads",
     "environment": "our air and water"
+  },
+  "beliefJoins": {
+    "about": "How a point's belief joins its ask, one join to a point in the order of the speech's points, so no two points share one and \"Because I ...\" opens at most one sentence (the words lead, Nov 14, rule 38): `belief-leads` says the belief first (\"Because I believe X, I will Y\"); `belief-after` says the ask and then the belief as its own sentence; `belief-folded` folds it into the ask (\"I am against X because Y, and ...\"). A point after the last join says no belief.",
+    "joins": ["belief-leads", "belief-after", "belief-folded"]
   }
 }

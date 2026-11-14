@@ -291,6 +291,15 @@ describe("every speech through the one outline planner", () => {
               failures.push(
                 `${label}: a belief leads into a fact: "${sentence}"`,
               );
+          // 3. One belief frame, once (words lead, rule 38): at most one
+          // sentence of an address opens "Because I".
+          const becauseI = speech.text
+            .split(/(?<=[.!?])\s+/)
+            .filter((sentence) => /^Because I\b/.test(sentence));
+          if (becauseI.length > 1)
+            failures.push(
+              `${label}: ${becauseI.length} sentences open "Because I"`,
+            );
           // 6. Removed by kind: the last office's lesson, a greeting that is
           // not a list, a close that warns against its own ask.
           for (const [pattern, why] of [
