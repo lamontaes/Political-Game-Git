@@ -1272,7 +1272,7 @@ function jobLost(
     lost.date,
   );
   if (years)
-    facts.years = { ...years, text: countSaid(Number(years.text), 99) };
+    facts.years = { ...years, text: countSaid(Number(years.text), Infinity) };
   Object.assign(facts, hourlyFact(core, ended.id));
   const seeking = seekingOf(core, speaker.id);
   const reason = seeking && JOB_LOSS_STAGES[seeking.reasonKey];

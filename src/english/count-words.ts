@@ -105,7 +105,7 @@ export function changeSaid(
 
 /**
  * A whole count as people say it: below ten in words ("two years"), else in
- * digits. A line that opens on the count passes a higher limit (up to 99) and
+ * digits. A line that opens on the count passes a higher limit (Infinity: as far as the table goes, ninety-nine) and
  * gets "thirteen" or "forty-two".
  */
 export function countSaid(count: number, limit = 9): string {
