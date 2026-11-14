@@ -410,7 +410,7 @@ function electionLines(
     : undefined;
   const medium = outlet ? outletMedium(outlet.kind) : null;
   const carried = medium
-    ? { [medium]: { text: "", sourceRecordIds: [outlet!.id] } }
+    ? { [medium]: { text: medium, sourceRecordIds: [outlet!.id] } }
     : {};
   const lean = resultLean(core, result, speakerId);
   const listener = lean ? resultLean(core, result, listenerId) : null;
