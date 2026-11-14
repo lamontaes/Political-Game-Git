@@ -22,7 +22,7 @@ source: S4, Nov 14, while proving the office said in running text (PR 9197)
 
 **Cause.** Needs cause. Measured: Morganville, New Jersey (place key 3448030, seed cmp2:0): the offer is on the record, the entry's types are empty and its outcome is "journal-line". Pierpont, South Dakota (seed s3:1, the family's offer on 2025-03-08): "staged as a journal line". Across 24 other drawn places over three seeds (s1, s2, s3) the draw found no staged scene. Likely the offer's impact falls under the director's interrupt line (src/director/volunteer-offer-weight.test.ts reads that line) or a daily scene budget, but nobody has traced it.
 
-**Fix.** Find why the schedule picks the journal line for a manager offer and let it stage as a scene when the offer is between people who are close, without lowering any threshold for other moments.
+**Fix.** None until the cause is found.
 
 **Time box.** 2 hours, Opus medium. The builder of the campaign manager offer (#9158) owns the scene.
 
