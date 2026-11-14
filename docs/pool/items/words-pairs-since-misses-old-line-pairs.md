@@ -20,6 +20,8 @@ root: none
 
 **What.** On #9324, `npm run words:pairs -- --rule reply-second-move-follows-the-first --since <the train>` wrote 106 pairs, and M5 judged them. Then `npm run words:rules` still said 236 more pairs waited than were committed. The sheet had missed them, so the line-rules guard stayed red with no sheet that named them.
 
+Guards: tests/guards/english/line-rules.test.ts, which a builder can now keep green from the sheet alone.
+
 **Cause.** Found in code: scripts/words/reply-pairs.ts keeps only the subjects that have a line new or reworded since `--since` (`changedSince`, near line 241, used near line 590). A change to an arc in src/director/data/purpose-arcs.json can open pairs between two lines that both predate the base. On #9324, ask-to-serve gained the reply `ask`, and its `again` row was re-keyed to `answer`. All 236 missed pairs were in ask-to-serve, between lines older than the base.
 
 **Fix.** Choose the sheet by pair id, not by line age, when `--since` is given:
@@ -38,9 +40,9 @@ Add one line to the words-engine skill's "Keeping line-rules green" saying that 
 
 **Time box.** 2 hours for one sonnet session.
 
-**Rules.** Never edit pulled.json by hand.
+**Rules.** Look before you ask: read the words-engine skill's line-rules section and scripts/words/reply-pairs.ts first. Never edit pulled.json by hand.
 
-**Done when.** On a branch that changes only an arc row in purpose-arcs.json (for example, adding a reply move to one purpose), `npm run words:pairs -- --rule reply-second-move-follows-the-first --since <base>` writes every pair that `npm run words:rules` counts as newly waiting. The count on the sheet equals the rise that `words:rules` reports.
+**Done when.** On a branch that changes only an arc row in purpose-arcs.json (for example, adding a reply move to one purpose), `npm run words:pairs -- --rule reply-second-move-follows-the-first --since <base>` writes every pair that `npm run words:rules` counts as newly waiting. The count on the sheet equals the rise that `words:rules` reports. A second session checks it on such a branch, against a build of the branch head, with a test in scripts/words that changes one arc row and compares the counts. Nothing changes for a player in any place, so there is nothing to see in the game.
 
 **Waits on.** Nothing.
 

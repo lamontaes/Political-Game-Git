@@ -18,9 +18,9 @@ effort: medium
 root: none
 ---
 
-**What.** src/director/scene-talk.test.ts fails "composes a tree: every reply has its branch, numbers are unique, nodes are bounded, a lie shows both outcomes" with "expected 1 to be greater than or equal to 2" (`talk.depth`, line 220).
+**What.** src/director/scene-talk.test.ts fails "composes a tree: every reply has its branch, numbers are unique, nodes are bounded, a lie shows both outcomes" with "expected 1 to be greater than or equal to 2" (`talk.depth`, line 220). Three scenes end after the player's first reply, with no second turn. The test is red on the Train, and it is not on the Train's known list. Seen: the talk after filing petition papers, after being welcomed into a party, and when someone moving away says goodbye; each ends after one exchange.
 
-**Cause.** Measured: on the Train's head 8b6c8903fb77b98e19c1397858c0d26b65fdfe1e, the test fixture (tests/support/scene-talk-fixture.ts, with the facts and the source the test adds) composes three types with depth 1:
+**Cause.** Measured: `npx vitest run src/director/scene-talk.test.ts` (the fixture's seed `scene-talk-test`) on the Train's head 8b6c8903fb77b98e19c1397858c0d26b65fdfe1e, the test fixture (tests/support/scene-talk-fixture.ts, with the facts and the source the test adds) composes three types with depth 1:
 
 - filing (purpose filing-petition)
 - party-welcome (purpose party-welcome)
@@ -32,9 +32,9 @@ serve-sought was the fourth, and #9324 fixes it. The test stops at the first typ
 
 **Time box.** 2 hours for one sonnet session to trace; the fix is sized after.
 
-**Rules.** Never loosen the test. A missing branch is either an arc row or bank lines that the Words lead reads first; never a filler line.
+**Rules.** No hand-written player text: a missing turn is filled by an arc row or bank lines the Words lead reads first, never typed in code. Never loosen the test. A missing branch is either an arc row or bank lines that the Words lead reads first; never a filler line.
 
-**Done when.** On the Train's head, each of the three composes with depth 2 or more in the fixture, and the tree test passes for them.
+**Done when.** On the Train's head, each of the three composes with depth 2 or more in the fixture, and the tree test passes for them. Then a second session, in a place it draws from all 56 with a seed it did not choose, plays each of the three scenes in the running game: filing petition papers, being welcomed into a party, and saying goodbye to someone moving away. Each talk offers the player a second turn after their first reply.
 
 **Waits on.** Nothing.
 
