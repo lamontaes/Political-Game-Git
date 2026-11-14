@@ -12,7 +12,11 @@ import { transferCash } from "./world-transfer";
 import type { ModuleRow } from "./module-data";
 import { formerHome } from "./housing-former-home";
 import type { MortgageRow } from "./housing-foreclosure";
-import { webFactorFor } from "./modules/laws";
+import {
+  countOffered,
+  homeValueToday,
+  priceTrace,
+} from "./housing-price-level";
 import type { CoreAPI, CoreState } from "./types";
 
 const HOUSING = "housing";
@@ -109,7 +113,7 @@ export function sellHome(
         tenure?: string;
         kind?: string;
         valueMinor?: number;
-        webFactor?: number;
+        priceLevel?: number;
       }
     | undefined;
   if (dwelling?.tenure !== "own") return undefined;
@@ -122,13 +126,15 @@ export function sellHome(
   const mortgages = (
     table(api, "mortgages").rows() as unknown as MortgageRow[]
   ).filter((row) => row.householdId === householdId && row.balanceMinor > 0);
-  // The buyer pays the home's value moved by the outcome web's factor on home
-  // values since the home was valued (a severe disaster's lower prices).
+  // The buyer pays the home's value today by the one value rule: its value
+  // when valued times the place's price level now over its level then.
   const price = Math.round(
-    (dwelling.valueMinor ?? 0) *
-      times *
-      (webFactorFor(api, placeId, HOME_VALUE_MEASURE) /
-        (dwelling.webFactor ?? 1)),
+    homeValueToday(
+      api,
+      placeId,
+      dwelling.valueMinor ?? 0,
+      dwelling.priceLevel,
+    ) * times,
   );
   const owed = Math.round(
     mortgages.reduce((sum, row) => sum + row.balanceMinor, 0) * times,
@@ -140,8 +146,8 @@ export function sellHome(
     tag: "ESTIMATED" as const,
     asOf: c.date,
     citation:
-      "Housing engine: the home's value in the dwellings table, paid by the outside market.",
-    estimatedFrom: `${householdId} sold its home (${reasonKey}).`,
+      "Housing engine: the home's value today (its value when valued times the place's price level now over then), paid by the outside market.",
+    estimatedFrom: `${householdId} sold its home (${reasonKey}). Price level: ${priceTrace(api, placeId)}.`,
   };
   const stamp = `${householdId}:${c.date}`;
   let toLender = 0;
@@ -227,5 +233,7 @@ export function sellHome(
       : {}),
   };
   table(api, "sales").put(sale as unknown as ModuleRow);
+  // A home offered this month: the place's price level weighs it against the month's buyers.
+  countOffered(api, placeId, times);
   return sale;
 }

@@ -1,8 +1,8 @@
 /**
  * Pool item macro-mortgage-rate-fhfa-transition-index: an owner who bought
  * from June 2019 on carries the 30-year rate FHFA's MIRS Transition Index
- * gives for June of the year they bought (housing-mortgages.ts reads
- * historicalMortgageRate), and pays it through a played year. A place is
+ * gives for June of the year they bought, moved by this world's long-rate
+ * offset (housing-mortgages.ts reads worldMortgageRate), and pays it through a played year. A place is
  * drawn from all 56 on a seed nobody chose (MORTGAGE_HISTORY_SEED pins one),
  * redrawn (bounded) until an owner there bought since 2019.
  */
@@ -16,6 +16,8 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
+import { worldMortgageRate } from "./macro-model";
+import { housingMacroParameter } from "./modules/housing";
 
 const seed =
   process.env.MORTGAGE_HISTORY_SEED ?? randomBytes(8).toString("hex");
@@ -71,6 +73,7 @@ it(
         placeKey: place.key,
       });
       const api = coreAPI(core);
+      const started = core.date;
       // The housing engine writes the opening's loans on its first day.
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
       const mortgages = () =>
@@ -85,11 +88,24 @@ it(
         `${where}: ${recent.length} of ${mortgages().length} bought since 2019`,
       );
       if (!recent.length) continue;
-      for (const row of recent)
+      // This world's rate that June: FHFA's index moved by the world's own
+      // long-rate offset (worldMortgageRate), the rate the economy's past
+      // and the home price path read too.
+      for (const row of recent) {
+        expect(index.get(`${row.boughtYear}-06`), where).toBeDefined();
         expect(
           row.rate * 100,
           `${where} ${row.id} bought ${row.boughtYear}`,
-        ).toBeCloseTo(index.get(`${row.boughtYear}-06`)!, 10);
+        ).toBeCloseTo(
+          worldMortgageRate(
+            `${row.boughtYear}-06`,
+            started,
+            core.seed,
+            housingMacroParameter,
+          ),
+          10,
+        );
+      }
       const loan = recent[0]!;
       const before = loan.balanceMinor;
       advanceCore(core, addDays(makeIsoDate(core.date), 364));

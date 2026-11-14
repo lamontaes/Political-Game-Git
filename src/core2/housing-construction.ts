@@ -66,6 +66,8 @@ interface StockRow {
   openingRentMinor: number;
   openingPriceLevel: number;
   zoning: Zoning;
+  /** Homes offered this month for the home price level (housing-price-level.ts). */
+  priceOffered?: number;
 }
 
 interface ProjectRow {
@@ -194,7 +196,7 @@ export function takeNewHome(
 ): string | undefined {
   const row = stock.get(`stock:${placeId}`) as unknown as StockRow | undefined;
   if (!row || row.newHomesForSale < 1) return undefined;
-  // Only full renters buy; counted renters and households moving in don't yet.
+  // Renters in town buy (full ones, and counted ones on their lease anniversary); households moving in don't yet.
   stopgap("SG-WORLD-housing-new-home-buyers");
   const builder = (
     projects.query("all", [true]) as unknown as ProjectRow[]
@@ -570,7 +572,12 @@ export function buildMonth(
             rentalUnits: now.rentalUnits + project.units,
             vacantRental: now.vacantRental + project.units,
           }
-        : { ...now, newHomesForSale: now.newHomesForSale + project.units },
+        : {
+            ...now,
+            newHomesForSale: now.newHomesForSale + project.units,
+            // New homes finished for sale are homes offered this month (the price level's step reads it).
+            priceOffered: (now.priceOffered ?? 0) + project.units,
+          },
     );
     onFinish(finished);
   }
