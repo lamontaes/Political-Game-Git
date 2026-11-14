@@ -644,6 +644,10 @@
           "actKinds": ["help-others"]
         },
         {
+          "id": "defer",
+          "actKinds": ["play-safe", "concede"]
+        },
+        {
           "id": "apologize",
           "actKinds": ["concede", "help-others"]
         },

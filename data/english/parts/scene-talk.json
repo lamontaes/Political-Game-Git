@@ -134,7 +134,8 @@
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
     "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
     "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
-    "wanted": "What a bribe offer wants, the bill or the contract the offer record names."
+    "wanted": "What a bribe offer wants, the bill or the contract the offer record names.",
+    "rent": "The rent a renter pays each month, as said money, from their home's record."
   },
   "maxWords": 70,
   "parts": [
@@ -70719,7 +70720,7 @@
       "key": "scene-talk.reply-decline.i-still-don-t-see-it-your-way",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I still don't see it your way.",
+      "text": "I haven't changed my mind.",
       "uses": [
         {
           "subject": "scene",
@@ -164420,10 +164421,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.sure-self-i-know-what-it-is-to-need-a-few-people-to-vouch-for-you-where-do-i-sig",
+      "key": "scene-talk.reply-agree.sure-i-know-what-it-is-to-need-a-few-people-to-vouch-for-you-where-do-i-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Sure, {self}. I know what it is to need a few people to vouch for you. Where do I sign?",
+      "text": "Sure. I know what it is to need a few people to vouch for you. Where do I sign?",
       "uses": [
         {
           "subject": "scene",
@@ -164471,10 +164472,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-came-to-my-door-yourself-self-that-counts-for-something-i-ll-sign",
+      "key": "scene-talk.reply-agree.you-came-to-my-door-yourself-that-counts-for-something-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You came to my door yourself, {self}. That counts for something. I'll sign.",
+      "text": "You came to my door yourself. That counts for something. I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -164522,10 +164523,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-sign-self-don-t-make-me-regret-it",
+      "key": "scene-talk.reply-agree.i-ll-sign-don-t-make-me-regret-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll sign, {self}. Don't make me regret it.",
+      "text": "I'll sign. Don't make me regret it.",
       "uses": [
         {
           "subject": "scene",
@@ -164599,10 +164600,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-looking-for-work-self-not-a-candidate-i-won-t-sign",
+      "key": "scene-talk.reply-decline.i-m-looking-for-work-not-a-candidate-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm looking for work, {self}, not a candidate. I won't sign.",
+      "text": "I'm looking for work, not a candidate. I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -164611,7 +164612,8 @@
           "role": "asked",
           "purpose": "ask-signature.lost-job",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "braced",
@@ -164676,10 +164678,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-pass-self-i-ve-got-an-interview-to-get-ready-for",
+      "key": "scene-talk.reply-decline.i-ll-pass-i-ve-got-an-interview-to-get-ready-for",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll pass, {self}. I've got an interview to get ready for.",
+      "text": "I'll pass. I've got an interview to get ready for.",
       "uses": [
         {
           "subject": "scene",
@@ -164701,10 +164703,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-d-rather-keep-my-name-off-anything-until-i-ve-got-a-job-again-self",
+      "key": "scene-talk.reply-decline.i-d-rather-keep-my-name-off-anything-until-i-ve-got-a-job-again",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'd rather keep my name off anything until I've got a job again, {self}.",
+      "text": "I'd rather keep my name off anything until I've got a job again.",
       "uses": [
         {
           "subject": "scene",
@@ -164713,7 +164715,8 @@
           "role": "asked",
           "purpose": "ask-signature.lost-job",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "guarded",
@@ -164778,10 +164781,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-self-now-get-some-jobs-into-place",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-now-get-some-jobs-into-place",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote, {self}. Now get some jobs into {place}.",
+      "text": "You've got my vote. Now get some jobs into {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -164854,10 +164857,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-self-you-ve-got-my-vote-don-t-forget-the-people-out-of-work",
+      "key": "scene-talk.reply-agree.fine-you-ve-got-my-vote-don-t-forget-the-people-out-of-work",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fine, {self}. You've got my vote. Don't forget the people out of work.",
+      "text": "Fine. You've got my vote. Don't forget the people out of work.",
       "uses": [
         {
           "subject": "scene",
@@ -164866,7 +164869,8 @@
           "role": "asked",
           "purpose": "ask-support.lost-job",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "guarded",
@@ -164879,10 +164883,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.employer-cut-me-loose-i-m-not-voting-on-anybody-s-word-self",
+      "key": "scene-talk.reply-decline.employer-cut-me-loose-i-m-not-voting-on-anybody-s-word",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "{employer} cut me loose. I'm not voting on anybody's word, {self}.",
+      "text": "{employer} cut me loose. I'm not voting on anybody's word.",
       "uses": [
         {
           "subject": "scene",
@@ -164905,10 +164909,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-vote-on-promises-anymore-self-everybody-who-runs-makes-them",
+      "key": "scene-talk.reply-decline.i-don-t-vote-on-promises-anymore-everybody-who-runs-makes-them",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't vote on promises anymore, {self}. Everybody who runs makes them.",
+      "text": "I don't vote on promises anymore. Everybody who runs makes them.",
       "uses": [
         {
           "subject": "scene",
@@ -165007,10 +165011,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.talk-to-me-when-you-ve-got-something-for-people-out-of-work-self-not-before",
+      "key": "scene-talk.reply-decline.talk-to-me-when-you-ve-got-something-for-people-out-of-work-not-before",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Talk to me when you've got something for people out of work, {self}. Not before.",
+      "text": "Talk to me when you've got something for people out of work. Not before.",
       "uses": [
         {
           "subject": "scene",
@@ -165032,10 +165036,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-hope-the-right-call-comes-before-vote-day",
+      "key": "scene-talk.follow-thank.thank-you-i-hope-the-right-call-comes-soon",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I hope the right call comes before {vote-day}.",
+      "text": "Thank you. I hope the right call comes soon.",
       "uses": [
         {
           "subject": "scene",
@@ -165100,10 +165104,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-won-t-forget-it-by-vote-day",
+      "key": "scene-talk.follow-thank.thank-you-i-won-t-forget-that",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I won't forget it by {vote-day}.",
+      "text": "Thank you. I won't forget that.",
       "uses": [
         {
           "subject": "scene",
@@ -165270,10 +165274,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-thanks-for-opening-the-door-if-you-change-your-mind-i-m-self",
+      "key": "scene-talk.follow-accept.fair-enough-thanks-for-opening-the-door",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. Thanks for opening the door. If you change your mind, I'm {self}.",
+      "text": "Fair enough. Thanks for opening the door.",
       "uses": [
         {
           "subject": "scene",
@@ -165338,10 +165342,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.what-would-you-want-done-by-vote-day",
+      "key": "scene-talk.follow-press.what-would-you-want-done",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "What would you want done by {vote-day}?",
+      "text": "What would you want done?",
       "uses": [
         {
           "subject": "scene",
@@ -165372,10 +165376,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.what-would-change-your-mind-by-vote-day",
+      "key": "scene-talk.follow-press.what-would-change-your-mind",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "What would change your mind by {vote-day}?",
+      "text": "What would change your mind?",
       "uses": [
         {
           "subject": "scene",
@@ -165440,10 +165444,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.then-let-me-do-something-first-i-ll-find-out-who-s-hiring-and-come-back-before-v",
+      "key": "scene-talk.follow-promise.then-let-me-do-something-first-i-ll-find-out-who-s-hiring-and-come-back",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "Then let me do something first. I'll find out who's hiring and come back before {vote-day}.",
+      "text": "Then let me do something first. I'll find out who's hiring and come back.",
       "uses": [
         {
           "subject": "scene",
@@ -165474,10 +165478,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-look-into-it-before-vote-day-you-ll-hear-from-me-either-way",
+      "key": "scene-talk.follow-promise.i-ll-look-into-it-you-ll-hear-from-me-either-way",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll look into it before {vote-day}. You'll hear from me either way.",
+      "text": "I'll look into it. You'll hear from me either way.",
       "uses": [
         {
           "subject": "scene",
@@ -165510,10 +165514,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-ask-the-workforce-office-what-they-have-before-vote-day-no-strings",
+      "key": "scene-talk.follow-promise.i-ll-ask-the-workforce-office-what-they-have-and-bring-it-to-you-no-strings",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll ask the workforce office what they have, before {vote-day}. No strings.",
+      "text": "I'll ask the workforce office what they have and bring it to you. No strings.",
       "uses": [
         {
           "subject": "scene",
@@ -165544,10 +165548,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-find-out-what-help-there-is-for-people-out-of-work-and-i-ll-be-back-before",
+      "key": "scene-talk.follow-promise.i-ll-find-out-what-help-there-is-for-people-out-of-work-and-let-you-know",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll find out what help there is for people out of work, and I'll be back before {vote-day}.",
+      "text": "I'll find out what help there is for people out of work and let you know.",
       "uses": [
         {
           "subject": "scene",
@@ -165578,10 +165582,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.somebody-to-notice-self-that-would-be-a-start",
+      "key": "scene-talk.reply-decline.somebody-to-notice-that-would-be-a-start",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Somebody to notice, {self}. That would be a start.",
+      "text": "Somebody to notice. That would be a start.",
       "uses": [
         {
           "subject": "scene",
@@ -165612,10 +165616,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.a-job-self-anything-past-that-is-talk",
+      "key": "scene-talk.reply-decline.a-job-anything-past-that-is-talk",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "A job, {self}. Anything past that is talk.",
+      "text": "A job. Anything past that is talk.",
       "uses": [
         {
           "subject": "scene",
@@ -165646,10 +165650,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.somebody-who-calls-back-self-that-s-all",
+      "key": "scene-talk.reply-decline.somebody-who-calls-back-that-s-all",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Somebody who calls back, {self}. That's all.",
+      "text": "Somebody who calls back. That's all.",
       "uses": [
         {
           "subject": "scene",
@@ -165680,10 +165684,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.work-self-ask-me-again-when-there-s-some",
+      "key": "scene-talk.reply-decline.work-ask-me-again-when-there-s-some",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Work, {self}. Ask me again when there's some.",
+      "text": "Work. Ask me again when there's some.",
       "uses": [
         {
           "subject": "scene",
@@ -165714,10 +165718,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.people-running-say-that-self-do-it-and-then-we-ll-talk",
+      "key": "scene-talk.reply-decline.people-running-say-that-do-it-and-then-we-ll-talk",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "People running say that, {self}. Do it, and then we'll talk.",
+      "text": "People running say that. Do it, and then we'll talk.",
       "uses": [
         {
           "subject": "scene",
@@ -165748,10 +165752,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-d-like-that-self-my-answer-s-the-same-for-now-but-i-d-like-that",
+      "key": "scene-talk.reply-decline.i-d-like-that-my-answer-s-the-same-for-now-but-i-d-like-that",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'd like that, {self}. My answer's the same for now, but I'd like that.",
+      "text": "I'd like that. My answer's the same for now, but I'd like that.",
       "uses": [
         {
           "subject": "scene",
@@ -165782,10 +165786,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.bring-me-a-name-and-a-phone-number-self-not-a-flyer",
+      "key": "scene-talk.reply-decline.bring-me-a-name-and-a-phone-number-not-a-flyer",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Bring me a name and a phone number, {self}. Not a flyer.",
+      "text": "Bring me a name and a phone number. Not a flyer.",
       "uses": [
         {
           "subject": "scene",
@@ -165816,10 +165820,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.alright-self-you-know-where-i-live",
+      "key": "scene-talk.reply-decline.alright-you-know-where-i-live",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Alright, {self}. You know where I live.",
+      "text": "Alright. You know where I live.",
       "uses": [
         {
           "subject": "scene",
@@ -166012,10 +166016,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-thought-you-were-the-landlord-self-fine-i-ll-sign-at-least-you-knocked",
+      "key": "scene-talk.reply-agree.i-thought-you-were-the-landlord-fine-i-ll-sign-at-least-you-knocked",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I thought you were the landlord, {self}. Fine, I'll sign. At least you knocked.",
+      "text": "I thought you were the landlord. Fine, I'll sign. At least you knocked.",
       "uses": [
         {
           "subject": "scene",
@@ -166089,10 +166093,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.does-anybody-running-for-office-know-what-rent-does-to-people-i-ll-sign-then-go",
+      "key": "scene-talk.reply-agree.does-anybody-running-know-what-rent-does-to-people-i-ll-sign-then-go-find-out",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Does anybody running for {office} know what rent does to people? I'll sign. Then go find out.",
+      "text": "Does anybody running know what rent does to people? I'll sign. Then go find out.",
       "uses": [
         {
           "subject": "scene",
@@ -166114,10 +166118,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yeah-i-ll-sign-self-i-could-use-somebody-on-my-side",
+      "key": "scene-talk.reply-agree.yeah-i-ll-sign-i-could-use-somebody-on-my-side",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yeah, I'll sign, {self}. I could use somebody on my side.",
+      "text": "Yeah, I'll sign. I could use somebody on my side.",
       "uses": [
         {
           "subject": "scene",
@@ -166139,10 +166143,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.somebody-at-my-door-who-doesn-t-want-money-i-ll-sign-self",
+      "key": "scene-talk.reply-agree.somebody-at-my-door-who-doesn-t-want-money-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Somebody at my door who doesn't want money? I'll sign, {self}.",
+      "text": "Somebody at my door who doesn't want money? I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -166164,10 +166168,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-not-putting-my-name-on-anything-with-this-address-on-it-self-not-right-now",
+      "key": "scene-talk.reply-decline.i-m-not-putting-my-name-on-anything-with-this-address-on-it-not-right-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm not putting my name on anything with this address on it, {self}. Not right now.",
+      "text": "I'm not putting my name on anything with this address on it. Not right now.",
       "uses": [
         {
           "subject": "scene",
@@ -166176,7 +166180,8 @@
           "role": "asked",
           "purpose": "ask-signature.rent-notice",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["deadline"]
         }
       ],
       "bearing": "guarded",
@@ -166241,10 +166246,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ve-got-bigger-things-on-that-door-than-a-petition-self-sorry",
+      "key": "scene-talk.reply-decline.i-ve-got-bigger-things-on-that-door-than-a-petition-sorry",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I've got bigger things on that door than a petition, {self}. Sorry.",
+      "text": "I've got bigger things on that door than a petition. Sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -166266,10 +166271,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-would-anybody-running-for-office-do-about-rent-nothing-then-i-won-t-sign",
+      "key": "scene-talk.reply-decline.what-would-you-do-about-rent-nothing-then-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What would anybody running for {office} do about rent? Nothing? Then I won't sign.",
+      "text": "What would you do about rent? Nothing? Then I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -166291,10 +166296,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-know-if-i-ll-be-living-in-place-long-enough-to-count-try-next-door",
+      "key": "scene-talk.reply-decline.i-don-t-know-if-i-ll-be-living-here-long-enough-to-count-try-next-door",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't know if I'll be living in {place} long enough to count. Try next door.",
+      "text": "I don't know if I'll be living here long enough to count. Try next door.",
       "uses": [
         {
           "subject": "scene",
@@ -166367,10 +166372,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-self-remember-the-people-who-rent",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-remember-the-people-who-rent",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote, {self}. Remember the people who rent.",
+      "text": "You've got my vote. Remember the people who rent.",
       "uses": [
         {
           "subject": "scene",
@@ -166418,10 +166423,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.sure-you-ve-got-it-nice-to-see-someone-running-for-office-who-isn-t-collecting",
+      "key": "scene-talk.reply-agree.sure-you-ve-got-it-nice-to-see-someone-knock-who-isn-t-collecting-rent",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Sure, you've got it. Nice to see someone running for {office} who isn't collecting.",
+      "text": "Sure, you've got it. Nice to see someone knock who isn't collecting rent.",
       "uses": [
         {
           "subject": "scene",
@@ -166443,10 +166448,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.okay-self-i-ll-vote-for-you-don-t-make-me-sorry",
+      "key": "scene-talk.reply-agree.okay-i-ll-vote-for-you-don-t-make-me-sorry",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Okay, {self}. I'll vote for you. Don't make me sorry.",
+      "text": "Okay. I'll vote for you. Don't make me sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -166468,10 +166473,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.everybody-who-runs-for-office-says-housing-nobody-does-anything-you-don-t-have-m",
+      "key": "scene-talk.reply-decline.everybody-who-runs-says-housing-nobody-does-anything-you-don-t-have-my-vote",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Everybody who runs for {office} says housing. Nobody does anything. You don't have my vote.",
+      "text": "Everybody who runs says housing. Nobody does anything. You don't have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -166519,10 +166524,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-not-talking-about-vote-day-at-this-door-not-this-month",
+      "key": "scene-talk.reply-decline.i-m-not-talking-about-the-election-at-this-door-not-this-month",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm not talking about {vote-day} at this door. Not this month.",
+      "text": "I'm not talking about the election at this door. Not this month.",
       "uses": [
         {
           "subject": "scene",
@@ -166544,10 +166549,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-make-up-my-mind-later-self-i-ve-got-rent-to-figure-out-first",
+      "key": "scene-talk.reply-decline.i-ll-make-up-my-mind-later-i-ve-got-rent-to-figure-out-first",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll make up my mind later, {self}. I've got rent to figure out first.",
+      "text": "I'll make up my mind later. I've got rent to figure out first.",
       "uses": [
         {
           "subject": "scene",
@@ -166556,7 +166561,8 @@
           "role": "asked",
           "purpose": "ask-support.rent-notice",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["deadline"]
         }
       ],
       "bearing": "calm",
@@ -166595,10 +166601,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.landlords-vote-in-place-too-you-ll-be-fine-without-me",
+      "key": "scene-talk.reply-decline.landlords-vote-too-you-ll-be-fine-without-me",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Landlords vote in {place} too. You'll be fine without me.",
+      "text": "Landlords vote too. You'll be fine without me.",
       "uses": [
         {
           "subject": "scene",
@@ -166620,10 +166626,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-hope-you-re-still-here-on-vote-day",
+      "key": "scene-talk.follow-thank.thank-you-i-hope-you-re-still-here-come-election-day",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I hope you're still here on {vote-day}.",
+      "text": "Thank you. I hope you're still here come Election Day.",
       "uses": [
         {
           "subject": "scene",
@@ -166722,10 +166728,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-appreciate-it-more-than-you-know-hang-in-there-i-m-self-if-you-need-me",
+      "key": "scene-talk.follow-thank.i-appreciate-it-more-than-you-know-hang-in-there",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I appreciate it more than you know. Hang in there. I'm {self}, if you need me.",
+      "text": "I appreciate it more than you know. Hang in there.",
       "uses": [
         {
           "subject": "scene",
@@ -166790,10 +166796,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-fair-i-ll-leave-you-to-it-i-m-self-if-you-want-to-talk-later",
+      "key": "scene-talk.follow-accept.that-s-fair-i-ll-leave-you-to-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's fair. I'll leave you to it. I'm {self}, if you want to talk later.",
+      "text": "That's fair. I'll leave you to it.",
       "uses": [
         {
           "subject": "scene",
@@ -166858,10 +166864,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.no-problem-sorry-to-catch-you-at-a-bad-time-good-luck-with-it-from-self",
+      "key": "scene-talk.follow-accept.no-problem-sorry-to-catch-you-at-a-bad-time-good-luck-with-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "No problem. Sorry to catch you at a bad time. Good luck with it, from {self}.",
+      "text": "No problem. Sorry to catch you at a bad time. Good luck with it.",
       "uses": [
         {
           "subject": "scene",
@@ -166994,10 +167000,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.give-me-until-vote-day-to-show-you-i-ll-do-something-about-it",
+      "key": "scene-talk.follow-press.give-me-a-chance-to-show-you-i-ll-do-something-about-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Give me until {vote-day} to show you I'll do something about it.",
+      "text": "Give me a chance to show you I'll do something about it.",
       "uses": [
         {
           "subject": "scene",
@@ -167166,10 +167172,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-heard-you-self-still-no",
+      "key": "scene-talk.reply-decline.i-heard-you-still-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I heard you, {self}. Still no.",
+      "text": "I heard you. Still no.",
       "uses": [
         {
           "subject": "scene",
@@ -167191,10 +167197,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.asking-twice-doesn-t-pay-my-rent-self",
+      "key": "scene-talk.reply-decline.asking-twice-doesn-t-pay-my-rent",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Asking twice doesn't pay my rent, {self}.",
+      "text": "Asking twice doesn't pay my rent.",
       "uses": [
         {
           "subject": "scene",
@@ -167216,10 +167222,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-know-you-mean-well-self-i-can-t",
+      "key": "scene-talk.reply-decline.i-know-you-mean-well-i-can-t",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I know you mean well, {self}. I can't.",
+      "text": "I know you mean well. I can't.",
       "uses": [
         {
           "subject": "scene",
@@ -167241,10 +167247,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-this-time-around-self",
+      "key": "scene-talk.reply-decline.not-this-time-around",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not this time around, {self}.",
+      "text": "Not this time around.",
       "uses": [
         {
           "subject": "scene",
@@ -167266,10 +167272,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-what-i-said-self",
+      "key": "scene-talk.reply-decline.i-said-what-i-said",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said what I said, {self}.",
+      "text": "I said what I said.",
       "uses": [
         {
           "subject": "scene",
@@ -167291,10 +167297,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.then-do-something-about-rent-self-and-i-ll-think-about-it",
+      "key": "scene-talk.reply-decline.then-do-something-about-rent-and-i-ll-think-about-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Then do something about rent, {self}, and I'll think about it.",
+      "text": "Then do something about rent, and I'll think about it.",
       "uses": [
         {
           "subject": "scene",
@@ -167316,10 +167322,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.maybe-self-i-just-can-t-promise-anything-right-now",
+      "key": "scene-talk.reply-decline.maybe-i-just-can-t-promise-anything-right-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Maybe, {self}. I just can't promise anything right now.",
+      "text": "Maybe. I just can't promise anything right now.",
       "uses": [
         {
           "subject": "scene",
@@ -167328,7 +167334,8 @@
           "role": "asked",
           "purpose": "ask-support.rent-notice",
           "key": "door",
-          "after": "press"
+          "after": "press",
+          "requiresFacts": ["deadline"]
         }
       ],
       "bearing": "tender",
@@ -167366,10 +167373,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-believe-it-when-i-see-it-self",
+      "key": "scene-talk.reply-decline.i-ll-believe-it-when-i-see-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll believe it when I see it, {self}.",
+      "text": "I'll believe it when I see it.",
       "uses": [
         {
           "subject": "scene",
@@ -167400,10 +167407,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.that-would-help-thank-you-self-my-answer-s-still-the-same",
+      "key": "scene-talk.reply-decline.that-would-help-thank-you-my-answer-s-still-the-same",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "That would help. Thank you, {self}. My answer's still the same.",
+      "text": "That would help. Thank you. My answer's still the same.",
       "uses": [
         {
           "subject": "scene",
@@ -167412,7 +167419,8 @@
           "role": "asked",
           "purpose": "ask-signature.rent-notice",
           "key": "door",
-          "after": "promise"
+          "after": "promise",
+          "requiresFacts": ["deadline"]
         },
         {
           "subject": "scene",
@@ -167421,7 +167429,8 @@
           "role": "asked",
           "purpose": "ask-support.rent-notice",
           "key": "door",
-          "after": "promise"
+          "after": "promise",
+          "requiresFacts": ["deadline"]
         }
       ],
       "bearing": "tender",
@@ -167434,10 +167443,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.don-t-come-back-with-a-pamphlet-self-come-back-with-a-phone-number",
+      "key": "scene-talk.reply-decline.don-t-come-back-with-a-pamphlet-come-back-with-a-phone-number",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't come back with a pamphlet, {self}. Come back with a phone number.",
+      "text": "Don't come back with a pamphlet. Come back with a phone number.",
       "uses": [
         {
           "subject": "scene",
@@ -167468,10 +167477,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.okay-self-knock-again-when-you-have-it",
+      "key": "scene-talk.reply-decline.okay-knock-again-when-you-have-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Okay, {self}. Knock again when you have it.",
+      "text": "Okay. Knock again when you have it.",
       "uses": [
         {
           "subject": "scene",
@@ -167662,10 +167671,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-m-not-well-self-but-i-can-hold-a-pen-give-it-here",
+      "key": "scene-talk.reply-agree.i-m-not-well-but-i-can-hold-a-pen-give-it-here",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'm not well, {self}, but I can hold a pen. Give it here.",
+      "text": "I'm not well, but I can hold a pen. Give it here.",
       "uses": [
         {
           "subject": "scene",
@@ -167687,10 +167696,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.sure-self-make-it-quick-i-need-to-sit-down",
+      "key": "scene-talk.reply-agree.sure-make-it-quick-i-need-to-sit-down",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Sure, {self}. Make it quick, I need to sit down.",
+      "text": "Sure. Make it quick, I need to sit down.",
       "uses": [
         {
           "subject": "scene",
@@ -167712,10 +167721,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-m-sick-not-dead-i-ll-sign-for-office",
+      "key": "scene-talk.reply-agree.i-m-sick-not-dead-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'm sick, not dead. I'll sign for {office}.",
+      "text": "I'm sick, not dead. I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -167737,10 +167746,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.it-s-nice-to-see-a-face-from-place-at-the-door-sure-i-ll-sign",
+      "key": "scene-talk.reply-agree.it-s-nice-to-see-a-face-at-the-door-sure-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "It's nice to see a face from {place} at the door. Sure, I'll sign.",
+      "text": "It's nice to see a face at the door. Sure, I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -167762,10 +167771,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-don-t-get-around-much-these-days-self-but-i-can-sign-this-where",
+      "key": "scene-talk.reply-agree.i-don-t-get-around-much-these-days-but-i-can-sign-this-where",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I don't get around much these days, {self}, but I can sign this. Where?",
+      "text": "I don't get around much these days, but I can sign this. Where?",
       "uses": [
         {
           "subject": "scene",
@@ -167787,10 +167796,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-self-just-the-line-i-m-not-up-for-talking",
+      "key": "scene-talk.reply-agree.alright-just-the-line-i-m-not-up-for-talking",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright, {self}. Just the line. I'm not up for talking.",
+      "text": "Alright. Just the line. I'm not up for talking.",
       "uses": [
         {
           "subject": "scene",
@@ -167812,10 +167821,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-self-i-m-not-well-enough-to-think-about-it",
+      "key": "scene-talk.reply-decline.i-m-sorry-i-m-not-well-enough-to-think-about-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry, {self}. I'm not well enough to think about it.",
+      "text": "I'm sorry. I'm not well enough to think about it.",
       "uses": [
         {
           "subject": "scene",
@@ -167837,10 +167846,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-have-it-in-me-self-please-go",
+      "key": "scene-talk.reply-decline.i-don-t-have-it-in-me-please-go",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't have it in me, {self}. Please go.",
+      "text": "I don't have it in me. Please go.",
       "uses": [
         {
           "subject": "scene",
@@ -167862,10 +167871,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-got-out-of-bed-for-a-petition-for-office-i-won-t-sign",
+      "key": "scene-talk.reply-decline.i-got-out-of-bed-for-a-petition-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I got out of bed for a petition for {office}? I won't sign.",
+      "text": "I got out of bed for a petition? I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -167887,10 +167896,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-now-self-i-need-to-lie-back-down",
+      "key": "scene-talk.reply-decline.not-now-i-need-to-lie-back-down",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not now, {self}. I need to lie back down.",
+      "text": "Not now. I need to lie back down.",
       "uses": [
         {
           "subject": "scene",
@@ -167912,10 +167921,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-barely-keep-up-with-my-own-papers-self-i-m-not-signing-yours",
+      "key": "scene-talk.reply-decline.i-can-barely-keep-up-with-my-own-papers-i-m-not-signing-yours",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can barely keep up with my own papers, {self}. I'm not signing yours.",
+      "text": "I can barely keep up with my own papers. I'm not signing yours.",
       "uses": [
         {
           "subject": "scene",
@@ -167937,10 +167946,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.no-thank-you-self-i-m-not-seeing-anyone-right-now",
+      "key": "scene-talk.reply-decline.no-thank-you-i-m-not-seeing-anyone-right-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "No, thank you, {self}. I'm not seeing anyone right now.",
+      "text": "No, thank you. I'm not seeing anyone right now.",
       "uses": [
         {
           "subject": "scene",
@@ -167962,10 +167971,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-came-to-a-sick-person-s-door-and-were-kind-about-it-self-you-have-my-vote",
+      "key": "scene-talk.reply-agree.you-came-to-a-sick-person-s-door-and-were-kind-about-it-you-have-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You came to a sick person's door and were kind about it, {self}. You have my vote.",
+      "text": "You came to a sick person's door and were kind about it. You have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -168012,10 +168021,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.do-something-about-what-the-doctor-costs-in-place-and-you-ve-got-me",
+      "key": "scene-talk.reply-agree.do-something-about-what-the-doctor-costs-and-you-ve-got-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Do something about what the doctor costs in {place}, and you've got me.",
+      "text": "Do something about what the doctor costs, and you've got me.",
       "uses": [
         {
           "subject": "scene",
@@ -168037,10 +168046,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-self-it-s-nice-to-see-a-new-face",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-it-s-nice-to-see-a-new-face",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote, {self}. It's nice to see a new face.",
+      "text": "You've got my vote. It's nice to see a new face.",
       "uses": [
         {
           "subject": "scene",
@@ -168087,10 +168096,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-self-you-ve-got-it-now-let-me-sit-down",
+      "key": "scene-talk.reply-agree.fine-you-ve-got-it-now-let-me-sit-down",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fine, {self}. You've got it. Now let me sit down.",
+      "text": "Fine. You've got it. Now let me sit down.",
       "uses": [
         {
           "subject": "scene",
@@ -168137,10 +168146,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-decide-at-the-door-self-especially-not-this-week",
+      "key": "scene-talk.reply-decline.i-don-t-decide-at-the-door-especially-not-this-week",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't decide at the door, {self}. Especially not this week.",
+      "text": "I don't decide at the door. Especially not this week.",
       "uses": [
         {
           "subject": "scene",
@@ -168162,10 +168171,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-too-sick-to-care-who-wins-self-you-don-t-have-my-vote",
+      "key": "scene-talk.reply-decline.i-m-too-sick-to-care-who-wins-you-don-t-have-my-vote",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm too sick to care who wins, {self}. You don't have my vote.",
+      "text": "I'm too sick to care who wins. You don't have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -168187,10 +168196,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-decide-before-vote-day-if-i-m-up-to-it",
+      "key": "scene-talk.reply-decline.i-ll-decide-when-i-m-up-to-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll decide before {vote-day}, if I'm up to it.",
+      "text": "I'll decide when I'm up to it.",
       "uses": [
         {
           "subject": "scene",
@@ -168212,10 +168221,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-would-you-do-for-people-who-can-t-get-out-of-the-house-self-nothing-then-no",
+      "key": "scene-talk.reply-decline.what-would-you-do-for-people-who-can-t-get-out-of-the-house-nothing-then-no-vote",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What would you do for people who can't get out of the house, {self}? Nothing? Then no vote.",
+      "text": "What would you do for people who can't get out of the house? Nothing? Then no vote.",
       "uses": [
         {
           "subject": "scene",
@@ -168237,10 +168246,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-now-self-i-need-to-rest",
+      "key": "scene-talk.reply-decline.not-now-i-need-to-rest",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not now, {self}. I need to rest.",
+      "text": "Not now. I need to rest.",
       "uses": [
         {
           "subject": "scene",
@@ -168296,10 +168305,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-i-ll-let-you-rest-i-m-self-if-you-need-anything",
+      "key": "scene-talk.follow-thank.thanks-i-ll-let-you-rest",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks. I'll let you rest. I'm {self}, if you need anything.",
+      "text": "Thanks. I'll let you rest.",
       "uses": [
         {
           "subject": "scene",
@@ -168330,10 +168339,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-for-coming-to-the-door-take-care-of-yourself-i-m-self",
+      "key": "scene-talk.follow-thank.thank-you-for-coming-to-the-door-take-care-of-yourself",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you for coming to the door. Take care of yourself. I'm {self}.",
+      "text": "Thank you for coming to the door. Take care of yourself.",
       "uses": [
         {
           "subject": "scene",
@@ -168398,10 +168407,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.of-course-i-ll-come-back-another-time-feel-better-i-m-self",
+      "key": "scene-talk.follow-accept.of-course-i-ll-come-back-another-time-feel-better",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Of course. I'll come back another time. Feel better. I'm {self}.",
+      "text": "Of course. I'll come back another time. Feel better.",
       "uses": [
         {
           "subject": "scene",
@@ -168466,10 +168475,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-alright-take-care-of-yourself-i-m-self-if-you-need-anything",
+      "key": "scene-talk.follow-accept.that-s-alright-take-care-of-yourself",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's alright. Take care of yourself. I'm {self}, if you need anything.",
+      "text": "That's alright. Take care of yourself.",
       "uses": [
         {
           "subject": "scene",
@@ -168559,10 +168568,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-ll-be-quick-i-m-self-and-i-want-you-to-know-who-s-asking",
+      "key": "scene-talk.follow-press.i-ll-be-quick-i-just-want-you-to-know-who-s-asking",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'll be quick. I'm {self}, and I want you to know who's asking.",
+      "text": "I'll be quick. I just want you to know who's asking.",
       "uses": [
         {
           "subject": "scene",
@@ -168643,10 +168652,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.please-just-think-about-it-before-vote-day",
+      "key": "scene-talk.follow-press.please-just-think-about-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Please. Just think about it before {vote-day}.",
+      "text": "Please. Just think about it.",
       "uses": [
         {
           "subject": "scene",
@@ -168702,10 +168711,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-i-m-sick-self-leave-me-alone",
+      "key": "scene-talk.reply-decline.i-said-i-m-sick-leave-me-alone",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said I'm sick, {self}. Leave me alone.",
+      "text": "I said I'm sick. Leave me alone.",
       "uses": [
         {
           "subject": "scene",
@@ -168752,10 +168761,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-d-like-to-help-you-self-i-can-t-please",
+      "key": "scene-talk.reply-decline.i-d-like-to-help-you-i-can-t-please",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'd like to help you, {self}. I can't. Please.",
+      "text": "I'd like to help you. I can't. Please.",
       "uses": [
         {
           "subject": "scene",
@@ -168777,10 +168786,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-really-are-running-self-goodbye",
+      "key": "scene-talk.reply-decline.you-really-are-running-goodbye",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You really are running, {self}. Goodbye.",
+      "text": "You really are running. Goodbye.",
       "uses": [
         {
           "subject": "scene",
@@ -168802,10 +168811,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-told-you-i-m-not-well-self-go-knock-on-someone-else-s-door",
+      "key": "scene-talk.reply-decline.i-told-you-i-m-not-well-go-knock-on-someone-else-s-door",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I told you I'm not well, {self}. Go knock on someone else's door.",
+      "text": "I told you I'm not well. Go knock on someone else's door.",
       "uses": [
         {
           "subject": "scene",
@@ -168827,10 +168836,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-closing-the-door-now-self",
+      "key": "scene-talk.reply-decline.i-m-closing-the-door-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm closing the door now, {self}.",
+      "text": "I'm closing the door now.",
       "uses": [
         {
           "subject": "scene",
@@ -168852,10 +168861,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-self-i-just-can-t-do-this-right-now",
+      "key": "scene-talk.reply-decline.i-m-sorry-i-just-can-t-do-this-right-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry, {self}. I just can't do this right now.",
+      "text": "I'm sorry. I just can't do this right now.",
       "uses": [
         {
           "subject": "scene",
@@ -169092,10 +169101,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-self-i-ll-sign-i-have-to-get-back-inside",
+      "key": "scene-talk.reply-agree.fine-i-ll-sign-i-have-to-get-back-inside",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fine, {self}. I'll sign. I have to get back inside.",
+      "text": "Fine. I'll sign. I have to get back inside.",
       "uses": [
         {
           "subject": "scene",
@@ -169104,7 +169113,8 @@
           "role": "asked",
           "purpose": "ask-signature.caring",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["relative"]
         }
       ],
       "bearing": "calm",
@@ -169117,10 +169127,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.somebody-running-for-office-ought-to-know-what-caring-for-someone-costs-i-ll-sig",
+      "key": "scene-talk.reply-agree.somebody-running-ought-to-know-what-caring-for-someone-costs-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Somebody running for {office} ought to know what caring for someone costs. I'll sign.",
+      "text": "Somebody running ought to know what caring for someone costs. I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -169142,10 +169152,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.somebody-to-talk-to-who-isn-t-a-doctor-s-office-sure-self-i-ll-sign",
+      "key": "scene-talk.reply-agree.somebody-to-talk-to-who-isn-t-a-doctor-s-office-sure-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Somebody to talk to who isn't a doctor's office. Sure, {self}, I'll sign.",
+      "text": "Somebody to talk to who isn't a doctor's office. Sure, I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -169193,10 +169203,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.okay-self-just-the-signature-i-can-t-talk",
+      "key": "scene-talk.reply-agree.okay-just-the-signature-i-can-t-talk",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Okay, {self}. Just the signature. I can't talk.",
+      "text": "Okay. Just the signature. I can't talk.",
       "uses": [
         {
           "subject": "scene",
@@ -169244,10 +169254,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-t-not-now-self",
+      "key": "scene-talk.reply-decline.i-can-t-not-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't. Not now, {self}.",
+      "text": "I can't. Not now.",
       "uses": [
         {
           "subject": "scene",
@@ -169269,10 +169279,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-inside-self-i-don-t-have-time-for-a-petition",
+      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-inside-i-don-t-have-time-for-a-petition",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I've got someone sick inside, {self}. I don't have time for a petition.",
+      "text": "I've got someone sick inside. I don't have time for a petition.",
       "uses": [
         {
           "subject": "scene",
@@ -169281,7 +169291,8 @@
           "role": "asked",
           "purpose": "ask-signature.caring",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["relative"]
         }
       ],
       "bearing": "braced",
@@ -169294,10 +169305,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.maybe-some-other-time-self-i-have-to-get-back",
+      "key": "scene-talk.reply-decline.maybe-some-other-time-i-have-to-get-back",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Maybe some other time, {self}. I have to get back.",
+      "text": "Maybe some other time. I have to get back.",
       "uses": [
         {
           "subject": "scene",
@@ -169306,7 +169317,8 @@
           "role": "asked",
           "purpose": "ask-signature.caring",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["relative"]
         }
       ],
       "bearing": "calm",
@@ -169319,10 +169331,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-t-sign-anything-while-i-m-doing-this-self-ask-me-when-it-s-over",
+      "key": "scene-talk.reply-decline.i-can-t-sign-anything-while-i-m-doing-this-ask-me-when-it-s-over",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't sign anything while I'm doing this, {self}. Ask me when it's over.",
+      "text": "I can't sign anything while I'm doing this. Ask me when it's over.",
       "uses": [
         {
           "subject": "scene",
@@ -169331,7 +169343,8 @@
           "role": "asked",
           "purpose": "ask-signature.caring",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["relative"]
         }
       ],
       "bearing": "curious",
@@ -169344,10 +169357,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-not-signing-anything-self-i-need-to-go",
+      "key": "scene-talk.reply-decline.i-m-not-signing-anything-i-need-to-go",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm not signing anything, {self}. I need to go.",
+      "text": "I'm not signing anything. I need to go.",
       "uses": [
         {
           "subject": "scene",
@@ -169395,10 +169408,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-self-now-i-ve-got-to-go-back-in",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-now-i-ve-got-to-go-back-in",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote, {self}. Now I've got to go back in.",
+      "text": "You've got my vote. Now I've got to go back in.",
       "uses": [
         {
           "subject": "scene",
@@ -169407,7 +169420,8 @@
           "role": "asked",
           "purpose": "ask-support.caring",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["relative"]
         }
       ],
       "bearing": "calm",
@@ -169420,10 +169434,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.nobody-in-place-helps-people-like-me-do-something-about-that-and-i-m-with-you",
+      "key": "scene-talk.reply-agree.nobody-helps-people-like-me-do-something-about-that-and-i-m-with-you",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Nobody in {place} helps people like me. Do something about that and I'm with you.",
+      "text": "Nobody helps people like me. Do something about that and I'm with you.",
       "uses": [
         {
           "subject": "scene",
@@ -169445,10 +169459,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.it-s-nice-to-have-a-grown-up-conversation-for-once-self-you-ve-got-my-vote",
+      "key": "scene-talk.reply-agree.it-s-nice-to-have-a-grown-up-conversation-for-once-you-ve-got-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "It's nice to have a grown-up conversation for once, {self}. You've got my vote.",
+      "text": "It's nice to have a grown-up conversation for once. You've got my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -169496,10 +169510,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-you-ve-got-it-self",
+      "key": "scene-talk.reply-agree.fine-you-ve-got-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fine. You've got it, {self}.",
+      "text": "Fine. You've got it.",
       "uses": [
         {
           "subject": "scene",
@@ -169547,10 +169561,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-haven-t-followed-the-race-for-office-at-all-i-can-t-tell-you-who-i-ll-vote-for",
+      "key": "scene-talk.reply-decline.i-haven-t-followed-the-race-at-all-i-can-t-tell-you-who-i-ll-vote-for",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I haven't followed the race for {office} at all. I can't tell you who I'll vote for.",
+      "text": "I haven't followed the race at all. I can't tell you who I'll vote for.",
       "uses": [
         {
           "subject": "scene",
@@ -169572,10 +169586,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-in-there-self-i-don-t-care-who-wins",
+      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-in-there-i-don-t-care-who-wins",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I've got someone sick in there, {self}. I don't care who wins.",
+      "text": "I've got someone sick in there. I don't care who wins.",
       "uses": [
         {
           "subject": "scene",
@@ -169584,7 +169598,8 @@
           "role": "asked",
           "purpose": "ask-support.caring",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["relative"]
         }
       ],
       "bearing": "braced",
@@ -169597,10 +169612,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-decide-when-i-decide-self-i-need-to-go-back-in",
+      "key": "scene-talk.reply-decline.i-ll-decide-when-i-decide-i-need-to-go-back-in",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll decide when I decide, {self}. I need to go back in.",
+      "text": "I'll decide when I decide. I need to go back in.",
       "uses": [
         {
           "subject": "scene",
@@ -169609,7 +169624,8 @@
           "role": "asked",
           "purpose": "ask-support.caring",
           "key": "door",
-          "after": "request"
+          "after": "request",
+          "requiresFacts": ["relative"]
         }
       ],
       "bearing": "calm",
@@ -169622,10 +169638,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-would-you-do-for-families-caring-for-somebody-at-home-self-if-you-don-t-kno",
+      "key": "scene-talk.reply-decline.what-would-you-do-for-families-caring-for-somebody-at-home-if-you-don-t-know-the",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What would you do for families caring for somebody at home, {self}? If you don't know, then no.",
+      "text": "What would you do for families caring for somebody at home? If you don't know, then no.",
       "uses": [
         {
           "subject": "scene",
@@ -169672,10 +169688,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-go-on-back-in-i-m-self-if-you-need-anything",
+      "key": "scene-talk.follow-thank.thank-you-go-on-back-in",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. Go on back in. I'm {self}, if you need anything.",
+      "text": "Thank you. Go on back in.",
       "uses": [
         {
           "subject": "scene",
@@ -169706,10 +169722,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-i-won-t-keep-you-i-m-self",
+      "key": "scene-talk.follow-thank.thanks-i-won-t-keep-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks. I won't keep you. I'm {self}.",
+      "text": "Thanks. I won't keep you.",
       "uses": [
         {
           "subject": "scene",
@@ -169776,10 +169792,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-appreciate-it-take-care-of-yourself-too-i-m-self",
+      "key": "scene-talk.follow-thank.i-appreciate-it-take-care-of-yourself-too",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I appreciate it. Take care of yourself too. I'm {self}.",
+      "text": "I appreciate it. Take care of yourself too.",
       "uses": [
         {
           "subject": "scene",
@@ -169810,10 +169826,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.of-course-i-ll-come-back-another-time-i-m-self",
+      "key": "scene-talk.follow-accept.of-course-i-ll-come-back-another-time",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Of course. I'll come back another time. I'm {self}.",
+      "text": "Of course. I'll come back another time.",
       "uses": [
         {
           "subject": "scene",
@@ -169844,10 +169860,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.go-on-i-won-t-keep-you-i-m-self-if-you-need-anything",
+      "key": "scene-talk.follow-accept.go-on-i-won-t-keep-you",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Go on. I won't keep you. I'm {self}, if you need anything.",
+      "text": "Go on. I won't keep you.",
       "uses": [
         {
           "subject": "scene",
@@ -169973,10 +169989,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.one-minute-before-vote-day",
+      "key": "scene-talk.follow-press.just-one-minute",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "One minute, before {vote-day}?",
+      "text": "Just one minute?",
       "uses": [
         {
           "subject": "scene",
@@ -170057,10 +170073,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.think-about-it-before-vote-day",
+      "key": "scene-talk.follow-press.will-you-think-about-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Think about it before {vote-day}?",
+      "text": "Will you think about it?",
       "uses": [
         {
           "subject": "scene",
@@ -170082,10 +170098,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-won-t-take-long-i-promise-i-m-self",
+      "key": "scene-talk.follow-press.i-won-t-take-long-i-swear",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I won't take long, I promise. I'm {self}.",
+      "text": "I won't take long, I swear.",
       "uses": [
         {
           "subject": "scene",
@@ -170116,10 +170132,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-no-self-i-have-to-go",
+      "key": "scene-talk.reply-decline.i-said-no-i-have-to-go",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said no, {self}. I have to go.",
+      "text": "I said no. I have to go.",
       "uses": [
         {
           "subject": "scene",
@@ -170166,10 +170182,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.please-self-i-really-can-t",
+      "key": "scene-talk.reply-decline.please-i-really-can-t",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Please, {self}. I really can't.",
+      "text": "Please. I really can't.",
       "uses": [
         {
           "subject": "scene",
@@ -170191,10 +170207,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-heard-me-the-first-time-self",
+      "key": "scene-talk.reply-decline.you-heard-me-the-first-time",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You heard me the first time, {self}.",
+      "text": "You heard me the first time.",
       "uses": [
         {
           "subject": "scene",
@@ -170216,10 +170232,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-not-now-self-goodbye",
+      "key": "scene-talk.reply-decline.i-said-not-now-goodbye",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said not now, {self}. Goodbye.",
+      "text": "I said not now. Goodbye.",
       "uses": [
         {
           "subject": "scene",
@@ -170266,10 +170282,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.maybe-later-self-i-really-have-to-go",
+      "key": "scene-talk.reply-decline.maybe-later-i-really-have-to-go",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Maybe later, {self}. I really have to go.",
+      "text": "Maybe later. I really have to go.",
       "uses": [
         {
           "subject": "scene",
@@ -170291,10 +170307,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-closing-the-door-self",
+      "key": "scene-talk.reply-decline.i-m-closing-the-door",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm closing the door, {self}.",
+      "text": "I'm closing the door.",
       "uses": [
         {
           "subject": "scene",
@@ -170783,10 +170799,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-running-for-office-alright-i-ll-sign-somebody-has-to-keep-you-honest",
+      "key": "scene-talk.reply-agree.you-running-alright-i-ll-sign-somebody-has-to-keep-you-honest",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You, running for {office}? Alright, I'll sign. Somebody has to keep you honest.",
+      "text": "You, running? Alright, I'll sign. Somebody has to keep you honest.",
       "uses": [
         {
           "subject": "scene",
@@ -170984,10 +171000,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-really-want-to-run-for-office-i-m-not-signing-until-i-know-you-ve-thought-it",
+      "key": "scene-talk.reply-decline.you-really-want-to-run-i-m-not-signing-until-i-know-you-ve-thought-it-through",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You really want to run for {office}? I'm not signing until I know you've thought it through.",
+      "text": "You really want to run? I'm not signing until I know you've thought it through.",
       "uses": [
         {
           "subject": "scene",
@@ -171438,10 +171454,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-ll-make-you-glad-come-vote-day",
+      "key": "scene-talk.follow-thank.i-ll-make-you-glad-you-did",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'll make you glad, come {vote-day}.",
+      "text": "I'll make you glad you did.",
       "uses": [
         {
           "subject": "scene",
@@ -171540,10 +171556,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ll-ask-again-over-coffee-before-vote-day",
+      "key": "scene-talk.follow-accept.i-ll-ask-again-over-coffee",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll ask again over coffee before {vote-day}.",
+      "text": "I'll ask again over coffee.",
       "uses": [
         {
           "subject": "scene",
@@ -171642,10 +171658,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.if-you-won-t-who-will-before-vote-day",
+      "key": "scene-talk.follow-press.if-you-won-t-who-will",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "If you won't, who will before {vote-day}?",
+      "text": "If you won't, who will?",
       "uses": [
         {
           "subject": "scene",
@@ -171744,10 +171760,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.nice-try-self-still-no",
+      "key": "scene-talk.reply-decline.nice-try-still-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Nice try, {self}. Still no.",
+      "text": "Nice try. Still no.",
       "uses": [
         {
           "subject": "scene",
@@ -171769,10 +171785,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.don-t-make-it-a-friendship-thing-self",
+      "key": "scene-talk.reply-decline.don-t-make-it-a-friendship-thing",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't make it a friendship thing, {self}.",
+      "text": "Don't make it a friendship thing.",
       "uses": [
         {
           "subject": "scene",
@@ -171794,10 +171810,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-self-i-mean-it-about-keeping-my-name-off-things",
+      "key": "scene-talk.reply-decline.i-m-sorry-i-mean-it-about-keeping-my-name-off-things",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry, {self}. I mean it about keeping my name off things.",
+      "text": "I'm sorry. I mean it about keeping my name off things.",
       "uses": [
         {
           "subject": "scene",
@@ -171819,10 +171835,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-re-going-to-have-to-get-used-to-people-saying-no-self",
+      "key": "scene-talk.reply-decline.you-re-going-to-have-to-get-used-to-people-saying-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You're going to have to get used to people saying no, {self}.",
+      "text": "You're going to have to get used to people saying no.",
       "uses": [
         {
           "subject": "scene",
@@ -171844,10 +171860,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-think-about-it-self-that-s-the-best-you-get-from-me",
+      "key": "scene-talk.reply-decline.i-ll-think-about-it-that-s-the-best-you-get-from-me",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll think about it, {self}. That's the best you get from me.",
+      "text": "I'll think about it. That's the best you get from me.",
       "uses": [
         {
           "subject": "scene",
@@ -171869,10 +171885,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.don-t-push-self-i-ll-decide-on-my-own",
+      "key": "scene-talk.reply-decline.don-t-push-i-ll-decide-on-my-own",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't push, {self}. I'll decide on my own.",
+      "text": "Don't push. I'll decide on my own.",
       "uses": [
         {
           "subject": "scene",
@@ -171894,10 +171910,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-ll-always-be-my-friend-self-my-vote-s-still-my-own",
+      "key": "scene-talk.reply-decline.you-ll-always-be-my-friend-my-vote-s-still-my-own",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You'll always be my friend, {self}. My vote's still my own.",
+      "text": "You'll always be my friend. My vote's still my own.",
       "uses": [
         {
           "subject": "scene",
@@ -171919,10 +171935,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.that-s-exactly-why-i-won-t-self",
+      "key": "scene-talk.reply-decline.that-s-exactly-why-i-won-t",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "That's exactly why I won't, {self}.",
+      "text": "That's exactly why I won't.",
       "uses": [
         {
           "subject": "scene",
@@ -172040,10 +172056,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.same-party-same-side-self-of-course-you-ve-got-my-vote",
+      "key": "scene-talk.reply-agree.same-party-same-side-of-course-you-ve-got-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Same party, same side, {self}. Of course you've got my vote.",
+      "text": "Same party, same side. Of course you've got my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -172090,10 +172106,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-d-vote-for-you-over-the-other-side-any-day-self-you-ve-got-it",
+      "key": "scene-talk.reply-agree.i-d-vote-for-you-over-the-other-side-any-day-you-ve-got-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'd vote for you over the other side any day, {self}. You've got it.",
+      "text": "I'd vote for you over the other side any day. You've got it.",
       "uses": [
         {
           "subject": "scene",
@@ -172140,10 +172156,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-vote-the-ticket-so-yes-self-but-tell-me-where-you-break-with-the-party",
+      "key": "scene-talk.reply-agree.i-vote-the-ticket-so-yes-but-tell-me-where-you-break-with-the-party",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I vote the ticket, so yes, {self}. But tell me where you break with the party.",
+      "text": "I vote the ticket, so yes. But tell me where you break with the party.",
       "uses": [
         {
           "subject": "scene",
@@ -172165,10 +172181,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-self-don-t-embarrass-us",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-don-t-embarrass-us",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote, {self}. Don't embarrass us.",
+      "text": "You've got my vote. Don't embarrass us.",
       "uses": [
         {
           "subject": "scene",
@@ -172190,10 +172206,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-in-your-party-self-that-doesn-t-mean-i-like-who-it-puts-up",
+      "key": "scene-talk.reply-decline.i-m-in-your-party-that-doesn-t-mean-i-like-who-it-puts-up",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm in your party, {self}. That doesn't mean I like who it puts up.",
+      "text": "I'm in your party. That doesn't mean I like who it puts up.",
       "uses": [
         {
           "subject": "scene",
@@ -172215,10 +172231,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.being-on-the-same-side-isn-t-enough-anymore-self-i-ll-decide-myself",
+      "key": "scene-talk.reply-decline.being-on-the-same-side-isn-t-enough-anymore-i-ll-decide-myself",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Being on the same side isn't enough anymore, {self}. I'll decide myself.",
+      "text": "Being on the same side isn't enough anymore. I'll decide myself.",
       "uses": [
         {
           "subject": "scene",
@@ -172240,10 +172256,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-makes-you-different-from-anyone-else-the-party-could-put-up-for-office-i-m",
+      "key": "scene-talk.reply-decline.what-makes-you-different-from-anyone-else-the-party-could-put-up-i-m-not-sold",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What makes you different from anyone else the party could put up for {office}? I'm not sold.",
+      "text": "What makes you different from anyone else the party could put up? I'm not sold.",
       "uses": [
         {
           "subject": "scene",
@@ -172265,10 +172281,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-vote-my-party-but-i-don-t-know-about-you-yet-self",
+      "key": "scene-talk.reply-decline.i-ll-vote-my-party-but-i-don-t-know-about-you-yet",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll vote my party, but I don't know about you yet, {self}.",
+      "text": "I'll vote my party, but I don't know about you yet.",
       "uses": [
         {
           "subject": "scene",
@@ -172290,10 +172306,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-want-to-like-you-self-i-m-not-there-yet",
+      "key": "scene-talk.reply-decline.i-want-to-like-you-i-m-not-there-yet",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I want to like you, {self}. I'm not there yet.",
+      "text": "I want to like you. I'm not there yet.",
       "uses": [
         {
           "subject": "scene",
@@ -172315,10 +172331,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.the-party-s-let-me-down-before-self-you-ll-have-to-earn-it",
+      "key": "scene-talk.reply-decline.the-party-s-let-me-down-before-you-ll-have-to-earn-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "The party's let me down before, {self}. You'll have to earn it.",
+      "text": "The party's let me down before. You'll have to earn it.",
       "uses": [
         {
           "subject": "scene",
@@ -172465,10 +172481,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ll-earn-it-by-vote-day",
+      "key": "scene-talk.follow-accept.then-i-ll-earn-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll earn it by {vote-day}.",
+      "text": "Then I'll earn it.",
       "uses": [
         {
           "subject": "scene",
@@ -172490,10 +172506,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-keep-an-eye-on-me-then-i-m-self",
+      "key": "scene-talk.follow-accept.okay-keep-an-eye-on-me-then",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. Keep an eye on me, then. I'm {self}.",
+      "text": "Okay. Keep an eye on me, then.",
       "uses": [
         {
           "subject": "scene",
@@ -172515,10 +172531,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-thanks-for-the-honesty-i-m-self-if-you-want-to-talk",
+      "key": "scene-talk.follow-accept.fair-enough-thanks-for-the-honesty",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. Thanks for the honesty. I'm {self}, if you want to talk.",
+      "text": "Fair enough. Thanks for the honesty.",
       "uses": [
         {
           "subject": "scene",
@@ -172640,10 +172656,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.don-t-tell-me-what-our-side-wants-self",
+      "key": "scene-talk.reply-decline.don-t-tell-me-what-our-side-wants",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't tell me what our side wants, {self}.",
+      "text": "Don't tell me what our side wants.",
       "uses": [
         {
           "subject": "scene",
@@ -172665,10 +172681,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.same-party-doesn-t-mean-i-owe-you-self",
+      "key": "scene-talk.reply-decline.same-party-doesn-t-mean-i-owe-you",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Same party doesn't mean I owe you, {self}.",
+      "text": "Same party doesn't mean I owe you.",
       "uses": [
         {
           "subject": "scene",
@@ -172690,10 +172706,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.maybe-later-on-self-not-yet",
+      "key": "scene-talk.reply-decline.maybe-later-on-not-yet",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Maybe later on, {self}. Not yet.",
+      "text": "Maybe later on. Not yet.",
       "uses": [
         {
           "subject": "scene",
@@ -172715,10 +172731,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-think-it-over-self-that-s-all",
+      "key": "scene-talk.reply-decline.i-ll-think-it-over-that-s-all",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll think it over, {self}. That's all.",
+      "text": "I'll think it over. That's all.",
       "uses": [
         {
           "subject": "scene",
@@ -173136,10 +173152,154 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-self-you-ve-got-my-vote",
+      "key": "scene-talk.follow-promise.fair-enough-i-ll-look-into-what-you-said-and-come-back",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Fair enough. I'll look into what you said and come back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature",
+          "key": "door",
+          "after": "decline",
+          "excludesFacts": ["above-office"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "decline",
+          "excludesFacts": ["above-office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.give-me-some-time-i-ll-look-into-it-and-knock-again",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Give me some time. I'll look into it and knock again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature",
+          "key": "door",
+          "after": "decline",
+          "excludesFacts": ["above-office"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "decline",
+          "excludesFacts": ["above-office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-find-out-more-and-come-back",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll find out more and come back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature",
+          "key": "door",
+          "after": "decline",
+          "excludesFacts": ["above-office"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "decline",
+          "excludesFacts": ["above-office"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-check-then",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll check, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature",
+          "key": "door",
+          "after": "decline",
+          "excludesFacts": ["above-office"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "decline",
+          "excludesFacts": ["above-office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-you-ve-got-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright, {self}. You've got my vote.",
+      "text": "Alright. You've got my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -173160,10 +173320,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-was-hoping-somebody-would-run-self-count-on-me",
+      "key": "scene-talk.reply-agree.i-was-hoping-somebody-would-run-count-on-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I was hoping somebody would run, {self}. Count on me.",
+      "text": "I was hoping somebody would run. Count on me.",
       "uses": [
         {
           "subject": "scene",
@@ -173184,10 +173344,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-vote-for-you-self-just-do-what-you-say-you-will",
+      "key": "scene-talk.reply-agree.i-ll-vote-for-you-just-do-what-you-say-you-will",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll vote for you, {self}. Just do what you say you will.",
+      "text": "I'll vote for you. Just do what you say you will.",
       "uses": [
         {
           "subject": "scene",
@@ -173208,10 +173368,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.glad-you-asked-self-you-ve-got-it",
+      "key": "scene-talk.reply-agree.glad-you-asked-you-ve-got-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Glad you asked, {self}. You've got it.",
+      "text": "Glad you asked. You've got it.",
       "uses": [
         {
           "subject": "scene",
@@ -173232,10 +173392,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-voting-for-somebody-else-self",
+      "key": "scene-talk.reply-decline.i-m-voting-for-somebody-else",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm voting for somebody else, {self}.",
+      "text": "I'm voting for somebody else.",
       "uses": [
         {
           "subject": "scene",
@@ -173256,10 +173416,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-appreciate-the-visit-self-but-my-vote-is-spoken-for",
+      "key": "scene-talk.reply-decline.i-ve-already-got-somebody",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I appreciate the visit, {self}, but my vote is spoken for.",
+      "text": "I've already got somebody.",
       "uses": [
         {
           "subject": "scene",
@@ -173280,10 +173440,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-think-you-re-right-for-it-self-sorry",
+      "key": "scene-talk.reply-decline.i-m-going-another-way",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't think you're right for it, {self}. Sorry.",
+      "text": "I'm going another way.",
       "uses": [
         {
           "subject": "scene",
@@ -173304,10 +173464,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-self-i-can-t-promise-you-my-vote",
+      "key": "scene-talk.reply-decline.i-m-sorry-i-can-t-promise-you-my-vote",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry, {self}. I can't promise you my vote.",
+      "text": "I'm sorry. I can't promise you my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -173328,10 +173488,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-haven-t-thought-much-about-it-yet-self-ask-me-closer-to-vote-day",
+      "key": "scene-talk.reply-deflect.i-haven-t-thought-much-about-it-yet-ask-me-closer-to-vote-day",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I haven't thought much about it yet, {self}. Ask me closer to {vote-day}.",
+      "text": "I haven't thought much about it yet. Ask me closer to {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -173352,10 +173512,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-keep-my-vote-to-myself-self",
+      "key": "scene-talk.reply-deflect.i-keep-my-vote-to-myself",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I keep my vote to myself, {self}.",
+      "text": "I keep my vote to myself.",
       "uses": [
         {
           "subject": "scene",
@@ -173376,10 +173536,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-want-to-hear-from-everybody-running-first-self-it-s-only-fair",
+      "key": "scene-talk.reply-deflect.i-want-to-hear-from-everybody-running-first-it-s-only-fair",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I want to hear from everybody running first, {self}. It's only fair.",
+      "text": "I want to hear from everybody running first. It's only fair.",
       "uses": [
         {
           "subject": "scene",
@@ -173400,10 +173560,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.leave-me-something-about-your-run-self-and-i-ll-read-it",
+      "key": "scene-talk.reply-deflect.leave-me-something-about-your-run-and-i-ll-read-it",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Leave me something about your run, {self}, and I'll read it.",
+      "text": "Leave me something about your run, and I'll read it.",
       "uses": [
         {
           "subject": "scene",
@@ -173424,10 +173584,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.if-anything-changes-before-vote-day-i-d-be-glad-to-hear-it",
+      "key": "scene-talk.follow-accept.if-anything-changes-i-d-be-glad-to-hear-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "If anything changes before {vote-day}, I'd be glad to hear it.",
+      "text": "If anything changes, I'd be glad to hear it.",
       "uses": [
         {
           "subject": "scene",
@@ -173544,10 +173704,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-ll-be-back-before-vote-day-will-you-keep-an-open-mind",
+      "key": "scene-talk.follow-press.i-ll-be-back-will-you-keep-an-open-mind",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'll be back before {vote-day}. Will you keep an open mind?",
+      "text": "I'll be back. Will you keep an open mind?",
       "uses": [
         {
           "subject": "scene",
@@ -173568,10 +173728,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-ll-earn-it-by-vote-day-i-promise-you",
+      "key": "scene-talk.follow-thank.i-ll-earn-it-i-promise-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'll earn it by {vote-day}, I promise you.",
+      "text": "I'll earn it, I promise you.",
       "uses": [
         {
           "subject": "scene",
@@ -173616,10 +173776,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-ll-work-for-it-all-the-way-to-vote-day",
+      "key": "scene-talk.follow-thank.i-ll-work-for-it-all-the-way-to-election-day",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'll work for it all the way to {vote-day}.",
+      "text": "I'll work for it all the way to Election Day.",
       "uses": [
         {
           "subject": "scene",
@@ -173732,10 +173892,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-does-signing-commit-me-to-self",
+      "key": "scene-talk.reply-ask.what-does-signing-commit-me-to",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What does signing commit me to, {self}?",
+      "text": "What does signing commit me to?",
       "uses": [
         {
           "subject": "scene",
@@ -173756,10 +173916,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.does-my-name-go-on-some-list-if-i-sign-self",
+      "key": "scene-talk.reply-ask.does-my-name-go-on-some-list-if-i-sign",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Does my name go on some list if I sign, {self}?",
+      "text": "Does my name go on some list if I sign?",
       "uses": [
         {
           "subject": "scene",
@@ -173805,10 +173965,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.it-just-says-you-d-like-to-see-me-on-the-ballot-on-vote-day-nothing-more",
+      "key": "scene-talk.follow-answer.it-just-says-you-d-like-to-see-me-on-the-ballot-nothing-more",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It just says you'd like to see me on the ballot on {vote-day}. Nothing more.",
+      "text": "It just says you'd like to see me on the ballot. Nothing more.",
       "uses": [
         {
           "subject": "scene",
@@ -173830,10 +173990,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-ll-leave-it-there-self-good-luck",
+      "key": "scene-talk.reply-leave.i-ll-leave-it-there-good-luck",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll leave it there, {self}. Good luck.",
+      "text": "I'll leave it there. Good luck.",
       "uses": [
         {
           "subject": "scene",
@@ -173854,10 +174014,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-can-t-self-i-m-sorry",
+      "key": "scene-talk.reply-leave.i-can-t-i-m-sorry",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I can't, {self}. I'm sorry.",
+      "text": "I can't. I'm sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -173878,10 +174038,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-self-you-talked-me-into-it",
+      "key": "scene-talk.reply-agree.alright-you-talked-me-into-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright, {self}. You talked me into it.",
+      "text": "Alright. You talked me into it.",
       "uses": [
         {
           "subject": "scene",
@@ -173903,10 +174063,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fair-enough-give-me-the-pen-self",
+      "key": "scene-talk.reply-agree.fair-enough-give-me-the-pen",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fair enough. Give me the pen, {self}.",
+      "text": "Fair enough. Give me the pen.",
       "uses": [
         {
           "subject": "scene",
@@ -173928,10 +174088,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.my-answer-s-still-no-self",
+      "key": "scene-talk.reply-decline.my-answer-s-still-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "My answer's still no, {self}.",
+      "text": "My answer's still no.",
       "uses": [
         {
           "subject": "scene",
@@ -173953,10 +174113,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-no-once-already-self",
+      "key": "scene-talk.reply-decline.i-said-no-once-already",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said no once already, {self}.",
+      "text": "I said no once already.",
       "uses": [
         {
           "subject": "scene",
@@ -174138,10 +174298,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.the-big-question-for-me-is-about-i-m-for-it-self",
+      "key": "scene-talk.reply-tell.i-m-at-workplace-do-right-by-the-people-there",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "The big question for me is {about}. I'm for it, {self}.",
+      "text": "I'm at {workplace}. Do right by the people there.",
       "uses": [
         {
           "subject": "scene",
@@ -174151,7 +174311,7 @@
           "purpose": "ask-signature.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for", "why-work"]
         },
         {
           "subject": "scene",
@@ -174161,7 +174321,7 @@
           "purpose": "ask-support.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for", "why-work"]
         }
       ],
       "bearing": "calm",
@@ -174174,10 +174334,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.since-you-asked-self-about-i-m-for-it",
+      "key": "scene-talk.reply-tell.work-anything-that-helps-us-at-workplace",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Since you asked, {self}: {about}. I'm for it.",
+      "text": "Work. Anything that helps us at {workplace}.",
       "uses": [
         {
           "subject": "scene",
@@ -174187,7 +174347,7 @@
           "purpose": "ask-signature.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for", "why-work"]
         },
         {
           "subject": "scene",
@@ -174197,79 +174357,7 @@
           "purpose": "ask-support.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-for"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.mine-s-about-i-m-for-it-and-i-don-t-care-who-knows",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Mine's {about}. I'm for it, and I don't care who knows.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-signature.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["side-for"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-support.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["side-for"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-keep-coming-back-to-about-i-m-for-it",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I keep coming back to {about}. I'm for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-signature.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["side-for"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-support.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for", "why-work"]
         }
       ],
       "bearing": "tender",
@@ -174282,10 +174370,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.the-big-question-for-me-is-about-i-m-against-it-self",
+      "key": "scene-talk.reply-tell.pay-i-feel-it-every-shift-at-workplace",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "The big question for me is {about}. I'm against it, {self}.",
+      "text": "Pay. I feel it every shift at {workplace}.",
       "uses": [
         {
           "subject": "scene",
@@ -174295,7 +174383,7 @@
           "purpose": "ask-signature.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-for", "why-work"]
         },
         {
           "subject": "scene",
@@ -174305,7 +174393,79 @@
           "purpose": "ask-support.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-for", "why-work"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-work-things-could-be-a-lot-better-at-workplace",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly? Work. Things could be a lot better at {workplace}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-work"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-work"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.work-whatever-you-do-don-t-make-it-harder-at-workplace",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Work. Whatever you do, don't make it harder at {workplace}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-work"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-work"]
         }
       ],
       "bearing": "calm",
@@ -174318,10 +174478,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.since-you-asked-self-about-i-m-against-it",
+      "key": "scene-talk.reply-tell.i-m-at-workplace-leave-us-be",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Since you asked, {self}: {about}. I'm against it.",
+      "text": "I'm at {workplace}. Leave us be.",
       "uses": [
         {
           "subject": "scene",
@@ -174331,7 +174491,7 @@
           "purpose": "ask-signature.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against", "why-work"]
         },
         {
           "subject": "scene",
@@ -174341,7 +174501,7 @@
           "purpose": "ask-support.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against", "why-work"]
         }
       ],
       "bearing": "guarded",
@@ -174354,10 +174514,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.mine-s-about-i-m-against-it-and-i-don-t-care-who-knows",
+      "key": "scene-talk.reply-tell.ask-anybody-at-workplace-we-don-t-need-more-trouble",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Mine's {about}. I'm against it, and I don't care who knows.",
+      "text": "Ask anybody at {workplace}. We don't need more trouble.",
       "uses": [
         {
           "subject": "scene",
@@ -174367,7 +174527,7 @@
           "purpose": "ask-signature.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against", "why-work"]
         },
         {
           "subject": "scene",
@@ -174377,7 +174537,7 @@
           "purpose": "ask-support.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against", "why-work"]
         }
       ],
       "bearing": "braced",
@@ -174390,10 +174550,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-keep-coming-back-to-about-i-m-against-it",
+      "key": "scene-talk.reply-tell.i-worry-about-workplace-don-t-make-it-any-harder-there",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I keep coming back to {about}. I'm against it.",
+      "text": "I worry about {workplace}. Don't make it any harder there.",
       "uses": [
         {
           "subject": "scene",
@@ -174403,7 +174563,7 @@
           "purpose": "ask-signature.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against", "why-work"]
         },
         {
           "subject": "scene",
@@ -174413,7 +174573,7 @@
           "purpose": "ask-support.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against", "why-work"]
         }
       ],
       "bearing": "tender",
@@ -174426,10 +174586,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.it-s-about-i-see-why-every-day-at-workplace-i-m-for-it",
+      "key": "scene-talk.reply-tell.bills-everything-s-up-we-could-use-some-help",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "It's {about}. I see why every day at {workplace}. I'm for it.",
+      "text": "Bills. Everything's up. We could use some help.",
       "uses": [
         {
           "subject": "scene",
@@ -174439,7 +174599,7 @@
           "purpose": "ask-signature.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-for", "why-work"]
+          "requiresFacts": ["side-for", "why-money"]
         },
         {
           "subject": "scene",
@@ -174449,10 +174609,10 @@
           "purpose": "ask-support.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-for", "why-work"]
+          "requiresFacts": ["side-for", "why-money"]
         }
       ],
-      "bearing": "curious",
+      "bearing": "tender",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
@@ -174462,10 +174622,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.workplace-taught-me-where-i-stand-on-about-i-m-for-it",
+      "key": "scene-talk.reply-tell.we-re-getting-by-don-t-ask-me-how",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "{workplace} taught me where I stand on {about}. I'm for it.",
+      "text": "We're getting by. Don't ask me how.",
       "uses": [
         {
           "subject": "scene",
@@ -174475,7 +174635,7 @@
           "purpose": "ask-signature.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-for", "why-work"]
+          "requiresFacts": ["side-for", "why-money"]
         },
         {
           "subject": "scene",
@@ -174485,10 +174645,10 @@
           "purpose": "ask-support.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-for", "why-work"]
+          "requiresFacts": ["side-for", "why-money"]
         }
       ],
-      "bearing": "hopeful",
+      "bearing": "guarded",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
@@ -174498,82 +174658,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.it-s-about-i-see-why-every-day-at-workplace-i-m-against-it",
+      "key": "scene-talk.reply-tell.it-s-tight-we-need-a-break",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "It's {about}. I see why every day at {workplace}. I'm against it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-signature.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["side-against", "why-work"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-support.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["side-against", "why-work"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.workplace-taught-me-where-i-stand-on-about-i-m-against-it",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "{workplace} taught me where I stand on {about}. I'm against it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-signature.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["side-against", "why-work"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-support.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["side-against", "why-work"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.it-s-about-money-s-tight-in-our-house-so-i-m-for-it",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "It's {about}. Money's tight in our house, so I'm for it.",
+      "text": "It's tight. We need a break.",
       "uses": [
         {
           "subject": "scene",
@@ -174606,10 +174694,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.with-what-things-cost-us-about-matters-i-m-for-it",
+      "key": "scene-talk.reply-tell.everything-costs-more-than-it-did-something-has-to-give",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "With what things cost us, {about} matters. I'm for it.",
+      "text": "Everything costs more than it did. Something has to give.",
       "uses": [
         {
           "subject": "scene",
@@ -174632,7 +174720,7 @@
           "requiresFacts": ["side-for", "why-money"]
         }
       ],
-      "bearing": "hopeful",
+      "bearing": "calm",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
@@ -174642,10 +174730,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.it-s-about-money-s-tight-in-our-house-so-i-m-against-it",
+      "key": "scene-talk.reply-tell.bills-everything-s-up-don-t-add-to-it",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "It's {about}. Money's tight in our house, so I'm against it.",
+      "text": "Bills. Everything's up. Don't add to it.",
       "uses": [
         {
           "subject": "scene",
@@ -174678,10 +174766,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.with-what-things-cost-us-about-matters-i-m-against-it",
+      "key": "scene-talk.reply-tell.we-re-getting-by-please-don-t-make-it-harder",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "With what things cost us, {about} matters. I'm against it.",
+      "text": "We're getting by. Please don't make it harder.",
       "uses": [
         {
           "subject": "scene",
@@ -174704,7 +174792,7 @@
           "requiresFacts": ["side-against", "why-money"]
         }
       ],
-      "bearing": "hopeful",
+      "bearing": "tender",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
@@ -174714,10 +174802,730 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-don-t-follow-it-much-self",
+      "key": "scene-talk.reply-tell.it-s-tight-here-leave-our-money-alone",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I don't follow it much, {self}.",
+      "text": "It's tight here. Leave our money alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-money"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.everything-costs-more-already-don-t-pile-on",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Everything costs more already. Don't pile on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-money"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-money"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.rent-we-pay-rent-a-month-something-has-to-give",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Rent. We pay {rent} a month. Something has to give.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-rent", "rent"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-rent", "rent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.the-rent-it-s-hard",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The rent. It's hard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-rent"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-rent"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.renting-here-is-hard",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Renting here is hard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-rent"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-rent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-rent-people-like-us-need-some-help",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly, rent. People like us need some help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-rent"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-rent"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.rent-it-s-hard-to-keep-a-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Rent. It's hard to keep a place.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-rent"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-rent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.don-t-make-it-harder-to-find-a-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Don't make it harder to find a place.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-rent-it-s-rent-a-month-don-t-mess-with-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I rent. It's {rent} a month. Don't mess with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent", "rent"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent", "rent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.renting-here-is-hard-enough-don-t-make-it-harder",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Renting here is hard enough. Don't make it harder.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-rent-i-m-scared-of-anything-that-changes-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly, rent. I'm scared of anything that changes it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.renting-s-hard-enough-leave-it-be",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Renting's hard enough. Leave it be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.we-own-here-and-i-d-let-people-build",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "We own here, and I'd let people build.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-home"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-home"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.let-people-build-i-own-here-and-i-don-t-mind",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Let people build. I own here, and I don't mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-home"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-home"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.we-own-our-home-others-should-get-the-chance",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "We own our home. Others should get the chance.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-home"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-home"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-own-my-place-i-don-t-mind-more-neighbors",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I own my place. I don't mind more neighbors.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-home"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-for", "why-home"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.we-own-here-i-don-t-want-apartments-going-up-next-door",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "We own here. I don't want apartments going up next door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-home"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-home"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.we-own-here-and-i-like-our-street-the-way-it-is",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "We own here, and I like our street the way it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-home"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-home"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-own-my-home-leave-the-street-alone",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I own my home. Leave the street alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-home"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-home"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.we-ve-put-everything-into-this-house-i-worry-what-happens-to-the-street",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "We've put everything into this house. I worry what happens to the street.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-home"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-home"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-don-t-follow-it-much",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I don't follow it much.",
       "uses": [
         {
           "subject": "scene",
@@ -174750,10 +175558,334 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.nothing-comes-to-mind-self",
+      "key": "scene-talk.reply-tell.i-couldn-t-tell-you-i-don-t-keep-up",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Nothing comes to mind, {self}.",
+      "text": "I couldn't tell you. I don't keep up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.can-t-talk-sorry",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Can't talk. Sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-haven-t-kept-up",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I haven't kept up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.um-not-really",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Um. Not really.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-don-t-really-know",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I don't really know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.long-day-nothing",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Long day. Nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.too-tired-to-think-about-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Too tired to think about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.ha-no-idea",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Ha! No idea.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.whatever-keeps-the-town-going-i-guess",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Whatever keeps the town going, I guess.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["no-view"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.that-s-private",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That's private.",
       "uses": [
         {
           "subject": "scene",
@@ -174786,82 +175918,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-couldn-t-tell-you-self-i-don-t-keep-up",
+      "key": "scene-talk.reply-tell.not-with-strangers",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I couldn't tell you, {self}. I don't keep up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-signature.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["no-view"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-support.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["no-view"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.politics-isn-t-my-thing-self",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Politics isn't my thing, {self}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-signature.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["no-view"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-support.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["no-view"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.ask-me-something-easier-self",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Ask me something easier, {self}.",
+      "text": "Not with strangers.",
       "uses": [
         {
           "subject": "scene",
@@ -174906,7 +175966,8 @@
           "role": "asker",
           "purpose": "ask-signature.plain",
           "key": "door",
-          "after": "tell"
+          "after": "tell",
+          "requiresFacts": ["office-decides"]
         },
         {
           "subject": "scene",
@@ -174915,7 +175976,8 @@
           "role": "asker",
           "purpose": "ask-support.plain",
           "key": "door",
-          "after": "tell"
+          "after": "tell",
+          "requiresFacts": ["office-decides"]
         }
       ],
       "bearing": "calm",
@@ -174940,7 +176002,8 @@
           "role": "asker",
           "purpose": "ask-signature.plain",
           "key": "door",
-          "after": "tell"
+          "after": "tell",
+          "requiresFacts": ["office-decides"]
         },
         {
           "subject": "scene",
@@ -174949,7 +176012,8 @@
           "role": "asker",
           "purpose": "ask-support.plain",
           "key": "door",
-          "after": "tell"
+          "after": "tell",
+          "requiresFacts": ["office-decides"]
         }
       ],
       "bearing": "eager",
@@ -174974,7 +176038,8 @@
           "role": "asker",
           "purpose": "ask-signature.plain",
           "key": "door",
-          "after": "tell"
+          "after": "tell",
+          "requiresFacts": ["office-decides"]
         },
         {
           "subject": "scene",
@@ -174983,7 +176048,8 @@
           "role": "asker",
           "purpose": "ask-support.plain",
           "key": "door",
-          "after": "tell"
+          "after": "tell",
+          "requiresFacts": ["office-decides"]
         }
       ],
       "bearing": "hopeful",
@@ -174996,10 +176062,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.hold-me-to-about",
+      "key": "scene-talk.follow-promise.on-about-hold-me-to-it",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "Hold me to {about}.",
+      "text": "On {about}, hold me to it.",
       "uses": [
         {
           "subject": "scene",
@@ -175008,7 +176074,8 @@
           "role": "asker",
           "purpose": "ask-signature.plain",
           "key": "door",
-          "after": "tell"
+          "after": "tell",
+          "requiresFacts": ["office-decides"]
         },
         {
           "subject": "scene",
@@ -175017,7 +176084,8 @@
           "role": "asker",
           "purpose": "ask-support.plain",
           "key": "door",
-          "after": "tell"
+          "after": "tell",
+          "requiresFacts": ["office-decides"]
         }
       ],
       "bearing": "braced",
@@ -175026,6 +176094,150 @@
       "date": "2026-11-14",
       "tag": {
         "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-defer.on-about-this-office-can-t-do-much-thanks-for-telling-me",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "On {about}, this office can't do much. Thanks for telling me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["above-office"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["above-office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "defer",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-defer.i-can-t-promise-you-anything-on-about-that-s-decided-higher-up",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "I can't promise you anything on {about}. That's decided higher up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["above-office"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["above-office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "defer",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-defer.honestly-this-seat-doesn-t-decide-about-i-won-t-pretend-it-does",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Honestly? This seat doesn't decide {about}. I won't pretend it does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["above-office"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["above-office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "defer",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-defer.i-m-glad-you-told-me-this-race-can-t-touch-about-though",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "I'm glad you told me. This race can't touch {about}, though.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["above-office"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["above-office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "defer",
         "key": "door"
       }
     },
@@ -175398,10 +176610,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-m-applying-everywhere-that-s-hiring-self-nobody-s-called-back-yet",
+      "key": "scene-talk.reply-tell.i-m-applying-everywhere-that-s-hiring-nobody-s-called-back-yet",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'm applying everywhere that's hiring, {self}. Nobody's called back yet.",
+      "text": "I'm applying everywhere that's hiring. Nobody's called back yet.",
       "uses": [
         {
           "subject": "scene",
@@ -175410,7 +176622,8 @@
           "role": "asked",
           "purpose": "ask-signature.lost-job",
           "key": "door",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["employer"]
         },
         {
           "subject": "scene",
@@ -175419,7 +176632,8 @@
           "role": "asked",
           "purpose": "ask-support.lost-job",
           "key": "door",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "curious",
@@ -175432,10 +176646,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.honestly-self-it-s-hard-to-say-out-loud-i-just-want-to-work-again",
+      "key": "scene-talk.reply-tell.honestly-it-s-hard-to-say-out-loud-i-just-want-to-work-again",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Honestly, {self}? It's hard to say out loud. I just want to work again.",
+      "text": "Honestly? It's hard to say out loud. I just want to work again.",
       "uses": [
         {
           "subject": "scene",
@@ -175444,7 +176658,8 @@
           "role": "asked",
           "purpose": "ask-signature.lost-job",
           "key": "door",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["employer"]
         },
         {
           "subject": "scene",
@@ -175453,7 +176668,8 @@
           "role": "asked",
           "purpose": "ask-support.lost-job",
           "key": "door",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "tender",
@@ -175466,10 +176682,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-d-take-anything-right-now-self-i-mean-it",
+      "key": "scene-talk.reply-tell.i-d-take-anything-right-now-i-mean-it",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'd take anything right now, {self}. I mean it.",
+      "text": "I'd take anything right now. I mean it.",
       "uses": [
         {
           "subject": "scene",
@@ -175636,10 +176852,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.thank-you-self-come-back-with-it-and-i-ll-be-glad-i-signed",
+      "key": "scene-talk.reply-agree.thank-you-come-back-with-it-and-i-ll-be-glad-i-signed",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Thank you, {self}. Come back with it, and I'll be glad I signed.",
+      "text": "Thank you. Come back with it, and I'll be glad I signed.",
       "uses": [
         {
           "subject": "scene",
@@ -175661,10 +176877,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.that-would-mean-more-than-my-name-on-your-petition-self",
+      "key": "scene-talk.reply-agree.that-would-mean-more-than-my-name-on-your-petition",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That would mean more than my name on your petition, {self}.",
+      "text": "That would mean more than my name on your petition.",
       "uses": [
         {
           "subject": "scene",
@@ -175686,10 +176902,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.thank-you-self-bring-it-by-and-you-ll-have-earned-that-vote",
+      "key": "scene-talk.reply-agree.thank-you-bring-it-by-and-you-ll-have-earned-that-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Thank you, {self}. Bring it by, and you'll have earned that vote.",
+      "text": "Thank you. Bring it by, and you'll have earned that vote.",
       "uses": [
         {
           "subject": "scene",
@@ -175711,10 +176927,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.that-s-worth-more-to-me-than-anything-about-vote-day-self",
+      "key": "scene-talk.reply-agree.that-s-worth-more-to-me-than-any-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That's worth more to me than anything about {vote-day}, {self}.",
+      "text": "That's worth more to me than any vote.",
       "uses": [
         {
           "subject": "scene",
@@ -175970,10 +177186,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-fell-behind-self-and-the-landlord-isn-t-waiting-that-s-the-whole-story",
+      "key": "scene-talk.reply-tell.i-fell-behind-and-the-landlord-isn-t-waiting-that-s-the-whole-story",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I fell behind, {self}, and the landlord isn't waiting. That's the whole story.",
+      "text": "I fell behind, and the landlord isn't waiting. That's the whole story.",
       "uses": [
         {
           "subject": "scene",
@@ -176004,10 +177220,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-don-t-want-to-leave-self-this-is-where-my-life-is",
+      "key": "scene-talk.reply-tell.i-don-t-want-to-leave-this-is-where-my-life-is",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I don't want to leave, {self}. This is where my life is.",
+      "text": "I don't want to leave. This is where my life is.",
       "uses": [
         {
           "subject": "scene",
@@ -176038,10 +177254,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.nobody-tells-you-where-to-go-for-help-until-it-s-too-late-self",
+      "key": "scene-talk.reply-tell.nobody-tells-you-where-to-go-for-help-until-it-s-too-late",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Nobody tells you where to go for help until it's too late, {self}.",
+      "text": "Nobody tells you where to go for help until it's too late.",
       "uses": [
         {
           "subject": "scene",
@@ -176208,10 +177424,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.thank-you-self-if-you-come-back-with-it-i-ll-be-glad-my-name-s-on-that-petition",
+      "key": "scene-talk.reply-agree.thank-you-if-you-come-back-with-it-i-ll-be-glad-my-name-s-on-that-petition",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Thank you, {self}. If you come back with it, I'll be glad my name's on that petition.",
+      "text": "Thank you. If you come back with it, I'll be glad my name's on that petition.",
       "uses": [
         {
           "subject": "scene",
@@ -176220,7 +177436,8 @@
           "role": "asked",
           "purpose": "ask-signature.rent-notice",
           "key": "door",
-          "after": "promise"
+          "after": "promise",
+          "requiresFacts": ["deadline"]
         }
       ],
       "bearing": "glad",
@@ -176233,10 +177450,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.that-s-kind-self-bring-it-by-when-you-can-i-ll-sign-either-way",
+      "key": "scene-talk.reply-agree.that-s-kind-bring-it-by-when-you-can-i-ll-sign-either-way",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That's kind, {self}. Bring it by when you can. I'll sign either way.",
+      "text": "That's kind. Bring it by when you can. I'll sign either way.",
       "uses": [
         {
           "subject": "scene",
@@ -176245,7 +177462,8 @@
           "role": "asked",
           "purpose": "ask-signature.rent-notice",
           "key": "door",
-          "after": "promise"
+          "after": "promise",
+          "requiresFacts": ["deadline"]
         }
       ],
       "bearing": "tender",
@@ -176258,10 +177476,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.thank-you-self-that-s-the-kind-of-thing-that-keeps-my-vote",
+      "key": "scene-talk.reply-agree.thank-you-that-s-the-kind-of-thing-that-keeps-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Thank you, {self}. That's the kind of thing that keeps my vote.",
+      "text": "Thank you. That's the kind of thing that keeps my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -176283,10 +177501,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.that-s-kind-self-you-ve-got-my-vote-and-i-ll-hold-you-to-the-rest",
+      "key": "scene-talk.reply-agree.that-s-kind-you-ve-got-my-vote-and-i-ll-hold-you-to-the-rest",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That's kind, {self}. You've got my vote, and I'll hold you to the rest.",
+      "text": "That's kind. You've got my vote, and I'll hold you to the rest.",
       "uses": [
         {
           "subject": "scene",
@@ -176468,10 +177686,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.it-s-been-a-rough-stretch-self-some-days-are-better-than-this-one",
+      "key": "scene-talk.reply-tell.it-s-been-a-rough-stretch-some-days-are-better-than-this-one",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "It's been a rough stretch, {self}. Some days are better than this one.",
+      "text": "It's been a rough stretch. Some days are better than this one.",
       "uses": [
         {
           "subject": "scene",
@@ -176502,10 +177720,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-m-supposed-to-be-resting-self-rest-doesn-t-pay-any-bills",
+      "key": "scene-talk.reply-tell.i-m-supposed-to-be-resting-rest-doesn-t-pay-any-bills",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'm supposed to be resting, {self}. Rest doesn't pay any bills.",
+      "text": "I'm supposed to be resting. Rest doesn't pay any bills.",
       "uses": [
         {
           "subject": "scene",
@@ -176536,10 +177754,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-m-managing-self-it-s-just-slow-going",
+      "key": "scene-talk.reply-tell.i-m-managing-it-s-just-slow-going",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'm managing, {self}. It's just slow going.",
+      "text": "I'm managing. It's just slow going.",
       "uses": [
         {
           "subject": "scene",
@@ -176570,10 +177788,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-m-getting-by-self-it-helps-that-someone-asked",
+      "key": "scene-talk.reply-tell.i-m-getting-by-it-helps-that-someone-asked",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'm getting by, {self}. It helps that someone asked.",
+      "text": "I'm getting by. It helps that someone asked.",
       "uses": [
         {
           "subject": "scene",
@@ -176604,10 +177822,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-ll-be-alright-self-i-just-don-t-have-much-in-me-right-now",
+      "key": "scene-talk.reply-tell.i-ll-be-alright-i-just-don-t-have-much-in-me-right-now",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'll be alright, {self}. I just don't have much in me right now.",
+      "text": "I'll be alright. I just don't have much in me right now.",
       "uses": [
         {
           "subject": "scene",
@@ -176638,10 +177856,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-check-in-again-before-vote-day-race-or-no-race",
+      "key": "scene-talk.follow-promise.i-ll-check-in-again-race-or-no-race",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll check in again before {vote-day}, race or no race.",
+      "text": "I'll check in again, race or no race.",
       "uses": [
         {
           "subject": "scene",
@@ -176672,10 +177890,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-knock-again-before-vote-day-just-to-see-how-you-are",
+      "key": "scene-talk.follow-promise.i-ll-knock-again-sometime-just-to-see-how-you-are",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll knock again before {vote-day}, just to see how you are.",
+      "text": "I'll knock again sometime, just to see how you are.",
       "uses": [
         {
           "subject": "scene",
@@ -176706,10 +177924,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-come-by-again-before-vote-day-with-what-help-there-is",
+      "key": "scene-talk.follow-promise.i-ll-come-by-again-with-what-help-there-is",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll come by again before {vote-day} with what help there is.",
+      "text": "I'll come by again with what help there is.",
       "uses": [
         {
           "subject": "scene",
@@ -177108,46 +178326,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.taking-care-of-relative-takes-everything-i-ve-got-right-now",
+      "key": "scene-talk.reply-tell.i-m-tired-that-s-the-honest-answer",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Taking care of {relative} takes everything I've got right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-signature.caring",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["relative"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-support.caring",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["relative"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-m-tired-self-that-s-the-honest-answer",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'm tired, {self}. That's the honest answer.",
+      "text": "I'm tired. That's the honest answer.",
       "uses": [
         {
           "subject": "scene",
@@ -177178,10 +178360,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-d-give-anything-for-an-afternoon-off-self",
+      "key": "scene-talk.reply-tell.i-d-give-anything-for-an-afternoon-off",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'd give anything for an afternoon off, {self}.",
+      "text": "I'd give anything for an afternoon off.",
       "uses": [
         {
           "subject": "scene",
@@ -177190,7 +178372,8 @@
           "role": "asked",
           "purpose": "ask-signature.caring",
           "key": "door",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["relative"]
         },
         {
           "subject": "scene",
@@ -177199,7 +178382,8 @@
           "role": "asked",
           "purpose": "ask-support.caring",
           "key": "door",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["relative"]
         }
       ],
       "bearing": "braced",
@@ -177212,10 +178396,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.it-s-hard-to-think-past-the-next-appointment-self",
+      "key": "scene-talk.reply-tell.it-s-hard-to-think-past-the-next-appointment",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "It's hard to think past the next appointment, {self}.",
+      "text": "It's hard to think past the next appointment.",
       "uses": [
         {
           "subject": "scene",
@@ -177224,7 +178408,8 @@
           "role": "asked",
           "purpose": "ask-signature.caring",
           "key": "door",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["relative"]
         },
         {
           "subject": "scene",
@@ -177233,10 +178418,47 @@
           "role": "asked",
           "purpose": "ask-support.caring",
           "key": "door",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["relative"]
         }
       ],
       "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.taking-care-of-relative-takes-everything-i-ve-got-right-now",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Taking care of {relative} takes everything I've got right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["relative"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "tender",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
@@ -177316,10 +178538,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-look-into-respite-care-before-vote-day-and-let-you-know",
+      "key": "scene-talk.follow-promise.i-ll-look-into-respite-care-and-let-you-know",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll look into respite care before {vote-day} and let you know.",
+      "text": "I'll look into respite care and let you know.",
       "uses": [
         {
           "subject": "scene",
@@ -177652,10 +178874,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.can-i-win-on-vote-day",
+      "key": "scene-talk.follow-ask.can-i-win",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Can I win on {vote-day}?",
+      "text": "Can I win?",
       "uses": [
         {
           "subject": "scene",
@@ -177684,10 +178906,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.honestly-self-people-like-you-they-just-don-t-know-what-you-d-do-yet",
+      "key": "scene-talk.reply-tell.honestly-people-like-you-they-just-don-t-know-what-you-d-do-yet",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Honestly, {self}? People like you. They just don't know what you'd do yet.",
+      "text": "Honestly? People like you. They just don't know what you'd do yet.",
       "uses": [
         {
           "subject": "scene",
@@ -177718,10 +178940,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.slow-down-when-you-re-knocking-self-let-people-talk-first",
+      "key": "scene-talk.reply-tell.slow-down-when-you-re-knocking-let-people-talk-first",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Slow down when you're knocking, {self}. Let people talk first.",
+      "text": "Slow down when you're knocking. Let people talk first.",
       "uses": [
         {
           "subject": "scene",
@@ -177752,10 +178974,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-think-you-d-be-good-at-it-self-i-just-worry-about-what-it-ll-cost-you",
+      "key": "scene-talk.reply-tell.i-think-you-d-be-good-at-it-i-just-worry-about-what-it-ll-cost-you",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I think you'd be good at it, {self}. I just worry about what it'll cost you.",
+      "text": "I think you'd be good at it. I just worry about what it'll cost you.",
       "uses": [
         {
           "subject": "scene",
@@ -177786,10 +179008,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.folks-want-to-know-you-ll-still-be-you-after-vote-day",
+      "key": "scene-talk.reply-tell.folks-want-to-know-you-ll-still-be-you-after-you-win",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Folks want to know you'll still be you after {vote-day}.",
+      "text": "Folks want to know you'll still be you after you win.",
       "uses": [
         {
           "subject": "scene",
@@ -177820,10 +179042,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-m-fine-self-busier-than-i-d-like-but-fine",
+      "key": "scene-talk.reply-tell.i-m-fine-busier-than-i-d-like-but-fine",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'm fine, {self}. Busier than I'd like, but fine.",
+      "text": "I'm fine. Busier than I'd like, but fine.",
       "uses": [
         {
           "subject": "scene",
@@ -177888,10 +179110,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-still-be-me-after-vote-day-i-promise",
+      "key": "scene-talk.follow-promise.i-ll-still-be-me-after-i-promise",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll still be me after {vote-day}. I promise.",
+      "text": "I'll still be me after. I promise.",
       "uses": [
         {
           "subject": "scene",
@@ -177922,10 +179144,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.win-or-lose-on-vote-day-i-ll-come-back-and-tell-you-how-it-went",
+      "key": "scene-talk.follow-promise.win-or-lose-i-ll-come-back-and-tell-you-how-it-went",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "Win or lose on {vote-day}, I'll come back and tell you how it went.",
+      "text": "Win or lose, I'll come back and tell you how it went.",
       "uses": [
         {
           "subject": "scene",
@@ -178024,10 +179246,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-comfort.let-s-get-together-after-vote-day",
+      "key": "scene-talk.follow-comfort.let-s-get-together-after-the-election",
       "move": "follow-comfort",
       "kind": "spoken",
-      "text": "Let's get together after {vote-day}.",
+      "text": "Let's get together after the election.",
       "uses": [
         {
           "subject": "scene",
@@ -178222,10 +179444,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-would-make-you-proud-on-vote-day",
+      "key": "scene-talk.follow-ask.what-would-make-you-proud",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What would make you proud on {vote-day}?",
+      "text": "What would make you proud?",
       "uses": [
         {
           "subject": "scene",
@@ -178246,10 +179468,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.listen-more-and-send-fewer-mailers-self-people-notice",
+      "key": "scene-talk.reply-tell.listen-more-and-send-fewer-mailers-people-notice",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Listen more and send fewer mailers, {self}. People notice.",
+      "text": "Listen more and send fewer mailers. People notice.",
       "uses": [
         {
           "subject": "scene",
@@ -178271,10 +179493,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.stop-taking-us-for-granted-self-a-vote-isn-t-a-habit",
+      "key": "scene-talk.reply-tell.stop-taking-us-for-granted-a-vote-isn-t-a-habit",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Stop taking us for granted, {self}. A vote isn't a habit.",
+      "text": "Stop taking us for granted. A vote isn't a habit.",
       "uses": [
         {
           "subject": "scene",
@@ -178296,10 +179518,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.show-up-between-elections-self-not-just-before-them",
+      "key": "scene-talk.reply-tell.show-up-between-elections-not-just-before-them",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Show up between elections, {self}, not just before them.",
+      "text": "Show up between elections, not just before them.",
       "uses": [
         {
           "subject": "scene",
@@ -178321,10 +179543,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.pick-fights-worth-having-self-that-s-all-i-want-from-our-side",
+      "key": "scene-talk.reply-tell.pick-fights-worth-having-that-s-all-i-want-from-our-side",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Pick fights worth having, {self}. That's all I want from our side.",
+      "text": "Pick fights worth having. That's all I want from our side.",
       "uses": [
         {
           "subject": "scene",
@@ -178346,10 +179568,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.run-like-you-mean-it-self-i-ll-do-the-rest",
+      "key": "scene-talk.reply-tell.run-like-you-mean-it-i-ll-do-the-rest",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Run like you mean it, {self}. I'll do the rest.",
+      "text": "Run like you mean it. I'll do the rest.",
       "uses": [
         {
           "subject": "scene",
@@ -178371,10 +179593,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-show-up-after-vote-day-too",
+      "key": "scene-talk.follow-promise.i-ll-show-up-after-the-election-too",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll show up after {vote-day} too.",
+      "text": "I'll show up after the election too.",
       "uses": [
         {
           "subject": "scene",
@@ -178421,10 +179643,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-bring-that-to-the-party-and-tell-you-what-they-say-before-vote-day",
+      "key": "scene-talk.follow-promise.i-ll-bring-that-to-the-party-and-tell-you-what-they-say",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll bring that to the party and tell you what they say before {vote-day}.",
+      "text": "I'll bring that to the party and tell you what they say.",
       "uses": [
         {
           "subject": "scene",

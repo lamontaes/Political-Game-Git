@@ -2958,6 +2958,29 @@ export function ownedHomes(
   return out;
 }
 
+/**
+ * Whether a household owns or rents its home, from its dwelling record, and
+ * for a renter the rent it pays (the dwelling's, else its lease's); undefined
+ * with no dwelling.
+ */
+export function dwellingTenure(
+  api: CoreAPI,
+  householdId: string,
+):
+  { tenure: "own" | "rent"; recordId: string; rentMinor?: number } | undefined {
+  const c = api.state as CoreState;
+  if (!c.modules.has(HOUSING_MODULE_ID)) return undefined;
+  const recordId = `dwelling:${householdId}`;
+  const row = store(api).table("dwellings").get(recordId) as
+    { tenure?: string; rentMinor?: number } | undefined;
+  if (row?.tenure === "own") return { tenure: "own", recordId };
+  if (row?.tenure !== "rent") return undefined;
+  const rentMinor =
+    row.rentMinor ??
+    c.finance.contracts.get(`lease:${householdId}`)?.amountMinor;
+  return { tenure: "rent", recordId, ...(rentMinor ? { rentMinor } : {}) };
+}
+
 /** The kind of home a household lives in (house, rowhouse, apartment, mobile-home, farmhouse), for the home picture. */
 export function dwellingKind(
   api: CoreAPI,

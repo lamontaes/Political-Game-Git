@@ -10918,10 +10918,10 @@
       }
     },
     {
-      "key": "journal.scene-line-view-promise.i-promised-other-i-d-look-hard-at-about",
+      "key": "journal.scene-line-view-promise.i-promised-other-i-d-take-a-close-look-at-about",
       "move": "scene-line-view-promise",
       "kind": "spoken",
-      "text": "I promised {other} I'd look hard at {about}.",
+      "text": "I promised {other} I'd take a close look at {about}.",
       "uses": [
         {
           "move": "scene-line-view-promise",

@@ -12,11 +12,18 @@ import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  policyAuthority,
+  type PolicyLevel,
+} from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
 import {
   LEGISLATURE_MODULE_ID,
   billOf,
+  bodyRow,
   favorWorth,
   floorDateOf,
   memberPosition,
@@ -43,10 +50,15 @@ import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
-import { storyTopicName, topicInSentence } from "../english/policy-names";
+import {
+  questionSubject,
+  questionTopic,
+  storyTopicName,
+  topicInSentence,
+} from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
-import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
+import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
 import {
   NEWS_MODULE_ID,
   NEWS_READ,
@@ -1526,7 +1538,7 @@ function composeBinding(
     // question from their own views, with their side and the reason from
     // their life on record. One who has taken up no question of their own
     // has no view strong enough to name.
-    Object.assign(facts, doorViewFacts(core, askerId));
+    Object.assign(facts, doorViewFacts(core, askerId, door.contestId));
     // A second knock: the two have met at this door, so the player does not
     // introduce themself as a stranger again.
     if (door.knock.first === "false")
@@ -1758,39 +1770,139 @@ function doorStanding(
 function doorViewFacts(
   core: Readonly<CoreState>,
   residentId: PersonId,
+  contestId: string,
 ): Record<string, Fact> {
   if (!core.modules.has(VIEWS_MODULE_ID)) return {};
   const api = coreAPI(core as CoreState);
   const own = new Set(stancesOf(api, residentId).map((row) => row.topic));
-  const top = own.size ? strongestQuestion(api, residentId) : null;
-  if (!top || !own.has(top.question))
-    return {
-      "no-view": {
-        text: "yes",
-        sourceRecordIds: [viewRecordId(residentId)],
-      },
-    };
+  const none = {
+    "no-view": {
+      text: "yes",
+      sourceRecordIds: [viewRecordId(residentId)],
+    },
+  };
+  if (!own.size) return none;
+  // A resident says a view as what it does to them (Words lead, rule 103):
+  // only a question their own record touches (their job, their bills, their
+  // home), so one their life does not reach is not volunteered.
+  const touches = (question: string) =>
+    doorViewReason(core, residentId, question);
+  // What the office can touch comes first (rule 99): the strongest such view
+  // on a question the race's level of government may decide (the power
+  // catalog's one reader, `policyAuthority`), and only with none, the
+  // strongest of all, which the player cannot promise on.
+  const level = contestPolicyLevel(core, contestId);
+  const local = level
+    ? strongestQuestion(
+        api,
+        residentId,
+        (question) =>
+          own.has(question) &&
+          touches(question) !== null &&
+          policyAuthority(api, question, level).allowed,
+      )
+    : null;
+  const top =
+    local ??
+    strongestQuestion(
+      api,
+      residentId,
+      (question) => own.has(question) && touches(question) !== null,
+    );
+  if (!top || !own.has(top.question)) return none;
+  const reason = touches(top.question);
+  if (!reason) return none;
   const ids = [top.recordId];
-  const reason = viewReason(core, residentId, top.question);
   const facts: Record<string, Fact> = {
     about: { text: top.about, sourceRecordIds: ids },
     [`side-${top.side}`]: { text: "yes", sourceRecordIds: ids },
     "view-question": { text: top.question, sourceRecordIds: ids },
+    [local ? "office-decides" : "above-office"]: {
+      text: "yes",
+      sourceRecordIds: [contestId],
+    },
+    [`why-${reason.reason}`]: {
+      text: "yes",
+      sourceRecordIds: [...reason.recordIds],
+    },
   };
-  if (reason?.reason === "work") {
-    facts["why-work"] = { text: "yes", sourceRecordIds: [...reason.recordIds] };
+  if (reason.reason === "work")
     facts.workplace = {
       text: reason.employer,
       sourceRecordIds: [...reason.recordIds],
     };
-  }
-  if (reason?.reason === "money")
-    facts["why-money"] = {
-      text: "yes",
+  // A renter may say the rent they pay: their own money (rule 101).
+  else if (reason.reason === "rent" && reason.rentMinor)
+    facts.rent = {
+      text: moneySaid(reason.rentMinor),
       sourceRecordIds: [...reason.recordIds],
     };
   return facts;
 }
+
+/**
+ * What in a resident's own record a question touches: their work or their
+ * money (the views engine's reason, `viewReason`), else, for a housing
+ * question, the home they rent or own (the housing engine's dwelling).
+ */
+function doorViewReason(
+  core: Readonly<CoreState>,
+  residentId: PersonId,
+  question: string,
+):
+  | { reason: "work"; employer: string; recordIds: readonly string[] }
+  | {
+      reason: "money" | "rent" | "home";
+      recordIds: readonly string[];
+      rentMinor?: number;
+    }
+  | null {
+  const reason = viewReason(core, residentId, question);
+  if (reason) return reason;
+  if (questionSubject(question) !== HOUSING_SUBJECT) return null;
+  const householdId = core.people.get(residentId)?.householdId;
+  const home = householdId
+    ? dwellingTenure(coreAPI(core as CoreState), householdId)
+    : undefined;
+  // A renter feels every housing question; an owner only what zoning does
+  // to their street.
+  if (
+    !home ||
+    (home.tenure === "own" && questionTopic(question) !== ZONING_TOPIC)
+  )
+    return null;
+  return {
+    reason: home.tenure === "rent" ? "rent" : "home",
+    recordIds: [home.recordId],
+    ...(home.rentMinor ? { rentMinor: home.rentMinor } : {}),
+  };
+}
+const HOUSING_SUBJECT = "housing";
+const ZONING_TOPIC = "Planning and zoning";
+
+/**
+ * The level of government a race's seat sits at, as the power catalog reads
+ * it: the contest's own level, or for a township the level its board's row
+ * gives (data/offices/bodies.json). Null for none the catalog knows.
+ */
+function contestPolicyLevel(
+  core: Readonly<CoreState>,
+  contestId: string,
+): PolicyLevel | null {
+  const contest = coreAPI(core as CoreState)
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as { level: string } | undefined;
+  if (!contest) return null;
+  if (POLICY_LEVELS.has(contest.level)) return contest.level as PolicyLevel;
+  return bodyRow(`${contest.level}-board`)?.level ?? null;
+}
+const POLICY_LEVELS: ReadonlySet<string> = new Set([
+  "federal",
+  "state",
+  "county",
+  "city",
+]);
 
 /**
  * Where a colleague the player asks stands on the bill the record names: their
