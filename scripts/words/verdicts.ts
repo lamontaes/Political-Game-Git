@@ -30,6 +30,7 @@ import {
 import {
   exchangeSubjects,
   judgesExchanges,
+  judgesPaths,
   lineSubjects,
   type LineRule,
   type RulePiece,
@@ -71,6 +72,8 @@ export interface SubjectSource {
   readonly pairs: () => readonly { before: string; reply: string }[];
   /** The pairs the exchange rules judge (`exchangePairs`, what the run and the sheets read); `pairs` when not given. */
   readonly exchangePairs?: () => readonly { before: string; reply: string }[];
+  /** A path rule's subjects (`scenePaths` over the built scenes); a path rule cannot be folded without it. */
+  readonly paths?: (rule: LineRule) => readonly Subject[];
 }
 
 /** The text of every bank piece, by key. */
@@ -96,6 +99,13 @@ export function subjectsOf(rule: LineRule, source: SubjectSource): Subject[] {
         keys,
       };
     });
+  }
+  if (judgesPaths(rule)) {
+    if (!source.paths)
+      throw new Error(
+        `${rule.id} judges scene paths: give the fold the built scenes' paths`,
+      );
+    return source.paths(rule).map(({ id, keys }) => ({ id, keys }));
   }
   if (judgesExchanges(rule))
     return exchangeSubjects(
@@ -284,7 +294,7 @@ export function foldVerdicts(
     let dropped = 0;
     for (const [id, row] of [...no])
       if (
-        (judgesExchanges(rule) && !current.has(id)) ||
+        ((judgesExchanges(rule) || judgesPaths(rule)) && !current.has(id)) ||
         row.keys.some((key) => !text.has(key)) ||
         verdictId(
           row.keys,
