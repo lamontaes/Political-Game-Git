@@ -13,13 +13,14 @@ import { setBookkeeping } from "./bookkeeping";
 import {
   serviceChargeShares,
   serviceChargesPaidBy,
+  townPayers,
 } from "./budgets-service-charges";
 import { billValueInForce } from "./laws-bill-values";
 import { FEE_LEVEL_BASELINE } from "./fee-levels";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { enactLaw } from "./modules/laws";
+import { enactLaw, lawChain } from "./modules/laws";
 import { governments } from "./modules/budgets";
 import { coreAPI } from "./state";
 
@@ -36,57 +37,108 @@ function world() {
   return { core, api: coreAPI(core), draw };
 }
 
-it("a law raising the park fee raises what the park's users pay and the charges follow", () => {
+/** What a household's payer is asked for a government's charges in a month: its uniform share of living cost plus its flat sewer charge. */
+function askedOf(
+  w: ReturnType<typeof world>,
+  governmentId: string,
+  payerId: string,
+): number {
+  const row = serviceChargeShares(w.api).find(
+    (r) => r.governmentId === governmentId,
+  )!;
+  const person = w.core.people.get(payerId)!;
+  return Math.round(
+    row.share * person.livingCostDailyMinor * 30 + row.sewerPerDwellingMinor,
+  );
+}
+
+it("a law raising the park fee at each level a bill can reach raises what the town's households are asked, and the charges follow", () => {
   setBookkeeping(false);
   const control = world();
   const where = `${control.draw.key} [${control.draw.state}], seed ${control.draw.seed}`;
-  const row = serviceChargeShares(control.api).find(
-    (r) => r.share > 0 && r.services.some((s) => s.service === PARKS),
+  const govs = governments(control.api).filter(
+    (g) =>
+      g.level !== "federal" &&
+      serviceChargeShares(control.api).some(
+        (r) =>
+          r.governmentId === g.id &&
+          r.share > 0 &&
+          r.services.some((s) => s.service === PARKS),
+      ),
   );
-  expect(row, `${where}: a government charging for parks`).toBeDefined();
-  const gov = governments(control.api).find((g) => g.id === row!.governmentId)!;
-  const target0 = row!.targetMonthlyMinor;
-  const parks0 = row!.services.find((s) => s.service === PARKS)!.share;
-  // With no bill the fee reads as the schedule the budget assumes.
+  // The town, its county and its state each charge for parks here.
   expect(
-    billValueInForce(
-      control.api,
-      { kind: "law-amount", series: SERIES },
-      gov.id,
-    ).value,
-    where,
-  ).toBe(FEE_LEVEL_BASELINE);
-
+    govs.map((g) => g.level).sort(),
+    `${where}: governments charging for parks`,
+  ).toEqual(["city", "county", "state"]);
+  const before = new Map(
+    serviceChargeShares(control.api).map((r) => [r.governmentId, r]),
+  );
   const raised = world();
-  enactLaw(raised.api, {
-    jurisdiction: gov.id,
-    level: gov.level === "city" ? "city" : gov.level,
-    series: SERIES,
-    value: 150,
-    effectiveDate: raised.core.date,
-    measureId: "test:fee-level:parks",
-    citation: "A fee bill in a pinned world.",
-  });
+  for (const gov of govs) {
+    // With no bill the fee reads as the schedule the budget assumes.
+    expect(
+      billValueInForce(
+        control.api,
+        { kind: "law-amount", series: SERIES },
+        gov.id,
+      ).value,
+      `${where} ${gov.name}`,
+    ).toBe(FEE_LEVEL_BASELINE);
+    enactLaw(raised.api, {
+      jurisdiction: gov.id,
+      level: gov.level === "city" ? "city" : gov.level,
+      series: SERIES,
+      value: 150,
+      effectiveDate: raised.core.date,
+      measureId: `test:fee-level:parks:${gov.level}`,
+      citation: "A fee bill in a pinned world.",
+    });
+  }
   const days = addDays(makeIsoDate(raised.core.date), 75);
   advanceCore(raised.core, days);
   advanceCore(control.core, days);
-  const after = serviceChargeShares(raised.api).find(
-    (r) => r.governmentId === row!.governmentId,
-  )!;
-  const parks1 = after.services.find((s) => s.service === PARKS)!.share;
-  expect(parks1, `${where}: parks share of the charges`).toBeGreaterThan(
-    parks0,
-  );
-  expect(
-    after.targetMonthlyMinor,
-    `${where}: the charges asked`,
-  ).toBeGreaterThan(target0 * 0.99);
-  const paid = (w: ReturnType<typeof world>) =>
-    serviceChargesPaidBy(w.api, row!.governmentId).reduce(
-      (n, m) => n + (m.byService[PARKS] ?? 0),
-      0,
+  const payer = [
+    ...townPayers(raised.api, lawChain(raised.api).townPlaceId).people,
+  ].sort()[0]!;
+  const household: string[] = [];
+  for (const gov of govs) {
+    const was = before.get(gov.id)!;
+    const now = serviceChargeShares(raised.api).find(
+      (r) => r.governmentId === gov.id,
+    )!;
+    const twin = serviceChargeShares(control.api).find(
+      (r) => r.governmentId === gov.id,
+    )!;
+    const parks = (r: typeof now) =>
+      r.services.find((s) => s.service === PARKS)!.share;
+    const label = `${where} ${gov.name} (${gov.level})`;
+    expect(parks(now), `${label}: parks share of its charges`).toBeGreaterThan(
+      parks(was),
     );
-  expect(paid(raised), `${where}: park charges paid`).toBeGreaterThan(
-    paid(control),
+    // The fee is a larger part of what the government charges than in the twin.
+    expect(parks(now), `${label}: against the twin`).toBeGreaterThan(
+      parks(twin),
+    );
+    // What it asks of the town rises, and a household's share of it with it.
+    expect(
+      now.targetMonthlyMinor,
+      `${label}: the charges asked`,
+    ).toBeGreaterThan(twin.targetMonthlyMinor);
+    const asked = askedOf(raised, gov.id, payer);
+    const twinAsked = askedOf(control, gov.id, payer);
+    expect(asked, `${label}: household ${payer}`).toBeGreaterThan(twinAsked);
+    household.push(`${gov.name}: ${twinAsked} to ${asked}`);
+    const paid = (w: ReturnType<typeof world>) =>
+      serviceChargesPaidBy(w.api, gov.id).reduce(
+        (n, m) => n + (m.byService[PARKS] ?? 0),
+        0,
+      );
+    expect(paid(raised), `${label}: park charges paid`).toBeGreaterThan(
+      paid(control),
+    );
+  }
+  process.stderr.write(
+    `fee-levels household ${payer}: ${household.join("; ")}\n`,
   );
-}, 120_000);
+}, 180_000);
