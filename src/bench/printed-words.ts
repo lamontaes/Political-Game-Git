@@ -180,13 +180,6 @@ const yearsBetween = (from: string, to: string) =>
   Number(to.slice(0, 4)) -
   Number(from.slice(0, 4)) -
   (to.slice(5) < from.slice(5) ? 1 : 0);
-/** The industry each business classification works in, as the books name it. */
-const INDUSTRIES = new Map<string, string>(
-  businessBooks.classifications.flatMap((row) => {
-    const kind = businessBooks.kinds.find((k) => k.id === row.kindId);
-    return kind ? [[row.classification, kind.industry] as const] : [];
-  }),
-);
 /** The kind of business each classification is, by the kind's id. */
 const CLASSIFICATION_KINDS = new Map<string, string>(
   businessBooks.classifications.flatMap((row) =>
@@ -198,15 +191,13 @@ const KIND_WORDS = kindWords.kinds as Record<
   string,
   { readonly one: string; readonly many: string }
 >;
-/** The industry of each kind of business, by the kind's id. */
-const KIND_INDUSTRIES = new Map<string, string>(
-  businessBooks.kinds.map((kind) => [kind.id, kind.industry]),
-);
-/** An industry as a sentence says it: "retail trade". */
-const industryWords = (industry: string | undefined) =>
-  industry && industry !== "All active corporations"
-    ? industry.charAt(0).toLowerCase() + industry.slice(1)
-    : null;
+/** What a kind of business is, as a sentence says it, from its kind's id (empty where the table has no words). */
+const kindFacts = (read: Reader, kindId: string | undefined, cite: string) => {
+  const words = kindId ? KIND_WORDS[kindId] : undefined;
+  return words
+    ? { kind: read.fact(words.one, cite), kinds: read.fact(words.many, cite) }
+    : {};
+};
 /**
  * Who fills a vacancy, as the rule names them, in a few words: "governor",
  * "county commission". A long or voting-based answer is left out.
@@ -486,13 +477,6 @@ class Reader {
             : "Federal Reserve Bank president",
       since: member.appointedAt,
     };
-  }
-  /** What a business does, in a few words ("retail trade"), by its classification. */
-  industry(organizationId: string | undefined): string | null {
-    const org = organizationId
-      ? this.core.organizations.get(organizationId as EntityId)
-      : undefined;
-    return industryWords(INDUSTRIES.get(org?.classification ?? ""));
   }
   /** The town's own place id (every record of a town's life is filed under it). */
   townPlaceId(): string {
@@ -2607,21 +2591,16 @@ function businessExtras(
   id: string,
   f: Record<string, string>,
 ): Facts {
-  const industry = read.industry(id);
-  const extras: Facts = industry ? { industry: read.fact(industry, id) } : {};
   // What the business is, as a sentence says it ("a doctor's office"), from
-  // the kind its classification is in the books.
-  const kindId =
+  // the kind its books keep, else the kind its classification is in.
+  const extras: Facts = kindFacts(
+    read,
     read.core.finance.businesses.get(id)?.kindId ??
-    CLASSIFICATION_KINDS.get(
-      read.core.organizations.get(id as EntityId)?.classification ?? "",
-    ) ??
-    "";
-  const words = KIND_WORDS[kindId];
-  if (words) {
-    extras.kind = read.fact(words.one, id);
-    extras.kinds = read.fact(words.many, id);
-  }
+      CLASSIFICATION_KINDS.get(
+        read.core.organizations.get(id as EntityId)?.classification ?? "",
+      ),
+    id,
+  );
   if (kind === "staff-cut") {
     // The staff the business has after the cut, which its jobs engine kept on
     // the record with the event (the staff it has changes day to day).
@@ -3934,7 +3913,6 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
   "business.closed": (read, f) => {
     const name = f.name;
     const workers = num(f.workers) ?? 0;
-    const industry = industryWords(KIND_INDUSTRIES.get(f.kindId ?? ""));
     const why = closingWhy(f[`organization:${f.recordId}:closing-reason`]);
     const owner = read.name(f.ownerId);
     return story(
@@ -3942,9 +3920,7 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       {
         ...(name ? { subject: read.fact(name, f.recordId ?? "") } : {}),
         year: read.fact(read.story.date.slice(0, 4)),
-        ...(industry
-          ? { industry: read.fact(industry, f.recordId ?? "") }
-          : {}),
+        ...kindFacts(read, f.kindId, f.recordId ?? ""),
         ...(workers > 1 ? { number: read.fact(count(workers)) } : {}),
         ...(why ? { [why]: read.yes() } : {}),
         ...(owner ? { owner: read.fact(owner, f.ownerId ?? "") } : {}),
@@ -4084,7 +4060,6 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
       "foundings",
       read.story.topic,
     )?.kindId;
-    const industry = industryWords(KIND_INDUSTRIES.get(kind ?? ""));
     return (
       business("opening")(read, f) ??
       story(
@@ -4093,9 +4068,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
           ...read.who(read.first(), "name", false),
           date: read.date(),
           ...(read.place() ? { place: read.fact(read.place()!) } : {}),
-          ...(industry
-            ? { industry: read.fact(industry, read.story.topic ?? "") }
-            : {}),
+          ...kindFacts(read, kind, read.story.topic ?? ""),
         },
         ["name"],
         read.first(),

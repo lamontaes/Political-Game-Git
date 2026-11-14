@@ -2645,6 +2645,13 @@ export function deskContext(api: CoreAPI): DeskContext {
       ).some((s) => s.outletId === outletId),
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
+    townAdults: () => {
+      const town = lawChain(api).townPlaceId;
+      let adults = 0;
+      for (const counts of countsThisMonth(api))
+        if (counts.placeId === town) adults += counts.adults;
+      return adults;
+    },
     paperOfRecord: (outlet) =>
       outlet.tier !== "national" &&
       adOutlet(api)?.organizationId === outlet.organizationId,

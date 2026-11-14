@@ -65,7 +65,6 @@
     "also": "A second condition that moved the same month, from the outcome web month record.",
     "jobless": "How many residents are looking for work, from the economic month record.",
     "staff": "The staff a business plans for or starts with, from its staffing record.",
-    "industry": "What a business does, from the business books' industry for its kind.",
     "years": "How many years a business was open, from its founding date.",
     "ordinal": "Which of the month's victimization records of its kind this one is, from the crime month record.",
     "graduates": "How many seniors graduated, from the school outcome record.",
@@ -5629,21 +5628,21 @@
       }
     },
     {
-      "key": "news.anniversary.subject-in-industry-has-been-open-since-year",
+      "key": "news.anniversary.subject-is-kind-open-since-year",
       "move": "anniversary",
       "kind": "written",
-      "text": "{subject}, in {industry}, has been open since {year}.",
+      "text": "{subject}, which is {kind}, has been open since {year}.",
       "uses": [
         {
           "move": "anniversary",
           "subject": "news",
           "role": "anniversary",
           "choice": "lede",
-          "requiresFacts": ["industry", "year"]
+          "requiresFacts": ["kind", "year"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life); kind words by Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
       "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
@@ -10404,21 +10403,21 @@
       }
     },
     {
-      "key": "news.organization-opened.subject-has-opened-for-business-in-industry",
+      "key": "news.organization-opened.subject-has-opened-as-kind",
       "move": "organization-opened",
       "kind": "written",
-      "text": "{subject} has opened for business in {industry}.",
+      "text": "{subject} has opened as {kind}.",
       "uses": [
         {
           "move": "organization-opened",
           "subject": "news",
           "role": "organization.opened",
           "choice": "lede",
-          "requiresFacts": ["industry"]
+          "requiresFacts": ["kind"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "author": "Words, scenes and the director (words-printed-bodies-2); kind words by Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
       "date": "2026-10-29",
       "tag": {
         "move": "deliver-news",
@@ -10448,21 +10447,21 @@
       }
     },
     {
-      "key": "news.founded.name-has-opened-a-business-in-industry",
+      "key": "news.founded.name-has-opened-kind",
       "move": "founded",
       "kind": "written",
-      "text": "{name} has opened a business in {industry}.",
+      "text": "{name} has opened {kind}.",
       "uses": [
         {
           "move": "founded",
           "subject": "news",
           "role": "founded",
           "choice": "lede",
-          "requiresFacts": ["industry"]
+          "requiresFacts": ["kind"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "author": "Words, scenes and the director (words-printed-bodies-2); kind words by Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
       "date": "2026-10-29",
       "tag": {
         "move": "deliver-news",
@@ -10470,21 +10469,21 @@
       }
     },
     {
-      "key": "news.founded.name-opened-a-business-in-industry-in-place-on-date",
+      "key": "news.founded.name-opened-kind-in-place-on-date",
       "move": "founded",
       "kind": "written",
-      "text": "{name} opened a business in {industry} in {place} on {date}.",
+      "text": "{name} opened {kind} in {place} on {date}.",
       "uses": [
         {
           "move": "founded",
           "subject": "news",
           "role": "founded",
           "choice": "lede",
-          "requiresFacts": ["industry", "place"]
+          "requiresFacts": ["kind", "place"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
+      "author": "Words, scenes and the director (words-printed-bodies-2); kind words by Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
       "date": "2026-10-29",
       "tag": {
         "move": "deliver-news",
@@ -14901,21 +14900,21 @@
       }
     },
     {
-      "key": "news.organization.opened.opening-what-it-does-business-in-industry-in-place",
+      "key": "news.organization.opened.opening-it-is-kind-in-place",
       "move": "organization.opened",
       "kind": "written",
-      "text": "It does business in {industry}, in {place}.",
+      "text": "It is {kind}, in {place}.",
       "uses": [
         {
           "move": "organization.opened",
           "subject": "news",
           "role": "opening-what",
           "choice": "context",
-          "requiresFacts": ["industry", "place"]
+          "requiresFacts": ["kind", "place"]
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "author": "Claude Sonnet 5.5 (M3, brief M); kind words by Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
       "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
@@ -14923,65 +14922,21 @@
       }
     },
     {
-      "key": "news.organization.opened.opening-what-the-business-works-in-industry",
+      "key": "news.organization.opened.opening-the-business-is-kind",
       "move": "organization.opened",
       "kind": "written",
-      "text": "The business works in {industry}.",
+      "text": "The business is {kind}.",
       "uses": [
         {
           "move": "organization.opened",
           "subject": "news",
           "role": "opening-what",
           "choice": "context",
-          "requiresFacts": ["industry", "place"]
+          "requiresFacts": ["kind", "place"]
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet 5.5 (M3, brief M)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.organization.opened.opening-what-its-line-is-industry-in-place",
-      "move": "organization.opened",
-      "kind": "written",
-      "text": "Its line is {industry}, in {place}.",
-      "uses": [
-        {
-          "move": "organization.opened",
-          "subject": "news",
-          "role": "opening-what",
-          "choice": "context",
-          "requiresFacts": ["industry", "place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (M3, brief M)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.organization.opened.opening-what-it-is-in-industry-in-place",
-      "move": "organization.opened",
-      "kind": "written",
-      "text": "It is in {industry}, in {place}.",
-      "uses": [
-        {
-          "move": "organization.opened",
-          "subject": "news",
-          "role": "opening-what",
-          "choice": "context",
-          "requiresFacts": ["industry", "place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "author": "Claude Sonnet 5.5 (M3, brief M); kind words by Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
       "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",

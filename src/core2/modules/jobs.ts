@@ -453,24 +453,33 @@ function noteLeaver(
 }
 
 /**
- * The jobs a set of recorded changes moved: the heads each change stands for
- * (a counted job stands for many people, a full person for one), read from the
- * change records themselves.
+ * Who works at an employer or lost a job there in the given changes (the ones
+ * a staff cut's event carries): its full people by id, and the heads its
+ * counted workers' jobs stand for.
  */
-export function jobChangeHeads(
+export function workplaceOf(
   api: CoreAPI,
+  organizationId: string,
   changeIds: readonly string[],
-): number {
-  const changes = store(api).table("changes");
-  let heads = 0;
-  for (const id of changeIds) {
-    const row = changes.get(id) as { heads?: number } | undefined;
-    heads += row?.heads ?? 1;
+): { people: Set<string>; countedHeads: number } {
+  const c = core(api);
+  const people = new Set<string>();
+  let countedHeads = 0;
+  for (const job of currentJobs(api, organizationId)) {
+    if (c.people.has(job.personId)) people.add(job.personId);
+    else countedHeads += headsOf(c, job);
   }
-  return heads;
+  const changes = store(api).table("changes");
+  for (const id of changeIds) {
+    const row = changes.get(id) as
+      { personId?: string; heads?: number } | undefined;
+    if (!row?.personId) continue;
+    if (c.people.has(row.personId)) people.add(row.personId);
+    else countedHeads += row.heads ?? 1;
+  }
+  return { people, countedHeads };
 }
 
-/** A job by id, a full person's or a counted worker's. */
 export function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
   return (
     core(api).jobs.get(jobId) ?? residentsRuntime(core(api))?.jobs.get(jobId)

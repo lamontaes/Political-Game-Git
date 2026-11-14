@@ -32,7 +32,7 @@ import {
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./modules/views";
-import { jobChangeHeads } from "./modules/jobs";
+import { workplaceOf } from "./modules/jobs";
 import { residentsRuntime } from "./modules/residents";
 import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
 import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
@@ -185,6 +185,8 @@ export interface DeskContext {
   readonly printed: (wireId: string, outletId: string) => boolean;
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
+  /** The town's counted adults: what an outlet's counted followers are a share of. */
+  readonly townAdults?: () => number;
   /**
    * Whether this outlet is the town's paper of record: the local outlet with
    * the widest audience (where a legal notice runs). Absent, every outlet is.
@@ -838,25 +840,29 @@ export function runDesk(
       const share = followers.length ? named / followers.length : 1;
       return named + share * ctx.countedFollowers(outlet);
     }
-    // The same rule as every other story here: the people the record
-    // reaches, counted once each (the `people` term below counts the people
-    // a record names the same way). A layoff names its owner, but its own
-    // facts say who else it reaches: the workers whose jobs were cut
-    // (`jobsLost`, the heads of its `jobChangeIds`) and the staff still
-    // working there (`staffAfter`). No weight of its own.
-    if (item.kind === "business.staff-reduced") {
+    // A layoff reaches the people who work at the business and the ones it
+    // let go, as many of them as an outlet's readers hold: the named workers
+    // who follow it, and the counted workers (heads) at the share of the
+    // town's counted adults the outlet's counted followers are. A paper whose
+    // readers include the workers weighs the cut more than one whose readers
+    // do not; no weight of its own.
+    if (item.kind === "business.staff-reduced" && item.facts?.organizationId) {
       let ids: unknown;
       try {
-        ids = JSON.parse(item.facts?.jobChangeIds ?? "[]");
+        ids = JSON.parse(item.facts.jobChangeIds ?? "[]");
       } catch {
         ids = [];
       }
-      const lost = Array.isArray(ids)
-        ? jobChangeHeads(api, ids.map(String))
-        : 0;
+      const work = workplaceOf(
+        api,
+        item.facts.organizationId,
+        Array.isArray(ids) ? ids.map(String) : [],
+      );
+      const adults = ctx.townAdults?.() ?? 0;
+      const share = adults > 0 ? ctx.countedFollowers(outlet) / adults : 1;
       return (
-        (lost || Number(item.facts?.jobsLost ?? 0)) +
-        Number(item.facts?.staffAfter ?? 0)
+        followers.filter((id) => work.people.has(id)).length +
+        work.countedHeads * Math.min(1, share)
       );
     }
     // A month's move in the town's conditions reaches every follower in
