@@ -3578,6 +3578,34 @@ export function declineReason(
   return worst ? worst[0] : "standing";
 }
 
+/** Causes a member would not say to the one who asked: they stay on the record, and the plate gives a public reason instead. */
+const UNSAID_CAUSES = new Set([
+  "deal",
+  "lobby",
+  "bribe",
+  "ambition",
+  "press",
+  "reply",
+]);
+
+/**
+ * The reason a member gives for a no, what they would say aloud: the recorded cause when it is one
+ * a member says (their own view, the people they represent, their party, how well they know the
+ * asker); otherwise the one of their view and their constituents that weighed against the bill, or
+ * how well they know the asker. The true cause stays in `declineReason`, for dev mode.
+ */
+export function publicDeclineReason(
+  request: Pick<CarryRequest, "position" | "standing">,
+): string {
+  const cause = declineReason(request);
+  if (!UNSAID_CAUSES.has(cause))
+    return cause === "sponsor" ? "standing" : cause;
+  const { views, constituents } = request.position;
+  if (views < 0 || constituents < 0)
+    return views <= constituents ? "views" : "constituents";
+  return "standing";
+}
+
 /** The asks this asker made of this member of this body that were turned down, oldest first. */
 export function declinedAsks(
   api: CoreAPI,

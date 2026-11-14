@@ -3309,25 +3309,35 @@ async function seatRows() {
     seatText = r.text ?? [];
     // An executive's bill goes through a member: who was asked and what they said.
     const askedWord = r.asked
-      ? (r.asked.carried
-          ? controls.seat.askedCarried
-          : r.asked.reasonWords
-            ? controls.seat.askedRefusedSaid
-            : r.asked.reason && controls.seat.askedReasons[r.asked.reason]
-              ? controls.seat.askedRefusedBecause
-              : controls.seat.askedRefused
-        )
-          .replace("{name}", r.asked.name)
-          .replace("{words}", r.asked.reasonWords ?? "")
-          .replace(
-            "{reason}",
-            controls.seat.askedReasons[r.asked.reason] ?? "",
-          ) +
-        (r.asked.earlier?.length
-          ? ` ${controls.seat.askedBefore
+      ? (() => {
+          const say = r.asked.pronouns;
+          const fill = (line) =>
+            line
               .replace("{name}", r.asked.name)
-              .replace("{date}", dateWords(r.asked.earlier.at(-1)))}`
-          : "")
+              .replace("{words}", r.asked.reasonWords ?? "")
+              .replace("{subject}", say?.lower ?? "they")
+              .replace("{object}", say?.object ?? "them")
+              .replace("{possessive}", say?.possessive ?? "their");
+          const reasons = say
+            ? controls.seat.askedReasons
+            : controls.seat.askedReasonsThey;
+          const reason = reasons[r.asked.reason];
+          const line = r.asked.carried
+            ? controls.seat.askedCarried
+            : r.asked.reasonWords
+              ? controls.seat.askedRefusedSaid
+              : reason
+                ? controls.seat.askedRefusedBecause.replace("{reason}", reason)
+                : controls.seat.askedRefused;
+          const earlier = r.asked.earlier ?? [];
+          const before = earlier.length
+            ? ` ${(earlier.length === 1
+                ? controls.seat.askedBefore
+                : controls.seat.askedBeforeMore
+              ).replace("{date}", dateWords(earlier.at(-1)))}`
+            : "";
+          return fill(line + before);
+        })()
       : "";
     seatResult = r.asked
       ? askedWord
