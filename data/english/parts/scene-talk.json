@@ -165048,10 +165048,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-asked-name-for-an-hour-this-morning-you-get-right-to-it",
+      "key": "scene-talk.narrate-narrate.you-asked-name-for-an-hour-you-get-right-to-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You asked {name} for an hour this morning. You get right to it.",
+      "text": "You asked {name} for an hour. You get right to it.",
       "uses": [
         {
           "subject": "scene",
@@ -165169,10 +165169,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-knows-you-today-you-ve-come-to-ask-something-big",
+      "key": "scene-talk.narrate-narrate.name-knows-you-you-ve-come-to-ask-something-big",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} knows you. Today you've come to ask something big.",
+      "text": "{name} knows you. You've come to ask something big.",
       "uses": [
         {
           "subject": "scene",
@@ -166180,10 +166180,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-serve",
+      "key": "scene-talk.follow-accept.i-understand-that",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand.",
+      "text": "I understand that.",
       "uses": [
         {
           "subject": "scene",
@@ -166204,10 +166204,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you",
+      "key": "scene-talk.follow-thank.thanks",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you.",
+      "text": "Thanks.",
       "uses": [
         {
           "subject": "scene",
