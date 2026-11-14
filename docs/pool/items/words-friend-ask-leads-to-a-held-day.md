@@ -28,7 +28,7 @@ root: none
 
 **Rules.** No dice: whether the player goes is their own act, never a roll. One rule for every place.
 
-**Done when.** In three drawn places, a friend's ask that the player says yes to names a day on an engine's calendar, and the day it comes the promise is recorded as kept or broken, by record id.
+**Done when.** A second session, in the running game on a drawn place, says yes to a friend's ask and sees the day come; and in three drawn places, a friend's ask that the player says yes to names a day on an engine's calendar, and the day it comes the promise is recorded as kept or broken, by record id.
 
 **Waits on.** Nothing.
 
