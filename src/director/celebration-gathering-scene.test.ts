@@ -404,7 +404,7 @@ it(`a wedding celebration asks the player for something, and a new job's facts c
       const root = scene.talk.tree.replies.map((reply) => reply.line);
       expectUpToFourDifferent(root, where);
       for (const row of root)
-        expect(["agree", "ask", "decline"], where).toContain(row.move);
+        expect(["agree", "promise", "ask", "decline"], where).toContain(row.move);
       expect(scene.talk.depth, where).toBeGreaterThan(1);
       expect(
         scene.talk.gaps.filter((gap) => gap.includes("/ending/")),

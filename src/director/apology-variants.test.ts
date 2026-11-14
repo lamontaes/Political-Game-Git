@@ -46,8 +46,13 @@ const lineSources = (purpose: string) =>
     )
     .map(
       (part) =>
+        // A name after a comma is left off once the voice has said it on the
+        // branch (scene-talk-words.ts, VOCATIVE): ", {first}" is optional.
         new RegExp(
-          `^${(part.text as string).replace(/[.*+?^$()|[\]\\]/g, "\\$&").replace(/\{[a-z-]+\}/g, ".+")}$`,
+          `^${(part.text as string)
+            .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
+            .replace(/, \{first\}/g, "(?:, {first})?")
+            .replace(/\{[a-z-]+\}/g, ".+")}$`,
         ),
     );
 

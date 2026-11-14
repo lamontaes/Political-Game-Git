@@ -136892,6 +136892,57 @@
       }
     },
     {
+      "key": "scene-talk.reply-agree.then-that-s-where-we-start",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then that's where we start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.follow-answer.what-we-both-need-is-a-plan-a-place-to-start-and-someone-in-our-corner"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.follow-answer.a-bed-and-a-month-and-the-names-of-people-who-hire-after-that-i-m-on-my-own"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.follow-answer.until-i-find-a-job-that-will-take-me-with-a-record-maybe-longer-and-i-d-rather-say-so-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.follow-answer.tell-me-what-you-re-planning-and-tell-me-when-it-goes-wrong-i-can-take-that"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (promises, Nov 14: the yes after an answer, since the promise reply was cut and the other yes is pulled)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
       "key": "scene-talk.reply-agree.alright-i-can-do-that",
       "move": "reply-agree",
       "kind": "spoken",
