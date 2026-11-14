@@ -19,7 +19,7 @@ source: Account lead, Nov 14, 2026, from the Speeches builder's two-worker run o
 checked:
 ---
 
-**What.** `src/director/speech-outline.test.ts` draws a random seed on every run, so its "ten drawn places" case passes on most draws and fails on others. Seed ecd58aa1425040e9 gives 20 of 39 speeches whose points open with a figure, where the test allows 19.5 (line 444). The same seed fails the same way on the train head without the jobs, pay and prices change.
+**What.** `src/director/speech-outline.test.ts` draws a random seed on every run, so its "ten drawn places" case passes on most draws and fails on others. Seed ecd58aa1425040e9 gives 20 of 39 speeches whose points open with a figure, where the test allows 19.5 (line 444). The same seed fails the same way on the train head without the jobs, pay and prices change. Seen: in a run of the test with seed ecd58aa1425040e9.
 
 **Cause.** Found in code: line 38 of `src/director/speech-outline.test.ts` sets `seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex")`, so nothing pins the draw, and the bar of half the speeches at most per point shape is hit only when a draw lands over it. Why that draw goes over (which point shape the planner picks for a speaker whose facts are mostly figures) is not yet found.
 
@@ -29,7 +29,7 @@ checked:
 
 **Rules.** No dice: the shape follows the speaker's facts and the point's record. Tests pinned to named places and fixed seeds, never loosened to pass. Guards: `src/director/speech-outline.test.ts`.
 
-**Done when.** The test names its seeds and passes on them. Seed ecd58aa1425040e9 either passes because the planner's choice is fixed or is named as a pinned case with the cause. The bar stays at half. A second session reads three composed speeches on main and sees that their points open on a mix of figures, questions and plain statements.
+**Done when.** The test names its seeds and passes on them. In three drawn places, seed ecd58aa1425040e9 among them, the test passes. Seed ecd58aa1425040e9 either passes because the planner's choice is fixed or is named as a pinned case with the cause. The bar stays at half. A second session reads three composed speeches on main and sees that their points open on a mix of figures, questions and plain statements.
 
 **Waits on.** Nothing.
 
