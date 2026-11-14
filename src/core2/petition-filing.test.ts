@@ -29,7 +29,7 @@ import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { campaignFor } from "./modules/campaigns";
+import { campaignFor, signaturesToGather } from "./modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
   PETITION_CHECKED_EVENT,
@@ -357,14 +357,27 @@ describe("filing is a petition", () => {
       opened.needed,
       `${placeKey}: the law asks no signatures`,
     ).toBeGreaterThan(0);
+    // The door asks held when the petition first reached the count plus the
+    // cushion, and the canvassing days after it.
+    let asksWhenFull: number | null = null;
+    let canvassedAfterFull = 0;
     while (core.date <= opened.due) {
       // A checked petition's signatures go in play; bookkeeping keeps them
       // through the check, the morning after the deadline.
       if (core.date === opened.due) setBookkeeping(true);
+      const held = petitionOf(api, filing!.id)!;
+      if (
+        asksWhenFull === null &&
+        held.signed >= signaturesToGather(held.needed)
+      )
+        asksWhenFull = campaignFor(api, filing!.id).doorSignAsks ?? 0;
       const canvass = campaignDayChoices(api, filing!.id).find(
         (c) => c.kind === "canvass",
       );
-      if (canvass?.available) takeCampaignDayChoice(api, filing!.id, "canvass");
+      if (canvass?.available) {
+        takeCampaignDayChoice(api, filing!.id, "canvass");
+        if (asksWhenFull !== null) canvassedAfterFull += 1;
+      }
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
     }
     advanceCore(core, addDays(makeIsoDate(opened.due), 1));
@@ -374,6 +387,8 @@ describe("filing is a petition", () => {
       needed: opened.needed,
       doorAsks: campaignFor(api, filing!.id).doorSignAsks ?? 0,
       doorSigners: signers.filter((s) => s.via === "door").length,
+      asksWhenFull,
+      canvassedAfterFull,
     };
   }
 
@@ -386,12 +401,20 @@ describe("filing is a petition", () => {
     expect(run.doorSigners, JSON.stringify(run)).toBeGreaterThan(0);
   }, 180_000);
 
-  it("a petition filled before any door asked takes none at the doors, which ask for votes (Egypt AL)", () => {
+  // Once the petition holds the count plus the cushion, the doors ask for
+  // the vote: no door asks for a signature after that. This case was pinned
+  // at Egypt, Alabama, where a county assessor's petition asked one
+  // signature (the town's share of the law's count, the bug the owner named
+  // on Nov 14) and was full before any door. The law asks 1,022 there, so
+  // the doors must ask; the same rule is now reached through the game's own
+  // path, at a town race whose law asks five, which the doors fill.
+  it("a petition at its count plus the cushion takes no more at the doors, which ask for votes (Acequia ID)", () => {
     const run = pinnedPetition(
-      "0123224",
+      "1600280",
       "1110d0796efcdf584767079f512566be41cf3b19d816526056f3f73445ee8eaf",
     );
-    expect(run.doorAsks, JSON.stringify(run)).toBe(0);
-    expect(run.doorSigners, JSON.stringify(run)).toBe(0);
+    expect(run.asksWhenFull, JSON.stringify(run)).not.toBeNull();
+    expect(run.canvassedAfterFull, JSON.stringify(run)).toBeGreaterThan(0);
+    expect(run.doorAsks, JSON.stringify(run)).toBe(run.asksWhenFull);
   }, 180_000);
 });
