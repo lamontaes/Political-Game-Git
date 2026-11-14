@@ -14,7 +14,7 @@ import { rosterTitle, stripSection } from "./strips.mjs";
 /**
  * `groups`: [{ name, items: [{ value, label, today, unit, cents, note, blocked }] }];
  * `words`: { title, issue, today, newAmount, draft, none, risePerYear, risePercent,
- * riseYears, riseFirstDate }; `onDraft(item, typed, steps, rise)` drafts the bill (`rise` is
+ * riseYears, riseFirstDate, riseBack, riseNeedsAmount }; `onDraft(item, typed, steps, rise)` drafts the bill (`rise` is
  * the percent a year, its years and its first day, in place of a value or steps). Returns the screen's node.
  */
 export function draftCard({ groups, words, onDraft }) {
@@ -88,7 +88,7 @@ export function draftCard({ groups, words, onDraft }) {
       );
     });
     // A phase-in by a percent a year (the owner's ruling, Sept 12: dated steps or a percent a
-    // year): the percent, the years it runs and the day of the first rise. The amount in force
+    // year): the percent, the years it runs and the day of the first increase. The amount in force
     // is what it rises from, so the typed amount and the added steps give way to it.
     const percent = numberBox({
       value: 0,
@@ -129,8 +129,19 @@ export function draftCard({ groups, words, onDraft }) {
       className: "action small draft-rise-toggle",
       textContent: words.risePerYear ?? "",
     });
+    // With nothing in force there is nothing to raise by a percent: the button stays dark and
+    // a line beside it says why. Open, the button says that pressing it goes back to one amount.
+    riseToggle.disabled = !item.raisable;
+    const riseWhy = el("p", {
+      className: "draft-note",
+      textContent: words.riseNeedsAmount ?? "",
+    });
+    riseWhy.hidden = Boolean(item.raisable);
     riseToggle.addEventListener("click", () => {
       rise.hidden = !rise.hidden;
+      riseToggle.textContent = rise.hidden
+        ? (words.risePerYear ?? "")
+        : (words.riseBack ?? "");
       firstRow.hidden = steps.hidden = addStep.hidden = !rise.hidden;
     });
     draft.addEventListener("click", () =>
@@ -170,7 +181,7 @@ export function draftCard({ groups, words, onDraft }) {
         firstRow,
         steps,
         ...(item.value.startsWith("series:")
-          ? [addStep, riseToggle, rise]
+          ? [addStep, riseToggle, riseWhy, rise]
           : []),
         ...(item.note
           ? [el("p", { className: "draft-note", textContent: item.note })]

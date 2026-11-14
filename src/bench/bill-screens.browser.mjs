@@ -237,7 +237,8 @@ try {
   await page.locator('.office-board [data-act="write-a-bill"]').first().click();
   await page.locator(".draft-card .pick").first().waitFor();
   // A percent rises from an amount in force above zero: take the first law amount that has one.
-  const raisable = await page.evaluate(async () => {
+  const found = await page.evaluate(async () => {
+    const out = { raisable: null, empty: null };
     for (const option of document.querySelectorAll(".draft-card .pick")) {
       if (
         !option.dataset.value.startsWith("series:") ||
@@ -247,12 +248,41 @@ try {
       option.click();
       await new Promise((done) => setTimeout(done, 100));
       const today = document.querySelector(".draft-today")?.textContent ?? "";
-      if (/[1-9]/.test(today)) return option.dataset.value;
+      if (/[1-9]/.test(today)) out.raisable ??= option.dataset.value;
+      else out.empty ??= option.dataset.value;
     }
-    return null;
+    return out;
   });
-  assert.ok(raisable, "the body has no law amount above zero to raise");
+  assert.ok(found.raisable, "the body has no law amount above zero to raise");
+  // An amount with nothing in force: the button is dark and a line says why.
+  if (found.empty) {
+    await page
+      .locator(`.draft-card .pick[data-value="${found.empty}"]`)
+      .click();
+    assert.equal(
+      await page.locator(".draft-card .draft-rise-toggle").isDisabled(),
+      true,
+      "nothing in force: the percent button is dark",
+    );
+    assert.match(
+      await page.locator(".draft-card .draft-note").first().innerText(),
+      /Nothing is in force today/,
+    );
+    if (SHOTS)
+      await page.screenshot({ path: `${SHOTS}/draft-card-no-amount.png` });
+  }
+  await page
+    .locator(`.draft-card .pick[data-value="${found.raisable}"]`)
+    .click();
+  const closedLabel = await page
+    .locator(".draft-card .draft-rise-toggle")
+    .innerText();
   await page.locator(".draft-card .draft-rise-toggle").click();
+  assert.notEqual(
+    await page.locator(".draft-card .draft-rise-toggle").innerText(),
+    closedLabel,
+    "open, the button says what pressing it does",
+  );
   assert.equal(
     await page.locator(".draft-card .draft-step").first().isVisible(),
     false,

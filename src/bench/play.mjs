@@ -3585,6 +3585,8 @@ async function seatRows() {
         risePercent: seat.risePercent ?? "",
         riseYears: seat.riseYears ?? "",
         riseFirstDate: seat.riseFirstDate ?? "",
+        riseBack: seat.riseBack ?? "",
+        riseNeedsAmount: seat.riseNeedsAmount ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
@@ -3611,6 +3613,8 @@ async function seatRows() {
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
+          // A percent a year needs an amount in force above zero to start from.
+          raisable: Number(item.today?.value) > 0,
           note:
             item.allowed === false
               ? (controls.authority?.[item.reason] ?? "")
