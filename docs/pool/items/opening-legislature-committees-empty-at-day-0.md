@@ -25,7 +25,7 @@ root: day-one-in-motion
 
 **Fix.** Give the opening the stock the same engine would hold after a long run: run the engine that writes the table (a warm-up of its own monthly step, or a draw from its own steady state with the place's own figures). Never a hand-filled list and never a second writer. Change the function in src/core2/modules/legislature.ts that first writes the table. The numbers come from the place's rows, never from a place named in code.
 
-**Warm-up result (Nov 14, 31-day warm-up of src/core2/opening-warmup.ts, measured at Washington DC and Lewiston ME on train head b7ed6337).** Still empty after it: `core2-legislature-v1.committees`. This item now covers only those; the engine that owns each writes its stock for the past date inside the warm-up window.
+**Warm-up result (Nov 14, 31-day warm-up of src/core2/player-warm-up.ts, measured at Washington DC and Lewiston ME on train head b7ed6337).** Still empty after it: `core2-legislature-v1.committees`. This item now covers only those; the engine that owns each writes its stock for the past date inside the warm-up window.
 
 **Time box.** 4 hours for one Sonnet session at medium effort. When it runs out, write what was read in this item and stop.
 

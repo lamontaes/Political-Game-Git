@@ -25,7 +25,7 @@ root: day-one-in-motion
 
 **Fix.** Opening stock comes from the engine that makes the flow: the opening's jobless people who qualify under the place's law hold a claim, written by the same function that writes claims later. Never a hand-filled list and never a second writer. Numbers come from the place's rows.
 
-**Warm-up result (Nov 14, 31-day warm-up of src/core2/opening-warmup.ts, measured at Washington DC and Lewiston ME on train head b7ed6337).** The warm-up fills `jobs.claims` at both places; their known-red marks are gone. Nothing is left for this item once the warm-up folds; a second session confirms it on the running game, then it is done.
+**Warm-up result (Nov 14, 31-day warm-up of src/core2/player-warm-up.ts, measured at Washington DC and Lewiston ME on train head b7ed6337).** The warm-up fills `jobs.claims` at both places; their known-red marks are gone. Nothing is left for this item once the warm-up folds; a second session confirms it on the running game, then it is done.
 
 **Time box.** 3 hours for one Sonnet session at medium effort. When it runs out, write what was read in this item and stop.
 

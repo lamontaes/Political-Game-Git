@@ -1,5 +1,5 @@
 /**
- * The opening's warm-up (skill day-one-in-motion; src/core2/opening-warmup.ts): the world runs the 31 days
+ * The opening's warm-up (skill day-one-in-motion; src/core2/player-warm-up.ts): the world runs the 31 days
  * before the start date, and the played person does nothing in them. Pinned to Lewiston, Maine, one fixed seed.
  */
 import { describe, expect, it } from "vitest";
@@ -11,7 +11,7 @@ import {
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
-import { warmUpOpening } from "./opening-warmup";
+import { warmUpOpening } from "./player-warm-up";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 
 const PLACE = "2338740";

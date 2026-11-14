@@ -25,7 +25,7 @@ root: day-one-in-motion
 
 **Fix.** Opening stock comes from the engine that makes the flow, run backward or run ahead (a warm-up of its own step, or a draw from its own steady state with the place's own figures), never a second generator and never a hand-filled list. Change the first writer of each table in the files below. The numbers come from the place's rows, never from a place named in code.
 
-**Warm-up result (Nov 14, 31-day warm-up of src/core2/opening-warmup.ts, measured at Washington DC and Lewiston ME on train head b7ed6337).** The warm-up fills `credit.loans`, `part.core2-accounts.deposits`, `part.core2-accounts.depositsByHolder`, `part.core2-accounts.heldDeposits` at both places; their known-red marks are gone. Still empty after it: `credit.households`. This item now covers only those; the engine that owns each writes its stock for the past date inside the warm-up window.
+**Warm-up result (Nov 14, 31-day warm-up of src/core2/player-warm-up.ts, measured at Washington DC and Lewiston ME on train head b7ed6337).** The warm-up fills `credit.loans`, `part.core2-accounts.deposits`, `part.core2-accounts.depositsByHolder`, `part.core2-accounts.heldDeposits` at both places; their known-red marks are gone. Still empty after it: `credit.households`. This item now covers only those; the engine that owns each writes its stock for the past date inside the warm-up window.
 
 **Time box.** 4 hours for one Sonnet session at medium effort. When it runs out, write what was read in this item and stop.
 

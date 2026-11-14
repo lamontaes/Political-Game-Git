@@ -19,7 +19,7 @@ effort: medium
 root: day-one-in-motion
 ---
 
-**What.** After the 31-day opening warm-up (`warmUpDays`, src/core2/opening-warmup.ts) `core2-office-day-v1.agendaItems` still has no rows at the two pinned places, and a year of play barely fills it (owner, Nov 14: "The town must be in motion on day one... not just town, but country and state. Remember, it's all one simulation."). A real place has this on an ordinary day: an office has agenda items on any day. Level: town, county, state and federal. Seen: the first screens on day 0 read empty where a place already running would show it.
+**What.** After the 31-day opening warm-up (`warmUpDays`, src/core2/player-warm-up.ts) `core2-office-day-v1.agendaItems` still has no rows at the two pinned places, and a year of play barely fills it (owner, Nov 14: "The town must be in motion on day one... not just town, but country and state. Remember, it's all one simulation."). A real place has this on an ordinary day: an office has agenda items on any day. Level: town, county, state and federal. Seen: the first screens on day 0 read empty where a place already running would show it.
 
 **Cause.** Needs cause. Measured: Washington DC never fills it in a year; Lewiston ME by day 1 (0/5/11/30). The owner of the module `office-day` finds why its writer in src/core2/modules/office-day.ts does not write this table in the window (a calendar date, a condition the opening never meets, or a writer that runs only at a later date) before any fix.
 
@@ -33,4 +33,4 @@ root: day-one-in-motion
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/office-day.ts; src/core2/opening-warmup.ts
+**Files.** src/core2/modules/office-day.ts; src/core2/player-warm-up.ts

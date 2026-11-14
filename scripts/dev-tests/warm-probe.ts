@@ -18,10 +18,11 @@ const file = JSON.parse(
   readFileSync("src/core2/data/opening/day-zero.json", "utf8"),
 );
 const tables = recordProof(world.core).tables;
-const red = file.rows.filter((r: any) => r.knownRed);
+type Row = { table: string; knownRed?: string };
+const red = (file.rows as Row[]).filter((r) => r.knownRed);
 const empty = red
-  .filter((r: any) => !(tables[r.table]?.rows > 0))
-  .map((r: any) => r.table);
+  .filter((r) => !((tables[r.table]?.rows ?? 0) > 0))
+  .map((r) => r.table);
 console.log(
   JSON.stringify({
     placeKey,

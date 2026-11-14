@@ -137,7 +137,7 @@ export interface Director {
   /** Snapshot every watched person; call once after the core is created. */
   start(core: Readonly<CoreState>): void;
   /**
-   * Runs the opening's warm-up (src/core2/opening-warmup.ts) before the director starts: its days watch
+   * Runs the opening's warm-up (src/core2/player-warm-up.ts) before the director starts: its days watch
    * no one, make no scene, stop or journal line, and are not an error.
    */
   whileWarming(run: () => void): void;

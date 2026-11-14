@@ -5,7 +5,6 @@ import {
   daysBetween,
   makeIsoDate,
 } from "../core2/kernel/dates";
-import { warmUpOpening } from "../core2/opening-warmup";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { buildPopulation, inHousehold } from "../core2/population";
@@ -14,6 +13,7 @@ import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
 import { createLifeCore } from "../core2/life";
 import { preStartWindow, runPreStart } from "../core2/pre-start";
+import { warmUpOpening } from "../core2/player-warm-up";
 import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
 import { wordPrintedStory } from "./archive-words";
@@ -311,7 +311,7 @@ type BuildOptions = {
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
   /**
-   * Days the world is built before its start date and run forward to it (src/core2/opening-warmup.ts), so
+   * Days the world is built before its start date and run forward to it (src/core2/player-warm-up.ts), so
    * what an engine makes on its first steps already exists on day one. Default none; the New game route and
    * the day-zero check set `OPENING_WARMUP_DAYS`. The played person does nothing in them.
    */

@@ -27,7 +27,7 @@ root: day-one-in-motion
 
 **Added Nov 14 (Account lead's call on the unsure tables), levels town, county, state and federal as listed.** The same check also found these empty at creation: `part.core2-residents.retirementLevel` (town and county; creation / day 1 / day 31 / year 1) 0/0/13/541 at Washington, 0/0/31/703 at Lewiston. Would a real place have them under way on the start date? Yes. Opening stock comes from the engine that makes the flow, run backward or run ahead (a warm-up of its own step, or a draw from its own steady state with the place's own figures), never a second generator and never a hand-filled list. Measured on train head 8bb1ff9d at Washington, District of Columbia (`drawPlace("a1", "day-zero")`) and Lewiston, Maine (`drawPlace("b2", "day-zero")`).
 
-**Warm-up result (Nov 14, 31-day warm-up of src/core2/opening-warmup.ts, measured at Washington DC and Lewiston ME on train head b7ed6337).** The warm-up fills `part.core2-residents.retirementLevel`, `part.core2-retirement-claims.claimed` at both places; their known-red marks are gone. Nothing is left for this item once the warm-up folds; a second session confirms it on the running game, then it is done.
+**Warm-up result (Nov 14, 31-day warm-up of src/core2/player-warm-up.ts, measured at Washington DC and Lewiston ME on train head b7ed6337).** The warm-up fills `part.core2-residents.retirementLevel`, `part.core2-retirement-claims.claimed` at both places; their known-red marks are gone. Nothing is left for this item once the warm-up folds; a second session confirms it on the running game, then it is done.
 
 **Time box.** 4 hours for one Sonnet session at medium effort. When it runs out, write what was read in this item and stop.
 

@@ -144,7 +144,7 @@ export interface PopulationOptions {
   startedAt: string;
   /**
    * The date the cohort ages (`cohortAge`, `playerAge`) are read on, when the world is built before its start
-   * date and run forward to it (src/core2/opening-warmup.ts): the player is the age they read on the start date.
+   * date and run forward to it (src/core2/pre-start.ts): the player is the age they read on the start date.
    * Defaults to `startedAt`.
    */
   cohortsOn?: string;

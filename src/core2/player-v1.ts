@@ -511,7 +511,7 @@ function finishIntents(core: CoreState, s: Session, day: Day): void {
  * One day for a world whose controlled person acts only on the player's answers (life.ts runDay): no
  * module may choose for that person, whose needs and shifts belong to the clock's continuation; everyone
  * else's day runs as in any day. The player's clock closes each day through it, and the opening's
- * warm-up (src/core2/opening-warmup.ts) runs the days before the start through it, so the played person
+ * warm-up (src/core2/player-warm-up.ts) runs the days before the start through it, so the played person
  * does nothing in them.
  */
 export function runControlledDay(

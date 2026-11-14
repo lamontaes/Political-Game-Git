@@ -5,7 +5,7 @@
     "days": 365,
     "command": "node --import tsx scripts/dev-tests/day-zero-year.ts <seed> 365",
     "seeds": ["a1", "b2"],
-    "warmUp": "Known-red marks measured with a 31-day warm-up (OPENING_WARMUP_DAYS in src/bench/world.ts, src/core2/opening-warmup.ts) at the two pinned places on train head b7ed6337: a table is red where it is still empty after the warm-up."
+    "warmUp": "Known-red marks measured with a 31-day warm-up (OPENING_WARMUP_DAYS in src/bench/world.ts, src/core2/player-warm-up.ts) at the two pinned places on train head b7ed6337: a table is red where it is still empty after the warm-up."
   },
   "pinnedPlaces": [
     {

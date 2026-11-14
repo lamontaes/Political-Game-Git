@@ -431,7 +431,8 @@
         "src/core2/opening-roles.ts",
         "src/core2/game-start.ts",
         "src/core2/output-numbers.ts",
-        "src/core2/output-number-readers.ts"
+        "src/core2/output-number-readers.ts",
+        "src/core2/player-warm-up.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",
