@@ -1295,7 +1295,7 @@
     "speech": "Give a speech"
   },
   "runningMate": {
-    "title": "Running mate for {office}",
+    "title": "Your running mate",
     "choose": "Choose",
     "own": "Choose for me",
     "later": "You name your running mate after the primary",

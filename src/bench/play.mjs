@@ -1808,7 +1808,7 @@ function playAsks({ asked, summary, scene }) {
  */
 function ticketSection(filing, ticket) {
   const words = controls.runningMate ?? {};
-  const title = words.title.replace("{office}", ticket.office);
+  const title = words.title;
   if (ticket.mate) return stripSection(1, title, introText(ticket.mate.name));
   if (!ticket.choices.length)
     return stripSection(
