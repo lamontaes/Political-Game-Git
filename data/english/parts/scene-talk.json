@@ -183562,7 +183562,8 @@
           "key": "routine",
           "step": "state",
           "move": "tell-filing-fee",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "warm",
@@ -183586,7 +183587,8 @@
           "key": "routine",
           "step": "state",
           "move": "tell-filing-fee",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "steady",
@@ -183610,7 +183612,8 @@
           "key": "routine",
           "step": "state",
           "move": "tell-filing-fee",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "firm",
@@ -183634,7 +183637,8 @@
           "key": "routine",
           "step": "state",
           "move": "filing-fee-paid",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "warm",
@@ -183658,7 +183662,8 @@
           "key": "routine",
           "step": "state",
           "move": "filing-fee-paid",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "steady",
@@ -183682,7 +183687,8 @@
           "key": "routine",
           "step": "state",
           "move": "filing-fee-paid",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "firm",
@@ -183706,7 +183712,8 @@
           "key": "routine",
           "step": "state",
           "move": "rule-filing-fee",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "warm",
@@ -183730,7 +183737,8 @@
           "key": "routine",
           "step": "state",
           "move": "rule-filing-fee",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "steady",
@@ -183754,7 +183762,8 @@
           "key": "routine",
           "step": "state",
           "move": "rule-filing-fee",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "firm",
@@ -183778,7 +183787,8 @@
           "key": "routine",
           "step": "state",
           "move": "tell-fee-deadline",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "steady",
@@ -183802,7 +183812,8 @@
           "key": "routine",
           "step": "state",
           "move": "tell-fee-deadline",
-          "role": "asker"
+          "role": "asker",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "firm",
@@ -183826,7 +183837,8 @@
           "key": "routine",
           "step": "state",
           "move": "come-back",
-          "role": "asked"
+          "role": "asked",
+          "requiresFacts": ["fee"]
         }
       ],
       "bearing": "calm",

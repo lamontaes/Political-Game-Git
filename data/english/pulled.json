@@ -169,6 +169,9 @@
     "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next": [
       "alright-in-dialogue"
     ],
+    "scene-talk.reply-come-back.ill-come-back-with-it": [
+      "player-never-says-unchosen"
+    ],
     "scene-talk.reply-comfort.i-know-its-a-lot-to-watch-im-all-right-really": [
       "alright-in-dialogue"
     ],
