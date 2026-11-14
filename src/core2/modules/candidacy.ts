@@ -1354,6 +1354,8 @@ export const PARTY_ASKED_EVENT = "party-asked";
 export const SUCCESSOR_ASKED_EVENT = "successor-asked";
 /** The replies in an ask's scene that mean yes. */
 const AGREEING_MOVES: ReadonlySet<string> = new Set(["agree", "relent"]);
+/** The replies in an ask's scene that mean no, or not now. */
+const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline", "stall"]);
 
 /**
  * A party with no one filed for a partisan seat looks for someone to run
@@ -1565,7 +1567,12 @@ function askForSuccessor(api: CoreAPI, contest: ContestRow): void {
   }
 }
 
-function askForCandidates(api: CoreAPI, contest: ContestRow): void {
+function askForCandidates(
+  api: CoreAPI,
+  contest: ContestRow,
+  /** Only this party asks: its next member, after the player's answer. */
+  onlyPartyId?: string,
+): void {
   const date = api.state.date;
   const town = api
     .moduleState(ELECTIONS_MODULE_ID)
@@ -1594,6 +1601,7 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
       ? incumbentDecision
       : undefined;
   for (const { party, chairId, members } of partyProspects(api, contest)) {
+    if (onlyPartyId && party.id !== onlyPartyId) continue;
     for (const person of members) {
       const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
       if (api.state.eventIds.has(recordId)) continue;
@@ -1620,12 +1628,9 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
         },
       });
       // The player answers in the scene the ask stages, and the party waits
-      // on that answer.
-      if (isExplicitlyControlledPersonV1(api.state, person.id)) {
-        // stopgapId: SG-P15-party-ask-after-player
-        api.stopgap("SG-P15-party-ask-after-player");
-        break;
-      }
+      // on that answer: a yes is the decision to run (`answerPartyAsk`), a no
+      // or a not-now sends the party on to its next member.
+      if (isExplicitlyControlledPersonV1(api.state, person.id)) break;
       const decision = decideToRun(
         api,
         person.id,
@@ -1707,14 +1712,35 @@ function noteHouseholdBacking(
     } satisfies BackingRow as unknown as ModuleRow);
 }
 
+/**
+ * The player said no, or not now, to a party's ask: the party goes on to its
+ * next member for the seat while filing is open, by the same asking the
+ * first round used. The next member weighs it with the new ask as a reason.
+ */
+function askNextAfterRefusal(
+  api: CoreAPI,
+  ask: Readonly<CoreEventInput>,
+): void {
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(String(ask.facts?.contestId ?? "")) as unknown as
+    ContestRow | undefined;
+  if (!contest) return;
+  const rules = filingRulesFor(api, contest, "party");
+  if (api.state.date > (rules.deadline ?? contest.filingDeadline)) return;
+  askForCandidates(api, contest, String(ask.facts?.partyId ?? ""));
+}
+
 function answerPartyAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
   const ask = api.state.durableLog.get(String(facts.causeId ?? ""));
-  if (
-    ask?.kind !== PARTY_ASKED_EVENT ||
-    !AGREEING_MOVES.has(String(facts.move))
-  )
+  if (ask?.kind !== PARTY_ASKED_EVENT) return;
+  if (REFUSING_MOVES.has(String(facts.move))) {
+    askNextAfterRefusal(api, ask);
     return;
+  }
+  if (!AGREEING_MOVES.has(String(facts.move))) return;
   const personId = ask.facts?.askedId as PersonId | undefined;
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
