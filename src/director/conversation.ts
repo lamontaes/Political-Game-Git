@@ -6114,6 +6114,30 @@ function endConversation(
         conversation.director,
         conversation,
       ).find((row) => row.kind === "family");
+  // What a goodbye with no name in it may lean on: the hour, a first meeting,
+  // and a town both live in (a stranger's goodbye never names the player).
+  const nameless: Facts = {};
+  const markNameless = (name: string, ids: readonly string[]) => {
+    nameless[name] = { text: "yes", sourceRecordIds: ids };
+  };
+  for (const part of dayParts(
+    conversation.minuteOfDay ?? sceneMinute(core, playerId),
+  ))
+    markNameless(part, [playerId]);
+  if (!saysName(core, otherId, playerId))
+    markNameless("first-meeting", [otherId]);
+  const them = core.people.get(otherId);
+  const me = core.people.get(playerId);
+  const town = them?.placeId
+    ? corePlaceByJurisdictionId(them.placeId as never)
+    : null;
+  if (town && them?.placeId === me?.placeId) {
+    markNameless("both-here", [them.householdId]);
+    nameless.place = {
+      text: spoken(town),
+      sourceRecordIds: [them.householdId],
+    };
+  }
   // A parting word is not one already said in this talk ("Nice to see you."
   // opening and closing it): a further wording of the same move stands in.
   const said = new Set(conversation.lines.map((row) => row.text));
@@ -6138,7 +6162,10 @@ function endConversation(
         "farewell",
         "leave",
         ALL,
-        family ? { name: family.facts.name! } : {},
+        {
+          ...(family ? { name: family.facts.name! } : {}),
+          ...nameless,
+        },
         momentKey,
         housemate ? "home" : "default",
       );

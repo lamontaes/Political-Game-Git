@@ -6,6 +6,8 @@
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
     ],
+    "conversation.farewell-leave-bye.all-right-then": ["alright-in-dialogue"],
+    "conversation.farewell-leave-bye.well-good-luck": ["no-filler"],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
     "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right": [
       "alright-in-dialogue"

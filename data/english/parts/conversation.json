@@ -38471,6 +38471,554 @@
       "origin": "authored",
       "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-leave-bye.good-talking",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Good talking.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.be-seeing-you",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Be seeing you.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.so-long",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "So long.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.stay-well",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Stay well.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.all-right-then",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "All right, then.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.until-next-time",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Until next time.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.look-after-yourself",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Look after yourself.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.got-to-run",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Got to run.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.better-get-on",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Better get on.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.good-meeting-you",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Good meeting you.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "requiresFacts": ["first-meeting"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.nice-meeting-you",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Nice meeting you.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "requiresFacts": ["first-meeting"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.pleasure-meeting-you",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Pleasure meeting you.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "requiresFacts": ["first-meeting"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.enjoy-your-day",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Enjoy your day.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "requiresFacts": ["daytime"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.good-day-then",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Good day, then.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "requiresFacts": ["daytime"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.good-night-then",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Good night, then.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "requiresFacts": ["evening"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.be-well",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Be well.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.go-easy",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Go easy.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.take-it-easy",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Take it easy.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.back-to-it",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Back to it.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.that-s-me-then",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "That's me, then.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.well-good-luck",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Well, good luck.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.goodbye-then",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Goodbye, then.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.off-i-go",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Off I go.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.glad-we-talked",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Glad we talked.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.won-t-keep-you",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Won't keep you.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.i-ll-see-you-around-place",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "I'll see you around {place}.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "requiresFacts": ["both-here", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.maybe-i-ll-see-you-around-place-again",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Maybe I'll see you around {place} again.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "requiresFacts": ["both-here", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 6)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
     }
   ]
 }
