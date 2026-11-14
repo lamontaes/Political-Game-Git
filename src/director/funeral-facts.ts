@@ -122,16 +122,20 @@ export function funeralFacts(
       };
     return facts;
   }
-  const drive = [...(gone.drives?.values() ?? [])].sort(
+  // The strongest drive that is a cause said in a sentence (a drive to keep a
+  // home is not one the mourner would name at a funeral).
+  const drives = [...(gone.drives?.values() ?? [])].sort(
     (a, b) => b.strength - a.strength || a.id.localeCompare(b.id),
-  )[P.zero];
-  const topic = drive ? topicInSentence(drive.topic) : null;
-  if (drive && topic) {
+  );
+  for (const drive of drives) {
+    const topic = drive.topic ? topicInSentence(drive.topic) : null;
+    if (!topic) continue;
     facts.cause = { text: topic, sourceRecordIds: [causeId, goneId, drive.id] };
     facts["cause-cared"] = {
       text: "yes",
       sourceRecordIds: [causeId, goneId, drive.id],
     };
+    break;
   }
   return facts;
 }
