@@ -92,7 +92,13 @@
     "vacated": "The day the seat a new holder takes fell empty, from the vacancy record.",
     "opened": "The month and year a business opened, from its founding record, when it was open less than two years.",
     "members": "How many sit on a study committee, said in words, from the study's row.",
-    "until": "The day a study committee reports by, from the study's row."
+    "until": "The day a study committee reports by, from the study's row.",
+    "last": "The winner's last name, or full name where another in the story shares it, from the person record.",
+    "rival": "The runner-up's last name, or full name where another in the story shares it, from the person record.",
+    "lasts": "The winners of a race for several seats by last name, from the race's count.",
+    "winners": "The winners of a race for several seats by full name, from the race's count.",
+    "seats": "How many seats a race filled, in words, from the race's count.",
+    "day": "The day of the count as the paper says it (on Tuesday, on November 4), from the result record."
   },
   "maxWords": 14,
   "mining": {
@@ -1244,67 +1250,6 @@
       }
     },
     {
-      "key": "news.election-result.name-won-the-election",
-      "move": "election-result",
-      "kind": "spoken",
-      "text": "{name} won the election.",
-      "uses": [
-        {
-          "move": "election-result",
-          "subject": "news",
-          "role": "election-result",
-          "choice": "lede",
-          "excludesFacts": ["district", "atLarge"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "crec": 1,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Remarks Prior to a Meeting With President Lee Jae-myung of South Korea and an Exchange With Reporters",
-        "date": "2025-08-25",
-        "granule": "DCPD-202500870",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500870/html/DCPD-202500870.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "announce-result",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "news.election-result.name-lost-the-election",
-      "move": "election-result",
-      "kind": "spoken",
-      "text": "{name} lost the election.",
-      "uses": [
-        {
-          "move": "election-result",
-          "subject": "news",
-          "role": "election-result",
-          "choice": "lede"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "house": 1
-      },
-      "source": {
-        "document": "Alan Lowe oral history interview",
-        "date": "2016-06-15",
-        "granule": "nara-staff-alan-lowe-final",
-        "url": "https://www.archives.gov/files/about/history/alan-lowe-final.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "announce-result",
-        "key": "loss"
-      }
-    },
-    {
       "key": "news.election-result.name-won-the-race-for-office",
       "move": "election-result",
       "kind": "spoken",
@@ -1315,7 +1260,7 @@
           "subject": "news",
           "role": "election-result",
           "choice": "lede",
-          "excludesFacts": ["district", "atLarge"]
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -1324,50 +1269,6 @@
       "tag": {
         "move": "announce-result",
         "key": "honor"
-      }
-    },
-    {
-      "key": "news.election-result.name-won-the-race-for-office-in-district",
-      "move": "election-result",
-      "kind": "written",
-      "text": "{name} won the race for {office} in District {district}.",
-      "uses": [
-        {
-          "move": "election-result",
-          "subject": "news",
-          "role": "election-result",
-          "choice": "lede",
-          "requiresFacts": ["won", "district"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.election-result.name-won-the-at-large-race-for-office",
-      "move": "election-result",
-      "kind": "written",
-      "text": "{name} won the at-large race for {office}.",
-      "uses": [
-        {
-          "move": "election-result",
-          "subject": "news",
-          "role": "election-result",
-          "choice": "lede",
-          "requiresFacts": ["won", "atLarge"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
       }
     },
     {
@@ -1380,7 +1281,8 @@
           "move": "election-result",
           "subject": "news",
           "role": "election-result",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -1402,7 +1304,8 @@
           "subject": "news",
           "role": "election-result",
           "choice": "lede",
-          "requiresFacts": ["won"]
+          "requiresFacts": ["won"],
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -1423,7 +1326,8 @@
           "move": "election-result",
           "subject": "news",
           "role": "election-result",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -1445,7 +1349,8 @@
           "subject": "news",
           "role": "election-result",
           "choice": "lede",
-          "requiresFacts": ["lost"]
+          "requiresFacts": ["lost"],
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -6461,7 +6366,8 @@
           "subject": "news",
           "role": "election-opponent",
           "choice": "context",
-          "requiresFacts": ["won"]
+          "requiresFacts": ["won"],
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -6483,7 +6389,8 @@
           "subject": "news",
           "role": "election-opponent",
           "choice": "context",
-          "requiresFacts": ["won"]
+          "requiresFacts": ["won"],
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -6505,7 +6412,8 @@
           "subject": "news",
           "role": "election-opponent",
           "choice": "context",
-          "requiresFacts": ["lost"]
+          "requiresFacts": ["lost"],
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -6527,7 +6435,8 @@
           "subject": "news",
           "role": "election-opponent",
           "choice": "context",
-          "requiresFacts": ["lost"]
+          "requiresFacts": ["lost"],
+          "excludesFacts": ["contested", "unopposed", "atLarge", "seat"]
         }
       ],
       "origin": "authored",
@@ -10463,94 +10372,6 @@
       }
     },
     {
-      "key": "news.election-share.name-took-percent-of-the-vote",
-      "move": "election-share",
-      "kind": "written",
-      "text": "{name} took {percent} of the vote.",
-      "uses": [
-        {
-          "move": "election-share",
-          "subject": "news",
-          "role": "election-share",
-          "choice": "context",
-          "requiresFacts": ["name", "percent"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.election-share.name-won-with-percent-of-the-vote",
-      "move": "election-share",
-      "kind": "written",
-      "text": "{name} won with {percent} of the vote.",
-      "uses": [
-        {
-          "move": "election-share",
-          "subject": "news",
-          "role": "election-share",
-          "choice": "context",
-          "requiresFacts": ["name", "percent"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.election-turnout.number-votes-were-cast",
-      "move": "election-turnout",
-      "kind": "written",
-      "text": "{number} votes were cast.",
-      "uses": [
-        {
-          "move": "election-turnout",
-          "subject": "news",
-          "role": "election-turnout",
-          "choice": "context",
-          "requiresFacts": ["number"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.election-turnout.in-all-number-votes-were-cast",
-      "move": "election-turnout",
-      "kind": "written",
-      "text": "In all, {number} votes were cast.",
-      "uses": [
-        {
-          "move": "election-turnout",
-          "subject": "news",
-          "role": "election-turnout",
-          "choice": "context",
-          "requiresFacts": ["number"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.budget-spending.the-budget-plans-to-spend-spending-against-revenue-in-revenue",
       "move": "budget-spending",
       "kind": "written",
@@ -11708,94 +11529,6 @@
       "origin": "authored",
       "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
       "date": "2026-11-04",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.election-concession.opponent-called-to-concede-after-the-count",
-      "move": "election-concession",
-      "kind": "written",
-      "text": "{opponent} called to concede after the count.",
-      "uses": [
-        {
-          "move": "election-concession",
-          "subject": "news",
-          "role": "election-concession",
-          "choice": "context",
-          "requiresFacts": ["conceded"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
-      "date": "2026-11-03",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.election-concession.opponent-called-name-to-concede",
-      "move": "election-concession",
-      "kind": "written",
-      "text": "{opponent} called {name} to concede.",
-      "uses": [
-        {
-          "move": "election-concession",
-          "subject": "news",
-          "role": "election-concession",
-          "choice": "context",
-          "requiresFacts": ["conceded"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
-      "date": "2026-11-03",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.election-concession.opponent-has-not-called-to-concede",
-      "move": "election-concession",
-      "kind": "written",
-      "text": "{opponent} has not called to concede.",
-      "uses": [
-        {
-          "move": "election-concession",
-          "subject": "news",
-          "role": "election-concession",
-          "choice": "context",
-          "requiresFacts": ["declined"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
-      "date": "2026-11-03",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.election-concession.opponent-would-not-concede-the-race",
-      "move": "election-concession",
-      "kind": "written",
-      "text": "{opponent} would not concede the race.",
-      "uses": [
-        {
-          "move": "election-concession",
-          "subject": "news",
-          "role": "election-concession",
-          "choice": "context",
-          "requiresFacts": ["declined"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
-      "date": "2026-11-03",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -13182,6 +12915,801 @@
       "origin": "authored",
       "author": "Words builder W3",
       "date": "2026-11-12",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-the-race-for-office-day-count-over-opponent",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} won the race for {office} {day}, {count} over {opponent}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": [
+            "won",
+            "contested",
+            "count",
+            "opponent",
+            "office",
+            "day"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-was-elected-office-day-beating-opponent-count",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} was elected {office} {day}, beating {opponent} {count}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": [
+            "won",
+            "contested",
+            "count",
+            "opponent",
+            "office",
+            "day"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.voters-chose-name-for-office-day-count-over-opponent",
+      "move": "election-result",
+      "kind": "written",
+      "text": "Voters chose {name} for {office} {day}, {count} over {opponent}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["contested", "count", "opponent", "office", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-defeated-opponent-for-office-day-count",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} defeated {opponent} for {office} {day}, {count}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["contested", "count", "opponent", "office", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-was-elected-office-day-with-percent-of-the-vote",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} was elected {office} {day} with {percent} of the vote.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "contested", "percent", "office", "day"],
+          "excludesFacts": ["count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-the-race-for-office-day-with-percent-of-the-vote",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} won the race for {office} {day} with {percent} of the vote.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "contested", "percent", "office", "day"],
+          "excludesFacts": ["count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.voters-chose-name-for-office-day-with-percent-of-the-vote",
+      "move": "election-result",
+      "kind": "written",
+      "text": "Voters chose {name} for {office} {day}, with {percent} of the vote.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["contested", "percent", "office", "day"],
+          "excludesFacts": ["count"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-was-elected-office-without-opposition-day",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} was elected {office} without opposition {day}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "unopposed", "office", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-ran-unopposed-for-office-and-was-elected-day",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} ran unopposed for {office} and was elected {day}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "unopposed", "office", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.no-one-ran-against-name-who-was-elected-office-day",
+      "move": "election-result",
+      "kind": "written",
+      "text": "No one ran against {name}, who was elected {office} {day}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "unopposed", "office", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.winners-won-the-seats-open-seats-on-the-body-day",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{winners} won the {seats} open seats on the {body} {day}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "atLarge", "winners", "seats", "body", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.voters-day-elected-winners-to-the-seats-open-seats-on-the-body",
+      "move": "election-result",
+      "kind": "written",
+      "text": "Voters {day} elected {winners} to the {seats} open seats on the {body}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "atLarge", "winners", "seats", "body", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.winners-were-elected-to-the-body-day-filling-its-seats-open-seats",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{winners} were elected to the {body} {day}, filling its {seats} open seats.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "atLarge", "winners", "seats", "body", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.winners-won-the-seats-open-seats-for-office-day",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{winners} won the {seats} open seats for {office} {day}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": [
+            "won",
+            "atLarge",
+            "winners",
+            "seats",
+            "office",
+            "day"
+          ],
+          "excludesFacts": ["body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-office-day",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} won {office} {day}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "seat", "office", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-was-elected-to-office-day",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} was elected to {office} {day}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "seat", "office", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.voters-gave-name-office-day",
+      "move": "election-result",
+      "kind": "written",
+      "text": "Voters gave {name} {office} {day}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["seat", "office", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-opponent.opponent-finished-ordinal-margin-back",
+      "move": "election-opponent",
+      "kind": "written",
+      "text": "{opponent} finished {ordinal}, {margin} back.",
+      "uses": [
+        {
+          "move": "election-opponent",
+          "subject": "news",
+          "role": "election-opponent",
+          "choice": "context",
+          "requiresFacts": ["atLarge", "opponent", "ordinal", "margin"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-opponent.opponent-was-ordinal-margin-short-of-a-seat",
+      "move": "election-opponent",
+      "kind": "written",
+      "text": "{opponent} was {ordinal}, {margin} short of a seat.",
+      "uses": [
+        {
+          "move": "election-opponent",
+          "subject": "news",
+          "role": "election-opponent",
+          "choice": "context",
+          "requiresFacts": ["atLarge", "opponent", "ordinal", "margin"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-opponent.opponent-missed-a-seat-by-margin-finishing-ordinal",
+      "move": "election-opponent",
+      "kind": "written",
+      "text": "{opponent} missed a seat by {margin}, finishing {ordinal}.",
+      "uses": [
+        {
+          "move": "election-opponent",
+          "subject": "news",
+          "role": "election-opponent",
+          "choice": "context",
+          "requiresFacts": ["atLarge", "opponent", "ordinal", "margin"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-share.last-took-percent-of-the-vote",
+      "move": "election-share",
+      "kind": "written",
+      "text": "{last} took {percent} of the vote.",
+      "uses": [
+        {
+          "move": "election-share",
+          "subject": "news",
+          "role": "election-share",
+          "choice": "context",
+          "requiresFacts": ["contested", "last", "percent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-share.that-gave-last-percent-of-the-vote",
+      "move": "election-share",
+      "kind": "written",
+      "text": "That gave {last} {percent} of the vote.",
+      "uses": [
+        {
+          "move": "election-share",
+          "subject": "news",
+          "role": "election-share",
+          "choice": "context",
+          "requiresFacts": ["contested", "last", "percent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-share.last-finished-with-percent-of-the-vote",
+      "move": "election-share",
+      "kind": "written",
+      "text": "{last} finished with {percent} of the vote.",
+      "uses": [
+        {
+          "move": "election-share",
+          "subject": "news",
+          "role": "election-share",
+          "choice": "context",
+          "requiresFacts": ["contested", "last", "percent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.rival-called-last-after-the-count-to-concede-the-race",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{rival} called {last} after the count to concede the race.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["conceded", "rival", "last"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.rival-phoned-last-to-concede-after-the-count",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{rival} phoned {last} to concede after the count.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["conceded", "rival", "last"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.after-the-count-rival-called-last-to-concede",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "After the count, {rival} called {last} to concede.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["conceded", "rival", "last"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.rival-has-not-called-to-concede",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{rival} has not called to concede.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["declined", "rival"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.rival-would-not-concede-the-race",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{rival} would not concede the race.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["declined", "rival"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.rival-has-not-called-last-to-concede",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{rival} has not called {last} to concede.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["declined", "rival", "last"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-turnout.in-all-number-people-voted",
+      "move": "election-turnout",
+      "kind": "written",
+      "text": "In all, {number} people voted.",
+      "uses": [
+        {
+          "move": "election-turnout",
+          "subject": "news",
+          "role": "election-turnout",
+          "choice": "context",
+          "requiresFacts": ["voters", "number"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-turnout.turnout-came-to-number-voters",
+      "move": "election-turnout",
+      "kind": "written",
+      "text": "Turnout came to {number} voters.",
+      "uses": [
+        {
+          "move": "election-turnout",
+          "subject": "news",
+          "role": "election-turnout",
+          "choice": "context",
+          "requiresFacts": ["voters", "number"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-turnout.the-count-drew-number-voters",
+      "move": "election-turnout",
+      "kind": "written",
+      "text": "The count drew {number} voters.",
+      "uses": [
+        {
+          "move": "election-turnout",
+          "subject": "news",
+          "role": "election-turnout",
+          "choice": "context",
+          "requiresFacts": ["voters", "number"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-turnout.in-all-number-votes-were-cast",
+      "move": "election-turnout",
+      "kind": "written",
+      "text": "In all, {number} votes were cast.",
+      "uses": [
+        {
+          "move": "election-turnout",
+          "subject": "news",
+          "role": "election-turnout",
+          "choice": "context",
+          "requiresFacts": ["cast", "number"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-turnout.the-count-came-to-number-votes",
+      "move": "election-turnout",
+      "kind": "written",
+      "text": "The count came to {number} votes.",
+      "uses": [
+        {
+          "move": "election-turnout",
+          "subject": "news",
+          "role": "election-turnout",
+          "choice": "context",
+          "requiresFacts": ["cast", "number"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-turnout.voters-cast-number-votes-in-all",
+      "move": "election-turnout",
+      "kind": "written",
+      "text": "Voters cast {number} votes in all.",
+      "uses": [
+        {
+          "move": "election-turnout",
+          "subject": "news",
+          "role": "election-turnout",
+          "choice": "context",
+          "requiresFacts": ["cast", "number"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-13",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

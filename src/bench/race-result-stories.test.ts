@@ -1,0 +1,90 @@
+import { expect, it } from "vitest";
+import { wordPrintedStory } from "./archive-words";
+import type { EntityId } from "../core2/kernel/brands";
+import { playTownRace } from "../core2/press-race-test-kit";
+
+// The paper's race result stories read like a paper (Words lead, Nov 13,
+// rules 30 to 37): one story for a race that fills several seats, a name in
+// full once then by last name, no share for an unopposed race or a race for
+// several seats, the runner-up from that race's own count, the office in
+// lower case in a sentence, and no two outlets printing the same story.
+// Pinned places: Searsboro, Iowa (a mayor's race and an at-large council
+// race with two Lowes on the ballot) and Excursion Inlet, Alaska (a borough
+// whose seats mostly had one name on the ballot), drawn by
+// concession-reported's purpose.
+const PLACES = ["de4ef0f8ff6efdfb:agree:15", "de4ef0f8ff6efdfb:agree:19"];
+
+for (const draw of PLACES)
+  it(`the race result stories read like a paper (${draw})`, () => {
+    const { core, where, printed } = playTownRace(draw, 10);
+    const races = printed.filter((s) =>
+      String(s.facts.sourceRecordId).startsWith("election-result:"),
+    );
+    expect(races.length, `${where}: race stories printed`).toBeGreaterThan(0);
+    const byRace = new Map<string, string[]>();
+    for (const story of races) {
+      const record = core.durableLog.get(
+        story.facts.sourceRecordId as EntityId,
+      );
+      const f = (record?.facts ?? {}) as Record<string, string>;
+      const outlet = story.id.split(":").slice(1, 4).join(":");
+      const race = f.race ?? f.contestId!;
+      const here = `${where}: ${story.id}`;
+      const words = wordPrintedStory(core, story)!;
+      expect(words, here).toBeTruthy();
+      const body = (words.paragraphs ?? [words.lede!]).join(" ");
+      const told = `${words.headline} | ${body}`;
+      // One story a race, at each outlet.
+      const key = `${outlet}|${race}`;
+      expect(byRace.has(key), `${here}: a second story of ${race}`).toBe(false);
+      byRace.set(key, [told]);
+      const totals = JSON.parse(f.totals ?? "{}") as Record<string, number>;
+      // Nobody "wins with 100%", and no story says a share it should not.
+      expect(told, here).not.toMatch(/100 ?(?:%|percent)|%/);
+      if (Object.keys(totals).length < 2 || Number(f.seats) > 1)
+        expect(told, `${here}: a share in ${told}`).not.toMatch(/percent/);
+      expect(told, here).not.toMatch(/won the election/);
+      // A full name at most once in the body; anyone named is on this
+      // race's count.
+      for (const [id] of Object.entries(totals)) {
+        const p = core.people.get(id as EntityId);
+        if (!p) continue;
+        const full = `${p.givenName} ${p.familyName}`;
+        expect(
+          body.split(full).length - 1,
+          `${here}: ${full} in full twice: ${body}`,
+        ).toBeLessThanOrEqual(1);
+      }
+      const onCount = new Set(
+        Object.keys(totals).flatMap((id) => {
+          const p = core.people.get(id as EntityId);
+          return p ? [`${p.givenName} ${p.familyName}`] : [];
+        }),
+      );
+      for (const p of core.people.values()) {
+        const full = `${p.givenName} ${p.familyName}`;
+        // Someone else of the same name (a cabinet secretary) is not a twin.
+        if (body.includes(full) && !onCount.has(full))
+          expect(
+            Object.keys(totals),
+            `${here}: ${full} is not on the count: ${body}`,
+          ).toContain(p.id);
+      }
+      // The office in lower case in a sentence: its title never stands
+      // mid-sentence with a capital ("for Council member").
+      if (f.office && f.office !== f.office.toLowerCase())
+        expect(body, `${here}: ${body}`).not.toMatch(
+          new RegExp(`[a-z,] ${f.office}`),
+        );
+    }
+    // No two outlets print the same story of one race.
+    const seen = new Map<string, string>();
+    for (const [key, [told]] of byRace) {
+      const race = key.split("|")[1]!;
+      const twin = seen.get(`${race}|${told}`);
+      expect(twin, `${where}: ${key} prints ${twin}'s story: ${told}`).toBe(
+        undefined,
+      );
+      seen.set(`${race}|${told}`, key);
+    }
+  }, 300_000);

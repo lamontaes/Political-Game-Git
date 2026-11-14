@@ -114,6 +114,19 @@ const realMeasures = (
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(BALLOT_MEASURES_MODULE_ID).table(name);
 
+/**
+ * Whether a person was on a measure's roll: a named adult of the town the
+ * count weighed, voting or not (another state's measure has none here). The
+ * press reads it for who a measure's result concerns.
+ */
+export function onMeasureRoll(
+  api: CoreAPI,
+  measureId: string,
+  personId: string,
+): boolean {
+  return !!table(api, "votes").get(`measure-vote:${measureId}:${personId}`);
+}
+
 /** Put a measure on the state's ballot for its election day. */
 export function putOnBallot(
   api: CoreAPI,

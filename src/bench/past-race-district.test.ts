@@ -1,8 +1,9 @@
 /**
  * A past race's story names its seat (pool item
- * elections-past-race-names-the-district; Words, Nov 1): "won the race for
- * State Senator in District 4", or "won the at-large race" for a seat its
- * record says is at large, never "District" for an at-large seat. A district
+ * elections-past-race-names-the-district; Words, Nov 1): "was elected
+ * state senator for District 4 on November 5, 2024", or "won a seat on the
+ * Vermont Senate" for a seat its record says is at large (Words lead, Nov 13,
+ * rule 34), never "District" for an at-large seat. A district
  * its record names by place prints the office only
  * (SG-GOV-named-district-story). Every race still prints.
  *
@@ -101,23 +102,22 @@ function checkPlace(place: ReturnType<typeof drawPlace>, where: string) {
     const number = NUMBERED.exec(name)?.[1]?.replace(/^0+(?=\w)/, "");
     if (/large/i.test(name)) {
       told.atLarge += 1;
+      // An at-large seat is a seat on its body (Words lead, Nov 13, rule 34).
       expect(words!.lede, `${where}: ${story.id} ${text}`).toContain(
-        "at-large race",
-      );
-      expect(words!.headline, `${where}: ${story.id} ${text}`).toContain(
-        "at-large seat",
+        "a seat on the ",
       );
       // A piece that needs {district} never prints for an at-large seat.
       expect(text, `${where}: ${story.id}`).not.toMatch(/\bDistrict\b/);
     } else if (number) {
       told.numbered += 1;
+      // The district goes with the office, as a sentence says it (rule 34).
       expect(words!.lede, `${where}: ${story.id} (${name}) ${text}`).toContain(
-        `in District ${number}.`,
+        `for District ${number} `,
       );
       expect(
         words!.headline,
         `${where}: ${story.id} (${name}) ${text}`,
-      ).toContain(`takes District ${number}`);
+      ).toContain(`District ${number}`);
     } else {
       told.named += 1;
       expect(text, `${where}: ${story.id} (${name})`).not.toMatch(
