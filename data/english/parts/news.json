@@ -971,6 +971,13 @@
           "role": "death-work",
           "choice": "context",
           "requiresFacts": ["employer", "years"]
+        },
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-service",
+          "choice": "context",
+          "requiresFacts": ["employer", "years"]
         }
       ],
       "origin": "authored",
@@ -1079,6 +1086,13 @@
           "move": "death-work",
           "subject": "news",
           "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["government", "years"]
+        },
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-service-gov",
           "choice": "context",
           "requiresFacts": ["government", "years"]
         }
@@ -10808,7 +10822,7 @@
       "key": "news.honor.a-student-from-place-won-the-regional-spelling-bee-and-goes-on-to-the-national-bee",
       "move": "honor",
       "kind": "spoken",
-      "text": "A student from {place} won the regional bee and goes on to the national bee.",
+      "text": "A student from {place} won the regional spelling bee and goes on to nationals.",
       "uses": [
         {
           "move": "honor",
@@ -15060,28 +15074,6 @@
       }
     },
     {
-      "key": "news.retirement.retirement-service-name-was-at-employer-for-years-years",
-      "move": "retirement",
-      "kind": "written",
-      "text": "{name} was at {employer} for {years} years.",
-      "uses": [
-        {
-          "move": "retirement",
-          "subject": "news",
-          "role": "retirement-service",
-          "choice": "context",
-          "requiresFacts": ["employer", "years"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (M3, brief M)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.retirement.retirement-service-gov-name-put-in-years-years-with-government",
       "move": "retirement",
       "kind": "written",
@@ -15108,28 +15100,6 @@
       "move": "retirement",
       "kind": "written",
       "text": "It was {years} years of work for {government}.",
-      "uses": [
-        {
-          "move": "retirement",
-          "subject": "news",
-          "role": "retirement-service-gov",
-          "choice": "context",
-          "requiresFacts": ["government", "years"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (M3, brief M)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.retirement.retirement-service-gov-name-was-with-government-for-years-years",
-      "move": "retirement",
-      "kind": "written",
-      "text": "{name} was with {government} for {years} years.",
       "uses": [
         {
           "move": "retirement",
@@ -15447,7 +15417,7 @@
           "subject": "news",
           "role": "police-log",
           "choice": "lede",
-          "requiresFacts": ["several", "extra"]
+          "requiresFacts": ["several", "busier"]
         }
       ],
       "origin": "authored",
@@ -15602,6 +15572,28 @@
           "role": "police-log-rising",
           "choice": "context",
           "requiresFacts": ["rising", "extra"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (police log)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.police-log.police-in-place-took-number-reports-in-month",
+      "move": "police-log",
+      "kind": "written",
+      "text": "Police in {place} took {number} reports in {month}.",
+      "uses": [
+        {
+          "move": "police-log",
+          "subject": "news",
+          "role": "police-log",
+          "choice": "lede",
+          "requiresFacts": ["several"]
         }
       ],
       "origin": "authored",

@@ -3536,6 +3536,11 @@ const policeLog: Builder = (read, f) => {
     (a, b) => b.n - a.n || a.type.localeCompare(b.type),
   )[0]!;
   const rising = f.rising ? RISING_NOUNS[String(f.rising)] : undefined;
+  // The town's usual month, rounded once; the extra is the month's count over
+  // that figure (a town whose usual rounds to none has the whole count over).
+  const usualRounded = Math.round(usualOf(f) ?? 0);
+  const over = usualOf(f) ? total - usualRounded : 0;
+  const extra = over >= 1 ? over : undefined;
   return story(
     "police-log",
     {
@@ -3545,20 +3550,20 @@ const policeLog: Builder = (read, f) => {
       crimes: read.fact(REPORT_NOUNS[top.type]!, row.id),
       ...(reported.length === 1 ? { "one-kind": read.yes() } : {}),
       // How the month stands against the town's own usual, from the wire
-      // item's record: said only when the month is over it.
-      ...(usualOf(f) && Math.round(total - usualOf(f)!) >= 1
+      // item's record: said only when the month is over it. The usual is
+      // rounded once and the extra taken from it, so the figures add up.
+      ...(extra !== undefined
         ? {
-            // A town whose usual month rounds to none says only how many
-            // more, never "about zero".
-            ...(Math.round(usualOf(f)!) >= 1
-              ? { usual: read.fact(count(Math.round(usualOf(f)!)), row.id) }
+            extra: read.fact(count(extra), row.id),
+            ...(usualRounded >= 1
+              ? { usual: read.fact(count(usualRounded), row.id) }
               : {}),
-            extra: read.fact(count(Math.round(total - usualOf(f)!)), row.id),
           }
         : {}),
-      ...(rising && f.vsUsual && Number(f.vsUsual) > 1
+      ...(extra !== undefined && rising
         ? { rising: read.fact(rising, row.id) }
         : {}),
+      ...(extra !== undefined && f.busier ? { busier: read.yes() } : {}),
     },
     ["place", "number"],
   );

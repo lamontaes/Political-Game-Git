@@ -1,6 +1,6 @@
 /**
  * The police log's space slides with how far the month stands from the town's
- * own usual (Words lead, Nov 14). In a played eleven months of three pinned
+ * own usual (Words lead, Nov 14). In a played eleven months of four pinned
  * drawn places, every month's wire item after the town's second closed month
  * carries the month over its usual, and the paper prints a log only while its
  * month has space: a month at or under the floor of usual is never printed,
@@ -21,7 +21,23 @@ import { coreAPI } from "../core2/state";
 import { wordPrintedStory } from "./archive-words";
 import { buildBenchWorld } from "./world";
 
-for (const seed of ["pl1", "pl5", "pl6"])
+const WORDS = [
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+];
+const NUMBER = `${WORDS.join("|")}|\\d+`;
+const figure = (text: string) =>
+  WORDS.includes(text) ? WORDS.indexOf(text) : Number(text);
+
+for (const seed of ["pl1", "pl5", "pl6", "pl4"])
   it(`the police log slides with the town's usual (seed ${seed})`, () => {
     const place = drawPlace(seed, "police-log");
     const where = `${place.name} (${place.key}), seed ${seed}`;
@@ -73,12 +89,24 @@ for (const seed of ["pl1", "pl5", "pl6"])
           `${where}: ${story.id} printed with no space`,
         ).toBeGreaterThan(floor);
       const worded = wordPrintedStory(core, story)!;
-      const body = worded.paragraphs ?? [];
-      if (Number(facts.vsUsual) > 1 && Number(facts.usual) > 0)
-        appendFileSync(
-          path.join(tmpdir(), "printed-police-log-proof.txt"),
-          `${where}: ${story.facts.sourceRecordId} vsUsual ${facts.vsUsual}: ${worded.headline} | ${body.join(" ")}\n`,
-        );
+      const text = (worded.paragraphs ?? [worded.lede ?? ""]).join(" ");
+      // Every printed log has its text, not a headline alone.
+      expect(worded.lede, `${where}: ${story.id} has no text`).toBeTruthy();
+      // The figures in one log add up: the extra over the usual is the
+      // month's count, and no kind is said to have "cases".
+      const more = new RegExp(`(${NUMBER}) more than`).exec(text);
+      const usual = new RegExp(`about (${NUMBER})`).exec(text);
+      const total = new RegExp(`(${NUMBER}) (?:police )?reports`).exec(text);
+      if (more && usual && total)
+        expect(
+          figure(more[1]!) + figure(usual[1]!),
+          `${where}: ${story.id}: ${text}`,
+        ).toBe(figure(total[1]!));
+      expect(text, where).not.toMatch(/vandalism cases/);
+      appendFileSync(
+        path.join(tmpdir(), "printed-police-log-proof.txt"),
+        `${where}: ${story.facts.sourceRecordId} vsUsual ${facts.vsUsual ?? "none"}: ${worded.headline} | ${text}\n`,
+      );
     }
     // Every month the wire carried, printed or not, against the town's usual.
     const printedIds = new Set(

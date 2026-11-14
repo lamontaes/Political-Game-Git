@@ -3412,6 +3412,12 @@ function policeLog(api: CoreAPI): void {
             vsUsual: String(Math.round((reported / usual.total) * 1000) / 1000),
             usual: String(Math.round(usual.total * 10) / 10),
             ...(usual.rising ? { rising: usual.rising } : {}),
+            // Halfway from the usual to the share where a brief has all its
+            // space: the log may say "busier" only from here on.
+            ...(reported / usual.total >=
+            1 + (pressParameter("briefUsualCeiling") - 1) / 2
+              ? { busier: "yes" }
+              : {}),
           }
         : {}),
     },
@@ -3462,7 +3468,15 @@ function usualMonth(
   for (const [type, tally] of Object.entries(now?.types ?? {})) {
     const over =
       (tally.reported ?? 0) - mean((row) => row.types?.[type]?.reported ?? 0);
-    if (over > most) {
+    // A kind is said to have jumped only when it is itself clearly over its
+    // own usual: two or more reports over, and the share where a brief has
+    // all its space (the month's total could be over on noise alone).
+    const own = mean((row) => row.types?.[type]?.reported ?? 0);
+    if (
+      over > most &&
+      over >= 2 &&
+      (tally.reported ?? 0) >= pressParameter("briefUsualCeiling") * own
+    ) {
       most = over;
       rising = type;
     }
