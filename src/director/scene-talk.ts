@@ -585,6 +585,12 @@ export function composeSceneTalk(
   const closesSaid = new Set<string>();
   /** How many closes of each move this talk has said. */
   const closesByMove = new Map<string, number>();
+  /**
+   * What the one asked has already said in this talk that a later line reads
+   * (Words lead, Nov 14): `said-yes` once they gave the yes, so the middle's
+   * answer is never a curt "Not with strangers." on the next breath.
+   */
+  let saidSoFar: Record<string, Fact> = {};
   const render = (
     use: FitUse,
     speakerId: PersonId,
@@ -601,7 +607,7 @@ export function composeSceneTalk(
     const closing = use.step === "close";
     const worded = wordSceneMove({
       move: use,
-      facts,
+      facts: { ...facts, ...saidSoFar },
       seed: core.seed,
       speakerId,
       traits,
@@ -1086,6 +1092,13 @@ export function composeSceneTalk(
     // and two or more replies to it that end apart.
     const middleLed = new Map<TreeNode, TreeReply>();
     if (ask.middle) {
+      if (yes)
+        saidSoFar = {
+          "said-yes": {
+            text: "yes",
+            sourceRecordIds: [...first.slotRecordIds],
+          },
+        };
       const heardFirst = addParts(said, first);
       const opener = mine(
         {
