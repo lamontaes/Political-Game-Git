@@ -219,7 +219,7 @@ describe("voter registration (pinned places, fixed seeds)", () => {
     const sizeBefore = rowsOf(api, "householdPrecincts").length;
     pollingPlaceOf(api, movers[0]!.id, election);
     expect(rowsOf(api, "householdPrecincts").length).toBe(sizeBefore);
-  }, 900_000);
+  }, 100_000);
 
   it("Adell WI, seed reg-pin-wi: a mover not on the rolls registers at the polls and votes, and the day keeps it", () => {
     const where = "Adell, Wisconsin (5500450), seed reg-pin-wi";
@@ -248,7 +248,7 @@ describe("voter registration (pinned places, fixed seeds)", () => {
       expect(reg.since, row.id).toBe(election);
       expect(reg.registered, row.id).toBe(true);
     }
-  }, 900_000);
+  }, 225_000);
 
   it("Newark NY, seed reg-pin-ny: a move registers the person at the new address when it is seen, in a state with automatic registration", () => {
     const where = "Newark, New York (3649891), seed reg-pin-ny";
@@ -268,5 +268,5 @@ describe("voter registration (pinned places, fixed seeds)", () => {
       );
       expect(row.how, `${where}: ${mover.id}`).toBe("automatic");
     }
-  }, 900_000);
+  }, 210_000);
 });
