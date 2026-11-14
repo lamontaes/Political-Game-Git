@@ -163982,16 +163982,6 @@
           "step": "close",
           "move": "thank",
           "role": "asker"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "purpose": "ask-out-answer",
-          "key": "favor-asked",
-          "requiresFacts": ["said-yes"]
         }
       ],
       "origin": "authored",
@@ -184095,15 +184085,89 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.i-ve-never-been-more-sure",
-      "move": "follow-answer",
+      "key": "scene-talk.reply-thank.then-it-s-a-date",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Then it's a date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.we-re-getting-married",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "We're getting married.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-really-do",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I really do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "after": "ask",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ve-never-been-more-sure",
+      "move": "follow-promise",
       "kind": "spoken",
       "text": "I've never been more sure.",
       "uses": [
         {
           "subject": "scene",
           "step": "follow",
-          "move": "answer",
+          "move": "promise",
           "role": "asker",
           "after": "ask",
           "purpose": "proposal-answer",
@@ -184116,7 +184180,7 @@
       "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
       "date": "2026-11-14",
       "tag": {
-        "move": "answer",
+        "move": "promise",
         "key": "favor-asked"
       }
     }

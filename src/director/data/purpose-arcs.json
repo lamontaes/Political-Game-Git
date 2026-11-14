@@ -4020,7 +4020,7 @@
       "follow": {
         "thank": ["thank"],
         "accept": ["accept"],
-        "ask": ["answer"],
+        "ask": ["answer", "promise"],
         "withdraw": ["accept"]
       },
       "again": {
@@ -4033,6 +4033,14 @@
           "keeps": "none",
           "when": {
             "reply": ["thank"]
+          }
+        },
+        {
+          "id": "sure",
+          "label": "They said yes to going out",
+          "keeps": "none",
+          "when": {
+            "asker": ["promise"]
           }
         },
         {
@@ -4065,7 +4073,7 @@
       "follow": {
         "thank": ["thank"],
         "accept": ["accept"],
-        "ask": ["answer"],
+        "ask": ["answer", "promise"],
         "withdraw": ["accept"]
       },
       "again": {
@@ -4078,6 +4086,14 @@
           "keeps": "none",
           "when": {
             "reply": ["thank"]
+          }
+        },
+        {
+          "id": "sure",
+          "label": "You're engaged",
+          "keeps": "none",
+          "when": {
+            "asker": ["promise"]
           }
         },
         {

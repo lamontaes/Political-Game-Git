@@ -1375,6 +1375,7 @@
       "setting": ["public", "venue"],
       "timing": "at-cause",
       "stopsDay": true,
+      "repeatsBy": "cause",
       "causes": [
         {
           "match": {
@@ -1430,6 +1431,7 @@
       "setting": ["home", "public", "venue"],
       "timing": "at-cause",
       "stopsDay": true,
+      "repeatsBy": "cause",
       "causes": [
         {
           "match": {

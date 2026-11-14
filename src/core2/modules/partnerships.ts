@@ -1249,6 +1249,9 @@ export function canAsk(
   const held = store(api)
     .table("asks")
     .get(askRowId(kind, playerId, otherId)) as unknown as AskRow | undefined;
+  // An answer given today stands for the day: the next ask is another day's.
+  if (held?.date === core.date)
+    return { open: false, reason: "nothing-changed" };
   if (held?.answer === "no") {
     // Asked before and told no: open again once the reason no longer holds.
     if (held.reason === "with-someone" && partnerLinkOf(core, otherId))
@@ -1290,8 +1293,10 @@ function keepAnswer(
     .table("asks")
     .put(row as never);
   const ids: PersonId[] = [other.id, me.id];
+  // One record per ask: the count keeps two asks on one day apart.
+  const recordId = `${kind === "ask-out" ? FAMILY_ASKED_OUT : FAMILY_PROPOSAL_ANSWERED}:${me.id}:${other.id}:${core.date}:${row.count}`;
   api.emit({
-    id: `${kind === "ask-out" ? FAMILY_ASKED_OUT : FAMILY_PROPOSAL_ANSWERED}:${me.id}:${other.id}:${core.date}`,
+    id: recordId,
     date: core.date,
     kind: kind === "ask-out" ? FAMILY_ASKED_OUT : FAMILY_PROPOSAL_ANSWERED,
     personIds: ids,
@@ -1309,6 +1314,7 @@ function keepAnswer(
       asks: String(row.count),
     },
   });
+  return recordId;
 }
 
 /**
@@ -1321,7 +1327,13 @@ export function askOut(
   api: CoreAPI,
   playerId: PersonId,
   otherId: PersonId,
-): { asked: boolean; answer?: "yes" | "no"; reason?: AskReason } {
+): {
+  asked: boolean;
+  answer?: "yes" | "no";
+  reason?: AskReason;
+  /** The answer's record, which stages the scene. */
+  recordId?: string;
+} {
   const gate = canAsk(api, playerId, otherId, "ask-out");
   if (!gate.open)
     return { asked: false, ...(gate.reason ? { reason: gate.reason } : {}) };
@@ -1329,7 +1341,7 @@ export function askOut(
   const me = core.people.get(playerId)!;
   const other = core.people.get(otherId)!;
   if (partnerLinkOf(core, otherId)) {
-    keepAnswer(
+    const recordId = keepAnswer(
       api,
       "ask-out",
       me,
@@ -1338,12 +1350,20 @@ export function askOut(
       api.parameter("zero"),
       "with-someone",
     );
-    return { asked: true, answer: "no", reason: "with-someone" };
+    return { asked: true, answer: "no", reason: "with-someone", recordId };
   }
   const { weight, reason } = askOutWeight(api, me, other);
   if (weight < api.parameter("one")) {
-    keepAnswer(api, "ask-out", me, other, "no", weight, reason);
-    return { asked: true, answer: "no", reason };
+    const recordId = keepAnswer(
+      api,
+      "ask-out",
+      me,
+      other,
+      "no",
+      weight,
+      reason,
+    );
+    return { asked: true, answer: "no", reason, recordId };
   }
   api.setPartnersV1({
     personIds: [playerId, otherId],
@@ -1364,8 +1384,8 @@ export function askOut(
       since: core.date,
       progress: api.parameter("zero"),
     } as never);
-  keepAnswer(api, "ask-out", me, other, "yes", weight);
-  return { asked: true, answer: "yes" };
+  const recordId = keepAnswer(api, "ask-out", me, other, "yes", weight);
+  return { asked: true, answer: "yes", recordId };
 }
 
 /**
@@ -1378,7 +1398,13 @@ export function propose(
   api: CoreAPI,
   playerId: PersonId,
   otherId: PersonId,
-): { asked: boolean; answer?: "yes" | "no"; reason?: AskReason } {
+): {
+  asked: boolean;
+  answer?: "yes" | "no";
+  reason?: AskReason;
+  /** The answer's record, which stages the scene. */
+  recordId?: string;
+} {
   const gate = canAsk(api, playerId, otherId, "propose");
   if (!gate.open)
     return { asked: false, ...(gate.reason ? { reason: gate.reason } : {}) };
@@ -1389,8 +1415,16 @@ export function propose(
   const couple = coupleOf(api, link);
   const { weight, reason } = proposeWeight(api, me, other, couple);
   if (weight < api.parameter("one")) {
-    keepAnswer(api, "propose", me, other, "no", weight, reason);
-    return { asked: true, answer: "no", reason };
+    const recordId = keepAnswer(
+      api,
+      "propose",
+      me,
+      other,
+      "no",
+      weight,
+      reason,
+    );
+    return { asked: true, answer: "no", reason, recordId };
   }
   store(api)
     .table("couples")
@@ -1400,8 +1434,8 @@ export function propose(
       since: core.date,
       progress: api.parameter("zero"),
     } as never);
-  keepAnswer(api, "propose", me, other, "yes", weight);
-  return { asked: true, answer: "yes" };
+  const recordId = keepAnswer(api, "propose", me, other, "yes", weight);
+  return { asked: true, answer: "yes", recordId };
 }
 
 function nextFirst(date: string): string {

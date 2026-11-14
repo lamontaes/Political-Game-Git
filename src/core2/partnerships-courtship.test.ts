@@ -101,7 +101,7 @@ describe("the player's own courtship acts (Pulaski, Ohio)", () => {
   it("asks out: someone with a partner says no and the ask stays closed; the answer is a record", () => {
     const { core, api, me, taken, where } = world();
     const out = askOut(api, me, taken!.id);
-    expect(out, where).toEqual({
+    expect(out, where).toMatchObject({
       asked: true,
       answer: "no",
       reason: "with-someone",
@@ -136,6 +136,8 @@ describe("the player's own courtship acts (Pulaski, Ohio)", () => {
         open: false,
         reason: "nothing-changed",
       });
+      // Another day: an answer given today stands for the day.
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
       const kind = core.relationships.get(
         me < other.id ? `${me}:${other.id}` : `${other.id}:${me}`,
       )?.kind;
@@ -179,6 +181,7 @@ describe("the player's own courtship acts (Pulaski, Ohio)", () => {
       reason: "too-soon",
     });
     expect(canAsk(api, me, partner, "propose").open, where).toBe(false);
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
     couples.put({
       id: link!.id,
       stage: "living-together",

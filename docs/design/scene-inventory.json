@@ -3318,6 +3318,24 @@
       }
     },
     {
+      "key": "asked-out",
+      "kind": "type",
+      "cause": "src/core2/modules/partnerships.ts (family.asked-out)",
+      "writes": "the answer is written before the scene by src/core2/modules/partnerships.ts askOut (a yes starts the couple dating; a no is kept with its reason and date); the player's reply writes time together, and \"Forget I asked.\" cools the tie (scene-talk-rules endingStrain relationship-cooled)",
+      "models": "src/core2/modules/partnerships.ts",
+      "verdict": "KEEP",
+      "why": "The player's own Ask out from a person's card; the other answers from their own record (family life question 1, Nov 14 2026), and the answer plays at once."
+    },
+    {
+      "key": "proposal-answered",
+      "kind": "type",
+      "cause": "src/core2/modules/partnerships.ts (family.proposal-answered)",
+      "writes": "the answer is written before the scene by src/core2/modules/partnerships.ts propose (a yes makes the couple engaged; a no is kept with its reason and date); \"Forget I asked.\" cools the tie",
+      "models": "src/core2/modules/partnerships.ts",
+      "verdict": "KEEP",
+      "why": "The player's own Propose from their partner's card; the partner answers from how far the couple has come and the tie (family life question 1, Nov 14 2026)."
+    },
+    {
       "key": "breakup",
       "kind": "type",
       "cause": "src/core2/modules/partnerships.ts (family.separated)",

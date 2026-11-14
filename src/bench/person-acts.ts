@@ -5,13 +5,7 @@
 // card words), and the writers that put a done act on the record. Nothing
 // here is rolled: the records say whether the act is open.
 import { recordVisit } from "../core2/modules/people";
-import {
-  askOut,
-  canAsk,
-  FAMILY_ASKED_OUT,
-  FAMILY_PROPOSAL_ANSWERED,
-  propose,
-} from "../core2/modules/partnerships";
+import { askOut, canAsk, propose } from "../core2/modules/partnerships";
 import { livesElsewhere } from "../core2/modules/moves";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { parameter } from "../core2/parameters";
@@ -233,8 +227,8 @@ export function askFromCard(
     playerId as PersonId,
     otherId as PersonId,
   );
-  if (!answered.asked) return {};
-  const recordId = `${kind === "ask-out" ? FAMILY_ASKED_OUT : FAMILY_PROPOSAL_ANSWERED}:${playerId}:${otherId}:${core.date}`;
+  const recordId = answered.recordId;
+  if (!recordId) return {};
   const book = director?.ledger.people.get(playerId as PersonId);
   const entry = book?.schedule.find(
     (row) => book.momentsById.get(row.momentId)?.causeId === recordId,
