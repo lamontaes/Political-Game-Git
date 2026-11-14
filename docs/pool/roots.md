@@ -31,3 +31,4 @@ The ten root causes come from the Fable audit of Nov 9, 2026 (`docs/audits/fable
 - `design-guards`: each standing owner rule is held over the whole tree by a named guard on every change. `docs/design/guards.md`.
 - `design-old-core-retirement`: the new game stops reaching into the old engine for its opening town, so what is left of it can be deleted. `docs/design/old-core-retirement-map.md`.
 - `design-movements-and-unrest`: protests, strikes and movements arise from conditions and reach officials. `docs/design/proposals/movements-and-unrest-2026-10-14.md`.
+- `day-one-in-motion`: a world opens as a place already running at every level (town, state, federal), not one that starts from empty and fills as the player waits. `.agents/skills/day-one-in-motion/SKILL.md`.
