@@ -28,7 +28,7 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 3. **Choose the person from the people the case covers.** When the test needs a named person with a trait, read who qualifies among all residents, named or counted, and build the place again with one of them as the player. Do not redraw places until a named person happens to qualify.
 4. **Name every place passed over,** with the date reached and the reason (each refusal's rule, each count that was zero). A reader of the log must be able to tell a thin place from a defect.
 5. **Fail by name when nothing is found.** After the last draw, throw with the whole list. Never `return` early, and never mark the test skipped: a test that passes without checking proves nothing.
-6. **Never pin a place or a seed** to get green. A pinned world breaks the day main changes the world. A named place appears only as a labeled case beside the drawn ones.
+6. **Draw to find the case, then pin it in the test file** (lead ruling, Nov 13 to 14; `pinned-tests`). A test file names its places and seeds so it is never red by draw; drawing and waiting is how you find them, and how a feature is proved in a played year. Never pin one just to get green past a failure you have not traced.
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
 8. **Print the place with `process.stdout.write`, never `console.log`.** The runner swallows `console.log`, so a passing test that logs its place and its passed-over list shows nothing (found Nov 12, #8580 and #8567). A pass line names the place used, its seed and every place passed over, on stdout.
 
