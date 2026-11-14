@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** As mayor, the player picks a person for an open department post, and the next "name a department head" act seats them. As governor, a pick for a cabinet post seats the person at once, from the office panel or the desk. Nobody is asked, and nobody can say no. Seen: Office, then Jobs you fill. For a governor, also the desk's open post.
+**What.** As mayor, the player picks a person for an open department post, and the next "name a department head" act seats them. As governor, a pick for a cabinet post seats the person at once, from the office panel or the desk. Nobody is asked, and nobody can say no. Seen: Office, then Jobs you fill, and for a governor the desk's open post.
 
 **Cause.** Design: brief J (asking someone to serve, Nov 14). The owner's card of Nov 14 05:17Z ("Yes, but ask again later") says a person asked to serve can say no, with a reason and a date, and may be asked again. src/bench/office.ts `nameHeadPick` and `ordersDecide` named the pick directly. The serve-asks engine (src/core2/modules/serve-asks.ts) read only a ticket.
 
