@@ -29,7 +29,7 @@ checked:
 
 **Rules.** Ask why, by record id. One rule, all 56 places. No dice.
 
-**Done when.** A second session runs the outside-donors check on three fresh seeds in three places (none Cotulla, for example Pancoastburg, Ohio and Norton, Virginia) and sees each wider race with outside gift rows, or names the record that explains none.
+**Done when.** A second session runs the outside-donors check on three fresh seeds in three drawn places (none Cotulla, for example Pancoastburg, Ohio and Norton, Virginia) and sees each wider race with outside gift rows, or names the record that explains none.
 
 **Waits on.** Nothing.
 
