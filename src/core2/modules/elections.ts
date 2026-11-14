@@ -56,9 +56,10 @@ import {
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
 import {
-  electedWithGovernorOnTicket,
+  governorTicketStage,
   OFFICES_MODULE_ID,
   townSeats,
+  type GovernorTicketStage,
   type TermRow,
 } from "./offices";
 import { stableHash } from "../kernel/ids";
@@ -233,6 +234,12 @@ export interface FilingRow {
   readonly status: "petitioning" | "on-ballot" | "short" | "withdrawn";
   /** How a candidate the world put on the ballot came to stand (an incumbent again, a party's nominee). */
   readonly how?: string;
+  /**
+   * A running mate's filing: the governor candidate's filing whose ticket it
+   * is on. It stands while that filing stands and wins or loses with it
+   * (`ballot`, `ticketOfficeContest`).
+   */
+  readonly ticketWith?: string;
 }
 
 export const ELECTIONS_MODULE: CoreModule = {
@@ -685,9 +692,6 @@ function contestFor(
 ): ContestRow | null {
   // The vice president is the president's running mate, not a race.
   if (!office.elected || office.kind === "vice-president") return null;
-  // stopgapId: SG-GOV-outside-ticket-raced-alone
-  if (electedWithGovernorOnTicket(office.jurisdiction, office.kind))
-    api.stopgap("SG-GOV-outside-ticket-raced-alone");
   const { stateKey, geoid } = town(api);
   const tomorrow = new Date(
     Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
@@ -1475,12 +1479,126 @@ export function raceAhead(
  * candidates on the day they look.
  */
 export function ballot(api: CoreAPI, contestId: string): readonly FilingRow[] {
+  const filings = table(api, "filings");
+  const stands = (f: FilingRow) =>
+    standing(f) && api.state.people.get(f.personId)?.alive !== false;
   return (
-    table(api, "filings").query("byContest", [
-      contestId,
-    ]) as unknown as FilingRow[]
+    filings.query("byContest", [contestId]) as unknown as FilingRow[]
   ).filter(
-    (f) => standing(f) && api.state.people.get(f.personId)?.alive !== false,
+    (f) =>
+      stands(f) &&
+      // A running mate stands while their governor candidate does.
+      (!f.ticketWith ||
+        stands(filings.get(f.ticketWith) as unknown as FilingRow)),
+  );
+}
+
+/** A contest's office kind and state, from the offices engine. */
+function contestOffice(
+  api: CoreAPI,
+  contest: Pick<ContestRow, "officeId">,
+): { readonly kind: string; readonly jurisdiction: string } | undefined {
+  return api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest.officeId) as unknown as
+    { readonly kind: string; readonly jurisdiction: string } | undefined;
+}
+
+/**
+ * How a contest's office joins the governor's ticket by its state's law
+ * (`governorTicketStage`), or null for an office elected on its own.
+ */
+export function ticketStageOf(
+  api: CoreAPI,
+  contest: Pick<ContestRow, "officeId">,
+): GovernorTicketStage | null {
+  const office = contestOffice(api, contest);
+  return office ? governorTicketStage(office.jurisdiction, office.kind) : null;
+}
+
+/**
+ * Whether a contest's ballot is filled by the governor's tickets alone: its
+ * office joins the ticket at filing or after the primary, so nobody files
+ * for it on their own; each governor candidate's running mate stands in it.
+ * An office with a primary of its own ("separate-primary") is filed for as
+ * any other until its nominee joins the ticket.
+ */
+export function filledByTickets(
+  api: CoreAPI,
+  contest: Pick<ContestRow, "officeId" | "special">,
+): boolean {
+  if (contest.special) return false;
+  const stage = ticketStageOf(api, contest);
+  return stage === "at-filing" || stage === "after-primary";
+}
+
+/** The town's contests for an office of a state on one election day. */
+function sameDayContest(
+  api: CoreAPI,
+  contest: ContestRow,
+  officeId: string,
+): ContestRow | null {
+  return (
+    (
+      table(api, "contests").query("byDate", [
+        contest.electionDate,
+      ]) as unknown as ContestRow[]
+    ).find((c) => c.officeId === officeId && !c.special) ?? null
+  );
+}
+
+/**
+ * The governor's contest a ticket office's contest is decided with: the same
+ * state's governor, on the same election day. Null for an office elected on
+ * its own, a special election, or a day with no governor's race (then the
+ * office's contest stands by itself).
+ */
+export function ticketGovernorContest(
+  api: CoreAPI,
+  contest: ContestRow,
+): ContestRow | null {
+  if (contest.special || !ticketStageOf(api, contest)) return null;
+  const office = contestOffice(api, contest)!;
+  return sameDayContest(api, contest, `office:${office.jurisdiction}:governor`);
+}
+
+/**
+ * The ticket office's contest (a lieutenant governor's) that a governor's
+ * contest carries, where the state's law elects one on the governor's ticket.
+ */
+export function ticketOfficeContest(
+  api: CoreAPI,
+  governor: ContestRow,
+): ContestRow | null {
+  const office = contestOffice(api, governor);
+  if (governor.special || office?.kind !== "governor") return null;
+  return (
+    (
+      table(api, "contests").query("byDate", [
+        governor.electionDate,
+      ]) as unknown as ContestRow[]
+    ).find(
+      (c) =>
+        !c.special &&
+        ticketStageOf(api, c) !== null &&
+        contestOffice(api, c)?.jurisdiction === office.jurisdiction,
+    ) ?? null
+  );
+}
+
+/** A governor candidate's running mate's filing, once named. */
+export function runningMateOf(
+  api: CoreAPI,
+  governorFiling: Pick<FilingRow, "id">,
+  ticketContest: Pick<ContestRow, "id">,
+): FilingRow | null {
+  return (
+    (
+      table(api, "filings").query("byContest", [
+        ticketContest.id,
+      ]) as unknown as FilingRow[]
+    ).find((f) => f.ticketWith === governorFiling.id) ?? null
   );
 }
 
@@ -1732,3 +1850,4 @@ export { groupDraw, joinsGroup } from "./interest-groups";
 export { foundMovement, movementGroupId } from "./interest-groups";
 // Re-exported so the opening county sample reads them through this entry (families guard).
 export { countyPlaceIdOf, statePlaces } from "../electorate-places";
+export { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./ballot-measures";

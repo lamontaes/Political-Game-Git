@@ -28,6 +28,7 @@ import {
 import { BUSINESS_MODULE_ID } from "./modules/business";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson } from "./state";
+import { historyMonths, worldPublishedMonth } from "./macro-model";
 import type { PersonId } from "./types";
 
 // A named place and seed reproduce a report's draw (the label prints both).
@@ -76,6 +77,41 @@ describe(`the one history starts in the player's birth year, ${label}`, () => {
       `${label}: the player's first job after school`,
     ).toBeDefined();
     expect(firstJob!.date > window.from, label).toBe(true);
+  });
+});
+
+describe(`the economy's months the run reads are this world's, ${label}`, () => {
+  it("records every month by the rule the opening months follow, so the past and day one are one path", () => {
+    const p = (key: string) => coreAPI(core).parameter(key);
+    const opening = new Map(
+      historyMonths(core.startedAt, core.seed, p).map((row) => [
+        row.month,
+        row,
+      ]),
+    );
+    const months = preStartHistory(core, { kind: "economy.conditions" });
+    expect(months.length, label).toBeGreaterThan(0);
+    let shared = 0;
+    for (const row of months) {
+      const month = row.date.slice(0, "YYYY-MM".length);
+      const world = worldPublishedMonth(month, core.startedAt, core.seed, p)!;
+      const kept = opening.get(month);
+      if (kept) shared += 1;
+      for (const key of [
+        "unemploymentPct",
+        "priceIndex",
+        "payrollJobsThousands",
+        "hourlyEarnings",
+        "policyRatePct",
+        "treasury10Pct",
+      ] as const) {
+        if (typeof row.facts[key] !== "number") continue;
+        expect(row.facts[key], `${label}: ${row.id} ${key}`).toBe(world[key]);
+        if (kept)
+          expect(row.facts[key], `${label}: ${row.id} ${key}`).toBe(kept[key]);
+      }
+    }
+    expect(shared, label).toBeGreaterThan(0);
   });
 });
 

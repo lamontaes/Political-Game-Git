@@ -158,8 +158,14 @@ export interface Runtime {
   townState: string;
   /** People due to leave, by group and destination state. */
   leave: Map<string, number>;
-  /** People due to arrive in a place, by origin state and coarse band. */
+  /** People due to arrive this month, by origin state and coarse band, before they are shared among places. */
   arrive: Map<string, number>;
+  /**
+   * People due to arrive in each place, by origin and band (`origin|band`):
+   * each place's share of every month's due, kept until households arrive.
+   * A balance may go below zero, owed from then on, as departures' are.
+   */
+  arriveAt: Map<PlaceId, Map<string, number>>;
   /** Each state's people at the end of each month (the regional engine reads the change). */
   totals: Map<string, Map<string, number>>;
   /** Each state's attractiveness as a destination, fitted once in the first month the engine runs (the opening) and kept; a world saved before it was kept fits it on its next month. */
@@ -408,6 +414,7 @@ export function runtimeOf(api: CoreAPI): Runtime | undefined {
     townState: key.slice("US-".length),
     leave: new Map(),
     arrive: new Map(),
+    arriveAt: new Map(),
     totals: new Map(),
     attract: new Map(),
     holdNorm: new Map(),
@@ -1317,10 +1324,18 @@ function record(api: CoreAPI, row: MoveRecord): void {
 }
 
 /**
- * Newcomers: when an origin's arrivals for an age band reach a household,
- * one arrives, shaped like a counted household here whose head is that age
- * (the first in a fixed order this month); who they are is generated from
- * the world's seed, as all generation is.
+ * Newcomers, paid out per place as leavers are (pool item
+ * world-town-net-moving-negative). Each month every origin's and age band's
+ * due is shared among the places a newcomer could settle, by everyone living
+ * there at that age (full people too), and kept on that place's own balance.
+ * While a place's whole balance reaches half a household, one arrives there:
+ * shaped like one of the place's own households that has someone of the age
+ * most due (so the under-18 due brings families with children), and each of
+ * its people is charged to their own age's balance, from the origin most due
+ * first. What a household lacks is owed by the place from then on, as
+ * departures' are. Who they are is generated from the world's seed, as all
+ * generation is; which of the place's households they resemble is the seeded
+ * hash. No draw decides where they settle or how many come.
  */
 function arrivals(
   api: CoreAPI,
@@ -1335,7 +1350,12 @@ function arrivals(
   const store = residents.store;
   const date = api.state.date;
   const adultAge = api.parameter("votingAge");
-  const templates = new Map<PlaceId, Map<number, CountedHousehold[]>>();
+  // Each place's households a newcomer could copy, and by age band the ones
+  // with someone that age.
+  const templates = new Map<
+    PlaceId,
+    { all: CountedHousehold[]; byBand: CountedHousehold[][] }
+  >();
   for (const h of store.liveHouseholds()) {
     // A newcomer copying a room would join group quarters, and institutions
     // admit nobody yet: their rooms only empty as residents die or are met.
@@ -1345,64 +1365,119 @@ function arrivals(
     if (h.tenure === "none") continue;
     const members = store.countedMembers(h);
     if (!members.length) continue;
-    let head = 0;
-    for (const m of members) head = Math.max(head, ageOn(store.born[m]!, date));
-    const byBand =
-      templates.get(h.placeId) ?? new Map<number, CountedHousehold[]>();
-    templates.set(h.placeId, byBand);
-    const list = byBand.get(coarseIndex(head, adultAge));
-    if (list) list.push(h);
-    else byBand.set(coarseIndex(head, adultAge), [h]);
+    let here = templates.get(h.placeId);
+    if (!here)
+      templates.set(
+        h.placeId,
+        (here = { all: [], byBand: COARSE.map(() => []) }),
+      );
+    here.all.push(h);
+    const bands = new Set(
+      members.map((m) => coarseIndex(ageOn(store.born[m]!, date), adultAge)),
+    );
+    for (const band of bands) here.byBand[band]!.push(h);
   }
   if (!placePeople.size) return;
-  const rates = unplacedRates(residents, date);
   const places = [...templates.keys()].sort();
+  rt.arriveAt ??= new Map();
+  // This month's due, shared among places by their people at that age.
   for (const [key, due] of [...rt.arrive].sort((a, b) =>
     a[0] < b[0] ? -1 : 1,
   )) {
-    const [origin, bandText] = key.split("|");
-    const band = Number(bandText);
-    // A newcomer settles in a place in proportion to everyone living there
-    // at their age (full people too), as a household shaped like one of the
-    // counted households there whose head is that age.
-    const cumulative: number[] = [];
+    const band = Number(key.split("|")[1]);
     let weightSum = 0;
-    for (const place of places) {
-      weightSum += agedHere.get(place)?.[band] ?? 0;
-      cumulative.push(weightSum);
-    }
+    for (const place of places) weightSum += agedHere.get(place)?.[band] ?? 0;
     if (weightSum <= 0) continue;
-    let left = due;
+    for (const place of places) {
+      const weight = agedHere.get(place)?.[band] ?? 0;
+      if (weight <= 0) continue;
+      let own = rt.arriveAt.get(place);
+      if (!own) rt.arriveAt.set(place, (own = new Map()));
+      own.set(key, (own.get(key) ?? 0) + (due * weight) / weightSum);
+    }
+    rt.arrive.delete(key);
+  }
+  // A place no newcomer can settle in any longer keeps nothing due.
+  for (const place of [...rt.arriveAt.keys()])
+    if (!templates.has(place)) rt.arriveAt.delete(place);
+  let rates: Map<PlaceId, number> | undefined;
+  for (const place of places) {
+    const own = rt.arriveAt.get(place);
+    if (!own) continue;
+    const here = templates.get(place)!;
     for (;;) {
-      const unit = (salt: string) =>
-        Number.parseInt(
-          stableHash(`${core.seed}:${salt}:${key}:${date}:${rt.serial}`).slice(
-            0,
-            8,
-          ),
-          16,
-        );
-      const at = cumulative.findIndex(
-        (c) => c > (unit("arrival-place") / 0x1_0000_0000) * weightSum,
+      let total = 0;
+      const byBand = COARSE.map(() => 0);
+      for (const [key, value] of own) {
+        total += value;
+        byBand[Number(key.split("|")[1])]! += value;
+      }
+      // The age most due that one of the place's households holds.
+      let band = -1;
+      for (let b = 0; b < COARSE.length; b++)
+        if (
+          here.byBand[b]!.length &&
+          byBand[b]! > 0 &&
+          (band < 0 || byBand[b]! > byBand[band]!)
+        )
+          band = b;
+      const shapes = band < 0 ? here.all : here.byBand[band]!;
+      // The origin most due at that age, else at any age.
+      let origin: string | undefined;
+      let most = 0;
+      for (const [key, value] of own) {
+        const [from, b] = key.split("|");
+        if ((band < 0 || Number(b) === band) && value > most) {
+          most = value;
+          origin = from;
+        }
+      }
+      if (!origin) break;
+      // Which of the place's own households its shape copies: the seeded hash.
+      const unit = Number.parseInt(
+        stableHash(
+          `${core.seed}:arrival:${place}:${origin}|${band}:${date}:${rt.serial}`,
+        ).slice(0, 8),
+        16,
       );
-      const byBand = templates.get(places[at < 0 ? places.length - 1 : at]!)!;
-      const shapes =
-        byBand.get(band) ??
-        byBand.get(2) ??
-        [...byBand.entries()].sort((x, y) => x[0] - y[0])[0]![1];
-      const template = shapes[unit("arrival") % shapes.length]!;
+      const template = shapes[unit % shapes.length]!;
       const size = store.weightedCount(template);
-      if (left < size) break;
-      left -= size;
+      if (size <= 0 || total < size / 2) break;
+      // Each person is charged to their own age's balance, from the origin
+      // first; what that age lacks comes from the rest of the place's due,
+      // and what the place lacks it owes from then on.
+      const weight = store.weightOf(template);
+      for (const m of store.countedMembers(template)) {
+        const b = coarseIndex(ageOn(store.born[m]!, date), adultAge);
+        let take = weight;
+        const first = `${origin}|${b}`;
+        const order = [...own.keys()].sort((x, y) => {
+          if (x === first || y === first) return x === first ? -1 : 1;
+          const sameX = x.endsWith(`|${b}`);
+          const sameY = y.endsWith(`|${b}`);
+          if (sameX !== sameY) return sameX ? -1 : 1;
+          return own.get(y)! - own.get(x)! || (x < y ? -1 : 1);
+        });
+        for (const key of order) {
+          const have = own.get(key)!;
+          const used = Math.max(0, Math.min(have, take));
+          if (used > 0) own.set(key, have - used);
+          take -= used;
+          if (take <= 0) break;
+        }
+        if (take > 0) own.set(first, (own.get(first) ?? 0) - take);
+      }
       // They settle where the household they resemble lives.
       const placeId = template.placeId;
-      const record = newcomers(api, rt, residents, template, origin!, source);
+      const record = newcomers(api, rt, residents, template, origin, source);
       // A newcomer household stands for as many as the one it resembles.
-      admitCountedHousehold(core, record, store.weightOf(template));
+      admitCountedHousehold(core, record, weight);
       const h = store.households[store.householdOf.get(record.household.id)!]!;
       // Working-age newcomers share the place's unplaced workers at its rate.
+      rates ??= unplacedRates(residents, date);
       h.unplacedWorkers = jobShare(residents, h, rates, date);
       rt.serial++;
+      const reasonBand = band < 0 ? 2 : band;
       api
         .moduleState(COUNTED_MOVES_MODULE_ID)
         .table(TABLE)
@@ -1413,7 +1488,7 @@ function arrivals(
           householdId: record.household.id,
           groupId: store.groups[h.group]!.id,
           fromPlace:
-            origin === rt.townState ? `${origin}:rest-of-state` : origin!,
+            origin === rt.townState ? `${origin}:rest-of-state` : origin,
           toPlace: placeId,
           people: size,
           // The rate its people's age leaves where they came from, and
@@ -1421,7 +1496,7 @@ function arrivals(
           reasons: causesOf(
             origin === ABROAD
               ? abroadRate(api, rt.townState)
-              : coarseRate(api.state.seed, origin!, COARSE[band]![2]),
+              : coarseRate(api.state.seed, origin, COARSE[reasonBand]![2]),
             1,
             {},
             origin === rt.townState || origin === ABROAD
@@ -1429,7 +1504,7 @@ function arrivals(
               : pullBetween(
                   api,
                   rt,
-                  origin!,
+                  origin,
                   rt.townState,
                   headOf(residents, h, date, adultAge).wages,
                   jobless,
@@ -1437,7 +1512,6 @@ function arrivals(
           ),
         } as unknown as ModuleRow);
     }
-    rt.arrive.set(key, left);
   }
 }
 

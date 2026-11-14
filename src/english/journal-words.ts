@@ -666,8 +666,19 @@ export function seatSaid(
 /** A job title as a sentence says it after "works as": "a county clerk", "an electrician". */
 export function withArticle(title: string): string {
   const said = jobSaid(title);
+  // A title that already has its article keeps it; a plural ("election
+  // workers") takes none.
+  if (/^(?:the|a|an)\s/i.test(said) || /[^su]s$/.test(said)) return said;
+  // An acronym said letter by letter takes the article of its first
+  // letter's sound ("an RN", "a CPA").
+  const first = said.split(" ")[0]!;
+  if (/^[A-Z]{2,}$/.test(first))
+    return `${/^[AEFHILMNORSX]/.test(first) ? "an" : "a"} ${said}`;
   return `${articleFor(said)} ${said}`;
 }
+
+/** A county's own name ("McDowell County"), said with no "the"; never one named by its body ("Board of Supervisors of Orange County"). */
+const COUNTY_NAME = /^(?!.*\bof\b).*\s(?:County|Parish|Borough)$/;
 
 /** What an employer's record says it is, enough to say its name in a sentence. */
 export interface EmployerRecord {
@@ -693,9 +704,13 @@ export function employerSaid(name: string, record: EmployerRecord): string {
       : `the government of ${name}`;
   if (record.kind === "government-treasury") {
     const government = name.replace(/\s+treasury$/i, "");
-    return /\bof\b/.test(government)
-      ? `the ${government}`
-      : `the government of ${government}`;
+    // A county is said by its own name ("McDowell County"); any other
+    // government by its kind ("the City of Woonsocket").
+    return COUNTY_NAME.test(government)
+      ? government
+      : /\bof\b/.test(government)
+        ? `the ${government}`
+        : `the government of ${government}`;
   }
   // A business keeps its name, whatever public contracts its record lists.
   const business = !!record.classification?.startsWith("enterprise:");
@@ -703,7 +718,9 @@ export function employerSaid(name: string, record: EmployerRecord): string {
     !!record.governmentFacts?.governmentKind ||
     !!record.governmentFacts?.governmentKey;
   const schools = record.classification === "service:school";
-  return government && !business && !schools && !/^the\s/i.test(name)
+  // A county is said by its own name, with no "the" ("McDowell County").
+  const county = COUNTY_NAME.test(name);
+  return government && !business && !schools && !county && !/^the\s/i.test(name)
     ? `the ${name}`
     : name;
 }
