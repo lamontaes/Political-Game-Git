@@ -35,4 +35,4 @@ checked: s3 2026-11-14
 
 **Files.** src/director/conversation.ts, src/core2/modules/people.ts
 
-**Notes.** Filed on the #9124 branch (claude/words-carry-8959-family-news).
+**Notes.** Filed on the #9124 branch (claude/words-carry-8959-family-news). Words lead ruling Nov 14 (rulings-3.md #1): the reply "Can we visit?" is cut from the prison talk until a visit is an act the game stages; this item carries it, and when the visit exists the reply comes back with its answer. Also cut, same reason: "I'll find out and tell you", "I'll tell you what I learn" and "I'm not sure how it works. I'll ask." (they promise a later telling or an errand no record holds; a later telling needs the teller to bring up the relative's next change through the brought-up path).
