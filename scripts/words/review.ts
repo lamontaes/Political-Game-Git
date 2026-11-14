@@ -129,6 +129,20 @@ export const PLANTS: Readonly<Record<string, readonly Plant[]>> = {
   ],
 };
 
+/**
+ * What each rule does not judge, said on every batch: a reviewer left to
+ * guess judges fit instead (40 of 81 noes on Nov 14 were about fit, not the
+ * rule; words-engine skill).
+ */
+export const NOT_JUDGED: Readonly<Record<string, string>> = {
+  "reply-second-move-follows-the-first":
+    "This rule judges only B: does B's second move follow from B's own first move? Whether B is a good answer to A is a different rule and not judged here. A reply with one move passes.",
+  "escalation-can-be-answered-in-kind":
+    "This rule judges only whether one of the replies offered answers the threat or insult in kind. How well each reply is written is not judged here.",
+  "replies-may-be-long-and-substantive":
+    "This rule judges only whether at least one of the replies offered says something with substance, more than a word or two. Whether the replies fit is not judged here.",
+};
+
 /** About how many entries one reviewer reads. */
 const PER_BATCH = 160;
 
@@ -230,6 +244,7 @@ export function plantedBatches(
     "The game owner's own words behind it (exact, with dates):",
     ...rule.from.map((from) => `- (${from.date}) ${from.words}`),
     "",
+    ...(NOT_JUDGED[rule.id] ? [NOT_JUDGED[rule.id]!] : []),
     "Judge each entry by this rule only. Words in braces like {name} are filled in during play and count as said.",
     "",
   ].join("\n");

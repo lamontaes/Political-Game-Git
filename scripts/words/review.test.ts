@@ -26,7 +26,7 @@ describe("words:review", () => {
     expect(ids).toHaveLength(203);
     const plants = ids.filter((id) => id in key);
     expect(plants.map((id) => key[id]).sort()).toEqual([false, true, true]);
-    expect([...files.values()][0]).not.toMatch(/passes|^### plant/im);
+    expect([...files.values()][0]).not.toMatch(/"passes"|^### plant/im);
   });
 
   it("places the plants the same way every run", () => {
