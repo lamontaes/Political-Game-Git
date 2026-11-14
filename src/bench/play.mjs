@@ -1720,6 +1720,8 @@ async function openFiling(filedWith, contestId) {
       return;
     }
   }
+  // Nothing to file and no petition out: the counter has no scene.
+  if (opened.nothing) return;
   const pick =
     contestId &&
     opened.visit?.choices.find(
@@ -4485,7 +4487,7 @@ const sheets = {
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
-      const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      const name = c.filingOffice.said;
       // A town's or county's own clerk is named for the place ("City or town
       // clerk, Point Pleasant"); a state's or the nation's office already is.
       const title =
