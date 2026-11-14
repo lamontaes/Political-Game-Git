@@ -18,7 +18,7 @@ import housingData from "./data/housing/housing.json" with { type: "json" };
 import { countedLeaseStart } from "./housing-counted-buy";
 import { buyMarket, weighHome } from "./housing-buy";
 import { countedMortgageFlowId } from "./housing-mortgages";
-import { addDays, ageInYears, makeIsoDate } from "./kernel/dates";
+import { ageInYears, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { bankYes, heldMortgages, mortgageRoom } from "./modules/credit";
 import { rentHomeValue, weighCountedBuyers } from "./modules/housing";
