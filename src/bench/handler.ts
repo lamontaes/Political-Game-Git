@@ -166,7 +166,7 @@ import {
 } from "./government";
 import { governmentBodies } from "./government-bodies";
 import type { Director } from "../director/ledger";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
@@ -479,6 +479,17 @@ const ROUTES: readonly Route[] = [
               row.date === world.core.date &&
               row.outcome.startsWith("scene") &&
               row.bindings.length > 0,
+          );
+        // Shown now, it is opened: the director's waiting list does not stop
+        // the clock for it again tomorrow.
+        if (staged?.outcome === "scene-waiting")
+          world.director.openWaiting(
+            entrant.personId as PersonId,
+            staged.momentId,
+            {
+              date: makeIsoDate(world.core.date),
+              minuteOfDay: OPENING_EVENING_MINUTE,
+            },
           );
         send(200, {
           personId: entrant.personId,

@@ -101,7 +101,7 @@ import {
   healthReport,
 } from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
-import type { CoreAPI, CoreState } from "../core2/types";
+import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
 import { buildBenchWorld, buildRecipeOf } from "./world";
 import type { BenchPlayer } from "./player";
@@ -1296,6 +1296,22 @@ export class DevMode {
           : ("plays" as const);
       return { key: type.key, causeRecords, recipe, state };
     });
+  }
+
+  /**
+   * The player's scenes that wait for them, highest rank first: each with its
+   * type, its rank against the life's pace, the day it was staged, the last
+   * day it may open and whether it is due now, from the director's one list
+   * (`waitingScenes`), so a second session can set the ledger beside what
+   * played.
+   */
+  waitingScenes() {
+    const personId = this.player?.personId;
+    if (!personId || !this.director) return [];
+    return this.director.waitingScenes(
+      personId as PersonId,
+      makeIsoDate(this.core.date),
+    );
   }
 
   /**
