@@ -96,6 +96,8 @@ import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
+import { careFacts } from "./care-facts";
+import { moveInFacts } from "./move-in-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
@@ -891,6 +893,10 @@ function composeBinding(
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
     ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A visit to someone seriously ill in town: the relative still to be told.
+    ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A partner's ask to live together: who would move, and the asked's kin.
+    ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(
@@ -1188,9 +1194,17 @@ function composeBinding(
   }
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
-  if (asked.familyIds.has(askerId))
+  // A partner is neither kin nor a stranger: they know each other (family
+  // life, Words lead's read of the move-in scene, Nov 14 2026).
+  const partners = [...core.familyLinks.values()].some(
+    (link) =>
+      link.kind === "partner" &&
+      link.personIds.includes(askerId) &&
+      link.personIds.includes(askedId),
+  );
+  if (asked.familyIds.has(askerId) && !partners)
     facts.kin = { text: asker.givenName, sourceRecordIds: [askerId, askedId] };
-  if (asked.knownIds.has(askerId))
+  if (asked.knownIds.has(askerId) || partners)
     facts.acquainted = {
       text: asker.givenName,
       sourceRecordIds: [askerId, askedId],

@@ -483,6 +483,17 @@ const ROUTES: readonly Route[] = [
               row.outcome.startsWith("scene") &&
               row.bindings.length > 0,
           );
+        // Shown now, it is opened: the director's waiting list does not stop
+        // the clock for it again tomorrow.
+        if (staged?.outcome === "scene-waiting")
+          world.director.openWaiting(
+            entrant.personId as PersonId,
+            staged.momentId,
+            {
+              date: makeIsoDate(world.core.date),
+              minuteOfDay: OPENING_EVENING_MINUTE,
+            },
+          );
         send(200, {
           personId: entrant.personId,
           placeName: world.place.displayName,
