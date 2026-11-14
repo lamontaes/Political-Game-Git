@@ -20423,1601 +20423,6 @@
       }
     },
     {
-      "key": "conversation.address-point-opener.the-president-brought-up-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "The President brought up {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.that-part-about-about-stuck-with-me",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "That part about {about} stuck with me.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.i-keep-thinking-about-what-the-president-said-on-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "I keep thinking about what the President said on {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.so-the-president-talked-about-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "So the President talked about {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.the-president-spent-some-time-on-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "The President spent some time on {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.what-the-president-said-about-about-caught-my-ear",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "What the President said about {about} caught my ear.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.the-president-made-a-point-of-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "The President made a point of {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.i-heard-the-president-on-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "I heard the President on {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.the-president-went-right-at-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "The President went right at {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.if-i-heard-it-right-the-president-talked-about-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "If I heard it right, the President talked about {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.the-part-i-paid-attention-to-was-on-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "The part I paid attention to was on {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.the-president-mentioned-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "The President mentioned {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.out-of-that-whole-speech-i-heard-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "Out of that whole speech, I heard {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.there-was-the-bit-about-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "There was the bit about {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.president-brought-up-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "{president} brought up {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["policy-point"],
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.i-heard-president-on-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "I heard {president-object} on {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["policy-point"],
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.so-president-wants-to-talk-about-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "So {president} wants to talk about {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["policy-point"],
-          "excludesFacts": ["point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-opener.you-ve-heard-about-about-already",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "You've heard about {about} already.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["about", "point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Fable A (words lead)",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "conversation.address-point-opener.i-know-you-ve-heard-about-about",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "I know you've heard about {about}.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["about", "point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Fable A (words lead)",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "conversation.address-point-opener.about-about-since-it-s-going-around-the-house",
-      "move": "address-point-opener",
-      "kind": "spoken",
-      "text": "About {about}, since it's going around the house.",
-      "uses": [
-        {
-          "move": "address-point-opener",
-          "subject": "address-point",
-          "role": "opener",
-          "requiresFacts": ["about", "point-heard"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "opener"
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Fable A (words lead)",
-      "date": "2026-11-13"
-    },
-    {
-      "key": "conversation.address-point-core-with.it-s-time-decider-tried-to-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "It's time {decider} tried to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-d-like-to-see-capital-actually-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I'd like to see {capital} actually {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.we-ought-to-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "We ought to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.decider-should-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "{decider} should {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.if-capital-can-to-i-m-all-for-it",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "If {capital} can {to}, I'm all for it.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-d-vote-to-to-tomorrow",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I'd vote to {to} tomorrow.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.there-s-a-real-case-for-trying-to-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "There's a real case for trying to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-think-president-s-right-to-want-to-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I think {president}'s right to want to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.good-it-s-long-past-time-to-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "Good. It's long past time to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-can-get-behind-a-plan-to-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I can get behind a plan to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.it-would-help-a-lot-of-people-to-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "It would help a lot of people to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.if-decider-wants-to-to-they-have-my-vote",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "If {decider} wants to {to}, they have my vote.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.nobody-needs-to-to-and-president-knows-it",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "Nobody needs to {to}, and {president} knows it.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.president-s-right-to-against",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "{president}'s right to {against}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["against", "president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said); words-telling-said-as-talk reframed it",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-don-t-want-decider-trying-to-to-either",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I don't want {decider} trying to {to} either.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.there-s-no-good-reason-to-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "There's no good reason to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-d-rather-decider-didn-t-try-to-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I'd rather {decider} didn't try to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.trying-to-to-would-cost-more-than-it-s-worth",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "Trying to {to} would cost more than it's worth.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-agree-with-president-we-shouldn-t-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I agree with {president-object}. We shouldn't {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.good-let-s-against",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "Good. Let's {against}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["against", "president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said); words-telling-said-as-talk reframed it",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-don-t-think-we-should-to-and-neither-does-president",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I don't think we should {to}, and neither does {president}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.it-makes-sense-to-me-to-against",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "It makes sense to me to {against}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["against", "president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said); words-telling-said-as-talk reframed it",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-last-thing-we-need-is-to-to",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The last thing we need is to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-d-be-against-any-plan-to-to-too",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I'd be against any plan to {to} too.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-don-t-see-why-we-d-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I don't see why we'd {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-never-asked-decider-to-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I never asked {decider} to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.trying-to-to-is-the-wrong-idea",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "Trying to {to} is the wrong idea.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-m-not-sold-on-a-plan-to-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I'm not sold on a plan to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-d-vote-against-any-plan-to-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I'd vote against any plan to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-don-t-think-it-s-wise-to-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I don't think it's wise to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.president-wants-to-to-and-i-don-t",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "{president} wants to {to}, and I don't.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-can-t-get-behind-a-plan-to-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I can't get behind a plan to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.we-d-be-making-a-mistake-to-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "We'd be making a mistake to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.a-plan-to-to-sounds-fine-until-somebody-pays-for-it",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "A plan to {to} sounds fine until somebody pays for it.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-d-leave-well-enough-alone-and-against",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I'd leave well enough alone and {against}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["against", "president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said); words-telling-said-as-talk reframed it",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-m-against-trying-to-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I'm against trying to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-think-decider-should-to-whatever-president-says",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I think {decider} should {to}, whatever {president} says.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.we-ought-to-to-and-president-won-t",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "We ought to {to}, and {president} won't.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-d-still-like-to-see-decider-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I'd still like to see {decider} {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.saying-no-to-a-plan-to-to-is-a-mistake",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "Saying no to a plan to {to} is a mistake.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.president-is-against-it-but-i-d-vote-to-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "{president} is against it, but I'd vote to {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said); words-telling-said-as-talk reframed it",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.decider-has-to-to-sooner-or-later",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "{decider} has to {to} sooner or later.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.president-should-to-and-won-t",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "{president} should {to}, and won't.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-think-it-s-time-to-to-whatever-president-says",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I think it's time to {to}, whatever {president} says.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.there-s-a-good-case-to-to-and-it-got-waved-off",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "There's a good case to {to}, and it got waved off.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.decider-ought-to-stand-up-and-to",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "{decider} ought to stand up and {to}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-m-for-trying-to-to-even-if-president-isn-t",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I'm for trying to {to}, even if {president} isn't.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-core-against.refusing-to-to-doesn-t-sit-right-with-me",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "Refusing to {to} doesn't sit right with me.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.address-point-core-unsure.i-don-t-know-yet-whether-we-should-to",
       "move": "address-point-core-unsure",
       "kind": "spoken",
@@ -39612,12 +38017,8 @@
           "move": "school-give-core",
           "subject": "school-give",
           "role": "core",
-          "stages": [
-            "graduated"
-          ],
-          "requiresFacts": [
-            "their_school"
-          ]
+          "stages": ["graduated"],
+          "requiresFacts": ["their_school"]
         }
       ],
       "origin": "authored",
@@ -39640,12 +38041,8 @@
           "move": "school-give-core",
           "subject": "school-give",
           "role": "core",
-          "stages": [
-            "graduated"
-          ],
-          "requiresFacts": [
-            "their_school"
-          ]
+          "stages": ["graduated"],
+          "requiresFacts": ["their_school"]
         }
       ],
       "origin": "authored",
@@ -39668,12 +38065,8 @@
           "move": "school-give-core",
           "subject": "school-give",
           "role": "core",
-          "stages": [
-            "graduated"
-          ],
-          "requiresFacts": [
-            "their_school"
-          ]
+          "stages": ["graduated"],
+          "requiresFacts": ["their_school"]
         }
       ],
       "origin": "authored",
@@ -39696,12 +38089,8 @@
           "move": "school-give-core",
           "subject": "school-give",
           "role": "core",
-          "stages": [
-            "graduated"
-          ],
-          "requiresFacts": [
-            "their_school"
-          ]
+          "stages": ["graduated"],
+          "requiresFacts": ["their_school"]
         }
       ],
       "origin": "authored",
@@ -39724,12 +38113,8 @@
           "move": "school-give-core",
           "subject": "school-give",
           "role": "core",
-          "stages": [
-            "graduated"
-          ],
-          "requiresFacts": [
-            "their_school"
-          ]
+          "stages": ["graduated"],
+          "requiresFacts": ["their_school"]
         }
       ],
       "origin": "authored",
@@ -39752,12 +38137,8 @@
           "move": "school-give-core",
           "subject": "school-give",
           "role": "core",
-          "stages": [
-            "enrolled"
-          ],
-          "requiresFacts": [
-            "their_school"
-          ]
+          "stages": ["enrolled"],
+          "requiresFacts": ["their_school"]
         }
       ],
       "origin": "authored",
@@ -39780,12 +38161,8 @@
           "move": "school-give-core",
           "subject": "school-give",
           "role": "core",
-          "stages": [
-            "enrolled"
-          ],
-          "requiresFacts": [
-            "their_school"
-          ]
+          "stages": ["enrolled"],
+          "requiresFacts": ["their_school"]
         }
       ],
       "origin": "authored",
@@ -39808,12 +38185,8 @@
           "move": "school-give-core",
           "subject": "school-give",
           "role": "core",
-          "stages": [
-            "enrolled"
-          ],
-          "requiresFacts": [
-            "their_school"
-          ]
+          "stages": ["enrolled"],
+          "requiresFacts": ["their_school"]
         }
       ],
       "origin": "authored",
@@ -39836,12 +38209,8 @@
           "move": "school-give-core",
           "subject": "school-give",
           "role": "core",
-          "stages": [
-            "enrolled"
-          ],
-          "requiresFacts": [
-            "their_school"
-          ]
+          "stages": ["enrolled"],
+          "requiresFacts": ["their_school"]
         }
       ],
       "origin": "authored",
@@ -39864,12 +38233,8 @@
           "move": "school-give-core",
           "subject": "school-give",
           "role": "core",
-          "stages": [
-            "enrolled"
-          ],
-          "requiresFacts": [
-            "their_school"
-          ]
+          "stages": ["enrolled"],
+          "requiresFacts": ["their_school"]
         }
       ],
       "origin": "authored",
@@ -39892,13 +38257,8 @@
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "stages": [
-            "against"
-          ],
-          "requiresFacts": [
-            "president-for",
-            "about"
-          ]
+          "stages": ["against"],
+          "requiresFacts": ["president-for", "about"]
         }
       ],
       "origin": "authored",
@@ -39920,13 +38280,8 @@
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "stages": [
-            "against"
-          ],
-          "requiresFacts": [
-            "president-against",
-            "about"
-          ]
+          "stages": ["against"],
+          "requiresFacts": ["president-against", "about"]
         }
       ],
       "origin": "authored",
@@ -39948,13 +38303,8 @@
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "stages": [
-            "against"
-          ],
-          "requiresFacts": [
-            "president-against",
-            "about"
-          ]
+          "stages": ["against"],
+          "requiresFacts": ["president-against", "about"]
         }
       ],
       "origin": "authored",
@@ -39976,13 +38326,8 @@
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "stages": [
-            "against"
-          ],
-          "requiresFacts": [
-            "president-against",
-            "about"
-          ]
+          "stages": ["against"],
+          "requiresFacts": ["president-against", "about"]
         }
       ],
       "origin": "authored",
@@ -40004,13 +38349,8 @@
           "move": "address-point-core-with",
           "subject": "address-point",
           "role": "core",
-          "stages": [
-            "with"
-          ],
-          "requiresFacts": [
-            "president-against",
-            "about"
-          ]
+          "stages": ["with"],
+          "requiresFacts": ["president-against", "about"]
         }
       ],
       "origin": "authored",
@@ -40032,13 +38372,8 @@
           "move": "address-point-core-with",
           "subject": "address-point",
           "role": "core",
-          "stages": [
-            "with"
-          ],
-          "requiresFacts": [
-            "president-against",
-            "about"
-          ]
+          "stages": ["with"],
+          "requiresFacts": ["president-against", "about"]
         }
       ],
       "origin": "authored",
@@ -40060,13 +38395,77 @@
           "move": "address-point-core-with",
           "subject": "address-point",
           "role": "core",
-          "stages": [
-            "with"
-          ],
-          "requiresFacts": [
-            "president-against",
-            "about"
-          ]
+          "stages": ["with"],
+          "requiresFacts": ["president-against", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.the-president-came-out-for-about-i-m-for-it-too",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "The President came out for {about}. I'm for it too.",
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.the-president-backed-about-i-hope-congress-passes-it",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "The President backed {about}. I hope Congress passes it.",
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.the-president-backed-about-i-can-t-go-along-with-that",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "The President backed {about}. I can't go along with that.",
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for", "about"]
         }
       ],
       "origin": "authored",
