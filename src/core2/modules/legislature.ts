@@ -775,13 +775,22 @@ function askBeforeTheRoll(api: CoreAPI): void {
   const floorDate = addDays(makeIsoDate(api.state.date), 1);
   for (const bill of floorAgendaOn(api, floorDate)) {
     const sponsor = api.state.people.get(bill.sponsorId);
-    // A bill its committee held never reaches the floor, so no one asks.
+    const chambers = chambersOf(api, bill);
+    // A bill its committee held never reaches the floor, so no one asks; nor
+    // one whose committee has not met yet (it meets on the floor day when the
+    // player sits on it, or waits on the player's press) and whose chair will
+    // not hear it.
     if (
       !sponsor?.alive ||
-      committeeRecords(api, bill.id).some((c) => !c.reported)
+      committeeRecords(api, bill.id).some((c) => !c.reported) ||
+      (chambers[0] !== undefined &&
+        !table(api, "committees").get(`committee:${bill.id}:${chambers[0]}`) &&
+        members(api, chambers[0]).length >
+          campaignParameter("committeeOfTheWholeMaximum") &&
+        committeeSeats(api, bill, chambers[0]) &&
+        !chairHears(api, bill, chambers[0]).heard)
     )
       continue;
-    const chambers = chambersOf(api, bill);
     for (const chamber of chambers) {
       // A later chamber votes the same floor day, and only if the first
       // passes, so its members are not asked the evening before.
@@ -4724,6 +4733,37 @@ export function registerHearingWitnessProvider(
     hearingWitnessProviders.push(provider);
 }
 
+/**
+ * The chair's decision whether the committee that takes a bill in a chamber hears it (`heard`), with its reasons:
+ * the chair's own pressed choice, else the agreement a held bill's chair gave
+ * in the sponsor's scene, else where the chair stands with their temper for
+ * hearing. The committee stage decides by it, and the sponsor's evening-before
+ * asks read it for a committee that has not met yet (one the player sits on
+ * meets on the floor day), so nobody is asked about a bill its chair will hold.
+ */
+export function chairHears(api: CoreAPI, bill: BillRow, chamber: string) {
+  const { chair } = committeeSeats(api, bill, chamber)!;
+  const castHear = table(api, "choices").get(
+    `${bill.id}|${memberKey(chair)}|hear`,
+  ) as unknown as { hear: boolean } | undefined;
+  // The agreement of the chair who held the bill, said in the sponsor's scene after the hold, is a
+  // reason read here (the seat's chair may have changed since: the agreement still stands for the bill).
+  const agreed = table(api, "replies").get(`hearing:${bill.id}`) as unknown as
+    ReplyRow | undefined;
+  const chairPosition = memberPosition(api, bill.id, memberKey(chair));
+  const hearingTrait = chairHearingTrait(
+    api,
+    memberKey(chair),
+    chairPosition.total,
+  );
+  const heard = castHear
+    ? castHear.hear
+    : agreed
+      ? true
+      : chairPosition.total + hearingTrait >= 0;
+  return { heard, chair, castHear, agreed, chairPosition, hearingTrait };
+}
+
 function committeeStage(
   api: CoreAPI,
   bill: BillRow,
@@ -4739,25 +4779,9 @@ function committeeStage(
   if (met) return met;
   // stopgapId: SG-GOV-committee-structure
   api.stopgap("SG-GOV-committee-structure");
-  const { roster, chair } = committeeSeats(api, bill, chamber)!;
-  const chairPosition = memberPosition(api, bill.id, memberKey(chair));
-  const hearingTrait = chairHearingTrait(
-    api,
-    memberKey(chair),
-    chairPosition.total,
-  );
-  const castHear = table(api, "choices").get(
-    `${bill.id}|${memberKey(chair)}|hear`,
-  ) as unknown as { hear: boolean } | undefined;
-  // The agreement of the chair who held the bill, said in the sponsor's scene after the hold, is a
-  // reason read here (the seat's chair may have changed since: the agreement still stands for the bill).
-  const agreed = table(api, "replies").get(`hearing:${bill.id}`) as unknown as
-    ReplyRow | undefined;
-  const heard = castHear
-    ? castHear.hear
-    : agreed
-      ? true
-      : chairPosition.total + hearingTrait >= 0;
+  const { roster } = committeeSeats(api, bill, chamber)!;
+  const { heard, chair, castHear, agreed, chairPosition, hearingTrait } =
+    chairHears(api, bill, chamber);
   // The chair's reasons are kept on the committee record; no scene or story
   // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
   api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
