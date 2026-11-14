@@ -18,7 +18,7 @@
  *   stakes        the record facts the exchange turns on
  *   tie           how the two people stand, in the conversation engine's
  *                 own fact names (`stranger`, `acquainted`, `kin`) plus
- *                 `household`: the tie facts the use requires, and `household`
+ *                 `household`: the tie facts the use requires (or is only true when), and `household`
  *                 or `kin` where the director fills a side from the household
  *                 or the kin (`src/director/sitting-ties.ts`,
  *                 `src/director/purpose-scene.ts`); absent where the tie is
@@ -127,12 +127,11 @@ export function spotTagsOf(
   byPurpose: ReadonlyMap<string, readonly SituationType[]>,
 ): Partial<Record<SpotTag, readonly string[]>> {
   const purpose = typeof use.purpose === "string" ? use.purpose : "";
-  const required = Array.isArray(use.requiresFacts)
-    ? (use.requiresFacts as unknown[]).filter(
-        (fact): fact is string =>
-          typeof fact === "string" && TIE_FACTS.has(fact),
-      )
-    : [];
+  const required = [use.requiresFacts, use.onlyWhen]
+    .flatMap((list) => (Array.isArray(list) ? (list as unknown[]) : []))
+    .filter(
+      (fact): fact is string => typeof fact === "string" && TIE_FACTS.has(fact),
+    );
   const types = byPurpose.get(purpose);
   if (!types?.length) return required.length ? { tie: unique(required) } : {};
   const role = use.role;

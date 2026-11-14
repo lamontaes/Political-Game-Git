@@ -9782,7 +9782,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "onlyWhen": ["bill"]
         }
       ],
       "bearing": "guarded",
@@ -68720,7 +68720,8 @@
           "role": "asker",
           "purpose": "confirm-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["your-promise", "vote-today"]
+          "requiresFacts": ["your-promise"],
+          "onlyWhen": ["vote-today"]
         }
       ],
       "bearing": "calm",
@@ -107546,7 +107547,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "onlyWhen": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -107643,7 +107644,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "onlyWhen": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -107740,7 +107741,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "onlyWhen": ["bill"]
         }
       ],
       "bearing": "guarded",
@@ -125270,7 +125271,7 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["vote-held"]
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -125295,7 +125296,7 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "onlyWhen": ["bill"]
         }
       ],
       "bearing": "braced",
@@ -125368,7 +125369,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill", "read-town-against"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["read-town-against"]
         }
       ],
       "bearing": "braced",
@@ -125393,7 +125395,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill", "vote-held"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -125493,7 +125496,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["read-scandal", "outlet"]
+          "requiresFacts": ["outlet"],
+          "onlyWhen": ["read-scandal"]
         }
       ],
       "bearing": "braced",
@@ -125518,7 +125522,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["outlet"]
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["skipped-some"]
         }
       ],
       "bearing": "braced",
@@ -125595,8 +125600,9 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["outlet", "skipped-some"],
-          "excludesFacts": ["bill"]
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["bill"],
+          "onlyWhen": ["skipped-some"]
         }
       ],
       "bearing": "braced",
@@ -125621,7 +125627,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["introduced"]
         }
       ],
       "bearing": "braced",
@@ -125646,7 +125653,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["introduced"]
         }
       ],
       "bearing": "braced",
@@ -125684,6 +125692,163 @@
       }
     },
     {
+      "key": "scene-talk.state-ask.somebody-wanted-bill-stopped-who",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Somebody wanted {bill} stopped. Who?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["stopped-it"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-ll-be-blunt-why-stop-bill",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'll be blunt. Why stop {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["stopped-it"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-signed-bill-who-is-it-for",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You signed {bill}. Who is it for?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["signed-it"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-ll-be-blunt-why-sign-bill",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'll be blunt. Why sign {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["signed-it"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.somebody-wanted-bill-signed-who",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Somebody wanted {bill} signed. Who?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["signed-it"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.outlet-didn-t-get-all-its-answers-i-d-like-the-rest",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{outlet} didn't get all its answers. I'd like the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["outlet"],
+          "onlyWhen": ["skipped-some"],
+          "excludesFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.state-ask.what-do-you-say-to-the-people-who-asked-you-to-vote-the-other-way",
       "move": "state-ask",
       "kind": "spoken",
@@ -125696,7 +125861,7 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["vote-held"]
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -126632,7 +126797,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["bill", "read-scandal", "vote-held"]
+          "requiresFacts": ["bill", "read-scandal"],
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -126707,7 +126873,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["bill", "read-scandal", "vote-held"]
+          "requiresFacts": ["bill", "read-scandal"],
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -128790,7 +128957,8 @@
           "role": "asker",
           "purpose": "ask-vote.whip",
           "key": "vote-wanted",
-          "requiresFacts": ["bill", "read-same-party"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["read-same-party"]
         }
       ],
       "bearing": "braced",
@@ -128815,7 +128983,8 @@
           "role": "asker",
           "purpose": "ask-vote.whip",
           "key": "vote-wanted",
-          "requiresFacts": ["bill", "read-holds-post"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["read-holds-post"]
         }
       ],
       "bearing": "calm",
@@ -129944,7 +130113,8 @@
           "role": "asker",
           "purpose": "ask-vote.trade",
           "key": "vote-wanted",
-          "requiresFacts": ["bill", "read-favor-given"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["read-favor-given"]
         }
       ],
       "bearing": "calm",
@@ -133331,7 +133501,8 @@
           "role": "asker",
           "purpose": "moving-goodbye",
           "key": "moving-goodbye",
-          "requiresFacts": ["destination", "companion"]
+          "requiresFacts": ["destination"],
+          "onlyWhen": ["companion"]
         }
       ],
       "bearing": "solemn",
@@ -139529,7 +139700,7 @@
           "role": "asker",
           "purpose": "introduction",
           "key": "arrival",
-          "requiresFacts": ["employer"]
+          "onlyWhen": ["employer"]
         }
       ],
       "bearing": "curious",
@@ -144818,7 +144989,7 @@
           "role": "asker",
           "purpose": "rescue-ask",
           "key": "threat",
-          "requiresFacts": ["kin"]
+          "onlyWhen": ["kin"]
         }
       ],
       "bearing": "calm",

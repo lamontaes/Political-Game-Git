@@ -1048,6 +1048,23 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
     };
+  // A bill the asked person signed, or stopped: a veto, a veto overridden
+  // over it, or a bill held in committee (legislature.ts). A reporter asks
+  // who wanted it signed, or stopped.
+  const stopped =
+    (record?.kind === "executive-action" && said.action === "vetoed") ||
+    record?.kind === "veto-override" ||
+    record?.kind === "bill-held-in-committee";
+  if (stopped)
+    facts["stopped-it"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
+  if (record?.kind === "executive-action" && said.action === "signed")
+    facts["signed-it"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
   // A vote the asked person sat for (legislature.ts): the lines asked after
   // a vote need it, and which side they took, from their own vote record; a
   // member the roll shows on neither side has no side.
