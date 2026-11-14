@@ -148795,136 +148795,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.witness.i-offered-it-to-you-because-we-knew-each-other-and-i",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I offered it to you because we knew each other, and I told myself you'd see it as a favor, not a payment.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-tie"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-tie"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-tie"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-          "requiresFacts": ["motive-tie"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-          "requiresFacts": ["motive-tie"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.witness.i-offered-it-because-i-d-heard-you-had-taken-money-before",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I offered it because I'd heard you had taken money before, and I thought you'd take mine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-          "requiresFacts": ["motive-reputation"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.witness.you-turned-it-down-and-reported-it-there-s-nothing-i-can",
       "move": "reply-leave",
       "kind": "spoken",
@@ -148998,39 +148868,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.witness.you-said-no-and-you-were-right-to-that-should-have-been",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "You said no, and you were right to. That should have been the end of it between us.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.witness.you-knew-how-much-wanted-mattered-to-me-saying-no-should-have",
       "move": "reply-confront",
       "kind": "spoken",
@@ -149055,76 +148892,6 @@
           "key": "threat",
           "after": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
           "requiresFacts": ["motive-stake", "wanted"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.witness.we-ve-known-each-other-a-long-time-and-one-wrong-offer",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "We've known each other a long time, and one wrong offer was enough for you to go to the prosecutor.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-          "requiresFacts": ["motive-tie"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-          "requiresFacts": ["motive-tie"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.witness.i-d-heard-you-d-taken-money-before-mine-ever-came-near",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "I'd heard you'd taken money before mine ever came near you. Now you're the honest one?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-          "requiresFacts": ["motive-reputation"]
         }
       ],
       "origin": "authored",
@@ -149364,10 +149131,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-knew-the-person-and-i-told",
+      "key": "scene-talk.reply-tell.friend.they-wanted-wanted-and-i-had-a-say-in-who-got-it",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I offered the money because I knew the person, and I told myself it was a favor between friends, not a payment.",
+      "text": "They wanted {wanted}, and I had a say in who got it. That's why they came to me, and I took what they brought.",
       "uses": [
         {
           "subject": "scene",
@@ -149377,7 +149144,7 @@
           "purpose": "conflict-accuse.friend",
           "key": "threat",
           "after": "answer",
-          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
+          "requiresFacts": ["you-took", "wanted"]
         },
         {
           "subject": "scene",
@@ -149387,7 +149154,7 @@
           "purpose": "conflict-accuse.friend",
           "key": "threat",
           "after": "ask",
-          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
+          "requiresFacts": ["you-took", "wanted"]
         },
         {
           "subject": "scene",
@@ -149397,7 +149164,27 @@
           "purpose": "conflict-accuse.friend",
           "key": "threat",
           "after": "press",
-          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
+          "requiresFacts": ["you-took", "wanted"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
+          "requiresFacts": ["you-took", "wanted"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
+          "requiresFacts": ["you-took", "wanted"]
         },
         {
           "subject": "scene",
@@ -149407,472 +149194,7 @@
           "purpose": "conflict-accuse.friend",
           "key": "threat",
           "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-tie", "secondhand", "you-offered"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.accused.i-took-the-money-because-i-knew-the-person-and-i-told",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I took the money because I knew the person, and I told myself it was a favor between friends, not a payment.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-tie", "you-took"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-tie", "you-took"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-tie", "you-took"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-tie", "you-took"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-tie", "you-took"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-tie", "you-took"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-tie", "you-took"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-tie", "you-took"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.friend.i-offered-it-to-you-because-we-re-close-and-i-told",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I offered it to you because we're close, and I told myself you'd take it as a favor between friends.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-tie", "saw-it"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-tie", "saw-it"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-tie", "saw-it"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-d-heard-money-had-gone-that",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I offered the money because I'd heard money had gone that way before, and I let that make it seem ordinary.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-reputation"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.accused.i-took-the-money-because-i-was-behind-on-everything-and-i",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I took the money because I was behind on everything, and I couldn't see another way out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-pressure"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-pressure"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-pressure"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-pressure"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-pressure"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-pressure"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-pressure"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-pressure"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.accused.i-took-the-money-because-it-was-a-lot-of-money-to",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I took the money because it was a lot of money to me, and I didn't make myself say no.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-need"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-need"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-need"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-need"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "answer",
-          "requiresFacts": ["motive-need"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "ask",
-          "requiresFacts": ["motive-need"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-need"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-          "requiresFacts": ["motive-need"]
+          "requiresFacts": ["you-took", "wanted"]
         }
       ],
       "origin": "authored",
@@ -149919,10 +149241,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.taken.i-knew-the-person-and-i-told-myself-it-was-a-favor",
+      "key": "scene-talk.reply-tell.taken.they-wanted-wanted-and-i-had-a-say-in-who-got-it",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I knew the person, and I told myself it was a favor between friends, not a payment. That's the rest of it.",
+      "text": "They wanted {wanted}, and I had a say in who got it. That's the rest of it.",
       "uses": [
         {
           "subject": "scene",
@@ -149932,7 +149254,7 @@
           "purpose": "conflict-accuse.taken",
           "key": "threat",
           "after": "press",
-          "requiresFacts": ["motive-tie"]
+          "requiresFacts": ["you-took", "wanted"]
         },
         {
           "subject": "scene",
@@ -149942,112 +149264,7 @@
           "purpose": "conflict-accuse.taken",
           "key": "threat",
           "after": "scene-talk.follow-confront.taken.i-didn-t-go-looking-for-this-somebody-brought-it-to-me",
-          "requiresFacts": ["motive-tie"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.taken.i-d-heard-money-had-gone-that-way-before-and-i-let",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'd heard money had gone that way before, and I let that make it seem ordinary. That's the rest of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.taken",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-reputation"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.taken",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.taken.i-didn-t-go-looking-for-this-somebody-brought-it-to-me",
-          "requiresFacts": ["motive-reputation"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.taken.i-was-behind-on-everything-and-i-couldn-t-see-another-way",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I was behind on everything, and I couldn't see another way out. That's the rest of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.taken",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-pressure"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.taken",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.taken.i-didn-t-go-looking-for-this-somebody-brought-it-to-me",
-          "requiresFacts": ["motive-pressure"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (short replies, conflict-accuse)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.taken.it-was-a-lot-of-money-to-me-and-i-didn-t",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "It was a lot of money to me, and I didn't make myself say no. That's the rest of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.taken",
-          "key": "threat",
-          "after": "press",
-          "requiresFacts": ["motive-need"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "conflict-accuse.taken",
-          "key": "threat",
-          "after": "scene-talk.follow-confront.taken.i-didn-t-go-looking-for-this-somebody-brought-it-to-me",
-          "requiresFacts": ["motive-need"]
+          "requiresFacts": ["you-took", "wanted"]
         }
       ],
       "origin": "authored",
@@ -150788,24 +150005,6 @@
           "role": "asker",
           "purpose": "conflict-accuse.witness",
           "key": "threat",
-          "after": "scene-talk.reply-tell.witness.i-offered-it-to-you-because-we-knew-each-other-and-i"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.witness.i-offered-it-because-i-d-heard-you-had-taken-money-before"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat",
           "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-wanted-wanted-so-badly-that-i"
         }
       ],
@@ -150863,60 +150062,6 @@
           "role": "asker",
           "purpose": "conflict-accuse.friend",
           "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-knew-the-person-and-i-told"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-i-knew-the-person-and-i-told"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.friend.i-offered-it-to-you-because-we-re-close-and-i-told"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-d-heard-money-had-gone-that"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-i-was-behind-on-everything-and-i"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-it-was-a-lot-of-money-to"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.friend",
-          "key": "threat",
           "after": "scene-talk.reply-tell.friend.i-offered-you-money-over-wanted-and-you-said-no-you-were"
         }
       ],
@@ -150942,51 +150087,6 @@
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
           "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-wanted-wanted-so-badly-that-i"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-knew-the-person-and-i-told"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-i-knew-the-person-and-i-told"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-offered-the-money-because-i-d-heard-money-had-gone-that"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-i-was-behind-on-everything-and-i"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.accused.i-took-the-money-because-it-was-a-lot-of-money-to"
         }
       ],
       "origin": "authored",
@@ -151011,42 +150111,6 @@
           "purpose": "conflict-accuse.taken",
           "key": "threat",
           "after": "scene-talk.reply-tell.taken.i-wanted-wanted-so-badly-that-i-stopped-asking-whether-i-should"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.taken",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.taken.i-knew-the-person-and-i-told-myself-it-was-a-favor"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.taken",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.taken.i-d-heard-money-had-gone-that-way-before-and-i-let"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.taken",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.taken.i-was-behind-on-everything-and-i-couldn-t-see-another-way"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "conflict-accuse.taken",
-          "key": "threat",
-          "after": "scene-talk.reply-tell.taken.it-was-a-lot-of-money-to-me-and-i-didn-t"
         }
       ],
       "origin": "authored",
