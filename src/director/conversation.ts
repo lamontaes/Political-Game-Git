@@ -140,7 +140,6 @@ import {
   bribeRefusedBy,
   bribeRoleOf,
 } from "../core2/modules/justice";
-import { dollars } from "../english/bill-sections";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { answerInTalk } from "./scene-talk";
 import {
@@ -1301,8 +1300,8 @@ function caseFacts(
   ) as { facts?: Readonly<Record<string, string>> } | undefined;
   if (pretrial?.facts?.decision === "held") facts.held = fact("yes");
   else if (Number(pretrial?.facts?.bailMinor) > zero)
-    // Their own bail and fine are said exactly: they know the figure.
-    facts.bail = fact(dollars(Number(pretrial!.facts!.bailMinor)));
+    // Bail and fine are said as people say money (Words lead, Nov 14).
+    facts.bail = fact(moneySaid(Number(pretrial!.facts!.bailMinor)));
   const sentence = row.sentenceId
     ? (api.table("sentences").get(row.sentenceId) as
         | {
@@ -1322,7 +1321,7 @@ function caseFacts(
     if ((sentence.probationMonths ?? zero) > zero)
       facts.probation = fact(lengthSaid(sentence.probationMonths!), ids);
     if ((sentence.fineMinor ?? zero) > zero)
-      facts.fine = fact(dollars(sentence.fineMinor!), ids);
+      facts.fine = fact(moneySaid(sentence.fineMinor!), ids);
   }
   return facts;
 }

@@ -35,6 +35,7 @@ import {
   CORRUPTION_MODULE_ID,
   type CrimeRecord,
 } from "../../src/core2/modules/corruption";
+import { servingTermsOf } from "../../src/core2/modules/offices";
 import { drawPlace } from "../core2-year/place";
 import { gameStartDate } from "../../src/core2/game-start";
 import bank from "../../data/english/parts/conversation.json";
@@ -45,6 +46,15 @@ const option = (name: string, fallback: string) => {
 };
 const seed = option("seed", "court-case");
 const draws = Number(option("draws", "3"));
+// The staged evidence: strength of the case against them, the bribe's amount,
+// and whether the offer was refused (the official reported it). The same
+// seed names the same place, so cases vary on one pinned place.
+const strength = Number(option("strength", "1"));
+const amountMinor = Number(option("amount", "100000"));
+const refused = option("refused", "no") === "yes";
+// Money on hand the accused can put into a defense (the justice engine's own
+// reading of a person's cash against a defense's cost), in dollars; staged.
+const liquid = option("liquid", "");
 const KINDS = new Set(["charge", "conviction", "acquittal"]);
 const bearings = new Map(
   (bank.parts as { key: string; bearing?: string }[]).map((row) => [
@@ -89,18 +99,28 @@ for (let draw = 0; draw < draws; draw += 1) {
     console.log("  no adult housemate to charge in this place; skipped");
     continue;
   }
+  if (liquid !== "")
+    core.people.get(accused)!.liquidMinor = Number(liquid) * 100;
   const table = (name: string) =>
     api.moduleState(JUSTICE_MODULE_ID).table(name);
+  // An official who is not the accused or the player: the one who refused.
+  const otherId = [...core.people.keys()].find(
+    (id) =>
+      id !== accused &&
+      id !== playerId &&
+      core.people.get(id)?.alive &&
+      servingTermsOf(api, id).length > 0,
+  );
   const crime: CrimeRecord = {
     id: `crime:court-case:${seed}:${draw}`,
     kind: "bribe",
     date: core.date,
     offererId: accused,
-    officialId: playerId,
-    amountMinor: 100_000,
+    officialId: refused ? (otherId ?? playerId) : playerId,
+    amountMinor,
     subjectId: "",
     offered: true,
-    taken: true,
+    taken: !refused,
     reasons: {},
   } as CrimeRecord;
   api
@@ -117,7 +137,7 @@ for (let draw = 0; draw < draws; draw += 1) {
     date: core.date,
     reasons: {},
     targets: [
-      { personId: accused, crimeIds: [crime.id], evidence: [], strength: 1 },
+      { personId: accused, crimeIds: [crime.id], evidence: [], strength },
     ],
     status: "open",
   };
@@ -125,7 +145,7 @@ for (let draw = 0; draw < draws; draw += 1) {
   chargeDecision(api, investigation.id);
   const caseId = `case:${investigation.id}:${accused}`;
   console.log(
-    `  STAGED on ${core.date}: ${nameOf(core, accused)} (${accused}) paid a bribe (${crime.id}); the justice engine's own charging step made ${caseId}`,
+    `  STAGED on ${core.date}: ${nameOf(core, accused)} (${accused}) paid a bribe (${crime.id}; strength ${strength}, amount ${amountMinor / 100}, ${refused ? "refused and reported" : "taken"}); the justice engine's own charging step made ${caseId}`,
   );
   const told = new Set<string>();
   const tell = (advance = true) => {
@@ -178,6 +198,7 @@ for (let draw = 0; draw < draws; draw += 1) {
     }
   };
   tell(false);
+  tell();
   const charged = table("cases").get(caseId) as unknown as CaseRow;
   if (charged.trialDate) {
     advanceCore(core, addDays(makeIsoDate(charged.trialDate), 1));

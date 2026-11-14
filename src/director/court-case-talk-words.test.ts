@@ -65,7 +65,7 @@ describe("a court case told through the composer", () => {
     ][] = [
       [
         "charge-reply-back",
-        ["ask", "comfort", "promise", "blame"],
+        ["ask", "comfort", "blame"],
         [
           told(["offense", "plea"]),
           { ...told(["offense", "trial"]), bail: fact("$5,000") },
@@ -74,7 +74,7 @@ describe("a court case told through the composer", () => {
       ],
       [
         "conviction-reply-back",
-        ["ask", "comfort", "promise", "blame"],
+        ["ask", "comfort", "blame"],
         [
           told(["offense", "term"]),
           told(["offense", "fine"]),
@@ -109,7 +109,7 @@ describe("a court case told through the composer", () => {
           "told-plea": fact("yes"),
           official: fact("someone on the Starr County Board of Commissioners"),
         },
-        stage: "ask",
+        stage: "happened",
         momentKey: `court:${at}`,
       });
       heard.add(back!.text);

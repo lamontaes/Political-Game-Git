@@ -7937,12 +7937,6 @@
         },
         {
           "choice": "ask",
-          "move": "charge-reply-answer-ask",
-          "role": "answer",
-          "subject": "charge-reply"
-        },
-        {
-          "choice": "ask",
           "move": "victimization-reply-answer-ask",
           "role": "answer",
           "subject": "victimization-reply"
@@ -7953,6 +7947,13 @@
           "requiresFacts": ["guarded"],
           "role": "answer",
           "subject": "eviction"
+        },
+        {
+          "move": "charge-reply-answer-happened",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "happened",
+          "requiresFacts": ["official"]
         }
       ]
     },
@@ -12348,6 +12349,12 @@
           "subject": "acquittal-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
         }
       ],
       "transcriptsUsing": 5,
@@ -12727,22 +12734,22 @@
       }
     },
     {
-      "key": "conversation.charge-reply-answer-promise.i-ll-stand-by-you",
-      "move": "charge-reply-answer-promise",
+      "key": "conversation.charge-reply-answer-comfort.i-ll-stand-by-you",
+      "move": "charge-reply-answer-comfort",
       "kind": "spoken",
       "text": "I'll stand by you.",
       "uses": [
         {
-          "move": "charge-reply-answer-promise",
+          "move": "charge-reply-answer-comfort",
           "subject": "charge-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         },
         {
-          "move": "conviction-reply-answer-promise",
+          "move": "conviction-reply-answer-comfort",
           "subject": "conviction-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         }
       ],
       "origin": "authored",
@@ -12754,43 +12761,22 @@
       }
     },
     {
-      "key": "conversation.charge-reply-answer-promise.i-ll-help-however-i-can",
-      "move": "charge-reply-answer-promise",
-      "kind": "spoken",
-      "text": "I'll help however I can.",
-      "uses": [
-        {
-          "move": "charge-reply-answer-promise",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "promise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "promise",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.charge-reply-answer-promise.you-re-not-alone-in-this",
-      "move": "charge-reply-answer-promise",
+      "key": "conversation.charge-reply-answer-comfort.you-re-not-alone-in-this",
+      "move": "charge-reply-answer-comfort",
       "kind": "spoken",
       "text": "You're not alone in this.",
       "uses": [
         {
-          "move": "charge-reply-answer-promise",
+          "move": "charge-reply-answer-comfort",
           "subject": "charge-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         },
         {
-          "move": "conviction-reply-answer-promise",
+          "move": "conviction-reply-answer-comfort",
           "subject": "conviction-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         }
       ],
       "origin": "authored",
@@ -12798,60 +12784,6 @@
       "date": "2026-10-19",
       "tag": {
         "move": "promise",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.charge-reply-answer-ask.what-are-they-saying",
-      "move": "charge-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What are they saying?",
-      "uses": [
-        {
-          "move": "charge-reply-answer-ask",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.charge-reply-answer-ask.what-do-you-need",
-      "move": "charge-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What do you need?",
-      "uses": [
-        {
-          "move": "charge-reply-answer-ask",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "ask"
-        },
-        {
-          "move": "conviction-reply-answer-ask",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "ask"
-        },
-        {
-          "move": "acquittal-reply-answer-ask",
-          "subject": "acquittal-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
         "key": "threat"
       }
     },
@@ -13120,16 +13052,16 @@
       }
     },
     {
-      "key": "conversation.conviction-reply-answer-promise.i-ll-be-here-when-it-s-over",
-      "move": "conviction-reply-answer-promise",
+      "key": "conversation.conviction-reply-answer-comfort.i-ll-be-here-when-it-s-over",
+      "move": "conviction-reply-answer-comfort",
       "kind": "spoken",
       "text": "I'll be here when it's over.",
       "uses": [
         {
-          "move": "conviction-reply-answer-promise",
+          "move": "conviction-reply-answer-comfort",
           "subject": "conviction-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         }
       ],
       "origin": "authored",
@@ -13538,7 +13470,7 @@
           "subject": "conviction-say",
           "role": "core",
           "requiresFacts": ["offense", "fine"],
-          "excludesFacts": ["term"]
+          "excludesFacts": ["term", "probation"]
         }
       ],
       "piece": {
@@ -13858,16 +13790,16 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.charge-reply-answer-promise.i-m-with-you",
-      "move": "charge-reply-answer-promise",
+      "key": "conversation.charge-reply-answer-comfort.i-m-with-you",
+      "move": "charge-reply-answer-comfort",
       "kind": "spoken",
       "text": "I'm with you.",
       "uses": [
         {
-          "move": "charge-reply-answer-promise",
+          "move": "charge-reply-answer-comfort",
           "subject": "charge-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         }
       ],
       "bearing": "tender",
@@ -13895,16 +13827,16 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.conviction-reply-answer-promise.i-ll-be-here",
-      "move": "conviction-reply-answer-promise",
+      "key": "conversation.conviction-reply-answer-comfort.i-ll-be-here",
+      "move": "conviction-reply-answer-comfort",
       "kind": "spoken",
       "text": "I'll be here.",
       "uses": [
         {
-          "move": "conviction-reply-answer-promise",
+          "move": "conviction-reply-answer-comfort",
           "subject": "conviction-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         }
       ],
       "bearing": "tender",
@@ -13982,8 +13914,8 @@
           "move": "charge-reply-back-core",
           "subject": "charge-reply-back",
           "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["official", "told-plea"]
+          "stages": ["happened"],
+          "requiresFacts": ["official"]
         }
       ],
       "piece": {
@@ -13992,54 +13924,6 @@
         "required": true
       },
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.charge-reply-back-core.can-t-say-much",
-      "move": "charge-reply-back-core",
-      "kind": "spoken",
-      "text": "Can't say much.",
-      "uses": [
-        {
-          "move": "charge-reply-back-core",
-          "subject": "charge-reply-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["told-plea", "plea"]
-        }
-      ],
-      "piece": {
-        "of": "charge-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.charge-reply-back-core.out-on-bail",
-      "move": "charge-reply-back-core",
-      "kind": "spoken",
-      "text": "Out on bail.",
-      "uses": [
-        {
-          "move": "charge-reply-back-core",
-          "subject": "charge-reply-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["bail"]
-        }
-      ],
-      "piece": {
-        "of": "charge-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
       "date": "2026-11-14"
@@ -14124,7 +14008,7 @@
           "move": "charge-reply-back-core",
           "subject": "charge-reply-back",
           "role": "core",
-          "stages": ["promise"]
+          "stages": ["comfort"]
         }
       ],
       "piece": {
@@ -14181,53 +14065,6 @@
         "required": true
       },
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.charge-reply-back-core.nothing-to-add",
-      "move": "charge-reply-back-core",
-      "kind": "spoken",
-      "text": "Nothing to add.",
-      "uses": [
-        {
-          "move": "charge-reply-back-core",
-          "subject": "charge-reply-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["told-plea"]
-        }
-      ],
-      "piece": {
-        "of": "charge-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.conviction-reply-back-core.soon-enough",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "Soon enough.",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["ask"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
       "origin": "authored",
       "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
       "date": "2026-11-14"
@@ -14348,53 +14185,6 @@
         "required": true
       },
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.conviction-reply-back-core.counting-on-that",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "Counting on that.",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["promise"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.conviction-reply-back-core.when-i-m-out",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "When I'm out.",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["promise"],
-          "requiresFacts": ["told-term"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
       "origin": "authored",
       "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
       "date": "2026-11-14"
@@ -14582,6 +14372,637 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.court-s-trial",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Court's {trial}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.sentencing-comes-next",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Sentencing comes next.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-wait",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I wait.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.out-on-bail",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Out on bail.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["bail"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.haven-t-decided",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Haven't decided.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["fight"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.they-said-no-they-turned-me-in",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "They said no. They turned me in.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["happened"],
+          "requiresFacts": ["official"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.pay-and-done",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Pay and done.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.probation-then-done",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Probation, then done.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.nothing-more",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Nothing more.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.i-got-charged-with-offense-i-m-not-fighting-it",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "I got charged with {offense}. I'm not fighting it.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.i-m-pleading-guilty-to-offense",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "I'm pleading guilty to {offense}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.i-m-charged-with-offense-trial-s-trial",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "I'm charged with {offense}. Trial's {trial}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.they-re-saying-offense-i-ll-see-them-in-court-trial",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "They're saying {offense}. I'll see them in court {trial}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.they-re-saying-i-m-guilty-of-offense",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "They're saying I'm guilty of {offense}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["plea", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.bad-news-i-m-charged-with-offense",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "Bad news. I'm charged with {offense}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["plea", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-got-term-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I got {term} for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.they-sentenced-me-to-term-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "They sentenced me to {term} for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-got-fined-fine-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I got fined {fine} for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "fine"],
+          "excludesFacts": ["term", "probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.offense-guilty-the-fine-is-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "{offense}. Guilty. The fine is {fine}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "fine"],
+          "excludesFacts": ["term", "probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-got-probation-of-probation-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I got {probation} of probation for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation"],
+          "excludesFacts": ["term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.guilty-of-offense-probation-for-probation",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "Guilty of {offense}. Probation for {probation}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-was-convicted-of-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I was convicted of {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["term", "fine", "probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.guilty-of-offense-that-s-the-verdict",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "Guilty of {offense}. That's the verdict.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["term", "fine", "probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.they-convicted-me-of-offense-anyway-i-fought-it",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "They convicted me of {offense} anyway. I fought it.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "contested"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-say-core.i-m-cleared-of-offense",
+      "move": "acquittal-say-core",
+      "kind": "spoken",
+      "text": "I'm cleared of {offense}.",
+      "uses": [
+        {
+          "move": "acquittal-say-core",
+          "subject": "acquittal-say",
+          "role": "core",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-say-core.it-s-done-not-guilty-of-offense",
+      "move": "acquittal-say-core",
+      "kind": "spoken",
+      "text": "It's done. Not guilty of {offense}.",
+      "uses": [
+        {
+          "move": "acquittal-say-core",
+          "subject": "acquittal-say",
+          "role": "core",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-answer-fight.are-you-going-to-fight-it",
+      "move": "charge-reply-answer-fight",
+      "kind": "spoken",
+      "text": "Are you going to fight it?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-fight",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "fight",
+          "excludesFacts": ["plea", "told-plea", "trial", "told-trial"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
       "date": "2026-11-14"
     },
     {
@@ -16785,12 +17206,6 @@
         },
         {
           "choice": "ask",
-          "move": "charge-reply-answer-ask",
-          "role": "answer",
-          "subject": "charge-reply"
-        },
-        {
-          "choice": "ask",
           "move": "victimization-reply-answer-ask",
           "role": "answer",
           "subject": "victimization-reply"
@@ -17037,12 +17452,6 @@
           "move": "job-lost-reply-answer-ask",
           "role": "answer",
           "subject": "job-lost-reply"
-        },
-        {
-          "choice": "ask",
-          "move": "charge-reply-answer-ask",
-          "role": "answer",
-          "subject": "charge-reply"
         },
         {
           "choice": "ask",
