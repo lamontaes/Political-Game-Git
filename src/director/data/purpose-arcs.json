@@ -3427,12 +3427,24 @@
       },
       "endings": [
         {
+          "id": "heard-out",
+          "label": "You heard the speaker out",
+          "keeps": "none",
+          "when": { "reply": ["leave"] }
+        },
+        {
           "id": "stood-with",
           "label": "You stood with the speaker",
           "keeps": "promise",
           "when": {
             "anyReply": ["agree"]
           }
+        },
+        {
+          "id": "held-against",
+          "label": "You held your ground",
+          "keeps": "relationship-strained",
+          "when": { "reply": ["disagree"], "asker": ["press"] }
         },
         {
           "id": "spoke-against",
@@ -3444,7 +3456,7 @@
         },
         {
           "id": "asked-to-yield",
-          "label": "You asked the speaker to yield",
+          "label": "You asked the speaker a question",
           "keeps": "none",
           "when": {
             "anyReply": ["ask"]
@@ -4096,7 +4108,15 @@
             "move": "accept",
             "carries": "none"
           }
-        ]
+        ],
+        "first": {
+          "tell": "ask",
+          "then": [
+            { "move": "answer", "carries": "lean" },
+            { "move": "tell", "carries": "lean" },
+            { "move": "deflect", "carries": "hedged" }
+          ]
+        }
       },
       "replies": ["agree", "decline"],
       "again": {
@@ -4160,6 +4180,60 @@
         {
           "id": "left-it-open",
           "label": "Left it open",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "witness-stake": {
+      "state": "tell",
+      "replies": ["thank", "ask", "disagree", "deflect"],
+      "follow": {
+        "thank": ["accept"],
+        "ask": ["answer"],
+        "disagree": ["press", "accept"],
+        "deflect": ["press"]
+      },
+      "again": {
+        "answer": ["thank", "disagree", "leave"],
+        "press": ["thank", "disagree", "leave"]
+      },
+      "endings": [
+        {
+          "id": "at-odds",
+          "label": "You told them you see it differently",
+          "keeps": "relationship-strained",
+          "when": {
+            "anyReply": ["disagree"]
+          }
+        },
+        {
+          "id": "brushed-off",
+          "label": "You brushed them off",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "heard-them-out",
+          "label": "You heard them out",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "thanked",
+          "label": "You thanked them for coming",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
           "keeps": "none",
           "when": {}
         }

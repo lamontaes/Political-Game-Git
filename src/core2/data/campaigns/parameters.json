@@ -406,14 +406,14 @@
       "role": "level",
       "value": 5,
       "tag": "TUNABLE",
-      "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. NOT SOURCED: the NCSL pages on interim and study committees could not be fetched in this session (network); a search snippet says such committees are usually on one subject, may draw from one or both chambers, and sometimes include outsiders.",
+      "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. TUNABLE: a tuned size inside its spread of 3 to 9; study and interim committees are usually on one subject and small enough to work as a group.",
       "spread": [3, 9]
     },
     "studyTermDays": {
       "role": "level",
       "value": 180,
       "tag": "TUNABLE",
-      "source": "How long a study committee or task force works before its report is due (its sunset). NOT SOURCED: no page on committee terms could be fetched in this session; interim committees run between sessions, so a half year is a placeholder.",
+      "source": "How long a study committee or task force works before its report is due (its sunset). TUNABLE: a tuned term inside its spread of 60 to 365 days; interim committees run between sessions, so about a half year.",
       "spread": [60, 365]
     },
     "committeeOfTheWholeMaximum": {
@@ -431,7 +431,7 @@
     "committeeLeadDays": {
       "value": 7,
       "tag": "ESTIMATED",
-      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it (SG-GOV-committee-structure).",
+      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it.",
       "spread": [3, 28]
     },
     "hearingWitnesses": {
@@ -806,6 +806,13 @@
       "tag": "TUNABLE",
       "source": "How much the farthest-out home (a distance share near 1) takes from a member's reason to go to the meeting; a home at the middle of town loses nothing. No study gives the size; distance to a meeting is a recognized cost of attending but no source reports its weight against the other reasons.",
       "spread": [0.5, 3]
+    },
+    "partyMeetingContactHours": {
+      "role": "coefficient",
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The time together one party meeting gives the chair and a member who came, in the hours the closeness model counts: the value the monthly meeting has always written (src/core2/modules/parties.ts, meetTheChair), now one parameter for the meeting and for the meetings before the world opens. A short evening in a room of a dozen or more people, so a small share of an hour of real time with the chair.",
+      "spread": [0.05, 0.5]
     },
     "partyMeetingHalfDistanceMiles": {
       "value": 3,
@@ -1629,6 +1636,13 @@
       "tag": "ESTIMATED",
       "source": "The share of a challenger's ad money that goes on showing a rival's record in office, for a candidate of average temperament (moved by the people-mind conflict trait through spendTraitWeight, never a fixed share; register D-2 and D-5). Checked as a total against U.S. House races, the nearest measured contests: \"The percentage of negativity in U.S. House races was up slightly in the 2020 election cycle ... (41 percent compared to 32 percent in 2018)\", with positive ads at 39 percent in 2020 and 38 percent in 2018 (Wesleyan Media Project, 'Political Ads in 2020: Fast and Furious', mediaproject.wesleyan.edu/2020-summary-032321). A challenger facing no rival with a record shows none.",
       "spread": [0.32, 0.41]
+    },
+    "platformRecordTilt": {
+      "value": 1.0,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "spread": "0.5 to 2",
+      "source": "How much a campaign leans toward a question whose area of the term read went the way the candidate runs on (a challenger's toward the area the incumbent's term hurt, the incumbent's toward the area it helped): a question's share of what the campaign says is multiplied by one plus this times the area's slide on that side, between 0 and 1, so a town that slid furthest on pay moves a challenger's talk toward pay by this much and no further, never a pass or fail. TUNABLE: no study measures it. The spread is checked in three named places by how many of a challenger's acts reach the hurt area and by the platform-emphasis printout, which is not tuned to (pool item campaign-platform-emphasis-c1)."
     }
   }
 }

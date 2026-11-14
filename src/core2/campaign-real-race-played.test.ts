@@ -32,11 +32,15 @@
  *     missing, and a gift from anyone with a filing in the player's contest
  *     (the rival's money) is never the evidence;
  * (d) the seat's incumbent, running against the player, changing their
- *     schedule after the player gains (the done-when: "the incumbent
- *     changing their schedule after the player gains"): a `steppedUp` row for
- *     the incumbent's own filing naming the player as the rival ahead, the
- *     poll or word of them it read, hours or door hours gained, and its
- *     `campaign-stepped-up` record.
+ *     schedule exactly when they hear the player gaining: on the eve, read
+ *     the incumbent's reading of the race (`raceReading`, built from what
+ *     people have told them). Where it names the player ahead, a `steppedUp`
+ *     row for the incumbent's own filing naming the player, the record it
+ *     read, hours or door hours gained and its `campaign-stepped-up` record
+ *     must exist; where it does not, the clause prints both shares and no
+ *     step-up row may name the player ahead (a row carries its own positive
+ *     threat). A race where the player trails what the incumbent hears is
+ *     right to show no step-up; one case below stages the player ahead.
  * Every clause is read before election day (`readOn` before the contest's
  * election date).
  *
@@ -69,11 +73,11 @@ import {
   organizedGroupsIn,
   signaturesToGather,
   steppedUpOf,
+  raceReading,
   type CampaignRow,
   type CauseRow,
   type EndorsementRow,
   type GiftRow,
-  type PollRow,
   type SteppedUpRow,
 } from "./modules/campaigns";
 import {
@@ -365,12 +369,54 @@ function playRace(
   );
   if (pick) visit = chooseAtCounter(core, visit, pick.key);
   const file = visit.visit.choices.find((row) => row.action.kind === "file");
-  const platform = candidatePlatform(
+  // The player takes the stand a cause group of the town holds: the group of
+  // the most members that holds one the seat takes up (ties by id), at the
+  // position the group holds. A cause group endorses the platform that
+  // agrees with its stand, so this is the player's own filing choice that
+  // earns the endorsement clause (a) reads, not a record set by hand. (After
+  // the stakes data folded in, the town's natural-resources groups agreed
+  // with the incumbent's platform and no longer with the player's own.)
+  const townAt = (
+    api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("town")
+      .get("town") as unknown as {
+      townPlaceId: string;
+    }
+  ).townPlaceId;
+  const seatQuestions = new Set(contestPositions(api, contest));
+  const stand = organizedGroupsIn(api, townAt)
+    .filter(
+      (g) =>
+        g.kind === "cause-group" &&
+        g.memberIds.length > 1 &&
+        g.stance.some((s) => seatQuestions.has(s.question)),
+    )
+    .sort(
+      (a, b) =>
+        b.memberIds.length - a.memberIds.length ||
+        a.organizationId.localeCompare(b.organizationId),
+    )[0];
+  const ownPlatform = candidatePlatform(
     api,
     me,
     null,
     contestPositions(api, contest),
-  ).map((stance) => `${stance.question}=${stance.position}`);
+  );
+  const standStances = (stand?.stance ?? []).filter((s) =>
+    seatQuestions.has(s.question),
+  );
+  const platform = [
+    ...ownPlatform.filter(
+      (s) => !standStances.some((g) => g.question === s.question),
+    ),
+    ...standStances,
+  ].map((stance) => `${stance.question}=${stance.position}`);
+  notes.push(
+    stand
+      ? `the player takes the stand of ${stand.organizationId} (${stand.memberIds.length} members): ${standStances.map((s) => `${s.question}=${s.position}`).join(", ")}`
+      : "no cause group in town holds a stand the seat takes up",
+  );
   if (file) visit = chooseAtCounter(core, visit, file.key, { platform });
   const filing = governmentView(core, me).filings.find(
     (row) => row.contestId === contest.id,
@@ -796,7 +842,12 @@ function clauseSteppedUp(played: Race): Clause {
     !!getOf(
       api,
       CAMPAIGNS_MODULE_ID,
-      row.sourceKind === "poll" ? "polls" : "rivalWord",
+      {
+        poll: "polls",
+        word: "rivalWord",
+        doors: "doors",
+        told: "pledges",
+      }[row.sourceKind],
       row.sourceRecordId,
     );
   const rivals = queryOf<FilingRow>(
@@ -843,26 +894,21 @@ function clauseSteppedUp(played: Race): Clause {
       found: `in the player's race (incumbent ${incumbent}, filing ${held.id}; ${rows.length} of the incumbent's readings of the player ahead stepped them up, ${others.length} by the other ${rivals.length - 1} rivals): steppedUp ${row.id} on ${row.date}, candidate ${row.candidateId} (the incumbent), read ${row.sourceKind} ${row.sourceRecordId} naming the player ahead (own ${row.ownShare.toFixed(3)}, the player ${row.rivalShare.toFixed(3)}, threat ${row.threat.toFixed(3)}); extra hours ${row.extraHours.toFixed(2)}, extra door hours ${row.extraDoorHours.toFixed(2)}${row.cameHome ? ", came home to the town's doors" : ""}; record ${eventId}${core.durableLog.has(eventId) ? " (kept in the durable log)" : ""}`,
     };
   }
-  const polls = queryOf<PollRow>(
-    api,
-    CAMPAIGNS_MODULE_ID,
-    "polls",
-    "byContest",
-    contest.id,
-  );
+  // No step-up row names the player ahead: right only where the incumbent
+  // did not hear the player ahead on the eve (what people have told them, by
+  // the one rule `raceReading` reads).
+  const incumbentPerson = core.people.get(incumbent)!;
+  const heard = raceReading(api, held.id, incumbentPerson, played.town);
+  const share = (n: number | undefined) => (n ?? 0).toFixed(3);
+  const shares = heard
+    ? `read ${heard.sourceKind} ${heard.sourceRecordId}: the incumbent ${share(heard.ownShare)}, ${heard.rivalId === me ? "the player" : `the best rival ${heard.rivalId ?? "none"}`} ${share(heard.rivalShare)}, threat ${share(heard.threat)}, ${heard.covered ?? "no"} people heard from`
+    : "read nothing (no one in town told them anything)";
+  if (heard?.rivalId === me && heard.threat > 0)
+    return {
+      missing: `the incumbent ${incumbent} (filing ${held.id}) heard the player ahead on the eve (${shares}) and never stepped up (${readings.length} stepped-up rows in the race, ${readings.filter((r) => r.rivalId === me).length} naming the player, ${others.length} by rivals who are not the incumbent, not counted)`,
+    };
   return {
-    missing: `the incumbent ${incumbent} (filing ${held.id}) never stepped up on reading the player ahead (${readings.length} stepped-up rows in the race, ${readings.filter((r) => r.rivalId === me).length} naming the player, ${others.length} by rivals who are not the incumbent, not counted): ${rivals
-      .map((f) => {
-        const word = queryOf<{ contestId?: string }>(
-          api,
-          CAMPAIGNS_MODULE_ID,
-          "rivalWord",
-          "byCandidate",
-          f.personId,
-        ).filter((r) => r.contestId === contest.id).length;
-        return `${f.id} (${f.personId}${f.personId === incumbent ? ", the incumbent" : ""}, ${f.status}): ${polls.filter((p) => p.campaignId === f.id).length} polls, ${word} words of a rival, ${steppedUpOf(api, f.id).length} stepped-up rows`;
-      })
-      .join("; ")}`,
+    found: `the incumbent ${incumbent} (filing ${held.id}) did not hear the player ahead on the eve (${shares}), and no step-up row names the player ahead (${readings.filter((r) => r.rivalId === me).length} stepped-up rows in the race naming the player)`,
   };
 }
 
