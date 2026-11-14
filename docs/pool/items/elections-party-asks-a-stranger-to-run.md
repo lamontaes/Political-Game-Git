@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-jwna62
-pr:
+pr: 9302
 after: parties-opening-chair-knows-no-members
 blocked-on:
 lead: elections
