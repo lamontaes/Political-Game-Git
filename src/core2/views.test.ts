@@ -5,6 +5,7 @@ import { corePlaceStateIdentities } from "./place-lookup";
 import { createLifeCore } from "./life";
 import {
   countedEngagement,
+  lifeShift,
   openingStance,
   stancesOf,
   viewOf,
@@ -147,7 +148,9 @@ describe("political views", () => {
     const abortion =
       "us-policy-positions:civil-family-community.restrict-abortion";
     const wage = "us-policy-positions:labor-workforce.raise-minimum-wage";
-    const unsurveyed = "us-policy-positions:fiscal.cap-property-tax-growth";
+    // No survey item and no recorded circumstance bears on it (data/views/stakes.json).
+    const unsurveyed =
+      "us-policy-positions:technology-privacy.consumer-data-privacy-law";
     for (const { seed, api, views } of towns) {
       const profiled = views.filter(
         (view) => view.faithFromAverage !== undefined,
@@ -160,10 +163,13 @@ describe("political views", () => {
         b.faithFromAverage! < a.faithFromAverage! ? b : a,
       );
       const who = `${seed}: ${most.id} (${most.basis}) and ${least.id} (${least.basis})`;
-      // The same lean, so any difference comes from faith and degree alone.
+      // The same lean, and their own circumstances taken out (`lifeShift`,
+      // tested in life-stakes.test.ts), so any difference comes from faith
+      // and degree alone.
+      const faithAndDegree = (id: string, question: string) =>
+        openingStance(api, id, question, 0.3) - lifeShift(api, id, question);
       const gap = (question: string) =>
-        openingStance(api, most.id, question, 0.3) -
-        openingStance(api, least.id, question, 0.3);
+        faithAndDegree(most.id, question) - faithAndDegree(least.id, question);
       // More religious: more for restricting abortion, less for the $15 wage.
       expect(gap(abortion), who).toBeGreaterThan(0);
       expect(gap(wage), who).toBeLessThan(0);

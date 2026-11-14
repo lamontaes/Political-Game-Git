@@ -21,6 +21,8 @@
  * Views form when first read, so a person filled in later gets theirs too.
  */
 import { isDemoted } from "../counted-groups";
+import { hasStake, stakeShift } from "../life-stake-rule";
+import { countedLifeStake, fullLifeStake } from "../life-stakes";
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
@@ -874,10 +876,10 @@ export function openingRecord(
 }
 
 /**
- * The person's opening stance on a question: where their lean puts them on its
- * axis, plus their stored opening record (what their faith and degree add
- * beyond the lean, CES 2020 loadings). A question the survey has no item for
- * takes the lean alone.
+ * The person's stance on a question before what they have heard: where their
+ * lean puts them on its axis, plus their stored opening record (what their
+ * faith and degree add beyond the lean, CES 2020 loadings), plus what their
+ * own circumstances add today (`lifeShift`).
  */
 export function openingStance(
   api: CoreAPI,
@@ -887,14 +889,34 @@ export function openingStance(
 ): number {
   return (
     personStance(lean, question) +
-    (openingRecord(api, personId, question)?.total ?? v("zero"))
+    (openingRecord(api, personId, question)?.total ?? v("zero")) +
+    lifeShift(api, personId, question)
   );
+}
+
+/**
+ * What a full person's own circumstances add to their stance on a question
+ * today (`life-stakes.ts`): read from their records each day, so the stance
+ * moves when their life does. Zero for a question no recorded circumstance
+ * bears on.
+ */
+export function lifeShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  if (!hasStake(question)) return v("zero");
+  const person = api.state.people.get(personId);
+  return person
+    ? stakeShift(fullLifeStake(api.state as CoreState, person), question)
+    : v("zero");
 }
 
 /**
  * The person's current view on a policy question, -1 to 1: where their
  * opening lean (`lean`, the campaigns engine's, -1 to 1) puts them on the
- * question's axis, plus how far what they have heard since has moved them.
+ * question's axis, what their faith, degree and own circumstances add
+ * (`openingStance`), plus how far what they have heard since has moved them.
  */
 export function viewOn(
   api: CoreAPI,
@@ -927,11 +949,14 @@ export function countedStanceProfile(
 ): StanceProfile {
   const held = profiles.get(api.state) ?? new Map();
   profiles.set(api.state, held);
-  const kept = held.get(voter.id);
-  if (kept) return kept;
-  const out = profileFromAverage(voter, api.state.startedAt, api.state.seed);
-  held.set(voter.id, out);
-  return out;
+  let kept = held.get(voter.id);
+  if (!kept) {
+    kept = profileFromAverage(voter, api.state.startedAt, api.state.seed);
+    held.set(voter.id, kept);
+  }
+  // Their circumstances are read again as their household's record changes.
+  const life = countedLifeStake(api.state as CoreState, voter.id);
+  return life ? { ...kept, life } : kept;
 }
 
 /**

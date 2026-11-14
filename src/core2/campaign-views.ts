@@ -1,8 +1,10 @@
 /**
  * What a voter thinks of a platform: the stand-in for individual views.
  *
- * OPUS-PEOPLE's views engine will give each person their own stance on each
- * question, formed from their life. Until it does (SG-GOV-views-stand-in), a
+ * Each person's stance on a question is partly formed from their own life:
+ * for the questions a recorded circumstance bears on, what their tenure,
+ * income, work, health plan, young children and government job add
+ * (`stakeShift`, `life-stakes.ts`). For the rest (SG-GOV-views-stand-in), a
  * person's lean starts from how their own congressional district voted in
  * 2024 (Clerk of the House), placed by the personality facets the research
  * links to ideology, at the small share the research measures, and by the
@@ -18,6 +20,7 @@ import delegates from "../../data/research/elections/house-delegates-2024.json" 
 import stanceLoadings from "../../data/research/people/opening-stance-loadings.json" with { type: "json" };
 import { axisOf, campaignParameter, type Stance } from "./campaign-data";
 import { stableHash } from "./kernel/ids";
+import { stakeShift, type LifeStake } from "./life-stake-rule";
 import { worldRate } from "./world-draw";
 import type { PersonState } from "./types";
 
@@ -341,6 +344,8 @@ export function publicOffset(
 export interface StanceProfile {
   readonly faithFromAverage?: number;
   readonly collegeFromAverage?: number;
+  /** Their circumstances and how much they weigh their own stake (`life-stakes.ts`), read again as their records change. */
+  readonly life?: LifeStake;
 }
 
 /** The survey's faith and degree loadings by question, read here and by the views engine's opening record. */
@@ -373,9 +378,9 @@ export function loadingShift(
 
 /**
  * A person's or counted group's own stance on a question, in [-1, 1]: their
- * lean along the question's axis and what their faith and degree add. A full
- * person's current view is the views engine's `viewOn`, the same rule with
- * what they have heard since.
+ * lean along the question's axis, what their faith and degree add and what
+ * their own circumstances add (`stakeShift`). A full person's current view is
+ * the views engine's `viewOn`, the same rule with what they have heard since.
  */
 export function groupStance(
   lean: number,
@@ -384,7 +389,12 @@ export function groupStance(
 ): number {
   return Math.max(
     -1,
-    Math.min(1, personStance(lean, question) + loadingShift(profile, question)),
+    Math.min(
+      1,
+      personStance(lean, question) +
+        loadingShift(profile, question) +
+        stakeShift(profile?.life, question),
+    ),
   );
 }
 

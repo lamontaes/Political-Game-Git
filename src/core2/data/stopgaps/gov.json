@@ -79,13 +79,13 @@
   {
     "id": "SG-GOV-views-stand-in",
     "kind": "missing-engine",
-    "file": "src/core2/modules/campaigns.ts",
-    "line": 590,
-    "whatItFakes": "A person's opening stance on a policy question is their lean times the question's measured left-right axis, plus, for the eight questions the CES 2020 has an item for, a stored opening record with its reasons (src/core2/modules/views.ts openingRecord, data/research/people/opening-stance-loadings.json) holding what their faith and four-year degree add beyond the lean. Every other question, and every person with no recorded faith or schooling, opens as the lean alone, and no trait loading exists because the CES has no personality measure.",
+    "file": "src/core2/campaign-views.ts",
+    "line": 5,
+    "whatItFakes": "A person's opening stance on a policy question is their lean times the question's measured left-right axis, plus, for the eight questions the CES 2020 has an item for, a stored opening record with its reasons (src/core2/modules/views.ts openingRecord, data/research/people/opening-stance-loadings.json) holding what their faith and four-year degree add beyond the lean, plus, for the fifteen questions a recorded circumstance bears on (src/core2/data/views/stakes.json: housing, the wage floor, Medicaid, preschool, family leave, public bargaining, the teacher floor and two taxes), what their own life adds (src/core2/life-stakes.ts: whether their household rents, its income fifth, work, a private health plan, a young child at home, a government job, against the nation's average, weighed by their traits). Every other question opens as the lean, faith and degree alone.",
     "why": "OPUS-PEOPLE's views engine (values and stances formed from each person's life) isn't on core2 yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Per-question opening records for the questions the survey did not ask (a source with loadings for each), until every question opens as a stored record formed from the person's life.",
+    "replacement": "A stake row, or a recorded no-stake row, for every question and budget line (cuts 3 and 4 of pool item people-views-stances-from-life), with ballot measures, recalls and officials outside the town reading the same life term; then this row is resolved and the stand-in comment in campaign-views.ts deleted.",
     "status": "open"
   },
   {
