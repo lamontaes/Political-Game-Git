@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1429,
+  "judged": 1428,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -5031,19 +5031,6 @@
         "scene-talk.reply-offer.then-i-ll-meet-them-at-the-door-not-in-the-street"
       ],
       "why": "Going ahead, cancelling and meeting them at the door just restate the opening go-ahead, cancel and meet-them choices."
-    },
-    "1wl9fu2sw88": {
-      "keys": [
-        "scene-talk.follow-answer.evenings-and-saturdays-i-keep-the-lists-you-shake-the-hands",
-        "scene-talk.reply-ask.do-you-really-have-the-time-for-this",
-        "scene-talk.reply-agree.all-right-it-s-yours-to-run",
-        "scene-talk.reply-decline.i-can-t-ask-that-much-of-you",
-        "scene-talk.reply-stall.give-me-a-few-days-with-it",
-        "scene-talk.reply-agree.yes-i-d-rather-it-was-you-than-anyone",
-        "scene-talk.reply-decline.i-d-rather-run-it-myself-for-now",
-        "scene-talk.reply-leave.not-tonight-ask-me-again-this-weekend"
-      ],
-      "why": "Yes, running it yourself and asking again this weekend reword the first accept, decline and few-days options."
     },
     "1wlk7w8tahv": {
       "keys": [

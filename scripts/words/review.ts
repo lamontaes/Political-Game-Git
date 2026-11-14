@@ -131,6 +131,28 @@ export const PLANTS: Readonly<Record<string, readonly Plant[]>> = {
       said: ["The mayor's car is red."],
     },
   ],
+  "player-never-says-unchosen": [
+    {
+      passes: true,
+      before: "Here are your forms. Sign at the bottom.",
+      said: ["Thank you."],
+    },
+    {
+      passes: true,
+      before: "Have a seat. I'll be right with you.",
+      said: ["Thanks."],
+    },
+    {
+      passes: false,
+      before: "Will you vote for the park bond?",
+      said: ["Yes. I'm voting for it, and I'll say so at the meeting."],
+    },
+    {
+      passes: false,
+      before: "Can I count on your endorsement?",
+      said: ["You can. I'll put my name on it today."],
+    },
+  ],
   "later-replies-move-the-talk-on": [
     {
       passes: true,
@@ -196,6 +218,8 @@ export const PLANTS: Readonly<Record<string, readonly Plant[]>> = {
  * rule; words-engine skill).
  */
 export const NOT_JUDGED: Readonly<Record<string, string>> = {
+  "player-never-says-unchosen":
+    "In every entry B is said by the player, after A, as the game's own line rather than a reply the player picked from a list. Pass if B is something anyone would say there whatever they had decided (thanks, a greeting, a goodbye, a plain acknowledgment); fail if B commits the player to a choice, a stance, a promise or a feeling they did not pick. Whether B is well written or fits A is not judged here.",
   "reply-follows-the-line-before":
     "This rule judges only whether B answers or follows from what A just said. Whether B's own two moves follow each other is a different rule and not judged here. B may speak to the scene's own subject (the bill, the vote, the loss) even when A does not repeat it; that alone is never a reason to fail it.",
   "later-replies-move-the-talk-on":

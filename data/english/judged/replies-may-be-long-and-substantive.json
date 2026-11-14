@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1431,
+  "judged": 1427,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -1597,15 +1597,6 @@
         "scene-talk.reply-leave.i-ll-let-the-vote-speak-for-itself"
       ],
       "why": "A question, a defiant line, a boast, a dodge and letting the vote speak give no reason."
-    },
-    "0lqijfen42r": {
-      "keys": [
-        "scene-talk.follow-answer.evenings-and-saturdays-i-keep-the-lists-you-shake-the-hands",
-        "scene-talk.reply-agree.yes-i-d-rather-it-was-you-than-anyone",
-        "scene-talk.reply-decline.i-d-rather-run-it-myself-for-now",
-        "scene-talk.reply-leave.not-tonight-ask-me-again-this-weekend"
-      ],
-      "why": "\"I'd rather it was you than anyone\", running it myself and a delay carry no reason that sustains the talk."
     },
     "0lv404w01g0": {
       "keys": [
@@ -5296,16 +5287,6 @@
       ],
       "why": "A defiant line and an invitation to ask give no reason."
     },
-    "24q2nxr6gqk": {
-      "keys": [
-        "scene-talk.state-request.could-you-cover-for-me-at-employer-on-thursday-afternoon-first-i-ll-do-the-same-for-you",
-        "scene-talk.reply-agree.sure-you-can-count-on-me",
-        "scene-talk.reply-promise.i-ll-make-it-work-you-have-my-word",
-        "scene-talk.reply-ask.what-made-you-think-of-me-for-it",
-        "scene-talk.reply-decline.i-m-sorry-but-i-can-t-make-that-work-this-time"
-      ],
-      "why": "The replies to covering Thursday accept, promise, ask or refuse \"this time\" without any reason."
-    },
     "24ui10s3wux": {
       "keys": [
         "scene-talk.follow-press.everyone-s-waiting-to-see-how-you-lose-do-it-well",
@@ -5549,16 +5530,6 @@
         "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
       ],
       "why": "Hearing it from me, a regret about walking away before the money moved, and leaving it to the prosecutor all state feeling or stance without a reason."
-    },
-    "28qwgvnrfar": {
-      "keys": [
-        "scene-talk.state-request.i-don-t-want-to-help-with-your-campaign-for-office-i-want-to-run-it",
-        "scene-talk.reply-ask.do-you-really-have-the-time-for-this",
-        "scene-talk.reply-agree.all-right-it-s-yours-to-run",
-        "scene-talk.reply-decline.i-can-t-ask-that-much-of-you",
-        "scene-talk.reply-stall.give-me-a-few-days-with-it"
-      ],
-      "why": "Questioning their time, accepting, declining and delaying give no argument."
     },
     "28x0mrz0vyp": {
       "keys": [
@@ -6111,5 +6082,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "1cutxewpaac"
+  "yesHash": "22urqp7y6d7"
 }
