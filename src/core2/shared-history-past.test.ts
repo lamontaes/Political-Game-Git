@@ -16,6 +16,8 @@ import { gameStartDate } from "./game-start";
 import { schoolSpans } from "./past-school";
 import { inSummerBreak, sharedHistory } from "./shared-history";
 import { ageOn } from "./counted-groups";
+import { advanceCore } from "./life";
+import { makeIsoDate } from "./kernel/dates";
 
 /** An age past every school stage: no one this old is enrolled in a K-12 school. */
 const PAST_SCHOOL_AGE = 19;
@@ -96,3 +98,50 @@ it("knows the summer break by the school year's last and first days", () => {
   expect(inSummerBreak("2025-03-01")).toBe(false);
   expect(inSummerBreak("2025-06-10")).toBe(false);
 });
+
+// The summer break turns a school into a past one only for a pair in which
+// someone has left it (Words lead, Nov 14: "two people still students there
+// stay At school with you through the break"). Pinned to Okay, Oklahoma, seed
+// 71bf7933-64b5-4f60-b74a-cbbabb1e3fde: the player (born 2007-03-12) finishes
+// high school in June 2025, their sister Kayla (born 2008-07-15, a senior in
+// the fall) and brother Steven (born 2009-04-15) do not. On July 15, 2025
+// Kayla and Steven are still enrolled together; each of them with the player,
+// who has graduated, went to school together.
+it("a pair still enrolled stays at school together through the summer break (Okay, OK, seed 71bf7933)", () => {
+  const seed = "71bf7933-64b5-4f60-b74a-cbbabb1e3fde";
+  const was = setBookkeeping(false);
+  try {
+    const world = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
+    const { core } = world;
+    const me = world.playerId as string;
+    const where = `${world.place.displayName}, seed ${seed}`;
+    advanceCore(core, makeIsoDate("2025-07-15"));
+    expect(inSummerBreak(core.date), where).toBe(true);
+    const kin = [...core.people.get(me as never)!.familyIds]
+      .map((id) => core.people.get(id as never)!)
+      .filter((p) => schoolSpans(core, p.id).some((s) => !s.final));
+    const kayla = kin.find((p) => p.birthDate === "2008-07-15")!;
+    const steven = kin.find((p) => p.birthDate === "2009-04-15")!;
+    expect(kayla && steven, `${where}: the two younger siblings`).toBeTruthy();
+    const between = (x: string, y: string) =>
+      sharedHistory(core, x as never, y as never).find(
+        (row) => row.kind === "schoolmate",
+      );
+    const pair = between(kayla.id, steven.id);
+    expect(pair, `${where}: Kayla and Steven share a school`).toBeTruthy();
+    expect(pair!.ended, `${where}: both still enrolled`).toBeUndefined();
+    expect(between(me, kayla.id)?.ended, `${where}: the graduate`).toBe(true);
+    expect(between(me, steven.id)?.ended, `${where}: the graduate`).toBe(true);
+    // In the fall the two are still enrolled; the graduate is still not.
+    advanceCore(core, makeIsoDate("2025-10-15"));
+    expect(
+      between(kayla.id, steven.id)!.ended,
+      `${where}: fall`,
+    ).toBeUndefined();
+    expect(between(me, kayla.id)?.ended, `${where}: fall, the graduate`).toBe(
+      true,
+    );
+  } finally {
+    setBookkeeping(was);
+  }
+}, 600_000);
