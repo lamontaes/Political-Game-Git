@@ -1172,6 +1172,18 @@ function holdDebate(
       contestId: contest.id,
       outletId: row.outletId ?? "",
       candidates: String(filings.length),
+      // Who stood in it: every other candidate answers for themselves, and
+      // the player only when they said yes, so a rival speaks of the debate
+      // afterward only to someone who was there.
+      stood: JSON.stringify(
+        filings
+          .map((f) => f.personId)
+          .filter(
+            (id) =>
+              id !== playerId ||
+              api.state.durableLog.has(`${DEBATE_ACCEPTED_EVENT}:${row.id}`),
+          ),
+      ),
     },
   });
   return held;

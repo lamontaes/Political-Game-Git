@@ -972,11 +972,31 @@ function composeBinding(
       );
     });
     const issue = split ? questionAbout(split.question) : null;
-    if (issue)
+    if (issue) {
       facts.issue = {
         text: issue,
         sourceRecordIds: [said.debateId, moment.causeId],
       };
+      // Which side the player said on it on the stage, and which side the
+      // rival said (the sitting's own fact names), so a line can throw the
+      // answer back: "You said you're for it."
+      const rivalSide = theirs.find((row) => row.question === split!.question);
+      const sides = [
+        [split!.position! > P.zero ? "said-for" : "said-against", split],
+        [
+          rivalSide!.position! > P.zero ? "rival-for" : "rival-against",
+          rivalSide,
+        ],
+      ] as const;
+      for (const [name, row] of sides)
+        facts[name] = {
+          text: "yes",
+          sourceRecordIds: [
+            said.debateId,
+            ...(row?.recordId ? [row.recordId] : []),
+          ],
+        };
+    }
   }
   // A donor's gift to the campaign (campaigns.ts recordGift): what they gave,
   // and the lines about a gift need it.

@@ -3796,7 +3796,8 @@
         {
           "match": {
             "label": "cause:event:debate",
-            "selfNamed": true
+            "selfNamed": true,
+            "causeFacts": [{ "key": "stood", "includes": "subject" }]
           },
           "causeEngine": "meetings",
           "causeRecord": "debate",
