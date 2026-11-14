@@ -1601,7 +1601,7 @@
       "key": "care",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
+        "counterpart": "any",
         "seat": "any"
       },
       "roles": [
@@ -1628,11 +1628,11 @@
         {
           "match": {
             "label": "feeling:event:health.serious-illness",
-            "counterpart": "none"
+            "counterpart": "some"
           },
           "bind": {
-            "cared-for": "subject",
-            "caregiver": "kin"
+            "cared-for": "counterpart",
+            "caregiver": "subject"
           },
           "opener": "cared-for"
         }
