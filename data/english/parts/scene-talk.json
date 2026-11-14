@@ -81259,10 +81259,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-the-date-and-the-format-in-hand",
+      "key": "scene-talk.narrate-narrate.name-has-the-date-and-the-format-settled",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has the date and the format in hand.",
+      "text": "{name} has the date and the format settled.",
       "uses": [
         {
           "subject": "scene",

@@ -5530,7 +5530,7 @@
           "\\bs[t]raight ?a[w]ay\\b",
           "\\bc[a]tch(?:ing)? (?:me|you|him|her|t[h]em|us) out\\b|\\bc[a]ught out\\b",
           "\\bput (?:it |t[h]at |t[h]ings )?r[i]ght\\b",
-          "\\bin h[a]nd\\b",
+          "(?<!keys )(?<!keys still )(?<!phone )(?<!pen )(?<!cup )(?<!coffee )(?<!folder )(?<!flyer )(?<!papers )(?<!clipboard )\\bin h[a]nd\\b",
           "\\bthe w[h]ole of\\b",
           "\\bm[i]nd (?:the|how|y[o]ur|you)\\b",
           "\\bf[i]nd(?:ing)? (?:my|y[o]ur|his|her|t[h]eir) f[e]et\\b",
