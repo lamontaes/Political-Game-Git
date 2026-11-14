@@ -14830,10 +14830,10 @@
       }
     },
     {
-      "key": "news.opening-staff.staff-numbers-staff",
+      "key": "news.opening-staff.it-hired-staff-people",
       "move": "organization.opened",
       "kind": "written",
-      "text": "Staff numbers {staff}.",
+      "text": "It hired {staff} people.",
       "uses": [
         {
           "move": "organization.opened",
