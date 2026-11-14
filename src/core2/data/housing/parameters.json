@@ -376,6 +376,7 @@
   "housingCountedSavingsMonths": {
     "value": 60,
     "tag": "TUNABLE",
+    "role": "coefficient",
     "citation": "A counted renter household's own savings count at most this many months of what today's pay leaves after rent and living costs: a household keeps no monthly record, and today's pay overstates earlier years' (SG-WORLD-housing-counted-savings-from-today). Checked against the national first-time buyer count, about 2 to 3 percent of renter households a year (NAR 2025, as housing-renters-buy.test.ts reads it), in a played year at Bastrop LA.",
     "spread": {
       "low": 36,
