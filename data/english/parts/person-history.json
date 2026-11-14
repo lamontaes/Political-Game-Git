@@ -1734,7 +1734,7 @@
     {
       "key": "person-history.story.office.lost.third",
       "move": "story",
-      "text": "{who} lost the race for {office}.",
+      "text": "{who} lost the race for {office} in {year}.",
       "origin": "authored",
       "author": "Fable, the life record gaps (life-record-gaps)",
       "date": "2026-11-10",
@@ -1743,7 +1743,7 @@
     {
       "key": "person-history.story.office.lost.they",
       "move": "story",
-      "text": "They lost the race for {office}.",
+      "text": "They lost the race for {office} in {year}.",
       "origin": "authored",
       "author": "Fable, the life record gaps (life-record-gaps)",
       "date": "2026-11-10",
@@ -1752,7 +1752,7 @@
     {
       "key": "person-history.story.office.lost.i",
       "move": "story",
-      "text": "I lost the race for {office}.",
+      "text": "I lost the race for {office} in {year}.",
       "origin": "authored",
       "author": "Fable, the life record gaps (life-record-gaps)",
       "date": "2026-11-10",
