@@ -21,6 +21,7 @@ import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import { viewQuestionKey } from "./view-learned";
 import type { TreeNode } from "./scene-talk";
 import type { ScheduleEntry } from "./scheduling";
 
@@ -185,22 +186,43 @@ it(`a door the player knocks plays as the player's ask, answered from the knock 
     // Every end is one the purpose names, by the one ending decider.
     const named = ends(scene.talk.tree).map((node) => node.end?.ending?.id);
     expect(named.every(Boolean), `${where}: ${named.join(", ")}`).toBe(true);
+    // A plain door's "what matters" answer is the resident's own record
+    // (Words lead, ruling 72): their strongest question, or that they hold
+    // no view strong enough. Asked, the player learns the question.
+    const plain = scene.purpose.endsWith(".plain");
+    const about = scene.facts.find((row) => row.key === "about");
+    if (plain)
+      expect(
+        Boolean(about) || scene.facts.some((row) => row.key === "no-view"),
+        `${where}: ${scene.facts.map((row) => row.key).join(", ")}`,
+      ).toBe(true);
+    const asked = scene.talk.tree.replies.findIndex(
+      (row) => row.line.move === "ask",
+    );
+    const path = plain && about && asked >= 0 ? asked : 0;
     // The player's first ask is written back as the resident's answer.
-    const replyId = replyInScene(core, director, personId, entry, [0]);
+    const replyId = replyInScene(core, director, personId, entry, [path]);
     expect(replyId, where).toBeTruthy();
     const reply = core.durableLog.get(replyId!)!;
     const answer =
-      scene.talk.tree.replies[0]!.next?.lines.find(
+      scene.talk.tree.replies[path]!.next?.lines.find(
         (row) => row.speakerId === cause.voterId,
       )?.move ?? first.move;
     expect(reply.facts?.move, where).toBe(answer);
     expect(reply.facts?.ending, where).toBe(
-      scene.talk.tree.replies[0]!.next?.end?.ending?.id ??
+      scene.talk.tree.replies[path]!.next?.end?.ending?.id ??
         scene.talk.tree.end?.ending?.id,
     );
+    if (path === asked && about)
+      expect(
+        core.knowledgeByPerson
+          .get(personId)
+          ?.get(viewQuestionKey(cause.voterId))?.value,
+        where,
+      ).toBe(scene.facts.find((row) => row.key === "view-question")?.text);
     process.stdout.write(
       [
-        `DOOR ASK ${where}, run seed ${seed}: ${moment.label}, cause ${cause.id}, filing ${filing.id}, ${petition ? `signed ${signed}` : `warmth after ${cause.warmthAfter.toFixed(2)}`}`,
+        `DOOR ASK ${where}, run seed ${seed}: ${moment.label}, ${scene.purpose}, path ${path}${about ? `, learned ${about.text}` : ""}, cause ${cause.id}, filing ${filing.id}, ${petition ? `signed ${signed}` : `warmth after ${cause.warmthAfter.toFixed(2)}`}`,
         ...scene.talk.narration.map((line) => `Narrator: ${line.text}`),
         `${scene.talk.state.speaker}: ${scene.talk.state.text}`,
         `${first.speaker}: ${first.text}`,

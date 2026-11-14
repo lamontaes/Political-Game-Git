@@ -82,6 +82,11 @@ const out: string[] = [];
 const byChoices = new Map<number, number>();
 const byEndings = new Map<number, number>();
 const dayMax: number[] = [];
+const byTownOffice = new Map<number, number>();
+const matters = new Map<string, number>();
+let mattersFromViews = 0;
+let mattersNoView = 0;
+const townOfficeLines: string[] = [];
 let drawn = 0;
 for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
   const place = drawPlace(seed, `door-played:${attempt}`);
@@ -246,6 +251,65 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
             : ""
         }.\n`,
       );
+      // Ruling 73: lines after the opening that say the town or the office.
+      const said = (key: string) =>
+        scene.facts.find((row) => row.key === key)?.text;
+      const town = said("place");
+      const seat = said("office");
+      // A workplace's own name may hold the town's ("Bethel Campaign Works"):
+      // that is the record, not the town said again.
+      const workplace = said("workplace") ?? said("employer");
+      const says = (said: string) => {
+        const text = workplace ? said.split(workplace).join("") : said;
+        return (town && text.includes(town)) || (seat && text.includes(seat))
+          ? 1
+          : 0;
+      };
+      // The most such lines on any one path through the scene.
+      const sayAgain = (node: TreeNode): number => {
+        const here =
+          node.lines.reduce((sum, line) => sum + says(line.text), 0) +
+          (node.end?.close ? says(node.end.close.text) : 0);
+        let most = 0;
+        for (const reply of node.replies)
+          most = Math.max(
+            most,
+            says(reply.line.text) + (reply.next ? sayAgain(reply.next) : 0),
+          );
+        return here + most;
+      };
+      const after = sayAgain(scene.talk.tree);
+      byTownOffice.set(after, (byTownOffice.get(after) ?? 0) + 1);
+      if (after > 1) {
+        const lines: string[] = [];
+        const list = (node: TreeNode) => {
+          for (const line of [
+            ...node.lines,
+            ...(node.end?.close ? [node.end.close] : []),
+            ...node.replies.map((reply) => reply.line),
+          ])
+            if (says(line.text))
+              lines.push(`${line.parts.join(" ")}: ${line.text}`);
+          for (const reply of node.replies) if (reply.next) list(reply.next);
+        };
+        list(scene.talk.tree);
+        townOfficeLines.push(...lines);
+      }
+      // Ruling 72: what a resident said matters to them, and whether it
+      // came from their views record.
+      const tells: string[] = [];
+      const findTell = (node: TreeNode) => {
+        for (const line of node.lines)
+          if (line.move === "tell") tells.push(line.text);
+        for (const reply of node.replies) if (reply.next) findTell(reply.next);
+      };
+      if (scene.purpose.endsWith(".plain")) findTell(scene.talk.tree);
+      const fromViews = scene.facts.some((row) => row.key === "about");
+      for (const text of tells) {
+        matters.set(text, (matters.get(text) ?? 0) + 1);
+        if (fromViews) mattersFromViews += 1;
+        else mattersNoView += 1;
+      }
       const choices = scene.talk.tree.replies.length;
       byChoices.set(choices, (byChoices.get(choices) ?? 0) + 1);
       const ends = scene.talk.endings.length;
@@ -297,6 +361,18 @@ out.push(
     .map(([n, c]) => `${n}: ${c}`)
     .join(
       ", ",
-    )}. Most repeated line within one day, by day: ${dayMax.join(", ")}.\n`,
+    )}. Most repeated line within one day, by day: ${dayMax.join(", ")}.\n\nLines after the opening that say the town or the office, the most on any path through a scene: ${[
+    ...byTownOffice,
+  ]
+    .sort((a, b) => a[0] - b[0])
+    .map(([n, c]) => `${n}: ${c} scenes`)
+    .join(
+      ", ",
+    )}.\n\n${townOfficeLines.map((line) => `- ${line}`).join("\n")}\n\nWhat matters, asked at a plain door: ${matters.size} distinct answers in ${mattersFromViews + mattersNoView}; ${mattersFromViews} name the resident's own question from their views record, ${mattersNoView} say they hold no view strong enough.\n\n${[
+    ...matters,
+  ]
+    .sort((a, b) => b[1] - a[1])
+    .map(([t, n]) => `- ${n}: ${t}`)
+    .join("\n")}\n`,
 );
 process.stdout.write(out.join("\n"));

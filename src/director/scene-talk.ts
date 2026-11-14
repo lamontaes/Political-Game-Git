@@ -1062,27 +1062,27 @@ export function composeSceneTalk(
           next.end = { outcome: outcomeOf(last?.move ?? first.move) };
           node.replies.push({ line, next });
         }
-        if (node.replies.length >= two) {
-          root.replies.push({ line: opener, next: node });
-          count += one + node.replies.length;
-          const [ledThen] = [...node.replies].sort(
-            (a, b) =>
-              leanOf(core, b.line.move, askedTraits) -
-                leanOf(core, a.line.move, askedTraits) ||
-              stableHash(`${scene}:middle:${a.line.move}`).localeCompare(
-                stableHash(`${scene}:middle:${b.line.move}`),
-              ),
-          );
-          if (ledThen) {
-            ledThen.line.chosen = true;
-            middleLed.set(node, ledThen);
-          }
-        } else
-          gap(
-            "follow",
-            ask.middle.then.map((row) => row.move).join("/"),
-            told.move,
-          );
+        // Fewer than two replies to what they told is no choice: the scene
+        // ends on what they said (one with nothing to name says so, ruling
+        // 72), and the ending reads the first answer.
+        if (node.replies.length < two) {
+          node.replies = [];
+          node.end = { outcome: outcomeOf(first.move) };
+        }
+        root.replies.push({ line: opener, next: node });
+        count += one + node.replies.length;
+        const [ledThen] = [...node.replies].sort(
+          (a, b) =>
+            leanOf(core, b.line.move, askedTraits) -
+              leanOf(core, a.line.move, askedTraits) ||
+            stableHash(`${scene}:middle:${a.line.move}`).localeCompare(
+              stableHash(`${scene}:middle:${b.line.move}`),
+            ),
+        );
+        if (ledThen) {
+          ledThen.line.chosen = true;
+          middleLed.set(node, ledThen);
+        }
       } else gap("follow", ask.middle.ask, first.move);
     }
     // One button is not a choice: a scene whose middle can be worded never

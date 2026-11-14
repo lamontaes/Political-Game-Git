@@ -875,11 +875,22 @@ function sceneEndingMoments(
           id,
           date: reply.date as IsoDate,
           causeId: id,
-          // A promise given only as "I'll look at it" is told as that.
+          // A promise made on someone's own question is told by its name
+          // (ruling 72, a door); one given only as "I'll look at it" is told
+          // as that.
           causeKind:
-            keeps === "promise" && reply.facts?.firmness === "vague"
-              ? "scene-ending:vague-promise"
-              : `scene-ending:${keeps}`,
+            keeps === "promise" && typeof reply.facts?.about === "string"
+              ? "scene-ending:view-promise"
+              : keeps === "promise" && reply.facts?.firmness === "vague"
+                ? "scene-ending:vague-promise"
+                : `scene-ending:${keeps}`,
+          ...(keeps === "promise" && typeof reply.facts?.about === "string"
+            ? {
+                actFacts: {
+                  about: { text: reply.facts.about, sourceRecordIds: [id] },
+                },
+              }
+            : {}),
           counterpartIds: [otherId as PersonId],
           selfNamed: true,
           hindsight: zero,
