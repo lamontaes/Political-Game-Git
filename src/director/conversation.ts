@@ -842,8 +842,7 @@ const NEWS_KINDS: Readonly<Record<string, string>> = {
 };
 
 // A counted household evicted and filled in later holds its case and status
-// row but no such moment, so its people never tell it.
-// stopgapId: SG-WORDS-eviction-moment-at-fill-in
+// row but no such moment: `evictionSubjects` reads the case from the status row.
 const EVICTION_LABEL = "feeling:event:housing.eviction";
 const EVICTION_EVENT = "event:housing.eviction:";
 
@@ -879,16 +878,14 @@ function evictionSubjects(
     speaker.familyIds.has(listenerId) ||
     core.people.get(listenerId)?.familyIds.has(speakerId) === true;
   if (!close && !saysName(core, speakerId, listenerId)) return [];
-  const evicted = [
+  const moment = [
     ...recentMoments(core, director, speakerId),
     ...(together ? recentMoments(core, director, listenerId) : []),
   ].find(
     // The record is the household's: it may name the other members too.
-    (moment) =>
-      moment.label === EVICTION_LABEL &&
-      moment.causeId.startsWith(EVICTION_EVENT),
+    (m) => m.label === EVICTION_LABEL && m.causeId.startsWith(EVICTION_EVENT),
   );
-  if (!evicted || !core.modules.has(HOUSING_MODULE_ID)) return [];
+  if (!core.modules.has(HOUSING_MODULE_ID)) return [];
   // A child of the house does not tell it.
   if (
     ageOnDate(makeIsoDate(speaker.birthDate), makeIsoDate(core.date)) <
@@ -896,6 +893,23 @@ function evictionSubjects(
   )
     return [];
   const housing = coreAPI(core as CoreState).moduleState(HOUSING_MODULE_ID);
+  // A household evicted while counted and filled in later has no moment, but
+  // its housing status row names the case, and the case holds the day it was
+  // removed and its event id (event:housing.eviction:<caseId>).
+  const onRecord = (() => {
+    if (moment) return undefined;
+    const held = housing.table("statuses").get(speaker.householdId) as
+      { caseId?: string } | undefined;
+    const kept = held?.caseId
+      ? (housing.table("cases").get(held.caseId) as
+          { stage?: string; removedAt?: string } | undefined)
+      : undefined;
+    return kept?.stage === "removed" && kept.removedAt
+      ? { causeId: `${EVICTION_EVENT}${held!.caseId}`, date: kept.removedAt }
+      : undefined;
+  })();
+  const evicted = moment ?? onRecord;
+  if (!evicted) return [];
   const caseId = evicted.causeId.slice(EVICTION_EVENT.length);
   const row = housing.table("cases").get(caseId) as
     | {
