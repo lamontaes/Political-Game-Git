@@ -687,11 +687,9 @@ export function counterNarration(
   visit: FilingVisit,
   clerk: { title: string; recordId: string },
   /**
-   * The player's filing at this counter, when there is one: still gathering
-   * signatures, they are back with the petition; already on the ballot, they
-   * are back with nothing left to bring. Without one, this is their first
-   * visit, to ask for the papers (owner, Nov 1: "You filled out the forms
-   * there").
+   * The player's filing at this counter, when there is one: they are back
+   * for another race. Without one, this is their first visit, to ask for the
+   * papers (owner, Nov 1: "You filled out the forms there").
    */
   filing?: { id: string; status: string } | null,
   /** The minute of the day the player walks in, so the narrator can name the day. */
@@ -710,13 +708,8 @@ export function counterNarration(
       : {}),
     ...(filing
       ? {
-          // Back for another race while the first is filed: a return,
-          // not the petition's handover.
-          [visit.contests.length
-            ? "back-again"
-            : filing.status === "petitioning"
-              ? "returning"
-              : "on-ballot"]: {
+          // Back for another race while the first is filed: a return.
+          "back-again": {
             text: "yes",
             sourceRecordIds: [filing.id],
           },

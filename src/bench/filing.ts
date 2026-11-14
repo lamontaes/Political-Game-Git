@@ -322,32 +322,25 @@ export function openBenchFilingVisit(
     visit,
     filedWith,
     place,
-    // A first visit asks for the papers; a filing here still gathering
-    // signatures brings the petition back, and one already on the ballot
-    // comes back with nothing to bring, each by its record.
+    // A first visit asks for the papers; back for another race with one
+    // already filed here, the clerk opens from that filing.
     // The clerk's office is named one way, from the place's filing record
     // (Fable A, Nov 13, rule 8: "Town clerk" in a town, never "City Clerk"
     // beside it); the clerk's own title only where that record names a choice.
-    // A petition with no signature on it yet is not "taken back" to the
-    // clerk: the clerk's own line says where it stands, and no narration
-    // claims a handover (Thompson Springs, Utah, seed w3-filing-4).
-    intro:
-      clerkRow && !(petition && petition.signed === 0)
-        ? counterNarration(
-            core,
-            visit,
-            saidOffice(filedWith, contests)
-              ? { ...clerkRow, title: saidOffice(filedWith, contests)! }
-              : clerkRow,
-            // The player's own filing is the visit's business only when no
-            // race is left here to file for; with races left, the visit is
-            // for one of them, never "back with your petition" (Miracle
-            // Valley, Arizona, seed w3-return-1); back for one of them, it
-            // is a return.
-            here ?? (back ? mineHere : null),
-            minuteOfDay,
-          )
-        : [],
+    intro: clerkRow
+      ? counterNarration(
+          core,
+          visit,
+          saidOffice(filedWith, contests)
+            ? { ...clerkRow, title: saidOffice(filedWith, contests)! }
+            : clerkRow,
+          // The visit is for a race left here to file for, never "back with
+          // your petition" (Miracle Valley, Arizona, seed w3-return-1); with
+          // a filing already here, it is a return.
+          back ? mineHere : null,
+          minuteOfDay,
+        )
+      : [],
     backdrop,
     people: peopleHere(core, backdrop.file, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
