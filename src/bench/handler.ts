@@ -81,6 +81,7 @@ import {
   ordersView,
   deskView,
   meetingAdjourn,
+  meetingAttend,
   meetingItem,
   meetingSpeak,
   meetingSceneView,
@@ -1453,6 +1454,25 @@ const ROUTES: readonly Route[] = [
           state.player.packet?.at.minuteOfDay ?? 18 * 60,
         ),
       );
+      return;
+    },
+  },
+  {
+    // A resident marks a body's posted meeting to attend, or takes the mark back (Calendar).
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/meeting/attend",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      meetingAttend(
+        requireCore(),
+        url.searchParams.get("officeId") ?? "",
+        url.searchParams.get("date") ?? "",
+        url.searchParams.get("attend") === "true",
+      );
+      send(200, {
+        date: requireCore().date,
+        items: calendarItems(requireCore(), state.player.personId),
+      });
       return;
     },
   },

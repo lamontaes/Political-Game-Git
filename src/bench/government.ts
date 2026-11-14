@@ -22,11 +22,11 @@ import { lawChain } from "../core2/modules/laws";
 import { repealFor } from "./legislature";
 import { LAW_SERIES } from "../core2/laws-in-force";
 import {
+  atLargeGroup,
   checkEligibility,
   fileCandidacy,
   filingOfficeFor,
   filingWindowOpen,
-  incumbentOf,
   playerContests,
   playerMayFileFor,
   standing,
@@ -412,14 +412,22 @@ export function localRaces(core: CoreState) {
   // The viewer's room, for the candidates' headshots (the same faces the
   // People map draws).
   const place = facePlace(core, core.playerId ?? undefined);
+  // A body's at-large seats up together are one race (the voting engine
+  // counts them together and seats the top finishers, `atLargeGroup`): the
+  // screen shows it once, as its first contest, the one the player files for,
+  // with everyone filed for any of its seats.
   const races = contests
     .filter((contest) => contest.electionDate === date)
-    .map((contest) => {
-      const filers = (
-        elections
-          .table("filings")
-          .query("byContest", [contest.id]) as unknown as FilingRow[]
-      )
+    .map((contest) => ({ contest, group: atLargeGroup(api, contest) }))
+    .filter(({ contest, group }) => group[0]!.id === contest.id)
+    .map(({ contest, group }) => {
+      const filers = group
+        .flatMap(
+          (seat) =>
+            elections
+              .table("filings")
+              .query("byContest", [seat.id]) as unknown as FilingRow[],
+        )
         .filter(standing)
         .map((row) => {
           const who = candidateIdentity(api, row.personId);
@@ -450,6 +458,9 @@ export function localRaces(core: CoreState) {
       return {
         contestId: contest.id,
         title: raceTitle(contest.title, contest.district),
+        // How many seats the race fills, and every contest it counts.
+        seats: group.length,
+        contestIds: group.map((seat) => seat.id),
         electionDate: contest.electionDate,
         filingDeadline: contest.filingDeadline,
         // The day filing opens, from the contest's record: null where the
@@ -472,19 +483,6 @@ export function localRaces(core: CoreState) {
         lastTime: lastTimeOf(api, contest.id),
         filers,
       };
-    })
-    // Two seats of one office on the ballot (two council seats) read the same;
-    // each is told apart by whoever holds it now, from its term record.
-    .map((race, _at, all) => {
-      if (all.filter((other) => other.title === race.title).length < 2)
-        return race;
-      const holder = incumbentOf(api, race.contestId);
-      return holder
-        ? {
-            ...race,
-            title: `${race.title} (${holder.identity.givenName} ${holder.identity.familyName})`,
-          }
-        : race;
     })
     .sort(
       (a, b) =>

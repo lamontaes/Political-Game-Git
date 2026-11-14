@@ -136,7 +136,7 @@ const SMALL = [
   "nine",
 ];
 /** A count as a paper prints it: one through nine in words, then "1,250". */
-const count = (value: number) =>
+export const count = (value: number) =>
   SMALL[Math.round(value)] ??
   new Intl.NumberFormat("en-US").format(Math.round(value));
 const ORDINALS = [

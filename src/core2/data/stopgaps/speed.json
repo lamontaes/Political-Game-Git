@@ -8,8 +8,10 @@
     "why": "The owner asked for 20 years in seconds, accepted if the result makes sense in the end (Nov 8, 1:58 a.m.); a campaign's town halls, speeches and doors are most of an election year's time.",
     "addedBy": "speed",
     "addedAt": "2026-11-08",
-    "replacement": "A stride engine that steps the whole day loop in months for people nobody is watching; the campaign then reads the aggregate effect of its spending and reach.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A stride engine that steps the whole day loop in months for people nobody is watching; the campaign then reads the aggregate effect of its spending and reach.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-SPEED-hearer-groups",
@@ -20,15 +22,17 @@
     "why": "Owner, Nov 9: \"not to track everything at every day\"; the level-of-detail design (docs/speed/off-screen-campaigns-as-results.md, stage 1 step 1). Per-listener speech delivery was most of a campaign event's cost.",
     "addedBy": "speed",
     "addedAt": "2026-11-09",
-    "replacement": "Opening a grouped hearer builds their own detail (that they came, what they heard) from the group's result and the record ids (step 3), and a household retelling read by group.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Opening a grouped hearer builds their own detail (that they came, what they heard) from the group's result and the record ids (step 3), and a household retelling read by group.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-SPEED-results-mode-daily-work",
     "kind": "partial-model",
     "file": "src/core2/life.ts",
     "line": 589,
-    "whatItFakes": "A day in results mode (time nobody watches) runs only the module calendar's dated work and the day's compaction: no module's daily work, no planned acts, no person due to act and no end-of-day hooks. On the first of each month the engines with a monthly step catch up: finance settles the budgets, business reviews, bills and buyers' purchases that fell due; health and renewal run births, illness and deaths (part 2); the residents engine pays counted households, and the jobs, economy and place-prices engines open so their dated work moves prices, pay and hiring (part 3). Still not done in a skipped year: a full worker records no shift and is paid nothing (SG-SPEED-results-mode-work-attendance), people do not move or pair up, nobody campaigns, and the engines with no monthly step never open (business, credit, the outcome web, climate, disasters, national events, national opinion, the federal courts, counted demotion, public action, outside budgets and world metrics).",
+    "whatItFakes": "A day in results mode (time nobody watches) runs the dated work and, on the first of each month, each engine's own onResultsMonth step (finance, health, renewal, residents, place-prices, jobs, macro, grievance); no person acts, no module's daily work runs, nobody moves and nobody campaigns in a skipped year.",
     "why": "The fast clock, part 1 (pool item core-fast-clock-part-1-a-results-mode-for-skipped-time): one year day by day took 41.5 seconds in the smallest measured town; the base that the later parts add their monthly steps to.",
     "addedBy": "Fable helper",
     "addedAt": "2026-11-10",

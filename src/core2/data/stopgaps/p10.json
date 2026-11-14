@@ -8,20 +8,24 @@
     "why": "A starting value is required for drives to form and fade; no instrument-matched source fixes these coefficients yet.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Coefficients checked against P9 life replays and real bereaved/harmed-cohort spreads of civic action.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Coefficients checked against P9 life replays and real bereaved/harmed-cohort spreads of civic action.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-P10-response-model",
     "kind": "estimated-behavior",
     "file": "src/core2/data/drives.json",
     "line": 3,
-    "whatItFakes": "Drive formation as one scored choice among response rows (carry on, take up a cause, hold a grudge, guard family, prove oneself, answer a calling), using the shared chooser and trait-act table; the response set and goal pressures are prototype assumptions.",
+    "whatItFakes": "Drive formation's responses to bereavement and layoff are calibrated to published bands; the cause, guard and calling fits for every other event, the trait-lean gain and the illness, crime and injustice responses are still prototype values.",
     "why": "Event-born drives were zero in P8 (acceptance d); the decision path is real but its response set and weights are uncalibrated.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Researched Oct 24, 2026: the band the response pressures calibrate against is data/research/people/trauma-trajectories-2018.json (Galatzer-Levy, Huang and Bonanno, Clinical Psychology Review 2018: 65.7% resilient after a potential trauma, 95% interval 61.6 to 69.8), reported against the town's bereavement carry-on share by scripts/research/people-year.ts; the builder item people-drives-responses-against-research-bands sets the pressures. Response rows and pressures calibrated against documented responses to bereavement, job loss and injustice (P9 lives, panel studies). Calibrated Oct 24, 2026 (traits lead): the bereavement rules carry their own drive-fit multiple (responseBereavementFitScale 2.1) and the grudge fit is 1.7, so about two in three of the bereaved who can form a drive of their own carry on and 1.7 to 14.9% of the laid off hold a grudge (data/research/people/termination-claims-1998.json); the cause, guard and calling fits for every other event, the trait-lean gain and the illness, crime and injustice responses are still prototype values with no band.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Researched Oct 24, 2026: the band the response pressures calibrate against is data/research/people/trauma-trajectories-2018.json (Galatzer-Levy, Huang and Bonanno, Clinical Psychology Review 2018: 65.7% resilient after a potential trauma, 95% interval 61.6 to 69.8), reported against the town's bereavement carry-on share by scripts/research/people-year.ts; the builder item people-drives-responses-against-research-bands sets the pressures. Response rows and pressures calibrated against documented responses to bereavement, job loss and injustice (P9 lives, panel studies). Calibrated Oct 24, 2026 (traits lead): the bereavement rules carry their own drive-fit multiple (responseBereavementFitScale 2.1) and the grudge fit is 1.7, so about two in three of the bereaved who can form a drive of their own carry on and 1.7 to 14.9% of the laid off hold a grudge (data/research/people/termination-claims-1998.json); the cause, guard and calling fits for every other event, the trait-lean gain and the illness, crime and injustice responses are still prototype values with no band.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-P10-perception-model",
@@ -32,8 +36,10 @@
     "why": "The owner approved bounded perception; no source maps these traits to event salience yet.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Researched Oct 24, 2026: no appraisal study with a trait-to-salience effect that converts to a channel weight was found (Europe PMC searches for a pooled neuroticism and perceived-stress or stress-reactivity estimate returned single studies only), so channel rows stay authored; the builder item people-drives-responses-against-research-bands starts with that search. Channel rows and weights validated against appraisal research and P9 replays. Oct 24, 2026 (traits lead): the injustice channel's directions (forgiving lowers, vindictive and defensive raise) agree in sign with the forgiveness meta-analysis (data/research/people/fehr-forgiveness-correlates-2010.json: trait forgiveness r = .30, agreeableness .22, neuroticism -.24, trait anger -.18 with forgiving an offender); the loss, others'-distress, threat and persuasion channels still have no study.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Researched Oct 24, 2026: no appraisal study with a trait-to-salience effect that converts to a channel weight was found (Europe PMC searches for a pooled neuroticism and perceived-stress or stress-reactivity estimate returned single studies only), so channel rows stay authored; the builder item people-drives-responses-against-research-bands starts with that search. Channel rows and weights validated against appraisal research and P9 replays. Oct 24, 2026 (traits lead): the injustice channel's directions (forgiving lowers, vindictive and defensive raise) agree in sign with the forgiveness meta-analysis (data/research/people/fehr-forgiveness-correlates-2010.json: trait forgiveness r = .30, agreeableness .22, neuroticism -.24, trait anger -.18 with forgiving an offender); the loss, others'-distress, threat and persuasion channels still have no study.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-P10-drive-acts",
@@ -106,14 +112,16 @@
   {
     "id": "SG-P10-health-minimal-port",
     "kind": "missing-mechanic",
-    "file": "src/core2/data/health.json",
-    "line": 3,
-    "whatItFakes": "Only the opening chronic conditions, the serious-illness onset and the death of the Ruling 29/38/39 mortality rule run in core2; conditions beginning during life, coverage, poverty onset causes, injuries and births are absent.",
+    "file": "src/core2/modules/health.ts",
+    "line": 368,
+    "whatItFakes": "The health engine runs opening conditions, serious-illness onset, death and a person's own coverage reading; conditions that begin during life, poverty onset causes and injuries are absent (births run in the renewal engine).",
     "why": "P10 needs a real recorded death from illness; no core2 health engine exists.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "A full core2 health engine ported per the P11 plan.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A full core2 health engine ported per the P11 plan.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-P10-event-severity",
@@ -124,8 +132,10 @@
     "why": "Events need a sized emotional impact; the life-change ranking is sourced but its conversion to the affect scale is not.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "A calibrated appraisal model checked against bereavement and illness affect trajectories.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A calibrated appraisal model checked against bereavement and illness affect trajectories.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-P10-resilience-scale",
@@ -136,8 +146,10 @@
     "why": "The owner replaced the shared threshold with personal resilience lines; totals must stay on the life table and a full recalibration of the condition pack has not been done.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "A cohort calibration of base scale and condition weights together, checked across many places and ages against the life table.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A cohort calibration of base scale and condition weights together, checked across many places and ages against the life table.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-P10-group-name-key",
