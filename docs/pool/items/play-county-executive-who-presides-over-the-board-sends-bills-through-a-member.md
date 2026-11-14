@@ -8,6 +8,7 @@ size: S
 status: in-pr
 claimed-by: claude/play-presiding-executive-drafts-as-chair
 branch: claude/play-presiding-executive-drafts-as-chair
+pr: #9177
 standard: 2
 after: play-bill-menu-for-mayors-and-governors
 blocked-on:
