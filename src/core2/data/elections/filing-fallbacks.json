@@ -1,6 +1,5 @@
 {
-  "about": "What a filing rule falls back to where the place's row in data/research/elections/filing-requirements.json carries none (Alaska, Connecticut, Rhode Island, D.C. and the territories for counties; Hawaii and two territories for municipalities; Vermont's legislature). Each is an estimate (SG-GOV-filing-fallbacks): the median of the read values for that office family over the 56 places.",
-  "stopgap": "SG-GOV-filing-fallbacks",
+  "about": "What a filing rule falls back to where the place's row in data/research/elections/filing-requirements.json carries none (Alaska, Connecticut, Rhode Island, D.C. and the territories for counties; Hawaii and two territories for municipalities; Vermont's legislature). Each is an ESTIMATED row: the median of the read values for that office family over the 56 places.",
   "minimumAge": {
     "countyOffice": {
       "value": 18,

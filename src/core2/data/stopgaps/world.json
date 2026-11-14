@@ -399,6 +399,20 @@
     "resolvedAt": "2026-10-20"
   },
   {
+    "id": "SG-WORLD-property-tax-monthly",
+    "kind": "faked-mechanic",
+    "file": "src/core2/housing-property-tax.ts",
+    "line": 136,
+    "whatItFakes": "Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner.",
+    "why": "Counties bill once or twice a year on their own dates; the dates come with each county's law.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Bills on the county's due dates from the law in force, with escrow monthly only for owners with a mortgage.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T4"
+  },
+  {
     "id": "SG-WORLD-property-tax-other-places-state-average",
     "kind": "assumed-data",
     "file": "src/core2/modules/budgets.ts",

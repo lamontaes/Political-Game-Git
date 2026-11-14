@@ -28,6 +28,8 @@ export {
   workAgeFactor,
   workLeans,
 } from "./past-work";
+// A school or employer's name, the organization's own record or the elsewhere kind, for the person card.
+export { organizationName } from "./places-elsewhere";
 export {
   attendedSchool,
   sharedHistory,
