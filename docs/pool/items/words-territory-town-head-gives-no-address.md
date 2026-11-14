@@ -31,7 +31,7 @@ checked:
 
 **Done when.** In a drawn place of each of the four territories, the town head gives an address, and a test pinned to named places says so. A second session plays one such address on main.
 
-**Waits on.** Nothing.
+**Waits on.** gov-territory-local-governments-not-recorded.
 
 **Files.** src/core2/offices-local.ts, src/director/local-address.ts, src/core2/gov-rules/.
 
