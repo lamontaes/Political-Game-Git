@@ -23753,7 +23753,8 @@
           "move": "accept",
           "role": "asker",
           "purpose": "law-reaches",
-          "key": "news-received"
+          "key": "news-received",
+          "excludesFacts": ["lawstate", "ended"]
         },
         {
           "subject": "scene",
@@ -79697,10 +79698,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.it-isn-t-the-law-any-more-it-ended-on-ended",
+      "key": "scene-talk.state-tell.about-isn-t-the-law-any-more-it-ended-on-ended",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "It isn't the law any more. It ended on {ended}.",
+      "text": "{about} isn't the law any more. It ended on {ended}.",
       "uses": [
         {
           "subject": "scene",
@@ -79709,7 +79710,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["ended"]
+          "requiresFacts": ["about", "ended"]
         }
       ],
       "bearing": "calm",
@@ -79722,10 +79723,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.that-one-ended-on-ended",
+      "key": "scene-talk.state-tell.about-ended-on-ended",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "That one ended on {ended}.",
+      "text": "{about} ended on {ended}.",
       "uses": [
         {
           "subject": "scene",
@@ -79734,7 +79735,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["ended"]
+          "requiresFacts": ["about", "ended"]
         }
       ],
       "bearing": "guarded",
@@ -79747,10 +79748,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.it-was-the-law-until-ended",
+      "key": "scene-talk.state-tell.about-was-the-law-until-ended",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "It was the law until {ended}.",
+      "text": "{about} was the law until {ended}.",
       "uses": [
         {
           "subject": "scene",
@@ -79759,7 +79760,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["ended"]
+          "requiresFacts": ["about", "ended"]
         }
       ],
       "bearing": "calm",
@@ -80084,7 +80085,8 @@
           "step": "reply",
           "move": "tell",
           "role": "asked",
-          "after": "disagree"
+          "after": "disagree",
+          "excludesFacts": ["lawstate", "ended"]
         }
       ],
       "bearing": "contrite",
@@ -80108,7 +80110,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "promise",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["lawstate", "ended"]
         }
       ],
       "bearing": "calm",
@@ -163739,6 +163742,281 @@
         "of": "filing-running",
         "part": "core",
         "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.that-s-lawstate-s-law-it-isn-t-the-law-in-homestate",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That's {lawstate}'s law. It isn't the law in {homestate}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.no-that-s-lawstate-nothing-in-homestate-changed",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "No, that's {lawstate}. Nothing in {homestate} changed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.that-one-belongs-to-lawstate-it-doesn-t-reach-us-here",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That one belongs to {lawstate}. It doesn't reach us here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.not-yet-it-doesn-t-start-until-effective",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Not yet. It doesn't start until {effective}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["effective"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.give-it-until-effective-that-s-when-it-starts",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Give it until {effective}. That's when it starts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["effective"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.then-it-s-finished-there-s-nothing-left-of-it-to-answer-for",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Then it's finished. There's nothing left of it to answer for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.that-s-behind-us-now-there-s-nothing-left-to-fix",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That's behind us now. There's nothing left to fix.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-read-it-wrong-thanks-for-saying-so",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I read it wrong. Thanks for saying so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-the-paper-made-it-sound-like-it-was-ours",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. The paper made it sound like it was ours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["lawstate", "homestate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-wait-for-effective",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll wait for {effective}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["effective"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-that-s-one-worry-gone",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then that's one worry gone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
       }
     }
   ]

@@ -6,7 +6,6 @@
  * drawn place's world; the place and seed are in every message. The played
  * case is `circumstance.test.ts` at seed 93ab4181 (CI's unit job).
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -15,9 +14,16 @@ import { gameStartDate } from "../core2/game-start";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import { wordSceneMove } from "../english/scene-talk-words";
-import { homeStateOf, lawName, lawReachFacts } from "./purpose-scene";
+import { advanceCore } from "../core2/life";
+import {
+  homeStateOf,
+  lawFactsOfCause,
+  lawName,
+  lawReachFacts,
+} from "./purpose-scene";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// Pinned: a named place the test passes in every run; GOLDEN_PATH_SEED draws another.
+const seed = process.env.GOLDEN_PATH_SEED ?? "t53-law-tells-1";
 
 it(`says a law that does not reach the reader as what it is (seed ${seed})`, () => {
   setBookkeeping(false);
@@ -105,30 +111,46 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     "homestate",
     "lawstate",
   ]);
-  // No reply that would say the law reaches them is offered for it.
-  for (let at = 0; at < 12; at += 1) {
-    const reply = wordSceneMove({
+  // The reader is told the law is another state's; the replies offered fit
+  // that: a promise to call (or to look into it) is never offered for it, and
+  // the one that is, says whose law it is (Words lead's read of #9045).
+  const reply = (move: string, facts: typeof away, at: number) => {
+    const line = wordSceneMove({
       move: {
         step: "reply",
-        move: "promise",
+        move,
         role: "asked",
         purpose: "law-reaches",
         key: "news-received",
       } as never,
-      facts: away,
+      facts,
       seed: `${where}:${at}`,
       speakerId: playerId!,
       traits: {},
       momentKey: "law-reaches-tell",
       said: new Set(),
     });
-    const said = reply && "text" in reply ? reply.text : "";
-    expect(said, where).not.toMatch(/doing to you|means for you/);
+    return line && "text" in line ? line.text : "";
+  };
+  for (let at = 0; at < 12; at += 1) {
+    expect(reply("promise", away, at), `${where}: no promise to call`).toBe("");
+    const fitting = reply("tell", away, at);
+    expect(fitting, `${where}: a reply that says whose law it is`).toMatch(
+      new RegExp(`${away.lawstate!.text}|${away.homestate!.text}|ours`),
+    );
+    expect(fitting, where).not.toMatch(/let me see what I can do|voted/);
   }
+  expect(
+    reply("tell", pending, 0),
+    `${where}: a reply for a law not yet in force`,
+  ).toContain(pending.effective!.text);
   // A law no longer in force is said by the day it ended.
   const over = rows.find(
     (row) =>
-      row.endDate && row.endDate <= core.date && row.jurisdiction !== elsewhere,
+      row.endDate &&
+      row.endDate <= core.date &&
+      row.jurisdiction !== elsewhere &&
+      lawName(row.series),
   );
   expect(over, `${where}: a law row that has ended`).toBeDefined();
   const ended = lawReachFacts(over!, home, core.date, cite);
@@ -136,9 +158,65 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
   const saidEnded = tell(ended);
   const endedText = saidEnded && "text" in saidEnded ? saidEnded.text : "";
   expect(endedText, where).toContain(ended.ended!.text);
+  // It names the law that ended, never "that one" (Words lead's read of #9045).
+  expect(ended.about?.text, where).toBeTruthy();
+  expect(endedText.toLowerCase(), where).toContain(
+    ended.about!.text.toLowerCase(),
+  );
+  for (let at = 0; at < 6; at += 1)
+    expect(
+      reply("promise", ended, at),
+      `${where}: no promise for a law that ended`,
+    ).toBe("");
   // A law in force where the reader lives gives none of these facts.
   expect(lawReachFacts(ownState!, home, core.date, cite), where).toEqual({});
   console.log(
     `law-reaches-tell: ${where}: "${saidLater && "text" in saidLater ? saidLater.text : ""}" / "${text}" / "${endedText}" (${over!.id})`,
   );
 }, 300_000);
+
+/**
+ * A learned law is a scene that can be worded (the Words lead's read of #9045,
+ * fault 3). A `law.effect-learned` record names its law row and carries no
+ * series, so the facts of a scene about it (`law`, `in-force`) were never set
+ * and the tell was skipped ("cannot be worded from the records given") in
+ * every played year. In a pinned place (found by drawing), the world's own
+ * learned record now gives both, from the law row. The played scene is the
+ * line in the PR body: a sitting member's month in the same place and seed.
+ */
+const PINNED = {
+  key: "1751700",
+  seed: "22a232c8ce8c09977327c98c7cdad11aabae1b8cdaa8b3974bf0a306dc975c96",
+};
+
+it("a learned law's record gives the scene its law and that it is in force", () => {
+  setBookkeeping(false);
+  const where = `place ${PINNED.key}, seed ${PINNED.seed}`;
+  const { core } = buildBenchWorld(PINNED.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: PINNED.key,
+  });
+  advanceCore(core, "2025-02-04");
+  const learned = [...core.durableLog.values()].find(
+    (row) => row.kind === "law.effect-learned" && row.facts?.lawId,
+  );
+  expect(learned, `${where}: a learned law by 2025-02-04`).toBeDefined();
+  expect(
+    learned!.facts?.series,
+    "the record carries no series",
+  ).toBeUndefined();
+  const reader = core.people.get(learned!.personIds[0]!)!;
+  const facts = lawFactsOfCause(
+    core,
+    learned!.facts as Record<string, string>,
+    learned!.id,
+    reader.placeId,
+    reader.id,
+  );
+  expect(facts.law?.text, `${where}: the law is named`).toBeTruthy();
+  expect(
+    facts["in-force"],
+    `${where}: it is in force where they live`,
+  ).toBeDefined();
+  expect(facts.law!.sourceRecordIds, where).toContain(learned!.id);
+}, 600_000);
