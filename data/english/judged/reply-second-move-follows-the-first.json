@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5684,
+  "judged": 5682,
   "no": {
     "01ci5tbdc2u": {
       "keys": [
@@ -40,5 +40,5 @@
       "why": "An abrupt goodbye does not follow from noticing that the player really is running."
     }
   },
-  "yesHash": "02leonpvj75"
+  "yesHash": "00uuogsnf6a"
 }
