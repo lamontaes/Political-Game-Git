@@ -600,12 +600,16 @@ function lifeMoments(
   };
   // Where they were born, where the run's record puts their family that day:
   // the story starts there (owner, Oct 27: "written like a story from birth").
-  for (const event of life) {
-    if (event.life !== "born" || event.from !== "past") continue;
-    const actFacts = place(event.placeId, event.id);
+  // The life list tells the birth by the birth-date fact, which holds no place;
+  // the family's place that day is the pre-start history's birth record.
+  for (const birth of preStartHistory(core as CoreState, {
+    kind: "person.birth",
+    personId: person.id,
+  })) {
+    const actFacts = place(birth.placeId, birth.id);
     if (actFacts.place)
       moments.push({
-        ...base(event.id, event.date),
+        ...base(birth.id, birth.date),
         causeKind: "person.birth",
         counterpartIds: [],
         selfNamed: true,
@@ -2395,6 +2399,10 @@ export function composeJournal(
   // never told twice, and one event that moved the person says what they
   // think now once, not once for each record it left (Words lead, rule 86).
   const viewsSaid = new Set<string>();
+  // A sentence that follows a record (how long they had been there) is said
+  // once in a life, whichever record it follows: two jobs held three years
+  // are not "I had been there three years." twice (rule: no sentence twice).
+  const followSaid = new Set<string>();
   const viewMovedBy = (unit: Unit): JournalWorded | null => {
     const moved =
       movedViews.get(unit.moment.causeId) ??
@@ -2589,8 +2597,13 @@ export function composeJournal(
             `${unit.moment.id}:${field}`,
             ids,
           );
-          if (!follow || (child && !partnered && WE.test(follow.text)))
+          if (
+            !follow ||
+            (child && !partnered && WE.test(follow.text)) ||
+            followSaid.has(follow.text)
+          )
             continue;
+          followSaid.add(follow.text);
           sentences.push(follow);
           remember(follow.text, followFacts);
           break;
