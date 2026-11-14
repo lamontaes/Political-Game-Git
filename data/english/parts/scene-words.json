@@ -4310,7 +4310,7 @@
       "key": "scene-words.arrival-home-alone.begins-the-house-is-quiet",
       "move": "arrival-home-alone",
       "kind": "spoken",
-      "text": "{begins}, the house is quiet.",
+      "text": "It's {begins}. The house is quiet.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -4330,7 +4330,7 @@
       "key": "scene-words.arrival-home-alone.begins-you-stay-in",
       "move": "arrival-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you stay in.",
+      "text": "It's {begins}. You stay in.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -4350,7 +4350,7 @@
       "key": "scene-words.arrival-home-alone.begins-finds-you-at-home",
       "move": "arrival-home-alone",
       "kind": "spoken",
-      "text": "{begins} finds you at home.",
+      "text": "It's {begins}. The day is done.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -5510,7 +5510,7 @@
       "key": "scene-words.arrival-home-alone.begins-you-stay-in-still-thinking-about-what-happened-since",
       "move": "arrival-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you stay in, still thinking about what happened {since}.",
+      "text": "It's {begins}. You stay in, thinking about what happened {since}.",
       "uses": [
         {
           "move": "arrival-home-alone",

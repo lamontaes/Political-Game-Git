@@ -3,7 +3,7 @@ import { townSeats } from "../core2/modules/offices";
 import type { CoreState, PersonId } from "../core2/types";
 import type { OpeningStory } from "../director/opening-story";
 import { wordSceneLine } from "../english/scene-words";
-import { dayOpening } from "../english/day-words";
+import { dayLanding } from "../english/day-words";
 import { addressAiring } from "../director/address-airing";
 import { workSpansOf } from "./places";
 
@@ -59,7 +59,7 @@ function landingLine(
     viewerId: playerId as PersonId,
     facts: {
       begins: {
-        text: dayOpening(core.date, minute),
+        text: dayLanding(core.date, minute),
         sourceRecordIds: [story.id],
       },
     },
