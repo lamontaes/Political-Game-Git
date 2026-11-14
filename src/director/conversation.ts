@@ -151,9 +151,13 @@ import {
   daysSaid,
   hoursSaid,
   lateSaid,
+  lengthSaid,
   moneySaid,
   monthsOfRentDays,
 } from "../english/count-words";
+import { sinceMonthSaid } from "../english/day-words";
+import { ILLNESS_EVENT } from "./life-news";
+import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
 import type { FinanceContractInput } from "../core2/modules/finance";
 import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/people";
 import { SAID_AS_DATA as saidAsData } from "../english/said-as";
@@ -833,6 +837,89 @@ function lastEndedJob(core: Readonly<CoreState>, personId: PersonId) {
   }
   return best ? core.jobs.get(best.jobId) : undefined;
 }
+
+/**
+ * What a relative's news is, from the record it cites (words composer, the
+ * talk's own subject: `<kind>-say`, answered back under `<kind>-back`): when
+ * it happened; for a death, their age and a cause people say plainly to
+ * family (the health engine's cause of death, through
+ * data/english/relative-news-words.json), with `young` below the age people
+ * call too soon; for an illness, its common name (the health engine's
+ * condition); for a prison term, its length (the justice engine's custody
+ * record) and the offense.
+ */
+function relativeNewsFacts(
+  core: Readonly<CoreState>,
+  kind: string,
+  moment: Moment,
+  about: Readonly<PersonState>,
+  speaker: Readonly<PersonState>,
+  listener: Readonly<PersonState>,
+): Facts {
+  const event = core.durableLog.get(moment.causeId as never) as
+    { id: string; facts?: Readonly<Record<string, string>> } | undefined;
+  const cites = [moment.causeId];
+  const fact = (text: string): Fact => ({ text, sourceRecordIds: cites });
+  const facts: Facts = { when: fact(spokenWhen(moment.date, core.date)) };
+  // The teller's own tie to the relative, from the teller's family record
+  // ("my father", or "Dad" when the listener has the same tie to them); a
+  // tie the record does not hold (a spouse's parent) leaves it unset, and the
+  // line says the listener's word for them ("your grandfather").
+  const gender = about.looks?.gender ?? "other";
+  facts[gender === "male" ? "he" : gender === "female" ? "she" : "they"] =
+    fact("yes");
+  const tie = familyFactsOf(speaker).get(about.id);
+  if (tie) {
+    const shared = familyFactsOf(listener).get(about.id);
+    const said =
+      (shared?.relation === tie.relation
+        ? kinAddress(tie.relation, gender)
+        : undefined) ?? relationPhrase(tie.relation, gender, "journal");
+    if (said)
+      facts.kin = { text: said, sourceRecordIds: [tie.factId, ...cites] };
+  }
+  const recorded = (key: string) =>
+    event?.facts?.[`event:${event.id}:${key}`] ?? event?.facts?.[key];
+  if (kind === "death-news") {
+    const age = ageOnDate(
+      makeIsoDate(about.birthDate),
+      makeIsoDate(moment.date),
+    );
+    facts.age = { text: String(age), sourceRecordIds: [about.id, ...cites] };
+    if (age < RELATIVE_NEWS.youngBelowAge.value) facts.young = fact("yes");
+    const cause = RELATIVE_NEWS.deathCauses[recorded("causeOfDeath") ?? ""];
+    if (cause) facts.cause = fact(cause);
+    // An illness of theirs that the player was told of before they died: the
+    // house knew of it, and says since when. The player's own heard record of
+    // that telling names the health engine's record and its day (the
+    // person's log keeps only their recent months).
+    const told = `${HEARD_SUBJECT}illness-news:${ILLNESS_EVENT}:${about.id}:`;
+    const heard = heardRows.find((row) => row.key.startsWith(told));
+    if (heard) {
+      const recordId = heard.key.slice(`${HEARD_SUBJECT}illness-news:`.length);
+      const began = recordId.slice(recordId.lastIndexOf(":") + one);
+      facts["illness-known"] = {
+        text: "yes",
+        sourceRecordIds: [recordId, ...cites],
+      };
+      facts.since = {
+        text: sinceMonthSaid(began, moment.date),
+        sourceRecordIds: [recordId, ...cites],
+      };
+    }
+  } else if (kind === "illness-news") {
+    const illness = RELATIVE_NEWS.illnesses[recorded("condition") ?? ""];
+    if (illness) facts.illness = fact(illness);
+  } else if (kind === "prison-news") {
+    const months = Number(recorded("custodyMonths"));
+    if (months > zero) facts.term = fact(lengthSaid(months));
+    const offense = RELATIVE_NEWS.offenses.bribery;
+    if (offense) facts.offense = fact(offense);
+  }
+  return facts;
+}
+
+const RELATIVE_NEWS = RELATIVE_NEWS_WORDS;
 
 /** The news a household member tells of a relative, by the label of the listener's moment. */
 const NEWS_KINDS: Readonly<Record<string, string>> = {
@@ -2382,6 +2469,7 @@ export function subjectsBetween(
           sourceRecordIds: [row.factId, moment.causeId],
         },
         name: { text: about.givenName, sourceRecordIds: [row.factId] },
+        ...relativeNewsFacts(core, kind, moment, about, speaker, listener),
       },
     });
   }
