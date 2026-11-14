@@ -253,6 +253,12 @@ export interface GiftRow {
   readonly totalMinor: number;
   readonly lastDate: string;
   /**
+   * What the donor gave this campaign in the calendar month of `lastDate`
+   * (absent counts as none): the part of the running total `giftBudget`
+   * takes off the donor's month (`givenInMonth`).
+   */
+  readonly monthMinor?: number;
+  /**
    * How many people one row stands for: 1 (absent) for a named donor, the
    * count of an outside place's donors for an `outside:` row, whose limit is
    * read per person (total over donors).
@@ -3446,6 +3452,36 @@ export function spareAgainstGift(
   return (spare - even) / (spare + even);
 }
 
+/** The row after one more gift: the running total, and the month of it (the calendar month of the gift, restarted when the last gift came in an earlier one). */
+function grownGift(
+  api: CoreAPI,
+  prev: GiftRow | null,
+  amountMinor: number,
+): Pick<GiftRow, "totalMinor" | "lastDate" | "monthMinor"> {
+  const date = api.state.date;
+  const sameMonth = !!prev && prev.lastDate.slice(0, 7) === date.slice(0, 7);
+  return {
+    totalMinor: (prev?.totalMinor ?? 0) + amountMinor,
+    lastDate: date,
+    monthMinor: (sameMonth ? (prev.monthMinor ?? 0) : 0) + amountMinor,
+  };
+}
+
+/**
+ * What a person has already given this calendar month, to every campaign
+ * together, read off their gift rows (`byDonor`). A donor's month is one
+ * pot: each campaign's ask works from what is left of it, not from the whole.
+ */
+export function givenInMonth(api: CoreAPI, donorId: string): number {
+  const month = api.state.date.slice(0, 7);
+  let given = 0;
+  for (const row of table(api, "gifts").query("byDonor", [
+    donorId,
+  ]) as unknown as GiftRow[])
+    if (row.lastDate.slice(0, 7) === month) given += row.monthMinor ?? 0;
+  return given;
+}
+
 /**
  * What a person has to give from, read from their records: their share of
  * their household's monthly income after the taxes payroll withholds from it
@@ -3477,7 +3513,9 @@ export function giftBudget(
   readonly monthlyIncomeMinor: number;
   readonly monthlyWithheldMinor: number;
   readonly monthlyLivingMinor: number;
+  /** The month's spare still left to give from, after this month's gifts. */
   readonly discretionaryMinor: number;
+  readonly givenThisMonthMinor: number;
   readonly savingsMinor: number;
   readonly ownMonthLivingMinor: number;
   readonly cushionMinor: number;
@@ -3511,11 +3549,16 @@ export function giftBudget(
   const recordedOwn = perMonth * person.livingCostDailyMinor;
   const ownMonth = recordedOwn > 0 ? recordedOwn : householdShare;
   const cushion = campaignParameter("caseCushionMonths") * ownMonth;
+  const given = givenInMonth(api, person.id);
   return {
     monthlyIncomeMinor: income.minor / share,
     monthlyWithheldMinor: withheld / share,
     monthlyLivingMinor: householdShare,
-    discretionaryMinor: Math.max(0, income.minor - withheld - living) / share,
+    discretionaryMinor: Math.max(
+      0,
+      Math.max(0, income.minor - withheld - living) / share - given,
+    ),
+    givenThisMonthMinor: given,
     savingsMinor: Math.max(0, person.liquidMinor - cushion),
     ownMonthLivingMinor: ownMonth,
     cushionMinor: cushion,
@@ -3674,8 +3717,7 @@ function giveDonation(
     id: `${filingId}|${donorId}`,
     campaignId: filingId,
     donorId,
-    totalMinor: given + amount,
-    lastDate: api.state.date,
+    ...grownGift(api, giftOf(api, filingId, donorId), amount),
   } satisfies GiftRow as unknown as ModuleRow);
   save(api, {
     ...campaignFor(api, filingId),
@@ -3840,8 +3882,7 @@ export function contributeOwnMoney(
     id: `${filingId}|${candidate.id}`,
     campaignId: filingId,
     donorId: candidate.id,
-    totalMinor: given + amount,
-    lastDate: api.state.date,
+    ...grownGift(api, giftOf(api, filingId, candidate.id), amount),
   } satisfies GiftRow as unknown as ModuleRow);
   save(api, {
     ...campaignFor(api, filingId),
