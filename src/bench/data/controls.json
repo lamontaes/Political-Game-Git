@@ -5,7 +5,7 @@
     "work-shift": "Go to work",
     "rest": "Rest",
     "contact-known-person": "Get in touch",
-    "care-for-relative": "Look after",
+    "care-for-relative": "Take care of",
     "join-association": "Join",
     "organize-meeting": "Hold a meeting",
     "approach-office": "Visit the office",
@@ -32,9 +32,9 @@
     "next": "Next {row}",
     "randomPlace": "Random place",
     "randomName": "Randomize name",
-    "missingGender": "Choose a gender to go on.",
-    "missingName": "Type a first and last name to go on.",
-    "missingPlace": "Choose where you are from to go on.",
+    "missingGender": "Choose a gender to continue.",
+    "missingName": "Type a first and last name to continue.",
+    "missingPlace": "Choose where you are from to continue.",
     "lookTabs": {
       "everyday": "Everyday",
       "formal": "Formal"
@@ -59,7 +59,7 @@
     "amount": "Amount in dollars",
     "give": "Give",
     "decline": "Decline",
-    "notGiven": "You can't give that sum."
+    "notGiven": "You can't give that much."
   },
   "speech": {
     "begin": "Give a speech",
@@ -522,14 +522,15 @@
     "seat": "Seat",
     "heldBy": "Held by",
     "openSeat": "No one holds it now",
+    "whatElse": "What else is open?",
     "election": "Election"
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",
-    "state-preempts-question": "State law preempts this",
+    "state-preempts-question": "State law overrides this",
     "state-preempts-local-minimum-wage": "The state bars a local minimum wage",
     "state-gives-no-local-minimum-wage": "The state gives towns no say over the minimum wage",
-    "state-gives-no-local-tax": "The state lets towns levy no such tax",
+    "state-gives-no-local-tax": "The state doesn't let towns charge this tax",
     "no-state-law": "The state's law on this is not settled"
   },
   "desk": {
@@ -559,8 +560,9 @@
     "office": "Office",
     "pay": "Pay",
     "nextMeeting": "Next meeting",
-    "heads": "Posts you name",
+    "heads": "Jobs you fill",
     "acts": "What you have done",
+    "stops": "Stop me for",
     "left": "Laws that gave way",
     "mySeat": "My seat",
     "onMyDesk": "On my desk",
@@ -583,11 +585,33 @@
     "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
     "adjourned": "Cast when you adjourned",
+    "votes": {
+      "yes": "Yes",
+      "no": "No",
+      "abstain": "Abstained"
+    },
+    "bodySwitches": [
+      { "has": ["council"], "label": "Council meetings" },
+      { "has": ["police jury"], "label": "Police Jury meetings" },
+      { "has": ["town meeting"], "label": "Town Meeting" },
+      { "has": ["governing body"], "label": "Governing Body meetings" },
+      { "has": ["board"], "label": "Board meetings" },
+      { "has": ["commission"], "label": "Commission meetings" },
+      { "has": ["committee"], "label": "Committee meetings" },
+      { "has": ["assembly"], "label": "Assembly meetings" },
+      { "has": ["legislature"], "label": "Legislature sessions" },
+      { "has": ["aldermen"], "label": "Aldermen meetings" }
+    ],
+    "switches": {
+      "meetings": "Meetings",
+      "floor": "Floor votes",
+      "desk": "Bills on my desk"
+    },
     "absent": {
       "stop-off": "Absent: you did not attend",
       "district": "Absent: at home in the district"
     },
-    "nameHeadPick": "Name to the post"
+    "nameHeadPick": "Name to the job"
   },
   "floor": {
     "status": {
@@ -757,6 +781,7 @@
     "title": "News",
     "nation": "Nation",
     "briefs": "Briefs",
+    "backFront": "Back to the front page",
     "noStoryText": "The paper ran this story as a headline only; the full account has not come in.",
     "nothingYet": "Nothing here yet.",
     "desk": "Around town",
@@ -926,7 +951,7 @@
     "goesTo": "Where it goes",
     "books": "The books",
     "otherLines": "Other",
-    "fiscalYear": "fiscal year",
+    "fiscalYear": "budget year",
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
     "subjects": "Subjects",
@@ -1137,7 +1162,7 @@
     "evictions": "Evictions",
     "evictionNotices": "Eviction notices so far this year",
     "benefits": "Help for the unemployed",
-    "claims": "People claiming now",
+    "claims": "People getting it now",
     "budget": "The town's books",
     "revenue": "Coming in",
     "spending": "Going out",
@@ -1167,7 +1192,7 @@
     "people": "People",
     "who": "You",
     "money": "Money and property",
-    "jobs": "Jobs and study",
+    "jobs": "Jobs and school",
     "journal": "Journal",
     "politics": "Politics",
     "government": "Government",
@@ -1183,7 +1208,7 @@
     "patchNotes": "Patch notes",
     "saves": "Saved games",
     "guide": "Guide",
-    "handoff": "Carry on as",
+    "handoff": "Continue as",
     "news": "News",
     "history": "Your life",
     "bills": "Bills",
