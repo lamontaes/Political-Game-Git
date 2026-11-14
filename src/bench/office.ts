@@ -300,7 +300,8 @@ export function officeView(core: CoreState, personId: string) {
     // Each of the player's bills waiting for a vote, with the colleagues who will vote and the deal set to offer each when they talk.
     deals: pendingBills(api, personId).map((bill) => ({
       billId: bill.id,
-      number: bill.number,
+      // Said with its form's word ("Ordinance 2025-8"), never bare.
+      number: spokenDesignation(bill.number, bill.form.kind),
       colleagues: colleaguesOn(api, bill, personId).map((key) => {
         // Where the player learned this colleague stands, and how (a talk or
         // an aide's brief), from the legislature's record of it.
