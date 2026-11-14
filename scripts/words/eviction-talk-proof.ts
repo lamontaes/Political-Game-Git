@@ -35,6 +35,8 @@ const draws = Number(option("draws", "1"));
 const wanted = Number(option("talks", "2"));
 // Only households of two or more living members (the "we" tellings).
 const manyOnly = option("many", "0") === "1";
+// Edge case only, never a drawn one: make the adult an acquaintance (they knew the player before today).
+const acquaint = option("acquaint", "0") === "1";
 
 const nameOf = (core: CoreState, id: string) => {
   const row = core.people.get(id as PersonId);
@@ -85,12 +87,26 @@ for (let draw = 0; draw < draws; draw += 1) {
       });
       if (!adult) continue;
       talks += 1;
+      if (acquaint) {
+        const person = core.people.get(adult)! as unknown as {
+          knownIds: Set<PersonId>;
+          knownIdSources?: Record<string, { learnedAt: string }>;
+        };
+        person.knownIds.add(playerId);
+        person.knownIdSources = {
+          ...(person.knownIdSources ?? {}),
+          [playerId]: { learnedAt: addDays(makeIsoDate(core.date), -40) },
+        };
+        console.log(
+          "  (staged: made an acquaintance of the player, an edge case)",
+        );
+      }
       const status = coreAPI(core)
         .moduleState("housing")
         .table("statuses")
         .get(row.householdId) as { status?: string } | undefined;
       console.log(
-        `\n### ${core.date}: case ${row.id}, removed ${row.removedAt}, owed ${row.owedAtRemovalMinor} cents, status ${status?.status ?? "none"}; ${nameOf(core, adult)} (${adult}) talks with the player (to the player: ${familyFactsOf(core.people.get(playerId)!).get(adult)?.relation ?? "not family"})`,
+        `\n### ${core.date}: case ${row.id}, removed ${row.removedAt}, owed ${row.owedAtRemovalMinor} cents, status ${status?.status ?? "none"}; ${nameOf(core, adult)} (${adult}) talks with the player (to the player: ${familyFactsOf(core.people.get(playerId)!).get(adult)?.relation ?? "not family"}; knows the player: ${core.people.get(adult)?.knownIds.has(playerId) ? "yes" : "no"})`,
       );
       const first = openConversation(core, playerId, adult, { director });
       const evicted = first.lines.find((line) => line.kind === "eviction");

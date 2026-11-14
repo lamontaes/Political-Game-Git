@@ -94,4 +94,44 @@ describe("an eviction told through the composer", () => {
       ),
     ).toBeNull();
   });
+  it("tells no sum in the telling; the sum comes only when the player asks how much", () => {
+    for (const [who, people] of Object.entries(WHO)) {
+      const told = say("eviction-say", {
+        when: fact("yesterday"),
+        owed: fact(OWED),
+        behind: fact(BEHIND),
+        ...people,
+      });
+      expect(told, who).toBeTruthy();
+      expect(told!.text, who).not.toContain(OWED);
+      const asked = say(
+        "eviction-back",
+        { when: fact("yesterday"), owed: fact(OWED), ...people },
+        "owed",
+      );
+      expect(asked, `${who} how much`).toBeTruthy();
+      expect(asked!.text.toLowerCase(), who).toContain(OWED.toLowerCase());
+    }
+  });
+
+  it("tells an acquaintance only that it has been hard, and the fact when asked", () => {
+    for (const [who, people] of Object.entries(WHO)) {
+      const told = say("eviction-say", {
+        when: fact("yesterday"),
+        guarded: fact("yes"),
+        owed: fact(OWED),
+        ...people,
+      });
+      expect(told, who).toBeTruthy();
+      expect(told!.text, who).not.toContain("yesterday");
+      expect(told!.text, who).not.toContain(OWED);
+      const what = say(
+        "eviction-back",
+        { when: fact("yesterday"), guarded: fact("yes"), ...people },
+        "what",
+      );
+      expect(what, `${who} what happened`).toBeTruthy();
+      expect(what!.text, who).toContain("yesterday");
+    }
+  });
 });
