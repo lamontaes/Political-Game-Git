@@ -68,8 +68,9 @@
     "retold": "retold"
   },
   "campaignGatherers": {
-    "hired": "{cost} set aside to pay people gathering signatures across the race until {due}. {signed} signed so far.",
-    "noMoney": "The campaign has no money left to pay anyone: {raised} raised, all of it spent or set aside."
+    "hired": "{cost} set aside to pay people to gather signatures until {due}. {signed} signed so far.",
+    "noMoneyYet": "The campaign has no money to pay anyone yet.",
+    "noMoney": "The campaign has no money left to pay anyone. All {raised} is spent or set aside."
   },
   "campaignVolunteers": {
     "one": "1 volunteer",
