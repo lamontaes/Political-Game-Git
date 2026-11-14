@@ -148,6 +148,88 @@ export async function playTalk(walk, label, { most = 5, picture = true } = {}) {
 }
 
 /**
+ * Election day's morning, played as a candidate plays it: write down what the
+ * panel says, go canvassing if offered, then go and vote, then continue.
+ */
+async function electionMorning(walk) {
+  const { page } = walk;
+  const buttons = page.locator("#election-day-acts button:visible");
+  await buttons
+    .first()
+    .waitFor({ timeout: 60000 })
+    .catch(() => {});
+  walk.say(
+    `--- election day: ${(await page.locator("#election-day").innerText()).replace(/\n+/g, " / ").slice(0, 700)}`,
+  );
+  const names = await buttons.allInnerTexts();
+  walk.say(`    (election day offers: ${names.join(" | ")})`);
+  for (const wanted of ["Go canvassing", "Go vote", "Continue"]) {
+    if (names.includes(wanted)) {
+      await buttons.filter({ hasText: wanted }).first().click();
+      await page.waitForTimeout(800);
+      return;
+    }
+  }
+  if (names.length) await buttons.first().click();
+  await page.waitForTimeout(800);
+}
+
+/** The ballot, marked as the candidate marks it: each race for themselves where they stand, else the first name. */
+async function markBallot(walk) {
+  const { page } = walk;
+  const name = (await page.locator("#card-name").innerText()).trim();
+  for (let i = 0; i < 40; i += 1) {
+    const marked = await page.evaluate((own) => {
+      const choices = [
+        ...document.querySelectorAll("#ballot .ballot-choice:not([disabled])"),
+      ];
+      const pick =
+        choices.find((choice) => (choice.textContent ?? "").includes(own)) ??
+        choices[0];
+      if (!pick) return "";
+      pick.click();
+      return (pick.textContent ?? "").replace(/\s+/g, " ").slice(0, 80);
+    }, name);
+    if (!marked) break;
+    walk.say(`    (marks the ballot: ${marked})`);
+    await page.waitForTimeout(800);
+  }
+  if (await page.locator("#ballot:not([hidden])").isVisible())
+    await page.locator("#ballot-leave").click();
+}
+
+/** A meeting the player sits in: what it says is written down; each item is decided for them; then adjourn. */
+async function sitMeeting(walk) {
+  const { page } = walk;
+  walk.say(
+    `--- meeting: ${(await page.locator("#meeting").innerText()).replace(/\n+/g, " / ").slice(0, 600)}`,
+  );
+  const decide = page.getByRole("button", { name: "Decide for me" });
+  if (await decide.first().isVisible())
+    await decide
+      .first()
+      .click({ timeout: 3000 })
+      .catch(() => {});
+  else
+    await page
+      .locator("#meeting-adjourn")
+      .click({ timeout: 3000 })
+      .catch(() => {});
+  await page.waitForTimeout(800);
+}
+
+/** Election night: the returns, one step at a time to the call. */
+async function watchReturns(walk) {
+  const { page } = walk;
+  walk.say(
+    `--- returns: ${(await page.locator("#returns").innerText()).replace(/\n+/g, " / ").slice(0, 600)}`,
+  );
+  const next = page.locator("#returns button:visible").first();
+  if (await next.count()) await next.click({ timeout: 3000 }).catch(() => {});
+  await page.waitForTimeout(800);
+}
+
+/**
  * Press Day and play whatever the day brings until the clock is free again:
  * a stop is continued, a scene's talk is played and written down. A stop
  * holds Day until it is answered, so waiting on Day alone would wait forever.
@@ -178,6 +260,10 @@ export async function pressDay(walk) {
         .locator("#continue")
         .click({ timeout: 3000 })
         .catch(() => {});
+    else if (await shown(page, "election-day")) await electionMorning(walk);
+    else if (await shown(page, "ballot")) await markBallot(walk);
+    else if (await shown(page, "returns")) await watchReturns(walk);
+    else if (await shown(page, "meeting")) await sitMeeting(walk);
     else await page.waitForTimeout(1500);
   }
   await page.locator("#day").click();
