@@ -61,7 +61,7 @@
     "for": "Present when the visitor is the bill's sponsor, from the bill record.",
     "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
     "winner": "Whoever won the race a count settled, by name, from the election result record.",
-    "employer": "The employer making a job offer, from the jobs engine's offer record.",
+    "employer": "An employer: the one making a job offer, from the jobs engine's offer record, or a donor's own, from their job and its organization.",
     "school": "A school the two share, by name: the one they were both at in one school year, or the one their children attend, from the school engine's attended rows.",
     "hometown": "The town the speaker lives in when it is not the town of the scene, from the speaker's person record.",
     "position": "The position offered, with its article (\"a server\"), from the offer record's title.",
@@ -132,7 +132,7 @@
     "lawstate": "The state whose law it is, when it is not the reader's own, from the law record.",
     "homestate": "The reader's own state, from their place record.",
     "effective": "The day a law enacted but not yet in force takes effect, as people say it (\"January 1, 2026\"), from the law record.",
-    "about": "What a law not yet in force changes, by what it is (\"the Social Security payroll tax\"), from the law record's policy name.",
+    "about": "What a law or bill is about, as people say it: a law not yet in force by what it changes (\"the Social Security payroll tax\"), from the law record's policy name, or the bill a donor named, from the bill's first provision as the bill catalog words its question (question-names).",
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
     "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
     "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
@@ -152,7 +152,8 @@
     "purpose": "What a bill does, as a short phrase, from the bill record's own sections.",
     "names": "The members who voted no on a bill, by name, three or fewer, from the vote record.",
     "group": "The group that pressed the members who voted no, by its said name, from the lobbying record.",
-    "budget-cost": "What a bill adds to the budget each year, one rounded sum, from its budget-line sections."
+    "budget-cost": "What a bill adds to the budget each year, one rounded sum, from its budget-line sections.",
+    "donor-first": "A donor's given name, as the candidate says it to them, from the person record."
   },
   "maxWords": 70,
   "parts": [
@@ -9663,7 +9664,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "onlyWhen": ["bill"]
         }
       ],
       "bearing": "guarded",
@@ -68490,7 +68492,8 @@
           "role": "asker",
           "purpose": "confirm-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["your-promise"]
+          "requiresFacts": ["your-promise"],
+          "onlyWhen": ["vote-today"]
         }
       ],
       "bearing": "calm",
@@ -74209,7 +74212,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "bribe-offer",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["read-public"]
         }
       ],
       "bearing": "guarded",
@@ -107100,7 +107104,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "onlyWhen": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -107196,7 +107201,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "onlyWhen": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -107292,7 +107298,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "onlyWhen": ["bill"]
         }
       ],
       "bearing": "guarded",
@@ -124773,7 +124780,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -124784,6 +124792,31 @@
         "move": "greet",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.open-greet.a-minute-it-s-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "A minute. It's about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "onlyWhen": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      },
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14"
     },
     {
       "key": "scene-talk.open-greet.i-ve-been-trying-your-office-since-yesterday",
@@ -124846,7 +124879,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill", "read-town-against"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["read-town-against"]
         }
       ],
       "bearing": "braced",
@@ -124859,10 +124893,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.people-keep-asking-me-why-you-voted-the-way-you-did-on-bill-what-do-i",
+      "key": "scene-talk.state-ask.people-keep-asking-why-you-voted-that-way-on-bill",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "People keep asking me why you voted the way you did on {bill}. What do I tell them?",
+      "text": "People keep asking why you voted that way on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -124871,7 +124905,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -124946,13 +124981,379 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill", "vote-held"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
       "origin": "authored",
       "author": "Claude Sonnet (Story overnight, press-comment variants)",
       "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.outlet-is-running-a-story-about-you-is-it-true",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "{outlet} is running a story about you. Is it true?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "requiresFacts": ["outlet"],
+          "onlyWhen": ["read-scandal"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.outlet-is-printing-this-either-way-your-side",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{outlet} is printing this either way. Your side?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["skipped-some"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-read-what-you-told-outlet-i-have-some-follow-ups",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I read what you told {outlet}. I have some follow-ups.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.your-interview-with-outlet-ran-not-everybody-believed-it",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Your interview with {outlet} ran. Not everybody believed it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-skipped-some-of-outlet-s-questions-i-d-like-to-ask-them-again",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You skipped some of {outlet}'s questions. I'd like to ask them again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["bill"],
+          "onlyWhen": ["skipped-some"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.somebody-asked-you-for-bill-who",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Somebody asked you for {bill}. Who?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["introduced"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-ll-be-blunt-why-bill-and-why-now",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'll be blunt. Why {bill}, and why now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["introduced"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-have-questions-about-bill-you-may-not-like-them",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I have questions about {bill}. You may not like them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.somebody-wanted-bill-stopped-who",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Somebody wanted {bill} stopped. Who?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["stopped-it"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-ll-be-blunt-why-stop-bill",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'll be blunt. Why stop {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["stopped-it"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-signed-bill-who-is-it-for",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You signed {bill}. Who is it for?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["signed-it"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-ll-be-blunt-why-sign-bill",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'll be blunt. Why sign {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["signed-it"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.somebody-wanted-bill-signed-who",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Somebody wanted {bill} signed. Who?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["signed-it"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.outlet-didn-t-get-all-its-answers-i-d-like-the-rest",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{outlet} didn't get all its answers. I'd like the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["outlet"],
+          "onlyWhen": ["skipped-some"],
+          "excludesFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
       "tag": {
         "move": "ask",
         "key": "routine"
@@ -124970,7 +125371,8 @@
           "move": "ask",
           "role": "asker",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -125906,7 +126308,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["bill", "read-scandal"]
+          "requiresFacts": ["bill", "read-scandal"],
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -125981,7 +126384,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["bill", "read-scandal"]
+          "requiresFacts": ["bill", "read-scandal"],
+          "onlyWhen": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -128064,7 +128468,8 @@
           "role": "asker",
           "purpose": "ask-vote.whip",
           "key": "vote-wanted",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["read-same-party"]
         }
       ],
       "bearing": "braced",
@@ -128089,7 +128494,8 @@
           "role": "asker",
           "purpose": "ask-vote.whip",
           "key": "vote-wanted",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["read-holds-post"]
         }
       ],
       "bearing": "calm",
@@ -129020,7 +129426,8 @@
           "role": "asker",
           "purpose": "ask-vote.trade",
           "key": "vote-wanted",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "onlyWhen": ["read-favor-given"]
         }
       ],
       "bearing": "calm",
@@ -132258,7 +132665,8 @@
           "move": "tell",
           "role": "asker",
           "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
+          "key": "moving-goodbye",
+          "excludesFacts": ["same-home"]
         }
       ],
       "bearing": "tender",
@@ -132356,7 +132764,8 @@
           "role": "asker",
           "purpose": "moving-goodbye",
           "key": "moving-goodbye",
-          "requiresFacts": ["destination"]
+          "requiresFacts": ["destination"],
+          "onlyWhen": ["companion"]
         }
       ],
       "bearing": "solemn",
@@ -132381,7 +132790,8 @@
           "role": "asker",
           "purpose": "moving-goodbye",
           "key": "moving-goodbye",
-          "requiresFacts": ["destination"]
+          "requiresFacts": ["destination"],
+          "excludesFacts": ["same-home"]
         }
       ],
       "bearing": "warm",
@@ -138450,7 +138860,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "introduction",
-          "key": "arrival"
+          "key": "arrival",
+          "onlyWhen": ["employer"]
         }
       ],
       "bearing": "curious",
@@ -144035,7 +144446,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "rescue-ask",
-          "key": "threat"
+          "key": "threat",
+          "onlyWhen": ["kin"]
         }
       ],
       "bearing": "calm",
@@ -186725,6 +187137,1551 @@
       "tag": {
         "move": "relent",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-want-bill-passed-and-i-want-your-vote-on-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want {bill} passed, and I want your vote on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift", "donor-bill", "side-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-for",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-needs-one-more-vote-i-d-like-it-to-be-yours",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} needs one more vote. I'd like it to be yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift", "donor-bill", "side-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-for",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-asking-you-to-get-behind-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking you to get behind {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift", "donor-bill", "side-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-for",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.when-bill-comes-up-i-need-you-voting-yes",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "When {bill} comes up, I need you voting yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift", "donor-bill", "side-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-for",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-work-at-employer-and-it-would-make-a-real-difference-there",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I work at {employer}, and it would make a real difference there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-for",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.a-place-like-employer-does-better-with-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "A place like {employer} does better with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-for",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-see-what-it-does-every-day-at-employer",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd see what it does every day at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-for",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-matters-to-the-people-i-work-with-at-employer",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It matters to the people I work with at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-for",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-about-about-and-i-ve-thought-hard-about-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's about {about}, and I've thought hard about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-for",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-care-about-about-more-than-anything-else-on-the-agenda",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I care about {about} more than anything else on the agenda.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-for",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-bill-stopped-before-it-gets-to-a-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need {bill} stopped before it gets to a vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift", "donor-bill", "side-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-against",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.when-bill-comes-up-i-need-you-voting-no",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "When {bill} comes up, I need you voting no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift", "donor-bill", "side-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-against",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-would-hurt-people-like-me-i-m-asking-you-to-kill-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} would hurt people like me. I'm asking you to kill it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift", "donor-bill", "side-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-against",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-you-to-stand-against-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like you to stand against {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift", "donor-bill", "side-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-against",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-work-at-employer-and-it-would-cost-us",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I work at {employer}, and it would cost us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-against",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.a-place-like-employer-takes-the-hit-from-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "A place like {employer} takes the hit from it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-against",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.ask-anyone-at-employer-what-it-would-mean-for-them",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Ask anyone at {employer} what it would mean for them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-against",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.employer-would-be-the-one-paying-for-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{employer} would be the one paying for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-against",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-seen-what-about-does-and-i-don-t-want-it-here",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've seen what {about} does, and I don't want it here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-against",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.this-is-about-about-plain-and-simple",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "This is about {about}, plain and simple.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-against",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-work-at-employer-i-know-what-s-at-stake",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I work at {employer}. I know what's at stake.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-bill",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-feel-these-things-first-at-employer",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We feel these things first at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-bill",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-work-at-employer-and-i-see-it-there",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I work at {employer}, and I see it there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-cause",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.people-at-employer-talk-about-it-all-the-time",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People at {employer} talk about it all the time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-cause",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-i-ll-bring-what-i-know-about-about",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. I'll bring what I know about {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-somebody-has-to-take-about-seriously",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. Somebody has to take {about} seriously.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-thank",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-must-have-a-view-on-about-what-is-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You must have a view on {about}. What is it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.i-ll-make-sure-everyone-at-employer-hears-how-you-voted",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "I'll make sure everyone at {employer} hears how you voted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-threaten",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.people-at-employer-are-counting-on-this-please",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "People at {employer} are counting on this. Please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-plea",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.think-about-the-folks-at-employer-before-you-say-no",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Think about the folks at {employer} before you say no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-plea",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-m-only-asking-you-to-think-about-about-a-little-longer",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'm only asking you to think about {about} a little longer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-plea",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.where-do-you-stand-on-about-then",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Where do you stand on {about}, then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-get-you-one-page-on-about-nothing-more",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll get you one page on {about}, nothing more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-close-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fine-i-ll-make-my-case-on-about-somewhere-else",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fine. I'll make my case on {about} somewhere else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"],
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-close-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.okay-you-ll-have-my-help",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Okay. You'll have my help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-agree",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-made-up-my-mind-on-about-and-a-check-won-t-change-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've made up my mind on {about}, and a check won't change it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.on-about-i-m-going-where-the-voters-are",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "On {about}, I'm going where the voters are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-know-what-you-want-but-my-answer-on-about-is-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I know what you want, but my answer on {about} is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.about-is-a-vote-i-ll-make-on-the-merits",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "{about} is a vote I'll make on the merits.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-promise-you-anything-on-about",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't promise you anything on {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.your-money-doesn-t-buy-my-position-on-about",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Your money doesn't buy my position on {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.we-just-see-about-differently-and-that-s-fine",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "We just see {about} differently, and that's fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-won-t-trade-my-vote-on-about-not-for-anybody",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I won't trade my vote on {about}, not for anybody.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-get-back-to-you-on-that-there-s-a-lot-going-on",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me get back to you on that. There's a lot going on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-deflect",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.it-s-handled-i-made-some-calls",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "It's handled. I made some calls.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-lie",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.it-s-already-moving-i-ve-talked-to-the-right-people",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "It's already moving. I've talked to the right people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-lie",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.already-done-i-put-in-a-word",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Already done. I put in a word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-lie",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-not-on-about",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. Not on {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-refuse",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-changing-my-mind-on-about",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not changing my mind on {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-refuse",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.say-hello-to-everyone-at-employer-for-me-i-have-to-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Say hello to everyone at {employer} for me. I have to go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-leave",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-donor-first-i-can-t-make-that-promise",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry, {donor-first}. I can't make that promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "apologize",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-apologize",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-need-to-hear-from-more-people-about-about",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I need to hear from more people about {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-stall",
+        "part": "core",
+        "required": true
       }
     },
     {

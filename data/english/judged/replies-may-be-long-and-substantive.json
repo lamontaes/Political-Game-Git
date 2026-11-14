@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 518,
+  "judged": 522,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -86,6 +86,14 @@
         "scene-talk.reply-leave.this-conversation-is-over"
       ],
       "why": "'My answer doesn't change', 'Fine' and 'This conversation is over' give no reason."
+    },
+    "012kh8bmok8": {
+      "keys": [
+        "scene-talk.beat-beat.name-straightens-the-page-and-says-nothing-for-a-moment",
+        "scene-talk.reply-decline.not-this-time-i-m-sorry",
+        "scene-talk.reply-leave.i-ll-call-you-after-i-talk-to-the-council-chair"
+      ],
+      "why": "\"Not this time\" and a callback carry no reason."
     },
     "014fusi998i": {
       "keys": [
@@ -2140,6 +2148,14 @@
       ],
       "why": "'I'll find out whose it is' and 'Call my office Monday' are promises with no reason."
     },
+    "12cqzc9a7ce": {
+      "keys": [
+        "scene-talk.follow-answer.say-it-after-me-a-line-at-a-time-i-will-support-the-constitution-and-the",
+        "scene-talk.reply-agree.i-will-support-the-constitution-and-the-laws-and-i-will-serve-as-office",
+        "scene-talk.reply-promise.i-will-support-the-constitution-and-the-laws-i-will-carry-out-the-duties"
+      ],
+      "why": "Both oath replies are pledges with no reason."
+    },
     "12g7vhobdo2": {
       "keys": [
         "scene-talk.state-tell.i-keep-reading-about-bill-i-want-to-know-what-it-means-for-us",
@@ -4124,6 +4140,14 @@
       ],
       "why": "\"Even then. It's the right call\" restates the stance without saying why it is right, and the others deny or leave."
     },
+    "2641ch6gg9v": {
+      "keys": [
+        "scene-talk.follow-answer.bad-enough-that-i-haven-t-slept-i-ll-show-you-the-estimate",
+        "scene-talk.reply-promise.then-let-s-get-it-done-i-ll-start-with-the-contractor",
+        "scene-talk.reply-deflect.let-s-get-a-second-estimate-before-we-decide-anything"
+      ],
+      "why": "Starting with the contractor and getting a second estimate state plans without a reason."
+    },
     "26azqxokkcc": {
       "keys": [
         "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
@@ -4364,6 +4388,15 @@
         "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say-my-office-has-the-rest"
       ],
       "why": "Asking for word-for-word printing, refusing, demanding names and pointing to the office give no reason for the stance."
+    },
+    "2bke9ro20lr": {
+      "keys": [
+        "scene-talk.follow-answer.we-never-caught-up-after-one-bad-month-then-it-got-away-from-me",
+        "scene-talk.reply-promise.then-we-fix-it-now-i-ll-help",
+        "scene-talk.reply-offer.i-ve-got-a-little-put-away-use-it",
+        "scene-talk.reply-deflect.maybe-they-ll-wait-if-we-ask"
+      ],
+      "why": "Fixing it now, offering savings and hoping they wait carry no argument."
     },
     "2bzgcqxdtbw": {
       "keys": [

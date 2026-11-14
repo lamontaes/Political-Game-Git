@@ -231,7 +231,13 @@ export function replyPairs(
           const asked: (ReplyScene & { family?: string })[] = [scene];
           if (scene.family && !options.everyFit)
             asked.push({ purpose: scene.family, key: scene.key });
-          const required = candidates.map((row) => row.use.requiresFacts ?? []);
+          // A line's guard facts (`onlyWhen`) are facts a world can hold too.
+          const required = candidates.map((row) =>
+            [
+              ...(row.use.requiresFacts ?? []),
+              ...(row.use.onlyWhen ?? []),
+            ].sort(),
+          );
           // A packet can hold a fact that keeps the other replies out (`excludesFacts`): with all of
           // them present, a reply judged "no" may be the only one left, and the picker serves it.
           const excluded = [
@@ -242,7 +248,9 @@ export function replyPairs(
           const factSets = new Set([
             ...required.map((names) => names.join(",")),
             ...(excluded.length
-              ? required.map((names) => [...names, ...excluded].join(","))
+              ? required.map((names) =>
+                  [...names, ...excluded].sort().join(","),
+                )
               : []),
           ]);
           for (const outcome of outcomes)
