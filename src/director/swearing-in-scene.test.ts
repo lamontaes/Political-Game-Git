@@ -31,7 +31,6 @@ import {
   type TreeNode,
 } from "./scene-talk";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
-import { WORDS_STOPGAP_HITS } from "./stopgaps";
 import { outgoingHolder, swornOffice, titleInSentence } from "./swearing-in";
 import swearingData from "./data/swearing-in.json" with { type: "json" };
 import { expectUpToFourDifferent } from "./reply-set-check";
@@ -191,11 +190,6 @@ function swearIn(at: string, world: World, address: boolean): string {
   const outgoing = outgoingHolder(core, sworn, playerId);
   if (filed && core.people.get(filed)?.alive) expect(officiant, at).toBe(filed);
   else if (outgoing) expect(officiant, at).toBe(outgoing);
-  // A state or federal office has no court on record to swear anyone in.
-  if (sworn.level === "state" || sworn.level === "federal")
-    expect(WORDS_STOPGAP_HITS.has("SG-WORDS-swearing-in-no-court"), at).toBe(
-      true,
-    );
   // The household is the family in the room, and no one else is.
   const home = (
     core.households.get(player.householdId)?.memberIds ?? []

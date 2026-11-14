@@ -67,14 +67,16 @@ import {
 } from "../core2/modules/voting";
 import { P } from "../core2/parameters";
 import { colleagues, outgoingHolder, swornOffice } from "./swearing-in";
-import { markWordsStopgap } from "./stopgaps";
 import type { Moment } from "./types";
 
 const zero = P.zero;
 
 /**
- * Who gives the oath, from the records and never invented (the world keeps no
- * judges yet, SG-WORDS-swearing-in-no-court): the clerk who took the winner's
+ * Who gives the oath, from the records and never invented. Real oaths are
+ * given by a judge, a justice or a notary; the world keeps no courts yet (they
+ * come after early access, AGENTS.md), so the clerk stands in. This is an
+ * ESTIMATE of who swears an officeholder in (no research fetched; the source
+ * is the owner's ruling that courts come after early access). The clerk who took the winner's
  * filing, else the clerk of the government the office belongs to, else the
  * holder who left the seat that day, else the body's presiding officer (the
  * legislature's leaders for a statewide office). Nobody on record, and the
@@ -90,9 +92,6 @@ function oathGiver(
   // The living full person a record names, never the one sworn in.
   const pick = (id: string | null | undefined): PersonId[] =>
     id === moment.personId ? [] : living(core, [id ?? null]);
-  // The clerk is the oath's usual giver in a town or a county; at the state
-  // and federal level a court's officer would be, and the world keeps none.
-  const clerical = sworn.level !== "state" && sworn.level !== "federal";
   const filed =
     sworn.resultId && api.state.modules.has(ELECTIONS_MODULE_ID)
       ? filingClerkFor(api, sworn.resultId)
@@ -104,11 +103,7 @@ function oathGiver(
         ? localClerkFor(api, "municipalOffice")
         : null;
   const clerk = pick((filed ?? government)?.personId);
-  if (clerk.length) {
-    if (!clerical) markWordsStopgap("SG-WORDS-swearing-in-no-court");
-    return clerk;
-  }
-  markWordsStopgap("SG-WORDS-swearing-in-no-court");
+  if (clerk.length) return clerk;
   const outgoing = outgoingHolder(core, sworn, moment.personId);
   if (outgoing) return [outgoing];
   if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return [];
