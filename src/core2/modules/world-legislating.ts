@@ -77,7 +77,9 @@ import {
   type SettledQuestion,
 } from "./laws";
 import type { LawRowInput } from "./laws";
-import { policySeriesAtLevel } from "./laws";
+import { lawInForce, policySeriesAtLevel } from "./laws";
+import { billValueInForce } from "../laws-bill-values";
+import { stateAmountOn } from "../laws-starting";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
@@ -87,6 +89,7 @@ import type { OfficeLevel } from "./offices";
 import { partySide } from "./offices";
 import { decisionLean, termOfLean } from "./people";
 import {
+  AMOUNT_QUESTIONS,
   authorityFor,
   beyondPower,
   billJurisdiction,
@@ -522,6 +525,122 @@ export function neighborPull(
   return counted ? net / counted : 0;
 }
 
+/** A new amount a state's members may file for one of its amount laws. */
+export interface AmountChange {
+  readonly series: string;
+  /** The policy question the amount speaks to, and which way the change points on it. */
+  readonly question: string;
+  readonly direction: number;
+  /** The amount the bill sets, and the amount in force it changes. */
+  readonly value: number;
+  readonly from: number;
+  readonly unit: string | null;
+  readonly tier: string;
+  /** The bordering states' own amounts on the day, by state key. */
+  readonly neighbors: Readonly<Record<string, number>>;
+}
+
+/**
+ * The amounts a state's members may file: for each amount law a member can
+ * weigh (`AMOUNT_QUESTIONS`) whose amount in force the bordering states set
+ * differently, the middle of the neighbors' amounts (of the two middle ones,
+ * the nearer), so a bill names a figure some neighbor already lives under.
+ * A floor law (the minimum wage) is read as each neighbor's people live
+ * under it, the federal floor included. Whether anyone files it is the
+ * members' own reasons (`filingReason`); the neighbors only pull.
+ */
+export function amountChanges(
+  api: CoreAPI,
+  jurisdiction: string,
+): readonly AmountChange[] {
+  const borders = BORDERS[jurisdiction.replace(/^US-/, "")]?.borders ?? [];
+  if (!borders.length) return [];
+  const changes: AmountChange[] = [];
+  for (const [series, map] of Object.entries(AMOUNT_QUESTIONS)) {
+    const own = billValueInForce(
+      api,
+      { kind: "law-amount", series },
+      jurisdiction,
+    );
+    if (own.value === null || !own.row) continue;
+    const floor =
+      lawInForce(api, series).doctrine === "floor"
+        ? billValueInForce(api, { kind: "law-amount", series }, "US").value
+        : null;
+    const neighbors: Record<string, number> = {};
+    for (const usps of borders) {
+      const value = stateAmountOn(
+        `US-${usps}`,
+        series,
+        own.row.tier,
+        api.state.date,
+      );
+      if (value === null) continue;
+      // stopgapId: SG-LAWS-neighbor-law-starting
+      api.stopgap("SG-LAWS-neighbor-law-starting");
+      neighbors[`US-${usps}`] = floor === null ? value : Math.max(value, floor);
+    }
+    const values = Object.values(neighbors).sort((a, b) => a - b);
+    if (!values.length) continue;
+    const low = values[Math.floor((values.length - 1) / 2)]!;
+    const high = values[Math.floor(values.length / 2)]!;
+    const value =
+      Math.abs(low - own.value) <= Math.abs(high - own.value) ? low : high;
+    if (value === own.value) continue;
+    changes.push({
+      series,
+      question: map.question,
+      direction: Math.sign(value - own.value) * map.raiseIs,
+      value,
+      from: own.value,
+      unit: own.row.unit ?? null,
+      tier: own.row.tier,
+      neighbors,
+    });
+  }
+  return changes;
+}
+
+/**
+ * How an amount law stands, for anyone weighing a new amount: how settled it
+ * is, the body's reluctance to move an amount it set lately (larger the
+ * fresher and the wider it passed), and how the neighbors stand: the share of
+ * them already past the amount in force the way the change goes, less the
+ * share behind it.
+ */
+function amountStanding(
+  api: CoreAPI,
+  change: AmountChange,
+  jurisdiction: string,
+): { settled: number; reluctance: number; neighbors: number } {
+  const settled = settledness(api, change.series, jurisdiction);
+  const last = lastEnactment(api, change.series, lawKeysOf(api, jurisdiction));
+  const way = Math.sign(change.value - change.from);
+  const values = Object.values(change.neighbors);
+  return {
+    settled,
+    reluctance: last
+      ? campaignParameter("reversalReluctance") *
+        Math.max(0, last.margin) *
+        ((1 - settled) / 2)
+      : 0,
+    neighbors: values.length
+      ? values.reduce((n, v) => n + Math.sign((v - change.from) * way), 0) /
+        values.length
+      : 0,
+  };
+}
+
+/** The section a filed amount becomes. */
+function amountProvision(change: AmountChange): Provision {
+  return {
+    kind: "law-amount",
+    series: change.series,
+    value: change.value,
+    ...(change.unit ? { unit: change.unit } : {}),
+  };
+}
+
 /** A member's own reasons to carry a change on a question, pointing one way. */
 export function filingReason(
   api: CoreAPI,
@@ -582,6 +701,8 @@ interface Filed {
   readonly leaderReason: number;
   /** The bill a member filed at the executive's request. */
   readonly drafted?: BillRow;
+  /** A new amount for a law in force (its series in `question`), in place of a yes-or-no answer. */
+  readonly amount?: AmountChange;
   /** A change to one line of the government's budget, in place of a yes-or-no question. */
   readonly line?: {
     readonly name: string;
@@ -616,6 +737,8 @@ function fileChanges(
     readonly barred: (question: string, direction: number) => boolean;
     /** A body that votes its own government's budget also takes up amendments to its lines. */
     readonly lines?: boolean;
+    /** A state's members also file new amounts for its amount laws (`amountChanges`). */
+    readonly amounts?: boolean;
   },
 ): Filed[] {
   const filers = input.filers.map((t) => filerOf(api, t));
@@ -629,7 +752,11 @@ function fileChanges(
       ? filerOf(api, head)
       : null;
   // Every change the law in force and the body's rules leave open to file.
-  const open: { question: string; direction: number }[] = [];
+  const open: {
+    question: string;
+    direction: number;
+    amount?: AmountChange;
+  }[] = [];
   for (const question of input.body ? PLATFORM_QUESTIONS : [])
     for (const direction of [1, -1]) {
       if (!input.needsChange(question, direction)) continue;
@@ -637,8 +764,30 @@ function fileChanges(
       if (input.barred(question, direction)) continue;
       open.push({ question, direction });
     }
+  for (const amount of input.body && input.amounts
+    ? amountChanges(api, input.jurisdiction)
+    : []) {
+    // A bill naming the amount and a yes on a question that writes the amount
+    // itself are one change: the bill that names the figure is the one filed.
+    if (AMOUNT_QUESTIONS[amount.series]?.questionWritesIt) {
+      const twin = open.findIndex(
+        (c) =>
+          !c.amount &&
+          c.question === amount.question &&
+          c.direction === amount.direction,
+      );
+      if (twin >= 0) open.splice(twin, 1);
+    }
+    open.push({
+      question: amount.question,
+      direction: amount.direction,
+      amount,
+    });
+  }
   const laws = open.map((c) =>
-    lawStanding(api, c.question, c.direction, input.jurisdiction),
+    c.amount
+      ? amountStanding(api, c.amount, input.jurisdiction)
+      : lawStanding(api, c.question, c.direction, input.jurisdiction),
   );
   const reasonsOf = (f: Filer): number[] =>
     open.map((c, i) => filingReason(api, f, c.question, c.direction, laws[i]!));
@@ -656,7 +805,7 @@ function fileChanges(
     };
   });
   let execCarries: ReadonlySet<number> | undefined;
-  open.forEach(({ question, direction }, i) => {
+  open.forEach(({ question, direction, amount }, i) => {
     const law = laws[i]!;
     let sponsor: Filer | null = null;
     let best = 0;
@@ -680,7 +829,11 @@ function fileChanges(
       if (!execCarries.has(i)) return;
       const request = proposeAsExecutive(api, {
         bodyOfficeId: input.body!.id,
-        provisions: [{ kind: "policy-question", question, value: direction }],
+        provisions: [
+          amount
+            ? amountProvision(amount)
+            : { kind: "policy-question", question, value: direction },
+        ],
       });
       const drafted = request?.billId
         ? (api
@@ -690,8 +843,9 @@ function fileChanges(
         : undefined;
       if (!request || !drafted) return;
       filed.push({
-        question,
+        question: amount?.series ?? question,
         direction,
+        ...(amount ? { amount } : {}),
         sponsor:
           filers.find((f) => f.key === request.memberId) ??
           filerOf(
@@ -707,8 +861,9 @@ function fileChanges(
       return;
     }
     filed.push({
-      question,
+      question: amount?.series ?? question,
       direction,
+      ...(amount ? { amount } : {}),
       sponsor,
       cosponsors,
       leaderReason: leader
@@ -726,7 +881,10 @@ function fileChanges(
     filed.map((f) => [
       f,
       f.cosponsors *
-        (f.line ? 1 : 1 + weight * townConcernShare(api, f.question)),
+        (f.line
+          ? 1
+          : 1 +
+            weight * townConcernShare(api, f.amount?.question ?? f.question)),
     ]),
   );
   filed.sort(
@@ -1254,8 +1412,11 @@ const plusDays = (date: string, days: number) =>
     .slice(0, 10);
 /** A change filed for the session, the day it is introduced, and its bill once it is. */
 interface Filing {
+  /** The policy question, or for a new amount the amount law's series. */
   readonly question: string;
   readonly direction: number;
+  /** For a new amount: the section the bill carries. */
+  readonly amount?: Provision;
   readonly sponsor: string;
   readonly cosponsors: number;
   readonly introduceOn: string;
@@ -1375,6 +1536,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
             ),
           // A new session takes every bill up afresh.
           barred: () => false,
+          amounts: !federal,
         }),
       )
     : [];
@@ -1389,6 +1551,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const filings: Filing[] = filed.map((item, i) => ({
     question: item.question,
     direction: item.direction,
+    ...(item.amount ? { amount: amountProvision(item.amount) } : {}),
     sponsor: item.sponsor.key,
     cosponsors: item.cosponsors,
     introduceOn: item.drafted
@@ -1859,6 +2022,10 @@ function introduceBill(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   introduce(api, work.sourceRecordIds[0]!, Number(work.sourceRecordIds[1]));
 }
 
+/** A new amount is enacted; a question is enacted or repealed by its direction. */
+const filingChange = (f: Filing): "enact" | "repeal" =>
+  f.amount || f.direction > 0 ? "enact" : "repeal";
+
 /** A filed change becomes a bill in its sponsor's own chamber. */
 function introduce(api: CoreAPI, sessionId: string, index: number): void {
   const row = sessionTable(api).get(sessionId) as unknown as
@@ -1871,7 +2038,7 @@ function introduce(api: CoreAPI, sessionId: string, index: number): void {
     bodyOfficeId,
     sponsorId: filing.sponsor,
     provisions: [
-      {
+      filing.amount ?? {
         kind: "policy-question",
         question: filing.question,
         value: filing.direction,
@@ -2098,7 +2265,7 @@ function floorWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       ...(q.filing
         ? {
             question: q.filing.question,
-            change: q.filing.direction > 0 ? "enact" : "repeal",
+            change: filingChange(q.filing),
             sponsor: q.filing.sponsor,
             cosponsors: q.filing.cosponsors,
           }
@@ -2216,7 +2383,7 @@ function closeSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     bills.push({
       number: dead.number,
       question: f.question,
-      change: f.direction > 0 ? "enact" : "repeal",
+      change: filingChange(f),
       sponsor: f.sponsor,
       cosponsors: f.cosponsors,
       status: dead.status,

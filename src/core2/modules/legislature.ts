@@ -1713,9 +1713,28 @@ export { POLICY_QUESTIONS };
 
 const seriesQuestion = (
   provisionQuestions as unknown as {
-    series: Record<string, { question: string; raiseIs: number }>;
+    series: Record<
+      string,
+      { question: string; raiseIs: number; questionWritesIt?: boolean }
+    >;
   }
 ).series;
+
+/**
+ * The amount series a member can weigh, each with the policy question it
+ * speaks to, which way raising it points on that question, and whether a yes
+ * on the question writes the amount itself (provision-questions.json).
+ */
+export const AMOUNT_QUESTIONS: Readonly<
+  Record<
+    string,
+    {
+      readonly question: string;
+      readonly raiseIs: number;
+      readonly questionWritesIt?: boolean;
+    }
+  >
+> = seriesQuestion;
 
 /** The policy question a provision speaks to, and which way the provision points on it. */
 export function provisionStance(

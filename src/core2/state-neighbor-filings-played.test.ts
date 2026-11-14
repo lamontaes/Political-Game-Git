@@ -37,9 +37,12 @@ function firstSessionFilings(
     const state = lawChain(api).stateKey;
     for (let day = 0; day < 420; day += 30) {
       advanceCore(world.core, addDays(makeIsoDate(world.core.date), 30));
+      // The yes-or-no questions; a new amount's figure is a neighbor's own by
+      // construction (amountChanges), proved in state-amount-bills.test.ts.
       const filings = legislativeSessionsOf(api)
         .filter((s) => s.jurisdiction === state)
-        .flatMap((s) => s.filings);
+        .flatMap((s) => s.filings)
+        .filter((f) => !f.amount);
       if (filings.length)
         return {
           filings: filings.map((f) => ({

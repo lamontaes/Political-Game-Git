@@ -6,7 +6,8 @@
     "minimum-wage": {
       "question": "us-policy-positions:labor-workforce.raise-minimum-wage",
       "raiseIs": 1,
-      "why": "Raising a local minimum wage is the policy the question asks about."
+      "questionWritesIt": true,
+      "why": "Raising a local minimum wage is the policy the question asks about. A yes on the question writes the wage itself (src/core2/question-wages.ts), so a bill naming a wage and a bill answering the question are one change."
     },
     "income-tax": {
       "question": "us-policy-positions:fiscal.graduated-income-tax",

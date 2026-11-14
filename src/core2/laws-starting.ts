@@ -145,6 +145,29 @@ export function startingCalibrationRows(
   ];
 }
 
+/**
+ * Another state's own amount on a series on a day, from its researched
+ * starting law (one tier): the row in effect then, or null where none is
+ * recorded. Only the played state legislates amounts in a world, so a
+ * neighbor's figure moves only with its own dated research rows.
+ */
+export function stateAmountOn(
+  stateKey: string,
+  series: string,
+  tier: string,
+  date: string,
+): number | null {
+  let found: StartingLawRow | null = null;
+  for (const row of data.jurisdictions[stateKey] ?? []) {
+    if (row.series !== series || row.tier !== tier || row.level !== "state")
+      continue;
+    if (row.value === null || row.effectiveDate > date) continue;
+    if (row.endDate && row.endDate <= date) continue;
+    if (!found || row.effectiveDate > found.effectiveDate) found = row;
+  }
+  return found?.value ?? null;
+}
+
 /** Every starting-law row for the jurisdictions in a place's chain. */
 export function startingLawRows(chain: LawChain): readonly LawRowInput[] {
   const rows: LawRowInput[] = [];
