@@ -132,7 +132,7 @@ describe("a job title says its employer's own kind of place", () => {
   );
 
   it("words a vote on the office screen's list of acts", () => {
-    expect(controls.officeStops.voteCast).toEqual({
+    expect(controls.officeStops.votes).toEqual({
       yes: "Yes",
       no: "No",
       abstain: "Abstained",
