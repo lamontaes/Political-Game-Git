@@ -23789,6 +23789,14 @@
           "step": "state",
           "move": "accept-terms",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
         }
       ],
       "bearing": "calm",
@@ -164745,10 +164753,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-asked-name-for-an-hour-this-morning-you-get-right-to-it",
+      "key": "scene-talk.narrate-narrate.you-asked-name-for-an-hour-you-get-right-to-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You asked {name} for an hour this morning. You get right to it.",
+      "text": "You asked {name} for an hour. You get right to it.",
       "uses": [
         {
           "subject": "scene",
@@ -164866,10 +164874,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-knows-you-today-you-ve-come-to-ask-something-big",
+      "key": "scene-talk.narrate-narrate.name-knows-you-you-ve-come-to-ask-something-big",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} knows you. Today you've come to ask something big.",
+      "text": "{name} knows you. You've come to ask something big.",
       "uses": [
         {
           "subject": "scene",
@@ -165873,54 +165881,6 @@
       "date": "2026-11-14",
       "tag": {
         "move": "accept",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.i-understand-serve",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I understand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "accept",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
         "key": "serve-asked"
       }
     },
@@ -168213,6 +168173,14 @@
           "purpose": "ask-support.lost-job",
           "key": "door",
           "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
         }
       ],
       "bearing": "tender",
