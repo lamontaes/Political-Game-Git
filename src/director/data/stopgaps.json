@@ -1061,5 +1061,17 @@
     "addedAt": "2026-11-10",
     "replacement": "The constituent-cases engine (src/core2/modules/constituent-cases.ts, problemOf) opens a case from a served rent notice (problem behind-on-rent) and from a care need in the household (problem caring-for-someone-ill); the two variants then play from those cases with no change here.",
     "status": "open"
+  },
+  {
+    "id": "SG-STORY-waiting-next-together-unread",
+    "kind": "missing-producer",
+    "file": "src/director/ledger.ts",
+    "line": 1751,
+    "whatItFakes": "A waiting scene whose timing is next-together (it plays the next time the player and the other person are in one place) is never opened by their meeting: the clock opens only scenes timed at the cause or an effective date, so a next-together scene waits out its 30 open days and closes as a journal line, not met in time.",
+    "why": "director-a-waiting-scene-is-never-played, fix 3, needs the bench's talk route and the visit to ask the director for a due next-together scene with that person before the stock talk; the clock part shipped first so the scenes timed at the cause play at all.",
+    "addedBy": "Words builder W7",
+    "addedAt": "2026-11-11",
+    "replacement": "The bench's talk route (openConversation) and the visit ask waitingScenes for a due next-together scene with that person and play it first, through openWaiting.",
+    "status": "open"
   }
 ]

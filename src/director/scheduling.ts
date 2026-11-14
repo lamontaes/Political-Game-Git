@@ -302,6 +302,11 @@ export interface ScheduleEntry {
   /** The reply records the player's answers wrote, for the journal to tell. */
   replies?: string[];
   coverage?: CoverageRow;
+  /**
+   * Why a waiting scene closed without playing: its open days ran out before
+   * the player met it ("not met in time"). Its outcome is then a journal line.
+   */
+  closed?: string;
 }
 
 /** About how many scenes a year this life carries now, by band of childhood agency. */

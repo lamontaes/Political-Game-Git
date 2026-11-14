@@ -1,0 +1,18 @@
+PLAYER w7-press-h: Amir Chan in Lesslie, South Carolina
+FILED w7-press-h: {"me":"person_740fc20c61b6f628","body":"office:gus2025:134417:board","billId":"bill:office:gus2025:134417:board:2025-01-20:person_740fc20c61b6f628:7","tried":["us-policy-positions:transportation-infrastructure.fare-free-transit:drafted"]}
+SEEN 5: Evelyn Fernandez | Evelyn Fernandez | I'm writing about the Free Fares for Riders Ordinance for Lesslie Times. Mind if I ask you a few things? | People are asking about the Free Fares for Riders Ordinance. Would you like
+TALK w7-press-h (asked):
+Evelyn Fernandez
+Evelyn Fernandez
+I'm writing about the Free Fares for Riders Ordinance for Lesslie Times. Mind if I ask you a few things?
+People are asking about the Free Fares for Riders Ordinance. Would you like to respond?
+A staffer hovers at your elbow while Evelyn Fernandez writes.
+I put the Free Fares for Riders Ordinance in because free fares on public transit is overdue.
+--
+TALK w7-press-h (answered):
+Evelyn Fernandez
+Evelyn Fernandez
+AMIR CHAN
+I put the Free Fares for Riders Ordinance in because free fares on public transit is overdue.
+Even if it costs you votes in Lesslie?
+Even then. It's the right call. People in Lesslie can judge me on it.

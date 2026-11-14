@@ -3163,9 +3163,14 @@ export function openConversation(
   // Away from a scene's occasion, they mention the newest change they know
   // of and who they blame (bring-it-up, which passes both on). Those lines
   // are the talk's raise of that news, said once: the talk goes on from it.
-  const brought = occasion
-    ? null
-    : bringItUp(core as CoreState, otherId, playerId);
+  // A scene whose cause is a story the other person read (news brought on
+  // the street, at home) is the news itself: they bring it up as they would
+  // away from a scene, or the scene says "has news for you" and nothing more
+  // (the lead's review of #8812, Bivalve, Maryland, February).
+  const brought =
+    occasion && !storyOfReadEvent(occasion.causeId)
+      ? null
+      : bringItUp(core as CoreState, otherId, playerId);
   let raisedBrought = false;
   if (brought) {
     conversation.recorded.push(brought.toldEventId);

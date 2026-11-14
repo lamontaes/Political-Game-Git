@@ -400,7 +400,11 @@ export function composeScene(
   const record = core.durableLog.get(moment.causeId);
   const speechText = record?.facts?.[ADDRESS_FACT.text];
   // The speaker is the person, or the one the scene's `said` role holds.
-  const speakerId = record?.facts?.[ADDRESS_FACT.president];
+  // Whoever gave it (a governor's or a mayor's address names its speaker,
+  // not a President), else the President.
+  const speakerId =
+    record?.facts?.[ADDRESS_FACT.speaker] ??
+    record?.facts?.[ADDRESS_FACT.president];
   const speech =
     typeof speechText === "string" &&
     speechText &&

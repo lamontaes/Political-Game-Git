@@ -1,0 +1,18 @@
+PLAYER w7-press-c: Blair Hanson in East Point, Georgia
+FILED w7-press-c: {"me":"person_f7cb3eb10ea7886b","body":"office:gus2025:161875:council","billId":"bill:office:gus2025:161875:council:2025-01-20:person_f7cb3eb10ea7886b:12","tried":["us-policy-positions:transportation-infrastructure.fare-free-transit:drafted"]}
+SEEN 5: George Cook | George Cook | Do you have a minute? I've been meaning to ask you something. | I'll say it straight. I want to know whose side you're on when this gets hard, and I'd rather ask than guess
+SEEN 9: Kelly Hanson | Kelly Hanson | Hey. Long day? | You missed it again. | I've let things slide at home. I know. | I'll be home more. I promise. | It's temporary. It'll settle down. | This job doesn't lea
+SEEN 14: Katelyn Joseph | Katelyn Joseph | Which part of the Free Fares for Riders Ordinance are you ready to give up to get it passed? | Katelyn Joseph flips back a page and underlines something. | I put the 
+TALK w7-press-c (asked):
+Katelyn Joseph
+Katelyn Joseph
+Which part of the Free Fares for Riders Ordinance are you ready to give up to get it passed?
+Katelyn Joseph flips back a page and underlines something.
+I put the Free Fares for Riders Ordinance in because free fares on public transit is overdue.
+--
+TALK w7-press-c (answered):
+Katelyn Joseph
+Katelyn Joseph
+BLAIR HANSON
+I put the Free Fares for Riders Ordinance in because free fares on public transit is overdue.
+What do you tell people in East Point who wanted the other side of it?
