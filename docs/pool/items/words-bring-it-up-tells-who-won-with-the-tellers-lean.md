@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-5efbu8
-pr:
+pr: 9279
 after:
 blocked-on:
 lead: words
