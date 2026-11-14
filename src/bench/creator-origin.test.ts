@@ -1,8 +1,6 @@
 // @vitest-environment node
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { applyChosenPerson } from "./creator";
@@ -16,14 +14,27 @@ import rules from "./data/whole-figures.json" with { type: "json" };
 // (play-creator-look-and-family-share-an-origin; owner, Nov 8: "I'm Mexican
 // and my son is white"): in two drawn places the player and every household
 // member then share one origin, and each member's face is of its tones.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// Pinned to two named places and their world seeds (drawn once from all 56 at
+// seed 12bbbd2da8760f2f; a random draw can land on an origin that paints every
+// tone, which leaves no face to choose from outside it).
+const PINS = [
+  {
+    name: "Liberty, Mississippi",
+    key: "2840640",
+    seed: "a39d870ce8fb161e403aeb54dbb2f9ba9789876a501aa6963c095e418145eb2f",
+  },
+  {
+    name: "Midland, Louisiana",
+    key: "2250325",
+    seed: "277a13749936b06d7a2065daab42f5f92f4d84f732ae6a66110c8d35a30fc420",
+  },
+];
 const TONES = rules.originTones as Record<string, readonly number[]>;
 
 it("a chosen look's family shares its origin", () => {
   setBookkeeping(false);
-  for (let draw = 0; draw < 2; draw += 1) {
-    const place = drawPlace(`${seed}:${draw}`, "creator-origin");
-    const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
+  for (const place of PINS) {
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core, playerId } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
