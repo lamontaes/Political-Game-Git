@@ -7,6 +7,7 @@
  * grandmother (seen in Hysham, Montana: "Let's call Laura together.").
  */
 import { describe, expect, it } from "vitest";
+import bank from "../../data/english/parts/conversation.json";
 import { composeConversationLine } from "../english/conversation-words";
 import type { PersonId } from "../core2/types";
 
@@ -144,14 +145,23 @@ describe("the answers that close a death's telling without a promise", () => {
       "I wanted you to hear it from me.",
     );
   });
-  it("says it knows no more only when no cause or illness is on record", () => {
-    expect(heard("ask", {})).toContain("I don't know more than that.");
-    expect(heard("ask", { cause: fact("a stroke") })).not.toContain(
-      "I don't know more than that.",
-    );
-    expect(heard("ask", { "illness-known": fact("yes") })).not.toContain(
-      "I don't know more than that.",
-    );
+  it("offers 'How?' only where the record gives an answer, and says no 'nobody knows' line", () => {
+    const how = bank.parts.find(
+      (part) => part.key === "conversation.death-news-answer-ask.how",
+    )!;
+    // Every use of the question needs a cause or a told illness, so no one
+    // is offered a "How?" the talk cannot answer from the record.
+    for (const use of how.uses)
+      expect(
+        use.requiresFacts?.some(
+          (key) => key === "cause" || key === "illness-known",
+        ),
+      ).toBe(true);
+    const texts = bank.parts.map((part) => part.text);
+    expect(texts).not.toContain("I don't know more than that.");
+    expect(
+      texts.some((text) => text.startsWith("Nobody has told us how")),
+    ).toBe(false);
   });
   it("says it was coming only when the illness was known", () => {
     expect(heard("ask", { "illness-known": fact("yes") })).toContain(

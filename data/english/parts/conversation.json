@@ -41816,7 +41816,16 @@
           "subject": "death-news",
           "role": "answer",
           "choice": "ask",
-          "excludesFacts": ["told-cause"]
+          "excludesFacts": ["told-cause"],
+          "requiresFacts": ["cause"]
+        },
+        {
+          "move": "death-news-answer-ask",
+          "subject": "death-news",
+          "role": "answer",
+          "choice": "ask",
+          "excludesFacts": ["told-cause"],
+          "requiresFacts": ["illness-known"]
         }
       ],
       "bearing": "curious",
@@ -41900,55 +41909,6 @@
           "role": "core",
           "stages": ["ask"],
           "requiresFacts": ["cause"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.nobody-has-told-us-how-kin-died",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody has told us how {kin} died.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "illness-known"],
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.nobody-has-told-us-how-relation-died-no-tie",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody has told us how {relation} died.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "kin", "illness-known"]
         }
       ],
       "piece": {
@@ -42615,30 +42575,6 @@
         "part": "core",
         "required": true
       }
-    },
-    {
-      "key": "conversation.death-news-back-core.i-don-t-know-more-than-that",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "I don't know more than that.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "illness-known"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14: answers that close without a promise)",
-      "date": "2026-11-14"
     },
     {
       "key": "conversation.death-news-back-core.i-wanted-you-to-hear-it-from-me",
