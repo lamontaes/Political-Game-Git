@@ -108250,7 +108250,7 @@
       "key": "scene-talk.reply-agree.all-right-i-m-with-you-body-small",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. On {issue}, I'm with you.",
+      "text": "Alright. On {issue}, I'm with you.",
       "uses": [
         {
           "subject": "scene",
@@ -108300,7 +108300,7 @@
       "key": "scene-talk.reply-disagree.i-hear-you-but-no-body-small",
       "move": "reply-disagree",
       "kind": "spoken",
-      "text": "I hear you, but on {issue} it's still a no from me.",
+      "text": "That's fair, but on {issue} it's still a no from me.",
       "uses": [
         {
           "subject": "scene",
@@ -108350,7 +108350,7 @@
       "key": "scene-talk.reply-agree.all-right-i-m-with-you-body-council",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. On {issue}, I'm with you.",
+      "text": "Alright. On {issue}, I'm with you.",
       "uses": [
         {
           "subject": "scene",
@@ -108400,7 +108400,7 @@
       "key": "scene-talk.reply-disagree.i-hear-you-but-no-body-council",
       "move": "reply-disagree",
       "kind": "spoken",
-      "text": "I hear you, but on {issue} it's still a no from me.",
+      "text": "That's fair, but on {issue} it's still a no from me.",
       "uses": [
         {
           "subject": "scene",
@@ -109325,7 +109325,7 @@
       "key": "scene-talk.follow-accept.all-right-you-ve-got-until-the-vote",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. You've got until the vote.",
+      "text": "Alright. You've got until the vote.",
       "uses": [
         {
           "subject": "scene",
@@ -109375,7 +109375,7 @@
       "key": "scene-talk.follow-accept.all-right-the-vote-s-coming",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. The vote's coming.",
+      "text": "Alright. The vote's coming.",
       "uses": [
         {
           "subject": "scene",
@@ -140406,7 +140406,7 @@
       "key": "scene-talk.reply-agree.alright-i-ll-do-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. I'll do it.",
+      "text": "All right. I'll do it.",
       "uses": [
         {
           "subject": "scene",

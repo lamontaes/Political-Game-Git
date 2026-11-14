@@ -20,7 +20,7 @@ checked: meetings and floor builder 2026-11-14
 
 **What.** The record kind office.approached means two different acts, and one of them binds to no scene type
 
-**Cause.** Found in code: src/core2/modules/constituent-cases.ts (bringCase) emits office.approached when a resident brings a case to an official; src/core2/modules/life.ts (civicEvent) emits the same kind when the official approaches an organization. Measured (uncontrolled probe, three places): 10, 1 and 8 life.ts records whose moments are labelled cause:event:office.approached, schedule journal-line, bindings empty.
+**Cause.** Found in code: src/core2/modules/constituent-cases.ts (bringCase) emits office.approached when a resident brings a case to an official; src/core2/modules/life.ts (civicEvent) emits the same kind when the official approaches an organization. Measured (uncontrolled probe, three places): 10, 1 and 8 life.ts records whose moments are labeled cause:event:office.approached, schedule journal-line, bindings empty.
 
 **Fix.** Give the life.ts act its own kind name (a data row in the kind list) and read it where the office-hours situation type reads the resident's case, so each kind binds to the type that fits it.
 
