@@ -15,7 +15,7 @@ lead: screens
 source: 'owner, Nov 8, 2026: "I''m Mexican and my son is white."; coordinator note on #9301'
 model: opus
 effort: medium
-root: look-has-one-origin-per-person
+root: none
 checked: not yet
 ---
 
