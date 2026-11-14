@@ -44,6 +44,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { officialsIn } from "../core2/modules/officials";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
+import { heldPieces } from "../english/conversation-words";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   noteHeard,
@@ -152,6 +153,24 @@ for (const part of (
     if (use.subject === "address-point")
       for (const mark of use.requiresFacts ?? [])
         if (SIDE_MARKS[mark]) POINT_SIDES.set(part.key, SIDE_MARKS[mark]!);
+/** Every policy question's spoken name, longest first, for the name-once check. */
+const QUESTION_NAMES = Object.values(
+  (
+    JSON.parse(
+      readFileSync(
+        path.resolve(__dirname, "../../data/english/question-names.json"),
+        "utf8",
+      ),
+    ) as { names: Record<string, { about?: string }> }
+  ).names,
+)
+  .map((row) => row.about)
+  .filter((name): name is string => !!name)
+  .sort((a, b) => b.length - a.length);
+const QUESTION_NAME = new RegExp(
+  `(?<![\\w'])(${QUESTION_NAMES.map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})(?![\\w'])`,
+  "gi",
+);
 const NON_ANSWER = /^(okay|oh, i see|alright|all right|oh, okay)\.$/i;
 const OUTSIDE =
   /\b(a works outside the town|outside market|outside buyers|treasury)\b/i;
@@ -202,6 +221,14 @@ function fortnight(draw: number): string[] {
         (id) => day === 0 || !isOnShift(core, id, minute),
       );
       for (const otherId of room) {
+        // The question each subject on record names, read before the talk
+        // (a stand said in it is learned, and its subject is gone after).
+        const questionOf = new Map(
+          subjectsBetween(core, otherId as PersonId, playerId, director, {
+            presentIds: room as PersonId[],
+            minuteOfDay: minute,
+          }).map((row) => [row.id, row.news?.question ?? row.point?.question]),
+        );
         const talk: Conversation = openConversation(
           core,
           playerId,
@@ -317,9 +344,31 @@ function fortnight(draw: number): string[] {
         for (const text of offered)
           if (NON_ANSWER.test(text.trim()))
             broken.push(`${here}: a non-reply offered: "${text}"`);
-        // Two people in one house never name the same question on one day.
+        // Two people in one house never tell news on the same question on
+        // one day (a fact is told once in the house a day). A stand is the
+        // speaker's own: two of the house agreeing or disagreeing on the same
+        // question is the scene, not a repeat (lead's ruling, Nov 13, fixer
+        // round 5 of #8879), so a question named only by a stand (where they
+        // stand, their point of the address) is not counted.
+        const questionsBy = (kinds: readonly string[]) =>
+          new Set(
+            theirs
+              .filter((line) => kinds.includes(line.kind))
+              .map((line) =>
+                questionOf.get(line.subjectId.replace(/^[^>]*>/, "")),
+              )
+              .filter((row): row is string => !!row),
+          );
+        const standQuestions = questionsBy(["own-view", "address-point"]);
+        const newsQuestions = questionsBy([
+          "news",
+          "government-news",
+          "brought-up",
+        ]);
         for (const question of talk.questions ?? []) {
           if (question.startsWith("=")) continue;
+          if (standQuestions.has(question) && !newsQuestions.has(question))
+            continue;
           const by = questionsToday.get(question);
           if (by && by !== otherId)
             broken.push(`${here}: the question ${question} named twice today`);
@@ -360,6 +409,26 @@ function fortnight(draw: number): string[] {
             saidToday.set(sentence, otherId);
           }
         }
+        // How long they have held a stand is said once in a talk (lead, Nov
+        // 13: "for years" twice from Sarah, East Providence, day 9).
+        const heldTold = theirs.filter((line) =>
+          (line.wording?.parts ?? []).some((part) => heldPieces().has(part)),
+        );
+        if (heldTold.length > 1)
+          broken.push(
+            `${here}: how long they held a stand said twice: ${heldTold.map((line) => `"${line.text}"`).join(" / ")}`,
+          );
+        // A question is named in full once in a talk; while it is the only
+        // one on the table, a later mention is "it" (lead, Nov 13).
+        let onTable: string | null = null;
+        for (const line of talk.lines)
+          for (const match of line.text.matchAll(QUESTION_NAME)) {
+            if (match[1]!.toLowerCase() === onTable)
+              broken.push(
+                `${here}: ${match[1]} named in full twice in one talk: "${line.text}"`,
+              );
+            onTable = match[1]!.toLowerCase();
+          }
         const screen = [
           ...talk.lines.map((line) => line.text),
           ...talk.choices.map((row) => row.text),

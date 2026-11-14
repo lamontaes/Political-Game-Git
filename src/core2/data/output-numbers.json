@@ -1,0 +1,1028 @@
+{
+  "about": "The one registry of output numbers (docs/design/output-numbers.md): every figure a screen shows or the outcome web reads from an engine, with the engine that owns it, its unit, level, denominator in words, cadence (on change, monthly or yearly, never daily), source, how its months fold into a year (the December value, the year's sum or the year's mean) and the named inputs kept beside it. `kept` names where world-metrics keeps it (a field of its monthly row, folded into the place's year row, or a field of the year row an owner writes through putOutputNumber); `reader` names the owning engine's own record where that engine keeps the dated rows itself (src/core2/output-number-readers.ts). `web` holds what the outcome web needs to read the figure as a cause (the list that was outcome-web.json's engineMeasures); `metrics` says where the Metrics screen shows it, and `waitsOn` the build order that gives the figure its one writer and its year rows.",
+  "sections": [
+    "nation",
+    "city",
+    "state",
+    "housing",
+    "evictions",
+    "benefits",
+    "budget"
+  ],
+  "numbers": {
+    "labor.unemployment-pct": {
+      "id": "labor.unemployment-pct",
+      "owner": "world-metrics",
+      "unit": "share",
+      "level": "place",
+      "denominator": "residents at work plus residents looking for work",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": ["unemployed", "residentsEmployed"],
+      "kept": {
+        "table": "months",
+        "field": "unemploymentRate"
+      },
+      "web": {
+        "record": "world-metrics months.unemploymentRate, as a percent",
+        "unitScale": 100,
+        "field": "unemploymentRate",
+        "lead": "OPUS-WORLD"
+      }
+    },
+    "household.income": {
+      "id": "household.income",
+      "owner": "world-metrics",
+      "unit": "money-a-year",
+      "level": "place",
+      "denominator": "households with earnings",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "kept": {
+        "table": "months",
+        "field": "medianHouseholdEarningsMinor"
+      },
+      "web": {
+        "record": "world-metrics months.medianHouseholdEarningsMinor (the middle earning household's yearly earnings), in thousands of dollars",
+        "field": "medianHouseholdEarningsMinor",
+        "unitScale": 1e-5,
+        "lead": "OPUS-WORLD"
+      }
+    },
+    "housing.rent-to-income-pct": {
+      "id": "housing.rent-to-income-pct",
+      "owner": "world-metrics",
+      "unit": "share",
+      "level": "place",
+      "denominator": "the typical household's yearly earnings",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": ["medianRentMinor", "medianHouseholdEarningsMinor"],
+      "kept": {
+        "table": "months",
+        "field": "rentToEarnings"
+      },
+      "web": {
+        "record": "world-metrics months.rentToEarnings (a year of the typical rent against the typical household's earnings), as a percent",
+        "field": "rentToEarnings",
+        "unitScale": 100,
+        "lead": "OPUS-WORLD"
+      }
+    },
+    "housing.eviction-orders": {
+      "id": "housing.eviction-orders",
+      "owner": "housing",
+      "unit": "count-a-month",
+      "level": "place",
+      "denominator": "households living in the town",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "sum",
+      "traceInputs": [],
+      "kept": {
+        "table": "months",
+        "field": "evictionOrdersLastMonth"
+      },
+      "web": {
+        "record": "world-metrics months.evictionOrdersLastMonth (the housing engine's judgments in the month before): the engine's own records, read by links that start from evictions; the kept housing.eviction is only the factor the engine applies",
+        "field": "evictionOrdersLastMonth",
+        "unitScale": 1,
+        "lead": "OPUS-WORLD"
+      }
+    },
+    "crime.violent-victimization-index": {
+      "id": "crime.violent-victimization-index",
+      "owner": "core2-crime-v1",
+      "unit": "index",
+      "level": "place",
+      "denominator": "residents 12 and older",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "mean",
+      "traceInputs": [],
+      "web": {
+        "record": "crime months.violentIndex (robberies and assaults per person 12 and older the victimization records expect, 100 at the place's first month)",
+        "field": "violentIndex",
+        "unitScale": 1,
+        "module": "core2-crime-v1",
+        "table": "months",
+        "lead": "OPUS-CORE"
+      }
+    },
+    "crime.reported-per-capita": {
+      "id": "crime.reported-per-capita",
+      "owner": "core2-crime-v1",
+      "unit": "rate-a-year",
+      "level": "place",
+      "denominator": "residents",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "mean",
+      "traceInputs": [],
+      "web": {
+        "record": "crime months.reportedPerResident (victimizations reported to police, a year, per resident)",
+        "field": "reportedPerResident",
+        "unitScale": 1,
+        "module": "core2-crime-v1",
+        "table": "months",
+        "lead": "OPUS-CORE"
+      }
+    },
+    "household.poverty-pct": {
+      "id": "household.poverty-pct",
+      "owner": "world-metrics",
+      "unit": "share",
+      "level": "place",
+      "denominator": "all residents, named and counted by weight",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "kept": {
+        "table": "months",
+        "field": "povertyShare"
+      },
+      "web": {
+        "record": "world-metrics months.povertyShare (people in households whose yearly pay and awards are under the Census poverty line for their size, children and eldest member, named plus counted by weight), as a percent",
+        "field": "povertyShare",
+        "unitScale": 100,
+        "ownsOutcome": true,
+        "lead": "OPUS-WORLD"
+      }
+    },
+    "disaster.severe": {
+      "id": "disaster.severe",
+      "owner": "core2-disasters-v1",
+      "unit": "index",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the disasters engine's news events (hazard.disaster) for the town: the highest severity (0 to 1, the homes FEMA inspected as damaged per resident on the ramp in src/core2/data/disasters/severity.json) among disasters that began since the world opened, within the last ten years",
+        "reader": "disaster-severity",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-CORE"
+      }
+    },
+    "housing.property-tax-rate": {
+      "id": "housing.property-tax-rate",
+      "owner": "core2-budgets-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value",
+        "reader": "property-tax-rate",
+        "field": "",
+        "unitScale": 100,
+        "baselineReader": "property-tax-rate",
+        "lead": "OPUS-WORLD"
+      }
+    },
+    "tax.state-corporate-rate-in-force": {
+      "id": "tax.state-corporate-rate-in-force",
+      "owner": "core2-laws-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the state corporate income tax rate in force for the town (the laws module's state row of corporate-income-tax), in percent of taxable corporate income; 0 where the state levies none",
+        "reader": "state-corporate-rate",
+        "field": "",
+        "unitScale": 1,
+        "baselineReader": "state-corporate-rate",
+        "lead": "OPUS-GOV"
+      }
+    },
+    "budget.parks-added-pct": {
+      "id": "budget.parks-added-pct",
+      "owner": "core2-budgets-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "gov-measures budget.parks-added-pct: the city's parks line above its Census base this fiscal year, in percent (the budgets module's budget row in force)",
+        "reader": "parks-added-pct",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "budget.highways-added-pct": {
+      "id": "budget.highways-added-pct",
+      "owner": "core2-budgets-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "gov-measures budget.highways-added-pct: the town's highway spending above its Census base this fiscal year, in percent (each government's highways line in the budgets module, by the town's share of it)",
+        "reader": "highways-added-pct",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "police.officers-per-1000": {
+      "id": "police.officers-per-1000",
+      "owner": "core2-public-safety-v1",
+      "unit": "rate",
+      "level": "place",
+      "denominator": "1,000 residents",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "public-safety months.officersPer1000 (sworn officers per 1,000 residents: the state's recorded rate times the town's police service, its police lines against where they began the year)",
+        "module": "core2-public-safety-v1",
+        "table": "months",
+        "field": "officersPer1000",
+        "unitScale": 1,
+        "ownsOutcome": true,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "budget.schools-added-pct": {
+      "id": "budget.schools-added-pct",
+      "owner": "core2-budgets-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the schools lines of the town's city and county budgets in force (the budgets module's rows the school engine's spending measure reads), together, above their Census base for the fiscal year, as a percent",
+        "reader": "schools-line-above-base",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "federal.defense-boost-pct": {
+      "id": "federal.defense-boost-pct",
+      "owner": "core2-budgets-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the federal budget row's national defense line in force (the budgets module), above its base as a share of the base, times the state's fiscal 2024 defense contracts per resident over its output per resident (data/research/federal/defense-contracts-by-state-fy2024.json), as a percent of what the state produces",
+        "reader": "defense-boost-pct",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "federal.deficit-change-pct-of-gdp": {
+      "id": "federal.deficit-change-pct-of-gdp",
+      "owner": "core2-budgets-v1",
+      "unit": "percent",
+      "level": "nation",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the federal budget row in force (the budgets module): its outlays less its receipts, summed over its lines, against the base row for the same fiscal year (the Treasury's statement), as percentage points of what the nation produces (the states' BEA output, data/research/federal/defense-contracts-by-state-fy2024.json)",
+        "reader": "federal-deficit-change",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "program.snap-maximum-change-pct": {
+      "id": "program.snap-maximum-change-pct",
+      "owner": "core2-laws-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the SNAP one-person maximum allotment in force (the federal snap-maximum law row), against the one in force at the opening, as a percent",
+        "reader": "snap-maximum-change",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "budget.healthAndHospitals-added-pct": {
+      "id": "budget.healthAndHospitals-added-pct",
+      "owner": "core2-budgets-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the town's share of the health and hospitals line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+        "reader": "budget-line-added:healthAndHospitals",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "budget.welfareAndMedicaid-added-pct": {
+      "id": "budget.welfareAndMedicaid-added-pct",
+      "owner": "core2-budgets-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the town's share of the welfare and Medicaid line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+        "reader": "budget-line-added:welfareAndMedicaid",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "budget.higherEducation-added-pct": {
+      "id": "budget.higherEducation-added-pct",
+      "owner": "core2-budgets-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the town's share of the higher education line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+        "reader": "budget-line-added:higherEducation",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "press.local-newspaper": {
+      "id": "press.local-newspaper",
+      "owner": "core2-press-v1",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the press module's outlets table: how many of the town's own local newspapers have closed (their business books in the finance ledger carry a closing date), counted; zero while they all publish",
+        "reader": "newspapers-closed",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-PEOPLE"
+      }
+    },
+    "budget.naturalResources-added-pct": {
+      "id": "budget.naturalResources-added-pct",
+      "owner": "core2-budgets-v1",
+      "unit": "percent",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "web": {
+        "record": "the town's share of the natural resources line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+        "reader": "budget-line-added:naturalResources",
+        "field": "",
+        "unitScale": 1,
+        "lead": "OPUS-GOV"
+      }
+    },
+    "nation.unemployment-pct": {
+      "id": "nation.unemployment-pct",
+      "owner": "macro",
+      "unit": "percent",
+      "level": "nation",
+      "denominator": "the national labor force",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The macro engine's recorded months (the published national series before the opening, simulated after)."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "reader": "macro-month:unemploymentPct",
+      "metrics": {
+        "section": "nation",
+        "key": "unemployment",
+        "unit": "percent"
+      }
+    },
+    "nation.inflation-pct": {
+      "id": "nation.inflation-pct",
+      "owner": "macro",
+      "unit": "percent",
+      "level": "nation",
+      "denominator": "the price index a year before",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The macro engine's recorded months (the published national series before the opening, simulated after)."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "reader": "macro-month:inflationPct",
+      "metrics": {
+        "section": "nation",
+        "key": "inflation",
+        "unit": "percent"
+      }
+    },
+    "nation.hourly-pay": {
+      "id": "nation.hourly-pay",
+      "owner": "macro",
+      "unit": "dollars",
+      "level": "nation",
+      "denominator": "an hour of work",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The macro engine's recorded months (the published national series before the opening, simulated after)."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "reader": "macro-month:hourlyEarnings",
+      "metrics": {
+        "section": "nation",
+        "key": "pay",
+        "unit": "dollars"
+      }
+    },
+    "nation.mortgage-30-pct": {
+      "id": "nation.mortgage-30-pct",
+      "owner": "macro",
+      "unit": "percent",
+      "level": "nation",
+      "denominator": "a year, on a 30-year loan",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The macro engine's recorded months (the published national series before the opening, simulated after)."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "reader": "macro-month:mortgage30Pct",
+      "metrics": {
+        "section": "nation",
+        "key": "mortgage",
+        "unit": "percent"
+      }
+    },
+    "nation.policy-rate-pct": {
+      "id": "nation.policy-rate-pct",
+      "owner": "macro",
+      "unit": "percent",
+      "level": "nation",
+      "denominator": "a year",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The macro engine's recorded months (the published national series before the opening, simulated after)."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "reader": "macro-month:policyRatePct",
+      "metrics": {
+        "section": "nation",
+        "key": "policyRate",
+        "unit": "percent"
+      }
+    },
+    "state.unemployment-pct": {
+      "id": "state.unemployment-pct",
+      "owner": "regional",
+      "unit": "percent",
+      "level": "state",
+      "denominator": "the state's labor force, its regions weighted by population",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The regional engine's kept months for the state's regions."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "reader": "regional-state:unemploymentPct",
+      "metrics": {
+        "section": "state",
+        "key": "unemployment",
+        "unit": "percent",
+        "waitsOn": "metrics-state-figures-one-owner"
+      }
+    },
+    "state.hourly-pay": {
+      "id": "state.hourly-pay",
+      "owner": "regional",
+      "unit": "dollars",
+      "level": "state",
+      "denominator": "an hour of work, the state's regions weighted by population",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The regional engine's kept months for the state's regions."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "reader": "regional-state:hourlyEarnings",
+      "metrics": {
+        "section": "state",
+        "key": "pay",
+        "unit": "dollars",
+        "waitsOn": "metrics-state-figures-one-owner"
+      }
+    },
+    "state.jobs": {
+      "id": "state.jobs",
+      "owner": "regional",
+      "unit": "count",
+      "level": "state",
+      "denominator": "none",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The regional engine's kept months for the state's regions."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "reader": "regional-state:jobs",
+      "metrics": {
+        "section": "state",
+        "key": "jobs",
+        "unit": "count",
+        "waitsOn": "metrics-state-figures-one-owner"
+      }
+    },
+    "population.people-in-town": {
+      "id": "population.people-in-town",
+      "owner": "residents",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": ["peopleNamed", "peopleCounted"],
+      "kept": {
+        "table": "months",
+        "field": "people"
+      },
+      "metrics": {
+        "section": "city",
+        "key": "people",
+        "unit": "count"
+      }
+    },
+    "population.households": {
+      "id": "population.households",
+      "owner": "residents",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "kept": {
+        "table": "months",
+        "field": "households"
+      },
+      "metrics": {
+        "section": "city",
+        "key": "households",
+        "unit": "count"
+      }
+    },
+    "labor.residents-at-work": {
+      "id": "labor.residents-at-work",
+      "owner": "jobs",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "reader": "town-jobs:employed",
+      "metrics": {
+        "section": "city",
+        "key": "employed",
+        "unit": "count",
+        "waitsOn": "metrics-town-jobs-one-rule"
+      }
+    },
+    "labor.residents-looking": {
+      "id": "labor.residents-looking",
+      "owner": "jobs",
+      "unit": "count",
+      "level": "place",
+      "denominator": "residents at work plus residents looking for work",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": ["employed", "seekers"],
+      "reader": "town-jobs:seekers",
+      "metrics": {
+        "section": "city",
+        "key": "seekers",
+        "unit": "count",
+        "waitsOn": "metrics-town-jobs-one-rule",
+        "of": "laborForce"
+      }
+    },
+    "labor.open-positions": {
+      "id": "labor.open-positions",
+      "owner": "jobs",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "reader": "town-jobs:openPositions",
+      "metrics": {
+        "section": "city",
+        "key": "openPositions",
+        "unit": "count",
+        "waitsOn": "metrics-town-jobs-one-rule"
+      }
+    },
+    "housing.rental-homes": {
+      "id": "housing.rental-homes",
+      "owner": "housing",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "metrics": {
+        "section": "housing",
+        "key": "rentals",
+        "unit": "count"
+      },
+      "kept": {
+        "table": "months",
+        "field": "rentalUnits"
+      }
+    },
+    "housing.empty-rentals": {
+      "id": "housing.empty-rentals",
+      "owner": "housing",
+      "unit": "count",
+      "level": "place",
+      "denominator": "rental homes in the town",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "metrics": {
+        "section": "housing",
+        "key": "vacant",
+        "unit": "count"
+      },
+      "kept": {
+        "table": "months",
+        "field": "vacantRentals"
+      }
+    },
+    "housing.people-without-a-home": {
+      "id": "housing.people-without-a-home",
+      "owner": "core2-homeless-count-v1",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "kept": {
+        "table": "months",
+        "field": "peopleWithoutHome"
+      },
+      "metrics": {
+        "section": "housing",
+        "key": "homeless",
+        "unit": "count"
+      }
+    },
+    "housing.typical-rent": {
+      "id": "housing.typical-rent",
+      "owner": "world-metrics",
+      "unit": "money-a-month",
+      "level": "place",
+      "denominator": "rented homes in the town",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "kept": {
+        "table": "months",
+        "field": "medianRentMinor"
+      },
+      "metrics": {
+        "section": "housing",
+        "key": "rent",
+        "unit": "money",
+        "absentWhenZero": true
+      }
+    },
+    "housing.home-prices": {
+      "id": "housing.home-prices",
+      "owner": "housing",
+      "unit": "money",
+      "level": "place",
+      "denominator": "owned homes in the town",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "kept": {
+        "table": "months",
+        "field": "medianHomeValueMinor"
+      },
+      "web": {
+        "record": "world-metrics months.medianHomeValueMinor (the housing engine's typical owned home), in tens of thousands of dollars",
+        "field": "medianHomeValueMinor",
+        "unitScale": 1e-6,
+        "lead": "OPUS-WORLD"
+      },
+      "metrics": {
+        "section": "housing",
+        "key": "homeValue",
+        "unit": "money",
+        "absentWhenZero": true
+      }
+    },
+    "housing.eviction-notices": {
+      "id": "housing.eviction-notices",
+      "owner": "housing",
+      "unit": "count-a-year",
+      "level": "place",
+      "denominator": "households living in the town",
+      "cadence": "on-change",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "sum",
+      "traceInputs": ["lastRecordId"],
+      "kept": {
+        "table": "years",
+        "field": "evictionNotices"
+      },
+      "metrics": {
+        "section": "evictions",
+        "key": "evictionNotices",
+        "unit": "count"
+      }
+    },
+    "labor.unemployment-claims-open": {
+      "id": "labor.unemployment-claims-open",
+      "owner": "jobs",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "kept": {
+        "table": "months",
+        "field": "unemploymentClaimsOpen"
+      },
+      "metrics": {
+        "section": "benefits",
+        "key": "claims",
+        "unit": "count"
+      }
+    },
+    "budget.town-revenue": {
+      "id": "budget.town-revenue",
+      "owner": "core2-budgets-v1",
+      "unit": "money-a-year",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": ["fiscalYear"],
+      "reader": "town-budget:revenueMinor",
+      "metrics": {
+        "section": "budget",
+        "key": "revenue",
+        "unit": "money"
+      }
+    },
+    "budget.town-spending": {
+      "id": "budget.town-spending",
+      "owner": "core2-budgets-v1",
+      "unit": "money-a-year",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": ["fiscalYear"],
+      "reader": "town-budget:spendingMinor",
+      "metrics": {
+        "section": "budget",
+        "key": "spending",
+        "unit": "money"
+      }
+    },
+    "school.spending-per-student": {
+      "id": "school.spending-per-student",
+      "owner": "core2-school-days-v1",
+      "unit": "dollars-a-year",
+      "level": "place",
+      "denominator": "students aged 5 to 17 in the town on September 1",
+      "cadence": "yearly",
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "The schools lines of the town's city and county budgets in force (Census school finance base, 2024 Annual Survey of School System Finances, plus the town's own amendments) per resident, times the town's residents, over the town's students aged 5 to 17 on September 1, named and counted, from the school engine's own yearly record."
+      },
+      "fold": "december",
+      "traceInputs": [
+        "students",
+        "residents",
+        "schoolsPerResident",
+        "measureId",
+        "budgetIds"
+      ],
+      "kept": {
+        "table": "years",
+        "field": "schoolSpendingPerStudent"
+      }
+    },
+    "school.students": {
+      "id": "school.students",
+      "owner": "core2-school-days-v1",
+      "unit": "people",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "yearly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The school engine's count of the town's residents aged 5 to 17 on September 1: full people plus counted weights."
+      },
+      "fold": "december",
+      "traceInputs": [
+        "students",
+        "residents",
+        "schoolsPerResident",
+        "measureId",
+        "budgetIds"
+      ],
+      "kept": {
+        "table": "years",
+        "field": "schoolStudents"
+      }
+    }
+  }
+}

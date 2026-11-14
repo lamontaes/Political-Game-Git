@@ -8,7 +8,7 @@
  * street, a coworker brings up the national news, a colleague catches them
  * in the capitol's hallway after a committee hearing.
  *
- * The rows (`data/circumstances.json`) hold the structure and no sentence.
+ * The rows (`src/director/data/circumstances.json`) hold the structure and no sentence.
  * This file is pure over the core: it reads only the records written today
  * (each kept as it is recorded, `CircumstanceQueue`), never history or the
  * whole world, and casts the person with the highest score; the record id
@@ -26,11 +26,10 @@ import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
-  ballot,
   ELECTIONS_MODULE_ID,
   PARTIES_MODULE_ID,
 } from "../core2/modules/elections";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type {
@@ -89,6 +88,13 @@ export interface CircumstanceRow {
    * person who lives there, however lately the news came to them).
    */
   recast?: boolean;
+  /**
+   * The row's news is one a child can know (their own school year, a newcomer
+   * at home, a goodbye): it may cast someone under the news teller's age.
+   * Every other row is news of politics, money, law or work, which a child
+   * under that age is never cast to tell (Fable A, Nov 13, rule 28).
+   */
+  childMayTell?: boolean;
   /**
    * The scene comes ahead of the day's other scenes from circumstance (the
    * floor before the roll comes before the word in the hallway after the
@@ -169,6 +175,8 @@ export interface CastWeights {
   tie: number;
   sociability: number;
   traitScale: number;
+  /** The youngest age at which a row that is not a child's news may cast someone (rule 28). */
+  newsTellerMinAge: number;
 }
 
 export interface CircumstancePick {
@@ -307,7 +315,14 @@ export function earlierLosses(
       `election-result:${filing.contestId}` as never,
     );
     const winner = result?.facts?.winnerId;
-    return !!winner && winner !== playerId && result.date < beforeDate;
+    // Lost: among those who missed the cut (an at-large race seats several,
+    // and a winner of another seat lost nothing); a record kept before
+    // `outIds` reads the winner.
+    const out = result?.facts?.outIds;
+    const lost = out
+      ? (JSON.parse(String(out)) as string[]).includes(playerId)
+      : !!winner && winner !== playerId;
+    return !!result && lost && result.date < beforeDate;
   }).length;
 }
 
@@ -357,15 +372,6 @@ function playerHolds(
           .table("filings")
           .query("byPerson", [playerId]) as unknown as { contestId: string }[]
       ).some((filing) => filing.contestId === contestId);
-    }
-    case "filed-late": {
-      // The player's own filing in a contest where others filed before them:
-      // someone is already on its ballot to be told of.
-      const contestId = record.facts.contestId;
-      if (!contestId || !core.modules.has(ELECTIONS_MODULE_ID)) return false;
-      return ballot(coreAPI(core as CoreState), contestId).some(
-        (filing) => filing.personId !== playerId,
-      );
     }
     case "lost-again":
       // The player ran in the contest the record settled, lost it, and has
@@ -660,7 +666,16 @@ export function circumstancePicks(
       if (!playerHolds(row.player, core, playerId, standing, record)) continue;
       for (const source of row.pool)
         for (const { id, named } of poolOf(source, core, playerId, record)) {
-          if (id === playerId || core.people.get(id)?.alive !== true) continue;
+          const person = core.people.get(id);
+          if (id === playerId || person?.alive !== true) continue;
+          // A child too young to know of politics, money, law or work is
+          // never cast to tell it, by the age on their birth record.
+          if (
+            !row.childMayTell &&
+            ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) <
+              weights.newsTellerMinAge
+          )
+            continue;
           if (options.castDue && !options.castDue(id, row)) continue;
           if (!placedWith(row.where, core, playerId, id)) continue;
           // The one who comes does not live with the player where the row

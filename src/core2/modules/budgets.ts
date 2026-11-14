@@ -76,6 +76,11 @@ import { outsideGovernment } from "../outside-governments";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 import { recordIncomeTaxApplied } from "../tax-applied";
 import {
+  ADOPT_INCOME_TAX_QUESTION,
+  GRADUATED_INCOME_TAX_QUESTION,
+  notifyTaxWithheld,
+} from "../tax-listeners";
+import {
   applySocialSecurityLevel,
   closeTreasuries,
   treasuryMonthsOf,
@@ -1194,7 +1199,7 @@ export function syncSalesTax(api: CoreAPI): void {
  * the home's value), paid to the treasury that collects it: the county,
  * else the city, else the state.
  */
-function propertyTaxTerms(api: CoreAPI, placeId?: string) {
+export function propertyTaxTerms(api: CoreAPI, placeId?: string) {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return undefined;
   // A home outside the played town is billed by its own place's terms, not
   // the played town's rate and collector (owner, Nov 5: "It should be
@@ -1215,8 +1220,9 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
     "us-policy-positions:fiscal.cap-property-tax-growth",
   );
   const capped = cap.value === 1 && cap.governing;
-  // The state's own cap statute where its row is read; the generic estimate
-  // (stopgapId: SG-GOV-REACH-B-property-tax-bills) for a state without one.
+  // The state's own cap statute where its row is read; the game's estimate
+  // (propertyTaxGrowthCapShare, ESTIMATED with its source and spread) for a
+  // state without one.
   const statute = capped
     ? (
         propertyTaxCaps.states as Record<
@@ -1225,7 +1231,6 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
         >
       )[lawChain(api).stateKey.slice(3)]
     : undefined;
-  if (capped && !statute) api.stopgap("SG-GOV-REACH-B-property-tax-bills");
   const capShare = statute
     ? statute.capShare
     : lawParameters.parameters.propertyTaxGrowthCapShare.value;
@@ -1259,8 +1264,6 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
  * source. Never the played town's rate or collector.
  */
 function otherPlacePropertyTax(api: CoreAPI, placeId: string) {
-  // stopgapId: SG-WORLD-property-tax-other-places-state-average
-  api.stopgap("SG-WORLD-property-tax-other-places-state-average");
   const usps = placeStateKey(placeId)?.slice(3) ?? "";
   return {
     rate: stateEffectiveRate(usps),
@@ -1702,12 +1705,48 @@ function holdBudgetHearing(
   );
 }
 
+let budgetVoteWaits:
+  ((api: CoreAPI, gov: GovernmentRow, fy: number) => boolean) | null = null;
+/** The legislature engine says when a body's meeting votes the year's budget instead of the calendar. */
+export function registerBudgetVoteWaits(
+  waits: (api: CoreAPI, gov: GovernmentRow, fy: number) => boolean,
+): void {
+  budgetVoteWaits = waits;
+}
+
 function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "budget-adoption") return;
   const gov = table(api, "governments").get(
     work.sourceRecordIds[0]!,
   ) as unknown as GovernmentRow;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
+  // A body that meets votes its budget at its meeting that day (or already has).
+  if (budgetVoteWaits?.(api, gov, fy)) return;
+  adoptYear(api, gov, fy, work.source);
+}
+
+/**
+ * The year's budget is voted at its body's meeting on the year's first day:
+ * the same adoption the calendar runs, from the same calendar record.
+ */
+export function adoptBudgetAtMeeting(api: CoreAPI, governmentId: string): void {
+  const gov = table(api, "governments").get(governmentId) as unknown as
+    GovernmentRow | undefined;
+  if (!gov) return;
+  const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
+  const work = api
+    .moduleCalendar(BUDGETS_MODULE_ID)
+    .get(`adopt:${gov.id}:${fy}`);
+  if (!work || work.date !== api.state.date) return;
+  adoptYear(api, gov, fy, work.source);
+}
+
+function adoptYear(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  source: ModuleCalendarWork["source"],
+): void {
   // The town's council votes its own budget where the legislature engine runs.
   const enactedBefore = { ...enactedBudgetChanges(api, gov.id) };
   const voted = councilBudgetVote?.(api, gov, fy) ?? null;
@@ -1733,7 +1772,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           citation: `Budget adopted (${budget.adoptedBy.kind})`,
           asOf: api.state.date,
         }
-      : work.source,
+      : source,
     publicRecord: true,
     news: true,
     facts: {
@@ -1779,7 +1818,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     key: `adopt:${gov.id}:${fy + 1}`,
     date: `${fy + 1}-${gov.fiscalYearStart}`,
     kind: "budget-adoption",
-    source: work.source,
+    source: source,
     sourceRecordIds: [gov.id],
   });
   scheduleBudgetHearing(api, gov, fy + 1, api.state.date);
@@ -1896,6 +1935,7 @@ function withhold(
     paidMinor: paid,
     fromAt: receipt.fromAt,
     throughAt: receipt.throughAt,
+    workplaceId: api.state.organizations.get(receipt.organizationId)?.placeId,
   });
 }
 
@@ -1914,6 +1954,8 @@ export function withholdPay(
     readonly throughAt: string;
     /** Pay no more than the payer's cash holds: an owner's estimated payment on profit that has not all reached them as cash. */
     readonly limitToCash?: boolean;
+    /** The place the pay was earned in, when it is known; a worker who lives elsewhere owes its local jurisdictions their nonresident rates. */
+    readonly workplaceId?: string;
   },
 ): void {
   const paid = pay.paidMinor;
@@ -1928,7 +1970,16 @@ export function withholdPay(
   );
   const due = withholdingDue(api, person, paid, periodDays);
   const { ytdId, ytd } = due;
-  let lines = due.lines;
+  let lines = [
+    ...due.lines,
+    ...nonresidentLocalLines(
+      api,
+      person.placeId,
+      pay.workplaceId,
+      paid,
+      periodDays,
+    ),
+  ];
   if (pay.limitToCash) {
     const owed = lines.reduce((n, l) => n + l.minor, 0);
     const held = Math.max(
@@ -1950,10 +2001,6 @@ export function withholdPay(
     // stopgapId: SG-WORLD-withholding-local-base
     api.stopgap("SG-WORLD-withholding-local-base");
   }
-  if (person.placeId !== lawChain(api).townPlaceId) {
-    // stopgapId: SG-WORLD-withholding-nonresident-local
-    api.stopgap("SG-WORLD-withholding-nonresident-local");
-  }
   const posted = postWithholding(api, {
     id: `withholding:${pay.id}`,
     payerId: pay.personId,
@@ -1963,12 +2010,85 @@ export function withholdPay(
     yearToDateMinor: ytd,
     lines,
   });
+  // A tax an act enacted that took pay: the person may tie it to its law once
+  // they have heard a story about it (the price engine's reader). Only laws
+  // the town voted (`enactedBy`) are read, never a starting law or a
+  // federal deduction.
+  if (posted)
+    for (const line of lines) {
+      if (line.minor <= 0 || line.tax !== "income" || !line.enactedBy) continue;
+      notifyTaxWithheld(api, {
+        id: pay.id,
+        personId: pay.personId,
+        lawId: line.lawId,
+        key: line.graduated
+          ? GRADUATED_INCOME_TAX_QUESTION
+          : ADOPT_INCOME_TAX_QUESTION,
+        taxMinor: line.minor,
+        monthlyEarningsMinor: Math.round(
+          (paid * 365) / periodDays / treasuryMonthsPerYear(),
+        ),
+      });
+    }
   // The year's pay counts once the paycheck is withheld, or had nothing to withhold.
   if (posted || !lines.some((l) => l.minor > 0))
     table(api, "yearToDate").put({
       id: ytdId,
       minor: ytd + paid,
     } as unknown as ModuleRow);
+}
+
+/**
+ * What a worker who lives outside the town owes the town's county, city and
+ * township income taxes for the pay earned in it: each row's nonresident rate
+ * (`terms.nonresidentRate`, a share of the base the row names) in place of its
+ * resident rate. A resident of the town, or pay earned elsewhere, owes none
+ * here; the residence's own law (`withholdingDue`) is read separately.
+ */
+function nonresidentLocalLines(
+  api: CoreAPI,
+  residencePlaceId: string,
+  workplaceId: string | undefined,
+  paidMinor: number,
+  periodDays: number,
+): readonly WithholdingLine[] {
+  const town = lawChain(api).townPlaceId;
+  if (workplaceId !== town || residencePlaceId === town) return [];
+  const answer = lawInForceToday(api, "income-tax");
+  const levels = answer.levels.flatMap((level) => {
+    const rate = level.row?.terms?.nonresidentRate;
+    if (
+      !level.row ||
+      level.setAside ||
+      typeof rate !== "number" ||
+      !(rate > 0) ||
+      (level.level !== "county" &&
+        level.level !== "city" &&
+        level.level !== "township")
+    )
+      return [];
+    return [
+      {
+        ...level,
+        row: {
+          ...level.row,
+          value: rate,
+          unit: "percent-flat",
+        },
+      },
+    ];
+  });
+  if (!levels.length) return [];
+  const none = { ...answer, governing: null, levels: [] };
+  return withholdingFor({
+    paidMinor,
+    periodDays,
+    yearToDateMinor: 0,
+    incomeTax: { ...answer, levels } as typeof answer,
+    socialSecurity: none as typeof answer,
+    medicare: none as typeof answer,
+    index: taxIndexOf(api),
+  });
 }
 
 /**
@@ -2213,6 +2333,13 @@ export function amendBudget(
     readonly deltaMinor: number;
     readonly measureId: string;
     /**
+     * Which side of the budget the line is on (default spending). A revenue
+     * line is aid a higher treasury pays (budgets-treasury.ts); a revenue
+     * change is never carried into later years' budgets and blames no
+     * executive.
+     */
+    readonly side?: "spending" | "revenue";
+    /**
      * A passed budget bill's change: it joins the government's enacted lines,
      * which every later year's budget starts from (the carry rule above). A
      * one-time grant or a law that applies its own amount each year leaves
@@ -2249,13 +2376,15 @@ export function amendBudget(
     } as unknown as ModuleRow);
   }
   const measure = lawMeasureOf(api, input.measureId);
+  const revenue = input.side === "revenue";
+  const sideKey = revenue ? "revenueMinor" : "spendingMinor";
   const amended: BudgetRow = {
     ...budget,
-    spendingMinor: {
-      ...budget.spendingMinor,
+    [sideKey]: {
+      ...budget[sideKey],
       [input.line]: Math.max(
         0,
-        (budget.spendingMinor[input.line] ?? 0) + input.deltaMinor,
+        (budget[sideKey][input.line] ?? 0) + input.deltaMinor,
       ),
     },
     adoptedBy: {
@@ -2275,7 +2404,7 @@ export function amendBudget(
     id: `budget-line-changed:${budget.id}:${input.line}:${input.measureId}`,
     date: api.state.date,
     kind: "budget-line-changed",
-    personIds: executiveOfCut(api, gov, input.deltaMinor),
+    personIds: revenue ? [] : executiveOfCut(api, gov, input.deltaMinor),
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -2289,9 +2418,10 @@ export function amendBudget(
       level: gov.level,
       line: input.line,
       deltaMinor: String(input.deltaMinor),
-      ...executiveFact(api, gov, input.deltaMinor),
+      ...(revenue ? {} : executiveFact(api, gov, input.deltaMinor)),
       measureId: input.measureId,
       carried: input.carry ? "yes" : "no",
+      side: revenue ? "revenue" : "spending",
     },
   });
   return amended;

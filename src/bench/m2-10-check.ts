@@ -187,7 +187,12 @@ const counted = (r: RaceRow) => {
 };
 for (const r of races.filter(counted)) {
   check(
-    placesOf(midterm.api, r.id).length > 0,
+    placesOf(
+      midterm.api,
+      races.find(
+        (x) => x.resultId === r.resultId && x.seatId.endsWith(":governor"),
+      )?.id ?? r.id,
+    ).length > 0,
     `${where}: ${r.seatId} was counted in no place`,
   );
   check(

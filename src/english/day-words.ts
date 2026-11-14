@@ -38,7 +38,8 @@ export function dayOpening(iso: string, minuteOfDay: number): string {
 
 /**
  * A record's own day told as past from the day a scene plays: "yesterday",
- * "the other day", "on January 3rd". Null on the same day, or for a later one.
+ * "the other day", "on January 3rd", and for a day in another year "last
+ * February" or "in February 2023". Null on the same day, or for a later one.
  */
 export function daySince(recordIso: string, playIso: string): string | null {
   const day = 24 * 60 * 60 * 1000;
@@ -52,9 +53,51 @@ export function daySince(recordIso: string, playIso: string): string | null {
     data.since.find(
       (entry) => entry.upToDays === null || days <= entry.upToDays,
     ) ?? data.since[data.since.length - 1]!;
+  // A bare month and day means this year (Fable A, Nov 13, rule 3): a day
+  // in another year is told with its year, "last February" for the year
+  // before.
+  if (row.said.includes("{date}")) {
+    const years = Number(playIso.slice(0, 4)) - Number(recordIso.slice(0, 4));
+    if (years > 0)
+      return (
+        years === 1 ? data.sinceOtherYear.lastYear : data.sinceOtherYear.earlier
+      )
+        .replace("{month}", data.months[Number(recordIso.slice(5, 7)) - 1]!)
+        .replace("{year}", recordIso.slice(0, 4));
+  }
   const weekday =
     data.weekdays[new Date(`${recordIso.slice(0, 10)}T00:00:00Z`).getUTCDay()]!;
   return row.said
     .replace("{weekday}", weekday)
     .replace("{date}", dateSaid(recordIso));
+}
+
+/**
+ * A later day said from the day a scene plays: its weekday within the next
+ * six days ("Friday"), else its date ("June 7th"). Null on the same day or
+ * an earlier one, so a promise never names a day already here (Fable A, Nov
+ * 13, rule 22).
+ */
+export function dayAhead(targetIso: string, playIso: string): string | null {
+  const day = 24 * 60 * 60 * 1000;
+  const days = Math.round(
+    (Date.parse(`${targetIso.slice(0, 10)}T00:00:00Z`) -
+      Date.parse(`${playIso.slice(0, 10)}T00:00:00Z`)) /
+      day,
+  );
+  if (!(days > 0)) return null;
+  return days < data.weekdays.length
+    ? data.weekdays[
+        new Date(`${targetIso.slice(0, 10)}T00:00:00Z`).getUTCDay()
+      ]!
+    : dateSaid(targetIso);
+}
+
+/** Whether a later day falls in the calendar month after the day a scene plays. */
+export function inNextMonth(targetIso: string, playIso: string): boolean {
+  const months =
+    (Number(targetIso.slice(0, 4)) - Number(playIso.slice(0, 4))) * 12 +
+    Number(targetIso.slice(5, 7)) -
+    Number(playIso.slice(5, 7));
+  return months === 1;
 }

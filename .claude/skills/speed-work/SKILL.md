@@ -92,7 +92,7 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 - `node --import tsx scripts/speed-years/profile-year.ts --place <key> --seed <s> --year 4 --out <file>` profiles only that year of the `speed:year` world (earlier years run unprofiled); `--fast 1` profiles it in fast-forward. Read the file by inclusive time per function and per file, then by the callees of the one biggest engine.
 - Before cutting code, count the volume (temporary counters in a scratch copy, never committed): Upper Witter Gulch's election year held 1,134 town halls at about 240 microseconds a listener, so the cost was how many events, not how fast each ran. A cut of the volume by a realistic rule (a district candidate's events reach a town in proportion to its share of the race's voters, with no dice) took year 4 from 151.7 to 88.5 s.
 - To compare a cut against base in one place and seed, keep the switch in a sparse worktree (`git worktree add --no-checkout`, cone sparse-checkout of `src scripts data docs/release tooling`, `node_modules` symlinked) and read it from an environment variable there; the branch itself stays clean. Run base and cut one after the other, never at once.
-- `scripts/speed-years/fast-forward.ts` runs the world with fast-forward on or off and lists each race the town votes in (office, winner, top two shares). Races in the voting results table whose contest is not in the town's contests are other places' races.
+- Results mode (`advanceCore(core, date, { results: true })`, dev mode's Skip control) is the one fast path for skipped years: a race there is counted from the voters with no campaign day played. The campaign stride switch (`fastForward`) was deleted on Nov 11, 2026; do not bring back a stride.
 - A single slowdown reading is not a finding. Re-time it alternating against the base (three pairs, median) and profile both before anyone acts on it: on Nov 8 a +10% reading of a monthly pass in year 1 (Dickey, North Dakota, seed n8g7) did not reproduce on current main (40.3 s before, 39.9 s after), and the profile showed the pass costing nothing in year 1.
 
 ## Hearers as groups (Nov 9, Speed)
@@ -140,3 +140,7 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 ## Stop condition
 
 Done when every timed claim names the place, seed, years and machine, every speed PR carries an identical records proof (or a fold's named tables), and the item's done-when lines each have that evidence.
+
+## Unattended-world changes: the speed table
+
+A change to anything that runs without the player watching (monthly engines, skipped time, counted groups) carries two tables in the PR body: year 1 of `npm run speed:year`, and time per record, each at three drawn places, with and without the change. Container noise is 10 to 20 percent, so one process at a time and say the machine. A change that makes a year more than 20 percent slower than its base fails the bar even if each table looks small.

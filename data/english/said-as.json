@@ -88,7 +88,15 @@
     "council:presiding": {
       "before": "Council President",
       "again": "the council president"
-    }
+    },
+    "county-executive": {
+      "before": "County Executive",
+      "again": "the county executive"
+    },
+    "county-board": { "before": "Commissioner", "again": "the commissioner" },
+    "township-board": { "before": "Trustee", "again": "the trustee" },
+    "county-board:presiding": { "before": "Chair", "again": "the chair" },
+    "township-board:presiding": { "before": "Chair", "again": "the chair" }
   },
   "they": {
     "about": "Someone with no he or she on record is said again as they (src/english/said-as.ts wordPersonSlots), never by their role twice in one line (owner, Nov 12: \"There needs to be pronouns and titles\"). A line's verbs are written for one person, so the word after they (\"knows\" to \"know\") and a question's verb before it (\"does\" to \"do\") take the plural.",
@@ -156,8 +164,9 @@
     "worker": "work"
   },
   "questionAgain": {
-    "about": "Lead, Nov 12 (\"say no to raising the debt limit only with spending cuts to match\" right after the opener named it in full): once a line has named a question, its act is said again in a short form, by the slot it fills. Words only; the composer reads them.",
+    "about": "Lead, Nov 12 (\"say no to raising the debt limit only with spending cuts to match\" right after the opener named it in full): once a line has named a question, its act is said again in a short form, by the slot it fills. Lead, Nov 13: while it is the only question on the table, a later mention of its name in the talk is `it`. Words only; the composer reads them.",
     "against": "say no to it",
-    "to": "go through with it"
+    "to": "pass it",
+    "it": "it"
   }
 }

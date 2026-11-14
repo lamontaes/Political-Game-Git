@@ -1,0 +1,177 @@
+family	pole	voice	clause
+wages	a	both	a full day's work ought to pay enough to live on
+wages	a	both	nobody who works full time should have to choose between rent and groceries
+wages	a	polished	the dignity of work includes a paycheck that keeps up with the cost of living
+wages	a	plain	anybody who puts in the hours ought to be able to pay their bills
+wages	b	both	the folks who sign the paychecks know best what a job can pay
+wages	b	both	a first job at a lower wage beats no job at all
+wages	b	polished	small businesses create most new jobs, and every new mandate costs some of them
+wages	b	plain	every rule we put on a small business is one more reason not to hire
+unions	a	both	working people get a fair deal when they can bargain together
+unions	a	both	a worker standing alone has a lot less say than workers standing together
+unions	a	polished	the right to organize built the middle class in this country
+unions	a	plain	a union card is how a lot of folks got a fair shake at work
+unions	b	both	no one should have to pay a union to keep a job
+unions	b	both	a worker's paycheck belongs to the worker, not to the union
+unions	b	polished	joining a union should be a free choice, never a condition of work
+unions	b	plain	whether you join a union is your business and nobody else's
+taxes	a	both	everybody ought to pay a fair share for the things we all use
+taxes	a	both	the folks who've done the best can afford to carry more of the load
+taxes	a	polished	a tax system should ask the most of those most able to give
+taxes	a	plain	a nurse shouldn't pay a bigger share than the guy who owns the hospital
+taxes	b	both	folks should keep more of what they earn
+taxes	b	both	the money in your paycheck is yours before it is the government's
+taxes	b	polished	a lighter tax burden leaves more room for families to save and for businesses to grow
+taxes	b	plain	the government ought to make do with less before it asks you for more
+budget	a	both	government should live within its means, the way every family has to
+budget	a	both	we shouldn't hand our children the bills for what we spend today
+budget	a	polished	a budget that balances is a promise kept to the people who pay for it
+budget	a	plain	you don't spend money you don't have, and that goes for government too
+budget	b	both	a budget is a promise to the people who count on it
+budget	b	both	we keep our word to the people who were promised help
+budget	b	polished	a budget should be judged by what it does for people, not only by how it adds up
+budget	b	plain	balancing the books on the backs of the folks who need help isn't balancing anything
+safety-net	a	both	help should come with a path back to work
+safety-net	a	both	the best way out of hard times is a job
+safety-net	a	polished	assistance works best when it builds independence rather than dependence
+safety-net	a	plain	a hand up beats a handout every time
+safety-net	b	both	nobody should lose help over a form they couldn't fill out
+safety-net	b	both	we catch folks first when they fall on hard times and ask questions later
+safety-net	b	polished	a safety net is only as strong as it is easy to reach
+safety-net	b	plain	you don't kick somebody when they're already down
+health	a	both	nobody in this country should go without a doctor because of what it costs
+health	a	both	a family shouldn't go broke because somebody got sick
+health	a	polished	health care should be within reach of every working family
+health	a	plain	you shouldn't have to choose between your medicine and your rent
+health	b	both	care is best when it's between a patient and a doctor, with government out of the room
+health	b	both	the next cure comes from companies that can afford to look for it
+health	b	polished	competition, not more government, is what brings down the cost of care
+health	b	plain	you wait longer and pay more when Washington runs health care
+consumers	a	both	families deserve protection from the people who'd take advantage of them
+consumers	a	both	a company shouldn't profit off folks who have nowhere else to turn
+consumers	a	polished	a fair market needs rules that protect the people with the least power in it
+consumers	a	plain	somebody has to look out for the little guy, and that's our job
+consumers	b	both	grown adults can make their own deals
+consumers	b	both	free people in a free market look out for themselves better than any regulator
+consumers	b	polished	every rule meant to protect a customer also takes a choice away from one
+consumers	b	plain	the government doesn't need to hold your hand every time you buy something
+schools	a	both	every child deserves a good public school
+schools	a	both	learning shouldn't depend on what a family can pay
+schools	a	polished	public education is the surest ladder this country has ever built
+schools	a	plain	a kid's shot in life shouldn't come down to their zip code
+schools	b	both	parents, not the government, know what's best for their own children
+schools	b	both	taxpayers deserve a say in where school money goes
+schools	b	polished	school dollars should follow the child, and families should choose
+schools	b	plain	moms and dads ought to call the shots on their kids' schooling
+housing	a	both	everybody deserves a safe place to live that they can afford
+housing	a	both	a family shouldn't lose its home because the rent jumped
+housing	a	polished	a home is the foundation every other good thing is built on
+housing	a	plain	nobody who works hard should be one rent hike away from the street
+housing	b	both	the people who own a place should decide what happens to it
+housing	b	both	the market builds more homes when government gets out of the way
+housing	b	polished	homeowners and neighborhoods should shape their own communities
+housing	b	plain	whoever bought the house gets a say in what goes up next door
+energy	a	both	we owe our kids clean air and a climate they can live with
+energy	a	both	the power we make today shouldn't poison the air tomorrow
+energy	a	polished	clean energy is both our duty to the next generation and the work of this one
+energy	a	plain	nobody should have to breathe dirty air so somebody else can save a buck
+energy	b	both	power should be cheap and the lights should stay on
+energy	b	both	a family's power bill matters more than a planner's formula
+energy	b	polished	affordable, reliable energy is what keeps families warm and factories running
+energy	b	plain	folks shouldn't pay more every month for somebody else's idea of clean
+land	a	both	we hold this land and this water in trust for our children
+land	a	both	what we use up today, our grandkids can't get back
+land	a	polished	stewardship of the land is a debt we owe to those who come after us
+land	a	plain	you leave the place better than you found it
+land	b	both	the folks who work the land know best how to care for it
+land	b	both	a person's land and water are theirs to look after
+land	b	polished	those who own and work the land are its best stewards
+land	b	plain	nobody cares more about a farm than the family that runs it
+transit	a	both	some things are worth building together, for everybody to use
+transit	a	both	getting to work shouldn't depend on owning a car
+transit	a	polished	public investment in getting people where they need to go pays us back many times over
+transit	a	plain	a good bus line does more for a working family than another lane on the highway
+transit	b	both	the roads most of us drive every day come first
+transit	b	both	government shouldn't run what drivers and private companies already do well
+transit	b	polished	public dollars belong where most people actually travel, and that is on the roads
+transit	b	plain	most folks drive, so the money ought to go where they drive
+guns	a	both	guns should be kept out of the wrong hands
+guns	a	both	a few sensible rules can save a child's life
+guns	a	polished	the right to own a gun comes with a duty to keep it safe
+guns	a	plain	you can respect the Second Amendment and still lock up your guns
+guns	b	both	every law-abiding citizen has a right to defend themselves
+guns	b	both	the Second Amendment means what it says
+guns	b	polished	the right to self-defense does not end at the front door
+guns	b	plain	a law-abiding adult shouldn't need a permission slip to protect their family
+justice	a	both	safety and fairness go together
+justice	a	both	people who've paid for their mistakes deserve a second chance
+justice	a	polished	justice means the same treatment for the rich and the poor
+justice	a	plain	how much money you have shouldn't decide whether you sit in jail
+justice	b	both	the first job of government is to keep people safe
+justice	b	both	people who break the law should answer for it
+justice	b	polished	law and order are the foundation every other freedom stands on
+justice	b	plain	we back the folks who keep our streets safe
+immigration	a	both	this country has always been stronger for the people who came here to build a life
+immigration	a	both	people who want to come here and work should have a fair way in
+immigration	a	polished	a nation of immigrants should keep its door open to those who follow the rules
+immigration	a	plain	most of us are here because somebody's family took a chance on this country
+immigration	b	both	a country has to know who is coming in
+immigration	b	both	our laws mean something only if we enforce them
+immigration	b	polished	a secure border and a lawful process are what a sovereign nation owes its citizens
+immigration	b	plain	folks who want to come here ought to come the right way
+elections	a	both	voting should be easy for every eligible citizen
+elections	a	both	the more folks vote, the more our government belongs to all of us
+elections	a	polished	the ballot is the one thing every citizen holds equally, and no one should be turned away from it
+elections	a	plain	no citizen should have to jump through hoops to vote
+elections	b	both	every vote counts only if every vote is checked
+elections	b	both	folks have to trust an election before they can trust what it decides
+elections	b	polished	secure elections are the foundation of every other right we hold
+elections	b	plain	anybody who shows an ID to board a plane can show one to vote
+ethics	a	both	public office is a trust, not a way to get rich
+ethics	a	both	the people's business should be done for the people, not for insiders
+ethics	a	polished	those who write the laws should never profit from them
+ethics	a	plain	nobody should use a public office to line their own pockets
+ethics	b	both	the voters, not new rules, should decide who serves and for how long
+ethics	b	both	you don't fix government by tying the voters' hands
+ethics	b	polished	the people's judgment at the ballot box is the best check we have
+ethics	b	plain	folks who don't like their lawmaker can vote them out
+self-rule	a	both	the people closest to a problem should get to decide how to fix it
+self-rule	a	both	folks ought to govern themselves
+self-rule	a	polished	government works best when it is closest to the people it serves
+self-rule	a	plain	the folks who live there know their town better than anybody at the capitol
+self-rule	b	both	some rules ought to be the same no matter where you live
+self-rule	b	both	a business or a family should know the rules from one place to the next
+self-rule	b	polished	the whole is stronger when its parts play by a common set of rules
+self-rule	b	plain	a patchwork of rules just makes life harder for everybody
+civil-rights	a	both	everybody deserves to be judged on their work and nothing else
+civil-rights	a	both	nobody should be turned away for who they are
+civil-rights	a	polished	equal treatment under the law belongs to every one of us
+civil-rights	a	plain	if you can do the job and pay the rent, that's all anybody should ask
+civil-rights	b	both	people of faith shouldn't be made to act against their conscience
+civil-rights	b	both	a small business owner has a right to run things by their own beliefs
+civil-rights	b	polished	freedom of conscience is among the first liberties this country protects
+civil-rights	b	plain	the government shouldn't tell folks what to believe
+abortion	a	both	every life deserves protection, born and unborn
+abortion	a	both	the law should stand up for those who can't speak for themselves
+abortion	a	polished	the right to life is the first right, and every other one depends on it
+abortion	a	plain	a baby is a baby, and the law ought to protect it
+abortion	b	both	a woman should make her own decisions about her own body
+abortion	b	both	the government has no place between a woman and her doctor
+abortion	b	polished	decisions about pregnancy belong to the woman who carries it
+abortion	b	plain	that call belongs to her, not to a politician
+world	a	both	this country is safest when it is strong and stands with its friends
+world	a	both	peace comes through strength
+world	a	polished	American leadership abroad keeps the peace at home
+world	a	plain	standing with our friends makes the bad actors think twice
+world	b	both	our money should go to needs here at home first
+world	b	both	families here come before spending overseas
+world	b	polished	a nation's first duty is to the people within its borders
+world	b	plain	we ought to fix things at home before we send money overseas
+trade	a	both	our workers and our factories deserve a fair shot
+trade	a	both	a country that doesn't make things can't stand on its own
+trade	a	polished	trade should serve the workers who make things here
+trade	a	plain	things made here, by folks who live here, are worth paying a little more for
+trade	b	both	open trade keeps prices down for every family
+trade	b	both	a tax on imports is a tax on the folks who buy them
+trade	b	polished	free and fair trade has made this country richer, and families pay for every wall we put up
+trade	b	plain	every tariff ends up on a family's receipt

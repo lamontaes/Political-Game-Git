@@ -145,7 +145,10 @@ export const EXECUTIVE_MODULE: CoreModule = {
       review: {},
     },
   },
-  onCalendarWork: (api, work) => deskReview(api, work),
+  onCalendarWork: (api, work) => {
+    if (work.kind === POST_JOB_END) return endPostJobOnCalendar(api, work);
+    deskReview(api, work);
+  },
   // A disaster on the record reaches the governor's desk the day it is
   // recorded (world-governor-declares-emergency-in-play).
   eventKinds: ["hazard.disaster"],
@@ -194,6 +197,53 @@ function governorAnswersDisaster(api: CoreAPI, hazardRecordId: string): void {
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(EXECUTIVE_MODULE_ID).table(name);
+
+const POST_JOB_END = "post-job-end";
+
+/**
+ * The job of a post's replaced holder ends the day the new appointee takes
+ * it, unless the holder already worked today (a player's day runs before the
+ * calendar's): a job ends before its day's work, so theirs ends in tomorrow's
+ * calendar work, as an office job does (`reviewOfficeJobs`). The post itself
+ * changes hands at once; only the replaced holder's last shift runs out.
+ */
+function endReplacedPostJob(
+  api: CoreAPI,
+  jobId: string,
+  sourceId: string,
+): void {
+  const core = api.state as CoreState;
+  if (core.jobs.get(jobId)?.endsAt !== undefined || !core.jobs.has(jobId))
+    return;
+  if (core.work.lastAttendanceByJob.get(jobId)?.date !== core.date) {
+    api.endJob(jobId, sourceId);
+    return;
+  }
+  const calendar = api.moduleCalendar(EXECUTIVE_MODULE_ID);
+  const key = `${POST_JOB_END}:${jobId}`;
+  if (calendar.get(key)) return;
+  const date = addDays(makeIsoDate(core.date), 1);
+  calendar.schedule({
+    key,
+    date,
+    kind: POST_JOB_END,
+    source: {
+      tag: "SOURCED",
+      citation: `Replaced holder worked ${core.date}: ${sourceId}`,
+      asOf: core.date,
+    },
+    sourceRecordIds: [jobId, sourceId],
+  });
+}
+
+/** Tomorrow's calendar work ends the job of a replaced holder who worked the day they were replaced. */
+function endPostJobOnCalendar(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  const [jobId, sourceId] = work.sourceRecordIds;
+  if (jobId && sourceId) endReplacedPostJob(api, jobId, sourceId);
+}
 // Age by the birthday, not the year: a resident born in February 2007 is 17
 // in January 2025, and not yet one of the town's adults.
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
@@ -221,7 +271,7 @@ export function townForm(
  * runs its place as a council does. Elected posts (a sheriff, the county executive) are seats,
  * not appointments.
  */
-function townPosts(api: CoreAPI): readonly PostSpec[] {
+export function townPosts(api: CoreAPI): readonly PostSpec[] {
   const seats = townSeats(api);
   const held = (kind: string) =>
     seats.some((s) => s.office.kind === kind && s.holder);
@@ -504,6 +554,14 @@ function townPostInput(
         known:
           !!appointer?.personId &&
           relationships.has(pairKey(appointer.personId, p.id)),
+        ...(appointer?.personId &&
+        relationships.has(pairKey(appointer.personId, p.id))
+          ? {
+              knownRecordId: relationships.get(
+                pairKey(appointer.personId, p.id),
+              )!.id,
+            }
+          : {}),
       })),
       ...residents.map(({ resident }) => ({
         id: resident.id,
@@ -731,8 +789,7 @@ function seatCabinetPerson(
     input.appointmentId,
   ) as unknown as AppointmentRow | undefined;
   const priorJob = prior ? core.people.get(prior.holderId)?.jobId : undefined;
-  if (priorJob && core.jobs.get(priorJob)?.endsAt === undefined)
-    api.endJob(priorJob, input.appointmentId);
+  if (priorJob) endReplacedPostJob(api, priorJob, input.appointmentId);
   // The one named is admitted from the wider population and filled in: a full person.
   admitCountedHousehold(core, input.record);
   const named = input.record.people[0]!.id;
@@ -1233,8 +1290,12 @@ export function appointStatePost(
     citation: `Appointment ${row.id}`,
   });
   if (!jobId) return null;
-  if (priorJob?.organizationId === gov.organizationId && !priorJob.endsAt)
-    api.endJob(priorJob.id, `appointment-replaced:${state}:${spec.key}`);
+  if (priorJob?.organizationId === gov.organizationId)
+    endReplacedPostJob(
+      api,
+      priorJob.id,
+      `appointment-replaced:${state}:${spec.key}`,
+    );
   table(api, "nominations").put({
     ...table(api, "nominations").get(nominationId)!,
     appointed: true,

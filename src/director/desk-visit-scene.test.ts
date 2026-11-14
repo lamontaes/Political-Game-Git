@@ -156,7 +156,8 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         10 * 60,
       );
       expect(
-        ["city-hall-hallway", "office"],
+        // The mayor's own office, by the kind of office they serve in.
+        ["mayor-office", "city-hall-hallway", "office"],
         `${where}: ${story.backdrop.file}`,
       ).toContain(story.place);
       process.stdout.write(

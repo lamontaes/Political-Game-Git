@@ -5,6 +5,8 @@
  * grace period and follows the place's own steps: notice, cure, filing,
  * hearing, judgment and removal, each a dated step on the module calendar.
  */
+import { putOutputNumber } from "../output-numbers";
+import { housingPast, housingPastLater } from "../housing-past";
 import type { PreStartModule } from "../past-module";
 import { townOutsideOf } from "../opening-outside-market";
 import { lawApplied } from "../law-reach/applied";
@@ -314,6 +316,8 @@ export function publishedRentValueOf(
   return [row?.[0] || state[0], row?.[1] || state[1]];
 }
 const DWELLINGS_KEY = "housingDwellings";
+/** The year each owner bought its home (the opening's draw from ACS B25038), read by the housing history. */
+const HOME_BOUGHT_KEY = "housingHomeBought";
 const housingMacroParameter = (key: string): number => {
   const row =
     HOUSING_PARAMETERS[key] ??
@@ -747,7 +751,7 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
           p: housingMacroParameter,
           source,
         })
-      : { contracts: [], flows: [], terms: [] };
+      : { contracts: [], flows: [], terms: [], boughtYears: {} };
   leases.push(...mortgages.contracts);
   flows.push(...mortgages.flows);
   // The sourced rent is the renters' median (ACS B25064), so each rent scales
@@ -862,6 +866,7 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
         ...(mortgages.terms.length
           ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
           : {}),
+        [HOME_BOUGHT_KEY]: JSON.stringify(mortgages.boughtYears),
       },
     },
     paid,
@@ -1692,10 +1697,24 @@ function review(api: CoreAPI): void {
   // Mortgages behind past the federal period go to the state's foreclosure.
   for (const { caseId, saleAt } of startForeclosures(api, law.usps))
     schedule(api, `sale:${caseId}`, saleAt, "housing-foreclosure-sale", caseId);
+  // An owner with a mortgage pays property tax through the lender's escrow, a
+  // twelfth a month; the rest pay on their place's own due dates.
+  const escrowed = new Set(
+    (
+      store(api).table("mortgages").rows() as unknown as {
+        householdId: string;
+        monthsLeft: number;
+        foreclosedAt?: string;
+      }[]
+    )
+      .filter((row) => row.monthsLeft > 0 && !row.foreclosedAt)
+      .map((row) => row.householdId),
+  );
   billPropertyTax(
     api,
     store(api).table("assessments"),
     ownedHomes(api),
+    (householdId) => escrowed.has(householdId),
     store(api).table("taxArrears"),
   );
   build(api);
@@ -1804,6 +1823,15 @@ function review(api: CoreAPI): void {
     // The notice reaches the people it is served on: a record of their own
     // that the story director reads (the household talks it over that day).
     const household = c.households.get(householdId);
+    // The town's count of notices served this year, kept on the day it
+    // happens (the registry of output numbers), for both tiers of household.
+    const servedIn =
+      household?.placeId ??
+      residentsRuntime(c)?.store.liveHousehold(householdId)?.placeId;
+    if (servedIn)
+      putOutputNumber(api, "housing.eviction-notices", servedIn, 1, {
+        lastRecordId: caseId,
+      });
     const servedOn = (household?.memberIds ?? []).filter(
       (member) => c.people.get(member)?.alive,
     );
@@ -2745,12 +2773,22 @@ export function openHousing(api: CoreAPI): void {
 export const HOUSING_MODULE: PreStartModule = {
   id: HOUSING_MODULE_ID,
   preStart: {
-    // Opening households and offices already exist when the history passes run.
-    // These are current opening records, not invented historical events.
+    // Opening households and offices already exist when the history passes
+    // run; the housing past runs after them, reading the economy's months and
+    // the moves pass's records (src/core2/housing-past.ts).
     phase: "government",
-    run(api) {
+    run(api, window, history) {
       openHousing(api);
+      housingPast(
+        api,
+        window,
+        history,
+        JSON.parse(
+          api.state.placeMetadata?.[HOME_BOUGHT_KEY] ?? "{}",
+        ) as Record<string, number>,
+      );
     },
+    later: housingPastLater,
   },
   state: {
     schemaVersion: 1,

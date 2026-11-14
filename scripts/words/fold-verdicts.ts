@@ -8,8 +8,13 @@
  * nothing. Run `npm run words:rules` after it.
  */
 import { execSync } from "node:child_process";
-import { knownPairs } from "./reply-pairs";
-import { readBankPieces, readLedger, readRules } from "./run-rules";
+import { knownPairs, pathsOf } from "./reply-pairs";
+import {
+  exchangePairs,
+  readBankPieces,
+  readLedger,
+  readRules,
+} from "./run-rules";
 import { foldVerdicts } from "./verdicts";
 
 function main() {
@@ -21,6 +26,8 @@ function main() {
     pieces: readBankPieces(),
     ledger: readLedger(),
     pairs: knownPairs,
+    exchangePairs,
+    paths: pathsOf,
   });
   if (result.written.length)
     execSync(

@@ -69,7 +69,8 @@ describe("the opening story", () => {
       (row) =>
         row.level === "country" &&
         row.facts.some((key) => /^(context|meaning)-|-(up|down)$/.test(key)) &&
-        !row.facts.includes("today"),
+        // "today-clause" is the same sentence after an opener (W-E, Nov 12).
+        !row.facts.some((key) => key.startsWith("today")),
     ))
       expect(
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
@@ -84,21 +85,35 @@ describe("the opening story", () => {
     // The party creed says the President's own party (an Oct 28 voice note:
     // the speech reads the President's party, traits and the world), and the
     // country's story ends on what the President will do about it.
-    expect(levels).toContain("occasion");
+    // The occasion is said where one of its pieces fits the record; since
+    // the speech outline (Nov 12) a piece that carries nothing is not
+    // picked, so an address may open straight from its greeting into its
+    // first point.
+    expect(levels).toContain("country");
     const country = story.address.sentences.filter(
       (row) => row.level === "country",
     );
-    // The theme's point opens on its context: how its question stands today,
-    // from the law in force, or a figure from the records (changed with the
-    // speech outline, Nov 12: before, the country's story ended on a claim
-    // about the year).
-    if (country.length)
+    // The theme's first point says how its question stands today, from the
+    // law in force, or gives a figure from the records (changed with the
+    // speech outline, Nov 12; since the W-E pass a point has four shapes, so
+    // its paragraph, not its first sentence, holds the context).
+    if (country.length) {
+      const part = country[0]!.part;
       expect(
-        country[0]!.facts.some(
-          (key) => key === "today" || /^context-/.test(key),
-        ),
+        country
+          .filter((row) => row.part === part)
+          .some((row) =>
+            row.facts.some(
+              (key) =>
+                key === "today" ||
+                key === "today-clause" ||
+                key.startsWith("today-") ||
+                /^context-/.test(key),
+            ),
+          ),
         country[0]!.text,
       ).toBe(true);
+    }
     // Composed from records, the same every time.
     expect(composeOpeningStory(core, playerId)).toEqual(story);
   });

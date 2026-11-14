@@ -7,24 +7,32 @@ import {
   donationAsksFor,
   askToVolunteer,
   campaignFor,
+  petitionAsksAtDoors,
   commissionPoll,
   endorsementsOf,
   giveSpeech,
   runAd,
   sendMail,
+  hireCirculators,
+  circulatorsCanWork,
   statementSpeechId,
   type CauseRow,
 } from "../core2/modules/campaigns";
 import type { Stance } from "../core2/campaign-data";
 import {
   campaignDayChoices,
+  raceLive,
   contestStanding,
   takeCampaignDayChoice,
   whyNotToday,
   type CandidateStanding,
   type CampaignDayKind,
 } from "../core2/campaign-day";
-import { petitionOf } from "../core2/modules/elections";
+import {
+  petitionCirculating,
+  petitionOf,
+  petitionSigners,
+} from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
@@ -49,13 +57,28 @@ import {
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-data";
 import { backdropFor, homeOf, peopleHere } from "./scene";
+import { doorPlaceFor } from "./scene-picture-steps";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
+import { personName } from "./legislature";
 import { campaignAnswer } from "../director/campaign-answer";
-import { spokenDate as dateSaid } from "../director/words";
+import { spokenDate as dateSaid, stateInSentence } from "../director/words";
 import { seatSaid } from "../english/journal-words";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { filingDeadlineFor } from "../core2/modules/elections";
+import { officeInSentence, personWorkOf } from "../core2/person-work";
+import {
+  corePlaceByJurisdictionId,
+  corePlaceStateIdentities,
+} from "../core2/place-lookup";
+import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
+import {
+  askToServe,
+  chooseRunningMateForMe,
+  offeredRunningMates,
+  serveAskHours,
+  ticketAsks,
+} from "../core2/modules/serve-asks";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import controls from "./data/controls.json" with { type: "json" };
 
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
 const POLL_SAMPLE = campaignParameter("pollSampleSize");
@@ -63,9 +86,10 @@ const POLL_SAMPLE = campaignParameter("pollSampleSize");
 const ELECTIONS = "core2-elections-v1";
 
 /**
- * A filing's petition as the screens show it, read from the petition record
- * (the signatures the clerk will count, the last day, the signatures held and,
- * once the clerk has checked it, the verdict). Null for a filing with none.
+ * A filing's petition as the screens show it, read from the petition record:
+ * the signatures the law asks, the last day and the signatures held. The
+ * clerk's check is told in the news and the Journal, not on a screen (owner,
+ * Nov 14). Null for a filing with none.
  */
 export function petitionView(api: CoreAPI, filingId: string) {
   const petition = petitionOf(api, filingId);
@@ -75,13 +99,11 @@ export function petitionView(api: CoreAPI, filingId: string) {
     needed: petition.needed,
     due: petition.due,
     signed: petition.signed,
-    check: petition.check
-      ? {
-          on: petition.check.on,
-          valid: petition.check.valid,
-          struck: petition.check.struckIds.length,
-        }
-      : null,
+    // Whether paid circulators can gather the race's signatures outside the
+    // town: a county, district, state or federal race while it circulates.
+    outside: circulatorsCanWork(api, filingId),
+    /** Whether the doors still ask for signatures; past the target plus the cushion they ask for the vote. */
+    asksAtDoors: petitionAsksAtDoors(api, filingId),
   };
 }
 const CAMPAIGNS = "core2-campaigns-v1";
@@ -107,6 +129,9 @@ function townFirst(api: CoreAPI, outletIds: readonly string[]) {
   return outletIds.find((id) => tier.get(id) === "local") ?? outletIds[0];
 }
 
+/** Whether a filing's race is live: ahead and not yet counted (the screens' one reading of it). */
+export { raceLive };
+
 /** The player's campaigns: one for each filing on the ballot. */
 export function campaignView(core: CoreState, personId: string) {
   if (!core.modules.has(CAMPAIGNS)) return { campaigns: [], venues: [] };
@@ -116,7 +141,7 @@ export function campaignView(core: CoreState, personId: string) {
       .moduleState(ELECTIONS)
       .table("filings")
       .query("byPerson", [personId]) as unknown as FilingRow[]
-  ).filter((row) => row.status !== "withdrawn");
+  ).filter((row) => raceLive(api, row));
   const pictures = filings.length ? trailPictures(core, personId) : {};
   return {
     venues: scenePlaces.speechPlaces,
@@ -149,12 +174,23 @@ export function campaignView(core: CoreState, personId: string) {
           : null,
         campaign: {
           ...campaign,
-          volunteers: campaign.volunteerIds.length,
+          volunteers: volunteersApart(campaign).length,
           doors: campaign.doorsKnockedCount ?? 0,
           // The people and groups who said yes, from the endorsement records.
           endorsements: endorsementsOf(api, filing.id).filter(
             (row) => row.answer === "yes",
           ).length,
+        },
+        // The people on the campaign's own record: who runs it and helps, by name, so the board reads the one source.
+        team: {
+          staff: campaign.staffIds.map((id) => ({
+            id,
+            name: personName(core, id),
+          })),
+          volunteers: volunteersApart(campaign).map((id) => ({
+            id,
+            name: personName(core, id),
+          })),
         },
         polls: polls.slice(-3),
         petition: petitionView(api, filing.id),
@@ -199,6 +235,8 @@ export function campaignView(core: CoreState, personId: string) {
         }),
         // The picture on each of the trail's other tiles (the asks, the money, the speech, a debate).
         pictures,
+        // A governor's race that carries the office the law elects on its ticket: who runs with them.
+        runningMate: ticketView(api, core, filing.id),
         // Debates the outlet has invited the candidates to, waiting for their answers.
         debates: debatesIn(api, filing.contestId)
           .filter((row) => row.status === "invited")
@@ -208,6 +246,176 @@ export function campaignView(core: CoreState, personId: string) {
             outletId: row.outletId,
             questions: row.questions,
           })),
+      };
+    }),
+  };
+}
+
+/**
+ * "Choose for me" on one of the player's own filings: no scene; the strongest
+ * of the people offered who would say yes is named. The campaigns as they
+ * stand after.
+ */
+export function runningMatePicked(
+  core: CoreState,
+  personId: string,
+  filingId: string,
+) {
+  const api = coreAPI(core);
+  const filing = api
+    .moduleState(ELECTIONS)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  if (filing?.personId !== personId)
+    throw new Error("That isn't one of your races.");
+  chooseRunningMateForMe(api, filingId);
+  return campaignView(core, personId);
+}
+
+/**
+ * The player asks one of the people offered to run as their running mate: the
+ * ask is kept and plays as a scene; only the scene's ending names anyone.
+ */
+export function runningMateAsked(
+  core: CoreState,
+  personId: string,
+  filingId: string,
+  askedId: string,
+) {
+  const api = coreAPI(core);
+  const filing = api
+    .moduleState(ELECTIONS)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  if (filing?.personId !== personId)
+    throw new Error("That isn't one of your races.");
+  const row = askToServe(api, { seat: "ticket", filingId, personId: askedId });
+  return { hours: serveAskHours(), eventId: row.eventId };
+}
+
+/**
+ * An occupation group's plural name ("Editors", "Registered Nurses"), as the
+ * occupation lists name a group of people, not what one person does.
+ */
+function groupName(title: string): boolean {
+  return /[^su]s$/i.test(title.trim().split(/\s+/).at(-1) ?? "");
+}
+
+/**
+ * A governor candidate's ticket as the campaign board shows it: the office on
+ * it, the running mate by name once named, else the people of their party to
+ * choose from (each with the seat they hold now), and when the ticket forms
+ * where it is not yet the candidate's to name. Null for a race with no ticket.
+ */
+function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
+  const ticket = offeredRunningMates(api, filingId);
+  if (!ticket) return null;
+  const nameOf = (id: string) => {
+    const person = core.people.get(id as PersonId);
+    return person ? `${person.givenName} ${person.familyName}` : null;
+  };
+  const contest = api
+    .moduleState(ELECTIONS)
+    .table("contests")
+    .get(ticket.ticketContestId) as unknown as ContestRow;
+  const mateName = ticket.mateId ? nameOf(ticket.mateId) : null;
+  // Who turned the player down, and who may be asked now (owner, Nov 14: a
+  // no stands for now; ask again later).
+  const asks = new Map(ticketAsks(api, filingId).map((a) => [a.personId, a]));
+  return {
+    office: ticket.office,
+    // The office as a sentence says it ("lieutenant governor").
+    officeSaid: officeInSentence(ticket.office),
+    mate: ticket.mateId ? { id: ticket.mateId, name: mateName } : null,
+    // Where the state's law has the office win a primary of its own, its
+    // party's nominee joins the ticket; otherwise the candidate names one.
+    joinsAfterPrimary: ticketStageOf(api, contest) === "separate-primary",
+    // Each person as their record has them: the seat they hold or their
+    // work (`personWorkOf`, the one reader the card uses; else the work a
+    // newcomer was filled in with), and their home town. The race's own
+    // state or territory goes unsaid; a home outside it is named.
+    choices: ticket.choices.map((c) => {
+      const offices = api.moduleState(OFFICES_MODULE_ID);
+      const words = controls.runningMate;
+      const realmKey = String(
+        (
+          offices.table("offices").get(contest.officeId) as unknown as
+            { jurisdiction?: string } | undefined
+        )?.jurisdiction ?? "",
+      );
+      const realm =
+        corePlaceStateIdentities().find((s) => s.jurisdictionKey === realmKey)
+          ?.name ?? null;
+      const person = core.people.get(c.id as PersonId);
+      const work = personWorkOf(core, c.id);
+      const filledWork = person?.pastFacts?.find(
+        (f) => f.kind === "identity:work",
+      )?.summary;
+      // A seat their record names that they no longer hold: held before.
+      const seatOffice = c.seatId
+        ? (offices
+            .table("offices")
+            .get(
+              (
+                offices.table("seats").get(c.seatId) as unknown as
+                  { officeId: string } | undefined
+              )?.officeId ?? "",
+            ) as unknown as { title: string } | undefined)
+        : undefined;
+      // A job is said only as one person's work: a commuter's job names no
+      // work of their own, and an occupation group's plural name ("Editors")
+      // is not one person's; either leaves the row at name and town.
+      const commuter = work.job
+        ? Boolean(
+            core.organizations.get(work.job.organizationId as never)
+              ?.outsideFlow,
+          )
+        : false;
+      const ownWork = (title: string | undefined) =>
+        title && !groupName(title) ? officeInSentence(title) : null;
+      const said = work.offices[0]
+        ? officeInSentence(work.offices[0].title)
+        : work.job
+          ? commuter
+            ? null
+            : ownWork(work.job.title)
+          : filledWork
+            ? ownWork(filledWork)
+            : seatOffice
+              ? words.former.replace(
+                  "{office}",
+                  officeInSentence(seatOffice.title),
+                )
+              : c.roles[0]
+                ? ((words.roles as Record<string, string>)[c.roles[0]]?.replace(
+                    "{place}",
+                    realm ? stateInSentence(realm) : "",
+                  ) ?? null)
+                : null;
+      const town = person?.placeId
+        ? corePlaceByJurisdictionId(person.placeId as never)
+        : null;
+      const homeState = town
+        ? town.stateJurisdictionKey
+        : corePlaceStateIdentities().find(
+            (s) => s.jurisdictionKey === person?.placeId,
+          )?.jurisdictionKey;
+      const homeStateName = homeState
+        ? (corePlaceStateIdentities().find(
+            (s) => s.jurisdictionKey === homeState,
+          )?.name ?? null)
+        : null;
+      const townName = town
+        ? (town.formalName ?? town.displayName.split(",")[0]!)
+        : null;
+      const away = homeState && homeState !== realmKey ? homeStateName : null;
+      return {
+        id: c.id,
+        name: c.name,
+        work: said,
+        place: townName ? (away ? `${townName}, ${away}` : townName) : away,
+        declined: !!asks.get(c.id)?.declined,
+        mayAsk: asks.get(c.id)?.mayAsk ?? true,
       };
     }),
   };
@@ -248,6 +456,7 @@ export function raceSaid(api: CoreAPI, contest: ContestRow): RaceSaid {
       seats: office?.seats ?? 1,
       bodyName: (office?.seats ?? 1) > 1 ? (office?.bodyName ?? null) : null,
       district: contest.district,
+      level: contest.level,
     }),
     when: primaryAhead
       ? { primary: dateSaid(contest.primaryDate!, today) }
@@ -269,6 +478,17 @@ function saidAgain(
   return all.filter((who) => who.name.split(" ")[0] === first).length > 1
     ? name
     : first;
+}
+
+/**
+ * The volunteers who are not on the staff: the one read behind the board's
+ * count, the team list beside it and the shift's count, so the three agree.
+ */
+function volunteersApart(campaign: {
+  volunteerIds: readonly string[];
+  staffIds: readonly string[];
+}): string[] {
+  return campaign.volunteerIds.filter((id) => !campaign.staffIds.includes(id));
 }
 
 /**
@@ -318,14 +538,20 @@ export function raceStanding(
             mine.warmer > 0 && mine.cooler > 0
               ? "moved-both"
               : mine.warmer > 0
-                ? "moved-warmer"
+                ? // Everyone reached moved the same way: said once, without the figure twice.
+                  mine.warmer >= mine.reached
+                  ? "moved-all-warmer"
+                  : "moved-warmer"
                 : mine.cooler > 0
-                  ? "moved-cooler"
+                  ? mine.cooler >= mine.reached
+                    ? "moved-all-cooler"
+                    : "moved-cooler"
                   : "moved-none",
             id,
             {
-              warmer: mine.warmer,
-              cooler: mine.cooler,
+              // A side no one moved to is not a fact: the lines that need it say so.
+              ...(mine.warmer > 0 ? { warmer: mine.warmer } : {}),
+              ...(mine.cooler > 0 ? { cooler: mine.cooler } : {}),
               reached: mine.reached,
             },
           ),
@@ -433,7 +659,7 @@ export function campaignAct(
       // The count shown is the campaign record's, the one the header reads.
       return {
         answers,
-        volunteers: campaignFor(api, input.filingId).volunteerIds.length,
+        volunteers: volunteersApart(campaignFor(api, input.filingId)).length,
         // The shift is at the campaign office, the player at it.
         scene: askScene(core, personId, scenePlaces.volunteerOfficePlace),
       };
@@ -526,6 +752,35 @@ export function campaignAct(
       return {
         ...summary(read),
         spentMinor: campaignFor(api, input.filingId).spentMinor - before,
+      };
+    }
+    case "circulators": {
+      // Paid circulators for the race's voters outside the town: the amount
+      // the player chose is set aside from what the campaign holds and paid
+      // as the signatures come in, until the petition is due.
+      const setAsideMinor = hireCirculators(
+        api,
+        input.filingId,
+        input.amountMinor ?? 0,
+      );
+      const after = campaignFor(api, input.filingId);
+      const petition = petitionView(api, input.filingId);
+      // What the money bought, from the campaign and petition records: the
+      // amount set aside and the signatures held, or why nothing was.
+      return {
+        setAsideMinor,
+        line:
+          setAsideMinor > 0 && petition
+            ? controls.campaignGatherers.hired
+                .replace("{cost}", dollarsOf(setAsideMinor))
+                .replace("{due}", dateSaid(petition.due, core.date))
+                .replace("{signed}", petition.signed.toLocaleString("en-US"))
+            : after.raisedMinor > 0
+              ? controls.campaignGatherers.noMoney.replace(
+                  "{raised}",
+                  dollarsOf(after.raisedMinor),
+                )
+              : controls.campaignGatherers.noMoneyYet,
       };
     }
     case "poll":
@@ -697,14 +952,13 @@ function outingScene(
 ) {
   const first = core.people.get(met[0] ?? "")?.householdId ?? "";
   const dwelling = (first && dwellingKind(coreAPI(core), first)) || "house";
-  const doors = scenePlaces.doorKnockingPlaces as Record<string, string>;
   const party = kind === "donor-meeting" && !!met[0];
   // A house party is an evening in the living room (homeRoomByHour).
   const minute = party ? 20 * 60 : 16 * 60;
   const place = party
     ? homeOf(core, met[0]!, minute)
     : kind === "canvass"
-      ? (doors[dwelling] ?? TRAIL_PLACES.doors!)
+      ? doorPlaceFor(dwelling)
       : TRAIL_PLACES[OUTINGS[kind] ?? "calls"]!;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   const backdrop = backdropFor(core, place, minute, party ? met[0] : undefined);
@@ -761,9 +1015,37 @@ export function campaignDay(
   ];
   const kind = kinds.find((k) => k === input.kind);
   if (!kind) throw new Error("Unknown campaign day choice.");
+  // While the petition circulates, a doors outing is how signatures come in
+  // (owner, Nov 14): the names the doors added today, from the petition's own
+  // signer rows, some days none and some days many.
+  const doorSigners = () =>
+    petitionSigners(api, input.filingId).filter((s) => s.via === "door").length;
+  const canvassing =
+    kind === "canvass" && petitionCirculating(api, input.filingId);
+  const signedBefore = canvassing ? doorSigners() : 0;
+  // Doors that opened stay a count for counted residents (two-level
+  // population), so the doors answered are the people met plus that count's
+  // growth. A door asks for a signature while the petition needs more and
+  // for the vote after (`petitionAsksAtDoors`), the crossing outing both.
+  const countedBefore = campaignFor(api, input.filingId).countedReached ?? 0;
+  const askedBefore = campaignFor(api, input.filingId).doorSignAsks ?? 0;
   const result = takeCampaignDayChoice(api, input.filingId, kind, {
     ...(input.outletId ? { outletId: input.outletId } : {}),
   });
+  const opened = canvassing
+    ? result.causeIds.length +
+      (campaignFor(api, input.filingId).countedReached ?? 0) -
+      countedBefore
+    : 0;
+  const signAsks = canvassing
+    ? (campaignFor(api, input.filingId).doorSignAsks ?? 0) - askedBefore
+    : 0;
+  /** Signatures the doors brought in; null when no door of this outing asked for one. */
+  const signed = signAsks > 0 ? doorSigners() - signedBefore : null;
+  /** Doors that opened (everyone asked, for a signature or the vote); null off a petition. */
+  const answered = canvassing ? opened : null;
+  /** Doors that opened and were asked for the vote instead of a signature. */
+  const votesAsked = canvassing ? opened - signAsks : null;
   const met = outingPeople(core, kind, result);
   // Each person asked for money: their name, what they gave or why not, in words.
   const calls = result.answers.map((answer) => {
@@ -808,6 +1090,11 @@ export function campaignDay(
     hours: result.hours,
     doorsKnocked: result.doorsKnocked,
     reached: result.causeIds.length,
+    /** Signatures the doors brought in, while the petition circulates; null otherwise. */
+    signed,
+    /** Doors that opened on a petition outing (everyone asked to sign); null otherwise. */
+    answered,
+    votesAsked,
     raisedMinor: result.raisedMinor,
     gifts: result.giftIds.length,
     // A forum's town hall: the meetings engine's row, who came and what they asked.

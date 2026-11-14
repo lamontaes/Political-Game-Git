@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -52,3 +52,5 @@ Released (2026-11-11): Re-claimed by my own next loop, not worked; see my earlie
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:24 UTC) on branch claude/pool-world-business-founding-no-purchase-kinds.
 
 Released by next (2026-11-13): no push to claude/pool-world-business-founding-no-purchase-kinds since 2026-11-11 06:22 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-world-business-founding-no-purchase-kinds.
+
+Dropped (2026-11-13, Account lead T30): not reproducible on the train. The only caller of enterMarket (business.ts, `found`, ~2150-2180) enters only when an incumbent with live resident purchase flows exists in the place, and enterResidentMarket (residents.ts ~2802-2825) reads its kinds from exactly that incumbent's live flows, so the kinds cannot be empty. Six drawn places were played 600 days through buildBenchWorld with no error: Conestee SC (US-SC 4516180, seed 431f40d4...), Skagway AK (US-AK 0270760, 8f3ccb88...), Teaticket MA (US-MA 2569205, 7267935d...), Manley NE (US-NE 3130415, 2404d168...), Madison MN (US-MN 2739266, aab31a79...), Malaeimi AS (territory:AS:malaeimi, 13ce7603...). The seed prefix after `a:` is the draw base `a:0` to `a:5`. Follow-up found while checking: world-founded-business-outside-sales-flow-starts-at-zero.

@@ -39,6 +39,8 @@ export interface Move {
   stages?: string[];
   raises?: string;
   requiresFacts?: string[];
+  /** Facts whose presence holds the wording back. */
+  excludesFacts?: string[];
   /** Whom the sentence speaks of, when it opens with a pronoun. */
   pronoun?: "he" | "she" | "they";
   /** A bare question turned back ("And you?"), said after the plain answer. */
@@ -177,8 +179,17 @@ export function wordConversationMove(request: {
     facts: request.facts,
   });
   // A wording the listener heard today is held back while another fits.
+  // A wording whose slots the facts cannot fill does not count as one that
+  // fits (else the heard-today hold-back leaves only wordings that cannot be
+  // said, and the answer is lost).
+  const sayable = (row: Move) =>
+    [...row.text.matchAll(/\{\{([\w-]+)\}\}/g)].every(
+      (slot) => !!request.facts[slot[1]!]?.text,
+    );
   const fresh = request.avoid
-    ? fitting?.filter((row) => !row.part || !request.avoid!.has(row.part))
+    ? fitting?.filter(
+        (row) => (!row.part || !request.avoid!.has(row.part)) && sayable(row),
+      )
     : fitting;
   const usable = fresh?.length ? fresh : fitting;
   const bank = `conversation:${request.subject}:${request.part}`;
@@ -194,8 +205,21 @@ export function wordConversationMove(request: {
           (key) => key === row.forChoice || key.startsWith(`${row.forChoice}.`),
         )),
   );
+  // A reason the listener heard today is held back too while another is
+  // on hand ("Lives out in Sharp County." from two of the household one
+  // morning; the telling's rule that the house says a thing once a day).
+  const freshReasons = request.avoid
+    ? reasons?.filter((row) => !row.part || !request.avoid!.has(row.part))
+    : reasons;
   if (usable?.length && reasons?.length)
-    return composedMove(request, bank, words.version, stage, usable, reasons);
+    return composedMove(
+      request,
+      bank,
+      words.version,
+      stage,
+      usable,
+      freshReasons?.length ? freshReasons : reasons,
+    );
   const line = renderLine({
     seed: request.seed,
     surface: "dialogue",
@@ -244,6 +268,7 @@ function linePartVariant(row: Move): LinePartVariant {
     ...(row.part ? { pieceKey: row.part } : {}),
     ...(row.stages ? { stages: row.stages } : {}),
     ...(row.requiresFacts ? { requiresFacts: row.requiresFacts } : {}),
+    ...(row.excludesFacts ? { excludesFacts: row.excludesFacts } : {}),
     ...(row.bearing ? { bearing: row.bearing } : {}),
   };
 }
@@ -258,10 +283,15 @@ function composedMove(
   bankKey: string,
   version: string,
   stage: string,
-  usable: readonly Move[],
-  reasons: readonly Move[],
+  allUsable: readonly Move[],
+  allReasons: readonly Move[],
 ): Said | null {
   const facts = request.facts;
+  // A wording a present fact holds back is not offered (`excludesFacts`).
+  const heldBack = (row: Move) =>
+    !!row.excludesFacts?.some((key) => facts[key]);
+  const usable = allUsable.filter((row) => !heldBack(row));
+  const reasons = allReasons.filter((row) => !heldBack(row));
   const compose = (cores: readonly Move[], withReasons: readonly Move[]) =>
     composeGroundedLine(
       conversationPacket({
@@ -361,6 +391,27 @@ export function asksQuestion(line: { text: string }): boolean {
 
 const COMPOSED = new Map<string, ComposedLineBank | null>();
 
+/** The fact a talk carries once a speaker said how long they have held a stand ("for years"). */
+export const HELD_SAID = "held-said";
+let HELD_PIECES: ReadonlySet<string> | null = null;
+
+/**
+ * The pieces that say how long the speaker has held a stand: each is held
+ * back once the talk has said it (`excludesFacts: held-said`), and saying one
+ * is what sets that fact for the rest of the talk (lead, Nov 13: how long a
+ * person has held a stand is said once per talk).
+ */
+export function heldPieces(): ReadonlySet<string> {
+  HELD_PIECES ??= new Set(
+    admittedParts(CONVERSATION_BANK.parts)
+      .filter((piece) =>
+        piece.uses.some((use) => use.excludesFacts?.includes(HELD_SAID)),
+      )
+      .map((piece) => piece.key),
+  );
+  return HELD_PIECES;
+}
+
 /**
  * The bank a subject's composed lines are made from: its pieces in the
  * conversation bank by the part of the line each says (opener, core, reason,
@@ -399,6 +450,8 @@ export function composedConversationBank(
                 ),
               }
             : {}),
+          ...(use.closesTalk ? { closesTalk: true } : {}),
+          ...(use.setsFacts?.length ? { setsFacts: use.setsFacts } : {}),
           ...(piece.bearing ? { bearing: piece.bearing } : {}),
         });
   const bank: ComposedLineBank | null = parts.core?.length

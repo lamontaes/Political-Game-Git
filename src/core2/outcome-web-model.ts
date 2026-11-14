@@ -15,6 +15,7 @@ import ledger from "../../data/research/outcome-web/placeholder-ledger.json" wit
 import local from "./data/outcome-web/outcome-web.json" with { type: "json" };
 import coverageData from "./data/outcome-web/coverage.json" with { type: "json" };
 import { GOV_MEASURES } from "./gov-measure-keys";
+import { OUTPUT_NUMBERS, type OutputNumber } from "./output-numbers";
 import { worldOffsetUnit } from "./world-draw";
 import type { Source } from "./types";
 
@@ -145,30 +146,19 @@ const KEPT_LOCAL = local.keptOutcomes as unknown as Readonly<
 const BASELINES = web.baselines as Readonly<
   Record<string, { readonly value: number }>
 >;
-const ENGINE = local.engineMeasures as Readonly<
-  Record<
-    string,
-    {
-      readonly owner: string;
-      /** The field of a month row the measure reads (world-metrics', else the engine's own table). */
-      readonly field: string;
-      /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
-      readonly reader?: string;
-      /**
-       * A cause read from a law: the level it is measured from is the law the
-       * day before the web opened, so a law taking effect on the opening day
-       * (or after) moves the outcome (src/core2/modules/outcome-web.ts).
-       */
-      readonly baselineReader?: string;
-      readonly unitScale: number;
-      /** An engine that keeps its own month rows by place: its module and table (rows have `placeId`, `date`, `id`). */
-      readonly module?: string;
-      readonly table?: string;
-      /** The engine's record is the kept outcome itself; links into it do not run. */
-      readonly ownsOutcome?: boolean;
-    }
-  >
->;
+/**
+ * The engine measures the web reads as causes: the registry of output numbers
+ * (src/core2/output-numbers.ts) holds the list, and each row's `web` part
+ * says how the web reads it (the field of a month row, world-metrics' or the
+ * engine's own table; or a named reader of an engine's own record; a
+ * `baselineReader` is a cause read from a law, measured from the law the day
+ * before the web opened; `ownsOutcome` marks an engine's record that is the
+ * kept outcome itself, so links into it do not run).
+ */
+const ENGINE: Readonly<Record<string, NonNullable<OutputNumber["web"]>>> =
+  Object.fromEntries(
+    OUTPUT_NUMBERS.flatMap((row) => (row.web ? [[row.id, row.web]] : [])),
+  );
 export const LAW_PREFIX = "law:";
 /** An index outcome reads 100 where the place began. */
 const INDEX_START = local.indexStart;

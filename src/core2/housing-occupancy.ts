@@ -17,7 +17,6 @@ import {
 } from "./modules/residents";
 import { fundBalance, peopleInGroup } from "./counted-money";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { stableHash } from "./kernel/ids";
 import { nextDue } from "./housing-homeless";
 import { reopenResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
@@ -413,36 +412,6 @@ export function occupyCompletedRentals(api: CoreAPI): void {
   }
 }
 
-/**
- * The date an opening lease was last renewed. A lease that exists when the
- * housing records open is some way through its year: its anniversary falls in
- * one of the twelve months after this first review, fixed by the lease (the
- * hash of its id, a seeded fact about a lease that already exists, not a
- * chance). Leases are signed through the year, so their renewals spread over
- * it instead of all falling a year after the opening.
- */
-function openingAnniversary(api: CoreAPI, leaseId: string): string {
-  // stopgapId: SG-WORLD-housing-lease-anniversary
-  api.stopgap("SG-WORLD-housing-lease-anniversary");
-  const c = api.state as CoreState;
-  const months = api.parameter("macroMonthsPerYear");
-  const anniversary =
-    Number.parseInt(
-      stableHash(`${c.seed}:lease-anniversary:${leaseId}`).slice(0, 8),
-      16,
-    ) % months;
-  // Renewed (months - anniversary) months before this review: renewal falls due `anniversary` months from now.
-  const at =
-    Number(c.date.slice(0, 4)) * months +
-    Number(c.date.slice(5, 7)) -
-    1 -
-    (months - anniversary);
-  const year = Math.floor(at / months);
-  const month = at - year * months + 1;
-  // Only the month matters to a renewal; the first of it is a date every month has.
-  return `${year}-${String(month).padStart(2, "0")}-01`;
-}
-
 /** Both tiers renew the rent their payment writer actually reads. */
 export function renewRentalLeases(api: CoreAPI): void {
   if (!regionalRegistered(api)) return;
@@ -469,24 +438,38 @@ export function renewRentalLeases(api: CoreAPI): void {
       stock && stock.rentalUnits > 0
         ? stock.vacantRental / stock.rentalUnits
         : undefined;
-    const last = table(api, "renewals").get(tenant.leaseId) as
+    const held = table(api, "renewals").get(tenant.leaseId) as
       | {
           renewedAt: string;
-          regionPay: number;
+          regionPay?: number;
+          payShare?: number;
           vacancy?: number;
           webFactor?: number;
         }
       | undefined;
-    if (!last) {
+    let last = held as {
+      renewedAt: string;
+      regionPay: number;
+      vacancy?: number;
+      webFactor?: number;
+    };
+    if (!held || held.regionPay === undefined) {
+      // A lease the housing history signed carries the pay at its last
+      // renewal against the opening's (src/core2/housing-past.ts): its first
+      // review reads that against the region's pay. A lease signed in play
+      // renews a year from the review that first sees it.
+      last = {
+        ...held,
+        webFactor: webFactor(tenant.placeId),
+        regionPay: level.hourlyEarnings * (held?.payShare ?? 1),
+        renewedAt: held?.renewedAt ?? c.date,
+        ...(vacancy === undefined ? {} : { vacancy }),
+      };
       table(api, "renewals").put({
         id: tenant.leaseId,
-        webFactor: webFactor(tenant.placeId),
-        regionPay: level.hourlyEarnings,
-        renewedAt: openingAnniversary(api, tenant.leaseId),
+        ...last,
         rentMinor: tenant.rentMinor,
-        ...(vacancy === undefined ? {} : { vacancy }),
       });
-      continue;
     }
     const months =
       (Number(c.date.slice(0, 4)) - Number(last.renewedAt.slice(0, 4))) *

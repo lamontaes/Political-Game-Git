@@ -46,6 +46,19 @@ function periodOpened(
 }
 
 /**
+ * The form a body's measures take by its office kind: Congress and a state
+ * chamber pass acts (said "bill"), every local body ordinances. The one rule
+ * `bodyNumbering` and a speech saying what the body passes both read.
+ */
+export function formKindOf(officeKind: string): BillFormKind {
+  return /^(?:us-house|us-senate|legislature-(?:lower|upper|unicameral))/.test(
+    officeKind,
+  )
+    ? "act"
+    : "ordinance";
+}
+
+/**
  * The numbering of the body a bill goes to, from the body's office kind and
  * jurisdiction ("US", "US-XX", or a local government id).
  */

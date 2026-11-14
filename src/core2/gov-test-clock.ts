@@ -6,7 +6,12 @@
  */
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
-import { openContests, ELECTIONS_MODULE_ID } from "./modules/elections";
+import {
+  openContests,
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "./modules/elections";
+import { makeIsoDate } from "./kernel/dates";
 import type { CoreState } from "./types";
 
 export function advanceToFilingOpen(core: CoreState): string {
@@ -26,4 +31,10 @@ export function advanceToFilingOpen(core: CoreState): string {
     .sort()[0];
   if (next && next > today) advanceCore(core, next);
   return core.date;
+}
+
+/** Play the world to the day a race's filing opens, if that is later. */
+export function advanceToRaceFiling(core: CoreState, race: ContestRow): void {
+  if (race.filingOpens && race.filingOpens > core.date)
+    advanceCore(core, makeIsoDate(race.filingOpens));
 }

@@ -296,6 +296,225 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.110.0
+
+_Released November 13, 2026._
+
+### Added
+
+- **Some people were arrested before the game began** A person's past can now
+  hold an arrest before they turned 23, and for some a felony conviction and a
+  prison term served before the game began, in the shares real Americans have
+  them. A prison term ends their job or their search for work, which starts
+  again on release. The card and the Journal tell all of it with the lines
+  already written for the law.
+
+- **A layoff in someone's past moves their politics** What people lived through
+  before the game began now moves their politics. Someone laid off leans further
+  left for a while after, more so if they leaned right. Someone whose parent was
+  laid off while they were growing up moves toward that parent's views, or away
+  from them, by their own temperament.
+
+- **A person's past can hold an earlier partner and a night in hospital** People
+  now have more behind them: some had an earlier marriage or long partnership
+  that ended before the game began, by parting or by the partner's death, and
+  many spent a night in hospital for an illness or injury, each with its year,
+  at the rates real towns show. The card tells them once their lines are
+  written.
+
+- **A close race recounts by its own state's rule** A race whose count ends
+  inside its state's automatic recount margin is now recounted. Where the
+  state's law lets a trailing candidate ask, they may: people in the world
+  decide from their temperament and how close it was, and the player asks by not
+  conceding on election night. The paper carries the recount, the result is
+  certified on the day it ends, and the winner is not seated before then.
+
+- **Jobs and study lists the jobs open in your town when you have none.** With
+  no job, Jobs and study now lists what is open in town: the title, the
+  employer, the pay per hour and the hours per day.
+
+### Improved
+
+- **The Campaigns screen names your race, the day voters decide and why no ad
+  ran** Right after filing, the Campaigns screen says which seat you are running
+  for, the day voters decide and when filing closes, instead of the same
+  sentence in every town. Trying to buy an ad with no money says why from the
+  campaign's books: nothing raised since you filed, all of it spent, or money
+  left over. The paper's federal budget headline names its fiscal year or its
+  total, and a budget hearing's headline names whose budget it is.
+
+### Fixed
+
+- **A life is told in the order it was lived** Your life and every person's card
+  now tell a life year by year, instead of all the partners first, then school,
+  then work.
+
+- **Someone who moved to your town is no longer told as born there** A card no
+  longer says a person was born in the town it then says they moved to. They are
+  born where they came from.
+
+- **A debate opens on its day, not in the street** A debate you sit for opens on
+  its day with the moderator ready to begin, instead of running into them "out
+  and about" in town.
+
+- **An accusation scene plays for the accused, not for the one who reported it**
+  When you report someone to the prosecutor, you are no longer told that they
+  say you offered them money.
+
+- **A young child no longer tells you the news of politics, money, law or work**
+  Someone you live with who brings you news of a race, a bill, the rent or a job
+  is now at least 13; a younger child may still talk with you about their own
+  news, like your diploma.
+
+- **A bribe offered to you waits for your answer; nobody reports it in your name
+  first** A bribe offered to the player is no longer reported to the prosecutor
+  in the player's name before the player has seen or answered it.
+
+- **A bill held in committee names its sponsor, reaches the paper, and can be
+  heard after the chair agrees** When a committee chair holds a bill without a
+  hearing, the record now names the bill's sponsor, so the sponsor meets the
+  hold as a moment, and the paper can say the bill died without a hearing. If
+  the chair agrees in the scene where the sponsor asks, the bill goes back
+  before the committee and is heard.
+
+- **A state legislature takes up a handful of laws a session, not a third of
+  them** Touches pool item: laws-session-moves-too-many-questions A legislator
+  now carries the changes they care about most, as far as their own conviction
+  reaches, instead of filing on every question where the law differs from their
+  view, and a state legislator's bill goes through the session's floor weeks
+  instead of being given a vote the day the leader agrees to hear it. A state
+  session files about ten changes, not thirty-odd, and the bills the leader
+  leaves off the agenda stay off by a recorded answer.
+
+- **People who move into the county no longer all go looking for work the month
+  they arrive.** A household that moved in was read as having no money, so every
+  free member looked for work and was hired. It is now read by its share of its
+  group's savings, like a household that was always there.
+
+- **Metrics shows today's typical rent and home value, not the opening day's**
+  Politics → Metrics now shows the town's typical rent and home value as they
+  are today, read from the town's leases and homes, instead of the figures from
+  the day the game began.
+
+- **Money's cash figure is your household's, like the months listed under it**
+  Cash available no longer shows $0 for a player whose household holds money; it
+  counts the same people as each month's balance under it.
+
+- **News opens on Around town when that is where the news is** When every story
+  you can read is one no paper or station printed, News now opens on that page
+  instead of an empty town paper, and the tab is called Around town rather than
+  News.
+
+- **News opens on the paper or station that has something you have not read**
+  News used to open on your town's paper even when it had printed nothing, while
+  a station or network you follow had stories waiting. It now opens on the tab
+  you chose last if it has something new, otherwise on the outlet you follow
+  with the newest story you have not read, otherwise your town's paper; and it
+  stays on the page you are reading while the day moves on.
+
+- **Everyone keeps one face in every menu** The title's Continue and Saved games
+  now show your character as play does. Before, a character over 65 had gray
+  hair and an older face in play, and their younger look on the title. Every
+  face and person card in the game is now drawn the same way, so a person's
+  face, skin and hair match on every screen.
+
+- **The county around your town no longer ends up with more workers than adults
+  over a long game.** People in the wider county who found work out of town were
+  counted many times over, and newcomers were handed a share of that inflated
+  count. Each person who finds work now counts once, so the county's incomes
+  follow the pay it actually receives.
+
+- **A day in another year is told with its year** A scene about something from
+  last year now says "last February" or "in February 2023", instead of a month
+  and day that read as this year.
+
+- **A past arrest on a person's card says "was arrested"** A person's story said
+  "was accused of a crime" for an arrest before play, a charge the record does
+  not hold. It now says "He was arrested in 2006." An accusation the justice
+  engine records names its offense: "was accused of bribery".
+
+- **A person who works out of town no longer reads as working for "Buyers and
+  sellers outside the town"** A card read "Works as works outside the town at
+  Buyers and sellers outside the town." It now says "Works outside Woonsocket,
+  Rhode Island.", naming the town the person lives in.
+
+- **A government's name is spelled the way its town spells it** Politics,
+  Budgets, the paper and Play as said "Mccall City Council", "City of O Fallon"
+  and "County of St Clair". The listing behind them writes every name in
+  capitals, and the game re-capitalized it by rule. A government's name now
+  comes from its place record: "McCall City Council", "City of O'Fallon", "St.
+  Clair County".
+
+- **A council member's card says "a council member"** A card says a seat that is
+  one of several with "a", from the office record's seat count: "Has served as a
+  council member since 2019", "He won election as a council member". A seat
+  there is one of keeps none: "Has served as mayor".
+
+- **A state official's card no longer reads out the office's form note** A
+  card's "Has served as" line names the office without the note in parentheses
+  that the state's office list carries ("8 members, statewide, 8-year staggered
+  terms"), and a seat on a board or commission reads "corporation commission
+  member".
+
+- **An officeholder's card no longer says they work at a treasury** A
+  President's, senator's, governor's or legislator's card told the seat's own
+  pay record as a job ("Works as president at US.", "Works as legislature-upper
+  at Rhode Island treasury."). The card now tells only the office and since
+  when, and a U.S. office reads "U.S. senator" in a sentence.
+
+- **The paper words a study committee's forming and its report, and an empty
+  News page says why it is empty** When a body sends a bill that narrowly failed
+  to a study committee, the paper now prints who chairs it, how many sit on it
+  and when it reports; when it reports, the paper says which way its members
+  lean on the bill, says they turned only when their lean changed since the
+  committee formed, and whether the chair gave the findings to the body. Before,
+  those stories were listed with no words at all. An empty News page now says
+  either that you follow no paper or station, or that a paper or station you
+  follow has nothing yet.
+
+### Changed
+
+- **A town business's customers from out of town now rise and fall with its own
+  industry in its state and the nation** Most of what a small town's businesses
+  sell goes to buyers from outside the town. Before, all of those sales moved
+  together by one number for the whole town, so a builder and a factory next
+  door always gained or lost the same share. Now each business's outside
+  customers follow its own industry: the part that sells close to home follows
+  that industry's sales in the town's state, and the part sold across state
+  lines follows the industry nationwide. A building boom in your state lifts the
+  contractors without lifting the diner, and dev mode's Trace on a business's
+  outside sales names the industry and the state it followed.
+
+- **A layoff in someone's past can turn them right as well as left** A layoff
+  before the game began still moves most people left for a while, but someone
+  whose temperament leans to blaming outsiders turns right instead.
+
+- **A council petition asks the signatures your state's law asks of a town your
+  size.** A small Iowa town now asks 10 signatures (2% of its voters, minimum
+  10), a large North Dakota city 300 (10%, maximum 300), and an Ohio village 10
+  where a city asks 50. Before, every town's petition was held to the same 10%
+  of its voters.
+
+- **Residents who speak at public comment now know the council members who heard
+  them.** A resident who stands up at a council's public comment and the members
+  who hear them now know each other by name, and the speaker's time at the
+  podium starts a tie. No screen shows how they met yet: the effect is that they
+  can now be visited and asked for a vote.
+
+- **Scenes that only talked, or never reached you, are gone.** Twenty-four kinds
+  of scene left the game. Some never reached the player; in the rest, nothing in
+  the world read what you answered: a second call after a concession, a word in
+  the hallway that bound no one, a messenger bringing news the paper already
+  printed. The scenes whose answers change something stay as they were.
+
+- **The clerk's talk after you file names your race, your signatures and the day
+  that counts** After you file, the clerk's talk about the petition now says
+  what your own filing holds: how many signatures, the day they are due, the
+  office, your town and the day of the race's next vote. Lines that named
+  nothing ("The counter closes at five sharp.") are gone. When others filed
+  before you, the clerk names up to three of them and then says how many more,
+  without a party before every name.
+
 ## PRE-ALPHA 0.109.0
 
 _Released November 13, 2026._

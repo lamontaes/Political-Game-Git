@@ -79,6 +79,7 @@ import {
   serviceLevel,
   source,
 } from "./group-b-money";
+import { equalizeSchoolFunding } from "./group-b-school-aid";
 import { runFoodAid } from "./group-b-food-aid";
 import { lawNoLongerApplies } from "./applied";
 
@@ -92,6 +93,7 @@ type Mechanic =
   | "compliance-cost"
   | "assistance-time-limit"
   | "school-voucher"
+  | "school-aid"
   | "farm-output"
   | "property-assessment"
   | "price-payment"
@@ -530,6 +532,15 @@ function runPolicy(
         if (row.id === FOOD_AID_ACTIVE) payFoodAid(api);
       }
       return;
+    case "school-aid":
+      // The state pays the aid through its treasury into the town's schools
+      // lines; the school engine reads them (group-b-school-aid.ts).
+      equalizeSchoolFunding(api, {
+        key,
+        lawId: input.lawId,
+        inForce: input.enacting,
+      });
+      break;
     case "school-voucher": {
       // The state treasury pays its share of the tuition the town's
       // households pay the private school; the records are the households paid.

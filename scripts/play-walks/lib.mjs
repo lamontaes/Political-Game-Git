@@ -234,9 +234,11 @@ async function watchReturns(walk) {
  * a stop is continued, a scene's talk is played and written down. A stop
  * holds Day until it is answered, so waiting on Day alone would wait forever.
  */
-export async function pressDay(walk) {
+export async function pressDay(walk, button = "day") {
   const { page } = walk;
-  walk.say(`=== Day pressed at [${await clockOf(page)}]`);
+  walk.say(
+    `=== ${button === "day" ? "Day" : button} pressed at [${await clockOf(page)}]`,
+  );
   // Something may hold the screen over Day: a scene's talk, a stop, a panel.
   // Answer it, and write down what was there.
   for (
@@ -266,20 +268,23 @@ export async function pressDay(walk) {
     else if (await shown(page, "meeting")) await sitMeeting(walk);
     else await page.waitForTimeout(1500);
   }
-  await page.locator("#day").click();
+  await page.locator(`#${button}`).click();
   const free = () =>
     page.evaluate(() => !document.getElementById("day").disabled);
   for (let step = 0; step < 400; step += 1) {
     await page.waitForTimeout(600);
     if (await shown(page, "talk")) await playTalk(walk, "scene");
-    else if (await shown(page, "continue")) {
+    else if (
+      (await shown(page, "continue")) &&
+      // A stop that stages a scene opens its talk a moment later.
+      !(await page.waitForTimeout(2500).then(() => shown(page, "talk")))
+    ) {
       walk.say(`    (a stop at [${await clockOf(page)}]: Continue)`);
-      // A scene's panel may open over the stop between the look and the click;
-      // then the loop's next turn plays the scene.
+      // A Continue that opens a scene is gone before a second look.
       await page
         .locator("#continue")
-        .click({ timeout: 3000 })
-        .catch(() => {});
+        .click({ timeout: 5000 })
+        .catch(() => null);
     } else if (await free()) break;
   }
   if (!(await free()))

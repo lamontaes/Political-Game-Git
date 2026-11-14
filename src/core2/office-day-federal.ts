@@ -145,6 +145,8 @@ export function holdFederal(
   key: string,
   reasonKey: string,
   sourceRecordId: string,
+  /** The bill whose floor vote of the player's seat this hold is for. */
+  voteOn?: string,
 ): void {
   const date = addDays(api.state.date, 1);
   const id = `${key}:${date}`;
@@ -159,6 +161,7 @@ export function holdFederal(
       citation: sourceRecordId,
       asOf: api.state.date,
     },
+    ...(voteOn ? { voteOn } : {}),
   });
   if (held)
     table(api, "holds").put({
@@ -256,7 +259,7 @@ export function federalSeatOf(
 }
 
 /** A member who votes on final passage (a delegate or resident commissioner does not, House Rule III). */
-const votesOnPassage = (kind: FederalSeatKind) =>
+export const votesOnPassage = (kind: FederalSeatKind) =>
   kind === "us-house" || kind === "us-senate";
 
 // ---- The week --------------------------------------------------------------
@@ -325,11 +328,12 @@ const whipHold = (billId: string) => `federal-whip:${billId}`;
 
 /**
  * The evening before a floor vote, for the member the player controls: at
- * home in the district, they miss it (the House records the abstention);
+ * home in the district, they miss it (the roll records them absent);
  * the whip of their party asks if they stand against the party leader; and
  * the vote stops them when its kind does (their own bill by default, any
- * vote if they choose). A vote they leave is cast by the engine's own rule
- * for the member when the floor takes it up.
+ * every vote by default). With that stop off they are not on the floor and
+ * the roll records them absent; stopped and silent, they abstain. Nothing is
+ * cast in their name (owner's card, Nov 14, 2026, 02:03Z).
  */
 function eveOfVotes(api: CoreAPI, personId: string): void {
   const seat = federalSeatOf(api, personId);
@@ -339,14 +343,14 @@ function eveOfVotes(api: CoreAPI, personId: string): void {
   for (const billId of floorOn(api, tomorrow)) {
     if (chose(api, billId, personId)) continue;
     if (whereOn(api, personId, tomorrow) === "district") {
-      castMemberVote(api, billId, personId, "abstain");
+      castMemberVote(api, billId, personId, "absent");
       officeHost.keep(api, {
         personId,
         kind: "vote",
-        how: "own-choice",
+        how: "absent",
         recordId: billId,
         position: null,
-        detail: "missed: at home in the district",
+        detail: "district",
       });
       continue;
     }
@@ -371,6 +375,7 @@ function eveOfVotes(api: CoreAPI, personId: string): void {
         api,
         floorHold(billId),
         "office-day-federal.floor-vote",
+        billId,
         billId,
       );
       // The floor speaks before the roll: for and against, heard before the player votes.

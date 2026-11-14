@@ -31,8 +31,14 @@ import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { REGISTER_CARDS } from "../english/speech-registers";
 import { kinAddress, relationPhrase } from "../english/journal-words";
 import type { PersonId } from "../core2/types";
+import rulesData from "./data/conversation-rules.json" with { type: "json" };
 import { expectUpToFourDifferent } from "./reply-set-check";
 import { properName } from "./words";
+
+/** The small questions whose asker gives their own answer back (conversation-rules.json givesBack). */
+const GIVES_BACK: readonly string[] = (
+  rulesData as unknown as { givesBack: { kinds: string[] } }
+).givesBack.kinds;
 
 // M4-02, conversations (audit 1, Oct 12; the count is up to four since Nov 10,
 // "So just up to 4"): one to four distinct choices every turn, each answering the last line from real records; talking is
@@ -180,7 +186,7 @@ const api = coreAPI(core);
 const me = core.people.get(player.id)!;
 const myOrg = () =>
   core.jobs.get(core.people.get(player.id)!.jobId!)?.organizationId;
-const strangers = [...core.people.values()].filter(
+const unrelated = [...core.people.values()].filter(
   (row) =>
     row.alive &&
     row.tier !== "husk" &&
@@ -191,6 +197,23 @@ const strangers = [...core.people.values()].filter(
     core.jobs.get(row.jobId)!.organizationId !== myOrg() &&
     age(row.birthDate) >= 18,
 );
+// A stranger who shares a school or a workplace with the player asks about
+// that first (nothing to lie about); the cases below that turn on a lie need
+// strangers whose first question is the player's work, so those come first
+// in the list, in the order the population keeps them (drawn-place-tests:
+// the draw may hold a shared school, and the cases no longer depend on it).
+const asksWork = (id: PersonId) => {
+  const kinds = subjectsBetween(core, id, me.id).map((row) => row.kind);
+  return (
+    kinds.includes("own-work") &&
+    !kinds.includes("shared-school") &&
+    !kinds.includes("shared-work")
+  );
+};
+const strangers = [
+  ...unrelated.filter((row) => asksWork(row.id as PersonId)),
+  ...unrelated.filter((row) => !asksWork(row.id as PersonId)),
+];
 // The people already known, before the player meets three strangers: the
 // first, then two whose traits give a claim the benefit of the doubt (a hearer
 // who leans hard toward doubt keeps no belief; see the last test).
@@ -201,19 +224,20 @@ const others = [...me.knownIds].filter((id) => {
 });
 const believing = strangers
   .slice(1)
-  .filter((row) => !doubtsClaim(core, row))
+  .filter((row) => !doubtsClaim(core, row, me.id))
   .slice(0, 2);
 // A doubter is looked for among every full adult the player does not know,
 // not only the unrelated workers: a town may hold none among those 38.
-const doubter = [...core.people.values()].find(
+const doubters = [...core.people.values()].filter(
   (row) =>
     row.alive &&
     row.tier !== "husk" &&
     row.id !== me.id &&
     !me.knownIds.has(row.id) &&
     age(row.birthDate) >= 18 &&
-    doubtsClaim(core, row),
+    doubtsClaim(core, row, me.id),
 );
+const doubter = doubters[0];
 for (const row of [strangers[0]!, ...believing])
   api.meet(me.id, row.id, {
     placeId: me.placeId,
@@ -244,7 +268,24 @@ const SMALL_TALK_TURNS = 40;
 const recentDays =
   DEFAULT_DIRECTOR_DATA.parameters.directorTalkRecentDays!.value;
 const opening = (talk: Conversation) =>
-  talk.lines.find((row) => row.kind !== "greet")!;
+  talk.lines.find(
+    (row) =>
+      row.kind !== "greet" && row.kind !== "here" && row.kind !== "here-back",
+  )!;
+/**
+ * A stranger says who they are first (Words lead, Nov 14, rule 51): the
+ * player gives their name, and the talk goes on from there. A talk that
+ * did not open on an introduction is returned as it is.
+ */
+const introduced = (
+  core: Parameters<typeof say>[0],
+  talk: Conversation,
+): Conversation => {
+  const name = talk.choices.find((row) => row.move === "name");
+  return talk.lines.some((row) => row.kind === "here") && name
+    ? say(core, talk, name.key)
+    : talk;
+};
 
 // Owner, Nov 11, 2026: "all the lines in the game need to be run through the
 // English engine ... a ton of different inserts". Meeting someone new, the
@@ -435,7 +476,13 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(
       talk.lines.slice(said).every((row) => row.speakerId === otherId),
     ).toBe(true);
-    expect(talk.lines.length).toBeGreaterThan(said);
+    // At home a talk may end with no farewell (nobody says goodbye to someone
+    // still in the room; lead, Nov 14): then it is closed. Away from home a
+    // line is said.
+    const housemate = core.people.get(otherId)?.householdId === me.householdId;
+    if (housemate && !talk.choices.length)
+      expect(talk.lines.length).toBeGreaterThanOrEqual(said);
+    else expect(talk.lines.length).toBeGreaterThan(said);
   });
 
   it("records talking as time together, and passes news the other hasn't heard", () => {
@@ -465,7 +512,10 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
 
   it("strangers ask what they don't know, and the scales dim for what they already know", () => {
-    const talk = openConversation(core, player.id, strangers[0]!.id);
+    const talk = introduced(
+      core,
+      openConversation(core, player.id, strangers[0]!.id),
+    );
     expect(opening(talk).text).toMatch(/\?$/);
     expect(talk.lies.length).toBeGreaterThan(0);
     const coworker = [...core.jobs.values()].find(
@@ -478,7 +528,10 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
 
   it("turns every choice false with the scales: different moves, each contradicting the player's record", () => {
-    const talk = openConversation(core, player.id, strangers[0]!.id);
+    const talk = introduced(
+      core,
+      openConversation(core, player.id, strangers[0]!.id),
+    );
     expect(talk.lies.length).toBeGreaterThan(1);
     const moves = talk.lies.map((row) => row.move);
     expect(new Set(moves).size).toBe(moves.length);
@@ -525,9 +578,23 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
 
   it("names another place when the player lies about where they are from, and says no calendar date", () => {
+    // The first stranger who asks where the player is from; those who open
+    // on something else are passed over and named (drawn-place-tests; fixer
+    // round 9 of #8879: in Burlington, Iowa, on 6968d532b27c14b7 the first
+    // stranger not asking about work asked about kin, which has no lie).
+    const passed: string[] = [];
     const home = strangers
       .map((row) => openConversation(core, player.id, row.id))
-      .find((talk) => !opening(talk).kind.startsWith("own-work"));
+      .find((talk) => {
+        const kind = opening(talk)?.kind ?? "nothing";
+        if (kind.startsWith("home")) return true;
+        passed.push(`${talk.otherId}: ${kind}`);
+        return false;
+      });
+    if (!home)
+      process.stdout.write(
+        `LIE-HOME none asked where the player is from; passed over ${passed.join(", ")}\n`,
+      );
     if (home) {
       expect(home.lies.length).toBeGreaterThan(0);
       for (const lie of home.lies) {
@@ -555,9 +622,12 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   it("leaves a lie as a belief in everyone present, until someone who knows the truth tells them", () => {
     const [hearerId, bystanderId] = [believing[0]!.id, believing[1]!.id];
     for (const id of [hearerId, bystanderId]) director.watch(core, id);
-    const talk = openConversation(core, player.id, hearerId, {
-      presentIds: [bystanderId],
-    });
+    const talk = introduced(
+      core,
+      openConversation(core, player.id, hearerId, {
+        presentIds: [bystanderId],
+      }),
+    );
     expect(talk.lies.length).toBeGreaterThan(0);
     const key = opening(talk).kind.startsWith("own-work")
       ? `person:${player.id}:employer`
@@ -657,19 +727,42 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
   it("leaves no belief in a hearer whose traits lean hard toward doubt", () => {
     expect(doubter).toBeDefined();
-    api.meet(me.id, doubter!.id, {
-      placeId: me.placeId,
-      sourceId: "fixture-meeting",
-      cause: "met-in-group",
-      hours: 1,
-    });
-    const talk = openConversation(core, player.id, doubter!.id);
-    expect(talk.lies.length).toBeGreaterThan(0);
-    const key = opening(talk).kind.startsWith("own-work")
+    // The first doubter whose talk asks something the player could lie
+    // about (where they are from, their work); those whose talk opens on
+    // something with no lie are passed over and named (drawn-place-tests;
+    // fixer round 9 of #8879, Burlington, Iowa, 6968d532b27c14b7).
+    const passed: string[] = [];
+    let talk: Conversation | undefined;
+    let hearer: typeof doubter;
+    for (const row of doubters) {
+      api.meet(me.id, row.id, {
+        placeId: me.placeId,
+        sourceId: "fixture-meeting",
+        cause: "met-in-group",
+        hours: 1,
+      });
+      const opened = introduced(
+        core,
+        openConversation(core, player.id, row.id),
+      );
+      if (opened.lies.length) {
+        talk = opened;
+        hearer = row;
+        break;
+      }
+      passed.push(`${row.id}: ${opening(opened)?.kind ?? "nothing"}`);
+    }
+    expect(
+      talk,
+      `no doubter's talk offered a lie; passed over ${passed.join(", ")}`,
+    ).toBeDefined();
+    const doubtful = hearer!;
+    expect(talk!.lies.length).toBeGreaterThan(0);
+    const key = opening(talk!).kind.startsWith("own-work")
       ? `person:${player.id}:employer`
       : `person:${player.id}:place`;
-    say(core, talk, talk.lies[0]!.key);
-    expect(beliefsOf(api, doubter!.id).map((row) => row.key)).not.toContain(
+    say(core, talk!, talk!.lies[0]!.key);
+    expect(beliefsOf(api, doubtful.id).map((row) => row.key)).not.toContain(
       key,
     );
   });
@@ -970,18 +1063,30 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       }
       // Rule 2 and 3: a farewell is never the next thing said after the
       // other person's own question was answered (an ack may sit between).
-      talk.lines.forEach((line, at) => {
-        if (line.kind !== "farewell") return;
-        let back = at - 1;
-        while (back >= 0 && talk.lines[back]!.kind === "ack") back -= 1;
-        const answer = talk.lines[back];
-        const asked = talk.lines[back - 1];
-        if (answer && answer.speakerId === player.id && asked) {
-          checkedPairs += 1;
-          expect(
-            asked.speakerId === talk.otherId && /\?$/.test(asked.text.trim()),
-          ).toBe(false);
-        }
+      // Every question of theirs the player answered is a pair checked,
+      // whether or not the talk went on to a goodbye (fixer round 7 of
+      // #8879: in Jackson Center every talk opened on a question of theirs
+      // and none reached a goodbye, so counting only goodbyes checked none).
+      talk.lines.forEach((asked, at) => {
+        const answer = talk.lines[at + 1];
+        if (
+          asked.speakerId !== talk.otherId ||
+          !/\?$/.test(asked.text.trim()) ||
+          answer?.speakerId !== player.id
+        )
+          return;
+        checkedPairs += 1;
+        let next = at + 2;
+        while (next < talk.lines.length && talk.lines[next]!.kind === "ack")
+          next += 1;
+        expect(talk.lines[next]?.kind, asked.text).not.toBe("farewell");
+        // A small question of theirs is answered back from their own record
+        // (lead, Nov 13: the asker gives their own answer after the player's).
+        if (GIVES_BACK.includes(asked.kind))
+          expect(talk.lines[next], asked.text).toMatchObject({
+            speakerId: talk.otherId,
+            kind: `${asked.kind}-give`,
+          });
       });
     }
     expect(talks).toBe(talkers.length);
@@ -1361,6 +1466,38 @@ describe("hellos and goodbyes are composed from the records", () => {
       if (line) composed.add(line.text);
     }
     expect(composed.size).toBeGreaterThanOrEqual(30);
+  });
+
+  it("never says a slot's own name as its replacement, ends on one goodbye, and keeps the closing words to their talks (round 11, rules 74, 80, 81)", () => {
+    for (const otherId of everyone().slice(0, 120)) {
+      const talk = play(otherId);
+      for (const line of talk.lines) {
+        expect(line.text, `${otherId}: ${line.text}`).not.toMatch(
+          /\b(at|with|for) work\?/,
+        );
+        expect(line.text).not.toMatch(/Drive safe/);
+        // "just" a head of a department or a body is never said.
+        expect(line.text).not.toMatch(
+          /\bjust (a|an|the) [^.]*\b(chief|director|manager)\b/i,
+        );
+      }
+      const farewells = talk.lines.filter((line) => line.kind === "farewell");
+      expect(farewells.length, `${otherId}`).toBeLessThanOrEqual(1);
+      for (const bye of farewells) {
+        // One goodbye: a name-closing core takes no closer after it.
+        const sentences = bye.text.match(/[^.!?]+[.!?]/g) ?? [];
+        expect(
+          sentences.filter((sentence) =>
+            /^(Take care of yourself|Look after yourself|Until next time|Take it easy|Keep well)/.test(
+              sentence.trim(),
+            ),
+          ).length,
+          bye.text,
+        ).toBeLessThanOrEqual(1);
+        if (/Thanks for the company/.test(bye.text))
+          expect(talk.lines.length, bye.text).toBeGreaterThanOrEqual(8);
+      }
+    }
   });
 
   it("at home, a talk given the evening's minute (the opening night) never says goodbye for the morning", () => {

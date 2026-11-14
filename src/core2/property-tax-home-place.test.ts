@@ -67,7 +67,7 @@ for (const n of [1, 2]) {
         api.parameter("macroMonthsPerYear"),
     );
     const richest = Math.max(...members.map(balance));
-    const paid = billPropertyTax(api, table(), [home]);
+    const paid = billPropertyTax(api, table(), [home], () => true);
     expect(
       paid,
       `${where}: ${home.householdId} paid nothing of ${owed}`,

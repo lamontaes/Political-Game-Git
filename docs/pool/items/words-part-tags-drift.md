@@ -6,7 +6,7 @@ kind: bug
 priority: 3
 size: M
 lead: words
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 **Notes (pool redo, Nov 10, for the CTO).** The reach table is gone from main (pull request 8117 deleted `src/english/grade-reach.ts` and `data/english/grade-reach.json`). Before this is built, someone must name what still reads a part's move tag; if nothing does, this is a drop, replaced by `docs/design/words-machine.md`.
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): its own pool-redo note asked whether anything still reads a part's move tag. On the train, the grade-reach table and its reader are both deleted, nothing under src, tests or package.json imports `scripts/english-corpus/tag-moves.ts` or `moves.json` (checked by search), and the only `tag` the director reads is a situation type's own `tag.key`, not a part's move tag. The tags are development tooling with no reader, so a part's drifted tag changes nothing the player sees.

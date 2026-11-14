@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,7 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-10, main b4422d346c).** `node --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts` with GOLDEN_PATH_SEED=fab4a016e500e2d54ef9dd438fd9575efa4a0053bb25048fd4df627589dcc0aa (also with GOLDEN_PATH_PLACE_KEY=5466460): "homes have values and rents" passed (823 homes priced, 226 rented, 107 renter households expected). The seed and place key did not give Rachel's 19 homes, so the item's town was not reproduced. Fresh draw GOLDEN_PATH_SEED=sweep-fresh-rental-1 (place not printed): passed (838 homes, 232 rented). Green on both, but the item's tiny town is not proven; no drop proposed.
 
 Cause finder (Nov 11, 2026, for Fable B): read the Nov 10 re-run against the Nov 4 failure; the same seed and place key now open a town of 823 homes, not 19. Proposed: close.
+
+Dropped Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: the town (19 homes) no longer opens: the same seed and place key now give 823 homes. The 'homes have values and rents' check at `tests/golden-path/played-world.node-test.ts` line 942 requires a rented home only where the records expect a renter household, so a tiny town with none expected passes. Not re-run here (golden path).
+
+Code reading Nov 14, 2026 (Account lead T43, train eb349e5d76): housing seeds the rental the check expects, by the same arithmetic. `withHousingAt` in `src/core2/modules/housing.ts` sets `owners = Math.round(households * ownerShare)` (line 650) and every household ranked at or past `owners` gets a rent dwelling and a lease (lines 760-766, counted households through a pooled rent flow). `expectedRenterHouseholds` (lines 570-583) is `homes - Math.round(homes * ownerShare)`, the same count. So the check cannot expect renters that seeding never creates, in a 19-home town or any other. The golden path was not run.

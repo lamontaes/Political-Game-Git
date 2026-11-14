@@ -160,5 +160,48 @@
     "about": "A term of office in years as people say it in a speech (\"four years\"), from the term record's length: the number in words up to twelve. Words composer, an address's occasion (lead, Nov 13).",
     "year": "one year",
     "years": "{count} years"
+  },
+  "moneyUnits": {
+    "about": "A sum of a million dollars or more said in the unit people use (\"about $40 million\", \"about $2.3 billion\"), never the dollars written out; one decimal below ten of the unit, whole units above. Read by moneySaid in src/english/count-words.ts.",
+    "rows": [
+      {
+        "atLeast": 1000000000,
+        "divisor": 1000000000,
+        "word": "billion"
+      },
+      {
+        "atLeast": 1000000,
+        "divisor": 1000000,
+        "word": "million"
+      }
+    ],
+    "decimalBelow": 10
+  },
+  "percentWords": {
+    "about": "A change in a measure said aloud (\"by about 9 percent\", \"from about 12 percent to about 14 percent\"): a share said by where it stood and where it stands, any other measure by how far it moved against where it stood. Whole percents, one decimal below decimalBelow. Read by changeSaid in src/english/count-words.ts.",
+    "percent": "about {count} percent",
+    "by": "by {change}",
+    "fromTo": "from {from} to {to}",
+    "decimalBelow": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "spread": [1, 10],
+      "checkedAgainst": "Below this many percent a figure keeps one decimal (\"about 4.5 percent\"); above it, whole percents, as a speech rounds (State of the City addresses, Ginther 2024)."
+    }
+  },
+  "smallCounts": {
+    "about": "A whole count below ten said in words, as the owner's rule says (\"counts under ten in words\"): a number of years in an address. Read by countSaid in src/english/count-words.ts; ten and more stay digits.",
+    "words": [
+      "zero",
+      "one",
+      "two",
+      "three",
+      "four",
+      "five",
+      "six",
+      "seven",
+      "eight",
+      "nine"
+    ]
   }
 }

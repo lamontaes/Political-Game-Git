@@ -257,6 +257,21 @@ try {
     (await page.locator("#continue").isVisible()) ||
     (await page.locator("#talk").isVisible());
   assert.ok(jumped.includes(String(Number(target.slice(-2)))) || stopped);
+  // A stop that holds the clock offers no jump: Go to this day is not drawn while Continue shows.
+  if (
+    (await page.locator("#continue").isVisible()) &&
+    !(await page.locator("#talk").isVisible())
+  ) {
+    await page.locator('.ring[data-tab="calendar"]').click();
+    await page.locator(".calendar-month").waitFor();
+    await page.locator(".month .day:not(.today):not(.past)").first().click();
+    assert.equal(
+      await page.locator(".calendar-day .go-to-day").count(),
+      0,
+      "a stop is open, yet the calendar offers Go to this day",
+    );
+    await page.getByTestId("sheet-close").click();
+  }
   // Week advances seven days, Day one.
   for (let i = 0; i < 8; i++) {
     const answered = await page.evaluate(

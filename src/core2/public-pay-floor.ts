@@ -34,12 +34,28 @@ export const PUBLIC_PAY_REVIEW = data.reviewKind;
 const EMPLOYER_LEVELS = data.employerLevels as Readonly<
   Record<string, LawLevelName>
 >;
+/** The highest level whose floors reach a class that is a government of its own (a school district). */
+const BOUND_BY = data.boundBy as unknown as Readonly<
+  Record<string, LawLevelName>
+>;
 /** Every public employer class, for screens that split public from private pay. */
 export const PUBLIC_EMPLOYER_CLASSES: readonly string[] =
   Object.keys(EMPLOYER_LEVELS);
 const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
 
-/** The level of government a public employer class belongs to, if it is one. */
+/**
+ * The highest level of government whose public-employee laws (a pay floor,
+ * bargaining) reach a public employer class: its own level, except a school
+ * district, a government of its own that only state and federal laws reach.
+ * `publicEmployerLevel` below is where it is funded from.
+ */
+export function publicEmployerBoundLevel(
+  classification: string,
+): LawLevelName | undefined {
+  return BOUND_BY[classification] ?? EMPLOYER_LEVELS[classification];
+}
+
+/** The level of government a public employer class belongs to (who funds it), if it is one. */
 export function publicEmployerLevel(
   classification: string,
 ): LawLevelName | undefined {
@@ -83,7 +99,14 @@ function levelOf(
 ): LawLevelName | undefined {
   const core = api.state as CoreState;
   const org = core.organizations.get(organizationId);
-  const byClass = EMPLOYER_LEVELS[org?.classification ?? ""];
+  // Whose floor binds an employer can differ from who funds it: a school
+  // district is paid from the town's budget line (EMPLOYER_LEVELS, which
+  // bargaining reads for funding) but is bound only by state and federal
+  // floors (BOUND_BY). Every reader of "which floors reach this employer"
+  // asks here.
+  const byClass =
+    BOUND_BY[org?.classification ?? ""] ??
+    EMPLOYER_LEVELS[org?.classification ?? ""];
   if (byClass) return byClass;
   if (
     org?.kind !== "government-treasury" ||

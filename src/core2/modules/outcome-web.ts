@@ -94,7 +94,7 @@ function severeDisasterReading(
   return { value, recordId };
 }
 
-/** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
+/** The outcomes whose level the school engine measures (spending is not here: the web keeps no spending figure; the school engine's row is the one figure). */
 const SCHOOL_MEASURED = new Set([
   "school.math-proficient-pct",
   "school.reading-proficient-pct",

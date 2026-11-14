@@ -99,8 +99,13 @@ export const PARTIES_MODULE: CoreModule = {
   onCalendarWork: (api, work) => partyMeeting(api, work),
 };
 
+/**
+ * Ballot lines that are not parties: write-ins, no-party labels, and the
+ * count lines some states print beside the candidates (blank, void, over and
+ * under votes, scattering, "none of these", all others).
+ */
 const NOT_PARTIES =
-  /write-in|independent|petition|unaffiliated|^none$|no party|nonpartisan|unknown/i;
+  /write-in|independent|petition|unaffiliated|unenrolled|^none$|no party|nonpartisan|unknown|\bvotes$|^blanks?$|^void$|scattering|none of these|^(all )?others$|miscellaneous/i;
 
 function value(key: string): number {
   return (parameters as { parameters: Record<string, { value: number }> })

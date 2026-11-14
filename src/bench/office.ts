@@ -39,6 +39,7 @@ import {
   orderQuestionOf,
   pendingGovernorOrders,
 } from "../core2/modules/executive";
+import controls from "./data/controls.json" with { type: "json" };
 import { policyNames } from "./words";
 import {
   hireReasons,
@@ -46,10 +47,12 @@ import {
   servingStaffOf,
   staffCandidates,
 } from "../core2/modules/staff";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import {
   billOf,
+  bodyOf,
   learnedStakesOf,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -60,19 +63,32 @@ import {
 import { remarksOn } from "../core2/modules/meetings";
 import {
   adjourn,
+  attendMeeting,
   clearPrepared,
   decideDesk,
   deskWaiting,
   leaveDeskToCharacter,
+  leaveMeeting,
   meetingInProgress,
+  meetingOf,
   officeActsOf,
   officeHost,
   officeJobsOf,
   prepareAct,
+  setStops,
   speakOnItem,
+  stopKinds,
+  stopsOf,
   takeUpItem,
-  upcomingMeeting,
+  federalSeatOf,
+  stateOfficeOf,
+  votesOnPassage,
+  type MeetingRow,
+  nextMeetingDate,
 } from "../core2/modules/office-day";
+import { dateWords } from "../english/plain-words.mjs";
+import { screenPick, screenWays } from "../english/screen-words";
+import { count } from "./printed-words";
 import { bodyMembers, bodyScene, personName } from "./legislature";
 import {
   headCandidates,
@@ -154,6 +170,60 @@ export function floorDecide(core: CoreState, billId: string, how: string) {
   voteOnFloor(api, person, billId, how);
 }
 
+/**
+ * The one line a resident in the room reads under the meeting's title, in the English
+ * engine's words: that nothing is on the agenda, or, the first time they come to any
+ * meeting with an item before it (none such is on their record yet), what they can do here.
+ */
+function residentNote(
+  core: CoreState,
+  personId: string,
+  meeting: MeetingRow,
+  body: string,
+): string | null {
+  const request = { momentKey: meeting.id, sourceIds: [meeting.id] };
+  const pick = (key: string, facts: Record<string, string>) =>
+    screenPick("meeting", screenWays("meeting", key), facts, request)?.text ??
+    null;
+  const items = meeting.agenda.length;
+  if (!items)
+    return pick("meeting.empty-agenda.1", {
+      body,
+      date: dateWords(meeting.date, { year: false }),
+    });
+  // Said once: not again after a meeting they came to that had an item before it.
+  if (
+    officeActsOf(coreAPI(core), personId).some(
+      (act) => act.kind === "attend" && act.detail !== "0",
+    )
+  )
+    return null;
+  // The line counts the items a resident can speak on: not one already taken up, nor one
+  // a committee already decided (those show only "Read the bill").
+  const api = coreAPI(core);
+  const openIds = meeting.agenda.filter(
+    (id) =>
+      !meeting.takenUp.includes(id) &&
+      legislatureBillOf(api, id).status === "drafted",
+  );
+  const open = openIds.length;
+  if (!open) return null;
+  // One open among more on the agenda: named, so the reader need not hunt for which.
+  const [only] = openIds;
+  if (open === 1 && items > 1 && only) {
+    const title = billTitleOf(legislatureBillOf(api, only))?.title;
+    if (title)
+      return pick("meeting.resident-can-speak-one-named.1", {
+        body,
+        item: title,
+      });
+  }
+  // Of two, "either"; of more, "any of the three" (Words lead, Nov 13).
+  if (open === 1) return pick("meeting.resident-can-speak-one.1", { body });
+  if (open === 2) return pick("meeting.resident-can-speak-two.1", { body });
+  return pick("meeting.resident-can-speak.1", { body, count: count(open) });
+}
+
 /** The meeting holding the player's clock: the room, the agenda, and what was taken up. */
 export function meetingSceneView(
   core: CoreState,
@@ -173,12 +243,34 @@ export function meetingSceneView(
       takenUp: meeting.takenUp.includes(billId),
     })),
     ...(() => {
-      const scene = bodyScene(core, personId, meeting.officeId, minute);
+      // A resident who came to speak is in the room and not at the table.
+      const watching = meeting.audience !== undefined;
+      const named = bodyOf(api, meeting.officeId);
+      const bodyName = named?.bodyName ?? named?.kind ?? "";
+      const scene = bodyScene(
+        core,
+        personId,
+        meeting.officeId,
+        minute,
+        watching,
+      );
       // The members, with their faces, for the panel's tally (the chamber's own
       // figures are drawn where the room has a mannequin plate for them).
       return {
         ...scene,
-        members: bodyMembers(core, personId, meeting.officeId, scene.place),
+        members: bodyMembers(
+          core,
+          personId,
+          meeting.officeId,
+          scene.place,
+          watching,
+        ),
+        // A resident has no vote and cannot adjourn.
+        seated: !watching,
+        // A resident reads the body by its own name, as the Calendar says it
+        // (the seat's title names one member, not the body).
+        ...(watching ? { title: bodyName } : {}),
+        note: watching ? residentNote(core, personId, meeting, bodyName) : null,
       };
     })(),
   };
@@ -209,8 +301,22 @@ export function meetingSpeak(
   speakOnItem(coreAPI(core), meetingId, billId, position === "for" ? 1 : -1);
 }
 
+/** The chair's adjournment for a member; for a resident in the room, their leaving. */
 export function meetingAdjourn(core: CoreState, meetingId: string) {
-  adjourn(coreAPI(core), meetingId);
+  const api = coreAPI(core);
+  if (meetingOf(api, meetingId)?.audience !== undefined)
+    leaveMeeting(api, meetingId);
+  else adjourn(api, meetingId);
+}
+
+/** The player marks a body's posted meeting to attend as a resident, or takes the mark back. */
+export function meetingAttend(
+  core: CoreState,
+  officeId: string,
+  date: string,
+  attend: boolean,
+) {
+  attendMeeting(coreAPI(core), officeId, date, attend);
 }
 
 /** Bills waiting on the player's desk this morning. */
@@ -241,14 +347,103 @@ export function deskDecide(core: CoreState, billId: string, how: string) {
 export function leaveHoldsToCharacter(core: CoreState, holderId?: string) {
   const api = coreAPI(core);
   const meeting = meetingInProgress(api);
-  if (meeting) {
+  if (meeting?.audience !== undefined) leaveMeeting(api, meeting.id);
+  else if (meeting) {
     for (const billId of meeting.agenda)
       takeUpItem(api, meeting.id, billId, "own");
     adjourn(api, meeting.id);
   }
-  for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
+  for (const bill of deskWaiting(api, true)) leaveDeskToCharacter(api, bill.id);
   if (holderId)
     for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
+}
+
+/**
+ * The switches Your office offers (owner's card, Nov 14, 2026: "Stop me at every vote"): each is
+ * one name the player knows over the registered stop kinds it sets together, and shows only when
+ * the seat has that kind of moment. On by default; off leaves the player away from that kind of
+ * vote (the engine records them absent, a desk bill waits, nothing is cast or signed for them).
+ */
+const STOP_SWITCHES = [
+  // The own-bill and deciding-vote stops are moments of the same meetings and floor votes: left on
+  // under an Off switch they would still hold the player at some of them.
+  {
+    key: "meetings",
+    kinds: ["every-meeting", "own-bill-vote", "deciding-vote"],
+  },
+  { key: "floor", kinds: ["floor-vote", "state-floor-vote", "own-bill-vote"] },
+  { key: "desk", kinds: ["desk"] },
+] as const;
+
+/** The elected executive seats whose desk a passed bill reaches (the legislature engine's own set). */
+const EXECUTIVE_OFFICE = /^(mayor|governor|county-executive|president)$/;
+
+/** Which switches this seat has: a local body's meetings, a legislator's floor, an executive's desk. */
+function seatSwitches(api: ReturnType<typeof coreAPI>, personId: string) {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const executive = (
+    offices.table("terms").query("byPerson", [personId]) as unknown as {
+      status: string;
+      officeId: string;
+    }[]
+  ).some((term) => {
+    const office = offices.table("offices").get(term.officeId) as unknown as
+      { kind: string } | undefined;
+    return (
+      term.status === "serving" && EXECUTIVE_OFFICE.test(office?.kind ?? "")
+    );
+  });
+  const federal = federalSeatOf(api, personId);
+  const has: Record<(typeof STOP_SWITCHES)[number]["key"], boolean> = {
+    // A seat in a body that meets, whether or not a meeting is on the calendar this week: a mayor's
+    // office has a body record (kind "mayor") but no meetings, so no switch for nothing.
+    meetings: officeJobsOf(api, personId).some((j) => {
+      const body = bodyOf(api, j.officeId);
+      return body !== undefined && !EXECUTIVE_OFFICE.test(body.kind);
+    }),
+    floor:
+      stateOfficeOf(api, personId)?.role === "legislator" ||
+      (federal !== null && votesOnPassage(federal.kind)),
+    desk: executive,
+  };
+  return STOP_SWITCHES.filter((row) => has[row.key]);
+}
+
+/**
+ * The meetings switch's label in the body's own short word, read from the first body the player sits
+ * on by the rules in controls.json (a body whose name has no word there reads plain "Meetings").
+ */
+function bodyWord(api: ReturnType<typeof coreAPI>, officeIds: string[]) {
+  for (const officeId of officeIds) {
+    const name = bodyOf(api, officeId)?.bodyName?.toLowerCase();
+    if (!name) continue;
+    const rule = controls.officeStops.bodySwitches.find((r) =>
+      r.has.every((word) => name.includes(word)),
+    );
+    if (rule) return rule.label;
+  }
+  return null;
+}
+
+/** The player switches one kind of stop off or on; the view comes back with it. */
+export function officeStops(
+  core: CoreState,
+  personId: string,
+  key: string,
+  on: boolean,
+) {
+  const api = coreAPI(core);
+  const row = seatSwitches(api, personId).find((r) => r.key === key);
+  if (!row) throw new Error("Your seat has no such stop.");
+  const known = stopKinds();
+  setStops(
+    api,
+    personId,
+    Object.fromEntries(
+      row.kinds.filter((k) => known.includes(k)).map((k) => [k, on]),
+    ),
+  );
+  return officeView(core, personId);
 }
 
 /** The office panel: the seat as a job, the next meetings, what stops the player, and the acts kept. */
@@ -264,7 +459,16 @@ export function officeView(core: CoreState, personId: string) {
       payer: core.organizations.get(j.payerId)?.name ?? j.payerId,
       lastPaid: j.lastPaid ?? null,
       citation: j.citation,
-      nextMeeting: upcomingMeeting(api, j.officeId)?.date ?? null,
+      nextMeeting: nextMeetingDate(api, j.officeId),
+    })),
+    // The body's short said word for the meetings switch ("Council meetings"), from the body's own name; none when no word fits.
+    stopsBody: bodyWord(
+      api,
+      jobs.map((j) => j.officeId),
+    ),
+    stops: seatSwitches(api, personId).map((row) => ({
+      key: row.key,
+      on: row.kinds.every((k) => stopsOf(api, personId)[k] !== false),
     })),
     // The town posts the official appoints that stand open, each with the people it could go to, best first by the official's own reasons.
     heads: [
@@ -300,7 +504,8 @@ export function officeView(core: CoreState, personId: string) {
     // Each of the player's bills waiting for a vote, with the colleagues who will vote and the deal set to offer each when they talk.
     deals: pendingBills(api, personId).map((bill) => ({
       billId: bill.id,
-      number: bill.number,
+      // Said with its form's word ("Ordinance 2025-8"), never bare.
+      number: spokenDesignation(bill.number, bill.form.kind),
       colleagues: colleaguesOn(api, bill, personId).map((key) => {
         // Where the player learned this colleague stands, and how (a talk or
         // an aide's brief), from the legislature's record of it.
