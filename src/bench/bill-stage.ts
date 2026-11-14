@@ -25,6 +25,7 @@ import {
   reviseBill,
   voteAmendment,
   chambersOf,
+  chamberNow,
   committeeRecords,
   learnedStakesOf,
   memberKey,
@@ -310,7 +311,12 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       .get(`${bill.id}|${player}`) as
       { vote: "yes" | "no" | "abstain" } | undefined
   )?.vote;
-  const open = bill.status === "drafted" && !floor.length;
+  // The chamber whose turn it is (the other chamber once one passed it) and whether its roll is
+  // still to come: the player chooses only there, and only before it.
+  const turn = chamberNow(api, bill);
+  const sitsNow = members(api, turn).some((term) => memberKey(term) === player);
+  const open =
+    bill.status === "drafted" && !floor.some((entry) => entry.chamber === turn);
 
   const amendments = amendmentsOn(api, bill.id).map((row) => {
     const votes = (row.votes ?? []).map(named);
@@ -390,7 +396,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     yours: {
       sits,
       /** The player may still choose before the floor votes. */
-      mayChoose: sits && open,
+      mayChoose: sitsNow && open,
       /** The bill is the player's own and still on paper: staff may redraft its sections. */
       mayRedraft: bill.sponsorId === player && open,
       /** The veto message waits for the player's override vote: their chosen vote on it, else null. */
@@ -415,7 +421,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       const chamber = chambers.find((c) =>
         members(api, c).some((term) => memberKey(term) === player),
       );
-      if (!chamber || !open) return null;
+      if (!chamber || !open || chamber !== turn) return null;
       const room = new Set(members(api, chamber).map(memberKey));
       const heard = told.filter((t) => room.has(t.memberId));
       const yes = heard.filter((t) => t.side === "for").length;
@@ -732,6 +738,27 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
   const bill = billOf(api, billId);
   const stage = billStage(core, billId, asId);
   const paper = billPaper(core, billId);
+  // Passed by one chamber and sent to the next: that chamber, by its name, and the day it got the bill.
+  const waitingIn =
+    bill.status === "drafted" && bill.chambersPassed?.length
+      ? {
+          chamber: chamberNow(api, bill),
+          title:
+            bodyOf(api, chamberNow(api, bill))?.bodyName ??
+            (
+              api
+                .moduleState(OFFICES)
+                .table("offices")
+                .get(chamberNow(api, bill)) as { title?: string } | undefined
+            )?.title ??
+            null,
+          since: bill.chambersPassed.at(-1)!.on,
+        }
+      : null;
+  // The committee that has it in the chamber it is in now.
+  const here = stage.committees
+    .filter((c) => !waitingIn || c.chamber === waitingIn.chamber)
+    .at(-1);
   const form = billForm(api, bill);
   const reach = billReach(api, bill);
   const minorUnit = (unit: string | null | undefined) =>
@@ -908,15 +935,16 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
     sponsor: { id: bill.sponsorId, name: paper.sponsor },
     /** Where it is: the body it sits in, the committee that has it now, who filed it and when. */
     where: {
+      // A bill one chamber passed is in the other chamber now, before that chamber's committee has it.
       bodyTitle:
-        stage.committees.at(-1)?.chamberTitle ??
+        (here ? here.chamberTitle : waitingIn?.title) ??
         bodyOf(api, bill.bodyOfficeId)?.bodyName ??
         null,
-      committee: stage.committees.at(-1)?.committee ?? null,
+      committee: here?.committee ?? null,
       filedBy: { id: bill.sponsorId, name: paper.sponsor },
       filedOn: bill.introduced,
       // The day its newest committee took it up in this chamber, else null (not yet referred).
-      reachedChamberOn: stage.committees.at(-1)?.date ?? null,
+      reachedChamberOn: here?.date ?? waitingIn?.since ?? null,
       // The sitting the body holds the bill in (its start and end, from the body's calendar records).
       session: sessionWindowOf(api, bill),
       // The day the bill has until: what the floor does not reach dies at the sitting's adjournment,
