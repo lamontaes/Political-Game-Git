@@ -3243,11 +3243,16 @@ async function seatRows() {
                 ? policyLabel(item.question)
                 : item.name
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          // What the law in force holds, as the bill's paper cites it.
+          // What the law in force holds, as the bill's paper cites it: a
+          // yes-or-no question reads Yes or No, as the Issues tab says it.
           today:
-            item.today?.value != null
-              ? amount(item.today.value, item.today.unit)
-              : null,
+            item.today?.value == null
+              ? null
+              : item.kind === "policy-question"
+                ? item.today.value
+                  ? controls.politics.yes
+                  : controls.politics.no
+                : amount(item.today.value, item.today.unit),
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
