@@ -51,6 +51,11 @@ export type RuleTest =
       readonly kind: "place";
       /** The judged verdicts the picker reads for this rule; the run reports on them. */
       readonly reads?: string;
+      /**
+       * Or the test file that proves the composer places the rule (account
+       * lead, Nov 14): it names the rule's id and runs in the gate.
+       */
+      readonly by?: string;
     }
   | { readonly kind: "judged" }
   | {
@@ -1103,4 +1108,32 @@ export function pulledFileOf(
     barred: result.barred,
     awaitingVerdict,
   };
+}
+
+/** What the guard reads to check where an enforced place rule points. */
+export interface RuleFiles {
+  exists(file: string): boolean;
+  read(file: string): string;
+  /** Whether the gate's test run picks the file up. */
+  inTestSet(file: string): boolean;
+}
+
+/**
+ * Why an enforced place rule's pointer does not hold, or nothing (the
+ * caller names the rule): it names
+ * the verdict file its reader folds, or a test file that exists, names the
+ * rule's id and runs in the gate, so the pointer cannot rot.
+ */
+export function placeRuleProblems(rule: LineRule, files: RuleFiles): string[] {
+  if (rule.test.kind !== "place" || rule.status !== "enforced") return [];
+  const { reads, by } = rule.test;
+  if (reads) return files.exists(reads) ? [] : [`${reads} does not exist`];
+  if (!by) return ["names neither a verdict file nor a test"];
+  if (!files.exists(by)) return [`${by} does not exist`];
+  return [
+    ...(files.read(by).includes(rule.id)
+      ? []
+      : [`${by} does not name the rule`]),
+    ...(files.inTestSet(by) ? [] : [`${by} is not in the gate's test set`]),
+  ];
 }
