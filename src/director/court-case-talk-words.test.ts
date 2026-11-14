@@ -129,7 +129,7 @@ describe("a court case told through the composer", () => {
   it("owns a denial once a trial they fought ends in a conviction", () => {
     const facts = {
       "told-offense": fact("offering a bribe"),
-      "told-term": fact("30 months"),
+      "told-term": fact("two and a half years"),
       contested: fact("yes"),
       you: fact("Elizabeth"),
     };

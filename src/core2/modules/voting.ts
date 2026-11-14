@@ -1960,9 +1960,6 @@ export function electorateSides(
   }
   const kept = held.byQuestion.get(question);
   if (kept) return kept;
-  if (question.startsWith("budget-line:"))
-    // stopgapId: SG-GOV-budget-line-stance-lean-only (a spending line's stance is the lean times the line's party axis alone, so every line splits the electorate the same way)
-    api.stopgap("SG-GOV-budget-line-stance-lean-only");
   let yes = 0,
     no = 0,
     sum = 0;

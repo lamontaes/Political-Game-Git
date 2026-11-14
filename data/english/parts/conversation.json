@@ -556,7 +556,8 @@
         {
           "move": "greet-opener",
           "subject": "greet",
-          "role": "opener"
+          "role": "opener",
+          "requiresFacts": ["name"]
         }
       ],
       "transcriptsUsing": 213,
@@ -699,7 +700,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "requiresFacts": ["name"]
         }
       ],
       "transcriptsUsing": 3,
@@ -730,7 +732,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "requiresFacts": ["name"]
         }
       ],
       "transcriptsUsing": 2,
@@ -13452,7 +13455,7 @@
           "subject": "charge-reply-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["bail"]
+          "requiresFacts": ["bailPosted"]
         }
       ],
       "piece": {
@@ -44037,22 +44040,8 @@
           "requiresFacts": ["said-none"]
         },
         {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take",
-          "requiresFacts": ["said-none"]
-        },
-        {
           "move": "debate-take-plain-reply-take",
           "subject": "debate-take-plain",
-          "role": "reply",
-          "choice": "take",
-          "requiresFacts": ["said-none"]
-        },
-        {
-          "move": "debate-take-brief-reply-take",
-          "subject": "debate-take-brief",
           "role": "reply",
           "choice": "take",
           "requiresFacts": ["said-none"]
@@ -44148,10 +44137,24 @@
           "choice": "take"
         },
         {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        },
+        {
           "move": "debate-take-declined-reply-take",
           "subject": "debate-take-declined",
           "role": "reply",
           "choice": "take"
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
         }
       ],
       "origin": "authored",
