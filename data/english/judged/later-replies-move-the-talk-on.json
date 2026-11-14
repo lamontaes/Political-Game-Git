@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1368,
+  "judged": 1321,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -362,19 +362,6 @@
       ],
       "why": "The after-last-time apology, the word to hold you to and walking away reword three first options."
     },
-    "03wjecf3uox": {
-      "keys": [
-        "scene-talk.follow-press.think-about-how-much-more-you-could-do-from-this-chair-than-that-one",
-        "scene-talk.reply-agree.yes-tell-the-executive-yes",
-        "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that",
-        "scene-talk.reply-decline.i-m-flattered-i-m-also-not-leaving-my-seat",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.more-than-i-d-like-to-admit-okay-yes",
-        "scene-talk.reply-decline.from-this-chair-i-answer-to-my-neighbors-that-s-what-i-want",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "'Okay. Yes', the answer-to-my-neighbors refusal and 'call you back tomorrow' re-offer the first yes, not-leaving and few-days options."
-    },
     "04ikzmt54hp": {
       "keys": [
         "scene-talk.follow-plea.then-tell-me-who-to-ask-so-i-m-not-back-in-here-next-week-with-the-same-paper",
@@ -427,19 +414,6 @@
         "scene-talk.reply-leave.send-me-the-list-i-ll-answer-tomorrow"
       ],
       "why": "'The answer is still no' and finding half of it restate the first their-budget and half-back options."
-    },
-    "05kcvzttxku": {
-      "keys": [
-        "scene-talk.follow-answer.i-ask-the-questions-they-come-from-what-people-in-place-send-in",
-        "scene-talk.reply-ask.who-s-asking-the-questions",
-        "scene-talk.reply-agree.i-ll-be-there",
-        "scene-talk.reply-decline.i-m-not-going-to-debate",
-        "scene-talk.reply-stall.when-do-you-need-an-answer",
-        "scene-talk.reply-agree.count-me-in",
-        "scene-talk.reply-decline.i-ll-sit-this-one-out",
-        "scene-talk.reply-leave.call-me-back-later"
-      ],
-      "why": "'Count me in', 'sit this one out' and 'call me back later' reword the first yes, no and when-do-you-need-it options."
     },
     "05owvunenp8": {
       "keys": [
@@ -521,20 +495,6 @@
       ],
       "why": "The replies are the first take-your-money-home, another-way and accept options reworded rather than a response to 'only you can help'."
     },
-    "06uttvtziqg": {
-      "keys": [
-        "scene-talk.follow-press.a-day-not-a-week-i-need-something-i-can-print",
-        "scene-talk.reply-answer.print-this-i-read-every-page-of-bill-and-i-ll-stand-behind-my-vote",
-        "scene-talk.reply-stall.i-want-to-check-one-number-first-can-i-call-you-back-before-you-file",
-        "scene-talk.reply-deflect.my-office-has-the-amendments-read-those-and-come-back-to-me",
-        "scene-talk.reply-lie.i-ve-said-the-same-thing-from-the-start",
-        "scene-talk.reply-answer.put-this-in-i-ll-vote-yes-and-i-ll-own-it",
-        "scene-talk.reply-stall.give-me-until-after-the-next-meeting-and-i-ll-have-more-than-this",
-        "scene-talk.reply-leave.i-owe-you-the-rest-call-me-tomorrow-and-i-ll-have-it",
-        "scene-talk.reply-lie.nobody-on-my-side-ever-asked-me-to-change-a-word-of-it"
-      ],
-      "why": "Three of four replies say the openers again: \"I'll vote yes, and I'll own it\" restates print-this-I-stand-behind-my-vote, and both \"give me until after the next meeting\" and \"call me tomorrow\" restate the opening call-you-back offer."
-    },
     "06uxpakrpi0": {
       "keys": [
         "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
@@ -586,19 +546,6 @@
         "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
       ],
       "why": "Telling all of it and \"Put it in writing\" re-offer the explain and dare options, two of three."
-    },
-    "06ya852l8xs": {
-      "keys": [
-        "scene-talk.follow-press.think-it-over-it-s-not-offered-twice",
-        "scene-talk.reply-agree.tell-the-executive-yes",
-        "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that",
-        "scene-talk.reply-decline.then-no-thank-the-executive-for-me",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
-        "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "The yes, still-no and call-back-tomorrow replies are the first three stances again in new words."
     },
     "0728jygwo8w": {
       "keys": [
@@ -836,19 +783,6 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Telling all of it and \"Put it in writing\" restate the explain and defiant first options, two of three."
-    },
-    "0am0do7dnem": {
-      "keys": [
-        "scene-talk.follow-press.the-offer-s-good-until-friday-after-that-it-s-somebody-else-s",
-        "scene-talk.reply-agree.tell-the-executive-yes",
-        "scene-talk.reply-ask.what-would-i-actually-be-doing",
-        "scene-talk.reply-decline.i-ll-pass-my-district-sent-me-to-do-a-job-and-i-m-not-done",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
-        "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "'Fine. Yes', 'still no' and 'call you back tomorrow' restate the first yes, pass and few-days options."
     },
     "0avnjobqvgr": {
       "keys": [
@@ -1566,19 +1500,6 @@
       ],
       "why": "\"I promise\" and the tea offer restate the first yes and the eating deflection."
     },
-    "0lyms76u54v": {
-      "keys": [
-        "scene-talk.follow-answer.whatever-you-can-manage-first-a-kind-word-from-you-would-go-a-long-way",
-        "scene-talk.reply-agree.alright-yes-i-ll-do-that-for-the-family",
-        "scene-talk.reply-promise.i-ll-make-it-happen-and-i-won-t-let-it-slide",
-        "scene-talk.reply-ask.what-would-you-like-me-to-say-to-them",
-        "scene-talk.reply-decline.i-d-like-to-but-i-can-t-get-in-touch-with-them-right-now-i-hope-you-understand",
-        "scene-talk.reply-agree.that-makes-it-easier-and-i-ll-do-it",
-        "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-        "scene-talk.reply-decline.i-understand-why-you-asked-but-i-still-can-t-do-it-i-m-sorry"
-      ],
-      "why": "'I'll do it', 'You have my word' and 'I still can't do it' redo the first acceptance, promise and refusal."
-    },
     "0m1s3bcridc": {
       "keys": [
         "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
@@ -1777,19 +1698,6 @@
       ],
       "why": "'I'm going to fix it' repeats 'I'll get it done this year' and going to lie down repeats the 'Not now' avoidance, so both rehash."
     },
-    "0nl896canv7": {
-      "keys": [
-        "scene-talk.follow-answer.doors-phones-envelopes-whatever-needs-doing",
-        "scene-talk.reply-ask.what-kind-of-help-were-you-thinking",
-        "scene-talk.reply-agree.yes-i-could-use-you",
-        "scene-talk.reply-decline.thanks-but-i-ve-got-it-covered-for-now",
-        "scene-talk.reply-stall.let-me-see-what-i-need-first-and-i-ll-call-you",
-        "scene-talk.close-thank.welcome-aboard",
-        "scene-talk.reply-decline.i-appreciate-it-but-i-d-rather-keep-this-small",
-        "scene-talk.reply-leave.i-can-t-talk-now-later"
-      ],
-      "why": "'Welcome aboard', keeping it small and 'later' restate the first yes, covered and call-you options."
-    },
     "0npcpgt2k75": {
       "keys": [
         "scene-talk.follow-answer.friend.because-i-was-afraid-you-d-tell-me-it-was-true-first",
@@ -1815,19 +1723,6 @@
         "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
       ],
       "why": "'Tell you exactly how it went' and 'I'm sorry. I got into something' are the opening explain and apology in new words, two of three."
-    },
-    "0nx9esbkjmg": {
-      "keys": [
-        "scene-talk.follow-press.think-it-over-it-s-not-offered-twice",
-        "scene-talk.reply-agree.yes-tell-the-executive-yes",
-        "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that",
-        "scene-talk.reply-decline.i-m-flattered-i-m-also-not-leaving-my-seat",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
-        "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "'Fine. Yes', 'It's still no' and 'call you back tomorrow' are the first yes, refusal and few-days options again."
     },
     "0o5vzwflmum": {
       "keys": [
@@ -1880,19 +1775,6 @@
         "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have"
       ],
       "why": "The due-date sorry and the don't-ask-me retort redo the first apology and lecture replies, with only the plan-to-come-back line partly new."
-    },
-    "0p5g0339k77": {
-      "keys": [
-        "scene-talk.follow-answer.i-only-want-them-to-hear-from-you-first-it-doesn-t-have-to-be-much",
-        "scene-talk.reply-agree.alright-yes-i-ll-do-that-for-the-family",
-        "scene-talk.reply-promise.i-ll-make-it-happen-and-i-won-t-let-it-slide",
-        "scene-talk.reply-ask.what-would-you-like-me-to-say-to-them",
-        "scene-talk.reply-decline.i-d-like-to-but-i-can-t-get-in-touch-with-them-right-now-i-hope-you-understand",
-        "scene-talk.reply-agree.that-helps-count-me-in",
-        "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-        "scene-talk.reply-decline.thank-you-for-asking-but-i-can-t-do-it-i-m-sorry"
-      ],
-      "why": "'Count me in', 'You have my word' and 'I can't do it, I'm sorry' are the first yes, promise and refusal said again."
     },
     "0pap53c18v1": {
       "keys": [
@@ -2013,21 +1895,6 @@
       ],
       "why": "'No, this changes nothing' and 'not discussing this here' restate the first no and not-here options."
     },
-    "0qbevj08iqo": {
-      "keys": [
-        "scene-talk.follow-answer.running-the-office-and-answering-to-the-executive-you-d-have-more-say-",
-        "scene-talk.reply-agree.tell-the-executive-yes",
-        "scene-talk.reply-ask.what-would-i-actually-be-doing",
-        "scene-talk.reply-decline.i-ll-pass-my-district-sent-me-to-do-a-job-and-i-m-not-done",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.that-s-more-than-i-ve-got-now-i-ll-do-it",
-        "scene-talk.reply-stall.then-tell-the-executive-i-ll-talk-not-yes-i-ll-talk",
-        "scene-talk.reply-decline.i-d-rather-ask-from-my-own-seat-thank-the-executive-for-me",
-        "scene-talk.reply-ask.and-who-fills-my-seat-if-i-go",
-        "scene-talk.reply-leave.i-need-a-night-with-this-i-ll-call-you-tomorrow"
-      ],
-      "why": "'I'll do it', 'I'd rather ask from my own seat' and 'I need a night with this' repeat the first yes, pass and few-days options."
-    },
     "0qxjynuhjk8": {
       "keys": [
         "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
@@ -2106,20 +1973,6 @@
         "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public"
       ],
       "why": "'I went after the idea, not you' restates the going-after-your-argument option and 'say it in public' repeats the public dare, leaving only 'Thursday' new."
-    },
-    "0swgzo2p9r0": {
-      "keys": [
-        "scene-talk.follow-answer.the-executive-would-appoint-someone-until-the-next-election-that-s-how",
-        "scene-talk.reply-agree.tell-the-executive-yes",
-        "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that",
-        "scene-talk.reply-decline.then-no-thank-the-executive-for-me",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.then-yes",
-        "scene-talk.reply-stall.i-ll-meet-with-the-executive-that-s-not-a-yes",
-        "scene-talk.reply-decline.thank-the-executive-for-me-but-no",
-        "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday"
-      ],
-      "why": "'Then yes', 'but no' and 'sleep on it' restate three of four first options, with only meeting the executive new."
     },
     "0swr2exr5v3": {
       "keys": [
@@ -2250,21 +2103,6 @@
         "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
       ],
       "why": "'I'll tell you everything' and 'I'm sorry. You deserved to hear it from me' reword the opening explanation and apology, two of three."
-    },
-    "0v3ur2s3mjw": {
-      "keys": [
-        "scene-talk.follow-press.i-m-not-asking-for-the-moon-i-m-asking-for-one-button",
-        "scene-talk.reply-relent.i-owe-you-that-much-put-me-down-yes-on-bill",
-        "scene-talk.reply-refuse.a-vote-isn-t-a-loan-i-can-t-be-a-yes-on-bill-because-you-were-a-yes-on-mine",
-        "scene-talk.reply-bargain.i-ll-take-that-trade-if-you-carry-my-amendment-onto-bill",
-        "scene-talk.reply-stall.i-ll-pay-it-back-i-just-need-to-see-what-i-m-paying-it-back-on",
-        "scene-talk.reply-lie.consider-it-paid",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.then-let-s-call-it-a-trade-what-do-i-get-on-bill-that-i-didn-t-get-last-time",
-        "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
-      ],
-      "why": "The yes, the trade question and 'I'll tell you before the vote' rehash the first owe-you, amendment trade and need-to-see options."
     },
     "0v5vbjz7abb": {
       "keys": [
@@ -2642,21 +2480,6 @@
         "scene-talk.reply-confront.you-sit-me-down-and-hand-me-a-finished-plan-you-could-have-said-someth"
       ],
       "why": "The quiet acceptance rewords \"I'm not going to argue,\" the apology repeats the first apology and \"a finished plan\" rewords \"you thought it over alone.\""
-    },
-    "11iguypc9lq": {
-      "keys": [
-        "scene-talk.follow-press.i-m-not-asking-for-the-moon-i-m-asking-for-one-button",
-        "scene-talk.reply-relent.i-owe-you-that-much-put-me-down-yes-on-bill",
-        "scene-talk.reply-refuse.a-vote-isn-t-a-loan-i-can-t-be-a-yes-on-bill-because-you-were-a-yes-on-mine",
-        "scene-talk.reply-bargain.then-let-s-call-it-a-trade-what-do-i-get-on-bill-that-i-didn-t-get-last-time",
-        "scene-talk.reply-stall.give-me-until-the-roll-i-m-not-saying-no",
-        "scene-talk.reply-lie.consider-it-paid",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.i-ll-take-that-trade-if-you-carry-my-amendment-onto-bill",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "'I'm in', 'I can't be on it' and 'I'll take that trade' restate the first yes, refusal and trade replies."
     },
     "12199sybpy7": {
       "keys": [
@@ -3066,19 +2889,6 @@
       ],
       "why": "'Let's stop here' and 'don't lecture me about what I owe' repeat the first exit and defense, leaving only the tone apology new."
     },
-    "18dhs8k18rf": {
-      "keys": [
-        "scene-talk.follow-press.sleep-on-it-the-executive-doesn-t-ask-twice",
-        "scene-talk.reply-agree.tell-the-executive-yes",
-        "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that",
-        "scene-talk.reply-decline.then-no-thank-the-executive-for-me",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
-        "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "'Fine. Yes', 'still no' and 'call you back tomorrow' are the first yes, no and few-days options reworded."
-    },
     "18jlua2ccds": {
       "keys": [
         "scene-talk.follow-answer.i-m-only-asking-for-whatever-you-can-manage-first-you-re-the-one-i-thought-of-first",
@@ -3301,20 +3111,6 @@
         "scene-talk.reply-leave.you-need-to-rest-i-ll-come-back-in-the-morning"
       ],
       "why": "\"I promise\" and the tea offer repeat the first yes and the eating deflection."
-    },
-    "1bf99ab0y7a": {
-      "keys": [
-        "scene-talk.follow-answer.the-executive-would-appoint-someone-until-the-next-election-that-s-how",
-        "scene-talk.reply-agree.yes-tell-the-executive-yes",
-        "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that",
-        "scene-talk.reply-decline.i-m-flattered-i-m-also-not-leaving-my-seat",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.when-you-put-it-like-that-yes",
-        "scene-talk.reply-stall.tell-the-executive-i-ll-talk-that-s-all-i-m-saying-today",
-        "scene-talk.reply-decline.thank-the-executive-for-me-but-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "'Yes', 'Thank the executive but no' and 'call you back tomorrow' restate three of the first options, leaving only 'I'll talk' new."
     },
     "1bme2ufxz70": {
       "keys": [
@@ -3605,19 +3401,6 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "'Tell you exactly how it went' and 'I'm sorry. I got into something' restate the opening explain and apology, two of three."
-    },
-    "1go4xep0p68": {
-      "keys": [
-        "scene-talk.follow-press.sleep-on-it-the-executive-doesn-t-ask-twice",
-        "scene-talk.reply-agree.tell-the-executive-yes",
-        "scene-talk.reply-ask.what-would-i-actually-be-doing",
-        "scene-talk.reply-decline.i-ll-pass-my-district-sent-me-to-do-a-job-and-i-m-not-done",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
-        "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "The yes, still-no and call-back replies are the first yes, pass and few-days options reworded."
     },
     "1gozps4yb3y": {
       "keys": [
@@ -3949,19 +3732,6 @@
       ],
       "why": "\"I'll do it,\" \"I promise\" and \"I can't keep talking today\" just repeat the first yes, word given and refusal."
     },
-    "1oknpb3zrco": {
-      "keys": [
-        "scene-talk.follow-answer.it-made-their-case-on-cause-that-s-all",
-        "scene-talk.reply-ask.what-did-it-say-exactly",
-        "scene-talk.reply-promise.then-i-d-better-say-where-i-stand-on-it",
-        "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race",
-        "scene-talk.reply-thank.thanks-i-appreciate-you-telling-me",
-        "scene-talk.reply-promise.i-ll-answer-that-thanks-for-telling-me",
-        "scene-talk.reply-deflect.i-m-not-going-to-chase-every-flyer",
-        "scene-talk.reply-leave.can-we-talk-later"
-      ],
-      "why": "Answering it with thanks and not chasing every flyer reword the first stand-up, let-them-talk and thanks options."
-    },
     "1opf0u90v48": {
       "keys": [
         "scene-talk.follow-press.pressed.a-plan-matters-more-than-sorry-right-now-first-what-are-you-going-to-do",
@@ -4016,21 +3786,6 @@
       ],
       "why": "Calling, 'Not yet' and splashing water just restate the opening dial, wait and time-alone replies."
     },
-    "1pdokptfgps": {
-      "keys": [
-        "scene-talk.follow-answer.because-as-office-you-d-be-the-one-deciding-instead-of-the-one-asking-",
-        "scene-talk.reply-agree.tell-the-executive-yes",
-        "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that",
-        "scene-talk.reply-decline.then-no-thank-the-executive-for-me",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.how-could-i-say-no",
-        "scene-talk.reply-stall.tell-the-executive-i-ll-talk-that-s-all-i-m-saying-today",
-        "scene-talk.reply-decline.my-district-sent-me-to-that-seat-i-m-not-handing-it-back-for-a-title",
-        "scene-talk.reply-ask.and-who-fills-my-seat-if-i-go",
-        "scene-talk.reply-leave.let-me-talk-to-my-family-i-ll-call-you-friday"
-      ],
-      "why": "'How could I say no', the district refusal and 'call you Friday' restate three of the five first options."
-    },
     "1pecvt3clwf": {
       "keys": [
         "scene-talk.follow-answer.my-source-asked-not-to-be-named-the-records-speak-for-themselves",
@@ -4083,21 +3838,6 @@
         "scene-talk.reply-offer.then-i-ll-meet-them-at-the-door-not-in-the-street"
       ],
       "why": "'Fine. We cancel' rewords 'Then cancel it' and meeting them at the door rewords 'go out and meet them', and none answer the overtime question."
-    },
-    "1qxzsjm4o0f": {
-      "keys": [
-        "scene-talk.follow-answer.because-as-office-you-d-be-the-one-deciding-instead-of-the-one-asking-",
-        "scene-talk.reply-agree.yes-tell-the-executive-yes",
-        "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that",
-        "scene-talk.reply-decline.i-m-flattered-i-m-also-not-leaving-my-seat",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.then-yes",
-        "scene-talk.reply-stall.i-ll-meet-with-the-executive-that-s-not-a-yes",
-        "scene-talk.reply-decline.my-district-sent-me-to-that-seat-i-m-not-handing-it-back-for-a-title",
-        "scene-talk.reply-ask.and-who-fills-my-seat-if-i-go",
-        "scene-talk.reply-leave.let-me-talk-to-my-family-i-ll-call-you-friday"
-      ],
-      "why": "'Then yes', the district refusal and 'call you Friday' repeat the first yes, not-leaving and few-days options, three of five."
     },
     "1r20f2hlsvk": {
       "keys": [
@@ -4163,21 +3903,6 @@
         "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
       ],
       "why": "'Tell you exactly how it went' rewords 'Let me explain' and 'I'm sorry, and I'll answer for it' rewords the walked-away apology, two of three."
-    },
-    "1s498lny7l8": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-holding-it-over-you-i-just-don-t-have-anyone-else-to-ask",
-        "scene-talk.reply-relent.i-owe-you-that-much-put-me-down-yes-on-bill",
-        "scene-talk.reply-refuse.a-vote-isn-t-a-loan-i-can-t-be-a-yes-on-bill-because-you-were-a-yes-on-mine",
-        "scene-talk.reply-bargain.i-ll-take-that-trade-if-you-carry-my-amendment-onto-bill",
-        "scene-talk.reply-stall.i-ll-pay-it-back-i-just-need-to-see-what-i-m-paying-it-back-on",
-        "scene-talk.reply-lie.consider-it-paid",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.then-let-s-call-it-a-trade-what-do-i-get-on-bill-that-i-didn-t-get-last-time",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "The yes, the 'I can't vote' and the 'call it a trade' line restate the first owe-you, no and amendment-trade options."
     },
     "1sion640ggo": {
       "keys": [
@@ -4711,20 +4436,6 @@
       ],
       "why": "The money-is-tight sorry, the not-getting-anywhere exit and the don't-lecture defense all redo first stances."
     },
-    "21he4ifcjrs": {
-      "keys": [
-        "scene-talk.follow-answer.the-executive-would-appoint-someone-until-the-next-election-that-s-how",
-        "scene-talk.reply-agree.tell-the-executive-yes",
-        "scene-talk.reply-ask.what-would-i-actually-be-doing",
-        "scene-talk.reply-decline.i-ll-pass-my-district-sent-me-to-do-a-job-and-i-m-not-done",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.how-could-i-say-no",
-        "scene-talk.reply-stall.i-ll-meet-with-the-executive-that-s-not-a-yes",
-        "scene-talk.reply-decline.my-district-sent-me-to-that-seat-i-m-not-handing-it-back-for-a-title",
-        "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday"
-      ],
-      "why": "'How could I say no', the district refusal and 'sleep on it' repeat three of four first options."
-    },
     "21qply46e0m": {
       "keys": [
         "scene-talk.follow-press.you-ll-really-do-it-i-d-like-to-know-i-can-plan-around-it",
@@ -4737,19 +4448,6 @@
         "scene-talk.reply-leave.i-m-sorry-but-i-can-t-stay-and-argue-about-it-let-s-pick-it-back-up-tomorrow"
       ],
       "why": "'I'll make it work' and 'I'll do it, I promise' repeat the first yes and promise, leaving only the 'pick it back up tomorrow' line new."
-    },
-    "21wutln59nl": {
-      "keys": [
-        "scene-talk.follow-press.the-offer-s-good-until-friday-after-that-it-s-somebody-else-s",
-        "scene-talk.reply-agree.tell-the-executive-yes",
-        "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that",
-        "scene-talk.reply-decline.then-no-thank-the-executive-for-me",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
-        "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "'Fine. Yes', 'still no' and 'call you back tomorrow' just repeat the first yes, refusal and few-days choices."
     },
     "22qfert3he0": {
       "keys": [
@@ -5333,18 +5031,6 @@
       ],
       "why": "All four restate first stances: the payment apology, a word-and-sorry apology, walking away nearly verbatim, and 'you keep bringing up the past'."
     },
-    "2fg0ote7aje": {
-      "keys": [
-        "scene-talk.follow-press.think-it-over-it-s-not-offered-twice",
-        "scene-talk.reply-agree.yes-tell-the-executive-yes",
-        "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that",
-        "scene-talk.reply-decline.i-m-flattered-i-m-also-not-leaving-my-seat",
-        "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
-        "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no"
-      ],
-      "why": "'Fine. Yes' and 'It's still no' are just the first yes and refusal again."
-    },
     "2fg3t91odof": {
       "keys": [
         "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
@@ -5411,5 +5097,5 @@
       "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "22zlzo1knao"
+  "yesHash": "1m4i35s193y"
 }
