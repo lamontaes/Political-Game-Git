@@ -926,8 +926,9 @@
       ]
     },
     "desk-visit": {
-      "deskActs": {
-        "note": "The replies that say the act in their own words (Account lead, Nov 14): pressed where the talk ends, the bill is signed or vetoed through the desk. Any other reply, a no included, leaves it on the desk.",
+      "actEnds": ["deadline"],
+      "acts": {
+        "note": "The replies that say the act in their own words (Account lead, Nov 14): a reply that names the act ends the talk with one closing line from the visitor and signs or vetoes the bill through the desk (Words lead, Nov 14 20:35Z). Any other reply, a no included, leaves it on the desk and the talk goes on.",
         "sign": [
           "scene-talk.reply-agree.you-ve-made-your-case-bring-the-pen",
           "scene-talk.reply-agree.it-passed-i-ll-sign-it",

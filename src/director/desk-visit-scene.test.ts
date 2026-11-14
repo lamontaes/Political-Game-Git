@@ -61,9 +61,9 @@ const TYPE = SITUATION_LIBRARY.types.find(
 /** The desk visit's replies that say the act, by the piece the reply says. */
 const DESK_ACTS = (
   purposeArcs as unknown as {
-    purposes: Record<string, { deskActs: { sign: string[]; veto: string[] } }>;
+    purposes: Record<string, { acts: { sign: string[]; veto: string[] } }>;
   }
-).purposes["desk-visit"]!.deskActs;
+).purposes["desk-visit"]!.acts;
 
 /**
  * Every path of a talk with a speaker on every line, what each ending keeps,

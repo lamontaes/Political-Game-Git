@@ -2715,9 +2715,9 @@ const DESK_VISIT_TYPE = "desk-visit";
 /** The desk visit's replies that say the act: their pieces, by the act. */
 const DESK_ACTS = (
   purposeArcs as unknown as {
-    purposes: Record<string, { deskActs?: { sign: string[]; veto: string[] } }>;
+    purposes: Record<string, { acts?: { sign: string[]; veto: string[] } }>;
   }
-).purposes[DESK_VISIT_TYPE]!.deskActs!;
+).purposes[DESK_VISIT_TYPE]!.acts!;
 
 /**
  * The pieces each door scene said, by the player and the cause, kept the

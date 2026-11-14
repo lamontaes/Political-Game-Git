@@ -89475,56 +89475,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.bill-costs-the-people-i-speak-for-about-cost-a-year-i-m-asking-you-to",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{bill} costs the people I speak for about {cost} a year. I'm asking you to veto it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against", "bill", "cost"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.about-cost-a-year-that-s-what-bill-takes-from-the-people-i-speak-for-we-d-like-a-veto",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "About {cost} a year, that's what {bill} takes from the people I speak for. We'd like a veto.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against", "bill", "cost"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.state-request.you-have-until-deadline-to-decide-on-bill-the-people-i-speak-for-want-a-veto",
       "move": "state-request",
       "kind": "spoken",
@@ -89569,6 +89519,31 @@
       "origin": "authored",
       "author": "Helper D (words and scenes)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-takes-real-money-from-the-people-i-speak-for-we-d-like-a-veto",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} takes real money from the people I speak for. We'd like a veto.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "cost"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (ruling on #9292, Nov 14 20:35Z)",
+      "date": "2026-11-14",
       "tag": {
         "move": "request",
         "key": "desk-visit"
@@ -90431,6 +90406,16 @@
           "key": "desk-visit",
           "after": "refuse",
           "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"],
+          "outcome": "refused"
         }
       ],
       "bearing": "nervous",
@@ -90621,6 +90606,16 @@
           "key": "desk-visit",
           "after": "decline",
           "requiresFacts": ["against"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"],
+          "outcome": "refused"
         }
       ],
       "bearing": "braced",
