@@ -61,6 +61,16 @@ it("keeps a state's postal code and a person's Jr or Sr, and spells out the rest
   expect(said("Northwestern MS")).toBe("Northwestern Middle School");
   expect(said("Shamokin Area El Sch")).toBe("Shamokin Area Elementary School");
   expect(said("El Paso Academy")).toBe("El Paso Academy");
+  expect(said("DeKalb Co Eastern Com School District")).toBe(
+    "DeKalb County Eastern Community School District",
+  );
+  expect(said("Powder River Co District H S")).toBe(
+    "Powder River County District High School",
+  );
+  expect(said("International Academy Of Columbus")).toBe(
+    "International Academy of Columbus",
+  );
+  expect(said("Smith Co-Op For The Arts")).toBe("Smith Co-Op for the Arts");
 });
 
 // The item's repro: Dalmatia, Pennsylvania, whose people went to schools the
