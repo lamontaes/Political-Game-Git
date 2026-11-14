@@ -156,6 +156,15 @@
       "note": "Graded good with no note. (batch 1 item 4)",
       "parts": ["hearing.thanks.thank-you-mr-chairman"],
       "restoredFrom": "bank:hearing.thanks.thank-you-mr-chairman"
+    },
+    {
+      "i": 17,
+      "grade": "good",
+      "by": "owner; moved Nov 12, 2026 (speech-bank-by-kind.ts: a greeting cut to its list became the same words as another)",
+      "parts": [
+        "opening-speech.salutation.plain-twn-mourning-everybody-in-this-room-and-everybody-watching-before-anything"
+      ],
+      "restoredFrom": "opening-speech.salutation.plain-twn-policy-everybody-in-this-room-and-everybody-watching-i-ll"
     }
   ]
 }

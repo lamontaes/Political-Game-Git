@@ -39,6 +39,7 @@ import {
   donationAsksView,
   campaignDay,
   campaignView,
+  runningMatePicked,
   playerRecord,
   debateAnswer,
   speechBegin,
@@ -109,6 +110,7 @@ import {
   backdropPath,
   benchScene,
   faceOf,
+  roomIds,
   scenePlace,
 } from "./scene";
 import { occluderPath } from "./occluders";
@@ -621,6 +623,16 @@ const ROUTES: readonly Route[] = [
               OPENING_EVENING_MINUTE,
             )
           : clockMinute;
+      // The room is handed to the talk (the telling): who else is here hears
+      // it, and nobody is asked after while they stand there.
+      const openingDay =
+        state.director?.ledger.opening?.date === requireCore().date;
+      const room = roomIds(
+        requireCore(),
+        state.player.personId,
+        state.player.packet,
+        openingDay ? minuteOfDay : undefined,
+      );
       state.conversation = openConversation(
         requireCore(),
         state.player.personId,
@@ -628,6 +640,7 @@ const ROUTES: readonly Route[] = [
         state.director
           ? {
               director: state.director,
+              presentIds: room,
               ...(occasionId ? { occasionId } : {}),
               ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
               // The place the player came to, so a goodbye knows it is said
@@ -1654,6 +1667,20 @@ const ROUTES: readonly Route[] = [
           question: q("question"),
           line: q("line"),
           value: q("value") === undefined ? undefined : Number(q("value")),
+          // A phase-in: each step's amount and the day it takes effect.
+          ...(q("steps")
+            ? {
+                steps: (
+                  JSON.parse(q("steps")!) as {
+                    value: number;
+                    effectiveDate: string;
+                  }[]
+                ).map((step) => ({
+                  value: Number(step.value),
+                  effectiveDate: String(step.effectiveDate),
+                })),
+              }
+            : {}),
         }),
       );
       return;
@@ -1800,6 +1827,26 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/campaign",
     run: async ({ url, send }) => {
       send(200, campaignView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  // A player running for governor names their running mate: one of the people offered, or none
+  // for the world's own pick (Choose for me).
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/running-mate",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        runningMatePicked(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("filingId") ?? "",
+          url.searchParams.get("personId") || null,
+        ),
+      );
       return;
     },
   },

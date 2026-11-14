@@ -56,6 +56,7 @@ import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRulesFor,
+  filledByTickets,
   checkEligibility,
   filingWindowOpens as electionsFilingWindowOpens,
   officeFamily,
@@ -757,9 +758,12 @@ function queuesFor(api: CoreAPI): Queues | null {
   const held = queues.get(api.state);
   if (held && held.size === contests.size) return held;
   const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
-  const rows = (contests.rows() as unknown as ContestRow[]).filter(
-    (row) => row.filingDeadline >= api.state.date,
+  // A running mate's office is filled by the governor candidates' tickets:
+  // nobody weighs running for it on their own (`filledByTickets`).
+  const own = (contests.rows() as unknown as ContestRow[]).filter(
+    (row) => !filledByTickets(api, row),
   );
+  const rows = own.filter((row) => row.filingDeadline >= api.state.date);
   const built: Queues = {
     size: contests.size,
     localRank: Math.max(
@@ -782,7 +786,7 @@ function queuesFor(api: CoreAPI): Queues | null {
     // (a tie's second election reuses its field).
     opening: held
       ? []
-      : (contests.rows() as unknown as ContestRow[])
+      : own
           .filter(
             (row) =>
               row.filingDeadline < api.state.date &&
@@ -823,6 +827,25 @@ export function platformFromViews(
     positions,
     c(api, "candidacyPlatformQuestions"),
   ).map(({ question, position }) => `${question}=${position}`);
+}
+
+/**
+ * The stands a filing for this contest carries when none are handed in: the
+ * filer's own views on the questions the seat takes up. The counter files
+ * the player this way, as a simulated runner's filing does.
+ */
+export function platformForContest(
+  api: CoreAPI,
+  personId: PersonId,
+  party: string | null,
+  contest: { readonly officeId: string },
+): string[] {
+  return platformFromViews(
+    api,
+    personId,
+    party,
+    contestPositions(api, contest),
+  );
 }
 
 /** File for a runner: no fee; the filing's petition circulates until the clerk's check. */

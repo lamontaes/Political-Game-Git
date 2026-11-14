@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: open
 standard: 2
-claimed-by:
+claimed-by: Account lead T51 (claude-opus-5-5)
 pr:
 after: office-board-vote-cast-for-the-player-without-a-stop-again
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: none
 source: "Account lead T35, Nov 14, 2026 (route check for office-board-vote-cast-for-the-player-without-a-stop-again); owner's card answer Nov 14, 2026, 02:03Z, relayed by the Account lead"
 checked:
-claimed-at:
+claimed-at: 2026-11-14
 ---
 
 **What.** A seated player whose stops did not hold them at a vote finds "Decided for me" in Your office and a yes or no on the roll call that they never pressed. On the governor's desk, with the desk stop off, a bill is signed or vetoed from the player's lean. The owner answered by card on Nov 14, 2026 at 02:03Z ("Stop me at every vote", as the Account lead relayed it): meetings, floor votes and the governor's desk stop for the player by default; if the player switches a stop off themselves, they are recorded absent and bills wait on the desk; nothing is cast or signed from their position or leanings. Seen: Politics, then Your office, and the bill's roll call.
@@ -54,3 +54,5 @@ Every roll call already has a player with no cast vote abstain (`councilBudget`,
 **Files.** src/core2/modules/office-day.ts, src/core2/office-day-federal.ts, src/core2/office-day-state.ts
 
 **Notes.**
+
+- Nov 14, 2026, T51 (branch claude/project-thread-gsnpng, off the train): built. Every meeting stop on by default; `ownVote` casts only on the player's "Decide for me", leaves a stopped and silent player to abstain, and records a player whose stop was off absent (act how "absent", detail "stop-off"); the own vote no longer runs on a committee's day (committee-day.json). `deskOwnChoice` runs only on the player's press; with the desk stop off a bill waits on the desk (listed by `deskWaiting`) and becomes law unsigned at its deadline. Congress at home in the district: absent, detail "district".
