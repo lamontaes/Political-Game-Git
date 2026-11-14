@@ -321,10 +321,10 @@
       }
     },
     {
-      "key": "campaign-standing.moved-all-warmer.every-one-of-them-for-office",
+      "key": "campaign-standing.moved-all-warmer.every-one-of-them",
       "move": "moved-all-warmer",
       "kind": "written",
-      "text": "Every one of them came away warmer toward your run for {office}.",
+      "text": "Every one of them came away warmer toward you.",
       "uses": [
         {
           "move": "moved-all-warmer",
@@ -342,10 +342,10 @@
       }
     },
     {
-      "key": "campaign-standing.moved-all-warmer.everyone-you-reached-for-office",
+      "key": "campaign-standing.moved-all-warmer.everyone-you-reached",
       "move": "moved-all-warmer",
       "kind": "written",
-      "text": "Everyone you reached warmed to you as a candidate for {office}.",
+      "text": "Everyone you reached warmed to you.",
       "uses": [
         {
           "move": "moved-all-warmer",
@@ -363,10 +363,10 @@
       }
     },
     {
-      "key": "campaign-standing.moved-all-cooler.every-one-of-them-for-office",
+      "key": "campaign-standing.moved-all-cooler.every-one-of-them",
       "move": "moved-all-cooler",
       "kind": "written",
-      "text": "Every one of them came away cooler toward your run for {office}.",
+      "text": "Every one of them came away cooler toward you.",
       "uses": [
         {
           "move": "moved-all-cooler",
@@ -384,10 +384,10 @@
       }
     },
     {
-      "key": "campaign-standing.moved-all-cooler.everyone-you-reached-for-office",
+      "key": "campaign-standing.moved-all-cooler.everyone-you-reached",
       "move": "moved-all-cooler",
       "kind": "written",
-      "text": "Everyone you reached cooled toward you as a candidate for {office}.",
+      "text": "Everyone you reached cooled on you.",
       "uses": [
         {
           "move": "moved-all-cooler",
@@ -867,10 +867,10 @@
       }
     },
     {
-      "key": "campaign-standing.moved-none.none-of-them-has-changed-their-mind-about-office-yet",
+      "key": "campaign-standing.moved-none.none-of-them-has-changed-their-mind-yet",
       "move": "moved-none",
       "kind": "written",
-      "text": "None of them has changed their mind about your run for {office} yet.",
+      "text": "None of them has changed their mind yet.",
       "uses": [
         {
           "move": "moved-none",
@@ -888,10 +888,10 @@
       }
     },
     {
-      "key": "campaign-standing.moved-none.they-feel-the-same-about-office-as-before",
+      "key": "campaign-standing.moved-none.they-feel-the-same-about-you-as-before",
       "move": "moved-none",
       "kind": "written",
-      "text": "They feel the same about your run for {office} as before.",
+      "text": "They feel the same about you as before.",
       "uses": [
         {
           "move": "moved-none",

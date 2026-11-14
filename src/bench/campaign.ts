@@ -498,11 +498,11 @@ export function raceStanding(
               ? "moved-both"
               : mine.warmer > 0
                 ? // Everyone reached moved the same way: said once, without the figure twice.
-                  mine.warmer >= mine.reached && race
+                  mine.warmer >= mine.reached
                   ? "moved-all-warmer"
                   : "moved-warmer"
                 : mine.cooler > 0
-                  ? mine.cooler >= mine.reached && race
+                  ? mine.cooler >= mine.reached
                     ? "moved-all-cooler"
                     : "moved-cooler"
                   : "moved-none",
@@ -511,7 +511,6 @@ export function raceStanding(
               warmer: mine.warmer,
               cooler: mine.cooler,
               reached: mine.reached,
-              ...(race ? { office: race.office } : {}),
             },
           ),
         ]
