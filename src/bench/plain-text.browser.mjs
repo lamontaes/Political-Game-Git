@@ -92,11 +92,16 @@ async function sheet(tab) {
   await page.locator("#sheet-body").waitFor();
   await page.waitForTimeout(800);
 }
-// A named repro, to reread a draw a merger reported: the place
-// (PLAIN_TEXT_PLACE_KEY, a place key as drawPlace gives it) and the game seed
-// (PLAIN_TEXT_SEED) of the first life; left unset, the game draws both.
-const placeKey = process.env.PLAIN_TEXT_PLACE_KEY;
-const seedWanted = process.env.PLAIN_TEXT_SEED;
+// The named repro the check runs by default, so it never goes red by draw:
+// Junction City, Georgia (a place key as drawPlace gives it) on its seed.
+// PLAIN_TEXT_PLACE_KEY and PLAIN_TEXT_SEED name another; PLAIN_TEXT_DRAW=1
+// leaves the game to draw both.
+const drawn = process.env.PLAIN_TEXT_DRAW === "1";
+const placeKey =
+  process.env.PLAIN_TEXT_PLACE_KEY ?? (drawn ? undefined : "1342800");
+const seedWanted =
+  process.env.PLAIN_TEXT_SEED ??
+  (drawn ? undefined : "a3b686cb-ba71-4137-957b-a2e414912b99");
 if (placeKey || seedWanted)
   await page.route("**/api/newlife?*", (route) => {
     const url = new URL(route.request().url());
