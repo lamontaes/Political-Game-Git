@@ -125269,7 +125269,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -125280,6 +125281,31 @@
         "move": "greet",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.open-greet.a-minute-it-s-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "A minute. It's about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      },
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14"
     },
     {
       "key": "scene-talk.open-greet.i-ve-been-trying-your-office-since-yesterday",
