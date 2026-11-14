@@ -89840,31 +89840,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.i-ll-sign-it-if-you-take-a-cleanup-bill-to-the-floor",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "I'll sign it if you take a cleanup bill to the floor.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "bargain",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.reply-bargain.give-me-your-word-on-a-follow-up-and-i-ll-sign",
       "move": "reply-bargain",
       "kind": "spoken",

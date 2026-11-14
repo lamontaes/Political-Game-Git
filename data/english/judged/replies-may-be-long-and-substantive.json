@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1326,
+  "judged": 1325,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -5483,5 +5483,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "1p1e7elffwn"
+  "yesHash": "1prgi3t6zug"
 }

@@ -13,9 +13,11 @@ import {
   type LobbyMeeting,
 } from "../core2/modules/interest-groups";
 import { lawInForce } from "../core2/modules/laws";
+import { deskWaiting } from "../core2/modules/office-day";
 import {
   LEGISLATURE_MODULE_ID,
   authorityFor,
+  billOf,
   castMemberVote,
   draftBill,
   holdVote,
@@ -27,7 +29,7 @@ import { coreAPI } from "../core2/state";
 import type { ModuleRow } from "../core2/module-data";
 import type { PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
-import { purposeScene } from "./purpose-scene";
+import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { SITUATION_LIBRARY } from "./scheduling";
 import { expectUpToFourDifferent } from "./reply-set-check";
@@ -259,6 +261,48 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
       for (const reply of node.replies) if (reply.next) walk(reply.next);
     })(scene.talk.tree);
     expect(ends.length, where).toBeGreaterThan(0);
+
+    // The visit is the desk (Words lead, desk ruling 2): a put-off leaves the
+    // bill on the desk; a yes said to the sponsor signs it through the
+    // desk's own decision, and the desk no longer holds it.
+    const pathTo = (id: string): number[] | undefined => {
+      let found: number[] | undefined;
+      (function walk(node: typeof scene.talk.tree, at: number[]) {
+        node.replies.forEach((reply, index) => {
+          if (found || !reply.next) return;
+          if (reply.next.end?.ending?.id === id) found = [...at, index];
+          else walk(reply.next, [...at, index]);
+        });
+      })(scene.talk.tree, []);
+      return found;
+    };
+    const onDesk = () =>
+      deskWaiting(api).some((row) => row.id === first.bill.id);
+    const putOff = pathTo("until-the-deadline");
+    if (putOff) {
+      expect(
+        replyInScene(core, director, mayor!, first.entry!, putOff),
+      ).toBeTruthy();
+      expect(onDesk(), `${where}: a put-off took the bill off the desk`).toBe(
+        true,
+      );
+    }
+    const yes = pathTo("their-way");
+    expect(yes, `${where}: no path where the mayor says yes`).toBeTruthy();
+    expect(onDesk(), where).toBe(true);
+    expect(
+      replyInScene(core, director, mayor!, first.entry!, yes!),
+    ).toBeTruthy();
+    expect(
+      onDesk(),
+      `${where}: a yes to the sponsor left the bill on the desk`,
+    ).toBe(false);
+    expect(billOf(api, first.bill.id)?.status, where).not.toBe(
+      "awaiting-signature",
+    );
+    process.stdout.write(
+      `DESK-DECIDED ${where}: ${first.bill.id} ${billOf(api, first.bill.id)?.status} after the yes\n`,
+    );
 
     // A different speaker says it differently; the same one says it the same.
     const facts = Object.fromEntries(

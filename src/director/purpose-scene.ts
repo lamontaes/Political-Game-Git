@@ -134,6 +134,11 @@ import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
 import { CASES_MODULE_ID, handleCase } from "../core2/modules/offices";
+import {
+  OFFICE_DAY_MODULE_ID,
+  decideDesk,
+  deskWaiting,
+} from "../core2/modules/office-day";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -2686,6 +2691,7 @@ function walkThroughFacts(
 
 /** The scene type of a resident's visit to the official's office (situation-types.json). */
 const OFFICE_HOURS_TYPE = "office-hours";
+const DESK_VISIT_TYPE = "desk-visit";
 
 /**
  * The pieces each door scene said, by the player and the cause, kept the
@@ -2884,6 +2890,27 @@ export function replyInScene(
     core.modules.has(CASES_MODULE_ID)
   )
     handleCase(coreAPI(core), caseId, caseDecision, null, id);
+
+  // The visit is the desk (Words lead, desk ruling 2): a yes or a no said to
+  // the visitor signs or vetoes the bill through the desk's own decision, the
+  // same one the panel's buttons call; a fix asked for or a put-off leaves it
+  // on the desk.
+  const deskBillId = scene.cause.facts.billId;
+  const deskDecision = ending?.decides;
+  if (
+    scene.typeKey === DESK_VISIT_TYPE &&
+    typeof deskBillId === "string" &&
+    deskDecision &&
+    core.modules.has(OFFICE_DAY_MODULE_ID) &&
+    deskWaiting(coreAPI(core)).some((bill) => bill.id === deskBillId)
+  ) {
+    const askedToSign = scene.facts.some((row) => row.key === "for");
+    decideDesk(
+      coreAPI(core),
+      deskBillId,
+      deskDecision === "ask" ? askedToSign : !askedToSign,
+    );
+  }
 
   // Asked at the door what matters to them, a resident says their strongest
   // question and their side (ruling 72): the player holds it as a talk's

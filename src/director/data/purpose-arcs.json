@@ -950,7 +950,8 @@
         {
           "id": "their-way",
           "label": "Their way",
-          "keeps": "promise",
+          "keeps": "none",
+          "decides": "ask",
           "when": {
             "reply": ["agree", "relent"]
           }
@@ -959,6 +960,7 @@
           "id": "other-way",
           "label": "The other way",
           "keeps": "none",
+          "decides": "against-ask",
           "when": {
             "reply": ["refuse", "decline", "confront"]
           }
