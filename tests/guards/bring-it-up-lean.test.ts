@@ -22,6 +22,16 @@ const parts = (
   part.uses.some((use) => use.subject === "lean" || use.subject === "election"),
 );
 const reader = readFileSync(join(root, READER), "utf8");
+// How an outlet carries the news, from the press module's one reader
+// (`outletMedium`): the fact a "read in" / "saw on" / "heard on" line needs.
+const press = readFileSync(join(root, "src/core2/modules/press.ts"), "utf8");
+const media = new Set(
+  [
+    ...(
+      /export function outletMedium\([^)]*\):([^{]+)\{/.exec(press)?.[1] ?? ""
+    ).matchAll(/"(\w+)"/g),
+  ].map((m) => m[1]!),
+);
 
 function sourceFiles(dir: string): string[] {
   return readdirSync(join(root, dir)).flatMap((name) => {
@@ -46,9 +56,10 @@ describe("a race's result brought up in talk", () => {
   });
 
   it("requires only facts the one reading path sets", () => {
-    const set = new Set(
-      [...reader.matchAll(/\b(\w+): \{\s*text:/g)].map((m) => m[1]!),
-    );
+    const set = new Set([
+      ...[...reader.matchAll(/\b(\w+): \{\s*text:/g)].map((m) => m[1]!),
+      ...media,
+    ]);
     for (const part of parts)
       for (const key of part.uses.flatMap((u) => u.requiresFacts ?? []))
         expect(set.has(key), `${part.key} requires ${key}`).toBe(true);
@@ -56,7 +67,28 @@ describe("a race's result brought up in talk", () => {
 
   it("says no figure, place or first name", () => {
     for (const part of parts)
-      expect(part.text, part.key).not.toMatch(/\d|\{(?:place|first|seat)\}/);
+      expect(part.text, part.key).not.toMatch(/\d|\{(?:place|first)\}/);
+  });
+
+  it("names the seat once in every telling, and never in a feeling", () => {
+    for (const part of parts)
+      expect((part.text.match(/\{seat\}/g) ?? []).length, part.key).toBe(
+        part.uses.some((use) => use.subject === "election") ? 1 : 0,
+      );
+  });
+
+  it("says read in a paper, saw on television and heard on the radio", () => {
+    expect([...media].sort()).toEqual(["paper", "radio", "television"]);
+    const needs = (part: Part) =>
+      part.uses.flatMap((use) => use.requiresFacts ?? []);
+    for (const part of parts) {
+      if (/\bread\b/i.test(part.text))
+        expect(needs(part), part.key).toContain("paper");
+      if (/\bsaw\b/i.test(part.text) && part.text.includes("{subject}"))
+        expect(needs(part), part.key).toContain("television");
+      if (/\bheard\b/i.test(part.text))
+        expect(needs(part), part.key).toContain("radio");
+    }
   });
 
   it("names the winner at most once in a line", () => {

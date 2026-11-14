@@ -10,7 +10,12 @@
  */
 import { P } from "../core2/parameters";
 import { storyOfReadEvent } from "../core2/modules/news";
-import { printedStoryOf } from "../core2/modules/press";
+import {
+  PRESS_MODULE_ID,
+  outletMedium,
+  outletsHere,
+  printedStoryOf,
+} from "../core2/modules/press";
 import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
@@ -38,6 +43,7 @@ import {
 import rowsJson from "./data/bring-it-up-rows.json" with { type: "json" };
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { raceMargin } from "./race-margin";
+import { seatFact } from "./sitting-ties";
 import { organizationName, possessive } from "./words";
 
 /** `data/bring-it-up-rows.json`: the structure, holding no sentences. */
@@ -254,6 +260,33 @@ function electionResultOf(
     : null;
 }
 
+/**
+ * The race results a person already knows: from a story they read about it,
+ * or from someone who told them (the told record's heard key), by the
+ * result's record id.
+ */
+function resultsKnownTo(
+  core: Readonly<CoreState>,
+  api: ReturnType<typeof coreAPI>,
+  personId: PersonId,
+  data: Pick<BringRows, "heardKey">,
+): Set<string> {
+  const known = new Set<string>();
+  for (const fact of core.knowledgeByPerson.get(personId)?.values() ?? []) {
+    const storyId = fact.key.startsWith("news:printed:")
+      ? fact.key.slice("news:".length)
+      : fact.key.startsWith(`${data.heardKey}:`)
+        ? storyOfReadEvent(fact.key.slice(data.heardKey.length + P.one))
+        : null;
+    const story = storyId ? printedStoryOf(api, storyId) : undefined;
+    const record = story
+      ? core.durableLog.get(story.wireId as never)
+      : undefined;
+    if (record?.kind === ELECTION_RESULT) known.add(record.id);
+  }
+  return known;
+}
+
 /** The race a result's seat belongs to: its own contest, then its race's. */
 function raceContests(result: LogRecord): string[] {
   const facts = result.facts ?? {};
@@ -336,6 +369,9 @@ type Said = { text: string; sourceRecordIds: readonly string[] };
  * says how it sits with them. A line that claims a ballot, a side shared
  * with the listener or a fair race is said only where the record holds it
  * (the `ballot`, `ourSide` and `fair` facts its bank part requires).
+ * Every telling names the seat once (Words lead, Nov 14). Told to a listener
+ * who already knows the result, it is one line: who won what, and how it
+ * sits with them (`known`; only a speaker with a lean raises it then).
  */
 function electionLines(
   core: Readonly<CoreState>,
@@ -343,6 +379,8 @@ function electionLines(
   speakerId: PersonId,
   listenerId: PersonId,
   subject: Said,
+  outletId: string,
+  known: boolean,
   say: (
     move: BringMove,
     facts: Record<string, Said>,
@@ -352,20 +390,39 @@ function electionLines(
   const winnerName = nameOf(core, winnerId);
   if (!winnerName) return null;
   const winner = { text: winnerName, sourceRecordIds: [result.id, winnerId] };
+  const seat = seatFact(
+    core,
+    String(result.facts?.contestId ?? ""),
+    result.id,
+  ).seat;
+  if (!seat) return null;
   // Where they read it stands on the result it reported, too.
   const paper = {
     ...subject,
     sourceRecordIds: [...subject.sourceRecordIds, result.id],
   };
+  // How the outlet carried it: read in a paper, seen on television, heard on
+  // the radio, from the outlet's own record.
+  const outlet = core.modules.has(PRESS_MODULE_ID)
+    ? outletsHere(coreAPI(core as CoreState)).find(
+        (row) => row.organizationId === outletId,
+      )
+    : undefined;
+  const medium = outlet ? outletMedium(outlet.kind) : null;
+  const carried = medium
+    ? { [medium]: { text: "", sourceRecordIds: [outlet!.id] } }
+    : {};
   const lean = resultLean(core, result, speakerId);
   const listener = lean ? resultLean(core, result, listenerId) : null;
   const margin = raceMargin(core, result.id);
+  if (known && !lean) return null;
   const leanLine = lean
     ? say(
         { part: "lean", side: lean.side },
         {
           subject: paper,
-          winner,
+          // Told as one line with who won, the feeling does not name them again.
+          ...(known ? {} : { winner }),
           lean: {
             text: lean.side,
             sourceRecordIds: [result.id, speakerId],
@@ -392,10 +449,24 @@ function electionLines(
         },
       )
     : null;
+  if (known) {
+    const told = say({ part: "election", form: "known" }, { winner, seat });
+    if (!told || !leanLine) return null;
+    return [
+      {
+        text: `${told.text} ${leanLine.text}`,
+        sourceRecordIds: [
+          ...new Set([...told.sourceRecordIds, ...leanLine.sourceRecordIds]),
+        ],
+      },
+    ];
+  }
   const named = !leanLine?.factKeys?.includes("winner");
   const told = say(
-    { part: "election", named },
-    named ? { subject: paper, winner } : { subject: paper },
+    { part: "election", form: named ? "named" : "unnamed" },
+    named
+      ? { subject: paper, winner, seat, ...carried }
+      : { subject: paper, seat, ...carried },
   );
   if (!told) return null;
   return leanLine ? [told, leanLine] : [told];
@@ -434,9 +505,16 @@ export function bringItUp(
   };
   // A race's result is told by who won, so it needs no topic; it is not
   // told to someone who stood in that race (they know how it came out).
+  // A result the listener already knows (they read it, or were told it) is
+  // raised again only by someone with a lean, and only as how it sits with
+  // them (Words lead, Nov 14: the whole town does not tell the same news).
+  const knownResults = resultsKnownTo(core, api, listenerId, data);
   const electionFor = (change: KnownChange): LogRecord | null => {
     const result = electionResultOf(core, api, change.eventId);
-    return result && !stoodIn(result, listenerId) ? result : null;
+    if (!result || stoodIn(result, listenerId)) return null;
+    if (knownResults.has(result.id) && !resultLean(core, result, speakerId))
+      return null;
+    return result;
   };
   const speakable = (change: KnownChange) =>
     !!nameOf(core, change.institutionId) &&
@@ -551,7 +629,16 @@ export function bringItUp(
   // the results.
   const result = own ? null : electionFor(change);
   const election = result
-    ? electionLines(core, result, speakerId, listenerId, facts.subject, say)
+    ? electionLines(
+        core,
+        result,
+        speakerId,
+        listenerId,
+        facts.subject,
+        change.institutionId,
+        knownResults.has(result.id),
+        say,
+      )
     : null;
   const first =
     (election?.[P.zero] ??
@@ -567,7 +654,13 @@ export function bringItUp(
           },
         ))) ||
     say({ part: "change", eventKind: change.kind }, facts);
-  if (first) lines.push(first);
+  // A known result is told in one line that ends on the feeling.
+  if (first)
+    lines.push(
+      result && knownResults.has(result.id)
+        ? { ...first, feeling: true }
+        : first,
+    );
   const leanLine = election?.[P.one];
   if (leanLine) lines.push({ ...leanLine, feeling: true });
   // A printed story blames no one: the outlet only printed it. Someone who

@@ -27,7 +27,7 @@ export interface BringWords {
   blame: Readonly<Record<BlameHow, Variant[]>>;
   /** The sentences that tell the listener what came of their own bill, by outcome. */
   yours: Readonly<Record<BillOutcome, Variant[]>>;
-  /** The sentences that say who won a race the speaker read about, staged "named" or "unnamed". */
+  /** The sentences that say who won a race the speaker read about, staged "named", "unnamed" or "known". */
   election: Variant[];
   /** How the result sits with the speaker, by their lean against the winner's party. */
   lean: Readonly<Record<LeanSide, Variant[]>>;
@@ -51,8 +51,12 @@ export type BringMove =
   | { part: "blame"; how: BlameHow; named: boolean }
   /** What came of the listener's own bill; `form` is the bill's (an act, an ordinance), which its lines name. */
   | { part: "yours"; outcome: BillOutcome; form: string }
-  /** Who won a race read about; `named` when this line is the one to name the winner. */
-  | { part: "election"; named: boolean }
+  /**
+   * Who won a race read about: `named` when this line is the one to name the
+   * winner, `unnamed` when the line after it does, `known` when the listener
+   * already knows and it is said with the feeling in one line.
+   */
+  | { part: "election"; form: "named" | "unnamed" | "known" }
   /** How the result sits with the speaker. */
   | { part: "lean"; side: LeanSide };
 
@@ -95,9 +99,7 @@ export function wordBringMove(request: {
     move.part === "yours"
       ? move.form
       : move.part === "election"
-        ? move.named
-          ? "named"
-          : "unnamed"
+        ? move.form
         : undefined;
   return renderLine({
     seed: request.seed,

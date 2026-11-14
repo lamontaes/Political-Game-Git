@@ -79,8 +79,8 @@ import {
   MILESTONE_BIRTHDAY,
   PRESS_MODULE_ID,
   RETIREMENT,
+  outletMedium,
   outletsHere,
-  type OutletKind,
 } from "../core2/modules/press";
 import { decisionLean, hardshipStress } from "../core2/trait-decisions";
 import { believesClaim } from "../core2/heard-claims";
@@ -96,6 +96,7 @@ import type {
   Source,
 } from "../core2/types";
 import { BRING_IT_UP_ROWS, bringItUp, changesKnownTo } from "./bring-it-up";
+import { raceMargin } from "./race-margin";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
@@ -2279,16 +2280,6 @@ function governmentNews(
 /** The news engine's kind for a story an outlet printed (press desk). */
 const PRINTED_STORY = "press.printed";
 
-/** How each kind of outlet carries a story: printed on paper or broadcast. */
-const MEDIUM: Readonly<Partial<Record<OutletKind, "paper" | "broadcast">>> = {
-  newspaper: "paper",
-  "national-paper": "paper",
-  magazine: "paper",
-  television: "broadcast",
-  radio: "broadcast",
-  cable: "broadcast",
-};
-
 /** Whether a person knows of a change or a story: learned of the change, or heard the story. */
 function knowsNews(
   core: Readonly<CoreState>,
@@ -2424,7 +2415,8 @@ function printedSubject(
           (entry) => entry.organizationId === story.outletId,
         )
       : undefined;
-    const medium = row ? MEDIUM[row.kind] : undefined;
+    const media = row ? outletMedium(row.kind) : null;
+    const medium = media ? (media === "paper" ? "paper" : "broadcast") : null;
     const carried = medium
       ? { [medium]: { text: "", sourceRecordIds: [story.id, row!.id] } }
       : {};
@@ -4554,15 +4546,27 @@ function askSubject(
   return true;
 }
 
-/** The other person raises one of their own subjects. */
 /**
  * A race's result as a talk's subject: the paper's story with the question
  * the winner ran on taken out (its `about` and the news question), so the
  * player answers who won ("Really?", "I saw that.") and never takes a stand
- * on, or says they have no view of, a question nobody said.
+ * on, or says they have no view of, a question nobody said. It is marked a
+ * result (`result`), and one not close on the record (`result-not-close`),
+ * so a reply that doubts it ("You're kidding.") follows only a close race
+ * and a bare noise ("Huh.") follows none (Words lead, Nov 14).
  */
-function resultSubject(subject: Subject): Subject {
-  const facts = { ...subject.facts };
+function resultSubject(
+  core: Readonly<CoreState>,
+  subject: Subject,
+  resultId: string,
+): Subject {
+  const facts: Facts = {
+    ...subject.facts,
+    result: { text: "yes", sourceRecordIds: [resultId] },
+    ...(raceMargin(core, resultId) === "close"
+      ? {}
+      : { "result-not-close": { text: "yes", sourceRecordIds: [resultId] } }),
+  };
   delete facts.about;
   const { news, ...rest } = subject;
   const said = { ...news };
@@ -4570,6 +4574,7 @@ function resultSubject(subject: Subject): Subject {
   return { ...rest, facts, ...(news ? { news: said } : {}) };
 }
 
+/** The other person raises one of their own subjects. */
 function raiseSubject(
   core: Readonly<CoreState>,
   conversation: Conversation,
@@ -5509,7 +5514,7 @@ function openConversationNow(
           // A race's result is told by who won, not by a question the
           // winner ran on: the player answers who won, never a stand on a
           // question nobody said.
-          brought.resultId ? resultSubject(news) : news,
+          brought.resultId ? resultSubject(core, news, brought.resultId) : news,
           false,
           // A race's result is told by who won and how it sits with them,
           // not by the paper's headline.

@@ -3947,7 +3947,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         },
         {
           "move": "tenure-reply-answer-ack",
@@ -6636,7 +6637,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         },
         {
           "move": "mutual-answer-turn",
@@ -8303,7 +8305,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         }
       ],
       "transcriptsUsing": 41,
@@ -8498,7 +8501,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         }
       ],
       "transcriptsUsing": 51,
@@ -8538,7 +8542,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result-not-close"]
         }
       ],
       "transcriptsUsing": 23,

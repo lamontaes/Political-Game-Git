@@ -3,12 +3,13 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
-import type { CoreState, IsoDate } from "../core2/types";
+import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import {
   ELECTIONS_MODULE_ID,
   type FilingRow,
 } from "../core2/modules/elections";
 import { bringItUp, resultLean } from "./bring-it-up";
+import { seatFact } from "./sitting-ties";
 import { openConversation } from "./conversation";
 import { asksQuestion } from "../english/conversation-words";
 import conversationParts from "../../data/english/parts/conversation.json";
@@ -59,41 +60,88 @@ describe.each(PLACES)("a race's result brought up in $name", (place) => {
       const playerId = world.playerId!;
       advanceCore(core, WEEK_AFTER);
       const seen = new Map<string, string[]>();
-      for (const person of core.people.values()) {
-        if (seen.size === 3) break;
-        if (!person.alive || person.tier === "husk" || person.id === playerId)
-          continue;
-        const said = bringItUp(core, person.id, playerId);
-        if (!said?.resultId) continue;
-        const result = core.durableLog.get(said.resultId)!;
-        expect(result.kind, where).toBe("election-result");
-        const lean = resultLean(core, result, person.id);
-        const side = lean?.side ?? "none";
-        const texts = said.lines.map((line) => line.text);
-        const winner = core.people.get(String(result.facts?.winnerId));
-        const named = `${winner?.givenName} ${winner?.familyName}`;
-        // Every line stands on the result; the winner is named once.
-        for (const line of said.lines)
-          expect(line.sourceRecordIds, `${where}: ${line.text}`).toContain(
+      // Told to someone who has read no paper, and to the player, who has:
+      // a result the listener knows (read, or told here) is raised only by a
+      // teller with a lean, in one line (Words lead, Nov 14).
+      const fresh = [...core.people.values()].find(
+        (person) =>
+          person.alive &&
+          person.tier !== "husk" &&
+          person.id !== playerId &&
+          ![...(core.knowledgeByPerson.get(person.id)?.values() ?? [])].some(
+            (fact) => fact.key.startsWith("news:printed:"),
+          ),
+      );
+      expect(fresh, `${where}: someone who read no paper`).toBeTruthy();
+      let retold = 0;
+      for (const listenerId of [fresh!.id as PersonId, playerId]) {
+        const told = new Set<string>();
+        for (const person of core.people.values()) {
+          if (seen.size === 3 && retold > 0) break;
+          if (
+            !person.alive ||
+            person.tier === "husk" ||
+            person.id === listenerId
+          )
+            continue;
+          const said = bringItUp(core, person.id, listenerId);
+          if (!said?.resultId) continue;
+          const result = core.durableLog.get(said.resultId)!;
+          expect(result.kind, where).toBe("election-result");
+          const lean = resultLean(core, result, person.id);
+          const side = lean?.side ?? "none";
+          const texts = said.lines.map((line) => line.text);
+          const winner = core.people.get(String(result.facts?.winnerId));
+          const named = `${winner?.givenName} ${winner?.familyName}`;
+          const seat = seatFact(
+            core,
+            String(result.facts?.contestId),
             result.id,
-          );
-        expect(texts.join(" ").split(named).length - 1, texts.join(" / ")).toBe(
-          1,
-        );
-        // A lean line only for a teller with a lean; a ballot line only on
-        // their ballot for the winner; no figure.
-        expect(texts.length, `${where}: ${texts.join(" / ")}`).toBe(
-          lean ? 2 : 1,
-        );
-        if (texts.some((text) => text.startsWith("I voted for")))
-          expect(lean?.ballotId, texts.join(" / ")).toBeTruthy();
-        for (const text of texts) expect(text, where).not.toMatch(/\d/);
-        if (!seen.has(side)) seen.set(side, texts);
+          ).seat!.text;
+          const again = told.has(result.id);
+          told.add(result.id);
+          // Every line stands on the result; the winner is named once.
+          for (const line of said.lines)
+            expect(line.sourceRecordIds, `${where}: ${line.text}`).toContain(
+              result.id,
+            );
+          expect(
+            texts.join(" ").split(named).length - 1,
+            texts.join(" / "),
+          ).toBe(1);
+          // The seat is named once in the telling.
+          expect(
+            texts.join(" ").split(seat).length - 1,
+            texts.join(" / "),
+          ).toBe(1);
+          // A lean line only for a teller with a lean; a ballot line only on
+          // their ballot for the winner; no figure.
+          // A result the player already knows (read, or told by someone here)
+          // is raised only by a teller with a lean, in one line ending on how
+          // it sits with them; else who won, then the feeling.
+          if (lean && texts.length === 1) {
+            expect(said.lines[0]!.feeling, texts.join(" / ")).toBe(true);
+            retold += 1;
+          } else
+            expect(texts.length, `${where}: ${texts.join(" / ")}`).toBe(
+              lean ? 2 : 1,
+            );
+          if (!lean)
+            expect(again, `${where}: ${texts.join(" / ")}`).toBe(false);
+          if (texts.some((text) => text.startsWith("I voted for")))
+            expect(lean?.ballotId, texts.join(" / ")).toBeTruthy();
+          // No figure: a district's number is part of the seat's name, said
+          // by the one seat wording, and is the only digit allowed.
+          for (const text of texts)
+            expect(text.split(seat).join(""), where).not.toMatch(/\d/);
+          if (!seen.has(side)) seen.set(side, texts);
+        }
       }
       expect(
         [...seen.keys()].sort(),
         `${where}: ${JSON.stringify([...seen])}`,
       ).toEqual(["against", "none", "with"]);
+      expect(retold, `${where}: a result told again`).toBeGreaterThan(0);
       // Nobody tells a candidate how their own race came out.
       const filings = coreAPI(core)
         .moduleState(ELECTIONS_MODULE_ID)
