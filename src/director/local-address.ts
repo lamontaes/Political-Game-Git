@@ -37,7 +37,10 @@ import {
 } from "./speech-outline";
 import { contestPositions } from "../core2/modules/campaigns";
 import { presidingOfficer } from "../core2/modules/legislature";
-import { governmentProperName } from "../core2/government-proper-name";
+import {
+  governmentProperName,
+  governmentSaidName,
+} from "../core2/government-proper-name";
 import { officeWords } from "../english/said-as";
 import { markWordsStopgap } from "./stopgaps";
 import { recordAddressResponse } from "./address-response";
@@ -58,7 +61,6 @@ interface LevelData {
     readonly executives: readonly string[];
     readonly bodies: readonly string[];
     readonly bodyWords: readonly string[];
-    readonly realmForms: readonly string[];
   };
 }
 const DATA = localData as unknown as {
@@ -131,7 +133,7 @@ function bodySaid(office: TownSeat["office"]): string | null {
 function realmSaid(core: CoreState, office: TownSeat["office"]): string | null {
   return office.level === "city"
     ? ((core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ?? null)
-    : realmOfForm(
+    : governmentSaidName(
         governmentProperName(office.governmentName, office.jurisdiction),
       );
 }
@@ -159,13 +161,6 @@ function bodyNameSaid(
     .startsWith(`${listed.toLocaleLowerCase("en-US")} `);
   const place = opens ? realmSaid(core, office) : null;
   return `the ${place ? `${place} ${name.slice(listed.length + P.one)}` : name}`;
-}
-
-/** "County of Maui" said as "Maui County", for the forms `realmForms` lists; a town, city or village by its name alone. */
-function realmOfForm(listed: string): string {
-  const [, form, name] = /^(\w+) of (.+)$/.exec(listed) ?? [];
-  if (!form || !name) return listed;
-  return HEADS.realmForms.includes(form) ? `${name} ${form}` : name;
 }
 
 /**
