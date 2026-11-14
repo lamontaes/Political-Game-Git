@@ -146537,7 +146537,7 @@
           "role": "narrator",
           "purpose": "owed-apology.repeat",
           "key": "routine",
-          "requiresFacts": ["quarreled-before"]
+          "requiresFacts": ["read-about-money"]
         }
       ],
       "origin": "authored",
