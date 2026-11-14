@@ -95,8 +95,8 @@ export function bargainFacts(
  * about their own act): the amount the bill sets (`own-amount`, "the income
  * tax rate at 4.75 percent") and the reason that weighs most for it among
  * their position's terms (`own-reason-<term>`), never the neighbors as a
- * tally. Nothing for a bill of more than one section or a member who did not
- * file it.
+ * tally. Nothing for a member who did not file it, or a bill whose first
+ * section is not an amount.
  */
 export function sponsorAmountFacts(
   core: Readonly<CoreState>,
@@ -108,7 +108,9 @@ export function sponsorAmountFacts(
   if (!core.modules.has(LEGISLATURE_MODULE_ID)) return;
   const api = coreAPI(core as CoreState);
   const bill = billOf(api, billId);
-  const section = bill?.provisions.length === 1 ? bill.provisions[0] : null;
+  // The section the sponsor filed is the bill's first; sections added since
+  // (a trade on the floor) are not the figure they came to say.
+  const section = bill?.provisions[0];
   if (!bill || bill.sponsorId !== sponsorId) return;
   if (section?.kind !== "law-amount" || !section.series) return;
   const words = amountWords(section.series);
