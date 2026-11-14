@@ -1,0 +1,38 @@
+---
+id: gov-world-governors-and-president-never-give-their-address
+title: "World governors and the President never give their yearly address"
+area: gov
+lead: laws
+kind: bug
+priority: 3
+size: M
+status: open
+standard: 2
+claimed-by:
+pr:
+after:
+blocked-on:
+model: opus
+effort: medium
+root: none
+source: "Account lead builder, Nov 14 (world address PR, coordinator's request)"
+checked:
+---
+
+**What.** In a played world the governors' state of the state and the President's address are given only by the player's own character; world governors and the President give none, though a mayor's and county executive's now are (gov-world-officials-never-give-yearly-address). Seen: the news for a world governor's address in its season.
+
+**Cause.** Found in code: src/core2/office-day-state.ts (the state kit's `address` act, due on its own date, line 479 and 1079) and src/core2/office-day-federal.ts (the `joint-address` stop) are registered acts for the controlled actor only; the local act `state-of-the-city` in src/core2/office-day-acts.ts does not cover them, each level having its own date rule.
+
+**Fix.** Run the same custom-and-temperament decision (worldAddresses in office-day-acts.ts) for each level's own address date, by the state and federal kits' own handlers, so one engine decides and each level's act delivers. Prove it in one state and the federal level in a one-year world with and without, with the speed check (one decision per official per year).
+
+**Time box.** 4 hours for one Opus session.
+
+**Rules.** No dice; one engine per mechanic (the offices engine's acts, no second scheduler); cadence-and-summaries (a yearly event, never a daily scan); an effect is a read, not a record.
+
+**Done when.** A one-year world at three drawn places (names and seeds in the PR) shows the state's governor and the President giving their address on its date, each by record id, and a second session sees the news or Journal read it in the running game.
+
+**Waits on.** gov-world-officials-never-give-yearly-address merged.
+
+**Files.** src/core2/office-day-state.ts, src/core2/office-day-federal.ts, src/core2/office-day-acts.ts
+
+**Notes.** Owner, Nov 14 19:27Z: 'And not just town, but country and state. Remember, it's all one simulation.'

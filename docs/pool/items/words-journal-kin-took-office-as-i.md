@@ -1,6 +1,6 @@
 ---
 id: words-journal-kin-took-office-as-i
-title: "The journal says \"I took office\" when a family member took office"
+title: 'The journal says "I took office" when a family member took office'
 area: words
 kind: bug
 priority: 2

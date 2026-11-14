@@ -101,6 +101,7 @@
     "conversation.farewell-core.well-that-s-that": ["no-filler"],
     "conversation.farewell-leave-bye.all-right-then": ["alright-in-dialogue"],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
+    "conversation.greet-core.phone-well-hello-it-s-been-a-while": ["no-filler"],
     "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
     "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right": [
       "alright-in-dialogue"
@@ -314,6 +315,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 13768
+    "reply-second-move-follows-the-first (pairs)": 13755
   }
 }

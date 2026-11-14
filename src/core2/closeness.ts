@@ -301,6 +301,23 @@ export function familyRelation(
 }
 
 /**
+ * Whether two people are blood relatives by the records (a parent, child,
+ * sibling, grandparent, grandchild, aunt or uncle, niece or nephew), as
+ * opposed to a partner, a former partner or someone who only shares a home.
+ */
+export function bloodKin(
+  core: Pick<CoreState, "people">,
+  a: PersonId,
+  b: PersonId,
+): boolean {
+  const relation = familyRelation(core, a, b);
+  return (
+    relation !== null &&
+    (data.bloodKinRelations as readonly string[]).includes(relation)
+  );
+}
+
+/**
  * The hours a contact counts for, by the two people's temperaments: time
  * together builds closeness faster between warm, outgoing people and slower
  * between reserved ones (relationships.warm-to), and a falling-out (negative

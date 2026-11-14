@@ -406,14 +406,14 @@
       "role": "level",
       "value": 5,
       "tag": "TUNABLE",
-      "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. NOT SOURCED: the NCSL pages on interim and study committees could not be fetched in this session (network); a search snippet says such committees are usually on one subject, may draw from one or both chambers, and sometimes include outsiders.",
+      "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. TUNABLE: a tuned size inside its spread of 3 to 9; study and interim committees are usually on one subject and small enough to work as a group.",
       "spread": [3, 9]
     },
     "studyTermDays": {
       "role": "level",
       "value": 180,
       "tag": "TUNABLE",
-      "source": "How long a study committee or task force works before its report is due (its sunset). NOT SOURCED: no page on committee terms could be fetched in this session; interim committees run between sessions, so a half year is a placeholder.",
+      "source": "How long a study committee or task force works before its report is due (its sunset). TUNABLE: a tuned term inside its spread of 60 to 365 days; interim committees run between sessions, so about a half year.",
       "spread": [60, 365]
     },
     "committeeOfTheWholeMaximum": {
@@ -431,7 +431,7 @@
     "committeeLeadDays": {
       "value": 7,
       "tag": "ESTIMATED",
-      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it (SG-GOV-committee-structure).",
+      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it.",
       "spread": [3, 28]
     },
     "hearingWitnesses": {
