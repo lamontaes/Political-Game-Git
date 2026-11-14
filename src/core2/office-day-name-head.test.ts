@@ -16,8 +16,8 @@ import {
   headCandidates,
   postsToFill,
 } from "./modules/executive";
-import { nameHeadPick, officeView } from "../bench/office";
-import { officeActsOf, officeHost } from "./modules/office-day";
+import { officeView } from "../bench/office";
+import { officeActsOf, officeHost, prepareAct } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
 import { lawChain } from "./modules/laws";
 import { memberKey } from "./modules/legislature";
@@ -173,7 +173,11 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
       let named: ReturnType<typeof appointmentsIn>[number] | undefined;
       let picked = "";
       for (const reasons of ranked.slice(1, 6)) {
-        nameHeadPick(core, actorId!, head.post, reasons.candidateId);
+        // A yes to the official's ask writes their pick for the act (the ask
+        // and its scene: src/director/post-ask-scene.test.ts).
+        prepareAct(api, actorId!, "name-department-head", {
+          nominee: { post: head.post, personId: reasons.candidateId },
+        });
         handler(api, actorId!, offer);
         const row = appointmentsIn(api, town).find((r) => r.post === head.post);
         if (row && row.holderId !== head.holderId) {

@@ -7,12 +7,16 @@ import { lawChain } from "../core2/modules/laws";
 import { memberKey } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
-import { nameHeadPick, officeView, ordersDecide, ordersView } from "./office";
+import { askHead, officeView, ordersDecide, ordersView } from "./office";
+import { postStanding } from "../core2/modules/serve-asks";
+import type { PersonId } from "../core2/types";
+import { playServeAsk } from "../../tests/support/serve-ask-play";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 
-// A governor the player plays names the person for an open cabinet post from the candidates the
-// office panel shows; the state chamber's confirmation is on the appointment. A post opens when its
+// A governor the player plays asks someone for an open cabinet post from the candidates the
+// office panel shows, and a yes in the sit-down seats them (brief J); the state chamber's
+// confirmation is on the appointment. A post opens when its
 // holder dies (the one hand-set fact here; the rest is the engine's). A place drawn from all 56 on a
 // seed nobody chose.
 const seed =
@@ -63,8 +67,24 @@ describe(`the governor names a cabinet post (seed ${seed})`, () => {
         (h) => h.post === held.post,
       );
       expect(head?.candidates.length, where).toBeGreaterThan(0);
-      const nominee = head!.candidates[0]!;
-      nameHeadPick(core, governor.personId, held.post, nominee.id);
+      // The first of them whose own record says yes.
+      const nominee = head!.candidates.find(
+        (c) => (postStanding(api, id, c.id)?.lean ?? 0) > 0,
+      );
+      if (!nominee) {
+        tried.push(`${where}: nobody offered for ${held.post} would say yes`);
+        continue;
+      }
+      const asked = askHead(core, governor.personId, held.post, nominee.id);
+      const played = playServeAsk(
+        core,
+        world.director,
+        governor.personId as PersonId,
+        asked.eventId,
+      );
+      expect(played.reply.facts?.ending, played.lines.join("\n")).toBe(
+        "serving",
+      );
       const seated = appointmentsIn(api, state).find(
         (row) => row.post === held.post,
       );
@@ -123,8 +143,28 @@ describe(`the governor names a cabinet post (seed ${seed})`, () => {
         );
         if (offer && offer.kind === "post") {
           expect(offer.candidates.length, where).toBeGreaterThan(0);
-          const nominee = offer.candidates[0]!;
-          ordersDecide(core, offer.entryId, "issue", nominee.id);
+          // Naming someone at the desk asks them; the first whose own record says yes.
+          const nominee = offer.candidates.find(
+            (c) =>
+              (postStanding(api, memberKey(governor), c.id)?.lean ?? 0) > 0,
+          );
+          if (!nominee) {
+            tried.push(
+              `${where}: nobody offered for ${held.post} would say yes`,
+            );
+            break;
+          }
+          const asked = ordersDecide(core, offer.entryId, "issue", nominee.id);
+          expect(asked, where).toBeTruthy();
+          const played = playServeAsk(
+            core,
+            world.director,
+            governor.personId as PersonId,
+            asked!.eventId,
+          );
+          expect(played.reply.facts?.ending, played.lines.join("\n")).toBe(
+            "serving",
+          );
           const seated = appointmentsIn(api, state).find(
             (row) => row.post === held.post,
           );

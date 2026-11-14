@@ -163657,7 +163657,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["stranger"]
+          "requiresFacts": ["stranger"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "calm",
@@ -163682,7 +163683,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["stranger"]
+          "requiresFacts": ["stranger"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "braced",
@@ -163707,7 +163709,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["acquainted"]
+          "requiresFacts": ["acquainted"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "warm",
@@ -163732,7 +163735,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["acquainted"]
+          "requiresFacts": ["acquainted"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "firm",
@@ -163757,7 +163761,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["kin"]
+          "requiresFacts": ["kin"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "tender",
@@ -163781,7 +163786,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "hopeful",
@@ -163806,7 +163812,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["standing-real"]
+          "requiresFacts": ["standing-real"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "proud",
@@ -163830,7 +163837,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "guarded",
@@ -163955,7 +163963,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "calm",
@@ -164180,7 +164189,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "guarded",
@@ -164876,7 +164886,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-step-up"]
+          "requiresFacts": ["reason-yes-step-up"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "calm",
@@ -164926,7 +164937,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "eager",
@@ -165226,7 +165238,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-stranger"]
+          "requiresFacts": ["reason-stranger"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "braced",
@@ -165482,7 +165495,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-met", "self"]
+          "requiresFacts": ["changed-met", "self"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "warm",
@@ -165532,7 +165546,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-standing", "self"]
+          "requiresFacts": ["changed-standing", "self"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "eager",
@@ -165582,7 +165597,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-agree", "self"]
+          "requiresFacts": ["changed-agree", "self"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "warm",
@@ -165707,7 +165723,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-seat", "self"]
+          "requiresFacts": ["changed-seat", "self"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "calm",
@@ -187532,7 +187549,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "deflect",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "firm",
@@ -187584,7 +187602,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "deflect",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "braced",
@@ -187738,6 +187757,306 @@
         }
       ],
       "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-self-full-we-haven-t-met-so-i-ll-be-plain-i-d-like-you-to-serve-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm {self-full}. We haven't met, so I'll be plain: I'd like you to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "stranger"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-self-full-i-ve-been-looking-for-someone-to-serve-as-office-and-your-name-keeps-coming-up",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm {self-full}. I've been looking for someone to serve as {office}, and your name keeps coming up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "stranger"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.their-first-you-know-how-i-work-i-d-like-you-to-serve-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{their-first}, you know how I work. I'd like you to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "acquainted"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ll-get-right-to-it-will-you-serve-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'll get right to it. Will you serve as {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "acquainted"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-re-family-but-that-isn-t-why-i-m-asking-i-d-want-you-as-office-either-way",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You're family, but that isn't why I'm asking. I'd want you as {office} either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "kin"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-know-it-s-a-lot-to-ask-would-you-serve-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I know it's a lot to ask. Would you serve as {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.it-pays-less-than-i-make-now-i-can-t-take-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "It pays less than I make now. I can't take that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-pays-less"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-afford-the-cut-in-pay-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't afford the cut in pay. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-pays-less"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-got-work-i-m-good-at-i-m-not-leaving-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've got work I'm good at. I'm not leaving it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-own-job"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-walk-away-from-the-job-i-have-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't walk away from the job I have now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-own-job"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.steady-work-yes-i-ll-take-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Steady work? Yes. I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-yes-pay"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.it-s-good-work-and-it-pays-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "It's good work, and it pays. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-yes-pay"]
+        }
+      ],
+      "bearing": "calm",
       "origin": "authored",
       "author": "S6 (brief J, asking someone to serve)",
       "date": "2026-11-14",

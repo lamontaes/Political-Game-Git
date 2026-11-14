@@ -1747,7 +1747,9 @@ function composeBinding(
       sourceRecordIds: [askerId],
     };
     facts.office = {
-      text: officeSaidAloud(serve.office),
+      text: officeSaidAloud(
+        serve.seat === "post" ? postTitleSaid(serve.office) : serve.office,
+      ),
       sourceRecordIds: [moment.causeId, serve.askId],
     };
     // Why a no is a no: the term that weighed most against the ask, which
@@ -1776,7 +1778,11 @@ function composeBinding(
       text: `${asked.givenName} ${asked.familyName}`,
       sourceRecordIds: [askedId],
     };
-    if (serve.raceOffice)
+    // A post the player appoints, not a place on their ticket: the lines
+    // that speak of a ticket, a race or a ballot are held to the ticket.
+    if (serve.seat === "post")
+      facts["serve-post"] = { text: "yes", sourceRecordIds: why };
+    if (serve.raceOffice && serve.seat !== "post")
       facts["race-office"] = {
         text: officeSaidAloud(serve.raceOffice),
         sourceRecordIds: why,
@@ -2099,6 +2105,7 @@ function serveStanding(
       terms: Readonly<Record<string, number>>;
       raceOffice: string;
       moved: string | null;
+      seat: string;
     }
   | undefined {
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
@@ -2124,7 +2131,24 @@ function serveStanding(
     yesReason: row.standing.yesReason,
     grounds: row.standing.grounds,
     moved: row.moved ?? null,
+    seat: row.seat,
   };
+}
+
+/**
+ * A post's title as one title a person can say: the research gives some
+ * posts two names ("Revenue / Tax Commissioner", "Agriculture
+ * Commissioner/Director"), and a person says the first, with the post's
+ * role word where the first name is only its field ("revenue commissioner").
+ * A note in parentheses is not said.
+ */
+function postTitleSaid(title: string): string {
+  const plain = title.replace(/\s*\([^)]*\)/g, "").trim();
+  const names = plain.split("/").map((name) => name.trim());
+  const first = names[P.zero]!;
+  if (names.length < P.two || /\s/.test(first)) return first;
+  const role = plain.split(/\s+/).at(-1)!;
+  return `${first} ${role}`;
 }
 
 /**
