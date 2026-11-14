@@ -6,7 +6,7 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { playOpening } from "./start-life.mjs";
-import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
+import { devModeOff, devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -44,6 +44,12 @@ const words = new Set([
   "e-mail",
   "x-ray",
 ]);
+// Real names a player reads that look like codes: a broadcast station's call
+// sign ("WKIL-TV") and a bill numbered by its year after its form's word, as
+// a clerk reads it ("Act 2025-11", src/english/bill-names.ts spokenDesignation).
+const named = (match, line) =>
+  /^[KW][A-Z]{2,3}-(?:TV|FM|AM)$/.test(match) ||
+  new RegExp(`\\b(?:Act|Ordinance|Resolution) ${match}\\b`).test(line);
 async function read(screen, selector) {
   // Each visible text node by itself, so neighboring buttons never run together.
   const text = await page.evaluate((s) => {
@@ -59,7 +65,7 @@ async function read(screen, selector) {
   for (const line of text.split("\n"))
     for (const [what, pattern] of tells) {
       const match = line.match(pattern);
-      if (match && !words.has(match[0].toLowerCase()))
+      if (match && !words.has(match[0].toLowerCase()) && !named(match[0], line))
         found.push(`${screen}: ${what} "${match[0]}" in "${line.trim()}"`);
     }
   if (shots)
@@ -75,14 +81,18 @@ async function sheet(tab) {
   await page.locator("#sheet-body").waitFor();
   await page.waitForTimeout(800);
 }
-// A place to start in (PLAIN_TEXT_PLACE_KEY, a place key as drawPlace gives
-// it), to reread a draw a merger reported; otherwise the game draws one.
+// A named repro, to reread a draw a merger reported: the place
+// (PLAIN_TEXT_PLACE_KEY, a place key as drawPlace gives it) and the game seed
+// (PLAIN_TEXT_SEED) of the first life; left unset, the game draws both.
 const placeKey = process.env.PLAIN_TEXT_PLACE_KEY;
-if (placeKey)
+const seedWanted = process.env.PLAIN_TEXT_SEED;
+if (placeKey || seedWanted)
   await page.route("**/api/newlife?*", (route) => {
     const url = new URL(route.request().url());
-    if (!url.searchParams.has("placeKey"))
+    if (placeKey && !url.searchParams.has("placeKey"))
       url.searchParams.set("placeKey", placeKey);
+    if (seedWanted && !url.searchParams.has("person"))
+      url.searchParams.set("seed", seedWanted);
     return route.continue({ url: url.toString() });
   });
 try {
@@ -127,50 +137,88 @@ try {
     await page.waitForTimeout(800);
     await read(`Politics ${name}`, "#sheet");
   }
-  // The filing counter: the first office in Travel that takes filings.
+  // A talk ends the way a player ends it: Leave where it is shown, else the
+  // scene's own way on, else its one remaining reply (the clerk's "Thank
+  // you." after an age refusal ends the visit, and Leave is then hidden).
+  const endTalk = async () => {
+    const talk = page.locator("#talk:not([hidden])");
+    for (let turn = 0; turn < 20 && (await talk.count()); turn += 1) {
+      const way = page.locator(
+        "#talk-leave:visible, #talk-next:visible, #talk-skip:visible",
+      );
+      const reply = page.locator("#talk-choices button:visible");
+      if (await way.count()) await way.first().click();
+      else if (await reply.count()) await reply.last().click();
+      await page.waitForTimeout(600);
+    }
+    assert.equal(await talk.count(), 0, "a talk the player cannot leave");
+  };
+  // The filing counter: the first office in Travel that takes filings. The
+  // clerk's races each carry their seat, election day and holder
+  // (`.reply-facts`, play.mjs renderFiling); a talk at the counter without
+  // them is another scene, which is left as a player would before the tile
+  // is opened again.
   const counter = async (who) => {
-    await sheet("travel");
-    const go = page.locator(".travel-tile[data-filing]");
-    await go.first().waitFor();
-    let opened = false;
-    for (let i = 0; i < (await go.count()) && !opened; i++) {
-      await go.nth(i).click();
-      const placeGo = page.locator('[data-testid="place-go"]');
-      // The place card draws after its tile is chosen (it loads what the place offers first).
-      if (
-        await placeGo.waitFor({ timeout: 5000 }).then(
-          () => true,
-          () => false,
+    const race = page.locator("#talk-choices button:has(.reply-facts)");
+    for (let visit = 0; visit < 4; visit += 1) {
+      await sheet("travel");
+      const go = page.locator(".travel-tile[data-filing]");
+      await go.first().waitFor();
+      let opened = false;
+      for (let i = 0; i < (await go.count()) && !opened; i++) {
+        await go.nth(i).click();
+        const placeGo = page.locator('[data-testid="place-go"]');
+        // The place card draws after its tile is chosen (it loads what the place offers first).
+        if (
+          await placeGo.waitFor({ timeout: 5000 }).then(
+            () => true,
+            () => false,
+          )
         )
-      )
-        await placeGo.click();
-      opened = await page
-        .locator("#talk:not([hidden])")
-        .waitFor({ timeout: 5000 })
-        .then(() => true)
-        .catch(() => false);
+          await placeGo.click();
+        opened = await page
+          .locator("#talk:not([hidden])")
+          .waitFor({ timeout: 5000 })
+          .then(() => true)
+          .catch(() => false);
+      }
+      assert.ok(opened, "no place in Travel takes filings");
+      await read(`Talk box (${who})`, "#talk");
+      // The clerk's scene leads in before the race choices: Continue until they are offered.
+      const choice = page.locator("#talk-choices button").first();
+      const next = page.locator("#talk-next:visible");
+      for (let turn = 0; turn < 12 && !(await choice.count()); turn += 1) {
+        await choice.or(next).first().waitFor();
+        if (await choice.count()) break;
+        await next.click();
+        await read(`Talk box, lead-in (${who})`, "#talk");
+      }
+      if (await race.count()) {
+        // The visit the pick answers with: its choices name what each does.
+        const picked = page.waitForResponse(
+          (r) => new URL(r.url()).pathname === "/api/filing/choose",
+        );
+        await race.first().click();
+        const visit = await (await picked).json();
+        await page.waitForTimeout(600);
+        await read(`Talk box, race picked (${who})`, "#talk");
+        return visit;
+      }
+      console.log(
+        `At the counter (${who}): another scene, left before the clerk: ${(await page.locator("#talk-choices").innerText()).replace(/\s+/g, " ")}`,
+      );
+      await endTalk();
     }
-    assert.ok(opened, "no place in Travel takes filings");
-    await read(`Talk box (${who})`, "#talk");
-    // The clerk's scene leads in before the race choices: Continue until they are offered.
-    const choice = page.locator("#talk-choices button").first();
-    const next = page.locator("#talk-next:visible");
-    for (let turn = 0; turn < 12 && !(await choice.count()); turn += 1) {
-      await choice.or(next).first().waitFor();
-      if (await choice.count()) break;
-      await next.click();
-      await read(`Talk box, lead-in (${who})`, "#talk");
-    }
-    await choice.click();
-    await page.waitForTimeout(600);
-    await read(`Talk box, race picked (${who})`, "#talk");
+    assert.fail(`the clerk offered no race in four visits (${who})`);
   };
   // A seat the player may file for has its window open: the world runs until one does (dev mode, on the Calendar).
   await devModeOn(page);
   const opened = await devRunUntilMayFile(page);
   assert.equal(opened.reason, "event", "no seat opened its filing window");
+  // The player's screens are read as a player sees them: dev mode off.
+  await devModeOff(page);
   await counter("seventeen");
-  await page.locator("#talk-leave").click();
+  await endTalk();
   // A grown resident of the same world files, so the clerk's reply and
   // Campaigns are read too.
   const person = JSON.stringify({
@@ -194,10 +242,18 @@ try {
   console.log("Place:", await page.locator("#card-place").innerText());
   await devModeOn(page);
   await devRunUntilMayFile(page);
-  await counter("grown");
+  await devModeOff(page);
+  const visit = await counter("grown");
+  // The choice that files, read from the visit's record (its words are the
+  // bank's, which change): the button that carries its text.
+  const file = (visit?.visit?.choices ?? []).find(
+    (choice) => choice.action?.kind === "file",
+  );
   const choices = page.locator("#talk-choices button");
   const labels = await choices.allInnerTexts();
-  const fileAt = labels.findIndex((l) => /^File\b/i.test(l.trim()));
+  const fileAt = file
+    ? labels.findIndex((l) => l.trim().startsWith(file.text.trim()))
+    : -1;
   assert.ok(fileAt >= 0, `no File choice: ${labels.join(" | ")}`);
   const filed = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/filing/choose",
@@ -206,7 +262,7 @@ try {
   await filed;
   await page.waitForTimeout(800);
   await read("After filing", "#talk");
-  await page.locator("#talk-leave").click();
+  await endTalk();
   await sheet("politics");
   await page
     .locator("#sheet-tabs")
@@ -221,13 +277,15 @@ try {
       (r) => new URL(r.url()).pathname === "/api/advance",
       { timeout: 600000 },
     );
+    // Kept from masking a failure above it when the browser closes.
+    moved.catch(() => {});
     await page.locator("#week").click();
     await moved;
     await page.waitForTimeout(1000);
     // Anything that stops the week is answered as a player would.
     for (let stop = 0; stop < 20; stop++) {
-      if (await page.locator("#talk-leave").isVisible())
-        await page.locator("#talk-leave").click();
+      // A scene the week brought (a visitor at the house, say) is played out.
+      if (await page.locator("#talk:not([hidden])").count()) await endTalk();
       if (!(await page.locator("#continue").isVisible())) break;
       const resumed = page.waitForResponse(
         (r) => new URL(r.url()).pathname === "/api/resume",

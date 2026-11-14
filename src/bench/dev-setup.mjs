@@ -15,6 +15,13 @@ export async function devModeOn(page) {
   await page.locator("#sheet-close").click();
 }
 
+/** Dev mode off again, from Options: a check that reads the player's screens reads them without the dev controls. */
+export async function devModeOff(page) {
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "Off", exact: true }).last().click();
+  await page.locator("#sheet-close").click();
+}
+
 /** The Calendar, where the dev panels sit. */
 async function calendar(page) {
   await page
