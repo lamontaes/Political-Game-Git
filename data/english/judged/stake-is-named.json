@@ -2,7 +2,140 @@
   "schema": "english-judged/2",
   "rule": "stake-is-named",
   "rubric": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-  "judged": 92,
-  "no": {},
-  "yesHash": "24hswbkygpf"
+  "judged": 133,
+  "no": {
+    "05b5ifghb3m": {
+      "keys": [
+        "scene-talk.follow-plea.please-don-t-spin-me-i-want-the-real-answer"
+      ],
+      "why": "No stake named."
+    },
+    "06gd5uq84fx": {
+      "keys": ["scene-talk.follow-bargain.depends-on-the-favor"],
+      "why": "No favor or trade named."
+    },
+    "06kilvhrt34": {
+      "keys": [
+        "scene-talk.reply-bargain.show-me-what-you-can-live-with-and-we-ll-talk"
+      ],
+      "why": "Names no trade or stake."
+    },
+    "0ce1nid3jgt": {
+      "keys": ["scene-talk.follow-plea.then-who-do-i-ask"],
+      "why": "No stake named."
+    },
+    "0cey8xjgg2y": {
+      "keys": ["scene-talk.follow-plea.talk-to-me"],
+      "why": "No stake named."
+    },
+    "0ck8q5ba0b6": {
+      "keys": ["scene-talk.follow-plea.give-me-something-i-can-believe"],
+      "why": "No stake named."
+    },
+    "0ggu3a9268f": {
+      "keys": ["scene-talk.follow-plea.say-it-plainly-i-can-take-it"],
+      "why": "No stake named."
+    },
+    "0lr13cybn65": {
+      "keys": ["scene-talk.follow-plea.i-m-asking-i-don-t-ask-much"],
+      "why": "No stake named."
+    },
+    "0m7utua49kv": {
+      "keys": [
+        "scene-talk.follow-plea.at-least-tell-me-what-would-change-your-mind"
+      ],
+      "why": "No stake or trade named."
+    },
+    "0mtptnsp8f3": {
+      "keys": [
+        "scene-talk.follow-bargain.i-can-give-you-that-if-you-give-me-this"
+      ],
+      "why": "No specific trade named; \"that/this\" is empty."
+    },
+    "0nxpq6qlh4h": {
+      "keys": ["scene-talk.follow-bargain.what-would-that-take"],
+      "why": "No trade named."
+    },
+    "0p2tb7nee32": {
+      "keys": ["scene-talk.follow-plea.then-tell-me-what-s-true"],
+      "why": "No stake named."
+    },
+    "0sak9sktxr0": {
+      "keys": [
+        "scene-talk.follow-plea.i-thought-we-were-headed-there-tell-me-what-i-got-wrong-and-i-ll-liste"
+      ],
+      "why": "No stake named."
+    },
+    "0trujsw8gus": {
+      "keys": ["scene-talk.follow-plea.just-tell-me-the-truth"],
+      "why": "No stake named."
+    },
+    "0x5l1e9ngyq": {
+      "keys": ["scene-talk.follow-plea.sleep-on-it-at-least-call-me"],
+      "why": "No stake named."
+    },
+    "0xn0fjf449m": {
+      "keys": ["scene-talk.follow-plea.just-think-about-it-for-me"],
+      "why": "No stake named."
+    },
+    "0yfh7nuil1h": {
+      "keys": ["scene-talk.follow-bargain.i-ll-see-what-i-can-change"],
+      "why": "No trade named."
+    },
+    "0yranbu2vgr": {
+      "keys": ["scene-talk.follow-plea.then-tell-me-who-s-right"],
+      "why": "No stake named."
+    },
+    "136n0lu08n4": {
+      "keys": ["scene-talk.follow-plea.nobody-reads-those-you-know-that"],
+      "why": "No stake or effect named."
+    },
+    "185g2q901iu": {
+      "keys": ["scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you"],
+      "why": "No stake named."
+    },
+    "1jra634qvdc": {
+      "keys": [
+        "scene-talk.reply-offer.come-in-we-ll-figure-out-the-rest-together-as-it-comes"
+      ],
+      "why": "Offers only a vague \"figure it out together\" with no thing, favor or consequence named."
+    },
+    "1uxosvsxbec": {
+      "keys": [
+        "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me"
+      ],
+      "why": "No stake named."
+    },
+    "1z7k0omhey5": {
+      "keys": ["scene-talk.follow-plea.then-why-have-a-town-hall"],
+      "why": "Complaint with no concrete effect named."
+    },
+    "1zkwt83thtq": {
+      "keys": [
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends"
+      ],
+      "why": "No stake named."
+    },
+    "1zu017wgv9v": {
+      "keys": ["scene-talk.follow-plea.who-else-would-you-trust-with-it"],
+      "why": "No stake named."
+    },
+    "20mhfqvg91b": {
+      "keys": [
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out"
+      ],
+      "why": "No stake named."
+    },
+    "21uuz9e21gw": {
+      "keys": ["scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything"],
+      "why": "Offers nothing and names no trade."
+    },
+    "24r51ycle2u": {
+      "keys": [
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first"
+      ],
+      "why": "No stake named."
+    }
+  },
+  "yesHash": "0uzuj9kjqgg"
 }

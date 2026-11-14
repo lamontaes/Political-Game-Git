@@ -7522,3 +7522,6 @@ export function voteAmendment(api: CoreAPI, amendmentId: string): AmendmentRow {
 export type { PersonState };
 export { OFFICES_MODULE_ID };
 export { LEADERSHIP_MODULE_ID } from "./leadership";
+/** Who presides over a chamber and the form a body's measures take, read through this family's entry. */
+export { presidingOfficer } from "./leadership";
+export { formKindOf } from "../legislature-bill-form";
