@@ -3849,6 +3849,40 @@ export function platformAnswers(
 }
 
 /**
+ * What a candidate holds on each question, on the record, when a sitting
+ * puts it: the stand their filed platform states; where it states none, their
+ * own view, their votes and their party's position (`candidateStance`, the
+ * read the platform itself is built from and a simulated candidate answers
+ * from). None only where they have no view, no vote and no party. Nothing is
+ * made up: the sitting offers the candidate this stand, and the candidate
+ * chooses whether to give it.
+ */
+export function standsOnRecord(
+  api: CoreAPI,
+  filingId: string | null,
+  questions: readonly string[],
+): readonly InterviewAnswer[] {
+  const filing = filingId
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filingId) as unknown as FilingRow | undefined)
+    : undefined;
+  return platformAnswers(api, filingId, questions).map((answer) => {
+    if (answer.position !== null || !filing) return answer;
+    const stance = candidateStance(
+      api,
+      filing.personId,
+      filing.party ?? null,
+      answer.question,
+    );
+    return stance === null
+      ? answer
+      : { ...answer, position: Math.round(stance * 1000) / 1000 };
+  });
+}
+
+/**
  * The answer to an outlet's invitation, said in its scene: a yes puts the
  * sitting on the record (`interview-accepted`, one for each outlet that
  * asked) and the interview waits for the candidate to sit for it, answering

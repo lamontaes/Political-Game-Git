@@ -28,6 +28,7 @@ import { ballot } from "../core2/modules/elections";
 import {
   lastVoteOn,
   platformAnswers,
+  standsOnRecord,
   type InterviewAnswer,
   type InterviewMove,
 } from "../core2/modules/press";
@@ -193,13 +194,13 @@ export function sittingFor(
   return null;
 }
 
-/** A filing's stated stand on a question: nonzero, or null where its platform says nothing. */
+/** A filing's stand on a question: nonzero, or null where neither its platform nor the candidate's own record (views, votes, party) holds one. */
 function standOf(
   core: Readonly<CoreState>,
   filingId: string | null,
   question: string,
 ): number | null {
-  const stated = platformAnswers(coreAPI(core as CoreState), filingId, [
+  const stated = standsOnRecord(coreAPI(core as CoreState), filingId, [
     question,
   ])[zero]?.position;
   return stated === null || stated === undefined || stated === zero
@@ -250,8 +251,9 @@ function askingFor(
   };
   const to = questionTo(question);
   if (to) facts.to = { text: to, sourceRecordIds: cited };
-  // Their stand is the platform they filed; where it says nothing they have
-  // none to state, and the sitting never states one for them.
+  // Their stand is the platform they filed, else what their own views, votes
+  // and party hold; with none of those they have none to state, and the
+  // sitting never states one for them.
   const stand = standOf(core, row.filingId, question);
   const filed = row.filingId ?? row.id;
   // The vote of theirs on this question that a further fact stands on, or a
