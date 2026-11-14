@@ -472,6 +472,7 @@ export function composedConversationBank(
               }
             : {}),
           ...(use.closesTalk ? { closesTalk: true } : {}),
+          ...(use.speakerKnows ? { speakerKnows: true } : {}),
           ...(use.setsFacts?.length ? { setsFacts: use.setsFacts } : {}),
           ...(piece.bearing ? { bearing: piece.bearing } : {}),
         });

@@ -43254,7 +43254,8 @@
             "outlook-plain",
             "outlook-not-sure",
             "outlook-not-unsure"
-          ]
+          ],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43283,7 +43284,8 @@
             "outlook-plain",
             "outlook-not-sure",
             "outlook-not-unsure"
-          ]
+          ],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43311,7 +43313,8 @@
             "outlook-plain",
             "outlook-not-sure",
             "outlook-not-unsure"
-          ]
+          ],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43470,7 +43473,8 @@
             "outlook-plain",
             "outlook-not-sure",
             "outlook-not-unsure"
-          ]
+          ],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43498,7 +43502,8 @@
             "outlook-plain",
             "outlook-not-sure",
             "outlook-not-unsure"
-          ]
+          ],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43522,7 +43527,8 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["closure"],
-          "setsFacts": ["outlook-unsure", "outlook-not-sure"]
+          "setsFacts": ["outlook-unsure", "outlook-not-sure"],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43546,7 +43552,8 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["closure"],
-          "setsFacts": ["outlook-sure", "outlook-not-unsure"]
+          "setsFacts": ["outlook-sure", "outlook-not-unsure"],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43570,7 +43577,8 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["closure"],
-          "setsFacts": ["outlook-unsure", "outlook-not-sure"]
+          "setsFacts": ["outlook-unsure", "outlook-not-sure"],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43598,7 +43606,8 @@
             "outlook-plain",
             "outlook-not-sure",
             "outlook-not-unsure"
-          ]
+          ],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43626,7 +43635,8 @@
             "outlook-plain",
             "outlook-not-sure",
             "outlook-not-unsure"
-          ]
+          ],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43650,7 +43660,8 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["layoff"],
-          "setsFacts": ["outlook-unsure", "outlook-not-sure"]
+          "setsFacts": ["outlook-unsure", "outlook-not-sure"],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43674,7 +43685,8 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["layoff"],
-          "setsFacts": ["outlook-sure", "outlook-not-unsure"]
+          "setsFacts": ["outlook-sure", "outlook-not-unsure"],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -43698,7 +43710,8 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["layoff"],
-          "setsFacts": ["outlook-unsure", "outlook-not-sure"]
+          "setsFacts": ["outlook-unsure", "outlook-not-sure"],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -44534,7 +44547,8 @@
           "subject": "job-lost-say",
           "role": "reason",
           "requiresFacts": ["town-bad", "outlook-not-sure"],
-          "setsFacts": ["outlook-bleak"]
+          "setsFacts": ["outlook-bleak"],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -44557,7 +44571,8 @@
           "subject": "job-lost-say",
           "role": "reason",
           "requiresFacts": ["town-bad", "outlook-not-sure"],
-          "setsFacts": ["outlook-bleak"]
+          "setsFacts": ["outlook-bleak"],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -44580,7 +44595,8 @@
           "subject": "job-lost-say",
           "role": "reason",
           "requiresFacts": ["town-middling", "outlook-plain"],
-          "setsFacts": ["outlook-sure"]
+          "setsFacts": ["outlook-sure"],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -44603,7 +44619,8 @@
           "subject": "job-lost-say",
           "role": "reason",
           "requiresFacts": ["town-good", "outlook-not-unsure"],
-          "setsFacts": ["outlook-bright"]
+          "setsFacts": ["outlook-bright"],
+          "speakerKnows": true
         }
       ],
       "piece": {
@@ -44626,7 +44643,8 @@
           "subject": "job-lost-say",
           "role": "reason",
           "requiresFacts": ["town-good", "outlook-not-unsure"],
-          "setsFacts": ["outlook-bright"]
+          "setsFacts": ["outlook-bright"],
+          "speakerKnows": true
         }
       ],
       "piece": {

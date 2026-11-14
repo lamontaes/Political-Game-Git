@@ -116,6 +116,8 @@ export type LinePartVariant = AuthoredEnglishVariant & {
   readonly device?: SpeechDevice;
   /** A core that is already a goodbye: no closer follows it. */
   readonly closesTalk?: boolean;
+  /** What this part sets is known to its speaker, so a later part may require it (an outlook the speaker has just voiced). */
+  readonly speakerKnows?: boolean;
   /** Facts the part sets for the parts after it. */
   readonly setsFacts?: readonly string[];
 };
@@ -414,18 +416,19 @@ export function composeGroundedLine(
     if (chosen.setsFacts?.length)
       packet = {
         ...packet,
-        // What a speaker's own words set, that speaker knows: a later part
-        // may be conditioned on it.
-        knowledge: packet.speaker
-          ? [
-              ...packet.knowledge,
-              ...chosen.setsFacts.map((key) => ({
-                personId: packet.speaker!.personId,
-                factKey: key,
-                sourceRecordIds: [...rendered.sourceRecordIds],
-              })),
-            ]
-          : packet.knowledge,
+        // A part marked `speakerKnows` sets what its speaker then knows, so a
+        // later part may be conditioned on it; other scenes are unchanged.
+        knowledge:
+          chosen.speakerKnows && packet.speaker
+            ? [
+                ...packet.knowledge,
+                ...chosen.setsFacts.map((key) => ({
+                  personId: packet.speaker!.personId,
+                  factKey: key,
+                  sourceRecordIds: [...rendered.sourceRecordIds],
+                })),
+              ]
+            : packet.knowledge,
         facts: {
           ...packet.facts,
           ...Object.fromEntries(
