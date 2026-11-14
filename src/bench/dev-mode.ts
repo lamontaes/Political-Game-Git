@@ -17,7 +17,12 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { isForgetDay } from "../core2/knowledge-retention";
-import { advanceCore, availableActs, type Controller } from "../core2/life";
+import {
+  advanceCore,
+  availableActs,
+  passPlayerStopsV1,
+  type Controller,
+} from "../core2/life";
 import { STOPGAPS } from "../core2/stopgaps";
 import {
   considerBribe,
@@ -96,11 +101,6 @@ import {
   healthReport,
 } from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
-import {
-  acknowledgeModuleStopsV1,
-  comparePlayerMomentsV1,
-  earliestModuleStopsV1,
-} from "../core2/player-stops-v1";
 import type { CoreAPI, CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
 import { buildBenchWorld, buildRecipeOf } from "./world";
@@ -1758,38 +1758,7 @@ export class DevMode {
    * Only dev mode's own runs call it; the play screens' clock (`BenchPlayer.advance`) never does.
    */
   private passPlayerStops(personId: string | undefined, target: string) {
-    const passed: { moduleId: string; recordId: string; at: string }[] = [];
-    const held: { moduleId: string; recordId: string; at: string }[] = [];
-    if (!personId || !this.core.people.get(personId)?.alive)
-      return { passed, held };
-    const through = {
-      date: addDays(makeIsoDate(target), -1),
-      minuteOfDay: 1439,
-    };
-    let from = { date: this.core.date as string, minuteOfDay: 0 };
-    while (comparePlayerMomentsV1(from, through) <= 0) {
-      const stops = earliestModuleStopsV1(this.core, {
-        controlledPersonId: personId,
-        from,
-        through,
-      });
-      const first = stops[0];
-      if (!first) break;
-      acknowledgeModuleStopsV1(this.core, stops);
-      for (const stop of stops) {
-        const row = {
-          moduleId: stop.moduleId,
-          recordId: stop.recordId,
-          at: `${stop.at.date} ${stop.at.minuteOfDay}`,
-        };
-        (stop.hold ? held : passed).push(row);
-      }
-      from =
-        first.at.minuteOfDay >= 1439
-          ? { date: addDays(makeIsoDate(first.at.date), 1), minuteOfDay: 0 }
-          : { date: first.at.date, minuteOfDay: first.at.minuteOfDay + 1 };
-    }
-    return { passed, held };
+    return passPlayerStopsV1(this.core, personId, target);
   }
 
   /** Run the world to a date on its own clock; dev-mode picks apply at each person's next decision. */
