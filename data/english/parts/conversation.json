@@ -13600,10 +13600,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.charge-say-core.they-re-charging-me-with-offense-i-ll-see-them-in-court-trial",
+      "key": "conversation.charge-say-core.they-re-charging-me-with-offense-court-is-trial",
       "move": "charge-say-core",
       "kind": "spoken",
-      "text": "They're charging me with {offense}. I'll see them in court {trial}.",
+      "text": "They're charging me with {offense}. Court is {trial}.",
       "uses": [
         {
           "move": "charge-say-core",
@@ -42921,10 +42921,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.conviction-say-core.i-was-convicted-of-offense-i-got-probation-of-probation-and-a-fine",
+      "key": "conversation.conviction-say-core.convicted-of-offense-probation-of-probation-and-a-fine",
       "move": "conviction-say-core",
       "kind": "spoken",
-      "text": "I was convicted of {offense}. I got {probation} of probation, and a fine.",
+      "text": "Convicted of {offense}. {probation} of probation, and a fine.",
       "uses": [
         {
           "move": "conviction-say-core",
