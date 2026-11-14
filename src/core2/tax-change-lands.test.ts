@@ -46,6 +46,14 @@ for (const [label, key, seed] of CASES)
             twoLevel: true,
           });
           const api = coreAPI(world.core);
+          // A paycheck's "why" is kept only for the player's circle and people
+          // in focus (keepsWhy), so a felt change is read on a few workers in
+          // focus; where none of the player's circle is paid in town (Prairie
+          // Village, Kansas, seed 8aadc4ea...), no one's record would be kept.
+          for (const job of [...world.core.jobs.values()]
+            .sort((a, b) => a.id.localeCompare(b.id))
+            .slice(0, 20))
+            world.core.focusPersonIds.add(job.personId);
           const chain = lawChain(api);
           const city = chain.levels.find((l) => l.level === "city")!;
           const state = chain.levels.find((l) => l.level === "state")!;
