@@ -20,7 +20,7 @@ lead: wire-elections
 
 **Cause.** Needs cause. The test loops a drawn place's contests for a local one and asserts at least one; at this seed the list is empty. Whether the district really has no local race open at that date (the council seats are not up), or the contest builder skipped it, is not yet found.
 
-**Fix.** The test draws its seed at run time (`GOLDEN_PATH_SEED` or a random one), so it needs pinning to named places and fixed seeds with an explicit timeout (skill `pinned-tests`), Washington, D.C. at the seed above among them, once the cause is found. No assertion is loosened.
+**Fix.** None until the cause is found.
 
 **Time box.** 1 hour to find the cause.
 
@@ -33,3 +33,5 @@ lead: wire-elections
 **Files.** src/bench/local-filing-officer.test.ts
 
 **Notes.** Reproduce: `GOLDEN_PATH_SEED=bb83b91bbe339e955bb33a98b185a62cf4cc1e925ed060d19c4437b98b15e1d4 npx vitest run --dir . src/bench/local-filing-officer.test.ts`.
+
+The test draws its seed at run time (`GOLDEN_PATH_SEED` or a random one), so once the cause is found it needs pinning to named places and fixed seeds with an explicit timeout (skill `pinned-tests`), Washington, D.C. at the seed above among them. No assertion is loosened.
