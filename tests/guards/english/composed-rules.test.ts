@@ -281,6 +281,38 @@ const FIXTURES: Record<
       text("speech:mayor", [
         ["Housing first. Rents rose. Homes are scarce. More are coming."],
       ]),
+      // A comparative is not a subject: "higher" in three questions' names.
+      text("speech:president", [
+        [
+          "A higher tax rate is wrong. A higher debt limit needs cuts. A higher wage costs jobs. Higher still is no answer.",
+        ],
+      ]),
+    ),
+  },
+  "point-made-once": {
+    // The lead, Nov 12: the today wording and the belief restate each other.
+    catches: sampleOf(
+      text("speech:mayor", [
+        [
+          "A complaint goes up the chain of command, to people who know the work. Because I believe an officer should be judged by people who have done the job, I'm against civilian oversight of the police.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("speech:mayor", [
+        [
+          "The department reviews complaints against its own officers. Because I believe an officer should be judged by people who have done the job, I'm against civilian oversight of the police.",
+        ],
+      ]),
+      // One wording in each of two paragraphs is one point in each.
+      text("speech:mayor", [
+        [
+          "A complaint goes up the chain of command, to people who know the work.",
+        ],
+        [
+          "I believe an officer should be judged by people who have done the job.",
+        ],
+      ]),
     ),
   },
   "note-stands-alone": {
@@ -395,12 +427,32 @@ describe("composed rules: each check on its fixtures", () => {
     expect(lost.length).toBe(2);
     for (const line of lost) expect(line.startsWith("COVERAGE: ")).toBe(true);
     expect(baselineFailures(committed, {})[0]).toContain("COVERAGE: ");
+    // Fewer texts and fewer breaks: the rate rose only through the
+    // denominator, which is no rise.
     expect(
       baselineFailures(committed, {
         ...committed,
         "no-non-replies": { read: 40, breaks: 16, per100: 40 },
       }),
-    ).toEqual(["ROSE: no-non-replies 37.8 -> 40 breaks per 100 texts"]);
+    ).toEqual([]);
+    // Fewer texts and more breaks: a rise, whatever the count of texts.
+    expect(
+      baselineFailures(committed, {
+        ...committed,
+        "no-non-replies": { read: 40, breaks: 18, per100: 45 },
+      }),
+    ).toEqual([
+      "ROSE: no-non-replies 37.8 -> 45 breaks per 100 texts (17 -> 18 breaks in 45 -> 40 texts)",
+    ]);
+    // As many texts or more: the rate decides.
+    expect(
+      baselineFailures(committed, {
+        ...committed,
+        "no-non-replies": { read: 50, breaks: 20, per100: 40 },
+      }),
+    ).toEqual([
+      "ROSE: no-non-replies 37.8 -> 40 breaks per 100 texts (17 -> 20 breaks in 45 -> 50 texts)",
+    ]);
     expect(
       baselineFailures(committed, {
         "no-non-replies": { read: 31, breaks: 0, per100: 0 },

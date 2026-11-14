@@ -66,6 +66,8 @@ import {
   type SeatInput,
   type VacancyRule,
 } from "../offices-state";
+// The record shapes, for engines that read offices through this entry (families guard).
+export type { OfficeInput, SeatInput };
 import stateOfficesResearch from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import { worldSeatParty } from "./elections";
 // A screen reads which district a town votes in through this entry.
@@ -1993,6 +1995,7 @@ function officesCalendarWork(
 // Re-exported so other engine families import through this entry, not the file (families guard).
 export { CASES_MODULE_ID, casesOpenFor, handleCase } from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
+/** A government's title as people say it, read through the executive family's entry. */
 export { partySide } from "../appointments";
 export { nextMeeting } from "../office-day-calendar";
 
@@ -2004,6 +2007,7 @@ const ticketPlaces = (
           executives?: {
             key: string;
             electedWithGovernorOnTicket?: boolean;
+            ticketJoins?: { stage: GovernorTicketStage };
           }[];
         }
       | undefined
@@ -2024,5 +2028,26 @@ export function electedWithGovernorOnTicket(
   return (
     ticketPlaces[stateKey]?.executives?.find((e) => e.key === kind)
       ?.electedWithGovernorOnTicket === true
+  );
+}
+
+/**
+ * When a ticket office joins its governor's ticket, by the state's law: the
+ * governor candidate files with a running mate ("at-filing"), the governor
+ * nominee names one after the primary ("after-primary"), or the office wins
+ * a primary of its own and runs on the ticket in the general election
+ * ("separate-primary"). Null for an office the law elects on its own.
+ */
+export type GovernorTicketStage =
+  "at-filing" | "after-primary" | "separate-primary";
+
+export function governorTicketStage(
+  stateKey: string,
+  kind: string,
+): GovernorTicketStage | null {
+  if (!electedWithGovernorOnTicket(stateKey, kind)) return null;
+  return (
+    ticketPlaces[stateKey]?.executives?.find((e) => e.key === kind)?.ticketJoins
+      ?.stage ?? "at-filing"
   );
 }

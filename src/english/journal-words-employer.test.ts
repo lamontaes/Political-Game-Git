@@ -67,6 +67,22 @@ describe("the article and the body", () => {
   it("chooses a or an by the first sound (lead, Nov 11: 'an union representative')", () => {
     expect(withArticle("Union representative")).toBe("a union representative");
     expect(withArticle("Electrician")).toBe("an electrician");
+    // A title with its own article, a plural and an acronym.
+    expect(withArticle("The Treasurer")).toBe("the treasurer");
+    expect(withArticle("Election workers")).toBe("election workers");
+    expect(withArticle("RN")).toBe("an RN");
+    // A county's treasury is the county, by its own name; a body named "of" a
+    // county keeps its "the".
+    expect(
+      employerSaid("McDowell County treasury", { kind: "government-treasury" }),
+    ).toBe("McDowell County");
+    expect(
+      employerSaid("City of Woonsocket treasury", {
+        kind: "government-treasury",
+      }),
+    ).toBe("the City of Woonsocket");
+    expect(withArticle("CPA")).toBe("a CPA");
+    expect(withArticle("Boss")).toBe("a boss");
     expect(articleFor("hour")).toBe("an");
     expect(articleFor("honor")).toBe("an");
     expect(articleFor("university")).toBe("a");

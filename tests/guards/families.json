@@ -381,6 +381,7 @@
         "src/core2/home-distance.ts",
         "src/core2/sibling-names.ts",
         "src/core2/modules/partnerships.ts",
+        "src/core2/modules/owed-talks.ts",
         "src/core2/modules/kin-contact.ts",
         "src/core2/modules/mentorship.ts",
         "src/core2/modules/rescue.ts",
@@ -442,7 +443,7 @@
         "src/core2/world-settings.ts",
         "src/core2/player-*.ts",
         "src/core2/opening-*.ts",
-        "src/core2/fast-forward.ts",
+        "src/core2/place-race-origin.generated.ts",
         "src/core2/modules/national-events.ts",
         "src/core2/national-disaster-event.ts",
         "src/core2/modules/climate.ts"
