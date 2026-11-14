@@ -34,6 +34,8 @@ interface Plant {
   readonly said: readonly string[];
   /** For a rule that reads later replies: the replies offered first. */
   readonly first?: readonly string[];
+  /** For a rule about a slot's variants: `said` are the variants, `before` names the slot. */
+  readonly slot?: true;
 }
 
 /** Plants by rule, in our own words: two that pass and one that fails per batch. */
@@ -153,6 +155,38 @@ export const PLANTS: Readonly<Record<string, readonly Plant[]>> = {
       said: ["You can. I'll put my name on it today."],
     },
   ],
+  "variants-differ-in-what-they-say": [
+    {
+      passes: true,
+      slot: true,
+      before: "a neighbor greets the player at the door",
+      said: [
+        "You're the one running for council? My husband said you'd come by. (needs: the partner heard of the player)",
+        "Saw your sign on Elm Street. Come in out of the cold. (needs: a yard sign nearby; winter)",
+        "Oh, you. You towed my truck last spring. (needs: a past quarrel with the player)",
+      ],
+    },
+    {
+      passes: true,
+      slot: true,
+      before: "the clerk hands back a filing",
+      said: [
+        "You're missing forty signatures. Come back before Friday.",
+        "All set. You'll be on the ballot in November.",
+        "The fee went up in July. It's fifty dollars more now.",
+      ],
+    },
+    {
+      passes: false,
+      slot: true,
+      before: "a neighbor greets the player at the door",
+      said: [
+        "Hello there. Nice to see you.",
+        "Hi. Good to see you.",
+        "Well, hello. Nice to see you here.",
+      ],
+    },
+  ],
   "later-replies-move-the-talk-on": [
     {
       passes: true,
@@ -218,6 +252,8 @@ export const PLANTS: Readonly<Record<string, readonly Plant[]>> = {
  * rule; words-engine skill).
  */
 export const NOT_JUDGED: Readonly<Record<string, string>> = {
+  "variants-differ-in-what-they-say":
+    'Each entry is one slot: the lines the game can pick from for the same spot in a scene, with the facts each one needs from the world ("needs") or rules out ("not"). Pass if the variants say different things, or are tied to different facts, so the same spot plays differently in different worlds. Fail if most of them say the same thing in other words with nothing in the world to choose between them. How well each line is written, and whether it fits the scene, is not judged here.',
   "player-never-says-unchosen":
     "In every entry B is said by the player, after A, as the game's own line rather than a reply the player picked from a list. Pass if B is something anyone would say there whatever they had decided (thanks, a greeting, a goodbye, a plain acknowledgment); fail if B commits the player to a choice, a stance, a promise or a feeling they did not pick. Whether B is well written or fits A is not judged here.",
   "reply-follows-the-line-before":
@@ -258,6 +294,7 @@ export function entriesOf(sheet: {
     lines: { role: string; words: string }[];
     first?: { words: string }[];
     options?: { words: string }[];
+    variants?: { words: string; needs: string[]; not: string[] }[];
   }[];
 }): Entry[] {
   const who = (role: string) =>
@@ -288,8 +325,8 @@ export function entriesOf(sheet: {
     entries.push({
       id: path.id,
       text: [
-        `Scene: ${path.scene}`,
-        "Before:",
+        path.variants ? `Slot: ${path.scene}` : `Scene: ${path.scene}`,
+        ...(path.lines.length ? ["Before:"] : []),
         ...path.lines.map(
           (line) => `  ${who(line.role)}: ${quote(line.words)}`,
         ),
@@ -297,6 +334,15 @@ export function entriesOf(sheet: {
           ? [
               "The replies offered first:",
               ...path.first.map((l) => `  - ${quote(l.words)}`),
+            ]
+          : []),
+        ...(path.variants
+          ? [
+              "The variants of this slot (judge these):",
+              ...path.variants.map(
+                (v) =>
+                  `  - ${quote(v.words)}${v.needs.length ? ` (needs: ${v.needs.join("; ")})` : ""}${v.not.length ? ` (not: ${v.not.join("; ")})` : ""}`,
+              ),
             ]
           : []),
         ...(path.options
@@ -311,20 +357,26 @@ export function entriesOf(sheet: {
 }
 
 const plantText = (plant: Plant) =>
-  plant.said.length === 1
-    ? `A: ${quote(plant.before)}\nB: ${quote(plant.said[0]!)}`
-    : [
-        "Before:",
-        `  the other person: ${quote(plant.before)}`,
-        ...(plant.first
-          ? [
-              "The replies offered first:",
-              ...plant.first.map((line) => `  - ${quote(line)}`),
-            ]
-          : []),
-        "The replies offered now (judge these):",
+  plant.slot
+    ? [
+        `Slot: ${plant.before}`,
+        "The variants of this slot (judge these):",
         ...plant.said.map((line) => `  - ${quote(line)}`),
-      ].join("\n");
+      ].join("\n")
+    : plant.said.length === 1
+      ? `A: ${quote(plant.before)}\nB: ${quote(plant.said[0]!)}`
+      : [
+          "Before:",
+          `  the other person: ${quote(plant.before)}`,
+          ...(plant.first
+            ? [
+                "The replies offered first:",
+                ...plant.first.map((line) => `  - ${quote(line)}`),
+              ]
+            : []),
+          "The replies offered now (judge these):",
+          ...plant.said.map((line) => `  - ${quote(line)}`),
+        ].join("\n");
 
 /** The batches for one rule's entries, with plants placed by a hash of the batch, and their key. */
 export function plantedBatches(
