@@ -28,7 +28,7 @@ after:
 
 **Rules.** One rule for all 56 places; drawn-place-tests; no dice.
 
-**Done when.** A drawn place and seed (named) shows the clerk saying a county office with its area and no town; the test's staged county row says it stands for that played row.
+**Done when.** A drawn place and seed (named) shows the clerk saying a county office with its area and no town; the test's staged county row says it stands for that played row. A second session, on main, files for a county office at the counter and sees the clerk say it with its area and no town.
 
 **Waits on.** Nothing.
 
