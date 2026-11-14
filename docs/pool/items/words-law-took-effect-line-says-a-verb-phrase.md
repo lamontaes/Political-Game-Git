@@ -18,7 +18,7 @@ effort: medium
 root: rc10-screens-keep-own-facts
 ---
 
-**What.** The law-reached-street scene now plays, and its statement reads "Allow retail electric choice took effect, and I'm the one living with it." The `{law}` slot is the bill catalog's policy name, which is an action ("allow retail electric choice", "raise minimum wage"), so every line that says `{law} took effect` reads as broken English for those names. Seen by the player in the scene's first line after a law they did not write reaches a resident, on 2025-02-03 in that place.
+**What.** The law-reached-street scene now plays, and its statement reads "Allow retail electric choice took effect, and I'm the one living with it." The `{law}` slot is the bill catalog's policy name, which is an action ("allow retail electric choice", "raise minimum wage"), so every line that says `{law} took effect` reads as broken English for those names. A player meets it in the first line of the scene. Seen: the first line of the scene when a resident meets a sitting member after a law reaches them, on 2025-02-03 in Nashville, Illinois.
 
 **Cause.** Found in code: `src/director/purpose-scene.ts` sets `facts.law` from `lawName(series)`, which returns `questionName(series) ?? storyTopicName(topic)`, and `questionName` returns the catalog row's `policy` text, written as a verb phrase (`src/english/policy-names.ts` line 55). The line `scene-talk.state-tell.law-took-effect-and-i-m-the-one-living-with-it` assumes a noun phrase ("the paid family leave law").
 
@@ -28,7 +28,7 @@ root: rc10-screens-keep-own-facts
 
 **Rules.** Words from banks through one picker; no hand-written player text; one rule, all 56 places.
 
-**Done when.** A sitting member's played month at Nashville, Illinois (seed above) shows the law-reached-street statement as a sentence a person would say, and two other drawn places name a law in the same scene, each with its place and seed.
+**Done when.** A second session, not the builder, plays a sitting member's month at Nashville, Illinois (seed above) in the running game and sees the law-reached-street statement as a sentence a person would say, then does the same in two other drawn places, each named with its seed.
 
 **Waits on.** Nothing.
 

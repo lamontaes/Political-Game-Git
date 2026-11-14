@@ -163870,10 +163870,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.then-it-s-finished-there-s-nothing-left-of-it-to-answer-for",
+      "key": "scene-talk.reply-tell.then-about-is-finished-there-s-nothing-left-of-it-to-answer-for",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Then it's finished. There's nothing left of it to answer for.",
+      "text": "Then {about} is finished. There's nothing left of it to answer for.",
       "uses": [
         {
           "subject": "scene",
@@ -163882,7 +163882,7 @@
           "step": "reply",
           "move": "tell",
           "role": "asked",
-          "requiresFacts": ["ended"]
+          "requiresFacts": ["about", "ended"]
         }
       ],
       "bearing": "calm",
@@ -163895,10 +163895,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.that-s-behind-us-now-there-s-nothing-left-to-fix",
+      "key": "scene-talk.reply-tell.about-is-behind-us-now-there-s-nothing-left-to-fix",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "That's behind us now. There's nothing left to fix.",
+      "text": "{about} is behind us now. There's nothing left to fix.",
       "uses": [
         {
           "subject": "scene",
@@ -163907,7 +163907,7 @@
           "step": "reply",
           "move": "tell",
           "role": "asked",
-          "requiresFacts": ["ended"]
+          "requiresFacts": ["about", "ended"]
         }
       ],
       "bearing": "calm",
@@ -163920,10 +163920,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-i-read-it-wrong-thanks-for-saying-so",
+      "key": "scene-talk.follow-accept.then-i-read-it-wrong-that-s-lawstate-not-us",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I read it wrong. Thanks for saying so.",
+      "text": "Then I read it wrong. That's {lawstate}, not us.",
       "uses": [
         {
           "subject": "scene",
@@ -163945,10 +163945,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.good-the-paper-made-it-sound-like-it-was-ours",
+      "key": "scene-talk.follow-accept.good-the-paper-made-lawstate-s-law-sound-like-ours",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Good. The paper made it sound like it was ours.",
+      "text": "Good. The paper made {lawstate}'s law sound like ours.",
       "uses": [
         {
           "subject": "scene",
@@ -163995,10 +163995,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-that-s-one-worry-gone",
+      "key": "scene-talk.follow-accept.then-about-is-one-worry-gone",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then that's one worry gone.",
+      "text": "Then {about} is one worry gone.",
       "uses": [
         {
           "subject": "scene",
@@ -164007,7 +164007,7 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "requiresFacts": ["ended"]
+          "requiresFacts": ["about", "ended"]
         }
       ],
       "bearing": "calm",
