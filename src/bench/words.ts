@@ -2,7 +2,6 @@
 import { admittedParts } from "../english/bank-parts";
 import { JOURNAL_WORDS } from "../english/journal-words";
 import { properName } from "../director/words";
-import { schoolNameWords } from "../english/school-names";
 import type { CoreState } from "../core2/types";
 import { schoolsAttended } from "../core2/past";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
@@ -32,7 +31,7 @@ export function schoolsOf(core: CoreState, personId: string) {
         row.name
           ? [
               {
-                name: schoolNameWords(properName(row.name)),
+                name: properName(row.name),
                 date: row.date,
                 recordId: row.recordId,
                 stage: row.stage,
