@@ -177,7 +177,6 @@ interface Arcs {
 const ARCS = arcsFile as unknown as Arcs;
 const RULES = rulesFile as unknown as {
   terminalFollow: string[];
-  pleaFollow: { moves: string[] };
   tree: { maxReplies: { value: number }; maxNodes: { value: number } };
   bluntGreeting: { value: number };
 };
@@ -1620,16 +1619,7 @@ export function composeSceneTalk(
     path: Path,
     lastAsker: SceneTalkLine,
   ) => {
-    // A plea gives the player the next turn, so the close never follows one:
-    // where the talk ends here, the plea is not said and the close answers
-    // the reply before it.
-    let before: SceneTalkLine | undefined = lastAsker;
-    const plea = node.lines.at(-one);
-    if (plea?.role === "asker" && RULES.pleaFollow.moves.includes(plea.move)) {
-      node.lines.pop();
-      before = [...node.lines].reverse().find((line) => line.role === "asker");
-    }
-    const close = closeFor(outcome, path, before);
+    const close = closeFor(outcome, path, lastAsker);
     const hanging = (line: SceneTalkLine | undefined) =>
       !!line &&
       line.role === "asker" &&
