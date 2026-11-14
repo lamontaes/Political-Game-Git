@@ -786,6 +786,52 @@ export const noFigureInTalk: ComposedCheck = (text) => {
   return found;
 };
 
+const THEY_FORMS =
+  /\b(they|them|their|theirs|they're|they've|they'd|they'll|themselves)\b/i;
+
+/**
+ * Rule 109 (Words lead, Nov 14): a line that speaks of one named person says
+ * the pronoun that person's record holds. A spoken or narrated sentence that
+ * names a person whose record says he or she, and says they, them or their in
+ * that sentence or the next, is listed. It reads sentences, so a plural in the
+ * same sentence ("the Hansens", "your parents") can be listed wrongly; the rule
+ * is a sample and lists, it pulls nothing.
+ */
+export const pronounFitsThePerson: ComposedCheck = (text, sample) => {
+  const found: ComposedBreak[] = [];
+  const gendered = sample.people.filter(
+    (person) => person.pronoun === "he" || person.pronoun === "she",
+  );
+  if (gendered.length === 0) return found;
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines) {
+      line.sentences.forEach((sentence, index) => {
+        const named = gendered.find((person) =>
+          new RegExp(`\\b${person.given}\\b`).test(sentence),
+        );
+        if (!named) return;
+        const tail = `${sentence} ${line.sentences[index + 1] ?? ""}`;
+        // Only the words after the name count, so "They said {name} ..." is not read as about the person.
+        const after = tail.slice(
+          tail.search(new RegExp(`\\b${named.given}\\b`)),
+        );
+        const they = THEY_FORMS.exec(after);
+        if (they)
+          found.push(
+            breakOf(
+              "pronoun-fits-the-person",
+              text,
+              at,
+              `names ${named.given} (${named.pronoun}) and says ${they[0]}`,
+              line.text,
+            ),
+          );
+      });
+    }
+  });
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -803,6 +849,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "point-made-once": pointMadeOnce,
   "note-stands-alone": noteStandsAlone,
   "no-figure-in-talk": noFigureInTalk,
+  "pronoun-fits-the-person": pronounFitsThePerson,
 };
 
 /** A composed rule's checks, as a list. */

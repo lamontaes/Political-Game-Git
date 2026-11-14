@@ -5713,6 +5713,25 @@
           ]
         }
       ]
+    },
+    {
+      "id": "pronoun-fits-the-person",
+      "says": "A line that speaks of one named person uses the pronoun that person's record holds; \"they\" for one named person is a fault when the record holds he or she.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-06",
+          "words": "There needs to be pronouns and titles.",
+          "via": "owner, quoted in src/director/opening-story.ts; Words lead rule 109, Nov 14"
+        }
+      ],
+      "note": "Rule 109. Composed: a sentence that names a person whose record says he or she (`pronounFor` of `looks.gender`) and says they, them or their in it or the next sentence. A plural in the same sentence can be listed wrongly. Sample: it reports over played worlds (`npm run words:composed`), it pulls no bank line. The 62 scene-talk lines are listed in words-machine/rule-109-they-lines.md for the Words lead.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["pronoun-fits-the-person"],
+        "applies": ["talk:home", "talk:town", "scene", "narration"]
+      }
     }
   ]
 }

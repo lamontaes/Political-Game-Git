@@ -68,6 +68,8 @@ export interface NamedPerson {
   readonly full: string;
   readonly given: string;
   readonly role?: string;
+  /** The pronoun the person's own record holds (`pronounFor` of `looks.gender`); "they" when it holds neither he nor she. */
+  readonly pronoun?: "he" | "she" | "they";
 }
 
 /** What one played life gave: its place and seed, its texts and the people it could name. */

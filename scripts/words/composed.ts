@@ -54,6 +54,7 @@ import {
   type ComposedText,
   type NamedPerson,
 } from "../../src/english/composed-text";
+import { pronounFor } from "../../src/english/move-fit";
 import { drawPlace } from "../core2-year/place";
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
@@ -469,6 +470,7 @@ export async function playLife(
       id: person.id,
       full: `${person.givenName} ${person.familyName}`,
       given: person.givenName,
+      pronoun: pronounFor(person.looks?.gender),
       ...(roles.has(person.id) ? { role: roles.get(person.id)! } : {}),
     }));
   return {
