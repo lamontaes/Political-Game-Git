@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1385,
+  "judged": 1380,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -4679,20 +4679,6 @@
       ],
       "why": "'I'll help you', 'I'll take care of it' and 'tell you tomorrow' are the first glad-to-help, I-will and find-me-tomorrow replies again."
     },
-    "1wspx49jkfp": {
-      "keys": [
-        "scene-talk.follow-plea.please-a-lot-of-people-put-their-names-on-this",
-        "scene-talk.reply-agree.it-passed-i-ll-sign-it",
-        "scene-talk.reply-refuse.not-as-written-i-m-sorry",
-        "scene-talk.reply-bargain.give-me-your-word-on-a-follow-up-and-i-ll-sign",
-        "scene-talk.reply-ask.what-does-it-cost",
-        "scene-talk.reply-relent.fine-i-ll-sign-it-then",
-        "scene-talk.reply-refuse.it-goes-back-with-a-veto",
-        "scene-talk.reply-bargain.bring-me-the-fix-in-writing-and-i-ll-sign-it-today",
-        "scene-talk.reply-leave.i-ll-sleep-on-it-and-tell-you-in-the-morning"
-      ],
-      "why": "'Fine, I'll sign', 'goes back with a veto' and 'bring me the fix in writing and I'll sign' restate the first sign, refuse and follow-up options."
-    },
     "1wwoogpps24": {
       "keys": [
         "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
@@ -5619,5 +5605,5 @@
       "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "1yh6h4jufpw"
+  "yesHash": "061ga88oe3p"
 }
