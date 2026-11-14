@@ -5,7 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
+claimed-by: claude/play-declined-bill-ask-kept-with-reason
+branch: claude/play-declined-bill-ask-kept-with-reason
 standard: 2
 after: play-bill-menu-for-mayors-and-governors
 blocked-on:

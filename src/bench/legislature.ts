@@ -9,6 +9,7 @@ import {
 } from "../english/bill-names";
 import { moneySaid } from "../english/count-words";
 import { screenLine } from "../english/screen-words";
+import { questionReasons } from "../english/question-names";
 import { budgetLineNames, policyNames } from "./words";
 import {
   billForm,
@@ -22,6 +23,8 @@ import {
   memberKey,
   members as bodyMembersOf,
   proposalRight,
+  declineReason,
+  declinedAsks,
   proposeAsExecutive,
   votesOn,
   whipCount,
@@ -885,6 +888,25 @@ export function seatAsk(
     throw new Error(
       "An executive's bill was asked of the player; the menu should not offer this body.",
     );
+  // A no is kept with its reason and date (the ask's own row, `declinedAsks`) and can be asked
+  // again later; the screen reads the reason back and says when the same member said no before.
+  const reason = asked.carried ? null : declineReason(asked);
+  const section = asked.provisions[0]!;
+  const spoken =
+    reason === "views" &&
+    section.kind === "policy-question" &&
+    section.question &&
+    section.value > 0
+      ? questionReasons(section.question, "against").reason
+      : null;
+  const earlier = declinedAsks(
+    api,
+    asked.askerId,
+    asked.memberId,
+    asked.bodyOfficeId,
+  )
+    .filter((row) => row.id !== asked.id)
+    .map((row) => row.date);
   return {
     asked: {
       memberId: asked.memberId,
@@ -892,6 +914,8 @@ export function seatAsk(
       carried: asked.carried,
       askId: asked.id,
       billId: asked.billId,
+      ...(reason ? { reason, ...(spoken ? { reasonWords: spoken } : {}) } : {}),
+      ...(!asked.carried && earlier.length ? { earlier } : {}),
     },
   };
 }

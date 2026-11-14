@@ -3311,8 +3311,23 @@ async function seatRows() {
     const askedWord = r.asked
       ? (r.asked.carried
           ? controls.seat.askedCarried
-          : controls.seat.askedRefused
-        ).replace("{name}", r.asked.name)
+          : r.asked.reasonWords
+            ? controls.seat.askedRefusedSaid
+            : r.asked.reason && controls.seat.askedReasons[r.asked.reason]
+              ? controls.seat.askedRefusedBecause
+              : controls.seat.askedRefused
+        )
+          .replace("{name}", r.asked.name)
+          .replace("{words}", r.asked.reasonWords ?? "")
+          .replace(
+            "{reason}",
+            controls.seat.askedReasons[r.asked.reason] ?? "",
+          ) +
+        (r.asked.earlier?.length
+          ? ` ${controls.seat.askedBefore
+              .replace("{name}", r.asked.name)
+              .replace("{date}", dateWords(r.asked.earlier.at(-1)))}`
+          : "")
       : "";
     seatResult = r.asked
       ? askedWord

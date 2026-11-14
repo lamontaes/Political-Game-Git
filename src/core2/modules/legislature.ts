@@ -3505,6 +3505,10 @@ export function askToCarry(
     // stopgapId: SG-GOV-carry-ask-no-screen (the held ask has no bench screen yet)
     api.stopgap("SG-GOV-carry-ask-no-screen");
     table(api, "carryAsks").put(row as unknown as ModuleRow);
+  } else if (input.askerId === (api.state as CoreState).playerId) {
+    // The player's own ask is kept with its answer, position and date, so a no can be read
+    // back with its reason and the player can ask again later (`declinedAsks`).
+    table(api, "carryAsks").put(row as unknown as ModuleRow);
   }
   // The ask is a record for the member and the asker. Carried, it is public
   // (the bill names who asked for it); turned down, it stays between them.
@@ -3543,6 +3547,54 @@ export function askToCarry(
     });
   }
   return row;
+}
+
+/**
+ * What weighed most against a member who turned an ask down, from the position the ask recorded:
+ * the part of their position that pulled hardest against the bill, or "standing" when none did
+ * and the asker was simply not known well enough.
+ */
+export function declineReason(
+  request: Pick<CarryRequest, "position" | "standing">,
+): string {
+  const parts: [string, number][] = [
+    ["views", request.position.views],
+    ["constituents", request.position.constituents],
+    ["sponsor", request.position.sponsor],
+    ["deal", request.position.deal],
+    ["lobby", request.position.lobby],
+    ["party", request.position.party ?? 0],
+    ["wing", request.position.wing ?? 0],
+    ["ambition", request.position.ambition ?? 0],
+    ["press", request.position.press ?? 0],
+    ["trait", request.position.trait],
+    ["consistency", request.position.consistency],
+    ["bribe", request.position.bribe],
+    ["reply", request.position.reply ?? 0],
+  ];
+  let worst: [string, number] | null = null;
+  for (const part of parts)
+    if (part[1] < 0 && (!worst || part[1] < worst[1])) worst = part;
+  return worst ? worst[0] : "standing";
+}
+
+/** The asks this asker made of this member of this body that were turned down, oldest first. */
+export function declinedAsks(
+  api: CoreAPI,
+  askerId: string,
+  memberId: string,
+  bodyOfficeId: string,
+): readonly CarryRequest[] {
+  return (table(api, "carryAsks").rows() as unknown as CarryRequest[])
+    .filter(
+      (r) =>
+        !r.carried &&
+        !r.awaitingPlayer &&
+        r.askerId === askerId &&
+        r.memberId === memberId &&
+        r.bodyOfficeId === bodyOfficeId,
+    )
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
 }
 
 /** The asks waiting on the player's answer, oldest first. */
