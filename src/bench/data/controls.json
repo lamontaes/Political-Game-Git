@@ -1076,6 +1076,7 @@
     "short": "short",
     "ahead": "ahead",
     "savings": "Savings",
+    "savingsEstimated": "{amount} (estimate)",
     "lastYear": "Last year",
     "whoWrote": "Who wrote it",
     "adoptedBy": "Adopted by",
@@ -1117,7 +1118,9 @@
     "newAmount": "The new amount",
     "addStep": "Add a step",
     "firstStep": "Takes effect when it becomes law",
-    "stepDate": "Takes effect on"
+    "stepDate": "Takes effect on",
+    "askedCarried": "{name} agreed to carry your bill.",
+    "askedRefused": "{name} declined to carry your bill, and nothing was filed."
   },
   "journal": {
     "title": "My story",

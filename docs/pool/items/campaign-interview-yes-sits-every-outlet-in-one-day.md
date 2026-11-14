@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9161
 after:
 blocked-on:
 lead: governing
@@ -16,14 +16,15 @@ model: sonnet
 effort: medium
 root: none
 source: campaign events report 1, Nov 14 2026
+branch: claude/project-thread-unx2lc
 checked:
 ---
 
-**What.** The player says yes once to an interview invitation and the director stages six `interview-sitting` scenes, every one stopping the day, all on the same date, each opening with a different reporter's first-contact lines. Seen in four of four campaigns where the player answered yes (Chalkhill PA, Stony Creek VA, Patrick AFB FL, Greenville DE; fixed seeds `q2`, `q4`, `q3`, `q5` of `scripts/dev-tests/campaign-events-played.ts`). Seen: on the day after a yes, the player's day stops six times in a row.
+**What.** The player says yes once to an interview invitation and the director stages six `interview-sitting` scenes, every one stopping the day, all on the same date, each opening with a different reporter's first-contact lines. Seen in four of four campaigns where the player answered yes (Chalkhill PA, Stony Creek VA, Patrick AFB FL, Greenville DE; fixed seeds `q2`, `q4`, `q3`, `q5` of the campaign-events-played dev test). Seen: on the day after a yes, the player's day stops six times in a row.
 
 **Cause.** Found in code: `emitInterviewInvite` in src/core2/modules/press.ts (line 3813) puts every outlet that asked that week in one `interview-invited` record's `interviewIds`, and `answerInvitation` (line 3864) accepts each of them on one yes, so one `interview-accepted` record is written per outlet on the same day and the director stages one sitting for each.
 
-**Fix.** Keep one answer for the week's invitations (the owner's design: "the answer goes to each") but stage the sittings one a day, the outlet whose reporter is closest to the candidate first, the others on the following days while the race has days left; an outlet whose day passes after the vote is held without a sitting. The sitting's date is the day the director stages it, never the day of the yes. No roll.
+**Fix.** Each outlet's invitation is its own record and its own call, one a day, the outlet whose reporter is closest to the candidate first; a yes is to that outlet alone, so each sitting stages on the day of its own yes. An outlet whose day would fall on or after the vote never calls. A national outlet asks only federal and state races (the beat its desk already keeps). No roll.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -33,6 +34,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/press.ts, src/director/interview-sitting.ts
+**Files.** src/core2/modules/press.ts, src/core2/press-invitations-one-a-day.test.ts
 
 **Notes.** Evidence: /mnt/project-files/words-lead/campaign-events/report-1.md and runs/.
