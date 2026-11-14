@@ -15,7 +15,7 @@ const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-page.setDefaultTimeout(300000);
+page.setDefaultTimeout(900000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
@@ -61,17 +61,32 @@ try {
     mine.join(", "),
   );
   await playOpening(page, sceneMomentId ?? null);
-  await page.locator("#card:not([hidden])").waitFor();
+  // A scene at home can follow the opening: Continue until the card is free.
+  for (let i = 0; i < 120; i += 1) {
+    const free = async () =>
+      (await page.locator("#card:not([hidden])").count()) > 0 &&
+      !(await page.locator("#talk").isVisible());
+    if (await free()) {
+      await page.waitForTimeout(1500);
+      if (await free()) break;
+    }
+    const next = page.getByRole("button", { name: /^Continue$/ }).first();
+    const skip = page.getByRole("button", { name: /Skip scene/ }).first();
+    if (await next.isVisible()) await next.click();
+    else if (await skip.isVisible()) await skip.click();
+    await page.waitForTimeout(500);
+  }
+  await page.locator("#card:not([hidden])").waitFor({ timeout: 20000 });
   const close = page.locator("#sheet-close");
   if (await close.isVisible()) await close.click();
   await page
     .locator('#rings [data-tab="people"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".people-roster .person").first().waitFor();
+  await page.locator(".roster-screen .roster-row").first().waitFor();
   await page.waitForTimeout(1500);
   const family = await page.evaluate(() =>
-    [...document.querySelectorAll(".people-roster .person")].map((row) => ({
+    [...document.querySelectorAll(".roster-screen .roster-row")].map((row) => ({
       name: row.innerText.replace(/\s+/g, " ").trim(),
       heads: [...row.querySelectorAll("img")]
         .map((img) => img.getAttribute("src") ?? "")
@@ -82,7 +97,7 @@ try {
     console.log(`  ${row.name}: ${row.heads.join(", ")}`);
   if (shots) await page.screenshot({ path: `${shots}/people.png` });
   // Each family member's card beside the roster, with their face.
-  const rows = page.locator(".people-roster .person");
+  const rows = page.locator(".roster-screen .roster-row");
   for (let i = 1; i < (await rows.count()); i += 1) {
     await rows.nth(i).click();
     await page.waitForTimeout(800);
