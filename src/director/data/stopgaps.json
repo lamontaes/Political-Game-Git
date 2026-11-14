@@ -463,6 +463,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WORDS-swearing-in-no-court",
+    "kind": "missing-record",
+    "file": "src/director/civic-roles.ts",
+    "line": 104,
+    "whatItFakes": "Who gives the oath at a swearing-in. Real oaths are given by a judge, a justice or a notary (a state's chief justice swears in a governor); the world keeps no courts or notaries, so the oath is given by the clerk who took the winner's filing or keeps the government's papers, else the holder who left the seat that day, else the body's presiding officer. A clerk at the state level, and every fallback, marks this stopgap.",
+    "why": "Courts come after early access (AGENTS.md). Ask why: the officiant is always a person a record names (the filing clerk, the town's or county's clerk, the seat's ended term, the leadership engine's presiding officer); with none on record the scene is not staged, and no one is invented.",
+    "addedBy": "Words session",
+    "addedAt": "2026-10-29",
+    "replacement": "The justice engine's judges and justices, cast by the court that swears in each office (a chief justice for a governor, a local judge for a council), read in oathGiver ahead of the clerk.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORDS-swearing-in-address-in-scene",
     "kind": "missing-hook",
     "file": "src/director/inaugural-address.ts",
