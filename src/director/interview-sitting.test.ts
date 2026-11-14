@@ -25,7 +25,8 @@ import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { fileCandidacy, openContests } from "../core2/modules/elections";
+import { fileCandidacy, playerContests } from "../core2/modules/elections";
+import { lawChain } from "../core2/modules/laws";
 import {
   INTERVIEW_ACCEPTED_EVENT,
   PRESS_MODULE_ID,
@@ -42,9 +43,9 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
 
 /**
- * Pinned (not drawn) so the test reaches a interview sitting every run: seed
- * pin-b, draw 0 is Climax, Georgia. It plays on to the first open race, and the
- * file takes about two minutes.
+ * Pinned (not drawn) so the test reaches an interview sitting every run: seed
+ * pin-b, draw 0 is Climax, Georgia. It plays on to the first town race the
+ * player can enter, and the file takes about a minute and a half.
  */
 const seed = "pin-b";
 const DRAWS = [0];
@@ -72,11 +73,15 @@ function play(draw: number): Evidence | string {
     placeKey: place.key,
   });
   const { core, director } = world;
-  // A grown resident of the town is the player.
+  // A grown resident of the town is the player: one who lives there, never a
+  // filled-in official elsewhere whose id sorts first, who could not file for
+  // the town's races.
+  const town = lawChain(coreAPI(core)).townPlaceId;
   const me = [...core.people.values()]
     .filter(
       (person) =>
         person.alive &&
+        person.placeId === town &&
         ageOnDate(person.birthDate, core.date) >= 35 &&
         ageOnDate(person.birthDate, core.date) < 60,
     )
@@ -96,7 +101,10 @@ function play(draw: number): Evidence | string {
     }),
   );
   const findContest = () =>
-    [...openContests(api)]
+    // A local race: a petition for a state or federal office asks thousands of
+    // signatures (the race's own electorate), more than a player gathers.
+    [...playerContests(api)]
+      .filter((c) => c.level !== "federal" && c.level !== "state")
       .filter((c) => c.electionDate >= addDays(makeIsoDate(core.date), 120))
       .sort(
         (a, b) =>
