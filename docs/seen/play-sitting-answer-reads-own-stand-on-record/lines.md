@@ -11,7 +11,7 @@ Before this change (#9140 alone) Wetumpka offered only "My platform doesn't cove
 ```
 Wetumpka, Alabama (0181720), seed replay-stand-1:2
 Q us-policy-positions:justice-public-safety.end-cash-bail  [stand -0.174 from view]
-   [plain] I oppose ending cash bail.
+   [plain] I'm against ending cash bail.
    [other] I support ending cash bail.
    [brief] Nothing to add on that.
 Q us-federal-positions:energy-environment.limit-power-plant-carbon  [stand -0.412 from view]
@@ -20,24 +20,24 @@ Q us-federal-positions:energy-environment.limit-power-plant-carbon  [stand -0.41
    [brief] Nothing to add on that.
 Q us-policy-positions:justice-public-safety.raise-handgun-purchase-age  [stand -0.256 from view]
    [plain] I'm against a higher age to buy a handgun.
-   [other] I want to raise the age to buy a handgun. That's my platform.
+   [other] I support a higher age to buy a handgun.
    [brief] Nothing to add on that.
 Q us-federal-positions:foreign-affairs.increase-foreign-aid  [stand -0.413 from view]
-   [plain] I'm against more foreign aid.
+   [plain] I oppose more foreign aid.
    [other] I'm for more foreign aid.
-   [brief] No position yet.
+   [brief] Nothing to add on that.
 Pemberton Heights, New Jersey (3457540), seed replay-stand-1:5
 Q us-federal-positions:health.medicare-drug-price-negotiation  [stand 0.29 from view]
-   [plain] I want to let Medicare negotiate drug prices. That's my platform.
+   [plain] I'm for Medicare negotiating drug prices.
    [other] I oppose Medicare negotiating drug prices.
    [brief] Nothing to add on that.
 Q us-policy-positions:government-operations.all-mail-voting  [stand 0.165 from view]
    [plain] I'm for voting by mail for everyone.
    [other] I oppose voting by mail for everyone.
-   [brief] No position yet.
+   [brief] Nothing to add on that.
 Q us-federal-positions:territories-culture.statehood-for-dc  [stand 0.278 from view]
    [plain] I'm for statehood for the nation's capital.
-   [other] I oppose statehood for the nation's capital.
+   [other] I'm against statehood for the nation's capital.
    [brief] Nothing to add on that.
 Q us-policy-positions:environment-energy.price-carbon  [stand 0.169 from view]
    [plain] I'm for a price on carbon.
@@ -45,28 +45,26 @@ Q us-policy-positions:environment-energy.price-carbon  [stand 0.169 from view]
    [brief] Nothing to add on that.
 Eagle Rock, Virginia (5124208), seed replay-stand-1:6
 Q us-policy-positions:justice-public-safety.restore-voting-after-sentence  [stand -0.296 from view]
-   [brief] No position yet.
-   [plain] I'm against restoring the vote after a sentence.
-   [other] I support restoring the vote after a sentence.
+   [brief] Nothing to add on that.
+   [plain] I oppose restoring the vote after a sentence.
+   [other] I'm for restoring the vote after a sentence.
 Q us-federal-positions:health.medicare-drug-price-negotiation  [stand -1 from view]
    [brief] Nothing to add on that.
-   [plain] I'm against Medicare negotiating drug prices.
-   [other] I'm for Medicare negotiating drug prices.
+   [plain] I oppose Medicare negotiating drug prices.
+   [other] I support Medicare negotiating drug prices.
 Q us-federal-positions:justice-rights.reduce-mandatory-minimums  [stand -0.493 from view]
-   [brief] No position yet.
-   [plain] I wouldn't reduce mandatory minimum sentences. That's my platform.
-   [other] I'm for shorter mandatory minimum sentences.
+   [brief] Nothing to add on that.
+   [plain] I'm against shorter mandatory minimum sentences.
+   [other] I support shorter mandatory minimum sentences.
 Q us-federal-positions:territories-culture.statehood-for-dc  [stand -1 from view]
-   [brief] No position yet.
-   [plain] I'm against statehood for the nation's capital.
+   [brief] Nothing to add on that.
+   [plain] I oppose statehood for the nation's capital.
    [other] I support statehood for the nation's capital.
 ```
 
 Wetumpka, Alabama (against first on all four, all from the player's view), Eagle Rock, Virginia (against first on all four; the player there keeps it short, so the way not to answer is listed first) and Pemberton Heights, New Jersey (**for first** on all four, from view).
 
-## Two lines that are wrong until the bank is changed
+## Two lines fixed in the bank (owner's standing approval, Nov 14 06:42Z)
 
-- "That's my platform." is said on stands that came from the player's view, not the filed platform (Wetumpka's handgun age on the other side, Eagle Rock's mandatory minimums). The two pieces `i-want-to-to-thats-my-platform` and `i-wouldnt-to-thats-my-platform` need `on-platform` in their `requiresFacts`; the code already sets that fact only on the side the filed platform holds.
-- "No position yet." is said as the way not to answer when the player does hold a stand (Wetumpka, foreign aid). The piece `no-position-yet` needs `no-record` in its `requiresFacts`; the code sets it only where the player holds no stand.
-
-Both edits are in data/english/parts/conversation.json, which the permission check refused to a builder without the owner's own words.
+- "That's my platform." is now said only on the side the filed platform holds (`on-platform` added to `i-want-to-to-thats-my-platform` and `i-wouldnt-to-thats-my-platform`). The replays above show no such line: every stand came from the player's view.
+- "No position yet." is now said only where the player holds no stand (`no-record` added to `no-position-yet`); where they hold one, the way not to answer is "Nothing to add on that."
