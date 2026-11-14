@@ -7,7 +7,9 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
+import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
@@ -39,13 +41,9 @@ import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { areaName } from "../english/area-names";
-import { questionAbout } from "../english/question-names";
+import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
-import {
-  questionName,
-  storyTopicName,
-  topicInSentence,
-} from "../english/policy-names";
+import { storyTopicName, topicInSentence } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
 import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
@@ -129,7 +127,7 @@ import { remarkOf } from "./remark";
 import { counterFilingReplyId } from "./filing-visit";
 import {
   numberWord,
-  properName,
+  organizationName,
   spoken,
   spokenDate,
   stateInSentence,
@@ -256,6 +254,103 @@ export function purposeScene(
   return skipped;
 }
 
+/** What the law-reaches facts read of a law row: where it is law, when it starts and ends, and its series. */
+interface LawReachRow {
+  readonly jurisdiction?: string;
+  readonly effectiveDate?: string;
+  readonly endDate?: string | null;
+  readonly series?: string;
+  readonly id?: string;
+}
+
+/**
+ * The facts that say how a law reaches a reader it does not reach (Fable A,
+ * Nov 13): `effective`, the day a law enacted but not yet in force takes
+ * effect; else `lawstate` and `homestate`, when it is law in another state
+ * than the reader's. Empty for a law in force where the reader lives.
+ */
+export function lawReachFacts(
+  row: LawReachRow | null,
+  homeStateKey: string | null,
+  today: string,
+  cite: { law: string[]; home: string[] },
+  /** When play began, and whether a newer row of the law's series replaced this one. */
+  play: { from: string; replaced: boolean },
+): Record<string, Fact> {
+  if (!row) return {};
+  // Another state's law does not reach the reader, in force or not: said by
+  // that state and the reader's own, never by a date that would sound as if
+  // it will.
+  const there = row.jurisdiction?.startsWith(STATE_KEY_PREFIX)
+    ? coreStateName(row.jurisdiction.slice(STATE_KEY_PREFIX.length))
+    : null;
+  const here = homeStateKey
+    ? coreStateName(homeStateKey.slice(STATE_KEY_PREFIX.length))
+    : null;
+  if (there && here && row.jurisdiction !== homeStateKey)
+    return {
+      lawstate: { text: stateInSentence(there), sourceRecordIds: cite.law },
+      homestate: { text: stateInSentence(here), sourceRecordIds: cite.home },
+    };
+  // A law that is no longer in force: the day it ended, from its own row.
+  // ("Struck down" is said only when a court's record ended it; no engine
+  // writes one yet.)
+  // It is said with what it was, so the line names the law.
+  const about = row.series ? lawAbout(row.series) : null;
+  // Raised only when it ended during play and nothing replaced it: a rate
+  // that a newer rate took over, or one that ended before the game began, is
+  // not something a resident talks about (Words lead, Nov 14). Proved only on
+  // a staged end date until a repeal is played (stopgapId:
+  // SG-DIRECTOR-law-ended-in-play-proved-on-staged-date).
+  if (row.endDate && row.endDate <= today) {
+    if (row.endDate < play.from || play.replaced) return {};
+    return {
+      ended: {
+        text: spokenDate(row.endDate, today),
+        sourceRecordIds: cite.law,
+      },
+      ...(about ? { about: { text: about, sourceRecordIds: cite.law } } : {}),
+    };
+  }
+  if (row.effectiveDate && row.effectiveDate > today) {
+    // What the law changes, by what it is, not by the number it sets: a tax
+    // rate's law changes the tax ("the Social Security payroll tax").
+    return {
+      effective: {
+        text: spokenDate(row.effectiveDate, today),
+        sourceRecordIds: cite.law,
+      },
+      ...(about ? { about: { text: about, sourceRecordIds: cite.law } } : {}),
+    };
+  }
+  return {};
+}
+
+/** What a law changes, by what it is, not by the number it sets: a tax rate's law changes the tax ("the Social Security payroll tax"). */
+function lawAbout(series: string): string | null {
+  const name = lawName(series);
+  return name ? name.replace(/\btax rate$/, "tax") : null;
+}
+
+/** The state a person lives in (`US-IL`), from their place's record or, for someone placed only at their state's level, the state's own id. */
+export function homeStateOf(placeId: string): string | null {
+  return placeStateKey(placeId);
+}
+
+/** A law row of the laws engine by its id: where it is law and the day it takes effect. */
+export function lawRow(
+  core: Readonly<CoreState>,
+  id: string,
+): LawReachRow | null {
+  if (!core.modules.has(LAWS_MODULE_ID)) return null;
+  return (
+    (coreAPI(core as CoreState)
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .get(id) as LawReachRow | undefined) ?? null
+  );
+}
+
 /**
  * Where a move went, as people name the place: a town or county by its
  * jurisdiction; for a move to "somewhere in the state" (basis `state`, the
@@ -296,7 +391,17 @@ export function typeForCause(type: PurposeType, label: string): PurposeType {
  */
 export function lawName(series: string): string | null {
   const topic = series.slice(series.lastIndexOf(":") + P.one);
-  return questionName(series) ?? storyTopicName(topic);
+  // The spoken noun the talks and speeches say a measure by ("a higher
+  // minimum wage"), never the catalog's verb phrase ("raise minimum wage");
+  // a question with no noun name has no name, and its scene is not offered.
+  // A series a law row keeps by its bare key (a local body's authority) is
+  // the catalog question that ends in it.
+  const question = NAMED_QUESTIONS.find((key) => key.endsWith(`.${series}`));
+  return (
+    questionAbout(series) ??
+    (question ? questionAbout(question) : null) ??
+    storyTopicName(topic)
+  );
 }
 
 /**
@@ -320,6 +425,83 @@ export function tieSide(
   )
     return { side: "friend", tieId };
   return null;
+}
+
+/**
+ * What a cause record that names a law says of it (a story that the law took
+ * effect, a person's learning what it changed): its policy by name, whether
+ * the laws engine keeps it in force where the reader lives, and, when it does
+ * not reach the reader, why.
+ */
+export function lawFactsOfCause(
+  core: Readonly<CoreState>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+  readerPlaceId: string,
+  readerId: string,
+): Record<string, Fact> {
+  const facts: Record<string, Fact> = {};
+  const moment = { causeId };
+  const asker = { placeId: readerPlaceId };
+  const askerId = readerId;
+  // A law in force (a story that it took effect): its policy by name, for
+  // the lines that say what took effect.
+  // A learned effect names its law row only (`law.effect-learned` carries a
+  // lawId and no series), so the series is the law row's own; reading only
+  // the record's series left every learned-law scene without `law` and
+  // `in-force`, and the tell could not be worded.
+  const lawRowOfSaid = said.lawId
+    ? lawRow(core, said.lawId.replace(/^law-history:/, ""))
+    : null;
+  const series = said.series ?? lawRowOfSaid?.series;
+  if (said.lawId && series) {
+    const name = lawName(series);
+    if (name)
+      facts.law = {
+        text: name,
+        sourceRecordIds: [said.lawId, moment.causeId],
+      };
+    // Still in force today, by the laws engine's own answer: the lines that
+    // say the law took effect and is lived with need it (a street stop about
+    // a state law with no local bill number had none to say, Mount Horeb,
+    // Wisconsin, seed 16ca82ba-0487-44a2-96ee-c5231d4e0ab4).
+    const answer = core.modules.has(LAWS_MODULE_ID)
+      ? lawInForce(coreAPI(core as CoreState), series)
+      : undefined;
+    // A story of a law's history names the law row it keeps
+    // (`law-history:<law row id>`, past-module): a state law in force from
+    // before the opening (Kansas's local sales tax, seed 2d5c12bd...).
+    const lawRowId = said.lawId.replace(/^law-history:/, "");
+    const kept = answer?.levels.find(
+      (level) => level.row?.id === lawRowId && !level.setAside,
+    );
+    if (kept)
+      facts["in-force"] = {
+        text: "yes",
+        sourceRecordIds: [said.lawId, moment.causeId],
+      };
+    // A law that does not reach the reader is said as what it is (Fable A,
+    // Nov 13): one enacted but not yet in force by the day it takes effect;
+    // one in force in another state by that state and the reader's own. Only
+    // a law in force where the reader lives is spoken of as lived with.
+    if (!kept)
+      Object.assign(
+        facts,
+        lawReachFacts(
+          lawRow(core, lawRowId),
+          homeStateOf(asker.placeId),
+          core.date,
+          { law: [lawRowId, moment.causeId], home: [asker.placeId, askerId] },
+          {
+            from: gameStartDate(),
+            replaced: (answer?.levels ?? []).some(
+              (level) => level.row && !level.setAside,
+            ),
+          },
+        ),
+      );
+  }
+  return facts;
 }
 
 /** One purpose scene of a moment, worded from its records. */
@@ -408,35 +590,10 @@ function composeBinding(
         facts["vote-on"] = { text: voteOn, sourceRecordIds: [billId!] };
     }
   }
-  // A law in force (a story that it took effect): its policy by name, for
-  // the lines that say what took effect.
-  if (said.lawId && said.series) {
-    const name = lawName(said.series);
-    if (name)
-      facts.law = {
-        text: name,
-        sourceRecordIds: [said.lawId, moment.causeId],
-      };
-    // Still in force today, by the laws engine's own answer: the lines that
-    // say the law took effect and is lived with need it (a street stop about
-    // a state law with no local bill number had none to say, Mount Horeb,
-    // Wisconsin, seed 16ca82ba-0487-44a2-96ee-c5231d4e0ab4).
-    const answer = core.modules.has(LAWS_MODULE_ID)
-      ? lawInForce(coreAPI(core as CoreState), said.series)
-      : undefined;
-    // A story of a law's history names the law row it keeps
-    // (`law-history:<law row id>`, past-module): a state law in force from
-    // before the opening (Kansas's local sales tax, seed 2d5c12bd...).
-    const lawRowId = said.lawId.replace(/^law-history:/, "");
-    const kept = answer?.levels.find(
-      (level) => level.row?.id === lawRowId && !level.setAside,
-    );
-    if (kept)
-      facts["in-force"] = {
-        text: "yes",
-        sourceRecordIds: [said.lawId, moment.causeId],
-      };
-  }
+  Object.assign(
+    facts,
+    lawFactsOfCause(core, said, moment.causeId, asker.placeId, askerId),
+  );
   // A law in force that a bill enacted (a story that it took effect): the
   // bill by its number, cited to the law and the bill.
   if (!said.number && said.lawId && said.enactedBy) {
@@ -485,7 +642,7 @@ function composeBinding(
     const org = core.organizations.get(said.organizationId);
     const ids = [moment.causeId, said.organizationId];
     if (org)
-      facts.employer = { text: properName(org.name), sourceRecordIds: ids };
+      facts.employer = { text: organizationName(org), sourceRecordIds: ids };
     if (said.title)
       facts.position = { text: withArticle(said.title), sourceRecordIds: ids };
     if (Number(said.hourlyMinor) > P.zero)
@@ -611,7 +768,7 @@ function composeBinding(
     const printer = story ? core.organizations.get(story.outletId) : undefined;
     if (printer)
       facts.outlet = {
-        text: properName(printer.name),
+        text: organizationName(printer),
         sourceRecordIds: [...cited, printer.id],
       };
   }
@@ -856,7 +1013,7 @@ function composeBinding(
     const cited = [moment.causeId, said.storyId ?? moment.causeId];
     if (outlet) {
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [...cited, outlet.id],
       };
       facts["press-story"] = facts.outlet;
@@ -936,7 +1093,7 @@ function composeBinding(
       : undefined;
     if (outlet)
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [employer!.id, outlet.id],
       };
   }
@@ -946,7 +1103,7 @@ function composeBinding(
     const outlet = core.organizations.get(said.outletId);
     if (outlet)
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }
