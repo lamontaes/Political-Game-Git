@@ -143,6 +143,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `trace-audit`: the 56-place trace audit
 - `wiring-audit`: auditing a family of mechanics end to end
 - `words-engine`: the English engine and the director
+- `words-reads`: how the Words lead reads player words as played, and the rules those reads set
 
 ## Implementation boundaries
 
