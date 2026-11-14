@@ -13,6 +13,8 @@
 import { familyFactsOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { CAMPAIGN_ACTS } from "../core2/modules/campaigns";
+import { SPEECH_OCCASION_KIND } from "../core2/modules/speech";
 import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
@@ -352,38 +354,50 @@ export function paceRank(
   return rank;
 }
 
+/** The occasions the speech engine's kinds are told as: a remark, a hearing, a press attack. */
+const OCCASION_OF_KIND: Readonly<Record<string, string>> = {
+  "public-comment": "remark",
+  testimony: "remark",
+  "committee-hearing": "hearing",
+  attack: "press",
+};
+const CAMPAIGN_ACT_SET: ReadonlySet<string> = new Set(CAMPAIGN_ACTS);
+
 /**
  * What a heard speech was given at: a campaign stop, a remark at a meeting, a
  * hearing, a party meeting, a press attack or a state address. A council
- * remark is not a campaign event.
+ * remark is not a campaign event. Read from the occasion the speech engine's
+ * record carries (each producer writes it), never from the shape of its id.
  */
 export function speechOccasion(
   core: Readonly<CoreState>,
   causeId: string,
 ): string | undefined {
-  const said = core.durableLog.get(causeId)?.facts?.occasion;
+  const facts = core.durableLog.get(causeId)?.facts;
+  const said = facts?.occasion;
   if (typeof said === "string" && said) return said;
-  // stopgapId: SG-DIRECTOR-speech-occasion (the speech engine's record has no
-  // occasion yet, so the producer's id says it: "speech:remark:...", or
-  // "speech:<speaker>:<date>:<act>:..." for a candidate's own speech).
-  const [head, first, , act] = causeId.split(":");
-  if (head !== "speech" || !first) return undefined;
-  if (!core.people.has(first as never)) return first;
+  const kind = facts?.[SPEECH_OCCASION_KIND];
+  if (typeof kind !== "string" || !kind) return undefined;
   // A debate's answers are broadcast, not given in a room: the debate is its
   // own occasion, never a campaign stop (words-debate-answers-not-campaign-stops).
-  if (act === "debate") return "debate";
-  return act === "attack" ? "press" : "campaign";
+  if (kind === "debate") return "debate";
+  if (CAMPAIGN_ACT_SET.has(kind)) return "campaign";
+  return OCCASION_OF_KIND[kind] ?? kind;
 }
 
 /**
- * How a candidate gave a heard speech: the campaign act its record id names
- * ("speech:<speaker>:<date>:<act>:<venue>"), so a town hall heard in the room
- * is told apart from a debate heard on the broadcast.
+ * How a candidate gave a heard speech: the campaign act the speech record's
+ * occasion names, so a town hall heard in the room is told apart from a
+ * debate heard on the broadcast.
  */
-export function speechAct(causeId: string): string | undefined {
-  // stopgapId: SG-DIRECTOR-speech-occasion (read from the id, as the occasion is).
-  const [head, , , act] = causeId.split(":");
-  return head === "speech" ? act : undefined;
+export function speechAct(
+  core: Readonly<CoreState>,
+  causeId: string,
+): string | undefined {
+  const kind = core.durableLog.get(causeId)?.facts?.[SPEECH_OCCASION_KIND];
+  return typeof kind === "string" && CAMPAIGN_ACT_SET.has(kind)
+    ? kind
+    : undefined;
 }
 
 export function causeMatches(
@@ -417,7 +431,7 @@ export function causeMatches(
     speechOccasion(core, moment.causeId) !== match.occasion
   )
     return false;
-  if (match.act && !match.act.includes(speechAct(moment.causeId) ?? ""))
+  if (match.act && !match.act.includes(speechAct(core, moment.causeId) ?? ""))
     return false;
   if (
     match.causeNames === "subject" &&
