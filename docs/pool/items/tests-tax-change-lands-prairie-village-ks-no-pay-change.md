@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/project-thread-8y55c8
+pr: #9327
 after:
 blocked-on:
 source: Found by the bargaining thread (brief O) running changed tests on train 5fe71dec7a24c98df9607273babee336d3be5a62, Nov 14 2026
