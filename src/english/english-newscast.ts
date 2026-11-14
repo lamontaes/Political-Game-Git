@@ -270,11 +270,12 @@ export const STORY_KINDS = {
   },
   ad: { headline: ["ad"], lede: ["ad"] },
   // A group or a person backing a candidate in a race, from the campaign's
-  // endorsement record: a headline and one line.
+  // endorsement record: a headline and a line, then what a group works for
+  // from its own record (a person has none, so the story stays one line).
   endorsement: {
     headline: ["endorsement"],
     lede: ["endorsement"],
-    brief: true,
+    context: ["endorsement-work"],
   },
   "campaign-gift": {
     headline: ["campaign-gift"],

@@ -443,7 +443,6 @@
         "src/core2/world-settings.ts",
         "src/core2/player-*.ts",
         "src/core2/opening-*.ts",
-        "src/core2/fast-forward.ts",
         "src/core2/modules/national-events.ts",
         "src/core2/national-disaster-event.ts",
         "src/core2/modules/climate.ts"

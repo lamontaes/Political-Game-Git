@@ -5,6 +5,7 @@
  * officeholder's seat, a law's reach, a vote's margin or a closing's account,
  * as the News reader words it, with the place, the seed and the record ids.
  * Usage: node --import tsx scripts/words/w3-news-year.ts <seed> [days]
+ * MATCH=<pattern> prints only stories whose source record or headline match.
  */
 import { drawPlace } from "../core2-year/place";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
@@ -43,7 +44,14 @@ while (core.date < end) {
     if (seen.has(story.id) || story.kind !== "press.printed") continue;
     seen.add(story.id);
     const worded = wordPrintedStory(core, story);
-    if (!worded?.paragraphs || worded.paragraphs.length < 2) continue;
+    // MATCH (a pattern on the source record or headline) prints those stories,
+    // one paragraph or more; without it, stories of two paragraphs or more.
+    const match = process.env.MATCH ? new RegExp(process.env.MATCH, "i") : null;
+    if (!worded?.paragraphs) continue;
+    if (match) {
+      if (!match.test(`${story.facts.sourceRecordId} ${worded.headline}`))
+        continue;
+    } else if (worded.paragraphs.length < 2) continue;
     console.log(
       `\n${story.date} ${story.facts.sourceRecordId}\n  ${worded.headline}\n  ${worded.paragraphs.join("\n  ")}`,
     );
