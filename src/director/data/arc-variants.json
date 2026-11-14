@@ -1870,7 +1870,8 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "stateMoves": ["request", "figure"]
           }
         },
         "trade": {
@@ -1981,7 +1982,8 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "stateMoves": ["request", "figure"]
           }
         },
         "watched": {
@@ -2096,7 +2098,8 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "stateMoves": ["request", "figure"]
           }
         },
         "friend": {
@@ -2207,7 +2210,8 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "stateMoves": ["request", "figure"]
           }
         }
       }

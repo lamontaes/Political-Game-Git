@@ -185250,35 +185250,35 @@
       }
     },
     {
-      "key": "scene-talk.state-request.bill-sets-own-amount-i-need-your-vote",
-      "move": "state-request",
+      "key": "scene-talk.state-figure.it-sets-own-amount",
+      "move": "state-figure",
       "kind": "spoken",
-      "text": "{bill} sets {own-amount}. I need your vote.",
+      "text": "It sets {own-amount}.",
       "uses": [
         {
           "subject": "scene",
           "step": "state",
-          "move": "request",
+          "move": "figure",
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
           "requiresFacts": ["own-amount"]
         }
       ],
-      "bearing": "hopeful",
+      "bearing": "calm",
       "origin": "authored",
       "author": "Claude Opus (brief O, amount bills)",
       "date": "2026-11-14",
       "tag": {
-        "move": "request",
+        "move": "figure",
         "key": "vote-wanted"
       }
     },
     {
-      "key": "scene-talk.state-request.i-ve-wanted-this-for-a-long-time-bill-sets-own-amount-and-i-need-your-vote",
+      "key": "scene-talk.state-request.i-believe-in-this-one-i-need-your-vote",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I've wanted this for a long time. {bill} sets {own-amount}, and I need your vote.",
+      "text": "I believe in this one. I need your vote.",
       "uses": [
         {
           "subject": "scene",
@@ -185300,10 +185300,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.people-back-home-keep-asking-me-for-this-bill-sets-own-amount-can-i-count-on-you",
+      "key": "scene-talk.state-request.people-back-home-keep-asking-me-for-this-can-i-count-on-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "People back home keep asking me for this. {bill} sets {own-amount}. Can I count on you?",
+      "text": "People back home keep asking me for this. Can I count on you?",
       "uses": [
         {
           "subject": "scene",
@@ -185325,10 +185325,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.the-caucus-is-behind-this-one-bill-sets-own-amount-and-i-need-your-vote",
+      "key": "scene-talk.state-request.the-caucus-is-behind-this-one-and-i-need-your-vote",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The caucus is behind this one. {bill} sets {own-amount}, and I need your vote.",
+      "text": "The caucus is behind this one, and I need your vote.",
       "uses": [
         {
           "subject": "scene",
@@ -185350,10 +185350,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-told-people-i-d-get-this-done-bill-sets-own-amount-can-i-count-on-you",
+      "key": "scene-talk.state-request.i-have-to-face-the-voters-on-this-one-can-i-count-on-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I told people I'd get this done. {bill} sets {own-amount}. Can I count on you?",
+      "text": "I have to face the voters on this one. Can I count on you?",
       "uses": [
         {
           "subject": "scene",
@@ -185375,10 +185375,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.the-folks-who-came-to-see-me-about-this-are-counting-on-it-bill-sets-own-amount",
+      "key": "scene-talk.state-request.the-people-this-helps-are-counting-on-me-can-i-count-on-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The folks who came to see me about this are counting on it. {bill} sets {own-amount}.",
+      "text": "The people this helps are counting on me. Can I count on you?",
       "uses": [
         {
           "subject": "scene",

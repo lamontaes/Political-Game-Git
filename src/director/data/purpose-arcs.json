@@ -155,7 +155,8 @@
           "keeps": "none",
           "when": {}
         }
-      ]
+      ],
+      "stateMoves": ["request", "figure"]
     },
     "confirm-vote": {
       "state": "ask",
