@@ -92829,30 +92829,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-can-t-decide-this-right-now",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I can't decide this right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "job-offer",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.close-thank.glad-to-have-you-we-ll-go-over-the-details-on-your-first-day",
       "move": "close-thank",
       "kind": "spoken",
@@ -97854,6 +97830,14 @@
       "kind": "spoken",
       "text": "I can't decide this right now.",
       "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        },
         {
           "subject": "scene",
           "purpose": "offer-to-run",
