@@ -45,10 +45,14 @@ it("full renter households buy a home in a played year, each purchase naming the
         .map(([, row]) => row.householdId),
     ).size;
     advanceCore(core, addDays(makeIsoDate(core.date), 366));
-    const rows = api
-      .moduleState("housing")
-      .table("purchases")
-      .rows() as unknown as { id: string; reasons?: Record<string, number> }[];
+    // Full renter households' purchases (counted renters buy too: housing-counted-buy.test.ts).
+    const rows = (
+      api.moduleState("housing").table("purchases").rows() as unknown as {
+        id: string;
+        counted?: boolean;
+        reasons?: Record<string, number>;
+      }[]
+    ).filter((row) => !row.counted);
     renters += here;
     for (const row of rows) bought.push({ where, ...row });
     seen.push(`${where}: ${rows.length} of ${here}`);
