@@ -121,6 +121,12 @@ export interface OfficeInput {
   };
   /** True when the office's seats represent the player's town. */
   readonly coversTown: boolean;
+  /**
+   * An executive office whose holder presides over the government's board (a commission
+   * county's probate judge): the holder puts a bill before the board in their own name, as its
+   * chair, instead of asking a member. From the place's own county data.
+   */
+  readonly presidesOverBody?: boolean;
   readonly source: string;
   readonly estimate: boolean;
 }
@@ -300,6 +306,7 @@ function boardOffices(
         elected: true,
         districted: false,
         coversTown: true,
+        ...(board.executive.presidesOverBody ? { presidesOverBody: true } : {}),
         source: `${board.citation} ${board.url}`.trim(),
         estimate: board.executive.status !== "SOURCED",
       });
