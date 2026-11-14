@@ -21,7 +21,7 @@ source: owner in chat Nov 13 2026 23:51Z (the past is simulated; real data calib
 
 **What.** The economy's months before the start are the published BLS and Fed figures copied unshifted, so every pass that reads them (housing's rents, the moves pass's pull month, the work pass) runs on the real country's past, not this world's. The world already has its own offsets for the months just before the opening, but they reach back only to the latest full-data year. Seen: Metrics on day one, last year's typical rent (housing's rents move with this pay) and the nation's rows, which then agree with the world's own opening months.
 
-**Cause.** Found in code: the macro pre-start pass (src/core2/modules/macro.ts:977, `preStart.run`) records `publishedMonth(month)` (src/core2/macro-model.ts:504) for each coarse step, unshifted, tagged SOURCED. The world's offsets (`macroWorldOffsets`, src/core2/macro-model.ts:216) are applied only by `historyMonths` (src/core2/macro-model.ts:251), and that function covers only `publishedMonths` (src/core2/macro-model.ts:109): the months since the latest full-data year. Housing's pass reads `economy.conditions` hourly earnings (src/core2/housing-past.ts `paySeries`).
+**Cause.** Found in code: the macro pre-start pass (src/core2/modules/macro.ts:977, `preStart.run`) records `publishedMonth(month)` (src/core2/macro-model.ts:504) for each coarse step, unshifted, tagged SOURCED. The world's offsets (`macroWorldOffsets`, src/core2/macro-model.ts:216) are applied only by `historyMonths` (src/core2/macro-model.ts:251), and that function covers only `publishedMonths` (src/core2/macro-model.ts:109): the months since the latest full-data year. Housing's pre-start pass on #9084 reads `economy.conditions` hourly earnings (its `paySeries`).
 
 **Fix.** In the macro pre-start pass, move each recorded month by the world's offsets the way `historyMonths` does: rate offsets alike every month, growth offsets compounded from the opening month back, so a recorded month and `historyMonths` agree wherever both exist. Tag the rows ESTIMATED with the published series as the calibration source. Delete any second copy of the offset arithmetic: one function moves a published month into this world, and both callers use it.
 
@@ -33,6 +33,6 @@ source: owner in chat Nov 13 2026 23:51Z (the past is simulated; real data calib
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/macro.ts, src/core2/macro-model.ts, src/core2/housing-past.ts (reads only)
+**Files.** src/core2/modules/macro.ts, src/core2/macro-model.ts; housing's pre-start pass on #9084 reads only
 
 **Notes.** Filed by Account lead T45 from #9084: pay before the start was the published months unshifted, and the Account lead asked that it be built, not only filed. Built by Account lead T48 on claude/project-thread-wuv4fd (the same item file as #9084's; whichever folds second keeps this status). The plan's open choice was ruled by the Account lead on Nov 14: growth offsets compound over the whole window, one rule with `historyMonths`. Known unshifted reader left for the home-price work: src/core2/housing-mortgages.ts `historicalMortgageRate` (published mortgage rates for past purchases).
