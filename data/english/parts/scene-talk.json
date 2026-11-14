@@ -13889,6 +13889,15 @@
           "purpose": "last-day-farewell",
           "key": "departure",
           "after": "scene-talk.reply-deflect.ask-me-over-a-drink-sometime-not-today"
+        },
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise"
         }
       ],
       "bearing": "tender",
@@ -27440,6 +27449,14 @@
           "purpose": "*",
           "key": "departure",
           "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
         }
       ],
       "bearing": "tender",
@@ -80114,31 +80131,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-ll-hold-you-to-that-first",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I'll hold you to that, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.then-where-you-re-the-one-we-elected",
       "move": "follow-press",
       "kind": "spoken",
@@ -80681,7 +80673,7 @@
       "key": "scene-talk.open-greet.first-it-s-name-i-m-calling-about-work-this-time",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "{first}, it's {name}. I'm calling about work this time.",
+      "text": "It's {name}. I'm calling about work this time.",
       "uses": [
         {
           "subject": "scene",
@@ -81398,7 +81390,7 @@
       "key": "scene-talk.open-greet.hello-first-this-is-name-with-outlet",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Hello, {first}. This is {name} with {outlet}.",
+      "text": "Hello. This is {name} with {outlet}.",
       "uses": [
         {
           "subject": "scene",
@@ -81523,7 +81515,7 @@
       "key": "scene-talk.state-request.first-you-know-how-these-go-we-re-putting-on-the-office-debate-and-i-want-you-on-that-stag",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{first}, you know how these go. We're putting on the {office} debate, and I want you on that stage.",
+      "text": "You know how these go. We're putting on the {office} debate, and I want you on that stage.",
       "uses": [
         {
           "subject": "scene",
@@ -82099,7 +82091,7 @@
       "key": "scene-talk.open-greet.hey-first",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Hey, {first}.",
+      "text": "Hey.",
       "uses": [
         {
           "subject": "scene",
@@ -82131,7 +82123,7 @@
       "key": "scene-talk.open-greet.first-i-hoped-i-d-catch-you",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "{first}! I hoped I'd catch you.",
+      "text": "I hoped I'd catch you.",
       "uses": [
         {
           "subject": "scene",
@@ -82855,7 +82847,7 @@
       "key": "scene-talk.open-greet.first-good-you-re-home",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "{first}, good, you're home.",
+      "text": "Good, you're home.",
       "uses": [
         {
           "subject": "scene",
@@ -82886,6 +82878,14 @@
           "subject": "scene",
           "purpose": "rival-word",
           "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
           "step": "open",
           "move": "greet",
           "role": "asker"
@@ -83004,7 +83004,7 @@
       "key": "scene-talk.state-tell.first-opponent-s-people-got-to-me-about-cause-thought-you-should-know",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{first}, {opponent}'s people got to me about {cause}. Thought you should know.",
+      "text": "{opponent}'s people got to me about {cause}. Thought you should know.",
       "uses": [
         {
           "subject": "scene",
@@ -91986,7 +91986,7 @@
       "key": "scene-talk.open-greet.hi-first-this-is-name-over-at-employer",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Hi, {first}. This is {name}, over at {employer}.",
+      "text": "Hi. This is {name}, over at {employer}.",
       "uses": [
         {
           "subject": "scene",
@@ -96934,34 +96934,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.got-a-minute-first-it-s-about-your-race",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Got a minute, {first}? It's about your race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-to-run",
-          "key": "favor-asked",
-          "step": "open",
-          "move": "greet",
-          "role": "asker"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.first-i-ve-been-thinking-about-this-campaign-since-i-heard-you-filed",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "{first}. I've been thinking about this campaign since I heard you filed.",
+      "text": "I've been thinking about this campaign since I heard you filed.",
       "uses": [
         {
           "subject": "scene",
@@ -97541,6 +97517,38 @@
       "uses": [
         {
           "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        },
+        {
+          "subject": "scene",
           "purpose": "offer-to-run",
           "key": "favor-asked",
           "step": "reply",
@@ -97548,9 +97556,10 @@
           "role": "asked"
         }
       ],
+      "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "leave",
         "key": "favor-asked"
@@ -97702,7 +97711,7 @@
       "key": "scene-talk.open-greet.good-to-see-you-again-first-come-stand-here",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Good to see you again, {first}. Come stand here.",
+      "text": "Good to see you again. Come stand here.",
       "uses": [
         {
           "subject": "scene",
@@ -97727,7 +97736,7 @@
       "key": "scene-talk.open-greet.good-to-see-you-again-first-are-you-ready",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Good to see you again, {first}. Are you ready?",
+      "text": "Good to see you again. Are you ready?",
       "uses": [
         {
           "subject": "scene",
@@ -97752,7 +97761,7 @@
       "key": "scene-talk.open-greet.first-i-m-name-i-ll-be-giving-you-the-oath",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "{first}, I'm {name}. I'll be giving you the oath.",
+      "text": "I'm {name}. I'll be giving you the oath.",
       "uses": [
         {
           "subject": "scene",
@@ -97802,7 +97811,7 @@
       "key": "scene-talk.open-greet.there-you-are-first-everyone-has-been-waiting-for-you",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "There you are, {first}! Everyone has been waiting for you.",
+      "text": "There you are! Everyone has been waiting for you.",
       "uses": [
         {
           "subject": "scene",
@@ -97850,7 +97859,7 @@
       "key": "scene-talk.open-greet.i-held-this-seat-until-now-first-it-s-yours",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I held this seat until now, {first}. It's yours.",
+      "text": "I held this seat until now. It's yours.",
       "uses": [
         {
           "subject": "scene",
@@ -97925,7 +97934,7 @@
       "key": "scene-talk.state-request.right-hand-up-first-do-you-swear-to-support-the-constitution-and-the-law",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Right hand up, {first}. Do you swear to support the Constitution and the laws, and to serve faithfully as {office}?",
+      "text": "Right hand up. Do you swear to support the Constitution and the laws, and to serve faithfully as {office}?",
       "uses": [
         {
           "subject": "scene",
@@ -97975,7 +97984,7 @@
       "key": "scene-talk.state-request.right-hand-up-first-do-you-swear-to-uphold-the-constitution-and-the-laws",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Right hand up, {first}. Do you swear to uphold the Constitution and the laws, and to serve as {office} to the best of your ability?",
+      "text": "Right hand up. Do you swear to uphold the Constitution and the laws, and to serve as {office} to the best of your ability?",
       "uses": [
         {
           "subject": "scene",
@@ -98236,7 +98245,7 @@
       "key": "scene-talk.follow-answer.take-it-slowly-first-i-will-support-the-constitution-and-the-laws-and-fa",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Take it slowly, {first}. I will support the Constitution and the laws, and faithfully carry out the duties of {office}.",
+      "text": "Take it slowly. I will support the Constitution and the laws, and faithfully carry out the duties of {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -98362,7 +98371,7 @@
       "key": "scene-talk.follow-congratulate.congratulations-first-it-s-yours-now",
       "move": "follow-congratulate",
       "kind": "spoken",
-      "text": "Congratulations, {first}. It's yours now.",
+      "text": "Congratulations. It's yours now.",
       "uses": [
         {
           "subject": "scene",
@@ -98437,7 +98446,7 @@
       "key": "scene-talk.follow-congratulate.congratulations-first-welcome-to-the-job",
       "move": "follow-congratulate",
       "kind": "spoken",
-      "text": "Congratulations, {first}! Welcome to the job.",
+      "text": "Congratulations! Welcome to the job.",
       "uses": [
         {
           "subject": "scene",
@@ -98763,7 +98772,7 @@
       "key": "scene-talk.continue-offer.the-floor-is-yours-first-if-you-want-to-say-a-few-words",
       "move": "continue-offer",
       "kind": "spoken",
-      "text": "The floor is yours, {first}, if you want to say a few words.",
+      "text": "The floor is yours, if you want to say a few words.",
       "uses": [
         {
           "subject": "scene",
@@ -98788,7 +98797,7 @@
       "key": "scene-talk.continue-offer.everyone-would-like-to-hear-from-you-first-say-a-few-words-if-you-d-like",
       "move": "continue-offer",
       "kind": "spoken",
-      "text": "Everyone would like to hear from you, {first}. Say a few words if you'd like.",
+      "text": "Everyone would like to hear from you. Say a few words if you'd like.",
       "uses": [
         {
           "subject": "scene",
@@ -98838,7 +98847,7 @@
       "key": "scene-talk.continue-offer.go-on-first-tell-everyone-what-you-came-to-do",
       "move": "continue-offer",
       "kind": "spoken",
-      "text": "Go on, {first}. Tell everyone what you came to do.",
+      "text": "Go on. Tell everyone what you came to do.",
       "uses": [
         {
           "subject": "scene",
@@ -103427,7 +103436,7 @@
       "key": "scene-talk.state-request.things-have-gone-well-here-first-and-we-wanted-to-say-so",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Things have gone well here, {first}, and we wanted to say so. Will you say a few words?",
+      "text": "Things have gone well here, and we wanted to say so. Will you say a few words?",
       "uses": [
         {
           "subject": "scene",
@@ -103451,7 +103460,7 @@
       "key": "scene-talk.state-request.things-have-gone-well-with-area-first-and-we-wanted-to-say",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Things have gone well with {area}, {first}, and we wanted to say so. Will you say a few words?",
+      "text": "Things have gone well with {area}, and we wanted to say so. Will you say a few words?",
       "uses": [
         {
           "subject": "scene",
@@ -103476,7 +103485,7 @@
       "key": "scene-talk.state-request.we-came-out-because-things-are-better-with-area-would-you-speak",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We came out because things are better with {area}. Would you speak to us, {first}?",
+      "text": "We came out because things are better with {area}. Would you speak to us?",
       "uses": [
         {
           "subject": "scene",
@@ -103501,7 +103510,7 @@
       "key": "scene-talk.state-request.people-wanted-to-mark-how-it-has-gone-with-area-come-and",
       "move": "state-request",
       "kind": "spoken",
-      "text": "People wanted to mark how it has gone with {area}. Come and say a few words with us, {first}.",
+      "text": "People wanted to mark how it has gone with {area}. Come and say a few words with us.",
       "uses": [
         {
           "subject": "scene",
@@ -103526,7 +103535,7 @@
       "key": "scene-talk.state-request.its-better-with-area-though-not-for-everyone-come-and-say-a",
       "move": "state-request",
       "kind": "spoken",
-      "text": "It's better with {area}, though not for everyone. Come and say a few words anyway, {first}.",
+      "text": "It's better with {area}, though not for everyone. Come and say a few words anyway.",
       "uses": [
         {
           "subject": "scene",
@@ -104235,7 +104244,7 @@
       "key": "scene-talk.state-warn.you-voted-for-bill-first-well-remember-that-in-the-spring",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "You voted for {bill}, {first}. We'll remember that in the spring.",
+      "text": "You voted for {bill}. We'll remember that in the spring.",
       "uses": [
         {
           "subject": "scene",
@@ -104260,7 +104269,7 @@
       "key": "scene-talk.state-warn.bill-you-went-the-other-way-from-us-on-it-first-i",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "{bill}. You went the other way from us on it, {first}. I only wanted you to know it was noticed.",
+      "text": "{bill}. You went the other way from us on it. I only wanted you to know it was noticed.",
       "uses": [
         {
           "subject": "scene",
@@ -104285,7 +104294,7 @@
       "key": "scene-talk.state-warn.you-voted-against-bill-first-we-were-counting-on-you-well-remember",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "You voted against {bill}, {first}. We were counting on you. We'll remember that in the spring.",
+      "text": "You voted against {bill}. We were counting on you. We'll remember that in the spring.",
       "uses": [
         {
           "subject": "scene",
@@ -104310,7 +104319,7 @@
       "key": "scene-talk.state-warn.you-didnt-give-us-the-vote-on-bill-first-i-only-wanted",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "You didn't give us the vote on {bill}, {first}. I only wanted you to know it was noticed.",
+      "text": "You didn't give us the vote on {bill}. I only wanted you to know it was noticed.",
       "uses": [
         {
           "subject": "scene",
@@ -104335,7 +104344,7 @@
       "key": "scene-talk.state-warn.you-went-against-us-on-the-vote-first-well-remember-that",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "You went against us on the vote, {first}. We'll remember that.",
+      "text": "You went against us on the vote. We'll remember that.",
       "uses": [
         {
           "subject": "scene",
@@ -104638,7 +104647,7 @@
       "key": "scene-talk.follow-press.a-lot-of-people-in-the-group-depend-on-this-first-youd",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "A lot of people in the group depend on this, {first}. You'd do well to remember that.",
+      "text": "A lot of people in the group depend on this. You'd do well to remember that.",
       "uses": [
         {
           "subject": "scene",
@@ -104734,7 +104743,7 @@
       "key": "scene-talk.follow-threaten.well-back-someone-else-in-the-spring-first-id-think-about-that",
       "move": "follow-threaten",
       "kind": "spoken",
-      "text": "We'll back someone else in the spring, {first}. I'd think about that.",
+      "text": "We'll back someone else in the spring. I'd think about that.",
       "uses": [
         {
           "subject": "scene",
@@ -104884,7 +104893,7 @@
       "key": "scene-talk.state-threaten.you-made-a-mistake-handing-that-back-first-people-like-me-have",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "You made a mistake handing that back, {first}. People like me have long memories.",
+      "text": "You made a mistake handing that back. People like me have long memories.",
       "uses": [
         {
           "subject": "scene",
@@ -104908,7 +104917,7 @@
       "key": "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "I would hate for this to get complicated, {first}. We could still be friends.",
+      "text": "I would hate for this to get complicated. We could still be friends.",
       "uses": [
         {
           "subject": "scene",
@@ -104932,7 +104941,7 @@
       "key": "scene-talk.state-threaten.nothing-has-to-change-between-us-first-unless-you-make-it-think",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "Nothing has to change between us, {first}. Unless you make it. Think it over.",
+      "text": "Nothing has to change between us. Unless you make it. Think it over.",
       "uses": [
         {
           "subject": "scene",
@@ -104956,7 +104965,7 @@
       "key": "scene-talk.state-threaten.bill-is-going-to-cost-me-and-i-dont-like-paying-for",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "{bill} is going to cost me, and I don't like paying for other people's votes. Think about that, {first}.",
+      "text": "{bill} is going to cost me, and I don't like paying for other people's votes. Think about that.",
       "uses": [
         {
           "subject": "scene",
@@ -104981,7 +104990,7 @@
       "key": "scene-talk.state-threaten.bill-is-going-to-cost-me-and-i-remember-who-stood-by-me-first-think-about-that",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "{bill} is going to cost me, and I remember who stood by me, {first}. Think about that.",
+      "text": "{bill} is going to cost me, and I remember who stood by me. Think about that.",
       "uses": [
         {
           "key": "threat",
@@ -105006,7 +105015,7 @@
       "key": "scene-talk.state-threaten.i-don-t-ask-twice-first-bill-is-the-reason-i-m-here",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "I don't ask twice, {first}. {bill} is the reason I'm here.",
+      "text": "I don't ask twice. {bill} is the reason I'm here.",
       "uses": [
         {
           "key": "threat",
@@ -105290,7 +105299,7 @@
       "key": "scene-talk.follow-threaten.youll-regret-it-first-everyone-does",
       "move": "follow-threaten",
       "kind": "spoken",
-      "text": "You'll regret it, {first}. Everyone does.",
+      "text": "You'll regret it. Everyone does.",
       "uses": [
         {
           "subject": "scene",
@@ -105386,7 +105395,7 @@
       "key": "scene-talk.follow-plea.dont-do-that-first-think-what-it-does-to-both-of-us",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Don't do that, {first}. Think what it does to both of us.",
+      "text": "Don't do that. Think what it does to both of us.",
       "uses": [
         {
           "subject": "scene",
@@ -105506,7 +105515,7 @@
       "key": "scene-talk.follow-press.you-cant-ignore-me-forever-first",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You can't ignore me forever, {first}.",
+      "text": "You can't ignore me forever.",
       "uses": [
         {
           "subject": "scene",
@@ -105864,7 +105873,7 @@
       "key": "scene-talk.state-ask.is-this-job-worth-what-its-costing-you-first",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "Is this job worth what it's costing you, {first}?",
+      "text": "Is this job worth what it's costing you?",
       "uses": [
         {
           "subject": "scene",
@@ -105888,7 +105897,7 @@
       "key": "scene-talk.state-ask.i-saw-the-crowd-is-it-always-going-to-be-like-this",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "I saw the crowd. Is it always going to be like this, {first}?",
+      "text": "I saw the crowd. Is it always going to be like this?",
       "uses": [
         {
           "subject": "scene",
@@ -105937,7 +105946,7 @@
       "key": "scene-talk.state-ask.whole-days-of-this-over-issue-why-do-you-keep-doing-it",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "Whole days of this, over {issue}. Why do you keep doing it, {first}?",
+      "text": "Whole days of this, over {issue}. Why do you keep doing it?",
       "uses": [
         {
           "subject": "scene",
@@ -106337,7 +106346,7 @@
       "key": "scene-talk.follow-press.its-not-only-the-crowd-first-its-what-it-does-to-you",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "It's not only the crowd, {first}. It's what it does to you.",
+      "text": "It's not only the crowd. It's what it does to you.",
       "uses": [
         {
           "subject": "scene",
@@ -106433,7 +106442,7 @@
       "key": "scene-talk.close-warn.im-not-going-to-stop-asking-first",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "I'm not going to stop asking, {first}.",
+      "text": "I'm not going to stop asking.",
       "uses": [
         {
           "subject": "scene",
@@ -114018,7 +114027,7 @@
       "key": "scene-talk.state-warn.things-have-a-way-of-getting-complicated-for-people-who-make-enemies-f",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "Things have a way of getting complicated for people who make enemies, {first}. I'd hate that for you.",
+      "text": "Things have a way of getting complicated for people who make enemies. I'd hate that for you.",
       "uses": [
         {
           "subject": "scene",
@@ -114042,7 +114051,7 @@
       "key": "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "I'm only saying, {first}, that a friend in {place} is worth more than a principle. Think about it.",
+      "text": "I'm only saying that a friend in {place} is worth more than a principle. Think about it.",
       "uses": [
         {
           "subject": "scene",
@@ -114091,7 +114100,7 @@
       "key": "scene-talk.state-warn.votes-get-remembered-first-by-the-people-who-needed-them-most-just-so",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "Votes get remembered, {first}, by the people who needed them most. Just so you know.",
+      "text": "Votes get remembered, by the people who needed them most. Just so you know.",
       "uses": [
         {
           "subject": "scene",
@@ -114116,7 +114125,7 @@
       "key": "scene-talk.state-warn.contracts-get-remembered-first-by-the-people-who-needed-them-most-just",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "People remember who got {contract}, {first}, and who needed it most. Just so you know.",
+      "text": "People remember who got {contract}, and who needed it most. Just so you know.",
       "uses": [
         {
           "subject": "scene",
@@ -114261,7 +114270,7 @@
       "key": "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Let's not turn this into something, {first}. We can still be friends.",
+      "text": "Let's not turn this into something. We can still be friends.",
       "uses": [
         {
           "subject": "scene",
@@ -114360,7 +114369,7 @@
       "key": "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "We'll talk about it again, {first}. I'm patient.",
+      "text": "We'll talk about it again. I'm patient.",
       "uses": [
         {
           "subject": "scene",
@@ -114431,7 +114440,7 @@
       "key": "scene-talk.state-threaten.you-embarrassed-me-by-handing-that-back-first-ill-make-sure-that-costs",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "You embarrassed me by handing that back, {first}. I'll make sure that costs you.",
+      "text": "You embarrassed me by handing that back. I'll make sure that costs you.",
       "uses": [
         {
           "subject": "scene",
@@ -114455,7 +114464,7 @@
       "key": "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "I know people who would like to see you gone, {first}. Take the deal.",
+      "text": "I know people who would like to see you gone. Take the deal.",
       "uses": [
         {
           "subject": "scene",
@@ -114479,7 +114488,7 @@
       "key": "scene-talk.state-threaten.last-chance-first-after-today-i-stop-being-polite",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "Last chance, {first}. After today I stop being polite.",
+      "text": "Last chance. After today I stop being polite.",
       "uses": [
         {
           "subject": "scene",
@@ -114503,7 +114512,7 @@
       "key": "scene-talk.state-threaten.that-vote-is-going-to-cost-me-first-and-ill-make-it-cost-you-more",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "That vote is going to cost me, {first}, and I'll make it cost you more.",
+      "text": "That vote is going to cost me, and I'll make it cost you more.",
       "uses": [
         {
           "subject": "scene",
@@ -114772,7 +114781,7 @@
       "key": "scene-talk.follow-warn.watch-yourself-first-this-town-is-smaller-than-you-think",
       "move": "follow-warn",
       "kind": "spoken",
-      "text": "Watch yourself, {first}. {place} is smaller than you think.",
+      "text": "Watch yourself. {place} is smaller than you think.",
       "uses": [
         {
           "subject": "scene",
@@ -114892,7 +114901,7 @@
       "key": "scene-talk.state-plea.i-didnt-come-to-threaten-you-first-i-came-to-beg-ill-be-ruined-if-this",
       "move": "state-plea",
       "kind": "spoken",
-      "text": "I didn't come to threaten you, {first}. I came to beg. I'll be ruined if this doesn't go my way.",
+      "text": "I didn't come to threaten you. I came to beg. I'll be ruined if this doesn't go my way.",
       "uses": [
         {
           "subject": "scene",
@@ -114940,7 +114949,7 @@
       "key": "scene-talk.state-plea.i-was-wrong-to-come-at-you-before-first-help-me-and-ill-never-ask-for",
       "move": "state-plea",
       "kind": "spoken",
-      "text": "I was wrong to come at you before, {first}. Help me, and I'll never ask for anything else.",
+      "text": "I was wrong to come at you before. Help me, and I'll never ask for anything else.",
       "uses": [
         {
           "subject": "scene",
@@ -115279,7 +115288,7 @@
       "key": "scene-talk.state-press.ill-keep-coming-back-until-you-give-me-a-straight-answer-first",
       "move": "state-press",
       "kind": "spoken",
-      "text": "I'll keep coming back until you give me a straight answer, {first}.",
+      "text": "I'll keep coming back until you give me a straight answer.",
       "uses": [
         {
           "subject": "scene",
@@ -115303,7 +115312,7 @@
       "key": "scene-talk.state-press.ive-asked-nicely-and-ive-asked-plainly-first-im-done-asking",
       "move": "state-press",
       "kind": "spoken",
-      "text": "I've asked nicely and I've asked plainly, {first}. I'm done asking.",
+      "text": "I've asked nicely and I've asked plainly. I'm done asking.",
       "uses": [
         {
           "subject": "scene",
@@ -115327,7 +115336,7 @@
       "key": "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
       "move": "state-press",
       "kind": "spoken",
-      "text": "You can't avoid me forever, {first}. I'm easier to find than you think.",
+      "text": "You can't avoid me forever. I'm easier to find than you think.",
       "uses": [
         {
           "subject": "scene",
@@ -115351,7 +115360,7 @@
       "key": "scene-talk.state-press.that-vote-is-still-coming-first-and-so-am-i-every-time",
       "move": "state-press",
       "kind": "spoken",
-      "text": "That vote is still coming, {first}, and so am I. Every time.",
+      "text": "That vote is still coming, and so am I. Every time.",
       "uses": [
         {
           "subject": "scene",
@@ -115521,7 +115530,7 @@
       "key": "scene-talk.follow-threaten.say-no-a-few-more-times-first-see-whos-still-on-your-side",
       "move": "follow-threaten",
       "kind": "spoken",
-      "text": "Say no a few more times, {first}. See who's still on your side.",
+      "text": "Say no a few more times. See who's still on your side.",
       "uses": [
         {
           "subject": "scene",
@@ -115596,7 +115605,7 @@
       "key": "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Hold on. You don't have to go and do that, {first}.",
+      "text": "Hold on. You don't have to go and do that.",
       "uses": [
         {
           "subject": "scene",
@@ -132282,7 +132291,7 @@
       "key": "scene-talk.state-tell.i-came-to-say-goodbye-i-m-leaving-first",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I came to say goodbye. I'm leaving, {first}.",
+      "text": "I came to say goodbye. I'm leaving.",
       "uses": [
         {
           "subject": "scene",
@@ -132429,7 +132438,7 @@
       "key": "scene-talk.state-tell.so-it-s-destination-i-m-going-first-and-i-wanted-to-see-you-before-i-d",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "So it's {destination}. I'm going, {first}, and I wanted to see you before I did.",
+      "text": "So it's {destination}. I'm going, and I wanted to see you before I did.",
       "uses": [
         {
           "subject": "scene",
@@ -132454,7 +132463,7 @@
       "key": "scene-talk.state-tell.i-m-leaving-the-house-first-and-i-m-going-to-destination-you-should-he",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I'm leaving the house, {first}, and I'm going to {destination}. You should hear it from me.",
+      "text": "I'm leaving the house, and I'm going to {destination}. You should hear it from me.",
       "uses": [
         {
           "subject": "scene",
@@ -132504,7 +132513,7 @@
       "key": "scene-talk.state-tell.the-room-is-going-to-be-empty-first-i-m-leaving-for-destination",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "The room is going to be empty, {first}. I'm leaving for {destination}.",
+      "text": "The room is going to be empty. I'm leaving for {destination}.",
       "uses": [
         {
           "subject": "scene",
@@ -132679,7 +132688,7 @@
       "key": "scene-talk.state-tell.i-took-the-work-in-destination-first-i-wanted-you-to-hear-it-from-me-n",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I took the work in {destination}, {first}. I wanted you to hear it from me, not from somebody else.",
+      "text": "I took the work in {destination}. I wanted you to hear it from me, not from somebody else.",
       "uses": [
         {
           "subject": "scene",
@@ -132804,7 +132813,7 @@
       "key": "scene-talk.state-tell.the-work-dried-up-first-i-m-going-where-it-is-destination",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "The work dried up, {first}. I'm going where it is: {destination}.",
+      "text": "The work dried up. I'm going where it is: {destination}.",
       "uses": [
         {
           "subject": "scene",
@@ -132929,7 +132938,7 @@
       "key": "scene-talk.state-tell.half-my-family-s-gone-already-first-i-m-following-them-to-destination",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "Half my family's gone already, {first}. I'm following them to {destination}.",
+      "text": "Half my family's gone already. I'm following them to {destination}.",
       "uses": [
         {
           "subject": "scene",
@@ -133004,7 +133013,7 @@
       "key": "scene-talk.state-tell.i-can-t-stay-in-rooms-full-of-them-first-i-m-going-to-destination-and",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I can't stay in rooms full of them, {first}. I'm going to {destination}, and I wanted to say goodbye.",
+      "text": "I can't stay in rooms full of them. I'm going to {destination}, and I wanted to say goodbye.",
       "uses": [
         {
           "subject": "scene",
@@ -133596,7 +133605,7 @@
       "key": "scene-talk.follow-accept.that-means-a-lot-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That means a lot, {first}.",
+      "text": "That means a lot.",
       "uses": [
         {
           "subject": "scene",
@@ -134434,30 +134443,6 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.take-care-of-yourself-first",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Take care of yourself, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "thank",
-        "key": "moving-goodbye"
-      }
-    },
-    {
       "key": "scene-talk.close-promise.i-ll-send-word-when-i-m-settled",
       "move": "close-promise",
       "kind": "spoken",
@@ -134786,7 +134771,7 @@
       "key": "scene-talk.state-deliver-news.it-s-owed-now-first-after-late-of-missed-rent-we-have-until-deadline",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "It's {owed} now, {first}, after {late} of missed rent. We have until {deadline}.",
+      "text": "It's {owed} now, after {late} of missed rent. We have until {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -134861,7 +134846,7 @@
       "key": "scene-talk.state-deliver-news.we-owe-owed-first-it-s-small-but-it-s-been-late-and-the-notice-gives-u",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "We owe {owed}, {first}. It's small, but it's been {late}, and the notice gives us until {deadline}.",
+      "text": "We owe {owed}. It's small, but it's been {late}, and the notice gives us until {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -135754,7 +135739,7 @@
       "key": "scene-talk.state-request.i-need-a-place-to-stay-until-i-find-work-first-i-wouldn-t-ask-if-there-were-anyone-else",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I need a place to stay until I find work, {first}. I wouldn't ask if there were anyone else.",
+      "text": "I need a place to stay until I find work. I wouldn't ask if there were anyone else.",
       "uses": [
         {
           "subject": "scene",
@@ -135779,7 +135764,7 @@
       "key": "scene-talk.state-request.i-m-back-first-can-i-have-my-old-place-in-this-house-until-i-m-working-again",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm back, {first}. Can I have my old place in this house until I'm working again?",
+      "text": "I'm back. Can I have my old place in this house until I'm working again?",
       "uses": [
         {
           "subject": "scene",
@@ -135954,7 +135939,7 @@
       "key": "scene-talk.state-request.the-term-is-over-first-we-have-to-decide-what-happens-now-and-i-don-t-want-to-put-it-off",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The term is over, {first}. We have to decide what happens now, and I don't want to put it off.",
+      "text": "The term is over. We have to decide what happens now, and I don't want to put it off.",
       "uses": [
         {
           "subject": "scene",
@@ -136008,6 +135993,14 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
           "purpose": "homecoming",
           "key": "arrival"
         }
@@ -136632,7 +136625,7 @@
       "key": "scene-talk.follow-press.i-ve-waited-away-already-first-give-me-an-answer-i-can-plan-around",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I've waited {away} already, {first}. Give me an answer I can plan around.",
+      "text": "I've waited {away} already. Give me an answer I can plan around.",
       "uses": [
         {
           "subject": "scene",
@@ -136807,30 +136800,6 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-do-my-part-first-you-ll-see",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll do my part, {first}. You'll see.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, return and visit purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.close-accept.alright-we-ll-pick-it-up-tomorrow",
       "move": "close-accept",
       "kind": "spoken",
@@ -136858,7 +136827,7 @@
       "key": "scene-talk.close-press.we-still-have-to-settle-this-first-don-t-let-it-slide",
       "move": "close-press",
       "kind": "spoken",
-      "text": "We still have to settle this, {first}. Don't let it slide.",
+      "text": "We still have to settle this. Don't let it slide.",
       "uses": [
         {
           "subject": "scene",
@@ -137049,7 +137018,7 @@
       "key": "scene-talk.state-request.can-you-put-some-money-on-my-account-first-the-commissary-is-how-i-get-anything-in-here-even-a-stamp",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Can you put some money on my account, {first}? The commissary is how I get anything in here, even a stamp.",
+      "text": "Can you put some money on my account? The commissary is how I get anything in here, even a stamp.",
       "uses": [
         {
           "subject": "scene",
@@ -137223,7 +137192,7 @@
       "key": "scene-talk.state-request.tell-the-family-i-m-all-right-first-don-t-tell-them-what-it-s-really-like",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Tell the family I'm alright, {first}. Don't tell them what it's really like.",
+      "text": "Tell the family I'm alright. Don't tell them what it's really like.",
       "uses": [
         {
           "subject": "scene",
@@ -138049,7 +138018,7 @@
       "key": "scene-talk.close-press.don-t-make-me-ask-twice-first",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Don't make me ask twice, {first}.",
+      "text": "Don't make me ask twice.",
       "uses": [
         {
           "subject": "scene",
@@ -139307,7 +139276,7 @@
       "key": "scene-talk.open-greet.hey-first-do-you-have-a-minute-i-wanted-to-ask-you-something",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Hey, {first}. Do you have a minute? I wanted to ask you something.",
+      "text": "Hey. Do you have a minute? I wanted to ask you something.",
       "uses": [
         {
           "subject": "scene",
@@ -139331,7 +139300,7 @@
       "key": "scene-talk.open-greet.i-m-glad-i-found-you-first-i-ve-been-meaning-to-ask-you-something",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'm glad I found you, {first}. I've been meaning to ask you something.",
+      "text": "I'm glad I found you. I've been meaning to ask you something.",
       "uses": [
         {
           "subject": "scene",
@@ -139355,7 +139324,7 @@
       "key": "scene-talk.state-request.i-m-going-to-the-next-meeting-of-the-party-first-do-you-want-to-come-with-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm going to the next meeting of the {party}, {first}. Do you want to come with me?",
+      "text": "I'm going to the next meeting of the {party}. Do you want to come with me?",
       "uses": [
         {
           "subject": "scene",
@@ -139833,7 +139802,7 @@
       "key": "scene-talk.follow-press.i-thought-of-you-first-first-can-you-tell-me-what-s-in-the-way",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I thought of you first, {first}. Can you tell me what's in the way?",
+      "text": "I thought of you first. Can you tell me what's in the way?",
       "uses": [
         {
           "subject": "scene",
@@ -139932,7 +139901,7 @@
       "key": "scene-talk.close-promise.i-ll-remember-this-first-you-can-ask-me-for-the-same",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll remember this, {first}. You can ask me for the same.",
+      "text": "I'll remember this. You can ask me for the same.",
       "uses": [
         {
           "subject": "scene",
@@ -140195,7 +140164,7 @@
       "key": "scene-talk.state-request.write-back-and-tell-me-how-you-are-first-i-like-hearing-what-s-going-on-in-your-life",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Write back and tell me how you are, {first}. I like hearing what's going on in your life.",
+      "text": "Write back and tell me how you are. I like hearing what's going on in your life.",
       "uses": [
         {
           "subject": "scene",
@@ -140219,7 +140188,7 @@
       "key": "scene-talk.state-request.would-you-come-for-a-visit-sometime-this-year-first-i-d-like-to-see-you-in-person",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you come for a visit sometime this year, {first}? I'd like to see you in person.",
+      "text": "Would you come for a visit sometime this year? I'd like to see you in person.",
       "uses": [
         {
           "subject": "scene",
@@ -140243,7 +140212,7 @@
       "key": "scene-talk.state-request.come-and-see-me-in-hometown-first-i-would-love-to-show-you-what-it-s-like-here",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Come and see me in {hometown}, {first}. I would love to show you what it's like here.",
+      "text": "Come and see me in {hometown}. I would love to show you what it's like here.",
       "uses": [
         {
           "subject": "scene",
@@ -140293,7 +140262,7 @@
       "key": "scene-talk.state-request.my-birthday-is-coming-up-first-it-would-mean-a-lot-to-me-if-you-wrote-back-before-then",
       "move": "state-request",
       "kind": "spoken",
-      "text": "My birthday is coming up, {first}. It would mean a lot to me if you wrote back before then.",
+      "text": "My birthday is coming up. It would mean a lot to me if you wrote back before then.",
       "uses": [
         {
           "subject": "scene",
@@ -140368,7 +140337,7 @@
       "key": "scene-talk.state-request.i-ve-moved-since-i-last-wrote-first-and-i-live-in-hometown-now-will-you-write-to-me-there",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I've moved since I last wrote, {first}, and I live in {hometown} now. Will you write to me there?",
+      "text": "I've moved since I last wrote, and I live in {hometown} now. Will you write to me there?",
       "uses": [
         {
           "subject": "scene",
@@ -140393,7 +140362,7 @@
       "key": "scene-talk.state-request.i-started-at-new-employer-since-i-last-wrote-first-will-you-write-back-and-tell-me-what-s-new-with-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I started at {new-employer} since I last wrote, {first}. Will you write back and tell me what's new with you?",
+      "text": "I started at {new-employer} since I last wrote. Will you write back and tell me what's new with you?",
       "uses": [
         {
           "subject": "scene",
@@ -140418,7 +140387,7 @@
       "key": "scene-talk.state-request.i-ve-been-seriously-ill-since-i-last-wrote-first-and-i-d-like-to-hear-from-you-will-you-write-back-soon",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I've been seriously ill since I last wrote, {first}, and I'd like to hear from you. Will you write back soon?",
+      "text": "I've been seriously ill since I last wrote, and I'd like to hear from you. Will you write back soon?",
       "uses": [
         {
           "subject": "scene",
@@ -140443,7 +140412,7 @@
       "key": "scene-talk.state-request.it-s-been-a-while-since-we-really-talked-first-will-you-write-back-and-tell-me-what-s-on-your-mind",
       "move": "state-request",
       "kind": "spoken",
-      "text": "It's been a while since we really talked, {first}. Will you write back and tell me what's on your mind?",
+      "text": "It's been a while since we really talked. Will you write back and tell me what's on your mind?",
       "uses": [
         {
           "subject": "scene",
@@ -140870,7 +140839,7 @@
       "key": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Can I count on that, {first}? I'd like to plan around it.",
+      "text": "Can I count on that? I'd like to plan around it.",
       "uses": [
         {
           "subject": "scene",
@@ -140970,7 +140939,7 @@
       "key": "scene-talk.follow-answer.i-d-rather-ask-family-than-a-stranger-i-d-be-grateful-for-whatever-you-can-do",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Whatever you can manage, {first}. Hearing from you is what matters.",
+      "text": "Whatever you can manage. Hearing from you is what matters.",
       "uses": [
         {
           "subject": "scene",
@@ -141234,7 +141203,7 @@
       "key": "scene-talk.open-greet.hello-first-it-s-good-to-see-everybody-together-like-this",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Hello, {first}. It's good to see everybody together like this.",
+      "text": "Hello. It's good to see everybody together like this.",
       "uses": [
         {
           "subject": "scene",
@@ -141258,7 +141227,7 @@
       "key": "scene-talk.open-greet.congratulations-first-i-ve-been-looking-forward-to-this-day",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Congratulations, {first}. I've been looking forward to this day.",
+      "text": "Congratulations. I've been looking forward to this day.",
       "uses": [
         {
           "subject": "scene",
@@ -141283,7 +141252,7 @@
       "key": "scene-talk.open-greet.congratulations-first-we-re-all-proud-of-you-for-getting-this-job",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Congratulations, {first}. We're all proud of you for getting this job.",
+      "text": "Congratulations. We're all proud of you for getting this job.",
       "uses": [
         {
           "subject": "scene",
@@ -141308,7 +141277,7 @@
       "key": "scene-talk.open-greet.hello-first-it-was-a-long-trip-from-hometown-but-i-wouldn-t-have-missed-this",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Hello, {first}. It was a long trip from {hometown}, but I wouldn't have missed this.",
+      "text": "Hello. It was a long trip from {hometown}, but I wouldn't have missed this.",
       "uses": [
         {
           "subject": "scene",
@@ -141333,7 +141302,7 @@
       "key": "scene-talk.state-request.would-you-say-a-few-words-to-everyone-first-they-would-love-to-hear-from-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you say a few words to everyone, {first}? They would love to hear from you.",
+      "text": "Would you say a few words to everyone? They would love to hear from you.",
       "uses": [
         {
           "subject": "scene",
@@ -141357,7 +141326,7 @@
       "key": "scene-talk.state-request.would-you-stand-with-us-for-a-picture-first-i-want-one-with-the-whole-family-in-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you stand with us for a picture, {first}? I want one with the whole family in it.",
+      "text": "Would you stand with us for a picture? I want one with the whole family in it.",
       "uses": [
         {
           "subject": "scene",
@@ -141381,7 +141350,7 @@
       "key": "scene-talk.state-request.would-you-and-spouse-cut-the-cake-with-us-first-everyone-is-waiting-for-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you and {spouse} cut the cake with us, {first}? Everyone is waiting for you.",
+      "text": "Would you and {spouse} cut the cake with us? Everyone is waiting for you.",
       "uses": [
         {
           "subject": "scene",
@@ -141406,7 +141375,7 @@
       "key": "scene-talk.state-request.would-you-let-me-say-a-few-words-about-you-and-spouse-first-i-ve-wanted-to-for-a-long-time",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you let me say a few words about you and {spouse}, {first}? I've wanted to for a long time.",
+      "text": "Would you let me say a few words about you and {spouse}? I've wanted to for a long time.",
       "uses": [
         {
           "subject": "scene",
@@ -141431,7 +141400,7 @@
       "key": "scene-talk.state-request.would-you-tell-everyone-about-the-job-at-employer-first-they-keep-asking-me-about-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you tell everyone about the job at {employer}, {first}? They keep asking me about it.",
+      "text": "Would you tell everyone about the job at {employer}? They keep asking me about it.",
       "uses": [
         {
           "subject": "scene",
@@ -141456,7 +141425,7 @@
       "key": "scene-talk.state-request.would-you-say-a-few-words-about-honoree-s-new-job-at-employer-first-everyone-is-waiting-for-you-to",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you say a few words about {honoree}'s new job at {employer}, {first}? Everyone is waiting for you to.",
+      "text": "Would you say a few words about {honoree}'s new job at {employer}? Everyone is waiting for you to.",
       "uses": [
         {
           "subject": "scene",
@@ -141481,7 +141450,7 @@
       "key": "scene-talk.state-request.i-m-glad-you-came-first-but-i-haven-t-forgotten-how-we-left-things-can-we-talk-it-out-before-everyone-goes",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm glad you came, {first}, but I haven't forgotten how we left things. Can we talk it out before everyone goes?",
+      "text": "I'm glad you came, but I haven't forgotten how we left things. Can we talk it out before everyone goes?",
       "uses": [
         {
           "subject": "scene",
@@ -141506,7 +141475,7 @@
       "key": "scene-talk.state-request.i-came-a-long-way-to-be-here-first-would-you-come-and-see-us-in-hometown-sometime",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I came a long way to be here, {first}. Would you come and see us in {hometown} sometime?",
+      "text": "I came a long way to be here. Would you come and see us in {hometown} sometime?",
       "uses": [
         {
           "subject": "scene",
@@ -141531,7 +141500,7 @@
       "key": "scene-talk.state-request.would-you-hold-new-child-for-a-picture-first-everyone-wants-one-of-you-two-together",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you hold {new-child} for a picture, {first}? Everyone wants one of you two together.",
+      "text": "Would you hold {new-child} for a picture? Everyone wants one of you two together.",
       "uses": [
         {
           "subject": "scene",
@@ -141556,7 +141525,7 @@
       "key": "scene-talk.state-request.would-you-ask-around-for-me-first-i-m-out-of-work-and-i-m-asking-everyone-i-know",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you ask around for me, {first}? I'm out of work, and I'm asking everyone I know.",
+      "text": "Would you ask around for me? I'm out of work, and I'm asking everyone I know.",
       "uses": [
         {
           "subject": "scene",
@@ -142572,7 +142541,7 @@
       "key": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-know-you-mean-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Can I count on that, {first}? I'd like to know you mean it.",
+      "text": "Can I count on that? I'd like to know you mean it.",
       "uses": [
         {
           "subject": "scene",
@@ -142647,7 +142616,7 @@
       "key": "scene-talk.follow-answer.i-m-only-asking-for-whatever-you-can-manage-first-you-re-the-one-i-thought-of-first",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'm only asking for whatever you can manage, {first}. You're the one I thought of first.",
+      "text": "I'm only asking for whatever you can manage. You're the one I thought of first.",
       "uses": [
         {
           "subject": "scene",
@@ -142696,7 +142665,7 @@
       "key": "scene-talk.close-promise.i-won-t-forget-this-first-enjoy-the-rest-of-the-day",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I won't forget this, {first}. Enjoy the rest of the day.",
+      "text": "I won't forget this. Enjoy the rest of the day.",
       "uses": [
         {
           "subject": "scene",
@@ -142911,7 +142880,7 @@
       "key": "scene-talk.open-greet.do-you-have-a-minute-first-i-want-to-talk-to-you-about-the-birthday",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Do you have a minute, {first}? I want to talk to you about the birthday.",
+      "text": "Do you have a minute? I want to talk to you about the birthday.",
       "uses": [
         {
           "subject": "scene",
@@ -142935,7 +142904,7 @@
       "key": "scene-talk.open-greet.do-you-have-a-minute-first-i-keep-thinking-about-absent-not-being-here",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Do you have a minute, {first}? I keep thinking about {absent} not being here.",
+      "text": "Do you have a minute? I keep thinking about {absent} not being here.",
       "uses": [
         {
           "subject": "scene",
@@ -142960,7 +142929,7 @@
       "key": "scene-talk.state-request.would-you-reach-out-to-the-relative-who-missed-it-first-it-would-mean-a-lot-to-the-family",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you call whoever missed the birthday, {first}? It would mean a lot to the family.",
+      "text": "Would you call whoever missed the birthday? It would mean a lot to the family.",
       "uses": [
         {
           "subject": "scene",
@@ -143059,7 +143028,7 @@
       "key": "scene-talk.state-request.would-you-go-see-absent-in-hometown-first-i-d-feel-better-if-someone-from-the-family-did",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you go see {absent} in {hometown}, {first}? I'd feel better if someone from the family did.",
+      "text": "Would you go see {absent} in {hometown}? I'd feel better if someone from the family did.",
       "uses": [
         {
           "subject": "scene",
@@ -143109,7 +143078,7 @@
       "key": "scene-talk.state-request.you-and-absent-left-things-badly-first-would-you-be-the-one-to-make-the-first-move",
       "move": "state-request",
       "kind": "spoken",
-      "text": "You and {absent} left things badly, {first}. Would you be the one to make the first move?",
+      "text": "You and {absent} left things badly. Would you be the one to make the first move?",
       "uses": [
         {
           "subject": "scene",
@@ -143589,7 +143558,7 @@
       "key": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Can I count on that, {first}? I'd like to be able to tell the family you'll do it.",
+      "text": "Can I count on that? I'd like to be able to tell the family you'll do it.",
       "uses": [
         {
           "subject": "scene",
@@ -143664,7 +143633,7 @@
       "key": "scene-talk.follow-answer.whatever-you-can-manage-first-a-kind-word-from-you-would-go-a-long-way",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Whatever you can manage, {first}. A kind word from you would go a long way.",
+      "text": "Whatever you can manage. A kind word from you would go a long way.",
       "uses": [
         {
           "subject": "scene",
@@ -143906,7 +143875,7 @@
       "key": "scene-talk.open-greet.are-you-alright-first-i-haven-t-been-able-to-sit-still-since-i-called-for-help",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Are you alright, {first}? I haven't been able to sit still since I called for help.",
+      "text": "Are you alright? I haven't been able to sit still since I called for help.",
       "uses": [
         {
           "subject": "scene",
@@ -143930,7 +143899,7 @@
       "key": "scene-talk.open-greet.can-i-sit-with-you-a-minute-first-i-want-to-ask-you-something-about-getting-you-well",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Can I sit with you a minute, {first}? I want to ask you something about getting you well.",
+      "text": "Can I sit with you a minute? I want to ask you something about getting you well.",
       "uses": [
         {
           "subject": "scene",
@@ -143954,7 +143923,7 @@
       "key": "scene-talk.open-greet.i-thought-i-was-losing-you-first-can-i-ask-you-something",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I thought I was losing you, {first}. Can I ask you something?",
+      "text": "I thought I was losing you. Can I ask you something?",
       "uses": [
         {
           "subject": "scene",
@@ -143979,7 +143948,7 @@
       "key": "scene-talk.open-greet.i-only-did-what-anyone-would-have-done-first-but-i-do-need-to-ask-you-something",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I only did what anyone would have done, {first}. But I do need to ask you something.",
+      "text": "I only did what anyone would have done. But I do need to ask you something.",
       "uses": [
         {
           "subject": "scene",
@@ -144003,7 +143972,7 @@
       "key": "scene-talk.state-request.will-you-let-me-drive-you-to-the-doctor-first-i-d-feel-a-lot-better-if-someone-checked-you-over",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you let me drive you to the doctor, {first}? I'd feel a lot better if someone checked you over.",
+      "text": "Will you let me drive you to the doctor? I'd feel a lot better if someone checked you over.",
       "uses": [
         {
           "subject": "scene",
@@ -144027,7 +143996,7 @@
       "key": "scene-talk.state-request.will-you-see-a-doctor-this-week-first-i-ll-go-with-you-if-you-want-me-there",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you see a doctor this week, {first}? I'll go with you if you want me there.",
+      "text": "Will you see a doctor this week? I'll go with you if you want me there.",
       "uses": [
         {
           "subject": "scene",
@@ -144051,7 +144020,7 @@
       "key": "scene-talk.state-request.will-you-let-me-stay-close-for-the-next-few-days-first-i-keep-going-over-the-minutes-before-i-called-for-help",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you let me stay close for the next few days, {first}? I keep going over the minutes before I called for help.",
+      "text": "Will you let me stay close for the next few days? I keep going over the minutes before I called for help.",
       "uses": [
         {
           "subject": "scene",
@@ -144075,7 +144044,7 @@
       "key": "scene-talk.state-request.will-you-promise-to-tell-me-the-moment-you-start-feeling-sick-again-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you promise to tell me the moment you start feeling sick again, {first}?",
+      "text": "Will you promise to tell me the moment you start feeling sick again?",
       "uses": [
         {
           "subject": "scene",
@@ -144099,7 +144068,7 @@
       "key": "scene-talk.state-request.will-you-let-me-call-the-rest-of-the-family-first-they-should-hear-what-happened-from-someone-who-was-here",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you let me call the rest of the family, {first}? They should hear what happened from someone who was here.",
+      "text": "Will you let me call the rest of the family? They should hear what happened from someone who was here.",
       "uses": [
         {
           "subject": "scene",
@@ -144148,7 +144117,7 @@
       "key": "scene-talk.state-request.you-scared-me-badly-first-will-you-promise-me-you-ll-slow-down-for-a-few-days",
       "move": "state-request",
       "kind": "spoken",
-      "text": "You scared me badly, {first}. Will you promise me you'll slow down for a few days?",
+      "text": "You scared me badly. Will you promise me you'll slow down for a few days?",
       "uses": [
         {
           "subject": "scene",
@@ -144173,7 +144142,7 @@
       "key": "scene-talk.state-request.will-you-let-the-others-in-the-house-sit-with-you-for-a-while-first-they-have-been-worried-about-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you let the others in the house sit with you for a while, {first}? They have been worried about you.",
+      "text": "Will you let the others in the house sit with you for a while? They have been worried about you.",
       "uses": [
         {
           "subject": "scene",
@@ -144622,7 +144591,7 @@
       "key": "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Can I count on that, {first}? I was frightened when I called for help, and I don't want to feel that way again.",
+      "text": "Can I count on that? I was frightened when I called for help, and I don't want to feel that way again.",
       "uses": [
         {
           "subject": "scene",
@@ -144647,7 +144616,7 @@
       "key": "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Will you really follow through, {first}? I need to hear you say it.",
+      "text": "Will you really follow through? I need to hear you say it.",
       "uses": [
         {
           "subject": "scene",
@@ -144672,7 +144641,7 @@
       "key": "scene-talk.follow-answer.i-m-afraid-of-walking-in-and-finding-you-worse-first-that-s-all-it-is",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'm afraid of walking in and finding you worse, {first}. That's all it is.",
+      "text": "I'm afraid of walking in and finding you worse. That's all it is.",
       "uses": [
         {
           "subject": "scene",
@@ -144697,7 +144666,7 @@
       "key": "scene-talk.follow-answer.i-only-want-you-taken-care-of-first-whatever-you-can-manage-is-enough-for-me",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I only want you taken care of, {first}. Whatever you can manage is enough for me.",
+      "text": "I only want you taken care of. Whatever you can manage is enough for me.",
       "uses": [
         {
           "subject": "scene",
@@ -144746,7 +144715,7 @@
       "key": "scene-talk.close-promise.i-ll-be-right-here-first-whatever-you-need-just-say-so",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll be right here, {first}. Whatever you need, just say so.",
+      "text": "I'll be right here. Whatever you need, just say so.",
       "uses": [
         {
           "subject": "scene",
@@ -144864,7 +144833,7 @@
       "key": "scene-talk.open-greet.money.do-you-have-a-minute-first-i-want-to-talk-about-the-payment-you-missed",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Do you have a minute, {first}? I want to talk about the payment you missed.",
+      "text": "Do you have a minute? I want to talk about the payment you missed.",
       "uses": [
         {
           "subject": "scene",
@@ -144888,7 +144857,7 @@
       "key": "scene-talk.open-greet.money.i-d-rather-say-this-to-your-face-first-it-s-about-the-payment-you-missed",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'd rather say this to your face, {first}. It's about the payment you missed.",
+      "text": "I'd rather say this to your face. It's about the payment you missed.",
       "uses": [
         {
           "subject": "scene",
@@ -144960,7 +144929,7 @@
       "key": "scene-talk.state-confront.money.anybody-can-miss-a-payment-first-i-just-need-you-to-say-it-was-your-doing",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "Anybody can miss a payment, {first}. I just need you to say it was your doing.",
+      "text": "Anybody can miss a payment. I just need you to say it was your doing.",
       "uses": [
         {
           "subject": "scene",
@@ -145383,7 +145352,7 @@
       "key": "scene-talk.follow-press.money.that-s-a-start-first-tell-me-what-you-re-going-to-do-about-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "That's a start, {first}. Tell me what you're going to do about it.",
+      "text": "That's a start. Tell me what you're going to do about it.",
       "uses": [
         {
           "subject": "scene",
@@ -145431,7 +145400,7 @@
       "key": "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "Don't turn this around on me, {first}. We're talking about your payment.",
+      "text": "Don't turn this around on me. We're talking about your payment.",
       "uses": [
         {
           "subject": "scene",
@@ -145529,7 +145498,7 @@
       "key": "scene-talk.close-warn.money.i-ll-be-watching-the-mail-first-don-t-let-it-happen-twice",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "I'll be watching the mail, {first}. Don't let it happen twice.",
+      "text": "I'll be watching the mail. Don't let it happen twice.",
       "uses": [
         {
           "subject": "scene",
@@ -145622,7 +145591,7 @@
       "key": "scene-talk.open-greet.close.can-we-talk-about-the-missed-payment-first-it-s-been-bothering-me-more-than-i-expected",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Can we talk about the missed payment, {first}? It's been bothering me more than I expected.",
+      "text": "Can we talk about the missed payment? It's been bothering me more than I expected.",
       "uses": [
         {
           "subject": "scene",
@@ -145646,7 +145615,7 @@
       "key": "scene-talk.open-greet.close.i-didn-t-want-to-bring-up-the-payment-you-missed-first-but-i-can-t-act-like-it-didn-t-happen",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I didn't want to bring up the payment you missed, {first}, but I can't act like it didn't happen.",
+      "text": "I didn't want to bring up the payment you missed, but I can't act like it didn't happen.",
       "uses": [
         {
           "subject": "scene",
@@ -145903,7 +145872,7 @@
       "key": "scene-talk.reply-ask.close.what-would-help-you-most-right-now-first",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would help you most right now, {first}?",
+      "text": "What would help you most right now?",
       "uses": [
         {
           "subject": "scene",
@@ -146021,7 +145990,7 @@
       "key": "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I just need to see that it counts for something, {first}.",
+      "text": "I just need to see that it counts for something.",
       "uses": [
         {
           "subject": "scene",
@@ -146045,7 +146014,7 @@
       "key": "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'd like to know how you'll make sure it doesn't happen again, {first}.",
+      "text": "I'd like to know how you'll make sure it doesn't happen again.",
       "uses": [
         {
           "subject": "scene",
@@ -146069,7 +146038,7 @@
       "key": "scene-talk.follow-answer.close.just-tell-me-the-truth-about-it-first-and-tell-me-it-won-t-happen-again",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Just tell me the truth about it, {first}, and tell me it won't happen again.",
+      "text": "Just tell me the truth about it, and tell me it won't happen again.",
       "uses": [
         {
           "subject": "scene",
@@ -146094,7 +146063,7 @@
       "key": "scene-talk.follow-answer.close.i-only-want-to-know-i-can-count-on-you-first-that-s-all",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I only want to know I can count on you, {first}. That's all.",
+      "text": "I only want to know I can count on you. That's all.",
       "uses": [
         {
           "subject": "scene",
@@ -146167,7 +146136,7 @@
       "key": "scene-talk.close-warn.close.i-ll-give-you-time-first-but-i-won-t-forget-it",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "I'll give you time, {first}. But I won't forget it.",
+      "text": "I'll give you time. But I won't forget it.",
       "uses": [
         {
           "subject": "scene",
@@ -146261,7 +146230,7 @@
       "key": "scene-talk.open-greet.repeat.we-have-to-do-this-again-first-it-s-the-missed-payment",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "We have to do this again, {first}? It's the missed payment.",
+      "text": "We have to do this again? It's the missed payment.",
       "uses": [
         {
           "subject": "scene",
@@ -146285,7 +146254,7 @@
       "key": "scene-talk.open-greet.repeat.i-hoped-we-were-done-with-this-first-the-missed-payment-says-we-aren-t",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I hoped we were done with this, {first}. The missed payment says we aren't.",
+      "text": "I hoped we were done with this. The missed payment says we aren't.",
       "uses": [
         {
           "subject": "scene",
@@ -146333,7 +146302,7 @@
       "key": "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "This is not the first time money has come between us, {first}. I want to hear what changes.",
+      "text": "This is not the first time money has come between us. I want to hear what changes.",
       "uses": [
         {
           "subject": "scene",
@@ -146357,7 +146326,7 @@
       "key": "scene-talk.state-confront.repeat.i-m-tired-of-having-this-talk-first-tell-me-what-s-different-now",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "I'm tired of having this talk, {first}. Tell me what's different now.",
+      "text": "I'm tired of having this talk. Tell me what's different now.",
       "uses": [
         {
           "subject": "scene",
@@ -146780,7 +146749,7 @@
       "key": "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You said that before, {first}. What's going to be different this time?",
+      "text": "You said that before. What's going to be different this time?",
       "uses": [
         {
           "subject": "scene",
@@ -146828,7 +146797,7 @@
       "key": "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "Don't tell me I'm bringing up the past. The past is why we're here, {first}.",
+      "text": "Don't tell me I'm bringing up the past. The past is why we're here.",
       "uses": [
         {
           "subject": "scene",
@@ -146853,7 +146822,7 @@
       "key": "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "And you keep saying you'll change, {first}. I'm the one who watches you not do it.",
+      "text": "And you keep saying you'll change. I'm the one who watches you not do it.",
       "uses": [
         {
           "subject": "scene",
@@ -146926,7 +146895,7 @@
       "key": "scene-talk.close-warn.repeat.i-won-t-have-this-talk-a-third-time-first",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "I won't have this talk a third time, {first}.",
+      "text": "I won't have this talk a third time.",
       "uses": [
         {
           "subject": "scene",
@@ -147019,7 +146988,7 @@
       "key": "scene-talk.open-greet.pressed.do-you-have-a-minute-first-money-is-tight-for-me-too-and-i-need-to-talk-about-the-payment-you-missed",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Do you have a minute, {first}? Money is tight for me too, and I need to talk about the payment you missed.",
+      "text": "Do you have a minute? Money is tight for me too, and I need to talk about the payment you missed.",
       "uses": [
         {
           "subject": "scene",
@@ -147043,7 +147012,7 @@
       "key": "scene-talk.open-greet.pressed.i-m-not-trying-to-pile-on-first-but-i-can-t-absorb-another-missed-payment",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'm not trying to pile on, {first}, but I can't absorb another missed payment.",
+      "text": "I'm not trying to pile on, but I can't absorb another missed payment.",
       "uses": [
         {
           "subject": "scene",
@@ -147067,7 +147036,7 @@
       "key": "scene-talk.state-confront.pressed.money-s-tight-for-me-too-first-so-a-missed-payment-hits-hard-i-need-you-to-own-it",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "Money's tight for me too, {first}, so a missed payment hits hard. I need you to own it.",
+      "text": "Money's tight for me too, so a missed payment hits hard. I need you to own it.",
       "uses": [
         {
           "subject": "scene",
@@ -147608,7 +147577,7 @@
       "key": "scene-talk.follow-press.pressed.i-believe-you-first-i-just-can-t-afford-to-be-wrong-again",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I believe you, {first}. I just can't afford to be wrong again.",
+      "text": "I believe you. I just can't afford to be wrong again.",
       "uses": [
         {
           "subject": "scene",
@@ -147632,7 +147601,7 @@
       "key": "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "Everybody's short, {first}. That doesn't make a missed payment okay.",
+      "text": "Everybody's short. That doesn't make a missed payment okay.",
       "uses": [
         {
           "subject": "scene",
@@ -147657,7 +147626,7 @@
       "key": "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "I'm not asking for what you don't have, {first}. I'm asking you to say it was your doing.",
+      "text": "I'm not asking for what you don't have. I'm asking you to say it was your doing.",
       "uses": [
         {
           "subject": "scene",
@@ -147730,7 +147699,7 @@
       "key": "scene-talk.close-warn.pressed.if-it-happens-again-i-ll-have-to-bring-it-up-sooner-first",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "If it happens again, I'll have to bring it up sooner, {first}.",
+      "text": "If it happens again, I'll have to bring it up sooner.",
       "uses": [
         {
           "subject": "scene",
@@ -147823,7 +147792,7 @@
       "key": "scene-talk.open-greet.witness.i-want-you-to-know-where-i-stand-first-i-went-to-the-prosecutor",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I want you to know where I stand, {first}. I went to the prosecutor.",
+      "text": "I want you to know where I stand. I went to the prosecutor.",
       "uses": [
         {
           "subject": "scene",
@@ -147847,7 +147816,7 @@
       "key": "scene-talk.open-greet.witness.i-d-rather-you-heard-it-from-me-first-i-reported-what-you-offered-me",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'd rather you heard it from me, {first}. I reported what you offered me.",
+      "text": "I'd rather you heard it from me. I reported what you offered me.",
       "uses": [
         {
           "subject": "scene",
@@ -147871,7 +147840,7 @@
       "key": "scene-talk.state-confront.witness.you-offered-me-money-first-i-turned-it-down-and-i-reported-it",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "You offered me money, {first}. I turned it down, and I reported it.",
+      "text": "You offered me money. I turned it down, and I reported it.",
       "uses": [
         {
           "subject": "scene",
@@ -147919,7 +147888,7 @@
       "key": "scene-talk.state-confront.witness.what-you-offered-me-wasn-t-a-gift-first-i-want-to-hear-what-you-have-to-say-about-it",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "What you offered me wasn't a gift, {first}. I want to hear what you have to say about it.",
+      "text": "What you offered me wasn't a gift. I want to hear what you have to say about it.",
       "uses": [
         {
           "subject": "scene",
@@ -148434,7 +148403,7 @@
       "key": "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "That doesn't answer it, {first}. Tell me what you meant when you offered the money.",
+      "text": "That doesn't answer it. Tell me what you meant when you offered the money.",
       "uses": [
         {
           "subject": "scene",
@@ -148458,7 +148427,7 @@
       "key": "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You'll have to do better than that, {first}. I know what I heard.",
+      "text": "You'll have to do better than that. I know what I heard.",
       "uses": [
         {
           "subject": "scene",
@@ -148482,7 +148451,7 @@
       "key": "scene-talk.follow-ask.witness.then-why-offer-it-at-all-first",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Then why offer it at all, {first}?",
+      "text": "Then why offer it at all?",
       "uses": [
         {
           "subject": "scene",
@@ -148532,7 +148501,7 @@
       "key": "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "Don't turn this on me, {first}. I'm the one who was offered the money.",
+      "text": "Don't turn this on me. I'm the one who was offered the money.",
       "uses": [
         {
           "subject": "scene",
@@ -148557,7 +148526,7 @@
       "key": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "I'm not afraid of what you have to say, {first}. The prosecutor has my account.",
+      "text": "I'm not afraid of what you have to say. The prosecutor has my account.",
       "uses": [
         {
           "subject": "scene",
@@ -148699,7 +148668,7 @@
       "key": "scene-talk.open-greet.hearsay.i-ll-be-straight-with-you-first-i-went-to-the-prosecutor-about-something-i-was-told",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'll be straight with you, {first}. I went to the prosecutor about something I was told.",
+      "text": "I'll be straight with you. I went to the prosecutor about something I was told.",
       "uses": [
         {
           "subject": "scene",
@@ -148723,7 +148692,7 @@
       "key": "scene-talk.open-greet.hearsay.can-i-ask-you-something-first-i-made-a-complaint-and-i-d-rather-you-heard-that-from-me",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Can I ask you something, {first}? I made a complaint, and I'd rather you heard that from me.",
+      "text": "Can I ask you something? I made a complaint, and I'd rather you heard that from me.",
       "uses": [
         {
           "subject": "scene",
@@ -148747,7 +148716,7 @@
       "key": "scene-talk.state-confront.hearsay.someone-who-knew-about-it-told-me-there-was-a-bribe-first-and-your-name-came-up-is-it-true",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "Someone who knew about it told me there was a bribe, {first}, and your name came up. Is it true?",
+      "text": "Someone who knew about it told me there was a bribe, and your name came up. Is it true?",
       "uses": [
         {
           "subject": "scene",
@@ -148771,7 +148740,7 @@
       "key": "scene-talk.state-confront.hearsay.i-reported-what-i-was-told-first-i-want-to-hear-your-side-before-anyone-else-s",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "I reported what I was told, {first}. I want to hear your side before anyone else's.",
+      "text": "I reported what I was told. I want to hear your side before anyone else's.",
       "uses": [
         {
           "subject": "scene",
@@ -148795,7 +148764,7 @@
       "key": "scene-talk.state-confront.hearsay.i-don-t-have-proof-first-i-have-what-i-was-told-and-i-couldn-t-sit-on-it",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "I don't have proof, {first}. I have what I was told, and I couldn't sit on it.",
+      "text": "I don't have proof. I have what I was told, and I couldn't sit on it.",
       "uses": [
         {
           "subject": "scene",
@@ -149287,7 +149256,7 @@
       "key": "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "That's not enough, {first}. Someone told me otherwise.",
+      "text": "That's not enough. Someone told me otherwise.",
       "uses": [
         {
           "subject": "scene",
@@ -149311,7 +149280,7 @@
       "key": "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I want to believe you, {first}. Give me something I can check.",
+      "text": "I want to believe you. Give me something I can check.",
       "uses": [
         {
           "subject": "scene",
@@ -149335,7 +149304,7 @@
       "key": "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "And you expect me to believe that, {first}?",
+      "text": "And you expect me to believe that?",
       "uses": [
         {
           "subject": "scene",
@@ -149385,7 +149354,7 @@
       "key": "scene-talk.follow-answer.hearsay.i-can-t-say-who-it-was-first-i-can-say-they-knew-what-they-were-talking-about",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I can't say who it was, {first}. I can say they knew what they were talking about.",
+      "text": "I can't say who it was. I can say they knew what they were talking about.",
       "uses": [
         {
           "subject": "scene",
@@ -149410,7 +149379,7 @@
       "key": "scene-talk.follow-answer.hearsay.it-came-from-someone-i-trust-first-that-s-all-i-ll-say",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It came from someone I trust, {first}. That's all I'll say.",
+      "text": "It came from someone I trust. That's all I'll say.",
       "uses": [
         {
           "subject": "scene",
@@ -149435,7 +149404,7 @@
       "key": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "I didn't make it up, {first}. Somebody did tell me.",
+      "text": "I didn't make it up. Somebody did tell me.",
       "uses": [
         {
           "subject": "scene",
@@ -149460,7 +149429,7 @@
       "key": "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "Don't call it a rumor when the prosecutor has it, {first}.",
+      "text": "Don't call it a rumor when the prosecutor has it.",
       "uses": [
         {
           "subject": "scene",
@@ -149626,7 +149595,7 @@
       "key": "scene-talk.open-greet.taken.i-won-t-waste-your-time-first-this-is-about-the-money-that-was-taken",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I won't waste your time, {first}. This is about the money that was taken.",
+      "text": "I won't waste your time. This is about the money that was taken.",
       "uses": [
         {
           "subject": "scene",
@@ -149650,7 +149619,7 @@
       "key": "scene-talk.open-greet.taken.i-d-rather-say-this-to-you-than-about-you-first-it-s-about-the-payment",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'd rather say this to you than about you, {first}. It's about the payment.",
+      "text": "I'd rather say this to you than about you. It's about the payment.",
       "uses": [
         {
           "subject": "scene",
@@ -149674,7 +149643,7 @@
       "key": "scene-talk.state-confront.taken.the-money-was-taken-first-and-more-than-one-name-is-in-my-complaint-yours-is-one-of-them",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "The money was taken, {first}, and more than one name is in my complaint. Yours is one of them.",
+      "text": "The money was taken, and more than one name is in my complaint. Yours is one of them.",
       "uses": [
         {
           "subject": "scene",
@@ -149698,7 +149667,7 @@
       "key": "scene-talk.state-confront.taken.i-m-told-the-money-changed-hands-first-this-isn-t-only-a-rumor-about-an-offer",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "I'm told the money changed hands, {first}. This isn't only a rumor about an offer.",
+      "text": "I'm told the money changed hands. This isn't only a rumor about an offer.",
       "uses": [
         {
           "subject": "scene",
@@ -149722,7 +149691,7 @@
       "key": "scene-talk.state-confront.taken.this-isn-t-about-an-offer-anymore-first-the-money-was-taken-i-need-to-know-what-you-had-to-do-with-it",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "This isn't about an offer anymore, {first}. The money was taken. I need to know what you had to do with it.",
+      "text": "This isn't about an offer anymore. The money was taken. I need to know what you had to do with it.",
       "uses": [
         {
           "subject": "scene",
@@ -150071,7 +150040,7 @@
       "key": "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "That's not the whole story, {first}. Tell me the rest.",
+      "text": "That's not the whole story. Tell me the rest.",
       "uses": [
         {
           "subject": "scene",
@@ -150119,7 +150088,7 @@
       "key": "scene-talk.follow-ask.taken.who-else-knew-first",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Who else knew, {first}?",
+      "text": "Who else knew?",
       "uses": [
         {
           "subject": "scene",
@@ -150144,7 +150113,7 @@
       "key": "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "And the money, {first}? Where did it go?",
+      "text": "And the money? Where did it go?",
       "uses": [
         {
           "subject": "scene",
@@ -150169,7 +150138,7 @@
       "key": "scene-talk.close-warn.taken.the-prosecutor-will-want-the-rest-first",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "The prosecutor will want the rest, {first}.",
+      "text": "The prosecutor will want the rest.",
       "uses": [
         {
           "subject": "scene",
@@ -150310,7 +150279,7 @@
       "key": "scene-talk.open-greet.friend.i-didn-t-sleep-first-i-filed-a-complaint-and-i-wanted-you-to-hear-it-from-me",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I didn't sleep, {first}. I filed a complaint, and I wanted you to hear it from me.",
+      "text": "I didn't sleep. I filed a complaint, and I wanted you to hear it from me.",
       "uses": [
         {
           "subject": "scene",
@@ -150334,7 +150303,7 @@
       "key": "scene-talk.open-greet.friend.this-is-the-hardest-thing-i-ve-ever-said-to-you-first-i-went-to-the-prosecutor",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "This is the hardest thing I've ever said to you, {first}. I went to the prosecutor.",
+      "text": "This is the hardest thing I've ever said to you. I went to the prosecutor.",
       "uses": [
         {
           "subject": "scene",
@@ -150382,7 +150351,7 @@
       "key": "scene-talk.state-request.friend.would-you-tell-me-what-happened-first-i-can-t-take-the-complaint-back-but-i-can-listen",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you tell me what happened, {first}? I can't take the complaint back, but I can listen.",
+      "text": "Would you tell me what happened? I can't take the complaint back, but I can listen.",
       "uses": [
         {
           "subject": "scene",
@@ -150406,7 +150375,7 @@
       "key": "scene-talk.state-request.friend.i-didn-t-want-to-believe-it-first-will-you-tell-me-what-really-happened",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I didn't want to believe it, {first}. Will you tell me what really happened?",
+      "text": "I didn't want to believe it. Will you tell me what really happened?",
       "uses": [
         {
           "subject": "scene",
@@ -150755,7 +150724,7 @@
       "key": "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I want to believe you, {first}. I just need more than that.",
+      "text": "I want to believe you. I just need more than that.",
       "uses": [
         {
           "subject": "scene",
@@ -150779,7 +150748,7 @@
       "key": "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'd like to trust you, {first}. Help me.",
+      "text": "I'd like to trust you. Help me.",
       "uses": [
         {
           "subject": "scene",
@@ -150803,7 +150772,7 @@
       "key": "scene-talk.follow-ask.friend.is-that-all-of-it-first",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Is that all of it, {first}?",
+      "text": "Is that all of it?",
       "uses": [
         {
           "subject": "scene",
@@ -150828,7 +150797,7 @@
       "key": "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Why didn't you tell me yourself, {first}?",
+      "text": "Why didn't you tell me yourself?",
       "uses": [
         {
           "subject": "scene",
@@ -150853,7 +150822,7 @@
       "key": "scene-talk.follow-answer.friend.because-i-wasn-t-sure-i-could-ask-you-and-still-do-what-was-right-first",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Because I wasn't sure I could ask you and still do what was right, {first}.",
+      "text": "Because I wasn't sure I could ask you and still do what was right.",
       "uses": [
         {
           "subject": "scene",
@@ -150878,7 +150847,7 @@
       "key": "scene-talk.follow-answer.friend.because-i-was-afraid-you-d-tell-me-it-was-true-first",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Because I was afraid you'd tell me it was true, {first}.",
+      "text": "Because I was afraid you'd tell me it was true.",
       "uses": [
         {
           "subject": "scene",
@@ -150903,7 +150872,7 @@
       "key": "scene-talk.close-warn.friend.i-ll-tell-the-prosecutor-what-you-ve-told-me-first-i-have-to",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "I'll tell the prosecutor what you've told me, {first}. I have to.",
+      "text": "I'll tell the prosecutor what you've told me. I have to.",
       "uses": [
         {
           "subject": "scene",
@@ -151046,7 +151015,7 @@
       "key": "scene-talk.open-greet.i-won-t-stay-long-first-i-just-wanted-to-see-kid-and-see-you",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I won't stay long, {first}. I just wanted to see {kid} and see you.",
+      "text": "I won't stay long. I just wanted to see {kid} and see you.",
       "uses": [
         {
           "subject": "scene",
@@ -151071,7 +151040,7 @@
       "key": "scene-talk.open-greet.take-your-time-first-i-m-not-here-to-tell-you-how-to-do-anything",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Take your time, {first}. I'm not here to tell you how to do anything.",
+      "text": "Take your time. I'm not here to tell you how to do anything.",
       "uses": [
         {
           "subject": "scene",
@@ -151095,7 +151064,7 @@
       "key": "scene-talk.state-ask.how-are-you-feeling-first-and-how-is-partner-doing",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "How are you feeling, {first}, and how is {partner} doing?",
+      "text": "How are you feeling, and how is {partner} doing?",
       "uses": [
         {
           "subject": "scene",
@@ -151120,7 +151089,7 @@
       "key": "scene-talk.state-ask.what-would-help-most-this-week-first-dishes-laundry-an-hour-of-sleep",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "What would help most this week, {first}? Dishes, laundry, an hour of sleep?",
+      "text": "What would help most this week? Dishes, laundry, an hour of sleep?",
       "uses": [
         {
           "subject": "scene",
@@ -155580,7 +155549,7 @@
         "key": "news-received"
       },
       "key": "scene-talk.follow-thank.that-means-a-lot-i-was-hoping-you-d-say-yes-first",
-      "text": "That means a lot. I was hoping you'd say yes, {first}.",
+      "text": "That means a lot. I was hoping you'd say yes.",
       "bearing": "glad",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
@@ -155929,7 +155898,7 @@
         "key": "news-received"
       },
       "key": "scene-talk.close-accept.okay-first-i-ll-watch-for-your-letter",
-      "text": "Okay, {first}. I'll watch for your letter.",
+      "text": "Okay. I'll watch for your letter.",
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
@@ -156430,7 +156399,7 @@
         "key": "favor-asked"
       },
       "key": "scene-talk.close-accept.okay-i-ll-drop-a-flyer-off-at-your-office-first",
-      "text": "Okay. I'll drop a flyer off at your office, {first}.",
+      "text": "Okay. I'll drop a flyer off at your office.",
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
@@ -156729,7 +156698,7 @@
         "key": "diploma"
       },
       "key": "scene-talk.close-accept.okay-enjoy-the-day-first",
-      "text": "Okay. Enjoy the day, {first}.",
+      "text": "Okay. Enjoy the day.",
       "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
@@ -157093,7 +157062,7 @@
         "key": "loss"
       },
       "key": "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
-      "text": "Can I tell the family you'll do it, {first}?",
+      "text": "Can I tell the family you'll do it?",
       "bearing": "curious",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 2)",
@@ -158306,30 +158275,6 @@
         "move": "promise",
         "key": "news-received"
       },
-      "key": "scene-talk.close-promise.i-ll-write-again-soon-take-care-of-yourself-first",
-      "text": "I'll write again soon. Take care of yourself, {first}.",
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      },
       "key": "scene-talk.close-promise.take-care-of-yourself-i-ll-write-again-soon",
       "text": "Take care of yourself. I'll write again soon.",
       "bearing": "warm",
@@ -159191,7 +159136,7 @@
         "key": "loss"
       },
       "key": "scene-talk.close-thank.good-i-ll-tell-the-others-you-ve-said-yes-first",
-      "text": "Good. I'll tell the others you've said yes, {first}.",
+      "text": "Good. I'll tell the others you've said yes.",
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
@@ -159749,7 +159694,7 @@
       "key": "scene-talk.state-request.friend.tell-me-it-s-wrong-first-i-d-rather-hear-it-from-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Tell me it's wrong, {first}. I'd rather hear it from you.",
+      "text": "Tell me it's wrong. I'd rather hear it from you.",
       "uses": [
         {
           "subject": "scene",
@@ -159773,7 +159718,7 @@
       "key": "scene-talk.state-request.friend.i-read-every-word-of-it-first-did-you-take-the-money",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I read every word of it, {first}. Did you take the money?",
+      "text": "I read every word of it. Did you take the money?",
       "uses": [
         {
           "subject": "scene",
@@ -159797,7 +159742,7 @@
       "key": "scene-talk.state-request.friend.is-any-of-it-true-first-you-can-tell-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Is any of it true, {first}? You can tell me.",
+      "text": "Is any of it true? You can tell me.",
       "uses": [
         {
           "subject": "scene",
@@ -159821,7 +159766,7 @@
       "key": "scene-talk.state-confront.witness.that-story-is-about-the-money-you-offered-me-first",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "That story is about the money you offered me, {first}.",
+      "text": "That story is about the money you offered me.",
       "uses": [
         {
           "subject": "scene",
@@ -159845,7 +159790,7 @@
       "key": "scene-talk.state-confront.hearsay.i-d-only-heard-it-until-now-first-is-it-true",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "I'd only heard it until now, {first}. Is it true?",
+      "text": "I'd only heard it until now. Is it true?",
       "uses": [
         {
           "subject": "scene",
@@ -159869,7 +159814,7 @@
       "key": "scene-talk.state-confront.taken.it-says-the-money-changed-hands-first-did-you-take-it",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "It says the money changed hands, {first}. Did you take it?",
+      "text": "It says the money changed hands. Did you take it?",
       "uses": [
         {
           "subject": "scene",
@@ -165915,7 +165860,7 @@
       "key": "scene-talk.follow-accept.then-i-read-it-wrong-first-that-s-not-us",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I read it wrong, {first}. That's not us.",
+      "text": "Then I read it wrong. That's not us.",
       "uses": [
         {
           "subject": "scene",
@@ -165940,7 +165885,7 @@
       "key": "scene-talk.follow-accept.good-the-paper-made-it-sound-like-it-was-ours-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Good. The paper made it sound like it was ours, {first}.",
+      "text": "Good. The paper made it sound like it was ours.",
       "uses": [
         {
           "subject": "scene",
@@ -165965,7 +165910,7 @@
       "key": "scene-talk.follow-accept.then-i-ll-wait-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I'll wait, {first}.",
+      "text": "Then I'll wait.",
       "uses": [
         {
           "subject": "scene",
@@ -165990,7 +165935,7 @@
       "key": "scene-talk.follow-accept.then-that-s-one-less-thing-to-worry-about-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then that's one less thing to worry about, {first}.",
+      "text": "Then that's one less thing to worry about.",
       "uses": [
         {
           "subject": "scene",
@@ -172504,7 +172449,7 @@
       "key": "scene-talk.reply-agree.self-you-didn-t-have-to-give-me-the-speech-give-me-the-pen",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "{self}, you didn't have to give me the speech. Give me the pen.",
+      "text": "You didn't have to give me the speech. Give me the pen.",
       "uses": [
         {
           "subject": "scene",
@@ -172530,7 +172475,7 @@
       "key": "scene-talk.reply-agree.i-wondered-if-you-d-ever-run-for-something-self-of-course-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I wondered if you'd ever run for something, {self}. Of course I'll sign.",
+      "text": "I wondered if you'd ever run for something. Of course I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -172580,7 +172525,7 @@
       "key": "scene-talk.reply-agree.i-ll-sign-self-but-you-owe-me-the-whole-story-on-why-you-re-running",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll sign, {self}. But you owe me the whole story on why you're running.",
+      "text": "I'll sign. But you owe me the whole story on why you're running.",
       "uses": [
         {
           "subject": "scene",
@@ -172605,7 +172550,7 @@
       "key": "scene-talk.reply-agree.sure-self-i-know-you-that-s-enough-for-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Sure, {self}. I know you. That's enough for me.",
+      "text": "Sure. I know you. That's enough for me.",
       "uses": [
         {
           "subject": "scene",
@@ -172630,7 +172575,7 @@
       "key": "scene-talk.reply-agree.i-ll-sign-because-it-s-you-self-don-t-spread-it-around",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll sign because it's you, {self}. Don't spread it around.",
+      "text": "I'll sign because it's you. Don't spread it around.",
       "uses": [
         {
           "subject": "scene",
@@ -172655,7 +172600,7 @@
       "key": "scene-talk.reply-decline.i-like-you-fine-self-i-just-don-t-sign-petitions-not-even-for-friends",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I like you fine, {self}. I just don't sign petitions, not even for friends.",
+      "text": "I like you fine. I just don't sign petitions, not even for friends.",
       "uses": [
         {
           "subject": "scene",
@@ -172680,7 +172625,7 @@
       "key": "scene-talk.reply-decline.self-i-know-you-too-well-to-sign-that",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "{self}, I know you too well to sign that.",
+      "text": "I know you too well to sign that.",
       "uses": [
         {
           "subject": "scene",
@@ -172706,7 +172651,7 @@
       "key": "scene-talk.reply-decline.don-t-take-it-the-wrong-way-self-i-keep-my-name-off-these-things",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't take it the wrong way, {self}. I keep my name off these things.",
+      "text": "Don't take it the wrong way. I keep my name off these things.",
       "uses": [
         {
           "subject": "scene",
@@ -172731,7 +172676,7 @@
       "key": "scene-talk.reply-decline.i-d-rather-not-self-it-s-nothing-about-you",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'd rather not, {self}. It's nothing about you.",
+      "text": "I'd rather not. It's nothing about you.",
       "uses": [
         {
           "subject": "scene",
@@ -172781,7 +172726,7 @@
       "key": "scene-talk.reply-decline.ask-me-some-other-way-self-not-on-paper",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Ask me some other way, {self}. Not on paper.",
+      "text": "Ask me some other way. Not on paper.",
       "uses": [
         {
           "subject": "scene",
@@ -172806,7 +172751,7 @@
       "key": "scene-talk.reply-agree.self-you-knew-you-had-me-before-you-knocked",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "{self}, you knew you had me before you knocked.",
+      "text": "You knew you had me before you knocked.",
       "uses": [
         {
           "subject": "scene",
@@ -172832,7 +172777,7 @@
       "key": "scene-talk.reply-agree.of-course-you-ve-got-my-vote-self-i-m-proud-of-you-for-trying",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Of course you've got my vote, {self}. I'm proud of you for trying.",
+      "text": "Of course you've got my vote. I'm proud of you for trying.",
       "uses": [
         {
           "subject": "scene",
@@ -172857,7 +172802,7 @@
       "key": "scene-talk.reply-agree.i-ll-vote-for-you-self-don-t-make-me-say-i-told-you-so",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll vote for you, {self}. Don't make me say I told you so.",
+      "text": "I'll vote for you. Don't make me say I told you so.",
       "uses": [
         {
           "subject": "scene",
@@ -172882,7 +172827,7 @@
       "key": "scene-talk.reply-agree.you-ve-got-my-vote-self-now-tell-me-what-you-ll-do-if-you-win",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote, {self}. Now tell me what you'll do if you win.",
+      "text": "You've got my vote. Now tell me what you'll do if you win.",
       "uses": [
         {
           "subject": "scene",
@@ -172907,7 +172852,7 @@
       "key": "scene-talk.reply-agree.yes-self-i-know-you-that-s-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes, {self}. I know you. That's my vote.",
+      "text": "Yes. I know you. That's my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -172932,7 +172877,7 @@
       "key": "scene-talk.reply-agree.i-ll-vote-for-you-self-just-don-t-change-on-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll vote for you, {self}. Just don't change on me.",
+      "text": "I'll vote for you. Just don't change on me.",
       "uses": [
         {
           "subject": "scene",
@@ -172957,7 +172902,7 @@
       "key": "scene-talk.reply-decline.i-like-you-self-that-doesn-t-mean-i-ll-vote-for-you",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I like you, {self}. That doesn't mean I'll vote for you.",
+      "text": "I like you. That doesn't mean I'll vote for you.",
       "uses": [
         {
           "subject": "scene",
@@ -172982,7 +172927,7 @@
       "key": "scene-talk.reply-decline.self-i-know-you-that-s-the-problem",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "{self}, I know you. That's the problem.",
+      "text": "I know you. That's the problem.",
       "uses": [
         {
           "subject": "scene",
@@ -173008,7 +172953,7 @@
       "key": "scene-talk.reply-decline.don-t-be-hurt-self-i-haven-t-decided-and-i-won-t-decide-because-we-know-each-oth",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Don't be hurt, {self}. I haven't decided, and I won't decide because we know each other.",
+      "text": "Don't be hurt. I haven't decided, and I won't decide because we know each other.",
       "uses": [
         {
           "subject": "scene",
@@ -173033,7 +172978,7 @@
       "key": "scene-talk.reply-decline.i-m-keeping-my-vote-to-myself-self-even-from-you",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm keeping my vote to myself, {self}. Even from you.",
+      "text": "I'm keeping my vote to myself. Even from you.",
       "uses": [
         {
           "subject": "scene",
@@ -173058,7 +173003,7 @@
       "key": "scene-talk.reply-decline.convince-me-on-why-you-re-running-self-not-just-on-the-porch-then-ask-again",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Convince me on why you're running, {self}, not just on the porch. Then ask again.",
+      "text": "Convince me on why you're running, not just on the porch. Then ask again.",
       "uses": [
         {
           "subject": "scene",
@@ -173083,7 +173028,7 @@
       "key": "scene-talk.reply-decline.ask-me-again-closer-to-election-day-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Ask me again closer to Election Day, {self}.",
+      "text": "Ask me again closer to Election Day.",
       "uses": [
         {
           "subject": "scene",
@@ -174537,7 +174482,7 @@
       "key": "scene-talk.state-request.me-again-self-i-m-still-trying-to-get-on-the-ballot-for-office-could-i-get-your",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Me again, {self}. I'm still trying to get on the ballot for {office}. Could I get your name on this?",
+      "text": "Me again. I'm still trying to get on the ballot for {office}. Could I get your name on this?",
       "uses": [
         {
           "subject": "scene",
@@ -174687,7 +174632,7 @@
       "key": "scene-talk.state-request.me-again-self-the-election-for-office-is-coming-up-and-i-d-like-your-vote",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Me again, {self}. The election for {office} is coming up, and I'd like your vote.",
+      "text": "Me again. The election for {office} is coming up, and I'd like your vote.",
       "uses": [
         {
           "subject": "scene",

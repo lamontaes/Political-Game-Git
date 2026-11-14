@@ -31,7 +31,7 @@ import { randomUUID } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { benchRequest, benchWorld } from "../../src/bench/handler";
-import { OPENING_EVENING_MINUTE } from "../../src/bench/opening";
+import { openingArrivalMinute } from "../../src/bench/opening";
 import { officeholders } from "../../src/bench/officeholders";
 import { corePlaceStateIdentities } from "../../src/core2/place-lookup";
 import { realLocalities } from "../../src/core2/places";
@@ -130,7 +130,7 @@ export async function playLife(
     ...(core.households.get(player.householdId)?.memberIds ?? [me]),
   ];
   const minute = () =>
-    world.player?.packet?.at.minuteOfDay ?? OPENING_EVENING_MINUTE;
+    world.player?.packet?.at.minuteOfDay ?? openingArrivalMinute(core, me);
   const date = () => world.player?.packet?.at.date ?? core.date;
   const add = (
     kind: ComposedKind,
