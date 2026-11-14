@@ -87,6 +87,14 @@ const act = (
   effectParameter: "one",
   targetKind,
   effect: id,
+  reasonBindings: [
+    {
+      id: "office-duty-due",
+      provider: "office-duty-due",
+      weightParameter: "officeDutyDueWeight",
+      arguments: { act: id },
+    },
+  ],
   emotion: {
     moodMultiplierParameter: "one",
     stressMultiplierParameter: "one",
@@ -170,6 +178,38 @@ const LOCAL_PARAMETERS = {
       "Members of Congress' town halls per member per year, applied to every local official: no count exists for councils and county boards.",
     spread: [67, 191],
   },
+  officeDutyDueWeight: {
+    value: 1.2,
+    tag: "TUNABLE",
+    citation:
+      "How strongly an office act that has come due pulls on its holder against resting in the same slot: set so a sitting mayor's recorded acts follow the intervals below instead of rest winning every free day (measured at Edmore, North Dakota and Matawan, New Jersey, where rest won 133 of 141 free days).",
+    estimatedFrom: "Checked against the intervals below in a played year.",
+    spread: [0.6, 2],
+  },
+  officeHoursIntervalDays: {
+    value: 30,
+    tag: "TUNABLE",
+    citation:
+      "Days over which holding office hours comes fully due again for a local official; no published count exists for councils, so it is checked against the played year's acts at Edmore, North Dakota and Matawan, New Jersey (about one block every two to three weeks of free days).",
+    estimatedFrom: "Checked against a played year's recorded acts.",
+    spread: [14, 45],
+  },
+  meetHeadIntervalDays: {
+    value: 45,
+    tag: "TUNABLE",
+    citation:
+      "Days over which a meeting with a department head comes fully due again; no published count exists, so it is checked against the played year's acts at the same two places.",
+    estimatedFrom: "Checked against a played year's recorded acts.",
+    spread: [14, 90],
+  },
+  interviewIntervalDays: {
+    value: 91,
+    tag: "TUNABLE",
+    citation:
+      "How often a local official sits for a press interview: no count exists for councils and boards.",
+    estimatedFrom: "Checked against a played year's press coverage.",
+    spread: [30, 180],
+  },
   stateOfCityLastMonth: {
     value: 4,
     tag: "ESTIMATED",
@@ -226,6 +266,7 @@ export function localOfficeKit(host: OfficeActHost): OfficeActKit {
     acts: OFFICE_ACTS,
     parameters: LOCAL_PARAMETERS,
     providers: officeActProviders(host),
+    reasonProviders: officeActReasons(host),
     handlers: officeActHandlers(host) as unknown as OfficeActKit["handlers"],
   };
 }
@@ -296,6 +337,44 @@ export interface Prepared {
   readonly platform?: readonly { question: string; position: number }[];
   /** The budget request: line changes in minor units. */
   readonly changes?: Readonly<Record<string, number>>;
+}
+
+/** The days between acts of each kind that come round on a schedule. */
+const DUE_INTERVALS: Readonly<Record<string, string>> = {
+  "office-hours": "officeHoursIntervalDays",
+  "town-hall": "townHallIntervalDays",
+  interview: "interviewIntervalDays",
+  "meet-department-head": "meetHeadIntervalDays",
+};
+
+/**
+ * How much an offered act has come due, from nothing to one: an act on a
+ * schedule rises with the days since the holder last took it (one if never);
+ * an act offered only when something is waiting (the address in its season, a
+ * vacant post, a finished project, a budget due) is due while it is offered.
+ * The holder's own choice weighs it against resting and the rest of the day.
+ */
+export function officeActReasons(host: OfficeActHost) {
+  return {
+    "office-duty-due": (
+      api: CoreAPI,
+      actor: Readonly<PersonState>,
+      _offer: ActOffer,
+      binding: { readonly arguments?: Readonly<Record<string, string>> },
+    ) => {
+      const kind = binding.arguments?.act ?? "";
+      const interval = DUE_INTERVALS[kind];
+      const last = host.lastGiven(api, actor.id, kind);
+      const due =
+        !interval || !last
+          ? 1
+          : Math.min(
+              1,
+              daysBetweenText(last, api.state.date) / api.parameter(interval),
+            );
+      return { value: due, sourceIds: [actor.id] };
+    },
+  };
 }
 
 export function officeActProviders(host: OfficeActHost) {
@@ -536,6 +615,15 @@ export function officeActHandlers(host: OfficeActHost) {
           detail: decision,
         });
       }
+      // The hours themselves are an act, so the next due day counts from today.
+      host.keep(api, {
+        personId: actorId,
+        kind: "office-hours",
+        how: prepared ? "did" : "own-choice",
+        recordId: actorId,
+        position: null,
+        detail: "held office hours",
+      });
       host.clearPrepared(api, actorId, "office-hours");
     },
     /** A town hall: the host answers as prepared, or from their own view. */
