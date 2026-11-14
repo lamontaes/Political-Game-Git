@@ -648,7 +648,7 @@
       "key": "opening-speech.story-says.plain-ina-our-roads-and-bridges-are-in-worse-shape-than",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our roads and bridges are in worse shape than they were {context-years} years ago, and every pothole's a tax nobody voted for.",
+      "text": "Our roads and bridges are in worse shape than they were {context-years} years ago, and every pothole is a tax nobody voted for.",
       "uses": [
         {
           "move": "story-says",
@@ -8312,7 +8312,7 @@
       "key": "opening-speech.salutation.plain-ina-mourning-core-i-see-speaker-speaker-and-everybody-here-and-i",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I see {speaker-object} and everybody here, and I know this day feels heavy, because the country's still grieving.",
+      "text": "I see {speaker-object} and everybody here, and I know this day feels heavy, because the country is still grieving.",
       "uses": [
         {
           "move": "salutation",
@@ -16347,7 +16347,7 @@
       "key": "opening-speech.creed.plain-ina-sta-mourning-core-we-grieve-together-because-we-re-in-this-together",
       "move": "creed",
       "kind": "spoken",
-      "text": "we grieve together because we're in this together, and {hardest} can wait until every family's been looked after.",
+      "text": "we grieve together because we're in this together, and {hardest} can wait until every family has been looked after.",
       "uses": [
         {
           "move": "creed",
@@ -20650,7 +20650,7 @@
       "key": "opening-speech.story-turn.plain-ina-sta-victory-core-a-good-record-s-no-reason-to-coast-and",
       "move": "story-turn",
       "kind": "spoken",
-      "text": "a good record's no reason to coast, and {hardest} still needs fixing.",
+      "text": "a good record is no reason to coast, and {hardest} still needs fixing.",
       "uses": [
         {
           "move": "story-turn",
@@ -57910,7 +57910,7 @@
       "key": "opening-speech.history.plain-ina-sta-all-core-this-country-s-been-through-tough-times-before-and",
       "move": "history",
       "kind": "spoken",
-      "text": "this country's been through tough times before, and {hardest} won't beat us.",
+      "text": "this country has been through tough times before, and {hardest} won't beat us.",
       "uses": [
         {
           "move": "history",
@@ -59732,7 +59732,7 @@
       "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-work-s-the-exception-the-jobless-count-rose-change",
       "move": "story-says",
       "kind": "spoken",
-      "text": "work's the exception; the jobless count rose {change-unemployment}.",
+      "text": "work is the exception; the jobless count rose {change-unemployment}.",
       "uses": [
         {
           "move": "story-says",
@@ -113158,7 +113158,7 @@
           "requiresFacts": ["health-better", "good-name"]
         }
       ],
-      "voice": "polished",
+      "voice": ["polished", "plain"],
       "bearing": "braced",
       "topic": "health",
       "origin": "authored",
@@ -113169,35 +113169,7 @@
       "key": "opening-speech.story-says.local-plain-health-more-families-can-see-a-doctor-than-before-and",
       "move": "story-says",
       "kind": "spoken",
-      "text": "More families can see a doctor than before, and {good-name}'s within reach of more folks.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-better", "good-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-better", "good-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 5)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-plain-health-that-s-progress-on-good-name-that-families-fee",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Progress on {good-name}'s something families feel in their own lives.",
+      "text": "More families can see a doctor than before, and {good-name} is within reach of more folks.",
       "uses": [
         {
           "move": "story-says",
@@ -113270,7 +113242,7 @@
           "requiresFacts": ["rent-better", "good-name"]
         }
       ],
-      "voice": "polished",
+      "voice": ["polished", "plain"],
       "bearing": "braced",
       "topic": "rent",
       "origin": "authored",
@@ -113310,34 +113282,6 @@
       "move": "story-says",
       "kind": "spoken",
       "text": "Families are keeping a little more of every check, because {good-name} has eased.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-better", "good-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-better", "good-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 5)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-plain-rent-the-good-name-s-a-smaller-bite-out-of-a-family",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The {good-name}'s a smaller bite out of a family's month than it was.",
       "uses": [
         {
           "move": "story-says",

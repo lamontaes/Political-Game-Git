@@ -94,6 +94,15 @@ describe("the opening address's pieces", () => {
     }
   });
 
+  it('never contract "is" or "has" onto a noun phrase (words lead, round 7)', () => {
+    // "'s" for "is" attaches only to a pronoun or to "that", "there", "here",
+    // "what" and "who": "Progress on health care's something" is not English.
+    const nounContraction =
+      /(?<![\w'])(?!(?:it|that|there|here|what|who|he|she|let|how|where|when|why|everyone|someone|everybody|nobody|somebody|anyone|one|this)'s\b)[A-Za-z-]+\}?'s (?:a|an|the|within|something|not|so|just|still|more|less|good|bad|always|never|now|no|up|down|better|worse|going|been|got|like)\b/i;
+    for (const part of OPENING_SPEECH_BANK.parts)
+      expect(part.text, part.key).not.toMatch(nounContraction);
+  });
+
   it("keep short sentences: a third of each move's cores in the President's address are twelve words or fewer, each with its insert", () => {
     // The words lead's read (Nov 11): the old address had lines like "If you
     // want a job, you ought to be able to get one."; the new cores were all long.
