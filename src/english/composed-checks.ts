@@ -235,6 +235,10 @@ const DAYPART_OVER: readonly [RegExp, number][] = [
   ],
 ];
 const END_OF_DAY = data.endOfDay.map((source) => new RegExp(source, "i"));
+/** A line that carries its own day ("How did school go yesterday?") is not end-of-day talk in the morning. */
+const END_OF_DAY_SPARED = data.endOfDaySpared.map(
+  (source) => new RegExp(source, "i"),
+);
 
 /** A line looking ahead to a part of the day already under way or over, or end-of-day talk in the morning. */
 export const noOverDaypart: ComposedCheck = (text) => {
@@ -258,7 +262,10 @@ export const noOverDaypart: ComposedCheck = (text) => {
           );
         else if (
           text.minuteOfDay < value("morningLastMinute") &&
-          END_OF_DAY.some((pattern) => pattern.test(plainQuotes(sentence)))
+          END_OF_DAY.some((pattern) => pattern.test(plainQuotes(sentence))) &&
+          !END_OF_DAY_SPARED.some((pattern) =>
+            pattern.test(plainQuotes(sentence)),
+          )
         )
           found.push(
             breakOf(

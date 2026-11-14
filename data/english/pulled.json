@@ -1,8 +1,6 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {
-    "conversation.farewell-core.talk-soon-player-first": ["no-talk-to-you-soon"]
-  },
+  "pulled": {},
   "waiting": {},
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [

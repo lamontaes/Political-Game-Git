@@ -3252,18 +3252,6 @@ function pointSubject(
   facts.decider = { text: saidAsData.deciders.federal, sourceRecordIds: said };
   mark(`${pick.point.kind}-point`, said);
   if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
-  // The lead's grammar: a stance that answers "is for" reads only after
-  // such a lead, one that answers "said no to" only after that (round 11,
-  // rule 75). Fixed by the speaker and the question, never rolled.
-  if (pick.point.stance) {
-    const forms =
-      pick.point.stance === "against" ? ["plain", "is", "no"] : ["plain", "is"];
-    const sum = [...stableHash(`${speakerId}:${pick.point.question}`)].reduce(
-      (n, c) => n + c.charCodeAt(0),
-      0,
-    );
-    mark(`lead-${forms[sum % forms.length]}`, said);
-  }
   mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
   if (pick.reason === "work") {
     mark("why-work", pick.reasonIds);
@@ -3826,11 +3814,14 @@ const GIVES_BACK: readonly string[] = (
 
 /** The raised kinds a give-back already told, by the asked kind (conversation-rules.json givesBack.covers). */
 const GIVES_COVER: Readonly<Record<string, readonly string[]>> = (() => {
-  const { about: _about, ...covers } = (
-    CONVERSATION_RULES as unknown as {
-      givesBack: { covers: Record<string, string[] | string> };
-    }
-  ).givesBack.covers;
+  const covers = {
+    ...(
+      CONVERSATION_RULES as unknown as {
+        givesBack: { covers: Record<string, string[] | string> };
+      }
+    ).givesBack.covers,
+  };
+  delete covers.about;
   return covers as Record<string, string[]>;
 })();
 
@@ -4282,6 +4273,33 @@ function raiseSubject(
         );
   const lines = said ?? (line ? [line] : []);
   if (!lines.length) return false;
+  // A told line never stands where the player cannot answer it (lead, Nov
+  // 14: a talk's opening is a greeting and one line the player can reply
+  // to): a first line with no reply on record is not raised; the person
+  // asks something else, or says nothing.
+  if (!remark && conversation.lines.every((row) => row.kind === "greet")) {
+    const probe: Conversation = {
+      ...conversation,
+      choices: [],
+      lines: [...conversation.lines],
+      last: {
+        subject: {
+          id: `${otherId}>${subject.id}`,
+          kind: subject.kind,
+          facts: subject.facts,
+          ...(subject.aboutId ? { aboutId: subject.aboutId } : {}),
+          ...(subject.stage ? { stage: subject.stage } : {}),
+          ...(subject.point ? { point: subject.point } : {}),
+          ...(subject.news ? { news: subject.news } : {}),
+        },
+        kind: then.kind,
+        facts: subject.facts,
+        stage: then.stage,
+      },
+    };
+    offerChoices(core, probe, data);
+    if (!probe.choices.length) return false;
+  }
   for (const row of lines)
     conversation.lines.push({
       speakerId: otherId,
@@ -4728,7 +4746,12 @@ function mainTopic(
   asks: boolean;
 } | null {
   const { playerId, otherId, director } = conversation;
-  let best: { subject: Subject; asks: boolean; weight: number } | null = null;
+  let best: {
+    subject: Subject;
+    asks: boolean;
+    weight: number;
+    hard: boolean;
+  } | null = null;
   // The occasion comes first: a talk a scene opens is about the scene's
   // moment.
   const occasion = conversation.occasion;
@@ -4816,8 +4839,21 @@ function mainTopic(
       )
     )
       return;
-    if (weight > zero && (!best || weight > best.weight))
-      best = { subject, asks, weight };
+    // Hard news of the teller's own life (an eviction, a lost job, a death)
+    // leads before any other opener, whatever the day's news weighs, until
+    // it has been told (Words lead, Nov 14: a relative put out that day
+    // opened on consumer loan interest because an unwatched person's moment
+    // weighs only the book's floor and a story with a stand weighs more).
+    // A talk a scene opens keeps to its occasion.
+    const hard =
+      !occasion && !asks && NEWS_SUBJECTS.has(subject.kind) && weight > zero;
+    if (
+      weight > zero &&
+      (!best ||
+        (hard && !best.hard) ||
+        (hard === best.hard && weight > best.weight))
+    )
+      best = { subject, asks, weight, hard };
   };
   for (const subject of subjectsBetween(
     core,
@@ -5016,9 +5052,24 @@ function openConversationNow(
       (row) =>
         row.id === toldStory && row.facts.recordKind === OPENING_ADDRESS_EVENT,
     );
+  // The speaker's own hard news (an eviction, a lost job, a death) leads
+  // their talk, so the newest change they know of is not brought up ahead of
+  // it; with none untold, they bring the change up as before (Words lead,
+  // Nov 14: a person put out that day opened on a business closing).
+  const ownLoss =
+    !!told &&
+    subjectsBetween(core, otherId, playerId, conversation.director).some(
+      (row) =>
+        NEWS_SUBJECTS.has(row.kind) &&
+        !!data.otherRaises[row.kind] &&
+        !talked.has(row.id) &&
+        !talked.has(`${otherId}>${row.id}`) &&
+        !heardNow.has(`${HEARD_SUBJECT}${row.id}`),
+    );
   const brought =
     told &&
     !aboutShared &&
+    !ownLoss &&
     !toldIds.some(
       (id) =>
         heardNow.has(`${HEARD_SUBJECT}${id}`) ||
@@ -6390,6 +6441,7 @@ function onShift(
     return true;
   const minute =
     conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId);
+  if (minute === undefined) return false;
   try {
     return workSpansOnDateV1(coreAPI(core as CoreState), {
       controlledPersonId: speakerId,
@@ -6573,7 +6625,7 @@ function endConversation(
   const town = them?.placeId
     ? corePlaceByJurisdictionId(them.placeId as never)
     : null;
-  if (town && them?.placeId === me?.placeId) {
+  if (town && them && them.placeId === me?.placeId) {
     markNameless("both-here", [them.householdId]);
     nameless.place = {
       text: spoken(town),
