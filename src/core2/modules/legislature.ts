@@ -695,15 +695,9 @@ function askBeforeTheRoll(api: CoreAPI): void {
       committeeRecords(api, bill.id).some((c) => !c.reported)
     )
       continue;
-    const chambers = chambersOf(api, bill);
-    for (const chamber of chambers) {
-      // A later chamber votes the same floor day, and only if the first
-      // passes, so its members are not asked the evening before.
-      // stopgapId: SG-GOV-later-chamber-same-day
-      if (chamber !== chambers[0]) {
-        api.stopgap("SG-GOV-later-chamber-same-day");
-        continue;
-      }
+    // The chamber whose turn it is votes tomorrow (a later chamber on its own
+    // sitting, once the first passed the bill): its members are asked tonight.
+    for (const chamber of [chamberNow(api, bill)]) {
       const seats = members(api, chamber);
       if (!seats.some((term) => memberKey(term) === player)) continue;
       let margin = 0;
