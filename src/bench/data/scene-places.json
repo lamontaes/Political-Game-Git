@@ -517,7 +517,7 @@
     "governor-residence-bedroom": "A governor's residence bedroom."
   },
   "genericPlaces": {
-    "about": "Pictures any kind of scene may fall back to. A scene with no row of its own whose setting resolves to one of these is listed as a stand-in in docs/reports/scene-pictures.md.",
+    "about": "Pictures any kind of scene may fall back to. A scene with no row of its own whose setting resolves to one of these is listed as a stand-in in docs/art/SCENE-PICTURES.md.",
     "places": [
       "community-room",
       "main-street",

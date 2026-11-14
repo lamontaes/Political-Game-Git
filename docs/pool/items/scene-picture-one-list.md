@@ -23,7 +23,7 @@ claimed-at: 2026-11-14T01:52:00.000Z
 
 **Cause.** Found in code: `src/bench/story.ts` resolved `@home` with the player's id and ignored the scene's household record; `src/director/scheduling.ts` `resolveSetting` named a seat a plain venue so `situationPlaces` could not tell it from a hall; `sceneSettings.office` never read `officeWorkplaces`; eight rows in `situationPlaces` named types or settings that do not exist and nothing flagged them.
 
-**Fix.** One lookup (`src/bench/scene-picture-steps.ts`, used by `scene-picture.ts`): variant row, type row, school list, setting default. `@home` for an other-home scene reads the host's household; `seat` is its own setting; `@office` and `@seatroom` read the office kind and the body's room; the dead rows are deleted; `npm run scene-pictures` writes `docs/reports/scene-pictures.md` and the pictures-wanted section of `docs/art/WANTED.md`; the guard `scene-pictures` fails a row naming something that does not exist and a new scene type with no row and no wanted line. Rule and skill: `.agents/rules/scene-pictures.md`, skill `scene-pictures`.
+**Fix.** One lookup (`src/bench/scene-picture-steps.ts`, used by `scene-picture.ts`): variant row, type row, school list, setting default. `@home` for an other-home scene reads the host's household; `seat` is its own setting; `@office` and `@seatroom` read the office kind and the body's room; the dead rows are deleted; `npm run scene-pictures` writes `docs/art/SCENE-PICTURES.md` and the pictures-wanted section of `docs/art/WANTED.md`; the guard `scene-pictures` fails a row naming something that does not exist and a new scene type with no row and no wanted line. Rule and skill: `.agents/rules/scene-pictures.md`, skill `scene-pictures`.
 
 **Time box.** 4 hours for one Sonnet session. Pictures are not generated in this item.
 
@@ -33,6 +33,6 @@ claimed-at: 2026-11-14T01:52:00.000Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/scene-picture-steps.ts, src/bench/scene-picture.ts, src/bench/scene-picture.test.ts, src/bench/story.ts, src/bench/scene.ts, src/bench/data/scene-places.json, src/director/scheduling.ts, src/director/scene.ts, scripts/scene-pictures/report.ts, scripts/scene-pictures/build.ts, tests/guards/scene-pictures.test.ts, art/backdrops/categories.json, docs/reports/scene-pictures.md, docs/art/WANTED.md
+**Files.** src/bench/scene-picture-steps.ts, src/bench/scene-picture.ts, src/bench/scene-picture.test.ts, src/bench/story.ts, src/bench/scene.ts, src/bench/data/scene-places.json, src/director/scheduling.ts, src/director/scene.ts, scripts/scene-pictures/report.ts, scripts/scene-pictures/build.ts, tests/guards/scene-pictures.test.ts, art/backdrops/categories.json, docs/art/SCENE-PICTURES.md, docs/art/WANTED.md
 
 **Notes.** Arc variants (the door scenes' lost-job, rent-notice and the rest) get a picture by adding `"<variant purpose>:other-home"` rows once their variant ids are in `arc-variants.json`; the guard checks the purpose id exists. `unmappedToday` in `scene-places.json` lists the types still on a setting default; it only shrinks.

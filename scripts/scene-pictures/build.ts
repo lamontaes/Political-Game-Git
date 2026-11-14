@@ -1,7 +1,7 @@
 /**
  * npm run scene-pictures [-- --check]
  *
- * Writes docs/reports/scene-pictures.md (every scene type and setting with its
+ * Writes docs/art/SCENE-PICTURES.md (every scene type and setting with its
  * picture and gaps) and the generated "Scene pictures wanted" section of
  * docs/art/WANTED.md (between its markers). --check fails when a row names a
  * type, variant or setting that does not exist, or when either file is stale.
@@ -28,7 +28,7 @@ const check = process.argv.includes("--check");
 const report = buildReport();
 const pretty = (text: string) => format(text, { parser: "markdown" });
 const wantedPath = join(ROOT, "docs/art/WANTED.md");
-const reportPath = join(ROOT, "docs/reports/scene-pictures.md");
+const reportPath = join(ROOT, "docs/art/SCENE-PICTURES.md");
 const reportNow = await pretty(report.markdown);
 const wantedNow = await pretty(
   wantedWith(readFileSync(wantedPath, "utf8"), report.wantedMarkdown),

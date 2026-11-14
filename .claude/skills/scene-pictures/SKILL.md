@@ -34,7 +34,7 @@ The game and the gap report call the same function, so they cannot disagree.
 
 ## The gap report
 
-`npm run scene-pictures` writes `docs/reports/scene-pictures.md` (every type and setting with its picture, where it came from, and its gaps: unpainted names, stand-ins, no night picture) and the generated "Scene pictures wanted" section of `docs/art/WANTED.md`. `npm run scene-pictures -- --check` also fails on stale files. The guard (`npm run guards -- scene-pictures`) fails only on rows that name something that does not exist and on an unmapped new scene type, never on today's gaps. `unmappedToday` in `scene-places.json` is the list of types still on a setting default; it only shrinks.
+`npm run scene-pictures` writes `docs/art/SCENE-PICTURES.md` (every type and setting with its picture, where it came from, and its gaps: unpainted names, stand-ins, no night picture) and the generated "Scene pictures wanted" section of `docs/art/WANTED.md`. `npm run scene-pictures -- --check` also fails on stale files. The guard (`npm run guards -- scene-pictures`) fails only on rows that name something that does not exist and on an unmapped new scene type, never on today's gaps. `unmappedToday` in `scene-places.json` is the list of types still on a setting default; it only shrinks.
 
 ## Traps
 

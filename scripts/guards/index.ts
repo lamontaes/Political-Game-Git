@@ -102,7 +102,7 @@ export const GUARDS: readonly Guard[] = [
     id: "scene-pictures",
     rule: "Every scene type is mapped to a picture in the one list, and a missing picture never holds work back: a scene with no fitting picture ships on its fallback with a line in the pictures-wanted list.",
     readMore:
-      ".agents/rules/scene-pictures.md; skill scene-pictures; docs/reports/scene-pictures.md",
+      ".agents/rules/scene-pictures.md; skill scene-pictures; docs/art/SCENE-PICTURES.md",
     command: vitest("tests/guards/scene-pictures.test.ts"),
   },
   {
