@@ -2,10 +2,10 @@
 
 Names are read from the Your office strip, "What you have done", in the running game.
 
-| Seat and place | What was pressed | Rows the strip showed | Screen |
-| --- | --- | --- | --- |
-| Supervisor, Soda Springs, California, seed 194e69b4-52e6-49d4-b800-934eba5b5261 | Speak for, Yes and Abstain on a board item, then Adjourn | Give a speech, Vote (Yes), Vote (Abstained), Meet a department head | council-pressed-strip.png, council-pressed-meeting.png |
-| Council member, Glen Alpine, North Carolina, seed e95aebb7-98b1-43c1-9e70-c971cebf57e6 | stops off, then on; adjourn | Vote (absent), Vote (abstained), Meet a department head | absent-row.png, adjourned-row.png |
+| Seat and place                                                                         | What was pressed                                         | Rows the strip showed                                               | Screen                                                 |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------ |
+| Supervisor, Soda Springs, California, seed 194e69b4-52e6-49d4-b800-934eba5b5261        | Speak for, Yes and Abstain on a board item, then Adjourn | Give a speech, Vote (Yes), Vote (Abstained), Meet a department head | council-pressed-strip.png, council-pressed-meeting.png |
+| Council member, Glen Alpine, North Carolina, seed e95aebb7-98b1-43c1-9e70-c971cebf57e6 | stops off, then on; adjourn                              | Vote (absent), Vote (abstained), Meet a department head             | absent-row.png, adjourned-row.png                      |
 
 Seen as the player sees them: Give a speech, Vote, Meet a department head (3 of the 21 act names).
 
