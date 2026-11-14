@@ -140,4 +140,4 @@ for (const seed of Object.keys(DAYS))
         `${where}: no month well over usual ran in a second outlet`,
       ).toBeGreaterThan(0);
     }
-  }, 900_000);
+  }, 170_000);
