@@ -108,7 +108,15 @@ interface PurposeArc {
     /** The player's line after a yes. */
     thanks: string;
     /** The player's second ask after a "not yet" or a no, and what it weighs. */
-    again: { move: string; carries: "favor" | "lean" | "none" }[];
+    again: { move: string; carries: AskCarries }[];
+    /**
+     * The answer of one whose price is taken up (`carries: "price"`), and of
+     * one asked only to stay out of the room who agrees (`carries:
+     * "absence"`). Each is offered only where the record holds the act that
+     * pays it (brief O; owner, Nov 14: only what the game can do).
+     */
+    paid?: string;
+    absent?: string;
     /**
      * A middle exchange about the one asked's own matter (Words lead, Nov 14,
      * rulings 62 and 63: a scene has a middle, and one button is not a
@@ -119,7 +127,7 @@ interface PurposeArc {
     middle?: {
       ask: string;
       tell: string;
-      then: { move: string; carries: "favor" | "lean" | "none" }[];
+      then: { move: string; carries: AskCarries }[];
     };
   };
 }
@@ -283,7 +291,18 @@ export interface AskStanding {
   lean: number;
   /** What a yes given as a favor to the player adds at the roll. */
   favor: number;
+  /**
+   * Where they would stand once their price is paid (legislature `askPrice`:
+   * the player's vote on their own bill, or half a section), when the record
+   * holds a price; absent, no price is offered.
+   */
+  price?: number;
+  /** Whether a favor carries them at least to staying out of the room (legislature `absenceCarries`). */
+  absence?: boolean;
 }
+
+/** What a second ask of the one asked weighs. */
+export type AskCarries = "favor" | "lean" | "none" | "price" | "absence";
 
 export interface SceneTalkCast {
   /**
@@ -937,6 +956,32 @@ export function composeSceneTalk(
     request.auto = true;
     const said = addParts(set, request);
     const carried = standing.lean + standing.favor > zero;
+    // An ask that weighs a price, or staying out, is offered only where the
+    // record holds the act that pays it; undefined carries leaves no answer.
+    const offered = (weighs: AskCarries) =>
+      weighs === "price"
+        ? standing.price !== undefined
+        : weighs === "absence"
+          ? standing.absence !== undefined && standing.lean <= zero
+          : true;
+    const carriesOf = (weighs: AskCarries) =>
+      weighs === "favor"
+        ? carried
+        : weighs === "lean"
+          ? standing.lean > zero
+          : weighs === "price"
+            ? (standing.price ?? zero) > zero
+            : weighs === "absence"
+              ? standing.absence === true
+              : undefined;
+    const answerOf = (weighs: AskCarries, carries: boolean) =>
+      !carries
+        ? [ask.no]
+        : weighs === "price"
+          ? [ask.paid ?? ask.relent[zero]!]
+          : weighs === "absence"
+            ? [ask.absent ?? ask.relent[zero]!]
+            : ask.relent;
     const first = theirs(
       standing.lean > zero ? [ask.yes] : carried ? [ask.carried] : [ask.no],
       request,
@@ -956,6 +1001,7 @@ export function composeSceneTalk(
     for (const again of yes
       ? [{ move: ask.thanks, carries: "none" as const }]
       : ask.again) {
+      if (!offered(again.carries)) continue;
       const line = mine(
         {
           step: "follow",
@@ -974,17 +1020,12 @@ export function composeSceneTalk(
       const next: TreeNode = { lines: [], replies: [] };
       count += one;
       root.replies.push({ line, next });
-      const carries =
-        again.carries === "favor"
-          ? carried
-          : again.carries === "lean"
-            ? standing.lean > zero
-            : undefined;
+      const carries = carriesOf(again.carries);
       const last =
         carries === undefined
           ? null
           : theirs(
-              carries ? ask.relent : [ask.no],
+              answerOf(again.carries, carries),
               line,
               `last:${again.move}`,
               addParts(addParts(said, first), line),
@@ -1024,6 +1065,7 @@ export function composeSceneTalk(
         const node: TreeNode = { lines: [told], replies: [] };
         const heard = addParts(addParts(heardFirst, opener), told);
         for (const then of ask.middle.then) {
+          if (!offered(then.carries)) continue;
           const line = mine(
             {
               step: "follow",
@@ -1040,17 +1082,12 @@ export function composeSceneTalk(
           }
           line.round = three;
           const next: TreeNode = { lines: [], replies: [] };
-          const carries =
-            then.carries === "favor"
-              ? carried
-              : then.carries === "lean"
-                ? standing.lean > zero
-                : undefined;
+          const carries = carriesOf(then.carries);
           const last =
             carries === undefined
               ? null
               : theirs(
-                  carries ? ask.relent : [ask.no],
+                  answerOf(then.carries, carries),
                   line,
                   `middle-last:${then.move}`,
                   addParts(heard, line),
@@ -2004,7 +2041,12 @@ export function talkFlow(scene: { purpose: string; key: string }): {
     ...(lie && move === lie.caught.move ? lie.caught.replies : []),
     ...(asks && move === arc.state ? askMoves : []),
     ...(asks && (move === asks.thanks || againMoves.includes(move))
-      ? [...asks.relent, asks.no]
+      ? [
+          ...asks.relent,
+          asks.no,
+          ...(asks.paid ? [asks.paid] : []),
+          ...(asks.absent ? [asks.absent] : []),
+        ]
       : []),
   ];
   /** The asker's answers to a reply of this move. */

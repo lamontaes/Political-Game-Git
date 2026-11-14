@@ -39,6 +39,8 @@ import powers from "../data/legislature/series-powers.json" with { type: "json" 
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
 import dischargeData from "../data/legislature/discharge.json" with { type: "json" };
 import replyMoves from "../data/legislature/vote-replies.json" with { type: "json" };
+
+const carryEndings = replyMoves.carry;
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS, policySeriesAtLevel } from "../policy-answers";
@@ -335,7 +337,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      bills: {},
+      bills: { indexes: { bySponsor: { fields: ["sponsorId"] } } },
       votes: { indexes: { byBill: { fields: ["billId"] } } },
       committees: {},
       /** Vetoed bills whose override vote waits on a member the player controls: the veto message awaits the body's next sitting. */
@@ -437,12 +439,18 @@ interface VoteAsk {
 function keepReply(api: CoreAPI, event: CoreEventInput): void {
   const causeId = String(event.facts?.causeId ?? "");
   const move = String(event.facts?.move ?? "");
+  if (causeId.startsWith("carry-asked:")) {
+    answerCarryInScene(api, event, causeId.slice("carry-asked:".length));
+    return;
+  }
   const sign = replyMoves.favor.includes(move)
     ? 1
     : replyMoves.strain.includes(move)
       ? -1
       : 0;
-  if (!sign) return;
+  // A member asked to stay out of the room who agrees to it ("I won't work
+  // against you") answers in a move that counts neither way.
+  if (!sign && !replyMoves.absent.includes(move)) return;
   if (causeId.startsWith("committee:")) {
     reopenHeldBill(api, event, causeId, move, sign);
     return;
@@ -459,6 +467,18 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
       !event.personIds.includes(ask.askerId)
     )
       return;
+    const player =
+      snapshotExplicitControlV1(api.state).personId ??
+      (api.state as CoreState).playerId;
+    // Where the player asked, what they asked for is paid by the act that
+    // pays it: the member's price (a deal on the record), or their staying
+    // out (their own choice of vote). Then no favor is counted besides.
+    if (
+      ask.askerId === player &&
+      payAsk(api, event, ask, bill, String(event.facts?.asked ?? ""), move)
+    )
+      return;
+    if (!sign) return;
     table(api, "replies").put({
       id: event.id,
       scope: "bill",
@@ -471,12 +491,23 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
       side: ask.side,
       date: event.date,
     } satisfies ReplyRow as unknown as ModuleRow);
+    // A yes given as a favor is a debt, kept where a deal's debts are: the
+    // one who asked owes the one who gave it, until it is called in.
+    if (sign > 0 && event.facts?.keeps === "favor-owed")
+      table(api, "obligations").put({
+        id: `obligation:${bill.id}:${ask.askedId}:reply`,
+        owedBy: ask.askerId,
+        owedTo: ask.askedId,
+        kind: "favor",
+        billId: bill.id,
+        measure: bill.number,
+        date: event.date,
+        settled: false,
+        replyId: event.id,
+      } as unknown as ModuleRow);
     // The player is never voted for: their own word is their vote. Agreeing
     // is choosing the side asked for, until they choose otherwise; a refusal
     // leaves the vote theirs to cast.
-    const player =
-      snapshotExplicitControlV1(api.state).personId ??
-      (api.state as CoreState).playerId;
     if (
       sign > 0 &&
       ask.askedId === player &&
@@ -485,6 +516,7 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
       castMemberVote(api, bill.id, ask.askedId, ask.side > 0 ? "yes" : "no");
     return;
   }
+  if (!sign) return;
   if (!causeId.startsWith("veto-override:")) return;
   const billId = causeId.slice("veto-override:".length);
   const bill = table(api, "bills").get(billId) as unknown as
@@ -509,6 +541,74 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
     side: 1,
     date: event.date,
   } satisfies ReplyRow as unknown as ModuleRow);
+}
+
+/**
+ * What the player's ask is paid with, where they asked for more than a favor:
+ * taking up the member's price (`askPrice`: their own bill backed, or half a
+ * section) with an answer that agrees, or asking them only to stay out of the
+ * room with an answer that agrees to that. The price is read again from the
+ * record at the reply, as the scene read it the same day. Returns whether an
+ * act was done.
+ */
+function payAsk(
+  api: CoreAPI,
+  event: CoreEventInput,
+  ask: VoteAsk,
+  bill: BillRow,
+  asked: string,
+  move: string,
+): boolean {
+  if (replyMoves.price.includes(asked) && replyMoves.favor.includes(move)) {
+    const price = askPrice(api, bill.id, ask.askedId, ask.askerId);
+    if (!price) return false;
+    offerDeal(
+      api,
+      price.kind === "their-bill"
+        ? {
+            billId: bill.id,
+            memberId: ask.askedId,
+            kind: "back-their-item",
+            itemBillId: price.billId,
+          }
+        : {
+            billId: bill.id,
+            memberId: ask.askedId,
+            kind: "amend",
+            amend: { index: price.index, value: price.value },
+          },
+    );
+    return true;
+  }
+  if (replyMoves.absence.includes(asked) && replyMoves.absent.includes(move)) {
+    if (!absenceCarries(api, bill.id, ask.askedId, ask.askerId)) return false;
+    if (!table(api, "choices").get(`${bill.id}|${ask.askedId}`))
+      castMemberVote(api, bill.id, ask.askedId, "absent");
+    return true;
+  }
+  return false;
+}
+
+/**
+ * The player's answer to an ask to carry a bill, said in the scene the ask
+ * caused (`bill-carry`, from `carry-asked`): the scene is where the player
+ * answers, so an ending that takes the bill on files it under them, one that
+ * declines closes the ask, and any other ending leaves it waiting.
+ */
+function answerCarryInScene(
+  api: CoreAPI,
+  event: CoreEventInput,
+  requestId: string,
+): void {
+  const waiting = table(api, "carryAsks").get(requestId) as unknown as
+    CarryRequest | undefined;
+  if (!waiting?.awaitingPlayer || event.personIds[0] !== waiting.memberId)
+    return;
+  const ending = String(event.facts?.ending ?? "");
+  if (carryEndings.carried.includes(ending))
+    answerCarryAsk(api, requestId, true);
+  else if (carryEndings.declined.includes(ending))
+    answerCarryAsk(api, requestId, false);
 }
 
 /**
@@ -693,7 +793,7 @@ function askBeforeTheRoll(api: CoreAPI): void {
       const seats = members(api, chamber);
       if (!seats.some((term) => memberKey(term) === player)) continue;
       let margin = 0;
-      const soft: { id: string; lean: number }[] = [];
+      const soft: { id: string; lean: number; gain: number }[] = [];
       for (const term of seats) {
         const key = memberKey(term);
         const chosen = (
@@ -711,24 +811,34 @@ function askBeforeTheRoll(api: CoreAPI): void {
             : positionOn(api, bill, key).total;
         margin += Math.sign(lean);
         // Only a full person who has not chosen is asked, and only where a
-        // favor from the sponsor would carry them over.
+        // favor from the sponsor, the price their record names, or their
+        // staying out would carry them over.
         if (
           !chosen &&
           lean <= 0 &&
           key !== bill.sponsorId &&
-          api.state.people.get(key)?.alive &&
-          (key === player ||
-            lean + dealValue(api, "favor", key, bill.sponsorId) > 0)
-        )
-          soft.push({ id: key, lean });
+          api.state.people.get(key)?.alive
+        ) {
+          const yes =
+            key === player ||
+            lean + dealValue(api, "favor", key, bill.sponsorId) > 0 ||
+            askPrice(api, bill.id, key, bill.sponsorId) !== null;
+          if (yes) soft.push({ id: key, lean, gain: lean < 0 ? 2 : 1 });
+          else if (
+            lean < 0 &&
+            absenceCarries(api, bill.id, key, bill.sponsorId)
+          )
+            soft.push({ id: key, lean, gain: 1 });
+        }
       }
       if (margin > 0) continue;
       soft.sort((a, b) => b.lean - a.lean || a.id.localeCompare(b.id));
       const asked: string[] = [];
       for (const member of soft) {
         if (margin > 0) break;
-        // An undecided member's yes adds one; a no turned yes, two.
-        margin += member.lean < 0 ? 2 : 1;
+        // An undecided member's yes adds one; a no turned yes, two; a no
+        // who stays out of the room, one.
+        margin += member.gain;
         asked.push(member.id);
       }
       if (margin <= 0) continue;
@@ -3501,11 +3611,9 @@ export function askToCarry(
     billId: bill?.id ?? null,
     ...(toPlayer ? { awaitingPlayer: true } : {}),
   };
-  if (toPlayer) {
-    // stopgapId: SG-GOV-carry-ask-no-screen (the held ask has no bench screen yet)
-    api.stopgap("SG-GOV-carry-ask-no-screen");
-    table(api, "carryAsks").put(row as unknown as ModuleRow);
-  }
+  // Held for the player: their carry-bill scene's ending answers it
+  // (keepReply, answerCarryInScene).
+  if (toPlayer) table(api, "carryAsks").put(row as unknown as ModuleRow);
   // The ask is a record for the member and the asker. Carried, it is public
   // (the bill names who asked for it); turned down, it stays between them.
   if (api.state.people.has(input.memberId)) {
@@ -3664,6 +3772,8 @@ export function offerDeal(
     readonly memberId: string;
     readonly kind: "amend" | "back-their-item" | "favor";
     readonly amend?: { readonly index: number; readonly value: number };
+    /** For backing their item: the member's own bill the sponsor will vote for. */
+    readonly itemBillId?: string;
   },
 ): {
   readonly accepted: boolean;
@@ -3678,10 +3788,16 @@ export function offerDeal(
           i === input.amend!.index ? { ...p, value: input.amend!.value } : p,
         )
       : bill.provisions;
+  const item = input.itemBillId
+    ? (table(api, "bills").get(input.itemBillId) as unknown as
+        BillRow | undefined)
+    : undefined;
   const terms =
     input.kind === "amend"
       ? `amend provision ${input.amend?.index} to ${input.amend?.value}`
-      : input.kind;
+      : item
+        ? `back ${item.number}`
+        : input.kind;
   const deal = {
     memberId: input.memberId,
     kind: input.kind,
@@ -3712,6 +3828,7 @@ export function offerDeal(
       kind: input.kind,
       billId: bill.id,
       measure: bill.number,
+      ...(item ? { itemBillId: item.id, itemMeasure: item.number } : {}),
       date: api.state.date,
       settled: false,
     } as unknown as ModuleRow);
@@ -3771,6 +3888,133 @@ export function favorWorth(
   return dealValue(api, "favor", memberId, askerId);
 }
 
+/**
+ * Whether a member has already answered an ask from one sponsor with a yes
+ * given as a favor since a date: the evening-before ask's reply, kept in
+ * `replies` (read through its pair index). A favor once returned is square,
+ * so the history is not called in twice (brief O).
+ */
+export function favorReturnedSince(
+  api: CoreAPI,
+  memberId: string,
+  sponsorId: string,
+  since: string,
+): boolean {
+  if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return false;
+  return (
+    table(api, "replies").query("byPair", [
+      memberId,
+      sponsorId,
+    ]) as unknown as ReplyRow[]
+  ).some((row) => row.scope === "bill" && row.sign > 0 && row.date > since);
+}
+
+/**
+ * What a member asked for their vote would take in return, from their own
+ * record (brief O; owner's rule, Nov 14: a price is never named in the same
+ * breath as the vote, and only an act the engine does can pay it). Two prices
+ * the engine can pay, the one that moves them most first:
+ * - `their-bill`: the asker's vote for the member's own bill waiting in the
+ *   same body, paid as `offerDeal` kind `back-their-item` naming that bill;
+ * - `amend`: half of the section of the asker's bill that weighs most against
+ *   them (a budget line or a law amount: a yes or no question has no half),
+ *   paid as `offerDeal` kind `amend`, which changes the bill for everyone.
+ * Null where neither would carry them, or where they already lean for it.
+ */
+export type AskPrice =
+  | {
+      readonly kind: "their-bill";
+      readonly billId: string;
+      readonly number: string;
+      /** Their position on the asked bill once paid. */
+      readonly after: number;
+    }
+  | {
+      readonly kind: "amend";
+      readonly index: number;
+      readonly value: number;
+      readonly after: number;
+    };
+
+export function askPrice(
+  api: CoreAPI,
+  billId: string,
+  memberId: string,
+  askerId: string,
+): AskPrice | null {
+  const bill = table(api, "bills").get(billId) as unknown as
+    BillRow | undefined;
+  if (!bill || bill.sponsorId !== askerId) return null;
+  const before = positionOn(api, bill, memberId).total;
+  if (before > 0) return null;
+  const prices: AskPrice[] = [];
+  // Their own bill waiting in this body, not yet voted, the oldest first.
+  const theirs = (
+    table(api, "bills").query("bySponsor", [memberId]) as unknown as BillRow[]
+  )
+    .filter(
+      (row) =>
+        row.id !== bill.id &&
+        row.status === "drafted" &&
+        row.bodyOfficeId === bill.bodyOfficeId &&
+        !table(api, "choices").get(`${row.id}|${askerId}`),
+    )
+    .sort(
+      (a, b) =>
+        a.introduced.localeCompare(b.introduced) || a.id.localeCompare(b.id),
+    )[0];
+  if (theirs) {
+    const after =
+      before + dealValue(api, "back-their-item", memberId, bill.sponsorId);
+    if (after > 0)
+      prices.push({
+        kind: "their-bill",
+        billId: theirs.id,
+        number: theirs.number,
+        after,
+      });
+  }
+  // Half of the section that weighs most against them.
+  let best: { index: number; value: number; after: number } | null = null;
+  for (const [index, section] of bill.provisions.entries()) {
+    if (section.kind === "policy-question" || section.repeal) continue;
+    const value = section.value / 2;
+    if (!Number.isFinite(value) || value === section.value) continue;
+    const provisions = bill.provisions.map((p, i) =>
+      i === index ? { ...p, value } : p,
+    );
+    const after = positionOn(
+      api,
+      { ...bill, provisions, costEstimate: costOf(api, provisions) },
+      memberId,
+    ).total;
+    if (after > 0 && (!best || after > best.after))
+      best = { index, value, after };
+  }
+  if (best) prices.push({ kind: "amend", ...best });
+  return prices.sort((a, b) => b.after - a.after)[0] ?? null;
+}
+
+/**
+ * Whether a member asked for their vote would at least stay out of the room:
+ * being absent is half the way from a no to a yes (the count loses a no and
+ * gains nothing), so a favor to the asker carries it where it covers half
+ * their lean against the bill. Recorded as the member's own choice
+ * (`castMemberVote`, "absent"), which the roll reads as for anyone.
+ */
+export function absenceCarries(
+  api: CoreAPI,
+  billId: string,
+  memberId: string,
+  askerId: string,
+): boolean {
+  const bill = table(api, "bills").get(billId) as unknown as
+    BillRow | undefined;
+  if (!bill) return false;
+  const lean = positionOn(api, bill, memberId).total;
+  return lean <= 0 && lean / 2 + dealValue(api, "favor", memberId, askerId) > 0;
+}
+
 /** What a sponsor owes the members who took their deals (favors, backing their items). */
 export function obligationsOf(
   api: CoreAPI,
@@ -3800,6 +4044,9 @@ export interface ObligationRow {
   readonly kind: string;
   readonly billId: string;
   readonly measure: string;
+  /** Backing their item: the owed member's own bill the debtor promised to vote for. */
+  readonly itemBillId?: string;
+  readonly itemMeasure?: string;
   readonly date: string;
   readonly settled: boolean;
   /** The record that called it in (an endorsement given), and when. */

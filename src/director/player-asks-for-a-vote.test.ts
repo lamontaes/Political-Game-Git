@@ -22,6 +22,8 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
   billOf,
+  absenceCarries,
+  askPrice,
   favorWorth,
   memberKey,
   memberPosition,
@@ -170,9 +172,15 @@ it(`the player asks a colleague for their vote the evening before the roll, and 
             : "refuse",
       );
       // Every way of asking again is answered from where they stand: a plea
-      // or a trade wins the vote where a favor carries them, pressing only
-      // where they lean for it already, and letting it go wins nothing.
+      // wins the vote where a favor carries them, pressing only where they
+      // lean for it already, and letting it go wins nothing. Taking up their
+      // price (brief O) is offered only where the record holds one and is
+      // taken where it carries them; asking them to stay out is offered only
+      // where they stand against it and agreed to where half a favor covers
+      // their lean.
       const carried = before.total + favor > 0;
+      const price = askPrice(api, billId, colleagueId, player);
+      const absent = absenceCarries(api, billId, colleagueId, player);
       for (const reply of first.move === "agree"
         ? []
         : scene.talk.tree.replies) {
@@ -180,10 +188,27 @@ it(`the player asks a colleague for their vote the evening before the roll, and 
           (row) => row.speakerId === colleagueId,
         )?.move;
         const yes = ["agree", "relent"].includes(last ?? "");
-        if (reply.line.move === "accept") expect(last).toBeUndefined();
-        else
-          expect(yes, `${where}: ${reply.line.move} answered ${last}`).toBe(
-            reply.line.move === "press" ? before.total > 0 : carried,
+        const move = reply.line.move;
+        if (move === "accept") expect(last).toBeUndefined();
+        else if (move === "bargain") {
+          expect(
+            price,
+            `${where}: a price offered with none on record`,
+          ).not.toBeNull();
+          expect(last, `${where}: bargain answered ${last}`).toBe(
+            price!.after > 0 ? "accept" : "refuse",
+          );
+        } else if (move === "request") {
+          expect(
+            before.total,
+            `${where}: staying out asked of a yes`,
+          ).toBeLessThanOrEqual(0);
+          expect(last, `${where}: request answered ${last}`).toBe(
+            absent ? "decline" : "refuse",
+          );
+        } else
+          expect(yes, `${where}: ${move} answered ${last}`).toBe(
+            move === "press" ? before.total > 0 : carried,
           );
       }
       // Met in ordinary play: the ask is a scene, not a journal line.

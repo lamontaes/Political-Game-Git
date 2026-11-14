@@ -14,6 +14,8 @@ import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
 import {
   LEGISLATURE_MODULE_ID,
+  absenceCarries,
+  askPrice,
   billOf,
   favorWorth,
   floorDateOf,
@@ -85,6 +87,7 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+import { bargainFacts } from "./bargain-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
@@ -1317,6 +1320,8 @@ function composeBinding(
     : type.playerAsks
       ? askStanding(core, said, askerId, askedId)
       : undefined;
+  if (standing && !door && said.billId)
+    bargainFacts(core, facts, said.billId, askerId, askedId, moment.causeId);
   if (type.playerAsks && !standing)
     return {
       kind: "skipped",
@@ -1635,9 +1640,12 @@ function askStanding(
     return undefined;
   const api = coreAPI(core as CoreState);
   if (!billOf(api, said.billId)) return undefined;
+  const price = askPrice(api, said.billId, colleagueId, playerId);
   return {
     lean: memberPosition(api, said.billId, colleagueId).total,
     favor: favorWorth(api, colleagueId, playerId),
+    ...(price ? { price: price.after } : {}),
+    absence: absenceCarries(api, said.billId, colleagueId, playerId),
   };
 }
 
