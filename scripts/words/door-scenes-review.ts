@@ -111,8 +111,6 @@ interface OutLine {
   key: string;
   move: string;
   tag?: string;
-  /** Not a line of the scene: a header, a seed line, a screen note. */
-  meta?: true;
 }
 interface OutChoice {
   line: OutLine;
@@ -560,19 +558,18 @@ for (const entry of manifest) {
     const ids = { next: () => `${sceneNo}.1.${(n.i += 1)}` };
     const META =
       /^(Seed:|Place:|Filed:|COUNTER TEXT|CAMPAIGN TAB|\[screen|Continue$|MEANING-COUNT|- ?outlet:|World seed)/;
-    const lines = (entry.lines ?? []).map<OutLine>((l) => ({
-      id: ids.next(),
-      who: l.who ?? "",
-      role: l.role,
-      text: l.text,
-      // A tag from a played file (here/ask) is not a bank piece key.
-      key: "",
-      move: "",
-      ...(l.key ? { tag: l.key } : {}),
-      ...(l.role === "plain" && META.test(l.text)
-        ? { meta: true as const }
-        : {}),
-    }));
+    const lines = (entry.lines ?? [])
+      .filter((l) => !(l.role === "plain" && META.test(l.text)))
+      .map<OutLine>((l) => ({
+        id: ids.next(),
+        who: l.who ?? "",
+        role: l.role,
+        text: l.text,
+        // A tag from a played file (here/ask) is not a bank piece key.
+        key: "",
+        move: "",
+        ...(l.key ? { tag: l.key } : {}),
+      }));
     scenes.push({
       id: String(sceneNo),
       kind: entry.kind ?? "Other",
@@ -800,6 +797,8 @@ if (process.env.REVIEW_BATCH) {
       id: string;
       title: string;
       kind: string;
+      type: string;
+      place: string;
       versions: {
         answers: { opening?: OutLine[]; tree?: OutNode }[];
       }[];
@@ -815,11 +814,13 @@ if (process.env.REVIEW_BATCH) {
       moment: Number(row.id),
       description: row.title,
       sceneKind: row.kind,
+      // A key is a bank piece key or null; a line from a played file names
+      // its file and place in `source`, so a grade on it goes to the Words lead.
+      ...(row.type === "text" && row.place ? { source: row.place } : {}),
       lines: lines.map((l) => ({
         id: l.id,
-        key: l.key,
+        key: l.key || null,
         line: l.text,
-        ...(l.meta ? { meta: true } : {}),
       })),
     };
   });
