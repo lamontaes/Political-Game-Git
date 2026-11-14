@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9287
 blocked-on:
 after: words-paper-police-log-slides-with-the-towns-usual
 lead: words
