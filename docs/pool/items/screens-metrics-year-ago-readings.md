@@ -7,7 +7,7 @@ priority: 3
 size: M
 status: in-pr
 claimed-by: claude/project-thread-78e8u3
-pr: (this PR)
+pr: #9316
 after:
 blocked-on:
 source: stand-in triage Nov 10
