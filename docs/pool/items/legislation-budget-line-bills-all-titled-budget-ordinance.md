@@ -24,7 +24,7 @@ claimed-at:
 
 **Cause.** Found in code: `billNameOf` in src/english/bill-names.ts treats any bill whose sections are all budget-line sections with no operation as the annual budget and titles it "Budget Ordinance". A member's one-line change (src/core2/modules/world-legislating.ts, `kind: "budget-line"` with the line's delta) carries a value and no operation, so it falls into that branch, although data/english/bill-names.json holds an authored name for twelve lines ("Police Funding Increase", "Parks Funding Reduction").
 
-**Fix.** A bill with exactly one budget-line section and a nonzero value is named for its line through the same authored table (`billNameFor("budget:<line>", form, value < 0)`); a line with no authored name, a request carried at 0, and a bill with several lines stay "Budget Ordinance". `billTitleOf` keys such a section by `budget:<line>`.
+**Fix.** A bill with exactly one budget-line section and a nonzero value is named for its line through the same authored table (`billNameFor("budget:<line>", form, value < 0)`); a government's annual budget bill (its record carries `budgetFor`), a line with no authored name, a request carried at 0, and a bill with several lines stay "Budget Ordinance". `billTitleOf` keys such a section by `budget:<line>`.
 
 **Time box.** 2 hours.
 
@@ -36,4 +36,4 @@ claimed-at:
 
 **Files.** src/english/bill-names.ts, src/english/bill-names.test.ts, src/director/budget-bill-titles.test.ts (new)
 
-**Notes.** Known limit: an annual budget that happens to change exactly one line is also named for that line. Two one-line bills for the same line in the same direction still share a title (their numbers differ).
+**Notes.** Two one-line bills for the same line in the same direction still share a title (their numbers differ).

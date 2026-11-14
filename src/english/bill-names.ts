@@ -123,6 +123,8 @@ export function billNameOf(
   bill: {
     readonly form: { readonly kind: string };
     readonly provisions: readonly NamedSection[];
+    /** Set on a government's annual budget bill: whose budget, for which year. */
+    readonly budgetFor?: unknown;
   },
   book: BillNameBook = billNames as BillNameBook,
 ): BillName | null {
@@ -130,9 +132,11 @@ export function billNameOf(
   // A change to one spending line (a member's bill to raise or cut it) is named
   // for that line, like any other policy: "Police Funding Increase Ordinance".
   // Without this every such bill read "Budget Ordinance" and two of them on one
-  // agenda could not be told apart.
+  // agenda could not be told apart. A government's annual budget bill (its
+  // record carries `budgetFor`) is always the budget, whatever lines it changes.
   const [only] = bill.provisions;
   if (
+    !bill.budgetFor &&
     bill.provisions.length === 1 &&
     only!.kind === "budget-line" &&
     !only!.operation &&
@@ -211,6 +215,8 @@ export function billTitleOf(
   bill: {
     readonly form: { readonly kind: string };
     readonly provisions: readonly NamedSection[];
+    /** Set on a government's annual budget bill: whose budget, for which year. */
+    readonly budgetFor?: unknown;
   },
   book: BillNameBook = billNames as BillNameBook,
 ): BillTitle | null {

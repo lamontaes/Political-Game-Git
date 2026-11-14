@@ -190,6 +190,15 @@ describe("bill names", () => {
     });
     expect(police?.title).toBe("Police Funding Increase Ordinance");
     expect(parks?.title).toBe("Parks Funding Reduction Ordinance");
+    // The government's annual budget bill (its record says whose budget) is
+    // the budget, even where it changes exactly one line.
+    expect(
+      billTitleOf({
+        form,
+        provisions: [{ kind: "budget-line", line: "police", value: 100 }],
+        budgetFor: { governmentId: "government:x", fiscalYear: 2025 },
+      })?.title,
+    ).toBe("Budget Ordinance");
     expect(police?.reverses).toBe(false);
     expect(parks?.reverses).toBe(true);
     // A line with no authored name, or a request carried at its enacted

@@ -586,7 +586,11 @@ export function billPaper(core: CoreState, billId: string) {
     effective: form.effectiveSection,
     before: form.sections.map((section) => section.before),
   });
-  const titled = billTitleOf({ form: bill.form, provisions: bill.provisions });
+  const titled = billTitleOf({
+    form: bill.form,
+    provisions: bill.provisions,
+    budgetFor: bill.budgetFor,
+  });
   const names = { ...policyNames(), ...budgetLineNames() };
   const sections = bill.provisions.map((provision, index) => {
     const subject = bill.title?.subjects[index] ?? null;
