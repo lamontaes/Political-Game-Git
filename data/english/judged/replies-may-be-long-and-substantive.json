@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1315,
+  "judged": 1281,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -31,15 +31,6 @@
         "scene-talk.reply-leave.i-ve-got-a-meeting-walk-with-me-if-you-want"
       ],
       "why": "\"It's the right call,\" \"time will answer,\" waiting on the committee and a meeting give no reason."
-    },
-    "00liyd1ccw3": {
-      "keys": [
-        "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
-        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
-        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
-        "scene-talk.reply-confront.you-want-a-fight-you-ll-get-one-tuesday-at-the-mic"
-      ],
-      "why": "An apology, a stall and a challenge to a fight at the mic carry no reason."
     },
     "00mqym8to4p": {
       "keys": [
@@ -698,14 +689,6 @@
         "scene-talk.reply-leave.let-s-talk-tomorrow-when-we-re-both-calmer"
       ],
       "why": "Conceding, ending the talk or putting it off to tomorrow gives no reason about where the remark was aimed."
-    },
-    "0b2qlw2iwjf": {
-      "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-apologize.all-right-thursday-on-the-record",
-        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse"
-      ],
-      "why": "\"Thursday, on the record\" and \"It's late\" carry no argument."
     },
     "0bdm6imiabi": {
       "keys": [
@@ -1699,14 +1682,6 @@
       ],
       "why": "\"Where did you hear that?\" and refusing to answer a rumor carry no reason."
     },
-    "0qhvnoof8zg": {
-      "keys": [
-        "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
-        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
-        "scene-talk.reply-confront.then-say-it-in-public-and-see-who-claps"
-      ],
-      "why": "\"We're not getting anywhere\" and \"see who claps\" carry no reason."
-    },
     "0qk1i4uopmk": {
       "keys": [
         "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
@@ -2033,15 +2008,6 @@
         "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor"
       ],
       "why": "A question, a veiled threat and a dismissal hold no reason."
-    },
-    "0vfiovoe4q5": {
-      "keys": [
-        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
-        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
-        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
-        "scene-talk.reply-confront.money.then-say-it-in-front-of-everybody-if-that-s-what-you-want"
-      ],
-      "why": "A stock apology, calling a stop and a dare to say it in front of everybody give no reason about the payment."
     },
     "0vl55i7rc10": {
       "keys": [
@@ -2905,15 +2871,6 @@
       ],
       "why": "A jab about signing and \"I'd cast that vote again\" are stance without a reason."
     },
-    "19sladoe074": {
-      "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses",
-        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "Two apologies and a deferral, none with a reason."
-    },
     "19vr70u2sbj": {
       "keys": [
         "scene-talk.state-request.relative-doesn-t-know-how-bad-it-is-i-need-you-to-be-the-one-who-tells",
@@ -3553,14 +3510,6 @@
         "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
       ],
       "why": "A promise to tell, a writing dare and an exit hold no reasoning."
-    },
-    "1juu1ikfxnc": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment",
-        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse"
-      ],
-      "why": "An apology and \"It's late\" offer no argument."
     },
     "1jxzc0fd8mz": {
       "keys": [
@@ -5419,5 +5368,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "1aafp30of9v"
+  "yesHash": "1rnx0shp9il"
 }
