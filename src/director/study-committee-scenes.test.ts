@@ -168,6 +168,15 @@ it(`the paper tells a study committee, and its members are spoken to when it for
           if (result?.kind !== "composed") continue;
           const { scene } = result;
           seen[typeKey] += 1;
+          // The news of a committee formed keeps (the row's keepsDays): the
+          // floor debate on the vote's own day takes the member's one scene
+          // for that day, so the formed scene plays on a later morning than
+          // the vote, and once.
+          if (typeKey === "study-formed")
+            expect(
+              moment.date > formedOn,
+              `${here}: formed scene on ${moment.date}, the vote's day was ${formedOn}`,
+            ).toBe(true);
           expect(scene.purpose, here).toBe(typeKey);
           const cause = core.durableLog.get(moment.causeId);
           expect(cause?.kind, here).toBe(typeKey);
@@ -226,11 +235,13 @@ it(`the paper tells a study committee, and its members are spoken to when it for
               ),
               `${here}: the stance change is named only if the stance record has it`,
             ).toBe(!!moved && moved.change > P.zero);
-            if (moved && moved.change > P.zero)
-              expect(
-                scene.talk.state.text,
-                `${here}: the opening says the speech moved the player`,
-              ).toMatch(/\bmov(?:e|ed)\b/);
+            // The opening ends on the finding itself (the Words lead's ruling:
+            // the opener says what the committee found, not what moved the
+            // player), and asks whether it changed anything.
+            expect(
+              scene.talk.state.text,
+              `${here}: the opening says what the committee recommended`,
+            ).toMatch(/recommended/);
             lines.push(
               `  stance ${stance?.id ?? "none"}: ${moved ? `moved ${moved.change} by ${row.report.speechId}` : "not moved by the speech"}`,
             );
@@ -294,6 +305,10 @@ it(`the paper tells a study committee, and its members are spoken to when it for
     process.stdout.write(
       `STUDY ${where}: scouted ${studyId} (formed ${formedOn}); the replay's scenes: formed ${seen["study-formed"]}, reported ${seen["study-reported"]}\n${lines.join("\n")}\n`,
     );
+    expect(
+      seen["study-formed"],
+      `${where}: the formed scene plays once`,
+    ).toBeLessThanOrEqual(1);
     if (seen["study-formed"] && seen["study-reported"]) return;
     tried.push(
       `${where}: scenes formed ${seen["study-formed"]}, reported ${seen["study-reported"]}`,
@@ -302,4 +317,9 @@ it(`the paper tells a study committee, and its members are spoken to when it for
   throw new Error(
     `no study committee staged both scenes: ${tried.join("; ")} (seed ${seed})`,
   );
-}, 3_600_000);
+  // The run is about 100 seconds, not the minute the pinned-tests habit
+  // names: the committee's own 180-day term (`studyTermDays`, legislature.ts)
+  // has to pass in the engine before it reports, and the world is played day
+  // by day through it with the member's stops answered. The study is staged
+  // by the legislature's vote, so no draw loop is in it.
+}, 300_000);

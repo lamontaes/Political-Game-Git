@@ -4246,7 +4246,7 @@
         "deflect": ["accept"]
       },
       "again": {
-        "press": ["agree", "disagree", "ask", "leave"],
+        "press": ["agree", "disagree", "leave"],
         "answer": ["agree", "disagree", "leave"]
       },
       "endings": [
@@ -4255,15 +4255,15 @@
           "label": "You said you would serve",
           "keeps": "promise",
           "when": {
-            "anyReply": ["agree"]
+            "reply": ["agree"]
           }
         },
         {
           "id": "called-it-a-delay",
-          "label": "You called it a way to put the bill off",
+          "label": "You doubted the study would change anything",
           "keeps": "relationship-strained",
           "when": {
-            "anyReply": ["disagree"]
+            "reply": ["disagree"]
           }
         },
         {
@@ -4271,7 +4271,7 @@
           "label": "You asked what it is charged with",
           "keeps": "meeting-set",
           "when": {
-            "anyReply": ["ask"]
+            "reply": ["ask"]
           }
         },
         {
@@ -4300,7 +4300,7 @@
         "deflect": ["accept"]
       },
       "again": {
-        "press": ["agree", "disagree", "ask", "leave"],
+        "press": ["agree", "disagree", "leave"],
         "answer": ["agree", "disagree", "leave"]
       },
       "endings": [
@@ -4309,7 +4309,7 @@
           "label": "You said you would back the finding",
           "keeps": "promise",
           "when": {
-            "anyReply": ["agree"]
+            "reply": ["agree"]
           }
         },
         {
@@ -4317,7 +4317,7 @@
           "label": "You said the finding did not move you",
           "keeps": "relationship-strained",
           "when": {
-            "anyReply": ["disagree"]
+            "reply": ["disagree"]
           }
         },
         {
@@ -4325,7 +4325,7 @@
           "label": "You asked what the committee weighed",
           "keeps": "none",
           "when": {
-            "anyReply": ["ask"]
+            "reply": ["ask"]
           }
         },
         {

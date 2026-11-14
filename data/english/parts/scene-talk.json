@@ -154,7 +154,8 @@
     "group": "The group that pressed the members who voted no, by its said name, from the lobbying record.",
     "budget-cost": "What a bill adds to the budget each year, one rounded sum, from its budget-line sections.",
     "donor-first": "A donor's given name, as the candidate says it to them, from the person record.",
-    "sunset": "The day a study committee's term ends, as people say it, from the study record."
+    "sunset": "The day a study committee's term ends, as people say it, from the study record.",
+    "members": "The other people who sit on the study committee, by name, from the study record."
   },
   "maxWords": 70,
   "parts": [
@@ -189752,7 +189753,7 @@
       "key": "scene-talk.narrate-narrate.the-sponsor-of-bill-gathers-the-committees-papers-and-looks-for",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The sponsor of {bill} gathers the committee's papers and looks for you in the room.",
+      "text": "{name} gathers the committee's papers on {bill} and looks for you in the room.",
       "uses": [
         {
           "subject": "scene",
@@ -189901,7 +189902,7 @@
       "key": "scene-talk.state-tell.its-a-committee-of-number-and-i-asked-for-people-who",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "It's a committee of {number}, and I asked for people who voted against {bill}. You're one of them.",
+      "text": "It's a small committee, and I asked for people who voted against {bill}. You're one of them.",
       "uses": [
         {
           "subject": "scene",
@@ -189910,7 +189911,7 @@
           "role": "asker",
           "purpose": "study-formed",
           "key": "colleague-word",
-          "requiresFacts": ["number", "bill", "asker-chairs"]
+          "requiresFacts": ["bill", "asker-chairs"]
         }
       ],
       "bearing": "braced",
@@ -189951,7 +189952,7 @@
       "key": "scene-talk.state-tell.chair-there-are-number-of-us-on-this-tell-us-what",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "Chair, there are {number} of us on this. Tell us what you want from the study.",
+      "text": "Chair, we're all here. Tell us what you want from the study.",
       "uses": [
         {
           "subject": "scene",
@@ -189960,7 +189961,7 @@
           "role": "asker",
           "purpose": "study-formed",
           "key": "colleague-word",
-          "requiresFacts": ["you-chair", "number"]
+          "requiresFacts": ["you-chair"]
         }
       ],
       "bearing": "calm",
@@ -190143,15 +190144,15 @@
       }
     },
     {
-      "key": "scene-talk.reply-disagree.ill-sit-on-it-but-i-dont-think-it-changes-anything",
-      "move": "reply-disagree",
+      "key": "scene-talk.reply-agree.ill-sit-on-it-but-i-dont-think-it-changes-anything",
+      "move": "reply-agree",
       "kind": "spoken",
       "text": "I'll sit on it, but I don't think it changes anything.",
       "uses": [
         {
           "subject": "scene",
           "step": "reply",
-          "move": "disagree",
+          "move": "agree",
           "role": "asked",
           "purpose": "study-formed",
           "key": "colleague-word"
@@ -190162,7 +190163,7 @@
       "author": "Story (Claude Code), civic-prose",
       "date": "2026-11-09",
       "tag": {
-        "move": "disagree",
+        "move": "agree",
         "key": "colleague-word"
       }
     },
@@ -190178,7 +190179,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "study-formed",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "requiresFacts": ["members"]
         }
       ],
       "bearing": "curious",
@@ -190202,7 +190204,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "study-formed",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "requiresFacts": ["sunset"]
         }
       ],
       "bearing": "curious",
@@ -190226,7 +190229,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "study-formed",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "requiresFacts": ["issue"]
         }
       ],
       "bearing": "curious",
@@ -190482,7 +190486,7 @@
       "key": "scene-talk.follow-answer.we-report-by-sunset-and-the-charge-is-issue-thats-all",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "We report by {sunset}, and the charge is {issue}. That's all it is.",
+      "text": "We report by {sunset}, and not before.",
       "uses": [
         {
           "subject": "scene",
@@ -190491,7 +190495,34 @@
           "role": "asker",
           "purpose": "study-formed",
           "key": "colleague-word",
-          "requiresFacts": ["sunset", "issue"]
+          "requiresFacts": ["sunset"],
+          "after": "scene-talk.reply-ask.when-does-it-report"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-order-charges-us-with-issue-thats-the-whole-charge",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The order charges us with {issue}. That's the whole charge.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["issue"],
+          "after": "scene-talk.reply-ask.what-exactly-are-we-charged-with"
         }
       ],
       "bearing": "calm",
@@ -190507,7 +190538,7 @@
       "key": "scene-talk.follow-answer.there-are-number-of-us-chair-the-ones-whose-votes-on-bill-were-closest-you-set-the-schedul",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "There are {number} of us, Chair, the ones whose votes on {bill} were closest. You set the schedule.",
+      "text": "{members}, Chair. Theirs were the votes on {bill} that came closest. You set the schedule.",
       "uses": [
         {
           "subject": "scene",
@@ -190516,7 +190547,34 @@
           "role": "asker",
           "purpose": "study-formed",
           "key": "colleague-word",
-          "requiresFacts": ["you-chair"]
+          "requiresFacts": ["you-chair", "members", "bill"],
+          "after": "scene-talk.reply-ask.who-else-is-sitting-on-it"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.besides-you-and-me-members-the-votes-on-bill-that-came-closest-to-mine",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Besides you and me, {members}. Their votes on {bill} came closest to mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["asker-chairs", "members", "bill"],
+          "after": "scene-talk.reply-ask.who-else-is-sitting-on-it"
         }
       ],
       "bearing": "calm",
@@ -190612,7 +190670,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "study-formed",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "outcome": "resolved"
         }
       ],
       "bearing": "warm",
@@ -190636,7 +190695,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "study-formed",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -190660,7 +190720,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "study-formed",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "outcome": "resolved"
         }
       ],
       "bearing": "warm",
@@ -190841,34 +190902,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-about-it-and-tell-me-before-the-first-meeting",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Think about it, and tell me before the first meeting.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "study-formed",
-          "key": "colleague-word"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "press",
-        "key": "colleague-word"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.the-clerk-reads-the-committees-report-into-the-record",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The clerk reads the committee's report into the record.",
+      "text": "The clerk reads the committee's report into the record, and {name} turns to you afterward.",
       "uses": [
         {
           "subject": "scene",
@@ -190968,7 +191005,7 @@
       "key": "scene-talk.state-tell.we-recommended-passing-bill-and-i-said-so-in-my-report-i-saw-it-move-you",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "We recommended passing {bill}, and I said so in my report. I saw it move you.",
+      "text": "We recommended passing {bill}, and I said so in my report. Did it change anything for you?",
       "uses": [
         {
           "subject": "scene",
@@ -190993,7 +191030,7 @@
       "key": "scene-talk.state-tell.we-recommended-against-bill-my-own-bill-i-said-so-in-my-report-and-i-think-it-moved-you",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "We recommended against {bill}, my own bill. I said so in my report, and I think it moved you.",
+      "text": "We recommended against {bill}, my own bill. I said so in my report. Did it change anything for you?",
       "uses": [
         {
           "subject": "scene",
@@ -191395,54 +191432,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.where-was-the-committee-closest-to-splitting",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Where was the committee closest to splitting?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "study-reported",
-          "key": "colleague-word"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.did-anyone-on-it-dissent",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Did anyone on it dissent?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "study-reported",
-          "key": "colleague-word"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "colleague-word"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.ill-read-the-full-report-before-i-say",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -191511,30 +191500,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "deflect",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.ill-read-it-and-come-find-you",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'll read it and come find you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "study-reported",
-          "key": "colleague-word"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "leave",
         "key": "colleague-word"
       }
     },
@@ -191686,7 +191651,7 @@
       "key": "scene-talk.follow-press.the-members-spent-the-whole-study-on-it-give-it-a-second-look",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "The members spent the whole study on it. Give it a second look.",
+      "text": "The members read every page of it. Give it a second look.",
       "uses": [
         {
           "subject": "scene",
@@ -191743,7 +191708,8 @@
           "role": "asker",
           "purpose": "study-reported",
           "key": "colleague-word",
-          "requiresFacts": ["finding-for"]
+          "requiresFacts": ["finding-for"],
+          "after": "scene-talk.reply-ask.what-carried-the-finding-in-the-end"
         }
       ],
       "bearing": "calm",
@@ -191768,31 +191734,8 @@
           "role": "asker",
           "purpose": "study-reported",
           "key": "colleague-word",
-          "requiresFacts": ["finding-against"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "answer",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-finding-is-where-the-members-stood-at-the-end-taken",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The finding is where the members stood at the end, taken together.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "study-reported",
-          "key": "colleague-word"
+          "requiresFacts": ["finding-against"],
+          "after": "scene-talk.reply-ask.what-carried-the-finding-in-the-end"
         }
       ],
       "bearing": "calm",
@@ -191888,7 +191831,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "study-reported",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "outcome": "resolved"
         }
       ],
       "bearing": "warm",
@@ -191912,7 +191856,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "study-reported",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -191936,7 +191881,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "study-reported",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "outcome": "resolved"
         }
       ],
       "bearing": "warm",
@@ -192117,30 +192063,6 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-it-over-and-tell-me-before-the-next-roll-call",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Think it over, and tell me before the next roll call.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "study-reported",
-          "key": "colleague-word"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "press",
-        "key": "colleague-word"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.the-order-forming-the-committee-on-bill-was-read-into-the",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -192294,7 +192216,7 @@
       "key": "scene-talk.follow-answer.there-are-number-of-us-the-ones-whose-votes-on-bill-were-closest-that-s-how-chair-chose-us",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "There are {number} of us, the ones whose votes on {bill} were closest. That's how {chair} chose us.",
+      "text": "{members}, the ones whose votes on {bill} were closest. That's how {chair} chose us.",
       "uses": [
         {
           "subject": "scene",
@@ -192303,7 +192225,8 @@
           "role": "asker",
           "purpose": "study-formed",
           "key": "colleague-word",
-          "requiresFacts": ["fellow-member", "chair"]
+          "requiresFacts": ["fellow-member", "chair", "members", "bill"],
+          "after": "scene-talk.reply-ask.who-else-is-sitting-on-it"
         }
       ],
       "bearing": "calm",
@@ -192428,7 +192351,7 @@
       "key": "scene-talk.state-tell.chair-reported-that-we-recommended-passing-bill-i-saw-it-move-you",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{chair} reported that we recommended passing {bill}. I saw it move you.",
+      "text": "{chair} reported that we recommended passing {bill}. Did it change anything for you?",
       "uses": [
         {
           "subject": "scene",
@@ -192459,7 +192382,7 @@
       "key": "scene-talk.state-tell.chair-reported-that-we-recommended-against-bill-i-think-it-moved-you",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{chair} reported that we recommended against {bill}. I think it moved you.",
+      "text": "{chair} reported that we recommended against {bill}. Did it change anything for you?",
       "uses": [
         {
           "subject": "scene",

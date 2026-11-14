@@ -1242,10 +1242,26 @@ function composeBinding(
           text: `${chair.givenName} ${chair.familyName}`,
           sourceRecordIds: [...cited, chair.id],
         };
-      facts.number = {
-        text: String(study.memberIds.length),
-        sourceRecordIds: cited,
-      };
+      // The members besides the two talking (and the chair, named already for a
+      // fellow member), by name: the answer to who else sits on it.
+      const others = study.memberIds
+        .filter(
+          (id) => id !== askerId && id !== askedId && id !== study.chairId,
+        )
+        .map((id) => core.people.get(id as PersonId))
+        .filter((person) => !!person?.alive);
+      if (others.length) {
+        const names = others.map(
+          (person) => `${person!.givenName} ${person!.familyName}`,
+        );
+        facts.members = {
+          text:
+            names.length === P.one
+              ? names[P.zero]!
+              : `${names.slice(P.zero, -P.one).join(", ")} and ${names.at(-P.one)}`,
+          sourceRecordIds: [...cited, ...others.map((person) => person!.id)],
+        };
+      }
       facts.sunset = {
         text: spokenDate(study.sunsetOn, core.date),
         sourceRecordIds: cited,
