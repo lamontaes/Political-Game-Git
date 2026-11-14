@@ -306,13 +306,13 @@
   {
     "id": "SG-PEOPLE-role-people-have-no-past",
     "kind": "faked-mechanic",
-    "file": "src/core2/person-life.ts",
+    "file": "src/core2/past-work.ts",
     "line": 1,
-    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, an election chief) is made with no past facts and no past records. Opened or met, they get their schooling, but no working life when their place is a state jurisdiction with no businesses on record, and no birthplace, parents or partners, so their life stays short until something happens to them in play.",
-    "why": "The life record's first slice reads the pasts that exist; the past passes run only for the town's residents and the people filled in from the counts. Found by the life record's own test in Hewitt, Wisconsin, seed b8f4c36df5632058.",
+    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, a state's election chief) is made with no past facts. Opened or met, they now get their birth date, a birthplace that is the place they live, their schooling and, where they hold a job on day one and live where the world keeps no business, one earlier post at the same organization from their first working day to the day they took the role (an estimate). Still missing: press staff who live outside the town hold no job record, so they get no working life; nobody made for a role gets parents or partners.",
+    "why": "The world keeps no record of an outside organization's earlier staff or of where a person made for a role was born; press staff outside the town are paid as a post, not a job (press-staff.ts seatStaff).",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "The working-life run covers people whose place has no business on record (a role's employer is the office itself), and role holders are made with a birthplace and family from the same generator as residents.",
+    "replacement": "Press staff outside the town hold their post as a job the working-life run reads; role holders are made with a birthplace and family from the same generator as residents; earlier posts read from the organization's own records once the world keeps them.",
     "status": "open"
   },
   {

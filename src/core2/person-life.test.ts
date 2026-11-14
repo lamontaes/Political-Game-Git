@@ -27,6 +27,7 @@ import type {
   PersonState,
 } from "./types";
 import { keepsWhy } from "./why-kept";
+import { ELECTION_CHIEF_POST } from "./modules/executive";
 
 const seed = process.env.LIFE_SEED ?? randomBytes(8).toString("hex");
 const drawn = drawPlace(seed, "person-life");
@@ -528,6 +529,59 @@ describe(`the life record in ${where}`, () => {
     );
     process.stdout.write(
       `person-life 6: ${where}; ${person!.id}; ${before.length} events before demotion, ${after.length} after the fill-in`,
+    );
+  }, 600_000);
+
+  it("7: a person made to hold a role, opened, has a birthplace and the work that led to the role", () => {
+    // The state's election chief: drawn from the world's seed, placed in the
+    // state, which keeps no business of its own (executive.ts seatElectionChief).
+    // Pinned: the stopgap's own repro, Hewitt, Wisconsin (5534250), seed
+    // b8f4c36df5632058, whatever place the other cases drew.
+    const pinned = drawPlace("b8f4c36df5632058", "person-life");
+    const pinnedWorld = buildBenchWorld(pinned.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: pinned.key,
+    });
+    const pcore = pinnedWorld.core;
+    const where = `${pinnedWorld.place.displayName} (${pinned.key}), seed b8f4c36df5632058`;
+    const chief = [...pcore.people.values()].find(
+      (person) =>
+        person.alive && person.jobId?.includes(`:${ELECTION_CHIEF_POST}:`),
+    );
+    expect(chief, `${where}: no election chief`).toBeDefined();
+    const role = pcore.jobs.get(chief!.jobId!);
+    expect(role, `${where}: ${chief!.id} holds no job`).toBeDefined();
+    openWholePast(pcore as CoreState, chief!.id);
+    const life = lifeOf(pcore, chief!.id);
+    const label = `${where}: ${chief!.id} ${life.map((e) => `${e.life}/${e.what}`).join(", ")}`;
+    expect(life.length, label).toBeGreaterThanOrEqual(4);
+    // Born where they live, as every opening resident's birthplace defaults to home.
+    expect(
+      life.some((event) => event.life === "born"),
+      label,
+    ).toBe(true);
+    expect(
+      chief!.pastFacts?.find((row) => row.kind === "person:birth")?.facts
+        ?.placeId,
+      label,
+    ).toBe(chief!.placeId);
+    // Work before the role: an earlier post at the same organization, left for the role.
+    const earlier = life.filter(
+      (event) =>
+        event.life === "work" &&
+        event.what === "job-started" &&
+        event.facts?.organizationId === role!.organizationId &&
+        event.facts?.end === "moved-on",
+    );
+    expect(earlier.length, label).toBeGreaterThan(0);
+    // The same life when opened again.
+    openWholePast(pcore as CoreState, chief!.id);
+    expect(
+      lifeOf(pcore, chief!.id).map((event) => event.id),
+      label,
+    ).toEqual(life.map((event) => event.id));
+    process.stdout.write(
+      `person-life 7: ${where}; ${chief!.id}: ${life.map((e) => `${e.life}/${e.what}@${e.date}`).join(", ")}\n`,
     );
   }, 600_000);
 
