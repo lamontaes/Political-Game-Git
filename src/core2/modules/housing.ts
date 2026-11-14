@@ -1420,11 +1420,11 @@ function typicalRentReader(api: CoreAPI): (placeId: string) => number {
  * town's typical rent, as rent scales with income. Undefined where the
  * county has no published value.
  */
-function rentHomeValue(
+export function rentHomeValue(
   api: CoreAPI,
   placeId: string,
   rentMinor: number,
-  typicalRent: (placeId: string) => number,
+  typicalRent: (placeId: string) => number = typicalRentReader(api),
 ): number | undefined {
   const town = rentValueOf(housingPlace(api, placeId).county, api.state.seed);
   if (!town?.[1]) return undefined;
@@ -1605,6 +1605,14 @@ function buyHomes(api: CoreAPI): void {
   }
 }
 
+/** The counted renters whose lease turns a year older this month weigh buying the home their rent stands for, by the full renters' rule. */
+export function weighCountedBuyers(api: CoreAPI): void {
+  const typicalRent = typicalRentReader(api);
+  buyCountedHomes(api, (placeId, rentMinor) =>
+    rentHomeValue(api, placeId, rentMinor, typicalRent),
+  );
+}
+
 function review(api: CoreAPI): void {
   const c = core(api),
     law = steps(api);
@@ -1628,11 +1636,7 @@ function review(api: CoreAPI): void {
   occupyCompletedRentals(api);
   landlordPayout(api);
   buyHomes(api);
-  // The counted renters whose lease turns a year older this month weigh buying by the same rule.
-  const typicalRent = typicalRentReader(api);
-  buyCountedHomes(api, (placeId, rentMinor) =>
-    rentHomeValue(api, placeId, rentMinor, typicalRent),
-  );
+  weighCountedBuyers(api);
   // A household behind on rent weighs settling part of it from its spare cash before the landlord weighs the lease.
   for (const [id, row] of [...c.finance.contracts].sort((a, b) =>
     a[0].localeCompare(b[0]),
