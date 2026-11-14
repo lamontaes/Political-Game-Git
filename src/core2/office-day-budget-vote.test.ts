@@ -13,6 +13,7 @@
 import { randomBytes } from "node:crypto";
 import { afterAll, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { calendarItems } from "../bench/calendar";
 import { meetingSceneView } from "../bench/office";
 import { BenchPlayer } from "../bench/player";
 import { buildBenchWorld } from "../bench/world";
@@ -34,6 +35,7 @@ import {
   OFFICE_DAY_MODULE_ID,
   officeActsOf,
   takeUpItem,
+  upcomingMeeting,
   type MeetingRow,
 } from "./modules/office-day";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "./modules/budgets";
@@ -369,3 +371,92 @@ it("no vote of the player's seat is on the record that the player did not press,
   );
   expect(proved.length, `passed over: ${passedOver.join("; ")}`).toBe(3);
 }, 3_600_000);
+
+/**
+ * Bodies whose rule sets no meeting on the fiscal year's first day, read from
+ * built worlds' calendars (pinned, not drawn at run time): the plain case, and
+ * a member appointed to a vacant seat after that meeting's agenda was posted.
+ */
+const BUDGET_DAY_PLACES = [
+  {
+    key: "2044375",
+    name: "Manter, Kansas",
+    seed: "4fa6d48a7167e5a108a04fad7d9c719348096af73d27978b399b2a6a8e9ff653",
+    case: "seated all year",
+  },
+  {
+    key: "4657340",
+    name: "Salem, South Dakota",
+    seed: "bd3f195533ac260072eb213f76c1dbef4845a0a92f8c812ee554a2befad28f57",
+    case: "appointed on 2025-12-30, after the agenda was posted",
+  },
+];
+
+it.each(BUDGET_DAY_PLACES)(
+  "a body with no regular meeting on the budget's day meets that day: on the player's calendar the day before, and the player held at its hour ($name, $case)",
+  (place) => {
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const s = seated(place);
+    expect(s, `${where}: a seated member`).not.toBeNull();
+    const { api, core, me } = s!;
+    const pressed = new Map<string, string>();
+    let regularThatDay: boolean | null = null;
+    let seatedDayBefore = false;
+    let listedDayBefore = false;
+    let heldAt: string | null = null;
+    play(
+      s!,
+      () => {
+        const budget = heardBudget(api, s!.officeId);
+        const day = budget ? voteDay(api, budget.id) : undefined;
+        // The day before the vote: the calendar the player opens.
+        if (budget && day && regularThatDay === null) {
+          const before = new Date(Date.parse(`${day}T00:00:00Z`) - 86_400_000)
+            .toISOString()
+            .slice(0, 10);
+          if (core.date === before) {
+            regularThatDay = upcomingMeeting(api, s!.officeId)?.date === day;
+            seatedDayBefore = members(api, s!.officeId).some(
+              (term) => term.personId === me,
+            );
+            listedDayBefore = calendarItems(core, me).some(
+              (item) =>
+                item.kind === "meeting" &&
+                item.date === day &&
+                item.recordIds.includes(s!.officeId),
+            );
+          }
+        }
+        return (
+          core.date >= "2026-01-03" ||
+          (!!budget && billOf(api, budget.id).status !== "drafted")
+        );
+      },
+      (meeting) => {
+        const budget = heardBudget(api, s!.officeId);
+        if (budget && meeting.agenda.includes(budget.id)) heldAt = meeting.date;
+        pressAll(api, meeting, "yes", pressed);
+      },
+    );
+    const budget = heardBudget(api, s!.officeId);
+    const day = budget ? voteDay(api, budget.id) : undefined;
+    expect(budget, `${where}: a budget heard by ${core.date}`).toBeTruthy();
+    expect(day, `${where}: the budget's vote day`).toBe("2026-01-01");
+    expect(seatedDayBefore, `${where}: the player sits on ${day}`).toBe(true);
+    expect(
+      regularThatDay,
+      `${where}: ${day} is not a regular meeting day`,
+    ).toBe(false);
+    expect(
+      listedDayBefore,
+      `${where}: the ${day} meeting on the calendar the day before`,
+    ).toBe(true);
+    expect(heldAt, `${where}: held at the ${day} meeting`).toBe(day);
+    expect(pressed.get(budget!.id), `${where}: ${budget!.number} pressed`).toBe(
+      "yes",
+    );
+    expect(billOf(api, budget!.id).status, where).not.toBe("drafted");
+    expect(unpressed(api, me, pressed)).toEqual([]);
+  },
+  600_000,
+);

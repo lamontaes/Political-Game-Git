@@ -197,12 +197,27 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     if (payday || seenTerms.get(api.state as CoreState) !== terms) {
       seenTerms.set(api.state as CoreState, terms);
       scheduleOfficeReview(api);
+      holdNewlySeated(api);
     }
     if (payday) payStipends(api);
     for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
 };
+/**
+ * A player seated after a meeting's agenda was posted (appointed to a vacant
+ * seat, a term that starts that week) sits at that meeting like any member:
+ * the meetings already on the books for their bodies may now hold them.
+ */
+function holdNewlySeated(api: CoreAPI): void {
+  const player = playerOf(api);
+  if (player === undefined) return;
+  for (const officeId of officeHost.officesOf(api, player))
+    for (const row of meetingsOf(api, officeId)) {
+      if (row.date < api.state.date) break;
+      holdPlayerIfDue(api, row);
+    }
+}
 /**
  * The size of the offices roster the last day read. Saved with the world, so
  * a restored world doesn't read its roster as changed and book a review the
@@ -394,6 +409,46 @@ export function placeOnAgenda(api: CoreAPI, billId: string): string {
   return next.date;
 }
 
+/** The drafted bills placed for a body's meeting on exactly this day. */
+function placedFor(api: CoreAPI, officeId: string, date: string): string[] {
+  return agendaRows(api)
+    .filter(
+      (row) =>
+        row.officeId === officeId &&
+        row.date === date &&
+        billOf(api, row.id)?.status === "drafted",
+    )
+    .map((row) => row.id)
+    .sort();
+}
+
+const agendaRows = (api: CoreAPI) =>
+  table(api, "agendaItems").rows() as unknown as {
+    id: string;
+    officeId: string;
+    date: string;
+  }[];
+
+/**
+ * The day a body next meets, as the player's calendar and office show it: its
+ * next regular meeting, or a meeting set sooner to vote the budget.
+ */
+export function nextMeetingDate(api: CoreAPI, officeId: string): string | null {
+  const regular = upcomingMeeting(api, officeId)?.date ?? null;
+  const budget = agendaRows(api)
+    .filter(
+      (row) =>
+        row.officeId === officeId &&
+        row.date >= api.state.date &&
+        billOf(api, row.id)?.budgetFor !== undefined &&
+        billOf(api, row.id)?.status === "drafted",
+    )
+    .map((row) => row.date)
+    .sort()[0];
+  if (!budget) return regular;
+  return regular && regular < budget ? regular : budget;
+}
+
 function agendaFor(api: CoreAPI, officeId: string, date: string): string[] {
   return (
     table(api, "agendaItems").rows() as unknown as {
@@ -452,8 +507,14 @@ function postAgenda(
 ): void {
   const [officeId, date] = work.sourceRecordIds as [string, string];
   const rule = nextMeeting(api, officeId, dayOffset(date, -1));
-  if (!rule || rule.date !== date) return;
-  const agenda = agendaFor(api, officeId, date);
+  if (!rule) return;
+  // A meeting off the body's rule is the one held to vote the budget: its
+  // agenda is what was placed for that day, at the body's usual hour.
+  const budgetDay = rule.date !== date;
+  const agenda = budgetDay
+    ? placedFor(api, officeId, date)
+    : agendaFor(api, officeId, date);
+  if (budgetDay && !agenda.length) return;
   const row: MeetingRow = {
     id: meetingId(officeId, date),
     officeId,
@@ -464,6 +525,8 @@ function postAgenda(
     takenUp: [],
     status: "scheduled",
     playerPresent: false,
+    // No member files for it: its agenda is posted whole.
+    ...(budgetDay ? { posted: true } : {}),
     citation: rule.rule.source.citation,
   };
   table(api, "meetings").put(row as unknown as ModuleRow);
@@ -1028,29 +1091,24 @@ function placeBudgetVote(api: CoreAPI, billId: string, date: string): void {
   if (rule.date === date) return;
   const calendar = api.moduleCalendar(OFFICE_DAY_MODULE_ID);
   if (calendar.get(id)) return;
+  // A body with no regular meeting that day meets then, like any meeting:
+  // its agenda posted on the notice day (`postAgenda`), the player held at
+  // its hour, and the day's close votes what is left (`closeMeeting`).
   // stopgapId: SG-OFFICE-budget-meeting-on-the-year-start
-  const held: MeetingRow = {
-    id,
-    officeId,
-    date,
-    startMinute: rule.rule.startMinute,
-    minutes: rule.rule.minutes,
-    agenda: [billId],
-    takenUp: [],
-    status: "scheduled",
-    playerPresent: false,
-    posted: true,
-    citation: rule.rule.source.citation,
-  };
-  table(api, "meetings").put(held as unknown as ModuleRow);
-  calendar.schedule({
+  const work = {
     source: rule.rule.source,
     sourceRecordIds: [officeId, date],
-    key: id,
-    date,
-    kind: "meeting",
-  });
-  holdPlayerIfDue(api, held);
+  };
+  const notice = dayOffset(date, -officeDayParameter("agendaNoticeDays"));
+  if (notice <= api.state.date) postAgenda(api, work);
+  else
+    calendar.schedule({
+      ...work,
+      key: `agenda:${id}`,
+      date: notice,
+      kind: "agenda",
+    });
+  calendar.schedule({ ...work, key: id, date, kind: "meeting" });
 }
 
 /**
