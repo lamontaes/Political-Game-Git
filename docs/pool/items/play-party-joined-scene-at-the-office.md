@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9204
 after: play-join-a-party-has-no-scene-and-no-headquarters
 blocked-on:
 lead: words
