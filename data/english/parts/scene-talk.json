@@ -164849,10 +164849,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-ve-never-met-name-you-introduce-yourself",
+      "key": "scene-talk.narrate-narrate.you-ve-never-met-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You've never met {name}. You introduce yourself.",
+      "text": "You've never met {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -164924,10 +164924,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.we-haven-t-met-so-i-ll-be-plain-i-want-you-on-my-ticket-for-office",
+      "key": "scene-talk.state-request.i-m-self-full-we-haven-t-met-so-i-ll-be-plain",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We haven't met, so I'll be plain. I want you on my ticket for {office}.",
+      "text": "I'm {self-full}. We haven't met, so I'll be plain: I want you on my ticket for {office}.",
       "uses": [
         {
           "subject": "scene",
