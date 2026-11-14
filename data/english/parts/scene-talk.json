@@ -146,7 +146,11 @@
     "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
     "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
     "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
-    "rent": "The rent a renter pays each month, as said money, from their home's record."
+    "rent": "The rent a renter pays each month, as said money, from their home's record.",
+    "agency": "The office a constituent's case is referred to when the official takes it up (\"the workforce office\"), by the case's problem in the constituent-cases record.",
+    "staffer": "The first name of an aide serving on the official's staff, from the staff record.",
+    "respond-in": "When the office decides a constituent's case if nobody does sooner (\"in seven days\"), from the case's deadline.",
+    "money-left": "How a job seeker's savings stand, in words and never a figure (\"running low\", \"almost gone\"), from their constituent case's severity."
   },
   "maxWords": 70,
   "parts": [
@@ -91875,29 +91879,6 @@
           "move": "leave",
           "role": "asked",
           "excludesFacts": ["daytime"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-can-t-decide-this-right-now",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I can't decide this right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-to-run",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked"
         }
       ],
       "origin": "authored",
