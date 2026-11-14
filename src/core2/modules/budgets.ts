@@ -95,6 +95,7 @@ import {
   stateJurisdictionId,
 } from "../government-jurisdictions";
 import { syncServiceCharges } from "../budgets-service-charges";
+export { chargedServicesOf } from "../budgets-service-charges";
 import { isFeeLevelSeries } from "../fee-levels";
 
 export {

@@ -573,7 +573,7 @@
             },
             {
               "id": "law:fee-level:airports-ports-and-parking",
-              "name": "Parking and airport fees",
+              "name": "Parking fees",
               "kind": "law-amount",
               "series": "fee-level:airports-ports-and-parking",
               "unit": "percent of today's fee",

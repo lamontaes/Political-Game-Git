@@ -20,6 +20,8 @@ import {
 } from "./modules/legislature";
 import { billLevelJurisdiction, billValueInForce } from "./modules/laws";
 import { policyAuthority } from "./modules/laws";
+import { chargedServicesOf, governmentOfJurisdiction } from "./modules/budgets";
+import { FEE_LEVEL_SERVICES, isFeeLevelSeries } from "./fee-levels";
 
 export type Operation =
   "raise" | "lower" | "expand" | "restrict" | "enact" | "repeal";
@@ -41,6 +43,11 @@ export interface DraftablePolicy extends CatalogPolicy {
   readonly inForce: number | null;
   readonly inForceRecordId: string | null;
   readonly inForceUnit: string | null;
+  /** For a fee: what the government's charge for it brings in over a year, and for sewer and trash what a home pays a month. */
+  readonly charge?: {
+    readonly yearlyMinor: number;
+    readonly perHomeMonthMinor: number | null;
+  };
   readonly authority: Authority;
 }
 
@@ -70,6 +77,14 @@ export function billCatalog(
   level: Level,
   jurisdiction: string = billLevelJurisdiction(api, level),
 ): readonly CatalogMenu[] {
+  const government = governmentOfJurisdiction(api, jurisdiction);
+  const charged = new Map(
+    (government ? chargedServicesOf(api, government.id) : []).map((c) => [
+      c.service,
+      c,
+    ]),
+  );
+  const charges = { has: (service: string) => charged.has(service) };
   return subjects.map((subject) => ({
     id: subject.id,
     name: subject.name,
@@ -78,6 +93,13 @@ export function billCatalog(
       supported: topic.supported,
       policies: topic.policies
         .filter((p) => p.levels.includes(level))
+        // A fee is offered only where that government's own charges row holds
+        // the service it sets (a government with no toll is not offered one).
+        .filter(
+          (p) =>
+            !(p.series && isFeeLevelSeries(p.series)) ||
+            charges.has(FEE_LEVEL_SERVICES[p.series]!),
+        )
         .map((p) => {
           const provision = {
             kind: p.kind,
@@ -88,8 +110,20 @@ export function billCatalog(
             value: 1,
           } as Provision;
           const inForce = billValueInForce(api, provision, jurisdiction);
+          const fee =
+            p.series && isFeeLevelSeries(p.series)
+              ? charged.get(FEE_LEVEL_SERVICES[p.series]!)
+              : undefined;
           return {
             ...p,
+            ...(fee
+              ? {
+                  charge: {
+                    yearlyMinor: fee.yearlyMinor,
+                    perHomeMonthMinor: fee.perHomeMonthMinor,
+                  },
+                }
+              : {}),
             inForce: inForce.value,
             inForceRecordId: inForce.recordId,
             inForceUnit: inForce.unit,

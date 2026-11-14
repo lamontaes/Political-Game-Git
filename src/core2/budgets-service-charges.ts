@@ -74,6 +74,8 @@ export interface ServiceChargeShareRow {
   readonly share: number;
   readonly tag: "SOURCED" | "ESTIMATED";
   readonly services: readonly { service: string; share: number }[];
+  /** What the government's charges bring in over a year at the fees in force, here and elsewhere. */
+  readonly annualMinor: number;
   /** Sewer and trash for one month, flat per dwelling (a full household or a counted one); the rest is the uniform share. */
   readonly sewerPerDwellingMinor: number;
   /** The same service for one firm (its weight times a dwelling's). */
@@ -203,6 +205,35 @@ function servicesOf(
 }
 
 /**
+ * What a government charges for, by service, with what each brings in over a
+ * year at the fees in force; the sewer and trash line also says what a home
+ * pays a month. The services are the ones the government's charges row holds
+ * (a service the row does not hold is not offered to a bill). Read by the bill
+ * paper's Fees and charges list.
+ */
+export function chargedServicesOf(
+  api: CoreAPI,
+  governmentId: string,
+): readonly {
+  service: string;
+  yearlyMinor: number;
+  perHomeMonthMinor: number | null;
+}[] {
+  const row = serviceChargeShares(api).find(
+    (r) => r.governmentId === governmentId,
+  );
+  if (!row) return [];
+  return row.services.map(({ service, share }) => ({
+    service,
+    yearlyMinor: Math.round(row.annualMinor * share),
+    perHomeMonthMinor:
+      service === SEWER && row.sewerPerDwellingMinor > 0
+        ? row.sewerPerDwellingMinor
+        : null,
+  }));
+}
+
+/**
  * The fee levels in force for a government, by service, as a multiplier of
  * the schedule its budget assumes: the law row of the fee series that this
  * government's level set (a bill's enactment), read as it stands today.
@@ -293,6 +324,7 @@ export function syncServiceCharges(api: CoreAPI): void {
       organizationId: gov.organizationId,
       date: api.state.date,
       modeledShare,
+      annualMinor: Math.round(annual),
       targetMonthlyMinor: target,
       livingMonthlyMinor: living,
       share:

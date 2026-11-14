@@ -12,7 +12,7 @@ import { rosterScreen } from "./roster-screen.mjs";
 import { rosterTitle, stripSection } from "./strips.mjs";
 
 /**
- * `groups`: [{ name, items: [{ value, label, today, unit, cents, note, blocked }] }];
+ * `groups`: [{ name, items: [{ value, label, today, aside, unit, cents, note, blocked }] }]; `aside` is the short note on the list row (else `today`);
  * `words`: { title, issue, today, newAmount, draft, none }; `onDraft(item, typed)`
  * drafts the bill. Returns the screen's node.
  */
@@ -135,7 +135,7 @@ export function draftCard({ groups, words, onDraft }) {
         entries: group.items.map((item) => ({
           key: item.value,
           label: item.label,
-          aside: item.today ?? "",
+          aside: item.aside ?? item.today ?? "",
           // A subject this body may not write a bill about is listed dimmed.
           data: {
             value: item.value,

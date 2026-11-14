@@ -191,7 +191,7 @@ SERIES = {
     "fee-level:parks-and-recreation": ("taxes-finance", "Fees and charges", "Park and recreation fees", "percent of today's fee"),
     "fee-level:sewerage-and-solid-waste": ("taxes-finance", "Fees and charges", "Sewer and trash fees", "percent of today's fee"),
     "fee-level:highways-and-tolls": ("taxes-finance", "Fees and charges", "Tolls", "percent of today's fee"),
-    "fee-level:airports-ports-and-parking": ("taxes-finance", "Fees and charges", "Parking and airport fees", "percent of today's fee"),
+    "fee-level:airports-ports-and-parking": ("taxes-finance", "Fees and charges", "Parking fees", "percent of today's fee"),
     "fee-level:hospitals": ("taxes-finance", "Fees and charges", "Public hospital charges", "percent of today's fee"),
     "fee-level:education": ("taxes-finance", "Fees and charges", "Tuition and school fees", "percent of today's fee"),
 }

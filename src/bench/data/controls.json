@@ -1133,6 +1133,23 @@
   "handoff": {
     "play": "Play"
   },
+  "fees": {
+    "today": "Brings in {amount} a year here",
+    "aside": "{amount} a year",
+    "todayHome": "{home} a month for each home; brings in {amount} a year here",
+    "unit": "% of today's fee",
+    "levels": {
+      "0": "no fee",
+      "50": "half of today's fee",
+      "75": "three quarters of today's fee",
+      "100": "the fee as it is now",
+      "125": "a quarter more than today's fee",
+      "150": "half again today's fee",
+      "200": "twice today's fee",
+      "300": "three times today's fee"
+    },
+    "other": "{percent}% of today's fee"
+  },
   "seat": {
     "draft": "Draft",
     "title": "Draft a bill",

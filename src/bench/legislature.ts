@@ -12,6 +12,7 @@ import { screenLine } from "../english/screen-words";
 import { questionReasons } from "../english/question-names";
 import { pronounSetOfGender, pronounWords } from "../english/pronoun-words";
 import { budgetLineNames, policyNames } from "./words";
+import { FEE_LEVEL_BASELINE, isFeeLevelSeries } from "../core2/fee-levels";
 import {
   billForm,
   bodyOf,
@@ -399,6 +400,7 @@ export function seatAct(
               menusFor(api, body.level, input.officeId!)
                 .flatMap((menu) => menu.items)
                 .find((row) => row.series === input.series)?.unit ?? undefined,
+            ...feeNaming(input.series, value),
           }
         : {
             kind: "policy-question",
@@ -824,6 +826,8 @@ function menusFor(
         ...(row.line ? { line: row.line } : {}),
         ...(row.series ? { series: row.series } : {}),
         ...(row.unit ? { unit: row.unit } : {}),
+        // A fee: what the government's charge for it brings in, which the draft card shows as today's.
+        ...(row.charge ? { charge: row.charge } : {}),
         inForce: row.inForce,
         // The amount the law in force holds, as the bill's paper cites it ("before"): the
         // draft card shows this beside the new amount so both screens say one thing.
@@ -857,6 +861,22 @@ export function isByRequest(
  * they said and the bill when they carried it; a refusal files nothing.
  */
 /** The one provision an executive's ask names, from the menu item and amount the player picked. */
+/**
+ * A fee bill names the fee it sets and whether it raises or lowers it (the
+ * level is a percent of today's fee, so above 100 raises and below lowers),
+ * which is what the bill's title is made from.
+ */
+function feeNaming(
+  series: string,
+  value: number | undefined,
+): { policyId?: string; operation?: "raise" | "lower" } {
+  if (!isFeeLevelSeries(series) || value === undefined) return {};
+  return {
+    policyId: `law:${series}`,
+    operation: value >= FEE_LEVEL_BASELINE ? "raise" : "lower",
+  };
+}
+
 function askProvision(
   api: ReturnType<typeof coreAPI>,
   body: { level: string },
@@ -879,6 +899,7 @@ function askProvision(
             menusFor(api, body.level, input.officeId!)
               .flatMap((menu) => menu.items)
               .find((row) => row.series === input.series)?.unit ?? undefined,
+          ...feeNaming(input.series, input.value),
         }
       : {
           kind: "policy-question",

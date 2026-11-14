@@ -642,9 +642,9 @@
     },
     "law:fee-level:airports-ports-and-parking": {
       "name": "Parking Fee Increase",
-      "purpose": "higher parking and airport fees",
+      "purpose": "higher parking fees",
       "repealName": "Parking Fee Reduction",
-      "repealPurpose": "lower parking and airport fees"
+      "repealPurpose": "lower parking fees"
     },
     "law:fee-level:hospitals": {
       "name": "Hospital Charges Increase",
