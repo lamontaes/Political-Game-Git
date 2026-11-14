@@ -454,6 +454,13 @@ export function officeStops(
 export function officeView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const jobs = officeJobsOf(api, personId);
+  // The staff list is read first: weighing the aides fills in the residents
+  // it weighs (two-level population), and a filled-in adult is one of the
+  // town's people a post can go to. Read after, the posts' lists below are
+  // the one ranked list the engine names from (headCandidates).
+  const aides = jobs.length
+    ? aidesView(core, personId)
+    : { serving: [], candidates: [] };
   return {
     jobs: jobs.map((j) => ({
       title: j.title,
@@ -510,9 +517,7 @@ export function officeView(core: CoreState, personId: string) {
       };
     }),
     // The aides who serve now and the people the staff engine would weigh for the post, best first by its own score, each with its reasons.
-    aides: jobs.length
-      ? aidesView(core, personId)
-      : { serving: [], candidates: [] },
+    aides,
     // The budget the official may send now, line by line, with the change set for each (null outside the season).
     budget: budgetToSend(core, personId),
     // Each of the player's bills waiting for a vote, with the colleagues who will vote and the deal set to offer each when they talk.

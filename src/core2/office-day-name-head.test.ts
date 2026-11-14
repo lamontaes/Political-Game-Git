@@ -124,9 +124,16 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
     );
   }, 1_200_000);
 
+  // Pinned at Jackson, Minnesota, where opening the office panel fills in the
+  // residents its staff list weighs, and one of them then ranks first for the
+  // post: the panel's list must be the list the engine names from.
   it("lists the people an open post could go to, and a pick other than the first is the one named", () => {
-    for (let attempt = 0; attempt < 8; attempt += 1) {
-      const place = drawPlace(`${seed}:${attempt}`, "name-head-pick");
+    for (let attempt = 0; attempt < 1; attempt += 1) {
+      const place = {
+        name: "Jackson, Minnesota",
+        key: "2731562",
+        seed: "e1c278b9d8e3a51714092324b05ec7c1254f88d543afeed4df18f667ca738625",
+      };
       const where = `${place.name}; seed ${place.seed}`;
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
@@ -199,7 +206,7 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
       return;
     }
     throw new Error(
-      `No town with an appointed head to pick for in 8 draws; ${seed}`,
+      "Jackson, Minnesota has no appointed head to pick for at its pinned seed",
     );
   }, 1_200_000);
 });
