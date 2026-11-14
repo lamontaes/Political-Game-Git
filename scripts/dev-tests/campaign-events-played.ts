@@ -303,7 +303,7 @@ const playEntry = (r: Rec) => {
       });
     };
     flush();
-    const prefer = ["further", "turn", "plain", "brief"];
+    const prefer = ["plain", "further", "turn", "brief"];
     for (let at = 0; conv.choices.length && at < 12; at += 1) {
       L(
         `  choices: ${conv.choices.map((c) => `[${c.move}] ${c.text}`).join(" | ")}${conv.lies.length ? ` | LIE: ${conv.lies.map((c) => c.text).join(" | ")}` : ""}`,
