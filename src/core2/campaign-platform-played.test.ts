@@ -149,9 +149,9 @@ vi.mock("./campaign-stances", async (importOriginal) => {
 
 /**
  * The places whose years the totals pool, named and pinned at fixed place
- * seeds (never drawn): the same places and years every run. Leeds Point is a
- * state that elects its lieutenant governor on the governor's ticket (a
- * running mate's filing); the other two hold a contested local race.
+ * seeds (never drawn): the same places and years every run. A running mate's filing
+ * (Leeds Point, a ticket office) is read here too; the case of its own is
+ * campaign-running-mate-platform.test.ts.
  */
 const PLACES = [
   {
@@ -870,18 +870,4 @@ it("every contested local race's candidates run on their top questions by the ru
   // the platform's scores; whether the pooled total meets the band is read
   // from the printed lines (pool item campaign-platform-emphasis-c1), and
   // the band is not widened.
-}, 1_500_000);
-
-/**
- * A ticket office's filing runs on its governor candidate's platform
- * (`nameRunningMate`), so the played test reads it against that platform and
- * not as a second choice by the rule. Pinned: Leeds Point (`PLACES[0]`), a
- * state that elects a lieutenant governor on the governor's ticket.
- */
-it("a running mate's filing carries its governor candidate's platform, every platform of the year read by record (Leeds Point NJ, pinned seed)", () => {
-  const year = playYear(PLACES[0]);
-  expect(
-    year.reads.some((r) => r.record === "filing"),
-    year.where,
-  ).toBe(true);
-}, 1_200_000);
+}, 1_800_000);
