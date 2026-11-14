@@ -2,7 +2,7 @@
 id: gov-newcomer-official-id-reads-as-candidate
 title: "A newcomer drawn for a race has a person id that reads as a filed candidate"
 area: gov
-kind: fix
+kind: bug
 priority: 3
 size: S
 status: open
