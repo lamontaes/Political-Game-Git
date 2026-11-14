@@ -44481,6 +44481,342 @@
       "origin": "authored",
       "author": "Words builder W1 (interviews and debates say what was asked and answered)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.job-lost-say-reason.nobody-s-hiring-around-here",
+      "move": "job-lost-say-reason",
+      "kind": "spoken",
+      "text": "Nobody's hiring around here.",
+      "uses": [
+        {
+          "move": "job-lost-say-reason",
+          "subject": "job-lost-say",
+          "role": "reason",
+          "requiresFacts": ["town-bad"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "reason"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, how things are, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-reason.there-s-nothing-out-there-you",
+      "move": "job-lost-say-reason",
+      "kind": "spoken",
+      "text": "There's nothing out there, {you}.",
+      "uses": [
+        {
+          "move": "job-lost-say-reason",
+          "subject": "job-lost-say",
+          "role": "reason",
+          "requiresFacts": ["town-bad"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "reason"
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, how things are, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-reason.half-this-town-is-looking-for-work",
+      "move": "job-lost-say-reason",
+      "kind": "spoken",
+      "text": "Half this town is looking for work.",
+      "uses": [
+        {
+          "move": "job-lost-say-reason",
+          "subject": "job-lost-say",
+          "role": "reason",
+          "requiresFacts": ["town-bad"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "reason"
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, how things are, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-reason.there-s-work-just-not-what-i-did",
+      "move": "job-lost-say-reason",
+      "kind": "spoken",
+      "text": "There's work, just not what I did.",
+      "uses": [
+        {
+          "move": "job-lost-say-reason",
+          "subject": "job-lost-say",
+          "role": "reason",
+          "requiresFacts": ["town-middling"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "reason"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, how things are, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-reason.i-ll-find-something-it-may-take-a-while",
+      "move": "job-lost-say-reason",
+      "kind": "spoken",
+      "text": "I'll find something. It may take a while.",
+      "uses": [
+        {
+          "move": "job-lost-say-reason",
+          "subject": "job-lost-say",
+          "role": "reason",
+          "requiresFacts": ["town-middling"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "reason"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, how things are, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-reason.places-are-hiring-i-ll-land-somewhere",
+      "move": "job-lost-say-reason",
+      "kind": "spoken",
+      "text": "Places are hiring. I'll land somewhere.",
+      "uses": [
+        {
+          "move": "job-lost-say-reason",
+          "subject": "job-lost-say",
+          "role": "reason",
+          "requiresFacts": ["town-good"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "reason"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, how things are, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-reason.i-won-t-be-out-long",
+      "move": "job-lost-say-reason",
+      "kind": "spoken",
+      "text": "I won't be out long.",
+      "uses": [
+        {
+          "move": "job-lost-say-reason",
+          "subject": "job-lost-say",
+          "role": "reason",
+          "requiresFacts": ["town-good"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "reason"
+      },
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, how things are, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-back-answer-where.where",
+      "move": "job-lost-back-answer-where",
+      "kind": "spoken",
+      "text": "Where?",
+      "uses": [
+        {
+          "move": "job-lost-back-answer-where",
+          "subject": "job-lost-back",
+          "role": "answer",
+          "choice": "where",
+          "requiresFacts": ["seeking"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, the second turn, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-back-answer-find.you-ll-find-something",
+      "move": "job-lost-back-answer-find",
+      "kind": "spoken",
+      "text": "You'll find something.",
+      "uses": [
+        {
+          "move": "job-lost-back-answer-find",
+          "subject": "job-lost-back",
+          "role": "answer",
+          "choice": "find",
+          "requiresFacts": ["seeking"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, the second turn, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-back-back-core.anywhere-that-ll-have-me",
+      "move": "job-lost-back-back-core",
+      "kind": "spoken",
+      "text": "Anywhere that'll have me.",
+      "uses": [
+        {
+          "move": "job-lost-back-back-core",
+          "subject": "job-lost-back-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["seeking"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rulings-2, the second turn, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "job-lost-back-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.job-lost-back-back-core.same-kind-of-work-if-there-is-any",
+      "move": "job-lost-back-back-core",
+      "kind": "spoken",
+      "text": "Same kind of work, if there is any.",
+      "uses": [
+        {
+          "move": "job-lost-back-back-core",
+          "subject": "job-lost-back-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["position", "seeking"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rulings-2, the second turn, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "job-lost-back-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.job-lost-back-back-core.wherever-s-hiring-i-can-t-be-picky",
+      "move": "job-lost-back-back-core",
+      "kind": "spoken",
+      "text": "Wherever's hiring. I can't be picky.",
+      "uses": [
+        {
+          "move": "job-lost-back-back-core",
+          "subject": "job-lost-back-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["seeking"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rulings-2, the second turn, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "job-lost-back-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.job-lost-back-back-core.i-hope-so-you",
+      "move": "job-lost-back-back-core",
+      "kind": "spoken",
+      "text": "I hope so, {you}.",
+      "uses": [
+        {
+          "move": "job-lost-back-back-core",
+          "subject": "job-lost-back-back",
+          "role": "core",
+          "stages": ["find"],
+          "requiresFacts": ["seeking"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rulings-2, the second turn, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "job-lost-back-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.job-lost-back-back-core.easy-to-say",
+      "move": "job-lost-back-back-core",
+      "kind": "spoken",
+      "text": "Easy to say.",
+      "uses": [
+        {
+          "move": "job-lost-back-back-core",
+          "subject": "job-lost-back-back",
+          "role": "core",
+          "stages": ["find"],
+          "requiresFacts": ["seeking"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rulings-2, the second turn, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "job-lost-back-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.job-lost-back-back-core.i-will-it-s-just-a-matter-of-when",
+      "move": "job-lost-back-back-core",
+      "kind": "spoken",
+      "text": "I will. It's just a matter of when.",
+      "uses": [
+        {
+          "move": "job-lost-back-back-core",
+          "subject": "job-lost-back-back",
+          "role": "core",
+          "stages": ["find"],
+          "requiresFacts": ["seeking"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rulings-2, the second turn, Nov 14, 2026), carried by S2",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "job-lost-back-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm"
     }
   ]
 }

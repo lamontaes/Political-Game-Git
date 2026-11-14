@@ -18,6 +18,19 @@ import businessData from "../core2/data/business/business.json" with { type: "js
 import { drawPlace } from "../../scripts/core2-year/place";
 import { openConversation, say } from "./conversation";
 
+/** The teller's second sentence says how work is in town, in the Words lead's lines (rule 101). */
+const LEVEL_SENTENCE = new RegExp(
+  [
+    "Nobody's hiring around here\\.",
+    "There's nothing out there",
+    "Half this town is looking for work\\.",
+    "There's work, just not what I did\\.",
+    "I'll find something\\. It may take a while\\.",
+    "Places are hiring\\. I'll land somewhere\\.",
+    "I won't be out long\\.",
+  ].join("|"),
+);
+
 const PLACES = [
   {
     seed: "5d20040f-f644-490d-a78c-694236af4bcd",
@@ -118,8 +131,36 @@ describe("a relative's closed employer is told as a lost job", () => {
         }
         // A figure opening a line is said in words (up to ninety-nine).
         expect(talk.lines[told]!.text).not.toMatch(/^\d/);
-        // The opener says what happened and stops: no years, pay or search.
-        expect(talk.lines[told]!.text).not.toMatch(/looking|\$/i);
+        // The opener says what happened and how work is in town: no pay and
+        // no search of their own (that is for "Looking yet?"), no rate.
+        expect(talk.lines[told]!.text).not.toMatch(/I'm looking|\$|percent|%/i);
+        expect(talk.lines[told]!.text).toMatch(LEVEL_SENTENCE);
+        // "Looking yet?" is answered and the talk takes one more turn: the
+        // player may ask where or say they will find something, and each is
+        // answered by the teller.
+        const hope = talk.choices.find((choice) =>
+          /looking|leads/i.test(choice.text),
+        );
+        expect(
+          hope,
+          `${name}: a reply that asks whether they are looking`,
+        ).toBeTruthy();
+        const asked = { ...talk, lines: [...talk.lines] } as typeof talk;
+        say(core, asked, hope!.key);
+        expect(
+          asked.choices.map((choice) => choice.text).sort(),
+          `${name}: the second turn`,
+        ).toEqual(expect.arrayContaining(["Where?", "You'll find something."]));
+        for (const next of asked.choices) {
+          const again = { ...asked, lines: [...asked.lines] } as typeof asked;
+          const length = again.lines.length;
+          say(core, again, next.key);
+          const theirs = again.lines
+            .slice(length)
+            .filter((line) => line.speakerId === picked!.id);
+          expect(theirs.length, `${name}: "${next.text}" is answered`).toBe(1);
+          expect(theirs[0]!.text).not.toContain(employer);
+        }
         // A month on, the loss is not told a second time.
         for (let day = 0; day < 30; day += 1)
           advanceCore(core, addDays(makeIsoDate(core.date), 1));

@@ -36,3 +36,5 @@ source: docs/design/output-numbers.md (#8926), owner's ask of Nov 12
 **Files.** src/core2/modules/world-metrics.ts, src/core2/modules/world-panels.ts
 
 **Notes.** From docs/design/output-numbers.md (#8926), owner's ask of Nov 12. Owner, Nov 12, 3:43 p.m. (CTO line on issue 8928): the plan is approved as written, and a small town shows its own count with the people behind it ("13 of 86 looking for work"), never a blend and never the county's figure.
+
+S2, Nov 14 (the lost-job talk's second sentence reads this rate): at 12 drawn places of seed 5d20040f-f644-490d-a78c-694236af4bcd (draws 0 to 11), two days into the played world, `townMetrics` unemployment against the country's in the macro months ran 1.5 to 2.2 times at 9 places (Beirne 9.4 percent against 4.8, Lebanon 8.2 against 3.6), 0.9 times at two, and 0.00 percent at the Northern Mariana Islands town. So most towns sound like "Nobody's hiring around here." Check this item's counting rule against the national rate's own basis before the bands in `conversation-rules.json` (`jobLostTownBadRatio`, `jobLostTownGoodRatio`) are re-tuned.

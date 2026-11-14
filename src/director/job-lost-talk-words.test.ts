@@ -72,4 +72,61 @@ describe("a lost job told through the composer", () => {
         expect(back!.text).not.toContain(WAGE);
       }
   });
+
+  it("says how work is in town as a second sentence, by the town's level and never as a rate", () => {
+    for (const level of ["bad", "middling", "good"]) {
+      const seen = new Set<string>();
+      for (let draw = 0; draw < 24; draw += 1) {
+        const line = composeConversationLine({
+          seed: `job-lost-level-${draw}`,
+          subject: "job-lost-say",
+          speakerId: `person_test_${draw}` as PersonId,
+          traits: {},
+          facts: {
+            employer: fact("Lopez's Market"),
+            when: fact("last week"),
+            closure: fact("yes"),
+            [`town-${level}`]: fact("yes"),
+          },
+          stage: "default",
+          momentKey: `level:${draw}`,
+        });
+        expect(line, level).toBeTruthy();
+        expect(line!.text).not.toMatch(/\d|percent|rate/i);
+        seen.add(line!.text);
+      }
+      expect([...seen].some((text) => text.split(/(?<=\.)\s/).length > 2)).toBe(
+        true,
+      );
+    }
+  });
+
+  it("takes a second turn after the hope answer, 'Same kind of work' only when the trade is on the record", () => {
+    for (const move of ["where", "find"])
+      for (const trade of [false, true]) {
+        const texts = new Set<string>();
+        for (let draw = 0; draw < 24; draw += 1) {
+          const back = composeConversationLine({
+            seed: `job-lost-turn-${draw}`,
+            subject: "job-lost-back-back",
+            speakerId: `person_test_${draw}` as PersonId,
+            traits: {},
+            facts: {
+              employer: fact("Lopez's Market"),
+              you: fact("Eva"),
+              seeking: fact("yes"),
+              ...(trade ? { position: fact("a cashier") } : {}),
+            },
+            stage: move,
+            momentKey: `turn:${move}:${draw}`,
+          });
+          expect(back, `${move} ${trade}`).toBeTruthy();
+          texts.add(back!.text);
+        }
+        expect(
+          [...texts].some((text) => /^Same kind of work/.test(text)),
+          `${move} ${trade}`,
+        ).toBe(move === "where" && trade);
+      }
+  });
 });

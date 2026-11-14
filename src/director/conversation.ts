@@ -1415,6 +1415,10 @@ function jobLost(
   }
   const place = corePlaceByJurisdictionId(speaker.placeId as never);
   if (place) facts.place = fact(spoken(place), [speaker.householdId]);
+  // How work is in town, from the same economy records as the town's
+  // figures (never said as a rate): the second sentence of the telling.
+  const town = townFigures(core, speaker.placeId);
+  if (town.work) facts[`town-${town.work}`] = fact("yes", town.ids);
   return {
     id: `job-lost:${lost.causeId}`,
     kind: "job-lost",
@@ -3461,6 +3465,8 @@ interface TownFigures {
   readonly backs: readonly string[];
   readonly figures: readonly string[];
   readonly ids: readonly string[];
+  /** How the town's work sits against the country's, for a felt wording: scarce, middling or plentiful. */
+  readonly work?: "bad" | "middling" | "good";
 }
 const townBacking = new WeakMap<
   object,
@@ -3477,8 +3483,18 @@ function townFigures(core: Readonly<CoreState>, placeId: string): TownFigures {
   for (const row of townMetrics(coreAPI(core as CoreState))) {
     const backs: string[] = [];
     const figures: string[] = [];
+    let work: TownFigures["work"];
     if (nation) {
-      const high = row.unemploymentRate * P.percent > nation.unemploymentPct;
+      const town = row.unemploymentRate * P.percent;
+      const ratio =
+        nation.unemploymentPct > zero ? town / nation.unemploymentPct : one;
+      work =
+        ratio >= DAY_TALK.jobLostTownBadRatio.value
+          ? "bad"
+          : ratio <= DAY_TALK.jobLostTownGoodRatio.value
+            ? "good"
+            : "middling";
+      const high = town > nation.unemploymentPct;
       if (high) backs.push("why-town-jobs");
       figures.push(high ? "town-jobs-high" : "town-jobs-low");
     }
@@ -3490,6 +3506,7 @@ function townFigures(core: Readonly<CoreState>, placeId: string): TownFigures {
       backs,
       figures,
       ids: [row.placeId, ...(nation ? [nation.id] : [])],
+      ...(work ? { work } : {}),
     });
   }
   townBacking.set(core, { date: core.date, rows });
@@ -4973,6 +4990,10 @@ const DAY_TALK = (
       usualWeekDays: { value: number };
       rentCoveredMonths: { value: number };
       evictionJobLostDays: { value: number };
+      /** The replies to a day's telling whose answer the talk follows with one more turn, by the telling's kind. */
+      secondTurn: Readonly<Record<string, readonly string[]>>;
+      jobLostTownBadRatio: { value: number };
+      jobLostTownGoodRatio: { value: number };
       backOmitsTold: readonly string[];
       /** Kinds that may still be asked about, whose telling is answered back. */
       answersBack: readonly string[];
@@ -7358,6 +7379,24 @@ function sayNow(
         ...back,
         sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
       });
+    // One more turn after some answers ("Looking yet?" "I'm looking.": the
+    // player may ask where, or say they will find something): the answer
+    // becomes the line replied to, under its own kind.
+    if (back && DAY_TALK.secondTurn[last.kind]?.includes(choice.move)) {
+      conversation.last = {
+        subject: {
+          ...last.subject,
+          id: `${last.subject.id}:turn`,
+          kind: `${last.kind}-back`,
+          facts: backFacts,
+        },
+        kind: `${last.kind}-back`,
+        facts: backFacts,
+        stage: choice.move,
+      };
+      offerChoices(core, conversation, data);
+      if (conversation.choices.length) return conversation;
+    }
     carryOn(core, conversation, data);
     return conversation;
   }
