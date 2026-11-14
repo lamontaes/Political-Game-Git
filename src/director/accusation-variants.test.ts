@@ -54,7 +54,10 @@ const lineSources = (purpose: string) =>
       (part) =>
         new RegExp(
           // A name tagged after a comma is said without it once the voice
-          // has used it (scene-talk-words.ts, TAIL_NAME).
+          // has used it (scene-talk-words.ts, TAIL_NAME). The old premise,
+          // that every slot always prints, was wrong because the engine drops a
+          // tail name after its first use; the matcher follows the engine, and
+          // every other part of the line still matches as written.
           `^${(part.text as string)
             .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
             .replace(/, \{first\}(?=\\?[.?!,;])/g, "(?:, .+)?")
