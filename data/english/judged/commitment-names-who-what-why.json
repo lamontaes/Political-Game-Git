@@ -2,8 +2,25 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 593,
+  "judged": 696,
   "no": {
+    "000kvn97gfw": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-tell.i-ve-got-people-counting-on-me-to-say-yes",
+        "scene-talk.follow-ask.are-they-counting-on-you-to-win-or-to-run",
+        "scene-talk.reply-disagree.if-i-wait-somebody-else-takes-it-and-i-m-waiting-another-eight-years",
+        "scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either",
+        "scene-talk.reply-thank.okay-that-one-landed",
+        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
     "01s3uojo7ih": {
       "keys": [
         "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
@@ -249,19 +266,6 @@
       ],
       "why": "The large bribe never names what it buys; the refusal is to an unnamed favor."
     },
-    "0aep7nbc5zi": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-been-proud-of-you-for-a-day-and-can-t-keep-quiet-about-it-any-longer",
-        "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
-        "scene-talk.reply-boast.told-you-i-d-get-through-it",
-        "scene-talk.follow-confront.sure-you-did-barely",
-        "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me",
-        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
-        "scene-talk.reply-thank.thank-you-that-means-a-lot",
-        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
-      ],
-      "why": "No plan is mentioned on this path, so 'the next thing' has no referent."
-    },
     "0aou0ffro19": {
       "keys": [
         "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
@@ -458,6 +462,18 @@
       ],
       "why": "Veiled hint about a friend in {place} vs a principle; what is wanted is never named."
     },
+    "0edv19w2sjc": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
+        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Asked what changes this time, the line promises without naming any change."
+    },
     "0ekkj0m1ckn": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
@@ -512,6 +528,32 @@
         "scene-talk.reply-refuse.twice-the-number-is-still-no"
       ],
       "why": "'Any favor' and 'goes my way' but the favor is never named."
+    },
+    "0gn9qr4bv8j": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment",
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes",
+        "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Asked what changes this time, the line promises without naming any change."
+    },
+    "0gsilmp0y6f": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Asked what changes this time, the line promises without naming any change."
     },
     "0gu4nx3sj2z": {
       "keys": [
@@ -1420,6 +1462,21 @@
       ],
       "why": "Threat over a 'deal' that is never named; what the presser wants is unknown."
     },
+    "18ktmih9p88": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-disagree.you-were-luckier-than-i-am-then",
+        "scene-talk.follow-press.luck-had-nothing-to-do-with-it-i-waited",
+        "scene-talk.reply-thank.okay-that-one-landed",
+        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
     "18r0g29qmiu": {
       "keys": [
         "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
@@ -1564,6 +1621,19 @@
         "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal"
       ],
       "why": "Threat demands you 'take the deal' without ever naming it."
+    },
+    "1eyymeruo0j": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-thank.that-s-the-most-useful-thing-anyone-s-told-me-this-month",
+        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
     },
     "1ezgya6ycg5": {
       "keys": [
@@ -1965,6 +2035,17 @@
       ],
       "why": "'Take the deal' never says what the deal is."
     },
+    "1x38aup7bjk": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
+        "scene-talk.reply-thank.that-s-what-i-was-afraid-you-d-say-and-probably-right",
+        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
     "1y344axo3df": {
       "keys": [
         "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
@@ -2083,17 +2164,6 @@
       ],
       "why": "The scandal subject is never said; 'document that' refers to a lean on an unnamed matter."
     },
-    "21lh2rqgnmj": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-heard-about-the-diploma-and-won-t-let-it-pass-without-a-word",
-        "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
-        "scene-talk.reply-thank.thanks-it-means-a-lot-coming-from-you",
-        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
-        "scene-talk.reply-thank.thank-you-that-means-a-lot",
-        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
-      ],
-      "why": "'Make sure the next thing goes as well' never names the next thing or what is promised."
-    },
     "222jsqjcwym": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
@@ -2121,6 +2191,16 @@
         "scene-talk.reply-refuse.twice-the-number-is-still-no"
       ],
       "why": "The large bribe never names what it buys."
+    },
+    "22efjb9dmxp": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Asked what changes this time, the line promises without naming any change."
     },
     "22ihl3mis8c": {
       "keys": [
@@ -2374,17 +2454,6 @@
       ],
       "why": "'Take the deal' never named."
     },
-    "2b9ejfud6sa": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-been-proud-of-you-for-a-day-and-can-t-keep-quiet-about-it-any-longer",
-        "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
-        "scene-talk.reply-thank.thanks-it-means-a-lot-coming-from-you",
-        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
-        "scene-talk.reply-thank.thank-you-that-means-a-lot",
-        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
-      ],
-      "why": "No plan has been mentioned on this path, so 'the next thing' has nothing to refer to."
-    },
     "2bs66wu232g": {
       "keys": [
         "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
@@ -2396,6 +2465,33 @@
         "scene-talk.reply-refuse.no-and-this-changes-nothing"
       ],
       "why": "Veiled remark; favor never named."
+    },
+    "2byniol8gu9": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment",
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Asked what changes this time, the line promises without naming any change."
+    },
+    "2d1pmi5m3fx": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-thank.that-s-the-most-useful-thing-anyone-s-told-me-this-month",
+        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
     },
     "2djht1u1ucb": {
       "keys": [
@@ -2543,5 +2639,5 @@
       "why": "The scandal interview never names its subject or the vote the player says yes to; the documentation question refers to an unnamed matter."
     }
   },
-  "yesHash": "14kpnvy738j"
+  "yesHash": "1y2o1ckqwyr"
 }
