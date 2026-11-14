@@ -813,8 +813,11 @@ function composeBinding(
         ? departure.destinationBasis === row.reason.slice("basis:".length)
         : (departure.reasons[row.reason] ?? P.zero) > P.zero,
     );
-    if (why)
+    if (why) {
       facts[why.fact] = { text: asker.givenName, sourceRecordIds: cited };
+      // The questions about why are offered only when a record names a reason.
+      facts["why-given"] = { text: asker.givenName, sourceRecordIds: cited };
+    }
   }
   // A prison term (justice.ts): a person home from prison, a sentence handed
   // down or a person held before trial, with how long, the day they get out,

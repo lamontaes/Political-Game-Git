@@ -47830,10 +47830,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.can-i-have-a-few-days-with-this",
+      "key": "scene-talk.reply-stall.i-can-t-give-you-a-yes-today",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Can I have a few days with this?",
+      "text": "I can't give you a yes today.",
       "uses": [
         {
           "subject": "scene",
@@ -47855,10 +47855,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.through-the-weekend-after-that-i-can-t-promise",
+      "key": "scene-talk.follow-accept.then-it-s-a-no-for-now-i-have-to-fill-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Through the weekend. After that, I can't promise.",
+      "text": "Then it's a no for now. I have to fill it.",
       "uses": [
         {
           "subject": "scene",
@@ -47867,7 +47867,7 @@
           "role": "asker",
           "purpose": "appointment-offer",
           "key": "honor",
-          "after": "scene-talk.reply-stall.can-i-have-a-few-days-with-this"
+          "after": "scene-talk.reply-stall.i-can-t-give-you-a-yes-today"
         }
       ],
       "bearing": "calm",
@@ -134206,7 +134206,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
+          "key": "moving-goodbye",
+          "requiresFacts": ["why-given"]
         }
       ],
       "origin": "authored",
@@ -135309,81 +135310,6 @@
         }
       ],
       "bearing": "grieving",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "answer",
-        "key": "moving-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-just-time-i-can-t-say-it-better-than-that",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's just time. I can't say it better than that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "answer",
-        "key": "moving-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.a-lot-of-things-added-up-i-couldn-t-point-at-one",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "A lot of things added up. I couldn't point at one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye",
-          "after": "ask"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "answer",
-        "key": "moving-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-been-coming-for-a-while-i-finally-stopped-putting-it-off",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's been coming for a while. I finally stopped putting it off.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye",
-          "after": "ask"
-        }
-      ],
-      "bearing": "tender",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
       "date": "2026-11-08",
@@ -136520,7 +136446,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
+          "key": "moving-goodbye",
+          "requiresFacts": ["why-given"]
         }
       ],
       "origin": "authored",
@@ -136543,7 +136470,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
+          "key": "moving-goodbye",
+          "requiresFacts": ["why-given"]
         }
       ],
       "origin": "authored",
@@ -136566,7 +136494,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
+          "key": "moving-goodbye",
+          "requiresFacts": ["why-given"]
         }
       ],
       "origin": "authored",
