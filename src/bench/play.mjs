@@ -2271,9 +2271,7 @@ async function campaignParts() {
                   4,
                   labelsC.team,
                   ...team.staff.map((p) => row(p.name, labelsC.staff)),
-                  ...team.volunteers.map((p) =>
-                    row(p.name, labelsC.volunteers),
-                  ),
+                  ...team.volunteers.map((p) => row(p.name, labelsC.volunteer)),
                 ),
               ]
             : []),
