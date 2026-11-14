@@ -23789,6 +23789,14 @@
           "step": "state",
           "move": "accept-terms",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
         }
       ],
       "bearing": "calm",
@@ -166180,54 +166188,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-that",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I understand that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "accept",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thanks",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thanks.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
-        "key": "serve-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.ask-me-when-my-term-as-their-office-is-up",
       "move": "reply-decline",
       "kind": "spoken",
@@ -168516,6 +168476,14 @@
           "purpose": "ask-support.lost-job",
           "key": "door",
           "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
         }
       ],
       "bearing": "tender",
