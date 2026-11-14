@@ -10,11 +10,11 @@
  * renter keeps renting and weighs again at its next turn, and a household
  * moving in rents.
  *
- * The household selling is paid when it sells (it is leaving, or its estate
- * is closing): the town's outside market pays it, and its lender, at the
- * sale, and holds the home until a buyer takes it. The buyer then pays the
- * outside market for that home, so each purchase repays the sale it names, and
- * the sale row names the purchases that took its homes.
+ * A home stays the seller's until a buyer takes it: the buyer pays the seller
+ * named on the listing (the household, its estate, or for a foreclosed home
+ * the outside market that bought it at auction), and housing-sale.ts
+ * `closeSale` pays the lender from that money. The purchase names the sale and
+ * the sale names the purchase.
  */
 import { takeNewHome } from "./housing-construction";
 import { countBuyer, countOffered } from "./housing-price-level";
@@ -32,6 +32,15 @@ interface Listing {
   /** Homes left: a counted household's record stands for several. */
   homes: number;
   readonly listedAt: string;
+  /** Who a buyer pays for it. */
+  readonly payeeId: string;
+}
+
+/** One part of a purchase: who is paid for how many homes, and the sale they come from (none for a builder's new house). */
+export interface HomePart {
+  readonly sellerId: string;
+  readonly homes: number;
+  readonly saleId?: string;
 }
 
 type StockWithListings = {
@@ -57,6 +66,7 @@ export function listHome(
   placeId: string,
   homes: number,
   saleId: string,
+  payeeId: string,
 ): void {
   if (!api.state.modules.has(HOUSING) || homes <= 0) return;
   countOffered(api, placeId, homes);
@@ -66,7 +76,7 @@ export function listHome(
     ...row,
     listings: [
       ...(row.listings ?? []),
-      { saleId, homes, listedAt: api.state.date },
+      { saleId, homes, listedAt: api.state.date, payeeId },
     ],
   } as never);
 }
@@ -83,27 +93,22 @@ export function homesForSale(api: CoreAPI, placeId: string): number {
 
 /**
  * A buyer takes `homes` homes in a place, all or none: a builder's finished
- * new houses first, then the oldest homes households sold. Returns who is
- * paid for how many (a builder by its id, a sold home by the outside market
- * `outsideId`, which paid the household when it sold) and the sales whose
- * homes it took, or undefined when not enough homes are for sale.
+ * new houses first, then the oldest homes households sold. Returns each part:
+ * who is paid for how many homes and the sale it comes from; undefined when
+ * not enough homes are for sale.
  */
 export function takeHomes(
   api: CoreAPI,
   placeId: string,
   homes: number,
-  outsideId: string,
-):
-  | {
-      sellers: { id: string; homes: number }[];
-      saleIds: string[];
-    }
-  | undefined {
+  /** A full household buys one whole home from one seller. */
+  whole = false,
+): HomePart[] | undefined {
   // A whole house or a counted record's share of one: what is left after whole
-  // houses is matched to the market's homes too.
+  // houses is matched to the households' homes for sale too.
   const tolerance = 1e-9;
   if (homesForSale(api, placeId) + tolerance < homes) return undefined;
-  const sellers = new Map<string, number>();
+  const builders = new Map<string, number>();
   let left = homes;
   while (left >= 1) {
     const builder = takeNewHome(
@@ -112,36 +117,35 @@ export function takeHomes(
       placeId,
     );
     if (!builder) break;
-    sellers.set(builder, (sellers.get(builder) ?? 0) + 1);
+    builders.set(builder, (builders.get(builder) ?? 0) + 1);
     left -= 1;
   }
-  const saleIds: string[] = [];
+  const parts: HomePart[] = [...builders].map(([sellerId, n]) => ({
+    sellerId,
+    homes: n,
+  }));
   if (left > tolerance) {
     const row = stockOf(api, placeId)!;
     const listings = (row.listings ?? []).map((l) => ({ ...l }));
     for (const listing of listings) {
       if (left <= tolerance) break;
+      if (whole && listing.homes + tolerance < left) continue;
       const took = Math.min(listing.homes, left);
       listing.homes -= took;
       left -= took;
-      saleIds.push(listing.saleId);
+      parts.push({
+        sellerId: listing.payeeId,
+        homes: took,
+        saleId: listing.saleId,
+      });
     }
+    if (left > tolerance) return undefined;
     table(api, "stock").put({
       ...row,
       listings: listings.filter((l) => l.homes > tolerance),
     } as never);
-    sellers.set(
-      outsideId,
-      (sellers.get(outsideId) ?? 0) +
-        (homes - [...sellers.values()].reduce((n, v) => n + v, 0)),
-    );
   }
-  return {
-    sellers: [...sellers]
-      .filter(([, n]) => n > 0)
-      .map(([id, n]) => ({ id, homes: n })),
-    saleIds,
-  };
+  return parts;
 }
 
 /**
@@ -175,18 +179,14 @@ export function countUnmetBuyer(
   countBuyer(api, placeId, homes);
 }
 
-/** The sales a purchase took homes from name it. */
+/** A foreclosure case whose home a purchase took names it (a household's sale is closed by housing-sale.ts `closeSale`). */
 export function markSold(
   api: CoreAPI,
   saleIds: readonly string[],
   purchaseId: string,
 ): void {
   for (const id of saleIds) {
-    // A household's sale, or a foreclosure case sold at auction.
-    const sales = table(
-      api,
-      table(api, "sales").get(id) ? "sales" : "foreclosures",
-    );
+    const sales = table(api, "foreclosures");
     const row = sales.get(id) as { boughtBy?: string[] } | undefined;
     if (!row) continue;
     sales.put({

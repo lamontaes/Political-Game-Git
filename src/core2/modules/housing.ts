@@ -67,7 +67,7 @@ import {
   type ProjectRow,
   type Zoning,
 } from "../housing-construction";
-import { countUnmetBuyer, markSold, takeHomes } from "../housing-listings";
+import { countUnmetBuyer, takeHomes } from "../housing-listings";
 import {
   ACS_VALUE_DATE,
   housingWorldOffset,
@@ -81,7 +81,7 @@ import {
   placePriceLevel,
   stepPriceLevel,
 } from "../housing-price-level";
-import { HOME_VALUE_MEASURE } from "../housing-sale";
+import { closeSales, HOME_VALUE_MEASURE } from "../housing-sale";
 import {
   occupyCompletedRentals,
   houseUnassignedHouseholds,
@@ -1279,8 +1279,10 @@ function amortize(api: CoreAPI): void {
     id: string;
     missedMonths?: number;
     foreclosedAt?: string;
+    listedAt?: string;
   })[]) {
-    if (row.monthsLeft <= 0 || row.foreclosedAt) continue;
+    // A home for sale's mortgage is paid off from the sale, not month by month.
+    if (row.monthsLeft <= 0 || row.foreclosedAt || row.listedAt) continue;
     // A full household's bill in arrears paid no principal this month; it counts toward the lender's patience.
     const bill = c.finance.contracts.get(row.id);
     const late = bill
@@ -1508,12 +1510,13 @@ function buyHomes(api: CoreAPI): void {
     const { reasons, principalMinor: principal } = weighed,
       down = weighed.downMinor;
     // Only a home for sale: a finished new house from its builder, else one a household sold (the outside market paid it when it sold, and takes the buyer's money). None left, it keeps renting this month; the price level still weighs it as a buyer.
-    const taken = takeHomes(api, household.placeId, 1, outside.id);
+    const taken = takeHomes(api, household.placeId, 1, true);
     if (!taken) {
       countUnmetBuyer(api, household.placeId, 1, household.id);
       continue;
     }
-    const seller = taken.sellers[0]!.id;
+    const part = taken[0]!;
+    const seller = part.sellerId;
     const source = {
       tag: "ESTIMATED" as const,
       asOf: c.date,
@@ -1579,9 +1582,14 @@ function buyHomes(api: CoreAPI): void {
         // What decided it: each reason's contribution to the buy option.
         reasons,
         // The household's sale whose home it bought.
-        ...(taken.saleIds.length ? { saleIds: taken.saleIds } : {}),
+        ...(part.saleId ? { saleIds: [part.saleId] } : {}),
       });
-    markSold(api, taken.saleIds, `purchase:${household.id}:${c.date}`);
+    // The seller was paid the down payment and the loan: its sale pays its lender and closes.
+    closeSales(
+      api,
+      [{ ...part, paidMinor: Math.round(down) - owed + lent }],
+      `purchase:${household.id}:${c.date}`,
+    );
     store(api)
       .table("dwellings")
       .put({
@@ -1689,6 +1697,7 @@ function countedBuyWorld(api: CoreAPI): CountedBuyWorld {
         ...usps,
       };
     },
+    closeSales: (parts, purchaseId) => closeSales(api, parts, purchaseId),
     openRent: (h, landlordId, rentMinor, source) =>
       openCountedRent(api, h, landlordId, rentMinor, source),
   };

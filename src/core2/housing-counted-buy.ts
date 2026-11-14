@@ -23,7 +23,7 @@
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { buyMarket, monthlyPayment, weighHome } from "./housing-buy";
-import { countUnmetBuyer, markSold, takeHomes } from "./housing-listings";
+import { countUnmetBuyer, takeHomes } from "./housing-listings";
 import { countedMortgageFlowId, MORTGAGE_PREFIX } from "./housing-mortgages";
 import { countBuyer, placePriceLevel } from "./housing-price-level";
 import { countedHousingInArrears, countedPayment } from "./counted-money";
@@ -133,6 +133,16 @@ export interface CountedBuyWorld {
         readonly equityMinor?: number;
       }
     | undefined;
+  /** Each part's seller was paid: its sale pays its lender and closes (housing-sale's `closeSales`). */
+  readonly closeSales: (
+    parts: readonly {
+      readonly sellerId: string;
+      readonly homes: number;
+      readonly saleId?: string;
+      readonly paidMinor: number;
+    }[],
+    purchaseId: string,
+  ) => void;
   /** Begins a counted household's rent (housing-occupancy's `openCountedRent`). */
   readonly openRent: (
     h: CountedHousehold,
@@ -337,12 +347,18 @@ function buy(
     estimatedFrom: `A counted household (standing for ${weight}) bought a home for ${Math.round((deal.principal + deal.down) / 100)} dollars each with ${Math.round(deal.down / 100)} down at ${(deal.rate * 100).toFixed(2)}%, from ${Math.round(deal.shareMinor / 100)} dollars of its own savings, its share of its group's account, after ${deal.leaseMonths.toFixed(0)} months of its lease.`,
   };
   // Only homes for sale: a builder's new houses, then homes households sold. None left, it does not buy this month; the price level still weighs it as a buyer.
-  const taken = takeHomes(api, h.placeId, weight, deal.outsideId);
+  const taken = takeHomes(api, h.placeId, weight);
   if (!taken) {
     countUnmetBuyer(api, h.placeId, weight, h.id);
     return false;
   }
-  const sellers = taken.sellers;
+  // Each part's seller and what it was paid; a part's ids carry its place in the list, as two parts can share a seller.
+  const sellers = taken.map((part, i) => ({
+    ...part,
+    id: part.sellerId,
+    key: `${i}:${part.sellerId}`,
+    paidMinor: 0,
+  }));
   // It joins the town's owners first, taking its share of the renters' account with it; the down payment then comes out of that money, not the renters' left behind.
   const before = h.tenure;
   h.tenure = "mortgage";
@@ -362,17 +378,16 @@ function buy(
         : seller.id === deal.outsideId
           ? fromSale
           : world.transferCash(
-              `down-payment-sale:${stamp}:${seller.id}`,
+              `down-payment-sale:${stamp}:${seller.key}`,
               deal.outsideId,
               seller.id,
               fromSale,
               source,
             );
-    downPaid +=
-      sold +
-      (amount - sold > 0
+    const fromSavings =
+      amount - sold > 0
         ? countedPayment(api, {
-            id: `down-payment:${stamp}:${seller.id}`,
+            id: `down-payment:${stamp}:${seller.key}`,
             placeId: h.placeId,
             householdId: h.id,
             otherOwnerId: seller.id,
@@ -381,7 +396,9 @@ function buy(
             reasonKey: "housing.counted-down-payment",
             source,
           })
-        : 0);
+        : 0;
+    seller.paidMinor += sold + fromSavings;
+    downPaid += sold + fromSavings;
   }
   if (downPaid <= 0) {
     // Nothing was paid: it keeps the tenure it had, and its share goes back with it.
@@ -403,16 +420,18 @@ function buy(
   for (const seller of sellers) {
     const amount = Math.round((loanWanted * seller.homes) / weight);
     // Money between the outside market and itself is not on the books: the loan is made all the same.
-    lent +=
+    const loaned =
       holderId === seller.id
         ? amount
         : world.transferCash(
-            `mortgage-loan:${stamp}:${seller.id}`,
+            `mortgage-loan:${stamp}:${seller.key}`,
             holderId,
             seller.id,
             amount,
             source,
           );
+    seller.paidMinor += loaned;
+    lent += loaned;
   }
   // One household's share of the record's price, loan and payment.
   const loanEach = Math.floor(lent / weight);
@@ -469,9 +488,13 @@ function buy(
     downMinor: downEach,
     loanMinor: loanEach,
     holderId,
-    sellerIds: sellers.map((row) => row.id),
+    sellerIds: [...new Set(sellers.map((row) => row.id))],
     // The households' sales whose homes it bought.
-    ...(taken.saleIds.length ? { saleIds: taken.saleIds } : {}),
+    ...(sellers.some((row) => row.saleId)
+      ? {
+          saleIds: sellers.flatMap((row) => (row.saleId ? [row.saleId] : [])),
+        }
+      : {}),
     rate: deal.rate,
     rentBeforeMinor: deal.rentMinor,
     monthlyIncomeMinor: Math.round(deal.incomeMinor),
@@ -481,7 +504,8 @@ function buy(
     // What decided it: each reason's contribution to the buy option.
     reasons: deal.reasons,
   } as never);
-  markSold(api, taken.saleIds, `purchase:${stamp}`);
+  // Each seller was paid its part: its sale pays its lender and closes.
+  world.closeSales(sellers, `purchase:${stamp}`);
   table(api, "dwellings").put({
     id: `dwelling:${h.id}`,
     householdId: h.id,

@@ -14,6 +14,8 @@ import {
   priceTrace,
 } from "./housing-price-level";
 import { sellHome } from "./housing-sale";
+import { buyListedHome } from "./home-sale-buyer-fixture";
+import { townOutsideOf } from "./opening-outside-market";
 import {
   housingMacroParameter as p,
   ownedHomes,
@@ -162,8 +164,15 @@ it("a sale, an owned home's value, Metrics' typical value and a mortgage's price
       expect(ratio, where).toBeLessThan(0.98);
     }
     // The seller gets today's value, and the sale names the level it read.
-    const sale = sellHome(api, owner, "test.departure");
-    expect(sale?.priceMinor, where).toBe(today);
+    const listed = sellHome(api, owner, "test.departure");
+    expect(listed, where).toBeTruthy();
+    // A buyer from outside the town takes it at today's value.
+    const sale = buyListedHome(
+      api,
+      listed!.id,
+      townOutsideOf(core.organizations.values(), placeId!)!.id,
+    );
+    expect(sale.priceMinor, where).toBe(today);
     const offered = (
       housing.table("stock").get(level.stockId) as unknown as {
         priceOffered: number;

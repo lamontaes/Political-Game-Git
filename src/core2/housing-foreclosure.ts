@@ -91,6 +91,8 @@ export interface MortgageRow {
   /** Consecutive months paid nothing toward principal. */
   readonly missedMonths?: number;
   readonly foreclosedAt?: string;
+  /** The home went on the market (housing-sale.ts): no more monthly payments; the sale pays it off. */
+  readonly listedAt?: string;
 }
 
 /** The state's steps, with the days from first filing to sale. */
@@ -136,7 +138,8 @@ export function countedOwnersBehind(api: CoreAPI): Set<string> {
   if (!rt) return behind;
   const payment = new Map<string, number>();
   for (const row of table(api, "mortgages").rows() as unknown as MortgageRow[])
-    if (!row.foreclosedAt && row.monthsLeft > 0)
+    // A mortgage on a home for sale is paid off from the sale, not month by month.
+    if (!row.foreclosedAt && !row.listedAt && row.monthsLeft > 0)
       payment.set(row.householdId, row.paymentMinor);
   const byGroup = new Map<
     number,
@@ -237,7 +240,10 @@ function salePrice(api: CoreAPI, householdId: string, caseId: string): number {
       )
     : (dwelling?.valueMinor ?? 0);
   // The home goes to market this month, for sale until a buyer takes it.
-  if (at) listHome(api, at.placeId, at.weight, caseId);
+  // The outside market bought it at auction; it is then for sale from that buyer.
+  const auction =
+    at && townOutsideOf(core(api).organizations.values(), at.placeId);
+  if (at && auction) listHome(api, at.placeId, at.weight, caseId, auction.id);
   return Math.round(value * api.parameter("housingForeclosureSaleShare"));
 }
 

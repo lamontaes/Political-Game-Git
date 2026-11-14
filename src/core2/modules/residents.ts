@@ -80,7 +80,7 @@ import { placeDistrictPopulations } from "../../districts/place-population-share
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
 import { outsideLaborForce } from "../gov-rules/place-population";
-import { recordEstatePaid, sellHome } from "../housing-sale";
+import { sellHome } from "../housing-sale";
 import {
   addCountedJob,
   countedJobHeads,
@@ -3248,11 +3248,11 @@ export function removeCountedPerson(
 }
 
 /**
- * A counted household whose last member died sells the home it owned: the
- * outside market pays its value times the households the record stands for,
- * the lender is paid first, and the surplus goes to the counted residents of
- * its group, as the counted dead's cash does. The sale names the estate and
- * whom it paid.
+ * A counted household whose last member died puts the home it owned on the
+ * market, times the households the record stands for. When buyers take it,
+ * its lender is paid first from what they pay and the rest goes to the
+ * counted residents of its group, as the counted dead's cash does; the sale
+ * names the estate and whom it paid (housing-sale.ts `closeSale`).
  */
 function sellCountedHome(
   rt: ResidentsRuntime,
@@ -3262,8 +3262,7 @@ function sellCountedHome(
 ): void {
   const api = rt.api;
   if (!api || !rt.funded || h.group < 0) return;
-  const fund = fundOf(api, rt, h.group);
-  const sale = sellHome(
+  sellHome(
     api,
     h.id,
     "estate.counted-last-owner",
@@ -3271,29 +3270,17 @@ function sellCountedHome(
     {
       placeId: h.placeId,
       weight: rt.store.weightOf(h),
-      surplus: (amountMinor, id, buyerId) =>
-        api.accounts().transfer({
-          id,
-          from: api.accounts().main(buyerId),
-          to: fund,
-          amountMinor,
-          reasonKey: "residents.counted-estate.home-surplus",
-          source: rt.input.source,
-        }).paidMinor,
+      // What the home brings, after its lender, goes to its group's account, as the counted dead's cash does.
+      surplusAccountId: fundOf(api, rt, h.group),
     },
   );
-  if (sale)
-    recordEstatePaid(api, sale, deathRecordId, [
-      { toId: fund, amountMinor: sale.surplusMinor },
-    ]);
 }
 
 /**
- * A counted household moving away sells the home it owned, as a full one
- * does: the outside market pays its value times the households the record
- * stands for, the lender is paid first, and the rest leaves town with the
- * household (money from the outside market to a household leaving for
- * outside is not on the books).
+ * A counted household moving away puts the home it owned on the market, as a
+ * full one does, times the households the record stands for. When buyers take
+ * it, its lender is paid first from what they pay and the rest goes to the
+ * household where it lives now, outside the town's books.
  */
 function sellLeavingHome(rt: ResidentsRuntime, h: CountedHousehold): void {
   const api = rt.api;
@@ -3301,7 +3288,6 @@ function sellLeavingHome(rt: ResidentsRuntime, h: CountedHousehold): void {
   sellHome(api, h.id, "moves.counted-departure", undefined, {
     placeId: h.placeId,
     weight: rt.store.weightOf(h),
-    surplus: (amountMinor) => amountMinor,
   });
 }
 
