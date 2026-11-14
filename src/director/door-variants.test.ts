@@ -25,7 +25,7 @@ import { chooseVariant } from "./arc-variant";
 import { doorsKnocked } from "./doors";
 
 // A door the player knocks plays the arc its resident's own records give
-// (arc-variant.ts, data/arc-variants.json, families ask-signature and
+// (arc-variant.ts, src/director/data/arc-variants.json, families ask-signature and
 // ask-support): a layoff on the jobs books, an open rent notice on the
 // household, the care their health or a household member's asks, a tie to
 // the player, the same party. Never a draw: each variant seen here is checked
