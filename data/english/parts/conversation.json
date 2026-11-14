@@ -12904,7 +12904,7 @@
           "subject": "charge-reply-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["bail"]
+          "requiresFacts": ["bailPosted"]
         }
       ],
       "piece": {
