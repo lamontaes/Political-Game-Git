@@ -148,6 +148,7 @@ import {
   type DoorVisit,
   type PledgeRow,
 } from "./campaigns";
+import { caseWarmthsOf } from "./constituent-cases";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
@@ -164,6 +165,7 @@ import {
   INDEPENDENT,
   type WeighedPerson,
   candidateChoices,
+  currentOfficial,
   holderOf,
   officialCandidate,
   researchedHolderParty,
@@ -364,6 +366,8 @@ interface CountedBallotsRow {
   readonly college?: readonly (number | null)[];
   /** Each voter's door "yes" as it held on the day (null where they gave none; absent on rows kept before pledges). */
   readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
+  /** What each voter's decided cases left them feeling toward each official on the ballot (null where they brought none; absent on rows kept before cases counted). */
+  readonly warmths?: readonly (Readonly<Record<string, number>> | null)[];
   /** Where one household of a record's several gave a door "yes", the field index it voted for on its word (-1 otherwise). */
   readonly pledgedChoice?: readonly number[];
   /**
@@ -1074,6 +1078,26 @@ export function pledgeDoubt(
 }
 
 /**
+ * What a counted voter's decided cases left them feeling toward the officials
+ * on this ballot (one model, two tiers): the warmth a full person's impression
+ * would hold, at the share of the record who brought the case.
+ */
+function countedWarmths(
+  api: CoreAPI,
+  voter: { readonly id: string; readonly weight?: number },
+  field: readonly CountedFieldEntry[],
+): Readonly<Record<string, number>> | undefined {
+  const kept = caseWarmthsOf(api, voter.id);
+  const share = 1 / Math.max(1, voter.weight ?? 1);
+  let out: Record<string, number> | undefined;
+  for (const entry of field) {
+    const w = kept[entry.id];
+    if (w) (out ??= {})[entry.id] = w * share;
+  }
+  return out;
+}
+
+/**
  * A counted voter's door "yes" in this contest, each held by how far the
  * town's scandal story about the candidate reached the town's people and the
  * voter trusts it: the one heavy reason a counted record can know (it has no
@@ -1694,6 +1718,7 @@ export function doorAppealOf(
       contestId,
       field,
     ),
+    warmths: countedWarmths(api, voter, field),
   });
   const met = visit ? appeal[visit.candidateId] : undefined;
   if (visit && met) {
@@ -2373,6 +2398,7 @@ function countPrimary(
         // The town's people hold each form of a rotated ballot in turn.
         ballotForm: form,
         profile: countedStanceProfile(api, voter),
+        warmths: countedWarmths(api, voter, entries),
         divides: true,
       };
       const pledges = countedPledges(api, voter.id, trust, contest.id, entries);
@@ -2759,6 +2785,11 @@ function atThePolls(
           inTown: true,
           local: true,
           incumbentLean,
+          warmths: countedWarmths(
+            api,
+            voter,
+            countedField(api, race.contest, race.field),
+          ),
           pledges: countedPledges(
             api,
             voter.id,
@@ -3426,6 +3457,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     college: [] as (number | null)[],
     /** Each voter's door "yes" as it held on the day (null where they gave none, or where it held for one household of several). */
     pledges: [] as (Readonly<Record<string, number>> | null)[],
+    warmths: [] as (Readonly<Record<string, number>> | null)[],
     /** Where one household of a record's several gave a door "yes": the field index it voted for on its word (-1 otherwise). */
     pledgedChoice: [] as number[],
     /** Each record's voters for each candidate before turnout, in field order (`countedDivision`). */
@@ -3466,6 +3498,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       counting.id,
       field,
     );
+    const warmths = countedWarmths(api, voter, field);
     const where = {
       inTown: true,
       local: true,
@@ -3474,6 +3507,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       // The town's people hold each form of a rotated ballot in turn.
       ballotForm: kept.voterIds.length,
       profile: countedStanceProfile(api, voter),
+      warmths,
       divides: true,
     };
     const appeal = countedAppeal(lean, field, { ...where, pledges });
@@ -3509,6 +3543,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
     kept.pledges.push(division.wholePledged ? (pledges ?? null) : null);
+    kept.warmths.push(warmths ?? null);
     kept.pledgedChoice.push(
       !division.wholePledged && division.pledged
         ? field.findIndex((f) => f.id === division.pledged)
@@ -4953,6 +4988,7 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       trust: row.trust?.[i] ?? 1,
       ballotForm: i,
       pledges: row.pledges?.[i] ?? undefined,
+      warmths: row.warmths?.[i] ?? undefined,
       divides: true,
       profile:
         row.faith && row.college && Number.isFinite(row.faith[i])
@@ -6437,8 +6473,11 @@ function keepRace(
 
 /** The ticket a running mate is weighed for: one governor candidate's, in the ticket office's contest. */
 function ticketOf(governorFiling: FilingRow, ticketContest: ContestRow) {
+  // No "|" in the id: a newcomer offered takes their person id from it, and
+  // the money engines key payments as "<government>|<person>" (a "|" in a
+  // person id cut the payee short at the month's food aid, Nov 14).
   return {
-    id: `${ticketContest.id}|ticket:${governorFiling.personId}`,
+    id: `${ticketContest.id}:ticket:${governorFiling.personId}`,
     seatId: ticketContest.seatId,
     electionDate: ticketContest.electionDate,
   };
@@ -6459,6 +6498,13 @@ const RUNNING_MATE_CHOICES = 4;
 export function runningMateChoice(
   api: CoreAPI,
   governorFilingId: string,
+  /**
+   * Whether a person offered would say yes to the player's ask (the
+   * serve-asks engine's read). Where none of the people offered would, the
+   * strongest of the wider ranking who would takes the last place, so a
+   * player is never offered only people who will turn them down.
+   */
+  willing?: (personId: string) => boolean,
 ): {
   readonly ticketContestId: string;
   readonly office: string;
@@ -6489,29 +6535,83 @@ export function runningMateChoice(
     choices:
       mate || !mayNameRunningMate(api, governor, ticket)
         ? []
-        : candidateChoices(
-            api,
-            ticketOf(filing, ticket),
-            filing.party ?? INDEPENDENT,
-            RUNNING_MATE_CHOICES,
-            weighableFor(api, filing, ticket),
-          ).map((c) => {
-            // A newcomer offered is filled in now (two-level rule: a person
-            // is filled in when the player meets them), with a home town and
-            // work, so the choice can be weighed.
-            if (c.newcomer)
-              offerNewcomer(api, c.id, c.newcomer, filing.party ?? null);
-            return {
-              id: c.id,
-              name: `${c.givenName} ${c.familyName}`,
-              seatId: c.fromSeatId,
-              roles:
-                standingPool(api, raceScope(api, ticket))
-                  .find((m) => m.personId === c.id)
-                  ?.roles.filter((r) => r !== "officeholder") ?? [],
-            };
-          }),
+        : offeredMates(api, filing, governor, ticket, willing),
   };
+}
+
+/** How many of the wider ranking are weighed for a willing person when none of those offered would say yes. */
+const RUNNING_MATE_WIDER = 3;
+
+/**
+ * The people of the player's party offered as running mates, strongest
+ * first, each filled in when offered; where a `willing` read is given and
+ * none of them would say yes, the strongest willing person further down the
+ * ranking takes the last place (filled in only until one is found).
+ */
+function offeredMates(
+  api: CoreAPI,
+  filing: FilingRow,
+  governor: ContestRow,
+  ticket: ContestRow,
+  willing?: (personId: string) => boolean,
+) {
+  const party = filing.party ?? INDEPENDENT;
+  // Nobody who holds or runs for the office the candidate seeks is offered
+  // to run beside them (Words lead, Nov 14: Glencoe KY offered the sitting
+  // governor as a challenger's running mate).
+  const holder = seatHolder(api, governor);
+  const rivals = new Set<string>(
+    (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byContest", [governor.id]) as unknown as FilingRow[]
+    )
+      .filter((f) => f.status !== "withdrawn")
+      .map((f) => f.personId),
+  );
+  const official = currentOfficial(api, governor.seatId)?.id;
+  const seeks = (id: string) =>
+    rivals.has(id) || holds(holder, id) || id === official;
+  const ranked = candidateChoices(
+    api,
+    ticketOf(filing, ticket),
+    party,
+    (willing
+      ? RUNNING_MATE_CHOICES * RUNNING_MATE_WIDER
+      : RUNNING_MATE_CHOICES) + RUNNING_MATE_CHOICES,
+    weighableFor(api, filing, ticket),
+  )
+    .filter((c) => !seeks(c.id))
+    .slice(
+      0,
+      willing
+        ? RUNNING_MATE_CHOICES * RUNNING_MATE_WIDER
+        : RUNNING_MATE_CHOICES,
+    );
+  // A newcomer offered is filled in now (two-level rule: a person is filled
+  // in when the player meets them), with a home town and work, so the choice
+  // can be weighed.
+  const offer = (c: (typeof ranked)[number]) => {
+    if (c.newcomer) offerNewcomer(api, c.id, c.newcomer, filing.party ?? null);
+    return {
+      id: c.id,
+      name: `${c.givenName} ${c.familyName}`,
+      seatId: c.fromSeatId,
+      roles:
+        standingPool(api, raceScope(api, ticket))
+          .find((m) => m.personId === c.id)
+          ?.roles.filter((r) => r !== "officeholder") ?? [],
+    };
+  };
+  const shown = ranked.slice(0, RUNNING_MATE_CHOICES).map(offer);
+  if (!willing || shown.some((c) => willing(c.id))) return shown;
+  for (const c of ranked.slice(RUNNING_MATE_CHOICES)) {
+    const row = offer(c);
+    if (willing(row.id))
+      return [...shown.slice(0, RUNNING_MATE_CHOICES - 1), row];
+  }
+  return shown;
 }
 
 /**
@@ -6670,11 +6770,19 @@ export function chooseRunningMate(
   api: CoreAPI,
   governorFilingId: string,
   personId: string | null,
+  /** The same willing read the choice was offered with (`runningMateChoice`). */
+  willing?: (personId: string) => boolean,
+  /** People the player already asked, who stay theirs to name though the ranking moved on. */
+  asked: readonly string[] = [],
 ): FilingRow {
-  const choice = runningMateChoice(api, governorFilingId);
+  const choice = runningMateChoice(api, governorFilingId, willing);
   if (!choice || choice.mateId !== null || !choice.choices.length)
     throw new Error("There is no running mate to name for this race.");
-  if (personId !== null && !choice.choices.some((c) => c.id === personId))
+  if (
+    personId !== null &&
+    !choice.choices.some((c) => c.id === personId) &&
+    !asked.includes(personId)
+  )
     throw new Error(
       "That person isn't one of the running mates to choose from.",
     );

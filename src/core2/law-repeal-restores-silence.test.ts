@@ -21,7 +21,7 @@ import {
   chambersOf,
   draftBill,
   executiveDecision,
-  holdVote,
+  holdEveryChamber,
   memberKey,
   members,
 } from "./modules/legislature";
@@ -65,7 +65,7 @@ function pass(
     castChairHearing(api, bill.id, chamber, true);
   }
   executiveDecision(api, bill.id, true);
-  let b = holdVote(api, bill.id);
+  let b = holdEveryChamber(api, bill.id);
   if (b.status === "awaiting-signature")
     b = executiveDecision(api, bill.id, true);
   return b;
