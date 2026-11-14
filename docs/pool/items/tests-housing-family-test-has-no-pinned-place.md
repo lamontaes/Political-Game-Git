@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9111
 blocked-on:
 source: found by fixer F6 while proving tests-housing-apartment-gate-too-narrow (Nov 14)
 after:
@@ -26,7 +26,7 @@ root: none
 
 **Measured with the by-right and eviction-hearing gates off (Nov 14, F6, seed `housing-pin-1`, 700 days, three runs at once, 668 to 692 s each).** At Fort Carson CO (0827370), Whitney NV (3283800) and Southern Pines NC (3763120) no apartment building was started under the by-right law in 700 days (24 of 24 monthly checks had the law in force). With that gate and the hearing gate removed so the world plays through, 9 of 13 cases passed at Whitney and Southern Pines and 8 of 13 at Fort Carson. Rent, counsel, loan cap, construction, rent help (lease, at most the rent, treasury paid) and repeal passed. Inclusionary and multifamily failed everywhere (no apartment building started). The housing line failed everywhere ("no full household's assistance was paid through the journal with an applied row"), rent help "cutting the line ends every payment" failed everywhere ("this government paid assistance after its line was cut"), and Fort Carson also failed "a counted renter was helped". Whether three places with no apartment building in 700 days is too rare is a housing question for a later item, not this test.
 
-**Fix.** Pin one place and world seed per case from data (a place whose built world has enough renters and landlords), drop the draw loop, and fail with the place, seed and reason when a case has no subject. Each case runs in about two minutes.
+**Fix.** Done in #9111 (Nov 14): Three pinned places (Whitney NV 3283800, Southern Pines NC 3763120, Fort Carson CO 0827370, seed `housing-pin-1`), the draw loop removed, the by-right and set-aside cases staged through the housing module's own monthly construction decision (stageApartments), the two defect cases skipped by item name. Measured: 494, 525 and 452 s a place. Original plan: pin one place and world seed per case from data (a place whose built world has enough renters and landlords), drop the draw loop, and fail with the place, seed and reason when a case has no subject. Each case runs in about two minutes.
 
 **Time box.** 3 hours.
 
