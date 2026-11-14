@@ -18,8 +18,8 @@
  * holds at most the people offered for the player's own open seats.
  *
  * "Choose for me" plays no scene and seats the world's pick as before, and
- * the world's own picks do not read this willingness yet
- * (SG-WORLD-serve-willingness-player-only).
+ * the world's own picks do not read this willingness (pool item
+ * world-picks-read-serve-willingness).
  */
 import willingness from "../data/serve/willingness.json" with { type: "json" };
 import { ambitionOf } from "../candidate-pool";
@@ -59,8 +59,6 @@ import {
   voterLean,
 } from "./voting";
 
-// The world's own picks (other tickets, other governors) seat without this read.
-// stopgapId: SG-WORLD-serve-willingness-player-only
 export const SERVE_ASKS_MODULE_ID = "core2-serve-asks-v1";
 /** The event an ask is played from: the director's `ask-to-serve` cause. */
 export const SERVE_ASKED_EVENT = "serve-asked";
@@ -111,8 +109,6 @@ export interface ServeGrounds {
 export interface ServeStanding {
   /** Above zero: yes. */
   readonly lean: number;
-  /** What a price would add (the price end comes later): none yet. */
-  readonly favor: number;
   readonly terms: Readonly<Record<string, number>>;
   /** The term weighing most against the ask, and the one weighing most for it. */
   readonly reason: ServeReason;
@@ -343,8 +339,9 @@ export function ticketStanding(
           share(raisedMinor, w(seat, "raisedScaleMinor"))) -
       w(seat, "longShot"),
   };
-  // Yes above zero and no below: the price end is the band between.
-  // stopgapId: SG-WORLD-serve-answer-flips-at-zero
+  // Yes above zero and no below; the TUNABLE base sets where the line
+  // falls. A yes with a price near the line is pool item
+  // gov-serve-ask-price-end.
   const lean = Object.values(terms).reduce((sum, value) => sum + value, 0);
   // The term weighing most against them and the one weighing most for them;
   // a tie goes to the first named. Giving up a seat is one reason, said as
@@ -375,7 +372,6 @@ export function ticketStanding(
   );
   return {
     lean,
-    favor: 0,
     terms,
     reason,
     yesReason,
@@ -520,8 +516,7 @@ export function offeredRunningMates(api: CoreAPI, filingId: string) {
 
 /**
  * "Choose for me": no scene; the strongest of the people offered who would
- * say yes is named. Where nobody would, the world's own pick is named
- * (SG-WORLD-serve-willingness-player-only).
+ * say yes is named. Where nobody would, the world's own pick is named.
  */
 export function chooseRunningMateForMe(api: CoreAPI, filingId: string): void {
   const found = ticketFor(api, filingId);

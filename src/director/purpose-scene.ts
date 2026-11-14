@@ -1619,7 +1619,7 @@ function serveStanding(
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
   if (!row || row.askedId !== prospectId) return undefined;
   return {
-    standing: { lean: row.standing.lean, favor: row.standing.favor },
+    standing: { lean: row.standing.lean, favor: P.zero },
     terms: row.standing.terms,
     raceOffice: row.raceOffice,
     office: row.office,

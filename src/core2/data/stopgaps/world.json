@@ -1116,29 +1116,5 @@
     "addedAt": "2026-11-10",
     "replacement": "A patrol share of police-line hours by role (officers on the street against desk and dispatch), from the BJS Law Enforcement Management and Administrative Statistics survey, and a department that drops shifts when its line is cut.",
     "status": "open"
-  },
-  {
-    "id": "SG-WORLD-serve-willingness-player-only",
-    "kind": "partial-model",
-    "file": "src/core2/modules/serve-asks.ts",
-    "line": 63,
-    "whatItFakes": "Only the player's asks read whether a person would serve; the world's own running-mate picks (and, later, appointments) seat the person they rank first without asking, so someone who would turn the player down never turns down another candidate.",
-    "why": "Brief J builds the player's ask first; the world's picks reading the same willingness change unattended worlds and need speed and drift tables (Account lead, Nov 14 05:15Z: later, its own item).",
-    "addedBy": "S6, brief J (asking someone to serve)",
-    "addedAt": "2026-11-14",
-    "replacement": "nameRunningMate and the executive's own picks read ticketStanding (and its seat siblings) and pass over a person whose read is below zero, as pool item world-picks-read-serve-willingness says.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORLD-serve-answer-flips-at-zero",
-    "kind": "partial-model",
-    "file": "src/core2/modules/serve-asks.ts",
-    "line": 309,
-    "whatItFakes": "A person asked to serve says yes when the sum of their terms is above zero and no below it: a person just under zero says no as firmly as one far below, with nothing in between.",
-    "why": "Brief J ships yes and no first; the band near zero is the price end (yes if the player promises something from the person's strongest view), built next with its promise reader (Words lead, Nov 14 05:24Z).",
-    "addedBy": "S6, brief J (asking someone to serve)",
-    "addedAt": "2026-11-14",
-    "replacement": "The favor term (what a price would be worth to them) carries a person near zero to a yes with a price the player can accept, bargain down or refuse, as the asks block's carried move.",
-    "status": "open"
   }
 ]
