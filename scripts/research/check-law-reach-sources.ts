@@ -101,6 +101,18 @@ const ratios = Object.entries(conversions.conversions).map(([key, c]) => {
 near("conversion ratio low", conversions.ratioBand.low, Math.min(...ratios));
 near("conversion ratio high", conversions.ratioBand.high, Math.max(...ratios));
 near("conversion ratio median", conversions.ratioBand.median, median(ratios));
+const shareRow = reachB.parameters.graduatedRepealFlatShareOfTopRate!;
+near("graduatedRepealFlatShareOfTopRate", shareRow.value, median(ratios));
+near(
+  "graduatedRepealFlatShareOfTopRate spread low",
+  shareRow.spread[0],
+  Math.min(...ratios),
+);
+near(
+  "graduatedRepealFlatShareOfTopRate spread high",
+  shareRow.spread[1],
+  Math.max(...ratios),
+);
 console.log(
   `Flat rate a repeal writes: ${flatRow.value}% (median of ${flatRates.length} flat-rate states, ${flatRow.spread[0]}-${flatRow.spread[1]}%); real conversions chose ${conversions.ratioBand.low}-${conversions.ratioBand.high} of the old top rate (median ${conversions.ratioBand.median}, ${ratios.length} states).`,
 );
