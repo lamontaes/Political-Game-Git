@@ -663,18 +663,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-WORDS-notice-no-reader",
-    "kind": "missing-hook",
-    "file": "data/english/parts/notice.json",
-    "line": 1,
-    "whatItFakes": "The election notice (\"NOTICE OF ELECTION ...\") sits in a bank that no engine prints.",
-    "why": "No engine prints a public notice of an election. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "A notice printed in the paper and posted by the clerk or board of elections for each contest, worded from this piece and the election's records; pool item words-election-notice-printed.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-param-directorTalkViewImpact",
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/director.json",
