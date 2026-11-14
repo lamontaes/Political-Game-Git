@@ -41485,6 +41485,12 @@
           "subject": "illness-news",
           "role": "answer",
           "choice": "help"
+        },
+        {
+          "move": "job-lost-answer-help",
+          "subject": "job-lost",
+          "role": "answer",
+          "choice": "help"
         }
       ],
       "bearing": "tender",
@@ -43161,24 +43167,6 @@
         }
       ],
       "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-answer-help.anything-you-need",
-      "move": "job-lost-answer-help",
-      "kind": "spoken",
-      "text": "Anything you need?",
-      "uses": [
-        {
-          "move": "job-lost-answer-help",
-          "subject": "job-lost",
-          "role": "answer",
-          "choice": "help"
-        }
-      ],
-      "bearing": "tender",
       "origin": "authored",
       "author": "Words builder W1 (a lost job told through the composer)",
       "date": "2026-11-12"
