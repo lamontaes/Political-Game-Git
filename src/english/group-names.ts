@@ -110,6 +110,9 @@ export function stanceGroupName(
     for (let f = 0; f < STANCE_FORMS.length; f += 1) {
       const form = STANCE_FORMS[(seed + f) % STANCE_FORMS.length]!;
       if (form.text.includes("{Town}") && !town) continue;
+      // A form that says "for" is never paired with a cause that says it too
+      // ("People for Rides for Everyone"): the group moves to the next form.
+      if (/\bfor\b/.test(cause) && /\bfor \{cause\}/.test(form.text)) continue;
       const name = fill(form.text, cause, town);
       if (!taken.has(name)) return { name, plural: form.plural };
     }

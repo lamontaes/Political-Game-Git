@@ -82,6 +82,10 @@ describe("cause group names", () => {
             `${key} ${side} says the other side's cause: ${made!.name}`,
           ).toBe(false);
           expect(made!.name, key).not.toMatch(BANNED);
+          expect(
+            (made!.name.match(/\bfor\b/g) ?? []).length,
+            made!.name,
+          ).toBeLessThanOrEqual(1);
           expect(stanceGroupForm(made!.name), made!.name).toEqual({
             plural: made!.plural,
           });
@@ -103,6 +107,12 @@ describe("cause group names", () => {
           taken.add(made!.name);
         }
       expect(taken.size).toBe(rows.length * 2);
+      // No name says "for" twice (Words lead, Nov 14): a form ending in "for"
+      // never takes a cause that holds one, so the namer moves to the next form.
+      for (const name of taken)
+        expect((name.match(/\bfor\b/g) ?? []).length, name).toBeLessThanOrEqual(
+          1,
+        );
     });
 
     it("holds a cause for every platform question the catalog has", () => {
