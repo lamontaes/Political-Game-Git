@@ -27,6 +27,7 @@ describe("a government is said as people say it", () => {
     );
     expect(governmentSaidName("Town of Groton")).toBe("Groton");
     expect(governmentSaidName("City of McCall")).toBe("McCall");
+    expect(governmentSaidName("Moca Municipio")).toBe("Moca");
     // Already said as people say it, or a name with no kind: kept.
     expect(governmentSaidName("DeKalb County")).toBe("DeKalb County");
     expect(governmentSaidName("Idaho")).toBe("Idaho");

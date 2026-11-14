@@ -116,6 +116,9 @@ const SAID_AFTER_PLACE = ["County", "Parish", "Borough", "Township"] as const;
  * Groton" is "Groton". A legal form ahead of the kind ("Charter") is not said.
  */
 export function governmentSaidName(proper: string): string {
+  // A Puerto Rico municipality is listed "Moca Municipio" and said "Moca".
+  const municipio = /^(.+) Municipio$/.exec(proper)?.[1];
+  if (municipio) return municipio;
   const [, kind, name] = /^(?:Charter )?(\w+) of (.+)$/.exec(proper) ?? [];
   if (!kind || !name) return proper;
   return (SAID_AFTER_PLACE as readonly string[]).includes(kind)
