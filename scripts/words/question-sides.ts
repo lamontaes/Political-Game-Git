@@ -50,6 +50,19 @@ const data = JSON.parse(readFileSync(FILE, "utf8")) as {
   >;
 };
 const counts: Record<string, number> = {};
+/**
+ * A question's row in the TSVs below: a budget line by its whole id
+ * ("budget-line:police"), a policy question by its key after the catalog's
+ * prefix, with its area (`area.key`, question-today.tsv) or without it
+ * (question-reasons.tsv, question-today-more.tsv). One rule, so a budget line
+ * is written by this script like every other question.
+ */
+const rowKey = (question: string, withArea: boolean) =>
+  question.startsWith("budget-line:")
+    ? question
+    : withArea
+      ? question.split(":")[1]!
+      : question.split(":")[1]!.split(".").slice(1).join(".");
 const count = (rule: string) => (counts[rule] = (counts[rule] ?? 0) + 1);
 
 // 1. Names that hide what the bill does, renamed from their source record.
@@ -117,8 +130,23 @@ const lawOf = (about: string) =>
     : /^[a-z]+ing\b/.test(about)
       ? `the law ${about}`
       : about);
-for (const row of Object.values(data.names)) {
-  const law = lawOf(row.about);
+// A budget line is no law on the books: its sides keep or change the line,
+// and its "law" is the bigger line itself (scripts/words/question-budget-sides.tsv).
+const budgetSides = new Map(
+  readFileSync("scripts/words/question-budget-sides.tsv", "utf8")
+    .trim()
+    .split("\n")
+    .slice(1)
+    .map((line) => {
+      const [key, against, repeal, keep, law] = line.split("\t");
+      return [
+        key!,
+        { against: against!, repeal: repeal!, keep: keep!, law: law! },
+      ];
+    }),
+);
+for (const [question, row] of Object.entries(data.names)) {
+  const law = budgetSides.get(question)?.law ?? lawOf(row.about);
   if ((row as { law?: string }).law !== law) {
     (row as { law?: string }).law = law;
     count("3b. a question's law in force is said as the thing itself");
@@ -126,12 +154,15 @@ for (const row of Object.values(data.names)) {
 }
 
 // 2 and 3. Each side's spoken form.
-for (const row of Object.values(data.names)) {
+for (const [question, row] of Object.entries(data.names)) {
   const sides = {
     for: row.to,
     against: `say no to ${row.about}`,
     repeal: `repeal ${(row as { law?: string }).law}`,
     keep: `keep ${(row as { law?: string }).law} on the books`,
+    ...(budgetSides.has(question)
+      ? (({ law, ...rest }) => (void law, rest))(budgetSides.get(question)!)
+      : {}),
   };
   if (
     row.for !== sides.for ||
@@ -173,7 +204,7 @@ const today = new Map(
   }),
 );
 for (const [question, row] of Object.entries(data.names)) {
-  const found = today.get(question.split(":")[1]!);
+  const found = today.get(rowKey(question, true));
   if (!found) throw new Error(`No today form for ${question}`);
   const wanted = {
     today: {
@@ -231,9 +262,7 @@ const numbers = (cell: string | undefined) =>
     .filter(Boolean)
     .map((value) => Number(value));
 for (const [question, row] of Object.entries(data.names)) {
-  const found = reasonRows.get(
-    question.split(":")[1]!.split(".").slice(1).join("."),
-  );
+  const found = reasonRows.get(rowKey(question, false));
   if (!found) throw new Error(`${question} has no row in question-reasons.tsv`);
   const wanted = {
     principles: {
@@ -273,7 +302,7 @@ const more = new Map(
   }),
 );
 for (const [question, row] of Object.entries(data.names)) {
-  const found = more.get(question.split(":")[1]!.split(".").slice(1).join("."));
+  const found = more.get(rowKey(question, false));
   const wanted = found
     ? {
         without: {

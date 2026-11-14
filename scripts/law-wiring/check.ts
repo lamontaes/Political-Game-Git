@@ -888,7 +888,7 @@ function draftUnder(
  * The amount a body first enacts for a series that starts at none (0), where
  * a token 1 would bind nobody: the public pay floor at the owner's own
  * what-if example, a $70,000 public pay base (docs/coordination/OWNER-DECISIONS.md,
- * "The economy must answer what if"; src/bench/data/dev-experiments.json).
+ * "The economy must answer what if").
  */
 const FIRST_AMOUNT: Readonly<Record<string, number>> = {
   "public-pay-floor": 70_000,

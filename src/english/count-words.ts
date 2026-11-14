@@ -26,6 +26,15 @@ export function votesSaid(votes: number): string {
 /** A sum of money, given in cents, as people round it. */
 export function moneySaid(minor: number): string {
   const dollars = minor / 100;
+  const unit = data.moneyUnits.rows.find((row) => dollars >= row.atLeast);
+  if (unit) {
+    const count = dollars / unit.divisor;
+    const said =
+      count < data.moneyUnits.decimalBelow
+        ? String(Math.round(count * 10) / 10)
+        : Math.round(count).toLocaleString("en-US");
+    return data.aboutMoney.replace("{count}", `${said} ${unit.word}`);
+  }
   const step = stepFor(data.moneySteps, dollars);
   return fill(
     data.aboutMoney,
@@ -60,8 +69,68 @@ export function filedSaid(count: number): string {
   return filedWords.others[count - 1] ?? filedWords.many;
 }
 
+/** A percent as people say it: "about 9 percent", "about 4.5 percent". */
+function percentSaid(value: number): string {
+  const words = data.percentWords;
+  const count =
+    Math.abs(value) < words.decimalBelow.value
+      ? Math.round(value * 10) / 10
+      : Math.round(value);
+  return words.percent.replace("{count}", count.toLocaleString("en-US"));
+}
+
+/**
+ * How far a measure moved, as a speech says it (`percentWords`): a share by
+ * where it stood and where it stands ("from about 12 percent to about 14
+ * percent"), any other measure by how far it moved against where it stood
+ * ("by about 9 percent"). Null when the move rounds to nothing.
+ */
+export function changeSaid(
+  from: number,
+  to: number,
+  share: boolean,
+): string | null {
+  const words = data.percentWords;
+  if (share) {
+    const [was, now] = [percentSaid(from), percentSaid(to)];
+    return was === now
+      ? null
+      : words.fromTo.replace("{from}", was).replace("{to}", now);
+  }
+  if (!from) return null;
+  const moved = Math.abs((to - from) / from) * 100;
+  const said = percentSaid(moved);
+  return said === percentSaid(0) ? null : words.by.replace("{change}", said);
+}
+
+/**
+ * A whole count as people say it: below ten in words ("two years"), else in
+ * digits. A line that opens on the count passes a higher limit (up to 99) and
+ * gets "thirteen" or "forty-two".
+ */
+export function countSaid(count: number, limit = 9): string {
+  const { words, tens } = data.smallCounts;
+  if (!Number.isInteger(count) || count < 0 || count > Math.min(limit, 99))
+    return count.toLocaleString("en-US");
+  if (count < words.length) return words[count]!;
+  const rest = count % 10;
+  const ten = tens[Math.floor(count / 10)]!;
+  return rest ? `${ten}-${words[rest]}` : ten;
+}
+
+/**
+ * How many have filed for an office so far, said before the player has filed
+ * ("two candidates"): "other" and "before you" are only true once they have
+ * (Fable A, Nov 13, rule 1).
+ */
+export function filedSoFarSaid(count: number): string {
+  if (count < 1) return "";
+  return filedWords.soFar[count - 1] ?? filedWords.manySoFar;
+}
+
 const MINUTES_PER_HOUR = 60;
 const HOURS_ON_A_CLOCK = 12;
+const MONTHS_PER_YEAR = 12;
 const HOURS_IN_A_DAY = 24;
 
 /**
@@ -94,17 +163,6 @@ export function hoursSaid(minutes: number): string {
   );
 }
 
-/** A whole count up to ninety-nine as people say it aloud ("five", "thirteen", "forty-two"); a larger one stays a figure. */
-export function countSaid(count: number): string {
-  const { ones, tens } = data.count;
-  if (!Number.isInteger(count) || count < 1 || count > 99) return String(count);
-  if (count < ones.length) return ones[count]!;
-  const rest = count % 10;
-  return rest
-    ? `${tens[Math.floor(count / 10)]}-${ones[rest]}`
-    : tens[Math.floor(count / 10)]!;
-}
-
 /** A term of office in years as people say it: "four years". */
 export function termSaid(years: number): string {
   const count = Math.max(1, Math.round(years));
@@ -125,4 +183,21 @@ export function daysSaid(days: number): string {
     "{count}",
     days <= HOURS_ON_A_CLOCK ? data.clock.numbers[days]! : String(days),
   );
+}
+
+/** A length of time in months as people say it: "a month", "eight months", "a year", "three years". */
+export function lengthSaid(months: number): string {
+  const count = Math.max(1, Math.round(months));
+  const said = (n: number) =>
+    n <= HOURS_ON_A_CLOCK ? data.clock.numbers[n]! : String(n);
+  const term = data.length as Readonly<Record<string, string>>;
+  if (count % MONTHS_PER_YEAR === 0) {
+    const years = count / MONTHS_PER_YEAR;
+    return years === 1
+      ? term.year!
+      : term.years!.replace("{count}", said(years));
+  }
+  return count === 1
+    ? term.month!
+    : term.months!.replace("{count}", said(count));
 }

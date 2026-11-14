@@ -76,6 +76,13 @@ export interface DirectorData {
   }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };
+  /** The reason key and citation on a core player stop for a waiting scene that comes due. */
+  waitingStop: {
+    reasonKey: string;
+    citation: string;
+    notMet: string;
+    silent: string;
+  };
   /**
    * When each kind of setting can hold a scene, in minutes after midnight; a
    * null opening is the controlled person's own day start.

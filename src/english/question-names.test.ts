@@ -36,11 +36,15 @@ describe("spoken names of policy questions", () => {
   const catalog = catalogQuestions();
   const federal = federalQuestions();
 
-  it("names every question the bill catalog holds and every federal power question, and no other", () => {
+  it("names every question the bill catalog holds and every federal power question, and no other but a local budget's lines", () => {
     expect(catalog.size).toBeGreaterThan(0);
     expect(federal.length).toBeGreaterThan(0);
+    // A local budget's lines are the questions a town, township or county
+    // body decides every year (contest-positions.ts `budgetPositions`).
     expect([...new Set([...catalog.keys(), ...federal])].sort()).toEqual(
-      [...NAMED_QUESTIONS].sort(),
+      NAMED_QUESTIONS.filter(
+        (question) => !question.startsWith("budget-line:"),
+      ).sort(),
     );
   });
 

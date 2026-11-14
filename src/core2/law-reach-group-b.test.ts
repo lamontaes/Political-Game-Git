@@ -1473,7 +1473,7 @@ describe("law reach, group B: a graduated income tax", () => {
       // The level's tax was a graduated schedule (Guam's follows the federal
       // one, and an earlier case in this file may have flattened it): repealing
       // the act replaces the schedule with the level's flat rate
-      // (SG-GOV-REACH-B-flat-tax-replacement), a tax it wrote that still
+      // (the sponsor's flat rate), a tax it wrote that still
       // reaches workers, so the person rows stand and the schedule is gone.
       expect(restored?.terms?.schedules, `${where} schedule`).toBeUndefined();
       expect(restored?.unit, `${where} flat tax`).toBe("percent-flat");
@@ -1482,7 +1482,7 @@ describe("law reach, group B: a graduated income tax", () => {
     expectEnded(key);
     expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
     // Where the level's own tax is graduated, a "no" flattens it
-    // (SG-GOV-REACH-B-flat-tax-replacement), and that flat law reaches the
+    // (the sponsor's flat rate), and that flat law reaches the
     // taxpayers: the records still open belong to the repeal's own act, never
     // to the earlier one it undid.
     const stillOpen = openPeople(key);

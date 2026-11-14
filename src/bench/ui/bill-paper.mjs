@@ -55,13 +55,40 @@ const estimateOf = (estimate) => [
  * proposed }.
  */
 export function billPaper(paper) {
+  // A phase-in is one bill with a step to a section: its estimate lists every step
+  // with its day, in order, whichever section is chosen.
+  const dated = paper.sections.filter((section) => section.estimate.dated);
+  const estimates = (section) =>
+    dated.length > 1
+      ? dated.map((step, at) =>
+          el(
+            "div",
+            { className: "bill-step" },
+            // Only the first step's left box is the law in force today; a later
+            // step's is what stands until it takes effect.
+            ...estimateOf(
+              at && step.estimate.compare
+                ? {
+                    ...step.estimate,
+                    compare: {
+                      ...step.estimate.compare,
+                      todayLabel: paper.untilLabel,
+                    },
+                  }
+                : step.estimate,
+            ),
+          ),
+        )
+      : estimateOf(section.estimate);
   const aside = makeCard(
     "bill-estimate",
     {},
-    ...estimateOf(paper.sections[0]?.estimate ?? paper.blank),
+    ...(paper.sections[0]
+      ? estimates(paper.sections[0])
+      : estimateOf(paper.blank)),
   );
   const showEstimate = (section) =>
-    aside.replaceChildren(...estimateOf(section.estimate));
+    aside.replaceChildren(...estimates(section));
   // The bill as typed: Compare strikes the clause the law in force holds and inserts the bill's;
   // Clean copy shows the bill's alone (the views are the same records, drawn two ways).
   const views = paper.views;

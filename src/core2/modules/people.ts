@@ -65,6 +65,11 @@ import type {
   Relationship,
 } from "../types";
 import { offer } from "./life";
+import { openPastTerms } from "./offices";
+import { stopgap } from "../stopgaps";
+
+/** The id a seat's holder is made under: `official:` and their term's id (officials.ts seatOfficial). */
+const OFFICIAL_PREFIX = "official:";
 import { departureRateFor, livesElsewhere, withinCountyRateFor } from "./moves";
 import { coreAPI } from "../state";
 import { pastViewShifts, setPastViewShifts } from "./views";
@@ -203,6 +208,8 @@ export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
 export { ENCOUNTERS, meetAtMeeting, meetInTalk } from "../encounters";
+/** A speech heard, for the director's scenes of a speech. */
+export { SPEECH_HEARD } from "./speech";
 // Disputes between two people from layoffs and evictions, for the world that opens them.
 export { openGrievance } from "./grievance";
 // A household's month of income (its open jobs and income awards), for
@@ -600,6 +607,11 @@ export function partneredForFilledIn(
  * records decide, nothing else).
  */
 export function openWholePast(core: CoreState, personId: PersonId): void {
+  // An official from another place: the earlier terms of their seat, kept on
+  // the offices record by the term their id names (officials.ts seatOfficial),
+  // whether or not they are a full person yet.
+  if (personId.startsWith(OFFICIAL_PREFIX))
+    openPastTerms(coreAPI(core), personId.slice(OFFICIAL_PREFIX.length));
   const person = core.people.get(personId);
   if (!person || !preStartWindowOf(core)) return;
   // A relative living elsewhere is opened the same way, one card at a time;
@@ -647,6 +659,7 @@ function relativesOf(person: Readonly<PersonState>, kind: string): string[] {
 
 /** The passes that write a person's past, each once (moves first: the others place each year where they lived). */
 function writePast(core: CoreState, person: PersonState): void {
+  bornWhere(core, person);
   pastMovesFor(
     core,
     [person],
@@ -662,6 +675,49 @@ function writePast(core: CoreState, person: PersonState): void {
   pastJusticeFor(core, [person], PEOPLE_MODULE_ID, (one) =>
     prisonTermOf(core, one),
   );
+}
+
+/**
+ * A person an engine made to hold a role (a newspaper's owner, a state's
+ * election chief) is made with no past facts. Opened, they get their
+ * birthplace as the place they live, the opening's own default where nothing
+ * records another (opening-people.ts); their birth date is the person's own
+ * (`person.birth`). An official's roster nativity already says where they
+ * were born, so they keep it.
+ */
+function bornWhere(core: CoreState, person: PersonState): void {
+  const facts = person.pastFacts ?? [];
+  // An official's roster nativity already says where they were born.
+  if (
+    facts.some(
+      (row) =>
+        row.kind === "person:birth" ||
+        row.kind === "birthplace" ||
+        row.kind === "identity:nativity",
+    )
+  )
+    return;
+  // stopgapId: SG-PEOPLE-role-people-have-no-past
+  stopgap("SG-PEOPLE-role-people-have-no-past");
+  const source = {
+    tag: "ESTIMATED" as const,
+    asOf: core.date,
+    citation:
+      "A person made to hold a role, opened: born where they live, as every opening resident's birthplace defaults to their home (src/core2/opening-people.ts).",
+    estimatedFrom:
+      "No record of this person's birthplace exists; the place they live stands for it.",
+  };
+  person.pastFacts = [
+    ...facts,
+    {
+      id: `${person.id}:birth`,
+      date: makeIsoDate(person.birthDate),
+      kind: "person:birth",
+      summary: "person:birth",
+      source,
+      facts: { placeId: person.placeId },
+    },
+  ];
 }
 
 /**

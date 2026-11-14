@@ -1663,6 +1663,27 @@ body:not(.dev) .dev-only {
   text-transform: uppercase;
   color: var(--text-3);
 }
+/* A broadcast heard at home: the station over the line, with a tiny icon of
+   its kind (owner, Oct 14: a small card with a radio/TV icon, the station,
+   and the line). */
+.talk-lines .heard .history-who::before {
+  content: "";
+  display: inline-block;
+  width: 0.9em;
+  height: 0.65em;
+  margin-right: 0.45em;
+  border: 1.5px solid currentColor;
+  border-radius: var(--control-radius);
+  vertical-align: -0.05em;
+}
+.talk-lines .heard-radio .history-who::before {
+  border-radius: 50%;
+}
+.talk-lines .heard-newspaper .history-who::before {
+  height: 0.8em;
+  width: 0.65em;
+  border-radius: 0;
+}
 /* Several past lines stack as one block; the rule sits under the last of them. */
 .talk-lines .history:has(+ .history) {
   padding-bottom: 0;
@@ -2037,6 +2058,15 @@ body:not(.dev) .dev-only {
   gap: 10px;
   font: var(--t-ui)/1.35 var(--ui);
 }
+.calendar-entry .attend-plan {
+  display: block;
+  margin: 4px 0 0;
+  color: var(--muted, var(--text));
+}
+.calendar-entry .attend-meeting {
+  display: block;
+  margin: 6px 0 0;
+}
 .calendar-empty {
   margin: 0;
   color: var(--muted, var(--text));
@@ -2383,6 +2413,10 @@ body:not(.dev) .dev-only {
 #meeting > .heading {
   margin: 0 0 12px;
   font-size: var(--t-h2);
+}
+/* A line above the agenda (a refusal, or a resident's one line). */
+#meeting-items > .meeting-note {
+  margin: 0 0 12px;
 }
 .meeting-item + .meeting-item {
   margin-top: 16px;
@@ -3776,6 +3810,24 @@ details.entry[open] {
   font: 600 var(--t-read) var(--ui);
   color: var(--cream);
 }
+/* A phase-in's estimate: each step beside the others, a rule between. */
+.bill-step + .bill-step {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(242, 237, 228, 0.18);
+}
+/* A phase-in's rows: the amount with its unit, then when it takes effect. */
+.draft-step {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-bottom: 4px;
+}
+.draft-when {
+  color: var(--text-2);
+  font: var(--t-label) var(--ui);
+}
 /* A subject this body may not write a bill about: listed, and dimmed. */
 .draft-card .pick[data-blocked]:not([aria-pressed="true"]) {
   opacity: 0.55;
@@ -5077,6 +5129,33 @@ select.release-pick {
   color: var(--cream);
 }
 
+/* The campaign board: where the race stands, the money, and the trail button.
+   The money column keeps room for its figures, so a row such as "Signatures
+   0 of 21, due May 1, 2026" sits on one line, and the button keeps its words
+   on one line; when the sheet is narrow (the roster of several races beside
+   it, or a 1024-wide window) the button moves under the two columns instead
+   of squeezing them. */
+.strip-board.campaign-board .board-cols {
+  display: flex;
+  flex-wrap: wrap;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(1) {
+  flex: 1 1 200px;
+  min-width: 200px;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(2) {
+  flex: 1.6 1 310px;
+  min-width: 310px;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(3) {
+  flex: 0 0 auto;
+}
+.strip-board.campaign-board .board-cols button,
+.strip-board.campaign-board .dotlabel,
+.strip-board.campaign-board .dotvalue {
+  white-space: nowrap;
+}
+
 /* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */
 .strip-board .money-figure {
   margin: 0 0 6px;
@@ -5137,6 +5216,17 @@ select.release-pick {
 }
 .news-headline.side {
   font-size: var(--t-h3);
+}
+/* A brief with a body: its headline opens it, set smaller than a front story's. */
+.news-dateline {
+  display: block;
+  font-size: var(--t-ui);
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+.news-headline.brief {
+  font-size: var(--t-ui);
+  margin-bottom: 2px;
 }
 .news-text .intro {
   margin: 0 0 10px;

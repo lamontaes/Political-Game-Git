@@ -20,8 +20,10 @@
     "why": "A person keeps no record of the places they have lived (no moved-from field in people or the life engine), so the tie cannot be read.",
     "addedBy": "State Sessions session",
     "addedAt": "2026-11-08",
-    "replacement": "Read the reader's past homes once the people engine records them, and add it as a fourth term beside family, work and neighbor (nationNewsMovedTie).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Read the reader's past homes once the people engine records them, and add it as a fourth term beside family, work and neighbor (nationNewsMovedTie).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-WORDS-milestone-birthday-full-people",
@@ -32,8 +34,10 @@
     "why": "A birthday notice names the person, and a counted resident has no name until the player meets them. Filling one in for the paper would make the press decide who exists.",
     "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
     "addedAt": "2026-11-01",
-    "replacement": "A person a brief names is a named person, so the counted resident whose round birthday falls in the week is filled in, seeded from the world, when the notice prints (two-level population; the CTO, Nov 1, the same rule the lives lead uses), and the week's round birthdays are read from the counted population's ages by place by the same rule as a full resident.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A person a brief names is a named person, so the counted resident whose round birthday falls in the week is filled in, seeded from the world, when the notice prints (two-level population; the CTO, Nov 1, the same rule the lives lead uses), and the week's round birthdays are read from the counted population's ages by place by the same rule as a full resident.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-WORDS-letters-counted-readers",
@@ -44,7 +48,9 @@
     "why": "A letter is written from a stance the reader's last story moved, and a counted reader's view is not moved by what they read (views.ts countedLean), so no counted stance cites a story to answer.",
     "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
     "addedAt": "2026-11-01",
-    "replacement": "The CTO's rule (OWNER-DECISIONS Nov 1 20:00): counted readers are weighed by the same press.letter rule, times their count, from their view on the story's question and their temperament, and the writer a printed letter names is filled in, seeded, when it prints.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The CTO's rule (OWNER-DECISIONS Nov 1 20:00): counted readers are weighed by the same press.letter rule, times their count, from their view on the story's question and their temperament, and the writer a printed letter names is filled in, seeded, when it prints.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   }
 ]

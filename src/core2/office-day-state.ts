@@ -7,7 +7,7 @@
  * - **The calendar** comes from data: each place's regular session windows
  *   (`state-session-calendar.ts`), a session week's floor and district days,
  *   the interim's monthly committee day, the State of the State and the
- *   budget proposal after convening (`data/office-day/state-parameters.json`).
+ *   budget proposal after convening (`src/core2/data/office-day/state-parameters.json`).
  *   Nothing names a place; a place whose legislature doesn't meet this year is
  *   in the interim all year.
  * - **Acts of office** are done by the player or simulated: the character
@@ -20,7 +20,7 @@
  *   election day); every other entry runs in the background and still counts.
  * - **Per diem**: every member of the state's legislature is paid their
  *   state's per diem for the session days its basis counts
- *   (`data/office-day/state-legislator-per-diem.json`, cited), from the state's
+ *   (`src/core2/data/office-day/state-legislator-per-diem.json`, cited), from the state's
  *   treasury, on the 1st for the month before.
  *
  * State entries use the shared engine’s holds, settings and act ledger.
@@ -76,6 +76,7 @@ import {
   memberKey,
   members,
   scheduleVote,
+  voteKeyOf,
   LEGISLATURE_MODULE_ID,
 } from "./modules/legislature";
 import {
@@ -1396,6 +1397,7 @@ function holdForFloorVotes(api: CoreAPI): void {
       minuteOfDay: stateDayParameter("holdMinute"),
       reasonKey: "office-day-state.floor-vote",
       source: { tag: "SOURCED", citation: bill.id, asOf: api.state.date },
+      voteOn: bill.id,
     });
     if (held) {
       table(api, "floorHolds").put({
@@ -1808,7 +1810,7 @@ export function askLeaderForHearing(
   const granted = bare + traits > 0;
   const schedule = options?.schedule ?? true;
   const already = schedule
-    ? api.moduleCalendar(LEGISLATURE_MODULE_ID).get(`meeting:${billId}`)
+    ? api.moduleCalendar(LEGISLATURE_MODULE_ID).get(voteKeyOf(bill))
     : undefined;
   const row: LeaderRequestRow = {
     id,

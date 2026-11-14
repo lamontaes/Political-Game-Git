@@ -74,6 +74,8 @@ export interface HonorDefinition {
   readonly tier: string;
   readonly grades: readonly number[];
   readonly day: HonorDay;
+  /** The honor a winner of this one goes on toward (a local bee's regional), by key. */
+  readonly followedBy?: string;
   readonly rate?: HonorRate;
   readonly winners?: HonorWinners;
   /** The traits (besides the school standing) that rank students for it. */
@@ -82,6 +84,22 @@ export interface HonorDefinition {
 }
 
 export const HONORS = data.honors as unknown as readonly HonorDefinition[];
+
+/** The month the honor after this one is decided, as "03", when the honor has one. */
+export function followingMonth(key: string): string | undefined {
+  const next = HONORS.find(
+    (h) => h.key === HONORS.find((x) => x.key === key)?.followedBy,
+  );
+  return next?.day.month;
+}
+
+/** The grade a student is in for the school year starting in `startYear`, by their age that September 1. */
+export function gradeIn(birthDate: string, startYear: number): number {
+  return (
+    ageOn(birthDate, `${startYear}-${schoolDays.schoolYear.firstDay}`) -
+    outcomes.gradeAgeFirst
+  );
+}
 
 /** One honor kept for one place on one day: who was honored and what the place was owed. */
 export interface SchoolHonorRow {
@@ -380,6 +398,16 @@ export function decideSchoolHonors(
           count: `${count}`,
           record: id,
           ...(name ? { school: name } : {}),
+          // What the paper tells of it: the month of the honor a winner goes
+          // on toward, and a lone full winner's grade that school year.
+          ...(followingMonth(honor.key)
+            ? { nextMonth: followingMonth(honor.key)! }
+            : {}),
+          ...(personIds.length === 1 && count === 1
+            ? {
+                grade: `${gradeIn(core.people.get(personIds[0] as PersonId)?.birthDate ?? date, startYear)}`,
+              }
+            : {}),
         },
       });
     }

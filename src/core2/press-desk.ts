@@ -33,6 +33,8 @@ import {
   VIEWS_SPEAKER_KEY,
 } from "./modules/views";
 import { residentsRuntime } from "./modules/residents";
+import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
+import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
 
 /**
  * The facts that name the counted household a record happened to and its
@@ -42,13 +44,55 @@ import { residentsRuntime } from "./modules/residents";
 const COUNTED_HOUSEHOLD = "counted-household";
 const COUNTED_SUBJECTS = "counted-subjects";
 
+/**
+ * A race's gifts and endorsements: a paper tells a race's money and backing
+ * as one story a week, not one for each donor or endorser (a town's gifts were
+ * 94 of its 142 front-page stories in the weeks after filings opened,
+ * Williamstown, Kentucky, seed survey-b), and a national outlet carries only a
+ * federal race's endorsements (`nationalCarries`).
+ */
+const RACE_KINDS: ReadonlySet<string> = new Set([
+  "campaign-gift",
+  "campaign-endorsed",
+]);
+/** A national outlet carries a federal race's endorsements, never a donor's gift or a state or county race's. */
+const nationalCarries = (item: WireItem): boolean =>
+  !RACE_KINDS.has(item.kind) ||
+  (item.kind === "campaign-endorsed" && item.level === "nation");
+const raceTold = (item: WireItem): string | null =>
+  RACE_KINDS.has(item.kind) && item.facts?.contestId
+    ? `${item.kind}:${item.facts.contestId}`
+    : null;
+
 /** The record kinds a local outlet prints in its briefs column. */
 const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
+
+/**
+ * The share of a brief's space a measure that stands off the place's own
+ * usual gets (Words lead, Nov 14: a police log's space slides with how far
+ * the month is from the town's usual, down to nothing). The record carries
+ * `vsUsual`, this month's measure over the place's usual; a share at or under
+ * the floor has no space, one at the ceiling or over it has all of it, and
+ * every share between has its own. A brief with no usual to compare keeps all
+ * its space.
+ */
+function usualSpace(
+  item: { readonly facts?: Readonly<Record<string, unknown>> },
+  p: (key: string) => number,
+): number {
+  const share = Number(item.facts?.vsUsual);
+  if (!Number.isFinite(share)) return 1;
+  const floor = p("briefUsualFloor");
+  const ceiling = p("briefUsualCeiling");
+  return Math.min(1, Math.max(0, (share - floor) / (ceiling - floor)));
+}
 /** The briefs about the whole town, which name no one: they involve every follower. */
 const TOWN_WIDE_BRIEFS: ReadonlySet<string> = new Set(briefs.townWide);
 
 /** A body's regular sitting, as office-day records it. */
 const MEETING_KIND = "public-meeting";
+/** The clerk's notice of an election: a legal notice, run once in the paper of record. */
+const NOTICE_KIND = "election-notice";
 /** A reader's letter to the editor (the press's weekly letters step). */
 const LETTER_KIND = "press.letter";
 /** The week's sittings that took up nothing, printed as one brief. */
@@ -140,6 +184,11 @@ export interface DeskContext {
   readonly printed: (wireId: string, outletId: string) => boolean;
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
+  /**
+   * Whether this outlet is the town's paper of record: the local outlet with
+   * the widest audience (where a legal notice runs). Absent, every outlet is.
+   */
+  readonly paperOfRecord?: (outlet: DeskOutlet) => boolean;
   readonly save: (story: PrintedStory) => void;
 }
 
@@ -654,7 +703,12 @@ export function runDesk(
   const p = ctx.parameter;
   const since = addDays(makeIsoDate(api.state.date), -p("storyFreshDays"));
   const open = wire.filter(
-    (item) => item.date >= since && !ctx.printed(item.id, outlet.id),
+    (item) =>
+      item.date >= since &&
+      !ctx.printed(item.id, outlet.id) &&
+      !(outlet.tier === "national" && !nationalCarries(item)) &&
+      // A legal notice runs in the town's paper of record only.
+      !(item.kind === NOTICE_KIND && ctx.paperOfRecord?.(outlet) === false),
   );
   if (!open.length || !outlet.reporterIds.length) return [];
   // A body's sitting is news for what it did, not that it sat (CTO, Nov 1,
@@ -718,6 +772,30 @@ export function runDesk(
       { jurisdiction?: string } | undefined;
     return !row?.jurisdiction || chainJurisdictions.has(row.jurisdiction);
   };
+  // Who a count's result concerns: the named voters on its roll.
+  const countRoll = (item: WireItem): ((id: string) => boolean) | null => {
+    const facts = item.facts ?? {};
+    if (
+      item.kind === "election-result" &&
+      facts.contestId &&
+      api.state.modules.has(VOTING_MODULE_ID)
+    )
+      return (id) => onContestRoll(api, facts.contestId!, id);
+    if (
+      item.kind === "ballot-measure-result" &&
+      facts.measureId &&
+      api.state.modules.has(BALLOT_MEASURES_MODULE_ID)
+    )
+      return (id) => !!measureVoteOf(api, facts.measureId!, id);
+    // A recall's vote is put to every adult of the town (recalls.ts
+    // `townVoters`); its petition's steps are not a count.
+    if (
+      item.kind === "recall-outcome" &&
+      (facts.outcome === "removed" || facts.outcome === "kept")
+    )
+      return (id) => inTown(id);
+    return null;
+  };
   const involved = (item: WireItem): number => {
     // A charge against, or an exposure of, someone serving in a local office
     // is the town's business: it involves every follower, named or counted,
@@ -745,6 +823,20 @@ export function runDesk(
     // a law in force: every follower, named or counted, is involved.
     if (item.kind === "executive-action" && isBudgetBill(api, item))
       return followers.length + ctx.countedFollowers(outlet);
+    // A count of the town's voters (a race for a seat, a state question on
+    // the town's ballot, a recall put to the town) is the business of every
+    // follower who could vote in it, as a law in force binds everyone it
+    // covers: the named followers on its roll (a ward seat's ward, the town
+    // for an at-large or wider seat), and the counted followers in the same
+    // share. A race once weighed only its three or four candidates and was
+    // outranked by every vote and law of its week (Searsboro, Iowa, seed
+    // de4ef0f8ff6efdfb:agree:15, drawn for concession-reported).
+    const roll = countRoll(item);
+    if (roll) {
+      const named = followers.filter(roll).length;
+      const share = followers.length ? named / followers.length : 1;
+      return named + share * ctx.countedFollowers(outlet);
+    }
     // A month's move in the town's conditions reaches every follower in
     // proportion to its size (the largest relative move among its facts).
     if (item.kind === OUTCOME_MONTH_KIND)
@@ -805,6 +897,13 @@ export function runDesk(
       ),
     }));
   const taken = new Set<string>();
+  // The bills and races this outlet has a story on this week: one story
+  // each, though a race's seats reach the wire on different days or a second
+  // reporter takes another of its seats (Kewanna, Indiana, seed
+  // 3c91e07a5d2f8b14:agree:0, printed council seats 0 and 2 of one race).
+  const bills = new Set<string>();
+  // The races whose money or backing this outlet has told this week.
+  const racesTold = new Set<string>();
   const out: PrintedStory[] = [];
   for (const reporterId of outlet.reporterIds) {
     if (!api.state.people.get(reporterId)?.alive) continue;
@@ -827,7 +926,17 @@ export function runDesk(
               p("storyDriveWeight") * drive),
         };
       })
-      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
+      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item))
+      // One gift story and one endorsement story a race, the best of its
+      // week's records, before any slot is spent on the rest.
+      .filter((row, at, all) => {
+        const race = raceTold(row.item);
+        return (
+          !race ||
+          (!racesTold.has(race) &&
+            all.findIndex((other) => raceTold(other.item) === race) === at)
+        );
+      });
     const count = Math.min(
       p(
         outlet.tier === "national"
@@ -846,21 +955,30 @@ export function runDesk(
       // a paper reports a meeting's actions (a county board member's
       // ordinance went unprinted behind the same board's three housing and
       // policing votes, Cooper Landing, Alaska, seed 12edebda89d90d033822).
-      const sitting = sittingVote(row.item)
-        ? scored.filter(
-            (other) =>
-              other === row ||
-              (!taken.has(other.item.id) &&
-                sittingVote(other.item) &&
-                other.item.date === row.item.date &&
-                other.item.facts?.chamber === row.item.facts?.chamber),
-          )
-        : [row];
-      const bills = new Set<string>();
+      // An election night is covered whole the same way: the reporter who
+      // files one of the races the town counted that day files the others,
+      // one story a seat, as a paper prints the night's results (the mayor's
+      // race took every outlet's week and the council race it was counted
+      // with went unprinted, Searsboro, Iowa, seed de4ef0f8ff6efdfb:agree:15).
+      const sitting =
+        sittingVote(row.item) || row.item.kind === "election-result"
+          ? scored.filter(
+              (other) =>
+                other === row ||
+                (!taken.has(other.item.id) &&
+                  sameSitting(row.item, other.item)),
+            )
+          : [row];
       for (const one of sitting) {
         taken.add(one.item.id);
+        const race = raceTold(one.item);
+        if (race) racesTold.add(race);
         // One story a bill: a failed bill's vote and its failure are one.
-        const billId = String(one.item.facts?.billId ?? one.item.id);
+        // One story a race: the seats of a race that fills several at once
+        // are one count, told once (Words lead, Nov 13, rule 30).
+        const billId = String(
+          one.item.facts?.billId ?? one.item.facts?.race ?? one.item.id,
+        );
         if (bills.has(billId)) continue;
         bills.add(billId);
         out.push(
@@ -889,11 +1007,15 @@ export function runDesk(
   if (outlet.tier !== "national" && filer) {
     const column = base
       .filter(
-        (row) => !taken.has(row.item.id) && BRIEF_KINDS.has(row.item.kind),
+        (row) =>
+          !taken.has(row.item.id) &&
+          BRIEF_KINDS.has(row.item.kind) &&
+          usualSpace(row.item, p) > 0,
       )
       .map((row) => ({
         ...row,
         score:
+          usualSpace(row.item, p) *
           row.proximity *
           (1 +
             p("storyReaderCareWeight") * row.readerCare +
@@ -1005,6 +1127,20 @@ export function runDesk(
     );
   }
   return out;
+}
+
+/**
+ * Whether two items are one sitting's actions (a local body's votes on one
+ * day) or one election night's results (the races of one level counted on
+ * one day), covered whole by the reporter who files either.
+ */
+function sameSitting(a: WireItem, b: WireItem): boolean {
+  if (a.date !== b.date) return false;
+  if (a.kind === "election-result")
+    return b.kind === "election-result" && a.level === b.level;
+  return (
+    sittingVote(a) && sittingVote(b) && a.facts?.chamber === b.facts?.chamber
+  );
 }
 
 /** A local body's vote on a bill, carried or failed (one of a sitting's actions). */

@@ -19,8 +19,10 @@ import { seededUnit } from "./seeded";
 import rows from "./data/past/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import { registerModule } from "./state";
-import type { CoreAPI, CoreModule, CoreState } from "./types";
+import type { CoreAPI, CoreState } from "./types";
 import type { ModuleRow } from "./module-data";
+import { residenceOn } from "./past-moves";
+import type { HistoryRecord, PreStartModule } from "./pre-start";
 
 export const PAST_MODULE_ID = "core2-past-v1";
 
@@ -34,7 +36,23 @@ export function pastParameter(api: CoreAPI | null, key: string): number {
   return row.value;
 }
 
-export const PAST_MODULE: CoreModule = {
+/**
+ * The races the town's own people lost before the start, kept from the
+ * opening of the past until the pre-start run can write them: the past is
+ * built before the run's window exists, and whether the loser lived in town
+ * that day is known only once the people pass has written their moves.
+ */
+const racesLost = new WeakMap<CoreState, Omit<HistoryRecord, "moduleId">[]>();
+
+/** Keeps a past race's lost-race rows for the pre-start run (past-elections.ts). */
+export function keepPastRacesLost(
+  core: CoreState,
+  rows: readonly Omit<HistoryRecord, "moduleId">[],
+): void {
+  racesLost.set(core, [...(racesLost.get(core) ?? []), ...rows]);
+}
+
+export const PAST_MODULE: PreStartModule = {
   id: PAST_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -42,6 +60,24 @@ export const PAST_MODULE: CoreModule = {
       laws: { indexes: { byLaw: { fields: ["lawId"] } } },
       figures: { indexes: { byPerson: { fields: ["personId"] } } },
       loaded: {},
+    },
+  },
+  // After the people pass (their moves into the county), with the rest of
+  // the government's history: a race lost on the loser's own past, where
+  // they lived in town on the race's day.
+  preStart: {
+    phase: "government",
+    run(api, window, history) {
+      const core = api.state as CoreState;
+      for (const row of racesLost.get(core) ?? []) {
+        const person = core.people.get(row.personIds?.[0] ?? ("" as never));
+        if (!person || row.date < window.from || row.date > window.through)
+          continue;
+        if (residenceOn(core, person, row.date).placeId !== row.placeId)
+          continue;
+        history.record(row);
+      }
+      racesLost.delete(core);
     },
   },
 };
@@ -71,6 +107,7 @@ export { seededUnit } from "./seeded";
 // The one history, for the engines that run or read it (light imports only:
 // the engines load this entry while the core is still loading).
 export {
+  coarseSteps,
   ownWindowOf,
   pastForLater,
   preStartHistory,
@@ -92,6 +129,7 @@ export {
 } from "./past-work";
 export {
   PERSON_MOVED_IN,
+  PERSON_MOVED_WITHIN,
   pastMovesFor,
   pastMovesHistory,
   residenceOn,

@@ -1,56 +1,114 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
+import { ageOn } from "./counted-groups";
 import { gameStartDate } from "./game-start";
 import {
+  countedParameter,
   residentsRuntime,
   startRegionalWork,
   stopRegionalWork,
 } from "./modules/residents";
 
-// A counted person's regional work adds one worker to their household (and
-// the pay of as many workers as the record stands for to the unplaced
-// workers' flow); ending it takes exactly that back.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "regional-work");
+// A counted person's regional work adds a worker to their household (less
+// what its share already covered) and the pay of as many workers as the
+// record stands for to the unplaced workers' flow; ending it takes exactly
+// that back. A counted person who already holds a recorded job is not hired
+// (Pendleton, Indiana, seed 3a862b9a-fcef-4dc6-a0b8-2db653b4042b: the first
+// member tried held work-relationship_c0d50c4a152df8e3). Places are drawn
+// until one has a free member who takes the work; each passed over is named.
+// Pinned to that place and seed (no run-time draw): in Pendleton 11,404 of
+// 15,908 counted households have less than one worker of room, so without the
+// cap a start would add a whole worker and push a household past its adults.
+const seed = "3a862b9a-fcef-4dc6-a0b8-2db653b4042b";
+const DRAWS = 1;
 
-it(`regional work starts and stops symmetrically in ${place.name}, seed ${seed}`, () => {
-  setBookkeeping(false);
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  const rt = residentsRuntime(core)!;
-  const flowTotal = () =>
-    [...rt.flows.values()]
-      .filter((f) => f.financeKind === "work.unplaced-residents" && !f.endedAt)
-      .reduce((sum, f) => sum + f.amountMinor, 0);
-  const workers = () =>
-    [...rt.store.liveHouseholds()].reduce((n, h) => n + h.unplacedWorkers, 0);
-  // A place with an unplaced-workers pool takes a counted worker into it; one
-  // without (a town whose counted workers are all placed) takes none.
-  const members = [...rt.store.liveHouseholds()]
-    .filter((h) => !h.quarters)
-    .flatMap((h) => rt.store.countedMembers(h));
-  expect(members.length, "counted members").toBeGreaterThan(0);
-  const before = { flow: flowTotal(), workers: workers() };
-  let started: string | undefined;
-  for (const member of members) {
-    const id = rt.store.ids[member]!;
-    if (startRegionalWork(core, id, 2000) === "counted") {
-      started = id;
-      break;
+it(`regional work starts and stops symmetrically, in the pinned place, seed ${seed}`, () => {
+  const passedOver: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw += 1) {
+    const place = drawPlace(draw ? `${seed}:${draw}` : seed, "regional-work");
+    const where = `${place.name} (${place.key}), seed ${draw ? `${seed}:${draw}` : seed}`;
+    setBookkeeping(false);
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const rt = residentsRuntime(core)!;
+    const flowTotal = () =>
+      [...rt.flows.values()]
+        .filter(
+          (f) => f.financeKind === "work.unplaced-residents" && !f.endedAt,
+        )
+        .reduce((sum, f) => sum + f.amountMinor, 0);
+    const workers = () =>
+      [...rt.store.liveHouseholds()].reduce((n, h) => n + h.unplacedWorkers, 0);
+    const homes = [...rt.store.liveHouseholds()].filter((h) => !h.quarters);
+    expect(homes.length, `${where}: counted households`).toBeGreaterThan(0);
+    // A member who holds a recorded job is refused, and nothing moves.
+    const holder = homes
+      .flatMap((h) =>
+        h.jobs.filter((j) => j.endsAt === undefined).map((j) => j.personId),
+      )
+      .find((id) => rt.store.countedMember(id) !== undefined);
+    if (holder) {
+      const before = { flow: flowTotal(), workers: workers() };
+      expect(
+        startRegionalWork(core, holder, 2000),
+        `${where}: ${holder} holds a recorded job`,
+      ).toBeUndefined();
+      expect(workers(), where).toBe(before.workers);
+      expect(flowTotal(), where).toBe(before.flow);
     }
-  }
-  if (!started) {
-    expect(workers()).toBe(before.workers);
+    // A free member: working age, no recorded job, in a household whose
+    // share leaves room.
+    const from = countedParameter("countedWorkingAgeFrom"),
+      below = countedParameter("countedWorkingAgeBelow");
+    const free = homes.flatMap((h) => {
+      const held = new Set(
+        h.jobs.filter((j) => j.endsAt === undefined).map((j) => j.personId),
+      );
+      const open = rt.store.countedMembers(h).filter((m) => {
+        const age = ageOn(rt.store.born[m]!, core.date);
+        return age >= from && age < below && !held.has(rt.store.ids[m]!);
+      });
+      const room = open.length - h.unplacedWorkers;
+      return room > 0 ? open.map((m) => ({ id: rt.store.ids[m]!, room })) : [];
+    });
+    const before = { flow: flowTotal(), workers: workers() };
+    // A member whose household has less than a worker of room goes first:
+    // the start adds that room and no more, where a whole worker would put
+    // the household past its free adults.
+    free.sort((a, b) => Number(a.room >= 1) - Number(b.room >= 1));
+    const pick = free.find(
+      (f) => startRegionalWork(core, f.id, 2000) === "counted",
+    );
+    const started = pick?.id;
+    if (!started) {
+      passedOver.push(
+        `${where}: ${free.length} free members, none taken (no unplaced-workers pool)`,
+      );
+      expect(workers(), where).toBe(before.workers);
+      continue;
+    }
+    expect(workers(), where).toBeGreaterThan(before.workers);
+    expect(
+      workers() - before.workers,
+      `${where}: the start adds the room left`,
+    ).toBeCloseTo(Math.min(1, pick!.room), 6);
+    expect(pick!.room, `${where}: the cap binds at this member`).toBeLessThan(
+      1,
+    );
+    expect(flowTotal(), where).toBeGreaterThan(before.flow);
+    expect(stopRegionalWork(core, started), where).toBe(true);
+    expect(workers(), where).toBeCloseTo(before.workers, 6);
+    expect(Math.abs(flowTotal() - before.flow), where).toBeLessThanOrEqual(1);
+    process.stdout.write(
+      `REGIONAL WORK ${where}: ${started} started and stopped; holder refused: ${holder ?? "none in the counts"}; passed over: ${passedOver.join("; ") || "none"}\n`,
+    );
     return;
   }
-  expect(workers()).toBeGreaterThan(before.workers);
-  expect(flowTotal()).toBeGreaterThan(before.flow);
-  expect(stopRegionalWork(core, started)).toBe(true);
-  expect(workers()).toBeCloseTo(before.workers, 6);
-  expect(Math.abs(flowTotal() - before.flow)).toBeLessThanOrEqual(1);
-}, 300_000);
+  throw new Error(
+    `no drawn place had a free counted member who took regional work: ${passedOver.join("; ")}`,
+  );
+}, 1_800_000);

@@ -265,6 +265,11 @@ export interface CountryState {
   abroadYear: number;
   /** What firms paid out last month that this state's owners receive this month. */
   ownersIncome: number;
+  /**
+   * The federal budget's lines paid to households here at the opening, dollars a year: the
+   * cells' benefits follow those lines from then on, as the budget in force changes them.
+   */
+  federalHouseholdsAtOpening: number;
   /** What each step of the month moved here, for the last twelve months, oldest first (dev mode's Trace reads it). */
   whatMoved: CountryStateMoved[];
 }
@@ -296,6 +301,8 @@ export interface CountryStateMoved {
   arrived: number;
   left: number;
   fromAbroad: number;
+  /** The federal budget's dollars that reached this state this month, by line, from the budget in force. */
+  federal: CountryFederalMonth;
   /** The ledger's revenue this month, dollars, by source. */
   incomeTaxRevenue: number;
   salesTaxRevenue: number;
@@ -311,12 +318,6 @@ export interface CountryTier {
   month: number;
   states: CountryState[];
   federalCash: number;
-  /**
-   * What the nation spends beyond the benefits the cells receive (its own purchases, aid to the
-   * states, interest), dollars a month at the opening: fitted once so its books balance on day
-   * one, then it keeps up with prices and with what the country sells.
-   */
-  federalOther: number;
   /** Everything the cells do not hold: the rest of the world, firms' purchases from each other, the financial system. */
   elsewhereCash: number;
   outsideDemand: number;
@@ -329,8 +330,38 @@ export interface CountryTier {
   policyRate: number;
 }
 
+/** Where a federal budget line's dollars go in a state: to its households, to one of its sectors, or out of the cells. */
+export type CountryFederalDestination =
+  "households" | CountrySector | "elsewhere";
+
+/** One line of the federal budget in force as it reaches one state, dollars a year. */
+export interface CountryFederalLine {
+  /** The line's key in the budget row (`socialSecurity`). */
+  line: string;
+  /** The budget row the line is read from. */
+  budgetId: string;
+  to: CountryFederalDestination;
+  dollarsYear: number;
+}
+
+/** The federal dollars one state received in a month, dollars. */
+export interface CountryFederalMonth {
+  /** The budget row read, or null where no federal budget is in force. */
+  budgetId: string | null;
+  /** Paid to its households as benefits, through the cells. */
+  transfers: number;
+  /** Bought from its sectors. */
+  purchases: number;
+  /** Lines whose dollars leave the cells (interest, aid abroad). */
+  elsewhere: number;
+  /** Each line's dollars this month. */
+  lines: { line: string; dollars: number }[];
+}
+
 /** The law in force, as the month needs it. The module reads the game's law rows; a test passes its own. */
 export interface CountryLaw {
+  /** The federal budget in force, line by line, as it reaches this state, dollars a year. */
+  federalSpendingYear(state: CountryState): readonly CountryFederalLine[];
   /** What is withheld from one worker's year of pay, dollars a year: for the state, and for the nation (income and payroll taxes). */
   withheld(
     state: CountryState,
@@ -470,6 +501,43 @@ interface Incomes {
   transfers: number;
 }
 
+/** The federal budget's dollars a year that reach one state by one destination. */
+function federalTo(
+  law: CountryLaw,
+  state: CountryState,
+  to: CountryFederalDestination,
+): number {
+  let dollars = 0;
+  for (const line of law.federalSpendingYear(state))
+    if (line.to === to) dollars += line.dollarsYear;
+  return dollars;
+}
+
+/** The federal dollars that reach one state this month, by line, with the cells' benefits as paid. */
+function federalMonth(
+  law: CountryLaw,
+  state: CountryState,
+  transfers: number,
+  months: number,
+): CountryFederalMonth {
+  const lines = law.federalSpendingYear(state);
+  let purchases = 0,
+    elsewhere = 0;
+  for (const line of lines)
+    if (line.to === "elsewhere") elsewhere += line.dollarsYear / months;
+    else if (line.to !== "households") purchases += line.dollarsYear / months;
+  return {
+    budgetId: lines[0]?.budgetId ?? null,
+    transfers,
+    purchases,
+    elsewhere,
+    lines: lines.map((line) => ({
+      line: line.line,
+      dollars: line.dollarsYear / months,
+    })),
+  };
+}
+
 /** Pay, the taxes the law withholds, and benefits for one state's cells this month. */
 function incomes(
   state: CountryState,
@@ -486,6 +554,12 @@ function incomes(
   );
   const scale = relative > 0 ? (wageBill * months) / relative : 0;
   const owners = ownersOf(state, rules) || 1;
+  // Benefits follow the federal budget's household lines against the opening's.
+  const toHouseholds = federalTo(law, state, "households");
+  const benefits =
+    state.federalHouseholdsAtOpening > TINY
+      ? toHouseholds / state.federalHouseholdsAtOpening
+      : 1;
   const out: Incomes = {
     wageBill,
     disposable: [],
@@ -521,7 +595,7 @@ function incomes(
       cell.band === OLDEST
         ? rules.retirementYear[cell.fifth]!
         : rules.otherTransferYear[cell.fifth]!;
-    const transfer = (idle * prices * yearly) / months;
+    const transfer = (benefits * idle * prices * yearly) / months;
     const paidOut =
       (state.ownersIncome * cell.people * rules.ownership[cell.fifth]!) /
       owners;
@@ -548,6 +622,8 @@ interface Demands {
   invested: number;
   publicBudget: number;
   bySector: BySector;
+  /** The federal dollars that reached the state this month. */
+  federal: CountryFederalMonth;
 }
 
 /** What one state's households, governments and firms want to buy from each sector this month. */
@@ -626,6 +702,17 @@ function demands(
         ? publicBudget
         : households + rules.investGoods[sector] * invested;
   }
+  // The federal budget's purchases from this state's sectors, line by line.
+  // A sector with no jobs left in the state (a played part has taken them all)
+  // sells nothing to the budget: its dollars would pile up as sales no one is
+  // there to make, and come back inflated with the part's books.
+  for (const line of law.federalSpendingYear(state))
+    if (
+      line.to !== "households" &&
+      line.to !== "elsewhere" &&
+      state.sectors.some((row) => row.sector === line.to && row.jobs > TINY)
+    )
+      bySector[line.to] += line.dollarsYear / rules.monthsPerYear;
   return {
     incomes: got,
     spent,
@@ -635,6 +722,7 @@ function demands(
     invested,
     publicBudget,
     bySector,
+    federal: federalMonth(law, state, got.transfers, rules.monthsPerYear),
   };
 }
 
@@ -960,15 +1048,19 @@ export function openCountry(
       arrivalsYear: row.arrivalsYear,
       abroadYear: row.abroadYear,
       ownersIncome: 0,
+      federalHouseholdsAtOpening: 0,
       whatMoved: [],
     };
   });
+  // The benefits the opening's federal budget pays each state's households: the cells' own
+  // benefits are what those lines pay, and follow them from then on.
+  for (const state of states)
+    state.federalHouseholdsAtOpening = federalTo(law, state, "households");
   const tier: CountryTier = {
     id: "country",
     month: 0,
     states,
     federalCash: 0,
-    federalOther: 0,
     elsewhereCash: 0,
     outsideDemand: 1,
     outsidePrices: 1,
@@ -1023,10 +1115,8 @@ function balanceOpening(
   const supply = zeroBySector();
   for (const state of tier.states)
     for (const row of state.sectors) supply[row.sector] += row.sales;
-  let federal = 0;
   tier.states.forEach((state, index) => {
     const wanted = made[index]!;
-    federal += wanted.incomes.federalTaxes - wanted.incomes.transfers;
     let profitTax = 0;
     for (const row of state.sectors) {
       const sector = row.sector;
@@ -1038,9 +1128,7 @@ function balanceOpening(
         modeled > row.sales && modeled > 0 ? 1 - row.sales / modeled : 0;
       row.otherBuyers = Math.max(0, row.sales - modeled);
       if (sector !== PUBLIC) {
-        const b = books(row, row.sales, state, law, rules);
-        profitTax += b.taxState;
-        federal += b.taxFederal;
+        profitTax += books(row, row.sales, state, law, rules).taxState;
       }
     }
     state.ledger.otherRevenue =
@@ -1049,7 +1137,6 @@ function balanceOpening(
       wanted.salesTax -
       profitTax;
   });
-  tier.federalOther = federal;
   tier.openingRealSales = sum(
     tier.states.map((state) => sum(state.sectors.map((row) => row.sales))),
   );
@@ -1624,6 +1711,7 @@ export function stepCountry(
     state.whatMoved.push({
       month: tier.month + 1,
       withheld: [...wanted.incomes.withheld.values()],
+      federal: wanted.federal,
       spent: wanted.spent,
       jobsAdded,
       jobsCut: plans.map((plan) => plan.ended),
@@ -1646,7 +1734,13 @@ export function stepCountry(
       state.ledger.otherRevenue +
       wanted.setAside -
       wanted.invested;
-    federal += wanted.incomes.federalTaxes - wanted.incomes.transfers;
+    // The nation's books: its taxes in, the benefits and purchases its budget pays here out.
+    federal +=
+      wanted.incomes.federalTaxes -
+      wanted.federal.transfers -
+      wanted.federal.purchases -
+      wanted.federal.elsewhere;
+    elsewhere += wanted.federal.elsewhere;
     state.unemploymentMonths.push(countryUnemployment(state));
     state.unemploymentMonths.shift();
     state.tightness = tightness;
@@ -1683,10 +1777,8 @@ export function stepCountry(
       ledger.budgetYear =
         sum(ledger.revenueMonths) + ledger.otherRevenue * months;
     }
-  // The nation's other spending keeps up with prices and with what the country sells.
-  const federalOther = tier.federalOther * tier.salesIndex * tier.priceIndex;
-  tier.federalCash += federal - federalOther;
-  tier.elsewhereCash += elsewhere + federalOther;
+  tier.federalCash += federal;
+  tier.elsewhereCash += elsewhere;
   tier.outsideDemand = outsideDemand;
   tier.outsidePrices = outsidePrices;
   tier.salesIndex =

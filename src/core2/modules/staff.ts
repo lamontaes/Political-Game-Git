@@ -58,7 +58,7 @@ import {
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
-import { startPublicJob } from "../public-payroll";
+import { lineHourlyMinor, startPublicJob } from "../public-payroll";
 import { giveLivingCost, spendLivingCost } from "../official-living";
 import {
   postPayCapDaily,
@@ -1235,6 +1235,14 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       campaignParameter("staffPerOfficial")
     )
       continue;
+    // The pay the line can actually carry (what `startPublicJob` will post): a line that cannot pay
+    // the post at all gets no hire, and an applicant weighs the pay the post will really pay.
+    const employer = employerOf(api, officialId);
+    const capDaily = employer
+      ? postPayCapDaily(api, employer, `staff:${officialId}`, 1)
+      : undefined;
+    const postPay = lineHourlyMinor(api, postHourly, capDaily);
+    if (postPay <= 0) continue;
     if (
       !leanedYes(
         api.state,
@@ -1262,7 +1270,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       .filter(
         (c) =>
           (review.people.get(c.personId)?.pay ??
-            currentPay(state, c.personId)) < postHourly,
+            currentPay(state, c.personId)) < postPay,
       )
       .map((c) => ({ ...c, score: hireReasons(c).score }))
       .sort(

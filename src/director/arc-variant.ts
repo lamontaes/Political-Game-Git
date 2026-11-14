@@ -35,7 +35,9 @@ import {
   LEADERSHIP_MODULE_ID,
   LEGISLATURE_MODULE_ID,
   billOf,
+  favorReturnedSince,
   provisionStance,
+  votesOn,
 } from "../core2/modules/legislature";
 import { partyTie } from "../core2/modules/elections";
 import { electorateSides, scandalStoriesOf } from "../core2/modules/voting";
@@ -244,6 +246,13 @@ interface VariantRow {
    * leaves every variant open.
    */
   forCause?: { fact: string; is: string };
+  /**
+   * The only cause this variant plays for: the cause's record must carry this
+   * fact with this value (a door's variants play at a door, where the knock's
+   * record says whether a petition circulates, never when someone else asks
+   * the player for the same thing).
+   */
+  onlyFor?: { fact: string; is: string };
   /** The variant's arc; absent for the family's own purpose, whose arc is in purpose-arcs.json. */
   arc?: unknown;
 }
@@ -294,15 +303,35 @@ export function favorsGiven(
 ): readonly { readonly voteId: string; readonly billId: string }[] {
   if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
   const api = coreAPI(core as CoreState);
+  // A favor is a yes the asker cast. The record's stance is the vote's side
+  // times the bill's own direction, so a no on a bill that repeals or cuts
+  // reads positive there: the roll call's own vote decides where it holds
+  // one, and the record's side only where it does not.
+  const castYes = (billId: string, position: number) => {
+    const cast = votesOn(api, billId).find(
+      (vote) =>
+        vote.memberId === askerId && !(vote as { override?: boolean }).override,
+    );
+    return cast ? cast.vote === "yes" : position > P.zero;
+  };
+  const seen = new Set<string>();
   return votesOf(api, askerId)
-    .filter(
-      (row) =>
-        row.date < before &&
-        row.billId !== exceptBillId &&
-        row.stance.position > P.zero &&
+    .filter((row) => {
+      if (
+        row.date >= before ||
+        row.billId === exceptBillId ||
+        seen.has(row.billId) ||
         (billOf(api, row.billId) as { sponsorId?: string } | undefined)
-          ?.sponsorId === askedId,
-    )
+          ?.sponsorId !== askedId ||
+        !castYes(row.billId, row.stance.position) ||
+        // Once the asked person gave a yes back, the two are square.
+        favorReturnedSince(api, askedId, askerId, row.date)
+      )
+        return false;
+      // A bill with several questions has a record row for each: one favor.
+      seen.add(row.billId);
+      return true;
+    })
     .reverse()
     .map((row) => ({ voteId: row.id, billId: row.billId }));
 }
@@ -321,6 +350,13 @@ export interface VariantInput {
   };
   /** The kind of place it is set at (the binding's setting). */
   readonly setting?: string;
+  /**
+   * A return visit (a second knock on the same door): the variant with the
+   * next highest score plays where it scores above nothing and no less than
+   * the family's plain arc, so a resident with two records raises the other
+   * one the second time.
+   */
+  readonly nextDown?: boolean;
 }
 
 export interface VariantScore {
@@ -664,6 +700,9 @@ function readOf(
   return clamp(value);
 }
 
+/** The variant that plays a family's plain arc when the family keeps its own. */
+const PLAIN_VARIANT = "plain";
+
 /**
  * Which variant of the scene's purpose the records give, or null when the
  * purpose has none (it plays its one arc).
@@ -694,6 +733,8 @@ export function chooseVariant(
     for (const term of row.terms ?? []) read(term.read);
   const scores: VariantScore[] = Object.entries(family.variants)
     .filter(([, row]) => {
+      if (row.onlyFor && input.cause.facts[row.onlyFor.fact] !== row.onlyFor.is)
+        return false;
       const named = row.forCause && input.cause.facts[row.forCause.fact];
       return !named || named === row.forCause!.is;
     })
@@ -711,7 +752,21 @@ export function chooseVariant(
       };
     })
     .sort((a, b) => b.score - a.score || a.variant.localeCompare(b.variant));
-  const best = scores[P.zero]!;
+  // A return visit plays the next one down only where it holds its own
+  // against the family's plain arc: a tie made by the first knock alone is
+  // not someone who knows the player.
+  // The plain arc is the family's own purpose, or the variant named "plain"
+  // where a family keeps its own plain arc (the door families, whose endings
+  // are the resident's answers).
+  const plain =
+    scores.find(
+      (row) => row.purpose === input.family || row.variant === PLAIN_VARIANT,
+    )?.score ?? P.zero;
+  const second = scores[P.one];
+  const best =
+    input.nextDown && second && second.score > P.zero && second.score >= plain
+      ? second
+      : scores[P.zero]!;
   const choice: VariantChoice = {
     variant: best.variant,
     purpose: best.purpose,

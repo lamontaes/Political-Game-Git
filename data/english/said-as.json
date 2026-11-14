@@ -88,7 +88,15 @@
     "council:presiding": {
       "before": "Council President",
       "again": "the council president"
-    }
+    },
+    "county-executive": {
+      "before": "County Executive",
+      "again": "the county executive"
+    },
+    "county-board": { "before": "Commissioner", "again": "the commissioner" },
+    "township-board": { "before": "Trustee", "again": "the trustee" },
+    "county-board:presiding": { "before": "Chair", "again": "the chair" },
+    "township-board:presiding": { "before": "Chair", "again": "the chair" }
   },
   "they": {
     "about": "Someone with no he or she on record is said again as they (src/english/said-as.ts wordPersonSlots), never by their role twice in one line (owner, Nov 12: \"There needs to be pronouns and titles\"). A line's verbs are written for one person, so the word after they (\"knows\" to \"know\") and a question's verb before it (\"does\" to \"do\") take the plural.",
@@ -135,6 +143,18 @@
     "title": "Works outside the town",
     "does": "works outside the town",
     "job": "a job out of town"
+  },
+  "clerkOffice": {
+    "about": "The place a counter line sends the player: the clerk's office, or for the head of a state agency the agency itself, never \"the head of the agency's office\".",
+    "said": "the {post}'s office"
+  },
+  "agencyHead": {
+    "about": "A person who heads a state agency is said by what they do, never by the agency's name as a job (#8520, third reader): \"head of the {agency}\". The agency's name is said without a form's parenthesis, and a name that is itself an office (\"Ohio Secretary of State\") is said as that office: the person is the office, and the place is the office's own.",
+    "said": "head of the {agency}",
+    "office": "the {agency}",
+    "ownOffice": "the {agency}'s office",
+    "namedAsOffice": ["Secretary of State"],
+    "copies": { "kept": "original", "dropped": "duplicate" }
   },
   "federal": {
     "about": "How talk says the federal government (src/director/conversation.ts pointSubject): by its capital, or plainly in a state that goes by the capital's name (composed-checks.json placeSaidOnlyAs), so \"whatever Washington says\" never means the state (owner, Nov 12: \"Which Washington?\").",

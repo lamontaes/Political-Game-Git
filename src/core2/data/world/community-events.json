@@ -1,0 +1,141 @@
+{
+  "about": "Annual community events by place type (size band). Read by the community calendar; decides no outcome by itself. Every row is SOURCED (quote from a fetched page) or ESTIMATED (basis and spread). Town-specific festivals are a later part.",
+  "placeTypes": [
+    {
+      "id": "hamlet",
+      "belowPopulation": 2500,
+      "tag": "TUNABLE",
+      "basis": "Census urban-area cutoff of 2,500; spread checked against the share of places each band holds."
+    },
+    {
+      "id": "small-town",
+      "belowPopulation": 12000,
+      "tag": "TUNABLE",
+      "basis": "Band where one high school and one fairground usually serve the whole place; spread 8,000 to 20,000."
+    },
+    {
+      "id": "town",
+      "belowPopulation": 60000,
+      "tag": "TUNABLE",
+      "basis": "Band of one to a few high schools; spread 40,000 to 100,000."
+    },
+    {
+      "id": "city",
+      "belowPopulation": 400000,
+      "tag": "TUNABLE",
+      "basis": "Band of many neighborhoods each holding its own events; spread 250,000 to 500,000."
+    },
+    {
+      "id": "big-city",
+      "belowPopulation": null,
+      "tag": "TUNABLE",
+      "basis": "Everything above the city band."
+    }
+  ],
+  "events": [
+    {
+      "id": "independence-day-parade",
+      "name": "Fourth of July parade and fireworks",
+      "rule": { "kind": "fixed-date", "month": 7, "day": 4 },
+      "types": ["hamlet", "small-town", "town", "city", "big-city"],
+      "scaleByType": {
+        "hamlet": 0.6,
+        "small-town": 0.5,
+        "town": 0.35,
+        "city": 0.2,
+        "big-city": 0.1
+      },
+      "scaleMeaning": "ESTIMATED share of residents who attend; spread 0.5x to 2x.",
+      "tag": "SOURCED",
+      "source": "Wikipedia, Independence Day (United States), fetched 2026-11-11: \"Parades are often attended in many towns and cities\" and \"Towns of all sizes hold celebrations.\""
+    },
+    {
+      "id": "homecoming",
+      "name": "High school homecoming game, parade and dance",
+      "rule": { "kind": "season", "from": [9, 20], "to": [10, 31] },
+      "types": ["hamlet", "small-town", "town", "city", "big-city"],
+      "scaleByType": {
+        "hamlet": 0.5,
+        "small-town": 0.4,
+        "town": 0.25,
+        "city": 0.1,
+        "big-city": 0.05
+      },
+      "scaleMeaning": "ESTIMATED share of residents who attend; spread 0.5x to 2x.",
+      "tag": "SOURCED",
+      "source": "Wikipedia, Homecoming, fetched 2026-11-11: held \"usually in late September or early October\"; \"A dance commonly follows the game\"; many celebrations include \"a parade featuring the school's choir, marching band and sports teams.\""
+    },
+    {
+      "id": "county-fair",
+      "name": "County or regional fair",
+      "rule": { "kind": "season", "from": [7, 15], "to": [9, 15], "days": 6 },
+      "types": ["hamlet", "small-town", "town"],
+      "scaleByType": { "hamlet": 0.8, "small-town": 0.9, "town": 0.5 },
+      "scaleMeaning": "ESTIMATED share of residents who attend; spread 0.5x to 2x.",
+      "tag": "ESTIMATED",
+      "source": "Wikipedia pages on agricultural shows and county fairs, fetched 2026-11-11, give no US season, length or count (they say only that these are the North American terms for agricultural shows), so the late-summer season and about six days are estimates from the common US fair calendar; spread: start any time from June to September, three to ten days. A researcher turns this to SOURCED from state fair association calendars."
+    },
+    {
+      "id": "harvest-festival",
+      "name": "Fall harvest or heritage festival",
+      "rule": { "kind": "season", "from": [9, 15], "to": [10, 31], "days": 2 },
+      "types": ["hamlet", "small-town", "town"],
+      "scaleByType": { "hamlet": 0.6, "small-town": 0.5, "town": 0.3 },
+      "scaleMeaning": "ESTIMATED share of residents who attend; spread 0.5x to 2x.",
+      "tag": "ESTIMATED",
+      "source": "Wikipedia, Harvest festival, fetched 2026-11-11, gives no North American date (only the Pilgrims' 1621 harvest thanksgiving), so the autumn season is an estimate; spread: September through November, one to three days."
+    },
+    {
+      "id": "holiday-parade",
+      "name": "Holiday parade and tree lighting",
+      "rule": { "kind": "season", "from": [11, 20], "to": [12, 15], "days": 1 },
+      "types": ["hamlet", "small-town", "town", "city", "big-city"],
+      "scaleByType": {
+        "hamlet": 0.5,
+        "small-town": 0.4,
+        "town": 0.3,
+        "city": 0.1,
+        "big-city": 0.05
+      },
+      "scaleMeaning": "ESTIMATED share of residents who attend; spread 0.5x to 2x.",
+      "tag": "ESTIMATED",
+      "source": "Wikipedia, Christmas parade, fetched 2026-11-11, shows parades held on or just after Thanksgiving (Philadelphia on the day, Peoria the day after); tree lightings are not covered, so the window is an estimate; spread: the weekend after Thanksgiving to the second week of December."
+    },
+    {
+      "id": "school-play",
+      "name": "School play or concert",
+      "rule": { "kind": "season", "from": [11, 1], "to": [5, 31], "days": 2 },
+      "types": ["hamlet", "small-town", "town", "city", "big-city"],
+      "scaleByType": {
+        "hamlet": 0.2,
+        "small-town": 0.15,
+        "town": 0.08,
+        "city": 0.03,
+        "big-city": 0.01
+      },
+      "scaleMeaning": "ESTIMATED share of residents who attend; spread 0.5x to 2x.",
+      "tag": "ESTIMATED",
+      "source": "No page fetched; ESTIMATED from the school year (fall term and spring term) with a spread of one to three performances a year per school."
+    },
+    {
+      "id": "church-supper",
+      "name": "Church supper or club meeting",
+      "rule": { "kind": "monthly", "week": 2 },
+      "types": ["hamlet", "small-town", "town"],
+      "scaleByType": { "hamlet": 0.15, "small-town": 0.1, "town": 0.05 },
+      "scaleMeaning": "ESTIMATED share of residents who attend; spread 0.5x to 2x.",
+      "tag": "ESTIMATED",
+      "source": "No page fetched; ESTIMATED as one gathering a month; spread: monthly to quarterly."
+    },
+    {
+      "id": "neighborhood-block-party",
+      "name": "Neighborhood festival or block party",
+      "rule": { "kind": "season", "from": [5, 15], "to": [9, 15], "days": 1 },
+      "types": ["city", "big-city"],
+      "scaleByType": { "city": 0.05, "big-city": 0.02 },
+      "scaleMeaning": "ESTIMATED share of residents who attend; spread 0.5x to 2x.",
+      "tag": "ESTIMATED",
+      "source": "No page fetched; ESTIMATED as warm-season weekends in places large enough to hold many neighborhoods; spread: May to October."
+    }
+  ]
+}

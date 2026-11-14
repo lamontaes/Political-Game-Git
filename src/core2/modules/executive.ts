@@ -271,7 +271,7 @@ export function townForm(
  * runs its place as a council does. Elected posts (a sheriff, the county executive) are seats,
  * not appointments.
  */
-function townPosts(api: CoreAPI): readonly PostSpec[] {
+export function townPosts(api: CoreAPI): readonly PostSpec[] {
   const seats = townSeats(api);
   const held = (kind: string) =>
     seats.some((s) => s.office.kind === kind && s.holder);
@@ -554,6 +554,14 @@ function townPostInput(
         known:
           !!appointer?.personId &&
           relationships.has(pairKey(appointer.personId, p.id)),
+        ...(appointer?.personId &&
+        relationships.has(pairKey(appointer.personId, p.id))
+          ? {
+              knownRecordId: relationships.get(
+                pairKey(appointer.personId, p.id),
+              )!.id,
+            }
+          : {}),
       })),
       ...residents.map(({ resident }) => ({
         id: resident.id,

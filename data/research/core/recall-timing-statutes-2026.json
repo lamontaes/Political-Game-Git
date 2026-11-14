@@ -8,7 +8,7 @@
   "geography": "All 56 places, keyed by postal code",
   "sourceUrl": "https://www.akleg.gov/basis/statutes.asp",
   "retrievedOn": "2026-10-23",
-  "limits": "Statute text only, no case law. Places whose rule pack gives no petitioned local recall carry no bar. \"encoded\" is the row written to src/core2/data/campaigns/recall-bars.json (days; six calendar months stored as 182 days and two as 61, ESTIMATED with the 181 to 184 and 59 to 62 days those months span, SG-GOV-recall-bars-calendar-months); scripts/research/check-core-research.ts fails when the two differ. \"afterFailed\" is what each statute says about a later petition; the recall engine still applies one rule everywhere (none again in the term after one failed) until the builder item gov-recall-bars-election-clock reads it.",
+  "limits": "Statute text only, no case law. Places whose rule pack gives no petitioned local recall carry no bar. \"encoded\" is the row written to src/core2/data/campaigns/recall-bars.json (days, calendar months, a fraction of the term, a stretch before the seat's next election or filing deadline, and the bar after a failed recall); scripts/research/check-core-research.ts fails when the two differ. \"afterFailed\" is what each statute says about a later petition; where a statute says nothing the recall engine bars another petition for the rest of the term (an estimate).",
   "places": {
     "AL": {
       "localRecall": false,
@@ -27,7 +27,10 @@
       ],
       "encoded": {
         "openingDays": 120,
-        "closingDays": 180
+        "closingDays": 180,
+        "afterFailed": {
+          "months": 6
+        }
       },
       "afterFailed": "six months after a failed recall election or a petition rejected as insufficient"
     },
@@ -69,30 +72,25 @@
       ],
       "encoded": {
         "openingDays": 365,
-        "closingDays": 365
+        "closingDays": 365,
+        "afterFailed": {
+          "days": 365
+        }
       },
       "afterFailed": "365 days after a recall election the officer won",
       "note": "An Advisory Neighborhood Commissioner has six-month bars instead; the game's D.C. offices are the council and the mayor."
     },
     "FL": {
       "localRecall": true,
-      "tag": "ESTIMATED",
+      "tag": "SOURCED",
       "statute": "Fla. Stat. 100.361(8)",
       "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0100/Sections/0100.361.html",
       "quotes": [
         "No petition to recall any member of the governing body of a municipality shall be filed until the member has served one-fourth of his or her term of office."
       ],
       "encoded": {
-        "openingDays": 183,
-        "longTermOpeningDays": 365,
-        "longTermAboveYears": 2
+        "openingTermFraction": [1, 4]
       },
-      "fractionOfTerm": {
-        "of": [1, 4],
-        "termYears": [2, 3, 4]
-      },
-      "spread": [182, 365],
-      "estimatedFrom": "The statute bars a petition until one-fourth of the term is served: term years x 365 / 4 days, which is 182.5 days of a two-year term, 273.75 of a three-year term and 365 of a four-year term. The engine's day count is two values, 183 days for a term of two years or less and 365 for a longer one (longTermOpeningDays), so it equals the statute for a two-year term (within half a day) and a four-year term, is 91 days long (365 against 273.75) for a three-year term, and would be 183 days short (365 against 547.5) for a six-year term. The spread, 182 to 365 days, is the statute's bar for terms of 2, 3 and 4 years, the lengths the game reads for local seats: the 18 seat terms in src/core2/gov-rules/municipal-governments.json are all 2, 3 or 4 years, and the modal council term (ICMA 2018, 63.6% of at-large councils), the default mayor term and the state's county schedule (data/research/government/county-election-schedule-by-state.json) are each 4 years. No compiled charter reading for this state carries a term length, so today its council, mayor and county commission seats take four years, where the engine is exact; the 91-day gap appears for a three-year term (13.1% of at-large councils in the ICMA 2018 table). Registered as SG-GOV-recall-bars-term-fraction; the builder item gov-recall-bars-fraction-of-term encodes a fraction-of-term bar.",
       "afterFailed": "not stated in the sections read"
     },
     "GA": {
@@ -141,7 +139,7 @@
     },
     "LA": {
       "localRecall": true,
-      "tag": "ESTIMATED",
+      "tag": "SOURCED",
       "statute": "La. R.S. 18:1300.1",
       "url": "https://www.legis.la.gov/Legis/Law.aspx?d=81315",
       "quotes": [
@@ -149,17 +147,9 @@
       ],
       "encoded": {
         "openingDays": 0,
-        "closingDays": 182
+        "closingMonths": 6
       },
-      "encodingNote": "No bar at the start of the term in the section read; six months taken as 182 days.",
-      "afterFailed": "not stated in the sections read",
-      "estimatedFrom": "The statute counts six calendar months before the term ends; the bar table holds days (closingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term ending January 1, six months before is July 1, 184 days earlier, so 182 days admits two days the statute bars. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
-      "spread": [181, 184],
-      "stopgapId": "SG-GOV-recall-bars-calendar-months",
-      "calendarMonths": {
-        "field": "closingDays",
-        "months": 6
-      }
+      "afterFailed": "not stated in the sections read"
     },
     "ME": {
       "localRecall": false,
@@ -199,7 +189,7 @@
     },
     "MT": {
       "localRecall": true,
-      "tag": "ESTIMATED",
+      "tag": "SOURCED",
       "statute": "Mont. Code Ann. 2-16-613 (2025)",
       "url": "https://leg.mt.gov/bills/mca/title_0020/chapter_0160/part_0060/section_0130/0020-0160-0060-0130.html",
       "quotes": [
@@ -207,43 +197,36 @@
         "A recall petition may not be filed against an officer for whom a recall election has been held for a period of 2 years during the officer's term of office unless the state or political subdivision or subdivisions financing the recall election are first reimbursed for all expenses of the preceding recall election."
       ],
       "encoded": {
-        "openingDays": 61,
-        "closingDays": 0
+        "openingMonths": 2,
+        "afterFailed": {
+          "months": 24
+        }
       },
-      "encodingNote": "Two months taken as 61 days.",
-      "afterFailed": "two years after a recall election, unless its cost is reimbursed",
-      "estimatedFrom": "The statute counts two calendar months after the term begins; the bar table holds days (openingDays), so the row stores 61. Two calendar months span 59 to 62 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 61 days is up to 2 days longer or 1 day shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on March 1, 59 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
-      "spread": [59, 62],
-      "stopgapId": "SG-GOV-recall-bars-calendar-months",
-      "calendarMonths": {
-        "field": "openingDays",
-        "months": 2
-      }
+      "afterFailed": "two years after a recall election, unless its cost is reimbursed"
     },
     "NE": {
       "localRecall": true,
-      "tag": "ESTIMATED",
+      "tag": "SOURCED",
       "statute": "Neb. Rev. Stat. 32-1309",
       "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-1309",
       "quotes": [
         "No recall petition filing form shall be filed against an elected official within twelve months after a recall election has failed to remove him or her from office or within six months after the beginning of his or her term of office or within six months prior to the incumbent filing deadline for the office."
       ],
       "encoded": {
-        "openingDays": 182
+        "openingMonths": 6,
+        "closingBeforeElection": {
+          "from": "filing-deadline",
+          "months": 6
+        },
+        "afterFailed": {
+          "months": 12
+        }
       },
-      "encodingNote": "Six months taken as 182 days. The closing bar counts back from the incumbent filing deadline, not the term's end; the bar table holds days before the term's end only, so it is not encoded (builder item gov-recall-bars-election-clock).",
-      "afterFailed": "twelve months after a failed recall election",
-      "estimatedFrom": "The statute counts six calendar months after the term begins; the bar table holds days (openingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on July 1, 181 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
-      "spread": [181, 184],
-      "stopgapId": "SG-GOV-recall-bars-calendar-months",
-      "calendarMonths": {
-        "field": "openingDays",
-        "months": 6
-      }
+      "afterFailed": "twelve months after a failed recall election"
     },
     "NV": {
       "localRecall": true,
-      "tag": "ESTIMATED",
+      "tag": "SOURCED",
       "statute": "Nev. Const. art. 2, sec. 9",
       "url": "https://www.leg.state.nv.us/Const/NvConst.html",
       "quotes": [
@@ -251,17 +234,9 @@
         "After one such petition and special election, no further recall petition shall be filed against the same officer during the term for which he was elected, unless such further petitioners shall pay into the public treasury from which the expenses of said special election have been paid, the whole amount paid out of said public treasury as expenses for the preceding special election."
       ],
       "encoded": {
-        "openingDays": 182
+        "openingMonths": 6
       },
-      "encodingNote": "Six months taken as 182 days.",
-      "afterFailed": "rest of the term after a recall election, unless the next petitioners pay its cost",
-      "estimatedFrom": "The statute counts six calendar months after the term begins; the bar table holds days (openingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on July 1, 181 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
-      "spread": [181, 184],
-      "stopgapId": "SG-GOV-recall-bars-calendar-months",
-      "calendarMonths": {
-        "field": "openingDays",
-        "months": 6
-      }
+      "afterFailed": "rest of the term after a recall election, unless the next petitioners pay its cost"
     },
     "NH": {
       "localRecall": false,
@@ -286,7 +261,7 @@
     },
     "ND": {
       "localRecall": true,
-      "tag": "ESTIMATED",
+      "tag": "SOURCED",
       "statute": "N.D. Cent. Code 44-08-21.1(3), (6)",
       "url": "https://www.ndlegis.gov/cencode/t44c08.pdf",
       "quotes": [
@@ -295,10 +270,12 @@
       ],
       "encoded": {
         "openingDays": 0,
-        "closingDays": 465
+        "closingBeforeElection": {
+          "from": "election",
+          "days": 365,
+          "plusRecallElection": true
+        }
       },
-      "spread": [465, 500],
-      "estimatedFrom": "No bar at the start of the term. The end bar falls on the recall election, held 95 to 105 days after the petition is certified, which must be more than a year before the next regular election: a petition filed fewer than about 365 + 100 = 465 days before that election cannot be voted on. The bar table counts days before the term's end, which comes some weeks after that election, so 465 is the low end and 500 allows for the gap.",
       "afterFailed": "not twice in the same term"
     },
     "OH": {
@@ -363,7 +340,7 @@
     },
     "WA": {
       "localRecall": true,
-      "tag": "ESTIMATED",
+      "tag": "SOURCED",
       "statute": "RCW 29A.56.150(1)",
       "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.56.150",
       "quotes": [
@@ -371,10 +348,11 @@
       ],
       "encoded": {
         "openingDays": 0,
-        "closingDays": 237
+        "closingBeforeElection": {
+          "from": "election",
+          "months": 6
+        }
       },
-      "spread": [182, 245],
-      "estimatedFrom": "The closing bar counts back six months (182 days) from the November general election; local terms begin in January, about 55 days later, so about 237 days before the term's end. No bar at the start of the term in the section read (the constitution's recall sections were not read).",
       "afterFailed": "not stated in the sections read"
     },
     "WV": {

@@ -6,7 +6,13 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { countryLaw, startingLawReader } from "./country-law";
+import {
+  countryLaw,
+  federalSpendingReader,
+  startingLawReader,
+} from "./country-law";
+import { publishedStateStake } from "./budget-stakes";
+import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import {
   COUNTRY_AGE_BANDS,
   COUNTRY_SECTORS,
@@ -72,7 +78,25 @@ type Change = (
   answer: LawInForceAnswer,
 ) => LawInForceAnswer;
 const read = startingLawReader(start);
-const lawOf = (change?: Change, index?: TaxIndex) =>
+/** The federal budget in force: the FY 2025 outlays, in dollars, with any line changed by a share. */
+const federalOf = (raised: Readonly<Record<string, number>> = {}) =>
+  federalSpendingReader(
+    {
+      id: Object.keys(raised).length
+        ? "budget:test:raised"
+        : "budget:test:base",
+      spendingMinor: Object.fromEntries(
+        Object.entries(federalBudget.outlays).map(([line, dollars]) => [
+          line,
+          dollars * (1 + (raised[line] ?? 0)),
+        ]),
+      ),
+    },
+    (stateKey, line) => publishedStateStake(stateKey, `budget-line:${line}`),
+    1,
+  );
+const BASE_FEDERAL = federalOf();
+const lawOf = (change?: Change, index?: TaxIndex, federal = BASE_FEDERAL) =>
   countryLaw(
     change
       ? (stateKey, series) => change(stateKey, series, read(stateKey, series))
@@ -80,6 +104,7 @@ const lawOf = (change?: Change, index?: TaxIndex) =>
     p,
     start,
     index,
+    federal,
   );
 /** A level's income tax set to zero, in one state or in all. */
 const noIncomeTax =
@@ -106,6 +131,8 @@ function run(
   months: number,
   options: {
     change?: Change;
+    /** The federal budget in force from the first month on. */
+    federal?: ReturnType<typeof federalOf>;
     jobsLost?: (state: CountryState, month: number) => number;
     rate?: (month: number) => number;
     each?: (tier: CountryTier, row: CountryMonth, before: CountryTier) => void;
@@ -141,7 +168,7 @@ function run(
     const row = stepCountry(
       tier,
       {
-        law: lawOf(options.change, index),
+        law: lawOf(options.change, index, options.federal),
         policyRate: options.rate?.(month) ?? RATE,
         jobsLost: options.jobsLost
           ? (state) => options.jobsLost!(state, month)
@@ -304,6 +331,37 @@ describe(`the country tier's month: ${where}`, () => {
       b = run(24);
     expect(a.months, where).toEqual(b.months);
   });
+
+  it("a federal budget line raised a tenth reaches every state's cells by the state's stake, and the nation's output and jobs follow", () => {
+    const base = run(12);
+    const twin = run(12, { federal: federalOf({ socialSecurity: 0.1 }) });
+    const own = (r: Run) => stateOf(r.tier, picked.usps);
+    const paid = (r: Run) => own(r).whatMoved.at(-1)!.federal;
+    const line = (r: Run) =>
+      paid(r).lines.find((row) => row.line === "socialSecurity")!.dollars;
+    process.stderr.write(
+      `${where}: Social Security in ${picked.usps} $${Math.round(line(base) / 1e6)}m -> $${Math.round(line(twin) / 1e6)}m a month; benefits $${Math.round(paid(base).transfers / 1e6)}m -> $${Math.round(paid(twin).transfers / 1e6)}m; national output ${base.months.at(-1)!.realOutput.toFixed(0)} -> ${twin.months.at(-1)!.realOutput.toFixed(0)}, unemployment ${base.months.at(-1)!.unemploymentPct.toFixed(3)} -> ${twin.months.at(-1)!.unemploymentPct.toFixed(3)}` +
+        "\n",
+    );
+    // The line read is the budget row's, and the state's benefits follow it.
+    expect(paid(twin).budgetId, where).toBe("budget:test:raised");
+    expect(line(twin), where).toBeGreaterThan(line(base));
+    // Every state's households were paid more, as each state's stake in the line has it.
+    for (const state of twin.tier.states)
+      expect(
+        state.whatMoved.at(-1)!.federal.transfers,
+        `${where}: ${state.usps}`,
+      ).toBeGreaterThan(
+        stateOf(base.tier, state.usps).whatMoved.at(-1)!.federal.transfers,
+      );
+    // The nation's row, the states' sum, follows.
+    expect(twin.months.at(-1)!.realOutput, where).not.toBe(
+      base.months.at(-1)!.realOutput,
+    );
+    expect(twin.months.at(-1)!.unemploymentPct, where).not.toBe(
+      base.months.at(-1)!.unemploymentPct,
+    );
+  }, 120_000);
 
   it("a state that ends its income tax pays its workers more, takes in less and budgets less; a state with none is unchanged", () => {
     const base = run(36);
