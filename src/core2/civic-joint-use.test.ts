@@ -7,7 +7,8 @@
  *
  * Pinned: seed joint-use-1. Alexander City, Alabama (0101132), whose one high
  * school's district has an agreement in that seed, and Adamsville, Alabama
- * (0100460), whose district has none.
+ * (0100460), whose district has none. Edgar, Wisconsin (5522550), seed
+ * edgar-petition-1, where people organize at an association's hall in year 1.
  */
 import { describe, expect, it } from "vitest";
 import directoryJson from "../../data/research/places/local-institutions.json" with { type: "json" };
@@ -17,7 +18,10 @@ import {
   districtHasJointUse,
   enrichCivicInputs,
 } from "./civic-inputs";
+import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
 import { parameter as p } from "./parameters";
 import { realLocalities } from "./places";
 import { buildPopulation } from "./population";
@@ -103,4 +107,39 @@ describe(`school meeting rooms follow the district's joint use agreement, seed $
           row.name,
         ).toBe(row.facts!.meetingAccess);
   }, 240_000);
+
+  it("Edgar, Wisconsin: everyone who organizes at an association's hall in a played year is one of its members or staff", () => {
+    const { core } = buildBenchWorld("edgar-petition-1", gameStartDate(), {
+      twoLevel: true,
+      placeKey: "5522550",
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 365));
+    const held = [
+      ...(core.logByKind.get("initiative.organizing-started") ?? []),
+    ]
+      .map((id) => core.durableLog.get(id as never)!)
+      .map((event) => ({
+        event,
+        place: core.publicOrganizations.get(
+          String(event.facts!.organizationId),
+        )!,
+      }));
+    const halls = held.filter(
+      ({ place }) => place.facts?.meetingAccess === "members",
+    );
+    expect(halls.length, "meetings at a hall").toBeGreaterThan(0);
+    for (const { event, place } of halls) {
+      const organizer = event.personIds[0]!;
+      expect(
+        core.memberships.has(`${organizer}:${place.id}`) ||
+          !!place.staff?.some((row) => row.personId === organizer),
+        `${event.id} at ${place.name}`,
+      ).toBe(true);
+    }
+    for (const { place, event } of held)
+      expect(place.kind, event.id).not.toBe("institution");
+    process.stdout.write(
+      `ORGANIZING Edgar WI: ${held.length} meetings, ${halls.length} at a hall by its members\n`,
+    );
+  }, 300_000);
 });
