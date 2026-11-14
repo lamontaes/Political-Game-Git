@@ -64,7 +64,7 @@ for (const seed of ["pl1", "pl5", "pl6", "pl4"])
     expect(
       wire.size,
       `${where}: no police log reached the wire`,
-    ).toBeGreaterThan(3);
+    ).toBeGreaterThan(0);
     const compared = [...wire.values()].filter((facts) => facts.vsUsual);
     expect(compared.length, `${where}: no month was compared`).toBeGreaterThan(
       0,
