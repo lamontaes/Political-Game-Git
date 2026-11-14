@@ -120,6 +120,12 @@ export const facts: Record<string, Fact> = {
   margin: fact("about 60 votes"),
   signatures: fact("1,250"),
   due: fact("March 5"),
+  // Asking someone to serve (purpose-scene's serve facts): the asked person's
+  // first name and seat, and one reason each way, so both answers can be worded.
+  "their-first": fact("Pat"),
+  "their-office": fact("state senator"),
+  "reason-yes-trust": fact("yes"),
+  "reason-own-seat": fact("yes"),
 };
 // The engine is tested the way the grading page composes, with every part in,
 // even the ones the owner rejected; "plays every purpose in play" checks play.
