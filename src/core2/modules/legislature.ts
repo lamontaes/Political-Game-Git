@@ -5787,6 +5787,47 @@ function executiveActionRecord(
   });
 }
 
+/**
+ * How many of a body's whole membership an override takes: two thirds (not
+ * of those voting) by default, the state's own share for a mayor's veto,
+ * plus one where its law says so.
+ */
+function overrideNeeded(
+  mayorRule: ReturnType<typeof mayorVeto> | null,
+): (members: number) => number {
+  const share =
+    mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
+  return (n) =>
+    mayorRule?.plusOne
+      ? Math.floor(n * share) + 1
+      : Math.ceil(n * share - 1e-9);
+}
+
+/**
+ * How a bill waiting on the executive's desk passed, by the narrowest of its
+ * chambers' recorded tallies: with no vote against it, with enough yes votes
+ * in every chamber to override a veto, or short of that. Null for a bill with
+ * no tallies on record.
+ */
+export function deskPassage(
+  api: CoreAPI,
+  billId: string,
+): "unopposed" | "veto-proof" | "short-of-override" | null {
+  const bill = table(api, "bills").get(billId) as unknown as
+    | (BillRow & { tallies?: { yes: number; no: number; members: number }[] })
+    | undefined;
+  const tallies = bill?.tallies ?? [];
+  if (!bill || !tallies.length) return null;
+  if (tallies.every((t) => t.no === 0)) return "unopposed";
+  const office = executiveOf(api, bill.bodyOfficeId).office;
+  const needed = overrideNeeded(
+    office?.kind === "mayor" ? mayorVeto(api) : null,
+  );
+  return tallies.every((t) => t.yes >= needed(t.members))
+    ? "veto-proof"
+    : "short-of-override";
+}
+
 /** The vote to override a veto, run and put on the public record (the same for any executive and body). */
 function runOverride(
   api: CoreAPI,
@@ -5795,17 +5836,11 @@ function runOverride(
   executive: NonNullable<ReturnType<typeof executiveOf>["term"]>,
   mayorRule: ReturnType<typeof mayorVeto> | null,
 ): ReturnType<typeof overrideVote> {
-  // Two thirds of each body's whole membership (not of those voting).
-  const share =
-    mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
   const override = overrideVote(
     api,
     bill,
     memberSide(api, key, executive.party),
-    (n) =>
-      mayorRule?.plusOne
-        ? Math.floor(n * share) + 1
-        : Math.ceil(n * share - 1e-9),
+    overrideNeeded(mayorRule),
   );
   // The override vote is a public record of its own, beside the veto's.
   api.emit({

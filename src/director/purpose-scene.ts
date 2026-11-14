@@ -15,6 +15,7 @@ import { meetingsOn } from "../core2/modules/interest-groups";
 import {
   LEGISLATURE_MODULE_ID,
   billOf,
+  deskPassage,
   favorWorth,
   floorDateOf,
   memberPosition,
@@ -37,7 +38,12 @@ import {
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { billNameFor, spokenDesignation } from "../english/bill-names";
+import {
+  billNameFor,
+  billTitleOf,
+  billTitleSaid,
+  spokenDesignation,
+} from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
@@ -1651,18 +1657,45 @@ function deskFacts(
   const api = coreAPI(core as CoreState);
   const bill = billOf(api, said.billId);
   if (!bill) return;
-  const votes = votesOn(api, bill.id);
-  const yes = votes.filter((row) => row.vote === "yes").length;
-  const no = votes.filter((row) => row.vote === "no").length;
-  // The roll, for and against; the bank's lines join them.
-  if (yes + no > P.zero) {
-    const roll = (text: string) => ({
-      text,
+  // The bill as the visitor says it: by its name and what it does, never by
+  // its number alone (the number sits on the desk's paper).
+  const title = billTitleOf(bill);
+  if (title) {
+    facts.bill = {
+      text: billTitleSaid(title.title),
       sourceRecordIds: [causeId, bill.id],
-    });
-    facts.roll = roll("yes");
-    facts.ayes = roll(String(yes));
-    facts.nays = roll(String(no));
+    };
+    facts.purpose = { text: title.purpose, sourceRecordIds: [bill.id] };
+  }
+  // How it passed, said as people say it, never as a count (owner, Nov 14
+  // 00:50Z; Words lead rule 50): nobody against it, enough to override a
+  // veto in every chamber, or short of that, by the chambers' own tallies.
+  const passage = deskPassage(api, bill.id);
+  if (passage)
+    facts[passage] = { text: "yes", sourceRecordIds: [causeId, bill.id] };
+  // Why the members who voted no did, from the reasons their positions on
+  // record weigh most against it: their voters, the groups that pressed
+  // them, their party, or their own views (rule 93: the other side's reason
+  // on record; with nobody against it there is none to tell).
+  const against = votesOn(api, bill.id).filter((row) => row.vote === "no");
+  if (against.length)
+    facts.opposed = { text: "yes", sourceRecordIds: [causeId, bill.id] };
+  if (against.length) {
+    const weight = { voters: 0, groups: 0, party: 0, views: 0 };
+    for (const { position } of against) {
+      weight.voters += position.constituents;
+      weight.groups += position.lobby;
+      weight.party += (position.party ?? 0) + (position.wing ?? 0);
+      weight.views += position.views + position.trait + position.consistency;
+    }
+    const [reason, most] = Object.entries(weight).sort(
+      (a, b) => a[1] - b[1] || a[0].localeCompare(b[0]),
+    )[0]!;
+    if (most < P.zero)
+      facts[`opposed-${reason}`] = {
+        text: "yes",
+        sourceRecordIds: [causeId, bill.id],
+      };
   }
   if (bill.sponsorId === visitorId) {
     facts.for = {
@@ -1671,12 +1704,12 @@ function deskFacts(
     };
     return;
   }
-  const against = meetingsOn(api, bill.id)
+  const lobbied = meetingsOn(api, bill.id)
     .filter(
       (row) => row.lobbyistId === visitorId && (row.side ?? -P.one) < P.zero,
     )
     .sort((a, b) => b.annualCostMinor - a.annualCostMinor);
-  const [largest] = against;
+  const [largest] = lobbied;
   if (!largest) return;
   facts.against = {
     text: said.number ?? bill.number,
