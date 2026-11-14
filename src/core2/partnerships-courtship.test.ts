@@ -123,8 +123,9 @@ describe("the player's own courtship acts (Pulaski, Ohio)", () => {
     // The single nearest the player's age (Samantha, born 2001, at this
     // seed); first asked cold, then after twenty evenings spent together
     // (the visits the card's Visit act writes, as the closeness engine's own
-    // "visit" contact). Asked at the first rise in closeness, her answer is
-    // still no: the tie has not yet caught up with the single she knows best.
+    // "visit" contact). Asked at the first rise in closeness, she still says
+    // no, reason age-gap: a single she knows fits her age better, and the
+    // player's tie is not yet enough to outweigh it. Twenty evenings are.
     const other = [...singles].sort(
       (a, b) =>
         Math.abs(Date.parse(a.birthDate) - Date.parse(born)) -
