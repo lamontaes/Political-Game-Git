@@ -9776,7 +9776,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "guarded",
@@ -68713,7 +68714,7 @@
           "role": "asker",
           "purpose": "confirm-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["your-promise"]
+          "requiresFacts": ["your-promise", "vote-today"]
         }
       ],
       "bearing": "calm",
@@ -74114,7 +74115,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "bribe-offer",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["read-public"]
         }
       ],
       "bearing": "guarded",
@@ -107305,7 +107307,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -107401,7 +107404,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -107497,7 +107501,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "guarded",
@@ -125223,7 +125228,8 @@
           "move": "ask",
           "role": "asker",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -126159,7 +126165,7 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["bill", "read-scandal"]
+          "requiresFacts": ["bill", "read-scandal", "vote-held"]
         }
       ],
       "bearing": "braced",
@@ -126234,7 +126240,7 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["bill", "read-scandal"]
+          "requiresFacts": ["bill", "read-scandal", "vote-held"]
         }
       ],
       "bearing": "braced",
@@ -128317,7 +128323,7 @@
           "role": "asker",
           "purpose": "ask-vote.whip",
           "key": "vote-wanted",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill", "read-same-party"]
         }
       ],
       "bearing": "braced",
@@ -128342,7 +128348,7 @@
           "role": "asker",
           "purpose": "ask-vote.whip",
           "key": "vote-wanted",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill", "read-holds-post"]
         }
       ],
       "bearing": "calm",
@@ -129471,7 +129477,7 @@
           "role": "asker",
           "purpose": "ask-vote.trade",
           "key": "vote-wanted",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill", "read-favor-given"]
         }
       ],
       "bearing": "calm",
@@ -132759,7 +132765,8 @@
           "move": "tell",
           "role": "asker",
           "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
+          "key": "moving-goodbye",
+          "excludesFacts": ["same-home"]
         }
       ],
       "bearing": "tender",
@@ -132857,7 +132864,7 @@
           "role": "asker",
           "purpose": "moving-goodbye",
           "key": "moving-goodbye",
-          "requiresFacts": ["destination"]
+          "requiresFacts": ["destination", "companion"]
         }
       ],
       "bearing": "solemn",
@@ -132882,7 +132889,8 @@
           "role": "asker",
           "purpose": "moving-goodbye",
           "key": "moving-goodbye",
-          "requiresFacts": ["destination"]
+          "requiresFacts": ["destination"],
+          "excludesFacts": ["same-home"]
         }
       ],
       "bearing": "warm",
@@ -139053,7 +139061,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "introduction",
-          "key": "arrival"
+          "key": "arrival",
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "curious",
@@ -144341,7 +144350,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "rescue-ask",
-          "key": "threat"
+          "key": "threat",
+          "requiresFacts": ["kin"]
         }
       ],
       "bearing": "calm",
