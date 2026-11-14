@@ -24,7 +24,20 @@
         [55, 64, 0.09],
         [65, 84, 0.03]
       ],
-      "female": { "share": 0.08, "spread": { "low": 0.05, "high": 0.12 } }
+      "female": {
+        "share": 0.08,
+        "spread": {
+          "low": 0.05,
+          "high": 0.12
+        }
+      },
+      "stay": {
+        "years": 3,
+        "spread": {
+          "low": 2,
+          "high": 5
+        }
+      }
     },
     "juvenile": {
       "institutional": true,
@@ -34,7 +47,20 @@
         [15, 17, 0.7],
         [18, 20, 0.15]
       ],
-      "female": { "share": 0.15, "spread": { "low": 0.1, "high": 0.25 } }
+      "female": {
+        "share": 0.15,
+        "spread": {
+          "low": 0.1,
+          "high": 0.25
+        }
+      },
+      "stay": {
+        "years": 1,
+        "spread": {
+          "low": 0.5,
+          "high": 2
+        }
+      }
     },
     "nursing": {
       "institutional": true,
@@ -45,7 +71,13 @@
         [75, 84, 0.28],
         [85, 100, 0.43]
       ],
-      "female": { "share": 0.62, "spread": { "low": 0.55, "high": 0.7 } }
+      "female": {
+        "share": 0.62,
+        "spread": {
+          "low": 0.55,
+          "high": 0.7
+        }
+      }
     },
     "otherInstitutional": {
       "institutional": true,
@@ -55,7 +87,20 @@
         [45, 64, 0.35],
         [65, 89, 0.3]
       ],
-      "female": { "share": 0.4, "spread": { "low": 0.3, "high": 0.5 } }
+      "female": {
+        "share": 0.4,
+        "spread": {
+          "low": 0.3,
+          "high": 0.5
+        }
+      },
+      "stay": {
+        "years": 2,
+        "spread": {
+          "low": 1,
+          "high": 4
+        }
+      }
     },
     "college": {
       "institutional": false,
@@ -66,7 +111,22 @@
         [22, 24, 0.08],
         [25, 34, 0.02]
       ],
-      "female": { "share": 0.55, "spread": { "low": 0.45, "high": 0.6 } }
+      "female": {
+        "share": 0.55,
+        "spread": {
+          "low": 0.45,
+          "high": 0.6
+        }
+      },
+      "stay": {
+        "years": 4,
+        "spread": {
+          "low": 3,
+          "high": 6
+        },
+        "leaveMonths": [5],
+        "intakeMonths": [8]
+      }
     },
     "military": {
       "institutional": false,
@@ -77,7 +137,20 @@
         [25, 34, 0.25],
         [35, 44, 0.05]
       ],
-      "female": { "share": 0.15, "spread": { "low": 0.1, "high": 0.2 } }
+      "female": {
+        "share": 0.15,
+        "spread": {
+          "low": 0.1,
+          "high": 0.2
+        }
+      },
+      "stay": {
+        "years": 4,
+        "spread": {
+          "low": 3,
+          "high": 6
+        }
+      }
     },
     "otherNoninstitutional": {
       "institutional": false,
@@ -88,7 +161,25 @@
         [45, 64, 0.3],
         [65, 89, 0.2]
       ],
-      "female": { "share": 0.4, "spread": { "low": 0.3, "high": 0.5 } }
+      "female": {
+        "share": 0.4,
+        "spread": {
+          "low": 0.3,
+          "high": 0.5
+        }
+      },
+      "stay": {
+        "years": 1.5,
+        "spread": {
+          "low": 1,
+          "high": 3
+        }
+      }
     }
+  },
+  "stay": {
+    "tag": "TUNABLE",
+    "citation": "How long a resident of each type stays before the institution discharges them, in years, and the months of its calendar (a college graduates its class in May and admits the next in August). Set from the shape of each type (a degree takes about four years, an enlistment about four, a juvenile placement about a year, a prison term a few years) and checked against the spread beside each value, never against one place's count. A nursing home has none: its residents leave when they die, and the room refills (admitToRooms in src/core2/modules/counted-moves.ts).",
+    "estimatedFrom": "Each stay is read against its own low and high; turnover is a rate of the beds, never a chance for one resident."
   }
 }
