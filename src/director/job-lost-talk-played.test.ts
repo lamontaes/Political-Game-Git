@@ -116,8 +116,8 @@ describe("a relative's closed employer is told as a lost job", () => {
           expect(back.length, `${name}: "${choice.text}" is answered`).toBe(1);
           expect(back[0]!.text).not.toContain(employer);
         }
-        // A figure under ten is said in words at the start of a line.
-        expect(talk.lines[told]!.text).not.toMatch(/^[1-9] /);
+        // A figure opening a line is said in words (up to ninety-nine).
+        expect(talk.lines[told]!.text).not.toMatch(/^\d/);
         // The telling said they are looking, so "Looking yet?" is not offered.
         if (talk.lines[told]!.wording?.facts.includes("seeking"))
           expect(talk.choices.map((choice) => choice.text)).not.toContain(

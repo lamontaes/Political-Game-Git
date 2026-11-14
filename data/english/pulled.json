@@ -15,6 +15,9 @@
     "conversation.farewell-leave-bye.well-good-luck": ["no-filler"],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
     "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
+    "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right": [
+      "alright-in-dialogue"
+    ],
     "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
       "no-filler"
     ],

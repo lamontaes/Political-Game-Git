@@ -41418,29 +41418,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-say-core.years-years-at-employer-and-they-let-me-go-when",
-      "move": "job-lost-say-core",
-      "kind": "spoken",
-      "text": "{years} years at {employer}, and they let me go {when}.",
-      "uses": [
-        {
-          "move": "job-lost-say-core",
-          "subject": "job-lost-say",
-          "role": "core",
-          "requiresFacts": ["layoff", "years"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.job-lost-say-core.employer-closed-when-and-i-m-out-of-work",
       "move": "job-lost-say-core",
       "kind": "spoken",
@@ -41452,29 +41429,6 @@
           "role": "core",
           "requiresFacts": ["closure"],
           "excludesFacts": ["years"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-say-core.years-years-at-employer-and-it-closed-when",
-      "move": "job-lost-say-core",
-      "kind": "spoken",
-      "text": "{years} years at {employer}, and it closed {when}.",
-      "uses": [
-        {
-          "move": "job-lost-say-core",
-          "subject": "job-lost-say",
-          "role": "core",
-          "requiresFacts": ["closure", "years"]
         }
       ],
       "piece": {
@@ -41506,27 +41460,6 @@
         "required": true
       },
       "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-say-reason.it-paid-wage-an-hour-and-that-s-hard-to-find",
-      "move": "job-lost-say-reason",
-      "kind": "spoken",
-      "text": "It paid {wage} an hour, and that's hard to find.",
-      "uses": [
-        {
-          "move": "job-lost-say-reason",
-          "subject": "job-lost-say",
-          "role": "reason",
-          "requiresFacts": ["wage"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-say",
-        "part": "reason"
-      },
       "origin": "authored",
       "author": "Words builder W1 (a lost job told through the composer)",
       "date": "2026-11-12"
@@ -41680,17 +41613,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-losing-wage-an-hour-stings-but-i-ll-manage",
+      "key": "conversation.job-lost-back-core.thanks-you-i-never-thought-it-d-be-me",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks. Losing {wage} an hour stings, but I'll manage.",
+      "text": "Thanks, {you}. I never thought it'd be me.",
       "uses": [
         {
           "move": "job-lost-back-core",
           "subject": "job-lost-back",
           "role": "core",
-          "stages": ["help"],
-          "requiresFacts": ["wage"]
+          "stages": ["comfort"],
+          "excludesFacts": ["years"]
         }
       ],
       "piece": {
@@ -41698,16 +41631,16 @@
         "part": "core",
         "required": true
       },
-      "bearing": "calm",
+      "bearing": "solemn",
       "origin": "authored",
       "author": "Words builder W1 (a lost job told through the composer)",
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-you-just-keep-an-ear-out-for-me",
+      "key": "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. Just keep an ear out for me.",
+      "text": "Thanks, {you}. I'll be all right.",
       "uses": [
         {
           "move": "job-lost-back-core",
@@ -41723,14 +41656,313 @@
       },
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
+      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "date": "2026-11-14"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-years-years-there-and-it-s-just-over",
+      "key": "conversation.job-lost-back-core.i-m-fine-really-thanks-you",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks. {years} years there, and it's just over.",
+      "text": "I'm fine. Really. Thanks, {you}.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-don-t-know-yet-you",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I don't know yet, {you}.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-back-core.just-this-you-thanks-for-asking",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "Just this, {you}. Thanks for asking.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-closed-when-i-m-out-of-work",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} closed {when}. I'm out of work.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["closure"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-is-gone-you-i-don-t-know-what-s-next",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} is gone, {you}. I don't know what's next.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["closure"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-closed-when-i-ll-find-something",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} closed {when}. I'll find something.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["closure"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-let-me-go-when-i-m-out-of-work",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} let me go {when}. I'm out of work.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["layoff"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-let-me-go-you-i-don-t-know-what-s-next",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} let me go, {you}. I don't know what's next.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["layoff"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-let-me-go-when-i-ll-find-something",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} let me go {when}. I'll find something.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["layoff"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-closed-when-i-m-out",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} closed {when}. I'm out.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["closure"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-closed-when-after-all-that",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} closed {when}. After all that.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["closure"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-let-me-go-when-i-m-out",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} let me go {when}. I'm out.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["layoff"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-let-me-go-when-after-all-that",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} let me go {when}. After all that.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["layoff"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-back-core.years-years-there-you",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "{years} years there, {you}.",
       "uses": [
         {
           "move": "job-lost-back-core",
@@ -41747,21 +41979,20 @@
       },
       "bearing": "solemn",
       "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-you-i-never-thought-it-d-be-me",
+      "key": "conversation.job-lost-back-core.i-ll-manage",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. I never thought it'd be me.",
+      "text": "I'll manage.",
       "uses": [
         {
           "move": "job-lost-back-core",
           "subject": "job-lost-back",
           "role": "core",
-          "stages": ["comfort"],
-          "excludesFacts": ["closure", "years"]
+          "stages": ["help"]
         }
       ],
       "piece": {
@@ -41769,34 +42000,10 @@
         "part": "core",
         "required": true
       },
-      "bearing": "solemn",
+      "bearing": "calm",
       "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.job-lost-back-core.thanks-you-nobody-saw-it-coming",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "Thanks, {you}. Nobody saw it coming.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["comfort"],
-          "requiresFacts": ["closure"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
     }
   ]
 }

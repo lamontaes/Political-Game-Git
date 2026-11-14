@@ -160,5 +160,42 @@
     "about": "A term of office in years as people say it in a speech (\"four years\"), from the term record's length: the number in words up to twelve. Words composer, an address's occasion (lead, Nov 13).",
     "year": "one year",
     "years": "{count} years"
+  },
+  "count": {
+    "about": "A whole count up to ninety-nine as people say it aloud when it opens a line (Words lead, Nov 14, 2026, rule 3: a number opening a sentence is in words up to ninety-nine). Read by countSaid in src/english/count-words.ts.",
+    "ones": [
+      "zero",
+      "one",
+      "two",
+      "three",
+      "four",
+      "five",
+      "six",
+      "seven",
+      "eight",
+      "nine",
+      "ten",
+      "eleven",
+      "twelve",
+      "thirteen",
+      "fourteen",
+      "fifteen",
+      "sixteen",
+      "seventeen",
+      "eighteen",
+      "nineteen"
+    ],
+    "tens": [
+      "",
+      "",
+      "twenty",
+      "thirty",
+      "forty",
+      "fifty",
+      "sixty",
+      "seventy",
+      "eighty",
+      "ninety"
+    ]
   }
 }
