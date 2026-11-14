@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: account lead thread "Give rivals more than one issue"
-pr:
+pr: 9303
 blocked-on:
 after: director-term-read-areas-answered-by-one-map
 source: account lead thread "Give rivals more than one issue", Nov 14 (coordinator, the town-level jobs, pay and prices question, PR 2)
