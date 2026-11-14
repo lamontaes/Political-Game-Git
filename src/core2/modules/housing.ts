@@ -1510,7 +1510,7 @@ function buyHomes(api: CoreAPI): void {
     // Only a home for sale: a finished new house from its builder, else one a household sold (the outside market paid it when it sold, and takes the buyer's money). None left, it keeps renting this month; the price level still weighs it as a buyer.
     const taken = takeHomes(api, household.placeId, 1, outside.id);
     if (!taken) {
-      countUnmetBuyer(api, household.placeId, 1);
+      countUnmetBuyer(api, household.placeId, 1, household.id);
       continue;
     }
     const seller = taken.sellers[0]!.id;

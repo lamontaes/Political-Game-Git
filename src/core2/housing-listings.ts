@@ -18,6 +18,7 @@
  */
 import { takeNewHome } from "./housing-construction";
 import { countBuyer, countOffered } from "./housing-price-level";
+import { daysBetweenText } from "./kernel/dates";
 import type { CoreAPI } from "./types";
 
 const HOUSING = "housing";
@@ -38,6 +39,8 @@ type StockWithListings = {
   placeId: string;
   newHomesForSale: number;
   listings?: Listing[];
+  /** Households that wanted to buy here and found nothing for sale, by the day their search began. */
+  searching?: Record<string, string>;
 };
 
 const stockOf = (api: CoreAPI, placeId: string) =>
@@ -143,14 +146,32 @@ export function takeHomes(
 
 /**
  * A buyer who would have bought found no home for sale: the place's price
- * level still weighs it as a buyer this month (demand unmet raises prices,
- * which every later buyer weighs).
+ * level weighs it as a buyer once for its search (demand unmet raises prices,
+ * which every later buyer weighs), not again each month it keeps looking. A
+ * search counts again after a year.
  */
 export function countUnmetBuyer(
   api: CoreAPI,
   placeId: string,
   homes: number,
+  householdId: string,
 ): void {
+  const row = stockOf(api, placeId);
+  if (!row) return;
+  const today = api.state.date;
+  const since = row.searching?.[householdId];
+  if (since && daysBetweenText(since, today) < api.parameter("daysPerMeanYear"))
+    return;
+  // Searches a year old are dropped as each new one starts.
+  const searching = Object.fromEntries(
+    Object.entries(row.searching ?? {}).filter(
+      ([, at]) => daysBetweenText(at, today) < api.parameter("daysPerMeanYear"),
+    ),
+  );
+  table(api, "stock").put({
+    ...row,
+    searching: { ...searching, [householdId]: today },
+  } as never);
   countBuyer(api, placeId, homes);
 }
 

@@ -339,7 +339,7 @@ function buy(
   // Only homes for sale: a builder's new houses, then homes households sold. None left, it does not buy this month; the price level still weighs it as a buyer.
   const taken = takeHomes(api, h.placeId, weight, deal.outsideId);
   if (!taken) {
-    countUnmetBuyer(api, h.placeId, weight);
+    countUnmetBuyer(api, h.placeId, weight, h.id);
     return false;
   }
   const sellers = taken.sellers;
