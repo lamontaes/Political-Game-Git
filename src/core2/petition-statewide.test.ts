@@ -11,7 +11,7 @@
  * edgar-petition-1, where a special U.S. Senate race once asked one
  * signature; Fort Payne, Alabama (0127616), seed fort-payne-petition-1, where
  * an independent for governor reads Alabama's formula (3% of the votes cast
- * for governor).
+ * for governor, at a midterm's turnout).
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -36,7 +36,11 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { vacateSeat } from "./modules/offices";
-import { electorateRoll, petitionNeededHere } from "./modules/voting";
+import {
+  cycleTurnout,
+  electorateRoll,
+  petitionNeededHere,
+} from "./modules/voting";
 import { wideElectorate } from "./race-places";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
@@ -195,7 +199,11 @@ describe("a petition asks its own electorate's count", () => {
       population: Number(core.placeMetadata.referencePopulation) || 0,
     })!;
     expect(wide.outside.length).toBeGreaterThan(10);
-    const expected = Math.ceil(wide.votes * 0.03);
+    // The 2024 votes of the state's places at a midterm's turnout (the
+    // governor's race is in 2026), 3% of them.
+    const expected = Math.ceil(
+      wide.votes * cycleTurnout(contest!.electionDate).share * 0.03,
+    );
     // Thousands across the state, never a town's share of it.
     expect(expected).toBeGreaterThan(10_000);
     // The count the clerk will check of an independent's filing.

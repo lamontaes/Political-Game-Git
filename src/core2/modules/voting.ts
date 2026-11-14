@@ -800,7 +800,11 @@ export function petitionNeededHere(
     return petitionSignatures(rule.scale, {
       eligible: wide.eligible,
       population: voters > 0 ? (wide.eligible * population) / voters : 0,
-      votesCast: recorded ?? (wide.votes > 0 ? wide.votes : undefined),
+      votesCast:
+        recorded ??
+        (wide.votes > 0
+          ? wide.votes * namedElectionTurnout(api, contest, rule.scale.election)
+          : undefined),
       aligned:
         side > 0
           ? wide.rightShare
@@ -815,6 +819,44 @@ export function petitionNeededHere(
   // No petition asks more names than its electorate has voters.
   const most = Math.floor(wide ? wide.eligible : voters);
   return most > 0 ? Math.max(1, Math.min(count, most)) : count;
+}
+
+/**
+ * The turnout of the election a petition's law names, against the
+ * presidential year whose votes the race's places last cast: a president's
+ * race whole; a U.S. House race at the last even-year November before the
+ * contest; a governor's or secretary of state's at their own race's cycle
+ * where the world has one open, else a midterm's; the office's own (and any
+ * other) at the contest's own cycle (`cycleTurnout`).
+ */
+function namedElectionTurnout(
+  api: CoreAPI,
+  contest: ContestRow,
+  election: string | undefined,
+): number {
+  if (election === "president") return 1;
+  if (election === "us-house") {
+    const year = Number(contest.electionDate.slice(0, 4));
+    const last = year % 2 ? year - 1 : year - 2;
+    return cycleTurnout(`${last}-11-03`).share;
+  }
+  if (election === "governor" || election === "secretary-of-state") {
+    const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+    const theirs = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    ).find(
+      (c) =>
+        (offices.get(c.officeId) as unknown as { kind?: string } | undefined)
+          ?.kind === election,
+    );
+    return theirs
+      ? cycleTurnout(theirs.electionDate).share
+      : campaignParameter("midtermShareOfPresidential");
+  }
+  return cycleTurnout(contest.electionDate).share;
 }
 
 /**
