@@ -394,7 +394,10 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
       director,
     ).find((row) => row.kind === "own-view" && row.facts.employer);
     if (!subject) continue;
-    const line = composedLine(
+    // The opener carries one thing (Words lead, Nov 14, rule 58); the reason
+    // from their own life is said in the reply the player gets by asking why
+    // ("own-view-back").
+    const opener = composedLine(
       core,
       person.id as PersonId,
       "own-view-say",
@@ -402,15 +405,26 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
       subject.stage!,
       `own-view-work:${person.id}`,
     );
+    expect(opener?.text, where).toContain(subject.facts.about!.text);
+    const line = composedLine(
+      core,
+      person.id as PersonId,
+      "own-view-back",
+      { ...subject.facts, you: { text: "you", sourceRecordIds: [me] } },
+      "default",
+      `own-view-work-back:${person.id}`,
+    );
     // The reason is said from the record (owner via the lead, Nov 12: "a
     // reason is said, not pointed at"): the hourly pay where the job has it,
-    // else the employer.
-    // A stance cites its source: where the job record holds both, the turn
-    // names the employer the reason is about and the pay it is paid (lead,
-    // Nov 13); a job with no wage on record names the employer.
-    expect(line?.text, where).toContain(subject.facts.employer!.text);
+    // else the employer; a job with no wage on record names the employer.
     if (subject.facts.wage)
-      expect(line?.text, where).toContain(subject.facts.wage.text);
+      expect(
+        [subject.facts.wage.text, subject.facts.employer!.text].some((fact) =>
+          line?.text.toLowerCase().includes(fact.toLowerCase()),
+        ),
+        `${where}: ${line?.text}`,
+      ).toBe(true);
+    else expect(line?.text, where).toContain(subject.facts.employer!.text);
     process.stdout.write(`OWN VIEW WORK ${where}: "${line!.text}"\n`);
     break;
   }

@@ -23841,456 +23841,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-raise-very-liberal.im-about-as-liberal-as-they-come",
-      "move": "own-view-raise-very-liberal",
-      "kind": "spoken",
-      "text": "I'm about as liberal as they come.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["veryLiberal"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-very-liberal.im-far-over-on-the-liberal-side",
-      "move": "own-view-raise-very-liberal",
-      "kind": "spoken",
-      "text": "I'm far over on the liberal side.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["veryLiberal"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-very-liberal.i-m-a-liberal-and-i-don-t-mind-who-knows-it",
-      "move": "own-view-raise-very-liberal",
-      "kind": "spoken",
-      "text": "I'm a liberal, and I don't mind who knows it.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["veryLiberal"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-liberal.i-should-tell-you-i-lean-liberal",
-      "move": "own-view-raise-liberal",
-      "kind": "spoken",
-      "text": "I should tell you, I lean liberal.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["liberal"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-liberal.most-things-i-come-down-on-the-liberal-side",
-      "move": "own-view-raise-liberal",
-      "kind": "spoken",
-      "text": "Most things, I come down on the liberal side.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["liberal"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-liberal.if-you-re-curious-where-i-stand-it-s-liberal-mostly",
-      "move": "own-view-raise-liberal",
-      "kind": "spoken",
-      "text": "If you're curious where I stand, it's liberal, mostly.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["liberal"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-moderate.i-m-in-the-middle-on-most-of-it-politically",
-      "move": "own-view-raise-moderate",
-      "kind": "spoken",
-      "text": "I'm in the middle on most of it, politically.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["moderate"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-moderate.i-take-each-thing-as-it-comes",
-      "move": "own-view-raise-moderate",
-      "kind": "spoken",
-      "text": "I take each thing as it comes.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["moderate"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-moderate.honestly-i-land-somewhere-in-the-middle",
-      "move": "own-view-raise-moderate",
-      "kind": "spoken",
-      "text": "Honestly, I land somewhere in the middle.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["moderate"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-conservative.i-should-tell-you-i-lean-conservative",
-      "move": "own-view-raise-conservative",
-      "kind": "spoken",
-      "text": "I should tell you, I lean conservative.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["conservative"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-conservative.most-things-i-come-down-on-the-conservative-side",
-      "move": "own-view-raise-conservative",
-      "kind": "spoken",
-      "text": "Most things, I come down on the conservative side.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["conservative"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-conservative.if-you-re-curious-where-i-stand-it-s-conservative-mostly",
-      "move": "own-view-raise-conservative",
-      "kind": "spoken",
-      "text": "If you're curious where I stand, it's conservative, mostly.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["conservative"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-very-conservative.im-about-as-conservative-as-they-come",
-      "move": "own-view-raise-very-conservative",
-      "kind": "spoken",
-      "text": "I'm about as conservative as they come.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["veryConservative"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-very-conservative.im-far-over-on-the-conservative-side",
-      "move": "own-view-raise-very-conservative",
-      "kind": "spoken",
-      "text": "I'm far over on the conservative side.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["veryConservative"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-very-conservative.i-m-a-conservative-and-i-don-t-mind-who-knows-it",
-      "move": "own-view-raise-very-conservative",
-      "kind": "spoken",
-      "text": "I'm a conservative, and I don't mind who knows it.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["veryConservative"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-not-sure.i-dont-follow-politics-much-honestly",
-      "move": "own-view-raise-not-sure",
-      "kind": "spoken",
-      "text": "I don't follow politics much, honestly.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["not-sure"]
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-not-sure.politics-i-keep-out-of-it",
-      "move": "own-view-raise-not-sure",
-      "kind": "spoken",
-      "text": "Politics? I keep out of it.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["not-sure"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.own-view-raise-not-sure.i-havent-made-up-my-mind-yet",
-      "move": "own-view-raise-not-sure",
-      "kind": "spoken",
-      "text": "I haven't made up my mind yet.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "opener"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-opener",
-          "subject": "own-view-say",
-          "role": "opener",
-          "stages": ["not-sure"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "conversation.own-view-answer-hear.good-to-know",
       "move": "own-view-answer-hear",
       "kind": "spoken",
@@ -27312,132 +26862,6 @@
           "role": "core",
           "requiresFacts": ["side-against"],
           "excludesFacts": ["about-named"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.money-s-tight-in-place-right-now",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "Money's tight in {place} right now.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["why-money"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.every-dollar-counts-in-place-these-days",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "Every dollar counts in {place} these days.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["why-money"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.things-cost-too-much-around-place",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "Things cost too much around {place}.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["why-money"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.ask-anyone-in-place-how-the-bills-are-going",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "Ask anyone in {place} how the bills are going.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["why-money"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.it-s-hard-to-make-rent-in-place",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "It's hard to make rent in {place}.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["why-money"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.i-ve-watched-prices-climb-here-in-place",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "I've watched prices climb here in {place}.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["why-money"]
         }
       ],
       "origin": "authored",
@@ -34204,119 +33628,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.own-view-say-reason.i-make-wage-an-hour-that-s-where-i-m-coming-from",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "I make {wage} an hour. That's where I'm coming from.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["wage"],
-          "excludesFacts": ["employer"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: a reason is said, not pointed at)",
-      "date": "2026-11-12",
-      "bearing": "calm"
-    },
-    {
-      "key": "conversation.own-view-say-reason.at-wage-an-hour-it-s-my-own-paycheck-on-the-line",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "At {wage} an hour, it's my own paycheck on the line.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["wage"],
-          "excludesFacts": ["employer"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: a reason is said, not pointed at)",
-      "date": "2026-11-12",
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.own-view-say-reason.i-work-for-wage-an-hour-so-it-s-my-paycheck-too",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "I work for {wage} an hour, so it's my paycheck too.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["wage"],
-          "excludesFacts": ["employer"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: a reason is said, not pointed at)",
-      "date": "2026-11-12",
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.own-view-say-reason.i-make-wage-an-hour-at-employer-so-it-s-my-paycheck-too",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "I make {wage} an hour at {employer}, so it's my paycheck too.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["wage", "employer"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (fixer for the words lead: a stance names the employer its reason is about)",
-      "date": "2026-11-13",
-      "bearing": "calm"
-    },
-    {
-      "key": "conversation.own-view-say-reason.employer-pays-me-wage-an-hour-that-s-my-living",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "{employer} pays me {wage} an hour. That's my living.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["wage", "employer"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (fixer for the words lead: a stance names the employer its reason is about)",
-      "date": "2026-11-13",
-      "bearing": "braced"
-    },
-    {
       "key": "conversation.own-view-back-core.because-i-make-wage-an-hour-you-do-the-math",
       "move": "own-view-back-core",
       "kind": "spoken",
@@ -36129,50 +35440,6 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: the player's own news at home)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.own-view-say-reason.i-make-payroll-at-employer-i-know-what-it-costs",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "I make payroll at {employer}. I know what it costs.",
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["why-payroll", "employer"]
-        }
-      ],
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: a reason holds for the side)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.own-view-say-reason.i-sign-the-checks-at-employer-so-i-see-both-sides",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "I sign the checks at {employer}, so I see both sides.",
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason",
-          "requiresFacts": ["why-payroll", "employer"]
-        }
-      ],
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: a reason holds for the side)",
       "date": "2026-11-12"
     },
     {
@@ -40486,6 +39753,230 @@
       "date": "2026-11-14",
       "tag": {
         "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.do-you-go-to-school-in-place",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "Do you go to school in {place}?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["enrolled"],
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3, revised 03:58Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.are-you-in-school-in-place",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "Are you in school in {place}?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["enrolled"],
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3, revised 03:58Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.still-in-school",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "Still in school?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["enrolled"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3, revised 03:58Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.did-you-go-to-school-in-place",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "Did you go to school in {place}?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["graduated"],
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3, revised 03:58Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.were-you-in-school-in-place",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "Were you in school in {place}?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["graduated"],
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3, revised 03:58Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.school-around-here",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "School around here?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["graduated"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3, revised 03:58Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.own-view-say-core.what-matters-to-me-is-about-i-want-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "What matters to me is {about}. I want it.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 5, rule 58, revised 03:58Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-say-core.here-s-where-i-stand-on-about-i-m-for-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Here's where I stand on {about}. I'm for it.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 5, rule 58, revised 03:58Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-say-core.what-matters-to-me-is-about-i-don-t-want-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "What matters to me is {about}. I don't want it.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 5, rule 58, revised 03:58Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-say-core.here-s-where-i-stand-on-about-i-m-against-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Here's where I stand on {about}. I'm against it.",
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 5, rule 58, revised 03:58Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
       }
     }
   ]

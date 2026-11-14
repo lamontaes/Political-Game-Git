@@ -3189,10 +3189,15 @@ function pointSubject(
   } else if (place) {
     const town = townFigures(core, speaker.placeId);
     const area = pointArea(pick.point);
-    const figure =
-      town.figures.find((key) =>
-        area === "money" ? key.startsWith("town-rent") : false,
-      ) ?? town.figures.find((key) => key.startsWith("town-jobs"));
+    // A figure of the town backs only a point on its own subject (Words
+    // lead, rule 60): rent for money, jobs for work, nothing for the rest.
+    const figure = town.figures.find((key) =>
+      area === "money"
+        ? key.startsWith("town-rent")
+        : area === "work"
+          ? key.startsWith("town-jobs")
+          : false,
+    );
     const words = figure ? townFigureWords(figure) : null;
     if (words)
       facts["town-figure"] = { text: words, sourceRecordIds: [...town.ids] };
@@ -3927,6 +3932,22 @@ function sayGiveBack(
   return true;
 }
 
+/** The town the talk is in, from the asker's own place record: the fact `place`. */
+function townFact(core: Readonly<CoreState>, personId: PersonId): Facts {
+  const person = core.people.get(personId);
+  const place = person
+    ? corePlaceByJurisdictionId(person.placeId as never)
+    : null;
+  return place
+    ? {
+        place: {
+          text: spoken(place),
+          sourceRecordIds: [person!.householdId],
+        },
+      }
+    : {};
+}
+
 /**
  * How a question about the player's school is put, from the player's own
  * record (Words lead, rule 54): a student the asker knows the school of is
@@ -4002,7 +4023,9 @@ function askSubject(
         kind,
         "ask",
         ALL,
-        subject.facts,
+        subject.kind === "school"
+          ? { ...subject.facts, ...townFact(core, otherId) }
+          : subject.facts,
         momentKey,
         subject.kind === "school"
           ? schoolAskStage(core, otherId, playerId)
