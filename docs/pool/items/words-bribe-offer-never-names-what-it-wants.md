@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: Account lead, thread "Write the mayor's and governor's desk"
-pr:
+pr: 9185
 after:
 blocked-on:
 lead: words
