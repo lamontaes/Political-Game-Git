@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by:
-pr: 9261
+pr: #9261
 blocked-on:
 source: "stopgap cluster 15 due-date probe, Gibraltar MI seed pt8:0, Nov 14"
 claimed-at:
