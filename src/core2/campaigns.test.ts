@@ -8,6 +8,8 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { bookkeeping, setBookkeeping } from "./bookkeeping";
+import type { CoreState } from "./types";
 import { advanceToFilingOpen } from "./gov-test-clock";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -98,6 +100,24 @@ function fileAndQualify(
     ? filing
     : null;
 }
+/**
+ * The wait for a place's filing window (Palma Sola, Puerto Rico: 2028, two and
+ * a half years of days) is not what these tests assert, and with the debug
+ * bookkeeping on it took 157 s of a 160 s test (21 s with it off, the same
+ * records either way: bookkeeping only throws on a broken invariant). The
+ * checks come back on for everything the tests assert.
+ */
+function waitForFiling(core: CoreState): void {
+  const previous = setBookkeeping(false);
+  try {
+    advanceToFilingOpen(core);
+  } finally {
+    setBookkeeping(previous);
+  }
+  // Only the wait runs with the checks off; every assertion after it has them on.
+  expect(bookkeeping()).toBe(previous);
+}
+
 describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
   it("every activity moves specific people with a recorded cause; a rival campaigns; polls report what people said", () => {
     const place = process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace().key;
@@ -113,7 +133,7 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
     openOffices(core, seed);
     openElections(core);
     openCampaigns(core);
-    advanceToFilingOpen(core);
+    waitForFiling(core);
     const api = coreAPI(core);
     const adults = [...core.people.values()]
       .filter(
@@ -285,7 +305,7 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
       openOffices(core, drawSeed);
       openElections(core);
       openCampaigns(core);
-      advanceToFilingOpen(core);
+      waitForFiling(core);
       const api = coreAPI(core);
       const adults = [...core.people.values()]
         .filter((p) => year(p) >= 35)
