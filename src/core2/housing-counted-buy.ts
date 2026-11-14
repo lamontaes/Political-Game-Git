@@ -23,7 +23,7 @@
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { buyMarket, monthlyPayment, weighHome } from "./housing-buy";
-import { takeNewHome } from "./housing-construction";
+import { countUnmetBuyer, markSold, takeHomes } from "./housing-listings";
 import { countedMortgageFlowId, MORTGAGE_PREFIX } from "./housing-mortgages";
 import { countBuyer, placePriceLevel } from "./housing-price-level";
 import { countedHousingInArrears, countedPayment } from "./counted-money";
@@ -100,29 +100,6 @@ function rentersThisMonth(api: CoreAPI, rt: Runtime): string[] {
     anniversaries.set(c, held);
   }
   return held.byMonth.get(c.date.slice("YYYY-".length, "YYYY-MM".length)) ?? [];
-}
-
-/** Each seller of the record's homes and how many: the town's finished new houses first, then a seller leaving the town. */
-function sellersOf(
-  api: CoreAPI,
-  placeId: string,
-  outsideId: string,
-  weight: number,
-): { id: string; homes: number }[] {
-  const sellers = new Map<string, number>();
-  let left = weight;
-  while (left >= 1) {
-    const builder = takeNewHome(
-      table(api, "stock"),
-      table(api, "projects"),
-      placeId,
-    );
-    if (!builder) break;
-    sellers.set(builder, (sellers.get(builder) ?? 0) + 1);
-    left -= 1;
-  }
-  if (left > 0) sellers.set(outsideId, (sellers.get(outsideId) ?? 0) + left);
-  return [...sellers].map(([id, homes]) => ({ id, homes }));
 }
 
 /**
@@ -359,11 +336,17 @@ function buy(
     citation: housingData.mortgage.source,
     estimatedFrom: `A counted household (standing for ${weight}) bought a home for ${Math.round((deal.principal + deal.down) / 100)} dollars each with ${Math.round(deal.down / 100)} down at ${(deal.rate * 100).toFixed(2)}%, from ${Math.round(deal.shareMinor / 100)} dollars of its own savings, its share of its group's account, after ${deal.leaseMonths.toFixed(0)} months of its lease.`,
   };
+  // Only homes for sale: a builder's new houses, then homes households sold. None left, it does not buy this month; the price level still weighs it as a buyer.
+  const taken = takeHomes(api, h.placeId, weight, deal.outsideId);
+  if (!taken) {
+    countUnmetBuyer(api, h.placeId, weight);
+    return false;
+  }
+  const sellers = taken.sellers;
   // It joins the town's owners first, taking its share of the renters' account with it; the down payment then comes out of that money, not the renters' left behind.
   const before = h.tenure;
   h.tenure = "mortgage";
   regroupHousehold(rt, h, c.date);
-  const sellers = sellersOf(api, h.placeId, deal.outsideId, weight);
   // The down payment, to each seller for its homes: first what it brought from the home it sold (paid in from the outside market that bought that home), then from the account its share moved to.
   let downPaid = 0;
   for (const seller of sellers) {
@@ -487,6 +470,8 @@ function buy(
     loanMinor: loanEach,
     holderId,
     sellerIds: sellers.map((row) => row.id),
+    // The households' sales whose homes it bought.
+    ...(taken.saleIds.length ? { saleIds: taken.saleIds } : {}),
     rate: deal.rate,
     rentBeforeMinor: deal.rentMinor,
     monthlyIncomeMinor: Math.round(deal.incomeMinor),
@@ -496,6 +481,7 @@ function buy(
     // What decided it: each reason's contribution to the buy option.
     reasons: deal.reasons,
   } as never);
+  markSold(api, taken.saleIds, `purchase:${stamp}`);
   table(api, "dwellings").put({
     id: `dwelling:${h.id}`,
     householdId: h.id,

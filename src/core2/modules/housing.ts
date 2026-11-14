@@ -64,10 +64,10 @@ import {
   buildMonth,
   openStock,
   setZoning,
-  takeNewHome,
   type ProjectRow,
   type Zoning,
 } from "../housing-construction";
+import { countUnmetBuyer, markSold, takeHomes } from "../housing-listings";
 import {
   ACS_VALUE_DATE,
   housingWorldOffset,
@@ -1507,13 +1507,13 @@ function buyHomes(api: CoreAPI): void {
     if (!weighed.buy) continue;
     const { reasons, principalMinor: principal } = weighed,
       down = weighed.downMinor;
-    // A finished new house in town is bought from its builder; otherwise from a seller leaving the town.
-    const seller =
-      takeNewHome(
-        store(api).table("stock"),
-        store(api).table("projects"),
-        household.placeId,
-      ) ?? outside.id;
+    // Only a home for sale: a finished new house from its builder, else one a household sold (the outside market paid it when it sold, and takes the buyer's money). None left, it keeps renting this month; the price level still weighs it as a buyer.
+    const taken = takeHomes(api, household.placeId, 1, outside.id);
+    if (!taken) {
+      countUnmetBuyer(api, household.placeId, 1);
+      continue;
+    }
+    const seller = taken.sellers[0]!.id;
     const source = {
       tag: "ESTIMATED" as const,
       asOf: c.date,
@@ -1578,7 +1578,10 @@ function buyHomes(api: CoreAPI): void {
         monthlyIncomeMinor: Math.round(income),
         // What decided it: each reason's contribution to the buy option.
         reasons,
+        // The household's sale whose home it bought.
+        ...(taken.saleIds.length ? { saleIds: taken.saleIds } : {}),
       });
+    markSold(api, taken.saleIds, `purchase:${household.id}:${c.date}`);
     store(api)
       .table("dwellings")
       .put({

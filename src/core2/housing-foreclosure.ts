@@ -23,7 +23,8 @@ import { endFlowPart } from "./residents-economy";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { leaveCountedHome } from "./housing-homeless";
 import { formerHome } from "./housing-former-home";
-import { countOffered, homeValueToday } from "./housing-price-level";
+import { homeValueToday } from "./housing-price-level";
+import { listHome } from "./housing-listings";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -223,7 +224,7 @@ function homePlace(
 }
 
 /** What the home brings at a foreclosure sale: its value today by the one value rule, at the sale's share. */
-function salePrice(api: CoreAPI, householdId: string): number {
+function salePrice(api: CoreAPI, householdId: string, caseId: string): number {
   const dwelling = table(api, "dwellings").get(`dwelling:${householdId}`) as
     { valueMinor?: number; priceLevel?: number } | undefined;
   const at = homePlace(core(api), householdId);
@@ -235,8 +236,8 @@ function salePrice(api: CoreAPI, householdId: string): number {
         dwelling?.priceLevel,
       )
     : (dwelling?.valueMinor ?? 0);
-  // The home goes to market this month: the place's price level weighs it.
-  if (at) countOffered(api, at.placeId, at.weight);
+  // The home goes to market this month, for sale until a buyer takes it.
+  if (at) listHome(api, at.placeId, at.weight, caseId);
   return Math.round(value * api.parameter("housingForeclosureSaleShare"));
 }
 
@@ -270,7 +271,7 @@ export function foreclosureSale(api: CoreAPI, caseId: string): string | null {
     } as unknown as ModuleRow);
     return null;
   }
-  const price = salePrice(api, row.householdId);
+  const price = salePrice(api, row.householdId, caseId);
   const owed = mortgage.balanceMinor;
   // The town's outside market stands for the buyer at the sale.
   const buyer = townOutsideOf(

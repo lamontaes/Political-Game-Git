@@ -12,11 +12,8 @@ import { transferCash } from "./world-transfer";
 import type { ModuleRow } from "./module-data";
 import { formerHome } from "./housing-former-home";
 import type { MortgageRow } from "./housing-foreclosure";
-import {
-  countOffered,
-  homeValueToday,
-  priceTrace,
-} from "./housing-price-level";
+import { homeValueToday, priceTrace } from "./housing-price-level";
+import { listHome } from "./housing-listings";
 import type { CoreAPI, CoreState } from "./types";
 
 const HOUSING = "housing";
@@ -233,7 +230,7 @@ export function sellHome(
       : {}),
   };
   table(api, "sales").put(sale as unknown as ModuleRow);
-  // A home offered this month: the place's price level weighs it against the month's buyers.
-  countOffered(api, placeId, times);
+  // A home offered this month, for sale until a buyer takes it: the place's price level weighs it against the month's buyers.
+  listHome(api, placeId, times, sale.id);
   return sale;
 }
