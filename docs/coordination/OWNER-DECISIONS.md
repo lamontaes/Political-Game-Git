@@ -6,6 +6,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None open. The Nov 9 question on arrows for single-value steppers was answered the same day (below).
 
+## Nov 14: a line the world places counts as tied to the world; the padded names come out (owner, card in the project chat, 06:38Z)
+
+- **Question on the card:** "Lines keep saying the listener's name ('Thanks, Alice.' 'Not yet, Eva.') only to pass a rule. Should the rule change?" **He tapped "Yes, change the rule"**, whose text was: "A line counts as tied to the world when the moment it plays in was chosen by a fact about the world. The padded names come out."
+  - Done in `tests/guards/english/line-inserts.test.ts` as one more excuse, `placed`, by rule and never by a list of keys: a part with a `bearing`, or whose every place it is said (`uses`) carries a non-empty `requiresFacts` or `excludesFacts`. Part 2 (removing the padded names, bank by bank) follows. The owner's go-ahead for editing the guard: "I approve a heading those lines, and you have standing approval for changing anything else in the project. You have full authority." (Nov 14, 06:42Z).
+
 ## Nov 12 afternoon: the words lead owns the words, scenes, director, Journal and newspaper; creator tabs; Metrics timeline (owner)
 
 - **Fable A may delete every line; the words are its magnum opus (owner, said to Fable A, relayed at 2:35 p.m. on issue #7365 comment 6833916808):** "You can, if you want to, you can delete every single line. That's up to you, but yes, go ahead and just let the CTO know that I said that. This is your code base, and the words right here is your magnum opus. So be sure you ask any questions or anything, but take control of it. And I'm counting on you to have this be the final time that this is made and remade, and that for this to last and keep improving."

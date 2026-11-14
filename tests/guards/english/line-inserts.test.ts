@@ -24,7 +24,17 @@ import baseline from "./line-inserts-baseline.json";
  *    to, `part` which part of it this is (an opener, a core, a reason), and
  *    `required` whether every such sentence has that part. The pieces of a
  *    sentence are excused when one of its required parts carries an insert
- *    in every wording, since then no joined sentence can lack one.
+ *    in every wording, since then no joined sentence can lack one;
+ *  - a line the world places (owner, Nov 14, 2026, 06:38Z, a card in the
+ *    project chat: "Lines keep saying the listener's name ('Thanks, Alice.'
+ *    'Not yet, Eva.') only to pass a rule. Should the rule change?" He chose
+ *    "Yes, change the rule": "A line counts as tied to the world when the
+ *    moment it plays in was chosen by a fact about the world. The padded
+ *    names come out."). A part is `placed` when it can play only where a
+ *    record chose it: it carries a `bearing`, or every place it is said
+ *    (`uses`) carries a non-empty `requiresFacts` or `excludesFacts` naming a
+ *    fact the packet does not set in every world (ALWAYS_TRUE_FACTS). A line
+ *    with no condition at all is counted as before.
  *
  * What is read: every part of every bank under data/english/parts. Every
  * other line with no insert is counted by bank in
@@ -43,6 +53,12 @@ const SHORT_WORDS = 3;
 /** The banks that hold the names of actions the player picks. */
 const ACTION_NAME_BANKS: readonly string[] = ["choice-names"];
 
+/**
+ * Facts a packet sets in every world, so a condition on them places nothing.
+ * None found so far; a fact named here no longer counts toward `placed`.
+ */
+export const ALWAYS_TRUE_FACTS: ReadonlySet<string> = new Set<string>();
+
 /** Whether a line's text carries at least one insert. */
 export function hasInsert(text: string): boolean {
   return INSERT.test(text);
@@ -53,9 +69,18 @@ export function wordsIn(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length;
 }
 
+export interface BankPartUse {
+  readonly requiresFacts?: readonly string[];
+  readonly excludesFacts?: readonly string[];
+}
+
 export interface BankPart {
   readonly key?: string;
   readonly text?: string;
+  /** The speaker's bearing the part was written for. */
+  readonly bearing?: string;
+  /** Where the part is said, and the facts each place needs or rules out. */
+  readonly uses?: readonly BankPartUse[];
   /** A piece the engine joins into a sentence with others. */
   readonly piece?: {
     readonly of: string;
@@ -86,15 +111,38 @@ export function sentencesWithAnInsert(
   return out;
 }
 
+/**
+ * Whether a record chose the moment this part plays in: it carries a bearing,
+ * or every place it is said carries a condition on a fact that is not true in
+ * every world. One place with no condition lets it play anywhere.
+ */
+export function isPlaced(
+  part: BankPart,
+  alwaysTrue: ReadonlySet<string> = ALWAYS_TRUE_FACTS,
+): boolean {
+  if (part.bearing) return true;
+  const uses = part.uses ?? [];
+  return (
+    uses.length > 0 &&
+    uses.every(
+      (use) =>
+        (use.requiresFacts ?? []).some((fact) => !alwaysTrue.has(fact)) ||
+        (use.excludesFacts ?? []).length > 0,
+    )
+  );
+}
+
 /** Why a line with no insert may stay fixed under the owner's ruling, or null when it may not. */
 export function excusedAs(
   bank: string,
   part: BankPart,
   composed: ReadonlySet<string>,
-): "short" | "action-name" | "joined" | null {
+  alwaysTrue: ReadonlySet<string> = ALWAYS_TRUE_FACTS,
+): "short" | "action-name" | "joined" | "placed" | null {
   if (ACTION_NAME_BANKS.includes(bank)) return "action-name";
   if (wordsIn(part.text ?? "") <= SHORT_WORDS) return "short";
   if (part.piece && composed.has(part.piece.of)) return "joined";
+  if (isPlaced(part, alwaysTrue)) return "placed";
   return null;
 }
 
@@ -211,5 +259,61 @@ describe("every bank line carries an insert from the world's records", () => {
     expect(
       excusedAs("conversation", optional[0]!, sentencesWithAnInsert(optional)),
     ).toBeNull();
+  });
+
+  it("excuses a line the world places, and not one with no condition or an always-true one", () => {
+    const none = new Set<string>();
+    const text = "I've heard those promises too many times.";
+    // A condition on a fact, or a bearing, places the line.
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ requiresFacts: ["acquainted"] }] },
+        none,
+      ),
+    ).toBe("placed");
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ excludesFacts: ["stranger"] }] },
+        none,
+      ),
+    ).toBe("placed");
+    expect(excusedAs("conversation", { text, bearing: "guarded" }, none)).toBe(
+      "placed",
+    );
+    // No condition at all is counted, as is a part said anywhere in one of its places.
+    expect(excusedAs("conversation", { text }, none)).toBeNull();
+    expect(excusedAs("conversation", { text, uses: [] }, none)).toBeNull();
+    expect(
+      excusedAs(
+        "conversation",
+        {
+          text,
+          uses: [{ requiresFacts: ["acquainted"] }, {}],
+        },
+        none,
+      ),
+    ).toBeNull();
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ requiresFacts: [] }, { excludesFacts: [] }] },
+        none,
+      ),
+    ).toBeNull();
+    // A condition on a fact every packet sets places nothing.
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ requiresFacts: ["always"] }] },
+        none,
+        new Set(["always"]),
+      ),
+    ).toBeNull();
+    // A fixed line of one to three words stays "short", before "placed" is asked.
+    expect(
+      excusedAs("conversation", { text: "Not yet.", bearing: "calm" }, none),
+    ).toBe("short");
   });
 });
