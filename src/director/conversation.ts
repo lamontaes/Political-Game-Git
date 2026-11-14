@@ -5040,9 +5040,24 @@ function openConversationNow(
       (row) =>
         row.id === toldStory && row.facts.recordKind === OPENING_ADDRESS_EVENT,
     );
+  // The speaker's own hard news (an eviction, a lost job, a death) leads
+  // their talk, so the newest change they know of is not brought up ahead of
+  // it; with none untold, they bring the change up as before (Words lead,
+  // Nov 14: a person put out that day opened on a business closing).
+  const ownLoss =
+    !!told &&
+    subjectsBetween(core, otherId, playerId, conversation.director).some(
+      (row) =>
+        NEWS_SUBJECTS.has(row.kind) &&
+        !!data.otherRaises[row.kind] &&
+        !talked.has(row.id) &&
+        !talked.has(`${otherId}>${row.id}`) &&
+        !heardNow.has(`${HEARD_SUBJECT}${row.id}`),
+    );
   const brought =
     told &&
     !aboutShared &&
+    !ownLoss &&
     !toldIds.some(
       (id) =>
         heardNow.has(`${HEARD_SUBJECT}${id}`) ||
