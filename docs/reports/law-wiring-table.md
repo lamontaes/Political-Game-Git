@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 147 of 187 (39 partly, 1 on a stopgap). Research links reaching people or carried by an engine: 175 of 246 (21 the research finds about zero, 50 unread, 0 of them with no stopgap).
+Laws wired: 147 of 187 (38 partly, 2 on a stopgap). Research links reaching people or carried by an engine: 175 of 246 (21 the research finds about zero, 50 unread, 0 of them with no stopgap).
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -125,7 +125,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Local power: partner with federal immigration enforcement         | justice            | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired      | none                                |
 | end cash bail                                                     | justice            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | Local power: end cash bail                                        | justice            | n/a    | yes    | n/a   | yes     | n/a   | n/a | yes     | n/a    | n/a       | wired      | none                                |
-| reduce mandatory minimums                                         | justice            | yes    | yes    | NO    | yes     | NO    | yes | yes     | NO     | NO        | partly     | none                                |
+| reduce mandatory minimums                                         | justice            | yes    | yes    | yes   | yes     | SG    | yes | yes     | yes    | yes       | stopgapped | none                                |
 | Spending: corrections                                             | justice            | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | restore voting after sentence                                     | justice            | yes    | yes    | yes   | yes     | n/a   | yes | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | Local power: restore voting after sentence                        | justice            | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired      | none                                |
@@ -787,10 +787,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **reduce mandatory minimums** (`us-federal-positions:justice-rights.reduce-mandatory-minimums`)
 
-- reach: no law-reach row: nothing records who it applies to
-- money: no money flow: nobody pays or receives anything because of it
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- money: the law shortens federal sentences and lowers the federal prison stock, but no engine pays the Bureau of Prisons per person held, so the smaller stock saves the Treasury nothing (SG-JUSTICE-federal-prison-cost-flat)
 
 **Spending: corrections** (`budget-line:corrections`)
 
