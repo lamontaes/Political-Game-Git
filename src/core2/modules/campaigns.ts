@@ -3449,7 +3449,7 @@ export function circulatorShift(api: CoreAPI, filingId: string): number {
           ? 1 - place.rightShare
           : shareValue("evenSplit");
     const willing = Math.floor(
-      place.eligible * Math.min(1, aligned + openness * (1 - aligned)) -
+      place.eligible * (1 - (1 - aligned) * (1 - openness)) -
         (held[place.id] ?? 0),
     );
     const n = Math.min(

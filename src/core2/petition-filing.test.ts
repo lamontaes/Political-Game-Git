@@ -205,10 +205,18 @@ describe("filing is a petition", () => {
         expect(signers.size, `${where}: ${p.id} signed twice`).toBe(
           signed.length,
         );
-        expect(p.signed, `${where}: ${p.id} count`).toBe(signed.length);
+        // A race wider than the town also holds what its paid circulators
+        // gathered among the race's voters outside it, counted by place.
+        const outside = Object.values(p.outsideSigned ?? {}).reduce(
+          (n, k) => n + k,
+          0,
+        );
+        expect(p.signed, `${where}: ${p.id} count`).toBe(
+          signed.length + outside,
+        );
         expect(signers.has(p.personId), where).toBe(false);
         expect(p.check.valid + p.check.struckIds.length, where).toBe(
-          signed.length,
+          signed.length + outside,
         );
         expect(f.status, `${where}: ${p.id}`).toBe(
           p.check.valid >= p.needed ? "on-ballot" : "short",
