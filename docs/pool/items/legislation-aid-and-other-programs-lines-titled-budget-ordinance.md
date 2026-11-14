@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: carry-spend-line-names
-pr:
+pr: #9347
 after: legislation-budget-line-bills-all-titled-budget-ordinance
 blocked-on:
 lead: words
