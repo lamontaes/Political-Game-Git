@@ -15,7 +15,6 @@ import { appointmentsIn } from "../core2/modules/executive";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
 import { townSeats } from "../core2/modules/offices";
-import { partyTie } from "../core2/modules/parties";
 import {
   LEGISLATURE_MODULE_ID,
   billOf,
@@ -117,6 +116,7 @@ import {
   ballot,
   incumbentOf,
   openContests,
+  partyTie,
   petitionOf,
 } from "../core2/modules/elections";
 import {
