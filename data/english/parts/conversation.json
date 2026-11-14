@@ -28528,7 +28528,7 @@
       "key": "conversation.work-done-back-core.long-hours-at-wage-an-hour-adds-up-slow",
       "move": "work-done-back-core",
       "kind": "spoken",
-      "text": "Long. {hours} at {wage} an hour adds up slow.",
+      "text": "Long. The hours add up slow.",
       "uses": [
         {
           "move": "work-done-back-core",
@@ -28575,7 +28575,7 @@
       "key": "conversation.work-done-back-core.i-will-hours-at-wage-an-hour-and-my-feet-know-it",
       "move": "work-done-back-core",
       "kind": "spoken",
-      "text": "I will. {hours} at {wage} an hour, and my feet know it.",
+      "text": "I will. Long hours, and my feet know it.",
       "uses": [
         {
           "move": "work-done-back-core",
@@ -30044,7 +30044,7 @@
       "key": "conversation.own-view-back-core.because-i-make-wage-an-hour-you-do-the-math",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "Because I make {wage} an hour, {you}. Do the math.",
+      "text": "Because the pay is thin, {you}. Do the math.",
       "piece": {
         "of": "own-view-back",
         "part": "core",
@@ -30067,7 +30067,7 @@
       "key": "conversation.own-view-back-core.wage-an-hour-doesn-t-stretch-far-you",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "{wage} an hour doesn't stretch far, {you}.",
+      "text": "The pay doesn't stretch far, {you}.",
       "piece": {
         "of": "own-view-back",
         "part": "core",
@@ -30090,7 +30090,7 @@
       "key": "conversation.own-view-back-core.you-try-living-on-wage-an-hour-you",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "You try living on {wage} an hour, {you}.",
+      "text": "You try living on what I make, {you}.",
       "piece": {
         "of": "own-view-back",
         "part": "core",
