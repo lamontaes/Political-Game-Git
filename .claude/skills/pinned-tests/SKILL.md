@@ -7,13 +7,13 @@ description: >
   through the game's own path instead of waited for, and never loosening a
   test to get green. Use when writing or fixing any test that builds a played
   world, when a test is red "by seed", and when a builder proposes a looser
-  assertion or a retry over fresh seeds. Supersedes rule 6 of
-  drawn-place-tests for tests; the production and proof side stays there.
+  assertion or a retry over fresh seeds. Pairs with
+  drawn-place-tests, which covers tests that hunt faults across places.
 ---
 
 # Pinned tests
 
-Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places with seeds, and is never red by draw. An env seed, or a retry over fresh seeds, is still a draw and counts as unpinned. (`drawn-place-tests` says never to pin a place; for a test file this skill wins. Drawing places is still how a feature is proved in play: `played-world-proof`.)
+Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places with seeds, and is never red by draw. An env seed, or a retry over fresh seeds, is still a draw and counts as unpinned. (`drawn-place-tests` says never to pin a place to get green; it covers tests that hunt faults across places, this skill covers tests that gate a PR, and the CTO reconciles the two. Drawing places is still how a feature is proved in play: `played-world-proof`.)
 
 ## The rules
 
