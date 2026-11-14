@@ -36,6 +36,12 @@ import { coreAPI } from "./state";
 import type { PersonId } from "./types";
 import { purposeScene, replyInScene } from "../director/purpose-scene";
 
+/*
+ * Slow on purpose (about 3.5 minutes, so the timeout below is explicit): no
+ * staged start reaches a race without skipping the director. The world has no
+ * open race at the start date, so the player is played in from game start to
+ * the filing window and through the invitation weeks day by day.
+ */
 const WORLD_SEED = "interview-invites-one-a-day";
 /** Named places: a county race in a state that votes for its legislature the same day, so national outlets are shown refused the county race and let through the state one. */
 const PLACES: readonly {
