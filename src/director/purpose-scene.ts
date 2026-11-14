@@ -65,6 +65,7 @@ import {
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { knockFacts, petitionAtDoor } from "./doors";
+import { officeSaid } from "./cause-facts";
 import {
   SITUATION_LIBRARY,
   type ScheduleEntry,
@@ -1298,8 +1299,11 @@ function composeBinding(
       sourceRecordIds: [askerId],
     };
     facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
+    // The seat as people say it (Words lead, Nov 14, ruling 69): "the
+    // Bethel Town Council", "mayor", never the form's title in a sentence.
+    const seat = officeSaid(core, { contestId: door.contestId });
     facts.office = {
-      text: titleInSentence(door.office),
+      text: seat?.text ?? titleInSentence(door.office),
       sourceRecordIds: [moment.causeId, door.contestId],
     };
     // A second knock: the two have met at this door, so the player does not

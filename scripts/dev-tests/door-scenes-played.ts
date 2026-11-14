@@ -20,6 +20,7 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import {
+  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   petitionCirculating,
@@ -78,6 +79,9 @@ function tree(node: TreeNode, depth: number, out: string[]) {
 
 setBookkeeping(false);
 const out: string[] = [];
+const byChoices = new Map<number, number>();
+const byEndings = new Map<number, number>();
+const dayMax: number[] = [];
 let drawn = 0;
 for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
   const place = drawPlace(seed, `door-played:${attempt}`);
@@ -147,8 +151,12 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
     try {
       campaignDay(core, playerId!, { filingId: filing!.id, kind: "canvass" });
     } catch (error) {
+      const row = coreAPI(core)
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filing!.id) as unknown as { status?: string } | undefined;
       out.push(
-        `### ${kind} day, ${core.date}: no canvass offered (${(error as Error).message})\n`,
+        `### ${kind} day, ${core.date}: no canvass offered (${(error as Error).message}; the filing's status is ${row?.status ?? "missing"})\n`,
       );
       clockTo(addDays(makeIsoDate(core.date), 1));
       return;
@@ -159,6 +167,7 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
     clockTo(addDays(makeIsoDate(core.date), 1));
     out.push(`### ${kind} day, ${day}: ${records.length} doors opened\n`);
     let scenes = 0;
+    const dayLines = new Map<string, number>();
     for (const record of records) {
       if (played.has(record.id)) continue;
       played.add(record.id);
@@ -237,6 +246,25 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
             : ""
         }.\n`,
       );
+      const choices = scene.talk.tree.replies.length;
+      byChoices.set(choices, (byChoices.get(choices) ?? 0) + 1);
+      const ends = scene.talk.endings.length;
+      byEndings.set(ends, (byEndings.get(ends) ?? 0) + 1);
+      out.push(
+        `${choices} choices after the first answer, ${ends} endings${record.facts?.stake === "true" ? "; the director stages this door in play" : ""}.\n`,
+      );
+      const count = (text: string) =>
+        dayLines.set(text, (dayLines.get(text) ?? 0) + 1);
+      for (const line of scene.talk.narration) count(line.text);
+      count(scene.talk.state.text);
+      const walk = (node: TreeNode) => {
+        node.lines.forEach((line) => count(line.text));
+        for (const reply of node.replies) {
+          count(reply.line.text);
+          if (reply.next) walk(reply.next);
+        }
+      };
+      walk(scene.talk.tree);
       const lines: string[] = [];
       for (const line of scene.talk.narration) lines.push(`- _${line.text}_`);
       lines.push(`- **${scene.talk.state.speaker}:** ${scene.talk.state.text}`);
@@ -244,6 +272,11 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
       out.push(lines.join("\n") + "\n");
     }
     if (!scenes) out.push("No scene this day.\n");
+    else {
+      const [top, times] = [...dayLines].sort((a, b) => b[1] - a[1])[0]!;
+      out.push(`Most repeated line this day: ${times} times ("${top}").\n`);
+      dayMax.push(times);
+    }
   };
   for (let day = 0; day < Number(signArg); day += 1) playDay();
   // Past the petition: the weeks go by until it no longer circulates.
@@ -255,4 +288,15 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
     clockTo(addDays(makeIsoDate(core.date), 7));
   for (let day = 0; day < Number(voteArg); day += 1) playDay();
 }
+out.push(
+  `## Counts\n\nScenes by choices after the first answer: ${[...byChoices]
+    .sort((a, b) => a[0] - b[0])
+    .map(([n, c]) => `${n}: ${c}`)
+    .join(", ")}. Scenes by endings: ${[...byEndings]
+    .sort((a, b) => a[0] - b[0])
+    .map(([n, c]) => `${n}: ${c}`)
+    .join(
+      ", ",
+    )}. Most repeated line within one day, by day: ${dayMax.join(", ")}.\n`,
+);
 process.stdout.write(out.join("\n"));

@@ -678,6 +678,9 @@ function readOf(
   return clamp(value);
 }
 
+/** The variant that plays a family's plain arc when the family keeps its own. */
+const PLAIN_VARIANT = "plain";
+
 /**
  * Which variant of the scene's purpose the records give, or null when the
  * purpose has none (it plays its one arc).
@@ -730,8 +733,13 @@ export function chooseVariant(
   // A return visit plays the next one down only where it holds its own
   // against the family's plain arc: a tie made by the first knock alone is
   // not someone who knows the player.
+  // The plain arc is the family's own purpose, or the variant named "plain"
+  // where a family keeps its own plain arc (the door families, whose endings
+  // are the resident's answers).
   const plain =
-    scores.find((row) => row.purpose === input.family)?.score ?? P.zero;
+    scores.find(
+      (row) => row.purpose === input.family || row.variant === PLAIN_VARIANT,
+    )?.score ?? P.zero;
   const second = scores[P.one];
   const best =
     input.nextDown && second && second.score > P.zero && second.score >= plain

@@ -163635,10 +163635,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-answers-in-socks-with-a-stack-of-job-printouts-on-the-chair-behind-them",
+      "key": "scene-talk.narrate-narrate.name-answers-in-socks-job-listings-are-spread-across-the-table-inside",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} answers in socks, with a stack of job printouts on the chair behind them.",
+      "text": "{name} answers in socks. Job listings are spread across the table inside.",
       "uses": [
         {
           "subject": "scene",
@@ -163667,10 +163667,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-a-jacket-from-employer-hangs-on-the-hook-behind-them",
+      "key": "scene-talk.narrate-narrate.name-opens-the-door-until-lately-name-worked-at-employer",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} opens the door. A jacket from {employer} hangs on the hook behind them.",
+      "text": "{name} opens the door. Until lately, {name} worked at {employer}.",
       "uses": [
         {
           "subject": "scene",
@@ -163733,10 +163733,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-answers-fast-as-if-they-were-waiting-on-somebody-else",
+      "key": "scene-talk.narrate-narrate.name-answers-fast-as-if-expecting-a-call-back-about-a-job",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} answers fast, as if they were waiting on somebody else.",
+      "text": "{name} answers fast, as if expecting a call back about a job.",
       "uses": [
         {
           "subject": "scene",
@@ -163874,10 +163874,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-re-the-first-person-running-for-office-who-s-come-to-my-door-i-ll-sign",
+      "key": "scene-talk.reply-agree.you-came-to-my-door-yourself-that-counts-for-something-i-ll-sign-for-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You're the first person running for {office} who's come to my door. I'll sign.",
+      "text": "You came to my door yourself. That counts for something. I'll sign for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -163899,10 +163899,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-signed-for-deliveries-at-employer-every-day-i-can-sign-one-more-thing-is-this",
+      "key": "scene-talk.reply-agree.i-signed-my-last-papers-at-employer-i-can-sign-one-more-thing-is-this-the-line",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I signed for deliveries at {employer} every day. I can sign one more thing. Is this the line?",
+      "text": "I signed my last papers at {employer}. I can sign one more thing. Is this the line?",
       "uses": [
         {
           "subject": "scene",
@@ -164053,10 +164053,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.where-were-people-like-you-when-employer-let-me-go-nobody-came-knocking-then",
+      "key": "scene-talk.reply-decline.where-were-people-like-you-when-employer-let-me-go-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Where were people like you when {employer} let me go? Nobody came knocking then.",
+      "text": "Where were people like you when {employer} let me go? I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -164079,10 +164079,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-pass-on-office-i-ve-got-an-interview-to-get-ready-for",
+      "key": "scene-talk.reply-decline.i-ll-pass-on-signing-for-office-i-ve-got-an-interview-to-get-ready-for",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll pass on {office}. I've got an interview to get ready for.",
+      "text": "I'll pass on signing for {office}. I've got an interview to get ready for.",
       "uses": [
         {
           "subject": "scene",
@@ -164359,10 +164359,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-haven-t-made-up-my-mind-and-office-isn-t-going-to-get-me-a-job-i-ll-pass",
+      "key": "scene-talk.reply-decline.i-haven-t-made-up-my-mind-and-the-race-for-office-isn-t-going-to-get-me-a-job-i",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I haven't made up my mind, and {office} isn't going to get me a job. I'll pass.",
+      "text": "I haven't made up my mind, and the race for {office} isn't going to get me a job. I'll pass.",
       "uses": [
         {
           "subject": "scene",
@@ -164741,10 +164741,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-get-it-give-me-a-chance-to-be-the-one-in-office-who-shows-up-next-time",
+      "key": "scene-talk.follow-press.i-get-it-give-me-a-chance-and-if-i-win-the-race-for-office-i-ll-be-the-one-who-s",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I get it. Give me a chance to be the one in {office} who shows up next time.",
+      "text": "I get it. Give me a chance, and if I win the race for {office}, I'll be the one who shows up next time.",
       "uses": [
         {
           "subject": "scene",
@@ -164811,10 +164811,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.nobody-came-then-i-m-here-now-asking-for-office",
+      "key": "scene-talk.follow-press.i-can-t-change-what-happened-i-m-here-now-asking-for-office",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Nobody came then. I'm here now, asking for {office}.",
+      "text": "I can't change what happened. I'm here now, asking for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -164857,7 +164857,7 @@
           "role": "asker",
           "purpose": "ask-signature.lost-job",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         },
         {
           "subject": "scene",
@@ -164866,7 +164866,7 @@
           "role": "asker",
           "purpose": "ask-support.lost-job",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         }
       ],
       "bearing": "calm",
@@ -164891,7 +164891,7 @@
           "role": "asker",
           "purpose": "ask-signature.lost-job",
           "key": "door",
-          "after": "decline",
+          "after": "tell",
           "requiresFacts": ["employer"]
         },
         {
@@ -164901,7 +164901,7 @@
           "role": "asker",
           "purpose": "ask-support.lost-job",
           "key": "door",
-          "after": "decline",
+          "after": "tell",
           "requiresFacts": ["employer"]
         }
       ],
@@ -164927,7 +164927,7 @@
           "role": "asker",
           "purpose": "ask-signature.lost-job",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         },
         {
           "subject": "scene",
@@ -164936,7 +164936,7 @@
           "role": "asker",
           "purpose": "ask-support.lost-job",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         }
       ],
       "bearing": "hopeful",
@@ -164961,7 +164961,7 @@
           "role": "asker",
           "purpose": "ask-signature.lost-job",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         },
         {
           "subject": "scene",
@@ -164970,7 +164970,7 @@
           "role": "asker",
           "purpose": "ask-support.lost-job",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         }
       ],
       "bearing": "calm",
@@ -164983,10 +164983,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-no-to-office-that-didn-t-change-while-you-were-talking",
+      "key": "scene-talk.reply-decline.i-said-no-to-signing-for-office-that-didn-t-change-while-you-were-talking",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said no to {office}. That didn't change while you were talking.",
+      "text": "I said no to signing for {office}. That didn't change while you were talking.",
       "uses": [
         {
           "subject": "scene",
@@ -165415,10 +165415,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-like-they-expected-someone-from-the-office",
+      "key": "scene-talk.narrate-narrate.name-opens-the-door-as-if-expecting-the-landlord",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} opens the door like they expected someone from the office.",
+      "text": "{name} opens the door as if expecting the landlord.",
       "uses": [
         {
           "subject": "scene",
@@ -165710,10 +165710,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ve-got-bigger-things-on-that-door-than-office-sorry",
+      "key": "scene-talk.reply-decline.i-ve-got-bigger-things-on-that-door-than-a-petition-for-office-sorry",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I've got bigger things on that door than {office}. Sorry.",
+      "text": "I've got bigger things on that door than a petition for {office}. Sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -165735,10 +165735,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-does-office-do-about-rent-nothing-then-i-won-t-sign",
+      "key": "scene-talk.reply-decline.what-would-anybody-running-for-office-do-about-rent-nothing-then-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What does {office} do about rent? Nothing? Then I won't sign.",
+      "text": "What would anybody running for {office} do about rent? Nothing? Then I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -165861,10 +165861,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ve-got-until-deadline-on-this-notice-you-re-the-first-one-to-knock-who-looked",
+      "key": "scene-talk.reply-agree.i-ve-got-until-deadline-on-this-notice-you-looked-at-it-before-you-looked-at-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I've got until {deadline} on this notice. You're the first one to knock who looked at it. I'll vote for you.",
+      "text": "I've got until {deadline} on this notice. You looked at it before you looked at me. I'll vote for you.",
       "uses": [
         {
           "subject": "scene",
@@ -165988,10 +165988,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-not-talking-about-office-at-this-door-not-this-month",
+      "key": "scene-talk.reply-decline.i-m-not-talking-about-the-race-for-office-at-this-door-not-this-month",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm not talking about {office} at this door. Not this month.",
+      "text": "I'm not talking about the race for {office} at this door. Not this month.",
       "uses": [
         {
           "subject": "scene",
@@ -166013,10 +166013,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-make-up-my-mind-about-office-later-i-ve-got-rent-to-figure-out-first",
+      "key": "scene-talk.reply-decline.i-ll-make-up-my-mind-about-the-race-for-office-later-i-ve-got-rent-to-figure-out",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll make up my mind about {office} later. I've got rent to figure out first.",
+      "text": "I'll make up my mind about the race for {office} later. I've got rent to figure out first.",
       "uses": [
         {
           "subject": "scene",
@@ -166463,10 +166463,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.let-me-be-the-one-in-office-who-does-something-about-it-that-s-all-i-m-asking",
+      "key": "scene-talk.follow-press.if-i-win-the-race-for-office-let-me-be-the-one-who-does-something-about-it-that",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Let me be the one in {office} who does something about it. That's all I'm asking.",
+      "text": "If I win the race for {office}, let me be the one who does something about it. That's all I'm asking.",
       "uses": [
         {
           "subject": "scene",
@@ -166509,7 +166509,7 @@
           "role": "asker",
           "purpose": "ask-signature.rent-notice",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         },
         {
           "subject": "scene",
@@ -166518,7 +166518,7 @@
           "role": "asker",
           "purpose": "ask-support.rent-notice",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         }
       ],
       "bearing": "calm",
@@ -166543,7 +166543,7 @@
           "role": "asker",
           "purpose": "ask-signature.rent-notice",
           "key": "door",
-          "after": "decline",
+          "after": "tell",
           "requiresFacts": ["deadline"]
         },
         {
@@ -166553,7 +166553,7 @@
           "role": "asker",
           "purpose": "ask-support.rent-notice",
           "key": "door",
-          "after": "decline",
+          "after": "tell",
           "requiresFacts": ["deadline"]
         }
       ],
@@ -166579,7 +166579,7 @@
           "role": "asker",
           "purpose": "ask-signature.rent-notice",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         },
         {
           "subject": "scene",
@@ -166588,7 +166588,7 @@
           "role": "asker",
           "purpose": "ask-support.rent-notice",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         }
       ],
       "bearing": "hopeful",
@@ -166613,7 +166613,7 @@
           "role": "asker",
           "purpose": "ask-signature.rent-notice",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         },
         {
           "subject": "scene",
@@ -166622,7 +166622,7 @@
           "role": "asker",
           "purpose": "ask-support.rent-notice",
           "key": "door",
-          "after": "decline"
+          "after": "tell"
         }
       ],
       "bearing": "calm",
@@ -166785,10 +166785,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.maybe-i-just-can-t-promise-anything-about-office-right-now",
+      "key": "scene-talk.reply-decline.maybe-i-just-can-t-promise-anything-about-the-race-for-office-right-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Maybe. I just can't promise anything about {office} right now.",
+      "text": "Maybe. I just can't promise anything about the race for {office} right now.",
       "uses": [
         {
           "subject": "scene",
@@ -167003,10 +167003,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-answers-in-a-robe-with-a-blanket-still-around-their-shoulders",
+      "key": "scene-talk.narrate-narrate.name-answers-in-a-robe-with-a-blanket-around-both-shoulders",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} answers in a robe, with a blanket still around their shoulders.",
+      "text": "{name} answers in a robe, with a blanket around both shoulders.",
       "uses": [
         {
           "subject": "scene",
@@ -167035,10 +167035,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.there-s-a-pharmacy-bag-on-the-table-by-the-door-name-leans-on-the-frame",
+      "key": "scene-talk.narrate-narrate.name-answers-in-a-robe-and-slippers-moving-slowly",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "There's a pharmacy bag on the table by the door. {name} leans on the frame.",
+      "text": "{name} answers in a robe and slippers, moving slowly.",
       "uses": [
         {
           "subject": "scene",
@@ -167281,10 +167281,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-i-m-not-well-enough-to-think-about-office",
+      "key": "scene-talk.reply-decline.i-m-sorry-i-m-not-well-enough-to-think-about-the-race-for-office",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry. I'm not well enough to think about {office}.",
+      "text": "I'm sorry. I'm not well enough to think about the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -167331,10 +167331,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-got-out-of-bed-for-office-i-won-t-sign",
+      "key": "scene-talk.reply-decline.i-got-out-of-bed-for-a-petition-for-office-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I got out of bed for {office}? I won't sign.",
+      "text": "I got out of bed for a petition for {office}? I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -167581,10 +167581,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-t-think-about-office-right-now-i-m-sorry",
+      "key": "scene-talk.reply-decline.i-can-t-think-about-the-race-for-office-right-now-i-m-sorry",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't think about {office} right now. I'm sorry.",
+      "text": "I can't think about the race for {office} right now. I'm sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -167606,10 +167606,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-decide-on-office-at-the-door-especially-not-this-week",
+      "key": "scene-talk.reply-decline.i-don-t-decide-the-race-for-office-at-the-door-especially-not-this-week",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't decide on {office} at the door. Especially not this week.",
+      "text": "I don't decide the race for {office} at the door. Especially not this week.",
       "uses": [
         {
           "subject": "scene",
@@ -167631,10 +167631,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-too-sick-to-care-who-wins-office-you-don-t-have-my-vote",
+      "key": "scene-talk.reply-decline.i-m-too-sick-to-care-who-wins-the-race-for-office-you-don-t-have-my-vote",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm too sick to care who wins {office}. You don't have my vote.",
+      "text": "I'm too sick to care who wins the race for {office}. You don't have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -167656,10 +167656,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-decide-about-office-later-if-i-m-up-to-it",
+      "key": "scene-talk.reply-decline.i-ll-decide-about-the-race-for-office-later-if-i-m-up-to-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll decide about {office} later, if I'm up to it.",
+      "text": "I'll decide about the race for {office} later, if I'm up to it.",
       "uses": [
         {
           "subject": "scene",
@@ -167681,10 +167681,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-would-you-do-in-office-for-people-who-can-t-get-out-of-the-house-nothing-th",
+      "key": "scene-talk.reply-decline.if-you-win-the-race-for-office-what-would-you-do-for-people-who-can-t-get-out-of",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What would you do in {office} for people who can't get out of the house? Nothing? Then no vote.",
+      "text": "If you win the race for {office}, what would you do for people who can't get out of the house? Nothing? Then no vote.",
       "uses": [
         {
           "subject": "scene",
@@ -168112,10 +168112,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.please-just-think-about-office-before-the-election",
+      "key": "scene-talk.follow-press.please-just-think-about-the-race-for-office-before-election-day",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Please. Just think about {office} before the election.",
+      "text": "Please. Just think about the race for {office} before Election Day.",
       "uses": [
         {
           "subject": "scene",
@@ -168137,10 +168137,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.just-one-more-minute-about-office-i-ll-be-quick",
+      "key": "scene-talk.follow-press.just-one-more-minute-about-the-race-for-office-i-ll-be-quick",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Just one more minute about {office}. I'll be quick.",
+      "text": "Just one more minute about the race for {office}. I'll be quick.",
       "uses": [
         {
           "subject": "scene",
@@ -168403,10 +168403,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-from-inside-relative-calls-their-name",
+      "key": "scene-talk.narrate-narrate.name-opens-the-door-from-inside-relative-calls-out",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} opens the door. From inside, {relative} calls their name.",
+      "text": "{name} opens the door. From inside, {relative} calls out.",
       "uses": [
         {
           "subject": "scene",
@@ -168437,10 +168437,44 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-answers-with-a-pill-organizer-in-one-hand-and-a-glass-of-water-in-the-other",
+      "key": "scene-talk.narrate-narrate.name-answers-then-glances-back-toward-the-room-where-relative-is-resting",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} answers with a pill organizer in one hand and a glass of water in the other.",
+      "text": "{name} answers, then glances back toward the room where {relative} is resting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "requiresFacts": ["relative"]
+        },
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-steps-out-and-pulls-the-door-almost-closed",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} steps out and pulls the door almost closed.",
       "uses": [
         {
           "subject": "scene",
@@ -168469,42 +168503,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-steps-out-and-pulls-the-door-almost-closed-behind-them",
+      "key": "scene-talk.narrate-narrate.name-answers-quietly-as-if-someone-inside-is-asleep",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} steps out and pulls the door almost closed behind them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-signature.caring",
-          "key": "door"
-        },
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-support.caring",
-          "key": "door"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.a-monitor-on-the-shelf-by-the-door-crackles-name-answers-and-turns-it-up",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "A monitor on the shelf by the door crackles. {name} answers and turns it up.",
+      "text": "{name} answers quietly, as if someone inside is asleep.",
       "uses": [
         {
           "subject": "scene",
@@ -168736,10 +168738,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-inside-i-don-t-have-time-for-office",
+      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-inside-i-don-t-have-time-for-a-petition-for-office",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I've got someone sick inside. I don't have time for {office}.",
+      "text": "I've got someone sick inside. I don't have time for a petition for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -169014,10 +169016,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-haven-t-followed-office-at-all-i-can-t-tell-you-who-i-ll-vote-for",
+      "key": "scene-talk.reply-decline.i-haven-t-followed-the-race-for-office-at-all-i-can-t-tell-you-who-i-ll-vote-for",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I haven't followed {office} at all. I can't tell you who I'll vote for.",
+      "text": "I haven't followed the race for {office} at all. I can't tell you who I'll vote for.",
       "uses": [
         {
           "subject": "scene",
@@ -169039,10 +169041,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-in-there-i-don-t-care-who-gets-office",
+      "key": "scene-talk.reply-decline.i-ve-got-someone-sick-in-there-i-don-t-care-who-wins-the-race-for-office",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I've got someone sick in there. I don't care who gets {office}.",
+      "text": "I've got someone sick in there. I don't care who wins the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -169064,10 +169066,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-decide-on-office-when-i-decide-i-need-to-go-back-in",
+      "key": "scene-talk.reply-decline.i-ll-decide-on-the-race-for-office-when-i-decide-i-need-to-go-back-in",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll decide on {office} when I decide. I need to go back in.",
+      "text": "I'll decide on the race for {office} when I decide. I need to go back in.",
       "uses": [
         {
           "subject": "scene",
@@ -169089,10 +169091,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-would-you-do-in-office-for-families-caring-for-somebody-at-home-if-you-don",
+      "key": "scene-talk.reply-decline.if-you-win-the-race-for-office-what-would-you-do-for-families-caring-for-somebod",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What would you do in {office} for families caring for somebody at home? If you don't know, then no.",
+      "text": "If you win the race for {office}, what would you do for families caring for somebody at home? If you don't know, then no.",
       "uses": [
         {
           "subject": "scene",
@@ -170135,10 +170137,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-looks-at-the-clipboard-then-at-you-and-shakes-their-head-with-a-smile",
+      "key": "scene-talk.narrate-narrate.name-looks-at-the-clipboard-then-at-you-and-smiles",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} looks at the clipboard, then at you, and shakes their head with a smile.",
+      "text": "{name} looks at the clipboard, then at you, and smiles.",
       "uses": [
         {
           "subject": "scene",
@@ -170167,10 +170169,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-and-leans-on-the-frame-like-they-ve-got-all-day",
+      "key": "scene-talk.narrate-narrate.name-opens-the-door-and-leans-on-the-frame-in-no-hurry",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} opens the door and leans on the frame like they've got all day.",
+      "text": "{name} opens the door and leans on the frame, in no hurry.",
       "uses": [
         {
           "subject": "scene",
@@ -170225,10 +170227,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-wondered-if-you-d-ever-run-for-something-like-office-of-course-i-ll-sign",
+      "key": "scene-talk.reply-agree.i-wondered-if-you-d-ever-run-for-something-you-running-for-office-of-course-i-ll",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I wondered if you'd ever run for something like {office}. Of course I'll sign.",
+      "text": "I wondered if you'd ever run for something. You, running for {office}. Of course I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -170250,10 +170252,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.office-you-alright-i-ll-sign-somebody-has-to-keep-you-honest",
+      "key": "scene-talk.reply-agree.you-running-for-office-alright-i-ll-sign-somebody-has-to-keep-you-honest",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "{office}? You? Alright, I'll sign. Somebody has to keep you honest.",
+      "text": "You, running for {office}? Alright, I'll sign. Somebody has to keep you honest.",
       "uses": [
         {
           "subject": "scene",
@@ -170275,10 +170277,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-sign-but-you-owe-me-the-whole-story-on-why-office",
+      "key": "scene-talk.reply-agree.i-ll-sign-but-you-owe-me-the-whole-story-on-why-you-re-running-for-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll sign. But you owe me the whole story on why {office}.",
+      "text": "I'll sign. But you owe me the whole story on why you're running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170451,10 +170453,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-really-want-office-i-m-not-signing-until-i-know-you-ve-thought-it-through",
+      "key": "scene-talk.reply-decline.you-really-want-to-run-for-office-i-m-not-signing-until-i-know-you-ve-thought-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You really want {office}? I'm not signing until I know you've thought it through.",
+      "text": "You really want to run for {office}? I'm not signing until I know you've thought it through.",
       "uses": [
         {
           "subject": "scene",
@@ -170577,10 +170579,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-now-tell-me-what-you-re-going-to-do-with-office",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-now-tell-me-what-you-ll-do-if-you-win-the-race-for-office",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote. Now tell me what you're going to do with {office}.",
+      "text": "You've got my vote. Now tell me what you'll do if you win the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170753,10 +170755,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.convince-me-on-what-office-does-not-on-the-porch-then-ask-again",
+      "key": "scene-talk.reply-decline.convince-me-on-why-you-re-running-for-office-not-just-on-the-porch-then-ask-agai",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Convince me on what {office} does, not on the porch. Then ask again.",
+      "text": "Convince me on why you're running for {office}, not just on the porch. Then ask again.",
       "uses": [
         {
           "subject": "scene",
@@ -170778,10 +170780,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.ask-me-again-closer-to-the-election-self",
+      "key": "scene-talk.reply-decline.ask-me-again-closer-to-election-day-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Ask me again closer to the election, {self}.",
+      "text": "Ask me again closer to Election Day, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -170871,10 +170873,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-i-owe-you-one-whatever-happens-with-office",
+      "key": "scene-talk.follow-thank.thanks-i-owe-you-one-whatever-happens-in-the-race-for-office",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks. I owe you one, whatever happens with {office}.",
+      "text": "Thanks. I owe you one, whatever happens in the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170939,10 +170941,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-fair-no-hard-feelings-whatever-happens-with-office",
+      "key": "scene-talk.follow-accept.that-s-fair-no-hard-feelings-whatever-happens-in-the-race-for-office",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's fair. No hard feelings, whatever happens with {office}.",
+      "text": "That's fair. No hard feelings, whatever happens in the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -170973,10 +170975,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-we-re-still-good-whatever-happens-with-office",
+      "key": "scene-talk.follow-accept.i-understand-we-re-still-good-whatever-happens-in-the-race-for-office",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand. We're still good, whatever happens with {office}.",
+      "text": "I understand. We're still good, whatever happens in the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -171041,10 +171043,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-i-won-t-push-you-on-office",
+      "key": "scene-talk.follow-accept.okay-i-won-t-push-you-on-the-race-for-office",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. I won't push you on {office}.",
+      "text": "Okay. I won't push you on the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -171143,10 +171145,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.you-re-really-going-to-make-me-beg-for-office",
+      "key": "scene-talk.follow-press.you-re-really-going-to-make-me-beg-for-your-vote-for-office",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You're really going to make me beg for {office}?",
+      "text": "You're really going to make me beg for your vote for {office}?",
       "uses": [
         {
           "subject": "scene",
@@ -171311,10 +171313,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-think-about-office-that-s-the-best-you-get-from-me",
+      "key": "scene-talk.reply-decline.i-ll-think-about-the-race-for-office-that-s-the-best-you-get-from-me",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll think about {office}. That's the best you get from me.",
+      "text": "I'll think about the race for {office}. That's the best you get from me.",
       "uses": [
         {
           "subject": "scene",
@@ -171435,10 +171437,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-answers-a-party-mailer-is-on-the-table-by-the-door",
+      "key": "scene-talk.narrate-narrate.name-answers-already-half-smiling",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} answers. A party mailer is on the table by the door.",
+      "text": "{name} answers, already half smiling.",
       "uses": [
         {
           "subject": "scene",
@@ -171532,10 +171534,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-vote-the-party-and-you-re-the-party-s-for-office-you-ve-got-me",
+      "key": "scene-talk.reply-agree.i-vote-the-party-and-you-re-the-party-s-candidate-for-office-you-ve-got-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I vote the party, and you're the party's for {office}. You've got me.",
+      "text": "I vote the party, and you're the party's candidate for {office}. You've got me.",
       "uses": [
         {
           "subject": "scene",
@@ -171682,10 +171684,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.being-on-the-same-side-isn-t-enough-anymore-i-ll-decide-on-office-myself",
+      "key": "scene-talk.reply-decline.being-on-the-same-side-isn-t-enough-anymore-i-ll-decide-on-the-race-for-office-m",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Being on the same side isn't enough anymore. I'll decide on {office} myself.",
+      "text": "Being on the same side isn't enough anymore. I'll decide on the race for {office} myself.",
       "uses": [
         {
           "subject": "scene",
@@ -171707,10 +171709,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-makes-you-different-from-the-last-one-we-put-up-for-office-i-m-not-sold",
+      "key": "scene-talk.reply-decline.what-makes-you-different-from-anyone-else-the-party-could-put-up-for-office-i-m",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What makes you different from the last one we put up for {office}? I'm not sold.",
+      "text": "What makes you different from anyone else the party could put up for {office}? I'm not sold.",
       "uses": [
         {
           "subject": "scene",
@@ -171857,10 +171859,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-appreciate-it-i-won-t-embarrass-anybody-in-office",
+      "key": "scene-talk.follow-thank.i-appreciate-it-if-i-win-the-race-for-office-i-won-t-embarrass-anybody",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I appreciate it. I won't embarrass anybody in {office}.",
+      "text": "I appreciate it. If I win the race for {office}, I won't embarrass anybody.",
       "uses": [
         {
           "subject": "scene",
@@ -171882,10 +171884,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-if-you-ever-want-to-help-out-with-office-we-could-use-you",
+      "key": "scene-talk.follow-thank.thank-you-if-you-ever-want-to-help-out-with-the-race-for-office-we-could-use-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. If you ever want to help out with {office}, we could use you.",
+      "text": "Thank you. If you ever want to help out with the race for {office}, we could use you.",
       "uses": [
         {
           "subject": "scene",
@@ -171932,10 +171934,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-i-ll-keep-working-to-earn-it-before-the-vote-for-office",
+      "key": "scene-talk.follow-accept.fair-enough-i-ll-keep-working-to-earn-it-before-election-day-in-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. I'll keep working to earn it before the vote for {office}.",
+      "text": "Fair enough. I'll keep working to earn it before Election Day in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -172007,10 +172009,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.we-re-on-the-same-side-let-me-show-you-i-m-different-for-office",
+      "key": "scene-talk.follow-press.we-re-on-the-same-side-let-me-show-you-i-m-different-and-running-for-office-for",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "We're on the same side. Let me show you I'm different for {office}.",
+      "text": "We're on the same side. Let me show you I'm different, and running for {office} for the right reasons.",
       "uses": [
         {
           "subject": "scene",
@@ -172032,10 +172034,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.give-me-a-chance-at-office-that-s-all-i-m-asking",
+      "key": "scene-talk.follow-press.give-me-a-chance-in-the-race-for-office-that-s-all-i-m-asking",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Give me a chance at {office}. That's all I'm asking.",
+      "text": "Give me a chance in the race for {office}. That's all I'm asking.",
       "uses": [
         {
           "subject": "scene",
@@ -172675,10 +172677,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ve-been-waiting-for-someone-in-place-to-ask-you-ve-got-it",
+      "key": "scene-talk.reply-agree.glad-you-asked-self-you-ve-got-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I've been waiting for someone in {place} to ask. You've got it.",
+      "text": "Glad you asked, {self}. You've got it.",
       "uses": [
         {
           "subject": "scene",
@@ -172795,10 +172797,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-haven-t-thought-much-about-office-yet-ask-me-closer-to-the-day",
+      "key": "scene-talk.reply-deflect.i-haven-t-thought-much-about-the-race-for-office-yet-ask-me-closer-to-election-d",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I haven't thought much about {office} yet. Ask me closer to the day.",
+      "text": "I haven't thought much about the race for {office} yet. Ask me closer to Election Day.",
       "uses": [
         {
           "subject": "scene",
@@ -172891,10 +172893,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-fair-if-anything-changes-before-the-vote-for-office-i-d-be-glad-to-hear-i",
+      "key": "scene-talk.follow-accept.that-s-fair-if-anything-changes-before-election-day-in-place-i-d-be-glad-to-hear",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's fair. If anything changes before the vote for {office}, I'd be glad to hear it.",
+      "text": "That's fair. If anything changes before Election Day in {place}, I'd be glad to hear it.",
       "uses": [
         {
           "subject": "scene",
@@ -172915,10 +172917,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-thank-you-for-hearing-me-out-about-office",
+      "key": "scene-talk.follow-accept.i-understand-thank-you-for-hearing-me-out-about-the-race-for-office",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand. Thank you for hearing me out about {office}.",
+      "text": "I understand. Thank you for hearing me out about the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -172963,10 +172965,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.tell-me-one-thing-you-d-want-from-whoever-wins-office",
+      "key": "scene-talk.follow-press.tell-me-one-thing-you-d-want-from-whoever-wins-the-race-for-office",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Tell me one thing you'd want from whoever wins {office}.",
+      "text": "Tell me one thing you'd want from whoever wins the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -172987,10 +172989,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.what-would-you-want-to-see-from-office-first",
+      "key": "scene-talk.follow-press.if-i-win-the-race-for-office-what-would-you-want-to-see-first",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "What would you want to see from {office} first?",
+      "text": "If I win the race for {office}, what would you want to see first?",
       "uses": [
         {
           "subject": "scene",
@@ -173011,10 +173013,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-ll-be-back-before-the-vote-for-office-will-you-keep-an-open-mind",
+      "key": "scene-talk.follow-press.i-ll-be-back-before-election-day-will-you-keep-an-open-mind-about-the-race-for-o",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'll be back before the vote for {office}. Will you keep an open mind?",
+      "text": "I'll be back before Election Day. Will you keep an open mind about the race for {office}?",
       "uses": [
         {
           "subject": "scene",
@@ -173035,10 +173037,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-work-to-earn-it-as-office",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-work-to-earn-it-all-through-the-race-for-office",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll work to earn it as {office}.",
+      "text": "Thank you. I'll work to earn it, all through the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -173083,10 +173085,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-work-hard-for-it-all-the-way-to-the-vote-for-office",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-work-hard-for-it-all-the-way-to-election-day-for-office",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll work hard for it all the way to the vote for {office}.",
+      "text": "Thank you. I'll work hard for it all the way to Election Day for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -173130,10 +173132,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-comes-to-the-door-still-holding-a-coffee-mug",
+      "key": "scene-talk.narrate-narrate.name-answers-the-door-and-steps-halfway-out",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} comes to the door still holding a coffee mug.",
+      "text": "{name} answers the door and steps halfway out.",
       "uses": [
         {
           "subject": "scene",
@@ -173176,10 +173178,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.a-dog-barks-somewhere-inside-before-name-opens-the-door",
+      "key": "scene-talk.narrate-narrate.name-answers-after-the-second-knock",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "A dog barks somewhere inside before {name} opens the door.",
+      "text": "{name} answers after the second knock.",
       "uses": [
         {
           "subject": "scene",
@@ -173297,10 +173299,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-ll-leave-it-there-self-good-luck-with-office",
+      "key": "scene-talk.reply-leave.i-ll-leave-it-there-self-good-luck-in-the-race-for-office",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll leave it there, {self}. Good luck with {office}.",
+      "text": "I'll leave it there, {self}. Good luck in the race for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -173441,6 +173443,4017 @@
       "date": "2026-11-14",
       "tag": {
         "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.before-i-go-what-would-you-want-from-whoever-wins-the-race-for-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Before I go, what would you want from whoever wins the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.can-i-ask-what-matters-most-to-you-here-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Can I ask what matters most to you here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.if-i-win-the-race-for-office-what-should-i-work-on-first-for-you",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "If I win the race for {office}, what should I work on first for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-s-the-one-thing-you-d-fix-in-place-if-it-were-up-to-you",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What's the one thing you'd fix in {place} if it were up to you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-do-people-on-this-street-in-place-talk-about-most",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What do people on this street in {place} talk about most?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.somebody-who-answers-the-phone-when-place-calls-that-s-all",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Somebody who answers the phone when {place} calls. That's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-self-just-show-up-when-people-need-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly, {self}? Just show up when people need you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-want-to-know-where-the-money-in-place-goes-tell-people-straight",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I want to know where the money in {place} goes. Tell people straight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.keep-it-simple-self-do-what-you-say-you-ll-do-and-tell-us-when-you-can-t",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Keep it simple, {self}. Do what you say you'll do, and tell us when you can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.that-people-in-place-can-afford-to-stay-here-that-s-my-whole-list",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That people in {place} can afford to stay here. That's my whole list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-hold-myself-to-that-if-i-win-the-race-for-office",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll hold myself to that if I win the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.that-s-a-promise-i-can-make-you-ll-see-it-from-me-in-place",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "That's a promise I can make. You'll see it from me in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-write-that-down-and-i-ll-answer-for-it-if-i-win-the-race-for-office",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll write that down, and I'll answer for it if I win the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-can-promise-you-that-much-hold-me-to-it-in-place",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I can promise you that much. Hold me to it in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.thank-you-for-telling-me-that-helps-more-than-you-d-think-in-a-race-for-office",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Thank you for telling me. That helps more than you'd think in a race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.that-s-fair-to-ask-of-anyone-running-for-office-thank-you",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "That's fair to ask of anyone running for {office}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.good-to-know-what-matters-at-this-door-in-place-thanks-for-your-time",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Good to know what matters at this door in {place}. Thanks for your time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.thanks-for-being-straight-with-me-it-s-what-i-need-to-hear-in-the-race-for-offic",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Thanks for being straight with me. It's what I need to hear in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.how-are-you-holding-up-since-employer",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "How are you holding up since {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.can-i-ask-how-the-job-search-is-going-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Can I ask how the job search is going in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.lost-job",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.lost-job",
+          "key": "door"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.is-there-anything-that-would-make-the-next-few-weeks-easier-for-you-here-in-plac",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Is there anything that would make the next few weeks easier for you here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.lost-job",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.lost-job",
+          "key": "door"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-happened-at-employer-if-you-don-t-mind-me-asking",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What happened at {employer}, if you don't mind me asking?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-would-actually-help-you-right-now-here-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What would actually help you right now, here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.lost-job",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.lost-job",
+          "key": "door"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-been-since-out-of-work-now-the-interviews-are-the-easy-part-the-waiting-is",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's been {since} out of work now. The interviews are the easy part. The waiting is the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["since"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["since"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.employer-let-me-go-and-the-bills-didn-t-stop-when-the-paychecks-did",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{employer} let me go, and the bills didn't stop when the paychecks did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-applying-everywhere-in-place-that-s-hiring-nobody-s-called-back-yet",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm applying everywhere in {place} that's hiring. Nobody's called back yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-self-it-s-hard-to-say-out-loud-i-just-want-to-work-again",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly, {self}? It's hard to say out loud. I just want to work again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-d-take-anything-in-place-right-now-i-mean-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'd take anything in {place} right now. I mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-m-sorry-it-happened-i-hope-the-right-call-comes-soon-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry it happened. I hope the right call comes soon in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.thank-you-for-telling-me-i-won-t-take-more-of-your-time-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Thank you for telling me. I won't take more of your time in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.that-s-a-lot-to-carry-i-m-glad-you-opened-the-door-to-me-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "That's a lot to carry. I'm glad you opened the door to me in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.good-luck-with-the-search-in-place-i-mean-that",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Good luck with the search in {place}. I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.thank-you-self-come-back-with-it-and-i-ll-be-glad-i-signed",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Thank you, {self}. Come back with it, and I'll be glad I signed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-would-mean-more-than-my-name-on-your-petition-self",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That would mean more than my name on your petition, {self}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.thank-you-self-bring-it-by-and-you-ll-have-earned-that-vote",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Thank you, {self}. Bring it by, and you'll have earned that vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-worth-more-to-me-than-anything-about-the-race-for-office-self",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's worth more to me than anything about the race for {office}, {self}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.is-everything-alright-with-the-notice-if-you-don-t-mind-me-asking-i-m-only-here",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Is everything alright with the notice, if you don't mind me asking? I'm only here about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.rent-notice",
+          "key": "door"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.can-i-ask-what-s-going-on-with-the-rent-here-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Can I ask what's going on with the rent here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.rent-notice",
+          "key": "door"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.is-there-anything-i-could-find-out-for-you-before-deadline",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Is there anything I could find out for you before {deadline}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "requiresFacts": ["deadline"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-would-help-you-most-right-now-with-the-landlord-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What would help you most right now with the landlord in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.rent-notice",
+          "key": "door"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.who-should-i-be-asking-about-rents-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Who should I be asking about rents in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.rent-notice",
+          "key": "door"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.the-notice-says-deadline-i-don-t-know-where-we-d-go-after-that",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The notice says {deadline}. I don't know where we'd go after that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["deadline"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-owed-behind-i-m-working-on-it-but-it-doesn-t-move-fast",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm {owed} behind. I'm working on it, but it doesn't move fast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["owed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-fell-behind-and-the-landlord-in-place-isn-t-waiting-that-s-the-whole-story",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I fell behind, and the landlord in {place} isn't waiting. That's the whole story.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-don-t-want-to-leave-place-self-this-is-where-my-life-is",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I don't want to leave {place}, {self}. This is where my life is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.nobody-tells-you-where-to-go-for-help-in-place-until-it-s-too-late",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Nobody tells you where to go for help in {place} until it's too late.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-m-sorry-i-hope-it-turns-around-for-you-here-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry. I hope it turns around for you here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.thank-you-for-telling-me-that-s-not-easy-to-say-to-someone-running-for-office",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Thank you for telling me. That's not easy to say to someone running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.that-s-a-lot-i-ll-let-you-get-back-to-it-and-good-luck-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "That's a lot. I'll let you get back to it, and good luck in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.hang-in-there-i-mean-that-for-what-it-s-worth-from-someone-running-for-office",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Hang in there. I mean that, for what it's worth from someone running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.thank-you-self-if-you-come-back-with-it-i-ll-be-glad-my-name-s-on-that-petition",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Thank you, {self}. If you come back with it, I'll be glad my name's on that petition.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-kind-self-bring-it-by-when-you-can-i-ll-sign-either-way",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's kind, {self}. Bring it by when you can. I'll sign either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.thank-you-self-that-s-the-kind-of-thing-that-keeps-my-vote",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Thank you, {self}. That's the kind of thing that keeps my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-kind-self-you-ve-got-my-vote-and-i-ll-hold-you-to-the-rest",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's kind, {self}. You've got my vote, and I'll hold you to the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.are-you-alright-i-can-come-back-another-time-to-talk-about-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Are you alright? I can come back another time to talk about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.can-i-ask-how-you-re-feeling-don-t-let-me-keep-you-on-your-feet-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Can I ask how you're feeling? Don't let me keep you on your feet in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.is-there-anything-you-need-from-the-store-while-i-m-out-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Is there anything you need from the store while I'm out in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.how-long-have-you-been-unwell-i-won-t-keep-you-long-about-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "How long have you been unwell? I won't keep you long about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.is-someone-looking-after-you-here-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Is someone looking after you here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-been-a-rough-stretch-self-some-days-are-better-than-this-one",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's been a rough stretch, {self}. Some days are better than this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-supposed-to-be-resting-rest-doesn-t-pay-any-bills-in-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm supposed to be resting. Rest doesn't pay any bills in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-managing-self-it-s-just-slow-going",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm managing, {self}. It's just slow going.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-getting-by-self-it-helps-that-someone-in-place-asked",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm getting by, {self}. It helps that someone in {place} asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-be-alright-self-i-just-don-t-have-much-in-me-right-now",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll be alright, {self}. I just don't have much in me right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.if-i-can-do-anything-for-you-while-i-m-out-in-place-i-will-just-say-so",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "If I can do anything for you while I'm out in {place}, I will. Just say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-check-back-on-you-in-a-week-or-so-whatever-happens-in-the-race-for-office",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll check back on you in a week or so, whatever happens in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-look-into-what-place-has-for-people-who-can-t-get-out-much-and-bring-it-by",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll look into what {place} has for people who can't get out much, and bring it by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.next-time-i-m-on-this-street-in-place-i-ll-knock-to-see-how-you-are",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Next time I'm on this street in {place}, I'll knock to see how you are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.feel-better-i-m-glad-i-got-to-meet-you-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Feel better. I'm glad I got to meet you in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.take-care-of-yourself-that-matters-more-than-the-race-for-office",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Take care of yourself. That matters more than the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.get-some-rest-i-ll-leave-you-be-here-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Get some rest. I'll leave you be, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-hope-it-passes-soon-thank-you-for-coming-to-the-door-for-someone-running-for-o",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I hope it passes soon. Thank you for coming to the door for someone running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.how-is-relative-doing-if-you-don-t-mind-me-asking",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "How is {relative} doing, if you don't mind me asking?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "requiresFacts": ["relative"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.is-everything-alright-inside-i-can-come-back-another-time-about-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Is everything alright inside? I can come back another time about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.who-s-helping-you-look-after-things-here-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Who's helping you look after things here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.is-there-anything-you-need-while-i-m-out-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Is there anything you need while I'm out in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.that-sounds-like-a-lot-to-carry-how-are-you-doing-yourself-here-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "That sounds like a lot to carry. How are you doing yourself, here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.relative-has-good-days-and-bad-ones-this-isn-t-a-good-one",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{relative} has good days and bad ones. This isn't a good one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["relative"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.looking-after-relative-takes-everything-i-ve-got-right-now",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Looking after {relative} takes everything I've got right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["relative"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-tired-self-that-s-the-honest-answer",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm tired, {self}. That's the honest answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-d-give-anything-for-an-afternoon-off-in-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'd give anything for an afternoon off in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-hard-to-think-past-the-next-appointment-self",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's hard to think past the next appointment, {self}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-find-out-what-help-place-has-for-families-caring-for-someone-at-home-and-br",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll find out what help {place} has for families caring for someone at home, and bring it by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.if-you-need-someone-to-sit-with-relative-for-an-hour-i-ll-find-you-a-name",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "If you need someone to sit with {relative} for an hour, I'll find you a name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["relative"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-look-into-respite-care-in-place-and-let-you-know-what-i-find",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll look into respite care in {place} and let you know what I find.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.next-time-i-m-on-this-street-in-place-i-ll-stop-to-see-how-you-re-both-doing",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Next time I'm on this street in {place}, I'll stop to see how you're both doing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.give-relative-my-best-i-ll-let-you-get-back-inside",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Give {relative} my best. I'll let you get back inside.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["relative"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.take-care-of-yourself-too-it-matters-whatever-happens-in-the-race-for-office",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Take care of yourself too. It matters, whatever happens in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.thank-you-for-coming-out-i-won-t-keep-you-from-relative",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Thank you for coming out. I won't keep you from {relative}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["relative"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "tell",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-hope-things-get-easier-for-your-family-here-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I hope things get easier for your family here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.caring",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.caring",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.how-have-you-been-really-i-don-t-just-mean-the-race-for-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "How have you been, really? I don't just mean the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.can-i-ask-you-something-what-do-people-say-about-me-around-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Can I ask you something? What do people say about me around {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-would-you-tell-me-to-do-differently-in-this-race-for-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What would you tell me to do differently in this race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.you-know-me-what-am-i-missing-about-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "You know me. What am I missing about {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.be-honest-do-you-think-i-can-win-the-race-for-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Be honest. Do you think I can win the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-self-people-like-you-they-just-don-t-know-what-you-d-do-yet",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly, {self}? People like you. They just don't know what you'd do yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.slow-down-when-you-re-knocking-self-let-people-talk-first",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Slow down when you're knocking, {self}. Let people talk first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-think-you-d-be-good-at-it-self-i-just-worry-about-what-it-ll-cost-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I think you'd be good at it, {self}. I just worry about what it'll cost you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.folks-around-place-want-to-know-you-ll-still-be-you-after-the-election",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Folks around {place} want to know you'll still be you after the election.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-fine-self-busier-than-i-d-like-but-fine",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm fine, {self}. Busier than I'd like, but fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-take-that-to-heart-hold-me-to-it-if-i-win-the-race-for-office",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll take that to heart. Hold me to it, if I win the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-promise-i-ll-still-be-the-same-person-after-the-race-for-office",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I promise I'll still be the same person after the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-will-win-or-lose-i-ll-come-back-and-tell-you-how-it-went-in-place",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I will. Win or lose, I'll come back and tell you how it went in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.deal-i-ll-slow-down-and-i-ll-listen-more-at-every-door-in-place",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Deal. I'll slow down, and I'll listen more at every door in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.thanks-for-being-honest-with-me-that-s-why-i-wanted-to-knock-here-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Thanks for being honest with me. That's why I wanted to knock here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.it-s-good-to-see-you-let-s-get-together-after-the-race-for-office",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "It's good to see you. Let's get together after the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-ll-let-you-go-thanks-for-putting-up-with-me-and-the-clipboard-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I'll let you go. Thanks for putting up with me and the clipboard in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.that-s-the-honest-answer-i-came-for-thank-you-whatever-happens-in-the-race-for-o",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "That's the honest answer I came for. Thank you, whatever happens in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-would-you-want-the-party-to-do-differently-in-place",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What would you want the party to do differently in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-do-you-need-from-someone-in-our-party-running-for-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What do you need from someone in our party running for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-s-the-party-getting-wrong-in-place-in-your-view",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What's the party getting wrong in {place}, in your view?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.if-you-could-tell-the-party-one-thing-about-place-what-would-it-be",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "If you could tell the party one thing about {place}, what would it be?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-would-make-you-proud-to-vote-for-our-side-in-the-race-for-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What would make you proud to vote for our side in the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.listen-more-and-send-fewer-mailers-people-in-place-notice",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Listen more and send fewer mailers. People in {place} notice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.stop-taking-us-for-granted-self-a-vote-isn-t-a-habit",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Stop taking us for granted, {self}. A vote isn't a habit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.show-up-between-elections-in-place-not-just-before-them",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Show up between elections in {place}, not just before them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.pick-fights-worth-having-that-s-all-i-want-from-our-side-in-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Pick fights worth having. That's all I want from our side in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.run-like-you-mean-it-self-i-ll-do-the-rest",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Run like you mean it, {self}. I'll do the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "ask"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.that-s-fair-i-ll-show-up-in-place-after-the-race-for-office-too",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "That's fair. I'll show up in {place} after the race for {office} too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-won-t-take-your-vote-for-granted-i-ll-earn-it-again-next-time-in-place",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I won't take your vote for granted. I'll earn it again next time in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-bring-that-to-the-party-in-place-and-i-ll-tell-you-what-they-say",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll bring that to the party in {place}, and I'll tell you what they say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.you-have-my-word-i-ll-listen-more-than-i-talk-in-the-race-for-office",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "You have my word. I'll listen more than I talk in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.thanks-for-telling-me-straight-we-need-people-like-you-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Thanks for telling me straight. We need people like you in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.fair-enough-i-ll-let-you-get-on-with-your-day-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Fair enough. I'll let you get on with your day in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-appreciate-it-it-s-good-to-know-where-our-side-stands-in-place",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I appreciate it. It's good to know where our side stands in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.thank-you-that-s-worth-more-than-a-yard-sign-in-the-race-for-office",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Thank you. That's worth more than a yard sign in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "comfort",
         "key": "door"
       }
     }
