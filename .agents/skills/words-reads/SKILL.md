@@ -1,6 +1,6 @@
 ---
 name: words-reads
-description: How the Words lead of Our Civic Duty reads a change to anything a player reads (a scene, a talk, the paper, a speech, the Journal, a screen label) before it joins a train or main, and the numbered rules those reads have set since Nov 13 (rules 30 to 81, after the first twenty-nine on the crew issue). Use when you build or change player words and want to know what the read will ask for, when you are the Words lead or a builder working for it, and when writing lines for a door, a first meeting, home talk, an address or an election story. Not for the engine's mechanics (words-engine), the standard a scene must meet to exist (scene-standard) or checking a screen for developer text (player-screen-text).
+description: How the Words lead of Our Civic Duty reads a change to anything a player reads (a scene, a talk, the paper, a speech, the Journal, a screen label) before it joins a train or main, and the numbered rules those reads have set since Nov 13 (rules 30 to 90, after the first twenty-nine on the crew issue). Use when you build or change player words and want to know what the read will ask for, when you are the Words lead or a builder working for it, and when writing lines for a door, a first meeting, home talk, an address, the Journal or an election story. Not for the engine's mechanics (words-engine), the standard a scene must meet to exist (scene-standard) or checking a screen for developer text (player-screen-text).
 ---
 
 # Words reads
@@ -91,6 +91,18 @@ description: How the Words lead of Our Civic Duty reads a change to anything a p
 79. A figure is said once per talk; after that it is "that" or "the rent".
 80. A goodbye is one goodbye: a core that is already a goodbye takes no closer.
 81. A modest wording ("just a") fits the job; not for someone who heads a department or a body.
+
+## Rules 82 to 90: the Journal
+
+82. A past paragraph is one stretch of a life (growing up; first work and a partner; the children; the working years; the last few years), headed by its span of years.
+83. Dates are said, never printed raw: a past paragraph by its years, a played entry by its day as the game says days.
+84. A partner is named as what they are the first time ("my wife, Robin"), from the relationship record.
+85. Children are told together in one sentence; a child gets its own sentence only when something else on record happened with it.
+86. The town is named at most once per paragraph, and not at all where the chapter heading names it.
+87. Nothing trivial (a spell of work under a season folds into the working years) and nothing about someone else alone.
+88. Family is said the way people say it ("I had an older brother, Diego"), and a fact the record cannot explain is left out.
+89. An event is told with its end: a filing says what it meant, election day is an entry, a race tells its result with the count once.
+90. One entry per law that reached the person, by the law's said name, with the one largest change and where they learned of it; no entry for a change they could not notice.
 
 ## Traps
 
