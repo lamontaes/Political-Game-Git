@@ -7,6 +7,7 @@ import {
   donationAsksFor,
   askToVolunteer,
   campaignFor,
+  petitionAsksAtDoors,
   commissionPoll,
   endorsementsOf,
   giveSpeech,
@@ -25,11 +26,7 @@ import {
   type CandidateStanding,
   type CampaignDayKind,
 } from "../core2/campaign-day";
-import {
-  petitionCirculating,
-  petitionOf,
-  petitionSigners,
-} from "../core2/modules/elections";
+import { petitionOf, petitionSigners } from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
@@ -769,7 +766,7 @@ export function campaignDay(
   const doorSigners = () =>
     petitionSigners(api, input.filingId).filter((s) => s.via === "door").length;
   const petitionOut =
-    kind === "canvass" && petitionCirculating(api, input.filingId);
+    kind === "canvass" && petitionAsksAtDoors(api, input.filingId);
   const signedBefore = petitionOut ? doorSigners() : 0;
   // Counted residents who opened stay a count (two-level population), so the
   // doors answered are the people met plus that count's growth: every door
