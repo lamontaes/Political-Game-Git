@@ -1,6 +1,6 @@
 ---
 id: director-porch-scene-follows-the-days-doors
-title: 'A porch scene comes on a fixed every-third-outing rhythm, not from who answered the day''s doors'
+title: "A porch scene comes on a fixed every-third-outing rhythm, not from who answered the day's doors"
 area: director
 kind: feature
 priority: 3

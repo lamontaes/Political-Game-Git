@@ -9,7 +9,6 @@ import {
   talkReply,
   fillTalk,
   talkControls,
-  addTalkLine,
   mountTalkKeys,
   mountSpeakers,
 } from "./ui/talk-box.mjs";

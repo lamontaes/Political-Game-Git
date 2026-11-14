@@ -1,6 +1,6 @@
 ---
 id: campaign-player-doors-ask-signatures-past-the-target
-title: 'The player''s doors keep asking for signatures after the petition holds enough (332 against 1)'
+title: "The player's doors keep asking for signatures after the petition holds enough (332 against 1)"
 area: elections
 kind: owner-decision
 priority: 3
