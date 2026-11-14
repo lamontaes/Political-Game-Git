@@ -90506,7 +90506,7 @@
       "key": "opening-speech.tie.polished-inaugural-another-years-of-that-would-be-a-failure-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "More of that on {context-name} would be a failure of this government.",
+      "text": "When it comes to {context-name}, more of the same would be a failure of this government.",
       "uses": [
         {
           "move": "tie",
@@ -90846,7 +90846,7 @@
       "key": "opening-speech.tie.polished-inaugural-no-one-should-have-to-live-through-more-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "No one should have to live through more of that on {context-name}.",
+      "text": "When it comes to {context-name}, no one should have to live through more of that.",
       "uses": [
         {
           "move": "tie",
@@ -91016,7 +91016,7 @@
       "key": "opening-speech.tie.plain-inaugural-nobody-signed-up-for-more-years-of-that-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "Nobody signed up for more of that on {context-name}.",
+      "text": "When it comes to {context-name}, nobody signed up for more of that.",
       "uses": [
         {
           "move": "tie",
@@ -91186,7 +91186,7 @@
       "key": "opening-speech.tie.plain-inaugural-we-ve-had-years-of-that-and-that-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "We've had enough of that on {context-name}.",
+      "text": "When it comes to {context-name}, we've had enough of that.",
       "uses": [
         {
           "move": "tie",
@@ -91271,7 +91271,7 @@
       "key": "opening-speech.tie.plain-inaugural-folks-shouldn-t-sit-through-more-years-of-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "Folks shouldn't sit through more of that on {context-name}.",
+      "text": "When it comes to {context-name}, folks shouldn't have to sit through more of that.",
       "uses": [
         {
           "move": "tie",
@@ -91356,7 +91356,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-like-these-we-should-not-give-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "After all of this on {context-name}, we should not give back what we have won.",
+      "text": "When it comes to {context-name}, we should not give back what we have won.",
       "uses": [
         {
           "move": "tie",
@@ -91611,7 +91611,7 @@
       "key": "opening-speech.tie.polished-inaugural-having-come-through-years-of-that-we-should-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "Having come through all of that on {context-name}, we should keep what works.",
+      "text": "When it comes to {context-name}, having come through all of that, we should keep what works.",
       "uses": [
         {
           "move": "tie",
@@ -91866,7 +91866,7 @@
       "key": "opening-speech.tie.plain-inaugural-we-ve-had-years-of-that-so-we-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "We've seen {context-name} work, so we keep what's working.",
+      "text": "We've seen what works on {context-name}, so we keep what's working.",
       "uses": [
         {
           "move": "tie",
@@ -92376,7 +92376,7 @@
       "key": "opening-speech.tie.polished-inaugural-families-who-have-carried-years-of-that-deserve-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "Families who have carried all of that on {context-name} deserve relief, not a new bill.",
+      "text": "When it comes to {context-name}, families who have carried all of that deserve relief, not a new bill.",
       "uses": [
         {
           "move": "tie",
@@ -92801,7 +92801,7 @@
       "key": "opening-speech.tie.plain-inaugural-folks-who-ve-lived-through-years-of-that-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "Folks who've lived through all of that on {context-name} need a break, not a new cost.",
+      "text": "When it comes to {context-name}, folks who've lived through all of that need a break, not a new cost.",
       "uses": [
         {
           "move": "tie",
@@ -93566,7 +93566,7 @@
       "key": "opening-speech.tie.plain-inaugural-we-gave-it-years-and-that-s-what-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "We gave {context-name} a fair try, and that's what we got.",
+      "text": "We gave {context-name} a fair try, and this is what we got.",
       "uses": [
         {
           "move": "tie",
@@ -113141,7 +113141,7 @@
       "key": "opening-speech.story-says.local-polished-health-that-is-progress-on-good-name-that-families-fe",
       "move": "story-says",
       "kind": "spoken",
-      "text": "That is progress on {good-name} that families feel in their own lives.",
+      "text": "Progress on {good-name} is something families feel in their own lives.",
       "uses": [
         {
           "move": "story-says",
@@ -113197,7 +113197,7 @@
       "key": "opening-speech.story-says.local-plain-health-that-s-progress-on-good-name-that-families-fee",
       "move": "story-says",
       "kind": "spoken",
-      "text": "That's progress on {good-name} that families feel in their own lives.",
+      "text": "Progress on {good-name}'s something families feel in their own lives.",
       "uses": [
         {
           "move": "story-says",

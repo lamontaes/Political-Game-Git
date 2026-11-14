@@ -182,6 +182,8 @@ const OUTLINES = outlineData as unknown as {
   todaySlots: readonly string[];
   /** Themes whose short name does not read after "On" (round 4). */
   themeShortNoOn: { readonly themes: readonly string[] };
+  /** Past-tense words that mark a wording of how a question stands as something that happened (round 6). */
+  pastWords: readonly string[];
   /** What a body's measures are called by their form (bodyNumbering's kind). */
   measureWords: Readonly<Record<string, string>>;
   conditions: { budgetEvenBand: Weight; budgetThemes: readonly string[] };
@@ -793,6 +795,9 @@ export function opposedOf(stands: readonly Stand[]): Stand[] {
       (a, b) => a.stance - b.stance || a.question.localeCompare(b.question),
     );
 }
+
+/** A wording of how a question stands that tells of something that happened, not of how things are now. */
+const PAST_TENSE = new RegExp(`\\b(${OUTLINES.pastWords.join("|")})\\b`, "i");
 
 /** The facts a stand is spoken with: its names, the President's side and the law. */
 export function standFacts(
@@ -2415,7 +2420,11 @@ export function planSpeech(
                   if (n === undefined) return [];
                   return [
                     [`today${n}`, fact(said, ...cited)],
-                    [`today-clause${n}`, fact(clauseOf(said), ...cited)],
+                    // A condition said in the past takes no "As of right
+                    // now" or "For now" opener (round 6).
+                    ...(PAST_TENSE.test(said)
+                      ? []
+                      : [[`today-clause${n}`, fact(clauseOf(said), ...cited)]]),
                     [
                       `today-question${n}`,
                       fact(clauseOf(said).replace(/[.!?]$/, ""), ...cited),

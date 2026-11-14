@@ -491,6 +491,13 @@ export function composeBlocks(
         (variant) =>
           !ledIn.has(variant.kind === "template" ? variant.text : variant.key),
       );
+      // A meaning line says "that" of the fact line before it, so it plays
+      // only after its own fact line in the same block (words lead, round 6).
+      if (
+        (planned.key === "meaning" || planned.key.startsWith("meaning-")) &&
+        !address.moves.some((done) => /^context(-|$)/.test(done.move))
+      )
+        continue;
       const move: OpeningMove =
         opener && unsaid!.length < opener.variants.length
           ? {

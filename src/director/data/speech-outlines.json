@@ -485,6 +485,28 @@
   },
   "todaySlots": ["", "-second", "-third"],
   "todaySlotsAbout": "The slot endings of the first, second and third wordings of how a question stands today ({today}, {today-second}, {today-third}); a slot name holds no digit, so the bank test's no-figure check reads its text. A fourth wording is not offered: the bank says three.",
+  "pastWords": [
+    "went",
+    "rose",
+    "fell",
+    "grew",
+    "dropped",
+    "was",
+    "were",
+    "became",
+    "ended",
+    "passed",
+    "took",
+    "raised",
+    "cut",
+    "lost",
+    "gained",
+    "doubled",
+    "jumped",
+    "climbed",
+    "shrank",
+    "got"
+  ],
   "themeShortNoOn": {
     "about": "Themes whose short name does not read after \"On\" (the words lead, Nov 14, round 4): a close for one of them says no theme tag. A tag (\"On X, ...\") is said at most once in an address, so a close that follows a meaning line says none either.",
     "themes": ["safety-net"]

@@ -307,6 +307,32 @@ describe("every speech through the one outline planner", () => {
             .filter((sentence) => /^On (?!average\b)[a-z' ]+, /.test(sentence));
           if (tags.length > 1)
             failures.push(`${label}: ${tags.length} sentences open with a tag`);
+          // 5. A meaning line plays only right after its own fact line, and
+          // a past-tense condition takes no "now" opener (words lead, round 6).
+          for (const [at, sentence] of speech.sentences.entries()) {
+            const meaning =
+              sentence.facts.includes("context-name") &&
+              !sentence.facts.includes("context-years") &&
+              !sentence.facts.includes("figure-ties") &&
+              sentence.facts.some(
+                (key) => key.startsWith("context-") && key !== "context-name",
+              );
+            if (
+              meaning &&
+              !speech.sentences[at - 1]?.facts.includes("context-years")
+            )
+              failures.push(
+                `${label}: a meaning line has no fact line before it: "${sentence.text}"`,
+              );
+            if (
+              /^(As of right now|For now|As of today|As it is now|These days|As things stand|As matters stand|Today|At this moment|As we meet tonight|As we stand here), (the|a|an|some)?\s?[^,.]*\b(went|rose|fell|grew|dropped|was|were|became|ended|passed|took|raised|cut|lost|gained)\b/.test(
+                sentence.text,
+              )
+            )
+              failures.push(
+                `${label}: a past-tense condition opens with a "now": "${sentence.text}"`,
+              );
+          }
           // 6. Removed by kind: the last office's lesson, a greeting that is
           // not a list, a close that warns against its own ask.
           for (const [pattern, why] of [

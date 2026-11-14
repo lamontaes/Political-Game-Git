@@ -2646,7 +2646,7 @@
       "today": {
         "without": {
           "for": "Most voters have to go to a polling place or ask for a ballot by mail.",
-          "against": "Voters come to a polling place, where workers check who they are."
+          "against": "Voters come to a polling place, where workers check names against the rolls."
         },
         "with": {
           "for": "Every voter gets a ballot in the mail.",
@@ -2666,7 +2666,7 @@
             "A voter who works long hours can miss the chance to vote."
           ],
           "against": [
-            "Voters come to a polling place, where workers check who they are.",
+            "Voters come to a polling place, where workers check names against the rolls.",
             "Folks vote in person, and workers at the polls check who they are."
           ]
         },
