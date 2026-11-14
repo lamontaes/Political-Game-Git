@@ -8,6 +8,7 @@ import { describe, expect, it } from "vitest";
 import type { PartGradeLedger } from "./english-grades";
 import { verdictId, type JudgedStore } from "./judged";
 import {
+  caseIsOwners,
   exchangeOutcome,
   exchangeSubjects,
   judgesExchanges,
@@ -168,5 +169,13 @@ describe("what a no pair does", () => {
     );
     expect(run.barred).toEqual({});
     expect(run.conflicts).toEqual([{ key: "promise", rule: "commits" }]);
+  });
+});
+
+describe("whose spare a case is", () => {
+  it("a lead's case tests the rule but is never one of the owner's liked lines", () => {
+    expect(caseIsOwners("All right.")).toBe(true);
+    expect(caseIsOwners({ text: "All right." })).toBe(true);
+    expect(caseIsOwners({ text: "Need help moving?", by: "lead" })).toBe(false);
   });
 });

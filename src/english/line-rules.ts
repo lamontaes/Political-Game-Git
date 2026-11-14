@@ -106,11 +106,15 @@ export interface RuleApplies {
  * A line a rule must catch or spare. A bare string is the line wherever it is
  * said (the rule's `applies` is ignored); a line with its spot is tested
  * where it is said, for a rule that tells two lines apart by their place.
+ * A case with `by: "lead"` is the Words lead's, not a line the owner liked:
+ * it tests the rule but is never held up as one of his.
  */
 export type RuleCase =
   | string
   | {
       readonly text: string;
+      /** Whose case it is when it is not the owner's own words or grades. */
+      readonly by?: "lead";
       readonly bank?: string;
       readonly kind?: string;
       readonly move?: string;
@@ -487,6 +491,10 @@ export function textAsPiece(text: string): RulePiece {
 export function textBreaksRule(rule: LineRule, text: string): boolean {
   return ruleFlags({ ...rule, applies: undefined }, textAsPiece(text));
 }
+
+/** Whether a case is a line the owner liked, not one the Words lead supplied. */
+export const caseIsOwners = (line: RuleCase): boolean =>
+  typeof line === "string" || line.by !== "lead";
 
 /** The words of a case, for checks that read only the line. */
 export const caseText = (line: RuleCase): string =>

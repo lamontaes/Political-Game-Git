@@ -200,6 +200,7 @@
   "barred": {},
   "awaitingVerdict": {
     "commitment-names-who-what-why": 0,
+    "player-never-says-unchosen (pairs)": 0,
     "stake-is-named": 0
   }
 }

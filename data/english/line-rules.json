@@ -4178,7 +4178,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "sample",
       "test": {
         "kind": "judged"
       },
@@ -4192,7 +4192,13 @@
         }
       },
       "catches": ["I see."],
-      "note": "His record (Nov 1): after \"File for this office\" the player was shown saying \"I see.\" Verdicts kept (7 yes, 0 no). Leaves awaiting-test with a spare he liked."
+      "note": "His record (Nov 1): after \"File for this office\" the player was shown saying \"I see.\" The spare is the Words lead's, not a line he liked: offered \"Need help moving?\" and spoken as \"Need help moving?\". No liked player line restates its offered reply. Verdicts: 7 yes, 0 no.",
+      "spares": [
+        {
+          "text": "Need help moving?",
+          "by": "lead"
+        }
+      ]
     },
     {
       "id": "body-named-as-place-names-it",
@@ -4591,7 +4597,7 @@
         "moves": "^reply-lie$"
       },
       "catches": ["Not here."],
-      "note": "Verdicts kept (81 yes, 0 no on observed pairs), but no lie in the banks is about where the speaker is from, so the zero says nothing yet. Leaves awaiting-test with a spare he liked."
+      "note": "Stays awaiting-test: no lie in the banks is about where the speaker is from, so there is nothing to judge or spare until one exists. Verdicts kept (81 yes, 0 no on observed pairs), which say nothing yet."
     },
     {
       "id": "no-do-you-remember-the-school",
