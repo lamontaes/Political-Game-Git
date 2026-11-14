@@ -47,6 +47,11 @@ describe("the printed notice of election", () => {
     expect(stories.length, `${place.name}: a notice printed`).toBeGreaterThan(
       0,
     );
+    // A legal notice runs once, in the town's paper of record.
+    const records = stories.map((story) => story.facts.sourceRecordId);
+    expect(new Set(records).size, `${place.name}: one paper`).toBe(
+      records.length,
+    );
     const contests = api
       .moduleState(ELECTIONS_MODULE_ID)
       .table("contests")
@@ -56,7 +61,7 @@ describe("the printed notice of election", () => {
       expect(worded, story.id).toBeTruthy();
       expect(worded.headline).toBe("Notice of election");
       expect(worded.lede).toMatch(
-        /^Notice is hereby given that an election will be held in .+ on .+ for the following officers: .+\.$/,
+        /^NOTICE IS HEREBY GIVEN that an election will be held in .+ on .+ for the following Officers: .+\.$/,
       );
       const day = String(story.facts.sourceRecordId).split(":").at(-1)!;
       for (const title of new Set(

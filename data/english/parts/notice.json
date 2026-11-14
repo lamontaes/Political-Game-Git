@@ -13,7 +13,7 @@
       "key": "notice.election.notice-of-election",
       "move": "election",
       "kind": "written",
-      "text": "Notice is hereby given that an election will be held in {place} on {date} for the following officers: {office}.",
+      "text": "NOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.",
       "source": {
         "document": "Notice of Election, General Municipal Election",
         "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf",

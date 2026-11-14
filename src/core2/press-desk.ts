@@ -71,6 +71,8 @@ const TOWN_WIDE_BRIEFS: ReadonlySet<string> = new Set(briefs.townWide);
 
 /** A body's regular sitting, as office-day records it. */
 const MEETING_KIND = "public-meeting";
+/** The clerk's notice of an election: a legal notice, run once in the paper of record. */
+const NOTICE_KIND = "election-notice";
 /** A reader's letter to the editor (the press's weekly letters step). */
 const LETTER_KIND = "press.letter";
 /** The week's sittings that took up nothing, printed as one brief. */
@@ -162,6 +164,11 @@ export interface DeskContext {
   readonly printed: (wireId: string, outletId: string) => boolean;
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
+  /**
+   * Whether this outlet is the town's paper of record: the local outlet with
+   * the widest audience (where a legal notice runs). Absent, every outlet is.
+   */
+  readonly paperOfRecord?: (outlet: DeskOutlet) => boolean;
   readonly save: (story: PrintedStory) => void;
 }
 
@@ -679,7 +686,9 @@ export function runDesk(
     (item) =>
       item.date >= since &&
       !ctx.printed(item.id, outlet.id) &&
-      !(outlet.tier === "national" && !nationalCarries(item)),
+      !(outlet.tier === "national" && !nationalCarries(item)) &&
+      // A legal notice runs in the town's paper of record only.
+      !(item.kind === NOTICE_KIND && ctx.paperOfRecord?.(outlet) === false),
   );
   if (!open.length || !outlet.reporterIds.length) return [];
   // A body's sitting is news for what it did, not that it sat (CTO, Nov 1,

@@ -2460,6 +2460,9 @@ export function deskContext(api: CoreAPI): DeskContext {
       ).some((s) => s.outletId === outletId),
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
+    paperOfRecord: (outlet) =>
+      outlet.tier !== "national" &&
+      adOutlet(api)?.organizationId === outlet.organizationId,
   };
 }
 
