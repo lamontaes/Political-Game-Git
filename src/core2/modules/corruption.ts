@@ -363,11 +363,12 @@ function favorOf(subjectId: string): string {
 
 /**
  * What the offer wants, on every bribe record a scene reads (offered,
- * refused, pressed): the favor's kind, and the thing itself, the bill for a
- * vote or the award for a contract with the spending line it pays from
- * (contracts.ts subject `contract:<government>:<line>:<date>`).
+ * refused, pressed, a complaint naming the accused): the favor's kind, and
+ * the thing itself, the bill for a vote or the award for a contract with the
+ * spending line it pays from (contracts.ts subject
+ * `contract:<government>:<line>:<date>`).
  */
-function wantedFacts(subjectId: string): Record<string, string> {
+export function wantedFacts(subjectId: string): Record<string, string> {
   if (favorOf(subjectId) === "vote")
     return { favor: "vote", billId: subjectId };
   const parts = subjectId.split(":");
@@ -377,6 +378,39 @@ function wantedFacts(subjectId: string): Record<string, string> {
     contractId: subjectId,
     ...(line ? { contractLine: line } : {}),
   };
+}
+
+/** The circumstances each side's decision weighs, in the order a tie between them is broken. */
+const MOTIVES: Readonly<Record<"offer" | "take", readonly string[]>> = {
+  offer: ["stake", "tie", "reputation"],
+  take: ["pressure", "need", "tie"],
+};
+
+/**
+ * The reason that weighed most in a party's own decision, from the crime's
+ * kept reasons (`offerValues`, `takeValues`): for the one who offered, how much
+ * the favor mattered (`stake`), their tie to the official (`tie`) or the
+ * bribes they had heard the official took (`reputation`); for the official
+ * who took, their money pressure (`pressure`), the bribe's size against their
+ * means (`need`) or the tie. Temperament is not a circumstance and is left
+ * out. Null for someone who was not a party, or when no circumstance weighed.
+ */
+export function motiveOf(
+  crime: Readonly<CrimeRecord>,
+  personId: PersonId,
+): string | null {
+  const side =
+    personId === crime.offererId
+      ? "offer"
+      : personId === crime.officialId && crime.taken
+        ? "take"
+        : null;
+  if (!side) return null;
+  const values = crime.reasons[side] ?? {};
+  let best: string | null = null;
+  for (const key of MOTIVES[side])
+    if ((values[key] ?? 0) > (best ? values[best]! : 0)) best = key;
+  return best;
 }
 
 /**

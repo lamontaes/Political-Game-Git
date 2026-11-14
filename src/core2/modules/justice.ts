@@ -47,7 +47,12 @@ import type {
   PersonId,
   Source,
 } from "../types";
-import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
+import {
+  CORRUPTION_MODULE_ID,
+  motiveOf,
+  wantedFacts,
+  type CrimeRecord,
+} from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
 import { OFFICES_MODULE_ID, servingTermsOf, vacateSeat } from "./offices";
@@ -418,11 +423,20 @@ export function considerReport(
           citation: "A complaint to the prosecutor naming the accused.",
           asOf: api.state.date,
         },
+        // What the accused's own replies may give as a reason, from the
+        // crime and the complaint: what the money was for, whether it moved,
+        // the accused's part in it, the reason that weighed most in their own
+        // decision, and whether the accuser saw it or was told.
         facts: {
           crimeId: crime.id,
           complaintId: complaint.id,
           accuserId: reporterId,
           offense: "bribery",
+          ...wantedFacts(crime.subjectId),
+          moneyMoved: crime.taken ? "yes" : "no",
+          accusedAs: accusedId === crime.offererId ? "offered" : "took",
+          basis: complaint.basis,
+          ...motiveFact(crime, accusedId),
         },
       });
   weighInvestigation(api, complaint, crime, prosecutor);
@@ -431,6 +445,15 @@ export function considerReport(
 
 // ---------------------------------------------------------------------------
 // 2. Investigation
+
+/** The accused's own main reason, when one weighed. */
+function motiveFact(
+  crime: CrimeRecord,
+  accusedId: PersonId,
+): Record<string, string> {
+  const motive = motiveOf(crime, accusedId);
+  return motive ? { motive } : {};
+}
 
 /** Who a complaint accuses: the offerer always, and the official when they took it, never the reporter. */
 function accusedBy(complaint: ComplaintRow, crime: CrimeRecord): PersonId[] {

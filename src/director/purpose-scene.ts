@@ -1052,6 +1052,23 @@ function composeBinding(
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
     if (wanted) facts.wanted = wanted;
   }
+  // A complaint to the prosecutor naming the asked (justice.ts considerReport):
+  // what the accused's own replies may give as a reason. The bribe-question
+  // lines of the plain arc are kept off it (`read-complaint`); the rest say
+  // whether the money moved, which part the accused had, the reason that
+  // weighed most in their own decision (corruption.ts motiveOf), and whether
+  // the accuser saw it or was told. What it was for is the favor, above.
+  if (record?.kind === "justice.accused") {
+    const at = [moment.causeId, said.crimeId ?? moment.causeId];
+    const fact = (name: string) =>
+      (facts[name] = { text: "yes", sourceRecordIds: at });
+    fact("read-complaint");
+    if (said.moneyMoved)
+      fact(said.moneyMoved === "yes" ? "money-moved" : "no-money-moved");
+    if (said.accusedAs) fact(`you-${said.accusedAs}`);
+    if (said.motive) fact(`motive-${said.motive}`);
+    if (said.basis) fact(said.basis === "told" ? "secondhand" : "saw-it");
+  }
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
   if (record?.kind === PRESS_STORY_EVENT) {

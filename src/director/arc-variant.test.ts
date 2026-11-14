@@ -112,6 +112,19 @@ const pressFacts: Record<string, Fact> = {
 };
 // What an accusation hands the plain arc's lines (a bill the accuser names).
 const accuseFacts: Record<string, Fact> = { ...generic, bill: fact("Bill 14") };
+// What a complaint to the prosecutor hands the other arcs (purpose-scene.ts,
+// justice.accused): what the money was for, whether it moved, the accused's
+// part, the reason that weighed most and how the accuser knows. A witness
+// was offered the money and refused it; a taken bribe moved.
+const complaintFacts = (variant: string): Record<string, Fact> => ({
+  ...generic,
+  wanted: fact("Bill 14"),
+  "read-complaint": fact("yes"),
+  "you-offered": fact("yes"),
+  "motive-stake": fact("yes"),
+  [variant === "taken" ? "money-moved" : "no-money-moved"]: fact("yes"),
+  [variant === "witness" ? "saw-it" : "secondhand"]: fact("yes"),
+});
 // What a colleague's ask for a vote hands the scene: the bill, the bill the
 // asker already voted for (`earlier`) and the reads that came to something.
 const voteFacts: Record<string, Fact> = {
@@ -141,13 +154,15 @@ const helpFacts: Record<string, Fact> = {
   "read-paid-under-floor": fact("yes"),
   "read-household-illness": fact("yes"),
 };
-const factsOf = (family: string) =>
+const factsOf = (family: string, variant = "plain") =>
   family === "donor-ask"
     ? donorFacts
     : family === "press-comment"
       ? pressFacts
       : family === "conflict-accuse"
-        ? accuseFacts
+        ? variant === "plain"
+          ? accuseFacts
+          : complaintFacts(variant)
         : family === "ask-vote"
           ? voteFacts
           : family === "constituent-help"
@@ -169,7 +184,7 @@ const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
 const compose = (
   family: string,
   variant: string,
-  facts: Record<string, Fact> = factsOf(family),
+  facts: Record<string, Fact> = factsOf(family, variant),
   causeId = "cause-a",
 ): SceneTalk => {
   const result = composeSceneTalk(
