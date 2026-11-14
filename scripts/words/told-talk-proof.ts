@@ -37,6 +37,8 @@ const days = Number(option("days", "365"));
 const draws = Number(option("draws", "1"));
 const from = Number(option("from", "0"));
 const wanted = Number(option("talks", "2"));
+// Only households of two or more living members (the "we" tellings).
+const manyOnly = option("many", "0") === "1";
 
 const nameOf = (core: CoreState, id: string) => {
   const row = core.people.get(id as PersonId);
@@ -85,6 +87,12 @@ for (let draw = from; draw < from + draws; draw += 1) {
         const household = core.households.get(row.householdId);
         if (!household) continue;
         told.add(row.id);
+        if (
+          manyOnly &&
+          household.memberIds.filter((id) => core.people.get(id)?.alive)
+            .length < 2
+        )
+          continue;
         const adult = household.memberIds.find((id) => {
           const person = core.people.get(id);
           return (
@@ -136,6 +144,18 @@ for (let draw = from; draw < from + draws; draw += 1) {
       );
       for (const choice of first.choices)
         console.log(`  - offered: ${choice.text} (${choice.move})`);
+      // The talk whole and in order: the first reply each turn, from the
+      // greeting to the last line.
+      {
+        const whole = openConversation(core, playerId, adult, { director });
+        for (let turn = 0; turn < 6 && whole.choices.length; turn += 1)
+          say(core, whole, whole.choices[0]!.key);
+        console.log("  WHOLE TALK:");
+        for (const line of whole.lines)
+          console.log(
+            `    ${line.speakerId === playerId ? "You" : nameOf(core, line.speakerId)} [${line.kind}/${line.act}]: ${line.text}`,
+          );
+      }
       // Each reply said on its own copy of the opened talk, so every
       // answer back is seen (a subject told once is not told again).
       for (const choice of first.choices) {

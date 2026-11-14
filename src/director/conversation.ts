@@ -906,6 +906,8 @@ function evictionSubjects(
   const members = (
     core.households.get(speaker.householdId)?.memberIds ?? []
   ).filter((id) => core.people.get(id)?.alive);
+  // What the speaker calls the listener to their face.
+  facts.you = calledBy(core, speakerId, listenerId);
   if (together) facts.together = fact("yes");
   else if (members.length <= one)
     facts.alone = fact("yes", [speaker.householdId]);
@@ -981,7 +983,25 @@ function evictionSubjects(
         kin && shared?.relation === kin.relation
           ? kinAddress(kin.relation, host?.looks?.gender ?? "other")
           : undefined;
-      if (kin && (address ?? phrase)) {
+      // A relative who takes them in at the listener's own home is not
+      // "my sister's" to someone who lives there: it is "you" (or "you all"
+      // when others live there too; Words lead, Nov 14).
+      const hostHome = hostId
+        ? core.people.get(hostId as PersonId)?.householdId
+        : undefined;
+      const atListenersHome =
+        status.hostHouseholdId === core.people.get(listenerId)?.householdId ||
+        (!!hostHome && hostHome === core.people.get(listenerId)?.householdId);
+      if (kin && atListenersHome) {
+        const others = (
+          core.households.get(core.people.get(listenerId)!.householdId)
+            ?.memberIds ?? []
+        ).filter((id) => id !== listenerId && core.people.get(id)?.alive);
+        facts["host-here"] = fact(others.length ? "you all" : "you", [
+          kin.factId,
+          ...at,
+        ]);
+      } else if (kin && (address ?? phrase)) {
         facts.host = fact((address ?? phrase)!, [kin.factId, ...at]);
         // Their town, when it is not the one the speaker was put out of.
         const hostPlace = status.hostHouseholdId
@@ -5801,6 +5821,9 @@ function offerChoices(
           ]),
         )
       : {}),
+    // Their workplace once it has been named, as people say it: "there"
+    // (round 11, rule 74: never "worked at work?").
+    there: { text: "there", sourceRecordIds: [otherId] },
   };
   const stage = own.stage ?? last.stage;
   const turn = conversation.lines.length;
@@ -6524,7 +6547,12 @@ function partingLine(
     if (mine) mark("player-works", [mine.job.id]);
     if (!housemate) mark("not-housemate", [speakerId]);
     // "Thanks for the company" needs a talk of four exchanges (round 11).
-    if (conversation.lines.length >= 8) mark("long-talk", [speakerId]);
+    if (
+      conversation.lines.length >=
+      (rulesFile as unknown as { longTalkLines: { value: number } })
+        .longTalkLines.value
+    )
+      mark("long-talk", [speakerId]);
     for (const part of dayParts(
       conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId),
     ))

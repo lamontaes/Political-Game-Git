@@ -118,11 +118,8 @@ describe("a relative's closed employer is told as a lost job", () => {
         }
         // A figure opening a line is said in words (up to ninety-nine).
         expect(talk.lines[told]!.text).not.toMatch(/^\d/);
-        // The telling said they are looking, so "Looking yet?" is not offered.
-        if (talk.lines[told]!.wording?.facts.includes("seeking"))
-          expect(talk.choices.map((choice) => choice.text)).not.toContain(
-            "Looking yet?",
-          );
+        // The opener says what happened and stops: no years, pay or search.
+        expect(talk.lines[told]!.text).not.toMatch(/looking|\$/i);
         // A month on, the loss is not told a second time.
         for (let day = 0; day < 30; day += 1)
           advanceCore(core, addDays(makeIsoDate(core.date), 1));

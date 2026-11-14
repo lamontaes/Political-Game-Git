@@ -71,7 +71,9 @@
     "host-place": "The town of the relative an evicted household moved in with, when it is not their own, from the housing status and the host household's record.",
     "shelter-place": "The town whose shelter took an evicted household in, from the housing status record.",
     "no-bed-place": "The town whose shelters had no bed for an evicted household, from the housing status record.",
-    "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record."
+    "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record.",
+    "there": "A workplace already named, as people say it afterward (\"there\"), so a reply never repeats the employer or says \"at work\".",
+    "host-here": "The player's own household when it takes an evicted relative in, said to the player (\"you\", or \"you all\" when others live there), from the housing status and the host household's record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -27470,7 +27472,7 @@
       "key": "conversation.other-work-answer-tenure.how-long-have-you-worked-",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How long have you worked there?",
+      "text": "How long have you worked {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -27490,7 +27492,7 @@
       "key": "conversation.other-work-answer-tenure.how-long-have-you-been-wo",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How long have you been working there?",
+      "text": "How long have you been working {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -27510,7 +27512,7 @@
       "key": "conversation.other-work-answer-tenure.how-many-years-have-you-p",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How many years have you put in there?",
+      "text": "How many years have you put in {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -27682,7 +27684,7 @@
       "key": "conversation.other-work-answer-detail.what-do-you-do-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do you do there?",
+      "text": "What do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -27700,7 +27702,7 @@
       "key": "conversation.other-work-answer-detail.what-s-your-job-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What's your job there?",
+      "text": "What's your job {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -27718,7 +27720,7 @@
       "key": "conversation.other-work-answer-detail.what-kind-of-work-do-you-",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What kind of work do you do there?",
+      "text": "What kind of work do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -27736,7 +27738,7 @@
       "key": "conversation.other-work-answer-detail.what-do-they-have-you-doi",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do they have you doing there?",
+      "text": "What do they have you doing {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -27754,7 +27756,7 @@
       "key": "conversation.other-work-answer-detail.and-what-do-you-do-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "And what do you do there?",
+      "text": "And what do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -27772,7 +27774,7 @@
       "key": "conversation.other-work-answer-detail.what-do-you-do-over-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do you do over there?",
+      "text": "What do you do over {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -34710,44 +34712,6 @@
     },
     {
       "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "tender",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-answer-help.need-help-moving",
-      "kind": "spoken",
-      "move": "eviction-answer-help",
-      "origin": "authored",
-      "text": "Need help moving?",
-      "uses": [
-        {
-          "choice": "help",
-          "excludesFacts": ["together"],
-          "move": "eviction-answer-help",
-          "role": "answer",
-          "subject": "eviction"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "tender",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-answer-help.i-ll-help-carry",
-      "kind": "spoken",
-      "move": "eviction-answer-help",
-      "origin": "authored",
-      "text": "I'll help carry.",
-      "uses": [
-        {
-          "choice": "help",
-          "move": "eviction-answer-help",
-          "requiresFacts": ["together"],
-          "role": "answer",
-          "subject": "eviction"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
       "bearing": "calm",
       "date": "2026-11-12",
       "key": "conversation.eviction-answer-comfort.we-ll-manage",
@@ -35136,102 +35100,6 @@
     },
     {
       "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "glad",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.sure-it-s-all-going-to-host-s",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Sure. It's all going to {host}'s.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["host"],
-          "role": "core",
-          "stages": ["help"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.thanks-the-shelter-in-shelter-place-takes-only-what-we-carry",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Thanks. The shelter in {shelter-place} takes only what we carry.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["shelter-place"],
-          "role": "core",
-          "stages": ["help"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.thanks-but-there-s-no-bed-for-me-in-no-bed-place-yet",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Thanks, but there's no bed for me in {no-bed-place} yet.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["no-bed-place", "alone"],
-          "role": "core",
-          "stages": ["help"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "tender",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.thanks-we-owe-host-for-taking-us-in",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Thanks. We owe {host} for taking us in.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["together", "host"],
-          "role": "core",
-          "stages": ["help"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
       "bearing": "calm",
       "date": "2026-11-12",
       "key": "conversation.eviction-back-core.i-ll-be-fine-at-host-s-a-while",
@@ -35399,31 +35267,6 @@
           "requiresFacts": ["lost-at", "alone"],
           "role": "core",
           "stages": ["comfort"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.thanks-but-there-are-no-beds-for-us-in-no-bed-place-yet",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Thanks, but there are no beds for us in {no-bed-place} yet.",
-      "uses": [
-        {
-          "excludesFacts": ["alone"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["no-bed-place"],
-          "role": "core",
-          "stages": ["help"],
           "subject": "eviction-back"
         }
       ]
@@ -41348,10 +41191,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.i-see-it-differently",
+      "key": "conversation.address-point-core-against.see-it-differently",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I see it differently.",
+      "text": "See it differently.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -41392,6 +41235,715 @@
       "origin": "authored",
       "author": "Words builder A (round 11, rule 75)",
       "date": "2026-11-14"
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-alright-i-m-at-host-s",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm alright. I'm at {host}'s.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-alright-we-re-at-host-s",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're alright. We're at {host}'s.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-trying-not-to-think-host-has-room-anyway",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm trying not to think. {host} has room, anyway.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-trying-not-to-think-host-has-room-anyway",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're trying not to think. {host} has room, anyway.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.it-happens-host-took-me-in",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "It happens. {host} took me in.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.it-happens-host-took-us-in",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "It happens. {host} took us in.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.not-your-fault-host-didn-t-hesitate-at-least",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Not your fault. {host} didn't hesitate, at least.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.with-host-for-now",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "With {host}, for now.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.host-said-yes-i-m-not-sure-for-how-long",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "{host} said yes. I'm not sure for how long.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.host-said-yes-we-re-not-sure-for-how-long",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "{host} said yes. We're not sure for how long.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.host-s-i-ll-sort-out-the-rest-from-there",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "{host}'s. I'll sort out the rest from there.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.host-s-we-ll-sort-out-the-rest-from-there",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "{host}'s. We'll sort out the rest from there.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.the-landlord-left-me-one-choice-host-s",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "The landlord left me one choice. {host}'s.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.the-landlord-left-us-one-choice-host-s",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "The landlord left us one choice. {host}'s.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-coming-to-stay-with-host-here-for-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm coming to stay with {host-here} for a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-coming-to-stay-with-host-here-for-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're coming to stay with {host-here} for a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.with-host-here-if-that-s-alright",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "With {host-here}, if that's alright.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-hope-it-s-alright-me-staying-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I hope it's alright, me staying with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-hope-it-s-alright-us-staying-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I hope it's alright, us staying with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-moving-in-with-host-here-nowhere-else",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm moving in with {host-here}. Nowhere else.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-moving-in-with-host-here-nowhere-else",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're moving in with {host-here}. Nowhere else.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-ll-be-fine-with-host-here-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'll be fine with {host-here} a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-ll-be-fine-with-host-here-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We'll be fine with {host-here} a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-alright-i-ll-be-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm alright. I'll be with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-alright-we-ll-be-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're alright. We'll be with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-m-just-glad-i-can-stay-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm just glad I can stay with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "nervous",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-re-just-glad-we-can-stay-with-host-here",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're just glad we can stay with {host-here}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "tender",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.thanks-for-having-me-you",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Thanks for having me, {you}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
+      "bearing": "tender",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.thanks-for-having-us-you",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Thanks for having us, {you}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host-here"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ]
     },
     {
       "key": "conversation.job-lost-say-core.employer-let-me-go-when-they-re-cutting-people",
@@ -41465,27 +42017,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-say-reason.i-m-already-looking-for-something-around-here",
-      "move": "job-lost-say-reason",
-      "kind": "spoken",
-      "text": "I'm already looking for something around here.",
-      "uses": [
-        {
-          "move": "job-lost-say-reason",
-          "subject": "job-lost-say",
-          "role": "reason",
-          "requiresFacts": ["seeking"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-say",
-        "part": "reason"
-      },
-      "origin": "authored",
-      "author": "Words builder W1 (a lost job told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.job-lost-answer-hope.looking-yet",
       "move": "job-lost-answer-hope",
       "kind": "spoken",
@@ -41495,8 +42026,7 @@
           "move": "job-lost-answer-hope",
           "subject": "job-lost",
           "role": "answer",
-          "choice": "hope",
-          "excludesFacts": ["told-seeking"]
+          "choice": "hope"
         }
       ],
       "bearing": "curious",
@@ -41514,8 +42044,7 @@
           "move": "job-lost-answer-hope",
           "subject": "job-lost",
           "role": "answer",
-          "choice": "hope",
-          "excludesFacts": ["told-seeking"]
+          "choice": "hope"
         }
       ],
       "bearing": "curious",
@@ -41637,95 +42166,26 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right",
-      "move": "job-lost-back-core",
+      "key": "conversation.job-lost-say-core.employer-closed-when-i-m-out",
+      "move": "job-lost-say-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. I'll be all right.",
+      "text": "{employer} closed {when}. I'm out.",
       "uses": [
         {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
           "role": "core",
-          "stages": ["help"]
+          "requiresFacts": ["closure"]
         }
       ],
       "piece": {
-        "of": "job-lost-back",
+        "of": "job-lost-say",
         "part": "core",
         "required": true
       },
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words lead (rulings-2, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-back-core.i-m-fine-really-thanks-you",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "I'm fine. Really. Thanks, {you}.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words lead (rulings-2, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-back-core.i-don-t-know-yet-you",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "I don't know yet, {you}.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words lead (rulings-2, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-back-core.just-this-you-thanks-for-asking",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "Just this, {you}. Thanks for asking.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
     },
     {
@@ -41748,14 +42208,14 @@
       },
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.job-lost-say-core.employer-is-gone-you-i-don-t-know-what-s-next",
+      "key": "conversation.job-lost-say-core.employer-is-gone-i-don-t-know-what-s-next",
       "move": "job-lost-say-core",
       "kind": "spoken",
-      "text": "{employer} is gone, {you}. I don't know what's next.",
+      "text": "{employer} is gone. I don't know what's next.",
       "uses": [
         {
           "move": "job-lost-say-core",
@@ -41771,7 +42231,7 @@
       },
       "bearing": "nervous",
       "origin": "authored",
-      "author": "Words lead (rulings-2, Nov 14, 2026)",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
     },
     {
@@ -41793,98 +42253,6 @@
         "required": true
       },
       "bearing": "proud",
-      "origin": "authored",
-      "author": "Words lead (rulings-2, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-say-core.employer-let-me-go-when-i-m-out-of-work",
-      "move": "job-lost-say-core",
-      "kind": "spoken",
-      "text": "{employer} let me go {when}. I'm out of work.",
-      "uses": [
-        {
-          "move": "job-lost-say-core",
-          "subject": "job-lost-say",
-          "role": "core",
-          "requiresFacts": ["layoff"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words lead (rulings-2, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-say-core.employer-let-me-go-you-i-don-t-know-what-s-next",
-      "move": "job-lost-say-core",
-      "kind": "spoken",
-      "text": "{employer} let me go, {you}. I don't know what's next.",
-      "uses": [
-        {
-          "move": "job-lost-say-core",
-          "subject": "job-lost-say",
-          "role": "core",
-          "requiresFacts": ["layoff"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words lead (rulings-2, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-say-core.employer-let-me-go-when-i-ll-find-something",
-      "move": "job-lost-say-core",
-      "kind": "spoken",
-      "text": "{employer} let me go {when}. I'll find something.",
-      "uses": [
-        {
-          "move": "job-lost-say-core",
-          "subject": "job-lost-say",
-          "role": "core",
-          "requiresFacts": ["layoff"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words lead (rulings-2, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-say-core.employer-closed-when-i-m-out",
-      "move": "job-lost-say-core",
-      "kind": "spoken",
-      "text": "{employer} closed {when}. I'm out.",
-      "uses": [
-        {
-          "move": "job-lost-say-core",
-          "subject": "job-lost-say",
-          "role": "core",
-          "requiresFacts": ["closure"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
@@ -41936,6 +42304,75 @@
       "date": "2026-11-14"
     },
     {
+      "key": "conversation.job-lost-say-core.employer-let-me-go-when-i-m-out-of-work",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} let me go {when}. I'm out of work.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["layoff"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-let-me-go-i-don-t-know-what-s-next",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} let me go. I don't know what's next.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["layoff"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-say-core.employer-let-me-go-when-i-ll-find-something",
+      "move": "job-lost-say-core",
+      "kind": "spoken",
+      "text": "{employer} let me go {when}. I'll find something.",
+      "uses": [
+        {
+          "move": "job-lost-say-core",
+          "subject": "job-lost-say",
+          "role": "core",
+          "requiresFacts": ["layoff"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
       "key": "conversation.job-lost-say-core.employer-let-me-go-when-after-all-that",
       "move": "job-lost-say-core",
       "kind": "spoken",
@@ -41954,6 +42391,98 @@
         "required": true
       },
       "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-m-fine-really",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I'm fine. Really.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "Thanks, {you}. I'll be all right.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-don-t-know-yet-you",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I don't know yet, {you}.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.job-lost-back-core.i-ll-manage",
+      "move": "job-lost-back-core",
+      "kind": "spoken",
+      "text": "I'll manage.",
+      "uses": [
+        {
+          "move": "job-lost-back-core",
+          "subject": "job-lost-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "job-lost-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
       "origin": "authored",
       "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
@@ -41978,29 +42507,6 @@
         "required": true
       },
       "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-back-core.i-ll-manage",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "I'll manage.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
