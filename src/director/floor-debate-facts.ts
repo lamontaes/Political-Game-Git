@@ -111,9 +111,10 @@ export function floorDebateFacts(
   }
   // The presiding officer's title, from the body's own row; "Chair" where none.
   const office = (
-    api.moduleState(OFFICES_MODULE_ID).table("offices").get(bill.bodyOfficeId) as
-      | { readonly kind: string }
-      | undefined
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .get(bill.bodyOfficeId) as { readonly kind: string } | undefined
   )?.kind;
   facts.presiding = {
     text: officeWords(`${office}:presiding`)?.before ?? "Chair",

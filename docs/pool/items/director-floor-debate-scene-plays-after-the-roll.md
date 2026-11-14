@@ -8,23 +8,24 @@ size: S
 status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9194
 after:
 blocked-on:
 lead: words
 model: sonnet
 effort: medium
+root: none
 source: filed by hand by the meetings and floor builder, Nov 14 2026
 checked: meetings and floor builder 2026-11-14
 ---
 
-**What.** A floor-debate scene for a seated member plays the day after the vote, so its lines speak as if the roll were ahead
+**What.** A floor-debate scene for a seated member plays the day after the vote, so its lines speak as if the roll were ahead. This pull request records the debate when the meeting's agenda is posted, words it for the body, and gives the speaker a reason. Seen: a seated member at Roy, Montana, hears the floor debate on the meeting day before the roll.
 
 **Cause.** Found in code: a local board's chamberVote records the floor debate at the roll (src/core2/modules/legislature.ts, recordFloorDebate), and the director stages the circumstance the day after the record (src/director/ledger.ts produceCircumstances). Measured: at Delta City MS, Roy MT and Klamath Falls OR (seeds meet-a1:0 to :2) every one of six floor-debate scenes played the day after the meeting adjourned.
 
 **Fix.** Record the debate when the meeting's agenda is posted (holdPlayerIfDue calls holdFloorDebate for a seated player), so the scene plays on the meeting day before the roll; word the scene by the body's size (small board, council, formal chamber from a tuned row), give the speaker a reason from the record, and add the second-turn replies so pressing a reply reaches the held-your-ground ending.
 
-**Time box.** One session, one day.
+**Time box.** 8 hours.
 
 **Rules.** One engine per mechanic; no new stopgaps; no figures or counts in any scene line; plain American English. Names the place and seed.
 

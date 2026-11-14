@@ -1,7 +1,7 @@
 ---
 id: core2-office-approached-two-meanings
 title: "The record kind office.approached means two different acts, and one of them binds to no scene type"
-area: core2
+area: core
 kind: bug
 priority: 2
 size: S
@@ -14,17 +14,18 @@ blocked-on:
 lead: words
 model: sonnet
 effort: medium
+root: none
 source: filed by hand by the meetings and floor builder, Nov 14 2026
 checked: meetings and floor builder 2026-11-14
 ---
 
-**What.** The record kind office.approached means two different acts, and one of them binds to no scene type
+**What.** The record kind office.approached means two different acts: a resident bringing a case to an official, and an official approaching an organization. The second kind has no scene type that reads it, so those records show as journal lines nothing else uses. Each act needs its own kind so the right scene type reads it. Seen: a seated member's office-hours scene for a resident's case, and the member's own approach recorded under its own kind.
 
-**Cause.** Found in code: src/core2/modules/constituent-cases.ts (bringCase) emits office.approached when a resident brings a case to an official; src/core2/modules/life.ts (civicEvent) emits the same kind when the official approaches an organization. Measured (uncontrolled probe, three places): 10, 1 and 8 life.ts records whose moments are labeled cause:event:office.approached, schedule journal-line, bindings empty.
+**Cause.** Found in code: `bringCase` in src/core2/modules/constituent-cases.ts emits office.approached when a resident brings a case to an official; src/core2/modules/`civicEvent` in src/core2/modules/life.ts emits the same kind when the official approaches an organization. Measured (uncontrolled probe, three places): 10, 1 and 8 life.ts records whose moments are labeled cause:event:office.approached, schedule journal-line, bindings empty.
 
 **Fix.** Give the life.ts act its own kind name (a data row in the kind list) and read it where the office-hours situation type reads the resident's case, so each kind binds to the type that fits it.
 
-**Time box.** One session, half a day.
+**Time box.** 4 hours.
 
 **Rules.** One engine per mechanic; no new stopgaps; no figures or counts in any scene line; plain American English. Names the place and seed.
 

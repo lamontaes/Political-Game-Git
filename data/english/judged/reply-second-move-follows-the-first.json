@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 5686,
+  "judged": 5678,
   "no": {
     "01ci5tbdc2u": {
       "keys": [
@@ -40,5 +40,5 @@
       "why": "'Going away' contradicts showing up everywhere, then 'that's what I needed to hear' accepts with no turn; the moves don't form one thought."
     }
   },
-  "yesHash": "1r21lxutwbi"
+  "yesHash": "0vvzthyvx4b"
 }

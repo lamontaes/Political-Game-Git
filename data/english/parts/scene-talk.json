@@ -108024,10 +108024,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-on-issue-i-m-with-you",
+      "key": "scene-talk.reply-agree.on-issue-count-me-with-you",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. On {issue}, I'm with you.",
+      "text": "On {issue}, count me with you.",
       "uses": [
         {
           "subject": "scene",
@@ -108099,10 +108099,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-i-m-with-you",
+      "key": "scene-talk.reply-agree.yes-i-m-with-you",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. I'm with you.",
+      "text": "Yes, I'm with you.",
       "uses": [
         {
           "subject": "scene",
@@ -108249,10 +108249,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-disagree.no-i-still-can-t-back-it",
+      "key": "scene-talk.reply-disagree.i-still-can-t-back-it",
       "move": "reply-disagree",
       "kind": "spoken",
-      "text": "No. I still can't back it.",
+      "text": "I still can't back it.",
       "uses": [
         {
           "subject": "scene",
@@ -108324,10 +108324,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-on-issue-i-m-with-you-council",
+      "key": "scene-talk.reply-agree.on-issue-count-me-with-you-council",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. On {issue}, I'm with you.",
+      "text": "On {issue}, count me with you.",
       "uses": [
         {
           "subject": "scene",
@@ -108399,10 +108399,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-i-m-with-you-council",
+      "key": "scene-talk.reply-agree.yes-i-m-with-you-council",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. I'm with you.",
+      "text": "Yes, I'm with you.",
       "uses": [
         {
           "subject": "scene",
@@ -108549,10 +108549,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-disagree.no-i-still-can-t-back-it-council",
+      "key": "scene-talk.reply-disagree.i-still-can-t-back-it-council",
       "move": "reply-disagree",
       "kind": "spoken",
-      "text": "No. I still can't back it.",
+      "text": "I still can't back it.",
       "uses": [
         {
           "subject": "scene",
@@ -108677,7 +108677,7 @@
       "key": "scene-talk.reply-leave.go-on-i-ll-listen-from-here",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Go on. I'll listen from here.",
+      "text": "Go on, I'll listen from here.",
       "uses": [
         {
           "subject": "scene",
@@ -108702,7 +108702,7 @@
       "key": "scene-talk.reply-leave.go-ahead-i-m-listening",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Go ahead. I'm listening.",
+      "text": "Go ahead, I'm listening.",
       "uses": [
         {
           "subject": "scene",
@@ -108727,7 +108727,7 @@
       "key": "scene-talk.reply-leave.go-ahead-i-ll-hear-you-out",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Go ahead. I'll hear you out.",
+      "text": "Go ahead, I'll hear you out.",
       "uses": [
         {
           "subject": "scene",
@@ -108752,7 +108752,7 @@
       "key": "scene-talk.reply-leave.go-on-i-ll-hear-the-rest",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Go on. I'll hear the rest.",
+      "text": "Go on, I'll hear the rest.",
       "uses": [
         {
           "subject": "scene",
