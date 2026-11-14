@@ -2584,12 +2584,11 @@
     },
     "offer-to-run": {
       "state": "request",
-      "replies": ["ask", "agree", "decline", "stall"],
+      "replies": ["ask", "agree", "decline"],
       "follow": {
         "ask": ["answer"],
         "agree": ["thank"],
-        "decline": ["press", "accept"],
-        "stall": ["accept", "press"]
+        "decline": ["press", "accept"]
       },
       "again": {
         "answer": ["agree", "decline", "leave"],
@@ -2602,14 +2601,6 @@
           "keeps": "promise",
           "when": {
             "reply": ["agree"]
-          }
-        },
-        {
-          "id": "thinking",
-          "label": "You'll let them know",
-          "keeps": "none",
-          "when": {
-            "reply": ["stall"]
           }
         },
         {
@@ -3963,6 +3954,53 @@
         {
           "id": "not-yet",
           "label": "Not yet",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "move-in-ask": {
+      "state": "request",
+      "replies": ["agree", "decline", "ask", "deflect"],
+      "follow": {
+        "agree": ["thank"],
+        "decline": ["accept", "plea"],
+        "ask": ["answer"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "answer": ["agree", "decline", "deflect"],
+        "press": ["agree", "decline", "leave"],
+        "plea": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "said-yes",
+          "label": "You said yes to living together",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "turned-down",
+          "label": "You said no to living together for now",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "not-yet",
+          "label": "You asked for time",
           "keeps": "none",
           "when": {
             "reply": ["deflect", "leave"]

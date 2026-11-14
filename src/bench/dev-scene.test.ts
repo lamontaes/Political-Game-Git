@@ -131,9 +131,13 @@ describe(`dev scenes: ${where}`, () => {
         const out = dev2.forceScene({ typeKey: key, cap: 90 });
         return `${key}: ${out.ran?.reason} after ${out.ran?.days} days ${out.ran?.records.join(",")}`;
       });
-      // Care last (the illness runs on from here): the player falls seriously ill through the health module.
+      // Care last (the illness runs on from here): one the player lives with falls seriously ill through
+      // the health module, and the player is the one who comes (family life report 1, Nov 14 2026).
       const care = dev2.forceScene({ typeKey: "care" });
-      expect(care.personId, where).toBe(world2.core.playerId);
+      const home = world2.core.households.get(
+        world2.core.people.get(world2.core.playerId!)!.householdId,
+      )!;
+      expect(home.memberIds, where).toContain(care.personId);
       process.stderr.write(`${where}: ${ways}; ${ran.join("; ")}\n`);
     },
   );

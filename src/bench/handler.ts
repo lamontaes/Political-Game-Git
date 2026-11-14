@@ -61,7 +61,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
-import { openingsView } from "./openings";
+import { leaveJobAs, openingsView } from "./openings";
 import {
   billPaper,
   isByRequest,
@@ -480,6 +480,17 @@ const ROUTES: readonly Route[] = [
               row.date === world.core.date &&
               row.outcome.startsWith("scene") &&
               row.bindings.length > 0,
+          );
+        // Shown now, it is opened: the director's waiting list does not stop
+        // the clock for it again tomorrow.
+        if (staged?.outcome === "scene-waiting")
+          world.director.openWaiting(
+            entrant.personId as PersonId,
+            staged.momentId,
+            {
+              date: makeIsoDate(world.core.date),
+              minuteOfDay: OPENING_EVENING_MINUTE,
+            },
           );
         send(200, {
           personId: entrant.personId,
@@ -2391,6 +2402,15 @@ const ROUTES: readonly Route[] = [
         200,
         governmentView(requireCore(), url.searchParams.get("id") ?? ""),
       );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/job/leave",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(200, leaveJobAs(requireCore(), state.player.personId));
       return;
     },
   },
