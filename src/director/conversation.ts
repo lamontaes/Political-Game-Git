@@ -4165,6 +4165,33 @@ function raiseSubject(
         );
   const lines = said ?? (line ? [line] : []);
   if (!lines.length) return false;
+  // A told line never stands where the player cannot answer it (lead, Nov
+  // 14: a talk's opening is a greeting and one line the player can reply
+  // to): a first line with no reply on record is not raised; the person
+  // asks something else, or says nothing.
+  if (!remark && conversation.lines.every((row) => row.kind === "greet")) {
+    const probe: Conversation = {
+      ...conversation,
+      choices: [],
+      lines: [...conversation.lines],
+      last: {
+        subject: {
+          id: `${otherId}>${subject.id}`,
+          kind: subject.kind,
+          facts: subject.facts,
+          ...(subject.aboutId ? { aboutId: subject.aboutId } : {}),
+          ...(subject.stage ? { stage: subject.stage } : {}),
+          ...(subject.point ? { point: subject.point } : {}),
+          ...(subject.news ? { news: subject.news } : {}),
+        },
+        kind: then.kind,
+        facts: subject.facts,
+        stage: then.stage,
+      },
+    };
+    offerChoices(core, probe, data);
+    if (!probe.choices.length) return false;
+  }
   for (const row of lines)
     conversation.lines.push({
       speakerId: otherId,

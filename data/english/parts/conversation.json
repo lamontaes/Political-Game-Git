@@ -38470,10 +38470,10 @@
       }
     },
     {
-      "key": "conversation.player-day-say-core.how-d-school-go-when",
+      "key": "conversation.player-day-say-core.how-did-school-go-when",
       "move": "player-day-say-core",
       "kind": "spoken",
-      "text": "How'd school go {when}?",
+      "text": "How did school go {when}?",
       "uses": [
         {
           "move": "player-day-say-core",
