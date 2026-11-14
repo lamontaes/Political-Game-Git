@@ -39,7 +39,11 @@ export interface PromiseSubject {
   facts: Record<string, Fact>;
   /** The scene reply that made it and the record that settled it. */
   aboutId: string;
-  /** How much it weighs as the talk's topic (promise-kinds.json promiseTalkImpact). */
+  /**
+   * How much it weighs as the talk's topic: the impact of the moment it was
+   * promised over (what was staked), on the scale every talk topic is ranked
+   * on (conversation.ts topicWeight); absent when no book holds that moment.
+   */
   weight?: number;
 }
 
@@ -76,12 +80,57 @@ export function promiseSubject(
   return {
     id: row.id,
     promiseKind: row.kind,
-    weight: promiseParam("promiseTalkImpact"),
+    ...stakeOf(core, director, row),
     kind: row.outcome === "kept" ? "promise-kept" : "promise-broken",
     facts,
     aboutId: row.sourceId,
   };
 }
+
+/**
+ * What was staked: the moment the promise was made over, read from the book
+ * of the one it was staged for (the scene reply's id begins with the
+ * moment's id). A promise made in answer to a broken one ("I'll make it
+ * right") stands on the moment of the promise it renews.
+ */
+function stakeOf(
+  core: Readonly<CoreState>,
+  director: Director,
+  row: { sourceId: string; holderId: PersonId; otherId: PersonId },
+): { weight: number } | Record<string, never> {
+  let sourceId = row.sourceId;
+  const seen = new Set<string>();
+  while (sourceId.startsWith(ANSWER_PREFIX) && !seen.has(sourceId)) {
+    seen.add(sourceId);
+    const renews = core.durableLog.get(sourceId)?.facts?.promiseId;
+    const earlier =
+      typeof renews === "string"
+        ? promisesBetween(director.ledger, row.holderId, row.otherId).find(
+            (entry) => entry.id === renews,
+          )
+        : undefined;
+    if (!earlier) return {};
+    sourceId = earlier.sourceId;
+  }
+  if (!sourceId.startsWith(REPLY_PREFIX)) return {};
+  const rest = sourceId.slice(REPLY_PREFIX.length);
+  for (const personId of [row.holderId, row.otherId]) {
+    const book = director.ledger.people.get(personId);
+    if (!book) continue;
+    for (
+      let at = rest.indexOf(":");
+      at >= zero;
+      at = rest.indexOf(":", at + one)
+    ) {
+      const moment = book.momentsById.get(rest.slice(zero, at));
+      if (moment) return { weight: moment.impact };
+    }
+  }
+  return {};
+}
+
+const REPLY_PREFIX = "scene-reply:";
+const ANSWER_PREFIX = "promise.answer:";
 
 /**
  * The promise a subject of a talk says, from the conversation's own subject

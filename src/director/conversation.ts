@@ -4839,6 +4839,10 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "job-new",
   "job-new-detail",
   "job-new-told",
+  // A promise made to them, kept or broken, between the two of them
+  // (promise-talk.ts): told before the day's news, until it is said.
+  "promise-kept",
+  "promise-broken",
 ]);
 
 /** The reply pieces that ask who is behind a story (conversation-rules.json askedWho). */

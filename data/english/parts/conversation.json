@@ -39688,42 +39688,6 @@
       "bearing": "guarded"
     },
     {
-      "key": "conversation.promise-broken-raise.you-said-it-wouldnt-happen-again",
-      "move": "promise-broken-raise",
-      "kind": "spoken",
-      "text": "You said it wouldn't happen again.",
-      "uses": [
-        {
-          "move": "promise-broken-raise",
-          "subject": "promise-broken",
-          "role": "raise",
-          "requiresFacts": ["promise-pay-on-time"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (promises rulings-1, Nov 14)",
-      "date": "2026-11-14",
-      "bearing": "calm"
-    },
-    {
-      "key": "conversation.promise-broken-raise.its-late-again-you-promised-me",
-      "move": "promise-broken-raise",
-      "kind": "spoken",
-      "text": "It's late again. You promised me.",
-      "uses": [
-        {
-          "move": "promise-broken-raise",
-          "subject": "promise-broken",
-          "role": "raise",
-          "requiresFacts": ["promise-pay-on-time"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (promises rulings-1, Nov 14)",
-      "date": "2026-11-14",
-      "bearing": "braced"
-    },
-    {
       "key": "conversation.promise-broken-raise.we-talked-about-this-already",
       "move": "promise-broken-raise",
       "kind": "spoken",
@@ -39758,24 +39722,6 @@
       "author": "Words lead (promises rulings-1, Nov 14)",
       "date": "2026-11-14",
       "bearing": "warm"
-    },
-    {
-      "key": "conversation.promise-kept-raise.you-did-what-you-said-i-appreciate-it",
-      "move": "promise-kept-raise",
-      "kind": "spoken",
-      "text": "You did what you said. I appreciate it.",
-      "uses": [
-        {
-          "move": "promise-kept-raise",
-          "subject": "promise-kept",
-          "role": "raise",
-          "requiresFacts": ["promise-show-around"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (promises rulings-1, Nov 14)",
-      "date": "2026-11-14",
-      "bearing": "guarded"
     },
     {
       "key": "conversation.promise-broken-raise.i-figured-the-place-out-myself",

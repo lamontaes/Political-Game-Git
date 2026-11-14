@@ -34,6 +34,7 @@ import {
 } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { openConversation, say } from "./conversation";
+import { wordConversationMove } from "../english/conversation-words";
 import type { Director } from "./ledger";
 import { promiseAnswers, promiseSubject } from "./promise-talk";
 import { restoreWorld, snapshotWorld } from "../core2/snapshot";
@@ -82,25 +83,86 @@ function talkOf(
       subject!.promiseKind !== "vote",
     );
   }
-  const savedWorld = JSON.parse(JSON.stringify(snapshotWorld(core)));
-  const savedLedger = structuredClone(director.ledger);
   const name = (id: PersonId) => core.people.get(id)?.givenName ?? id;
   const open = () => openConversation(core, playerId, speakerId, { director });
-  const first = open();
+  const said = (talk: {
+    lines: readonly { speakerId: PersonId; text: string }[];
+  }) =>
+    talk.lines
+      .map((line) => `${name(line.speakerId)}: ${line.text}`)
+      .join(" / ");
+  // The talks before it is brought up: a bigger subject of the day leads
+  // (each ranked by its own record), and the promise waits for a later talk.
+  const waited: string[] = [];
+  let savedWorld = JSON.parse(JSON.stringify(snapshotWorld(core)));
+  let savedLedger = structuredClone(director.ledger);
+  let first = open();
+  for (
+    let day = 0;
+    day < WAIT_DAYS &&
+    !first.lines.some(
+      (line) => line.kind === subject!.kind && line.speakerId === speakerId,
+    );
+    day += 1
+  ) {
+    waited.push(`${core.date}: ${said(first) || "(nothing to say)"}`);
+    play(core, core.playerId as PersonId, 2);
+    savedWorld = JSON.parse(JSON.stringify(snapshotWorld(core)));
+    savedLedger = structuredClone(director.ledger);
+    first = open();
+  }
   const raised = first.lines.findIndex(
     (line) => line.kind === subject!.kind && line.speakerId === speakerId,
   );
-  const shown = first.lines
-    .map((line) => `${name(line.speakerId)}: ${line.text}`)
-    .join(" / ");
-  expect(raised, `${where}: not brought up: ${shown}`).toBeGreaterThan(-1);
+  const shown = said(first);
+  expect(
+    raised,
+    `${where}: not brought up (weight ${subject!.weight}): ${waited.join("; ")}; ${shown}`,
+  ).toBeGreaterThan(-1);
   expect(first.lines.at(-1)?.kind, `${where}: ${shown}`).toBe(subject!.kind);
   const keys = first.choices.map((choice) => choice.move);
   expect([...keys].sort(), where).toEqual([...offered].sort());
   // Said once: the next talk does not bring it up again.
   expect(promiseSubject(core, director, speakerId, playerId), where).toBeNull();
+  // The other wordings of the raise the engine draws for this speaker and
+  // these facts on other days (one moment key a day for a year).
+  const also = new Set<string>();
+  for (let day = 0; day < 365; day += 1) {
+    const line = wordConversationMove({
+      seed: core.seed,
+      subject: subject!.kind,
+      part: "raise",
+      speakerId,
+      traits: core.people.get(speakerId)?.traits ?? {},
+      facts: subject!.facts,
+      momentKey: `${playerId}:${speakerId}:${addDays(makeIsoDate(core.date), day)}:${subject!.id}`,
+    });
+    if (line) also.add(line.text);
+  }
+  // The wordings this speaker never draws, said by others in the town with
+  // the same facts (the bank picks by the speaker's traits and bearing).
+  const others = new Map<string, string>();
+  for (const person of [...core.people.values()]
+    .filter((row) => row.alive && row.tier !== "husk")
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .slice(0, 400)) {
+    const line = wordConversationMove({
+      seed: core.seed,
+      subject: subject!.kind,
+      part: "raise",
+      speakerId: person.id as PersonId,
+      traits: person.traits ?? {},
+      facts: subject!.facts,
+      momentKey: `${playerId}:${person.id}:${core.date}:${subject!.id}`,
+    });
+    if (line && !also.has(line.text) && !others.has(line.text))
+      others.set(line.text, person.givenName);
+  }
   const out = [
-    `talk on ${core.date} (weight ${subject!.weight ?? 0}): ${shown}`,
+    ...waited.map((row) => `    an earlier talk, not about it: ${row}`),
+    `talk on ${core.date} (weight ${subject!.weight ?? 0}, the impact of the moment it was promised over): ${shown}`,
+    `    also drawn on other days: ${[...also].map((text) => `"${text}"`).join("; ")}`,
+    `    drawn for others in town with the same facts: ${[...others].map(([text, by]) => `"${text}" (${by})`).join("; ") || "none"}`,
     `    offered: ${first.choices.map((choice) => `${choice.move} "${choice.text}"`).join("; ")}`,
   ];
   // Each branch's closeness after its answer: the talk's own time together
@@ -151,6 +213,8 @@ function talkOf(
 /** The fixed seed the places are drawn on. */
 const SEED = "promises-kept-and-broken-1";
 const ATTEMPTS = 4;
+/** How many talks, two days apart, a settled promise may wait behind bigger news. */
+const WAIT_DAYS = 7;
 const TIMEOUT = 600_000;
 
 const paths = (node: TreeNode, prefix: number[] = []): number[][] =>
