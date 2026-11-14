@@ -276,7 +276,8 @@ export function createDirector(
           row.afterDays
             ? Array.from(
                 {
-                  length: (row.keepsDays ?? row.afterDays) - row.afterDays + 1,
+                  length:
+                    (row.keepsDays ?? row.afterDays) - row.afterDays + P.one,
                 },
                 (_, step) => row.afterDays! + step,
               )
