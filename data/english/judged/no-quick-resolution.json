@@ -2,7 +2,168 @@
   "schema": "english-judged/2",
   "rule": "no-quick-resolution",
   "rubric": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
-  "judged": 20,
-  "no": {},
-  "yesHash": "1b1qsdnnz8l"
+  "judged": 886,
+  "no": {
+    "03gjshv3a37": {
+      "keys": [
+        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
+    },
+    "04vezgi00kb": {
+      "keys": [
+        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
+    },
+    "05ocabdbhtm": {
+      "keys": [
+        "scene-talk.follow-plea.i-ve-got-nowhere-else-to-go",
+        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
+        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
+      ],
+      "why": "Both replies agree to take the case on at once (find out whose it is, or walk it to the right desk), so none pushes back, deflects or raises the stakes."
+    },
+    "0c6zryb29pc": {
+      "keys": [
+        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
+        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
+        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
+      ],
+      "why": "Both replies concede and promise in one line, so nothing pushes back or deflects."
+    },
+    "0eeqb9z1xqd": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
+        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
+        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
+      ],
+      "why": "Both replies are immediate promises, so nothing pushes back or deflects."
+    },
+    "0f0tx72zwym": {
+      "keys": [
+        "scene-talk.follow-confront.you-did-don-t-let-it-go-to-your-head",
+        "scene-talk.reply-apologize.okay-okay-i-had-help",
+        "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me"
+      ],
+      "why": "Both replies concede at once with a thankful okay, and neither pushes back on the jab."
+    },
+    "0lk7hqknn09": {
+      "keys": [
+        "scene-talk.follow-press.it-s-on-the-list-in-the-packet-page-four",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
+    },
+    "0lonb66q03f": {
+      "keys": [
+        "scene-talk.follow-plea.then-tell-me-where-i-go-that-doesn-t-send-me-back-to-the-same-boss",
+        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
+        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
+      ],
+      "why": "Both replies agree to take the case on at once (find out whose it is, or walk it to the right desk), so none pushes back, deflects or raises the stakes."
+    },
+    "123cgssb6h0": {
+      "keys": [
+        "scene-talk.follow-plea.i-m-not-asking-for-a-favor-i-m-asking-whether-anyone-in-this-building-knows-who",
+        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
+        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
+      ],
+      "why": "Both replies agree to take the case on at once (find out whose it is, or walk it to the right desk), so none pushes back, deflects or raises the stakes."
+    },
+    "1ea9pivi3w3": {
+      "keys": [
+        "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
+    },
+    "1gnlazit5rg": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
+        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
+        "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it"
+      ],
+      "why": "Both replies simply agree and promise, so nothing pushes back or deflects."
+    },
+    "1pm3wemme0x": {
+      "keys": [
+        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
+        "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
+        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help"
+      ],
+      "why": "Both replies give in at once with a thank-you or a promise, so nothing pushes back or deflects."
+    },
+    "1rrb35pu0v0": {
+      "keys": [
+        "scene-talk.follow-press.it-s-on-the-list-in-the-packet-page-four",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
+    },
+    "20d14kbryk0": {
+      "keys": [
+        "scene-talk.follow-plea.then-where-do-i-take-it-i-can-t-get-to-three-different-offices-with-someone-who",
+        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
+        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
+      ],
+      "why": "Both replies agree to take the case on at once (find out whose it is, or walk it to the right desk), so none pushes back, deflects or raises the stakes."
+    },
+    "227jpfpqb4j": {
+      "keys": [
+        "scene-talk.follow-plea.then-tell-me-who-to-ask-so-i-m-not-back-in-here-next-week-with-the-same-paper",
+        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
+        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
+      ],
+      "why": "Both replies agree to take the case on at once (find out whose it is, or walk it to the right desk), so none pushes back, deflects or raises the stakes."
+    },
+    "27ra6e1tcum": {
+      "keys": [
+        "scene-talk.follow-confront.you-did-don-t-let-it-go-to-your-head",
+        "scene-talk.reply-apologize.okay-okay-i-had-help",
+        "scene-talk.reply-thank.i-know-i-wasn-t-easy-thank-you"
+      ],
+      "why": "Both replies give in agreeably to the teasing, and neither pushes back, deflects or raises the stakes."
+    },
+    "2b3j4anqhpj": {
+      "keys": [
+        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
+        "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
+        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word"
+      ],
+      "why": "Both replies agree and promise at once, so nothing pushes back or deflects."
+    },
+    "2cajnart151": {
+      "keys": [
+        "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
+    },
+    "2cgrn65vfan": {
+      "keys": [
+        "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
+    },
+    "2g3nxcpb3wf": {
+      "keys": [
+        "scene-talk.follow-press.it-s-on-the-list-in-the-packet-page-four",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
+    }
+  },
+  "yesHash": "297fn0mvrhf"
 }
