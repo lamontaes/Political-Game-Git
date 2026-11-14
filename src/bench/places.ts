@@ -5,7 +5,7 @@ import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
-import { properName } from "../director/words";
+import { organizationName } from "../director/words";
 import { backdropStaging } from "./staging";
 import { backdropFor, orgPlace, staffOf, peopleHere } from "./scene";
 import { isOnShift } from "./shift";
@@ -159,7 +159,7 @@ export function townPlaces(
         return [
           {
             organizationId: org.id,
-            name: properName(org.name),
+            name: organizationName(org),
             place,
             staff: full.length + counted.length,
             known: known.map((id) => {
@@ -252,7 +252,7 @@ export function visitPlace(
   const backdrop = backdropFor(core, place, minute);
   return {
     organizationId,
-    name: properName(org.name),
+    name: organizationName(org),
     place,
     backdrop,
     names: Object.fromEntries(ids.map((row) => [row.id, row.name])),

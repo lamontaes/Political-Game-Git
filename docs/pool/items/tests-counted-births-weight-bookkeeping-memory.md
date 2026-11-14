@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -42,3 +42,5 @@ Environment follow-up 2026-10-26 06:13 UTC: the merger found about 2.4 GB of ina
 **Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/counted-births-weight.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=6caa430bbe8beeb2600e9413def52bb2: 1 of 1 passed, no worker kill, in this 16 GB container with a 8,192 MB heap. Fresh draw GOLDEN_PATH_SEED=sweep-fresh-20761: passed (North Beach, Maryland, 2456300, seed 3a616e56be45727d8c571099ef774d814a1b77bd4a7084df3e8b6d5148685e73). Green on both. The item's cause was an 8 GB cgroup with Vite output in /tmp, which this container does not match, so memory in that cgroup is not shown by this run. Proposed for the CTO: drop as fixed on main.
 
 Cause finder (Nov 11, 2026, for Fable B): ran both original roots on main 1b0cd0d1 with the process tree's peak memory polled (a small script summing `ps -o rss` over `pgrep -P` every 2 s, as the heavy-runs skill describes). Both pass, under 5.1 GB. Proposed: close.
+
+Dropped Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: the Oct kills match about 2.4 GB of Vite output in RAM-backed /tmp inside an 8 GB cgroup, not production code; the item's Nov 11 runs passed at peaks of 5,080 MB (Heath) and 4,691 MB (Waimea). `src/core2/counted-births-weight.test.ts` was run again on the train in this pass (result in the PR body).

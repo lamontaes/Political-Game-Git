@@ -2037,6 +2037,15 @@ body:not(.dev) .dev-only {
   gap: 10px;
   font: var(--t-ui)/1.35 var(--ui);
 }
+.calendar-entry .attend-plan {
+  display: block;
+  margin: 4px 0 0;
+  color: var(--muted, var(--text));
+}
+.calendar-entry .attend-meeting {
+  display: block;
+  margin: 6px 0 0;
+}
 .calendar-empty {
   margin: 0;
   color: var(--muted, var(--text));
@@ -2383,6 +2392,10 @@ body:not(.dev) .dev-only {
 #meeting > .heading {
   margin: 0 0 12px;
   font-size: var(--t-h2);
+}
+/* A line above the agenda (a refusal, or a resident's one line). */
+#meeting-items > .meeting-note {
+  margin: 0 0 12px;
 }
 .meeting-item + .meeting-item {
   margin-top: 16px;
@@ -5075,6 +5088,33 @@ select.release-pick {
     Georgia,
     serif;
   color: var(--cream);
+}
+
+/* The campaign board: where the race stands, the money, and the trail button.
+   The money column keeps room for its figures, so a row such as "Signatures
+   0 of 21, due May 1, 2026" sits on one line, and the button keeps its words
+   on one line; when the sheet is narrow (the roster of several races beside
+   it, or a 1024-wide window) the button moves under the two columns instead
+   of squeezing them. */
+.strip-board.campaign-board .board-cols {
+  display: flex;
+  flex-wrap: wrap;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(1) {
+  flex: 1 1 200px;
+  min-width: 200px;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(2) {
+  flex: 1.6 1 310px;
+  min-width: 310px;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(3) {
+  flex: 0 0 auto;
+}
+.strip-board.campaign-board .board-cols button,
+.strip-board.campaign-board .dotlabel,
+.strip-board.campaign-board .dotvalue {
+  white-space: nowrap;
 }
 
 /* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */

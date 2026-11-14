@@ -73,7 +73,7 @@ describe(`the country in 20 years: ${where}`, () => {
   it("the player's state is one of the 56 and starts where the Metrics tab's state row says", () => {
     expect(first.state, where).toBeTruthy();
     expect(Object.keys(first.states), where).toContain(first.state);
-    const view = metricsView(core, dev.placeId, dev.player?.personId ?? "");
+    const view = metricsView(core, dev.placeId);
     const row = view.sections
       .find((section) => section.key === "state")
       ?.rows.find((r) => r.key === "unemployment");

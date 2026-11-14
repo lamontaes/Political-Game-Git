@@ -18,13 +18,18 @@ import {
 import type { Stance } from "../core2/campaign-data";
 import {
   campaignDayChoices,
+  raceLive,
   contestStanding,
   takeCampaignDayChoice,
   whyNotToday,
   type CandidateStanding,
   type CampaignDayKind,
 } from "../core2/campaign-day";
-import { petitionOf } from "../core2/modules/elections";
+import {
+  petitionCirculating,
+  petitionOf,
+  petitionSigners,
+} from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
@@ -49,6 +54,7 @@ import {
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-data";
 import { backdropFor, homeOf, peopleHere } from "./scene";
+import { doorPlaceFor } from "./scene-picture-steps";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";
 import { spokenDate as dateSaid } from "../director/words";
@@ -63,9 +69,10 @@ const POLL_SAMPLE = campaignParameter("pollSampleSize");
 const ELECTIONS = "core2-elections-v1";
 
 /**
- * A filing's petition as the screens show it, read from the petition record
- * (the signatures the clerk will count, the last day, the signatures held and,
- * once the clerk has checked it, the verdict). Null for a filing with none.
+ * A filing's petition as the screens show it, read from the petition record:
+ * the signatures the law asks, the last day and the signatures held. The
+ * clerk's check is told in the news and the Journal, not on a screen (owner,
+ * Nov 14). Null for a filing with none.
  */
 export function petitionView(api: CoreAPI, filingId: string) {
   const petition = petitionOf(api, filingId);
@@ -75,13 +82,6 @@ export function petitionView(api: CoreAPI, filingId: string) {
     needed: petition.needed,
     due: petition.due,
     signed: petition.signed,
-    check: petition.check
-      ? {
-          on: petition.check.on,
-          valid: petition.check.valid,
-          struck: petition.check.struckIds.length,
-        }
-      : null,
   };
 }
 const CAMPAIGNS = "core2-campaigns-v1";
@@ -107,6 +107,9 @@ function townFirst(api: CoreAPI, outletIds: readonly string[]) {
   return outletIds.find((id) => tier.get(id) === "local") ?? outletIds[0];
 }
 
+/** Whether a filing's race is live: ahead and not yet counted (the screens' one reading of it). */
+export { raceLive };
+
 /** The player's campaigns: one for each filing on the ballot. */
 export function campaignView(core: CoreState, personId: string) {
   if (!core.modules.has(CAMPAIGNS)) return { campaigns: [], venues: [] };
@@ -116,7 +119,7 @@ export function campaignView(core: CoreState, personId: string) {
       .moduleState(ELECTIONS)
       .table("filings")
       .query("byPerson", [personId]) as unknown as FilingRow[]
-  ).filter((row) => row.status !== "withdrawn");
+  ).filter((row) => raceLive(api, row));
   const pictures = filings.length ? trailPictures(core, personId) : {};
   return {
     venues: scenePlaces.speechPlaces,
@@ -697,14 +700,13 @@ function outingScene(
 ) {
   const first = core.people.get(met[0] ?? "")?.householdId ?? "";
   const dwelling = (first && dwellingKind(coreAPI(core), first)) || "house";
-  const doors = scenePlaces.doorKnockingPlaces as Record<string, string>;
   const party = kind === "donor-meeting" && !!met[0];
   // A house party is an evening in the living room (homeRoomByHour).
   const minute = party ? 20 * 60 : 16 * 60;
   const place = party
     ? homeOf(core, met[0]!, minute)
     : kind === "canvass"
-      ? (doors[dwelling] ?? TRAIL_PLACES.doors!)
+      ? doorPlaceFor(dwelling)
       : TRAIL_PLACES[OUTINGS[kind] ?? "calls"]!;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   const backdrop = backdropFor(core, place, minute, party ? met[0] : undefined);
@@ -761,9 +763,27 @@ export function campaignDay(
   ];
   const kind = kinds.find((k) => k === input.kind);
   if (!kind) throw new Error("Unknown campaign day choice.");
+  // While the petition circulates, a doors outing is how signatures come in
+  // (owner, Nov 14): the names the doors added today, from the petition's own
+  // signer rows, some days none and some days many.
+  const doorSigners = () =>
+    petitionSigners(api, input.filingId).filter((s) => s.via === "door").length;
+  const petitionOut =
+    kind === "canvass" && petitionCirculating(api, input.filingId);
+  const signedBefore = petitionOut ? doorSigners() : 0;
+  // Counted residents who opened stay a count (two-level population), so the
+  // doors answered are the people met plus that count's growth: every door
+  // that opened, which is everyone asked to sign.
+  const countedBefore = campaignFor(api, input.filingId).countedReached ?? 0;
   const result = takeCampaignDayChoice(api, input.filingId, kind, {
     ...(input.outletId ? { outletId: input.outletId } : {}),
   });
+  const signed = petitionOut ? doorSigners() - signedBefore : null;
+  const answered = petitionOut
+    ? result.causeIds.length +
+      (campaignFor(api, input.filingId).countedReached ?? 0) -
+      countedBefore
+    : null;
   const met = outingPeople(core, kind, result);
   // Each person asked for money: their name, what they gave or why not, in words.
   const calls = result.answers.map((answer) => {
@@ -808,6 +828,10 @@ export function campaignDay(
     hours: result.hours,
     doorsKnocked: result.doorsKnocked,
     reached: result.causeIds.length,
+    /** Signatures the doors brought in, while the petition circulates; null otherwise. */
+    signed,
+    /** Doors that opened on a petition outing (everyone asked to sign); null otherwise. */
+    answered,
     raisedMinor: result.raisedMinor,
     gifts: result.giftIds.length,
     // A forum's town hall: the meetings engine's row, who came and what they asked.

@@ -6,6 +6,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
+  atLargeGroup,
   standing,
   type ContestRow,
   type FilingRow,
@@ -56,19 +57,40 @@ it("after the filing deadline, every local seat on the next ballot lists its fil
       (contest) =>
         LOCAL.has(contest.level) && contest.electionDate === opening.date,
     );
+    // Every seat is on the screen once: a body's at-large seats up together
+    // as one race (atLargeGroup), its first contest's row naming them all.
     expect(
-      shown.races.map((race) => race.contestId).sort(),
+      shown.races.flatMap((race) => race.contestIds).sort(),
       `${where}: every local seat on the ${opening.date} ballot`,
     ).toEqual(contests.map((contest) => contest.id).sort());
+    for (const race of shown.races)
+      expect(
+        race.contestIds,
+        `${where}: ${race.contestId} is one race`,
+      ).toEqual(
+        atLargeGroup(
+          coreAPI(core),
+          contests.find((contest) => contest.id === race.contestId)!,
+        ).map((contest) => contest.id),
+      );
+    // No race is told apart by whoever holds a seat now.
+    expect(
+      new Set(shown.races.map((race) => race.title)).size,
+      `${where}: one row per race title ${shown.races.map((race) => race.title).join(", ")}`,
+    ).toBe(shown.races.length);
     let filers = 0;
     let unopposed = 0;
     for (const race of shown.races) {
       expect(race.filingClosed, `${where}: ${race.contestId}`).toBe(true);
-      const filed = (
-        elections
-          .table("filings")
-          .query("byContest", [race.contestId]) as unknown as FilingRow[]
-      ).filter(standing);
+      // Everyone filed for any of the race's seats.
+      const filed = race.contestIds
+        .flatMap(
+          (id) =>
+            elections
+              .table("filings")
+              .query("byContest", [id]) as unknown as FilingRow[],
+        )
+        .filter(standing);
       expect(
         race.filers.map((f) => f.filingId).sort(),
         `${where}: ${race.contestId}`,
@@ -84,11 +106,11 @@ it("after the filing deadline, every local seat on the next ballot lists its fil
       if (race.filers.length === 1) unopposed += 1;
     }
     console.log(
-      `${where}: ${shown.races.length} local seats on ${shown.date}, ${filers} filers, ${unopposed} unopposed; e.g. ${shown.races
+      `${where}: ${shown.races.length} local races (${shown.races.reduce((n, race) => n + race.seats, 0)} seats) on ${shown.date}, ${filers} filers, ${unopposed} unopposed; e.g. ${shown.races
         .slice(0, 3)
         .map(
           (race) =>
-            `${race.title}: ${race.filers.map((f) => `${f.name} (${f.filingId})`).join(", ") || "no one"}`,
+            `${race.title} (${race.seats} seats): ${race.filers.map((f) => `${f.name} (${f.filingId})`).join(", ") || "no one"}`,
         )
         .join("; ")}`,
     );

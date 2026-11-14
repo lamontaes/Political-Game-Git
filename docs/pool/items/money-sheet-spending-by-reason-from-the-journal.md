@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/project-thread-nit8xn
+pr: #8965
 after:
 blocked-on:
 source: stand-in triage of Nov 10 (SG-BENCH-money-spending-reasons)
