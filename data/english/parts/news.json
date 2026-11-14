@@ -14922,10 +14922,10 @@
       }
     },
     {
-      "key": "news.organization.opened.opening-the-business-is-kind",
+      "key": "news.organization.opened.opening-the-new-business-is-kind",
       "move": "organization.opened",
       "kind": "written",
-      "text": "The business is {kind}.",
+      "text": "The new business is {kind}.",
       "uses": [
         {
           "move": "organization.opened",

@@ -192,7 +192,11 @@ const KIND_WORDS = kindWords.kinds as Record<
   { readonly one: string; readonly many: string }
 >;
 /** What a kind of business is, as a sentence says it, from its kind's id (empty where the table has no words). */
-const kindFacts = (read: Reader, kindId: string | undefined, cite: string) => {
+const kindFacts = (
+  read: Reader,
+  kindId: string | undefined,
+  cite: string,
+): Facts => {
   const words = kindId ? KIND_WORDS[kindId] : undefined;
   return words
     ? { kind: read.fact(words.one, cite), kinds: read.fact(words.many, cite) }
