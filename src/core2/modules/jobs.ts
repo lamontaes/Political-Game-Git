@@ -2336,10 +2336,12 @@ function leaveWork(
   job: JobInput,
   reasonKey: string,
   values: Readonly<Record<string, number>>,
+  /** The worker already worked today: the job ends after that shift, which stands and is paid. */
+  afterShift = false,
 ): void {
   store(api).table("seekers").remove(job.personId);
   endSpell(api, job.personId);
-  api.endJob(job.id, `jobs:left-work:${api.state.date}`);
+  api.endJob(job.id, `jobs:left-work:${api.state.date}`, afterShift);
   record(api, {
     personId: job.personId,
     organizationId: job.organizationId,
@@ -2354,13 +2356,12 @@ function leaveWork(
 /**
  * Why a person's job cannot be left by their own press, or null when it can. A post held by
  * appointment or by office is left by resigning through the executive or offices engine; a business
- * owner leaves by closing or selling it; a person already worked today leaves tomorrow (a job ends
- * before its day's work).
+ * owner leaves by closing or selling it.
  */
 export function jobLeaveBlock(
   api: CoreAPI,
   personId: string,
-): "no-job" | "post" | "owner" | "worked-today" | null {
+): "no-job" | "post" | "owner" | null {
   if (!api.state.modules.has(JOBS_MODULE_ID)) return "no-job";
   const c = core(api);
   const person = c.people.get(personId);
@@ -2369,7 +2370,6 @@ export function jobLeaveBlock(
   if (job.id.startsWith("job:public:") || job.id.startsWith("job:office:"))
     return "post";
   if (ownerOf(api, job.organizationId) === personId) return "owner";
-  if (workedToday(c, person)) return "worked-today";
   return null;
 }
 
@@ -2387,11 +2387,17 @@ export function quitJob(
   const why = jobLeaveBlock(api, personId);
   if (why) return { left: false, why };
   const c = core(api);
-  const job = c.jobs.get(c.people.get(personId)!.jobId!)!;
-  leaveWork(api, job, jobsData.reasons.leftWork, {
-    hourlyMinor: job.hourlyMinor ?? 0,
-    pressed: 1,
-  });
+  const person = c.people.get(personId)!;
+  const job = c.jobs.get(person.jobId!)!;
+  // Someone who already worked today leaves after that shift: it stands and is paid, and the job's
+  // end date is tomorrow (a job ends before its day's work, so tomorrow is not worked).
+  leaveWork(
+    api,
+    job,
+    jobsData.reasons.leftWork,
+    { hourlyMinor: job.hourlyMinor ?? 0, pressed: 1 },
+    workedToday(c, person),
+  );
   return { left: true, id: `job-change:${api.state.date}:${job.id}:left-work` };
 }
 

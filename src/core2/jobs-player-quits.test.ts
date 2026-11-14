@@ -62,14 +62,11 @@ describe(
         `quit-job: a month at work moved the player's cash ${player.liquidMinor - cashAtHire}`,
       );
       expect(player.jobId).toBe(jobId);
-      // Wait out a day already worked: a job ends before its day's work.
-      let why = jobLeaveBlock(api, playerId);
-      for (let i = 0; why === "worked-today" && i < 8; i += 1) {
-        expect(leaveJobAs(core, playerId)).toEqual({ left: false, why });
-        advanceCore(core, addDays(makeIsoDate(core.date), 1));
-        why = jobLeaveBlock(api, playerId);
-      }
-      expect(why).toBeNull();
+      // Press it on whatever day it is, a day already worked included: the shift stands and is paid,
+      // and the job's end date is then tomorrow.
+      const workedToday =
+        core.work.lastAttendanceByJob.get(jobId)?.date === core.date;
+      expect(jobLeaveBlock(api, playerId)).toBeNull();
       expect(personCard(core, playerId).job?.leave).toBeNull();
 
       const org = core.jobs.get(jobId)!.organizationId;
@@ -113,13 +110,17 @@ describe(
           });
       };
       const before = state();
+      const pressed = core.date;
       const result = leaveJobAs(core, playerId);
       console.log(
         `quit-job: before ${JSON.stringify(before)}; ${JSON.stringify(result)}; after ${JSON.stringify(state())}`,
       );
       expect(result.left).toBe(true);
       expect(player.jobId).toBeUndefined();
-      expect(core.jobs.get(jobId)!.endsAt).toBe(core.date);
+      expect(core.jobs.get(jobId)!.endsAt).toBe(
+        workedToday ? addDays(makeIsoDate(core.date), 1) : core.date,
+      );
+      console.log(`quit-job: worked that day ${workedToday}`);
       expect(personCard(core, playerId).job).toBeUndefined();
       // The director reads the end as a job left, never a job lost.
       expect(api.knows(playerId, `job:${jobId}:status`)?.sourceId).toBe(
@@ -159,15 +160,15 @@ describe(
         );
       // Pay stops: no shift is worked at the job after the day it ended, and its work commitment ends
       // that day. (Pay for days already worked is still owed and paid in arrears, as for any leaver.)
-      const quitDate = core.jobs.get(jobId)!.endsAt!;
+      const pressedOn = pressed;
       play(35);
       const later = state();
       console.log(`quit-job: after 35 days ${JSON.stringify(later)}`);
       const lastShift = core.work.lastAttendanceByJob.get(jobId)?.date;
-      expect(lastShift === undefined || lastShift <= quitDate).toBe(true);
+      expect(lastShift === undefined || lastShift <= pressedOn).toBe(true);
       for (const id of core.work.commitmentsByPerson.get(playerId) ?? [])
         if (core.work.commitments.get(id)!.jobId === jobId)
-          expect(core.work.commitments.get(id)!.endsAt).toBe(quitDate);
+          expect(core.work.commitments.get(id)!.endsAt).toBe(pressedOn);
       expect(player.jobId).toBeUndefined();
     });
   },

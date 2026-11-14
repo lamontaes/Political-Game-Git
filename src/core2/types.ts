@@ -1137,7 +1137,8 @@ export interface CoreAPI {
   /** A post paid a salary, not by the hour: the job with no shift hours (official-pay posts the pay). */
   startSalariedPost(job: JobInput): void;
   /** Ends one current job today; earned wages stay owed for the next payday. */
-  endJob(jobId: string, sourceId: string): void;
+  /** `afterShift`: the holder already worked today; the job ends tomorrow, so today's shift stands and is paid. */
+  endJob(jobId: string, sourceId: string, afterShift?: boolean): void;
   /** Accrues to today at the old rate, then applies the new annual rate from today on. */
   repriceCreditFacility(
     facilityId: string,

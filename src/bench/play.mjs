@@ -4046,9 +4046,7 @@ const sheets = {
                     return leave;
                   })(),
                 ]
-              : job.leave === "worked-today"
-                ? [prose(labels.leaveTomorrow, "job-why")]
-                : []),
+              : []),
           ]
         : [
             prose(labels.noJob, "record-empty"),

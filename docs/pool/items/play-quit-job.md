@@ -22,7 +22,7 @@ source: owner decision card, Nov 14 12:57Z ("Yes, add Leave this job")
 
 **Cause.** Found in code: the jobs engine's monthly review (`reviewWorkers` in src/core2/modules/jobs.ts) writes a worker's own leaving (`api.endJob(job.id, "jobs:left-work:<date>")` and a `left-work` change) but skips the controlled person (`controlled(c, person.id)`), and no bench route reached the player's job (`src/bench/handler.ts` has no job route; `src/bench/play.mjs` `jobs()` only shows pay and hours). The director already reads that source as a job left (`chosenJobEnds` in src/director/data/director.json) and stages the coworkers' farewell (`last-day`, cause `money:job-left`).
 
-**Fix.** In src/core2/modules/jobs.ts, move the leave branch into `leaveWork`, call it from the monthly review and from a new `quitJob` (with `jobLeaveBlock` saying why a job cannot be left: an office or appointed post, a business the player owns, a day already worked). Add `POST /api/job/leave` (src/bench/handler.ts, src/bench/openings.ts), `job.leave` on the person card (src/bench/card.ts) and the button with its two strings on the Jobs tab (src/bench/play.mjs, src/bench/data/controls.json).
+**Fix.** In src/core2/modules/jobs.ts, move the leave branch into `leaveWork`, call it from the monthly review and from a new `quitJob` (with `jobLeaveBlock` saying why a job cannot be left: an office or appointed post, a business the player owns). A player who already worked that day leaves after that shift: `endJob` takes an `afterShift` flag, the shift stands and is paid, and the job's end date is tomorrow. Add `POST /api/job/leave` (src/bench/handler.ts, src/bench/openings.ts), `job.leave` on the person card (src/bench/card.ts) and the button with its two strings on the Jobs tab (src/bench/play.mjs, src/bench/data/controls.json).
 
 **Time box.** 4 hours, one Sonnet session. When it runs out, push what passes and set the state honestly.
 
@@ -32,6 +32,6 @@ source: owner decision card, Nov 14 12:57Z ("Yes, add Leave this job")
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/jobs.ts, src/bench/handler.ts, src/bench/openings.ts, src/bench/card.ts, src/bench/play.mjs, src/bench/data/controls.json, src/core2/jobs-player-quits.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/job-lifecycle.ts, src/core2/state.ts, src/core2/types.ts, src/bench/handler.ts, src/bench/openings.ts, src/bench/card.ts, src/bench/play.mjs, src/bench/data/controls.json, src/core2/jobs-player-quits.test.ts
 
-**Notes.** Words lines for the two new strings went to the Words lead with the played examples. Not built here: leaving a public post or an office (it resigns through the executive or offices engine), and an owner closing or selling their business.
+**Notes.** Words line for the one new string went to the Words lead with the played examples. Not built here: leaving a public post or an office (it resigns through the executive or offices engine), and an owner closing or selling their business.
