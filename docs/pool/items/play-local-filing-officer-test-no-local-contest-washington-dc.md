@@ -20,7 +20,7 @@ lead: wire-elections
 
 **Cause.** Needs cause. The test loops a drawn place's contests for a local one and asserts at least one; at this seed the list is empty. Whether the district really has no local race open at that date (the council seats are not up), or the contest builder skipped it, is not yet found.
 
-**Fix.** None until the cause is found.
+**Fix.** The test draws its seed at run time (`GOLDEN_PATH_SEED` or a random one), so it needs pinning to named places and fixed seeds with an explicit timeout (skill `pinned-tests`), Washington, D.C. at the seed above among them, once the cause is found. No assertion is loosened.
 
 **Time box.** 1 hour to find the cause.
 
