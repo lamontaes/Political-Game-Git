@@ -3614,8 +3614,17 @@ function policeLog(api: CoreAPI): void {
       ...(usual
         ? {
             vsUsual: String(Math.round((reported / usual.total) * 1000) / 1000),
-            usual: String(Math.round(usual.total * 10) / 10),
-            ...(usual.rising ? { rising: usual.rising } : {}),
+            // The words may compare the month with the town's usual only
+            // once the usual rests on enough closed months (two months are
+            // not a usual month), and only by how far the month stands off
+            // the usual against the town's own spread of months.
+            ...(usual.months >= pressParameter("briefUsualMinMonths")
+              ? {
+                  usual: String(Math.round(usual.total * 10) / 10),
+                  spread: String(Math.round(usual.spread * 10) / 10),
+                  ...(usual.rising ? { rising: usual.rising } : {}),
+                }
+              : {}),
             // How many closed months the usual rests on, and how often a
             // month this busy comes by chance at that usual: a town with a
             // short record or a small usual is not called busy on chance.
@@ -3644,7 +3653,9 @@ function usualMonth(
   api: CoreAPI,
   town: string,
   month: string,
-): { total: number; months: number; rising?: string } | undefined {
+):
+  | { total: number; months: number; spread: number; rising?: string }
+  | undefined {
   type Month = {
     readonly month: string;
     readonly types?: Record<string, { readonly reported?: number }>;
@@ -3668,6 +3679,18 @@ function usualMonth(
     ),
   );
   if (!(total > 0)) return undefined;
+  // How far the town's own closed months stand off their mean: what is
+  // unusual for this town is read from its own months, never picked.
+  const monthTotals = rows.map((row) =>
+    Object.values(row.types ?? {}).reduce(
+      (sum, type) => sum + (type.reported ?? 0),
+      0,
+    ),
+  );
+  const spread = Math.sqrt(
+    monthTotals.reduce((sum, n) => sum + (n - total) ** 2, 0) /
+      Math.max(1, monthTotals.length - 1),
+  );
   const now = api
     .moduleState(CRIME_MODULE_ID)
     .table("months")
@@ -3690,7 +3713,7 @@ function usualMonth(
       rising = type;
     }
   }
-  return { total, months: rows.length, ...(rising ? { rising } : {}) };
+  return { total, months: rows.length, spread, ...(rising ? { rising } : {}) };
 }
 
 /** True when the usual rests on enough months and chance rarely gives a month this busy. */

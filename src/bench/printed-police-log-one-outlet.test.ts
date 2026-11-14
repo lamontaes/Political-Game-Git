@@ -30,6 +30,7 @@ const DAYS: Record<string, number> = {
   s10: 160,
   s12: 300,
   s23: 300,
+  s19: 250,
 };
 for (const seed of Object.keys(DAYS))
   it(`the town's log runs in its paper of record (seed ${seed})`, () => {
@@ -131,7 +132,7 @@ for (const seed of Object.keys(DAYS))
         `${where}: ${source} vsUsual ${wire.get(source)?.vsUsual ?? "none"} in ${[...by].join(", ")} (record ${[...record].join(", ")})\n`,
       );
     }
-    if (seed === "s23") {
+    if (seed === "s23" || seed === "s19") {
       const wide = [...printedBy].filter(
         ([source, by]) => wire.get(source)?.busier === "yes" && by.size > 1,
       );

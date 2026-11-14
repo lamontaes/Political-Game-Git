@@ -3578,7 +3578,14 @@ const policeLog: Builder = (read, f) => {
   // that figure (a town whose usual rounds to none has the whole count over).
   const usualRounded = Math.round(usualOf(f) ?? 0);
   const over = usualOf(f) ? total - usualRounded : 0;
-  const extra = over >= 1 ? over : undefined;
+  // Said only when the month stands off the usual by more than the town's
+  // own months do from their mean (a month one over a usual of twelve is
+  // not news).
+  const spread = Number(f.spread);
+  const extra =
+    over >= 1 && over >= (Number.isFinite(spread) ? spread : 1)
+      ? over
+      : undefined;
   return story(
     "police-log",
     {
@@ -3601,7 +3608,6 @@ const policeLog: Builder = (read, f) => {
       ...(extra !== undefined && rising
         ? { rising: read.fact(rising, row.id) }
         : {}),
-      ...(extra !== undefined && f.busier ? { busier: read.yes() } : {}),
     },
     ["place", "number"],
   );
