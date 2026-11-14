@@ -3197,7 +3197,7 @@
           "bearing": "hopeful"
         }
       ],
-      "setting": ["office"],
+      "setting": ["office", "other-home", "home"],
       "timing": "at-cause",
       "causes": [
         {
@@ -3217,7 +3217,7 @@
             "you": "subject"
           },
           "opener": "you",
-          "setting": ["office"]
+          "setting": ["office", "other-home", "home"]
         }
       ],
       "tag": {

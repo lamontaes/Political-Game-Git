@@ -7185,6 +7185,14 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
         }
       ],
       "bearing": "calm",
@@ -163791,10 +163799,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-takes-the-chair-across-the-desk-from-you",
+      "key": "scene-talk.narrate-narrate.name-sits-down-across-from-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} takes the chair across the desk from you.",
+      "text": "{name} sits down across from you.",
       "uses": [
         {
           "subject": "scene",
@@ -163839,10 +163847,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-comes-in-and-shuts-the-door-you-get-right-to-it",
+      "key": "scene-talk.narrate-narrate.name-sits-down-with-you-you-get-right-to-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} comes in and shuts the door. You get right to it.",
+      "text": "{name} sits down with you. You get right to it.",
       "uses": [
         {
           "subject": "scene",
