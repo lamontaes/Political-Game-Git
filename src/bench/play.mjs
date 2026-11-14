@@ -1921,13 +1921,12 @@ async function campaignParts() {
         result.doorsKnocked
           ? controls.campaignResults.doors.replace("{n}", result.doorsKnocked)
           : "",
-        // A petition outing says the doors that opened, everyone asked to
-        // sign (the Words lead, Nov 14); "reached" stays for vote-asking doors.
+        // Doors that opened on a petition's outing, whether asked to sign or
+        // for the vote (the Words lead, Nov 14); "reached" says the people met
+        // and shows where any door asked for the vote.
         result.answered !== null && result.answered !== undefined
           ? controls.campaignResults.answered.replace("{n}", result.answered)
-          : result.reached
-            ? controls.campaignResults.reached.replace("{n}", result.reached)
-            : "",
+          : "",
         // How many signed at the doors, a day of none included (owner, Nov 14:
         // "Tab total and each outing"), outside the dialogue.
         result.signed === null || result.signed === undefined
@@ -1935,6 +1934,12 @@ async function campaignParts() {
           : result.signed === 0
             ? controls.campaignResults.signedNone
             : controls.campaignResults.signed.replace("{n}", result.signed),
+        result.reached &&
+        (result.votesAsked === null ||
+          result.votesAsked === undefined ||
+          result.votesAsked > 0)
+          ? controls.campaignResults.reached.replace("{n}", result.reached)
+          : "",
         result.raisedMinor ? moneyWords(result.raisedMinor) : "",
       ]
         .filter(Boolean)
@@ -2037,6 +2042,18 @@ async function campaignParts() {
                 label: T.howLong,
                 value: `${choice.hours} ${controls.campaignOutings.hours}`,
               },
+              // What the doors ask for now: signatures while the petition is
+              // short of its target, votes after it and in a race with none.
+              ...(choice.outing === "doors"
+                ? [
+                    {
+                      label: T.asking,
+                      value: petition?.asksAtDoors
+                        ? T.askingSignatures
+                        : T.askingVotes,
+                    },
+                  ]
+                : []),
             ],
             does: why ? [why] : [],
           }),
@@ -2205,7 +2222,10 @@ async function campaignParts() {
                 ? [
                     {
                       label: labelsC.signatures,
-                      value: labelsC.signaturesHeld
+                      value: (petition.signed >= petition.needed
+                        ? labelsC.signaturesEnough
+                        : labelsC.signaturesHeld
+                      )
                         .replace("{signed}", String(petition.signed))
                         .replace("{needed}", String(petition.needed))
                         .replace("{date}", dateWords(petition.due)),

@@ -30,6 +30,7 @@ import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { campaignFor } from "./modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
   PETITION_CHECKED_EVENT,
@@ -197,7 +198,18 @@ describe("filing is a petition", () => {
       const mine = petitionOf(api, filing.id)!;
       expect(mine.check, `${where}: the clerk never checked`).toBeDefined();
       const vias = new Set(petitionSigners(api, filing.id).map((s) => s.via));
-      expect(vias.has("door"), `${where}: no signature at a door`).toBe(true);
+      // Doors bring signatures while the petition is short of its target and
+      // none after it (owner, Nov 14): a door signature is expected only when
+      // some door asked for one, since a small petition the circle fills
+      // first never asks. The two pinned cases below keep both sides asserted
+      // on every run.
+      if ((campaignFor(api, filing.id).doorSignAsks ?? 0) > 0)
+        expect(vias.has("door"), `${where}: no signature at a door`).toBe(true);
+      else
+        expect(
+          vias.has("door"),
+          `${where}: a door was never asked to sign`,
+        ).toBe(false);
       for (const p of petitions) {
         if (!p.check) continue;
         const f = filings.get(p.filingId)!;
@@ -278,4 +290,101 @@ describe("filing is a petition", () => {
     if (passedOver.length)
       process.stdout.write(`passed over: ${passedOver.join(" | ")}\n`);
   }, 900_000);
+
+  /**
+   * One pinned town: the player files a month before the town race's
+   * deadline and canvasses daily to the due date; returns whether the doors
+   * were needed at the start and the signatures that came in at a door.
+   */
+  function pinnedPetition(placeKey: string, seed: string) {
+    setBookkeeping(false);
+    const { core } = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey,
+    });
+    const api = coreAPI(core);
+    const contest = townContest(core);
+    expect(
+      contest,
+      `${placeKey}: no town race files in 400 days`,
+    ).not.toBeNull();
+    advanceCore(
+      core,
+      addDays(makeIsoDate(contest!.filingDeadline), -LEAD_DAYS),
+    );
+    const { townPlaceId } = api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("town")
+      .get("town") as unknown as { townPlaceId: string };
+    const adults = [...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive &&
+          p.placeId === townPlaceId &&
+          ageOn(p.birthDate, core.date) >= 25,
+      )
+      .sort(
+        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
+      );
+    let filing: FilingRow | null = null;
+    for (const adult of adults) {
+      if (
+        checkEligibility(api, adult.id, contest!.id, null).some((c) => !c.met)
+      )
+        continue;
+      core.playerId = adult.id;
+      const filed = fileCandidacy(api, {
+        personId: adult.id,
+        contestId: contest!.id,
+        platform: [],
+        party: null,
+      });
+      if (filed.status !== "refused") {
+        filing = filed.filing;
+        break;
+      }
+    }
+    expect(filing, `${placeKey}: no adult could file`).not.toBeNull();
+    const opened = petitionOf(api, filing!.id)!;
+    expect(
+      opened.needed,
+      `${placeKey}: the law asks no signatures`,
+    ).toBeGreaterThan(0);
+    while (core.date <= opened.due) {
+      // A checked petition's signatures go in play; bookkeeping keeps them
+      // through the check, the morning after the deadline.
+      if (core.date === opened.due) setBookkeeping(true);
+      const canvass = campaignDayChoices(api, filing!.id).find(
+        (c) => c.kind === "canvass",
+      );
+      if (canvass?.available) takeCampaignDayChoice(api, filing!.id, "canvass");
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    }
+    advanceCore(core, addDays(makeIsoDate(opened.due), 1));
+    setBookkeeping(false);
+    const signers = petitionSigners(api, filing!.id);
+    return {
+      needed: opened.needed,
+      doorAsks: campaignFor(api, filing!.id).doorSignAsks ?? 0,
+      doorSigners: signers.filter((s) => s.via === "door").length,
+    };
+  }
+
+  it("a petition the doors must fill takes signatures at the doors (Otisville NY)", () => {
+    const run = pinnedPetition(
+      "3655673",
+      "580915c55b122496eedbb4aef26193e639a89d50e6df380c1a1073abc59559a5",
+    );
+    expect(run.doorAsks, JSON.stringify(run)).toBeGreaterThan(0);
+    expect(run.doorSigners, JSON.stringify(run)).toBeGreaterThan(0);
+  }, 180_000);
+
+  it("a petition filled before any door asked takes none at the doors, which ask for votes (Egypt AL)", () => {
+    const run = pinnedPetition(
+      "0123224",
+      "1110d0796efcdf584767079f512566be41cf3b19d816526056f3f73445ee8eaf",
+    );
+    expect(run.doorAsks, JSON.stringify(run)).toBe(0);
+    expect(run.doorSigners, JSON.stringify(run)).toBe(0);
+  }, 180_000);
 });
