@@ -7,7 +7,7 @@ priority: 1
 size: L
 status: in-pr
 claimed-by: account lead thread "Give rivals more than one issue"
-pr:
+pr: 9342
 blocked-on:
 after: campaigns-lean-toward-the-area-the-term-hurt
 source: account lead thread "Give rivals more than one issue", Nov 14 (the campaign tilt probe, #9303; owner Nov 14 19:27Z: "it's all one simulation")
