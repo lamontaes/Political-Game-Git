@@ -102,7 +102,21 @@ for (const seed of ["pl1", "pl5", "pl6", "pl4"])
           figure(more[1]!) + figure(usual[1]!),
           `${where}: ${story.id}: ${text}`,
         ).toBe(figure(total[1]!));
-      expect(text, where).not.toMatch(/vandalism cases/);
+      expect(text, where).not.toMatch(/vandalism cases|busier/);
+      // A month is compared with the town's usual only once the usual rests
+      // on enough closed months, and only where the month stands off it by
+      // more than the town's own months do from their mean.
+      if (/usual/.test(text)) {
+        expect(
+          Number(facts.monthsOfRecord),
+          `${where}: ${story.id}: said "usual" on a short record: ${text}`,
+        ).toBeGreaterThanOrEqual(pressParameter("briefUsualMinMonths"));
+        if (more)
+          expect(
+            figure(more[1]!),
+            `${where}: ${story.id}: compared inside the town's own spread: ${text}`,
+          ).toBeGreaterThanOrEqual(Number(facts.spread));
+      }
       appendFileSync(
         path.join(tmpdir(), "printed-police-log-proof.txt"),
         `${where}: ${story.facts.sourceRecordId} vsUsual ${facts.vsUsual ?? "none"}: ${worded.headline} | ${text}\n`,
