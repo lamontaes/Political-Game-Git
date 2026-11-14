@@ -808,6 +808,7 @@
       "spread": [0.5, 3]
     },
     "partyMeetingContactHours": {
+      "role": "coefficient",
       "value": 0.1,
       "tag": "TUNABLE",
       "source": "The time together one party meeting gives the chair and a member who came, in the hours the closeness model counts: the value the monthly meeting has always written (src/core2/modules/parties.ts, meetTheChair), now one parameter for the meeting and for the meetings before the world opens. A short evening in a room of a dozen or more people, so a small share of an hour of real time with the chair.",
