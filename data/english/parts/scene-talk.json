@@ -132,7 +132,9 @@
     "effective": "The day a law enacted but not yet in force takes effect, as people say it (\"January 1, 2026\"), from the law record.",
     "about": "What a law not yet in force changes, by what it is (\"the Social Security payroll tax\"), from the law record's policy name.",
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
-    "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record."
+    "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
+    "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
+    "wanted": "What a bribe offer wants, the bill or the contract the offer record names."
   },
   "maxWords": 70,
   "parts": [
