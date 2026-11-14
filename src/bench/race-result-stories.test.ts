@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { wordPrintedStory } from "./archive-words";
 import type { EntityId } from "../core2/kernel/brands";
@@ -12,11 +13,36 @@ import { playTownRace } from "../core2/press-race-test-kit";
 // race with two Lowes on the ballot) and Excursion Inlet, Alaska (a borough
 // whose seats mostly had one name on the ballot), drawn by
 // concession-reported's purpose.
-const PLACES = ["de4ef0f8ff6efdfb:agree:15", "de4ef0f8ff6efdfb:agree:19"];
+// A third place is drawn on a seed nobody chose (GOLDEN_PATH_SEED pins
+// it): the first of six draws with a town race open for filing, the others
+// named as passed over.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const PLACES = [
+  "de4ef0f8ff6efdfb:agree:15",
+  "de4ef0f8ff6efdfb:agree:19",
+  `${seed}:drawn`,
+];
 
 for (const draw of PLACES)
   it(`the race result stories read like a paper (${draw})`, () => {
-    const { core, where, printed } = playTownRace(draw, 10);
+    let played = playTownRace(
+      draw.endsWith(":drawn") ? `${seed}:agree:0` : draw,
+      10,
+    );
+    const passed: string[] = [];
+    for (let n = 1; draw.endsWith(":drawn") && n < 6; n += 1) {
+      if (
+        played.printed.some((s) =>
+          String(s.facts.sourceRecordId).startsWith("election-result:"),
+        )
+      )
+        break;
+      passed.push(`${played.where}: no race story printed`);
+      played = playTownRace(`${seed}:agree:${n}`, 10);
+    }
+    if (passed.length)
+      process.stdout.write(`passed over: ${passed.join("; ")}\n`);
+    const { core, where, printed } = played;
     const races = printed.filter((s) =>
       String(s.facts.sourceRecordId).startsWith("election-result:"),
     );
@@ -37,13 +63,32 @@ for (const draw of PLACES)
       // One story a race, at each outlet.
       const key = `${outlet}|${race}`;
       expect(byRace.has(key), `${here}: a second story of ${race}`).toBe(false);
-      byRace.set(key, [told]);
+      byRace.set(key, [body]);
       const totals = JSON.parse(f.totals ?? "{}") as Record<string, number>;
       // Nobody "wins with 100%", and no story says a share it should not.
       expect(told, here).not.toMatch(/100 ?(?:%|percent)|%/);
       if (Object.keys(totals).length < 2 || Number(f.seats) > 1)
         expect(told, `${here}: a share in ${told}`).not.toMatch(/percent/);
       expect(told, here).not.toMatch(/won the election/);
+      // As people say it: no "Town of" before a body, the district before
+      // the office, the turnout as "A total of", never "The count drew".
+      expect(told, here).not.toMatch(
+        /\b(?:Town|City|Village) of \w+ (?:Board|Council|Commission)|for \w+ for District|The count drew/,
+      );
+      const seats = Number(f.seats ?? 1);
+      if (Object.keys(totals).length <= seats) {
+        // Without opposition: said so, and no vote total.
+        expect(told, `${here}: ${told}`).toMatch(
+          /unopposed|without opposition|no opposition|No challenger|No contest/,
+        );
+        expect(body, `${here}: ${body}`).not.toMatch(
+          /\bvotes?\b|\bvoted\b|\bvoters\b/,
+        );
+      }
+      // A share under half says the field it led.
+      const share = /(\d+) percent/.exec(body)?.[1];
+      if (share && Number(share) < 50)
+        expect(body, `${here}: ${body}`).toMatch(/field of/);
       // A full name at most once in the body; anyone named is on this
       // race's count.
       for (const [id] of Object.entries(totals)) {

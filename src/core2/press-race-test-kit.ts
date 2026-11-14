@@ -92,7 +92,7 @@ export function playTownRace(draw: string, paperDays: number): PlayedRace {
       contestId: race.id,
       platform: [],
     });
-    if (["petitioning", "on-ballot"].includes(filed.status ?? ""))
+    if (filed.status === "petitioning" || filed.status === "on-ballot")
       filings.push(filed.filing);
   }
   gatherSignatures(core, ...filings.map((f) => f.id));

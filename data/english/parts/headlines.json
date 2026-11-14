@@ -51,7 +51,8 @@
     "lasts": "The winners of a race for several seats by last name, from the race's count.",
     "winners": "The winners of a race for several seats by full name, from the race's count.",
     "seats": "How many seats a race filled, in words, from the race's count.",
-    "day": "The day of the count as the paper says it (on Tuesday, on November 4), from the result record."
+    "day": "The day of the count as the paper says it (on Tuesday, on November 4), from the result record.",
+    "short": "The winner's last name, or full name where another winner that day shares it, from the person record."
   },
   "maxWords": 14,
   "mining": {
@@ -8629,17 +8630,17 @@
       }
     },
     {
-      "key": "headlines.election.last-elected-office",
+      "key": "headlines.election.short-elected-office",
       "move": "election",
       "kind": "written",
-      "text": "{last} elected {office}",
+      "text": "{short} elected {office}",
       "uses": [
         {
           "move": "election",
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "contested", "last", "office"]
+          "requiresFacts": ["won", "contested", "short", "office"]
         }
       ],
       "origin": "authored",
@@ -8651,17 +8652,17 @@
       }
     },
     {
-      "key": "headlines.election.last-defeats-rival-for-office",
+      "key": "headlines.election.short-defeats-rival-for-office",
       "move": "election",
       "kind": "written",
-      "text": "{last} defeats {rival} for {office}",
+      "text": "{short} defeats {rival} for {office}",
       "uses": [
         {
           "move": "election",
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "contested", "last", "rival", "office"]
+          "requiresFacts": ["won", "contested", "short", "rival", "office"]
         }
       ],
       "origin": "authored",
@@ -8673,17 +8674,17 @@
       }
     },
     {
-      "key": "headlines.election.last-wins-race-for-office",
+      "key": "headlines.election.short-wins-race-for-office",
       "move": "election",
       "kind": "written",
-      "text": "{last} wins race for {office}",
+      "text": "{short} wins race for {office}",
       "uses": [
         {
           "move": "election",
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "contested", "last", "office"]
+          "requiresFacts": ["won", "contested", "short", "office"]
         }
       ],
       "origin": "authored",
@@ -8695,17 +8696,17 @@
       }
     },
     {
-      "key": "headlines.election.last-elected-office-of-place",
+      "key": "headlines.election.short-elected-office-of-place",
       "move": "election",
       "kind": "written",
-      "text": "{last} elected {office} of {place}",
+      "text": "{short} elected {office} of {place}",
       "uses": [
         {
           "move": "election",
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "contested", "last", "office", "place"]
+          "requiresFacts": ["won", "contested", "short", "office", "place"]
         }
       ],
       "origin": "authored",
@@ -8717,17 +8718,18 @@
       }
     },
     {
-      "key": "headlines.election.last-elected-office-without-opposition",
+      "key": "headlines.election.short-elected-office-without-opposition",
       "move": "election",
       "kind": "written",
-      "text": "{last} elected {office} without opposition",
+      "text": "{short} elected {office} without opposition",
       "uses": [
         {
           "move": "election",
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "unopposed", "last", "office"]
+          "requiresFacts": ["won", "unopposed", "short", "office"],
+          "excludesFacts": ["atLarge"]
         }
       ],
       "origin": "authored",
@@ -8739,17 +8741,18 @@
       }
     },
     {
-      "key": "headlines.election.last-unopposed-for-office",
+      "key": "headlines.election.short-unopposed-for-office",
       "move": "election",
       "kind": "written",
-      "text": "{last} unopposed for {office}",
+      "text": "{short} unopposed for {office}",
       "uses": [
         {
           "move": "election",
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "unopposed", "last", "office"]
+          "requiresFacts": ["won", "unopposed", "short", "office"],
+          "excludesFacts": ["atLarge"]
         }
       ],
       "origin": "authored",
@@ -8761,17 +8764,18 @@
       }
     },
     {
-      "key": "headlines.election.no-challenger-for-last-in-race-for-office",
+      "key": "headlines.election.no-challenger-for-short-in-race-for-office",
       "move": "election",
       "kind": "written",
-      "text": "No challenger for {last} in race for {office}",
+      "text": "No challenger for {short} in race for {office}",
       "uses": [
         {
           "move": "election",
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "unopposed", "last", "office"]
+          "requiresFacts": ["won", "unopposed", "short", "office"],
+          "excludesFacts": ["atLarge"]
         }
       ],
       "origin": "authored",
@@ -8793,7 +8797,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "atLarge", "lasts", "body"]
+          "requiresFacts": ["won", "atLarge", "lasts", "body"],
+          "excludesFacts": ["unopposed"]
         }
       ],
       "origin": "authored",
@@ -8815,7 +8820,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "atLarge", "lasts", "body"]
+          "requiresFacts": ["won", "atLarge", "lasts", "body"],
+          "excludesFacts": ["unopposed"]
         }
       ],
       "origin": "authored",
@@ -8837,7 +8843,8 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "atLarge", "seats", "body"]
+          "requiresFacts": ["won", "atLarge", "seats", "body"],
+          "excludesFacts": ["unopposed"]
         }
       ],
       "origin": "authored",
@@ -8860,7 +8867,7 @@
           "role": "election",
           "choice": "headline",
           "requiresFacts": ["won", "atLarge", "lasts", "seats"],
-          "excludesFacts": ["body"]
+          "excludesFacts": ["body", "unopposed"]
         }
       ],
       "origin": "authored",
@@ -8872,17 +8879,17 @@
       }
     },
     {
-      "key": "headlines.election.last-wins-office",
+      "key": "headlines.election.short-wins-office",
       "move": "election",
       "kind": "written",
-      "text": "{last} wins {office}",
+      "text": "{short} wins {office}",
       "uses": [
         {
           "move": "election",
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "seat", "last", "office"]
+          "requiresFacts": ["won", "seat", "short", "office"]
         }
       ],
       "origin": "authored",
@@ -8894,17 +8901,17 @@
       }
     },
     {
-      "key": "headlines.election.last-elected-to-office",
+      "key": "headlines.election.short-elected-to-office",
       "move": "election",
       "kind": "written",
-      "text": "{last} elected to {office}",
+      "text": "{short} elected to {office}",
       "uses": [
         {
           "move": "election",
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "seat", "last", "office"]
+          "requiresFacts": ["won", "seat", "short", "office"]
         }
       ],
       "origin": "authored",
@@ -8916,22 +8923,88 @@
       }
     },
     {
-      "key": "headlines.election.last-takes-office",
+      "key": "headlines.election.short-takes-office",
       "move": "election",
       "kind": "written",
-      "text": "{last} takes {office}",
+      "text": "{short} takes {office}",
       "uses": [
         {
           "move": "election",
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won", "seat", "last", "office"]
+          "requiresFacts": ["won", "seat", "short", "office"]
         }
       ],
       "origin": "authored",
       "author": "Account lead T42 for the Words lead (brief F, race result stories)",
       "date": "2026-11-13",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.lasts-elected-to-body-without-opposition",
+      "move": "election",
+      "kind": "written",
+      "text": "{lasts} elected to {body} without opposition",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge", "unopposed", "lasts", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.lasts-unopposed-for-body",
+      "move": "election",
+      "kind": "written",
+      "text": "{lasts} unopposed for {body}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge", "unopposed", "lasts", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.no-contest-for-seats-seats-on-body",
+      "move": "election",
+      "kind": "written",
+      "text": "No contest for {seats} seats on {body}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge", "unopposed", "seats", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead T42 for the Words lead (brief F, race result stories)",
+      "date": "2026-11-14",
       "tag": {
         "move": "headline",
         "key": "news-received"
