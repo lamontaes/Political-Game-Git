@@ -19,7 +19,7 @@ import {
   executiveLean,
   authorityFor,
   type Provision,
-  holdVote,
+  holdEveryChamber,
 } from "./modules/legislature";
 import { lawInForce } from "./modules/laws";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
@@ -120,7 +120,7 @@ function toDesk(
       if (draft.status === "blocked") continue;
       for (const seat of members)
         castMemberVote(api, draft.id, seat.holder!.personId!, "yes");
-      holdVote(api, draft.id);
+      holdEveryChamber(api, draft.id);
       if (!deskWaiting(api).some((b) => b.id === draft.id)) continue;
       bill = draft;
       break;

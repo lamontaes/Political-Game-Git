@@ -18,8 +18,8 @@ Owner, Nov 13: "run the checks and fix and just add it all to the train." Nothin
 ## The checks, on the PR's own head
 
 1. The tests for files you changed (`npm run agent:test-cadence` lists them). Never the whole suite or the golden path.
-2. Typecheck with `NODE_OPTIONS=--max-old-space-size=8192`.
-3. Prettier and eslint on changed files.
+2. `npm run typecheck` with `NODE_OPTIONS=--max-old-space-size=8192`. It also runs `typecheck-test-imports`; `scripts/dev-lab/typecheck.ts` alone misses test files, and a broken test import reached the train that way.
+3. Prettier and eslint on changed files. When a words, bank or line file changed, `tests/english-parts-banks.test.ts` is in the gate.
 4. `npx vitest run --dir . tests/guards --maxWorkers=2`, then `npm run guards` (20 guards).
 5. `npm run release:check -- --mode pr` **on a full clone**: run `git fetch --unshallow` first. "Cannot relate branch point" or a pool INDEX red means the clone is shallow, not that the PR is wrong.
 6. `npm run zero-dice`, `npm run pool -- --check`, and `npm run test:skill-ops` when an instruction or skill file changed.
