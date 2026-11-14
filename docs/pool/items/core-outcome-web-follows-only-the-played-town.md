@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 1
 size: L
-status: open
-claimed-by:
+status: in-pr
+claimed-by: account lead thread "Give rivals more than one issue"
 pr:
 blocked-on:
 after: campaigns-lean-toward-the-area-the-term-hurt
