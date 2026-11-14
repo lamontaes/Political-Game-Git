@@ -25,6 +25,8 @@ interface Use {
   stages?: string[];
   /** The settings a line can be said in ("home" for "has been waiting for you to get home"); none, any. */
   settings?: string[];
+  /** Marks the scene must carry for a line to be said ("evening" for "The day is done."); none, any. */
+  requiresFacts?: string[];
 }
 interface MinedPart extends BankPart<Use> {
   /** The manner the wording carries, for the speaker's trait pulls. */
@@ -69,6 +71,7 @@ function variants(bank: Bank, subject: string, role: string, staged = false) {
           : {}),
       ...(part.bearing ? { bearing: part.bearing, pieceKey: part.key } : {}),
       ...(use?.settings ? { settings: use.settings } : {}),
+      ...(use?.requiresFacts ? { requiresFacts: use.requiresFacts } : {}),
     };
   });
 }
