@@ -39,6 +39,20 @@ describe("a local body is named the way people write it", () => {
     ).toBe("Board of County Commissioners of Example County");
   });
 
+  it("says a town's, township's or municipio's board the way people say it", () => {
+    // The class word goes where the body's own name follows the place
+    // (Words lead, Nov 14): the paper and the meeting panel read this name.
+    expect(boardBodyName("TOWN OF EXAMPLE", "Board of Selectmen")).toBe(
+      "Example Board of Selectmen",
+    );
+    expect(boardBodyName("TOWNSHIP OF EXAMPLE", "Township Committee")).toBe(
+      "Example Township Committee",
+    );
+    expect(boardBodyName("EXAMPLE MUNICIPIO", "Municipal Legislature")).toBe(
+      "Example Municipal Legislature",
+    );
+  });
+
   it(`names every body of places drawn from all 56 from its own record (seed ${seed})`, () => {
     let checked = 0;
     for (let i = 0; i < 24; i += 1) {

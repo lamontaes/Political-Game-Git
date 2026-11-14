@@ -101,6 +101,7 @@ import {
   chooseAtCounter,
   counterOpening,
   officePlace,
+  NothingAtCounter,
   openBenchFilingVisit,
   type BenchFilingVisit,
 } from "./filing";
@@ -2035,12 +2036,21 @@ const ROUTES: readonly Route[] = [
           return;
         }
       }
-      state.filingVisit = openBenchFilingVisit(
-        current,
-        state.player.personId,
-        filedWith,
-        state.player.packet?.at.minuteOfDay ?? 12 * 60,
-      );
+      try {
+        state.filingVisit = openBenchFilingVisit(
+          current,
+          state.player.personId,
+          filedWith,
+          state.player.packet?.at.minuteOfDay ?? 12 * 60,
+        );
+      } catch (error) {
+        // Nothing to file and no petition out: no scene at the counter
+        // (Fable A, Nov 13, rule 19).
+        if (!(error instanceof NothingAtCounter)) throw error;
+        state.filingVisit = undefined;
+        send(200, { nothing: true });
+        return;
+      }
       send(
         200,
         opens

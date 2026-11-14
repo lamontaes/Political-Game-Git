@@ -12,7 +12,7 @@ import { parameter } from "../core2/parameters";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
-import { onBallotOn } from "./election-night";
+import { electionNight, onBallotOn } from "./election-night";
 import {
   leavePollingPlace,
   markBallot,
@@ -71,6 +71,8 @@ export class BenchPlayer {
    */
   candidateMorning?: string;
   private readonly candidateMornings = new Set<string>();
+  /** Election nights the clock has stopped for, by the day of the count. */
+  private readonly electionNights = new Set<string>();
   constructor(
     readonly core: CoreState,
     readonly director: Director,
@@ -330,6 +332,28 @@ export class BenchPlayer {
           date: addDays(makeIsoDate(from.date), 1),
           minuteOfDay: 0,
         };
+        // Election night: the day of a count the character ran in or voted
+        // in ends here, once, so its returns are seen that night and a Week
+        // never runs past them (the returns are offered only the night of
+        // the count and the day after, src/bench/election-night.ts).
+        // The count may close at the day's end or come in by the next midnight.
+        const night = [
+          this.core.date,
+          addDays(makeIsoDate(this.core.date), -1),
+        ].find(
+          (day) =>
+            !this.electionNights.has(day) &&
+            // That day was election day for the character: they were at the
+            // polls (voted or left) or had a candidate's morning.
+            (this.director.ledger.pollingVisits.has(
+              `${this.personId}:${day}`,
+            ) ||
+              this.candidateMornings.has(day)),
+        );
+        if (night && electionNight(this.core, this.personId!)?.date === night) {
+          this.electionNights.add(night);
+          break;
+        }
         // Election day is a scene (owner, Oct 14 and 26, 2026): the director
         // stages the polls at the eve's close for a voter the count counts,
         // so election morning, with the choice to go vote, comes before the

@@ -117,8 +117,16 @@
     "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
     "replaced": "The full name of the person whose job an opening fills.",
     "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
+    "count-by": "The day before a bill's vote, said from the scene's day (\"Thursday\", \"June 7th\"), from the bill's floor date (floorDateOf).",
+    "vote-next-month": "Set when the bill's vote falls in the calendar month after the scene's, from its floor date.",
+    "vote-on": "The day of the bill's vote when it is a later day not in the next month, said from the scene's day (\"Thursday\", \"March 31st\"), from its floor date.",
+    "vote-tonight": "Set when the bill's vote is on the scene's own day, from its floor date.",
     "filed-at-counter": "That the player filed at the counter, in the clerk's scene there: the record of the reply that filed.",
-    "filed-so-far": "How many have filed for the office so far, said before the player files (\"two candidates\"), from the elections engine's filings."
+    "filed-so-far": "How many have filed for the office so far, said before the player files (\"two candidates\"), from the elections engine's filings.",
+    "signed": "How many signatures a petition holds so far, from the petition record.",
+    "none-signed": "That a petition holds no signatures yet, from the petition record.",
+    "filed-office": "The office the player already filed for at this counter, from the filing's contest record.",
+    "back-again": "Set when the player is back at a counter where their own filing is already in, for another race."
   },
   "maxWords": 70,
   "parts": [
@@ -14507,13 +14515,66 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor"
+          "after": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor",
+          "requiresFacts": ["vote-next-month"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.we-have-time-the-vote-isn-t-until-vote-on",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "We have time. The vote isn't until {vote-on}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor",
+          "requiresFacts": ["vote-on"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.there-s-still-time-before-vote-on-help-me-use-it",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "There's still time before {vote-on}. Help me use it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor",
+          "requiresFacts": ["vote-on"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "tag": {
         "move": "deflect",
         "key": "favor-asked"
@@ -19264,10 +19325,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday",
+      "key": "scene-talk.follow-answer.short-ill-have-a-real-count-by-count-by",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Short. I'll have a real count by Friday.",
+      "text": "Short. I'll have a real count by {count-by}.",
       "uses": [
         {
           "subject": "scene",
@@ -19276,13 +19337,67 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now"
+          "after": "scene-talk.reply-ask.where-are-we-now",
+          "requiresFacts": ["count-by"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.short-well-know-tonight-when-bill-comes-up",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Short. We'll know tonight when {bill} comes up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.where-are-we-now",
+          "requiresFacts": ["bill", "vote-tonight"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.short-im-still-counting-heads-on-bill",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Short. I'm still counting heads on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.where-are-we-now",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["count-by", "vote-tonight"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "answer",
         "key": "favor-asked"
@@ -34536,7 +34651,7 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "excludesFacts": ["returning", "on-ballot"]
+          "excludesFacts": ["back-again", "on-ballot", "returning"]
         }
       ],
       "bearing": "calm",
@@ -42453,31 +42568,6 @@
       "tag": {
         "move": "thank",
         "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-walk-into-the-where-with-your-petition-in-a-folder-name-is-at-the-counter-ea",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You walk into the {where} with your petition in a folder. {name} is at the counter, eating crackers out of a sleeve.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "requiresFacts": ["returning"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
       }
     },
     {
@@ -54198,7 +54288,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["incumbent"],
-          "excludesFacts": ["returning", "on-ballot"]
+          "excludesFacts": ["back-again", "on-ballot", "returning"]
         }
       ],
       "bearing": "calm",
@@ -54224,7 +54314,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["incumbent"],
-          "excludesFacts": ["returning", "on-ballot"]
+          "excludesFacts": ["back-again", "on-ballot", "returning"]
         }
       ],
       "bearing": "calm",
@@ -60164,7 +60254,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["incumbent"],
-          "excludesFacts": ["returning", "on-ballot"]
+          "excludesFacts": ["back-again", "on-ballot", "returning"]
         }
       ],
       "bearing": "calm",
@@ -71643,38 +71733,13 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["office", "post"],
-          "excludesFacts": ["returning", "on-ballot"]
+          "excludesFacts": ["back-again", "on-ballot", "returning"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
       "author": "Play-first lane",
       "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-come-back-with-your-petition-in-a-folder-name-the-post-waves-you-over",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You come back with your petition in a folder. {name}, the {post}, waves you over.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "requiresFacts": ["post", "returning"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
-      "date": "2026-11-01",
       "tag": {
         "move": "narrate",
         "key": "routine"
@@ -100636,56 +100701,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-bring-your-petition-back-to-the-counter-name-the-post-takes-it-and-starts-to",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You bring your petition back to the counter. {name}, the {post}, takes it and starts to count the names.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["returning", "post"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-re-back-at-the-post-s-counter-with-your-petition-name-recognizes-you-and-hol",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You're back at the {post}'s counter with your petition. {name} recognizes you and holds out a hand for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "requiresFacts": ["returning", "post"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.state-tell-race.it-s-a-term-year-term-and-there-s-no-primary-so-you-d-go-straight-onto-the-ballo",
       "move": "state-tell-race",
       "kind": "spoken",
@@ -117031,10 +117046,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.begins-you-take-your-petition-back-to-the-posts-office-name-holds",
+      "key": "scene-talk.narrate-narrate.begins-youre-back-at-the-posts-office-name-knows-you-from-last-time",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}, you take your petition back to the {post}'s office. {name} holds out a hand for it.",
+      "text": "{begins}, you're back at the {post}'s office. {name} knows you from last time.",
       "uses": [
         {
           "subject": "scene",
@@ -117043,23 +117058,23 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["begins", "returning", "post"]
+          "requiresFacts": ["back-again", "begins", "post"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "narrate",
         "key": "routine"
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.begins-you-come-back-to-name-at-the-posts-counter-with-your",
+      "key": "scene-talk.narrate-narrate.begins-youre-back-at-the-posts-counter-and-name-waves-you-over",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{begins}. You come back to {name} at the {post}'s counter with your petition in a folder.",
+      "text": "{begins}. You're back at the {post}'s counter, and {name} waves you over.",
       "uses": [
         {
           "subject": "scene",
@@ -117068,13 +117083,38 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["begins", "returning", "post"]
+          "requiresFacts": ["back-again", "begins", "post"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.youre-back-at-the-posts-office-name-looks-up-from-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You're back at the {post}'s office. {name} looks up from the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["back-again", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
       "tag": {
         "move": "narrate",
         "key": "routine"
@@ -160827,6 +160867,78 @@
       "piece": {
         "of": "filing-greet",
         "part": "closer"
+      }
+    },
+    {
+      "key": "scene-talk.state-greet-back.back-again-your-papers-for-filed-office-are-in",
+      "move": "state-greet-back",
+      "kind": "spoken",
+      "text": "Back again? Your papers for {filed-office} are in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-back",
+          "role": "asker",
+          "requiresFacts": ["filed-office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet-back",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-greet-back.youre-filed-for-filed-office-something-else",
+      "move": "state-greet-back",
+      "kind": "spoken",
+      "text": "You're filed for {filed-office}. Something else?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-back",
+          "role": "asker",
+          "requiresFacts": ["filed-office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet-back",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-greet-back.good-to-see-you-again-ive-got-your-filing-for-filed-office-what-else-can-i-do-fo",
+      "move": "state-greet-back",
+      "kind": "spoken",
+      "text": "Good to see you again. I've got your filing for {filed-office}. What else can I do for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "greet-back",
+          "role": "asker",
+          "requiresFacts": ["filed-office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "tag": {
+        "move": "greet-back",
+        "key": "routine"
       }
     },
     {

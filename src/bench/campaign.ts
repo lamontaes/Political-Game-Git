@@ -50,6 +50,7 @@ import {
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-data";
 import { backdropFor, homeOf, peopleHere } from "./scene";
+import { doorPlaceFor } from "./scene-picture-steps";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";
 import { spokenDate as dateSaid, stateInSentence } from "../director/words";
@@ -851,14 +852,13 @@ function outingScene(
 ) {
   const first = core.people.get(met[0] ?? "")?.householdId ?? "";
   const dwelling = (first && dwellingKind(coreAPI(core), first)) || "house";
-  const doors = scenePlaces.doorKnockingPlaces as Record<string, string>;
   const party = kind === "donor-meeting" && !!met[0];
   // A house party is an evening in the living room (homeRoomByHour).
   const minute = party ? 20 * 60 : 16 * 60;
   const place = party
     ? homeOf(core, met[0]!, minute)
     : kind === "canvass"
-      ? (doors[dwelling] ?? TRAIL_PLACES.doors!)
+      ? doorPlaceFor(dwelling)
       : TRAIL_PLACES[OUTINGS[kind] ?? "calls"]!;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   const backdrop = backdropFor(core, place, minute, party ? met[0] : undefined);

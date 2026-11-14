@@ -4957,6 +4957,20 @@ export function countedBallotsOf(
   return row ? row.voterIds.map((_, i) => countedBallotAt(row, i)) : [];
 }
 
+/**
+ * Whether a person was on a count's roll: a named voter the count gave a
+ * ballot in the contest, cast or not (every eligible adult in its ward, or
+ * in town for an at-large or wider seat). The press reads it for who a
+ * race's result concerns.
+ */
+export function onContestRoll(
+  api: CoreAPI,
+  contestId: string,
+  personId: string,
+): boolean {
+  return !!table(api, "ballots").get(`ballot:${contestId}:${personId}`);
+}
+
 export function resultOf(api: CoreAPI, contestId: string): ResultRow | null {
   return (
     (table(api, "results").get(`result:${contestId}`) as unknown as

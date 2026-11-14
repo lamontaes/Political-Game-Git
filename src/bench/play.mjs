@@ -1736,6 +1736,8 @@ async function openFiling(filedWith, contestId) {
       return;
     }
   }
+  // Nothing to file and no petition out: the counter has no scene.
+  if (opened.nothing) return;
   const pick =
     contestId &&
     opened.visit?.choices.find(
@@ -3329,11 +3331,16 @@ async function seatRows() {
                 ? policyLabel(item.question)
                 : item.name
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          // What the law in force holds, as the bill's paper cites it.
+          // What the law in force holds, as the bill's paper cites it: a
+          // yes-or-no question reads Yes or No, as the Issues tab says it.
           today:
-            item.today?.value != null
-              ? amount(item.today.value, item.today.unit)
-              : null,
+            item.today?.value == null
+              ? null
+              : item.kind === "policy-question"
+                ? item.today.value
+                  ? controls.politics.yes
+                  : controls.politics.no
+                : amount(item.today.value, item.today.unit),
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
@@ -4573,7 +4580,7 @@ const sheets = {
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
-      const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      const name = c.filingOffice.said;
       // A town's or county's own clerk is named for the place ("City or town
       // clerk, Point Pleasant"); a state's or the nation's office already is.
       const title =
