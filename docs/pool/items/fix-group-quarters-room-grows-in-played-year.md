@@ -29,7 +29,7 @@ root: design-one-model-two-tiers
 
 **Rules.** One model, two tiers. No dice. Do not loosen the test.
 
-**Done when.** A second session runs the test with the seed above in the running game at both places and sees both pass, and sees no opening room above its opening count at the year's end by room record id.
+**Done when.** A second session plays a world in a drawn place (place and seed named, and also Storrs and Charlotte Amalie with the seed above) in the running game and sees both pass, and sees no opening room above its opening count at the year's end by room record id.
 
 **Waits on.** Nothing.
 
