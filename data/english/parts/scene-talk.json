@@ -17038,7 +17038,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "constituent-help",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["agency"]
         }
       ],
       "bearing": "nervous",
@@ -61671,7 +61672,8 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["agency"]
         }
       ],
       "bearing": "guarded",
@@ -176778,7 +176780,7 @@
       "key": "scene-talk.reply-leave.case-help-3",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Leave it with the desk. You'll have an answer {respond-in}.",
+      "text": "Leave it with the desk. My office will get back to you {respond-in}.",
       "uses": [
         {
           "subject": "scene",
