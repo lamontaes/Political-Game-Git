@@ -7,6 +7,7 @@ import {
   donationAsksFor,
   askToVolunteer,
   campaignFor,
+  petitionAsksAtDoors,
   commissionPoll,
   endorsementsOf,
   giveSpeech,
@@ -94,6 +95,8 @@ export function petitionView(api: CoreAPI, filingId: string) {
     // Whether paid circulators can gather the race's signatures outside the
     // town: a county, district, state or federal race while it circulates.
     outside: circulatorsCanWork(api, filingId),
+    /** Whether the doors still ask for signatures; past the target plus the cushion they ask for the vote. */
+    asksAtDoors: petitionAsksAtDoors(api, filingId),
   };
 }
 const CAMPAIGNS = "core2-campaigns-v1";
@@ -950,22 +953,32 @@ export function campaignDay(
   // signer rows, some days none and some days many.
   const doorSigners = () =>
     petitionSigners(api, input.filingId).filter((s) => s.via === "door").length;
-  const petitionOut =
+  const canvassing =
     kind === "canvass" && petitionCirculating(api, input.filingId);
-  const signedBefore = petitionOut ? doorSigners() : 0;
-  // Counted residents who opened stay a count (two-level population), so the
-  // doors answered are the people met plus that count's growth: every door
-  // that opened, which is everyone asked to sign.
+  const signedBefore = canvassing ? doorSigners() : 0;
+  // Doors that opened stay a count for counted residents (two-level
+  // population), so the doors answered are the people met plus that count's
+  // growth. A door asks for a signature while the petition needs more and
+  // for the vote after (`petitionAsksAtDoors`), the crossing outing both.
   const countedBefore = campaignFor(api, input.filingId).countedReached ?? 0;
+  const askedBefore = campaignFor(api, input.filingId).doorSignAsks ?? 0;
   const result = takeCampaignDayChoice(api, input.filingId, kind, {
     ...(input.outletId ? { outletId: input.outletId } : {}),
   });
-  const signed = petitionOut ? doorSigners() - signedBefore : null;
-  const answered = petitionOut
+  const opened = canvassing
     ? result.causeIds.length +
       (campaignFor(api, input.filingId).countedReached ?? 0) -
       countedBefore
-    : null;
+    : 0;
+  const signAsks = canvassing
+    ? (campaignFor(api, input.filingId).doorSignAsks ?? 0) - askedBefore
+    : 0;
+  /** Signatures the doors brought in; null when no door of this outing asked for one. */
+  const signed = signAsks > 0 ? doorSigners() - signedBefore : null;
+  /** Doors that opened (everyone asked, for a signature or the vote); null off a petition. */
+  const answered = canvassing ? opened : null;
+  /** Doors that opened and were asked for the vote instead of a signature. */
+  const votesAsked = canvassing ? opened - signAsks : null;
   const met = outingPeople(core, kind, result);
   // Each person asked for money: their name, what they gave or why not, in words.
   const calls = result.answers.map((answer) => {
@@ -1014,6 +1027,7 @@ export function campaignDay(
     signed,
     /** Doors that opened on a petition outing (everyone asked to sign); null otherwise. */
     answered,
+    votesAsked,
     raisedMinor: result.raisedMinor,
     gifts: result.giftIds.length,
     // A forum's town hall: the meetings engine's row, who came and what they asked.
