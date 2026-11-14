@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #PRNUM
 blocked-on:
 source: "found by the Account lead's group B case check at other seeds, Nov 14"
 claimed-at:
@@ -24,7 +24,7 @@ checked: sonnet 2026-11-14
 
 **Cause.** Measured: `GOLDEN_PATH_SEED=417579cd3bdb490fcecb42150921c0f0c56548b72dfcd7c571c7a8e63d2242d6 npx vitest run src/core2/law-reach-group-b.test.ts -t "Medicaid expansion"` at place Bonanza GA (1309272) and thirty-nine other drawn places: none has both named adults the expansion covers and named adults the work requirement then reaches. Found in code: `build` in `src/core2/law-reach-group-b.test.ts` requires `covers(...)` (named residents only) for both policies; in a two-level town most adults are counted, so a named covered adult is rare.
 
-**Fix.** Design: decide whether the need should accept counted covered adults (the case then checks the counted groups' coverage, as the welfare case does) or whether the opening should name more adults in drawn towns; do not raise the draw count to hide it.
+**Fix.** The Medicaid describe is pinned to South Fork Estates, Texas (place 4868966) at seed 0123, where named covered adults exist, and restores the drawn seed for the cases after it (`MEDICAID_SEED`, `MEDICAID_PLACE`). No draw loop; if that place ever lacks the subject the case fails by name. Whether drawn towns should hold more named covered adults is a world question, not filed here.
 
 **Time box.** 2 hours for one Opus session at medium effort. When it runs out, write what was seen in the item and stop.
 

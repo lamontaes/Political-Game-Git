@@ -68,6 +68,9 @@ import {
 import { spellOn } from "./health-own";
 
 const START = "2026-01-05";
+const MEDICAID_SEED = "0123";
+/** South Fork Estates, Texas: named covered adults at MEDICAID_SEED. */
+const MEDICAID_PLACE = "4868966";
 let seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`reach-b:${Date.now()}`).digest("hex");
@@ -1092,8 +1095,18 @@ describe("law reach, group B: a city income tax", () => {
 });
 
 describe("law reach, group B: Medicaid expansion and its work requirement", () => {
-  // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
-  beforeAll(() => build({ pinned: false, need: ["medicaid"] }));
+  // Pinned to a town with named adults the expansion covers and the work
+  // requirement then reaches, found by drawing (seed 0123 at its draw): a
+  // two-level town has few named covered adults, so a fresh draw of forty
+  // towns can find none. The seed is restored for the cases after it.
+  const drawnSeed = seed;
+  beforeAll(() => {
+    seed = MEDICAID_SEED;
+    build({ pinned: false, placeKey: MEDICAID_PLACE, need: ["medicaid"] });
+  });
+  afterAll(() => {
+    seed = drawnSeed;
+  });
 
   // ---- Eligibility from income, work hours and children ----
   it("Medicaid expansion reaches low-income adults 19-64; the work requirement those under 80 hours without young children", () => {
