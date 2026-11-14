@@ -22,6 +22,12 @@
     "votes": "How many votes are counted for the bill, from the whip count.",
     "needed": "How many votes the bill needs to pass, from the chamber's rules.",
     "deceased": "The person who died, by name, from the death record.",
+    "deceased-said": "The person who died as the speaker names them: Dad or Mom for a child of theirs, else the first name, from the speaker's family records and the death record.",
+    "deceased-address": "The person who died as the player names them: Dad, Mom, Grandma or Grandpa where the player's family records give the relation, else the first name, from the death record.",
+    "office-said": "The office a person took a cause to, as people say it, from the office's record, named only when the record names it.",
+    "group-said": "The group a person joined over a cause, as people say it, from the group's record, named only when the record names it.",
+    "kin": "The given name of the speaker when they are family of the person spoken to, from the family records.",
+    "acquainted": "The given name of the speaker when the person spoken to knows them, from the person's known people.",
     "effect": "What a law changed for this person, from the law-reach record.",
     "self": "The player's own full name, from the player's person record.",
     "executive": "The executive's post as people say it (\"governor\", \"mayor\"), from the office record of the desk's executive.",
@@ -21467,102 +21473,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The service is over. People are standing around the coffee urn, and {name} makes their way over to you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.deceased-talked-about-you-you-know",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "{deceased} talked about you, you know.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.deceased-left-something-unfinished-somebody-has-to-carry-it-and-i-d-like-it-to-be-you",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{deceased} left something unfinished. Somebody has to carry it, and I'd like it to be you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "request",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.tell-me-what-it-was-i-can-t-promise-how-it-ends-but-i-ll-take-it-up-in-deceased-s-name",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Tell me what it was. I can't promise how it ends, but I'll take it up in {deceased}'s name.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-come-find-me-next-week-and-we-ll-talk-about-it-properly",
       "move": "reply-decline",
       "kind": "spoken",
@@ -21587,30 +21497,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-was-it-exactly",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What was it, exactly?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.this-isn-t-the-place-for-it",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -21631,31 +21517,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "deflect",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.deceased-kept-asking-for-the-same-thing-year-after-year-and-kept-being-told-next-year",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "{deceased} kept asking for the same thing, year after year, and kept being told next year.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss",
-          "after": "scene-talk.reply-ask.what-was-it-exactly"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
         "key": "loss"
       }
     },
@@ -21714,30 +21575,6 @@
       "move": "follow-thank",
       "kind": "spoken",
       "text": "That's all I wanted. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.deceased-would-have-liked-that",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "{deceased} would have liked that.",
       "uses": [
         {
           "subject": "scene",
@@ -21851,6 +21688,2017 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-over-to-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes over to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "excludesFacts": ["kin"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-finds-you-and-asks-for-a-word",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} finds you and asks for a word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "excludesFacts": ["kin"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-asks-if-you-have-a-minute",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} asks if you have a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "excludesFacts": ["kin"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.kin-takes-your-arm-and-asks-for-a-word",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{kin} takes your arm and asks for a word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.kin-sits-down-beside-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{kin} sits down beside you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.kin-waits-until-you-are-alone-then-comes-over",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{kin} waits until you are alone, then comes over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-coming-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for coming, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "excludesFacts": ["stranger"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-glad-you-re-here-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm glad you're here, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "excludesFacts": ["stranger"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.it-s-been-a-long-day-first-stay-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "It's been a long day, {first}. Stay a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "excludesFacts": ["stranger"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-need-a-word-when-you-can",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}. I need a word, when you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "excludesFacts": ["stranger"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.come-sit-with-me-a-minute-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Come sit with me a minute, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "excludesFacts": ["stranger"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.before-you-go-first-i-have-to-ask-you-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Before you go, {first}, I have to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "excludesFacts": ["stranger"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-had-started-organizing-around-cause-i-d-like-you-to-take",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} had started organizing around {cause}. I'd like you to take it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-organized"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-cared-enough-about-cause-to-organize-for-it-will-you-car",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} cared enough about {cause} to organize for it. Will you carry that on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-organized"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-had-started-something-on-cause-it-shouldn-t-end-here-and",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} had started something on {cause}. It shouldn't end here, and I'm asking you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-organized"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-can-t-stop-thinking-that-deceased-said-had-started-organizing-around",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can't stop thinking that {deceased-said} had started organizing around {cause}. Would you pick it up?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-organized"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-took-cause-to-office-said-i-d-like-you-to-take-it-furthe",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} took {cause} to {office-said}. I'd like you to take it further.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-approached", "office-said"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-went-to-office-said-about-cause-i-want-someone-to-take-i",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} went to {office-said} about {cause}. I want someone to take it up again, and I'm asking you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-approached", "office-said"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-cared-enough-about-cause-to-go-to-office-said-would-you-",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} cared enough about {cause} to go to {office-said}. Would you carry that on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-approached", "office-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-took-cause-to-an-office-i-d-like-you-to-take-it-further",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} took {cause} to an office. I'd like you to take it further.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-approached"],
+          "excludesFacts": ["office-said"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-went-to-an-office-about-cause-i-want-someone-to-take-it-",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} went to an office about {cause}. I want someone to take it up again, and I'm asking you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-approached"],
+          "excludesFacts": ["office-said"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-cared-enough-about-cause-to-go-to-an-office-over-it-woul",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} cared enough about {cause} to go to an office over it. Would you carry that on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-approached"],
+          "excludesFacts": ["office-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-joined-group-said-over-cause-i-d-like-you-to-stand-where",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} joined {group-said} over {cause}. I'd like you to stand where {deceased-said} stood.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-joined", "group-said"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-cared-about-cause-enough-to-join-group-said-will-you-car",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} cared about {cause} enough to join {group-said}. Will you carry that on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-joined", "group-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-stood-with-group-said-on-cause-i-don-t-want-that-to-stop",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} stood with {group-said} on {cause}. I don't want that to stop with this day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-joined", "group-said"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-joined-a-group-over-cause-i-d-like-you-to-stand-where-de",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} joined a group over {cause}. I'd like you to stand where {deceased-said} stood.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-joined"],
+          "excludesFacts": ["group-said"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-cared-about-cause-enough-to-join-others-over-it-will-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} cared about {cause} enough to join others over it. Will you carry that on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-joined"],
+          "excludesFacts": ["group-said"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-said-stood-with-a-group-on-cause-i-don-t-want-that-to-stop-wi",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased-said} stood with a group on {cause}. I don't want that to stop with this day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-joined"],
+          "excludesFacts": ["group-said"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-think-deceased-said-cared-about-cause-more-than-most-things-i-d-like",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I think {deceased-said} cared about {cause} more than most things. I'd like it to matter to you too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-cared"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-think-deceased-said-cared-most-about-cause-would-you-carry-that-on",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I think {deceased-said} cared most about {cause}. Would you carry that on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-cared"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-think-deceased-said-cared-about-cause-i-don-t-know-who-else-to-ask-t",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I think {deceased-said} cared about {cause}. I don't know who else to ask to keep it going.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-cared"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-think-deceased-said-cared-about-cause-i-don-t-have-anything-else-to-",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I think {deceased-said} cared about {cause}. I don't have anything else to ask you for today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause", "cause-cared"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-take-up-cause-for-deceased-address-and-for-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll take up {cause}. For {deceased-address}, and for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.tell-me-where-it-stands-on-cause-and-i-ll-start-there",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Tell me where it stands on {cause}, and I'll start there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-can-t-promise-how-it-ends-i-ll-carry-cause-anyway-for-deceased-addre",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I can't promise how it ends. I'll carry {cause} anyway, for {deceased-address}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.yes-deceased-address-cared-about-cause-and-i-ll-keep-it-alive",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Yes. {deceased-address} cared about {cause}, and I'll keep it alive.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-today-acquainted-ask-me-again-when-i-can-hear-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not today, {acquainted}. Ask me again when I can hear it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-answer-that-while-deceased-address-is-still-on-my-mind",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't answer that while {deceased-address} is still on my mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.give-me-a-few-days-with-this-then-we-can-talk-kin",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Give me a few days with this. Then we can talk, {kin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-won-t-promise-what-i-can-t-keep-not-today-acquainted",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I won't promise what I can't keep. Not today, {acquainted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-deceased-address-want-done-about-cause",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did {deceased-address} want done about {cause}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-did-deceased-address-leave-it-on-cause",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where did {deceased-address} leave it on {cause}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-taking-up-cause-mean-for-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would taking up {cause} mean for me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-much-of-cause-are-you-asking-me-to-carry",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How much of {cause} are you asking me to carry?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.can-we-leave-it-for-another-day-acquainted",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Can we leave it for another day, {acquainted}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-think-about-it-right-now-acquainted",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't think about it right now, {acquainted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-won-t-start-on-this-today-for-deceased-address-s-sake",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I won't start on this today, for {deceased-address}'s sake.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-say-goodbye-to-deceased-address-first-it-can-wait-a-day",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me say goodbye to {deceased-address} first. It can wait a day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.deceased-said-had-started-organizing-around-it-that-s-all-i-know-i-d-l",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{deceased-said} had started organizing around it. That's all I know. I'd like you to find out the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["cause", "cause-organized"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.deceased-said-took-it-to-office-said-i-don-t-know-what-came-of-it-i-ho",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{deceased-said} took it to {office-said}. I don't know what came of it. I hoped you could find out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["cause", "cause-approached", "office-said"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.deceased-said-took-it-to-an-office-i-don-t-know-what-came-of-it-i-hope",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{deceased-said} took it to an office. I don't know what came of it. I hoped you could find out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["cause", "cause-approached"],
+          "excludesFacts": ["office-said"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.deceased-said-joined-group-said-over-it-that-s-what-i-know-the-rest-th",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{deceased-said} joined {group-said} over it. That's what I know. The rest, they can tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["cause", "cause-joined", "group-said"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.deceased-said-joined-a-group-over-it-that-s-what-i-know-the-rest-i-can",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{deceased-said} joined a group over it. That's what I know. The rest, I can't tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["cause", "cause-joined"],
+          "excludesFacts": ["group-said"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-think-deceased-said-cared-about-it-more-than-anything-that-s-all-i-c",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I think {deceased-said} cared about it more than anything. That's all I can say for sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "ask",
+          "requiresFacts": ["cause", "cause-cared"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-ll-find-out-what-s-left-to-do-acquainted-and-i-ll-tell-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'll find out what's left to do, {acquainted}, and I'll tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "answer",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-start-asking-about-it-for-deceased-address-you-ll-hear-from-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll start asking about it for {deceased-address}. You'll hear from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.alright-acquainted-i-ll-see-it-through-as-far-as-i-can",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Alright, {acquainted}. I'll see it through as far as I can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "answer",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-ask-i-can-t-promise-it-goes-anywhere-acquainted",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can ask. I can't promise it goes anywhere, {acquainted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "answer",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-take-it-on-right-now-and-i-won-t-say-i-can-not-even-for-deceas",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't take it on right now, and I won't say I can. Not even for {deceased-address}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "answer"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-air",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need air.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.excuse-me",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Excuse me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.one-minute",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "One minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-s-all-i-wanted-for-deceased-said",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's all I wanted for {deceased-said}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "promise"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-that-means-more-than-i-can-say",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. That means more than I can say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-can-rest-a-little-now",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I can rest a little now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-call-me-when-you-start",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. Call me when you start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "promise"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-first-another-day-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand, {first}. Another day, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "decline"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.of-course-there-s-no-hurry-first",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Of course. There's no hurry, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "decline"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-first-i-shouldn-t-have-asked-today",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine, {first}. I shouldn't have asked today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "decline"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.another-day-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Another day, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "decline"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-first-it-can-wait-a-day",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair, {first}. It can wait a day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.you-re-right-first-it-can-wait",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "You're right, {first}. It can wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.if-not-today-when-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "If not today, when, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-asking-you-first-because-i-don-t-know-who-else-will",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm asking you, {first}, because I don't know who else will.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-tell-me-when-first-i-d-like-a-day-to-hold-on-to",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then tell me when, {first}. I'd like a day to hold on to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-know-it-s-a-bad-day-tell-me-when-it-isn-t-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I know it's a bad day. Tell me when it isn't, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-first-i-ll-be-here",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on, {first}. I'll be here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.take-your-time-first",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Take your time, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-find-you-later-first",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll find you later, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.whenever-you-re-ready-first",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Whenever you're ready, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words builder S7 (lines ruled on by the Words lead)",
+      "date": "2026-11-14",
       "tag": {
         "move": "accept",
         "key": "loss"
@@ -72718,126 +74566,6 @@
       "tag": {
         "move": "thank",
         "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.thank-you-for-coming-it-would-have-meant-something-to-deceased",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Thank you for coming. It would have meant something to {deceased}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-m-glad-you-came-i-wasn-t-sure-you-would",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I'm glad you came. I wasn't sure you would.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.deceased-always-said-you-d-understand-what-was-left-undone",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{deceased} always said you'd understand what was left undone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.i-don-t-know-who-else-to-ask-deceased-trusted-you-with-things",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I don't know who else to ask. {deceased} trusted you with things.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-to-you",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} waits until the room thins out, then comes over to you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
       }
     },
     {
