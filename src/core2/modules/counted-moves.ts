@@ -143,7 +143,8 @@ export interface CoarsePlace {
 export interface MoveRecord {
   readonly id: string;
   readonly date: string;
-  readonly direction: "out" | "in";
+  /** "discharged" is an institution letting a resident go on its own calendar (admitToRooms), not a household moving. */
+  readonly direction: "out" | "in" | "discharged";
   readonly householdId: string;
   readonly groupId: string;
   readonly fromPlace: string;
@@ -1251,6 +1252,7 @@ export function moveCountedHouseholdAway(
   householdId: string,
   toPlaceId: string,
   reasons: Readonly<Record<string, number>>,
+  direction: "out" | "discharged" = "out",
 ): boolean {
   const core = api.state as CoreState;
   const residents = residentsRuntime(core);
@@ -1278,9 +1280,9 @@ export function moveCountedHouseholdAway(
   const dest = rt.states.get(to);
   if (dest) for (const b of bands) dest.people[b] = dest.people[b]! + weight;
   record(api, {
-    id: `move:out:${householdId}:${date}`,
+    id: `move:${direction === "out" ? "out" : "discharge"}:${householdId}:${date}`,
     date,
-    direction: "out",
+    direction,
     householdId,
     groupId: group.id,
     fromPlace,
@@ -1569,9 +1571,13 @@ function admitToRooms(
         if (!(owed >= size) || size <= 0) break;
         rt.roomRelease.set(key, turn + 1);
         if (
-          !moveCountedHouseholdAway(api, next.id, next.placeId, {
-            "the institution's calendar": 1,
-          })
+          !moveCountedHouseholdAway(
+            api,
+            next.id,
+            next.placeId,
+            { "the institution's calendar": 1 },
+            "discharged",
+          )
         )
           break;
         left.add(next.id);
