@@ -52,8 +52,10 @@ import {
   exchangeSubjects,
   judgesExchanges,
   judgesLines,
+  judgesSpots,
   lineSubjects,
   pieceVerdictId,
+  spotSubjects,
   type LineRule,
 } from "../../src/english/line-rules";
 import { talkReplyFlow, talkScenes } from "../../src/director/scene-talk";
@@ -159,7 +161,9 @@ export interface SheetLine {
   kind: string;
   move: string;
   line: string;
-  /** For a rule that judges a line in its spot: the tags of each place it is said. */
+  /** For a rule that judges a line in its spot: the spot this row judges (`useSpotId`). */
+  spot?: string;
+  /** For a rule that judges a line in its spot: that use, with who says it to whom and where. */
   uses?: readonly Readonly<Record<string, unknown>>[];
 }
 export interface LineSheet {
@@ -187,18 +191,33 @@ export function lineSheets(
     throw new Error(
       `${rule.id} judges a ${rule.judges}: its sheets come with words-machine part 3`,
     );
-  const open = lineSubjects(rule, pieces, ledger).filter(
-    (piece) => verdictOf(store, pieceVerdictId(piece)) === undefined,
-  );
-  const lines = open.map((piece): SheetLine => ({
-    id: pieceVerdictId(piece),
-    key: piece.key,
-    bank: piece.bank,
-    kind: piece.kind,
-    move: piece.move,
-    line: piece.text,
-    ...(rule.judges === "piece-in-context" ? { uses: piece.uses } : {}),
-  }));
+  // A rule about a line in its spot: one row for each spot the line is said
+  // in, with who says it to whom and where (the use's tags).
+  const lines: SheetLine[] = judgesSpots(rule)
+    ? spotSubjects(rule, pieces, ledger)
+        .filter((subject) => verdictOf(store, subject.id) === undefined)
+        .map((subject) => ({
+          id: subject.id,
+          key: subject.piece.key,
+          bank: subject.piece.bank,
+          kind: subject.piece.kind,
+          move: subject.piece.move,
+          line: subject.piece.text,
+          spot: subject.spot,
+          uses: [subject.use],
+        }))
+    : lineSubjects(rule, pieces, ledger)
+        .filter(
+          (piece) => verdictOf(store, pieceVerdictId(piece)) === undefined,
+        )
+        .map((piece) => ({
+          id: pieceVerdictId(piece),
+          key: piece.key,
+          bank: piece.bank,
+          kind: piece.kind,
+          move: piece.move,
+          line: piece.text,
+        }));
   const files = new Map<string, LineSheet>();
   const name = storeName(rule);
   const chunks = Math.ceil(lines.length / perFile);
