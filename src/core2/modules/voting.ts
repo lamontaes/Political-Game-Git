@@ -363,6 +363,8 @@ interface CountedBallotsRow {
   readonly college?: readonly (number | null)[];
   /** Each voter's door "yes" as it held on the day (null where they gave none; absent on rows kept before pledges). */
   readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
+  /** What each voter's decided cases left them feeling toward each official on the ballot (null where they brought none; absent on rows kept before cases counted). */
+  readonly warmths?: readonly (Readonly<Record<string, number>> | null)[];
   /** Where one household of a record's several gave a door "yes", the field index it voted for on its word (-1 otherwise). */
   readonly pledgedChoice?: readonly number[];
   /**
@@ -3438,6 +3440,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     college: [] as (number | null)[],
     /** Each voter's door "yes" as it held on the day (null where they gave none, or where it held for one household of several). */
     pledges: [] as (Readonly<Record<string, number>> | null)[],
+    warmths: [] as (Readonly<Record<string, number>> | null)[],
     /** Where one household of a record's several gave a door "yes": the field index it voted for on its word (-1 otherwise). */
     pledgedChoice: [] as number[],
     /** Each record's voters for each candidate before turnout, in field order (`countedDivision`). */
@@ -3478,6 +3481,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       counting.id,
       field,
     );
+    const warmths = countedWarmths(api, voter, field);
     const where = {
       inTown: true,
       local: true,
@@ -3486,6 +3490,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       // The town's people hold each form of a rotated ballot in turn.
       ballotForm: kept.voterIds.length,
       profile: countedStanceProfile(api, voter),
+      warmths,
       divides: true,
     };
     const appeal = countedAppeal(lean, field, { ...where, pledges });
@@ -3521,6 +3526,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
     kept.pledges.push(division.wholePledged ? (pledges ?? null) : null);
+    kept.warmths.push(warmths ?? null);
     kept.pledgedChoice.push(
       !division.wholePledged && division.pledged
         ? field.findIndex((f) => f.id === division.pledged)
@@ -4947,6 +4953,7 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       trust: row.trust?.[i] ?? 1,
       ballotForm: i,
       pledges: row.pledges?.[i] ?? undefined,
+      warmths: row.warmths?.[i] ?? undefined,
       divides: true,
       profile:
         row.faith && row.college && Number.isFinite(row.faith[i])
