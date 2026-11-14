@@ -8459,6 +8459,18 @@
       "citation": "One year (an annual address on the same day) to three (a race decided and contested); checked against the records proof of a two-year Montpelier run."
     }
   },
+  "electionNoticeLeadDays": {
+    "value": 21,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How many days before an election day the town's clerk or board of elections posts the notice of election and the paper prints it (voting.ts postElectionNotice). Places differ by law; a notice weeks ahead is the common practice, and a day's more or fewer changes nothing but when the notice appears.",
+    "spread": {
+      "low": 7,
+      "high": 90,
+      "unit": "days",
+      "citation": "A week (a short statutory notice) to three months (a long publication window); checked by the notice appearing before the election day and after the ballot is set."
+    }
+  },
   "countedBallotRetentionDays": {
     "value": 60,
     "tag": "TUNABLE",
