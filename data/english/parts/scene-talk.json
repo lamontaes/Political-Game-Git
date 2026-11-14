@@ -79698,10 +79698,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.about-isn-t-the-law-any-more-it-ended-on-ended",
+      "key": "scene-talk.state-tell.the-old-rule-on-about-isn-t-the-law-any-more-it-ended-on-ended",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{about} isn't the law any more. It ended on {ended}.",
+      "text": "The old rule on {about} isn't the law any more. It ended on {ended}.",
       "uses": [
         {
           "subject": "scene",
@@ -79723,10 +79723,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.about-ended-on-ended",
+      "key": "scene-talk.state-tell.the-old-rule-on-about-ended-on-ended",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{about} ended on {ended}.",
+      "text": "The old rule on {about} ended on {ended}.",
       "uses": [
         {
           "subject": "scene",
@@ -79748,10 +79748,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.about-was-the-law-until-ended",
+      "key": "scene-talk.state-tell.the-old-rule-on-about-was-the-law-until-ended",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{about} was the law until {ended}.",
+      "text": "The old rule on {about} was the law until {ended}.",
       "uses": [
         {
           "subject": "scene",
@@ -164110,10 +164110,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.then-about-is-finished-there-s-nothing-left-of-it-to-answer-for",
+      "key": "scene-talk.reply-tell.then-the-old-rule-on-about-is-finished-there-s-nothing-left-of-it-to-answer-for",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Then {about} is finished. There's nothing left of it to answer for.",
+      "text": "Then the old rule on {about} is finished. There's nothing left of it to answer for.",
       "uses": [
         {
           "subject": "scene",
@@ -164135,10 +164135,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.about-is-behind-us-now-there-s-nothing-left-to-fix",
+      "key": "scene-talk.reply-tell.the-old-rule-on-about-is-behind-us-now-there-s-nothing-left-to-fix",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "{about} is behind us now. There's nothing left to fix.",
+      "text": "The old rule on {about} is behind us now. There's nothing left to fix.",
       "uses": [
         {
           "subject": "scene",
@@ -164235,10 +164235,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-about-is-one-less-thing-to-worry-about",
+      "key": "scene-talk.follow-accept.then-the-old-rule-on-about-is-one-less-thing-to-worry-about",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then {about} is one less thing to worry about.",
+      "text": "Then the old rule on {about} is one less thing to worry about.",
       "uses": [
         {
           "subject": "scene",

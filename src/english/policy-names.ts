@@ -51,18 +51,6 @@ export function topicInSentence(topic: string): string | null {
     : name;
 }
 
-/**
- * A law as a sentence names it: a question's policy is an action or a title
- * ("raise minimum wage", "public broadband"), so it is said as the law's
- * name, never as a noun that took effect; a subject the authored amounts name
- * ("the minimum wage") is already a noun and is said as it stands.
- */
-export function lawAsNamed(series: string): string | null {
-  const policy = questionName(series);
-  if (policy) return `the "${policy}" law`;
-  return storyTopicName(series.slice(series.lastIndexOf(":") + 1));
-}
-
 /** A question's name as the bill catalog records it ("raise minimum wage"). */
 export function questionName(question: string): string | null {
   return questionRow(question)?.policy ?? null;

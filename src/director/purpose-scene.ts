@@ -9,6 +9,7 @@
  */
 import { placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
+import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
@@ -42,12 +43,7 @@ import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
-import {
-  lawAsNamed,
-  questionName,
-  storyTopicName,
-  topicInSentence,
-} from "../english/policy-names";
+import { storyTopicName, topicInSentence } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
 import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
@@ -278,6 +274,8 @@ export function lawReachFacts(
   homeStateKey: string | null,
   today: string,
   cite: { law: string[]; home: string[] },
+  /** When play began, and whether a newer row of the law's series replaced this one. */
+  play: { from: string; replaced: boolean },
 ): Record<string, Fact> {
   if (!row) return {};
   // Another state's law does not reach the reader, in force or not: said by
@@ -299,7 +297,11 @@ export function lawReachFacts(
   // writes one yet.)
   // It is said with what it was, so the line names the law.
   const about = row.series ? lawAbout(row.series) : null;
-  if (row.endDate && row.endDate <= today)
+  // Raised only when it ended during play and nothing replaced it: a rate
+  // that a newer rate took over, or one that ended before the game began, is
+  // not something a resident talks about (Words lead, Nov 14).
+  if (row.endDate && row.endDate <= today) {
+    if (row.endDate < play.from || play.replaced) return {};
     return {
       ended: {
         text: spokenDate(row.endDate, today),
@@ -307,6 +309,7 @@ export function lawReachFacts(
       },
       ...(about ? { about: { text: about, sourceRecordIds: cite.law } } : {}),
     };
+  }
   if (row.effectiveDate && row.effectiveDate > today) {
     // What the law changes, by what it is, not by the number it sets: a tax
     // rate's law changes the tax ("the Social Security payroll tax").
@@ -386,7 +389,10 @@ export function typeForCause(type: PurposeType, label: string): PurposeType {
  */
 export function lawName(series: string): string | null {
   const topic = series.slice(series.lastIndexOf(":") + P.one);
-  return questionName(series) ?? storyTopicName(topic);
+  // The spoken noun the talks and speeches say a measure by ("a higher
+  // minimum wage"), never the catalog's verb phrase ("raise minimum wage");
+  // a question with no noun name has no name, and its scene is not offered.
+  return questionAbout(series) ?? storyTopicName(topic);
 }
 
 /**
@@ -440,7 +446,7 @@ export function lawFactsOfCause(
     : null;
   const series = said.series ?? lawRowOfSaid?.series;
   if (said.lawId && series) {
-    const name = lawAsNamed(series);
+    const name = lawName(series);
     if (name)
       facts.law = {
         text: name,
@@ -477,6 +483,12 @@ export function lawFactsOfCause(
           homeStateOf(asker.placeId),
           core.date,
           { law: [lawRowId, moment.causeId], home: [asker.placeId, askerId] },
+          {
+            from: gameStartDate(),
+            replaced: (answer?.levels ?? []).some(
+              (level) => level.row && !level.setAside,
+            ),
+          },
         ),
       );
   }

@@ -14,6 +14,8 @@ import { gameStartDate } from "../core2/game-start";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import { wordSceneMove } from "../english/scene-talk-words";
+import { questionAbout } from "../english/question-names";
+import { questionName } from "../english/policy-names";
 import { advanceCore } from "../core2/life";
 import {
   homeStateOf,
@@ -64,13 +66,14 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
       said: new Set(),
     });
   const cite = { law: ["law"], home: ["home"] };
+  const play = { from: gameStartDate(), replaced: false };
 
   // Enacted, not yet in force: said with its date, never as lived with.
   const later = rows.find(
     (row) => row.effectiveDate > core.date && lawName(row.series),
   );
   expect(later, `${where}: a law row not yet in force`).toBeDefined();
-  const pending = lawReachFacts(later!, home, core.date, cite);
+  const pending = lawReachFacts(later!, home, core.date, cite, play);
   expect(pending.effective?.text, where).toBeTruthy();
   // Said by what changes, never the number's label acting.
   expect(pending.about?.text, where).toBeTruthy();
@@ -94,6 +97,7 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     home,
     core.date,
     cite,
+    play,
   );
   expect(away.lawstate?.text, where).toBeTruthy();
   const saidAway = tell(away);
@@ -106,6 +110,7 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     home,
     core.date,
     cite,
+    play,
   );
   expect(Object.keys(awayLater).sort(), where).toEqual([
     "homestate",
@@ -144,16 +149,29 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     reply("tell", pending, 0),
     `${where}: a reply for a law not yet in force`,
   ).toContain(pending.effective!.text);
-  // A law no longer in force is said by the day it ended.
-  const over = rows.find(
+  // A law no longer in force is said by the day it ended, only when it ended
+  // during play and nothing replaced it (Words lead, Nov 14): the world's own
+  // rows that ended before the game began, or that a newer rate replaced, are
+  // never raised. The law that ends in play is the world's own row with the
+  // end date a repeal would write on the day.
+  const old = rows.find(
     (row) =>
       row.endDate &&
-      row.endDate <= core.date &&
+      row.endDate < play.from &&
       row.jurisdiction !== elsewhere &&
       lawName(row.series),
   );
-  expect(over, `${where}: a law row that has ended`).toBeDefined();
-  const ended = lawReachFacts(over!, home, core.date, cite);
+  expect(old, `${where}: a law row that ended before play`).toBeDefined();
+  expect(lawReachFacts(old!, home, core.date, cite, play), where).toEqual({});
+  const base = rows.find(
+    (row) => row.jurisdiction !== elsewhere && lawName(row.series),
+  )!;
+  const over = { ...base, id: base.id, endDate: core.date };
+  expect(
+    lawReachFacts(over, home, core.date, cite, { ...play, replaced: true }),
+    `${where}: a replaced rate is not raised`,
+  ).toEqual({});
+  const ended = lawReachFacts(over, home, core.date, cite, play);
   expect(ended.ended?.text, where).toBeTruthy();
   const saidEnded = tell(ended);
   const endedText = saidEnded && "text" in saidEnded ? saidEnded.text : "";
@@ -169,7 +187,9 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
       `${where}: no promise for a law that ended`,
     ).toBe("");
   // A law in force where the reader lives gives none of these facts.
-  expect(lawReachFacts(ownState!, home, core.date, cite), where).toEqual({});
+  expect(lawReachFacts(ownState!, home, core.date, cite, play), where).toEqual(
+    {},
+  );
   console.log(
     `law-reaches-tell: ${where}: "${saidLater && "text" in saidLater ? saidLater.text : ""}" / "${text}" / "${endedText}" (${over!.id})`,
   );
@@ -216,7 +236,14 @@ it("a learned law's record gives the scene its law and that it is in force", () 
   expect(facts.law?.text, `${where}: the law is named`).toBeTruthy();
   // Said as the law's name, never the bare action ("Allow retail electric
   // choice took effect").
-  expect(facts.law!.text, where).toMatch(/^the ".+" law$/);
+  const series = (
+    coreAPI(core)
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .get(String(learned!.facts?.lawId)) as unknown as { series: string }
+  ).series;
+  expect(facts.law!.text, where).not.toBe(questionName(series));
+  expect(facts.law!.text, where).toBe(questionAbout(series));
   expect(
     facts["in-force"],
     `${where}: it is in force where they live`,
