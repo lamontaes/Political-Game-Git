@@ -18,7 +18,7 @@ effort: medium
 root: rc10-screens-keep-own-facts
 ---
 
-**What.** A person who files for office at the counter has an empty platform; the Campaigns row has no stances to show for them. Stand-in SG-SCREENS-filing-platform-from-views.
+**What.** A person who files for office at the counter has an empty platform; the Campaigns row has no stances to show for them. Stand-in SG-SCREENS-filing-platform-from-views. Seen: the Campaigns screen's candidate row for a filing made at the counter.
 
 **Cause.** Found in code: src/bench/play.mjs:1499 (the counter hands in no platform since the stance form was removed) and src/core2/modules/elections.ts:1236 (`platform: [...input.platform]`, taken as handed in). Nothing derives it from the filer's own policy views, the records the party fit reads.
 

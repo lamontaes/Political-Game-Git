@@ -18,7 +18,7 @@ effort: medium
 root: rc10-screens-keep-own-facts
 ---
 
-**What.** Town jobs, rental and claims figures and state figures after the first year show only the current value; this year beside last is missing. Stand-in SG-SCREENS-metrics-no-prior-year.
+**What.** Town jobs, rental and claims figures and state figures after the first year show only the current value; this year beside last is missing. Stand-in SG-SCREENS-metrics-no-prior-year. Seen: the Metrics screen's town and state rows.
 
 **Cause.** Found in code: src/bench/metrics.ts:110 and :206 (`before: null` for rentals, vacancies, rent, home value and the jobs counts). The jobs engine and the housing stock keep no year-ago reading, and the regional engine keeps only twelve months plus each December.
 
