@@ -26,6 +26,7 @@ import type {
   PersonId,
   RelationshipChangeNotice,
 } from "../core2/types";
+import { P } from "../core2/parameters";
 import kindsJson from "./data/promise-kinds.json" with { type: "json" };
 import type { KeptFact, KeptPromise, Ledger } from "./types";
 
@@ -80,6 +81,10 @@ export interface PromiseKinds {
     broken: readonly PromiseAnswerRow[];
   };
 }
+
+const zero = P.zero;
+const one = P.one;
+const minusOne = P.negativeOne;
 
 export const PROMISE_KINDS = kindsJson as unknown as PromiseKinds;
 
@@ -165,7 +170,7 @@ export function promiseOfEvent(
     dueOn: addDays(makeIsoDate(event.date), param(kind.windowDays)),
     ...(typeof billId === "string" && billId ? { billId } : {}),
     ...(typeof side === "string" && side
-      ? { side: side === "no" || side === "-1" ? -1 : 1 }
+      ? { side: side === "no" || side === "-1" ? minusOne : one }
       : {}),
   };
 }
@@ -212,7 +217,7 @@ function endPromise(
   const copies = copiesOf(ledger, factId).filter(
     (fact) => fact.promise && !fact.promise.outcome,
   );
-  const first = copies[0];
+  const first = copies[zero];
   if (!first?.promise) return;
   for (const fact of copies) {
     fact.endedAt = api.state.date;
@@ -275,17 +280,20 @@ export function settlePromisesOnEvent(
     if (!ids || !api.state.modules.has(LEGISLATURE_MODULE_ID)) return;
     const rows = votesOn(api, billId);
     for (const id of [...ids]) {
-      const fact = copiesOf(ledger, id)[0];
+      const fact = copiesOf(ledger, id)[zero];
       if (!fact?.promise) continue;
       // The roll of this chamber: a member of another chamber is not on it.
       const row = rows.find((vote) => vote.memberId === fact.holderId);
       if (!row) continue;
-      const voted = row.vote === "yes" ? 1 : row.vote === "no" ? -1 : 0;
+      const voted =
+        row.vote === "yes" ? one : row.vote === "no" ? minusOne : zero;
       endPromise(
         api,
         ledger,
         id,
-        voted !== 0 && voted === (fact.promise.side ?? 1) ? "kept" : "broken",
+        voted !== zero && voted === (fact.promise.side ?? one)
+          ? "kept"
+          : "broken",
         event.id,
         param,
       );
@@ -293,7 +301,7 @@ export function settlePromisesOnEvent(
     return;
   }
   if (event.kind === "credit.payment-missed") {
-    const holderId = event.personIds[0];
+    const holderId = event.personIds[zero];
     const ids = holderId
       ? ledger.promisesBySettle.get(`holder-missed-payment|${holderId}`)
       : undefined;
@@ -336,7 +344,7 @@ export function closeDuePromises(
   const ids = ledger.promisesDue.get(api.state.date);
   if (!ids) return;
   for (const id of [...ids]) {
-    const fact = copiesOf(ledger, id)[0];
+    const fact = copiesOf(ledger, id)[zero];
     if (!fact?.promise) continue;
     endPromise(
       api,

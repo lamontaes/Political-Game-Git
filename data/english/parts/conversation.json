@@ -42279,13 +42279,13 @@
       "key": "conversation.promise-kept-raise.you-voted-the-way-you-said-i-noticed",
       "move": "promise-kept-raise",
       "kind": "spoken",
-      "text": "You voted the way you said. I noticed.",
+      "text": "You voted the way you said on {bill}. I noticed.",
       "uses": [
         {
           "move": "promise-kept-raise",
           "subject": "promise-kept",
           "role": "raise",
-          "requiresFacts": ["promise-vote"]
+          "requiresFacts": ["promise-vote", "bill"]
         }
       ],
       "origin": "authored",
@@ -42297,13 +42297,13 @@
       "key": "conversation.promise-kept-raise.you-did-what-you-said-not-everyone-does",
       "move": "promise-kept-raise",
       "kind": "spoken",
-      "text": "You did what you said. Not everyone does.",
+      "text": "You did what you said on {bill}. Not everyone does.",
       "uses": [
         {
           "move": "promise-kept-raise",
           "subject": "promise-kept",
           "role": "raise",
-          "requiresFacts": ["promise-vote"]
+          "requiresFacts": ["promise-vote", "bill"]
         }
       ],
       "origin": "authored",
@@ -42405,13 +42405,13 @@
       "key": "conversation.promise-kept-raise.the-bills-have-been-paid-i-noticed",
       "move": "promise-kept-raise",
       "kind": "spoken",
-      "text": "The bills have been paid. I noticed.",
+      "text": "The bills have been paid, {you}. I noticed.",
       "uses": [
         {
           "move": "promise-kept-raise",
           "subject": "promise-kept",
           "role": "raise",
-          "requiresFacts": ["promise-pay-on-time"]
+          "requiresFacts": ["promise-pay-on-time", "you"]
         }
       ],
       "origin": "authored",
@@ -42423,13 +42423,13 @@
       "key": "conversation.promise-kept-raise.you-said-youd-pay-on-time-you-have",
       "move": "promise-kept-raise",
       "kind": "spoken",
-      "text": "You said you'd pay on time. You have.",
+      "text": "You said you'd pay on time, {you}. You have.",
       "uses": [
         {
           "move": "promise-kept-raise",
           "subject": "promise-kept",
           "role": "raise",
-          "requiresFacts": ["promise-pay-on-time"]
+          "requiresFacts": ["promise-pay-on-time", "you"]
         }
       ],
       "origin": "authored",
@@ -42459,13 +42459,13 @@
       "key": "conversation.promise-broken-raise.its-late-again-you-promised-me",
       "move": "promise-broken-raise",
       "kind": "spoken",
-      "text": "It's late again. You promised me.",
+      "text": "It's late again, {you}. You promised me.",
       "uses": [
         {
           "move": "promise-broken-raise",
           "subject": "promise-broken",
           "role": "raise",
-          "requiresFacts": ["promise-pay-on-time"]
+          "requiresFacts": ["promise-pay-on-time", "you"]
         }
       ],
       "origin": "authored",
@@ -42495,13 +42495,13 @@
       "key": "conversation.promise-broken-raise.we-talked-about-this-already",
       "move": "promise-broken-raise",
       "kind": "spoken",
-      "text": "We talked about this already.",
+      "text": "We talked about this already, {you}.",
       "uses": [
         {
           "move": "promise-broken-raise",
           "subject": "promise-broken",
           "role": "raise",
-          "requiresFacts": ["promise-pay-on-time"]
+          "requiresFacts": ["promise-pay-on-time", "you"]
         }
       ],
       "origin": "authored",
@@ -42531,13 +42531,13 @@
       "key": "conversation.promise-kept-raise.you-made-the-first-week-easier",
       "move": "promise-kept-raise",
       "kind": "spoken",
-      "text": "You made the first week easier.",
+      "text": "You made the first week easier, {you}.",
       "uses": [
         {
           "move": "promise-kept-raise",
           "subject": "promise-kept",
           "role": "raise",
-          "requiresFacts": ["promise-show-around"]
+          "requiresFacts": ["promise-show-around", "you"]
         }
       ],
       "origin": "authored",
@@ -42549,13 +42549,13 @@
       "key": "conversation.promise-kept-raise.you-did-what-you-said-i-appreciate-it",
       "move": "promise-kept-raise",
       "kind": "spoken",
-      "text": "You did what you said. I appreciate it.",
+      "text": "You did what you said, {you}. I appreciate it.",
       "uses": [
         {
           "move": "promise-kept-raise",
           "subject": "promise-kept",
           "role": "raise",
-          "requiresFacts": ["promise-show-around"]
+          "requiresFacts": ["promise-show-around", "you"]
         }
       ],
       "origin": "authored",
@@ -42585,13 +42585,13 @@
       "key": "conversation.promise-broken-raise.you-said-youd-show-me-around",
       "move": "promise-broken-raise",
       "kind": "spoken",
-      "text": "You said you'd show me around.",
+      "text": "You said you'd show me around, {you}.",
       "uses": [
         {
           "move": "promise-broken-raise",
           "subject": "promise-broken",
           "role": "raise",
-          "requiresFacts": ["promise-show-around"]
+          "requiresFacts": ["promise-show-around", "you"]
         }
       ],
       "origin": "authored",
@@ -42621,7 +42621,7 @@
       "key": "conversation.promise-kept-answer-plain.i-said-i-would",
       "move": "promise-kept-answer-plain",
       "kind": "spoken",
-      "text": "I said I would.",
+      "text": "I said I would, {name}.",
       "uses": [
         {
           "move": "promise-kept-answer-plain",
@@ -42638,7 +42638,7 @@
       "key": "conversation.promise-kept-answer-modest.it-was-the-right-thing-to-do",
       "move": "promise-kept-answer-modest",
       "kind": "spoken",
-      "text": "It was the right thing to do.",
+      "text": "It was the right thing to do, {name}.",
       "uses": [
         {
           "move": "promise-kept-answer-modest",
@@ -42655,7 +42655,7 @@
       "key": "conversation.promise-kept-answer-warm.im-glad-it-helped",
       "move": "promise-kept-answer-warm",
       "kind": "spoken",
-      "text": "I'm glad it helped.",
+      "text": "I'm glad it helped, {name}.",
       "uses": [
         {
           "move": "promise-kept-answer-warm",
@@ -42672,7 +42672,7 @@
       "key": "conversation.promise-broken-answer-own-it.youre-right-i-didnt-do-what-i-said",
       "move": "promise-broken-answer-own-it",
       "kind": "spoken",
-      "text": "You're right. I didn't do what I said.",
+      "text": "You're right, {name}. I didn't do what I said.",
       "uses": [
         {
           "move": "promise-broken-answer-own-it",
@@ -42689,7 +42689,7 @@
       "key": "conversation.promise-broken-answer-explain.things-changed-i-couldnt-do-it",
       "move": "promise-broken-answer-explain",
       "kind": "spoken",
-      "text": "Things changed. I couldn't do it.",
+      "text": "Things changed, {name}. I couldn't do it.",
       "uses": [
         {
           "move": "promise-broken-answer-explain",
@@ -42706,7 +42706,7 @@
       "key": "conversation.promise-broken-answer-deny.thats-not-how-i-remember-it",
       "move": "promise-broken-answer-deny",
       "kind": "spoken",
-      "text": "That's not how I remember it.",
+      "text": "That's not how I remember it, {name}.",
       "uses": [
         {
           "move": "promise-broken-answer-deny",
@@ -42723,7 +42723,7 @@
       "key": "conversation.promise-broken-answer-make-it-right.ill-make-it-right",
       "move": "promise-broken-answer-make-it-right",
       "kind": "spoken",
-      "text": "I'll make it right.",
+      "text": "I'll make it right, {name}.",
       "uses": [
         {
           "move": "promise-broken-answer-make-it-right",

@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-after: talk-offer-of-help-cannot-spend-the-players-day
+after:
 blocked-on:
 source: promises brief T, Words lead rulings 1 (Nov 14)
 lead: director

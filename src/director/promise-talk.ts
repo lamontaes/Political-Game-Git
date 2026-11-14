@@ -16,6 +16,7 @@ import type { Fact } from "../english/conversation-words";
 import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { P as CORE } from "../core2/parameters";
 import directorJson from "./data/director.json" with { type: "json" };
 import type { Director } from "./ledger";
 import {
@@ -102,8 +103,11 @@ const param = (key: string): number => {
 };
 
 /** A trait's value from -2 to 2 as a share from 0 to 1 (0.5 when unknown). */
+const zero = CORE.zero;
+const one = CORE.one;
+const two = CORE.two;
 const share = (traits: Readonly<Record<string, number>>, key: string) =>
-  Math.min(1, Math.max(0, ((traits[key] ?? 0) + 2) / 4));
+  Math.min(one, Math.max(zero, ((traits[key] ?? zero) + two) / (two * two)));
 
 const CONFLICT = "people-mind-v1:conflict";
 const RELIABILITY = "people-mind-v1:reliability";
@@ -124,10 +128,10 @@ export function promiseAnswers(
   if (subject.kind === "promise-kept") {
     const traits = core.people.get(answererId)?.traits ?? {};
     const lean = (row: PromiseAnswerRow) =>
-      row.trait ? (row.sign ?? 1) * (traits[row.trait] ?? 0) : 0;
+      row.trait ? (row.sign ?? one) * (traits[row.trait] ?? zero) : zero;
     return [...answers.kept]
       .sort((a, b) => lean(b) - lean(a) || a.id.localeCompare(b.id))
-      .slice(0, answers.keptOffered)
+      .slice(zero, answers.keptOffered)
       .map((row) => row.id);
   }
   const renewable = kindOf(subject.promiseKind).renewable;
@@ -193,7 +197,7 @@ export function answerPromise(
   markPromise(director.ledger, subject.id, { answer: answerId });
   if (!broken || !rule) return id;
   const traits = core.people.get(otherId)?.traits ?? {};
-  let hours = 0;
+  let hours = zero;
   if (rule.recovers) {
     const before = promisesBetween(director.ledger, answererId, otherId).filter(
       (entry) =>
@@ -206,10 +210,10 @@ export function answerPromise(
     hours =
       (param("promiseBrokenHours") *
         param("promiseOwnShare") *
-        (1 - share(traits, CONFLICT))) /
-      (1 + before);
+        (one - share(traits, CONFLICT))) /
+      (one + before);
     if (rule.countedOnFactor && kind.countedOn)
-      hours *= 1 - share(traits, RELIABILITY);
+      hours *= one - share(traits, RELIABILITY);
   }
   if (rule.cools) hours = -param("promiseDeniedHours");
   if (hours)
