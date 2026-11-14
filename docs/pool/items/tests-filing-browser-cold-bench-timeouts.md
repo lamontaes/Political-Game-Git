@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-10, main b4422d346c).** `node src/bench/filing.browser.mjs` with BENCH_BROWSER=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome against `npm run bench` started a minute earlier. The check draws its own place and does not read BENCH_SEED, so the item's seeds cannot be replayed. One run, Edinburg, Missouri, check seed 8628ebb1-abd1-4ecb-bcd5-154e3fabb90a: PASS ("PASS the counter with no panels"). That bench had only served /play before the run, so it was not a true cold first request. No drop proposed: the item is about cold starts, which this run did not test.
 
 Cause finder (Nov 11, 2026, for Fable B): two runs, each on a bench started cold from main 9af0057e a moment before; both passed. Proposed: close.
+
+Dropped Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: `src/bench/filing.browser.mjs` exists on the train; the item's Nov 11 cold-bench runs (bench restarted before each) passed twice in 85 and 68 seconds. I did not re-run the browser check in this pass.

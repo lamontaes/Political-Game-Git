@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -45,3 +45,5 @@ Claim released by the Oct 25 audit: no push in 72 hours (branch claude/law-reach
 Cannot be checked as written (Claude worker, Oct 27). `GOLDEN_PATH_SEED=f835dd278d7312a1 node --max-old-space-size=6000 --import tsx src/bench/path-check.ts` now reaches steps 3 and 4 only in Meadow Lakes, Alaska (0247735): it files for Commissioner, knocks 54 doors (40 reached) and then "the day stopped at 2025-03-09, before 2025-10-07" on an open job-offer stop (`job-offer:position:organization_71036484feb17f57:2025-03-…`), so the run never reaches the bill (step 9) this item is about. The path-check driver is the play-first lane's (src/bench); the stop needs to be answered or skipped there before the enacted-law read can be examined. Left open.
 
 Nov 11 (cause finder for Fable B): ran the path check at the item's seed on main 903b659706. The player lost all three races it entered (2025, 2026, 2028), so no bill is ever passed and the item's law cannot be replayed. I propose the CTO drops the item; the law-wiring matrix grades every law's reach.
+
+Dropped Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: the bill (2025-7, Meadow Lakes) cannot be replayed on main, and whether an enacted law reaches nobody is graded per law by the `reach` link of every row in `docs/reports/law-wiring-matrix.json` (187 laws, no row stopgapped). I did not re-run the path check (heavy); the closure rests on the item's own Nov 11 run and on that matrix.
