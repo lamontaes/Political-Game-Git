@@ -1,0 +1,181 @@
+/**
+ * A school's rooms are a meeting place only under its district's joint use
+ * agreement, a fact generated with the world for each district at the share of
+ * districts that had one in its Census region (CDC SHPPS 2012). Colleges are never
+ * offered as meeting places: no record says a room of theirs is open. An
+ * association's hall, its building on record, is one for its own members (SG-P8-civic-inputs, removed).
+ *
+ * Pinned: seed joint-use-1. Alexander City, Alabama (0101132), whose one high
+ * school's district has an agreement in that seed, and Adamsville, Alabama
+ * (0100460), whose district has none. Edgar, Wisconsin (5522550), seed
+ * edgar-petition-1, where people organize at an association's hall in year 1.
+ */
+import { describe, expect, it } from "vitest";
+import directoryJson from "../../data/research/places/local-institutions.json" with { type: "json" };
+import jointUse from "../../data/research/core/shpps-2012-joint-use.json" with { type: "json" };
+import {
+  DEFAULT_CIVIC_INPUTS_DATA,
+  districtHasJointUse,
+  enrichCivicInputs,
+} from "./civic-inputs";
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
+import { LIFE_MODULE } from "./modules/life";
+import { coreAPI } from "./state";
+import { parameter as p } from "./parameters";
+import { realLocalities } from "./places";
+import { buildPopulation } from "./population";
+import { censusRegionOf, censusRegionStates } from "./reference/census-regions";
+
+const seed = "joint-use-1";
+const directory = directoryJson as unknown as {
+  places: Record<string, { highSchools: { sourceId: string }[] } | undefined>;
+};
+
+function openedIn(placeKey: string) {
+  const opening = buildPopulation({
+    seed,
+    startedAt: gameStartDate(),
+    placeKey,
+    minimumPeople: p("populationTestMinimum"),
+  });
+  return enrichCivicInputs(opening).publicOrganizations ?? [];
+}
+
+describe(`school meeting rooms follow the district's joint use agreement, seed ${seed}`, () => {
+  it("the share of districts with an agreement lands in the survey's band, nationally and by region", () => {
+    const states = new Set(censusRegionStates());
+    const byRegion = new Map<string, boolean[]>();
+    const all = new Map<string, boolean>();
+    for (const place of realLocalities()) {
+      const usps = place.stateJurisdictionKey?.slice(3);
+      const group = place.sourceGeoid
+        ? directory.places[place.sourceGeoid]
+        : undefined;
+      if (!group || !usps || !states.has(usps)) continue;
+      for (const school of group.highSchools) {
+        const district = school.sourceId.slice(
+          0,
+          DEFAULT_CIVIC_INPUTS_DATA.districtJointUse.districtIdLength,
+        );
+        if (all.has(district)) continue;
+        const open = districtHasJointUse(seed, district, usps);
+        all.set(district, open);
+        const region = censusRegionOf(usps);
+        byRegion.set(region, [...(byRegion.get(region) ?? []), open]);
+      }
+    }
+    const share = (rows: readonly boolean[]) =>
+      rows.filter(Boolean).length / rows.length;
+    const national = share([...all.values()]);
+    process.stdout.write(
+      `JOINT USE seed ${seed}: ${all.size} districts, ${(national * 100).toFixed(1)}% with an agreement\n`,
+    );
+    expect(national).toBeGreaterThanOrEqual(jointUse.overall.low);
+    expect(national).toBeLessThanOrEqual(jointUse.overall.high);
+    for (const [region, rows] of byRegion) {
+      const band = jointUse.byRegion[region as keyof typeof jointUse.byRegion];
+      expect(share(rows), region).toBeGreaterThanOrEqual(band.low);
+      expect(share(rows), region).toBeLessThanOrEqual(band.high);
+    }
+  });
+
+  it("Alexander City, Alabama: the high school of a district with an agreement is a meeting place", () => {
+    const rows = openedIn("0101132");
+    const school = rows.find(
+      (row) => row.name === "Benjamin Russell High School",
+    );
+    expect(school, "the town's high school").toBeDefined();
+    expect(school!.affordances).toContain("public-meeting-place");
+    expect(school!.facts!.meetingAccess).toBe("district-joint-use-agreement");
+  }, 120_000);
+
+  it("Adamsville, Alabama: the high school of a district without one is not, and no college is anywhere; an association hall is for its members", () => {
+    const rows = openedIn("0100460");
+    const school = rows.find((row) => row.name === "Minor High School");
+    expect(school, "the town's high school").toBeDefined();
+    expect(school!.affordances ?? []).not.toContain("public-meeting-place");
+    expect(school!.facts!.meetingAccess).toBe(
+      "no-district-joint-use-agreement",
+    );
+    for (const row of [...rows, ...openedIn("0101132")])
+      if (row.affordances?.includes("public-meeting-place"))
+        expect(
+          row.facts!.sourceKind === "high-school"
+            ? "district-joint-use-agreement"
+            : "members",
+          row.name,
+        ).toBe(row.facts!.meetingAccess);
+  }, 240_000);
+
+  it("Edgar, Wisconsin: in a played year a group's hall is offered only to its members, and everyone who organizes there is one", () => {
+    const { core } = buildBenchWorld("edgar-petition-1", gameStartDate(), {
+      twoLevel: true,
+      placeKey: "5522550",
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 365));
+    const held = [
+      ...(core.logByKind.get("initiative.organizing-started") ?? []),
+    ]
+      .map((id) => core.durableLog.get(id as never)!)
+      .map((event) => ({
+        event,
+        place: core.publicOrganizations.get(
+          String(event.facts!.organizationId),
+        )!,
+      }));
+    const halls = held.filter(
+      ({ place }) => place.facts?.meetingAccess === "members",
+    );
+    expect(halls.length, "meetings at a hall").toBeGreaterThan(0);
+    for (const { event, place } of halls) {
+      const organizer = event.personIds[0]!;
+      expect(
+        core.memberships.has(`${organizer}:${place.id}`) ||
+          !!place.staff?.some((row) => row.personId === organizer),
+        `${event.id} at ${place.name}`,
+      ).toBe(true);
+    }
+    for (const { place, event } of held)
+      expect(place.kind, event.id).not.toBe("institution");
+    // The same year's end: the hall is offered to a member who knows it,
+    // never to someone outside it who knows it too.
+    const api = coreAPI(core);
+    const action = core.data.actions.find(
+      (row) => row.targetKind === "public-meeting-place",
+    )!;
+    const provide = LIFE_MODULE.offerProviders!["public-meeting-place"]!;
+    const hall = [...core.publicOrganizations.values()].find(
+      (row) => row.facts?.meetingAccess === "members",
+    )!;
+    expect(hall, "a group's hall").toBeDefined();
+    const offeredTo = (personId: string) =>
+      provide(api, core.people.get(personId as never)!, action).some(
+        (row) => row.targetId === hall.id,
+      );
+    // Two adults who both know of the hall: one a member, one not.
+    const knowing = [...core.people.values()].filter(
+      (person) =>
+        person.alive &&
+        person.placeId === hall.placeId &&
+        api.knows(person.id, `organization:${hall.id}:public`),
+    );
+    const member = knowing.find((person) =>
+      core.memberships.has(`${person.id}:${hall.id}`),
+    );
+    const outsider = knowing.find(
+      (person) =>
+        !core.memberships.has(`${person.id}:${hall.id}`) &&
+        !hall.staff?.some((row) => row.personId === person.id),
+    );
+    expect(member, `a member of ${hall.name} who knows it`).toBeDefined();
+    expect(outsider, `someone outside ${hall.name} who knows it`).toBeDefined();
+    expect(offeredTo(member!.id), member!.id).toBe(true);
+    expect(offeredTo(outsider!.id), outsider!.id).toBe(false);
+    process.stdout.write(
+      `ORGANIZING Edgar WI: ${held.length} meetings, ${halls.length} at a hall by its members\n`,
+    );
+  }, 300_000);
+});

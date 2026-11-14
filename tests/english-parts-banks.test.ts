@@ -32,10 +32,17 @@ const DEVELOPER_WORDS = [
  * "say my piece" is everyday speech for having your say, so that idiom (a form
  * of say, a possessive, then "piece") is taken out before the words are read.
  */
-const IDIOMS = [/\b(?:say|says|said|saying) (?:my|our|your|his|her|their) piece\b/g];
+const IDIOMS = [
+  /\b(?:say|says|said|saying) (?:my|our|your|his|her|their) piece\b/g,
+];
 function developerWordsIn(text: string): string[] {
-  const lower = IDIOMS.reduce((t, idiom) => t.replace(idiom, " "), text.toLowerCase());
-  return DEVELOPER_WORDS.filter((word) => new RegExp(`\\b${word}\\b`).test(lower));
+  const lower = IDIOMS.reduce(
+    (t, idiom) => t.replace(idiom, " "),
+    text.toLowerCase(),
+  );
+  return DEVELOPER_WORDS.filter((word) =>
+    new RegExp(`\\b${word}\\b`).test(lower),
+  );
 }
 
 type Part = {
@@ -244,8 +251,10 @@ describe("English part banks", () => {
 });
 
 describe("developer words", () => {
-  it("tells the idiom \"say our piece\" from the reserved word", () => {
-    expect(developerWordsIn("Then we'll both say our piece to the prosecutor.")).toEqual([]);
+  it('tells the idiom "say our piece" from the reserved word', () => {
+    expect(
+      developerWordsIn("Then we'll both say our piece to the prosecutor."),
+    ).toEqual([]);
     expect(developerWordsIn("She said her piece and left.")).toEqual([]);
     expect(developerWordsIn("Add a new piece to the bank.")).toEqual(["piece"]);
     expect(developerWordsIn("Say the piece again.")).toEqual(["piece"]);
