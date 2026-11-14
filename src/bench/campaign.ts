@@ -404,6 +404,7 @@ export function raceSaid(api: CoreAPI, contest: ContestRow): RaceSaid {
       seats: office?.seats ?? 1,
       bodyName: (office?.seats ?? 1) > 1 ? (office?.bodyName ?? null) : null,
       district: contest.district,
+      level: contest.level,
     }),
     when: primaryAhead
       ? { primary: dateSaid(contest.primaryDate!, today) }
