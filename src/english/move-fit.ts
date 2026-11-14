@@ -12,6 +12,8 @@ export interface FitMove {
   part?: string;
   text: string;
   requiresFacts?: string[];
+  /** Facts whose presence holds the wording back. */
+  excludesFacts?: string[];
   /** Whom the sentence speaks of, when it opens with a pronoun. */
   pronoun?: "he" | "she" | "they";
 }
@@ -42,6 +44,7 @@ export function fitMoves<T extends FitMove>(
   const pronoun = pronounFor(context.about?.gender);
   return moves.filter((move) => {
     if (move.requiresFacts?.some((key) => !context.facts[key])) return false;
+    if (move.excludesFacts?.some((key) => context.facts[key])) return false;
     if (move.pronoun && (!context.about || move.pronoun !== pronoun))
       return false;
     const named = [...move.text.matchAll(RELATION_IN_TEXT)]

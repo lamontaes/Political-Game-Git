@@ -157,8 +157,14 @@ import {
   clockSaid,
   daysSaid,
   hoursSaid,
+  lateSaid,
+  lengthSaid,
   moneySaid,
+  monthsOfRentDays,
 } from "../english/count-words";
+import { sinceMonthSaid } from "../english/day-words";
+import { ILLNESS_EVENT } from "./life-news";
+import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
 import type { FinanceContractInput } from "../core2/modules/finance";
 import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/people";
 import { SAID_AS_DATA as saidAsData } from "../english/said-as";
@@ -842,6 +848,89 @@ function lastEndedJob(core: Readonly<CoreState>, personId: PersonId) {
   return best ? core.jobs.get(best.jobId) : undefined;
 }
 
+/**
+ * What a relative's news is, from the record it cites (words composer, the
+ * talk's own subject: `<kind>-say`, answered back under `<kind>-back`): when
+ * it happened; for a death, their age and a cause people say plainly to
+ * family (the health engine's cause of death, through
+ * data/english/relative-news-words.json), with `young` below the age people
+ * call too soon; for an illness, its common name (the health engine's
+ * condition); for a prison term, its length (the justice engine's custody
+ * record) and the offense.
+ */
+function relativeNewsFacts(
+  core: Readonly<CoreState>,
+  kind: string,
+  moment: Moment,
+  about: Readonly<PersonState>,
+  speaker: Readonly<PersonState>,
+  listener: Readonly<PersonState>,
+): Facts {
+  const event = core.durableLog.get(moment.causeId as never) as
+    { id: string; facts?: Readonly<Record<string, string>> } | undefined;
+  const cites = [moment.causeId];
+  const fact = (text: string): Fact => ({ text, sourceRecordIds: cites });
+  const facts: Facts = { when: fact(spokenWhen(moment.date, core.date)) };
+  // The teller's own tie to the relative, from the teller's family record
+  // ("my father", or "Dad" when the listener has the same tie to them); a
+  // tie the record does not hold (a spouse's parent) leaves it unset, and the
+  // line says the listener's word for them ("your grandfather").
+  const gender = about.looks?.gender ?? "other";
+  facts[gender === "male" ? "he" : gender === "female" ? "she" : "they"] =
+    fact("yes");
+  const tie = familyFactsOf(speaker).get(about.id);
+  if (tie) {
+    const shared = familyFactsOf(listener).get(about.id);
+    const said =
+      (shared?.relation === tie.relation
+        ? kinAddress(tie.relation, gender)
+        : undefined) ?? relationPhrase(tie.relation, gender, "journal");
+    if (said)
+      facts.kin = { text: said, sourceRecordIds: [tie.factId, ...cites] };
+  }
+  const recorded = (key: string) =>
+    event?.facts?.[`event:${event.id}:${key}`] ?? event?.facts?.[key];
+  if (kind === "death-news") {
+    const age = ageOnDate(
+      makeIsoDate(about.birthDate),
+      makeIsoDate(moment.date),
+    );
+    facts.age = { text: String(age), sourceRecordIds: [about.id, ...cites] };
+    if (age < RELATIVE_NEWS.youngBelowAge.value) facts.young = fact("yes");
+    const cause = RELATIVE_NEWS.deathCauses[recorded("causeOfDeath") ?? ""];
+    if (cause) facts.cause = fact(cause);
+    // An illness of theirs that the player was told of before they died: the
+    // house knew of it, and says since when. The player's own heard record of
+    // that telling names the health engine's record and its day (the
+    // person's log keeps only their recent months).
+    const told = `${HEARD_SUBJECT}illness-news:${ILLNESS_EVENT}:${about.id}:`;
+    const heard = heardRows.find((row) => row.key.startsWith(told));
+    if (heard) {
+      const recordId = heard.key.slice(`${HEARD_SUBJECT}illness-news:`.length);
+      const began = recordId.slice(recordId.lastIndexOf(":") + one);
+      facts["illness-known"] = {
+        text: "yes",
+        sourceRecordIds: [recordId, ...cites],
+      };
+      facts.since = {
+        text: sinceMonthSaid(began, moment.date),
+        sourceRecordIds: [recordId, ...cites],
+      };
+    }
+  } else if (kind === "illness-news") {
+    const illness = RELATIVE_NEWS.illnesses[recorded("condition") ?? ""];
+    if (illness) facts.illness = fact(illness);
+  } else if (kind === "prison-news") {
+    const months = Number(recorded("custodyMonths"));
+    if (months > zero) facts.term = fact(lengthSaid(months));
+    const offense = RELATIVE_NEWS.offenses.bribery;
+    if (offense) facts.offense = fact(offense);
+  }
+  return facts;
+}
+
+const RELATIVE_NEWS = RELATIVE_NEWS_WORDS;
+
 /** The news a household member tells of a relative, by the label of the listener's moment. */
 const NEWS_KINDS: Readonly<Record<string, string>> = {
   "feeling:event:life.death": "death-news",
@@ -850,17 +939,22 @@ const NEWS_KINDS: Readonly<Record<string, string>> = {
 };
 
 // A counted household evicted and filled in later holds its case and status
-// row but no such moment, so its people never tell it.
-// stopgapId: SG-WORDS-eviction-moment-at-fill-in
+// row but no such moment: `evictionSubjects` reads the case from the status row.
 const EVICTION_LABEL = "feeling:event:housing.eviction";
 const EVICTION_EVENT = "event:housing.eviction:";
 
 /**
- * A household's eviction as the speaker can tell it, from the housing
- * engine's records: that it happened (their ledger's moment, or the
- * listener's when they live together, since the record is the household's),
- * why (the case's rent owed at removal) and where they go now (the
- * household's housing status: a relative's home, a shelter, nowhere).
+ * A household's eviction as the speaker tells it (words composer, a day's
+ * own subject: `eviction-say`, answered back under `eviction-back`), from
+ * the housing engine's records: that they were put out and when (the case's
+ * removal), what was owed and how many months of rent that was (the case's
+ * rent owed at removal against the lease's monthly rent), a job lost before
+ * it (the speaker's own record of a job ended in the year before), and where
+ * they went (the household's housing status: a relative's home, a shelter
+ * bed in town, nowhere). Found from their ledger's moment, or the
+ * listener's when they live together, since the record is the household's.
+ * Told by an adult; the listener is answered as "we" when they live
+ * together and the speaker as "I" when they live alone.
  */
 function evictionSubjects(
   core: Readonly<CoreState>,
@@ -871,75 +965,207 @@ function evictionSubjects(
   const speaker = core.people.get(speakerId)!;
   const together =
     core.people.get(listenerId)?.householdId === speaker.householdId;
-  const evicted = [
+  // How soon hard news is told slides with the tie (Words lead, Nov 14):
+  // someone close (kin, or in the same house) leads with it; someone who
+  // knew the player before today says only that it has been a hard time,
+  // and the fact follows if the player asks; a stranger does not volunteer
+  // it at all.
+  const close =
+    together ||
+    speaker.familyIds.has(listenerId) ||
+    core.people.get(listenerId)?.familyIds.has(speakerId) === true;
+  if (!close && !saysName(core, speakerId, listenerId)) return [];
+  const moment = [
     ...recentMoments(core, director, speakerId),
     ...(together ? recentMoments(core, director, listenerId) : []),
   ].find(
     // The record is the household's: it may name the other members too.
-    (moment) =>
-      moment.label === EVICTION_LABEL &&
-      moment.causeId.startsWith(EVICTION_EVENT),
+    (m) => m.label === EVICTION_LABEL && m.causeId.startsWith(EVICTION_EVENT),
   );
-  if (!evicted || !core.modules.has(HOUSING_MODULE_ID)) return [];
+  if (!core.modules.has(HOUSING_MODULE_ID)) return [];
+  // A child of the house does not tell it.
+  if (
+    ageOnDate(makeIsoDate(speaker.birthDate), makeIsoDate(core.date)) <
+    P.votingAge
+  )
+    return [];
   const housing = coreAPI(core as CoreState).moduleState(HOUSING_MODULE_ID);
+  // A household evicted while counted and filled in later has no moment, but
+  // its housing status row names the case, and the case holds the day it was
+  // removed and its event id (event:housing.eviction:<caseId>).
+  const onRecord = (() => {
+    if (moment) return undefined;
+    const held = housing.table("statuses").get(speaker.householdId) as
+      { caseId?: string } | undefined;
+    const kept = held?.caseId
+      ? (housing.table("cases").get(held.caseId) as
+          { stage?: string; removedAt?: string } | undefined)
+      : undefined;
+    return kept?.stage === "removed" && kept.removedAt
+      ? { causeId: `${EVICTION_EVENT}${held!.caseId}`, date: kept.removedAt }
+      : undefined;
+  })();
+  const evicted = moment ?? onRecord;
+  if (!evicted) return [];
   const caseId = evicted.causeId.slice(EVICTION_EVENT.length);
-  const out: Subject[] = [
-    {
-      id: `eviction:${evicted.causeId}`,
-      kind: "eviction",
-      aboutId: evicted.causeId,
-      facts: { evicted: { text: "", sourceRecordIds: [evicted.causeId] } },
-    },
-  ];
-  const owed = (
-    housing.table("cases").get(caseId) as
-      { owedAtRemovalMinor?: number } | undefined
-  )?.owedAtRemovalMinor;
-  if (owed !== undefined && owed > zero)
-    out.push({
-      id: `eviction-cause:${caseId}`,
-      kind: "eviction-cause",
-      aboutId: evicted.causeId,
-      stage: "rent",
-      facts: { owed: { text: "", sourceRecordIds: [caseId] } },
-    });
+  const row = housing.table("cases").get(caseId) as
+    | {
+        leaseId?: string;
+        removedAt?: string;
+        owedAtRemovalMinor?: number;
+      }
+    | undefined;
+  const cites = [evicted.causeId, caseId];
+  const fact = (text: string, ids: readonly string[] = cites): Fact => ({
+    text,
+    sourceRecordIds: [...ids],
+  });
+  const facts: Facts = {
+    when: fact(spokenWhen(row?.removedAt ?? evicted.date, core.date)),
+  };
+  const members = (
+    core.households.get(speaker.householdId)?.memberIds ?? []
+  ).filter((id) => core.people.get(id)?.alive);
+  // What the speaker calls the listener to their face.
+  facts.you = calledBy(core, speakerId, listenerId);
+  if (!close) facts.guarded = fact("yes");
+  if (together) facts.together = fact("yes");
+  else if (members.length <= one)
+    facts.alone = fact("yes", [speaker.householdId]);
+  const owed = row?.owedAtRemovalMinor ?? zero;
+  if (owed > zero) {
+    facts.owed = fact(moneySaid(owed));
+    // How many months of rent that was, from the lease's monthly rent.
+    const rent = row?.leaseId
+      ? core.finance.contracts.get(row.leaseId)?.amountMinor
+      : undefined;
+    if (rent && rent > zero)
+      facts.behind = fact(lateSaid(monthsOfRentDays(owed / rent)), [
+        caseId,
+        row!.leaseId!,
+      ]);
+  }
+  // A job the speaker lost in the year before they were put out.
+  const ended = lastEndedJob(core, speakerId);
+  const endedOn = ended
+    ? core.knowledgeByPerson.get(speakerId)?.get(`job:${ended.id}:status`)
+        ?.learnedAt
+    : undefined;
+  const lostAt = ended && core.organizations.get(ended.organizationId);
+  const employer = lostAt ? employerWords(lostAt) : null;
+  if (
+    ended &&
+    endedOn &&
+    employer &&
+    endedOn <= evicted.date &&
+    daysBetween(makeIsoDate(endedOn), makeIsoDate(evicted.date)) <=
+      DAY_TALK.evictionJobLostDays.value
+  )
+    facts["lost-at"] = fact(employer, [ended.id, ...cites]);
   const status = housing.table("statuses").get(speaker.householdId) as
     | {
         status: string;
         caseId: string;
+        placeId?: string;
+        hostHouseholdId?: string;
         reasons: Readonly<Record<string, number | string>>;
       }
     | undefined;
   if (status?.caseId === caseId) {
-    const facts: Facts = {
-      status: { text: "", sourceRecordIds: [caseId, speaker.householdId] },
-    };
-    const hostId = status.reasons.relative;
-    const kin =
-      typeof hostId === "string"
-        ? familyFactsOf(speaker).get(hostId as PersonId)
+    const here = corePlaceByJurisdictionId(
+      (status.placeId ?? speaker.placeId) as never,
+    );
+    const at = [caseId, speaker.householdId];
+    if (status.status === "doubled-up") {
+      const hostId = status.reasons.relative;
+      const kin =
+        typeof hostId === "string"
+          ? familyFactsOf(speaker).get(hostId as PersonId)
+          : undefined;
+      const host =
+        typeof hostId === "string"
+          ? core.people.get(hostId as PersonId)
+          : undefined;
+      const phrase = kin
+        ? relationPhrase(
+            kin.relation,
+            host?.looks?.gender ?? "other",
+            "journal",
+          )
         : undefined;
-    const host =
-      typeof hostId === "string"
-        ? core.people.get(hostId as PersonId)
+      // A relative the listener shares by the same tie is said as the two
+      // of them say it ("Mom"), never "my mother" to her own child.
+      const shared =
+        kin && typeof hostId === "string"
+          ? core.people.get(listenerId) &&
+            familyFactsOf(core.people.get(listenerId)!).get(hostId as PersonId)
+          : undefined;
+      const address =
+        kin && shared?.relation === kin.relation
+          ? kinAddress(kin.relation, host?.looks?.gender ?? "other")
+          : undefined;
+      // A relative who takes them in at the listener's own home is not
+      // "my sister's" to someone who lives there: it is "you" (or "you all"
+      // when others live there too; Words lead, Nov 14).
+      const hostHome = hostId
+        ? core.people.get(hostId as PersonId)?.householdId
         : undefined;
-    const phrase = kin
-      ? relationPhrase(kin.relation, host?.looks?.gender ?? "other", "journal")
-      : undefined;
-    if (kin && phrase)
-      facts.relation = {
-        text: phrase,
-        sourceRecordIds: [kin.factId, caseId],
-      };
-    out.push({
-      id: `eviction-where:${caseId}`,
-      kind: "eviction-where",
-      aboutId: evicted.causeId,
-      stage: status.status,
-      facts,
-    });
+      const atListenersHome =
+        status.hostHouseholdId === core.people.get(listenerId)?.householdId ||
+        (!!hostHome && hostHome === core.people.get(listenerId)?.householdId);
+      if (kin && atListenersHome) {
+        const others = (
+          core.households.get(core.people.get(listenerId)!.householdId)
+            ?.memberIds ?? []
+        ).filter((id) => id !== listenerId && core.people.get(id)?.alive);
+        facts["host-here"] = fact(others.length ? "you all" : "you", [
+          kin.factId,
+          ...at,
+        ]);
+      } else if (kin && (address ?? phrase)) {
+        facts.host = fact((address ?? phrase)!, [kin.factId, ...at]);
+        // Their town, when it is not the one the speaker was put out of.
+        const hostPlace = status.hostHouseholdId
+          ? core.households.get(status.hostHouseholdId)?.placeId
+          : undefined;
+        // Named only when it is another town than the speaker's and the
+        // listener's (never the town they both stand in).
+        const listenerPlace = core.people.get(listenerId)?.placeId;
+        const there =
+          hostPlace &&
+          hostPlace !== status.placeId &&
+          hostPlace !== speaker.placeId &&
+          hostPlace !== listenerPlace
+            ? corePlaceByJurisdictionId(hostPlace as never)
+            : undefined;
+        if (there)
+          facts["host-place"] = fact(spoken(there), [
+            status.hostHouseholdId!,
+            ...at,
+          ]);
+      }
+    } else if (here) {
+      // The town both of them live in is "town", never its name (said-as
+      // ownPlace; owner, Nov 12: "we'll watch what it does to Wofford
+      // Heights"); another town by its name.
+      const shared =
+        (status.placeId ?? speaker.placeId) ===
+        core.people.get(listenerId)?.placeId;
+      const said = shared ? saidAsData.ownPlace.resident : spoken(here);
+      if (status.status === "sheltered")
+        facts["shelter-place"] = fact(said, at);
+      else if (status.status === "unsheltered")
+        facts["no-bed-place"] = fact(said, at);
+    }
   }
-  return out;
+  return [
+    {
+      id: `eviction:${evicted.causeId}`,
+      kind: "eviction",
+      aboutId: evicted.causeId,
+      facts,
+    },
+  ];
 }
 
 const VICTIMIZED_LABEL = `feeling:event:${CRIME_EVENT}`;
@@ -2255,6 +2481,7 @@ export function subjectsBetween(
           sourceRecordIds: [row.factId, moment.causeId],
         },
         name: { text: about.givenName, sourceRecordIds: [row.factId] },
+        ...relativeNewsFacts(core, kind, moment, about, speaker, listener),
       },
     });
   }
@@ -3506,6 +3733,26 @@ function calledBy(
   };
 }
 
+/**
+ * What the speaker calls the player in an answer, left out when an earlier
+ * line of the same talk already said it (rule 105: a name once per talk), so
+ * the answer picks a wording without it.
+ */
+function youIn(
+  core: Readonly<CoreState>,
+  conversation: Pick<Conversation, "lines">,
+  speakerId: PersonId,
+  playerId: PersonId,
+): { you?: Fact } {
+  const you = calledBy(core, speakerId, playerId);
+  const said = conversation.lines.some(
+    (line) =>
+      line.speakerId === speakerId &&
+      new RegExp(`\\b${you.text}\\b`, "i").test(line.text),
+  );
+  return said ? {} : { you };
+}
+
 /** The facts the player's own answers can add, from the player's records. */
 function playerFacts(
   core: Readonly<CoreState>,
@@ -4535,6 +4782,9 @@ const DAY_TALK = (
       unusualShiftMinutes: { value: number };
       usualWeekDays: { value: number };
       rentCoveredMonths: { value: number };
+      evictionJobLostDays: { value: number };
+      backOmitsTold: readonly string[];
+      toldFigures: readonly string[];
     };
   }
 ).dayTalk;
@@ -4567,8 +4817,6 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "job-cause",
   "job-hope",
   "eviction",
-  "eviction-cause",
-  "eviction-where",
   "victimization",
   "death-news",
   "illness-news",
@@ -4651,7 +4899,12 @@ function mainTopic(
   asks: boolean;
 } | null {
   const { playerId, otherId, director } = conversation;
-  let best: { subject: Subject; asks: boolean; weight: number } | null = null;
+  let best: {
+    subject: Subject;
+    asks: boolean;
+    weight: number;
+    hard: boolean;
+  } | null = null;
   // The occasion comes first: a talk a scene opens is about the scene's
   // moment.
   const occasion = conversation.occasion;
@@ -4749,8 +5002,21 @@ function mainTopic(
       )
     )
       return;
-    if (weight > zero && (!best || weight > best.weight))
-      best = { subject, asks, weight };
+    // Hard news of the teller's own life (an eviction, a lost job, a death)
+    // leads before any other opener, whatever the day's news weighs, until
+    // it has been told (Words lead, Nov 14: a relative put out that day
+    // opened on consumer loan interest because an unwatched person's moment
+    // weighs only the book's floor and a story with a stand weighs more).
+    // A talk a scene opens keeps to its occasion.
+    const hard =
+      !occasion && !asks && NEWS_SUBJECTS.has(subject.kind) && weight > zero;
+    if (
+      weight > zero &&
+      (!best ||
+        (hard && !best.hard) ||
+        (hard === best.hard && weight > best.weight))
+    )
+      best = { subject, asks, weight, hard };
   };
   for (const subject of subjectsBetween(
     core,
@@ -4974,9 +5240,24 @@ function openConversationNow(
       (row) =>
         row.id === toldStory && row.facts.recordKind === OPENING_ADDRESS_EVENT,
     );
+  // The speaker's own hard news (an eviction, a lost job, a death) leads
+  // their talk, so the newest change they know of is not brought up ahead of
+  // it; with none untold, they bring the change up as before (Words lead,
+  // Nov 14: a person put out that day opened on a business closing).
+  const ownLoss =
+    !!told &&
+    subjectsBetween(core, otherId, playerId, conversation.director).some(
+      (row) =>
+        NEWS_SUBJECTS.has(row.kind) &&
+        !!data.otherRaises[row.kind] &&
+        !talked.has(row.id) &&
+        !talked.has(`${otherId}>${row.id}`) &&
+        !heardNow.has(`${HEARD_SUBJECT}${row.id}`),
+    );
   const brought =
     told &&
     !aboutShared &&
+    !ownLoss &&
     !toldIds.some(
       (id) =>
         heardNow.has(`${HEARD_SUBJECT}${id}`) ||
@@ -6567,6 +6848,11 @@ function endConversation(
   // check in (owner, Nov 12: "the same bullshit ... with the just
   // non-replies").
   if (housemate) return;
+  // Nor does a talk about hard news of their own life (put out of their home,
+  // a job lost, a death): it ends on their last answer, never "Come back
+  // soon." or "Say hello to Mom." to someone who just lost their home (W1's
+  // strict review, Nov 12).
+  if (NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))) return;
   // "Say hello to {name}." only for someone in the player's family they know.
   const family = housemate
     ? undefined
@@ -6806,7 +7092,7 @@ function sayNow(
       core,
       otherId,
       OWN_VIEW_BACK,
-      { ...last.facts, you: calledBy(core, otherId, playerId) },
+      { ...last.facts, ...youIn(core, conversation, otherId, playerId) },
       "default",
       `${eventId}:back`,
       saidParts(conversation, otherId),
@@ -6857,7 +7143,7 @@ function sayNow(
       core,
       otherId,
       OWN_VIEW_TAKE,
-      { ...last.facts, you: calledBy(core, otherId, playerId) },
+      { ...last.facts, ...youIn(core, conversation, otherId, playerId) },
       choice.move,
       `${eventId}:take`,
       saidParts(conversation, otherId),
@@ -6900,11 +7186,32 @@ function sayNow(
   // A reply on a day's own subject (their shift): they answer it from the
   // same record, by the reply's move, and the talk carries on.
   if (dayBack(last.kind) && !choice.lie) {
+    // For news of their own life, the answer back never says again a figure
+    // the telling just said ("I owed about $1,000." "...about $1,000 still
+    // doesn't seem real."): those facts are left out of it, so it says
+    // what comes next instead (W1's strict review, Nov 12).
+    const told = DAY_TALK.backOmitsTold.includes(last.kind)
+      ? new Set(
+          [...conversation.lines]
+            .reverse()
+            .find(
+              (line) =>
+                line.speakerId === otherId &&
+                (line.subjectId === choice.answers ||
+                  line.subjectId.endsWith(`>${choice.answers}`)),
+            )?.wording?.facts ?? [],
+        )
+      : new Set<string>();
+    const backFacts = Object.fromEntries(
+      Object.entries(last.facts).filter(
+        ([key]) => !told.has(key) || !DAY_TALK.toldFigures.includes(key),
+      ),
+    );
     const back = composedLine(
       core,
       otherId,
       `${last.kind}-back`,
-      { ...last.facts, you: calledBy(core, otherId, playerId) },
+      { ...backFacts, ...youIn(core, conversation, otherId, playerId) },
       choice.move,
       `${eventId}:back`,
       saidParts(conversation, otherId),
@@ -7100,7 +7407,10 @@ function answerPoint(
     otherId,
     POINT_BACK,
     // The answer may name the player as the speaker calls them.
-    { ...last.facts, you: calledBy(core, otherId, conversation.playerId) },
+    {
+      ...last.facts,
+      ...youIn(core, conversation, otherId, conversation.playerId),
+    },
     choice.move,
     `${eventId}:back`,
     saidParts(conversation, otherId),

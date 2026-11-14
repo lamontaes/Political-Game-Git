@@ -1552,18 +1552,6 @@
     "resolvedBy": "stand-in triage T2"
   },
   {
-    "id": "SG-GOV-REACH-B-flat-tax-replacement",
-    "kind": "missing-data",
-    "file": "src/core2/law-reach/group-b-money.ts",
-    "line": 1604,
-    "whatItFakes": "Repealing a starting graduated income-tax schedule writes a flat rate of the place's own old top rate times the median share real conversions chose (0.786, estimated). The binary catalog provision carries no sponsor-written rate, deduction or filing-status rules.",
-    "why": "Tax Foundation's 2025 state survey and actual conversion laws have distinct enacted rates and deductions. The catalog's Boolean question cannot supply those terms. Received explanation and director acceptance remain unproven.",
-    "addedBy": "Session A",
-    "addedAt": "2026-10-15",
-    "replacement": "Explicit replacement tax terms in the provision: the sponsor writes the flat rate (and keeps or changes the zero bracket and standard deduction) as the legislature's rate sections already do (shapedRate in src/core2/modules/legislature.ts), read by incomeTaxAct and the withholding engine for full and counted workers, with a received explanation and director line for an affected worker (builder item laws-income-tax-flatten-sponsor-rate). Oct 23, 2026: the band it reads is sourced in data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json (Tax Foundation, January 1 tables 2022-2026: five real conversions chose 0.667 to 1.0 of the old top rate, median 0.786; the 14 flat-rate states of January 1, 2025 run 2.5% to 5.695%, median 4.25%, now the ESTIMATED stateFlatIncomeTaxPercent in src/core2/data/laws/reach-group-b-parameters.json, checked by scripts/research/check-law-reach-sources.ts).",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-ward-map",
     "kind": "missing-record",
     "file": "src/core2/modules/voting.ts",
@@ -1775,7 +1763,9 @@
     "addedBy": "fixer, Merger 3's send-back of PR 6198",
     "addedAt": "2026-10-27",
     "replacement": "A waiting ask on Politics, Issues and Government, with Agree and Decline controls wired to answerCarryAsk, reading carryAsksAwaiting (pool item gov-carry-ask-player-decides).",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "brief O bargaining (words-bargain-price-from-the-record): the carry-bill scene's ending answers the held ask"
   },
   {
     "id": "SG-GOV-rent-help-population-share",
