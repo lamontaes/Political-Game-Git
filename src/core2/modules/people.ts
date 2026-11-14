@@ -688,7 +688,10 @@ function bornWhere(core: CoreState, person: PersonState): void {
   // An official's roster nativity already says where they were born.
   if (
     facts.some(
-      (row) => row.kind === "birthplace" || row.kind === "identity:nativity",
+      (row) =>
+        row.kind === "person:birth" ||
+        row.kind === "birthplace" ||
+        row.kind === "identity:nativity",
     )
   )
     return;
@@ -705,10 +708,10 @@ function bornWhere(core: CoreState, person: PersonState): void {
   person.pastFacts = [
     ...facts,
     {
-      id: `${person.id}:birthplace`,
+      id: `${person.id}:birth`,
       date: makeIsoDate(person.birthDate),
-      kind: "birthplace",
-      summary: "Their birthplace is established.",
+      kind: "person:birth",
+      summary: "person:birth",
       source,
       facts: { placeId: person.placeId },
     },

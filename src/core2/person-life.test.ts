@@ -561,7 +561,7 @@ describe(`the life record in ${where}`, () => {
       label,
     ).toBe(true);
     expect(
-      chief!.pastFacts?.find((row) => row.kind === "birthplace")?.facts
+      chief!.pastFacts?.find((row) => row.kind === "person:birth")?.facts
         ?.placeId,
       label,
     ).toBe(chief!.placeId);
