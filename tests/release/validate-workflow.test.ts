@@ -39,7 +39,13 @@ describe("deterministic validation workflow capacity", () => {
     expect(validate).toContain(
       "group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}",
     );
-    expect(validate).toContain("cancel-in-progress: true");
+    // A newer push replaces the older pull request run; the hourly and manual
+    // runs finish (owner rule, Oct 1, 2026; #8513), so the setting is a
+    // condition on the event, never a bare true.
+    expect(validate).toContain(
+      "cancel-in-progress: ${{ github.event_name == 'pull_request' }}",
+    );
+    expect(validate).not.toContain("cancel-in-progress: true");
     // Main is validated once an hour, not on every push (owner, Oct 28, 2026;
     // pool item tooling-ci-main-validation-hourly): every pull request runs
     // this workflow on its merged result, the hour's run covers main, and a

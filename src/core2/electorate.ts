@@ -54,8 +54,6 @@ export interface CountedVoter {
   readonly partyActivity?: number;
   /** The county employer they own, where they own one. */
   readonly ownedEmployerId?: string;
-  /** Civic roles they hold (a board, the party committee), where the place's records name them. */
-  readonly civicRoles?: readonly string[];
   /** Whole years their household has lived in its place (absent where unrecorded). */
   readonly yearsInPlace?: number;
   /** The sampled county employer they work at, where the county's sample holds one. */
@@ -80,11 +78,9 @@ function rolesOf(store: CountedStore, m: number) {
   };
   const party = text("partyActivity");
   const owned = text("ownedEmployerId");
-  const civic = text("civicRoles");
   return {
     ...(party ? { partyActivity: Number(party) } : {}),
     ...(owned ? { ownedEmployerId: owned } : {}),
-    ...(civic ? { civicRoles: civic.split(",") } : {}),
   };
 }
 
