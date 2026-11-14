@@ -11,8 +11,8 @@
  *
  * The route is the ordinary one: the player's filing, the press engine's
  * weekly invitation, the director's scenes. Two things are set up by hand
- * and named as such: the platform the player files with (the bench files
- * with none until SG-SCREENS-filing-platform-from-views) and a vote of
+ * and named as such: the platform the player files with (the counter files
+ * from the player's own views; the test hands one in to pin it) and a vote of
  * theirs on the first question asked, so the further fact and the lie, which
  * stand on a vote, are offered.
  */

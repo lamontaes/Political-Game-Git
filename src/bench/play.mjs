@@ -18,6 +18,7 @@ import { chamberHeader } from "./ui/chamber.mjs";
 import { personCard } from "./ui/person-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
+import { counterReplies } from "./ui/counter-picks.mjs";
 import {
   ALL,
   filterLaws,
@@ -1596,6 +1597,8 @@ $("talk-leave").addEventListener("click", async () => {
 let filing;
 // The counter's narration has played its beat for this visit.
 let filingNarrated = false;
+// How many times the player asked what else is open at this counter.
+let counterTurn = 0;
 function renderFiling(value) {
   filing = value;
   if (!value) return;
@@ -1628,7 +1631,7 @@ function renderFiling(value) {
   fillTalk({ lines: spokenLines(lines) });
   // No form at the counter (owner, Oct 28, point 31: the rules panel was a
   // dev menu): filing carries the party the player is tied to, from the
-  // record; the platform is SG-SCREENS-filing-platform-from-views.
+  // record, and the platform from the filer's own views.
   const choose = async (choice) => {
     // "All right." is the way out: it walks out as Leave does, never a reply
     // that only clears itself (C13).
@@ -1645,8 +1648,8 @@ function renderFiling(value) {
     renderFiling(await post(`/api/filing/choose?${params}`));
   };
   // Each race told apart before the pick: its seat, its election day and
-  // who holds the seat now, from the contest's records. It says nothing of what the
-  // office does (SG-SCREENS-office-hover-prose: no office-duties bank yet).
+  // who holds the seat now, from the contest's records. What the office does
+  // is the clerk's to say once the race is named.
   const counter = controls.filing;
   const factsOf = (choice) => {
     const seat = value.seats?.[choice.action.contestId];
@@ -1657,22 +1660,18 @@ function renderFiling(value) {
       seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
     ].join(" · ");
   };
-  // The counter offers four replies at most (SG-SCREENS-counter-six-replies),
-  // the races soonest first; every race is a way in from the office's own view
-  // in Travel. Each race is told apart in its own line (its seat, its election
+  // The counter offers four replies at most; an office with more races
+  // asks "What else is open?" among them and the next races follow, soonest
+  // first. Each race is told apart in its own line (its seat, its election
   // day and who holds it now), never in a hover card over the next line
   // (owner, Nov 1: "a terribly designed menu").
   const electionOf = (choice) =>
     value.seats?.[choice.action.contestId]?.electionDate ?? "";
-  const picks = new Set(
-    value.visit.choices
-      .filter((choice) => choice.action.kind === "pick")
-      .sort((x, y) => electionOf(x).localeCompare(electionOf(y)))
-      .slice(0, 4),
+  const { shown: choices, more } = counterReplies(
+    value.visit.choices,
+    electionOf,
+    counterTurn,
   );
-  const choices = value.visit.choices
-    .filter((choice) => choice.action.kind !== "pick" || picks.has(choice))
-    .slice(0, 4);
   // At the counter you can walk out where that is a real choice: not beside
   // a lone "All right." that already ends the visit. Silence is not an answer.
   talkControls({
@@ -1686,6 +1685,14 @@ function renderFiling(value) {
     if (choice.action.kind !== "pick") return;
     buttons[i].append(" ", smallText(factsOf(choice), "reply-facts"));
   });
+  if (more) {
+    const whatElse = makeButton({ textContent: controls.filing.whatElse });
+    whatElse.addEventListener("click", () => {
+      counterTurn += 1;
+      renderFiling(value);
+    });
+    buttons.push(whatElse);
+  }
   fillTalk({ replies: buttons });
   // What the filing asks next is said by the clerk, once, in the talk: no
   // count or status label sits under the dialogue (owner, Nov 14).
@@ -1693,6 +1700,7 @@ function renderFiling(value) {
 }
 async function openFiling(filedWith, contestId) {
   filingNarrated = false;
+  counterTurn = 0;
   closeSheet();
   renderTalk(undefined);
   const opened = await post(

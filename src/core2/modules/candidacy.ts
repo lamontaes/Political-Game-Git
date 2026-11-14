@@ -829,6 +829,25 @@ export function platformFromViews(
   ).map(({ question, position }) => `${question}=${position}`);
 }
 
+/**
+ * The stands a filing for this contest carries when none are handed in: the
+ * filer's own views on the questions the seat takes up. The counter files
+ * the player this way, as a simulated runner's filing does.
+ */
+export function platformForContest(
+  api: CoreAPI,
+  personId: PersonId,
+  party: string | null,
+  contest: { readonly officeId: string },
+): string[] {
+  return platformFromViews(
+    api,
+    personId,
+    party,
+    contestPositions(api, contest),
+  );
+}
+
 /** File for a runner: no fee; the filing's petition circulates until the clerk's check. */
 function fileFor(
   api: CoreAPI,
