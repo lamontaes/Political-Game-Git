@@ -1821,7 +1821,7 @@ function ticketSection(filing, ticket) {
     await post(
       `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id, ...(personId ? { personId } : {}) })}`,
     );
-    await openSheet("campaigns");
+    await openSheet("campaign");
   };
   return stripSection(
     1,
