@@ -14,7 +14,7 @@ import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { monthsOfRentDays } from "../english/count-words";
-import { jobSaid, seatSaid } from "../english/journal-words";
+import { jobSaid, memberOfBody, seatSaid } from "../english/journal-words";
 import { spanSaid } from "../english/span-words";
 import type { Fact } from "../english/scene-words";
 import { billName, lawName, lawTopic } from "./journal";
@@ -25,6 +25,38 @@ interface OfficeRow {
   readonly seats?: number;
   readonly bodyName?: string | null;
   readonly level?: string;
+}
+
+/**
+ * What a race's seat is called by whoever holds it where the body is named for
+ * its members ("alderman" for a Board of Aldermen, "trustee" for a Board of
+ * Trustees), from the contest's office record through the one member table
+ * (`memberOfBody`); null where the body is named as a body ("City Council")
+ * and the record's own title ("Council member") is the only name there is.
+ */
+export function raceMemberTitle(
+  core: Readonly<CoreState>,
+  contestId: string | null | undefined,
+): string | null {
+  if (
+    !contestId ||
+    !core.modules.has(ELECTIONS_MODULE_ID) ||
+    !core.modules.has(OFFICES_MODULE_ID)
+  )
+    return null;
+  const api = coreAPI(core as CoreState);
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as { officeId?: string } | undefined;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest?.officeId ?? "") as unknown as
+    { seats?: number; bodyName?: string | null } | undefined;
+  return (office?.seats ?? P.one) > P.one
+    ? memberOfBody(office?.bodyName)
+    : null;
 }
 
 export function officeSaid(
