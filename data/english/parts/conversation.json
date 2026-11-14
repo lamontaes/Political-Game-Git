@@ -83,7 +83,17 @@
     "he": "A mark: the relative is spoken of as he, from their recorded gender.",
     "she": "A mark: the relative is spoken of as she, from their recorded gender.",
     "they": "A mark: the relative is spoken of as they, where their recorded gender gives no he or she.",
-    "illness-known": "A mark: the relative's serious illness is on record before their death, so the house knew of it."
+    "illness-known": "A mark: the relative's serious illness is on record before their death, so the house knew of it.",
+    "plea": "A mark: the defendant pleads guilty, from the justice engine's case.",
+    "trial": "The day a case goes to trial, as a date is said in talk (\"March 4\"), from the justice engine's case.",
+    "bail": "The bail set before trial, as people round it, from the justice engine's pretrial record.",
+    "held": "A mark: held before trial, from the justice engine's pretrial record.",
+    "probation": "A sentence's probation, as people say a length (\"two years\"), from the justice engine's sentence.",
+    "fine": "A sentence's fine, as people round it, from the justice engine's sentence.",
+    "official": "The office or body of the official a refused bribe was offered to, said as someone outside government says it (\"someone on the Starr County Board of Commissioners\", \"the mayor\"), from the corruption crime row.",
+    "contested": "A mark: convicted at a trial the defendant fought (no guilty plea on the case).",
+    "said": "The subject of a policy question as a person names it after 'on' or 'about' (\"drug prices\"), from the question's `said` in data/english/question-names.json; never a side (the side is said as what it does to the speaker). `about` stays for lines that name the thing itself.",
+    "seat": "The seat a race is for, as people say it (\"the Mutual Village Council\", \"mayor\"), from the elections engine's contest and the office's record through the one seat wording."
   },
   "maxWords": 10,
   "lineWords": {
@@ -7899,12 +7909,6 @@
         },
         {
           "choice": "ask",
-          "move": "charge-reply-answer-ask",
-          "role": "answer",
-          "subject": "charge-reply"
-        },
-        {
-          "choice": "ask",
           "move": "victimization-reply-answer-ask",
           "role": "answer",
           "subject": "victimization-reply"
@@ -7915,6 +7919,13 @@
           "requiresFacts": ["guarded"],
           "role": "answer",
           "subject": "eviction"
+        },
+        {
+          "move": "charge-reply-answer-happened",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "happened",
+          "requiresFacts": ["official", "plea"]
         }
       ]
     },
@@ -10016,6 +10027,13 @@
           "subject": "prison-news",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "requiresFacts": ["contested"]
         }
       ]
     },
@@ -12303,6 +12321,12 @@
           "subject": "acquittal-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
         }
       ],
       "transcriptsUsing": 5,
@@ -12353,69 +12377,6 @@
         "key": "loss"
       },
       "bearing": "tender"
-    },
-    {
-      "key": "conversation.charge-raise.i-ve-been-charged",
-      "move": "charge-raise",
-      "kind": "spoken",
-      "text": "I've been charged.",
-      "uses": [
-        {
-          "move": "charge-raise",
-          "subject": "charge",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.charge-raise.they-charged-me",
-      "move": "charge-raise",
-      "kind": "spoken",
-      "text": "They charged me.",
-      "uses": [
-        {
-          "move": "charge-raise",
-          "subject": "charge",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.charge-raise.i-ve-been-charged-with-a-crime",
-      "move": "charge-raise",
-      "kind": "spoken",
-      "text": "I've been charged with a crime.",
-      "uses": [
-        {
-          "move": "charge-raise",
-          "subject": "charge",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
     },
     {
       "key": "conversation.charge-ask.did-you-do-this",
@@ -12745,22 +12706,22 @@
       }
     },
     {
-      "key": "conversation.charge-reply-answer-promise.i-ll-stand-by-you",
-      "move": "charge-reply-answer-promise",
+      "key": "conversation.charge-reply-answer-comfort.i-ll-stand-by-you",
+      "move": "charge-reply-answer-comfort",
       "kind": "spoken",
       "text": "I'll stand by you.",
       "uses": [
         {
-          "move": "charge-reply-answer-promise",
+          "move": "charge-reply-answer-comfort",
           "subject": "charge-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         },
         {
-          "move": "conviction-reply-answer-promise",
+          "move": "conviction-reply-answer-comfort",
           "subject": "conviction-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         }
       ],
       "origin": "authored",
@@ -12772,43 +12733,22 @@
       }
     },
     {
-      "key": "conversation.charge-reply-answer-promise.i-ll-help-however-i-can",
-      "move": "charge-reply-answer-promise",
-      "kind": "spoken",
-      "text": "I'll help however I can.",
-      "uses": [
-        {
-          "move": "charge-reply-answer-promise",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "promise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "promise",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.charge-reply-answer-promise.you-re-not-alone-in-this",
-      "move": "charge-reply-answer-promise",
+      "key": "conversation.charge-reply-answer-comfort.you-re-not-alone-in-this",
+      "move": "charge-reply-answer-comfort",
       "kind": "spoken",
       "text": "You're not alone in this.",
       "uses": [
         {
-          "move": "charge-reply-answer-promise",
+          "move": "charge-reply-answer-comfort",
           "subject": "charge-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         },
         {
-          "move": "conviction-reply-answer-promise",
+          "move": "conviction-reply-answer-comfort",
           "subject": "conviction-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         }
       ],
       "origin": "authored",
@@ -12816,60 +12756,6 @@
       "date": "2026-10-19",
       "tag": {
         "move": "promise",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.charge-reply-answer-ask.what-are-they-saying",
-      "move": "charge-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What are they saying?",
-      "uses": [
-        {
-          "move": "charge-reply-answer-ask",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.charge-reply-answer-ask.what-do-you-need",
-      "move": "charge-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What do you need?",
-      "uses": [
-        {
-          "move": "charge-reply-answer-ask",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "ask"
-        },
-        {
-          "move": "conviction-reply-answer-ask",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "ask"
-        },
-        {
-          "move": "acquittal-reply-answer-ask",
-          "subject": "acquittal-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "ask",
         "key": "threat"
       }
     },
@@ -12883,7 +12769,8 @@
           "move": "charge-reply-answer-blame",
           "subject": "charge-reply",
           "role": "answer",
-          "choice": "blame"
+          "choice": "blame",
+          "requiresFacts": ["plea"]
         }
       ],
       "origin": "authored",
@@ -12904,7 +12791,8 @@
           "move": "charge-reply-answer-blame",
           "subject": "charge-reply",
           "role": "answer",
-          "choice": "blame"
+          "choice": "blame",
+          "requiresFacts": ["plea"]
         }
       ],
       "origin": "authored",
@@ -12925,7 +12813,8 @@
           "move": "charge-reply-answer-blame",
           "subject": "charge-reply",
           "role": "answer",
-          "choice": "blame"
+          "choice": "blame",
+          "requiresFacts": ["plea"]
         }
       ],
       "origin": "authored",
@@ -12934,75 +12823,6 @@
       "tag": {
         "move": "blame",
         "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.conviction-raise.i-ve-been-convicted",
-      "move": "conviction-raise",
-      "kind": "spoken",
-      "text": "I've been convicted.",
-      "uses": [
-        {
-          "move": "conviction-raise",
-          "subject": "conviction",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.conviction-raise.they-found-me-guilty",
-      "move": "conviction-raise",
-      "kind": "spoken",
-      "text": "They found me guilty.",
-      "uses": [
-        {
-          "move": "conviction-raise",
-          "subject": "conviction",
-          "role": "raise",
-          "choice": "raise"
-        },
-        {
-          "move": "conviction-answer-tell",
-          "subject": "conviction",
-          "role": "answer",
-          "choice": "tell"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.conviction-raise.the-court-found-me-guilty",
-      "move": "conviction-raise",
-      "kind": "spoken",
-      "text": "The court found me guilty.",
-      "uses": [
-        {
-          "move": "conviction-raise",
-          "subject": "conviction",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
       }
     },
     {
@@ -13207,16 +13027,16 @@
       }
     },
     {
-      "key": "conversation.conviction-reply-answer-promise.i-ll-be-here-when-it-s-over",
-      "move": "conviction-reply-answer-promise",
+      "key": "conversation.conviction-reply-answer-comfort.i-ll-be-here-when-it-s-over",
+      "move": "conviction-reply-answer-comfort",
       "kind": "spoken",
       "text": "I'll be here when it's over.",
       "uses": [
         {
-          "move": "conviction-reply-answer-promise",
+          "move": "conviction-reply-answer-comfort",
           "subject": "conviction-reply",
           "role": "answer",
-          "choice": "promise"
+          "choice": "comfort"
         }
       ],
       "origin": "authored",
@@ -13287,81 +13107,6 @@
       "date": "2026-10-19",
       "tag": {
         "move": "blame",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-raise.i-was-acquitted",
-      "move": "acquittal-raise",
-      "kind": "spoken",
-      "text": "I was acquitted.",
-      "uses": [
-        {
-          "move": "acquittal-raise",
-          "subject": "acquittal",
-          "role": "raise",
-          "choice": "raise"
-        },
-        {
-          "move": "acquittal-answer-tell",
-          "subject": "acquittal",
-          "role": "answer",
-          "choice": "tell"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-raise.they-found-me-not-guilty",
-      "move": "acquittal-raise",
-      "kind": "spoken",
-      "text": "They found me not guilty.",
-      "uses": [
-        {
-          "move": "acquittal-raise",
-          "subject": "acquittal",
-          "role": "raise",
-          "choice": "raise"
-        },
-        {
-          "move": "acquittal-answer-tell",
-          "subject": "acquittal",
-          "role": "answer",
-          "choice": "tell"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-raise.the-court-found-me-not-guilty",
-      "move": "acquittal-raise",
-      "kind": "spoken",
-      "text": "The court found me not guilty.",
-      "uses": [
-        {
-          "move": "acquittal-raise",
-          "subject": "acquittal",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "deliver-news",
         "key": "news-received"
       }
     },
@@ -13574,6 +13319,1104 @@
         "move": "blame",
         "key": "news-received"
       }
+    },
+    {
+      "key": "conversation.charge-say-core.they-charged-me-with-offense-i-m-pleading-guilty",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "They charged me with {offense}. I'm pleading guilty.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.they-charged-me-with-offense-the-trial-is-trial",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "They charged me with {offense}. The trial is {trial}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.i-ve-been-charged-with-offense",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "I've been charged with {offense}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["plea", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.they-found-me-guilty-of-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "They found me guilty of {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["term", "fine", "probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-say-core.they-found-me-not-guilty-of-offense",
+      "move": "acquittal-say-core",
+      "kind": "spoken",
+      "text": "They found me not guilty of {offense}.",
+      "uses": [
+        {
+          "move": "acquittal-say-core",
+          "subject": "acquittal-say",
+          "role": "core",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-say-core.not-guilty-of-offense-it-s-over",
+      "move": "acquittal-say-core",
+      "kind": "spoken",
+      "text": "Not guilty of {offense}. It's over.",
+      "uses": [
+        {
+          "move": "acquittal-say-core",
+          "subject": "acquittal-say",
+          "role": "core",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-ask-ask.is-it-true-they-charged-you-with-offense",
+      "move": "charge-ask-ask",
+      "kind": "spoken",
+      "text": "Is it true they charged you with {offense}?",
+      "uses": [
+        {
+          "move": "charge-ask-ask",
+          "subject": "charge",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-answer-tell.they-charged-me-with-offense",
+      "move": "charge-answer-tell",
+      "kind": "spoken",
+      "text": "They charged me with {offense}.",
+      "uses": [
+        {
+          "move": "charge-answer-tell",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-ask-ask.and-the-trial",
+      "move": "conviction-ask-ask",
+      "kind": "spoken",
+      "text": "And the trial?",
+      "uses": [
+        {
+          "move": "conviction-ask-ask",
+          "subject": "conviction",
+          "role": "ask",
+          "choice": "ask"
+        },
+        {
+          "move": "acquittal-ask-ask",
+          "subject": "acquittal",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-answer-tell.convicted-of-offense",
+      "move": "conviction-answer-tell",
+      "kind": "spoken",
+      "text": "Convicted of {offense}.",
+      "uses": [
+        {
+          "move": "conviction-answer-tell",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-answer-tell.not-guilty-of-offense",
+      "move": "acquittal-answer-tell",
+      "kind": "spoken",
+      "text": "Not guilty of {offense}.",
+      "uses": [
+        {
+          "move": "acquittal-answer-tell",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "tell",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-answer-deflect.it-s-behind-me",
+      "move": "acquittal-answer-deflect",
+      "kind": "spoken",
+      "text": "It's behind me.",
+      "uses": [
+        {
+          "move": "acquittal-answer-deflect",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-answer-comfort.i-m-with-you",
+      "move": "charge-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I'm with you.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-answer-doubt.you-did-it",
+      "move": "charge-reply-answer-doubt",
+      "kind": "spoken",
+      "text": "You did it?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-doubt",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "doubt",
+          "excludesFacts": ["told-plea", "plea", "official"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-answer-comfort.i-ll-be-here",
+      "move": "conviction-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I'll be here.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-answer-blame.you-did-this",
+      "move": "conviction-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You did this.",
+      "uses": [
+        {
+          "move": "conviction-reply-answer-blame",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "blame"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-reply-answer-comfort.it-s-over-now",
+      "move": "acquittal-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "It's over now.",
+      "uses": [
+        {
+          "move": "acquittal-reply-answer-comfort",
+          "subject": "acquittal-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-tried-to-pay-off-official-it-didn-t-work",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I tried to pay off {official}. It didn't work.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["happened"],
+          "requiresFacts": ["official"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-ll-manage",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I'll manage.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-know-thanks",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I know. Thanks.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.my-own-doing",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "My own doing.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.that-helps",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "That helps.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-know-sorry",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I know. Sorry.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-didn-t",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I didn't.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["doubt"],
+          "excludesFacts": ["plea", "told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-see-a-probation-officer",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I see a probation officer.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-report-soon",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I report soon.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-ll-be-okay",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I'll be okay.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.i-know-it",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "I know it.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "excludesFacts": ["contested"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.finally-over",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Finally over.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["congratulate"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.thanks-finally",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Thanks. Finally.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["congratulate"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.behind-me-now",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Behind me now.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.back-to-normal",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Back to normal.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.call-it-luck",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Call it luck.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["blame"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.the-court-decided",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "The court decided.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["blame"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.leave-it-there",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Leave it there.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.sentencing-comes-next",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Sentencing comes next.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-wait",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I wait.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.out-on-bail",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Out on bail.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["bail"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.they-said-no-they-turned-me-in",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "They said no. They turned me in.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["happened"],
+          "requiresFacts": ["official"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.probation-then-done",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "Probation, then done.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.nothing-more",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Nothing more.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.i-got-charged-with-offense-i-m-not-fighting-it",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "I got charged with {offense}. I'm not fighting it.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.i-m-pleading-guilty-to-offense",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "I'm pleading guilty to {offense}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "plea"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.i-m-charged-with-offense-trial-s-trial",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "I'm charged with {offense}. Trial's {trial}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-say-core.they-re-charging-me-with-offense-i-ll-see-them-in-court-trial",
+      "move": "charge-say-core",
+      "kind": "spoken",
+      "text": "They're charging me with {offense}. I'll see them in court {trial}.",
+      "uses": [
+        {
+          "move": "charge-say-core",
+          "subject": "charge-say",
+          "role": "core",
+          "requiresFacts": ["offense", "trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-was-convicted-of-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I was convicted of {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["term", "fine", "probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.guilty-of-offense-that-s-the-verdict",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "Guilty of {offense}. That's the verdict.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense"],
+          "excludesFacts": ["term", "fine", "probation"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-say-core.i-m-cleared-of-offense",
+      "move": "acquittal-say-core",
+      "kind": "spoken",
+      "text": "I'm cleared of {offense}.",
+      "uses": [
+        {
+          "move": "acquittal-say-core",
+          "subject": "acquittal-say",
+          "role": "core",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.acquittal-say-core.it-s-done-not-guilty-of-offense",
+      "move": "acquittal-say-core",
+      "kind": "spoken",
+      "text": "It's done. Not guilty of {offense}.",
+      "uses": [
+        {
+          "move": "acquittal-say-core",
+          "subject": "acquittal-say",
+          "role": "core",
+          "requiresFacts": ["offense"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
     },
     {
       "key": "conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you",
@@ -15776,12 +16619,6 @@
         },
         {
           "choice": "ask",
-          "move": "charge-reply-answer-ask",
-          "role": "answer",
-          "subject": "charge-reply"
-        },
-        {
-          "choice": "ask",
           "move": "victimization-reply-answer-ask",
           "role": "answer",
           "subject": "victimization-reply"
@@ -15931,79 +16768,6 @@
     },
     {
       "author": "Claude Opus (pool item words-home-news-talk)",
-      "bearing": "tender",
-      "bySource": {
-        "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
-        "National Archives History Office oral history project": 8,
-        "National Archives History Office oral history project (nprc-oral-histories)": 2,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 8,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 27,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
-        "U.S. Senate Historical Office oral history": 4,
-        "briefing": 168,
-        "dcpd": 129,
-        "hearings": 152,
-        "house": 13,
-        "nasa": 20,
-        "nasa2": 13,
-        "nih": 3,
-        "nps": 67
-      },
-      "date": "2026-10-27",
-      "key": "conversation.other-work-answer-ack-none.i-m-so-sorry-that-s-family",
-      "kind": "spoken",
-      "move": "other-work-answer-ack-none",
-      "source": {
-        "date": "2026-07-23",
-        "document": "Remarks in a Roundtable Discussion on the Ratepayer Protection Pledge",
-        "granule": "DCPD-202600486",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600486/html/DCPD-202600486.htm"
-      },
-      "tag": {
-        "key": "loss",
-        "move": "condole"
-      },
-      "text": "I'm so sorry. That's family.",
-      "transcriptsUsing": 622,
-      "uses": [
-        {
-          "choice": "comfort",
-          "move": "job-lost-reply-answer-comfort",
-          "role": "answer",
-          "subject": "job-lost-reply"
-        },
-        {
-          "choice": "comfort",
-          "move": "job-cause-reply-answer-comfort",
-          "role": "answer",
-          "subject": "job-cause-reply"
-        },
-        {
-          "choice": "comfort",
-          "move": "charge-reply-answer-comfort",
-          "role": "answer",
-          "subject": "charge-reply"
-        },
-        {
-          "choice": "comfort",
-          "move": "conviction-reply-answer-comfort",
-          "role": "answer",
-          "subject": "conviction-reply"
-        },
-        {
-          "choice": "comfort",
-          "move": "victimization-reply-answer-comfort",
-          "role": "answer",
-          "subject": "victimization-reply"
-        }
-      ]
-    },
-    {
-      "author": "Claude Opus (pool item words-home-news-talk)",
       "bearing": "curious",
       "bySource": {
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
@@ -16046,12 +16810,6 @@
           "move": "job-lost-reply-answer-ask",
           "role": "answer",
           "subject": "job-lost-reply"
-        },
-        {
-          "choice": "ask",
-          "move": "charge-reply-answer-ask",
-          "role": "answer",
-          "subject": "charge-reply"
         },
         {
           "choice": "ask",
@@ -16198,27 +16956,6 @@
       "date": "2026-10-28"
     },
     {
-      "key": "conversation.interview-open-open.thanks-for-sitting-down-with-me",
-      "move": "interview-open-open",
-      "kind": "spoken",
-      "text": "Thanks for sitting down with me.",
-      "uses": [
-        {
-          "move": "interview-open-open",
-          "subject": "interview-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
       "key": "conversation.interview-open-open.thanks-for-making-the-time-im-with-outlet",
       "move": "interview-open-open",
       "kind": "spoken",
@@ -16230,92 +16967,6 @@
           "role": "open",
           "choice": "open",
           "requiresFacts": ["stranger", "outlet"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.interview-open-open.lets-get-started-ill-keep-it-short",
-      "move": "interview-open-open",
-      "kind": "spoken",
-      "text": "Let's get started. I'll keep it short.",
-      "uses": [
-        {
-          "move": "interview-open-open",
-          "subject": "interview-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.interview-open-open.ill-ask-and-you-answer-as-you-like",
-      "move": "interview-open-open",
-      "kind": "spoken",
-      "text": "I'll ask, and you answer as you like.",
-      "uses": [
-        {
-          "move": "interview-open-open",
-          "subject": "interview-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.interview-open-open.good-to-see-you-again-lets-get-started",
-      "move": "interview-open-open",
-      "kind": "spoken",
-      "text": "Good to see you again. Let's get started.",
-      "uses": [
-        {
-          "move": "interview-open-open",
-          "subject": "interview-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["acquainted"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.interview-open-open.thanks-for-doing-this-you-know-how-it-goes",
-      "move": "interview-open-open",
-      "kind": "spoken",
-      "text": "Thanks for doing this. You know how it goes.",
-      "uses": [
-        {
-          "move": "interview-open-open",
-          "subject": "interview-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["acquainted"]
         }
       ],
       "bearing": "calm",
@@ -17557,153 +18208,6 @@
       }
     },
     {
-      "key": "conversation.interview-take-plain-reply-take.thank-you-thats-clear",
-      "move": "interview-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Thank you. That's clear.",
-      "uses": [
-        {
-          "move": "interview-take-plain-reply-take",
-          "subject": "interview-take-plain",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-plain-reply-take.got-it-thats-a-straight-answer",
-      "move": "interview-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Got it. That's a straight answer.",
-      "uses": [
-        {
-          "move": "interview-take-plain-reply-take",
-          "subject": "interview-take-plain",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-plain-reply-take.all-right-ill-put-that-down",
-      "move": "interview-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Alright. I'll put that down.",
-      "uses": [
-        {
-          "move": "interview-take-plain-reply-take",
-          "subject": "interview-take-plain",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-further-reply-take.thats-on-the-record-then",
-      "move": "interview-take-further-reply-take",
-      "kind": "spoken",
-      "text": "That's on the record, then.",
-      "uses": [
-        {
-          "move": "interview-take-further-reply-take",
-          "subject": "interview-take-further",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-further-reply-take.good-ill-note-the-vote",
-      "move": "interview-take-further-reply-take",
-      "kind": "spoken",
-      "text": "Good. I'll note the vote.",
-      "uses": [
-        {
-          "move": "interview-take-further-reply-take",
-          "subject": "interview-take-further",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-further-reply-take.noted-the-vote-is-on-the-record",
-      "move": "interview-take-further-reply-take",
-      "kind": "spoken",
-      "text": "Noted. The vote is on the record.",
-      "uses": [
-        {
-          "move": "interview-take-further-reply-take",
-          "subject": "interview-take-further",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-turn-reply-take.ill-ask-them-too-im-asking-you",
-      "move": "interview-take-turn-reply-take",
-      "kind": "spoken",
-      "text": "I'll ask them too. I'm asking you.",
-      "uses": [
-        {
-          "move": "interview-take-turn-reply-take",
-          "subject": "interview-take-turn",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
       "key": "conversation.interview-take-turn-reply-take.ill-put-that-to-rival",
       "move": "interview-take-turn-reply-take",
       "kind": "spoken",
@@ -17725,343 +18229,6 @@
       }
     },
     {
-      "key": "conversation.interview-take-turn-reply-take.fair-enough-thats-theirs-to-answer",
-      "move": "interview-take-turn-reply-take",
-      "kind": "spoken",
-      "text": "Fair enough. That's theirs to answer.",
-      "uses": [
-        {
-          "move": "interview-take-turn-reply-take",
-          "subject": "interview-take-turn",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-brief-reply-take.short-and-clear-thanks",
-      "move": "interview-take-brief-reply-take",
-      "kind": "spoken",
-      "text": "Short and clear. Thanks.",
-      "uses": [
-        {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-brief-reply-take.thats-brief-but-its-an-answer",
-      "move": "interview-take-brief-reply-take",
-      "kind": "spoken",
-      "text": "That's brief, but it's an answer.",
-      "uses": [
-        {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-brief-reply-take.that-was-quick-all-right",
-      "move": "interview-take-brief-reply-take",
-      "kind": "spoken",
-      "text": "That was quick. Alright.",
-      "uses": [
-        {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-lie-reply-take.okay-ill-write-that-down",
-      "move": "interview-take-lie-reply-take",
-      "kind": "spoken",
-      "text": "Okay. I'll write that down.",
-      "uses": [
-        {
-          "move": "interview-take-lie-reply-take",
-          "subject": "interview-take-lie",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-lie-reply-take.understood-that-goes-in-the-story",
-      "move": "interview-take-lie-reply-take",
-      "kind": "spoken",
-      "text": "Understood. That goes in the story.",
-      "uses": [
-        {
-          "move": "interview-take-lie-reply-take",
-          "subject": "interview-take-lie",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-lie-reply-take.thanks-ill-quote-you-on-that",
-      "move": "interview-take-lie-reply-take",
-      "kind": "spoken",
-      "text": "Thanks. I'll quote you on that.",
-      "uses": [
-        {
-          "move": "interview-take-lie-reply-take",
-          "subject": "interview-take-lie",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-declined-reply-take.youd-rather-not-say-ill-note-that",
-      "move": "interview-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "You'd rather not say? I'll note that.",
-      "uses": [
-        {
-          "move": "interview-take-declined-reply-take",
-          "subject": "interview-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-declined-reply-take.nothing-on-that-one-all-right",
-      "move": "interview-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "Nothing on that one. Alright.",
-      "uses": [
-        {
-          "move": "interview-take-declined-reply-take",
-          "subject": "interview-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-declined-reply-take.ill-note-you-passed-on-it",
-      "move": "interview-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "I'll note you passed on it.",
-      "uses": [
-        {
-          "move": "interview-take-declined-reply-take",
-          "subject": "interview-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-close-leave-done.thats-everything-i-have-thanks-for-your-time",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "That's everything I have. Thanks for your time.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.interview-close-leave-done.thats-all-my-questions-thank-you",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "That's all my questions. Thank you.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.interview-close-leave-done.were-done-ill-write-it-up",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "We're done. I'll write it up.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.interview-close-leave-done.thanks-for-sitting-down-ill-write-it-up",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "Thanks for sitting down. I'll write it up.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.interview-close-leave-done.thats-all-ill-note-the-ones-you-passed-on",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "That's all. I'll note the ones you passed on.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done",
-          "requiresFacts": ["passed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.debate-open-open.welcome-to-the-debate-lets-begin",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "Welcome to the debate. Let's begin.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
       "key": "conversation.debate-open-open.welcome-to-the-outlet-debate-lets-begin",
       "move": "debate-open-open",
       "kind": "spoken",
@@ -18073,93 +18240,6 @@
           "role": "open",
           "choice": "open",
           "requiresFacts": ["outlet"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.debate-open-open.same-questions-for-every-candidate-keep-it-short",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "Same questions for every candidate. Keep it short.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.debate-open-open.good-to-see-you-again-lets-begin",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "Good to see you again. Let's begin.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["acquainted"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.debate-open-open.thanks-for-coming-you-know-how-this-works",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "Thanks for coming. You know how this works.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["acquainted"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.debate-open-open.im-your-moderator-thanks-for-coming",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "I'm your moderator. Thanks for coming.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -18588,90 +18668,6 @@
       }
     },
     {
-      "key": "conversation.debate-take-plain-reply-take.thank-you-thats-a-clear-answer",
-      "move": "debate-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Thank you. That's a clear answer.",
-      "uses": [
-        {
-          "move": "debate-take-plain-reply-take",
-          "subject": "debate-take-plain",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-take-plain-reply-take.thanks-the-audience-has-your-answer",
-      "move": "debate-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Thanks. The audience has your answer.",
-      "uses": [
-        {
-          "move": "debate-take-plain-reply-take",
-          "subject": "debate-take-plain",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-take-further-reply-take.thank-you-your-vote-is-on-the-record",
-      "move": "debate-take-further-reply-take",
-      "kind": "spoken",
-      "text": "Thank you. Your vote is on the record.",
-      "uses": [
-        {
-          "move": "debate-take-further-reply-take",
-          "subject": "debate-take-further",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-take-further-reply-take.noted-that-vote-is-on-the-record",
-      "move": "debate-take-further-reply-take",
-      "kind": "spoken",
-      "text": "Noted. That vote is on the record.",
-      "uses": [
-        {
-          "move": "debate-take-further-reply-take",
-          "subject": "debate-take-further",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
       "key": "conversation.debate-take-turn-reply-take.rival-will-have-a-chance-to-answer-that",
       "move": "debate-take-turn-reply-take",
       "kind": "spoken",
@@ -18714,236 +18710,94 @@
       }
     },
     {
-      "key": "conversation.debate-take-brief-reply-take.short-and-clear-thank-you",
-      "move": "debate-take-brief-reply-take",
+      "key": "conversation.interview-open-open.thanks-for-sitting-down-about-the-race-for-seat",
+      "move": "interview-open-open",
       "kind": "spoken",
-      "text": "Short and clear. Thank you.",
+      "text": "Thanks for sitting down about the race for {seat}.",
       "uses": [
         {
-          "move": "debate-take-brief-reply-take",
-          "subject": "debate-take-brief",
-          "role": "reply",
-          "choice": "take"
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat"]
         }
       ],
-      "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.debate-take-brief-reply-take.a-brief-answer-thank-you",
-      "move": "debate-take-brief-reply-take",
+      "key": "conversation.interview-open-open.good-to-see-you-again-now-the-race-for-seat",
+      "move": "interview-open-open",
       "kind": "spoken",
-      "text": "A brief answer. Thank you.",
+      "text": "Good to see you again. Now, the race for {seat}.",
       "uses": [
         {
-          "move": "debate-take-brief-reply-take",
-          "subject": "debate-take-brief",
-          "role": "reply",
-          "choice": "take"
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "acquainted"]
         }
       ],
-      "bearing": "guarded",
       "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.debate-take-lie-reply-take.thank-you-well-move-on",
-      "move": "debate-take-lie-reply-take",
+      "key": "conversation.interview-open-open.i-m-with-outlet-i-m-writing-about-the-race-for-seat",
+      "move": "interview-open-open",
       "kind": "spoken",
-      "text": "Thank you. We'll move on.",
+      "text": "I'm with {outlet}. I'm writing about the race for {seat}.",
       "uses": [
         {
-          "move": "debate-take-lie-reply-take",
-          "subject": "debate-take-lie",
-          "role": "reply",
-          "choice": "take"
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "outlet", "stranger"]
         }
       ],
-      "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.debate-take-lie-reply-take.understood-thats-your-answer",
-      "move": "debate-take-lie-reply-take",
+      "key": "conversation.interview-close-leave-done.that-s-everything-it-ll-run-in-outlet",
+      "move": "interview-close-leave-done",
       "kind": "spoken",
-      "text": "Understood. That's your answer.",
+      "text": "That's everything. It'll run in {outlet}.",
       "uses": [
         {
-          "move": "debate-take-lie-reply-take",
-          "subject": "debate-take-lie",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-take-declined-reply-take.youd-rather-not-say-all-right",
-      "move": "debate-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "You'd rather not say? Alright.",
-      "uses": [
-        {
-          "move": "debate-take-declined-reply-take",
-          "subject": "debate-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-take-declined-reply-take.no-answer-on-that-one-well-move-on",
-      "move": "debate-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "No answer on that one. We'll move on.",
-      "uses": [
-        {
-          "move": "debate-take-declined-reply-take",
-          "subject": "debate-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-close-leave-done.thats-all-the-questions-thank-you",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "That's all the questions. Thank you.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.debate-close-leave-done.that-ends-the-debate-thank-you-for-coming",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "That ends the debate. Thank you for coming.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.debate-close-leave-done.were-out-of-questions-thanks-for-taking-part",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "We're out of questions. Thanks for taking part.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.debate-close-leave-done.thats-the-debate-thanks-for-your-time",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "That's the debate. Thanks for your time.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.debate-close-leave-done.thats-the-debate-you-passed-on-some-questions",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "That's the debate. You passed on some questions.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
           "role": "leave",
           "choice": "done",
-          "requiresFacts": ["passed"]
+          "requiresFacts": ["outlet", "stranger"]
         }
       ],
-      "bearing": "guarded",
       "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.that-s-all-outlet-will-note-what-you-didn-t-answer",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all. {outlet} will note what you didn't answer.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["outlet", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
     },
     {
       "key": "conversation.address-point-core-unsure.i-don-t-know-yet-whether-we-should-to",
@@ -29669,7 +29523,7 @@
       "key": "conversation.news-ask-core.about-was-in-the-news-ran-about-time-i-say",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} was in the news {ran}. About time, I say.",
+      "text": "{about} came up in the news {ran}. About time, I say.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -29735,7 +29589,7 @@
       "key": "conversation.news-ask-core.about-was-in-the-news-ran-i-don-t-like-it",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "{about} was in the news {ran}. I don't like it.",
+      "text": "{about} came up in the news {ran}. I don't like it.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -34254,7 +34108,7 @@
       "key": "conversation.government-news-say-core.i-was-at-the-town-hall-when-all-about",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "I was at the town hall {when}. All {about}.",
+      "text": "I was at the town hall {when}. All about {said}.",
       "uses": [
         {
           "move": "government-news-say-core",
@@ -34278,7 +34132,7 @@
       "key": "conversation.government-news-say-core.the-town-hall-when-was-packed-everyone-was-on-about",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "The town hall {when} was packed. Everyone was on {about}.",
+      "text": "The town hall {when} was packed. Everyone was on {said}.",
       "uses": [
         {
           "move": "government-news-say-core",
@@ -34778,7 +34632,7 @@
       "key": "conversation.government-news-back-core.we-re-on-the-same-side-of-about-then",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "We're on the same side of {about}, then.",
+      "text": "We're on the same side of {said}, then.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -34875,7 +34729,7 @@
       "key": "conversation.government-news-back-core.then-we-split-on-about",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "Then we split on {about}.",
+      "text": "Then we split on {said}.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -39197,6 +39051,13 @@
           "role": "core",
           "requiresFacts": ["about"],
           "stages": ["with"]
+        },
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["blame"],
+          "excludesFacts": ["contested"]
         }
       ],
       "piece": {
@@ -42359,6 +42220,20 @@
           "role": "answer",
           "subject": "eviction",
           "excludesFacts": ["guarded"]
+        },
+        {
+          "move": "charge-reply-answer-bail",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "bail",
+          "requiresFacts": ["bail"]
+        },
+        {
+          "move": "conviction-reply-answer-fine",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "fine",
+          "requiresFacts": ["fine"]
         }
       ]
     },
@@ -43809,6 +43684,287 @@
       }
     },
     {
+      "key": "conversation.charge-say-reason.they-set-bail-it-s-more-than-i-have",
+      "move": "charge-say-reason",
+      "kind": "spoken",
+      "text": "They set bail. It's more than I have.",
+      "uses": [
+        {
+          "move": "charge-say-reason",
+          "subject": "charge-say",
+          "role": "reason",
+          "requiresFacts": ["bail", "bailOver"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "charge-say",
+        "part": "reason",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.charge-say-reason.they-set-bail-i-can-cover-it",
+      "move": "charge-say-reason",
+      "kind": "spoken",
+      "text": "They set bail. I can cover it.",
+      "uses": [
+        {
+          "move": "charge-say-reason",
+          "subject": "charge-say",
+          "role": "reason",
+          "requiresFacts": ["bail", "bailCovered"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "charge-say",
+        "part": "reason",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.charge-reply-back-core.bail",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "{bail}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["bail"],
+          "requiresFacts": ["bail"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.fine",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "{fine}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["fine"],
+          "requiresFacts": ["fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-got-term-and-a-fine-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I got {term} and a fine for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.they-sentenced-me-to-term-and-a-fine-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "They sentenced me to {term} and a fine for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-got-probation-of-probation-and-a-fine-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I got {probation} of probation and a fine for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation", "fine"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.guilty-of-offense-probation-for-probation-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "Guilty of {offense}. Probation for {probation}, and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation", "fine"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.guilty-of-offense-i-m-going-away-for-term-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "Guilty of {offense}. I'm going away for {term}, and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-was-convicted-of-offense-i-got-probation-of-probation-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I was convicted of {offense}. I got {probation} of probation, and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation", "fine"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.they-didn-t-believe-me-i-got-term-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "They didn't believe me. I got {term}, and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["contested", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.then-the-trial",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Then the trial.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["told-trial"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
       "key": "conversation.illness-news-raise-raise.relation-is-in-a-bad-way",
       "move": "illness-news-raise-raise",
       "kind": "spoken",
@@ -44055,6 +44211,725 @@
           "excludesFacts": ["alone"]
         }
       ]
+    },
+    {
+      "key": "conversation.debate-open-open.welcome-to-the-debate-for-seat-let-s-begin",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "Welcome to the debate for {seat}. Let's begin.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.debate-open-open.i-m-your-moderator-this-is-the-debate-for-seat",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "I'm your moderator. This is the debate for {seat}.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "stranger"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.debate-close-leave-done.that-ends-the-debate-for-seat-thank-you-candidates",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "That ends the debate for {seat}. Thank you, candidates.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.debate-close-leave-done.that-s-the-outlet-debate-thank-you-for-coming",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "That's the {outlet} debate. Thank you for coming.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.for-it-then",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "For it, then.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.against-it-then",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Against it, then.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.that-puts-you-against-rival-on-it",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "That puts you against {rival} on it.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.still-undecided",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Still undecided.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.as-you-voted",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "As you voted.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-same"]
+        },
+        {
+          "move": "debate-take-further-reply-take",
+          "subject": "debate-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.that-s-a-change",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "That's a change.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-changed"]
+        },
+        {
+          "move": "debate-take-further-reply-take",
+          "subject": "debate-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-declined-reply-take.no-answer-then",
+      "move": "interview-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "No answer, then.",
+      "uses": [
+        {
+          "move": "interview-take-declined-reply-take",
+          "subject": "interview-take-declined",
+          "role": "reply",
+          "choice": "take"
+        },
+        {
+          "move": "debate-take-declined-reply-take",
+          "subject": "debate-take-declined",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-declined-reply-take.no-comment-then",
+      "move": "interview-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "No comment, then.",
+      "uses": [
+        {
+          "move": "interview-take-declined-reply-take",
+          "subject": "interview-take-declined",
+          "role": "reply",
+          "choice": "take"
+        },
+        {
+          "move": "debate-take-declined-reply-take",
+          "subject": "debate-take-declined",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-lie-reply-take.i-ll-quote-that",
+      "move": "interview-take-lie-reply-take",
+      "kind": "spoken",
+      "text": "I'll quote that.",
+      "uses": [
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.that-s-all-thanks",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all. Thanks.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.you-re-for-it",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "You're for it.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.you-re-against-it",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "You're against it.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.short-and-sweet",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Short and sweet.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.plain-enough",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Plain enough.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.clear-enough",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Clear enough.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.that-s-a-yes",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "That's a yes.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.that-s-a-no",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "That's a no.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
     }
   ]
 }

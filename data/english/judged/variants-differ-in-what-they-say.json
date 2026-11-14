@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1335,
+  "judged": 1348,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -1336,6 +1336,13 @@
         "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no"
       ],
       "why": "Both lines repeat the same no."
+    },
+    "0kqrisumwfb": {
+      "keys": [
+        "scene-talk.close-accept.then-i-ll-wait-for-your-decision",
+        "scene-talk.close-accept.understood-i-ll-leave-you-to-it"
+      ],
+      "why": "Both lines are the same acceptance that the visitor will wait for the decision."
     },
     "0ktkaiumpar": {
       "keys": [
@@ -3736,6 +3743,13 @@
       ],
       "why": "Both are generic openers from the friend, with nothing in the record to choose between them."
     },
+    "1l7aghl8isx": {
+      "keys": [
+        "scene-talk.follow-press.a-fix-that-comes-later-doesn-t-help-the-people-it-hits-now",
+        "scene-talk.follow-press.that-s-a-hope-not-a-promise"
+      ],
+      "why": "Both lines make the same point, that a later fix is no real promise, with nothing in the world to choose between them."
+    },
     "1l9t8sv0bpi": {
       "keys": [
         "scene-talk.follow-answer.everything-i-have-is-on-the-record-i-d-rather-print-your-answer-than-guess-at-it",
@@ -5230,6 +5244,13 @@
       ],
       "why": "Both lines reassure that things are fine, with no fact to separate them."
     },
+    "29ib021xj8a": {
+      "keys": [
+        "scene-talk.state-request.about-cost-a-year-that-s-what-bill-takes-from-the-people-i-speak-for-we-d-like-a-veto",
+        "scene-talk.state-request.bill-costs-the-people-i-speak-for-about-cost-a-year-i-m-asking-you-to"
+      ],
+      "why": "Both lines need the same facts and say the same thing, that {bill} costs about {cost} a year and a veto is wanted."
+    },
     "29kqf82vzdx": {
       "keys": [
         "scene-talk.follow-accept.apology-accepted-let-s-start-over",
@@ -5726,5 +5747,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "13f3rnh9tqk"
+  "yesHash": "00yvi5cndux"
 }
