@@ -181,7 +181,7 @@ interface QuarterRow {
 
 /**
  * A business's premises tax for one quarter: its premises are assessed at a
- * share of a year's sales (an estimate, `data/business/premises-tax.json`),
+ * share of a year's sales (an estimate, `src/core2/data/business/premises-tax.json`),
  * and a quarter pays a quarter of the annual rate on that value.
  */
 export function premisesTaxMinor(

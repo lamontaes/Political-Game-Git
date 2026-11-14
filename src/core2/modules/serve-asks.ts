@@ -3,7 +3,7 @@
  * to take a seat the player fills (a running mate first; department heads,
  * cabinet and aides by the same read later), and the person answers from
  * their own record. Nothing is rolled: the answer is a sum of named terms
- * (`data/serve/willingness.json`), yes where it is above zero, and the same
+ * (`src/core2/data/serve/willingness.json`), yes where it is above zero, and the same
  * person asked on the same record gives the same answer.
  *
  * The ask is a scene: `askToServe` keeps the ask and emits `serve-asked`, the

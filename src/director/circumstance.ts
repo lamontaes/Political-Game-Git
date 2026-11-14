@@ -8,7 +8,7 @@
  * street, a coworker brings up the national news, a colleague catches them
  * in the capitol's hallway after a committee hearing.
  *
- * The rows (`data/circumstances.json`) hold the structure and no sentence.
+ * The rows (`src/director/data/circumstances.json`) hold the structure and no sentence.
  * This file is pure over the core: it reads only the records written today
  * (each kept as it is recorded, `CircumstanceQueue`), never history or the
  * whole world, and casts the person with the highest score; the record id
