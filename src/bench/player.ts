@@ -214,6 +214,17 @@ export class BenchPlayer {
     return this.driveTo(through, mode);
   }
 
+  /**
+   * Whether an open stop, choice or poll holds the clock, so the hours of an
+   * act (a trip, a visit) cannot be spent now (`spend` stands still).
+   */
+  clockHeld() {
+    return (
+      Boolean(this.pollingPlace) ||
+      Boolean(this.packet && this.packet.kind !== "complete")
+    );
+  }
+
   /** The minute the controlled person's day starts, read from the core's parameters. */
   dayStartMinute() {
     // stopgapId: SG-PLAY-day-start-minute

@@ -30,3 +30,26 @@ export function isOnShift(
     return false;
   }
 }
+
+/**
+ * The organization a person is at work in at this minute of the game's date,
+ * from the same work records `isOnShift` reads; none off shift.
+ */
+export function shiftOrganization(
+  core: CoreState,
+  personId: string,
+  minute: number,
+): string | undefined {
+  try {
+    return workSpansOnDateV1(coreAPI(core), {
+      controlledPersonId: personId,
+      date: core.date,
+    }).owners.find((owner) =>
+      owner.spans.some(
+        (span) => span.startMinute <= minute && minute < span.endMinute,
+      ),
+    )?.organizationId;
+  } catch {
+    return undefined;
+  }
+}
