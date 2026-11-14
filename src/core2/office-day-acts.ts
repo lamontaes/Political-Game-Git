@@ -21,7 +21,7 @@ import type {
 } from "./types";
 import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
-import { daysBetweenText } from "./kernel/dates";
+import { addDays, daysBetweenText, makeIsoDate } from "./kernel/dates";
 import { officeActKits, type OfficeActKit } from "./office-day-registry";
 import { reanswerLeaderRequest } from "./office-day-state";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
@@ -519,7 +519,7 @@ export function worldAddresses(host: OfficeActHost) {
       return;
     const player = controlled(api);
     const year = date.slice(0, 4);
-    const since = dateOffset(date, -365);
+    const since = addDays(makeIsoDate(date), -365);
     let enacted: number | null = null;
     for (const row of townSeats(api)) {
       if (!EXECUTIVE_KINDS.has(row.office.kind)) continue;
