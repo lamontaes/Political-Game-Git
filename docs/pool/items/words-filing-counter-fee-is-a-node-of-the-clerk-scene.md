@@ -5,7 +5,8 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
+pr: 9348
 standard: 2
 after: elections-filing-fee-paid
 blocked-on:
