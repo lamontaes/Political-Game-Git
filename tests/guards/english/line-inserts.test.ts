@@ -63,10 +63,43 @@ const SHORT_WORDS = 3;
 const ACTION_NAME_BANKS: readonly string[] = ["choice-names"];
 
 /**
- * Facts a packet sets in every world, so a condition on them places nothing.
- * None found so far; a fact named here no longer counts toward `placed`.
+ * Facts that only say a name or a place is there to be spoken. Where a packet
+ * builder has the person or place, it sets them (and where it has none, the
+ * line cannot be worded at all), so a condition on one of them places nothing:
+ * it is the old name-padding moved from the text into `requiresFacts` (Words
+ * lead, Nov 14, 2026). Hyphens and underscores are one spelling.
+ *  - `name`: the person or thing the line is about, set whenever the subject
+ *    has its person: src/director/conversation.ts (the subject builders for
+ *    mutual, family, kin and news talk, the address point `facts.name =
+ *    calledBy(...)`) and src/director/purpose-scene.ts (the scene's `facts`
+ *    object, `name:` of the asker).
+ *  - `first`: the listener's given name: conversation.ts (mutual `first:`,
+ *    `facts.first = calledBy(...)`) and purpose-scene.ts (`first:` of the
+ *    asked).
+ *  - `self`: the asked person's given name in a door scene (purpose-scene.ts,
+ *    `facts.self`).
+ *  - `player-first`, `their-first`: the player's and the other person's given
+ *    names in a talk (conversation.ts, `facts["player-first"]`, `"their-first"`).
+ *  - `place`, `my-place`: where the person lives, set from their record
+ *    (conversation.ts `place:` in the subject builders, `facts.place`;
+ *    purpose-scene.ts `facts.place`).
+ * `excludesFacts` is not given the same treatment: excluding a fact the
+ * packet never sets cannot be computed from the banks, so it still counts.
  */
-export const ALWAYS_TRUE_FACTS: ReadonlySet<string> = new Set<string>();
+export const ALWAYS_TRUE_FACTS: ReadonlySet<string> = new Set([
+  "name",
+  "first",
+  "self",
+  "player-first",
+  "their-first",
+  "place",
+  "my-place",
+]);
+
+/** A fact as a bank spells it, with underscores read as hyphens. */
+function factKey(fact: string): string {
+  return fact.replace(/_/g, "-");
+}
 
 /** Whether a line's text carries at least one insert. */
 export function hasInsert(text: string): boolean {
@@ -210,8 +243,10 @@ export function isPlaced(
     uses.length > 0 &&
     uses.every(
       (use) =>
-        (use.requiresFacts ?? []).some((fact) => !alwaysTrue.has(fact)) ||
-        (use.onlyWhen ?? []).some((fact) => !alwaysTrue.has(fact)) ||
+        (use.requiresFacts ?? []).some(
+          (fact) => !alwaysTrue.has(factKey(fact)),
+        ) ||
+        (use.onlyWhen ?? []).some((fact) => !alwaysTrue.has(factKey(fact))) ||
         (use.excludesFacts ?? []).length > 0 ||
         (use.purpose !== undefined && caused.has(use.purpose.split(".")[0]!)) ||
         (use.subject !== undefined && raised.has(use.subject)),
@@ -457,6 +492,29 @@ describe("every bank line carries an insert from the world's records", () => {
         { alwaysTrue: new Set(["always"]) },
       ),
     ).toBeNull();
+    // A use conditioned only on a name or place being there places nothing.
+    for (const fact of [
+      "name",
+      "first",
+      "player-first",
+      "their_first",
+      "place",
+      "my_place",
+    ])
+      expect(
+        excusedAs(
+          "conversation",
+          { text, uses: [{ requiresFacts: [fact] }] },
+          none,
+        ),
+      ).toBeNull();
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ requiresFacts: ["name", "stranger"] }] },
+        none,
+      ),
+    ).toBe("placed");
     // A fixed line of one to three words stays "short", before "placed" is asked.
     expect(
       excusedAs("conversation", { text: "Not yet.", bearing: "calm" }, none),
