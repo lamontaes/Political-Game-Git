@@ -14525,6 +14525,58 @@
       }
     },
     {
+      "key": "scene-talk.follow-deflect.we-have-time-the-vote-isn-t-until-vote-on",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "We have time. The vote isn't until {vote-on}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor",
+          "requiresFacts": ["vote-on"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.there-s-still-time-before-vote-on-help-me-use-it",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "There's still time before {vote-on}. Help me use it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor",
+          "requiresFacts": ["vote-on"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
       "move": "reply-thank",
       "kind": "spoken",
