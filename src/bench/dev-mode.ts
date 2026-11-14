@@ -1179,7 +1179,17 @@ export class DevMode {
         vote(chamber, options.overrideMargin, true);
     if (veto && options.sign !== undefined)
       executiveDecision(api, billId, options.sign);
-    const held = holdVote(api, billId);
+    // Each chamber votes in its turn; dev mode holds the next chamber's vote now, not on its sitting.
+    let held = holdVote(api, billId, { anyDay: true });
+    for (
+      let turn = held.chambersPassed?.length ?? 0;
+      held.status === "drafted" && turn > 0 && turn < chambers.length;
+    ) {
+      held = holdVote(api, billId, { anyDay: true });
+      const now = held.chambersPassed?.length ?? 0;
+      if (now === turn) break;
+      turn = now;
+    }
     const records = committeeRecords(api, billId).map((c) => ({
       chamber: c.chamber,
       heard: c.heard,
@@ -1729,9 +1739,12 @@ export class DevMode {
     });
   }
 
-  /** The body holds its vote today. */
+  /**
+   * The body holds its vote today: in a two-chamber legislature, the vote of the chamber whose
+   * turn it is, now rather than on that chamber's sitting.
+   */
   holdVote(billId: string) {
-    const bill = holdVote(this.api, billId);
+    const bill = holdVote(this.api, billId, { anyDay: true });
     return {
       mark: this.mark("hold-vote", [billId], { billId, status: bill.status }),
       bill,
