@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -19,10 +18,13 @@ import {
 // (Pendleton, Indiana, seed 3a862b9a-fcef-4dc6-a0b8-2db653b4042b: the first
 // member tried held work-relationship_c0d50c4a152df8e3). Places are drawn
 // until one has a free member who takes the work; each passed over is named.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const DRAWS = 6;
+// Pinned to that place and seed (no run-time draw): in Pendleton 11,404 of
+// 15,908 counted households have less than one worker of room, so without the
+// cap a start would add a whole worker and push a household past its adults.
+const seed = "3a862b9a-fcef-4dc6-a0b8-2db653b4042b";
+const DRAWS = 1;
 
-it(`regional work starts and stops symmetrically, in a place drawn from seed ${seed}`, () => {
+it(`regional work starts and stops symmetrically, in the pinned place, seed ${seed}`, () => {
   const passedOver: string[] = [];
   for (let draw = 0; draw < DRAWS; draw += 1) {
     const place = drawPlace(draw ? `${seed}:${draw}` : seed, "regional-work");
@@ -70,14 +72,18 @@ it(`regional work starts and stops symmetrically, in a place drawn from seed ${s
         const age = ageOn(rt.store.born[m]!, core.date);
         return age >= from && age < below && !held.has(rt.store.ids[m]!);
       });
-      return open.length - h.unplacedWorkers > 0
-        ? open.map((m) => rt.store.ids[m]!)
-        : [];
+      const room = open.length - h.unplacedWorkers;
+      return room > 0 ? open.map((m) => ({ id: rt.store.ids[m]!, room })) : [];
     });
     const before = { flow: flowTotal(), workers: workers() };
-    const started = free.find(
-      (id) => startRegionalWork(core, id, 2000) === "counted",
+    // A member whose household has less than a worker of room goes first:
+    // the start adds that room and no more, where a whole worker would put
+    // the household past its free adults.
+    free.sort((a, b) => Number(a.room >= 1) - Number(b.room >= 1));
+    const pick = free.find(
+      (f) => startRegionalWork(core, f.id, 2000) === "counted",
     );
+    const started = pick?.id;
     if (!started) {
       passedOver.push(
         `${where}: ${free.length} free members, none taken (no unplaced-workers pool)`,
@@ -86,6 +92,13 @@ it(`regional work starts and stops symmetrically, in a place drawn from seed ${s
       continue;
     }
     expect(workers(), where).toBeGreaterThan(before.workers);
+    expect(
+      workers() - before.workers,
+      `${where}: the start adds the room left`,
+    ).toBeCloseTo(Math.min(1, pick!.room), 6);
+    expect(pick!.room, `${where}: the cap binds at this member`).toBeLessThan(
+      1,
+    );
     expect(flowTotal(), where).toBeGreaterThan(before.flow);
     expect(stopRegionalWork(core, started), where).toBe(true);
     expect(workers(), where).toBeCloseTo(before.workers, 6);

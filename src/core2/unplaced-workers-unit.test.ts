@@ -11,7 +11,6 @@
  * pool pays (pool item world-movers-change-unplaced-workers-not-the-pool-pay);
  * the test prints both sides after the played days.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -30,7 +29,9 @@ import {
   unplacedPayPerWorkerBase,
 } from "./modules/residents";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// Pinned (no run-time draw): Fort Plain, New York, where a start without the cap leaves 10 records over
+// their working-age members.
+const seed = "708dcedf017ce5453a47";
 const place = drawPlace(seed, "unplaced-workers-unit");
 const where = `${place.name} (${place.key}), seed ${seed}, world seed ${place.seed}`;
 const PLAYED_DAYS = 400;
