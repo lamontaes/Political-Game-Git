@@ -1175,7 +1175,7 @@
     {
       "id": "commitment-names-who-what-why",
       "says": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-      "judges": "line",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-15",
@@ -1208,16 +1208,16 @@
       },
       "applies": {
         "banks": ["scene-talk"],
-        "moves": "^state-.*(?:promise|refuse|threaten)"
+        "moves": "(?:promise|refuse|threaten)"
       },
       "catches": ["I really need this one."],
       "spares": ["I wish I could, but I can't."],
-      "note": "A sample (Nov 14): only lines that open a commitment are judged. A reply or follow that promises answers an ask whose what is in the line before; that is an exchange check (words-machine part 3). Nothing is narrowed or pulled for the threat lines until the owner's exact words on them are quoted."
+      "note": "Judged as an exchange (words-machine part 3, Nov 14): a line that opens a commitment is judged alone; a reply, follow or close that promises, refuses or threatens is judged after each line it can answer, because its what is often in the ask before it. A \"no\" pair bars the line after that line only; the line is pulled only when it is \"no\" after every line it answers. A sample until the Words lead reads the \"no\" pairs."
     },
     {
       "id": "stake-is-named",
       "says": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-      "judges": "line",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-15",
@@ -1308,7 +1308,7 @@
       },
       "applies": {
         "banks": ["scene-talk"],
-        "moves": "^state-(?:plea|bargain|offer)$|^(?:reply|follow|continue)-offer$"
+        "moves": "-(?:plea|bargain|complain|offer)$"
       },
       "catches": [
         "Across the country, unemployment is {unemployment-rate} percent.",
@@ -1323,7 +1323,7 @@
         "I could lose my primary over this",
         "this is a two-way street"
       ],
-      "note": "A sample (Nov 14): a stake can be a figure, a favor or a name in any words. Only the line that opens a plea or a bargain, and any line that makes an offer, is judged; a reply or follow leans on the stake named in the line before (Words lead, Nov 14)."
+      "note": "Judged as an exchange (words-machine part 3, Nov 14): a stake can be a figure, a favor or a name in any words, and a reply or follow leans on the stake named in the line before (Words lead, Nov 14), so each such line is judged after each line it can answer; a line that opens a plea or a bargain is judged alone. A \"no\" pair bars the line after that line only. A sample until the Words lead reads the \"no\" pairs."
     },
     {
       "id": "reply-follows-the-line-before",
@@ -4352,7 +4352,7 @@
     {
       "id": "reply-second-move-follows-the-first",
       "says": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-      "judges": "line",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-14",
@@ -4376,9 +4376,10 @@
       },
       "applies": {
         "banks": ["scene-talk"],
-        "moves": "^reply-"
+        "moves": "^reply-",
+        "text": "[.!?][\"')]*\\s+\\S"
       },
-      "note": "Stays judged: whether a reply's second sentence follows its first is meaning across two sentences, and the picker's reply-follows verdicts judge a line against the one before it, not within one reply."
+      "note": "Judged as an exchange (words-machine part 3, Nov 14): only replies of two sentences or more have a second move; each is judged after each line it can answer, since whether its second move follows from its first can lean on what was asked. A \"no\" pair bars the reply after that line only."
     },
     {
       "id": "many-variants-of-the-same-meaning",

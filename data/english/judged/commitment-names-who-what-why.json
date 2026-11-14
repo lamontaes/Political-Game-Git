@@ -2,88 +2,1105 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 27,
+  "judged": 507,
   "no": {
-    "00nxu254m0b": {
-      "keys": ["scene-talk.follow-threaten.don-t-count-on-my-help-next-time"],
-      "why": "Threat names no who, what or why; the owner flagged it as missing context."
-    },
-    "017p7s0la6x": {
-      "keys": ["scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it"],
-      "why": "Bare promise with no what or why."
-    },
-    "04ci7aa0nss": {
-      "keys": ["scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word"],
-      "why": "Bare promise with no what or why."
-    },
-    "07ia88elql4": {
+    "00jxjvmjbk3": {
       "keys": [
-        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
       ],
-      "why": "Threat naming nothing about who or what."
+      "why": "Bare refusal with no what or why."
     },
-    "0epjfrm5cds": {
+    "01iv4b45t1y": {
       "keys": [
-        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still"
+        "scene-talk.follow-answer.i-only-want-you-looked-after-first-whatever-you-can-manage-is-enough-for-me",
+        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word"
       ],
-      "why": "Veiled threat naming nothing."
+      "why": "'I'll do it. I promise.' never names what B will do."
+    },
+    "01kvdynpqvt": {
+      "keys": [
+        "scene-talk.follow-press.so-i-can-count-on-that-i-d-like-to-plan-around-it",
+        "scene-talk.reply-promise.you-have-my-word-i-need-to-clear-my-days-first"
+      ],
+      "why": "B gives its word but names no what for A's 'count on that'."
+    },
+    "0215xn8j6n6": {
+      "keys": [
+        "scene-talk.follow-ask.is-that-the-answer-you-want-printed-next-to-theirs",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "A bare refusal to answer with no reason given."
+    },
+    "02mf16euuhy": {
+      "keys": [
+        "scene-talk.close-promise.you-ll-hear-from-me-before-the-deadline"
+      ],
+      "why": "'You'll hear from me' does not say about what, and A names nothing."
+    },
+    "03ho778ouh0": {
+      "keys": [
+        "scene-talk.follow-plea.okay-but-the-room-s-getting-quiet-out-there",
+        "scene-talk.reply-refuse.not-yet-i-m-sorry"
+      ],
+      "why": "'Not yet. I'm sorry.' gives no reason for not conceding."
+    },
+    "03jqne3o7xm": {
+      "keys": [
+        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
+        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again"
+      ],
+      "why": "'Make it up to you' names no concrete action."
+    },
+    "03x1k9y9ihz": {
+      "keys": [
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'No. And this changes nothing' gives no what or why."
+    },
+    "04in9r4oizw": {
+      "keys": [
+        "scene-talk.follow-plea.everyone-who-backed-it-will-hear-how-you-decided",
+        "scene-talk.reply-refuse.i-understand-i-m-still-where-i-was"
+      ],
+      "why": "'I'm still where I was' states no position on the vote and gives no reason."
+    },
+    "05c15g298rg": {
+      "keys": [
+        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
+        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
+      ],
+      "why": "'I'll do it' names no what, and A never named it."
+    },
+    "05uylo0r7j4": {
+      "keys": [
+        "scene-talk.follow-plea.you-will-your-volunteers-have-to-live-with-it-too",
+        "scene-talk.reply-refuse.not-yet-i-m-sorry"
+      ],
+      "why": "'Not yet. I'm sorry.' is a bare refusal with no reason or named thing."
+    },
+    "069rpiezy7y": {
+      "keys": [
+        "scene-talk.follow-answer.whatever-time-you-have-this-week-would-be-fine-i-thought-of-you-because-you-re-easy-to-be-around",
+        "scene-talk.reply-promise.i-ll-be-there-and-you-can-count-on-me"
+      ],
+      "why": "'I'll be there' names no event or what is being promised."
+    },
+    "06ruhaqfyng": {
+      "keys": [
+        "scene-talk.follow-plea.i-m-not-holding-it-over-you-i-just-don-t-have-anyone-else-to-ask",
+        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
+      ],
+      "why": "'It's no' names no bill and no reason."
+    },
+    "06wtjmnp8nh": {
+      "keys": ["scene-talk.close-promise.we-ll-mark-it-somehow-i-mean-it"],
+      "why": "'We'll mark it somehow. I mean it.' names no what or how beyond a vague marking."
+    },
+    "07mzuweij2w": {
+      "keys": [
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'No. And this changes nothing' gives no what or why."
+    },
+    "09yfi31fq1t": {
+      "keys": [
+        "scene-talk.follow-plea.everyone-s-going-to-see-this-vote-i-d-rather-not-be-the-only-name-on-it",
+        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
+      ],
+      "why": "'It's no' names no bill and no reason."
+    },
+    "0aperpc4fcr": {
+      "keys": ["scene-talk.close-promise.tomorrow-well-look-into-it-together"],
+      "why": "'Look into it together' never names what 'it' is, and A said nothing to name it."
+    },
+    "0ascwcd3bcm": {
+      "keys": [
+        "scene-talk.follow-answer.close.i-only-want-to-know-i-can-count-on-you-first-that-s-all",
+        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again"
+      ],
+      "why": "'Make it up to you' and 'won't happen again' name no concrete action."
+    },
+    "0b8ag5wytmc": {
+      "keys": [
+        "scene-talk.state-confront.repeat.i-m-tired-of-having-this-talk-first-tell-me-what-s-different-now",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "B gives its word but names no difference."
+    },
+    "0d9newieudr": {
+      "keys": [
+        "scene-talk.follow-plea.youre-my-last-chance-first-please",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'No. And this changes nothing' gives no what or why for the refusal."
+    },
+    "0dlkdcxx2c5": {
+      "keys": ["scene-talk.reply-refuse.not-this-time"],
+      "why": "'Not this time.' refuses with no what or why."
+    },
+    "0eepywje4kr": {
+      "keys": [
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Bare refusal with no what or why."
+    },
+    "0ein8rt43du": {
+      "keys": [
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "Veiled threat that does not say what will go wrong or why."
+    },
+    "0fjfggvrq5b": {
+      "keys": [
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Bare refusal with no what or why."
+    },
+    "0gsmjfktc26": {
+      "keys": [
+        "scene-talk.follow-ask.what-do-you-say-to-people-who-disagree",
+        "scene-talk.reply-refuse.that-s-all-i-m-saying-today"
+      ],
+      "why": "B shuts the question down with 'That's all I'm saying today' and gives no reason or subject."
+    },
+    "0itepxf5guw": {
+      "keys": [
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "Same bare refusal: no named offer, no reason."
+    },
+    "0j19t9svm03": {
+      "keys": [
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-refuse.pick-that-up-and-go"
+      ],
+      "why": "'Pick that up and go' refuses with no reason given."
     },
     "0kkc8oy93nz": {
       "keys": ["scene-talk.follow-promise.i-always-will"],
       "why": "Promise with no who, what or why."
     },
-    "0noc9iguaeq": {
+    "0lkb8m60hhx": {
       "keys": [
-        "scene-talk.reply-promise.i-know-how-it-sounds-i-mean-it-anyway"
+        "scene-talk.state-request.close.i-thought-we-could-count-on-each-other-with-the-bills-first-would-you-tell-me-what-happened-with-the-missed-payment-and-say-you-re-sorry",
+        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again"
       ],
-      "why": "Commitment that names nothing."
+      "why": "'Make it up to you' names no concrete action and does not say what happened."
+    },
+    "0lmkj8rwtbv": {
+      "keys": [
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "B's refusal and warning name no offer and give no reason, and A's threat is not answered with specifics."
+    },
+    "0ltooa8bsfh": {
+      "keys": [
+        "scene-talk.follow-press.please-first-you-re-the-only-one-who-still-comes",
+        "scene-talk.reply-promise.i-mean-it-i-ll-do-it-this-week"
+      ],
+      "why": "Promises 'it' this week without saying what."
+    },
+    "0merjhhm7h2": {
+      "keys": [
+        "scene-talk.reply-refuse.still-no-i-d-rather-you-hear-it-from-me-than-from-someone-else"
+      ],
+      "why": "'Still no' gives no reason; the second sentence does not say why."
+    },
+    "0mt28qm9y5f": {
+      "keys": [
+        "scene-talk.follow-press.i-understand-but-it-matters-to-the-whole-family-can-you-tell-me-what-s-in-the-way",
+        "scene-talk.reply-promise.i-will-i-just-need-to-work-out-what-to-say"
+      ],
+      "why": "'I will' names no what."
+    },
+    "0myrutgyw5l": {
+      "keys": [
+        "scene-talk.state-confront.repeat.we-ve-been-through-this-over-money-before-first-i-need-more-than-an-apology-this-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "B gives its word and apologizes but never says what it will do differently."
+    },
+    "0nuzrfpu3hm": {
+      "keys": ["scene-talk.reply-promise.when-i-know-you-ll-know"],
+      "why": "'When I know, you'll know' names no what."
+    },
+    "0o1qzp8vj15": {
+      "keys": ["scene-talk.close-promise.you-d-better-mean-that"],
+      "why": "A veiled warning with no antecedent: nothing says who must mean what or what happens otherwise."
+    },
+    "0odxxp8avbz": {
+      "keys": ["scene-talk.follow-promise.please-do"],
+      "why": "'Please do.' names nothing."
+    },
+    "0p7q3igtym2": {
+      "keys": [
+        "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way",
+        "scene-talk.reply-promise.i-will-give-me-a-little-time-to-sort-my-days"
+      ],
+      "why": "'I will' with no what; A never named it."
+    },
+    "0p9ms7t21nq": {
+      "keys": [
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "Refuses with 'this isn't it' and gives no reason."
+    },
+    "0pv7shgtjgh": {
+      "keys": ["scene-talk.close-promise.ill-remember-this"],
+      "why": "'I'll remember this' is a vague threat naming no consequence or what is remembered."
+    },
+    "0pyqsxe47t5": {
+      "keys": [
+        "scene-talk.state-ask.people-are-asking-about-story-would-you-like-to-respond",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "Refuses to answer without a reason."
+    },
+    "0r08yv2xset": {
+      "keys": ["scene-talk.close-promise.i-wont-forget-what-you-did"],
+      "why": "'What you did' is never named, so the commitment has no content."
+    },
+    "0r98lr35680": {
+      "keys": [
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no"
+      ],
+      "why": "'My answer is still no' names no reason or what is declined."
     },
     "0rr0fv3vd07": {
       "keys": ["scene-talk.close-promise.i-ll-keep-my-word-you-ll-see"],
       "why": "Promise to keep my word names nothing specific."
     },
-    "0sv07cofcxz": {
-      "keys": ["scene-talk.reply-promise.you-have-my-word-i-ll-do-it"],
-      "why": "Bare promise with no what or why."
-    },
-    "1gcc9somxcg": {
-      "keys": ["scene-talk.reply-promise.i-ll-figure-it-out-i-promise"],
-      "why": "Bare promise to figure it out with no what or why."
-    },
-    "1jkxi72uz4y": {
+    "0rsxxrn05cg": {
       "keys": [
-        "scene-talk.state-threaten.last-chance-first-after-today-i-stop-being-polite"
+        "scene-talk.follow-press.a-few-days-is-a-long-time-when-everything-is-on-hold",
+        "scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week"
       ],
-      "why": "Threat naming nothing about who or what."
+      "why": "Promises 'you'll see it this week' without naming what."
     },
-    "1vjtpvaw9iv": {
+    "0ru7n6t4ugd": {
       "keys": [
-        "scene-talk.follow-threaten.youll-regret-it-first-everyone-does"
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no"
       ],
-      "why": "Threat that names no who, what or why."
+      "why": "'It's still no' gives no what or why."
     },
-    "20bdh3o0vo8": {
+    "0s2rot1g1og": {
       "keys": [
+        "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret",
+        "scene-talk.reply-refuse.not-today"
+      ],
+      "why": "'Not today.' refuses with no what or why."
+    },
+    "0saorsrcvt0": {
+      "keys": [
+        "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret",
+        "scene-talk.reply-refuse.no-comment"
+      ],
+      "why": "A bare 'No comment.' refuses without saying what or why."
+    },
+    "0sittlkhru3": {
+      "keys": [
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-refuse.friendly-or-not-the-answer-hasnt-changed"
+      ],
+      "why": "Says the answer hasn't changed without saying what it is or why."
+    },
+    "0sxereglvxw": {
+      "keys": [
+        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "B gives its word but names no change."
+    },
+    "0syd9iayrfc": {
+      "keys": [
+        "scene-talk.follow-press.everyone-s-waiting-to-see-how-you-lose-do-it-well",
+        "scene-talk.reply-refuse.not-yet-i-m-not-ready"
+      ],
+      "why": "'Not yet. I'm not ready.' gives no concrete reason."
+    },
+    "0t2qlaunmr5": {
+      "keys": [
+        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
         "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word"
       ],
-      "why": "Bare promise with no what or why."
+      "why": "'I'll do it. I promise.' names no what."
     },
-    "20cretbbd3j": {
-      "keys": ["scene-talk.follow-threaten.you-know-how-this-works"],
-      "why": "Veiled threat that names nothing."
-    },
-    "2cverzn4662": {
+    "0t4q516qaij": {
       "keys": [
-        "scene-talk.state-threaten.nothing-has-to-change-between-us-first-unless-you-make-it-think"
+        "scene-talk.state-press.last-time-you-said-no-im-hoping-youve-had-time-to-think-and-theres-mor",
+        "scene-talk.reply-refuse.dont-make-me-say-it-again-no"
       ],
-      "why": "Veiled threat naming nothing."
+      "why": "A bare 'No' with no what or why."
     },
-    "2e0a9k483ss": {
+    "0taltio3g1j": {
       "keys": [
+        "scene-talk.state-bargain.i-can-live-with-bill-i-can-t-live-with-section-section",
+        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
+      ],
+      "why": "'It's no' does not say whether it refuses the bill or the section, and gives no reason."
+    },
+    "0uwlzjcxgph": {
+      "keys": [
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "B gives its word but names no change it will make."
+    },
+    "0w1lmfpcqg1": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
+        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
+      ],
+      "why": "'I'll do it' names no what, and A never said what 'it' is."
+    },
+    "0w2quwel6h1": {
+      "keys": [
+        "scene-talk.state-request.the-term-is-over-first-we-have-to-decide-what-happens-now-and-i-don-t-want-to-put-it-off",
+        "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see"
+      ],
+      "why": "'I'll do my part' does not say what B will do."
+    },
+    "0w8q75s1ebx": {
+      "keys": ["scene-talk.close-promise.i-ll-keep-it-straight-you-go-win-it"],
+      "why": "'I'll keep it straight' does not say what will be kept straight or why."
+    },
+    "0wlfjr6cwhg": {
+      "keys": [
+        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
+        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again"
+      ],
+      "why": "'Make it up to you' and 'won't happen again' name no concrete what or how."
+    },
+    "0wrpod5qxrl": {
+      "keys": [
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'My answer is the same' names no what or why."
+    },
+    "0x1yntroih4": {
+      "keys": [
+        "scene-talk.reply-promise.i-won-t-and-if-they-try-i-ll-send-them-to-you"
+      ],
+      "why": "B opens with 'I won't' and a threat to send 'them' to you, but nothing says what B won't do or who 'they' are."
+    },
+    "0xp03dl6j4j": {
+      "keys": [
+        "scene-talk.reply-refuse.i-gave-it-real-thought-the-answer-is-no"
+      ],
+      "why": "'The answer is no' names no question and no reason."
+    },
+    "0xszgu1fh9j": {
+      "keys": [
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'No. And this changes nothing' names no what or why."
+    },
+    "0y266hdksu7": {
+      "keys": [
+        "scene-talk.follow-press.not-answering-is-an-answer-too",
+        "scene-talk.reply-refuse.not-today"
+      ],
+      "why": "'Not today.' refuses with no what or why."
+    },
+    "0ze9zq1qtcb": {
+      "keys": [
+        "scene-talk.close-promise.i-won-t-forget-this-first-enjoy-the-rest-of-the-day"
+      ],
+      "why": "'I won't forget this' names no what or why."
+    },
+    "0zkkydsbw9j": {
+      "keys": [
+        "scene-talk.follow-plea.without-this-i-ve-got-nothing-to-take-home",
+        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
+      ],
+      "why": "'It's no' names no bill and no reason."
+    },
+    "0zzqho9vm7v": {
+      "keys": [
+        "scene-talk.follow-press.then-ill-ask-again-i-have-time",
+        "scene-talk.reply-refuse.i-said-no-last-time-and-nothing-has-changed"
+      ],
+      "why": "It only points back to last time's no without saying what is refused or why."
+    },
+    "10jnoc44hor": {
+      "keys": ["scene-talk.close-promise.you-ll-hear-from-me-when-it-s-done"],
+      "why": "'You'll hear from me when it's done' never says what will be done."
+    },
+    "10ofaoq4t26": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-let-you-know-once-i-figure-it-out"
+      ],
+      "why": "'I'll let you know once I figure it out' names no what is being figured out."
+    },
+    "114peqlhhlu": {
+      "keys": [
+        "scene-talk.close-promise.i-ll-remember-this-first-you-can-ask-me-for-the-same"
+      ],
+      "why": "'I'll remember this' does not say what favor or what is being remembered."
+    },
+    "118z2s80kgj": {
+      "keys": [
+        "scene-talk.follow-press.so-i-can-count-on-that-i-d-like-to-plan-around-it",
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-i-just-need-to-sort-out-my-days-first"
+      ],
+      "why": "B says 'I'll do it, I promise' without naming what, and A never named it."
+    },
+    "11ohyn5ejgb": {
+      "keys": [
+        "scene-talk.follow-press.deflect-all-you-like-ill-be-around-when-youre-done-deflecting",
+        "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no"
+      ],
+      "why": "'Same answer... No' names nothing and gives no reason."
+    },
+    "12hp9gje0ri": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-know-you-mean-it",
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-enjoy-the-day-first"
+      ],
+      "why": "B promises 'I'll do it' without saying what, and A never named it."
+    },
+    "12pqcpmfjuk": {
+      "keys": [
+        "scene-talk.follow-press.i-get-that-but-this-matters-to-me-can-you-tell-me-what-is-in-the-way",
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-enjoy-the-day-first"
+      ],
+      "why": "'I'll do it, I promise' names no what, and A never named it."
+    },
+    "14079wsz5yk": {
+      "keys": [
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-refuse.no-comment"
+      ],
+      "why": "A bare 'No comment.' gives the reporter nothing about what or why."
+    },
+    "14w080w35hp": {
+      "keys": ["scene-talk.close-promise.we-ll-be-in-touch-about-the-details"],
+      "why": "'We'll be in touch about the details' commits to nothing nameable: which details, or why."
+    },
+    "15fa6i6sz2m": {
+      "keys": [
+        "scene-talk.reply-thank.thanks-it-means-a-lot-coming-from-you",
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking"
+      ],
+      "why": "'Doing something for it' leaves the what unnamed."
+    },
+    "160tf1pry5c": {
+      "keys": [
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "Veiled threat that does not say what will go wrong or why."
+    },
+    "162jedsjw4b": {
+      "keys": [
+        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
+        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help"
+      ],
+      "why": "B promises without saying what it will do."
+    },
+    "16vv9ozsyj8": {
+      "keys": [
+        "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way",
+        "scene-talk.reply-promise.you-have-my-word-i-need-to-clear-my-days-first"
+      ],
+      "why": "Gives a word but never says what B will do."
+    },
+    "17wdyudwinx": {
+      "keys": [
+        "scene-talk.follow-press.write-it-down-so-you-don-t-lose-it-please",
+        "scene-talk.reply-promise.i-mean-it-i-ll-do-it-this-week"
+      ],
+      "why": "'I'll do it this week' never says what will be done."
+    },
+    "17zvirb0mr0": {
+      "keys": [
+        "scene-talk.follow-ask.fixing-it-how",
+        "scene-talk.reply-refuse.i-m-not-going-to-respond-to-that"
+      ],
+      "why": "Refuses to respond without saying what or why."
+    },
+    "19lxty98s4s": {
+      "keys": [
+        "scene-talk.follow-plea.i-need-this-one-i-promised-my-district-i-d-deliver",
+        "scene-talk.reply-refuse.i-m-sorry-i-just-can-t"
+      ],
+      "why": "B refuses with a bare 'I just can't' and never says what or why, even though A named the need."
+    },
+    "1a5l2cza2ve": {
+      "keys": [
+        "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
+        "scene-talk.reply-refuse.not-yet-i-m-sorry"
+      ],
+      "why": "'Not yet. I'm sorry.' gives no reason."
+    },
+    "1b084t5xs2d": {
+      "keys": [
+        "scene-talk.follow-press.not-answering-is-an-answer-too",
+        "scene-talk.reply-refuse.no-comment"
+      ],
+      "why": "A bare 'No comment.' names no what or why."
+    },
+    "1b0j3ujk4dm": {
+      "keys": [
+        "scene-talk.follow-plea.dont-do-that-first-think-what-it-does-to-both-of-us",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'My answer is the same' names no what or why."
+    },
+    "1bivy806a3b": {
+      "keys": [
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Bare refusal with no what or why."
+    },
+    "1bw4zyqlbg2": {
+      "keys": [
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "Refuses with 'this isn't it' and no reason."
+    },
+    "1bzj34zge0c": {
+      "keys": ["scene-talk.close-promise.ill-make-it-up-to-you"],
+      "why": "'I'll make it up to you' names neither what is being made up nor how."
+    },
+    "1c5rliviqxl": {
+      "keys": [
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-threaten.be-careful-what-you-refuse-people-notice"
+      ],
+      "why": "'People notice' is a threat that names no one and no consequence."
+    },
+    "1cit41rd9p5": {
+      "keys": [
+        "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
         "scene-talk.reply-promise.i-m-going-to-make-it-count-you-ll-see"
       ],
-      "why": "Promise to make it count names nothing specific."
+      "why": "'Make it count. You'll see.' promises without saying what will be done."
+    },
+    "1dhqetypyxp": {
+      "keys": [
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.pick-that-up-and-go"
+      ],
+      "why": "'Pick that up and go' refuses the offer with no reason given."
+    },
+    "1e2jps0p2n1": {
+      "keys": [
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "Refuses with 'my answer doesn't change' but names neither what is refused nor why."
+    },
+    "1e2r4zck7ka": {
+      "keys": [
+        "scene-talk.follow-press.it-s-easy-to-promise-from-your-side-of-the-glass-i-need-it-done",
+        "scene-talk.reply-promise.i-mean-it-i-ll-do-it-this-week"
+      ],
+      "why": "'I'll do it this week' never says what will be done."
+    },
+    "1e40cc0u4tb": {
+      "keys": [
+        "scene-talk.reply-promise.we-can-both-figure-it-out-as-we-go-call-me"
+      ],
+      "why": "'Figure it out as we go' names no what."
+    },
+    "1eklx3dzoo9": {
+      "keys": ["scene-talk.close-promise.then-i-ll-expect-it-don-t-forget"],
+      "why": "'Then I'll expect it' names no what."
+    },
+    "1fhkxcqteu0": {
+      "keys": [
+        "scene-talk.reply-offer.welcome-tell-me-what-would-make-this-easier-for-you-and-i-ll-do-what-i",
+        "scene-talk.follow-promise.i-ll-earn-it-you-ll-see"
+      ],
+      "why": "'I'll earn it. You'll see.' promises with no specific what."
+    },
+    "1g1b5rn28zw": {
+      "keys": [
+        "scene-talk.state-congratulate.so-the-diploma-s-done-what-s-the-plan",
+        "scene-talk.reply-promise.i-m-going-to-make-it-count-you-ll-see"
+      ],
+      "why": "'Make it count. You'll see.' promises without saying what will be done."
+    },
+    "1hbbt66fi6x": {
+      "keys": [
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.not-for-any-price"
+      ],
+      "why": "'Not for any price' refuses with no reason."
+    },
+    "1hzr4pghob2": {
+      "keys": [
+        "scene-talk.follow-ask.fixing-it-how",
+        "scene-talk.reply-refuse.no-comment-at-this-time"
+      ],
+      "why": "'No comment at this time' names no what or why."
+    },
+    "1j2y66mvz3m": {
+      "keys": [
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "Refuses to answer without giving a reason."
+    },
+    "1k0yjjkkjt5": {
+      "keys": [
+        "scene-talk.follow-ask.what-do-you-say-to-people-who-disagree",
+        "scene-talk.reply-refuse.i-have-given-you-my-answer"
+      ],
+      "why": "'I have given you my answer' states no stance and no reason."
+    },
+    "1kdv2h6a9f8": {
+      "keys": ["scene-talk.follow-promise.of-course"],
+      "why": "'Of course.' commits to something that is never named."
+    },
+    "1kkr53g54ry": {
+      "keys": [
+        "scene-talk.follow-press.then-tell-us-it-will-last-not-just-that-youre-glad",
+        "scene-talk.reply-promise.better-doesnt-mean-done-ill-keep-at-it"
+      ],
+      "why": "'I'll keep at it' does not say what will be done to make it last."
+    },
+    "1l4iwpgua9k": {
+      "keys": [
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "A threat of a 'bad week' that names no consequence or reason."
+    },
+    "1mvjjc2v88g": {
+      "keys": [
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'My answer is the same' names neither the answer nor the reason."
+    },
+    "1n210rkze1y": {
+      "keys": [
+        "scene-talk.follow-ask.here-doing-what",
+        "scene-talk.reply-promise.i-ll-figure-it-out-i-promise"
+      ],
+      "why": "'I'll figure it out. I promise.' promises without saying what will be done."
+    },
+    "1n9hrp2rvhg": {
+      "keys": [
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no"
+      ],
+      "why": "'My answer is still no' gives no what or why."
+    },
+    "1nbm9vg2b8l": {
+      "keys": [
+        "scene-talk.follow-press.certification-takes-a-week-every-hour-you-wait-it-looks-worse",
+        "scene-talk.reply-refuse.then-it-ll-look-bad-i-ll-live"
+      ],
+      "why": "'It'll look bad. I'll live.' gives no reason for refusing to concede."
+    },
+    "1nzuom5reac": {
+      "keys": [
+        "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
+        "scene-talk.reply-promise.i-will-give-me-a-little-time-to-sort-my-days"
+      ],
+      "why": "'I will' names no what."
+    },
+    "1ol6x6e2std": {
+      "keys": [
+        "scene-talk.follow-plea.just-think-about-it-for-me",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "'My answer doesn't change' is a refusal that names neither the thing refused nor why."
+    },
+    "1opvmm1z6g5": {
+      "keys": [
+        "scene-talk.follow-plea.the-people-out-there-gave-you-six-months-give-them-the-ending",
+        "scene-talk.reply-refuse.not-yet-i-m-sorry"
+      ],
+      "why": "'Not yet. I'm sorry.' refuses to concede without saying why or what is being waited for."
+    },
+    "1p012qbn2wg": {
+      "keys": [
+        "scene-talk.state-request.somebody-at-employer-mentioned-you-re-with-the-party-same-as-me-do-you-know-where-the-local-members-meet",
+        "scene-talk.reply-promise.i-will-find-me-before-you-leave-today-and-i-ll-make-the-time"
+      ],
+      "why": "'I will' never says what B will do about where members meet."
+    },
+    "1p0u2zoopmg": {
+      "keys": [
+        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "Refuses with 'this isn't it' and gives no reason."
+    },
+    "1pbbbqbbmab": {
+      "keys": [
+        "scene-talk.follow-plea.your-volunteers-are-in-that-room-they-want-to-hear-it-from-you-not-fro",
+        "scene-talk.reply-refuse.not-yet-i-m-sorry"
+      ],
+      "why": "'Not yet. I'm sorry.' gives no reason for withholding the concession."
+    },
+    "1rc8pzb5kp8": {
+      "keys": [
+        "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me",
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking"
+      ],
+      "why": "'Doing something for it' leaves what the something is and who it is for unnamed."
+    },
+    "1rf7ui2x3sp": {
+      "keys": [
+        "scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you",
+        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
+      ],
+      "why": "B's flat 'It's no' names no bill or thing and gives no reason, and A did not name it either."
+    },
+    "1rts7v524mw": {
+      "keys": [
+        "scene-talk.close-promise.i-ll-hold-you-to-that-so-don-t-forget"
+      ],
+      "why": "'I'll hold you to that' names no what, since there is no A."
+    },
+    "1s50uuor7ap": {
+      "keys": [
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'My answer is the same' states a refusal with no what or why."
+    },
+    "1tjj152oa1l": {
+      "keys": [
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "The refusal 'my answer doesn't change' names neither what is refused nor why."
+    },
+    "1tpt3u3ept3": {
+      "keys": [
+        "scene-talk.follow-plea.everyone-who-backed-it-will-hear-how-you-decided",
+        "scene-talk.reply-refuse.i-ve-heard-you-the-answer-stays-the-same"
+      ],
+      "why": "'The answer stays the same' never says what the answer is or why."
+    },
+    "1txlt6wz6h6": {
+      "keys": [
+        "scene-talk.follow-press.you-cant-just-leave-it-though",
+        "scene-talk.reply-promise.im-going-to-fix-it"
+      ],
+      "why": "'I'm going to fix it' leaves what 'it' is unnamed and says nothing of how or when."
+    },
+    "1venoci837s": {
+      "keys": [
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'My answer is the same. Don't come to me again.' never says what the answer is or why."
+    },
+    "1vr7kgf9fkv": {
+      "keys": [
+        "scene-talk.follow-warn.watch-yourself-first-this-town-is-smaller-than-you-think",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'My answer is the same' names no what or why."
+    },
+    "1wky7fuejlr": {
+      "keys": [
+        "scene-talk.follow-press.i-thought-of-you-first-first-can-you-tell-me-what-s-in-the-way",
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-look-at-what-i-have"
+      ],
+      "why": "'I'll do it' never says what, and A's question about what is in the way goes unanswered."
+    },
+    "1x7800ullxi": {
+      "keys": [
+        "scene-talk.follow-plea.i-was-there-when-you-needed-votes",
+        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
+      ],
+      "why": "B says 'It's no' but neither A nor B names the vote or bill, and gives no reason."
+    },
+    "1yday6y9mtx": {
+      "keys": [
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "'Then it's done' commits to something never named in A or B."
+    },
+    "1z8c7wbv5r4": {
+      "keys": [
+        "scene-talk.follow-answer.soon-if-you-can-and-i-thought-of-you-because-i-trust-you-with-it",
+        "scene-talk.reply-promise.i-ll-be-there-and-you-can-count-on-me"
+      ],
+      "why": "Promises to be there but never says for what."
+    },
+    "205cnxgadw8": {
+      "keys": [
+        "scene-talk.follow-answer.just-a-few-minutes-whenever-you-have-them-and-a-straight-answer-you-seemed-like-someone-who-d-give-me-one",
+        "scene-talk.reply-promise.i-ll-take-care-of-it-and-i-ll-check-on-you-afterward"
+      ],
+      "why": "'I'll take care of it' does not name what will be done."
+    },
+    "207ybix3363": {
+      "keys": ["scene-talk.close-promise.i-m-not-going-anywhere"],
+      "why": "'Not going anywhere' is a stance with no what or why."
+    },
+    "20oymh44l9s": {
+      "keys": [
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Bare refusal with no what or why."
+    },
+    "21375ud9yy9": {
+      "keys": [
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "Veiled threat that does not say what will go wrong or why."
+    },
+    "21cjkgyjt3o": {
+      "keys": [
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'My answer is the same' names no what or why."
+    },
+    "21d2qtj63gd": {
+      "keys": [
+        "scene-talk.follow-plea.who-else-would-you-trust-with-it",
+        "scene-talk.reply-refuse.i-can-t-do-that"
+      ],
+      "why": "A bare 'I can't do that.' gives neither the what nor the why."
+    },
+    "21iw7ovlgd0": {
+      "keys": [
+        "scene-talk.close-promise.we-ll-see-how-it-holds-up-after-the-vote"
+      ],
+      "why": "A vague 'we'll see' stance that names no what or why."
+    },
+    "226n4ippak6": {
+      "keys": [
+        "scene-talk.reply-thank.i-ll-tell-you-when-i-know-thanks-for-asking",
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking"
+      ],
+      "why": "'Doing something for it' names no actual thing or person."
+    },
+    "23hzcm1b6hq": {
+      "keys": [
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Bare refusal with no what or why."
+    },
+    "23n6obbjj2w": {
+      "keys": [
+        "scene-talk.follow-press.i-understand-but-i-d-like-to-know-when-to-come-find-you",
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-give-me-until-tomorrow"
+      ],
+      "why": "'I'll do it' never names what is being done."
+    },
+    "23nimf4pti8": {
+      "keys": [
+        "scene-talk.follow-press.you-ll-really-do-it-i-d-like-to-know-i-can-plan-around-it",
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-look-at-what-i-have"
+      ],
+      "why": "'I'll do it' never says what is promised."
+    },
+    "23utdjg3ysc": {
+      "keys": [
+        "scene-talk.follow-ask.will-you-say-that-to-the-people-who-showed-up-at-the-meeting",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "Refuses to answer without saying why."
+    },
+    "24dgtde247p": {
+      "keys": [
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "Refusal and warning with no named offer and no reason."
+    },
+    "24oafgrhdsn": {
+      "keys": ["scene-talk.reply-promise.i-ll-tell-you-when-i-figure-it-out"],
+      "why": "A vague promise to tell later that names no what or why."
+    },
+    "25l39ugg81g": {
+      "keys": [
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "Threat of a 'bad week' that names no consequence or reason."
+    },
+    "25qm4rohlpv": {
+      "keys": [
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "A bare refusal that names neither what is refused nor why."
+    },
+    "260pxi7r0to": {
+      "keys": [
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "'A bad week' is a threat with no named action or consequence."
+    },
+    "26djl0dcghv": {
+      "keys": [
+        "scene-talk.follow-answer.i-m-afraid-of-walking-in-and-finding-you-worse-first-that-s-all-it-is",
+        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
+      ],
+      "why": "'I'll do it' names no what; A only voiced a fear."
+    },
+    "26jpmieuhdw": {
+      "keys": [
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
+        "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no"
+      ],
+      "why": "'Same answer... No' names nothing and gives no reason."
+    },
+    "27qsa3la6em": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
+        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help"
+      ],
+      "why": "B promises without saying what it will do, only that it knows the cost."
+    },
+    "2885uw6jqkr": {
+      "keys": [
+        "scene-talk.follow-plea.i-m-not-asking-you-to-like-it-i-m-asking-you-to-vote-it",
+        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
+      ],
+      "why": "'It's no' names neither the bill nor any reason, and A did not name the bill."
+    },
+    "28aequz5fat": {
+      "keys": [
+        "scene-talk.follow-press.then-who-everyone-else-stopped-answering",
+        "scene-talk.reply-promise.i-mean-it-i-ll-do-it-this-week"
+      ],
+      "why": "Promises 'it' this week without saying what."
+    },
+    "28fp1f3khyu": {
+      "keys": [
+        "scene-talk.reply-thank.thank-you-that-means-a-lot",
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking"
+      ],
+      "why": "'Doing something for it' leaves the what unnamed."
+    },
+    "28n6cszsp4l": {
+      "keys": [
+        "scene-talk.follow-press.i-hear-you-but-this-matters-to-the-family-what-s-in-the-way",
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-i-need-to-work-out-what-to-say-first"
+      ],
+      "why": "B promises 'I'll do it' without saying what or why it is delayed beyond 'what to say'."
+    },
+    "28xoon3swjj": {
+      "keys": [
+        "scene-talk.follow-plea.i-ve-done-this-job-years-years-hear-me-out-before-you-decide",
+        "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no"
+      ],
+      "why": "'The answer is still no' names neither the decision nor the reason."
+    },
+    "29odafyrc39": {
+      "keys": ["scene-talk.close-promise.i-ll-do-my-part-first-you-ll-see"],
+      "why": "'I'll do my part' does not say what the part is."
+    },
+    "2aizfmhai36": {
+      "keys": [
+        "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me",
+        "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no"
+      ],
+      "why": "'My answer is still no' gives no what or why."
+    },
+    "2avpzw7ibm2": {
+      "keys": [
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "Same bare refusal: no named offer, no reason."
+    },
+    "2bemjzmgrf1": {
+      "keys": [
+        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
+        "scene-talk.reply-refuse.i-said-no-last-time-and-nothing-has-changed"
+      ],
+      "why": "Only refers back to a previous no with no reason or what."
+    },
+    "2bke8dsuji2": {
+      "keys": [
+        "scene-talk.follow-press.place-votes-in-november-people-will-want-this-before-then",
+        "scene-talk.reply-refuse.not-today"
+      ],
+      "why": "'Not today.' refuses with no what or why."
+    },
+    "2bnezb3u4ve": {
+      "keys": [
+        "scene-talk.reply-thank.i-mean-it-thank-you",
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking"
+      ],
+      "why": "'Doing something for it' leaves the what unnamed."
+    },
+    "2c9a5fj93xr": {
+      "keys": [
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "Veiled threat that does not say what will go wrong or why."
+    },
+    "2cpdrmhn6o9": {
+      "keys": [
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-refuse.not-today"
+      ],
+      "why": "'Not today.' refuses with no what or why."
+    },
+    "2d4zjih5f4q": {
+      "keys": [
+        "scene-talk.state-ask.i-m-writing-about-story-and-i-d-like-your-side-before-it-runs",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "Refuses to give a side with no reason."
+    },
+    "2d61f0h108y": {
+      "keys": [
+        "scene-talk.close-promise.we-ll-do-something-for-it-i-mean-that"
+      ],
+      "why": "'Do something for it' names no actual thing."
+    },
+    "2eijldhl4cm": {
+      "keys": [
+        "scene-talk.reply-thank.thanks-really",
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking"
+      ],
+      "why": "'We're doing something for it' names no action and no reason."
+    },
+    "2fdmzg9ee9l": {
+      "keys": [
+        "scene-talk.close-promise.when-it-s-finished-you-ll-know-i-ll-see-to-it"
+      ],
+      "why": "'You'll know when it's finished' names no what or who."
+    },
+    "2g66ipruism": {
+      "keys": ["scene-talk.reply-refuse.no-i-thought-about-it-take-it-back"],
+      "why": "Refuses with 'take it back' and gives no reason."
+    },
+    "2gk6a4i8csx": {
+      "keys": [
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "'My answer doesn't change' gives no what or why."
     }
   },
-  "yesHash": "1cazuqocbme"
+  "yesHash": "1enuccwwpi8"
 }

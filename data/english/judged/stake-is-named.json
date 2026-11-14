@@ -2,140 +2,582 @@
   "schema": "english-judged/2",
   "rule": "stake-is-named",
   "rubric": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-  "judged": 133,
+  "judged": 333,
   "no": {
-    "05b5ifghb3m": {
+    "01pgpio2txd": {
       "keys": [
-        "scene-talk.follow-plea.please-don-t-spin-me-i-want-the-real-answer"
+        "scene-talk.reply-stall.give-me-a-little-time-i-cant-answer-you-while-youre-like-this",
+        "scene-talk.follow-plea.please-youre-the-only-one-who-can-help-me"
       ],
-      "why": "No stake named."
+      "why": "'Only one who can help me' names no concrete stake."
     },
-    "06gd5uq84fx": {
-      "keys": ["scene-talk.follow-bargain.depends-on-the-favor"],
-      "why": "No favor or trade named."
-    },
-    "06kilvhrt34": {
+    "02bt04gr6ps": {
       "keys": [
+        "scene-talk.reply-refuse.i-d-rather-lose-the-argument-with-you-than-lie-to-you-no",
+        "scene-talk.follow-plea.please-not-as-a-member-as-me"
+      ],
+      "why": "B pleads 'as me' with no stake or reason named."
+    },
+    "02nzmidkfa6": {
+      "keys": [
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
+      ],
+      "why": "B warns 'think about what you're doing' but names no stake or trade."
+    },
+    "04qob8rorwh": {
+      "keys": [
+        "scene-talk.reply-apologize.im-sorry-i-care-about-you-and-i-cant-do-this",
+        "scene-talk.follow-plea.just-think-about-it-for-me"
+      ],
+      "why": "B pleads 'think about it, for me' without saying what is at stake."
+    },
+    "050e0u4sc6i": {
+      "keys": [
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line"
+      ],
+      "why": "'Everything I've put into this' is vague; no concrete stake is named."
+    },
+    "07z28bzjsk8": {
+      "keys": [
+        "scene-talk.follow-press.then-give-me-a-reason-i-can-take-back-to-the-people-who-chipped-in",
         "scene-talk.reply-bargain.show-me-what-you-can-live-with-and-we-ll-talk"
       ],
-      "why": "Names no trade or stake."
+      "why": "B offers a vague 'show me what you can live with' without naming any trade, though A asked for a reason."
     },
-    "0ce1nid3jgt": {
-      "keys": ["scene-talk.follow-plea.then-who-do-i-ask"],
-      "why": "No stake named."
-    },
-    "0cey8xjgg2y": {
-      "keys": ["scene-talk.follow-plea.talk-to-me"],
-      "why": "No stake named."
-    },
-    "0ck8q5ba0b6": {
-      "keys": ["scene-talk.follow-plea.give-me-something-i-can-believe"],
-      "why": "No stake named."
-    },
-    "0ggu3a9268f": {
-      "keys": ["scene-talk.follow-plea.say-it-plainly-i-can-take-it"],
-      "why": "No stake named."
-    },
-    "0lr13cybn65": {
-      "keys": ["scene-talk.follow-plea.i-m-asking-i-don-t-ask-much"],
-      "why": "No stake named."
-    },
-    "0m7utua49kv": {
+    "08f8y9903it": {
       "keys": [
-        "scene-talk.follow-plea.at-least-tell-me-what-would-change-your-mind"
+        "scene-talk.reply-confront.you-know-i-have-to-report-this",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this"
       ],
-      "why": "No stake or trade named."
+      "why": "'A lot riding on this' never says what is riding."
     },
-    "0mtptnsp8f3": {
+    "09jjd6i9600": {
       "keys": [
-        "scene-talk.follow-bargain.i-can-give-you-that-if-you-give-me-this"
+        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
+        "scene-talk.follow-plea.is-there-anything-you-can-do-even-something-small"
       ],
-      "why": "No specific trade named; \"that/this\" is empty."
+      "why": "B asks for 'anything, even something small' with no stake or concrete need named."
     },
-    "0nxpq6qlh4h": {
-      "keys": ["scene-talk.follow-bargain.what-would-that-take"],
-      "why": "No trade named."
-    },
-    "0p2tb7nee32": {
-      "keys": ["scene-talk.follow-plea.then-tell-me-what-s-true"],
-      "why": "No stake named."
-    },
-    "0sak9sktxr0": {
+    "09x2fo1petx": {
       "keys": [
-        "scene-talk.follow-plea.i-thought-we-were-headed-there-tell-me-what-i-got-wrong-and-i-ll-liste"
+        "scene-talk.reply-refuse.i-m-sorry-i-just-can-t",
+        "scene-talk.follow-plea.who-else-would-you-trust-with-it"
       ],
-      "why": "No stake named."
+      "why": "B asks who else A would trust but gives no stake for the plea."
     },
-    "0trujsw8gus": {
-      "keys": ["scene-talk.follow-plea.just-tell-me-the-truth"],
-      "why": "No stake named."
-    },
-    "0x5l1e9ngyq": {
-      "keys": ["scene-talk.follow-plea.sleep-on-it-at-least-call-me"],
-      "why": "No stake named."
-    },
-    "0xn0fjf449m": {
-      "keys": ["scene-talk.follow-plea.just-think-about-it-for-me"],
-      "why": "No stake named."
-    },
-    "0yfh7nuil1h": {
-      "keys": ["scene-talk.follow-bargain.i-ll-see-what-i-can-change"],
-      "why": "No trade named."
-    },
-    "0yranbu2vgr": {
-      "keys": ["scene-talk.follow-plea.then-tell-me-who-s-right"],
-      "why": "No stake named."
-    },
-    "136n0lu08n4": {
-      "keys": ["scene-talk.follow-plea.nobody-reads-those-you-know-that"],
-      "why": "No stake or effect named."
-    },
-    "185g2q901iu": {
-      "keys": ["scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you"],
-      "why": "No stake named."
-    },
-    "1jra634qvdc": {
+    "0blh13ljovz": {
       "keys": [
-        "scene-talk.reply-offer.come-in-we-ll-figure-out-the-rest-together-as-it-comes"
+        "scene-talk.reply-deflect.that-s-a-good-one-for-another-night",
+        "scene-talk.follow-plea.please-i-stood-up-to-ask-this"
       ],
-      "why": "Offers only a vague \"figure it out together\" with no thing, favor or consequence named."
+      "why": "B pleads to be heard but gives no stake in the question."
     },
-    "1uxosvsxbec": {
+    "0d5zy9bb387": {
       "keys": [
-        "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me"
+        "scene-talk.reply-refuse.i-m-not-doing-it-on-anybody-s-schedule-but-mine",
+        "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight"
       ],
-      "why": "No stake named."
+      "why": "B insists on tonight but gives no stake for why."
     },
-    "1z7k0omhey5": {
-      "keys": ["scene-talk.follow-plea.then-why-have-a-town-hall"],
-      "why": "Complaint with no concrete effect named."
-    },
-    "1zkwt83thtq": {
+    "0dk1mvml3y9": {
       "keys": [
-        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends"
+        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
+        "scene-talk.follow-plea.then-at-least-come-to-dinner-sunday-and-let-me-say-it-all-after-that"
       ],
-      "why": "No stake named."
+      "why": "B asks for dinner to make the case but names no stake for either side."
     },
-    "1zu017wgv9v": {
-      "keys": ["scene-talk.follow-plea.who-else-would-you-trust-with-it"],
-      "why": "No stake named."
-    },
-    "20mhfqvg91b": {
+    "0dv3d1y91bm": {
       "keys": [
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line"
+      ],
+      "why": "'Everything I've put into this' is vague; no concrete stake is named."
+    },
+    "0fdznbgdtgz": {
+      "keys": [
+        "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
+        "scene-talk.reply-bargain.show-me-what-you-can-live-with-and-we-ll-talk"
+      ],
+      "why": "B asks for terms without naming any trade or stake."
+    },
+    "0feqsnotulv": {
+      "keys": [
+        "scene-talk.follow-plea.i-was-there-when-you-needed-votes",
+        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you"
+      ],
+      "why": "B asks for a favor but never says what the favor is, so the trade is unnamed."
+    },
+    "0gj3grg8ul5": {
+      "keys": [
+        "scene-talk.reply-deflect.it-s-temporary-it-ll-settle-down",
+        "scene-talk.follow-plea.we-miss-you-that-s-all"
+      ],
+      "why": "'We miss you' names no concrete effect of the absence."
+    },
+    "0jd48rmwwt9": {
+      "keys": [
+        "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us",
+        "scene-talk.reply-offer.talk-to-me-after-i-want-the-details"
+      ],
+      "why": "B says 'I want the details' but names no stake or concrete effect."
+    },
+    "0joltdrtm6w": {
+      "keys": [
+        "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no",
+        "scene-talk.follow-plea.i-ve-done-this-job-years-years-hear-me-out-before-you-decide"
+      ],
+      "why": "B pleads for a hearing on years of service without naming what the cut costs or what B wants."
+    },
+    "0nmx6earjvx": {
+      "keys": [
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
         "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out"
       ],
-      "why": "No stake named."
+      "why": "B says there is no need and they can work it out, with no stake or trade named."
     },
-    "21uuz9e21gw": {
-      "keys": ["scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything"],
-      "why": "Offers nothing and names no trade."
-    },
-    "24r51ycle2u": {
+    "0no6by7n1dm": {
       "keys": [
+        "scene-talk.state-ask.before-we-start-what-do-you-expect-from-me-and-what-can-i-expect-from",
+        "scene-talk.reply-offer.i-m-glad-you-re-here-whatever-you-need-tell-me-and-we-ll-work-it-out"
+      ],
+      "why": "B answers a question about expectations with 'whatever you need', naming no concrete expectation or stake."
+    },
+    "0nsi88e11j0": {
+      "keys": [
+        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
+        "scene-talk.follow-plea.hear-me-out-then-say-no-to-my-face"
+      ],
+      "why": "B asks to be heard out but names no stake in the outcome."
+    },
+    "0op84ix2f3b": {
+      "keys": [
+        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
         "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first"
       ],
-      "why": "No stake named."
+      "why": "B pleads not to be reported with no stake named."
+    },
+    "0q0tzuh7bsz": {
+      "keys": [
+        "scene-talk.reply-refuse.i-won-t-schedule-it-that-s-my-call-and-it-s-made",
+        "scene-talk.follow-plea.at-least-tell-me-what-would-change-your-mind"
+      ],
+      "why": "B asks what would change A's mind but names no stake of its own."
+    },
+    "0sfuowbp1jw": {
+      "keys": [
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first"
+      ],
+      "why": "B says A need not report it, naming no stake or concrete effect."
+    },
+    "0u8mt5mkoqy": {
+      "keys": [
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
+      ],
+      "why": "B only urges A to think, with no stake or trade named."
+    },
+    "0vmac4yu7zq": {
+      "keys": [
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line"
+      ],
+      "why": "'Everything I've put into this' is vague; no concrete stake is named."
+    },
+    "0vn5nhk9qb7": {
+      "keys": [
+        "scene-talk.reply-refuse.bill-isn-t-going-on-my-calendar-this-session",
+        "scene-talk.follow-plea.at-least-tell-me-what-would-change-your-mind"
+      ],
+      "why": "B asks what would change A's mind but names no stake of its own."
+    },
+    "0x0eoww10tk": {
+      "keys": [
+        "scene-talk.reply-decline.i-m-not-a-yes-i-m-not-going-to-help-the-other-side-either",
+        "scene-talk.follow-plea.can-t-you-go-with-us-once"
+      ],
+      "why": "B pleads 'go with us once' without giving any stake."
+    },
+    "0yr390mwm1k": {
+      "keys": [
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont"
+      ],
+      "why": "B pleads with no concrete stake named."
+    },
+    "0z7x1fp20my": {
+      "keys": [
+        "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
+        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something"
+      ],
+      "why": "B pleads 'doesn't that count for something' without saying what is at stake or what B offers."
+    },
+    "10z9g46jku4": {
+      "keys": [
+        "scene-talk.state-ask.what-are-you-going-to-do-about-the-things-people-here-are-worried-abou",
+        "scene-talk.reply-offer.i-can-t-do-this-justice-from-here-come-see-me"
+      ],
+      "why": "B deflects with 'come see me' and names no concrete thing about the town's worries."
+    },
+    "112tcglh8vd": {
+      "keys": [
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this"
+      ],
+      "why": "'A lot riding on this' never says what is riding."
+    },
+    "12lp8g9u0c5": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-take-the-next-hand",
+        "scene-talk.follow-plea.please-i-stood-up-to-ask-this"
+      ],
+      "why": "B pleads to be heard but gives no stake in the question."
+    },
+    "160ir2hrlgl": {
+      "keys": [
+        "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
+      ],
+      "why": "B pleads for silence but names nothing at stake."
+    },
+    "1684z67t041": {
+      "keys": [
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something"
+      ],
+      "why": "B asks 'doesn't that count for something' without saying what it should count toward or what is at stake."
+    },
+    "16ni0ci0uj6": {
+      "keys": [
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
+      ],
+      "why": "B only urges A to think, with no stake or trade named."
+    },
+    "16p7jjad09z": {
+      "keys": [
+        "scene-talk.reply-refuse.i-can-t-and-it-s-killing-me-to-say-it-to-you",
+        "scene-talk.follow-plea.please-not-as-a-member-as-me"
+      ],
+      "why": "B pleads 'as me' with no stake or reason named."
+    },
+    "18pcp8cs6w4": {
+      "keys": [
+        "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself",
+        "scene-talk.follow-plea.then-who-can-somebody-has-to"
+      ],
+      "why": "B complains 'somebody has to' but names no concrete effect on them."
+    },
+    "19zjwavwgxj": {
+      "keys": [
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out"
+      ],
+      "why": "B says 'we can still work this out' without naming what is being worked out or what is at stake."
+    },
+    "1a48cmfsvew": {
+      "keys": [
+        "scene-talk.reply-refuse.cross-me-off-on-bill-my-district-sent-me-here-to-vote-no-on-that",
+        "scene-talk.follow-plea.i-m-not-asking-you-to-like-it-i-m-asking-you-to-vote-it"
+      ],
+      "why": "B insists on the vote without naming what is at stake or what B offers in return."
+    },
+    "1ab7lyr0iuo": {
+      "keys": [
+        "scene-talk.reply-stall.let-me-think-don-t-call-me",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
+      ],
+      "why": "B pressures with no stake named."
+    },
+    "1c1vxvt3cjb": {
+      "keys": [
+        "scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you",
+        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you"
+      ],
+      "why": "B asks for 'a favor' without naming what the trade is."
+    },
+    "1cbnyaxh1jg": {
+      "keys": [
+        "scene-talk.follow-plea.i-m-holding-this-list-together-by-hand-could-you-stay-with-us-this-once",
+        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you"
+      ],
+      "why": "B asks for 'a favor' without naming what the trade is."
+    },
+    "1e6u4k9rcpz": {
+      "keys": [
+        "scene-talk.reply-refuse.i-d-rather-lose-the-argument-with-you-than-lie-to-you-no",
+        "scene-talk.follow-plea.it-s-one-vote-i-m-asking-as-a-friend"
+      ],
+      "why": "B repeats 'one vote, as a friend' with no stake or trade named."
+    },
+    "1ervy5eav8l": {
+      "keys": [
+        "scene-talk.reply-refuse.i-can-t-and-it-s-killing-me-to-say-it-to-you",
+        "scene-talk.follow-plea.it-s-one-vote-i-m-asking-as-a-friend"
+      ],
+      "why": "B pleads 'one vote, as a friend' without naming what depends on it."
+    },
+    "1f8tcqev8hy": {
+      "keys": [
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this"
+      ],
+      "why": "'A lot riding on this' never says what is riding."
+    },
+    "1fecmcpne7k": {
+      "keys": [
+        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
+        "scene-talk.follow-plea.sleep-on-it-at-least-call-me"
+      ],
+      "why": "B asks only for time to sleep on it and gives no stake for why it matters."
+    },
+    "1g6cuorhzjl": {
+      "keys": [
+        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
+        "scene-talk.follow-plea.is-there-anything-you-can-do-even-something-small"
+      ],
+      "why": "B asks for 'even something small' with no stake or concrete need named."
+    },
+    "1gw1iknenl2": {
+      "keys": [
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this"
+      ],
+      "why": "'A lot riding on this' names no concrete stake."
+    },
+    "1ivbxjm5eqa": {
+      "keys": [
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
+      ],
+      "why": "B only urges A to think, with no stake or trade named."
+    },
+    "1ja8tgrylx6": {
+      "keys": [
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out"
+      ],
+      "why": "B pleads to work it out without saying what is at stake."
+    },
+    "1mfuhgiterr": {
+      "keys": [
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
+      ],
+      "why": "B pressures with no stake named."
+    },
+    "1mic6h9zz9g": {
+      "keys": [
+        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
+        "scene-talk.follow-plea.hear-me-out-then-say-no-to-my-face"
+      ],
+      "why": "B asks to be heard and told no to the face but names no stake in the outcome."
+    },
+    "1mrikqnoqwg": {
+      "keys": [
+        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
+        "scene-talk.follow-plea.i-don-t-need-a-promise-i-need-you-to-hear-it-before-the-vote"
+      ],
+      "why": "B asks only to be heard before the vote, naming no stake."
+    },
+    "1n43b6magfg": {
+      "keys": [
+        "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this"
+      ],
+      "why": "'A lot riding on this' never says what is riding."
+    },
+    "1on76rliz36": {
+      "keys": [
+        "scene-talk.state-request.i-need-your-vote-on-bill",
+        "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you"
+      ],
+      "why": "B asks for a favor but never names it, so the trade is unnamed."
+    },
+    "1ptx5rarqw2": {
+      "keys": [
+        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
+        "scene-talk.follow-plea.hear-me-out-then-say-no-to-my-face"
+      ],
+      "why": "B asks to be heard then refused, naming no stake."
+    },
+    "1pxf6snuqoc": {
+      "keys": [
+        "scene-talk.reply-apologize.i-wish-i-could-help-not-like-this-and-im-sorry",
+        "scene-talk.follow-plea.just-think-about-it-for-me"
+      ],
+      "why": "B pleads 'think about it, for me' with no stake named."
+    },
+    "1q59a0hwsye": {
+      "keys": [
+        "scene-talk.reply-refuse.you-were-loud-about-it-you-can-be-loud-somewhere-else",
+        "scene-talk.follow-plea.i-m-asking-i-don-t-ask-much"
+      ],
+      "why": "B pleads 'I'm asking' without saying what is at stake."
+    },
+    "1qyh6pxipiw": {
+      "keys": [
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends"
+      ],
+      "why": "B deflects with no stake named."
+    },
+    "1rsrc7v277e": {
+      "keys": [
+        "scene-talk.reply-decline.i-can-t-say-yes-i-m-happy-with-what-we-have-i-just-can-t-picture-the-w",
+        "scene-talk.follow-plea.i-thought-we-were-headed-there-tell-me-what-i-got-wrong-and-i-ll-liste"
+      ],
+      "why": "B asks what they got wrong but names no stake in the answer."
+    },
+    "1txhrnjemn3": {
+      "keys": [
+        "scene-talk.reply-deflect.it-s-just-a-busy-stretch",
+        "scene-talk.follow-plea.we-miss-you-that-s-all"
+      ],
+      "why": "'We miss you. That's all.' names no concrete effect."
+    },
+    "1u7bqymfuy3": {
+      "keys": [
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
+      ],
+      "why": "B pleads for silence but names nothing at stake for B."
+    },
+    "1u9kzyi21zm": {
+      "keys": [
+        "scene-talk.reply-confront.a-gift-to-someone-you-want-something-from-is-a-bribe-im-reporting-it",
+        "scene-talk.follow-plea.it-would-mean-a-lot-to-me-and-it-costs-you-nothing"
+      ],
+      "why": "B says it would mean a lot but does not say what the gift is for or what B gets."
+    },
+    "1ul2c5g6bh8": {
+      "keys": [
+        "scene-talk.reply-decline.i-can-t-say-yes-to-this-yet-not-until-we-ve-talked-it-over-properly",
+        "scene-talk.follow-plea.give-me-a-real-chance-if-it-s-going-badly-tell-me-and-we-ll-talk"
+      ],
+      "why": "B asks for 'a real chance' with no stake or concrete terms named."
+    },
+    "1v1xqajk905": {
+      "keys": [
+        "scene-talk.reply-stall.let-me-sleep-on-it-give-me-a-few-days-as-a-friend",
+        "scene-talk.follow-plea.please-after-all-the-years-youd-really-say-no"
+      ],
+      "why": "'After all the years' pleads without naming what is at stake."
+    },
+    "1wl19lt6ilc": {
+      "keys": [
+        "scene-talk.reply-blame.this-job-doesn-t-leave-much-time-you-know-that",
+        "scene-talk.follow-plea.i-m-not-angry-i-just-miss-you"
+      ],
+      "why": "'I just miss you' names no concrete effect of the absence."
+    },
+    "1ydymj52dwi": {
+      "keys": [
+        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
+        "scene-talk.follow-plea.i-m-not-asking-you-to-vote-i-m-asking-you-to-read-it-first"
+      ],
+      "why": "B asks only that A read it, naming no stake or reason it matters."
+    },
+    "20h60smhmrv": {
+      "keys": [
+        "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line"
+      ],
+      "why": "'Everything I've put into this' is vague; no concrete stake is named."
+    },
+    "21f6uha3p56": {
+      "keys": [
+        "scene-talk.follow-press.you-keep-saying-that-what-changes-by-next-week",
+        "scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything"
+      ],
+      "why": "B offers only to listen, naming no stake or trade in answer to A's demand for what changes."
+    },
+    "223c9y01q9w": {
+      "keys": [
+        "scene-talk.reply-decline.i-can-t-say-yes-to-this-yet-not-until-we-ve-talked-it-over-properly",
+        "scene-talk.follow-plea.please-don-t-decide-that-now-let-me-show-you-i-can-be-easy-to-live-wit"
+      ],
+      "why": "B pleads not to decide yet and offers only vague 'easy to live with', no concrete stake."
+    },
+    "23d99h9lj2c": {
+      "keys": [
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this"
+      ],
+      "why": "'A lot riding on this' never says what is riding."
+    },
+    "23xz09qr3oy": {
+      "keys": [
+        "scene-talk.state-ask.i-have-a-question-and-i-d-like-a-straight-answer",
+        "scene-talk.reply-offer.stay-after-and-let-s-sit-down-i-want-the-whole-story"
+      ],
+      "why": "B deflects to a later talk and states no stake."
+    },
+    "24igsz6tocq": {
+      "keys": [
+        "scene-talk.state-request.i-need-you-to-take-another-look-at-bill",
+        "scene-talk.reply-offer.let-me-put-you-on-the-calendar-for-a-real-meeting"
+      ],
+      "why": "B offers a calendar slot but names no stake or trade for the bill."
+    },
+    "2521syy7ytu": {
+      "keys": [
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first"
+      ],
+      "why": "B just says A need not report it, naming no concrete stake or effect."
+    },
+    "27towxck8nw": {
+      "keys": [
+        "scene-talk.reply-confront.you-know-i-have-to-report-this",
+        "scene-talk.follow-plea.its-only-a-gift-wont-you-at-least-look-at-whats-in-it"
+      ],
+      "why": "B pleads 'only a gift, look at it' without any stake or named trade."
+    },
+    "29xoszgbiwl": {
+      "keys": [
+        "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
+        "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me"
+      ],
+      "why": "B only denies meaning anything by it and names no stake."
+    },
+    "2a108gt2yri": {
+      "keys": [
+        "scene-talk.reply-confront.i-thought-better-of-you-this-is-a-bribe-and-im-reporting-it-even-from",
+        "scene-talk.follow-plea.youd-report-me-after-everything"
+      ],
+      "why": "B only protests 'after everything' without naming what is at stake."
+    },
+    "2c45b22872k": {
+      "keys": [
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line"
+      ],
+      "why": "'Everything I've put into this' is vague; no concrete stake is named."
+    },
+    "2chh2w06svo": {
+      "keys": [
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this"
+      ],
+      "why": "'A lot riding on this' never says what is riding."
+    },
+    "2ctdob14bgr": {
+      "keys": [
+        "scene-talk.reply-refuse.pick-that-up-and-go",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this"
+      ],
+      "why": "'A lot riding on this' never says what is riding."
+    },
+    "2dci1zbs1ys": {
+      "keys": [
+        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
+      ],
+      "why": "B only urges A to think, with no stake or trade named."
     }
   },
-  "yesHash": "0uzuj9kjqgg"
+  "yesHash": "1ewijpmwka9"
 }
