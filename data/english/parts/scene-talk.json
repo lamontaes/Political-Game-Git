@@ -149,7 +149,7 @@
     "rent": "The rent a renter pays each month, as said money, from their home's record.",
     "own-workplace": "The business where a witness works, by its name, from their job's record (the witness after the hearing).",
     "own-child": "The given name of a witness's child at home, from the child's record (the witness after the hearing).",
-    "bill-purpose": "What the player's bill does, as people say it (\"a cap on rent increases\"), from the bill's question (billNameOf), for the co-sponsor ask.",
+    "said": "The subject of the player's bill as a person names it after 'on' (\"voting by mail\"), from the question's `said` in data/english/question-names.json (questionSaid), for the co-sponsor ask; never a side.",
     "purpose": "What a bill does, as a short phrase, from the bill record's own sections.",
     "names": "The members who voted no on a bill, by name, three or fewer, from the vote record.",
     "group": "The group that pressed the members who voted no, by its said name, from the lobbying record.",
@@ -187834,10 +187834,10 @@
       ]
     },
     {
-      "key": "scene-talk.state-request.i-m-putting-in-a-bill-for-bill-purpose-will-you-sign-on-with-me",
+      "key": "scene-talk.state-request.i-m-putting-in-a-bill-on-said-will-you-sign-on-with-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm putting in a bill for {bill-purpose}. Will you sign on with me?",
+      "text": "I'm putting in a bill on {said}. Will you sign on with me?",
       "origin": "authored",
       "author": "Bill stages (Claude Code), co-sponsor ask",
       "date": "2026-11-14",
@@ -187854,15 +187854,15 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["bill-purpose"]
+          "requiresFacts": ["said"]
         }
       ]
     },
     {
-      "key": "scene-talk.state-request.i-ve-got-a-bill-for-bill-purpose-i-d-like-your-name-on-it",
+      "key": "scene-talk.state-request.i-ve-got-a-bill-on-said-i-d-like-your-name-on-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I've got a bill for {bill-purpose}. I'd like your name on it.",
+      "text": "I've got a bill on {said}. I'd like your name on it.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), co-sponsor ask",
       "date": "2026-11-14",
@@ -187879,15 +187879,15 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["bill-purpose"]
+          "requiresFacts": ["said"]
         }
       ]
     },
     {
-      "key": "scene-talk.state-request.i-m-looking-for-names-on-my-bill-for-bill-purpose-will-you-be-one",
+      "key": "scene-talk.state-request.i-m-looking-for-people-to-sign-on-to-my-bill-on-said-will-you-be-one",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm looking for names on my bill for {bill-purpose}. Will you be one?",
+      "text": "I'm looking for people to sign on to my bill on {said}. Will you be one?",
       "origin": "authored",
       "author": "Bill stages (Claude Code), co-sponsor ask",
       "date": "2026-11-14",
@@ -187904,7 +187904,7 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["bill-purpose"]
+          "requiresFacts": ["said"]
         }
       ]
     },
@@ -188000,7 +188000,33 @@
           "move": "stall",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "requiresFacts": ["no-views"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-don-t-know-it-s-not-how-i-see-it",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I don't know. It's not how I see it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "bill-sign-on"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["no-views"]
         }
       ]
     },
@@ -188024,15 +188050,25 @@
           "move": "stall",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "requiresFacts": ["no-constituents"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["no-party"]
         }
       ]
     },
     {
-      "key": "scene-talk.reply-stall.i-could-be-talked-into-it-i-m-not-there-yet",
+      "key": "scene-talk.reply-stall.you-know-how-i-ve-voted-on-this",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I could be talked into it. I'm not there yet.",
+      "text": "You know how I've voted on this.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), co-sponsor ask",
       "date": "2026-11-14",
@@ -188040,7 +188076,7 @@
         "move": "stall",
         "key": "bill-sign-on"
       },
-      "bearing": "calm",
+      "bearing": "steady",
       "uses": [
         {
           "subject": "scene",
@@ -188048,7 +188084,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "requiresFacts": ["no-consistency", "voted-against-before"]
         }
       ]
     },
@@ -188399,10 +188436,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-press.read-it-again-it-s-a-good-bill",
+      "key": "scene-talk.follow-press.read-it-it-s-a-good-bill",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Read it again. It's a good bill.",
+      "text": "Read it. It's a good bill.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), co-sponsor ask",
       "date": "2026-11-14",

@@ -68,7 +68,11 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import { areaName } from "../english/area-names";
-import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
+import {
+  NAMED_QUESTIONS,
+  questionAbout,
+  questionSaid,
+} from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import {
   questionSubject,
@@ -729,10 +733,11 @@ function composeBinding(
   // player asked them before and was turned down.
   if (record?.kind === "sign-on-asked" && said.billId && named) {
     const api = coreAPI(core as CoreState);
-    const purpose = billNameOf(named)?.purpose;
-    if (purpose)
-      facts["bill-purpose"] = {
-        text: purpose,
+    const [asked] = named.provisions;
+    const subject = asked?.question ? questionSaid(asked.question) : null;
+    if (subject)
+      facts.said = {
+        text: subject,
         sourceRecordIds: [named.id, moment.causeId],
       };
     const position = memberPosition(api, named.id, askerId);

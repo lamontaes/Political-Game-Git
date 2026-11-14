@@ -130,7 +130,7 @@ export const facts: Record<string, Fact> = {
   margin: fact("about 60 votes"),
   signatures: fact("1,250"),
   due: fact("March 5"),
-  "bill-purpose": fact("limits on how much rents can rise"),
+  said: fact("rent increases"),
   // Asking someone to serve (purpose-scene's serve facts): the asked person's
   // first name and seat, and one reason each way, so both answers can be worded.
   "their-first": fact("Pat"),
