@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 522,
+  "judged": 521,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -4005,15 +4005,6 @@
         "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
       ],
       "why": "Refusal, clerk, not here and said all carry no reason."
-    },
-    "22kub5v4hix": {
-      "keys": [
-        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
-        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
-        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
-        "scene-talk.reply-confront.money.then-say-it-in-front-of-everybody-if-that-s-what-you-want"
-      ],
-      "why": "A stock apology, calling a stop and a dare to say it in front of everybody give no reason about the payment."
     },
     "22kv1q5g1j7": {
       "keys": [

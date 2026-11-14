@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 291,
+  "judged": 286,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -452,19 +452,6 @@
         "scene-talk.reply-leave.i-m-done-take-it-with-you"
       ],
       "why": "Holding the answer, 'put it down and go' and 'take it with you' are the first refuse, accept and go options again."
-    },
-    "0973slx4eps": {
-      "keys": [
-        "scene-talk.follow-confront.money.i-m-not-going-to-apologize-for-something-you-won-t-let-me-explain-first",
-        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
-        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
-        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
-        "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too",
-        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
-        "scene-talk.reply-leave.money.let-s-stop-before-we-say-something-we-can-t-take-back",
-        "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for"
-      ],
-      "why": "'You're right... I'm sorry' and 'You want a fight... not the only one' repeat the first apology and keep-score options, leaving only 'let's stop' new."
     },
     "098g1z9jc7a": {
       "keys": [
@@ -2346,19 +2333,6 @@
       ],
       "why": "'I'll make the call', 'Not yet. I'm not ready' and 'I'll be right back' repeat dial, wait and step away from the start."
     },
-    "1c4av7kq5xh": {
-      "keys": [
-        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
-        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
-        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
-        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
-        "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for",
-        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
-        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
-        "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too"
-      ],
-      "why": "'I'm sorry, and I mean it' and the keep-score counter repeat the first apology and not-the-only-one options, leaving one new reply."
-    },
     "1dck7gk0cqk": {
       "keys": [
         "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
@@ -2384,20 +2358,6 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "\"The firm is on the bid list, I reported it\" restates the first reply about reporting it, and \"Fine. I'll step out\" restates the step-out reply, so two of three rehash."
-    },
-    "1e1f1gxr8pj": {
-      "keys": [
-        "scene-talk.follow-press.money.that-s-a-start-first-tell-me-what-you-re-going-to-do-about-it",
-        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
-        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
-        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
-        "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too",
-        "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
-        "scene-talk.reply-promise.money.i-m-sorry-i-ll-make-sure-the-next-one-is-paid-before-it-s-due-and-i-ll-show-you-the-receipt",
-        "scene-talk.reply-leave.money.i-can-t-keep-going-over-the-missed-payment-today-i-ll-come-back-to-you-when-i-can-say-it-right",
-        "scene-talk.reply-confront.money.i-m-not-the-only-one-who-forgets-things-around-here"
-      ],
-      "why": "The sorry, the paid-before-due promise and the not-the-only-one counter restate three of the four first options."
     },
     "1e7apq23s2w": {
       "keys": [
@@ -2769,20 +2729,6 @@
       ],
       "why": "Apart from the pay-the-next-one plan, the replies redo the apology, the come-back-later exit and the 'don't ask me' defense from the first set."
     },
-    "1p0jwprszkl": {
-      "keys": [
-        "scene-talk.follow-press.money.that-s-a-start-first-tell-me-what-you-re-going-to-do-about-it",
-        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
-        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
-        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
-        "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for",
-        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
-        "scene-talk.reply-promise.money.i-m-sorry-i-ll-make-sure-the-next-one-is-paid-before-it-s-due-and-i-ll-show-you-the-receipt",
-        "scene-talk.reply-leave.money.i-can-t-keep-going-over-the-missed-payment-today-i-ll-come-back-to-you-when-i-can-say-it-right",
-        "scene-talk.reply-confront.money.i-m-not-the-only-one-who-forgets-things-around-here"
-      ],
-      "why": "Three of four replies repeat the first sorry, the won't-happen-again promise and the not-the-only-one counter in new words."
-    },
     "1p42l7olixe": {
       "keys": [
         "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
@@ -2875,19 +2821,6 @@
         "scene-talk.reply-offer.then-i-ll-meet-them-at-the-door-not-in-the-street"
       ],
       "why": "'Fine. We cancel' rewords 'Then cancel it' and meeting them at the door rewords 'go out and meet them', and none answer the overtime question."
-    },
-    "1q84mz6epei": {
-      "keys": [
-        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
-        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
-        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
-        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
-        "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for",
-        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
-        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
-        "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too"
-      ],
-      "why": "'Fair. I'm sorry' repeats the first apology and 'count what I've covered for you' restates the not-the-only-one counter, leaving only 'done for now' new."
     },
     "1q8jxrn0y1n": {
       "keys": [

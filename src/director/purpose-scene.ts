@@ -1413,6 +1413,14 @@ function composeBinding(
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
+  // Where the asker lives: a person at home does not wait in a parking lot or
+  // come to say a thing (`excludesFacts: same-home`). A scene that sets it for
+  // its own reason (the departure's) keeps its own.
+  if (asker.householdId === asked.householdId && !facts["same-home"])
+    facts["same-home"] = {
+      text: asker.givenName,
+      sourceRecordIds: [askerId, askedId],
+    };
   // Which side of their tie the two stand nearer, from its record: a friend
   // (`tie-friend`) is nearer full closeness than none; a rival (`tie-rival`)
   // is one whose last contact on the tie was a quarrel. A friend and a rival

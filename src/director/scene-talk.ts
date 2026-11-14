@@ -177,9 +177,19 @@ interface Arcs {
 const ARCS = arcsFile as unknown as Arcs;
 const RULES = rulesFile as unknown as {
   terminalFollow: string[];
+  answerMoves: string[];
   tree: { maxReplies: { value: number }; maxNodes: { value: number } };
   bluntGreeting: { value: number };
 };
+
+/**
+ * Whether an asker's line waits on the player's answer: a question, or a move
+ * that asks for one with no question mark ("I'd like to know how you'll make
+ * sure it doesn't happen again."). Said as a talk's last line it would hang.
+ */
+const needsAnswer = (line: { asks: boolean; move: string }): boolean =>
+  line.asks || RULES.answerMoves.includes(line.move);
+
 export type Outcome = "resolved" | "refused" | "open";
 
 /** One line of a composed scene, with the features the grading bench records. */
@@ -1624,9 +1634,12 @@ export function composeSceneTalk(
       !!line &&
       line.role === "asker" &&
       !RULES.terminalFollow.includes(line.move) &&
-      line.asks;
-    if (!close && hanging(node.lines.at(-one))) {
-      gap("close", outcome, `${lastAsker.move} (its question left unasked)`);
+      needsAnswer(line);
+    // A question the player gets no turn to answer is not asked, close or no
+    // close: the talk ends on what came before it.
+    if (hanging(node.lines.at(-one))) {
+      if (!close)
+        gap("close", outcome, `${lastAsker.move} (its question left unasked)`);
       while (hanging(node.lines.at(-one))) node.lines.pop();
     }
     node.end = { outcome, ...closed(close) };
@@ -1660,8 +1673,13 @@ export function composeSceneTalk(
     // The written closes for a walk-away are tried in a hash order of the
     // branch, the move this talk has closed on least first, so branches do not all close
     // on the first move alphabetically.
+    // Only this purpose's own closes written for the walk-away: another
+    // purpose's thanks must not be said here (a "thank you, I'm glad we talked"
+    // after the player refused to talk).
     const moves = sceneMovesWritten({
       step: "close",
+      purpose,
+      ...(family ? { family } : {}),
       after: reply.move,
     }).sort(
       (a, b) =>
@@ -1847,7 +1865,7 @@ export function composeSceneTalk(
       gap("menu", path.askerMove, `fewer than three replies at ${path.id}`);
     // A question the asker just asked is always answerable: the menu stays
     // open with what fits rather than the talk ending on it.
-    const asked = lastAsker?.asks ?? false;
+    const asked = lastAsker ? needsAnswer(lastAsker) : false;
     // A confrontation or a threat is answered in kind (the menu
     // can mirror it), and a scene that asks, offers or tells a decision lets the
     // player ask back at the root.
@@ -1982,7 +2000,9 @@ export function composeSceneTalk(
       }
       const answers = closest(unsaid, (row) => row.line, reply);
       const settled = answers.filter(
-        (row) => RULES.terminalFollow.includes(row.candidate) || !row.line.asks,
+        (row) =>
+          RULES.terminalFollow.includes(row.candidate) ||
+          !needsAnswer(row.line),
       );
       const pool = last && settled.length ? settled : answers;
       const [best] = [...pool].sort(
@@ -1996,7 +2016,8 @@ export function composeSceneTalk(
           ),
       );
       // On the last round a question would hang: the asker closes instead.
-      const answer = last && best?.line.asks ? undefined : best?.line;
+      const answer =
+        last && best && needsAnswer(best.line) ? undefined : best?.line;
       if (!answer && best) {
         next.end = {
           outcome: replyOutcome,
