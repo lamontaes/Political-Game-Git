@@ -145,18 +145,7 @@ describe("the answers that close a death's telling without a promise", () => {
       "I wanted you to hear it from me.",
     );
   });
-  it("offers 'How?' only where the record gives an answer, and says no 'nobody knows' line", () => {
-    const how = bank.parts.find(
-      (part) => part.key === "conversation.death-news-answer-ask.how",
-    )!;
-    // Every use of the question needs a cause or a told illness, so no one
-    // is offered a "How?" the talk cannot answer from the record.
-    for (const use of how.uses)
-      expect(
-        use.requiresFacts?.some(
-          (key) => key === "cause" || key === "illness-known",
-        ),
-      ).toBe(true);
+  it("says no 'nobody knows how' line: a recorded cause with no words yet is not unknown", () => {
     const texts = bank.parts.map((part) => part.text);
     expect(texts).not.toContain("I don't know more than that.");
     expect(

@@ -41816,16 +41816,7 @@
           "subject": "death-news",
           "role": "answer",
           "choice": "ask",
-          "excludesFacts": ["told-cause"],
-          "requiresFacts": ["cause"]
-        },
-        {
-          "move": "death-news-answer-ask",
-          "subject": "death-news",
-          "role": "answer",
-          "choice": "ask",
-          "excludesFacts": ["told-cause"],
-          "requiresFacts": ["illness-known"]
+          "excludesFacts": ["told-cause"]
         }
       ],
       "bearing": "curious",

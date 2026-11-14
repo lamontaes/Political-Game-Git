@@ -3,4 +3,4 @@ id: words-s3-three-answers-honest
 impact: none
 ---
 
-A relative's "How?" is offered only when the record has a cause said in words or a told illness, and "Nobody has told us how" and "I don't know more than that." are gone: both were said against deaths whose record names a cause.
+A relative no longer says nobody knows how someone died when the record names a cause: "Nobody has told us how" and "I don't know more than that." are gone.
