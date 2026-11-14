@@ -672,6 +672,23 @@ try {
   await page.screenshot({
     path: "docs/reports/ballot-pages-2026-10-24/after-mark.png",
   });
+  // Leaving the polls takes the ballot with it: no race button stays in the page to post a mark
+  // to polls that are closed ("The polls aren't open for this character." once per later press).
+  await page.locator("#ballot-leave").click();
+  await page.waitForTimeout(800);
+  assert.equal(
+    await page.locator("#ballot .ballot-choice").count(),
+    0,
+    "a ballot's race buttons stay in the page after the visit ends",
+  );
+  assert.deepEqual(
+    errors.filter((message) => /polls aren't open/.test(message)),
+    [],
+    "the page raised the closed-polls error",
+  );
+  console.log(
+    "PASS after the visit: no ballot buttons left, no closed-polls error",
+  );
 } catch (error) {
   // Where it stopped, for whoever reads the failure (POLL_SHOTS: a folder).
   if (process.env.POLL_SHOTS)

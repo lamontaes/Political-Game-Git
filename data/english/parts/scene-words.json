@@ -3253,10 +3253,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-manager-offer-other.other-has-come-to-talk-about-running-your-campaign",
+      "key": "scene-words.lead-manager-offer-other.other-wants-to-talk-about-running-your-campaign",
       "move": "lead-manager-offer-other",
       "kind": "spoken",
-      "text": "{other} has come to talk about running your campaign.",
+      "text": "{other} wants to talk about running your campaign.",
       "uses": [
         {
           "move": "lead-manager-offer-other",
