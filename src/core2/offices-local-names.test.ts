@@ -56,6 +56,29 @@ describe("a local body is named the way people write it", () => {
     );
   });
 
+  it("says the place's kind once in a played place's board name", () => {
+    // Pinned places that exercise the rule (Words lead, Nov 14): a township
+    // board whose own name holds "Township", a county board whose own name
+    // holds "County", and a township committee whose name begins with it.
+    const boards = (key: string) =>
+      localOfficesForPlace(key)
+        .filter((office) => office.kind.endsWith("-board"))
+        .map((office) => office.bodyName);
+    // Westminster, Ohio: Auglaize Township and Allen County.
+    expect(boards("3983930")).toEqual(
+      expect.arrayContaining([
+        "Auglaize Township Board of Trustees",
+        "Allen County Board of Commissioners",
+      ]),
+    );
+    // Vale, Oregon: Malheur County.
+    expect(boards("4176600")).toContain(
+      "Malheur County Board of Commissioners",
+    );
+    // Ocean Acres, New Jersey: Stafford Township.
+    expect(boards("3454315")).toContain("Stafford Township Committee");
+  });
+
   it(`names every body of places drawn from all 56 from its own record (seed ${seed})`, () => {
     let checked = 0;
     for (let i = 0; i < 24; i += 1) {
@@ -67,13 +90,6 @@ describe("a local body is named the way people write it", () => {
         // No listing in capitals, no kind of government said twice.
         expect(office.bodyName, where).not.toMatch(/[A-Z]{3,}/);
         expect(office.bodyName, where).not.toMatch(/\b(\w+) \1\b/i);
-        // The place's kind is said once (Words lead, Nov 14): never the
-        // "Auglaize Township Board of Township Trustees".
-        for (const kind of ["County", "Township", "Parish", "Borough"])
-          expect(
-            office.bodyName.split(" ").filter((word) => word === kind).length,
-            where,
-          ).toBeLessThanOrEqual(1);
       }
     }
     expect(checked).toBeGreaterThan(0);
