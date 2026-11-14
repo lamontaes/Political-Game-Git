@@ -29,6 +29,17 @@ import { beginSeriousIllness } from "../../src/core2/modules/health";
 import { familyFactsOf } from "../../src/core2/modules/people";
 import { drawPlace } from "../core2-year/place";
 import { gameStartDate } from "../../src/core2/game-start";
+import bank from "../../data/english/parts/conversation.json";
+
+/** The bearing each bank piece carries, by its key. */
+const bearings = new Map(
+  (bank.parts as { key: string; bearing?: string }[]).map((row) => [
+    row.key,
+    row.bearing ?? "none",
+  ]),
+);
+const bearingOf = (parts: readonly string[] | undefined) =>
+  (parts ?? []).map((key) => bearings.get(key) ?? "none").join("+");
 
 const option = (name: string, fallback: string) => {
   const at = process.argv.indexOf(`--${name}`);
@@ -114,6 +125,10 @@ for (let draw = 0; draw < draws; draw += 1) {
           continue;
         }
         talks += 1;
+        if (process.env.PROOF_DEBUG)
+          console.log(
+            `  DEBUG heard keys with illness: ${[...(core.knowledgeByPerson.get(playerId) ?? [])].map(([k]) => k).filter((k) => k.includes("illness-news")).join(" | ") || "(none)"}`,
+          );
         const row = familyFactsOf(core.people.get(playerId)!).get(
           subject.aboutId as PersonId,
         );
@@ -124,7 +139,7 @@ for (let draw = 0; draw < draws; draw += 1) {
           `  teller's own word for them: ${subject.facts.kin?.text ?? "(none on record; the listener's word is used)"}`,
         );
         console.log(
-          `  ${nameOf(core, id)}: ${line.text}  [${line.wording?.facts.join(", ")}; ${line.sourceRecordIds.join(", ")}]`,
+          `  ${nameOf(core, id)}: ${line.text}  {bearing: ${bearingOf(line.wording?.parts)}} [${line.wording?.facts.join(", ")}; ${line.sourceRecordIds.join(", ")}]`,
         );
         for (const choice of first.choices)
           console.log(`  - offered: ${choice.text} (${choice.move})`);
@@ -140,9 +155,12 @@ for (let draw = 0; draw < draws; draw += 1) {
           const back = talk.lines
             .slice(from)
             .filter((l) => l.speakerId !== playerId)
-            .map((l) => `${l.text} [${l.wording?.facts.join(", ")}]`);
+            .map(
+              (l) =>
+                `${l.text} {bearing: ${bearingOf(l.wording?.parts)}} [${l.wording?.facts.join(", ")}]`,
+            );
           console.log(
-            `  > You: ${choice.text}\n    ${nameOf(core, id)}: ${back.join(" / ") || "(says nothing more)"}`,
+            `  > You: ${choice.text}\n    ${nameOf(core, id)}: ${back.join(" / ") || "(says nothing more)"}\n    offered next: ${talk.choices.map((c) => c.text).join(" | ") || "(nothing; the talk ends)"}`,
           );
         }
       }

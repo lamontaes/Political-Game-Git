@@ -81,12 +81,46 @@ describe("a relative's news told at home through the composer", () => {
     for (const [kind, moves] of [
       ["death-news", ["condole", "ask", "okay", "help"]],
       ["illness-news", ["ask", "comfort", "help"]],
-      ["prison-news", ["ask", "comfort", "what", "help"]],
+      ["prison-news", ["ask", "comfort", "what"]],
     ] as const)
       for (const move of moves) {
         const back = say(`${kind}-back`, { ...BASE, you: fact("Micah") }, move);
         expect(back, `${kind} ${move}`).toBeTruthy();
         expect(back!.text, `${kind} ${move}`).not.toContain("Laura");
       }
+  });
+
+  it("answers 'How?' after an illness the player was told of by saying since when, and never that nobody said how", () => {
+    const said = new Set<string>();
+    for (let at = 0; at < 24; at += 1) {
+      const back = say(
+        "death-news-back",
+        {
+          ...BASE,
+          you: fact("Micah"),
+          he: fact("yes"),
+          "illness-known": fact("yes"),
+          since: fact("March"),
+        },
+        "ask",
+        `:${at}`,
+      );
+      expect(back?.text).toBeTruthy();
+      expect(back!.text).not.toContain("Nobody has told us");
+      said.add(back!.text);
+    }
+    expect([...said].some((text) => text.includes("since March"))).toBe(true);
+  });
+
+  it("opens a tie telling with no illness name without naming one", () => {
+    const opened = tellings("illness-news-say", {
+      ...BASE,
+      kin: fact("my mother"),
+    });
+    expect(
+      [...opened].some(
+        (text) => text?.includes("my mother") && !/cancer/.test(text),
+      ),
+    ).toBe(true);
   });
 });

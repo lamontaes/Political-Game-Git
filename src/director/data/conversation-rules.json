@@ -340,7 +340,6 @@
     "prison-news": {
       "ask": "request",
       "what": "request",
-      "help": "answer",
       "comfort": "answer"
     },
     "eviction": {

@@ -155,6 +155,8 @@ import {
   moneySaid,
   monthsOfRentDays,
 } from "../english/count-words";
+import { sinceMonthSaid } from "../english/day-words";
+import { ILLNESS_EVENT } from "./life-news";
 import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
 import type { FinanceContractInput } from "../core2/modules/finance";
 import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/people";
@@ -887,6 +889,24 @@ function relativeNewsFacts(
     if (age < RELATIVE_NEWS.youngBelowAge.value) facts.young = fact("yes");
     const cause = RELATIVE_NEWS.deathCauses[recorded("causeOfDeath") ?? ""];
     if (cause) facts.cause = fact(cause);
+    // An illness of theirs that the player was told of before they died: the
+    // house knew of it, and says since when. The player's own heard record of
+    // that telling names the health engine's record and its day (the
+    // person's log keeps only their recent months).
+    const told = `${HEARD_SUBJECT}illness-news:${ILLNESS_EVENT}:${about.id}:`;
+    const heard = heardRows.find((row) => row.key.startsWith(told));
+    if (heard) {
+      const recordId = heard.key.slice(`${HEARD_SUBJECT}illness-news:`.length);
+      const began = recordId.slice(recordId.lastIndexOf(":") + 1);
+      facts["illness-known"] = {
+        text: "yes",
+        sourceRecordIds: [recordId, ...cites],
+      };
+      facts.since = {
+        text: sinceMonthSaid(began, moment.date),
+        sourceRecordIds: [recordId, ...cites],
+      };
+    }
   } else if (kind === "illness-news") {
     const illness = RELATIVE_NEWS.illnesses[recorded("condition") ?? ""];
     if (illness) facts.illness = fact(illness);

@@ -71,3 +71,18 @@ export function daySince(recordIso: string, playIso: string): string | null {
     .replace("{weekday}", weekday)
     .replace("{date}", dateSaid(recordIso));
 }
+
+/**
+ * The month a record began, said after "since" ("since March", "since last
+ * March", "since March 2023"); never a date.
+ */
+export function sinceMonthSaid(recordIso: string, playIso: string): string {
+  const month = data.months[Number(recordIso.slice(5, 7)) - 1]!;
+  const years = Number(playIso.slice(0, 4)) - Number(recordIso.slice(0, 4));
+  if (years <= 0) return month;
+  return (
+    years === 1 ? data.sinceOtherYear.lastYear : data.sinceOtherYear.earlier
+  )
+    .replace("{month}", month)
+    .replace("{year}", recordIso.slice(0, 4));
+}
