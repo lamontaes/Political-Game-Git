@@ -40,7 +40,7 @@
     "reporter": "The reporter who wrote a story, by name, from the press record.",
     "lead": "How far ahead the winner finished, in votes, from the result record's totals.",
     "first": "The given name of the person spoken to, from their record.",
-    "seat-place": "The place a filed seat is in (\"Alcorn County\"), from the seat's place record, said where the seat is not the town's own.",
+    "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer).",
     "counter": "The place the player goes to at a filing counter, as people say it: the clerk's office (\"the town clerk's office\"), or the agency itself when the person heads a state agency.",
     "post": "The post the person holds, as people say it (\"Secretary of State\", \"city clerk\"), from the office record of the seat the person holds.",
     "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
@@ -146,8 +146,13 @@
     "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
     "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
     "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
-    "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer).",
-    "rent": "The rent a renter pays each month, as said money, from their home's record."
+    "rent": "The rent a renter pays each month, as said money, from their home's record.",
+    "own-workplace": "The business where a witness works, by its name, from their job's record (the witness after the hearing).",
+    "own-child": "The given name of a witness's child at home, from the child's record (the witness after the hearing).",
+    "purpose": "What a bill does, as a short phrase, from the bill record's own sections.",
+    "names": "The members who voted no on a bill, by name, three or fewer, from the vote record.",
+    "group": "The group that pressed the members who voted no, by its said name, from the lobbying record.",
+    "budget-cost": "What a bill adds to the budget each year, one rounded sum, from its budget-line sections."
   },
   "maxWords": 70,
   "parts": [
@@ -21293,7 +21298,7 @@
       "key": "scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The service is over. People are standing around the coffee urn, and {name} makes their way over to you.",
+      "text": "The service is over. People are standing around the coffee urn, and {name} comes over to you.",
       "uses": [
         {
           "subject": "scene",
@@ -23629,7 +23634,7 @@
       "key": "scene-talk.narrate-narrate.before-the-vote-on-bill-name-leans-over-and-lowers-their-voice",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Before the vote on {bill}, {name} leans over and lowers their voice.",
+      "text": "Before the vote on {bill}, {name} leans over and speaks low.",
       "uses": [
         {
           "subject": "scene",
@@ -24062,7 +24067,7 @@
       "key": "scene-talk.narrate-narrate.name-is-waiting-by-your-car-they-don-t-say-hello",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is waiting by your car. They don't say hello.",
+      "text": "{name} is waiting by your car and doesn't say hello.",
       "uses": [
         {
           "subject": "scene",
@@ -80562,7 +80567,7 @@
       "key": "scene-talk.narrate-narrate.name-catches-you-before-the-vote-on-bill-there-s-a-section-they-want-changed",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} catches you before the vote on {bill}. There's a section they want changed.",
+      "text": "{name} catches you before the vote on {bill} and wants a section changed.",
       "uses": [
         {
           "subject": "scene",
@@ -81673,6 +81678,14 @@
           "step": "reply",
           "move": "leave",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
         }
       ],
       "origin": "authored",
@@ -82802,7 +82815,7 @@
       "key": "scene-talk.narrate-narrate.name-doesn-t-take-off-their-coat",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} doesn't take off their coat.",
+      "text": "{name} leaves the coat on.",
       "uses": [
         {
           "subject": "scene",
@@ -86891,7 +86904,7 @@
       "key": "scene-talk.narrate-narrate.name-is-family-and-from-today-part-of-your-household-knowing-someone-a",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is family, and from today part of your household. Knowing someone and sharing a home with them are two different things.",
+      "text": "{name} is family, and from today part of your household. Knowing someone and sharing a home are two different things.",
       "uses": [
         {
           "subject": "scene",
@@ -86941,7 +86954,7 @@
       "key": "scene-talk.narrate-narrate.name-is-someone-you-don-t-know-yet-and-from-today-name-is-part-of-your",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is someone you don't know yet, and from today they are part of your household.",
+      "text": "{name} is someone you don't know yet, and from today part of your household.",
       "uses": [
         {
           "subject": "scene",
@@ -89387,56 +89400,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.bill-passed-roll-i-m-asking-you-to-sign-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{bill} passed {ayes} to {nays}. I'm asking you to sign it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for", "bill", "roll"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.bill-is-on-your-desk-it-cleared-roll-sign-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{bill} is on your desk. It cleared {ayes} to {nays}. Sign it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for", "bill", "roll"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.state-request.you-have-until-deadline-on-bill-i-d-like-your-signature-before-that",
       "move": "state-request",
       "kind": "spoken",
@@ -89578,31 +89541,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.bill-passed-roll-that-doesn-t-make-it-right-i-m-asking-you-to-veto-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{bill} passed {ayes} to {nays}. That doesn't make it right. I'm asking you to veto it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against", "bill", "roll"]
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Helper D (words and scenes)",
       "date": "2026-10-27",
@@ -90024,7 +89962,7 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for", "opposed"]
         }
       ],
       "bearing": "curious",
@@ -90074,7 +90012,7 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for", "opposed"]
         }
       ],
       "bearing": "curious",
@@ -90112,10 +90050,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-the-floor-tonight",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-the-others-who-voted-for-it",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll tell the floor tonight.",
+      "text": "Thank you. I'll tell the others who voted for it.",
       "uses": [
         {
           "subject": "scene",
@@ -90242,10 +90180,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.done-i-ll-get-the-follow-up-drafted-this-week",
+      "key": "scene-talk.follow-accept.done-i-ll-get-the-follow-up-drafted",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Done. I'll get the follow-up drafted this week.",
+      "text": "Done. I'll get the follow-up drafted.",
       "uses": [
         {
           "subject": "scene",
@@ -90332,7 +90270,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "bargain"
+          "after": "bargain",
+          "requiresFacts": ["against"]
         }
       ],
       "bearing": "guarded",
@@ -90357,7 +90296,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "bargain"
+          "after": "bargain",
+          "requiresFacts": ["against"]
         }
       ],
       "bearing": "guarded",
@@ -90370,106 +90310,54 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.it-passed-roll-that-s-the-record",
-      "move": "follow-answer",
+      "key": "scene-talk.follow-press.it-passed-as-written-i-won-t-open-it-back-up",
+      "move": "follow-press",
       "kind": "spoken",
-      "text": "It passed {ayes} to {nays}. That's the record.",
+      "text": "It passed as written. I won't open it back up.",
       "uses": [
         {
           "subject": "scene",
           "step": "follow",
-          "move": "answer",
+          "move": "press",
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "ask",
-          "requiresFacts": ["for", "roll"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-vote-was-roll-ask-the-other-side-about-cost",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The vote was {ayes} to {nays}. Ask the other side about cost.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "ask",
-          "requiresFacts": ["for", "roll"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.ask-the-people-against-it-they-have-their-own-numbers",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Ask the people against it. They have their own numbers.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "ask",
+          "after": "bargain",
           "requiresFacts": ["for"]
         }
       ],
-      "bearing": "calm",
+      "bearing": "guarded",
       "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
+      "author": "Desk thread (Words lead ruling, #9240 replay 2)",
+      "date": "2026-11-14",
       "tag": {
-        "move": "answer",
+        "move": "press",
         "key": "desk-visit"
       }
     },
     {
-      "key": "scene-talk.follow-answer.ask-the-other-side-they-ll-tell-you-what-i-won-t",
-      "move": "follow-answer",
+      "key": "scene-talk.follow-press.i-m-not-carrying-a-second-bill-to-get-the-first-one-signed",
+      "move": "follow-press",
       "kind": "spoken",
-      "text": "Ask the other side. They'll tell you what I won't.",
+      "text": "I'm not carrying a second bill to get the first one signed.",
       "uses": [
         {
           "subject": "scene",
           "step": "follow",
-          "move": "answer",
+          "move": "press",
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "ask",
+          "after": "bargain",
           "requiresFacts": ["for"]
         }
       ],
-      "bearing": "calm",
+      "bearing": "guarded",
       "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
+      "author": "Desk thread (Words lead ruling, #9240 replay 2)",
+      "date": "2026-11-14",
       "tag": {
-        "move": "answer",
+        "move": "press",
         "key": "desk-visit"
       }
     },
@@ -91270,10 +91158,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.bring-me-the-fix-in-writing-and-i-ll-sign-it-today",
+      "key": "scene-talk.reply-bargain.bring-me-the-fix-in-writing-and-i-ll-sign-it",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Bring me the fix in writing, and I'll sign it today.",
+      "text": "Bring me the fix in writing, and I'll sign it.",
       "uses": [
         {
           "subject": "scene",
@@ -91412,110 +91300,6 @@
       "move": "reply-leave",
       "kind": "spoken",
       "text": "I'll decide by the deadline. You'll hear from my office.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "plea"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "threaten"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "leave",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.leave-me-the-file-i-ll-call-the-other-side-before-i-decide",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Leave me the file. I'll call the other side before I decide.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "plea"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "threaten"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "leave",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-ll-sleep-on-it-and-tell-you-in-the-morning",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'll sleep on it and tell you in the morning.",
       "uses": [
         {
           "subject": "scene",
@@ -91730,7 +91514,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -91743,10 +91528,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-i-ll-tell-the-others-the-desk-is-clear",
+      "key": "scene-talk.close-thank.thank-you-i-ll-tell-the-others-you-re-signing",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll tell the others the desk is clear.",
+      "text": "Thank you. I'll tell the others you're signing.",
       "uses": [
         {
           "subject": "scene",
@@ -91755,13 +91540,14 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
       "origin": "authored",
       "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
+      "date": "2026-11-14",
       "tag": {
         "move": "thank",
         "key": "desk-visit"
@@ -91780,7 +91566,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -91805,7 +91592,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -91818,83 +91606,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.you-ll-hear-from-me-before-you-decide",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "You'll hear from me before you decide.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.you-ll-hear-from-me-before-the-deadline",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "You'll hear from me before the deadline.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["deadline"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.close-accept.understood-i-ll-leave-you-to-it",
       "move": "close-accept",
       "kind": "spoken",
       "text": "Understood. I'll leave you to it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.then-i-ll-wait-for-your-decision",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Then I'll wait for your decision.",
       "uses": [
         {
           "subject": "scene",
@@ -92009,30 +91724,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "press",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.beat-beat.down-the-hall-a-phone-rings-and-rings",
-      "move": "beat-beat",
-      "kind": "spoken",
-      "text": "Down the hall, a phone rings and rings.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "beat",
-          "move": "beat",
-          "role": "narrator",
-          "purpose": "desk-visit",
-          "key": "desk-visit"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "beat",
         "key": "desk-visit"
       }
     },
@@ -92821,30 +92512,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-can-t-decide-this-right-now",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I can't decide this right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "job-offer",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked"
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -97994,7 +97661,7 @@
       "key": "scene-talk.narrate-narrate.name-held-this-office-until-now-and-has-stayed-to-hand-it-over-the-oath",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} held this office until now, and has stayed to hand it over. The oath is theirs to give.",
+      "text": "{name} held this office until now, and has stayed to hand it over and give the oath.",
       "uses": [
         {
           "subject": "scene",
@@ -99815,7 +99482,7 @@
       "key": "scene-talk.narrate-narrate.name-sat-in-this-seat-until-you-took-it-and-gives-the-oath-themselves",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} sat in this seat until you took it, and gives the oath themselves.",
+      "text": "{name} sat in this seat until you took it, and gives the oath in person.",
       "uses": [
         {
           "subject": "scene",
@@ -104481,7 +104148,7 @@
       "key": "scene-talk.narrate-narrate.name-catches-you-after-the-vote-on-bill-they-are-smiling-which",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} catches you after the vote on {bill}. They are smiling, which is not the same as friendly.",
+      "text": "{name} catches you after the vote on {bill}, smiling, which is not the same as friendly.",
       "uses": [
         {
           "subject": "scene",
@@ -106156,7 +105823,7 @@
       "key": "scene-talk.narrate-narrate.the-workers-are-out-and-name-has-been-watching-you-carry-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The workers are out, and {name} has been watching you carry it. They sit down across from you.",
+      "text": "The workers are out. {name}, who has been watching you carry it, sits down across from you.",
       "uses": [
         {
           "subject": "scene",
@@ -115572,7 +115239,7 @@
       "key": "scene-talk.narrate-narrate.name-is-there-again-this-is-not-their-first-visit-about-it-and-you-bot",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is there again. This is not their first visit about it, and you both know it.",
+      "text": "{name} is there again. This is not the first visit about it, and you both know it.",
       "uses": [
         {
           "subject": "scene",
@@ -138485,7 +138152,7 @@
       "key": "scene-talk.narrate-narrate.name-has-just-started-at-employer-and-the-kids-from-your-two-houses-are-at-school-together",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has just started at {employer}, and your kids and theirs are at {school} together.",
+      "text": "{name} has just started at {employer}, and the kids from your two houses are at {school} together.",
       "uses": [
         {
           "subject": "scene",
@@ -140320,7 +139987,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-and-there-is-something-they-want-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come, and there is something they want to ask you.",
+      "text": "A letter from {name} has come, with something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -140343,7 +140010,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-from-hometown-they-have-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come from {hometown}. They have something to ask you.",
+      "text": "A letter from {name} has come from {hometown}, with something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -140367,7 +140034,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-since-their-last-one-they-have-had-a-child-new-child-and-they-have-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come. Since their last one they have had a child, {new-child}, and they have something to ask you.",
+      "text": "A letter from {name} has come, with news of a child, {new-child}, and something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -140391,7 +140058,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-since-their-last-one-they-married-married-and-they-have-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come. Since their last one they married {married}, and they have something to ask you.",
+      "text": "A letter from {name} has come, with news of a marriage to {married} and something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -140415,7 +140082,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-they-were-missing-from-your-birthday-table-and-they-have-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come. They were missing from your birthday table, and they have something to ask you.",
+      "text": "A letter has come from {name}, who was missing from your birthday table and has something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -140439,7 +140106,7 @@
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-since-their-last-one-they-started-at-new-employer-and-they-have-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A letter from {name} has come. Since their last one they started at {new-employer}, and they have something to ask you.",
+      "text": "A letter has come from {name}, who has started at {new-employer} and has something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -140634,7 +140301,7 @@
       "key": "scene-talk.state-request.my-kid-new-child-was-born-since-my-last-letter-first-will-you-come-meet-them",
       "move": "state-request",
       "kind": "spoken",
-      "text": "My kid {new-child} was born since my last letter, {first}. Will you come meet them?",
+      "text": "My kid {new-child} was born since my last letter. Will you come meet the baby?",
       "uses": [
         {
           "subject": "scene",
@@ -140659,7 +140326,7 @@
       "key": "scene-talk.state-request.i-married-married-since-i-last-wrote-first-will-you-come-and-meet-them",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I married {married} since I last wrote, {first}. Will you come and meet them?",
+      "text": "I married {married} since I last wrote. Will you come and meet us?",
       "uses": [
         {
           "subject": "scene",
@@ -143131,7 +142798,7 @@
       "key": "scene-talk.narrate-narrate.it-was-name-s-birthday-and-absent-wasn-t-at-the-table-they-turned-age-and-want-to-talk-to-you-about-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "It was {name}'s birthday, and {absent} wasn't at the table. They turned {age} and want to talk to you about it.",
+      "text": "It was {name}'s birthday, and {absent} wasn't at the table. {name} turned {age} and wants to talk to you about it.",
       "uses": [
         {
           "subject": "scene",
@@ -143300,7 +142967,7 @@
       "key": "scene-talk.state-request.would-you-call-absent-first-i-think-they-d-like-to-hear-from-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you call {absent}, {first}? I think they'd like to hear from you.",
+      "text": "Would you call {absent}? I think it would mean a lot.",
       "uses": [
         {
           "subject": "scene",
@@ -143325,7 +142992,7 @@
       "key": "scene-talk.state-request.would-you-write-to-absent-and-tell-them-how-the-birthday-went-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you write to {absent} and tell them how the birthday went, {first}?",
+      "text": "Would you write to {absent} about how the birthday went?",
       "uses": [
         {
           "subject": "scene",
@@ -143350,7 +143017,7 @@
       "key": "scene-talk.state-request.would-you-ask-absent-to-come-to-the-next-family-birthday-first-i-think-they-d-come-if-you-asked",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you ask {absent} to come to the next family birthday, {first}? I think they'd come if you asked.",
+      "text": "Would you ask {absent} to come to the next family birthday? I think a word from you would do it.",
       "uses": [
         {
           "subject": "scene",
@@ -143400,7 +143067,7 @@
       "key": "scene-talk.state-request.absent-has-been-seriously-ill-first-would-you-call-and-see-how-they-are",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{absent} has been seriously ill, {first}. Would you call and see how they are?",
+      "text": "{absent} has been seriously ill. Would you call and see how things are?",
       "uses": [
         {
           "subject": "scene",
@@ -143450,7 +143117,7 @@
       "key": "scene-talk.state-request.absent-has-a-new-baby-new-child-first-would-you-call-and-congratulate-them",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{absent} has a new baby, {new-child}, {first}. Would you call and congratulate them?",
+      "text": "{absent} has a new baby, {new-child}. Would you call with congratulations?",
       "uses": [
         {
           "subject": "scene",
@@ -143475,7 +143142,7 @@
       "key": "scene-talk.state-request.absent-moved-to-hometown-first-would-you-call-and-see-how-they-re-settling-in",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{absent} moved to {hometown}, {first}. Would you call and see how they're settling in?",
+      "text": "{absent} moved to {hometown}. Would you call and see how the move went?",
       "uses": [
         {
           "subject": "scene",
@@ -143500,7 +143167,7 @@
       "key": "scene-talk.state-request.i-miss-absent-first-and-i-don-t-know-what-to-say-would-you-call-them-for-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I miss {absent}, {first}, and I don't know what to say. Would you call them for me?",
+      "text": "I miss {absent}, and I don't know what to say. Would you call for me?",
       "uses": [
         {
           "subject": "scene",
@@ -144005,7 +143672,7 @@
       "key": "scene-talk.follow-answer.i-only-want-them-to-hear-from-you-first-it-doesn-t-have-to-be-much",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I only want them to hear from you, {first}. It doesn't have to be much.",
+      "text": "I only want {absent} to hear from you. It doesn't have to be much.",
       "uses": [
         {
           "subject": "scene",
@@ -144014,7 +143681,8 @@
           "role": "asker",
           "purpose": "gathering-ask",
           "key": "loss",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["absent"]
         }
       ],
       "bearing": "tender",
@@ -144126,7 +143794,7 @@
       "key": "scene-talk.narrate-narrate.when-you-got-seriously-sick-name-was-the-one-who-called-for-help-now-they-want-to-ask-you-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "When you got seriously sick, {name} was the one who called for help. Now they want to ask you something.",
+      "text": "When you got seriously sick, {name} was the one who called for help, and now has something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -144149,7 +143817,7 @@
       "key": "scene-talk.narrate-narrate.when-you-got-seriously-sick-your-partner-name-called-for-help-afterward-they-sit-you-down-to-ask-you-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "When you got seriously sick, your partner {name} called for help. Afterward they sit you down to ask you something.",
+      "text": "When you got seriously sick, your partner {name} called for help, and afterward sits you down with a question.",
       "uses": [
         {
           "subject": "scene",
@@ -144197,7 +143865,7 @@
       "key": "scene-talk.narrate-narrate.other-people-in-the-house-saw-you-get-seriously-sick-and-name-was-the-one-who-called-for-help-now-they-pull-you-aside-with-a-question",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Other people in the house saw you get seriously sick, and {name} was the one who called for help. Now they pull you aside with a question.",
+      "text": "Other people in the house saw you get seriously sick, and {name} was the one who called for help, and now pulls you aside with a question.",
       "uses": [
         {
           "subject": "scene",
@@ -144438,7 +144106,7 @@
       "key": "scene-talk.state-request.the-youngest-in-the-house-child-was-in-the-room-when-you-got-sick-will-you-talk-to-them-yourself-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The youngest in the house, {child}, was in the room when you got sick. Will you talk to them yourself, {first}?",
+      "text": "The youngest in the house, {child}, was in the room when you got sick. Will you sit down with {child} yourself?",
       "uses": [
         {
           "subject": "scene",
@@ -145133,7 +144801,7 @@
       "key": "scene-talk.narrate-narrate.money.you-missed-a-payment-and-the-trouble-landed-on-name-too-now-they-want-to-talk-about-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You missed a payment, and the trouble landed on {name} too. Now they want to talk about it.",
+      "text": "You missed a payment, and the trouble landed on {name} too, who now wants to talk about it.",
       "uses": [
         {
           "subject": "scene",
@@ -146529,7 +146197,7 @@
       "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-fought-over-money-before-and-the-missed-payment-has-opened-it-up-again",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You and {name} have fought over money before, and the missed payment has opened it up again.",
+      "text": "The missed payment has come between you and {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -146538,7 +146206,7 @@
           "role": "narrator",
           "purpose": "owed-apology.repeat",
           "key": "routine",
-          "requiresFacts": ["quarreled-before"]
+          "requiresFacts": ["read-about-money"]
         }
       ],
       "origin": "authored",
@@ -147265,7 +146933,7 @@
       "key": "scene-talk.close-react.repeat.name-shakes-their-head-and-walks-away",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} shakes their head and walks away.",
+      "text": "{name} turns and walks away.",
       "uses": [
         {
           "subject": "scene",
@@ -147311,7 +146979,7 @@
       "key": "scene-talk.narrate-narrate.pressed.money-is-tight-for-name-as-well-and-they-have-come-to-talk-about-the-missed-payment",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Money is tight for {name} as well, and they have come to talk about the missed payment.",
+      "text": "Money is tight for {name} as well, who has come to talk about the missed payment.",
       "uses": [
         {
           "subject": "scene",
@@ -148069,7 +147737,7 @@
       "key": "scene-talk.close-react.pressed.name-rubs-their-forehead-and-lets-it-go",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} rubs their forehead and lets it go.",
+      "text": "{name} lets out a breath and lets it go.",
       "uses": [
         {
           "subject": "scene",
@@ -148092,7 +147760,7 @@
       "key": "scene-talk.narrate-narrate.witness.name-says-you-offered-them-money-and-has-gone-to-the-prosecutor-about-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} says you offered them money, and has gone to the prosecutor about it.",
+      "text": "{name} says you made an offer of money, and has gone to the prosecutor about it.",
       "uses": [
         {
           "subject": "scene",
@@ -148115,7 +147783,7 @@
       "key": "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is the one you offered money to, and has reported it. Now they have come to say so to your face.",
+      "text": "{name} is the one you offered money to, has reported it, and has now come to say so to your face.",
       "uses": [
         {
           "subject": "scene",
@@ -148968,7 +148636,7 @@
       "key": "scene-talk.narrate-narrate.hearsay.name-was-told-about-a-bribe-by-someone-who-knew-of-it-and-made-a-complaint-now-they-want-to-hear-it-from-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} was told about a bribe by someone who knew of it, and made a complaint. Now they want to hear it from you.",
+      "text": "{name} was told about a bribe by someone who knew of it, made a complaint, and now wants to hear it from you.",
       "uses": [
         {
           "subject": "scene",
@@ -149895,7 +149563,7 @@
       "key": "scene-talk.narrate-narrate.taken.a-bribe-was-offered-and-taken-and-name-made-a-complaint-to-the-prosecutor-that-names-more-than-one-person-now-they-want-to-hear-it-from-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A bribe was offered and taken, and {name} made a complaint to the prosecutor that names more than one person. Now they want to hear it from you.",
+      "text": "A bribe was offered and taken, and {name} made a complaint to the prosecutor that names more than one person, and now wants to hear it from you.",
       "uses": [
         {
           "subject": "scene",
@@ -150579,7 +150247,7 @@
       "key": "scene-talk.narrate-narrate.friend.name-is-close-to-you-and-went-to-the-prosecutor-anyway-now-they-are-asking-you-to-tell-them-the-truth",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is close to you, and went to the prosecutor anyway. Now they are asking you to tell them the truth.",
+      "text": "{name} is close to you, and went to the prosecutor anyway, and is now asking you for the truth.",
       "uses": [
         {
           "subject": "scene",
@@ -151290,7 +150958,7 @@
       "key": "scene-talk.close-react.friend.name-wipes-their-eyes-and-nods",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} wipes their eyes and nods.",
+      "text": "{name} nods, eyes wet.",
       "uses": [
         {
           "subject": "scene",
@@ -154835,7 +154503,7 @@
       "key": "scene-talk.narrate-narrate.name-says-relative-s-name-twice-in-the-first-minute-before-saying-why-they-came",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} says {relative}'s name twice in the first minute, before saying why they came.",
+      "text": "{name} says {relative}'s name twice in the first minute, before saying what the visit is about.",
       "uses": [
         {
           "subject": "scene",
@@ -181861,6 +181529,675 @@
       }
     },
     {
+      "key": "scene-talk.state-request.nobody-voted-against-bill-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody voted against {bill}. Sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.not-one-vote-against-bill-i-don-t-see-what-there-is-to-think-about",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Not one vote against {bill}. I don't see what there is to think about.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "unopposed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-passed-with-enough-votes-to-override-a-veto-i-d-rather-it-had-your-name-on-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} passed with enough votes to override a veto. I'd rather it had your name on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "veto-proof"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.they-d-override-you-on-bill-sign-it-and-it-s-yours-too",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They'd override you on {bill}. Sign it and it's yours too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "veto-proof"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-passed-but-not-by-enough-to-survive-a-veto-that-s-why-i-m-here",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} passed, but not by enough to survive a veto. That's why I'm here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "short-of-override"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-barely-got-through-i-need-you-on-this-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} barely got through. I need you on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "short-of-override"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.nobody-voted-against-bill-that-doesn-t-make-it-right-veto-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody voted against {bill}. That doesn't make it right. Veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "unopposed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.they-have-the-votes-to-override-you-i-know-veto-bill-anyway-so-it-s-on-the-record",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They have the votes to override you, I know. Veto {bill} anyway, so it's on the record.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "veto-proof"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-barely-passed-your-veto-ends-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} barely passed. Your veto ends it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "short-of-override"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-purpose-that-s-all-bill-does",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's {purpose}. That's all {bill} does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "purpose"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-means-purpose-that-s-the-whole-of-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} means {purpose}. That's the whole of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "purpose"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-say-their-neighbors-don-t-want-bill-i-think-their-neighbors-will-come-around",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They say their neighbors don't want {bill}. I think their neighbors will come around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-voters"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.on-bill-they-re-scared-of-their-own-voters-that-s-the-whole-of-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "On {bill}, they're scared of their own voters. That's the whole of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-voters"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-against-it-heard-from-group",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones against it heard from {group}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-groups", "group"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.look-at-who-group-met-with-that-s-your-opposition",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Look at who {group} met with. That's your opposition.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-groups", "group"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.bill-is-a-party-vote-for-them-they-d-have-voted-no-on-anything-i-brought",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{bill} is a party vote for them. They'd have voted no on anything I brought.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-voted-with-their-party-not-on-bill",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They voted with their party, not on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-don-t-believe-in-bill-i-respect-that-i-think-they-re-wrong",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They don't believe in {bill}. I respect that. I think they're wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-views"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-re-against-this-kind-of-thing-nothing-i-said-moved-them",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They're against this kind of thing. Nothing I said moved them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
+          "requiresFacts": ["for", "opposed-views"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.names",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{names}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "names"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-whose-voters-don-t-want-bill",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones whose voters don't want {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "opposed-voters"],
+          "excludesFacts": ["names"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-group-met-with",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones {group} met with.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "opposed-groups", "group"],
+          "excludesFacts": ["names"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-who-vote-with-their-party-they-never-gave-bill-a-chance",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones who vote with their party. They never gave {bill} a chance.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "opposed-party"],
+          "excludesFacts": ["names"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-ones-who-don-t-believe-in-bill",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The ones who don't believe in {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-is-against-it",
+          "requiresFacts": ["for", "opposed-views"],
+          "excludesFacts": ["names"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.about-budget-cost-a-year",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "About {budget-cost} a year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-does-it-cost",
+          "requiresFacts": ["for", "budget-cost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-the-budget-shows",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nothing the budget shows.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-does-it-cost",
+          "requiresFacts": ["for", "no-cost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk thread, ruled Nov 14 2026)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
       "key": "scene-talk.open-greet.can-i-ask-you-something-don-t-laugh",
       "move": "open-greet",
       "kind": "spoken",
@@ -184167,7 +184504,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office-held"]
+          "requiresFacts": ["office-held"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184180,10 +184518,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.that-s-all-we-ve-got-here-office-held-and-we-work-to-keep-it-come-knock-doors-with-us-when-it-s-time-or-chip-in-what-you-can",
+      "key": "scene-talk.follow-answer.we-ve-got-office-held-and-we-work-to-keep-it-come-knock-doors-with-us-when-it-s-time-or-chip-in-what-you-can",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "That's all we've got here, {office-held}, and we work to keep it. Come knock doors with us when it's time, or chip in what you can.",
+      "text": "We've got {office-held}, and we work to keep it. Come knock doors with us when it's time, or chip in what you can.",
       "uses": [
         {
           "subject": "scene",
@@ -184192,7 +184530,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office-held"]
+          "requiresFacts": ["office-held"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184217,7 +184556,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["race-run"]
+          "requiresFacts": ["race-run"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184242,7 +184582,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["race-run"]
+          "requiresFacts": ["race-run"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184267,7 +184608,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["party-holds-nothing"]
+          "requiresFacts": ["party-holds-nothing"],
+          "after": "ask"
         }
       ],
       "bearing": "calm",
@@ -184292,7 +184634,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["party-holds-nothing"]
+          "requiresFacts": ["party-holds-nothing"],
+          "after": "ask"
         }
       ],
       "bearing": "calm",
@@ -185263,6 +185606,2144 @@
       "tag": {
         "move": "relent",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-hearing-breaks-up-name-catches-you-by-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The hearing breaks up. {name} catches you by the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-in-the-hall-when-the-committee-lets-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting in the hall when the committee lets out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-a-coat-on-but-hasn-t-left-and-waves-you-over",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has a coat on but hasn't left, and waves you over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-testified-on-your-bill-and-is-still-in-the-hall-when-you-come-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} testified on your bill and is still in the hall when you come out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["you-sponsor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-one-of-the-people-who-d-get-the-raise-i-didn-t-think-anybody-in-there-wanted",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'm one of the people who'd get the raise. I didn't think anybody in there wanted to hear that.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-paid-under-the-floor"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-ve-never-talked-into-a-microphone-before-i-just-wanted-them-to-know-it-s-not-e",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I've never talked into a microphone before. I just wanted them to know it's not enough to live on.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "nervous",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-paid-under-the-floor", "bill-wage"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.you-heard-me-in-there-i-show-up-every-day-and-i-still-come-up-short-every-month",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You heard me in there. I show up every day and I still come up short every month.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-paid-under-the-floor", "bill-wage"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.this-lands-right-on-own-workplace-somebody-s-going-to-lose-hours-over-it-and-it-",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "This lands right on {own-workplace}. Somebody's going to lose hours over it, and it won't be the owner.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-works-where-it-binds",
+            "witness-against",
+            "own-workplace"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-work-at-own-workplace-i-keep-thinking-about-what-this-does-to-us",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I work at {own-workplace}. I keep thinking about what this does to us.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-works-where-it-binds",
+            "witness-against",
+            "own-workplace"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-work-at-own-workplace-first-time-in-years-i-ve-seen-anybody-try-to-fix-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I work at {own-workplace}. First time in years I've seen anybody try to fix it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "hopeful",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-works-where-it-binds",
+            "witness-for",
+            "own-workplace"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-work-for-a-living-same-as-everybody-in-that-room-this-one-would-help",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I work for a living, same as everybody in that room. This one would help.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-works", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-work-for-a-living-every-time-they-do-something-like-this-my-check-gets-smaller",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I work for a living. Every time they do something like this, my check gets smaller.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-works", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-rent-anything-that-helps-renters-i-m-going-to-show-up-for",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We rent. Anything that helps renters, I'm going to show up for.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "hopeful",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-rents", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-rent-every-change-like-this-ends-up-in-the-rent-somehow",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We rent. Every change like this ends up in the rent somehow.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-rents", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-own-our-place-i-d-like-the-neighborhood-to-still-feel-like-home-in-ten-years",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We own our place. I'd like the neighborhood to still feel like home in ten years.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-owns", "witness-for", "bill-housing"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-own-our-place-and-i-don-t-like-what-this-does-to-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We own our place, and I don't like what this does to it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-owns", "witness-against", "bill-housing"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-ve-got-own-child-at-home-this-is-about-the-school-my-kid-walks-into",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I've got {own-child} at home. This is about the school my kid walks into.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-children-at-home",
+            "witness-for",
+            "own-child",
+            "bill-schools"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-ve-got-own-child-at-home-i-m-not-sure-this-is-good-for-my-kid",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I've got {own-child} at home. I'm not sure this is good for my kid.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-children-at-home",
+            "witness-against",
+            "own-child"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.at-my-age-this-is-my-doctor-s-bill-we-re-talking-about",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "At my age, this is my doctor's bill we're talking about.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-own-age-health", "witness-for", "bill-health"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.at-my-age-i-can-t-have-my-coverage-messed-with",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "At my age, I can't have my coverage messed with.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-own-age-health",
+            "witness-against",
+            "bill-health"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.it-s-not-about-me-i-just-think-it-s-the-right-thing",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It's not about me. I just think it's the right thing.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-believes", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.it-doesn-t-touch-me-much-i-still-think-it-s-a-mistake",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It doesn't touch me much. I still think it's a mistake.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-believes", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-ve-never-done-anything-like-that-before-i-hope-somebody-was-listening",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I've never done anything like that before. I hope somebody was listening.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-said-what-i-came-to-say-i-hope-it-does-some-good",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I said what I came to say. I hope it does some good.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "nervous",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-coming-in-it-matters-more-than-you-d-think",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for coming in. It matters more than you'd think.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-making-the-trip-i-heard-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for making the trip. I heard you.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-thank.i-appreciate-you-coming",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I appreciate you coming.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-it-really-mean-for-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would it really mean for you?",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "bearing": "curious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-what-changes-at-home-if-this-passes",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me what changes at home if this passes.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.be-straight-with-me-what-does-it-do-to-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Be straight with me. What does it do to you?",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-see-it-differently-than-you-do",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I see it differently than you do.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-don-t-think-it-would-play-out-that-way",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I don't think it would play out that way.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-disagree.we-re-going-to-disagree-on-this-one",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "We're going to disagree on this one.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ve-got-to-get-back-in-there",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I've got to get back in there.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-take-care",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. Take care.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-sorry-i-have-to-go-thank-you-for-talking-to-me",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm sorry, I have to go. Thank you for talking to me.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.i-appreciate-that-i-ll-be-watching-how-it-goes",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I appreciate that. I'll be watching how it goes.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "glad",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "thank"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-that-s-all-i-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. That's all I wanted.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "thank"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-i-ve-had-my-say",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I've had my say.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-guess-we-ll-see",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I guess we'll see.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-m-not-short-every-month",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I'm not short every month.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-paid-under-the-floor", "bill-wage"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-stop-dreading-the-letter-from-the-landlord-every-year",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I stop dreading the letter from the landlord every year.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "hopeful",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-rents", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-the-landlord-finds-a-way-to-pass-it-on-they-always-do",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means the landlord finds a way to pass it on. They always do.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-rents", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-go-in-to-work-and-find-out-who-they-re-letting-go",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I go in to work and find out who they're letting go.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-works-where-it-binds", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-the-place-i-work-finally-has-to-do-right-by-us",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means the place I work finally has to do right by us.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "hopeful",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-works-where-it-binds", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-own-child-gets-a-teacher-who-isn-t-stretched-too-thin",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means {own-child} gets a teacher who isn't stretched too thin.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-children-at-home",
+            "witness-for",
+            "own-child",
+            "bill-schools"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-can-stop-putting-off-the-doctor",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I can stop putting off the doctor.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-own-age-health", "witness-for", "bill-health"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-m-the-one-who-finds-out-if-they-got-it-wrong",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I'm the one who finds out if they got it wrong.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-own-age-health",
+            "witness-against",
+            "bill-health"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-my-kid-is-the-one-they-try-it-out-on",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means my kid is the one they try it out on.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-children-at-home",
+            "witness-against",
+            "own-child"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.honestly-not-much-for-me-it-s-my-neighbors-i-m-thinking-about",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Honestly? Not much for me. It's my neighbors I'm thinking about.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-believes"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-things-get-a-little-easier-for-us-or-harder-if-they-get-it-wrong",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means things get a little easier for us. Or harder, if they get it wrong.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-can-stop-worrying-about-it-that-d-be-enough",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I can stop worrying about it. That'd be enough.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.you-didn-t-have-to-live-it-i-do",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You didn't have to live it. I do.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.i-wish-you-d-heard-me-out",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I wish you'd heard me out.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.two-minutes-that-s-all-i-m-asking",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Two minutes. That's all I'm asking.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "deflect"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.i-took-a-day-off-work-to-be-here",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I took a day off work to be here.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["has-job"],
+          "after": "deflect"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.alright-go-on",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. Go on.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.well-i-ve-had-my-say",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Well. I've had my say.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.sure-everybody-s-busy",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Sure. Everybody's busy.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.before-i-answer-why-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Before I answer: why me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-me-you-could-ask-anybody",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why me? You could ask anybody.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-made-you-think-of-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What made you think of me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-why-it-s-me-you-want",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me why it's me you want.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.first-tell-me-where-you-are-on-issue",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "First tell me where you are on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-do-you-stand-on-issue-i-need-to-hear-it-from-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where do you stand on {issue}? I need to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.before-i-say-anything-where-are-you-on-issue",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Before I say anything, where are you on {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-straight-where-are-you-on-issue",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me straight. Where are you on {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-ve-done-the-work-as-their-office-that-s-why",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You've done the work as {their-office}. That's why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-step-up", "their-office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.because-of-your-work-as-their-office",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Because of your work as {their-office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-step-up", "their-office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.we-see-issue-the-same-way",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "We see {issue} the same way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-step-up", "near-on-issue"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.we-re-on-the-same-side-of-issue",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "We're on the same side of {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-step-up", "near-on-issue"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-with-you-on-issue",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm with you on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.on-issue-i-m-where-you-are-i-ll-say-it-anywhere",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "On {issue}, I'm where you are. I'll say it anywhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-d-rather-not-pin-myself-down-on-issue-yet",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I'd rather not pin myself down on {issue} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.let-s-leave-issue-for-later",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "Let's leave {issue} for later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.if-you-won-t-say-where-you-stand-on-issue-i-can-t-stand-next-to-you",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "If you won't say where you stand on {issue}, I can't stand next to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "deflect",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-need-to-know-where-you-are-on-issue-without-that-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I need to know where you are on {issue}. Without that, no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "deflect",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.that-s-not-an-answer-i-can-t-run-on-a-maybe",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That's not an answer. I can't run on a maybe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "deflect",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-wanted-a-shot-at-office-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've wanted a shot at {office}. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "answer",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "tell",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-yes-i-ll-take-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then yes. I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "answer",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "tell",
+          "requiresFacts": ["stranger", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-we-want-the-same-thing-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then we want the same thing. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "answer",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.good-then-i-m-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Good. Then I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "answer",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-d-have-liked-a-straight-answer-still-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'd have liked a straight answer. Still, yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "deflect",
+          "requiresFacts": ["stranger", "reason-yes-agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
       }
     }
   ]
