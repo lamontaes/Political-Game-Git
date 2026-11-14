@@ -4638,7 +4638,6 @@ const DAY_TALK = (
       usualWeekDays: { value: number };
       rentCoveredMonths: { value: number };
       evictionJobLostDays: { value: number };
-      moveHelpHours: { value: number };
       backOmitsTold: readonly string[];
       toldFigures: readonly string[];
     };
@@ -6834,19 +6833,6 @@ function sayNow(
         cause: "conversation",
         sourceId: eventId,
       },
-    );
-  // Help with a move, taken up, is hours spent together beyond the
-  // exchange (Words lead, Nov 14), through the same writer; the player's own
-  // day is not spent for it.
-  // stopgapId: SG-WORDS-eviction-help-spends-no-day
-  if (last.kind === "eviction" && !choice.lie && choice.move === "help")
-    api.relationship(
-      playerId,
-      otherId,
-      "contact",
-      DAY_TALK.moveHelpHours.value,
-      undefined,
-      { cause: "conversation-moving-help", sourceId: eventId },
     );
   // The listener remembers what this talk was about.
   if (conversation.topics[zero])

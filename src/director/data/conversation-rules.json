@@ -335,7 +335,6 @@
     "eviction": {
       "ask": "request",
       "where": "request",
-      "help": "answer",
       "comfort": "answer"
     }
   },
@@ -529,13 +528,7 @@
       "checkedAgainst": "A job lost within the year before an eviction is told as why the rent fell behind: most evicted renters fall behind after a loss of income in the months before (Desmond and Gershenson 2016, 'Housing and Employment Insecurity among the Working Poor'; Census Household Pulse Survey, renters behind by recent loss of employment income)."
     },
     "backOmitsTold": ["eviction", "job-lost"],
-    "toldFigures": ["owed", "behind", "wage", "years", "when"],
-    "moveHelpHours": {
-      "value": 3,
-      "tag": "TUNABLE",
-      "spread": [1, 8],
-      "checkedAgainst": "Hours a relative's help with a move takes: a household's move is a day's work for a few people; helping a relative put out of their home carry a load is an afternoon (American Time Use Survey, helping household members: a few hours on the day). A TUNABLE hours figure checked against that spread."
-    }
+    "toldFigures": ["owed", "behind", "wage", "years", "when"]
   },
   "stands": {
     "about": "Owner, Nov 12, via the coordinator: children do not take stands on the President's address. A person younger than this takes no stand in talk: no point of an address, no stand of their own, no policy story told with a side; a child talks about school, friends and home.",
