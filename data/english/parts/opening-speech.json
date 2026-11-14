@@ -81,6 +81,7 @@
     "turn-to": "the speech's theme by its spoken name, where a hurt address turns from its answer to the theme",
     "realm-bare": "the governor's state or the mayor's town by name, from the speaker's jurisdiction record",
     "context-name": "The measure said short, from the speaker's record.",
+    "good-name": "The measure the term improved, said short, from the term's own record.",
     "belief-sentence": "What the speaker believes on the question, as a sentence of its own, from the bank's belief clause."
   },
   "maxWords": 40,
@@ -111100,2264 +111101,2824 @@
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-crime-crime-on-that-scale-has-taken-something-from-e",
+      "key": "opening-speech.ask.oppose-more-polished-0",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "You will not find my name behind any {measure} for {about}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.oppose-more-polished-1",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I cannot support any {measure} for {about}, and I will not pretend otherwise.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.oppose-more-polished-2",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will stand against any {measure} for {about}, whoever brings it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.oppose-more-plain-0",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Don't look for my name on any {measure} for {about}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.oppose-more-plain-1",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I can't back any {measure} for {about}, and I won't pretend I can.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.oppose-more-plain-2",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm standing against any {measure} for {about}, whoever brings it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "measure"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.salutation.r5-greet-polished-0",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Members of the {realm-bare} legislature, and every citizen of {realm-name}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-state",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["realm-bare", "realm-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.salutation.r5-greet-polished-1",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Lawmakers of {realm-bare}, and the people we serve.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-state",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["realm-bare"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.salutation.r5-greet-plain-0",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Folks in this chamber, and everybody listening across {realm-name}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-state",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["realm-bare", "realm-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.salutation.r5-greet-plain-1",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Members of the {realm-bare} legislature, and neighbors all over {realm-name}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-state",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["realm-bare", "realm-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-pu-0",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I support {about}, and I ask {body-name} to {side} before the year is out.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-pu-1",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I stand for {about}, and I ask {body-name} to {side} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-pu-2",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I favor {about}, and I urge {body-name} to {side} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-pf-0",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I support {about} because {belief}, and I ask {body-name} to {side} before the year is out.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-pf-1",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I stand for {about} because {belief}, and I ask {body-name} to {side} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-pf-2",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I favor {about} because {belief}, and I urge {body-name} to {side} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-lu-0",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm behind {about}, and I'd like us to {side} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-lu-1",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm all for {about}, so let's {side} before the year is out.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-lu-2",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I want {about}, and I want us to {side} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-lf-0",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm behind {about} because {belief}, so let's {side} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-lf-1",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm all for {about} because {belief}, so let's {side} before the year is out.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.ask.r5-town-for-lf-2",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I want {about} because {belief}, and I want us to {side} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "about",
+            "side",
+            "belief",
+            "belief-folded"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.meaning.local-polished-crime-that-much-context-name-has-taken-something-fro",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Crime on that scale has taken something from every neighborhood in {realm-name}: the ease of an evening walk.",
+      "text": "That much {context-name} has taken something from every neighborhood: the ease of an evening walk.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "crime",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-crime-families-in-realm-name-have-answered-it-with-e",
+      "key": "opening-speech.meaning.local-polished-crime-families-have-answered-context-name-with-extra",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Families in {realm-name} have answered it with extra locks, and with fewer evenings out.",
+      "text": "Families have answered {context-name} with extra locks, and with fewer evenings out.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "crime",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-crime-it-has-cost-realm-name-more-than-any-number-sh",
+      "key": "opening-speech.meaning.local-polished-crime-what-context-name-has-cost-us-goes-beyond-any-",
       "move": "meaning",
       "kind": "spoken",
-      "text": "It has cost {realm-name} more than any number shows, in trust between neighbors and in peace of mind.",
+      "text": "What {context-name} has cost us goes beyond any number: trust between neighbors and peace of mind.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "crime",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-crime-folks-in-realm-name-have-put-up-with-more-crim",
+      "key": "opening-speech.meaning.local-plain-crime-that-much-context-name-has-been-hard-on-every-",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Folks in {realm-name} have put up with more crime than anybody should.",
+      "text": "That much {context-name} has been hard on every neighborhood, and folks don't go out like they used to.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "crime",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
       "key": "opening-speech.meaning.local-plain-crime-that-s-more-kids-kept-inside-and-more-porch-li",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's more kids kept inside, and more porch lights left on all night in {realm-name}.",
+      "text": "That's more kids kept inside, and more porch lights left on all night, because of {context-name}.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "crime",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-crime-nobody-in-realm-name-should-have-to-wonder-if-",
+      "key": "opening-speech.meaning.local-plain-crime-nobody-should-have-to-wonder-if-their-street-i",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Nobody in {realm-name} should have to wonder if their street is safe, and too many do.",
+      "text": "Nobody should have to wonder if their street is safe, and with {context-name} like this, too many do.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-crime", "realm-name"]
+          "requiresFacts": ["context-crime", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "crime",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-environment-children-in-realm-name-have-breathed-the-diffe",
+      "key": "opening-speech.meaning.local-polished-environment-children-have-breathed-the-difference-in-conte",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Children in {realm-name} have breathed the difference, and parents have noticed.",
+      "text": "Children have breathed the difference in {context-name}, and parents have noticed.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "environment",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-environment-what-the-air-and-water-carry-is-not-abstract-t",
+      "key": "opening-speech.meaning.local-polished-environment-what-is-in-context-name-is-not-abstract-to-a-f",
       "move": "meaning",
       "kind": "spoken",
-      "text": "What the air and water carry is not abstract to a family in {realm-name} with an asthmatic child.",
+      "text": "What is in {context-name} is not abstract to a family with an asthmatic child.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "environment",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-environment-it-has-asked-the-people-of-realm-name-to-accep",
+      "key": "opening-speech.meaning.local-polished-environment-it-has-asked-all-of-us-to-accept-more-pollutio",
       "move": "meaning",
       "kind": "spoken",
-      "text": "It has asked the people of {realm-name} to accept more pollution than any of us should.",
+      "text": "It has asked all of us to accept more pollution in {context-name} than any of us should.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "environment",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-environment-folks-in-realm-name-can-smell-and-see-the-diff",
+      "key": "opening-speech.meaning.local-plain-environment-folks-can-smell-and-see-the-difference-in-cont",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Folks in {realm-name} can smell and see the difference, and they don't like it.",
+      "text": "Folks can smell and see the difference in {context-name}, and they don't like it.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "environment",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
       "key": "opening-speech.meaning.local-plain-environment-that-s-kids-with-coughs-and-creeks-nobody-want",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's kids with coughs and creeks nobody wants to fish in, all over {realm-name}.",
+      "text": "That's kids with coughs and creeks nobody wants to fish in, because of {context-name}.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "environment",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-environment-nobody-in-realm-name-signed-up-for-dirtier-air",
+      "key": "opening-speech.meaning.local-plain-environment-nobody-signed-up-for-worse-context-name",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Nobody in {realm-name} signed up for dirtier air and water.",
+      "text": "Nobody signed up for worse {context-name}.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-environment", "realm-name"]
+          "requiresFacts": ["context-environment", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "environment",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-health-a-family-in-realm-name-that-puts-off-care-toda",
+      "key": "opening-speech.meaning.local-polished-health-a-family-that-puts-off-context-name-today-pays",
       "move": "meaning",
       "kind": "spoken",
-      "text": "A family in {realm-name} that puts off care today pays for it, and more, tomorrow.",
+      "text": "A family that puts off {context-name} today pays for it, and more, tomorrow.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "health",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-health-too-many-people-in-realm-name-have-learned-to-",
+      "key": "opening-speech.meaning.local-polished-health-many-have-learned-to-weigh-context-name-agains",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Many people in {realm-name} have learned to weigh a doctor's visit against the rent.",
+      "text": "Many have learned to weigh {context-name} against the rent.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "health",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-health-it-has-cost-realm-name-in-lives-and-in-savings",
+      "key": "opening-speech.meaning.local-polished-health-it-has-cost-us-in-lives-and-in-savings-that-a-",
       "move": "meaning",
       "kind": "spoken",
-      "text": "It has cost {realm-name} in lives and in savings that a clinic visit would have spared.",
+      "text": "It has cost us in lives and in savings that a clinic visit would have spared, with {context-name} out of reach.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "health",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-health-folks-in-realm-name-are-sicker-than-they-need-",
+      "key": "opening-speech.meaning.local-plain-health-folks-are-sicker-than-they-need-to-be-and-cont",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Folks in {realm-name} are sicker than they need to be, and it's not for lack of trying.",
+      "text": "Folks are sicker than they need to be, and {context-name} is part of why.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "health",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-health-that-s-people-in-realm-name-sitting-in-waiting",
+      "key": "opening-speech.meaning.local-plain-health-that-s-people-sitting-in-waiting-rooms-or-not-",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's people in {realm-name} sitting in waiting rooms, or not going at all.",
+      "text": "That's people sitting in waiting rooms, or not going at all, when it comes to {context-name}.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "health",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-health-nobody-in-realm-name-should-have-to-pick-betwe",
+      "key": "opening-speech.meaning.local-plain-health-nobody-should-have-to-pick-between-context-nam",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Nobody in {realm-name} should have to pick between the doctor and the grocery bill.",
+      "text": "Nobody should have to pick between {context-name} and the grocery bill.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-health", "realm-name"]
+          "requiresFacts": ["context-health", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "health",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-rent-rents-like-that-have-pushed-families-in-realm-",
+      "key": "opening-speech.meaning.local-polished-rent-with-context-name-like-that-families-have-give",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Rents like that have pushed families in {realm-name} to give up a bedroom, a job, or a neighborhood.",
+      "text": "With {context-name} like that, families have given up a bedroom, a job, or a neighborhood.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-rent-a-family-in-realm-name-cannot-save-for-a-home-",
+      "key": "opening-speech.meaning.local-polished-rent-a-family-cannot-save-for-a-home-while-context-",
       "move": "meaning",
       "kind": "spoken",
-      "text": "A family in {realm-name} cannot save for a home while the rent takes the money first.",
+      "text": "A family cannot save for a home while {context-name} takes the money first.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-rent-it-has-asked-more-of-every-renter-in-realm-nam",
+      "key": "opening-speech.meaning.local-polished-rent-it-has-asked-more-of-every-renter-than-a-paych",
       "move": "meaning",
       "kind": "spoken",
-      "text": "It has asked more of every renter in {realm-name} than their paycheck can give.",
+      "text": "It has asked more of every renter than a paycheck can give, with {context-name} where it is.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-rent-folks-in-realm-name-are-doubling-up-or-moving-",
+      "key": "opening-speech.meaning.local-plain-rent-folks-are-doubling-up-or-moving-out-because-of",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Folks in {realm-name} are doubling up, or moving out, to make the rent.",
+      "text": "Folks are doubling up, or moving out, because of {context-name}.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-rent-that-s-a-lot-of-families-in-realm-name-with-no",
+      "key": "opening-speech.meaning.local-plain-rent-that-s-a-lot-of-families-with-nothing-left-at-",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's a lot of families in {realm-name} with nothing left at the end of the month.",
+      "text": "That's a lot of families with nothing left at the end of the month after {context-name}.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-rent-nobody-in-realm-name-works-full-time-to-hand-i",
+      "key": "opening-speech.meaning.local-plain-rent-nobody-works-full-time-to-hand-it-all-over-for",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Nobody in {realm-name} works full time to hand it all to the landlord, and too many do.",
+      "text": "Nobody works full time to hand it all over for {context-name}, and too many do.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-rent", "realm-name"]
+          "requiresFacts": ["context-rent", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-roads-drivers-in-realm-name-have-paid-for-the-neglec",
+      "key": "opening-speech.meaning.local-polished-roads-drivers-have-paid-for-the-neglect-of-context-n",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Drivers in {realm-name} have paid for the neglect in tires, in repairs and in hours lost.",
+      "text": "Drivers have paid for the neglect of {context-name} in tires, in repairs and in hours lost.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-roads-a-road-that-is-not-kept-up-costs-realm-name-tw",
+      "key": "opening-speech.meaning.local-polished-roads-neglect-of-context-name-costs-twice-once-in-th",
       "move": "meaning",
       "kind": "spoken",
-      "text": "A road that is not kept up costs {realm-name} twice, once in the repair and again in the delay.",
+      "text": "Neglect of {context-name} costs twice, once in the repair and again in the delay.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-roads-the-people-of-realm-name-deserve-to-get-to-wor",
+      "key": "opening-speech.meaning.local-polished-roads-people-deserve-to-get-to-work-and-home-without",
       "move": "meaning",
       "kind": "spoken",
-      "text": "The people of {realm-name} deserve to get to work and home without a detour around a failed road.",
+      "text": "People deserve to get to work and home without a detour, and {context-name} have not let them.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-roads-folks-in-realm-name-are-losing-tires-time-and-",
+      "key": "opening-speech.meaning.local-plain-roads-folks-are-losing-tires-time-and-patience-on-co",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Folks in {realm-name} are losing tires, time and patience on roads that should have been fixed.",
+      "text": "Folks are losing tires, time and patience on {context-name} that should have been fixed.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
       "key": "opening-speech.meaning.local-plain-roads-that-s-a-lot-of-wasted-mornings-stuck-on-a-det",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's a lot of wasted mornings stuck on a detour in {realm-name}.",
+      "text": "That's a lot of wasted mornings stuck on a detour, thanks to {context-name}.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-roads-nobody-in-realm-name-should-have-to-dodge-poth",
+      "key": "opening-speech.meaning.local-plain-roads-nobody-should-have-to-dodge-potholes-to-get-to",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Nobody in {realm-name} should have to dodge potholes to get to work.",
+      "text": "Nobody should have to dodge potholes to get to work, and {context-name} make folks do it.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-roads", "realm-name"]
+          "requiresFacts": ["context-roads", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-schools-children-in-realm-name-have-only-one-chance-at",
+      "key": "opening-speech.meaning.local-polished-schools-children-have-only-one-chance-at-each-grade-an",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Children in {realm-name} have only one chance at each grade, and too many have had less of it.",
+      "text": "Children have only one chance at each grade, and {context-name} have given too many less of it.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-schools-parents-in-realm-name-have-noticed-what-the-cl",
+      "key": "opening-speech.meaning.local-polished-schools-parents-have-noticed-what-context-name-are-no-",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Parents in {realm-name} have noticed what the classroom is no longer giving their kids.",
+      "text": "Parents have noticed what {context-name} are no longer giving their children.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-polished-schools-it-has-cost-realm-name-something-it-cannot-get",
+      "key": "opening-speech.meaning.local-polished-schools-it-has-cost-something-we-cannot-get-back-a-yea",
       "move": "meaning",
       "kind": "spoken",
-      "text": "It has cost {realm-name} something it cannot get back, a year of learning for each child it failed.",
+      "text": "It has cost something we cannot get back, a year of learning for each child {context-name} failed.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         }
       ],
       "voice": "polished",
       "bearing": "calm",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-schools-parents-in-realm-name-can-tell-when-a-classroo",
+      "key": "opening-speech.meaning.local-plain-schools-parents-can-tell-when-context-name-aren-t-doin",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Parents in {realm-name} can tell when a classroom isn't doing its job.",
+      "text": "Parents can tell when {context-name} aren't doing their job.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-schools-that-s-kids-in-realm-name-falling-behind-with-",
+      "key": "opening-speech.meaning.local-plain-schools-that-s-kids-falling-behind-with-nobody-to-catc",
       "move": "meaning",
       "kind": "spoken",
-      "text": "That's kids in {realm-name} falling behind with nobody to catch them.",
+      "text": "That's kids falling behind with nobody to catch them, and {context-name} left them there.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.meaning.local-plain-schools-nobody-in-realm-name-wants-less-for-their-kids",
+      "key": "opening-speech.meaning.local-plain-schools-nobody-wants-less-for-their-kids-than-they-got",
       "move": "meaning",
       "kind": "spoken",
-      "text": "Nobody in {realm-name} wants less for their kids than they got themselves.",
+      "text": "Nobody wants less for their kids than they got themselves, and {context-name} aren't giving it.",
       "uses": [
         {
           "move": "meaning",
           "subject": "state-of-the-state",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         },
         {
           "move": "meaning",
           "subject": "town-address",
           "role": "meaning",
           "choice": "meaning",
-          "requiresFacts": ["context-schools", "realm-name"]
+          "requiresFacts": ["context-schools", "context-name"]
         }
       ],
       "voice": "plain",
       "bearing": "calm",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-crime-better-our-streets-in-realm-name-are-safer-than-they-",
+      "key": "opening-speech.story-says.local-polished-crime-there-is-less-good-name-on-our-streets-than-th",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our streets in {realm-name} are safer than they were, and families are taking them back.",
+      "text": "There is less {good-name} on our streets than there was, and families are taking them back.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["crime-better", "realm-name"]
+          "requiresFacts": ["crime-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["crime-better", "realm-name"]
+          "requiresFacts": ["crime-better", "good-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "crime",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-polished-crime-fewer-families-live-with-good-name-on-their-st",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Fewer families live with {good-name} on their street than before.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better", "good-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "crime",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-polished-crime-neighbors-are-out-in-the-evening-again-which-t",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Neighbors are out in the evening again, which tells you how far {good-name} has fallen.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better", "good-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "crime",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-plain-crime-there-s-less-good-name-on-our-streets-than-the",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "There's less {good-name} on our streets than there was, and families are taking them back.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better", "good-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "crime",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-plain-crime-fewer-folks-live-with-good-name-on-their-stree",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Fewer folks live with {good-name} on their street than before.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better", "good-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "crime",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-plain-crime-neighbors-are-out-in-the-evening-again-and-tha",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Neighbors are out in the evening again, and that tells you how far {good-name} has fallen.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better", "good-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "crime",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-polished-environment-families-can-see-the-difference-in-good-name-a",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Families can see the difference in {good-name}, and children are breathing easier for it.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-better", "good-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "environment",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-polished-environment-there-is-less-to-worry-about-in-good-name-than",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "There is less to worry about in {good-name} than there was, and that is progress we can point to.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-better", "good-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "environment",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-polished-environment-the-work-on-good-name-is-paying-off-and-parent",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "The work on {good-name} is paying off, and parents are the first to notice.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-better", "good-name"]
         }
       ],
       "voice": ["polished", "plain"],
       "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-polished-crime-better-fewer-families-in-realm-name-are-living-with-c",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Fewer families in {realm-name} are living with crime on their street than before.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-polished-crime-better-neighbors-in-realm-name-are-out-in-the-evening",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Neighbors in {realm-name} are out in the evening again, and that is the best measure of safety there is.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-plain-crime-better-fewer-folks-in-realm-name-are-putting-up-with-",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Fewer folks in {realm-name} are putting up with crime on their street.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better", "realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-plain-crime-better-neighbors-in-realm-name-are-out-in-the-evening",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Neighbors in {realm-name} are out in the evening again, and that tells you what a number can't.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better", "realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-polished-environment-better-the-air-and-the-water-in-realm-name-are-cleane",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water in {realm-name} are cleaner than they were, and children are breathing easier for it.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
       "topic": "environment",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-environment-better-there-is-cleaner-air-and-water-in-realm-name-t",
+      "key": "opening-speech.story-says.local-plain-environment-folks-can-see-the-difference-in-good-name-and-",
       "move": "story-says",
       "kind": "spoken",
-      "text": "There is cleaner air and water in {realm-name} than before, and families can feel it.",
+      "text": "Folks can see the difference in {good-name}, and kids are breathing easier for it.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
+          "requiresFacts": ["environment-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-polished-environment-better-there-is-less-to-worry-about-in-what-realm-nam",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "There is less to worry about in what {realm-name} drinks and breathes, and that is progress we can point to.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-plain-environment-better-the-air-and-the-water-in-realm-name-are-cleane",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water in {realm-name} are cleaner than they were, and kids are breathing easier for it.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
+          "requiresFacts": ["environment-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "environment",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-environment-better-folks-in-realm-name-have-cleaner-air-and-water",
+      "key": "opening-speech.story-says.local-plain-environment-there-s-less-to-worry-about-in-good-name-than-",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Folks in {realm-name} have cleaner air and water than before, and they can tell.",
+      "text": "There's less to worry about in {good-name} than there was, and that's real progress.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
+          "requiresFacts": ["environment-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
+          "requiresFacts": ["environment-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "environment",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-environment-better-there-s-less-to-worry-about-in-what-realm-name",
+      "key": "opening-speech.story-says.local-polished-health-more-families-can-see-a-doctor-than-before-and",
       "move": "story-says",
       "kind": "spoken",
-      "text": "There's less to worry about in what {realm-name} drinks and breathes, and that's real progress.",
+      "text": "More families can see a doctor than before, and {good-name} is within reach of more people.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
+          "requiresFacts": ["health-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["environment-better", "realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-polished-health-better-more-families-in-realm-name-can-see-a-doctor-t",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families in {realm-name} can see a doctor today than before, and fewer are lost to what could have been treated.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-better", "realm-name"]
+          "requiresFacts": ["health-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
       "topic": "health",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-health-better-care-is-within-reach-of-more-people-in-realm-n",
+      "key": "opening-speech.story-says.local-polished-health-families-that-need-good-name-are-more-likely-t",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Care is within reach of more people in {realm-name} than it was, and that is the kind of progress families feel.",
+      "text": "Families that need {good-name} are more likely to find it now.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["health-better", "realm-name"]
+          "requiresFacts": ["health-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["health-better", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-polished-health-better-a-family-in-realm-name-that-needs-a-doctor-is-",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "A family in {realm-name} that needs a doctor is more likely to find one now.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-better", "realm-name"]
+          "requiresFacts": ["health-better", "good-name"]
         }
       ],
       "voice": ["polished", "plain"],
       "bearing": "braced",
       "topic": "health",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-health-better-more-families-in-realm-name-can-see-a-doctor-t",
+      "key": "opening-speech.story-says.local-polished-health-that-is-progress-on-good-name-that-families-fe",
       "move": "story-says",
       "kind": "spoken",
-      "text": "More families in {realm-name} can see a doctor today than before, and fewer are lost to what could've been treated.",
+      "text": "That is progress on {good-name} that families feel in their own lives.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["health-better", "realm-name"]
+          "requiresFacts": ["health-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["health-better", "realm-name"]
+          "requiresFacts": ["health-better", "good-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "health",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-plain-health-more-families-can-see-a-doctor-than-before-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "More families can see a doctor than before, and {good-name}'s within reach of more folks.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["health-better", "good-name"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["health-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "health",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-health-better-care-s-within-reach-of-more-folks-in-realm-nam",
+      "key": "opening-speech.story-says.local-plain-health-that-s-progress-on-good-name-that-families-fee",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Care's within reach of more folks in {realm-name} than it was, and families can feel that.",
+      "text": "That's progress on {good-name} that families feel in their own lives.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["health-better", "realm-name"]
+          "requiresFacts": ["health-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["health-better", "realm-name"]
+          "requiresFacts": ["health-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "health",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-rent-better-rents-in-realm-name-have-eased-and-for-some-fa",
+      "key": "opening-speech.story-says.local-polished-rent-families-are-keeping-a-little-more-of-every-pa",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Rents in {realm-name} have eased, and for some families that is the first room to breathe in years.",
+      "text": "Families are keeping a little more of every paycheck, because {good-name} has eased.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
+          "requiresFacts": ["rent-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
+          "requiresFacts": ["rent-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-rent-better-renters-in-realm-name-are-keeping-a-little-mor",
+      "key": "opening-speech.story-says.local-polished-rent-the-good-name-is-a-smaller-bite-out-of-a-famil",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Renters in {realm-name} are keeping a little more of every paycheck than they were.",
+      "text": "The {good-name} is a smaller bite out of a family's month than it was.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
+          "requiresFacts": ["rent-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
+          "requiresFacts": ["rent-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-rent-better-the-rent-is-a-smaller-bite-out-of-a-family-s-m",
+      "key": "opening-speech.story-says.local-polished-rent-renters-are-breathing-easier-and-good-name-is-",
       "move": "story-says",
       "kind": "spoken",
-      "text": "The rent is a smaller bite out of a family's month in {realm-name} than it was.",
+      "text": "Renters are breathing easier, and {good-name} is the reason.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
+          "requiresFacts": ["rent-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
+          "requiresFacts": ["rent-better", "good-name"]
         }
       ],
-      "voice": "polished",
+      "voice": ["polished", "plain"],
       "bearing": "braced",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-rent-better-rents-in-realm-name-have-eased-and-for-some-fa",
+      "key": "opening-speech.story-says.local-plain-rent-families-are-keeping-a-little-more-of-every-ch",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Rents in {realm-name} have eased, and for some families that's the first room to breathe in years.",
+      "text": "Families are keeping a little more of every check, because {good-name} has eased.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
+          "requiresFacts": ["rent-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-plain-rent-better-renters-in-realm-name-are-keeping-a-little-mor",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Renters in {realm-name} are keeping a little more of every check than they were.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
+          "requiresFacts": ["rent-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-rent-better-the-rent-s-a-smaller-bite-out-of-a-family-s-mo",
+      "key": "opening-speech.story-says.local-plain-rent-the-good-name-s-a-smaller-bite-out-of-a-family",
       "move": "story-says",
       "kind": "spoken",
-      "text": "The rent's a smaller bite out of a family's month in {realm-name} than it was.",
+      "text": "The {good-name}'s a smaller bite out of a family's month than it was.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
+          "requiresFacts": ["rent-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["rent-better", "realm-name"]
+          "requiresFacts": ["rent-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "rent",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-roads-better-our-roads-in-realm-name-are-in-better-repair-t",
+      "key": "opening-speech.story-says.local-polished-roads-drivers-can-see-the-difference-in-good-name-an",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our roads in {realm-name} are in better repair than they were, and people are getting where they are going more safely.",
+      "text": "Drivers can see the difference in {good-name}, and fewer are meeting a pothole they cannot avoid.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-roads-better-fewer-drivers-in-realm-name-are-meeting-a-poth",
+      "key": "opening-speech.story-says.local-polished-roads-there-is-better-repair-on-good-name-than-there",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Fewer drivers in {realm-name} are meeting a pothole they cannot avoid.",
+      "text": "There is better repair on {good-name} than there was, and every commute shows it.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-roads-better-the-roads-of-realm-name-are-in-better-shape-th",
+      "key": "opening-speech.story-says.local-polished-roads-people-are-getting-where-they-are-going-more-s",
       "move": "story-says",
       "kind": "spoken",
-      "text": "The roads of {realm-name} are in better shape than they were, and every commute shows it.",
+      "text": "People are getting where they are going more safely, thanks to the work on {good-name}.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-roads-better-our-roads-in-realm-name-are-in-better-repair-t",
+      "key": "opening-speech.story-says.local-plain-roads-drivers-can-see-the-difference-in-good-name-an",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our roads in {realm-name} are in better repair than they were, and people are getting where they're going more safely.",
+      "text": "Drivers can see the difference in {good-name}, and fewer are hitting a pothole they can't dodge.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-roads-better-fewer-drivers-in-realm-name-are-hitting-a-poth",
+      "key": "opening-speech.story-says.local-plain-roads-there-s-better-repair-on-good-name-than-there-",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Fewer drivers in {realm-name} are hitting a pothole they can't dodge.",
+      "text": "There's better repair on {good-name} than there was, and every commute shows it.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-roads-better-the-roads-in-realm-name-are-in-better-shape-th",
+      "key": "opening-speech.story-says.local-plain-roads-folks-are-getting-where-they-re-going-more-saf",
       "move": "story-says",
       "kind": "spoken",
-      "text": "The roads in {realm-name} are in better shape than they were, and every commute shows it.",
+      "text": "Folks are getting where they're going more safely, thanks to the work on {good-name}.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["roads-better", "realm-name"]
+          "requiresFacts": ["roads-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "roads",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-schools-better-our-children-in-realm-name-are-learning-more-t",
+      "key": "opening-speech.story-says.local-polished-schools-our-children-are-learning-more-than-they-were-",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our children in {realm-name} are learning more than they were, and it is the surest investment we make.",
+      "text": "Our children are learning more than they were, and {good-name} are the surest investment we make.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-better", "realm-name"]
+          "requiresFacts": ["schools-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-schools-better-classrooms-in-realm-name-are-asking-more-of-ou",
+      "key": "opening-speech.story-says.local-polished-schools-there-is-more-asked-of-our-children-in-good-na",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Classrooms in {realm-name} are asking more of our children, and our children are meeting it.",
+      "text": "There is more asked of our children in {good-name} now, and they are meeting it.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-better", "realm-name"]
+          "requiresFacts": ["schools-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-schools-better-parents-in-realm-name-can-see-what-their-child",
+      "key": "opening-speech.story-says.local-polished-schools-parents-can-see-what-their-children-are-learni",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Parents in {realm-name} can see what their children are learning, and it is more than it was.",
+      "text": "Parents can see what their children are learning, and it is more than it was in {good-name}.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-better", "realm-name"]
+          "requiresFacts": ["schools-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-schools-better-our-kids-in-realm-name-are-learning-more-than-",
+      "key": "opening-speech.story-says.local-plain-schools-our-kids-are-learning-more-than-they-were-and-",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our kids in {realm-name} are learning more than they were, and it's the surest investment we make.",
+      "text": "Our kids are learning more than they were, and {good-name} are the surest investment we make.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-better", "realm-name"]
+          "requiresFacts": ["schools-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-schools-better-classrooms-in-realm-name-are-asking-more-of-ou",
+      "key": "opening-speech.story-says.local-plain-schools-there-s-more-asked-of-our-kids-in-good-name-no",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Classrooms in {realm-name} are asking more of our kids, and our kids are meeting it.",
+      "text": "There's more asked of our kids in {good-name} now, and they're meeting it.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-better", "realm-name"]
+          "requiresFacts": ["schools-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-schools-better-parents-in-realm-name-can-see-what-their-kids-",
+      "key": "opening-speech.story-says.local-plain-schools-parents-can-see-what-their-kids-are-learning-a",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Parents in {realm-name} can see what their kids are learning, and it's more than it was.",
+      "text": "Parents can see what their kids are learning, and it's more than it was in {good-name}.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-better", "realm-name"]
+          "requiresFacts": ["schools-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "schools",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-jobs-better-more-of-the-people-of-realm-name-are-working-t",
+      "key": "opening-speech.story-says.local-polished-jobs-more-people-are-working-than-when-this-term-be",
       "move": "story-says",
       "kind": "spoken",
-      "text": "More of the people of {realm-name} are working than when this term began, and the shops on Main Street can tell you so.",
+      "text": "More people are working than when this term began, and {good-name} are easier to find.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["jobs-better", "realm-name"]
+          "requiresFacts": ["jobs-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["jobs-better", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "jobs",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-polished-jobs-better-work-is-easier-to-find-in-realm-name-than-it-w",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Work is easier to find in {realm-name} than it was, and families can plan again.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["jobs-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["jobs-better", "realm-name"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "jobs",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-polished-jobs-better-fewer-people-in-realm-name-are-looking-for-wor",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Fewer people in {realm-name} are looking for work than when this term began.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["jobs-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["jobs-better", "realm-name"]
+          "requiresFacts": ["jobs-better", "good-name"]
         }
       ],
       "voice": ["polished", "plain"],
       "bearing": "braced",
       "topic": "jobs",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-jobs-better-more-people-in-realm-name-are-working-than-whe",
+      "key": "opening-speech.story-says.local-polished-jobs-there-are-more-good-name-than-when-this-term-b",
       "move": "story-says",
       "kind": "spoken",
-      "text": "More people in {realm-name} are working than when this term began, and the shops on Main Street can tell you so.",
+      "text": "There are more {good-name} than when this term began, and the shops on Main Street can tell you so.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["jobs-better", "realm-name"]
+          "requiresFacts": ["jobs-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["jobs-better", "realm-name"]
+          "requiresFacts": ["jobs-better", "good-name"]
         }
       ],
-      "voice": "plain",
+      "voice": ["polished", "plain"],
       "bearing": "braced",
       "topic": "jobs",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-jobs-better-work-s-easier-to-find-in-realm-name-than-it-wa",
+      "key": "opening-speech.story-says.local-polished-jobs-fewer-people-are-looking-for-work-and-good-nam",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Work's easier to find in {realm-name} than it was, and families can plan again.",
+      "text": "Fewer people are looking for work, and {good-name} are within reach of more families.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["jobs-better", "realm-name"]
+          "requiresFacts": ["jobs-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["jobs-better", "realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "jobs",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-polished-pay-better-pay-in-realm-name-has-risen-since-this-term-be",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Pay in {realm-name} has risen since this term began, and for many families it is the first room to breathe in years.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["pay-better", "realm-name"]
+          "requiresFacts": ["jobs-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
-      "topic": "pay",
+      "topic": "jobs",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-pay-better-a-paycheck-in-realm-name-goes-further-than-it-",
+      "key": "opening-speech.story-says.local-plain-jobs-fewer-folks-are-looking-for-work-and-good-name",
       "move": "story-says",
       "kind": "spoken",
-      "text": "A paycheck in {realm-name} goes further than it did, and families have noticed.",
+      "text": "Fewer folks are looking for work, and {good-name} are within reach of more families.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["pay-better", "realm-name"]
+          "requiresFacts": ["jobs-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["pay-better", "realm-name"]
+          "requiresFacts": ["jobs-better", "good-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "jobs",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-polished-pay-families-are-seeing-better-good-name-than-when",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Families are seeing better {good-name} than when this term began.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-better", "good-name"]
         }
       ],
       "voice": ["polished", "plain"],
       "bearing": "braced",
       "topic": "pay",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-pay-better-wages-in-realm-name-have-climbed-and-that-is-f",
+      "key": "opening-speech.story-says.local-polished-pay-there-is-more-room-in-a-family-s-month-because",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Wages in {realm-name} have climbed, and that is felt in every kitchen.",
+      "text": "There is more room in a family's month, because {good-name} has risen.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["pay-better", "realm-name"]
+          "requiresFacts": ["pay-better", "good-name"]
         }
       ],
       "voice": "polished",
       "bearing": "braced",
       "topic": "pay",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-pay-better-pay-in-realm-name-has-gone-up-since-this-term-",
+      "key": "opening-speech.story-says.local-polished-pay-you-can-feel-the-climb-in-good-name-in-every-k",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Pay in {realm-name} has gone up since this term began, and for a lot of families it's the first room to breathe in years.",
+      "text": "You can feel the climb in {good-name} in every kitchen.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["pay-better", "realm-name"]
+          "requiresFacts": ["pay-better", "good-name"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "braced",
+      "topic": "pay",
+      "origin": "authored",
+      "author": "Claude (Words builder S, speech round 5)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.story-says.local-plain-pay-there-s-more-room-in-a-family-s-month-because-",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "There's more room in a family's month, because {good-name} has gone up.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-better", "good-name"]
         },
         {
           "move": "story-says",
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["pay-better", "realm-name"]
+          "requiresFacts": ["pay-better", "good-name"]
         }
       ],
       "voice": "plain",
       "bearing": "braced",
       "topic": "pay",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-pay-better-wages-in-realm-name-have-climbed-and-you-can-f",
+      "key": "opening-speech.story-says.local-polished-prices-the-month-stretches-a-little-further-because-g",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Wages in {realm-name} have climbed, and you can feel it in every kitchen.",
+      "text": "The month stretches a little further, because {good-name} have eased.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["pay-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["pay-better", "realm-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "pay",
-      "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.story-says.local-polished-prices-better-a-family-in-realm-name-pays-less-at-the-regist",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "A family in {realm-name} pays less at the register than it did, and that adds up.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["prices-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["prices-better", "realm-name"]
+          "requiresFacts": ["prices-better", "good-name"]
         }
       ],
       "voice": ["polished", "plain"],
       "bearing": "braced",
       "topic": "prices",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-polished-prices-better-the-cost-of-living-in-realm-name-has-come-down",
+      "key": "opening-speech.story-says.local-polished-prices-a-family-pays-less-at-the-register-than-it-did",
       "move": "story-says",
       "kind": "spoken",
-      "text": "The cost of living in {realm-name} has come down, and families have a little more left at the end of the month.",
+      "text": "A family pays less at the register than it did, and {good-name} are the reason.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["prices-better", "realm-name"]
+          "requiresFacts": ["prices-better", "good-name"]
         }
       ],
-      "voice": "polished",
+      "voice": ["polished", "plain"],
       "bearing": "braced",
       "topic": "prices",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.story-says.local-plain-prices-better-the-cost-of-living-in-realm-name-has-come-down",
+      "key": "opening-speech.story-says.local-polished-prices-families-have-a-little-more-left-at-the-end-of",
       "move": "story-says",
       "kind": "spoken",
-      "text": "The cost of living in {realm-name} has come down, and folks have a little more left at the end of the month.",
+      "text": "Families have a little more left at the end of the month, now that {good-name} have come down.",
       "uses": [
         {
           "move": "story-says",
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["prices-better", "realm-name"]
-        },
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["prices-better", "realm-name"]
+          "requiresFacts": ["prices-better", "good-name"]
         }
       ],
-      "voice": "plain",
+      "voice": ["polished", "plain"],
       "bearing": "braced",
       "topic": "prices",
       "origin": "authored",
-      "author": "Claude (Words builder S, speech round 4)",
+      "author": "Claude (Words builder S, speech round 5)",
       "date": "2026-11-14"
     }
   ]

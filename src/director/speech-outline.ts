@@ -2328,6 +2328,10 @@ export function planSpeech(
               level: "country",
               facts: {
                 [`${goodTopic}-better`]: country.facts[`${goodTopic}-better`]!,
+                "good-name": fact(
+                  OUTLINES.topicWords[goodTopic] ?? goodTopic,
+                  ...country.facts[`${goodTopic}-better`]!.sourceRecordIds,
+                ),
                 ...contextFacts(core, goodTopic, country, speaker.serviceStart),
               },
               moves: [move("story-says", { topic: goodTopic })],
