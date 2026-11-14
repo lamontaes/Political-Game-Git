@@ -105,7 +105,7 @@
         "value": 0.01,
         "role": "level",
         "tag": "TUNABLE",
-        "source": "The smallest drop in the lean a person notices when the player leaves their stance unsaid. Below it the dodge costs them nothing they can feel, so it is not offered as a dodge (Words lead, Nov 14).",
+        "source": "In a person's terms: the smallest drop in their willingness they would feel when the player won't say where they stand on the question that person cares most about. Below it the dodge costs them nothing they can feel, so it is not offered as a dodge (Words lead, Nov 14 21:35Z). Checked across its spread at the pinned places: Mary Conway's 0.0001 falls under every value in it, Elliott Tate's 0.26 above every one. What would replace it: what that person can actually notice on the record, namely how strongly they hold the question and how often they have spoken of it or heard it argued, so that someone who cares more notices a smaller dodge.",
         "spread": [0.005, 0.03]
       }
     },
@@ -185,7 +185,7 @@
         "value": 0.01,
         "role": "level",
         "tag": "TUNABLE",
-        "source": "The smallest drop in the lean a person notices when the player leaves their stance unsaid. Below it the dodge costs them nothing they can feel, so it is not offered as a dodge (Words lead, Nov 14).",
+        "source": "In a person's terms: the smallest drop in their willingness they would feel when the player won't say where they stand on the question that person cares most about. Below it the dodge costs them nothing they can feel, so it is not offered as a dodge (Words lead, Nov 14 21:35Z). Checked across its spread at the pinned places: Mary Conway's 0.0001 falls under every value in it, Elliott Tate's 0.26 above every one. What would replace it: what that person can actually notice on the record, namely how strongly they hold the question and how often they have spoken of it or heard it argued, so that someone who cares more notices a smaller dodge.",
         "spread": [0.005, 0.03]
       }
     }
