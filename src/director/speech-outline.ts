@@ -296,7 +296,12 @@ const TOPIC_CLAIMS: Readonly<Record<string, readonly string[]>> = {
   growth: ["growth-up"],
   wages: ["wages-ahead-of-prices", "wages-behind-prices"],
   mortgage: ["mortgage-up", "mortgage-down"],
-  jobs: ["jobs-up"],
+  jobs: ["jobs-up", "jobs-worse", "jobs-better"],
+  // The place's own work, pay and prices (the term read's areas of the same
+  // names) are a governor's or mayor's to tell; the President's year tells
+  // them through the macro claims above, so these facts never reach it.
+  pay: ["pay-worse", "pay-better"],
+  prices: ["prices-worse", "prices-better"],
   // The areas of the term read (src/core2/term-read.ts): each a claim of
   // better or worse since the term began, so bad news in schools, crime,
   // health or rent is told as well as good.
@@ -312,7 +317,9 @@ const GOOD_CLAIMS: Readonly<Record<string, readonly string[]>> = {
   growth: ["growth-up"],
   wages: ["wages-ahead-of-prices"],
   mortgage: ["mortgage-down"],
-  jobs: ["jobs-up"],
+  jobs: ["jobs-up", "jobs-better"],
+  pay: ["pay-better"],
+  prices: ["prices-better"],
   ...Object.fromEntries(AREA_TOPICS.map((area) => [area, [`${area}-better`]])),
 };
 
@@ -1136,6 +1143,17 @@ function badFacts(country: Country, topic: string): Facts {
     ),
   );
 }
+
+/** Whether the bank holds a context piece for a topic, to say it over the speaker's years in office. */
+const CONTEXT_TOPICS: ReadonlySet<string> = new Set(
+  OPENING_SPEECH_BANK.parts
+    .flatMap((part) => part.uses ?? [])
+    .filter((use) => use.role === "context")
+    .flatMap((use) => use.requiresFacts ?? [])
+    .filter((fact) => fact.startsWith("context-"))
+    .map((fact) => fact.slice("context-".length)),
+);
+const bankSaysContext = (topic: string) => CONTEXT_TOPICS.has(topic);
 
 /** The measures that went wrong, each with a fact that says so, the worst first. */
 function conditionsByWorst(country: Country): string[] {
@@ -2152,9 +2170,13 @@ export function planSpeech(
    */
   const crisisDraft = (topic: string): Draft => {
     const context = contextFacts(core, topic, country, speaker.serviceStart);
-    const told = context[`context-${topic}`]
-      ? move("context", { topic })
-      : null;
+    // Said over the years only where the bank holds a context piece for the
+    // topic; else the record's one line of it (a place's work, pay and prices
+    // have story-says lines and no context pieces yet), never silence.
+    const told =
+      context[`context-${topic}`] && bankSaysContext(topic)
+        ? move("context", { topic })
+        : null;
     if (told) tagSaid = true;
     return {
       key: `crisis-${topic}`,

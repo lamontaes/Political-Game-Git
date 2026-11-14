@@ -2,7 +2,7 @@
  * Planted review batches for a judged rule, so a builder never judges its
  * own lines (words-engine skill, "Keeping line-rules green").
  *
- *   npm run words:review -- --sheets <dir> --out <dir>
+ *   npm run words:review -- --sheets <dir> --out <dir> [--sample <n>]
  *       turns the sheets `npm run words:pairs` wrote into batch files a
  *       reviewer reads (`<out>/NN.md`), with planted entries from a fixed
  *       list mixed in, and keeps the answer key apart (`<out>.key.json`).
@@ -32,6 +32,10 @@ interface Plant {
   /** A pair (the line answered, then the reply) or a set (the line answered, then the replies offered). */
   readonly before: string;
   readonly said: readonly string[];
+  /** For a rule that reads later replies: the replies offered first. */
+  readonly first?: readonly string[];
+  /** For a rule about a slot's variants: `said` are the variants, `before` names the slot. */
+  readonly slot?: true;
 }
 
 /** Plants by rule, in our own words: two that pass and one that fails per batch. */
@@ -102,6 +106,119 @@ export const PLANTS: Readonly<Record<string, readonly Plant[]>> = {
       ],
     },
   ],
+  "reply-follows-the-line-before": [
+    {
+      passes: true,
+      before: "Did you read the zoning plan?",
+      said: ["I did. Page six worries me most."],
+    },
+    {
+      passes: true,
+      before: "Is the plant hiring again?",
+      said: ["They are. My cousin starts Monday."],
+    },
+    {
+      passes: true,
+      before: "Will you sign the petition?",
+      said: ["Not yet. Who's behind it?"],
+    },
+    {
+      passes: false,
+      before: "How was the hearing?",
+      said: ["My sister got a new dog."],
+    },
+    {
+      passes: false,
+      before: "Are the schools closed tomorrow?",
+      said: ["The mayor's car is red."],
+    },
+  ],
+  "player-never-says-unchosen": [
+    {
+      passes: true,
+      before: "Here are your forms. Sign at the bottom.",
+      said: ["Thank you."],
+    },
+    {
+      passes: true,
+      before: "Have a seat. I'll be right with you.",
+      said: ["Thanks."],
+    },
+    {
+      passes: false,
+      before: "Will you vote for the park bond?",
+      said: ["Yes. I'm voting for it, and I'll say so at the meeting."],
+    },
+    {
+      passes: false,
+      before: "Can I count on your endorsement?",
+      said: ["You can. I'll put my name on it today."],
+    },
+  ],
+  "variants-differ-in-what-they-say": [
+    {
+      passes: true,
+      slot: true,
+      before: "a neighbor greets the player at the door",
+      said: [
+        "You're the one running for council? My husband said you'd come by. (needs: the partner heard of the player)",
+        "Saw your sign on Elm Street. Come in out of the cold. (needs: a yard sign nearby; winter)",
+        "Oh, you. You towed my truck last spring. (needs: a past quarrel with the player)",
+      ],
+    },
+    {
+      passes: true,
+      slot: true,
+      before: "the clerk hands back a filing",
+      said: [
+        "You're missing forty signatures. Come back before Friday.",
+        "All set. You'll be on the ballot in November.",
+        "The fee went up in July. It's fifty dollars more now.",
+      ],
+    },
+    {
+      passes: false,
+      slot: true,
+      before: "a neighbor greets the player at the door",
+      said: [
+        "Hello there. Nice to see you.",
+        "Hi. Good to see you.",
+        "Well, hello. Nice to see you here.",
+      ],
+    },
+  ],
+  "later-replies-move-the-talk-on": [
+    {
+      passes: true,
+      before: "So you'll vote for the park bond?",
+      first: ["Yes.", "No.", "I haven't decided."],
+      said: [
+        "Then help me sell it at the Rotary lunch Thursday.",
+        "What happens to the old ball field if it passes?",
+        "Who else on the council is with you?",
+      ],
+    },
+    {
+      passes: true,
+      before: "I can't lend you the money. I'm sorry.",
+      first: ["I understand.", "You promised.", "Forget it."],
+      said: [
+        "Could you co-sign at the credit union instead?",
+        "Then I'll sell the truck. Do you know anyone who wants it?",
+        "Can I at least stay here until the first?",
+      ],
+    },
+    {
+      passes: false,
+      before: "So you'll vote for the park bond?",
+      first: ["Yes, I'll vote for it.", "No, I won't.", "I haven't decided."],
+      said: [
+        "I'm voting yes on it.",
+        "No. I'm against it.",
+        "I still don't know yet.",
+      ],
+    },
+  ],
   "replies-may-be-long-and-substantive": [
     {
       passes: true,
@@ -135,12 +252,20 @@ export const PLANTS: Readonly<Record<string, readonly Plant[]>> = {
  * rule; words-engine skill).
  */
 export const NOT_JUDGED: Readonly<Record<string, string>> = {
+  "variants-differ-in-what-they-say":
+    'Each entry is one slot: the lines the game can pick from for the same spot in a scene, with the facts each one needs from the world ("needs") or rules out ("not"). Pass if the variants say different things, or are tied to different facts, so the same spot plays differently in different worlds. Fail if most of them say the same thing in other words with nothing in the world to choose between them. How well each line is written, and whether it fits the scene, is not judged here.',
+  "player-never-says-unchosen":
+    "In every entry B is said by the player, after A, as the game's own line rather than a reply the player picked from a list. Pass if B is something anyone would say there whatever they had decided (thanks, a greeting, a goodbye, a plain acknowledgment); fail if B commits the player to a choice, a stance, a promise or a feeling they did not pick. Whether B is well written or fits A is not judged here.",
+  "reply-follows-the-line-before":
+    "This rule judges only whether B answers or follows from what A just said. Whether B's own two moves follow each other is a different rule and not judged here. B may speak to the scene's own subject (the bill, the vote, the loss) even when A does not repeat it; that alone is never a reason to fail it.",
+  "later-replies-move-the-talk-on":
+    "This rule judges only the replies offered now against the replies offered first: pass if they move the talk on, fail if most of them say the first replies again in new words. How well each reply is written, or whether it fits the line before, is not judged here.",
   "reply-second-move-follows-the-first":
     "This rule judges only B: does B's second move follow from B's own first move? Whether B is a good answer to A is a different rule and not judged here. A reply with one move passes.",
   "escalation-can-be-answered-in-kind":
     "This rule judges only whether one of the replies offered answers the threat or insult in kind. How well each reply is written is not judged here.",
   "replies-may-be-long-and-substantive":
-    "This rule judges only whether at least one of the replies offered says something with substance, more than a word or two. Whether the replies fit is not judged here.",
+    "This rule judges only whether at least one of the replies offered carries an argument or a reason, so choosing it does not kill the talk. Length alone is not substance: a longer stance, promise, thanks or exit with no reason in it does not pass. Whether the replies fit is not judged here.",
 };
 
 /** About how many entries one reviewer reads. */
@@ -156,6 +281,8 @@ const quote = (text: string) => `"${text}"`;
 
 /** The entries a words:pairs sheet holds, as a reviewer reads them. */
 export function entriesOf(sheet: {
+  purpose?: string;
+  pairs?: { id: string; beforeText: string; replyText: string }[];
   lines?: {
     line: string;
     alone?: { id: string };
@@ -167,6 +294,7 @@ export function entriesOf(sheet: {
     lines: { role: string; words: string }[];
     first?: { words: string }[];
     options?: { words: string }[];
+    variants?: { words: string; needs: string[]; not: string[] }[];
   }[];
 }): Entry[] {
   const who = (role: string) =>
@@ -188,12 +316,17 @@ export function entriesOf(sheet: {
         text: `A: ${quote(before.line)}\nB: ${quote(row.line)}`,
       });
   }
+  for (const pair of sheet.pairs ?? [])
+    entries.push({
+      id: pair.id,
+      text: `${sheet.purpose ? `Scene: ${sheet.purpose}\n` : ""}A: ${quote(pair.beforeText)}\nB: ${quote(pair.replyText)}`,
+    });
   for (const path of sheet.paths ?? [])
     entries.push({
       id: path.id,
       text: [
-        `Scene: ${path.scene}`,
-        "Before:",
+        path.variants ? `Slot: ${path.scene}` : `Scene: ${path.scene}`,
+        ...(path.lines.length ? ["Before:"] : []),
         ...path.lines.map(
           (line) => `  ${who(line.role)}: ${quote(line.words)}`,
         ),
@@ -201,6 +334,15 @@ export function entriesOf(sheet: {
           ? [
               "The replies offered first:",
               ...path.first.map((l) => `  - ${quote(l.words)}`),
+            ]
+          : []),
+        ...(path.variants
+          ? [
+              "The variants of this slot (judge these):",
+              ...path.variants.map(
+                (v) =>
+                  `  - ${quote(v.words)}${v.needs.length ? ` (needs: ${v.needs.join("; ")})` : ""}${v.not.length ? ` (not: ${v.not.join("; ")})` : ""}`,
+              ),
             ]
           : []),
         ...(path.options
@@ -215,14 +357,26 @@ export function entriesOf(sheet: {
 }
 
 const plantText = (plant: Plant) =>
-  plant.said.length === 1
-    ? `A: ${quote(plant.before)}\nB: ${quote(plant.said[0]!)}`
-    : [
-        "Before:",
-        `  the other person: ${quote(plant.before)}`,
-        "The replies offered now (judge these):",
+  plant.slot
+    ? [
+        `Slot: ${plant.before}`,
+        "The variants of this slot (judge these):",
         ...plant.said.map((line) => `  - ${quote(line)}`),
-      ].join("\n");
+      ].join("\n")
+    : plant.said.length === 1
+      ? `A: ${quote(plant.before)}\nB: ${quote(plant.said[0]!)}`
+      : [
+          "Before:",
+          `  the other person: ${quote(plant.before)}`,
+          ...(plant.first
+            ? [
+                "The replies offered first:",
+                ...plant.first.map((line) => `  - ${quote(line)}`),
+              ]
+            : []),
+          "The replies offered now (judge these):",
+          ...plant.said.map((line) => `  - ${quote(line)}`),
+        ].join("\n");
 
 /** The batches for one rule's entries, with plants placed by a hash of the batch, and their key. */
 export function plantedBatches(
@@ -245,7 +399,7 @@ export function plantedBatches(
     ...rule.from.map((from) => `- (${from.date}) ${from.words}`),
     "",
     ...(NOT_JUDGED[rule.id] ? [NOT_JUDGED[rule.id]!] : []),
-    "Judge each entry by this rule only. Words in braces like {name} are filled in during play and count as said.",
+    "Judge each entry by this rule only. Words in braces like {name} are filled in during play and count as said. Write your reasons in American English (canceling, color, theater); they are kept in the game's files.",
     "",
   ].join("\n");
   const files = new Map<string, string>();
@@ -368,7 +522,7 @@ function main() {
   const out = value("--out");
   if (!sheets || !out)
     throw new Error(
-      "usage: npm run words:review -- --sheets <dir> --out <dir>, or -- --check <dir>",
+      "usage: npm run words:review -- --sheets <dir> --out <dir> [--sample <n>], or -- --check <dir>",
     );
   if (!outside(out))
     throw new Error("--out must be a directory outside the repository");
@@ -390,7 +544,15 @@ function main() {
     );
   const ruleId = [...ruleIds][0]!;
   const rule = readRules().find((row) => row.id === ruleId)!;
-  const { files, key } = plantedBatches(rule, entries);
+  const sample = Number(value("--sample") ?? 0);
+  const chosen = sample
+    ? [...entries]
+        .sort((a, b) =>
+          hash53(`sample:${a.id}`).localeCompare(hash53(`sample:${b.id}`)),
+        )
+        .slice(0, sample)
+    : entries;
+  const { files, key } = plantedBatches(rule, chosen);
   mkdirSync(out, { recursive: true });
   for (const [name, text] of files) writeFileSync(join(out, name), text);
   writeFileSync(
@@ -398,7 +560,7 @@ function main() {
     `${JSON.stringify({ rule: ruleId, key }, null, 1)}\n`,
   );
   console.log(
-    `${entries.length} entries in ${files.size} batches in ${out}. Hand each batch to a fresh reviewer that reads only that file and writes ${basename(out)}/NN.verdicts.json ({ rule, verdicts: [{ id, passes, why }] }); then npm run words:review -- --check ${out}.`,
+    `${chosen.length} entries in ${files.size} batches in ${out}. Hand each batch to a fresh reviewer that reads only that file and writes ${basename(out)}/NN.verdicts.json ({ rule, verdicts: [{ id, passes, why }] }); then npm run words:review -- --check ${out}.`,
   );
 }
 

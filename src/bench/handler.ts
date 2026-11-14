@@ -61,12 +61,13 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
-import { openingsView } from "./openings";
+import { leaveJobAs, openingsView } from "./openings";
 import {
   billPaper,
   isByRequest,
   seatAct,
   seatAsk,
+  seatAskOptions,
   seatView,
 } from "./legislature";
 import {
@@ -150,6 +151,8 @@ import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
 import {
   meetOverTalk,
+  noteHeard,
+  noteSceneHeard,
   openConversation,
   say,
   sayNothing,
@@ -174,7 +177,7 @@ import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
 import { patchNoteReleases } from "./patch-notes";
 import { governmentMap } from "./map";
-import { budgetLineNames, choiceName, policyNames } from "./words";
+import { actionNames, budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
 // This is a reference to engine-owned state, not a parallel state or writer.
@@ -681,6 +684,9 @@ const ROUTES: readonly Route[] = [
       // The player talked with them: the two have met (the encounters
       // engine's meeting, through the director's one entry for it).
       meetOverTalk(requireCore(), state.conversation);
+      // What they said is heard today by the player (the telling's "said
+      // today"): the next housemate says something else.
+      noteHeard(requireCore(), state.conversation);
       send(200, talkView(state.conversation));
       return;
     },
@@ -1224,6 +1230,8 @@ const ROUTES: readonly Route[] = [
       send(200, {
         ...controls,
         policyNames: { ...policyNames(), ...budgetLineNames() },
+        // An act's name for the journal of acts and a place's reasons.
+        actions: actionNames(),
       });
       return;
     },
@@ -1688,6 +1696,26 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
+  // Who an executive may ask to carry the bill just drafted, the likeliest yes marked.
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/seat/ask-options",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const q = (key: string) => url.searchParams.get(key) ?? undefined;
+      send(
+        200,
+        seatAskOptions(requireCore(), state.player.personId, {
+          officeId: q("officeId"),
+          series: q("series"),
+          question: q("question"),
+          line: q("line"),
+          value: q("value") === undefined ? undefined : Number(q("value")),
+        }),
+      );
+      return;
+    },
+  },
   {
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/seat/act",
@@ -1703,6 +1731,7 @@ const ROUTES: readonly Route[] = [
             question: q("question"),
             line: q("line"),
             value: q("value") === undefined ? undefined : Number(q("value")),
+            memberId: q("memberId"),
           }),
         );
         return;
@@ -1849,6 +1878,13 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       if (!state.player?.personId || !state.director)
         throw new Error("Choose a resident first.");
+      // The scene's story is heard for the day: talk does not tell it again.
+      noteSceneHeard(
+        requireCore(),
+        state.director,
+        state.player.personId,
+        url.searchParams.get("momentId") ?? "",
+      );
       send(
         200,
         storyReply(
@@ -2402,6 +2438,15 @@ const ROUTES: readonly Route[] = [
         200,
         governmentView(requireCore(), url.searchParams.get("id") ?? ""),
       );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/job/leave",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(200, leaveJobAs(requireCore(), state.player.personId));
       return;
     },
   },
