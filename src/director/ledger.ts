@@ -154,6 +154,17 @@ export interface Director {
    * Not part of a save.
    */
   preferSetting(typeKey: string, kind: string | null): void;
+  /**
+   * A record the controlled person made by their own press (asking someone
+   * to serve): rated now, so the press opens its own scene at once instead
+   * of at the day's close. No stop is registered for it, since the press
+   * shows it. Returns the schedule entry staged for the record, if any.
+   */
+  stageOwnPress(
+    core: CoreState,
+    personId: PersonId,
+    causeId: string,
+  ): ScheduleEntry | undefined;
   /** A thread's importance on a date: the tie plus faded moment impacts. Pure. */
   importance(personId: PersonId, otherId: PersonId, date: IsoDate): number;
   /** How far a thread has faded on a date, from 0 to 1. Pure. */
@@ -1948,6 +1959,18 @@ export function createDirector(
     preferSetting(typeKey, kind) {
       if (kind === null) preferredSettings.delete(typeKey);
       else preferredSettings.set(typeKey, kind);
+    },
+    stageOwnPress(core, personId, causeId) {
+      const book = ledger.people.get(personId);
+      if (!book || !started) return undefined;
+      measureDay(core, book, false);
+      // The press shows the scene itself: no stop for it at the day's close.
+      for (let i = interrupts.length - one; i >= zero; i -= one)
+        if (interrupts[i]!.moment.causeId === causeId)
+          interrupts.splice(i, one);
+      return book.schedule.find(
+        (entry) => book.momentsById.get(entry.momentId)?.causeId === causeId,
+      );
     },
     importance(personId, otherId, date) {
       const book = ledger.people.get(personId);

@@ -79,11 +79,15 @@ it("says one voter in the singular, never opens with a numeral, never prints a z
         else if (count > 0) {
           const moved = lines[1];
           expect(moved, moved).not.toMatch(/\b0 /);
-          if (warmer === 0 && cooler === 0)
-            expect(moved).toMatch(
-              new RegExp(
-                `\\b${count === 1 ? "one voter" : `${count} voters`}\\b`,
-              ),
+          // The reached line says the figure; the line after it never says it again
+          // when everyone moved the same way or no one moved.
+          if (
+            (warmer === 0 && cooler === 0) ||
+            (warmer >= count && cooler === 0) ||
+            (cooler >= count && warmer === 0)
+          )
+            expect(moved, moved).not.toMatch(
+              new RegExp(`\\b(${count}|one voter)\\b`),
             );
           if (warmer > 0 && cooler === 0) expect(moved).toMatch(/warm/);
           if (cooler > 0 && warmer === 0) expect(moved).toMatch(/cool/);
