@@ -26,9 +26,8 @@ import {
   memberKey,
   members,
 } from "./modules/legislature";
-import { OFFICE_DAY_MODULE_ID } from "./modules/office-day";
 import { coreAPI } from "./state";
-import type { CoreEventInput, PersonId } from "./types";
+import type { PersonId } from "./types";
 
 const SEED = "play-n3";
 const BODY = "office:US-MT:legislature-lower";

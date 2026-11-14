@@ -310,8 +310,7 @@ export function favorsGiven(
   const castYes = (billId: string, position: number) => {
     const cast = votesOn(api, billId).find(
       (vote) =>
-        vote.memberId === askerId &&
-        !(vote as { override?: boolean }).override,
+        vote.memberId === askerId && !(vote as { override?: boolean }).override,
     );
     return cast ? cast.vote === "yes" : position > P.zero;
   };
