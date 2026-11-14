@@ -5415,7 +5415,8 @@
           "\\d[\\d.,]*\\s?(?:%|percent)",
           "\\b(?:percent|percentage|per capita|rate of|index)\\b",
           "\\b(?:\\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty)\\s+(?:percentage\\s+)?points\\b",
-          "\\{[a-z_-]*(?:rate|percent|pct|index)[a-z_-]*\\}"
+          "\\{[a-z_-]*(?:rate|percent|pct|index)[a-z_-]*\\}",
+          "\\b(?:crime|poverty|unemployment|jobless|inflation|interest|tax|mortgage|vacancy|graduation|turnout) rate\\b|\\binflation (?:is|was|ran)\\b|\\bturnout (?:is|was)\\b|\\bmedian\\b|\\bon average\\b|\\bstatistic"
         ]
       },
       "applies": {
@@ -5431,16 +5432,36 @@
       "catches": [
         "Across the country, unemployment is {unemployment-rate} percent.",
         "The unemployment rate is 4.6%.",
-        "I'm up six points. Check the paper.",
-        "They cut my line by {percent} percent."
+        "The crime rate is the worst it has been.",
+        "Turnout was low last time.",
+        "On average people here pay more."
       ],
       "spares": [
         "I've never seen it this bad. Nobody's hiring.",
         "My rent went up two hundred dollars.",
         "Point taken.",
         "That's the whole point.",
-        "With {town_figure}, {place} would feel it."
+        "With {town_figure}, {place} would feel it.",
+        "I'm ahead. Check the paper."
       ]
+    },
+    {
+      "id": "no-figure-in-composed-talk",
+      "says": "In a talk or scene the player meets, nobody says a rate, percentage, index or statistic about the world; they say how it sits for them.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-14",
+          "words": "they shouldn't just say the unemployment rate is 4.6, it should say like, times are tough, right? Like in normal life, people don't say, oh, the unemployment rate is 4.6%. Times are very hard."
+        }
+      ],
+      "note": "Rule 101, composed: the same patterns as no-figure-in-talk over whole texts played in drawn worlds (`npm run words:composed`). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-figure-in-talk"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
     }
   ]
 }

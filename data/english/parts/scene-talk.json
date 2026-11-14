@@ -19974,7 +19974,7 @@
       "key": "scene-talk.reply-lie.i-m-up-six-points-check-the-paper",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "I'm up six points. Check the paper.",
+      "text": "I'm ahead. Check the paper.",
       "uses": [
         {
           "subject": "scene",
@@ -83601,7 +83601,7 @@
       "key": "scene-talk.state-deliver-news.they-cut-my-line-by-percent-percent-that-s-cut-i-was-counting-on",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "They cut my line by {percent} percent. That's {cut} I was counting on.",
+      "text": "They cut my line by {cut}. I was counting on that.",
       "uses": [
         {
           "subject": "scene",
@@ -83610,7 +83610,7 @@
           "role": "asker",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["cut", "percent"]
+          "requiresFacts": ["cut"]
         }
       ],
       "bearing": "braced",
@@ -83626,7 +83626,7 @@
       "key": "scene-talk.state-deliver-news.percent-percent-of-my-budget-cut-came-out-in-one-vote",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "{percent} percent of my budget, {cut}, came out in one vote.",
+      "text": "{cut} of my budget came out in one vote.",
       "uses": [
         {
           "subject": "scene",
@@ -83635,7 +83635,7 @@
           "role": "asker",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["cut", "percent"]
+          "requiresFacts": ["cut"]
         }
       ],
       "bearing": "braced",
@@ -83920,7 +83920,7 @@
       "key": "scene-talk.state-deliver-news.percent-percent-of-my-line-is-gone-cut-i-d-like-your-help-finding-a-way-through-it",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "{percent} percent of my line is gone, {cut}. I'd like your help finding a way through it.",
+      "text": "{cut} of my line is gone. I'd like your help finding a way through it.",
       "uses": [
         {
           "subject": "scene",
@@ -83929,7 +83929,7 @@
           "role": "asker",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["cut", "percent"]
+          "requiresFacts": ["cut"]
         }
       ],
       "bearing": "tender",

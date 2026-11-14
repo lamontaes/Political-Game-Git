@@ -15,6 +15,7 @@
  * Every number and word list is in data/english/composed-checks.json.
  */
 import data from "../../data/english/composed-checks.json" with { type: "json" };
+import lineRules from "../../data/english/line-rules.json" with { type: "json" };
 import {
   linesOf,
   plainSentence,
@@ -683,6 +684,42 @@ export const noteStandsAlone: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- no-figure-in-talk (rule 101) ----
+
+/**
+ * The words that make a spoken figure are the line rule's own patterns
+ * (`no-figure-in-talk` in data/english/line-rules.json), so a bank line and a
+ * composed text are judged by one list.
+ */
+const FIGURE_PATTERNS: RegExp[] = (
+  (
+    lineRules.rules.find((rule) => rule.id === "no-figure-in-talk")?.test as
+      { patterns?: string[] } | undefined
+  )?.patterns ?? []
+).map((source) => new RegExp(source, "i"));
+
+/** A spoken line that quotes a rate, a percentage, an index or a statistic (owner, Nov 14: people say how it sits, not the figure). */
+export const noFigureInTalk: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      if (
+        line.speakerId &&
+        FIGURE_PATTERNS.some((pattern) => pattern.test(line.text))
+      )
+        found.push(
+          breakOf(
+            "no-figure-in-talk",
+            text,
+            at,
+            "a spoken line quotes a figure",
+            line.text,
+          ),
+        );
+  });
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -698,6 +735,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "ask-said-once": askSaidOnce,
   "subject-budget": subjectBudget,
   "note-stands-alone": noteStandsAlone,
+  "no-figure-in-talk": noFigureInTalk,
 };
 
 /** A composed rule's checks, as a list. */
