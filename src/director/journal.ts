@@ -1004,7 +1004,17 @@ function sceneEndingMoments(
       const reply = core.durableLog.get(id);
       const keeps = reply?.facts?.keeps;
       const otherId = reply?.personIds.find((row) => row !== personId);
-      if (!reply || typeof keeps !== "string" || keeps === "none" || !otherId)
+      // A promise or a favor says nothing of what was promised or owed (the
+      // reply record keeps only that there was one), so it is not told: "I
+      // gave her my word" without the word is not a line (Words lead, rule 91).
+      if (
+        !reply ||
+        typeof keeps !== "string" ||
+        keeps === "none" ||
+        keeps === "promise" ||
+        keeps === "favor-owed" ||
+        !otherId
+      )
         return [];
       return [
         {
@@ -2228,7 +2238,8 @@ export function composeJournal(
       if (
         row.kindPrefix === "event:office.voted" ||
         row.kindPrefix === "event:office.introduced" ||
-        (row.kindPrefix === "event:election-result" &&
+        ((row.kindPrefix === "event:election-result" ||
+          row.kindPrefix === "event:took-office") &&
           !(whose && kin.has(whose)))
       )
         continue;
