@@ -5486,8 +5486,8 @@
       }
     },
     {
-      "id": "plain-american-talk",
-      "says": "A person speaks plain American English any ordinary American would understand on first hearing: no British spelling or turn of phrase, and no insider word of government or finance (levy, mills, appropriation, markup, cloture, basis points) in their mouth. Say what it does. An insider to an insider in a chamber or hearing may use one once; a screen label may use a thing's proper name.",
+      "id": "plain-american-spelling-and-phrasing",
+      "says": "Nobody in any bank speaks or is written in British English: no British spelling or turn of phrase, such as the ones in the word list.",
       "judges": "line",
       "from": [
         {
@@ -5496,23 +5496,54 @@
         }
       ],
       "status": "sample",
-      "note": "Rule 107 (Words lead, Nov 14). Listed, nothing pulled until the Words lead rules. The word lists are a class (rule 102), widened from register/common.md; insider-to-insider spares (floor, hearing, committee) are for the Words lead to name.",
+      "note": "Rule 107, part 1 (Words lead, Nov 14). British phrasing, every bank. A word list, widened as a class (rule 102); `npm run spelling` still catches spelling.",
       "test": {
         "kind": "patterns",
         "patterns": [
-          "\\b(?:(?:my|y[o]ur|our|t[h]eir|the|a) f[l]at|in the l[i]ft|w[h]ilst|a[m]ongst|r[e]ckon|m[a]te|c[h]eers|q[u]eue(?:s|d)?|s[a]cked|r[e]dundan(?:t|cy)|m[u]m|m[u]mmy|b[l]oke|r[u]bbish|l[o]rry|p[e]trol|at the w[e]ekend|r[i]ng you|r[a]ng|s[h]all (?:I|we)|s[t]and for (?:election|o[f]fice)|s[t]ood for|t[a]ble(?:d)? (?:a|the) (?:bill|m[o]tion|p[r]oposal)|p[o]st c[o]de|p[o]stcode|p[a]vement|b[i]scuits?|t[r]ousers|j[u]mper|f[o]rtnight|bin men|c[o]uncil tax|r[a]tes b[i]ll|MPs?|c[o]nstituen(?:cy|ts?)|c[h]emist|a[u]tumn|l[e]arnt|s[p]elt|w[h]inge|n[a]ppy|p[r]am|t[e]lly|t[e]lephone box|q[u]eue up|t[a]ke-a[w]ay|t[a]keaway|in h[o]spital|at u[n]iversity|to h[o]spital|c[r]oss w[i]th|pop (?:in|r[o]und|o[v]er)|h[a]ving a go|f[a]ncy (?:a|the)|k[n]ackered|g[u]tted|c[h]uffed|b[l]oody|sod|b[o]llocks|i[n]nit)\\b",
+          "\\b(?:(?:my|y[o]ur|our|t[h]eir|the|a) f[l]at|in the l[i]ft|w[h]ilst|a[m]ongst|r[e]ckon|m[a]te|c[h]eers|q[u]eue(?:s|d)?|s[a]cked|r[e]dundan(?:t|cy)|m[u]m|m[u]mmy|b[l]oke|r[u]bbish|l[o]rry|p[e]trol|at the w[e]ekend|r[i]ng you|s[h]all (?:I|we)|s[t]and for (?:election|o[f]fice)|s[t]ood for|t[a]ble(?:d)? (?:a|the) (?:bill|m[o]tion|p[r]oposal)|p[o]st c[o]de|p[o]stcode|p[a]vement|b[i]scuits?|t[r]ousers|j[u]mper|f[o]rtnight|bin men|c[o]uncil tax|r[a]tes b[i]ll|MPs?|c[o]nstituen(?:cy|ts?)|c[h]emist|a[u]tumn|l[e]arnt|s[p]elt|w[h]inge|n[a]ppy|p[r]am|t[e]lly|t[e]lephone box|q[u]eue up|t[a]ke-a[w]ay|t[a]keaway|in h[o]spital|at u[n]iversity|to h[o]spital|(?:am|are|is|was|were|so|very|bit) c[r]oss w[i]th|pop (?:in|r[o]und|o[v]er)|h[a]ving a go|f[a]ncy (?:a|the)|k[n]ackered|g[u]tted|c[h]uffed|b[l]oody|sod|b[o]llocks|i[n]nit)\\b"
+        ]
+      },
+      "catches": ["I'll ring you at the weekend, mate."],
+      "spares": ["I'll call you Saturday.", "The phone rang."]
+    },
+    {
+      "id": "plain-american-no-jargon",
+      "says": "No insider word of government or finance (levy, mills, appropriation, fiscal note, cloture, basis points) in a person's mouth: say what it does. Spared: a member or chair saying procedure on a chamber floor or in a hearing; written pieces a newspaper prints (veto, override, roll call).",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-11-14",
+          "words": "Be sure that it's talking in American English... I cut the levy by 2 mils. Come on, these are rules and guards already. There better not be any British English in this word session."
+        }
+      ],
+      "status": "sample",
+      "note": "Rule 107, part 2 (Words lead, Nov 14). Spares: spare (a) chamber floor/hearing purposes, spare (b) written pieces. Sample until the Words lead rules.",
+      "test": {
+        "kind": "patterns",
+        "patterns": [
           "\\b(?:levy|levies|mills?|millage|mil rate|appropriations?|fiscal note|presentment|engrossed|sine die|markups?|mark-up|cloture|basis points?|per capita|ad valorem|assessed valuation|assessment ratio|tax base|revenue neutral|supermajority|quorum|germane|tabled|sunset clause|line item|earmark|carryover|fund balance|bond rating|debt service|general fund|obligation bond|rollback rate|fiscal year|biennium|continuing resolution|unfunded mandate|reconciliation|filibuster|conference committee|point of order|yield the floor|seeks? the floor|recess appointment|veto override|override vote|roll call)\\b"
         ]
       },
       "catches": [
-        "I'll ring you at the weekend, mate.",
         "I cut the levy by two mills.",
         "The appropriation passed on a cloture vote."
       ],
-      "spares": [
-        "I cut your property taxes.",
-        "It's on the mayor's desk.",
-        "I'll call you Saturday."
+      "spares": ["I cut your property taxes.", "It's on the mayor's desk."],
+      "applies": [
+        {
+          "banks": [
+            "scene-talk",
+            "conversation",
+            "bring-it-up",
+            "scene-words",
+            "choice-names"
+          ],
+          "uses": {
+            "lacks": {
+              "purpose": "^floor-debate$"
+            }
+          }
+        }
       ]
     }
   ]

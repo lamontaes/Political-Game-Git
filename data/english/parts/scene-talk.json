@@ -28600,10 +28600,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.i-ll-check-back-before-the-roll-call",
+      "key": "scene-talk.close-accept.i-ll-check-back-before-the-vote",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "I'll check back before the roll call.",
+      "text": "I'll check back before the vote.",
       "uses": [
         {
           "subject": "scene",
@@ -72054,10 +72054,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-i-ll-name-it-with-you-tonight",
+      "key": "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-we-ll-talk-about-it-toni",
       "move": "reply-comfort",
       "kind": "spoken",
-      "text": "There's a line I won't cross with our savings. I'll name it with you tonight.",
+      "text": "There's a line I won't cross with our savings. We'll talk about it tonight.",
       "uses": [
         {
           "subject": "scene",
@@ -106912,10 +106912,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.no-one-else-seeks-the-floor-name-is-recognized",
+      "key": "scene-talk.narrate-narrate.nobody-else-asks-to-speak-the-chair-calls-on-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "No one else seeks the floor. {name} is recognized.",
+      "text": "Nobody else asks to speak. The chair calls on {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -107700,10 +107700,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-want-to-hear-from-my-constituents-first",
+      "key": "scene-talk.reply-stall.i-want-to-hear-from-the-people-i-represent-first",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I want to hear from my constituents first.",
+      "text": "I want to hear from the people I represent first.",
       "uses": [
         {
           "subject": "scene",
@@ -124711,10 +124711,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.the-roll-call-is-public-start-there-then-ask-me-what-it-leaves-out",
+      "key": "scene-talk.reply-deflect.the-vote-is-on-the-record-start-there-then-ask-me-what-it-leaves-out",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "The roll call is public. Start there, then ask me what it leaves out.",
+      "text": "The vote is on the record. Start there, then ask me what it leaves out.",
       "uses": [
         {
           "subject": "scene",
@@ -128835,10 +128835,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.don-t-write-me-down-yet-i-m-waiting-on-the-fiscal-note",
+      "key": "scene-talk.reply-stall.don-t-count-me-yet-i-want-to-see-what-it-costs",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Don't write me down yet. I'm waiting on the fiscal note.",
+      "text": "Don't count me yet. I want to see what it costs.",
       "uses": [
         {
           "subject": "scene",
@@ -131006,10 +131006,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.put-in-the-sunset-clause-and-i-can-explain-a-yes-at-the-grocery-store",
+      "key": "scene-talk.reply-bargain.put-an-end-date-on-it-and-i-can-explain-a-yes-at-the-grocery-store",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Put in the sunset clause and I can explain a yes at the grocery store.",
+      "text": "Put an end date on it and I can explain a yes at the grocery store.",
       "uses": [
         {
           "subject": "scene",
