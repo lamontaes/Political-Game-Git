@@ -14,7 +14,7 @@ import { rosterTitle, stripSection } from "./strips.mjs";
 /**
  * `groups`: [{ name, items: [{ value, label, today, unit, cents, note, blocked }] }];
  * `words`: { title, issue, today, newAmount, draft, none, risePerYear, risePercent,
- * riseYears, riseFirstDate, riseBack, riseNeedsAmount }; `onDraft(item, typed, steps, rise)` drafts the bill (`rise` is
+ * riseYears, riseFirstDate, riseBack, riseNeedsAmount, risePercentNeeded, riseYearsNeeded, riseDateNeeded }; `onDraft(item, typed, steps, rise)` drafts the bill (`rise` is
  * the percent a year, its years and its first day, in place of a value or steps). Returns the screen's node.
  */
 export function draftCard({ groups, words, onDraft }) {
@@ -137,11 +137,36 @@ export function draftCard({ groups, words, onDraft }) {
       textContent: words.riseNeedsAmount ?? "",
     });
     riseWhy.hidden = Boolean(item.raisable);
+    // Open, Draft stays dark until the percent is above zero and the years are two or more,
+    // and the line beside it says which is missing.
+    const riseNeeds = el("p", { className: "draft-note draft-rise-needs" });
+    riseNeeds.hidden = true;
+    const checkRise = () => {
+      if (rise.hidden) {
+        riseNeeds.hidden = true;
+        draft.disabled = false;
+        return;
+      }
+      const missing = !(Number(percent.value) > 0)
+        ? words.risePercentNeeded
+        : !(Number(years.value) >= 2)
+          ? words.riseYearsNeeded
+          : !riseDate.value
+            ? words.riseDateNeeded
+            : "";
+      riseNeeds.textContent = missing ?? "";
+      riseNeeds.hidden = !missing;
+      draft.disabled = Boolean(missing);
+    };
+    percent.addEventListener("input", checkRise);
+    years.addEventListener("input", checkRise);
+    riseDate.addEventListener("input", checkRise);
     riseToggle.addEventListener("click", () => {
       rise.hidden = !rise.hidden;
       riseToggle.textContent = rise.hidden
         ? (words.risePerYear ?? "")
         : (words.riseBack ?? "");
+      checkRise();
       firstRow.hidden = steps.hidden = addStep.hidden = !rise.hidden;
     });
     draft.addEventListener("click", () =>
@@ -181,7 +206,7 @@ export function draftCard({ groups, words, onDraft }) {
         firstRow,
         steps,
         ...(item.value.startsWith("series:")
-          ? [addStep, riseToggle, riseWhy, rise]
+          ? [addStep, riseToggle, riseWhy, rise, riseNeeds]
           : []),
         ...(item.note
           ? [el("p", { className: "draft-note", textContent: item.note })]

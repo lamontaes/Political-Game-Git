@@ -289,9 +289,44 @@ try {
     "the amount and step rows give way to the percent row",
   );
   const rise = page.locator(".draft-card .draft-rise");
+  // Percent at zero: Draft is dark and a line says what is missing; then one year the same.
+  const draftButton = page
+    .locator(".draft-card button", { hasText: /^Draft$/ })
+    .first();
+  assert.equal(
+    await draftButton.isDisabled(),
+    true,
+    "percent 0: Draft is dark",
+  );
+  assert.match(
+    await page.locator(".draft-card .draft-rise-needs").innerText(),
+    /percent above zero/,
+  );
+  if (SHOTS)
+    await page.screenshot({ path: `${SHOTS}/draft-card-no-percent.png` });
   await rise.locator("input[type=number]").first().fill("10");
+  await rise.locator("input[type=number]").nth(1).fill("1");
+  assert.equal(await draftButton.isDisabled(), true, "one year: Draft is dark");
+  assert.match(
+    await page.locator(".draft-card .draft-rise-needs").innerText(),
+    /two years or more/,
+  );
+  if (SHOTS)
+    await page.screenshot({ path: `${SHOTS}/draft-card-one-year.png` });
   await rise.locator("input[type=number]").nth(1).fill("2");
+  // No first day yet: Draft stays dark and the line asks for it.
+  assert.equal(await draftButton.isDisabled(), true, "no day: Draft is dark");
+  assert.match(
+    await page.locator(".draft-card .draft-rise-needs").innerText(),
+    /day of the first increase/,
+  );
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-no-day.png` });
   await rise.locator("input[type=date]").fill(`${years[0]}-01-02`);
+  assert.equal(
+    await draftButton.isDisabled(),
+    false,
+    "all three given: Draft opens",
+  );
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-rise.png` });
   await page
     .locator(".draft-card button", { hasText: /^Draft$/ })

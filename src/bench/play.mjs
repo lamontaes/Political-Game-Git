@@ -3587,6 +3587,9 @@ async function seatRows() {
         riseFirstDate: seat.riseFirstDate ?? "",
         riseBack: seat.riseBack ?? "",
         riseNeedsAmount: seat.riseNeedsAmount ?? "",
+        risePercentNeeded: seat.risePercentNeeded ?? "",
+        riseYearsNeeded: seat.riseYearsNeeded ?? "",
+        riseDateNeeded: seat.riseDateNeeded ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
