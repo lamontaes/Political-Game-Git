@@ -36,21 +36,6 @@ export function dayOpening(iso: string, minuteOfDay: number): string {
   return part.said.replace("{date}", dateSaid(iso));
 }
 
-/** The part of the day as said in passing ("this morning", "tonight"), by the mark a scene's hour gives; undefined for a mark with no words. */
-export function dayPartSaid(mark: string): string | undefined {
-  const said = (data.spokenParts as Readonly<Record<string, string>>)[mark];
-  return mark === "about" ? undefined : said;
-}
-
-/** What is left of the day as a line looking ahead says it ("later", "tomorrow"), by the telling's `dayLeft`. */
-export function dayAheadSaid(
-  left: "later" | "tomorrow" | undefined,
-): string | undefined {
-  return left
-    ? (data.ahead as Readonly<Record<string, string>>)[left]
-    : undefined;
-}
-
 /**
  * A record's own day told as past from the day a scene plays: "yesterday",
  * "the other day", "on January 3rd", and for a day in another year "last
@@ -85,6 +70,21 @@ export function daySince(recordIso: string, playIso: string): string | null {
   return row.said
     .replace("{weekday}", weekday)
     .replace("{date}", dateSaid(recordIso));
+}
+
+/**
+ * The month a record began, said after "since" ("since March", "since last
+ * March", "since March 2023"); never a date.
+ */
+export function sinceMonthSaid(recordIso: string, playIso: string): string {
+  const month = data.months[Number(recordIso.slice(5, 7)) - 1]!;
+  const years = Number(playIso.slice(0, 4)) - Number(recordIso.slice(0, 4));
+  if (years <= 0) return month;
+  return (
+    years === 1 ? data.sinceOtherYear.lastYear : data.sinceOtherYear.earlier
+  )
+    .replace("{month}", month)
+    .replace("{year}", recordIso.slice(0, 4));
 }
 
 /**

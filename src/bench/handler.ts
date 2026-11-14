@@ -39,6 +39,7 @@ import {
   donationAsksView,
   campaignDay,
   campaignView,
+  runningMateAsked,
   runningMatePicked,
   playerRecord,
   debateAnswer,
@@ -60,12 +61,13 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
-import { openingsView } from "./openings";
+import { leaveJobAs, openingsView } from "./openings";
 import {
   billPaper,
   isByRequest,
   seatAct,
   seatAsk,
+  seatAskOptions,
   seatView,
 } from "./legislature";
 import {
@@ -149,6 +151,8 @@ import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
 import {
   meetOverTalk,
+  noteHeard,
+  noteSceneHeard,
   openConversation,
   say,
   sayNothing,
@@ -166,14 +170,14 @@ import {
 } from "./government";
 import { governmentBodies } from "./government-bodies";
 import type { Director } from "../director/ledger";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
 import { patchNoteReleases } from "./patch-notes";
 import { governmentMap } from "./map";
-import { budgetLineNames, choiceName, policyNames } from "./words";
+import { actionNames, budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
 // This is a reference to engine-owned state, not a parallel state or writer.
@@ -480,6 +484,17 @@ const ROUTES: readonly Route[] = [
               row.outcome.startsWith("scene") &&
               row.bindings.length > 0,
           );
+        // Shown now, it is opened: the director's waiting list does not stop
+        // the clock for it again tomorrow.
+        if (staged?.outcome === "scene-waiting")
+          world.director.openWaiting(
+            entrant.personId as PersonId,
+            staged.momentId,
+            {
+              date: makeIsoDate(world.core.date),
+              minuteOfDay: OPENING_EVENING_MINUTE,
+            },
+          );
         send(200, {
           personId: entrant.personId,
           placeName: world.place.displayName,
@@ -669,6 +684,9 @@ const ROUTES: readonly Route[] = [
       // The player talked with them: the two have met (the encounters
       // engine's meeting, through the director's one entry for it).
       meetOverTalk(requireCore(), state.conversation);
+      // What they said is heard today by the player (the telling's "said
+      // today"): the next housemate says something else.
+      noteHeard(requireCore(), state.conversation);
       send(200, talkView(state.conversation));
       return;
     },
@@ -1212,6 +1230,8 @@ const ROUTES: readonly Route[] = [
       send(200, {
         ...controls,
         policyNames: { ...policyNames(), ...budgetLineNames() },
+        // An act's name for the journal of acts and a place's reasons.
+        actions: actionNames(),
       });
       return;
     },
@@ -1676,6 +1696,26 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
+  // Who an executive may ask to carry the bill just drafted, the likeliest yes marked.
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/seat/ask-options",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const q = (key: string) => url.searchParams.get(key) ?? undefined;
+      send(
+        200,
+        seatAskOptions(requireCore(), state.player.personId, {
+          officeId: q("officeId"),
+          series: q("series"),
+          question: q("question"),
+          line: q("line"),
+          value: q("value") === undefined ? undefined : Number(q("value")),
+        }),
+      );
+      return;
+    },
+  },
   {
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/seat/act",
@@ -1691,6 +1731,7 @@ const ROUTES: readonly Route[] = [
             question: q("question"),
             line: q("line"),
             value: q("value") === undefined ? undefined : Number(q("value")),
+            memberId: q("memberId"),
           }),
         );
         return;
@@ -1837,6 +1878,13 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       if (!state.player?.personId || !state.director)
         throw new Error("Choose a resident first.");
+      // The scene's story is heard for the day: talk does not tell it again.
+      noteSceneHeard(
+        requireCore(),
+        state.director,
+        state.player.personId,
+        url.searchParams.get("momentId") ?? "",
+      );
       send(
         200,
         storyReply(
@@ -1867,8 +1915,8 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
-  // A player running for governor names their running mate: one of the people offered, or none
-  // for the world's own pick (Choose for me).
+  // A player running for governor takes "Choose for me": the strongest of the people offered
+  // who would say yes is named, with no scene (asking someone is /api/campaign/running-mate/ask).
   {
     match: ({ request, url }) =>
       request.method === "POST" &&
@@ -1881,9 +1929,39 @@ const ROUTES: readonly Route[] = [
           requireCore(),
           state.player.personId,
           url.searchParams.get("filingId") ?? "",
-          url.searchParams.get("personId") || null,
         ),
       );
+      return;
+    },
+  },
+  // A player running for governor asks one of the people offered to be their running mate:
+  // the ask plays as a scene on the clock, and only its ending names anyone (brief J).
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/running-mate/ask",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const asked = runningMateAsked(
+        requireCore(),
+        state.player.personId,
+        url.searchParams.get("filingId") ?? "",
+        url.searchParams.get("personId") ?? "",
+      );
+      // The sit-down opens at once: the ask is the player's own press, so
+      // its scene is staged now and shown, not held for the day's close.
+      const staged = state.director?.stageOwnPress(
+        requireCore(),
+        state.player.personId as PersonId,
+        asked.eventId,
+      );
+      const spent = state.player.spend(asked.hours);
+      send(200, {
+        ...(staged ? { story: staged.momentId } : {}),
+        ...(spent
+          ? { packet: spent.packet, names: namesFor(spent.packet) }
+          : {}),
+      });
       return;
     },
   },
@@ -2360,6 +2438,15 @@ const ROUTES: readonly Route[] = [
         200,
         governmentView(requireCore(), url.searchParams.get("id") ?? ""),
       );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/job/leave",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(200, leaveJobAs(requireCore(), state.player.personId));
       return;
     },
   },

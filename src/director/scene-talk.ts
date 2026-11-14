@@ -133,6 +133,16 @@ interface PurposeArc {
       tell: string;
       then: { move: string; carries: AskCarries }[];
     };
+    /**
+     * A second turn after a second ask and its answer (Words lead, Nov 14:
+     * a scene is a tree, two turns past the ask on at least two branches),
+     * keyed by the second ask's move: the player's replies to that answer,
+     * offered only when two or more can be worded.
+     */
+    after?: Record<
+      string,
+      { move: string; carries: "favor" | "lean" | "none" }[]
+    >;
   };
 }
 
@@ -447,6 +457,8 @@ export function answerInTalk(
     key: string;
     speakerId: PersonId;
     momentKey: string;
+    /** Pieces the listener already heard today (the telling's "said today"): not said again. */
+    heard?: ReadonlySet<string>;
   },
 ): { move: string; text: string; pieceKey: string; closes: boolean } | null {
   const arc = ARCS.purposes.talk;
@@ -468,7 +480,7 @@ export function answerInTalk(
       speakerId: input.speakerId,
       traits,
       momentKey: `${input.momentKey}:${candidate}`,
-      said: new Set(),
+      said: new Set(input.heard ?? []),
     });
     return line && !("unused" in line) ? [{ candidate, line }] : [];
   });
@@ -1004,6 +1016,7 @@ export function composeSceneTalk(
     let count = one;
     // A yes is thanked; a not yet or a no is asked again, or let go.
     const yes = first.move === ask.yes;
+    const afterLed = new Map<TreeNode, TreeReply>();
     for (const again of yes
       ? [{ move: ask.thanks, carries: "none" as const }]
       : ask.again) {
@@ -1048,6 +1061,68 @@ export function composeSceneTalk(
         next.lines.push(last);
       }
       next.end = { outcome: outcomeOf(last?.move ?? first.move) };
+      // A second turn on this branch: the player answers what they said.
+      const turns = last ? ask.after?.[again.move] : undefined;
+      if (last && turns) {
+        const heard = addParts(addParts(addParts(said, first), line), last);
+        const replies: TreeReply[] = [];
+        for (const then of turns) {
+          const reply = mine(
+            {
+              step: "follow",
+              move: then.move,
+              after: last.move,
+              ...(last.parts[zero] ? { afterPiece: last.parts[zero] } : {}),
+            },
+            `after:${again.move}:${then.move}`,
+            heard,
+          );
+          if (!reply) {
+            gap("follow", then.move, last.move);
+            continue;
+          }
+          reply.round = three;
+          const leaf: TreeNode = { lines: [], replies: [] };
+          const holds =
+            then.carries === "favor"
+              ? carried
+              : then.carries === "lean"
+                ? standing.lean > zero
+                : undefined;
+          const answer =
+            holds === undefined
+              ? null
+              : theirs(
+                  holds ? ask.relent : [ask.no],
+                  reply,
+                  `after-last:${again.move}:${then.move}`,
+                  addParts(heard, reply),
+                );
+          if (answer) {
+            answer.round = three;
+            leaf.lines.push(answer);
+          }
+          leaf.end = { outcome: outcomeOf(answer?.move ?? last.move) };
+          replies.push({ line: reply, next: leaf });
+        }
+        if (replies.length >= two) {
+          delete next.end;
+          next.replies = replies;
+          count += replies.length;
+          const [ledAfter] = [...replies].sort(
+            (a, b) =>
+              leanOf(core, b.line.move, askedTraits) -
+                leanOf(core, a.line.move, askedTraits) ||
+              stableHash(`${scene}:after:${a.line.move}`).localeCompare(
+                stableHash(`${scene}:after:${b.line.move}`),
+              ),
+          );
+          if (ledAfter) {
+            ledAfter.line.chosen = true;
+            afterLed.set(next, ledAfter);
+          }
+        }
+      }
     }
     // The middle: asking after the one asked, who tells their own matter,
     // and two or more replies to it that end apart.
@@ -1163,6 +1238,7 @@ export function composeSceneTalk(
       ledChoices: new Map([
         ...(led ? [[root, led] as const] : []),
         ...middleLed,
+        ...afterLed,
       ]),
       ledBranch: new Map(),
     });

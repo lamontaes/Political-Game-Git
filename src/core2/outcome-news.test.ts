@@ -89,7 +89,10 @@ registerStanceListener((api, personId, topic) => {
   const stance = api
     .moduleState(VIEWS_MODULE_ID)
     .table("stances")
-    .get(`${personId}:${topic}`) as unknown as Stance;
+    .get(`${personId}:${topic}`) as unknown as Stance | undefined;
+  // A change in the reader's own life moves their view with no story heard
+  // (no stance row); this test follows only what reading moves.
+  if (!stance) return;
   const view = viewOf(api, personId);
   const last = SIGNED.get(api.state) ?? new Map<string, number>();
   SIGNED.set(api.state, last);

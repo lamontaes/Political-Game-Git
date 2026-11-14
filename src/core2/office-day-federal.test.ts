@@ -28,7 +28,7 @@ import {
   committeeRecords,
   draftBill,
   floorAgendaOn,
-  holdVote,
+  holdEveryChamber,
   LEGISLATURE_MODULE_ID,
   votesOn,
 } from "./modules/legislature";
@@ -373,7 +373,8 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     }
     const senator = holderOf(seat.seat.id)!;
     expect(senator, "the town's state has a sitting senator").toBeTruthy();
-    // A bill filed in the House reaches the Senate in the same count; the
+    // A bill filed in the House reaches the Senate on the Senate's own sitting (held here at
+    // once, chamber after chamber); the
     // player, now a senator, has not chosen and has turned the floor-vote stop off, so they
     // are not on the floor: the roll records them absent and nothing is cast in their name
     // (owner's card, Nov 14, 2026, 02:03Z; with the stop on, the evening before holds them).
@@ -382,7 +383,7 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     // The clock binds to the character the day it runs for them.
     playThrough(addDays(core.date, 1));
     const { bill } = ownBill(3, nthSitting("house", core.date, 3));
-    holdVote(api, bill.id);
+    holdEveryChamber(api, bill.id);
     expect(
       officeActsOf(api, senator).some(
         (a) =>

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "stake-is-named",
   "rubric": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-  "judged": 68,
+  "judged": 76,
   "no": {
     "050jxoy5cvo": {
       "keys": [
@@ -79,6 +79,14 @@
       ],
       "why": "The friend's favor is never stated; nothing about what is wanted or what rides on it has been said."
     },
+    "2b58rxr90o3": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-the-newest-person-in-your-household-and-it-s-up-to-you-to-sett",
+        "scene-talk.state-ask.can-you-walk-me-through-how-things-work-here-i-d-like-to-get-it-right",
+        "scene-talk.reply-offer.welcome-you-re-part-of-the-household-now-so-make-yourself-at-home"
+      ],
+      "why": "Asked how the house works, the reply welcomes them and offers nothing named; it does not answer the question either (rule 108)."
+    },
     "2epzuxuqafj": {
       "keys": [
         "scene-talk.narrate-narrate.the-hall-is-full-and-the-questions-are-coming-name-stands-up-with-a-fo",
@@ -88,5 +96,5 @@
       "why": "'I have a question and I'd like a straight answer' names no subject or consequence."
     }
   },
-  "yesHash": "0o9gmgzus3d"
+  "yesHash": "1g9tflhjeth"
 }

@@ -54,7 +54,7 @@ import {
   exchangeSubjects,
   judgesExchanges,
   judgesLines,
-  judgesPaths,
+  judgesScenes,
   lineSubjects,
   pieceVerdictId,
   type LineRule,
@@ -379,6 +379,9 @@ export interface PathSheet {
     readonly scenes: number;
     readonly lines: PathSubject["lines"];
     readonly after: PathSubject["after"];
+    readonly options?: PathSubject["options"];
+    readonly first?: PathSubject["first"];
+    readonly variants?: PathSubject["variants"];
   }[];
 }
 
@@ -404,6 +407,9 @@ export function pathSheets(
         scenes: path.scenes,
         lines: path.lines,
         after: path.after,
+        ...(path.options ? { options: path.options } : {}),
+        ...(path.first ? { first: path.first } : {}),
+        ...(path.variants ? { variants: path.variants } : {}),
       })),
     });
   return files;
@@ -542,7 +548,7 @@ function main() {
     throw new Error("--out must be a directory outside the repository");
   const rule = readRules().find((row) => row.id === ruleId);
   if (!rule) throw new Error(`no rule ${ruleId} in ${RULES_FILE}`);
-  if (judgesPaths(rule)) {
+  if (judgesScenes(rule)) {
     const files = pathSheets(
       rule,
       pathsOf(rule),
