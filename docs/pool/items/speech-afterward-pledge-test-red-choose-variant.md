@@ -1,5 +1,5 @@
 ---
-id: speech-afterward-pledge-test-red-chooseVariant
+id: speech-afterward-pledge-test-red-choose-variant
 title: "The speech-afterward-pledge test crashes in the arc-variant chooser at a fixed seed"
 area: elections
 kind: bug

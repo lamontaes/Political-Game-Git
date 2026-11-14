@@ -1,5 +1,5 @@
 ---
-id: speech-afterward-pledge-test-red-chooseVariant
+id: speech-afterward-pledge-test-red-choose-variant
 impact: none
 ---
 
