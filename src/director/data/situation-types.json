@@ -1752,7 +1752,12 @@
             "label": "feeling:event:justice.accused",
             "selfNamed": true,
             "counterpart": "some",
-            "causeFacts": [{ "key": "accuserId", "is": "other" }]
+            "causeFacts": [
+              {
+                "key": "accuserId",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "justice",
           "causeRecord": "justice.accused",
@@ -4543,6 +4548,59 @@
             "you": "subject"
           },
           "opener": "speaker",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "hearing-witness",
+      "receive": {
+        "age": "any",
+        "counterpart": "apart",
+        "seat": "serving"
+      },
+      "note": "A resident testified at a committee's hearing on a bill (the legislature's committee-hearing record names the witnesses, each one's side and what the bill reaches in their own life: their job, their lease or mortgage, a child at home, their own age, or only a view). On the way out one of them catches the player, the bill's sponsor or a member of the committee, and says what the bill would do to them, never a figure about the world. The player can thank them, ask what it would really mean, tell them they see it differently, or brush it off. Every reply is time on their tie, which their vote reads; disagreeing or brushing them off strains it.",
+      "purpose": "witness-stake",
+      "asker": "witness",
+      "asked": "you",
+      "stakes": ["bill", "vote"],
+      "roles": [
+        {
+          "key": "witness",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "answer", "press", "accept"],
+          "wants": ["speak-out"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "ask", "disagree", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:hearing-witness"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "committee-hearing",
+          "bind": {
+            "witness": "counterpart",
+            "you": "subject"
+          },
+          "opener": "witness",
           "setting": ["seat", "venue"]
         }
       ],

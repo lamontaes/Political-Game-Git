@@ -163745,6 +163745,1505 @@
         "part": "core",
         "required": true
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-hearing-breaks-up-name-catches-you-by-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The hearing breaks up. {name} catches you by the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-in-the-hall-when-the-committee-lets-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting in the hall when the committee lets out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-a-coat-on-but-hasn-t-left-they-wave-you-over",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has a coat on but hasn't left. They wave you over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-testified-on-your-bill-they-re-still-in-the-hall-when-you-come-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} testified on your bill. They're still in the hall when you come out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["you-sponsor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-one-of-the-people-who-d-get-the-raise-i-didn-t-think-anybody-in-there-wanted",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'm one of the people who'd get the raise. I didn't think anybody in there wanted to hear that.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-paid-under-the-floor"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-ve-never-talked-into-a-microphone-before-i-just-wanted-them-to-know-it-s-not-e",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I've never talked into a microphone before. I just wanted them to know it's not enough to live on.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "nervous",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-paid-under-the-floor"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.you-heard-me-in-there-i-work-full-time-and-i-still-come-up-short-every-month",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You heard me in there. I work full time and I still come up short every month.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-paid-under-the-floor"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.this-lands-right-on-own-workplace-somebody-s-going-to-lose-hours-over-it-and-it-",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "This lands right on {own-workplace}. Somebody's going to lose hours over it, and it won't be the owner.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-works-where-it-binds",
+            "witness-against",
+            "own-workplace"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-work-at-own-workplace-i-keep-thinking-about-what-this-does-to-us",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I work at {own-workplace}. I keep thinking about what this does to us.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-works-where-it-binds",
+            "witness-against",
+            "own-workplace"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-work-at-own-workplace-first-time-in-years-i-ve-seen-anybody-try-to-fix-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I work at {own-workplace}. First time in years I've seen anybody try to fix it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "hopeful",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-works-where-it-binds",
+            "witness-for",
+            "own-workplace"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-work-for-a-living-same-as-everybody-in-that-room-this-one-would-help",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I work for a living, same as everybody in that room. This one would help.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-works", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-work-for-a-living-every-time-they-do-something-like-this-my-check-gets-smaller",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I work for a living. Every time they do something like this, my check gets smaller.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-works", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-rent-anything-that-helps-renters-i-m-going-to-show-up-for",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We rent. Anything that helps renters, I'm going to show up for.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "hopeful",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-rents", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-rent-every-change-like-this-ends-up-in-the-rent-somehow",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We rent. Every change like this ends up in the rent somehow.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-rents", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-own-our-place-i-d-like-the-neighborhood-to-still-feel-like-home-in-ten-years",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We own our place. I'd like the neighborhood to still feel like home in ten years.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-owns", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.we-own-our-place-and-i-don-t-like-what-this-does-to-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We own our place, and I don't like what this does to it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-owns", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-ve-got-own-child-at-home-this-is-about-the-school-they-ll-walk-into",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I've got {own-child} at home. This is about the school they'll walk into.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-children-at-home", "witness-for", "own-child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-ve-got-own-child-at-home-i-m-not-sure-this-is-good-for-them",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I've got {own-child} at home. I'm not sure this is good for them.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-children-at-home",
+            "witness-against",
+            "own-child"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.at-my-age-this-is-my-doctor-s-bill-we-re-talking-about",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "At my age, this is my doctor's bill we're talking about.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-own-age-health", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.at-my-age-i-can-t-have-my-coverage-messed-with",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "At my age, I can't have my coverage messed with.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-own-age-health", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.it-s-not-about-me-i-just-think-it-s-the-right-thing",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It's not about me. I just think it's the right thing.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-believes", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.it-doesn-t-touch-me-much-i-still-think-it-s-a-mistake",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It doesn't touch me much. I still think it's a mistake.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-believes", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-drove-a-long-way-to-say-that-i-hope-somebody-was-listening",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I drove a long way to say that. I hope somebody was listening.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.i-said-what-i-came-to-say-i-hope-it-does-some-good",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I said what I came to say. I hope it does some good.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "bearing": "nervous",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-coming-in-it-matters-more-than-you-d-think",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for coming in. It matters more than you'd think.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-making-the-trip-i-heard-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for making the trip. I heard you.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-thank.i-appreciate-you-coming",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I appreciate you coming.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-it-really-mean-for-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would it really mean for you?",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "bearing": "curious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-what-changes-at-home-if-this-passes",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me what changes at home if this passes.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.be-straight-with-me-what-does-it-do-to-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Be straight with me. What does it do to you?",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-hear-you-i-still-see-it-differently",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I hear you. I still see it differently.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-don-t-think-it-would-play-out-that-way",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I don't think it would play out that way.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-disagree.we-re-going-to-disagree-on-this-one",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "We're going to disagree on this one.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ve-got-to-get-back-in-there",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I've got to get back in there.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-deflect.can-you-send-that-to-my-office",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Can you send that to my office?",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-take-care",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. Take care.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-sorry-i-m-late-thanks-again",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm sorry, I'm late. Thanks again.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.i-appreciate-that-i-ll-be-watching-how-it-goes",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I appreciate that. I'll be watching how it goes.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "glad",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "thank"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-that-s-all-i-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. That's all I wanted.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "thank"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-i-said-my-piece",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I said my piece.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-guess-we-ll-see",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I guess we'll see.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-stop-picking-up-extra-shifts-maybe-i-make-it-home-for-dinner",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I stop picking up extra shifts. Maybe I make it home for dinner.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-paid-under-the-floor"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-stop-dreading-the-letter-from-the-landlord-every-year",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I stop dreading the letter from the landlord every year.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "hopeful",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-rents", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-the-landlord-finds-a-way-to-pass-it-on-they-always-do",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means the landlord finds a way to pass it on. They always do.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-rents", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-go-in-monday-and-find-out-who-they-re-letting-go",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I go in Monday and find out who they're letting go.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-works-where-it-binds", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-the-place-i-work-finally-has-to-do-right-by-us",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means the place I work finally has to do right by us.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "hopeful",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-works-where-it-binds", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-own-child-gets-a-teacher-who-isn-t-stretched-too-thin",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means {own-child} gets a teacher who isn't stretched too thin.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-children-at-home", "witness-for", "own-child"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-stop-splitting-pills-to-make-them-last",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I stop splitting pills to make them last.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "solemn",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-own-age-health", "witness-for"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-m-the-one-who-finds-out-if-they-got-it-wrong",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I'm the one who finds out if they got it wrong.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-own-age-health", "witness-against"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-own-child-is-the-one-they-try-it-out-on",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means {own-child} is the one they try it out on.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "anxious",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": [
+            "life-children-at-home",
+            "witness-against",
+            "own-child"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.honestly-not-much-for-me-it-s-my-neighbors-i-m-thinking-about",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Honestly? Not much for me. It's my neighbors I'm thinking about.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "requiresFacts": ["life-believes"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-things-get-a-little-easier-for-us-or-harder-if-they-get-it-wrong",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means things get a little easier for us. Or harder, if they get it wrong.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.it-means-i-can-stop-worrying-about-it-that-d-be-enough",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It means I can stop worrying about it. That'd be enough.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.you-didn-t-have-to-live-it-i-do",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You didn't have to live it. I do.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.i-came-a-long-way-to-hear-that",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I came a long way to hear that.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.two-minutes-that-s-all-i-m-asking",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Two minutes. That's all I'm asking.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "deflect"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.i-took-a-day-off-work-to-be-here",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I took a day off work to be here.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      },
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "deflect"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-go-on",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. Go on.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.well-i-said-my-piece",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Well. I said my piece.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.close-accept.sure-everybody-s-busy",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Sure. Everybody's busy.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      },
+      "bearing": "hurt",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "witness-stake",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ]
     }
   ]
 }

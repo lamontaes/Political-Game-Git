@@ -4020,6 +4020,60 @@
           "when": {}
         }
       ]
+    },
+    "witness-stake": {
+      "state": "tell",
+      "replies": ["thank", "ask", "disagree", "deflect"],
+      "follow": {
+        "thank": ["accept"],
+        "ask": ["answer"],
+        "disagree": ["press", "accept"],
+        "deflect": ["press"]
+      },
+      "again": {
+        "answer": ["thank", "disagree", "leave"],
+        "press": ["thank", "disagree", "leave"]
+      },
+      "endings": [
+        {
+          "id": "at-odds",
+          "label": "You told them you see it differently",
+          "keeps": "relationship-strained",
+          "when": {
+            "anyReply": ["disagree"]
+          }
+        },
+        {
+          "id": "brushed-off",
+          "label": "You brushed them off",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "heard-them-out",
+          "label": "You heard them out",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "thanked",
+          "label": "You thanked them for coming",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {

@@ -4264,10 +4264,7 @@ export interface CommitteeRecord {
     readonly vote: "yes" | "no" | "abstain";
     readonly position: MemberPosition;
   }[];
-  readonly witnesses: readonly {
-    readonly personId: string;
-    readonly stake: string;
-  }[];
+  readonly witnesses: readonly HearingWitness[];
   readonly yes: number;
   readonly no: number;
   readonly reported: boolean;
@@ -4385,12 +4382,29 @@ export function committeeMemberKeys(
  * typical standing committee's (`committeeSize`); seats go by seniority
  * until leadership appoints them (SG-GOV-committee-structure).
  */
+/**
+ * One witness at a hearing: their side on the bill, and what in their own life the bill reaches, as a
+ * kind (`life`) and the record it rests on (`lifeRecordId`: their job, their lease, their child), so a
+ * scene says what the bill does to them, never a side alone or a figure.
+ */
+export interface HearingWitness {
+  readonly personId: string;
+  /** Their side: "for" or "against" the bill. */
+  readonly stake: "for" | "against";
+  /**
+   * What the bill reaches in their life: "paid-under-the-floor", "works-where-it-binds", "works",
+   * "rents", "owns", "children-at-home", "own-age-health", or "believes" (a view, and no life it touches).
+   */
+  readonly life: string;
+  readonly lifeRecordId?: string;
+}
+
 /** Who else a hearing hears on a bill's question, from another engine's records (the interest groups). */
 type HearingWitnessProvider = (
   api: CoreAPI,
   bill: BillRow,
   question: string,
-) => readonly { readonly personId: string; readonly stake: string }[];
+) => readonly HearingWitness[];
 const hearingWitnessProviders: HearingWitnessProvider[] = [];
 /**
  * A chamber's members taking a bill from a committee that did not report it: each member signs by their
@@ -4514,7 +4528,7 @@ function committeeStage(
   // The chair's reasons are kept on the committee record; no scene or story
   // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
   api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
-  const witnesses: { personId: string; stake: string }[] = [];
+  const witnesses: HearingWitness[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
     if (wage) {
@@ -4525,9 +4539,12 @@ function committeeStage(
           (a, b) => a.hourlyMinor - b.hourlyMinor || a.id.localeCompare(b.id),
         )
         .slice(0, campaignParameter("hearingWitnesses")))
+        // A worker paid under the proposed floor: the raise would reach their own pay.
         witnesses.push({
           personId: c.personId,
-          stake: `paid ${c.hourlyMinor} an hour, under the proposed floor`,
+          stake: "for",
+          life: "paid-under-the-floor",
+          lifeRecordId: c.id,
         });
     }
   }
@@ -4564,8 +4581,10 @@ function committeeStage(
           speakerId: w.personId,
           placeId: lawChain(api).townPlaceId,
           topic: question.question,
-          // A witness paid under the proposed floor speaks for the raise.
-          desiredChange: question.position > 0 ? "enact" : "repeal",
+          // A witness speaks for their own side: one for the bill asks for what it does, one
+          // against it for the opposite (a worker paid under the proposed floor is for the raise).
+          desiredChange:
+            question.position > 0 === (w.stake === "for") ? "enact" : "repeal",
           audienceIds: room.filter((id) => id !== w.personId),
           // The hearing's own record, written below (`committee:<bill>:<chamber>`).
           occasion: {
@@ -4657,6 +4676,12 @@ function committeeStage(
       chair: record.chairId,
       yes: String(yes),
       no: String(no),
+      // Who testified, in order, with each one's side and what the bill reaches in their life (a
+      // scene after the hearing is cast from these).
+      witnessIds: witnesses.map((w) => w.personId).join(","),
+      witnessSides: witnesses.map((w) => w.stake).join(","),
+      witnessLives: witnesses.map((w) => w.life).join(","),
+      witnessLifeRecords: witnesses.map((w) => w.lifeRecordId ?? "").join(","),
     },
   });
   return record;
