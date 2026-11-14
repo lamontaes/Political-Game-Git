@@ -686,17 +686,33 @@ export function campaignAct(
         spentMinor: campaignFor(api, input.filingId).spentMinor - before,
       };
     }
-    case "circulators":
-      // Paid circulators for the race's voters outside the town: the amount
-      // the player chose is set aside from what the campaign holds and paid
-      // as the signatures come in, until the petition is due.
+    case "circulators": // Paid circulators for the race's voters outside the town: the amount
+    // the player chose is set aside from what the campaign holds and paid
+    // as the signatures come in, until the petition is due.
+    {
+      const setAsideMinor = hireCirculators(
+        api,
+        input.filingId,
+        input.amountMinor ?? 0,
+      );
+      const after = campaignFor(api, input.filingId);
+      const petition = petitionView(api, input.filingId);
+      // What the money bought, from the campaign and petition records: the
+      // amount set aside and the signatures held, or why nothing was.
       return {
-        setAsideMinor: hireCirculators(
-          api,
-          input.filingId,
-          input.amountMinor ?? 0,
-        ),
+        setAsideMinor,
+        line:
+          setAsideMinor > 0 && petition
+            ? controls.campaignGatherers.hired
+                .replace("{cost}", dollarsOf(setAsideMinor))
+                .replace("{due}", dateSaid(petition.due, core.date))
+                .replace("{signed}", petition.signed.toLocaleString("en-US"))
+            : controls.campaignGatherers.noMoney.replace(
+                "{raised}",
+                dollarsOf(after.raisedMinor),
+              ),
       };
+    }
     case "poll":
       return commissionPoll(api, {
         filingId: input.filingId,
