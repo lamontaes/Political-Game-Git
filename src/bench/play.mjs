@@ -1666,32 +1666,8 @@ function renderFiling(value) {
     buttons[i].append(" ", smallText(factsOf(choice), "reply-facts"));
   });
   fillTalk({ replies: buttons });
-  // The filing's record once it is made: its status, shown as the record's
-  // label under the talk, not as words in the clerk's mouth. A race whose law
-  // asks no signatures has a petition of none: nothing to collect, no line.
-  if (value.result?.petition?.needed)
-    addTalkLine(
-      talkLine({
-        kind: "label",
-        text: controls.filing.petition
-          .replace("{needed}", String(value.result.petition.needed))
-          .replace("{date}", dateWords(value.result.petition.due)),
-      }),
-    );
-  if (value.result)
-    addTalkLine(
-      talkLine({
-        kind: "label",
-        text: value.result.filing
-          ? (controls.filing?.status?.[value.result.status] ??
-            words(value.result.status))
-          : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
-              value.result.unmet ?? []
-            )
-              .map((u) => controls.filing?.rules?.[u.rule] ?? words(u.rule))
-              .join(", ")}`,
-      }),
-    );
+  // What the filing asks next is said by the clerk, once, in the talk: no
+  // count or status label sits under the dialogue (owner, Nov 14).
   setScales({ available: false });
 }
 async function openFiling(filedWith, contestId) {
@@ -1862,6 +1838,13 @@ async function campaignParts() {
         result.reached
           ? controls.campaignResults.reached.replace("{n}", result.reached)
           : "",
+        // How many signed at the doors, a day of none included (owner, Nov 14:
+        // "Tab total and each outing"), outside the dialogue.
+        result.signed === null || result.signed === undefined
+          ? ""
+          : result.signed === 0
+            ? controls.campaignResults.signedNone
+            : controls.campaignResults.signed.replace("{n}", result.signed),
         result.raisedMinor ? moneyWords(result.raisedMinor) : "",
       ]
         .filter(Boolean)
@@ -2124,8 +2107,8 @@ async function campaignParts() {
               { label: labelsC.volunteers, value: String(campaign.volunteers) },
               { label: labelsC.doors, value: String(campaign.doors) },
               // The petition record: the signatures held against those the
-              // clerk will count, and the clerk's verdict once it has checked.
-              // A race that asks no signatures shows no petition.
+              // law asks, and the day they are due (owner, Nov 14: the tab keeps
+              // the running total). A race that asks no signatures shows none.
               ...(petition?.needed
                 ? [
                     {
@@ -2135,19 +2118,6 @@ async function campaignParts() {
                         .replace("{needed}", String(petition.needed))
                         .replace("{date}", dateWords(petition.due)),
                     },
-                    ...(petition.check
-                      ? [
-                          {
-                            label: labelsC.clerkCount,
-                            value: labelsC.clerkCounted
-                              .replace("{valid}", String(petition.check.valid))
-                              .replace(
-                                "{struck}",
-                                String(petition.check.struck),
-                              ),
-                          },
-                        ]
-                      : []),
                   ]
                 : []),
               ...(campaign.endorsements
