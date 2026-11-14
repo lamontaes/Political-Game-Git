@@ -4020,6 +4020,55 @@
           "when": {}
         }
       ]
+    },
+    "ask-to-serve": {
+      "state": "request",
+      "asks": {
+        "note": "The player asks someone to serve (brief J): the one asked answers from where the serve-asks engine reads them (their ambition, the seat they would give up, how far apart the two stand on their question, what they have read about the player, whether they know the player). Yes where that read is above zero, no otherwise; pressing holds them where they stood, and letting it go wins nothing. A price comes later.",
+        "yes": "agree",
+        "carried": "decline",
+        "no": "decline",
+        "relent": ["agree"],
+        "thanks": "thank",
+        "again": [
+          {
+            "move": "press",
+            "carries": "lean"
+          },
+          {
+            "move": "accept",
+            "carries": "none"
+          }
+        ]
+      },
+      "replies": ["agree", "decline"],
+      "again": {
+        "ask": ["answer", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "serving",
+          "label": "On your ticket",
+          "keeps": "none",
+          "when": {
+            "reply": ["agree", "relent"]
+          }
+        },
+        {
+          "id": "turned-down",
+          "label": "Turned you down",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {

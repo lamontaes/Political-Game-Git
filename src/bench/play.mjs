@@ -1831,45 +1831,66 @@ function ticketSection(filing, ticket) {
           : words.later,
       ),
     );
-  let picked = ticket.choices[0].id;
-  const choose = async (personId) => {
+  // Only someone who may be asked now is offered; a no stands for a while.
+  const askable = ticket.choices.filter((c) => c.mayAsk);
+  let picked = askable[0]?.id;
+  const chooseForMe = async () => {
     await post(
-      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id, ...(personId ? { personId } : {}) })}`,
+      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id })}`,
     );
     await openSheet("campaign");
   };
+  // Asking is a conversation: it plays as a scene, and the answer is theirs.
+  const ask = async (personId) => {
+    const asked = await post(
+      `/api/campaign/running-mate/ask?${new URLSearchParams({ filingId: filing.id, personId })}`,
+    );
+    if (asked.packet) renderPacket(asked.packet);
+    const moment = storyStop(asked.packet);
+    closeSheet();
+    if (moment) await showStory(moment.recordId);
+  };
+  const rowLabel = (c) =>
+    (c.work && c.place
+      ? words.row
+      : c.place
+        ? words.rowPlace
+        : c.work
+          ? words.rowWork
+          : "{name}"
+    )
+      .replace("{name}", c.name)
+      .replace("{work}", c.work ?? "")
+      .replace("{place}", c.place ?? "");
+  const declined = ticket.choices.filter((c) => c.declined && !c.mayAsk);
   return stripSection(
     1,
     title,
-    select({
-      options: ticket.choices.map((c) => ({
-        value: c.id,
-        label: (c.work && c.place
-          ? words.row
-          : c.place
-            ? words.rowPlace
-            : c.work
-              ? words.rowWork
-              : "{name}"
-        )
-          .replace("{name}", c.name)
-          .replace("{work}", c.work ?? "")
-          .replace("{place}", c.place ?? ""),
-      })),
-      onChange: (value) => {
-        picked = value;
-      },
-    }),
+    ...(askable.length
+      ? [
+          select({
+            options: askable.map((c) => ({ value: c.id, label: rowLabel(c) })),
+            onChange: (value) => {
+              picked = value;
+            },
+          }),
+        ]
+      : []),
+    ...declined.map((c) => introText(words.declined.replace("{name}", c.name))),
     buttonRow(
-      makeButton({
-        className: "action primary",
-        textContent: words.choose,
-        onclick: () => choose(picked),
-      }),
+      ...(askable.length
+        ? [
+            makeButton({
+              className: "action primary",
+              textContent: words.ask,
+              onclick: () => ask(picked),
+            }),
+          ]
+        : []),
       makeButton({
         className: "action",
         textContent: words.own,
-        onclick: () => choose(null),
+        onclick: () => chooseForMe(),
       }),
     ),
   );

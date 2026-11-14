@@ -75,6 +75,11 @@ import {
 import type { Moment } from "./types";
 import { beatenRunnerUp } from "../core2/modules/voting";
 import {
+  SERVE_ASKED_EVENT,
+  serveAsk,
+  type ServeGrounds,
+} from "../core2/modules/serve-asks";
+import {
   composeSceneTalk,
   lastAnswerAlong,
   type AskStanding,
@@ -1304,11 +1309,18 @@ function composeBinding(
     type.playerAsks && moment.causeKind === "event:campaign.door"
       ? doorStanding(core, moment.causeId, askerId, type.purpose ?? "")
       : undefined;
+  // Someone the player asked to serve: where the serve-asks engine read them.
+  const serve =
+    type.playerAsks && moment.causeKind === `event:${SERVE_ASKED_EVENT}`
+      ? serveStanding(core, said, askerId)
+      : undefined;
   const standing = door
     ? door.standing
-    : type.playerAsks
-      ? askStanding(core, said, askerId, askedId)
-      : undefined;
+    : serve
+      ? serve.standing
+      : type.playerAsks
+        ? askStanding(core, said, askerId, askedId)
+        : undefined;
   if (type.playerAsks && !standing)
     return {
       kind: "skipped",
@@ -1317,6 +1329,72 @@ function composeBinding(
           ? "no race on record to ask about"
           : "no bill on record to ask about",
     };
+  if (serve) {
+    facts.name = {
+      text: `${asker.givenName} ${asker.familyName}`,
+      sourceRecordIds: [askerId],
+    };
+    facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
+    facts.office = {
+      text: titleInSentence(serve.office),
+      sourceRecordIds: [moment.causeId, serve.askId],
+    };
+    // Why a no is a no: the term that weighed most against the ask, which
+    // the answer gives as its reason (own-seat, own-race, apart, heard, stranger).
+    // A yes gives its reason too, from the term that weighed most for it
+    // (trust, step-up, agree, real-race).
+    const why = [moment.causeId, serve.askId];
+    if (serve.standing.lean <= P.zero)
+      facts[`reason-${serve.reason}`] = { text: "yes", sourceRecordIds: why };
+    else
+      facts[`reason-yes-${serve.yesReason}`] = {
+        text: "yes",
+        sourceRecordIds: why,
+      };
+    // A stranger is introduced to the player by their full name; the race
+    // the player runs in is said from its contest record.
+    facts["self-full"] = {
+      text: `${asked.givenName} ${asked.familyName}`,
+      sourceRecordIds: [askedId],
+    };
+    if (serve.raceOffice)
+      facts["race-office"] = {
+        text: titleInSentence(serve.raceOffice),
+        sourceRecordIds: why,
+      };
+    // The player may say the race can be won only where their standing in it
+    // weighs for them.
+    if ((serve.terms.standing ?? P.zero) > P.zero)
+      facts["standing-real"] = { text: "yes", sourceRecordIds: why };
+    if (serve.grounds.seatEnds && serve.grounds.seatTermId)
+      facts["their-term-ends"] = {
+        text: "yes",
+        sourceRecordIds: [...why, serve.grounds.seatTermId],
+      };
+    // The seat they would give up, as people say it.
+    if (serve.grounds.seatTitle && serve.grounds.seatTermId)
+      facts["their-office"] = {
+        text: titleInSentence(serve.grounds.seatTitle),
+        sourceRecordIds: [...why, serve.grounds.seatTermId],
+      };
+    // Where they read what was printed about the player: the outlet of the
+    // newest scandal story they heard.
+    const outlet = serve.grounds.storyOutletId
+      ? core.organizations.get(serve.grounds.storyOutletId as never)?.name
+      : undefined;
+    if (outlet && serve.grounds.stories.length)
+      facts.outlet = {
+        text: outlet,
+        sourceRecordIds: [...why, ...serve.grounds.stories],
+      };
+    // The question they hold most strongly, as the read found it.
+    const issue = questionAbout(serve.question);
+    if (issue)
+      facts.issue = {
+        text: issue,
+        sourceRecordIds: [moment.causeId, serve.askId],
+      };
+  }
   if (door) {
     facts.name = {
       text: `${asker.givenName} ${asker.familyName}`,
@@ -1328,8 +1406,9 @@ function composeBinding(
       sourceRecordIds: [moment.causeId, door.contestId],
     };
   }
-  // The player asks: their lines speak to the colleague by name.
-  else if (standing) {
+  // The player asks: their lines speak to the colleague by name. A serve ask
+  // set its names above, from the prospect's record.
+  else if (standing && !serve) {
     facts.name = {
       text: `${asked.givenName} ${asked.familyName}`,
       sourceRecordIds: [askedId],
@@ -1500,6 +1579,43 @@ function doorStanding(
     },
     office: contest.title,
     contestId: impression!.contestId!,
+  };
+}
+
+/**
+ * Where someone the player asked to serve stands: the serve-asks engine's
+ * read kept with the ask (their record and the player's on the day asked),
+ * never read again while the scene is open.
+ */
+function serveStanding(
+  core: Readonly<CoreState>,
+  said: Readonly<Record<string, string>>,
+  prospectId: PersonId,
+):
+  | {
+      standing: AskStanding;
+      office: string;
+      askId: string;
+      question: string;
+      reason: string;
+      yesReason: string;
+      grounds: ServeGrounds;
+      terms: Readonly<Record<string, number>>;
+      raceOffice: string;
+    }
+  | undefined {
+  const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
+  if (!row || row.askedId !== prospectId) return undefined;
+  return {
+    standing: { lean: row.standing.lean, favor: row.standing.favor },
+    terms: row.standing.terms,
+    raceOffice: row.raceOffice,
+    office: row.office,
+    askId: row.id,
+    question: row.standing.grounds.question,
+    reason: row.standing.reason,
+    yesReason: row.standing.yesReason,
+    grounds: row.standing.grounds,
   };
 }
 

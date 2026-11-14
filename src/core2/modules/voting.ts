@@ -6403,8 +6403,11 @@ function keepRace(
 
 /** The ticket a running mate is weighed for: one governor candidate's, in the ticket office's contest. */
 function ticketOf(governorFiling: FilingRow, ticketContest: ContestRow) {
+  // No "|" in the id: a newcomer offered takes their person id from it, and
+  // the money engines key payments as "<government>|<person>" (a "|" in a
+  // person id cut the payee short at the month's food aid, Nov 14).
   return {
-    id: `${ticketContest.id}|ticket:${governorFiling.personId}`,
+    id: `${ticketContest.id}:ticket:${governorFiling.personId}`,
     seatId: ticketContest.seatId,
     electionDate: ticketContest.electionDate,
   };
@@ -6425,6 +6428,13 @@ const RUNNING_MATE_CHOICES = 4;
 export function runningMateChoice(
   api: CoreAPI,
   governorFilingId: string,
+  /**
+   * Whether a person offered would say yes to the player's ask (the
+   * serve-asks engine's read). Where none of the people offered would, the
+   * strongest of the wider ranking who would takes the last place, so a
+   * player is never offered only people who will turn them down.
+   */
+  willing?: (personId: string) => boolean,
 ): {
   readonly ticketContestId: string;
   readonly office: string;
@@ -6455,29 +6465,56 @@ export function runningMateChoice(
     choices:
       mate || !mayNameRunningMate(api, governor, ticket)
         ? []
-        : candidateChoices(
-            api,
-            ticketOf(filing, ticket),
-            filing.party ?? INDEPENDENT,
-            RUNNING_MATE_CHOICES,
-            weighableFor(api, filing, ticket),
-          ).map((c) => {
-            // A newcomer offered is filled in now (two-level rule: a person
-            // is filled in when the player meets them), with a home town and
-            // work, so the choice can be weighed.
-            if (c.newcomer)
-              offerNewcomer(api, c.id, c.newcomer, filing.party ?? null);
-            return {
-              id: c.id,
-              name: `${c.givenName} ${c.familyName}`,
-              seatId: c.fromSeatId,
-              roles:
-                standingPool(api, raceScope(api, ticket))
-                  .find((m) => m.personId === c.id)
-                  ?.roles.filter((r) => r !== "officeholder") ?? [],
-            };
-          }),
+        : offeredMates(api, filing, ticket, willing),
   };
+}
+
+/** How many of the wider ranking are weighed for a willing person when none of those offered would say yes. */
+const RUNNING_MATE_WIDER = 3;
+
+/**
+ * The people of the player's party offered as running mates, strongest
+ * first, each filled in when offered; where a `willing` read is given and
+ * none of them would say yes, the strongest willing person further down the
+ * ranking takes the last place (filled in only until one is found).
+ */
+function offeredMates(
+  api: CoreAPI,
+  filing: FilingRow,
+  ticket: ContestRow,
+  willing?: (personId: string) => boolean,
+) {
+  const party = filing.party ?? INDEPENDENT;
+  const ranked = candidateChoices(
+    api,
+    ticketOf(filing, ticket),
+    party,
+    willing ? RUNNING_MATE_CHOICES * RUNNING_MATE_WIDER : RUNNING_MATE_CHOICES,
+    weighableFor(api, filing, ticket),
+  );
+  // A newcomer offered is filled in now (two-level rule: a person is filled
+  // in when the player meets them), with a home town and work, so the choice
+  // can be weighed.
+  const offer = (c: (typeof ranked)[number]) => {
+    if (c.newcomer) offerNewcomer(api, c.id, c.newcomer, filing.party ?? null);
+    return {
+      id: c.id,
+      name: `${c.givenName} ${c.familyName}`,
+      seatId: c.fromSeatId,
+      roles:
+        standingPool(api, raceScope(api, ticket))
+          .find((m) => m.personId === c.id)
+          ?.roles.filter((r) => r !== "officeholder") ?? [],
+    };
+  };
+  const shown = ranked.slice(0, RUNNING_MATE_CHOICES).map(offer);
+  if (!willing || shown.some((c) => willing(c.id))) return shown;
+  for (const c of ranked.slice(RUNNING_MATE_CHOICES)) {
+    const row = offer(c);
+    if (willing(row.id))
+      return [...shown.slice(0, RUNNING_MATE_CHOICES - 1), row];
+  }
+  return shown;
 }
 
 /**
@@ -6636,11 +6673,19 @@ export function chooseRunningMate(
   api: CoreAPI,
   governorFilingId: string,
   personId: string | null,
+  /** The same willing read the choice was offered with (`runningMateChoice`). */
+  willing?: (personId: string) => boolean,
+  /** People the player already asked, who stay theirs to name though the ranking moved on. */
+  asked: readonly string[] = [],
 ): FilingRow {
-  const choice = runningMateChoice(api, governorFilingId);
+  const choice = runningMateChoice(api, governorFilingId, willing);
   if (!choice || choice.mateId !== null || !choice.choices.length)
     throw new Error("There is no running mate to name for this race.");
-  if (personId !== null && !choice.choices.some((c) => c.id === personId))
+  if (
+    personId !== null &&
+    !choice.choices.some((c) => c.id === personId) &&
+    !asked.includes(personId)
+  )
     throw new Error(
       "That person isn't one of the running mates to choose from.",
     );
