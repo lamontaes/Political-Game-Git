@@ -7171,7 +7171,8 @@
           "move": "school-ask-how",
           "subject": "school",
           "role": "ask",
-          "choice": "how"
+          "choice": "how",
+          "stages": ["graduated"]
         }
       ],
       "transcriptsUsing": 20,
@@ -40381,6 +40382,110 @@
       "date": "2026-11-14",
       "tag": {
         "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.you-still-at-school",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "You still at {school}?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["enrolled-holds"],
+          "requiresFacts": ["school"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.are-you-up-at-school-these-days",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "Are you up at {school} these days?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["enrolled-holds"],
+          "requiresFacts": ["school"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.school-still-keeping-you-busy",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "{school} still keeping you busy?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["enrolled-holds"],
+          "requiresFacts": ["school"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.you-re-at-school-aren-t-you",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "You're at {school}, aren't you?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["enrolled-holds"],
+          "requiresFacts": ["school"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.school-ask-how.you-in-school",
+      "move": "school-ask-how",
+      "kind": "spoken",
+      "text": "You in school?",
+      "uses": [
+        {
+          "move": "school-ask-how",
+          "subject": "school",
+          "role": "ask",
+          "stages": ["enrolled"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 3)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask"
       }
     }
   ]

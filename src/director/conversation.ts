@@ -3927,6 +3927,26 @@ function sayGiveBack(
   return true;
 }
 
+/**
+ * How a question about the player's school is put, from the player's own
+ * record (Words lead, rule 54): a student the asker knows the school of is
+ * asked if they are still there, any other student if they are in school, and
+ * someone out of school where they went.
+ */
+function schoolAskStage(
+  core: Readonly<CoreState>,
+  askerId: PersonId,
+  playerId: PersonId,
+): string {
+  const player = core.people.get(playerId)!;
+  if (schoolStage(core, player) === "graduated") return "graduated";
+  const mine = schoolOf(core, player);
+  const theirs = schoolOf(core, core.people.get(askerId)!);
+  return mine && theirs && mine.recordId === theirs.recordId
+    ? "enrolled-holds"
+    : "enrolled";
+}
+
 function askSubject(
   core: Readonly<CoreState>,
   conversation: Conversation,
@@ -3984,7 +4004,9 @@ function askSubject(
         ALL,
         subject.facts,
         momentKey,
-        "default",
+        subject.kind === "school"
+          ? schoolAskStage(core, otherId, playerId)
+          : "default",
         subject,
       );
   conversation.used.push(subject.id);
