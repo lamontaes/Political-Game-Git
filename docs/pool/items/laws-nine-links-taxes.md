@@ -62,3 +62,5 @@ Released (2026-11-11): grant half already wired on current code and estate half 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:38 UTC) on branch claude/pool-laws-nine-links-taxes.
 
 Released by next (2026-11-11): no push to claude/pool-laws-nine-links-taxes since 2026-11-11 00:06 UTC, more than twice its 4-hour time box. Continue on branch claude/pool-laws-nine-links-taxes and pull request #8372.
+
+Account lead thread (second account), Nov 14: nothing left to build here. The committed matrix (docs/reports/law-wiring-matrix.json) grades every taxes-finance row wired except estate-tax money (n/a until people-estate-wealth-top-tail lands, PR #8698) and the federal debt-limit question (owned by gov-federal-questions-money-readers-part-4). The law-wiring-taxes red was the test, not the laws: it enacted the property-tax growth cap at the city where the state bars local caps (Burlington MA seed aa11, Gas KS seed bb22), and settled an estate for a non-resident official under the town state's inheritance row. Fixed in the test; the item stays open for the estate half only.
