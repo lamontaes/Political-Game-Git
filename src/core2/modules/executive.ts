@@ -38,7 +38,12 @@ import {
 } from "../state";
 import { drawnAdult } from "./counted-moves";
 import { placeStateKey } from "../place-map";
-import { admitCountedHousehold } from "./residents";
+import {
+  admitCountedHousehold,
+  countedHouseholdOf,
+  countedJob,
+  residentFacts,
+} from "./residents";
 import type {
   CoreAPI,
   CoreModule,
@@ -48,7 +53,14 @@ import type {
 } from "../types";
 import type { ModuleRow } from "../module-data";
 import { enactLaw, lawChain, lawInForce } from "./laws";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  seatSuited,
+  suitedResidents,
+  townSeats,
+  type Suited,
+  type TermRow,
+} from "./offices";
 import {
   appointerWeighing,
   nominateAndConfirm,
@@ -369,6 +381,53 @@ const hasRecord = (record: ReturnType<typeof postRecord>) =>
  * the records say they have done, each on a saturating scale (no step at any
  * number of years): years in the post's field, years of any work, schooling.
  */
+/**
+ * A counted adult's record for a post, by the same rule `postRecord` reads a
+ * full person's (one model, two tiers), from what the counts keep, so the two
+ * score on one scale in `appointmentQualification`. Coarse parts: the counts
+ * keep no past jobs, so their years of work are their years since adulthood
+ * (`appointmentAdulthoodAge`); their related years are only the job they
+ * hold now, for as long as their record says they have held it. Exact parts:
+ * that job's kind against the post's, and their schooling (`schoolingOn`
+ * reads a counted person). Their pay is not weighed, as a full person's is
+ * not.
+ */
+export function countedPostRecord(
+  api: CoreAPI,
+  personId: string,
+  post: string,
+  date: string,
+): ReturnType<typeof postRecord> {
+  const core = api.state as CoreState;
+  const facts = residentFacts(core, personId as never);
+  const schooling = schoolingOn(api, personId, date);
+  if (!facts)
+    return { relatedYears: 0, workYears: 0, schooling, recordIds: [] };
+  // stopgapId: SG-EXECUTIVE-counted-work-years
+  const workYears = Math.max(
+    0,
+    yearsBetween(facts.birthDate, date) -
+      campaignParameter("appointmentAdulthoodAge"),
+  );
+  const fields = new Set(RELATED.posts[post] ?? []);
+  let relatedYears = 0;
+  const recordIds: string[] = [];
+  for (const c of countedHouseholdOf(core, personId as never)
+    ?.workCommitments ?? []) {
+    if (c.personId !== personId || c.startsAt > date) continue;
+    if (c.endsAt !== undefined && c.endsAt <= date) continue;
+    const job = core.jobs.get(c.jobId) ?? countedJob(core, c.jobId);
+    if (!job?.occupationClassification) continue;
+    if (!fields.has(job.occupationClassification)) continue;
+    relatedYears += Math.min(
+      workYears,
+      yearsBetween(c.heldSince ?? c.startsAt, date),
+    );
+    recordIds.push(c.id);
+  }
+  return { relatedYears, workYears, schooling, recordIds };
+}
+
 export function appointmentQualification(
   person: Readonly<Pick<PersonState, "traits">>,
   record: ReturnType<typeof postRecord>,
@@ -446,6 +505,25 @@ function townPostInput(
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
+  // The whole town can supply a head (one model, two tiers): the counted
+  // adults best suited for a town post by the one reader the elected seats
+  // use (`suitedResidents`), weighed by what a counted adult carries (traits
+  // and lean; no work record until filled in). Only the one named is filled
+  // in. Only when a post is filled, never for the panel
+  // that only shows the candidates.
+  const counted: Suited[] = [];
+  if (drawn) {
+    const passed = new Set<string>(
+      [...holding, ...seated, appointer?.personId, playerId].filter(
+        (id): id is string => !!id,
+      ),
+    );
+    counted.push(
+      ...suitedResidents(api, date, passed, town)
+        .filter((row) => row.counted)
+        .slice(0, campaignParameter("townPostCountedCandidates")),
+    );
+  }
   const adults = [...(api.state.peopleByPlace.get(town) ?? [])]
     .map((id) => api.state.people.get(id))
     .filter(
@@ -468,27 +546,8 @@ function townPostInput(
   );
   const shown = adults.filter((p) => hasRecord(records.get(p.id)!));
   const pool = shown.length ? shown : adults;
-  // The whole town can supply a head: three residents of the wider population drawn for the post
-  // (as for a cabinet), scored by the one rule; only the one named is admitted and filled in.
-  const noRecord = {
-    relatedYears: 0,
-    workYears: 0,
-    schooling: undefined,
-    recordIds: [] as string[],
-  };
-  const residents = drawn
-    ? [0, 1, 2].flatMap((n) => {
-        const record = drawnAdult(
-          api,
-          `town:${town}:${spec.key}:${date}:${n}`,
-          CABINET_AGE,
-        );
-        const resident = record?.people[0];
-        return record && resident ? [{ record, resident }] : [];
-      })
-    : [];
   return {
-    drawnRecords: new Map(residents.map((r) => [r.resident.id, r.record])),
+    counted,
     appointer,
     appointerSide: appointerLean,
     weighing: appointerWeighing(
@@ -505,10 +564,13 @@ function townPostInput(
           !!appointer?.personId &&
           relationships.has(pairKey(appointer.personId, p.id)),
       })),
-      ...residents.map(({ resident }) => ({
-        id: resident.id,
-        lean: leanOf(api, resident.id, resident),
-        qualification: appointmentQualification(resident, noRecord),
+      ...counted.map((row) => ({
+        id: row.person.id,
+        lean: leanOf(api, row.person.id, row.person),
+        qualification: appointmentQualification(
+          row.person,
+          countedPostRecord(api, row.person.id, spec.key, date),
+        ),
         known: false,
       })),
     ],
@@ -563,13 +625,13 @@ function fillTownPost(
     tolerance: campaignParameter("confirmationTolerance"),
   });
   if (!appointment.nomineeId) return null;
-  // A head drawn from the wider population is admitted and filled in only now that they are named.
-  const drawnRecord = input.drawnRecords.get(appointment.nomineeId);
-  let holderId = appointment.nomineeId;
-  if (drawnRecord) {
-    admitCountedHousehold(api.state as CoreState, drawnRecord);
-    holderId = personOrFillIn(api.state as CoreState, holderId)?.id ?? holderId;
-  }
+  // A counted adult named for the post is filled in only now, matching what
+  // the records already say of their household and work.
+  const named = input.counted.find(
+    (row) => row.person.id === appointment.nomineeId,
+  );
+  const holderId = named ? seatSuited(api, named) : appointment.nomineeId;
+  if (!holderId) return null;
   const row: AppointmentRow = {
     id: `appointment:town:${spec.key}`,
     government: town,
@@ -605,6 +667,10 @@ function fillTownPost(
       post: spec.key,
       appointedBy: row.appointedBy,
       appointee: row.holderId,
+      // A counted adult of the town filled in for this post, for the trace.
+      ...(named ? { filledIn: "counted" } : {}),
+      // How many of the town's counted adults the post weighed.
+      countedWeighed: String(input.counted.length),
       // The people the appointer weighed, best first (the appointment row keeps their reasons).
       ranked: appointment.reasons
         .slice(0, 5)

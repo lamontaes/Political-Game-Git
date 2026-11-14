@@ -1257,6 +1257,12 @@
       "source": "Age of majority in 46 states (19 in Alabama and Nebraska, 21 in Mississippi); the game uses the common 18 as the first year of adult working experience, matching the working-age minimum used in town employment (canonical town-employment.ts WORKING_AGE_MIN=18). Structural: below it nobody holds a post.",
       "spread": [18, 21]
     },
+    "townPostCountedCandidates": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many of the town's counted adults, best suited by the shared seat reader, are weighed beside the full people when a department head is appointed (the one named is filled in) (gov-appointments-weigh-counted-adults). The three drawn adults it replaces were the same count; a search committee's short list is commonly three to five finalists (ICMA, Recruitment Guidelines Handbook).",
+      "spread": [2, 5]
+    },
     "cabinetQualificationBase": {
       "value": 0.6,
       "tag": "TUNABLE",
