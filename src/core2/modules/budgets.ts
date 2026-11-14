@@ -1199,7 +1199,7 @@ export function syncSalesTax(api: CoreAPI): void {
  * the home's value), paid to the treasury that collects it: the county,
  * else the city, else the state.
  */
-function propertyTaxTerms(api: CoreAPI, placeId?: string) {
+export function propertyTaxTerms(api: CoreAPI, placeId?: string) {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return undefined;
   // A home outside the played town is billed by its own place's terms, not
   // the played town's rate and collector (owner, Nov 5: "It should be

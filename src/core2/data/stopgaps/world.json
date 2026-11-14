@@ -413,6 +413,18 @@
     "resolvedBy": "stand-in triage T4"
   },
   {
+    "id": "SG-WORLD-property-tax-other-places-state-average",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 1194,
+    "whatItFakes": "A home outside the played town is billed its state's average effective property tax rate, paid to its place's outside account, because no law row is kept for that place.",
+    "why": "Officials and other full people live in places the world does not govern at the town level; billing them the played town's rate was wrong, and billing nothing was wrong too (owner, Nov 5).",
+    "addedBy": "sonnet builder",
+    "addedAt": "2026-11-11",
+    "replacement": "The place's own property-tax law row and collector once other places keep law rows.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-business-compliance-cost",
     "kind": "assumed-data",
     "file": "src/core2/data/business/parameters.json",
@@ -600,20 +612,6 @@
     "addedAt": "2026-10-14",
     "replacement": "The counted owner group's share of the profit taxed by the income tax law in force where they live, as a flow of the owner group. An owner-run business's quarterly profit is taxed as its owner's income: full owners pay from their own cash, counted owners through their household group, by the withholding rule of the income tax law in force (employer-taxes.ts, passThrough and passThroughCounted). Proved in src/core2/profit-pass-through.test.ts.",
     "status": "resolved"
-  },
-  {
-    "id": "SG-WORLD-business-premises-property-tax",
-    "kind": "missing-engine",
-    "file": "src/core2/modules/employer-taxes.ts",
-    "line": 196,
-    "whatItFakes": "Businesses pay no property tax on their premises; the property-tax engine bills homes only.",
-    "why": "A business's books record no premises or their value, so there is nothing for the property-tax rate in force to read.",
-    "addedBy": "OPUS-WORLD",
-    "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Business premises recorded with an assessed value (commercial values by place), billed at the property-tax rate in force like homes.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-WORLD-owner-decision-business-books",
