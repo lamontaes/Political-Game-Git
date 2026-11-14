@@ -48,9 +48,10 @@ it("no cohort pays the town's deaths ahead of what it owes, and the town's dead 
       const state = coreAPI(core).moduleState("core2-renewal-v1");
       const carry = state.table("countedCarry").rows() as unknown as CarryRow[];
       const owed = carry.flatMap((row) => Object.values(row.deaths ?? {}));
-      expect(owed.length, `${where}: cohorts keep what they owe`).toBeGreaterThan(
-        0,
-      );
+      expect(
+        owed.length,
+        `${where}: cohorts keep what they owe`,
+      ).toBeGreaterThan(0);
       expect(
         Math.min(...owed),
         `${where}: the most any cohort has paid ahead of what it owes`,

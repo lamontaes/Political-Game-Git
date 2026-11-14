@@ -771,8 +771,7 @@ export function applyCountedFlows(
           }
           return (
             n +
-            chance *
-              (weightOfPerson(member) - (ill.get(member.id)?.share ?? 0))
+            chance * (weightOfPerson(member) - (ill.get(member.id)?.share ?? 0))
           );
         }, 0);
         expected += share;
