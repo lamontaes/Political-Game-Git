@@ -178711,10 +178711,10 @@
       ]
     },
     {
-      "key": "scene-talk.state-tell.you-heard-me-in-there-i-work-full-time-and-i-still-come-up-short-every-month",
+      "key": "scene-talk.state-tell.you-heard-me-in-there-i-show-up-every-day-and-i-still-come-up-short-every-month",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "You heard me in there. I work full time and I still come up short every month.",
+      "text": "You heard me in there. I show up every day and I still come up short every month.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
@@ -178973,10 +178973,10 @@
       ]
     },
     {
-      "key": "scene-talk.state-tell.i-ve-got-own-child-at-home-this-is-about-the-school-they-ll-walk-into",
+      "key": "scene-talk.state-tell.i-ve-got-own-child-at-home-this-is-about-the-school-my-kid-walks-into",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I've got {own-child} at home. This is about the school they'll walk into.",
+      "text": "I've got {own-child} at home. This is about the school my kid walks into.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
@@ -179003,10 +179003,10 @@
       ]
     },
     {
-      "key": "scene-talk.state-tell.i-ve-got-own-child-at-home-i-m-not-sure-this-is-good-for-them",
+      "key": "scene-talk.state-tell.i-ve-got-own-child-at-home-i-m-not-sure-this-is-good-for-my-kid",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I've got {own-child} at home. I'm not sure this is good for them.",
+      "text": "I've got {own-child} at home. I'm not sure this is good for my kid.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
@@ -179805,10 +179805,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.it-means-own-child-is-the-one-they-try-it-out-on",
+      "key": "scene-talk.follow-answer.it-means-my-kid-is-the-one-they-try-it-out-on",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It means {own-child} is the one they try it out on.",
+      "text": "It means my kid is the one they try it out on.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
