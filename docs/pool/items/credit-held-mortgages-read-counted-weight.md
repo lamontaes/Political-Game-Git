@@ -2,7 +2,7 @@
 id: credit-held-mortgages-read-counted-weight
 title: "The town bank's books count a counted owner's mortgage once, though the record stands for many households and pays as many"
 area: world
-kind: defect
+kind: bug
 priority: 3
 size: S
 status: open
