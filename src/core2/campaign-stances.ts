@@ -24,7 +24,7 @@ import { votesOf, type VoteRecordRow } from "./modules/record";
 import { electorateSides } from "./modules/voting";
 import { partyName, partySide } from "./appointments";
 import { leanedScore, weighingKept } from "./trait-decisions";
-import type { CoreAPI } from "./types";
+import type { CoreAPI, PersonId } from "./types";
 import { PARTIES_MODULE_ID, partiesHere, type TieRow } from "./modules/parties";
 import {
   officialLean,
@@ -32,7 +32,13 @@ import {
   officialStance,
   type OfficialRow,
 } from "./modules/officials";
-import { stanceOn, viewOf, VIEWS_DATA, VIEWS_MODULE_ID } from "./modules/views";
+import {
+  openingStance,
+  stanceOn,
+  viewOf,
+  VIEWS_DATA,
+  VIEWS_MODULE_ID,
+} from "./modules/views";
 import { personLean, questionAxis } from "./campaign-views";
 import { campaignParameter, type Stance } from "./campaign-data";
 
@@ -274,14 +280,18 @@ export class StanceReader {
       this.leanRead = true;
     }
     if (this.lean === null) return null;
-    // What they've come to want on the question itself (speeches, ads and
-    // news that reached them), on top of where their lean puts them.
-    let moved = 0;
-    if (this.api.state.modules.has(VIEWS_MODULE_ID)) {
-      // Their own row and, if heard among like hearers, their group's.
-      moved += stanceOn(this.api, this.personId, question);
-    }
-    return clamp(this.lean * questionAxis(question) + moved);
+    // Where they start on it: their lean on its axis and, for someone the
+    // views engine knows, what their faith, degree and own circumstances add
+    // (`openingStance`, the same reading a voter's view starts from). Then
+    // what they've come to want on the question itself (speeches, ads and
+    // news that reached them).
+    if (!this.api.state.modules.has(VIEWS_MODULE_ID))
+      return clamp(this.lean * questionAxis(question));
+    const opening = this.api.state.people.has(this.personId as PersonId)
+      ? openingStance(this.api, this.personId as PersonId, question, this.lean)
+      : this.lean * questionAxis(question);
+    // Their own row and, if heard among like hearers, their group's.
+    return clamp(opening + stanceOn(this.api, this.personId, question));
   }
 
   /** Their party's lean (`partyLean`), or null for no party. */

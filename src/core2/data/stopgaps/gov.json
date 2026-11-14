@@ -2090,8 +2090,8 @@
     "why": "Asks whose bill never reaches a roll call are pulls no vote reads (pool item legislature-ask-skips-bills-the-committee-will-hold); the model gives a bill one floor day for every chamber.",
     "addedBy": "governing lead",
     "addedAt": "2026-11-02",
-    "replacement": "A later chamber takes up a bill on a floor day of its own after the first chamber passes it, with its own committee meeting the evening before and its own asks.",
-    "status": "open"
+    "replacement": "A later chamber takes up a bill on a floor day of its own after the first chamber passes it, with its own committee meeting the evening before and its own asks. Resolved 2026-11-14 (pool item laws-second-chamber-takes-the-bill-on-its-own-day): countVote runs one chamber per call, a carried bill is booked on the next chamber's sitting through scheduleVote and holdCommittee (chamberNow, voteKeyOf), and askBeforeTheRoll asks in the chamber whose turn it is. Shown in second-chamber-own-day.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-player-emergency-offer",
@@ -2272,7 +2272,7 @@
     "why": "Counted residents keep no impression of an official of their own, and the counted electorate's warmth toward a candidate is read from the town's named adults (voting.ts, townContacts). Filling a resident in to hold the view was the largest part of a played year's memory growth (play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth).",
     "addedBy": "opus-5251",
     "addedAt": "2026-11-11",
-    "replacement": "The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026 (elections-read-counted-cases): the counted electorate reads a counted resident's decided cases as warmth toward the official (caseWarmthsOf in constituent-cases.ts, read by countedAppeal at the election count, the primary, the door answer and the turnout reason), by the same step touchImpression applies, at the share of the record who brought the case. Was: The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
+    "status": "resolved"
   }
 ]

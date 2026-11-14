@@ -239,6 +239,9 @@ export async function handleDev(
     case "GET scenes":
       send(200, mode.scenes());
       return true;
+    case "GET waiting-scenes":
+      send(200, mode.waitingScenes());
+      return true;
     case "GET scene-cast": {
       send(200, mode.sceneCast(q("typeKey")));
       return true;

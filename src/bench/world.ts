@@ -1,3 +1,4 @@
+import { purposeScene } from "../director/purpose-scene";
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
@@ -41,6 +42,7 @@ import { openOfficials } from "../core2/modules/officials";
 import { openLawReach } from "../core2/law-reach/host";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
+import { openServeAsks } from "../core2/modules/serve-asks";
 import { openLeadership } from "../core2/modules/leadership";
 import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
@@ -499,7 +501,14 @@ function* benchWorldStages(
   options.onOpening?.(opening);
   // A talk at home can raise a printed story by its headline, in the words
   // the paper's own screen prints it with.
-  const director = createDirector({ watch: [], storyWords: wordPrintedStory });
+  const director = createDirector({
+    watch: [],
+    storyWords: wordPrintedStory,
+    // A purpose stop opens only when its talk can be worded.
+    wordsPurpose: (state, self, personId, entry) =>
+      purposeScene(state, self, personId, entry, { includeHeld: true })
+        ?.kind !== "skipped",
+  });
   const core = createLifeCore(opening, {
     observer: false,
     data: officeDayData(renewalData(worldCoreData(peopleData(DEFAULT_DATA)))),
@@ -564,6 +573,8 @@ function* benchWorldStages(
   // (debates need the press's outlets) and constituent cases.
   yield "workings";
   openStaff(core);
+  // The player asks people to serve, and they answer from their records (brief J).
+  openServeAsks(core);
   openInterestGroups(core);
   openWorldLegislating(core);
   openWorldRaces(core);

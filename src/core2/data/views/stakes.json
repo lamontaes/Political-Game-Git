@@ -2,6 +2,15 @@
   "version": "life-stakes-v1",
   "about": "How a person's own circumstances, read from the records the engines keep, move their stance on a policy question beyond their lean, faith and degree (owner, Nov 14: build the simulation so it simulates these things; Account lead ruling: a view comes from the person's own simulated life). Each fact is measured against the nation's average, so a town of renters and a town of owners differ for a reason. How strongly the person weighs their own stake follows their traits (decision views.own-stake). Values are on the views scale (-1 to 1) per unit of the fact.",
   "careDecision": "views.own-stake",
+  "lifeEvents": {
+    "about": "The events on which a full person's circumstances change and their stance is told the same day (the stance listeners: interest-group membership follows the view): a job lost, a home bought, an eviction, a birth in the household. Every other change (a hire, a lease, a health plan, a child turning 6, the income fifth) is told at the first of the month, when the views engine reads again everyone whose circumstances it has read.",
+    "kinds": [
+      "work.job-lost",
+      "housing.purchase",
+      "housing.eviction",
+      "person-birth"
+    ]
+  },
   "ages": {
     "workingFrom": {
       "value": 18,

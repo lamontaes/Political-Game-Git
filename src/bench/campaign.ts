@@ -70,7 +70,13 @@ import {
   corePlaceStateIdentities,
 } from "../core2/place-lookup";
 import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
-import { chooseRunningMate, runningMateChoice } from "../core2/modules/voting";
+import {
+  askToServe,
+  chooseRunningMateForMe,
+  offeredRunningMates,
+  serveAskHours,
+  ticketAsks,
+} from "../core2/modules/serve-asks";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -168,7 +174,7 @@ export function campaignView(core: CoreState, personId: string) {
           : null,
         campaign: {
           ...campaign,
-          volunteers: campaign.volunteerIds.length,
+          volunteers: volunteersApart(campaign).length,
           doors: campaign.doorsKnockedCount ?? 0,
           // The people and groups who said yes, from the endorsement records.
           endorsements: endorsementsOf(api, filing.id).filter(
@@ -181,9 +187,10 @@ export function campaignView(core: CoreState, personId: string) {
             id,
             name: personName(core, id),
           })),
-          volunteers: campaign.volunteerIds
-            .filter((id) => !campaign.staffIds.includes(id))
-            .map((id) => ({ id, name: personName(core, id) })),
+          volunteers: volunteersApart(campaign).map((id) => ({
+            id,
+            name: personName(core, id),
+          })),
         },
         polls: polls.slice(-3),
         petition: petitionView(api, filing.id),
@@ -244,12 +251,15 @@ export function campaignView(core: CoreState, personId: string) {
   };
 }
 
-/** The player names their running mate on one of their own filings; the campaigns as they stand after. */
+/**
+ * "Choose for me" on one of the player's own filings: no scene; the strongest
+ * of the people offered who would say yes is named. The campaigns as they
+ * stand after.
+ */
 export function runningMatePicked(
   core: CoreState,
   personId: string,
   filingId: string,
-  pick: string | null,
 ) {
   const api = coreAPI(core);
   const filing = api
@@ -258,8 +268,29 @@ export function runningMatePicked(
     .get(filingId) as unknown as FilingRow | undefined;
   if (filing?.personId !== personId)
     throw new Error("That isn't one of your races.");
-  chooseRunningMate(api, filingId, pick);
+  chooseRunningMateForMe(api, filingId);
   return campaignView(core, personId);
+}
+
+/**
+ * The player asks one of the people offered to run as their running mate: the
+ * ask is kept and plays as a scene; only the scene's ending names anyone.
+ */
+export function runningMateAsked(
+  core: CoreState,
+  personId: string,
+  filingId: string,
+  askedId: string,
+) {
+  const api = coreAPI(core);
+  const filing = api
+    .moduleState(ELECTIONS)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  if (filing?.personId !== personId)
+    throw new Error("That isn't one of your races.");
+  const row = askToServe(api, { seat: "ticket", filingId, personId: askedId });
+  return { hours: serveAskHours(), eventId: row.eventId };
 }
 
 /**
@@ -277,7 +308,7 @@ function groupName(title: string): boolean {
  * where it is not yet the candidate's to name. Null for a race with no ticket.
  */
 function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
-  const ticket = runningMateChoice(api, filingId);
+  const ticket = offeredRunningMates(api, filingId);
   if (!ticket) return null;
   const nameOf = (id: string) => {
     const person = core.people.get(id as PersonId);
@@ -288,6 +319,9 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
     .table("contests")
     .get(ticket.ticketContestId) as unknown as ContestRow;
   const mateName = ticket.mateId ? nameOf(ticket.mateId) : null;
+  // Who turned the player down, and who may be asked now (owner, Nov 14: a
+  // no stands for now; ask again later).
+  const asks = new Map(ticketAsks(api, filingId).map((a) => [a.personId, a]));
   return {
     office: ticket.office,
     // The office as a sentence says it ("lieutenant governor").
@@ -380,6 +414,8 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
         name: c.name,
         work: said,
         place: townName ? (away ? `${townName}, ${away}` : townName) : away,
+        declined: !!asks.get(c.id)?.declined,
+        mayAsk: asks.get(c.id)?.mayAsk ?? true,
       };
     }),
   };
@@ -445,6 +481,17 @@ function saidAgain(
 }
 
 /**
+ * The volunteers who are not on the staff: the one read behind the board's
+ * count, the team list beside it and the shift's count, so the three agree.
+ */
+function volunteersApart(campaign: {
+  volunteerIds: readonly string[];
+  staffIds: readonly string[];
+}): string[] {
+  return campaign.volunteerIds.filter((id) => !campaign.staffIds.includes(id));
+}
+
+/**
  * Where the race stands, as sentences from the English engine's
  * campaign-standing bank: the voters the player reached and how many moved,
  * the opponents on the contest's filings and how many voters each reached,
@@ -491,14 +538,20 @@ export function raceStanding(
             mine.warmer > 0 && mine.cooler > 0
               ? "moved-both"
               : mine.warmer > 0
-                ? "moved-warmer"
+                ? // Everyone reached moved the same way: said once, without the figure twice.
+                  mine.warmer >= mine.reached
+                  ? "moved-all-warmer"
+                  : "moved-warmer"
                 : mine.cooler > 0
-                  ? "moved-cooler"
+                  ? mine.cooler >= mine.reached
+                    ? "moved-all-cooler"
+                    : "moved-cooler"
                   : "moved-none",
             id,
             {
-              warmer: mine.warmer,
-              cooler: mine.cooler,
+              // A side no one moved to is not a fact: the lines that need it say so.
+              ...(mine.warmer > 0 ? { warmer: mine.warmer } : {}),
+              ...(mine.cooler > 0 ? { cooler: mine.cooler } : {}),
               reached: mine.reached,
             },
           ),
@@ -606,7 +659,7 @@ export function campaignAct(
       // The count shown is the campaign record's, the one the header reads.
       return {
         answers,
-        volunteers: campaignFor(api, input.filingId).volunteerIds.length,
+        volunteers: volunteersApart(campaignFor(api, input.filingId)).length,
         // The shift is at the campaign office, the player at it.
         scene: askScene(core, personId, scenePlaces.volunteerOfficePlace),
       };

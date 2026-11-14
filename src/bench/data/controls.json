@@ -685,6 +685,22 @@
     "federal": "Federal"
   },
   "travel": {
+    "why": "Why it's listed",
+    "reasons": {
+      "work": "You work here",
+      "family": "Someone in your family works here",
+      "study": "Someone in your home goes to school here",
+      "studySelf": "You go to school here",
+      "known": "Someone you know works here",
+      "action": "Something to do now",
+      "serve": "You serve in office",
+      "member": "Your party's office",
+      "seat": "Your office",
+      "ownMeeting": "Your board meets today",
+      "meeting": "Its board meets today",
+      "filing": "You can file to run for office here",
+      "public": "Open to the public"
+    },
     "memberHere": "Your party's office",
     "filing": "Filing office",
     "go": "Go to",
@@ -1368,7 +1384,8 @@
   },
   "runningMate": {
     "title": "Your running mate",
-    "choose": "Choose",
+    "ask": "Ask",
+    "declined": "{name} turned you down. You can ask again later.",
     "own": "Choose for me",
     "later": "You name your running mate after the primary.",
     "nominee": "Your party's nominee for {ticket} joins your ticket after the primary.",

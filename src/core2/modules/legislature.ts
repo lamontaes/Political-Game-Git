@@ -260,6 +260,20 @@ export interface BillRow {
    * Names the law row it repeats or collides with.
    */
   readonly moot?: SettledQuestion & { readonly question: string };
+  /**
+   * The chambers whose floor has carried the bill so far, in order, with each
+   * roll's count and day. A bill in a two-chamber legislature that carries its
+   * first chamber waits here for the other chamber's own sitting.
+   */
+  readonly chambersPassed?: readonly {
+    readonly chamber: string;
+    readonly yes: number;
+    readonly no: number;
+    readonly members: number;
+    readonly on: string;
+  }[];
+  /** The other chamber's sitting the bill is booked on, once one chamber passed it. */
+  readonly nextChamberOn?: string;
   /** Sections of an enacted bill that only repeated law already made: no new law row, the row they repeat named. */
   readonly repeats?: readonly (SettledQuestion & {
     readonly question: string;
@@ -427,7 +441,7 @@ interface VoteAsk {
 
 /**
  * A reply said in a scene about a member's vote leaves a favor or a strain by
- * its move (`data/legislature/vote-replies.json`; any other move leaves
+ * its move (`src/core2/data/legislature/vote-replies.json`; any other move leaves
  * nothing). One the evening-before ask caused (`askBeforeTheRoll`) is the
  * asked member's answer to the member who asked, read at their position on
  * that bill while it waits for its vote; one a veto override caused, between
@@ -681,15 +695,9 @@ function askBeforeTheRoll(api: CoreAPI): void {
       committeeRecords(api, bill.id).some((c) => !c.reported)
     )
       continue;
-    const chambers = chambersOf(api, bill);
-    for (const chamber of chambers) {
-      // A later chamber votes the same floor day, and only if the first
-      // passes, so its members are not asked the evening before.
-      // stopgapId: SG-GOV-later-chamber-same-day
-      if (chamber !== chambers[0]) {
-        api.stopgap("SG-GOV-later-chamber-same-day");
-        continue;
-      }
+    // The chamber whose turn it is votes tomorrow (a later chamber on its own
+    // sitting, once the first passed the bill): its members are asked tonight.
+    for (const chamber of [chamberNow(api, bill)]) {
       const seats = members(api, chamber);
       if (!seats.some((term) => memberKey(term) === player)) continue;
       let margin = 0;
@@ -5447,8 +5455,18 @@ function reportStudy(api: CoreAPI, studyId: string): void {
   });
 }
 
-export function holdVote(api: CoreAPI, billId: string): BillRow {
-  const result = countVote(api, billId);
+/**
+ * The body votes on a bill today: in a two-chamber legislature, the chamber
+ * whose turn it is. A bill the first chamber carries waits for the other
+ * chamber's own sitting (`nextChamberOn`); before that day the call leaves it
+ * as it is. `anyDay` holds that chamber's vote now (dev mode's hold-vote).
+ */
+export function holdVote(
+  api: CoreAPI,
+  billId: string,
+  options: { readonly anyDay?: boolean } = {},
+): BillRow {
+  const result = countVote(api, billId, options.anyDay === true);
   // Votes are on the record once a bill is anything but unvoted or blocked.
   if (result.status !== "drafted" && result.status !== "blocked")
     for (const hook of afterVoteHooks) hook(api, billId);
@@ -5456,9 +5474,35 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
   return result;
 }
 
-function countVote(api: CoreAPI, billId: string): BillRow {
+/**
+ * Dev mode's and the tests' hold: each chamber votes in its turn now, one
+ * after another, rather than each on its own sitting. Play never calls it.
+ */
+export function holdEveryChamber(api: CoreAPI, billId: string): BillRow {
+  let held = holdVote(api, billId, { anyDay: true });
+  for (
+    let turn = held.chambersPassed?.length ?? 0;
+    held.status === "drafted" && turn > 0;
+  ) {
+    held = holdVote(api, billId, { anyDay: true });
+    const now = held.chambersPassed?.length ?? 0;
+    if (now === turn) break;
+    turn = now;
+  }
+  return held;
+}
+
+function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
   let bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted" && bill.status !== "blocked") return bill;
+  // A bill one chamber passed is voted by the next only on that chamber's own
+  // sitting; with none booked it waits, and dies when the session ends.
+  if (
+    bill.chambersPassed?.length &&
+    !anyDay &&
+    !(bill.nextChamberOn && api.state.date >= bill.nextChamberOn)
+  )
+    return bill;
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
   if (bill.status === "blocked") return bill;
@@ -5468,75 +5512,96 @@ function countVote(api: CoreAPI, billId: string): BillRow {
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
   if (bill.status === "blocked") return bill;
-  const tallies: { yes: number; no: number; members: number }[] = [];
-  for (const chamber of chambersOf(api, bill)) {
-    const committee = committeeStage(api, bill, chamber);
-    // The bill as its markup left it.
-    bill = table(api, "bills").get(bill.id) as unknown as BillRow;
-    if (committee && !committee.reported) {
-      const held: BillRow = {
-        ...bill,
-        status: "failed",
-        failedOn: api.state.date,
-      };
-      table(api, "bills").put(held as unknown as ModuleRow);
-      if (committee.heard)
-        recordFailure(api, held, chamber, "committee", committee);
-      return held;
-    }
-    // The floor's vote cites the report that sent the bill to it.
-    if (committee && !bill.committeeId) {
-      bill = { ...bill, committeeId: committee.id };
-      table(api, "bills").put(bill as unknown as ModuleRow);
-    }
-    recordPromises(api, bill, chamber);
-    bill = floorAmendments(api, bill, chamber);
-    const counted = chamberVote(api, bill, chamber);
-    // A tie: the presiding officer who may break one does (the Vice President
-    // in the U.S. Senate, a lieutenant governor where the state's law says);
-    // otherwise a tied vote fails.
-    const breaker =
-      counted.yes === counted.no ? tieBreaker(api, chamber) : null;
-    const breakerYes =
-      breaker !== null && memberPosition(api, bill.id, breaker).total > 0;
-    const tally =
-      breaker === null
-        ? { yes: counted.yes, no: counted.no }
-        : {
-            yes: counted.yes + (breakerYes ? 1 : 0),
-            no: counted.no + (breakerYes ? 0 : 1),
-          };
-    if (breaker !== null)
-      table(api, "votes").put({
-        id: `vote:${bill.id}:${breaker}:tie`,
-        billId: bill.id,
-        memberId: breaker,
-        chamber,
-        vote: breakerYes ? "yes" : "no",
-        position: memberPosition(api, bill.id, breaker),
-        tieBreak: true,
-      } as unknown as ModuleRow);
-    tallies.push({ ...tally, members: members(api, chamber).length });
-    // The Senate first needs three fifths of its sworn members to end debate.
-    const cloture =
-      chamber === FEDERAL_SENATE &&
-      tally.yes <
-        Math.ceil(
-          members(api, chamber).length *
-            campaignParameter("senateClotureShare"),
-        );
-    // The roll is closed: its member rows go to the record with the outcome.
-    recordRoll(api, counted.rows, !(tally.yes <= tally.no || cloture));
-    if (tally.yes <= tally.no || cloture) {
-      const failed: BillRow = {
-        ...bill,
-        status: "failed",
-        failedOn: api.state.date,
-      };
-      table(api, "bills").put(failed as unknown as ModuleRow);
-      recordFailure(api, failed, chamber, "floor", tally);
-      return failed;
-    }
+  const chambers = chambersOf(api, bill);
+  const before = bill.chambersPassed ?? [];
+  const chamber = chambers[before.length]!;
+  const committee = committeeStage(api, bill, chamber);
+  // The bill as its markup left it.
+  bill = table(api, "bills").get(bill.id) as unknown as BillRow;
+  if (committee && !committee.reported) {
+    const held: BillRow = {
+      ...bill,
+      status: "failed",
+      failedOn: api.state.date,
+    };
+    table(api, "bills").put(held as unknown as ModuleRow);
+    if (committee.heard)
+      recordFailure(api, held, chamber, "committee", committee);
+    return held;
+  }
+  // The floor's vote cites the report that sent the bill to it.
+  if (committee && !bill.committeeId) {
+    bill = { ...bill, committeeId: committee.id };
+    table(api, "bills").put(bill as unknown as ModuleRow);
+  }
+  recordPromises(api, bill, chamber);
+  bill = floorAmendments(api, bill, chamber);
+  const counted = chamberVote(api, bill, chamber);
+  // A tie: the presiding officer who may break one does (the Vice President
+  // in the U.S. Senate, a lieutenant governor where the state's law says);
+  // otherwise a tied vote fails.
+  const breaker = counted.yes === counted.no ? tieBreaker(api, chamber) : null;
+  const breakerYes =
+    breaker !== null && memberPosition(api, bill.id, breaker).total > 0;
+  const tally =
+    breaker === null
+      ? { yes: counted.yes, no: counted.no }
+      : {
+          yes: counted.yes + (breakerYes ? 1 : 0),
+          no: counted.no + (breakerYes ? 0 : 1),
+        };
+  if (breaker !== null)
+    table(api, "votes").put({
+      id: `vote:${bill.id}:${breaker}:tie`,
+      billId: bill.id,
+      memberId: breaker,
+      chamber,
+      vote: breakerYes ? "yes" : "no",
+      position: memberPosition(api, bill.id, breaker),
+      tieBreak: true,
+    } as unknown as ModuleRow);
+  // The Senate first needs three fifths of its sworn members to end debate.
+  const cloture =
+    chamber === FEDERAL_SENATE &&
+    tally.yes <
+      Math.ceil(
+        members(api, chamber).length * campaignParameter("senateClotureShare"),
+      );
+  // The roll is closed: its member rows go to the record with the outcome.
+  recordRoll(api, counted.rows, !(tally.yes <= tally.no || cloture));
+  if (tally.yes <= tally.no || cloture) {
+    const failed: BillRow = {
+      ...bill,
+      status: "failed",
+      failedOn: api.state.date,
+    };
+    table(api, "bills").put(failed as unknown as ModuleRow);
+    recordFailure(api, failed, chamber, "floor", tally);
+    return failed;
+  }
+  const roll = {
+    chamber,
+    yes: tally.yes,
+    no: tally.no,
+    members: members(api, chamber).length,
+    on: api.state.date,
+  };
+  const tallies = [...before, roll].map(({ yes, no, members: count }) => ({
+    yes,
+    no,
+    members: count,
+  }));
+  if (before.length + 1 < chambers.length) {
+    // Carried here, the bill goes over to the next chamber and waits for its
+    // own sitting, booked the way the first chamber's was.
+    const sent: BillRow = { ...bill, chambersPassed: [...before, roll] };
+    table(api, "bills").put(sent as unknown as ModuleRow);
+    const on = sittingReader?.(api, bill.bodyOfficeId)
+      ? scheduleVote(api, bill.id)
+      : undefined;
+    const booked: BillRow = on ? { ...sent, nextChamberOn: on } : sent;
+    table(api, "bills").put(booked as unknown as ModuleRow);
+    return booked;
   }
   const passed: BillRow = {
     ...bill,
@@ -5967,7 +6032,7 @@ export function overridePending(api: CoreAPI, billId: string): boolean {
  * The vote to override a veto, chamber by chamber: each member decides again
  * from their own position on the bill, and a member of the executive's own
  * party also weighs standing with them (OPUS-OFFICIALS: the executive-party
- * pull, `data/officials/officials.json`). Every vote is on the record; the
+ * pull, `src/core2/data/officials/officials.json`). Every vote is on the record; the
  * override needs the share of each chamber's whole membership.
  */
 function overrideVote(
@@ -6596,9 +6661,10 @@ function enact(
  * A body with committees takes a scheduled bill to its committee on a day of
  * its own, ahead of the floor: the committee hears it, marks it up and
  * reports it or holds it, and a held bill never reaches the floor's agenda.
- * Only the bill's first chamber meets this way; a later chamber's committee
- * sits when the bill reaches it. Where the date was not scheduled (a vote
- * held at once) the committee still meets inside the vote, as it did.
+ * It is the committee of the chamber whose turn it is: the first chamber's,
+ * then the other chamber's ahead of that chamber's own sitting. Where the
+ * date was not scheduled (a vote held at once) the committee still meets
+ * inside the vote, as it did.
  * Returns the record, or null where the body has no committee.
  */
 export function holdCommittee(
@@ -6607,12 +6673,13 @@ export function holdCommittee(
 ): CommitteeRecord | null {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return null;
-  const first = chambersOf(api, bill)[0]!;
+  const chamber = chamberNow(api, bill);
   // Where the body has a committee, its day runs what the records fire on a
   // sitting day, at the stage the data puts each (staff briefings, interest
   // groups organizing, public comment, the player's own vote).
   if (
-    members(api, first).length > campaignParameter("committeeOfTheWholeMaximum")
+    members(api, chamber).length >
+    campaignParameter("committeeOfTheWholeMaximum")
   ) {
     runBeforeVote(api, billId, "committee");
     const ready = table(api, "bills").get(billId) as unknown as BillRow;
@@ -6621,7 +6688,7 @@ export function holdCommittee(
   const record = committeeStage(
     api,
     table(api, "bills").get(billId) as unknown as BillRow,
-    first,
+    chamber,
   );
   if (record && !record.reported) {
     const held = table(api, "bills").get(billId) as unknown as BillRow;
@@ -6809,6 +6876,26 @@ export function hasSitting(api: CoreAPI, bodyOfficeId: string): boolean {
 /** The law series holding the hours of public notice a regular meeting needs. */
 const NOTICE_SERIES = "meeting-notice-hours";
 
+/** The chamber whose turn a bill is in: its first, or the one after those that passed it. */
+export function chamberNow(api: CoreAPI, bill: BillRow): string {
+  const chambers = chambersOf(api, bill);
+  return chambers[
+    Math.min(bill.chambersPassed?.length ?? 0, chambers.length - 1)
+  ]!;
+}
+
+/**
+ * The calendar key of a bill's vote in the chamber whose turn it is: the
+ * first chamber's is `meeting:<bill>`, a later chamber's adds its place in
+ * the bill's order, so each chamber's sitting is its own entry.
+ */
+export function voteKeyOf(
+  bill: Pick<BillRow, "id" | "chambersPassed">,
+): string {
+  const turn = bill.chambersPassed?.length ?? 0;
+  return turn ? `meeting:${bill.id}:${turn}` : `meeting:${bill.id}`;
+}
+
 export function scheduleVote(api: CoreAPI, billId: string): string {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   let sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;
@@ -6830,7 +6917,7 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
     }
   }
   api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
-    key: `meeting:${billId}`,
+    key: voteKeyOf(bill),
     date: sitting.date,
     kind: "council-meeting",
     source: sitting.source,
@@ -6850,9 +6937,10 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
   });
   // A body with committees takes the bill to its committee a week ahead of
   // the floor, when the sitting is far enough off to leave a day before it.
-  const first = chambersOf(api, bill)[0]!;
+  const chamber = chamberNow(api, bill);
   if (
-    members(api, first).length > campaignParameter("committeeOfTheWholeMaximum")
+    members(api, chamber).length >
+    campaignParameter("committeeOfTheWholeMaximum")
   ) {
     const tomorrow = addDays(makeIsoDate(api.state.date), 1);
     const ahead = addDays(
@@ -6862,7 +6950,7 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
     const date = ahead > tomorrow ? ahead : tomorrow;
     if (date < sitting.date)
       api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
-        key: `committee:${billId}`,
+        key: voteKeyOf(bill).replace(/^meeting:/, "committee:"),
         date,
         kind: "committee-meeting",
         source: sitting.source,
@@ -6907,7 +6995,7 @@ export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
     .filter(
       (b) =>
         b.status === "drafted" &&
-        (weekly.has(b.id) || calendar.get(`meeting:${b.id}`)?.date === date),
+        (weekly.has(b.id) || calendar.get(voteKeyOf(b))?.date === date),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
 }
@@ -7062,7 +7150,14 @@ export function floorCountOf(
  * nothing new and words nothing; the codes are worded by whoever shows them.
  */
 export type BillEnding =
-  | { readonly how: "pending" }
+  | {
+      readonly how: "pending";
+      /** Passed by an earlier chamber: the chamber it waits in, and the sitting it is booked on (null when none is). */
+      readonly waitingIn?: {
+        readonly chamber: string;
+        readonly on: string | null;
+      };
+    }
   | {
       readonly how: "law";
       readonly by: "signed" | "overridden" | "enacted";
@@ -7173,7 +7268,16 @@ export function billEnding(api: CoreAPI, billId: string): BillEnding {
         : null,
     };
   }
-  if (bill.status !== "failed") return { how: "pending" };
+  if (bill.status !== "failed")
+    return bill.status === "drafted" && bill.chambersPassed?.length
+      ? {
+          how: "pending",
+          waitingIn: {
+            chamber: chamberNow(api, bill),
+            on: bill.nextChamberOn ?? null,
+          },
+        }
+      : { how: "pending" };
   if (bill.moot) return { how: "moot", question: bill.moot.question };
   const unreported = committeeRecords(api, bill.id)
     .filter((c) => !c.reported)

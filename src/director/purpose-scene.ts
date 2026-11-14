@@ -66,6 +66,7 @@ import conversationRules from "./data/conversation-rules.json" with { type: "jso
 import type { Director } from "./ledger";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid } from "./cause-facts";
+import { officeInSentence } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
   type ScheduleEntry,
@@ -73,6 +74,11 @@ import {
 } from "./scheduling";
 import type { Moment } from "./types";
 import { beatenRunnerUp } from "../core2/modules/voting";
+import {
+  SERVE_ASKED_EVENT,
+  serveAsk,
+  type ServeGrounds,
+} from "../core2/modules/serve-asks";
 import {
   composeSceneTalk,
   lastAnswerAlong,
@@ -87,6 +93,8 @@ import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
+import { careFacts } from "./care-facts";
+import { moveInFacts } from "./move-in-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
@@ -248,14 +256,10 @@ export function purposeScene(
   );
   let skipped: PurposeSceneResult | null = null;
   for (const { unit, moment: about, binding } of chosen) {
-    const result = composeBinding(
-      core,
-      director,
-      personId,
-      about,
-      binding,
-      options,
-    );
+    const result = composeBinding(core, director, personId, about, binding, {
+      ...options,
+      stopMinute: entry.stop?.at.minuteOfDay,
+    });
     if (result.kind === "composed")
       return { kind: "composed", scene: { ...result.scene, unit } };
     skipped ??= result;
@@ -520,7 +524,7 @@ function composeBinding(
   personId: PersonId,
   moment: Moment,
   binding: ScheduleEntry["bindings"][number],
-  options: { includeHeld?: boolean },
+  options: { includeHeld?: boolean; stopMinute?: number },
 ): PurposeSceneResult {
   const type = typeForCause(
     TYPES.get(binding.typeKey) as PurposeType,
@@ -876,6 +880,10 @@ function composeBinding(
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
     ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A visit to someone seriously ill in town: the relative still to be told.
+    ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A partner's ask to live together: who would move, and the asked's kin.
+    ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(
@@ -1173,9 +1181,17 @@ function composeBinding(
   }
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
-  if (asked.familyIds.has(askerId))
+  // A partner is neither kin nor a stranger: they know each other (family
+  // life, Words lead's read of the move-in scene, Nov 14 2026).
+  const partners = [...core.familyLinks.values()].some(
+    (link) =>
+      link.kind === "partner" &&
+      link.personIds.includes(askerId) &&
+      link.personIds.includes(askedId),
+  );
+  if (asked.familyIds.has(askerId) && !partners)
     facts.kin = { text: asker.givenName, sourceRecordIds: [askerId, askedId] };
-  if (asked.knownIds.has(askerId))
+  if (asked.knownIds.has(askerId) || partners)
     facts.acquainted = {
       text: asker.givenName,
       sourceRecordIds: [askerId, askedId],
@@ -1475,7 +1491,14 @@ function composeBinding(
   // "Morning." is said before noon, "this afternoon" is still ahead only in
   // the daytime, and "tonight" is true of the present only in the evening:
   // the hour is the player's clock as the scene plays.
-  for (const mark of dayParts(sceneMinute(core, personId)))
+  // The scene's narration opens at the same hour (scene.ts): the player's
+  // clock, else the hour of the stop, else the start of the player's day, so
+  // a line that fits only the evening never plays under "First thing on...".
+  for (const mark of dayParts(
+    sceneMinute(core, personId) ??
+      options.stopMinute ??
+      core.data.parameters.playerDayStartMinute!.value,
+  ))
     facts[mark] = { text: "yes", sourceRecordIds: [moment.causeId] };
 
   const wording = options.includeHeld ? { includeHeld: true } : {};
@@ -1485,11 +1508,18 @@ function composeBinding(
     type.playerAsks && moment.causeKind === "event:campaign.door"
       ? doorStanding(core, moment.causeId, askerId, type.purpose ?? "")
       : undefined;
+  // Someone the player asked to serve: where the serve-asks engine read them.
+  const serve =
+    type.playerAsks && moment.causeKind === `event:${SERVE_ASKED_EVENT}`
+      ? serveStanding(core, said, askerId)
+      : undefined;
   const standing = door
     ? door.standing
-    : type.playerAsks
-      ? askStanding(core, said, askerId, askedId)
-      : undefined;
+    : serve
+      ? serve.standing
+      : type.playerAsks
+        ? askStanding(core, said, askerId, askedId)
+        : undefined;
   if (type.playerAsks && !standing)
     return {
       kind: "skipped",
@@ -1498,6 +1528,82 @@ function composeBinding(
           ? "no race on record to ask about"
           : "no bill on record to ask about",
     };
+  if (serve) {
+    facts.name = {
+      text: `${asker.givenName} ${asker.familyName}`,
+      sourceRecordIds: [askerId],
+    };
+    facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
+    // After the introduction the player says their first name, never the
+    // full name again (Words lead, Nov 14).
+    facts["their-first"] = {
+      text: asker.givenName,
+      sourceRecordIds: [askerId],
+    };
+    facts.office = {
+      text: officeSaidAloud(serve.office),
+      sourceRecordIds: [moment.causeId, serve.askId],
+    };
+    // Why a no is a no: the term that weighed most against the ask, which
+    // the answer gives as its reason (own-seat, own-race, apart, heard, stranger).
+    // A yes gives its reason too, from the term that weighed most for it
+    // (trust, step-up, agree, real-race).
+    const why = [moment.causeId, serve.askId];
+    if (serve.standing.lean <= P.zero)
+      facts[`reason-${serve.reason}`] = { text: "yes", sourceRecordIds: why };
+    else
+      facts[`reason-yes-${serve.yesReason}`] = {
+        text: "yes",
+        sourceRecordIds: why,
+      };
+    // Asked again after a no: a yes says what changed, as felt (Words lead,
+    // Nov 14: the term that moved most since the no).
+    if (serve.moved && serve.standing.lean > P.zero)
+      facts[`changed-${serve.moved}`] = { text: "yes", sourceRecordIds: why };
+    // A stranger is introduced to the player by their full name; the race
+    // the player runs in is said from its contest record.
+    facts["self-full"] = {
+      text: `${asked.givenName} ${asked.familyName}`,
+      sourceRecordIds: [askedId],
+    };
+    if (serve.raceOffice)
+      facts["race-office"] = {
+        text: officeSaidAloud(serve.raceOffice),
+        sourceRecordIds: why,
+      };
+    // The player may say the race can be won only where their standing in it
+    // weighs for them.
+    if ((serve.terms.standing ?? P.zero) > P.zero)
+      facts["standing-real"] = { text: "yes", sourceRecordIds: why };
+    if (serve.grounds.seatEnds && serve.grounds.seatTermId)
+      facts["their-term-ends"] = {
+        text: "yes",
+        sourceRecordIds: [...why, serve.grounds.seatTermId],
+      };
+    // The seat they would give up, as people say it.
+    if (serve.grounds.seatTitle && serve.grounds.seatTermId)
+      facts["their-office"] = {
+        text: officeSaidAloud(serve.grounds.seatTitle),
+        sourceRecordIds: [...why, serve.grounds.seatTermId],
+      };
+    // Where they read what was printed about the player: the outlet of the
+    // newest scandal story they heard.
+    const outlet = serve.grounds.storyOutletId
+      ? core.organizations.get(serve.grounds.storyOutletId as never)?.name
+      : undefined;
+    if (outlet && serve.grounds.stories.length)
+      facts.outlet = {
+        text: outlet,
+        sourceRecordIds: [...why, ...serve.grounds.stories],
+      };
+    // The question they hold most strongly, as the read found it.
+    const issue = questionAbout(serve.question);
+    if (issue)
+      facts.issue = {
+        text: issue,
+        sourceRecordIds: [moment.causeId, serve.askId],
+      };
+  }
   if (door) {
     facts.name = {
       text: `${asker.givenName} ${asker.familyName}`,
@@ -1536,8 +1642,9 @@ function composeBinding(
         sourceRecordIds: [moment.causeId],
       };
   }
-  // The player asks: their lines speak to the colleague by name.
-  else if (standing) {
+  // The player asks: their lines speak to the colleague by name. A serve ask
+  // set its names above, from the prospect's record.
+  else if (standing && !serve) {
     facts.name = {
       text: `${asked.givenName} ${asked.familyName}`,
       sourceRecordIds: [askedId],
@@ -1745,6 +1852,57 @@ function doorStanding(
     ...(filing ? { filingId: filing.id } : {}),
     knock: knockFacts(core, cause),
   };
+}
+
+/**
+ * Where someone the player asked to serve stands: the serve-asks engine's
+ * read kept with the ask (their record and the player's on the day asked),
+ * never read again while the scene is open.
+ */
+function serveStanding(
+  core: Readonly<CoreState>,
+  said: Readonly<Record<string, string>>,
+  prospectId: PersonId,
+):
+  | {
+      standing: AskStanding;
+      office: string;
+      askId: string;
+      question: string;
+      reason: string;
+      yesReason: string;
+      grounds: ServeGrounds;
+      terms: Readonly<Record<string, number>>;
+      raceOffice: string;
+      moved: string | null;
+    }
+  | undefined {
+  const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
+  if (!row || row.askedId !== prospectId) return undefined;
+  return {
+    standing: { lean: row.standing.lean, favor: P.zero },
+    terms: row.standing.terms,
+    raceOffice: row.raceOffice,
+    office: row.office,
+    askId: row.id,
+    question: row.standing.grounds.question,
+    reason: row.standing.reason,
+    yesReason: row.standing.yesReason,
+    grounds: row.standing.grounds,
+    moved: row.moved ?? null,
+  };
+}
+
+/**
+ * An office as a person says it aloud (Words lead, rule 100): "lieutenant
+ * governor", "state representative", the place it is of kept as named
+ * ("attorney general of Guam").
+ */
+function officeSaidAloud(title: string): string {
+  const at = title.indexOf(" of ");
+  return at < P.zero
+    ? officeInSentence(title)
+    : `${officeInSentence(title.slice(P.zero, at))}${title.slice(at)}`;
 }
 
 /**

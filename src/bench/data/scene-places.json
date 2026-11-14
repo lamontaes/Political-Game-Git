@@ -409,7 +409,8 @@
     "filing:venue": ["clerk-counter"],
     "address:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:seat": ["@seatroom", "@office", "council-chamber"],
-    "floor-debate:venue": ["public-meeting-room"]
+    "floor-debate:venue": ["public-meeting-room"],
+    "move-in:home": ["@home"]
   },
   "schoolPlacesByAge": [
     {
@@ -616,6 +617,9 @@
     "ask-signature.sick:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-signature.sick:other-home\" when its id exists.",
     "ask-support.sick:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-support.sick:other-home\" when its id exists.",
     "ask-signature.caring:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-signature.caring:other-home\" when its id exists.",
-    "ask-support.caring:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-support.caring:other-home\" when its id exists."
+    "ask-support.caring:other-home": "The door scene wants a door with a ramp or railing and a pharmacy bag by it (door-knocking-ramp-pill-box). Until painted it uses the resident's dwelling door. The variant is the door-scenes thread's (arc-variants.json); add the row \"ask-support.caring:other-home\" when its id exists.",
+    "serve-sought:office": "The player's own office, two chairs at a desk, for asking someone to run with them (serve-sought). Until painted it plays on the office setting's default.",
+    "serve-sought:other-home": "The asked person's living room or front porch, a sit-down between two people (serve-sought). Until painted it uses the person's dwelling.",
+    "serve-sought:home": "The player's kitchen table with a guest across it (serve-sought). Until painted it uses the player's home."
   }
 }
