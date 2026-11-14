@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -16,8 +15,11 @@ import variantFile from "./data/arc-variants.json" with { type: "json" };
 import { purposeScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 2;
+// Pinned (account lead, Nov 14): three named places that give three arcs
+// (close at Ravalli MT and Blue Ridge IN, money at McGregor MN), so the test is
+// never red by draw. The seed names them; `drawPlace` draws the same three.
+const seed = "apology-pin";
+const ATTEMPTS = 3;
 
 // A quarrel over a missed payment (the partnerships engine's own
 // `family.quarrel`, written when the credit engine's `credit.payment-missed`
@@ -47,7 +49,11 @@ const lineSources = (purpose: string) =>
     .map(
       (part) =>
         new RegExp(
-          `^${(part.text as string).replace(/[.*+?^$()|[\]\\]/g, "\\$&").replace(/\{[a-z-]+\}/g, ".+")}$`,
+          `^${(part.text as string)
+            .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
+            // A name after a comma is dropped where it would be padding.
+            .replace(/, \{[a-z-]+\}/g, "(?:, .+)?")
+            .replace(/\{[a-z-]+\}/g, ".+")}$`,
         ),
     );
 
@@ -258,8 +264,8 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${s
       );
       proven += 1;
     }
-    expect(proven, `seed ${seed}: ${tried.join("; ")}`).toBeGreaterThan(0);
+    expect(proven, `seed ${seed}: ${tried.join("; ")}`).toBe(ATTEMPTS);
   } finally {
     setBookkeeping(true);
   }
-}, 3_600_000);
+}, 120_000);
