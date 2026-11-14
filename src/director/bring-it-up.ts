@@ -14,7 +14,7 @@ import { printedStoryOf } from "../core2/modules/press";
 import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
-import { partyLean } from "../core2/campaign-stances";
+import { partyLean } from "../core2/modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
   type FilingRow,

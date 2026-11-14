@@ -6,10 +6,8 @@
  */
 import { P } from "../core2/parameters";
 import type { CoreState } from "../core2/types";
-import type { RACE_MARGINS } from "../english/mined/journal-bank";
+import type { RaceMargin } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
-
-export type RaceMargin = (typeof RACE_MARGINS)[number];
 
 /**
  * How a race was decided, from its result record's totals: "alone" when one

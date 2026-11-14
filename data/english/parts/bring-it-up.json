@@ -819,7 +819,7 @@
           "subject": "lean",
           "role": "with",
           "choice": "with",
-          "requiresFacts": ["ballot"]
+          "requiresFacts": ["lean", "ballot"]
         }
       ],
       "origin": "authored",
@@ -836,7 +836,8 @@
           "move": "lean-with",
           "subject": "lean",
           "role": "with",
-          "choice": "with"
+          "choice": "with",
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -853,7 +854,8 @@
           "move": "lean-with",
           "subject": "lean",
           "role": "with",
-          "choice": "with"
+          "choice": "with",
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -871,7 +873,7 @@
           "subject": "lean",
           "role": "with",
           "choice": "with",
-          "requiresFacts": ["ourSide"]
+          "requiresFacts": ["lean", "ourSide"]
         }
       ],
       "origin": "authored",
@@ -888,7 +890,8 @@
           "move": "lean-against",
           "subject": "lean",
           "role": "against",
-          "choice": "against"
+          "choice": "against",
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -905,7 +908,8 @@
           "move": "lean-against",
           "subject": "lean",
           "role": "against",
-          "choice": "against"
+          "choice": "against",
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -922,7 +926,8 @@
           "move": "lean-against",
           "subject": "lean",
           "role": "against",
-          "choice": "against"
+          "choice": "against",
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -939,7 +944,8 @@
           "move": "lean-against",
           "subject": "lean",
           "role": "against",
-          "choice": "against"
+          "choice": "against",
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -957,7 +963,7 @@
           "subject": "lean",
           "role": "against",
           "choice": "against",
-          "requiresFacts": ["fair"]
+          "requiresFacts": ["lean", "fair"]
         }
       ],
       "origin": "authored",
@@ -974,7 +980,8 @@
           "move": "lean-against",
           "subject": "lean",
           "role": "against",
-          "choice": "against"
+          "choice": "against",
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -991,7 +998,8 @@
           "move": "lean-against",
           "subject": "lean",
           "role": "against",
-          "choice": "against"
+          "choice": "against",
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
@@ -1008,7 +1016,8 @@
           "move": "lean-against",
           "subject": "lean",
           "role": "against",
-          "choice": "against"
+          "choice": "against",
+          "requiresFacts": ["lean"]
         }
       ],
       "origin": "authored",
