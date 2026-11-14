@@ -1,10 +1,15 @@
 {
-  "version": "p8-civic-inputs-v1",
-  "stopgapId": "SG-P8-civic-inputs",
+  "version": "p8-civic-inputs-v2",
   "directoryCitation": "Official institution identity index, data/research/places/local-institutions.json; compiled by scripts/source/local-institutions.ts from locked NCES CCD and IPEDS records. NCES CCD: https://nces.ed.gov/ccd/ ; IPEDS: https://nces.ed.gov/ipeds/ . Directory identity does not establish public room access, staffing, authority, a calendar, or an approved meeting.",
   "directoryScopes": [
-    { "scope": "locality", "store": "places" },
-    { "scope": "county", "store": "counties" }
+    {
+      "scope": "locality",
+      "store": "places"
+    },
+    {
+      "scope": "county",
+      "store": "counties"
+    }
   ],
   "directoryColumns": [
     "highSchools",
@@ -26,28 +31,21 @@
       }
     },
     {
-      "id": "school-meeting-inquiry",
+      "id": "school-joint-use",
       "sourceKinds": ["high-school"],
-      "kind": "meeting-place",
-      "affordances": ["public-meeting-place"],
+      "kind": "school",
+      "affordances": [],
       "facts": {
-        "contactPurpose": "request-meeting-space",
-        "meetingAccess": "permission-not-established",
-        "meetingRoom": "not-established",
-        "meetingSchedule": "not-established"
+        "contactPurpose": "request-meeting-space"
       }
     },
     {
-      "id": "campus-meeting-inquiry",
+      "id": "campus-institution-inquiry",
       "sourceKinds": ["college"],
-      "kind": "meeting-place",
-      "affordances": ["public-meeting-place"],
+      "kind": "institution",
+      "affordances": ["institution-inquiry"],
       "facts": {
-        "contactPurpose": "request-meeting-space",
-        "meetingAccess": "permission-not-established",
-        "meetingRoom": "not-established",
-        "meetingSchedule": "not-established",
-        "institutionPublicControl": "not-imported"
+        "contactPurpose": "institution-inquiry"
       }
     },
     {
@@ -100,12 +98,10 @@
       "affordances": ["known-group", "public-meeting-place"],
       "requiredGovernmentFacts": [],
       "facts": {
-        "contactPurpose": "association-contact-and-meeting-request",
+        "contactPurpose": "association-contact",
         "membership": "not-established",
         "membershipAdmission": "not-established",
-        "meetingAccess": "permission-not-established",
-        "meetingRoom": "not-established",
-        "meetingSchedule": "not-established"
+        "meetingAccess": "members"
       }
     },
     {
@@ -175,7 +171,13 @@
     },
     {
       "id": "public-meeting-place",
-      "gap": "No named meeting-space inquiry target is available in the supplied place context; no community center, room, booking, permission, or meeting invented."
+      "gap": "No school in the supplied place context belongs to a district with a joint use agreement; no community center, room, booking, permission, or meeting invented."
     }
-  ]
+  ],
+  "districtJointUse": {
+    "sourceKinds": ["high-school"],
+    "districtIdLength": 7,
+    "affordances": ["public-meeting-place"],
+    "citation": "A school district's formal joint use agreement letting outside groups use school property, generated with the world for each district (NCES CCD district id, the first seven digits of the school's id) at the share of districts that had one in its Census region: CDC School Health Policies and Practices Study 2012, Jones and Wendel, Preventing Chronic Disease 2015;12:140560, Table 2 (data/research/core/shpps-2012-joint-use.json). Territories take the national share."
+  }
 }

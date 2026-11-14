@@ -51,20 +51,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-special-election-appointee",
-    "kind": "missing-engine",
-    "file": "src/core2/modules/offices.ts",
-    "line": 1833,
-    "whatItFakes": "A special election for a seat no race engine counts (a statewide executive seat, a judge, a seat of another body) goes to the best-suited eligible person on the day instead of a vote. The town's own seats are real races in the voting engine, and a House or legislative district outside the town is counted by the world races (named party candidates, the winner serves the unexpired term). The date is the state's law for the office where special-election-law.json reads it, else the 90-day estimate (SG-GOV-special-election-timing).",
-    "why": "The world races count only House and legislative districts; the other kinds have no counted race yet. Narrowed Oct 19 (claude/special-election-races).",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-12",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each office's special-election timing from its law (many fill at the next general election).",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage"
-  },
-  {
     "id": "SG-GOV-voter-registration-assumed",
     "kind": "missing-record",
     "file": "src/core2/modules/elections.ts",
@@ -188,21 +174,6 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "status": "resolved"
-  },
-  {
-    "id": "SG-GOV-committee-structure",
-    "kind": "estimated-rule",
-    "file": "src/core2/modules/legislature.ts",
-    "line": 2744,
-    "whatItFakes": "Committee seats go to each party's most senior members by the chamber's party ratio; real committees are appointed by the presiding officer or a committee on committees. Committee size is now sourced (about 11 members, 5 to 20; Book of the States 2023, Table 3.23).",
-    "why": "Each body's committee rules, sizes, assignments and chairs aren't read yet.",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Leadership already seats committees in play (src/core2/modules/leadership.ts assigner(), from each chamber template's assignmentAuthority in data/research/legislature/chamber-leadership.json); seniority seating is the fallback in committeeStage when no leadership roster exists. Research done Oct 23, 2026: each chamber's own appointing rule is in data/research/gov/chamber-committee-appointment-2026.json (108 chambers; 27 SOURCED from the chamber's adopted rules or its legislature's official page, 16 of which seat committees through another hand than the template: a committee on committees, the majority leader, seniority, a chamber vote, the party caucuses or each committee's chair; the rest ESTIMATED as the template default), checked by scripts/research/legislature-local-rules-check.ts. assigner() reading the chamber's row is the builder item gov-leadership-committee-appointer-by-chamber. Stays open until it does and the remaining chambers are read.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-12",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
   },
   {
     "id": "SG-GOV-measure-groups-stand-in",
@@ -848,21 +819,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-GOV-special-election-timing",
-    "kind": "estimated-calendar",
-    "file": "src/core2/data/elections/parameters.json",
-    "line": 21,
-    "whatItFakes": "The date of a special election where the state's law for that office family is not read: 90 days after the vacancy. Only California's U.S. House and legislative rows are read in special-election-law.json.",
-    "why": "Each state's timing statute (days after the vacancy, the governor's call, the next general election) per office family has to be read.",
-    "addedBy": "OPUS-GOV-ELECTIONS",
-    "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A row per state and office family in src/core2/data/elections/special-election-law.json read from the state's code.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
     "id": "SG-GOV-ballot-order-estimates",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
@@ -1288,36 +1244,6 @@
     "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
   },
   {
-    "id": "SG-GOV-local-bill-numbering",
-    "kind": "assumed-data",
-    "file": "src/core2/modules/legislature.ts",
-    "line": 937,
-    "whatItFakes": "Every town's and county's body numbers its ordinances the same way, by the year and order of introduction (\"2026-12\"), and opens them with the same 'Be it ordained by' clause, not each place's own style.",
-    "why": "The owner's ruling (Oct 14): bills follow the real form of their body. States and Congress have recorded numbering and enacting clauses; local bodies' styles are not in the data yet.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Research done Oct 23, 2026: the enacting clause and numbering each place's general law gives are in data/research/gov/local-ordinance-style-2026.json (all 56 places; 12 municipal clauses, 2 county clauses and one council's two-part numbering SOURCED from statute or rule; no state statute read sets an ordinance numbering, so elsewhere numbering keeps the national pattern, ESTIMATED), checked by scripts/research/legislature-local-rules-check.ts. bodyNumbering reading the place's row is gov-legislature-local-rules-by-place; the clause wording is the Words item words-local-enacting-clause-by-state. Stays open: charter towns keep their own style (their code of ordinances is the record), and most rows are ESTIMATED.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
-    "id": "SG-GOV-committee-names-national",
-    "kind": "assumed-data",
-    "file": "src/core2/legislature-committees.ts",
-    "line": 18,
-    "whatItFakes": "Every state chamber and Congress keeps the same nine subject committees (finance, judiciary, education, health, labor and commerce, transportation, environment, housing, government), not its own list and names.",
-    "why": "The audit found every bill going to one 'general' committee. Each chamber's own committee list is not in the data yet; the nine subjects are the ones nearly every chamber keeps.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each chamber's standing committees and the subjects they hear, read from its rules (Book of the States Table 3.23 and each chamber's committee page), the way Congress's are in data/office-day/federal-committees.json.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
-  },
-  {
     "id": "SG-GOV-REACH-A-police-oversight",
     "kind": "missing-mechanic",
     "file": "src/core2/public-safety.ts",
@@ -1496,20 +1422,6 @@
     "addedAt": "2026-10-14",
     "replacement": "Every seat's holder filled in as a person before they vote, so floor tactics read their temperament like anyone's. Done Oct 16: a seat whose holder has no living person record casts no vote and moves no pill, so the stand-in is gone.",
     "status": "resolved"
-  },
-  {
-    "id": "SG-GOV-dual-office-law",
-    "kind": "estimated-rule",
-    "file": "src/core2/data/offices/incompatibility.json",
-    "line": 13,
-    "whatItFakes": "Until jurisdiction-specific dual-office exceptions are compiled, the data conservatively treats two elected mandates as incompatible. The federal legislative/executive prohibition is sourced separately.",
-    "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
-    "addedBy": "SESSION-C",
-    "addedAt": "2026-10-15",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-policy-power-unresolved",
@@ -1967,20 +1879,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-GOV-body-lawyer-unrecorded",
-    "kind": "missing-record",
-    "file": "src/bench/legislature.ts",
-    "line": 380,
-    "whatItFakes": "A bill's paper words the lawyer's warning on a disputed power as the body's lawyer, named by the body (bill-paper.authority.disputed-body), wherever no appointment gives the lawyer's title: a county board's bill (the executive engine seats only the town's departments at the opening, so the County Attorney post in executive-powers-2026.json is never filled), a township board's or a state chamber's bill, an unincorporated place, and a town whose City Attorney post is unfilled (the player's own post waiting for their choice, or nobody to appoint). A bill before the town's council names the town's own City Attorney appointment instead.",
-    "why": "The register rules that the city attorney warns the player on a disputed power (DECISION-REGISTER, \"A law changes the record first\", Sept 22); the executive engine appoints a City Attorney for the town's council (appointTownDepartments) but no attorney or counsel for a county board, a township board or a legislature, and no title is typed in code.",
-    "addedBy": "governing builder (gov-m3-01-city-attorney-warning-on-the-bill)",
-    "addedAt": "2026-10-30",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The executive engine seats each other body's own lawyer as an appointment the way it seats the town's City Attorney (the county attorney from the county forms in executive-powers-2026.json, township counsel and legislative counsel from research on who advises each kind of body), and the paper names that appointment's title in bill-paper.authority.disputed.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T2"
-  },
-  {
     "id": "SG-GOV-platform-support-true-share",
     "kind": "missing-record",
     "file": "src/core2/campaign-stances.ts",
@@ -2007,18 +1905,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
-  },
-  {
-    "id": "SG-GOV-budget-line-stance-lean-only",
-    "kind": "assumed-data",
-    "file": "src/core2/modules/voting.ts",
-    "line": 1617,
-    "whatItFakes": "A voter's stance on spending more on a budget line (\"budget-line:<line>\") is their lean times the line's party direction (budget-line-axes.json, GSS 2024 by party) and nothing else: no faith, degree or age term as the policy questions have, and no term for the town's overall wish to spend more or less on it. Every line therefore splits the electorate the same way, the share on the right of the town's lean order against the share on the left, so a candidate's support on every spending line they hold a view on is the same number, and the platform rule chooses among spending lines by conviction alone.",
-    "why": "The opening-stance loadings (opening-stance-loadings.json, CES 2020) cover the survey's policy items only; no loading table exists for the GSS spending items, and the spending preferences in data/research/money are kept by party only.",
-    "addedBy": "governing lead",
-    "addedAt": "2026-10-30",
-    "replacement": "Faith, degree and age loadings for each budget line from the GSS spending items (NATEDUC, NATHEAL, NATCRIME and the rest, 2024 cumulative file) and the national share wanting more spent on each, read into the opening stance by the views engine for named and counted voters alike.",
-    "status": "open"
   },
   {
     "id": "SG-GOV-platform-record-term-left-out",
