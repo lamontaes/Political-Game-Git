@@ -13,12 +13,18 @@
     "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
       "no-filler"
     ],
+    "news.override.the-veto-of-the-law-stands-after-an-override-vote-came-up-sh": [
+      "plain-american-talk"
+    ],
     "opening-speech.creed.polished-ina-sta-hopeful-core-a-free-and-hardworking-people-will-keep-best-moving": [
       "no-stock-phrases"
     ],
     "scene-talk.close-accept.all-right-i-hear-you": ["no-stock-phrases"],
     "scene-talk.close-accept.all-right-i-ll-let-you-go": [
       "alright-in-dialogue"
+    ],
+    "scene-talk.close-accept.i-ll-check-back-before-the-roll-call": [
+      "plain-american-talk"
     ],
     "scene-talk.close-accept.that-s-all-right-i-enjoyed-what-we-got-to-ask-me-again-whenever-you-wa": [
       "alright-in-dialogue"
@@ -33,6 +39,9 @@
       "no-stock-phrases"
     ],
     "scene-talk.follow-accept.it-s-all-right": ["alright-in-dialogue"],
+    "scene-talk.follow-accept.thank-you-chair-i-yield-the-floor-back": [
+      "plain-american-talk"
+    ],
     "scene-talk.follow-press.i-hear-you-but-this-matters-to-the-family-what-s-in-the-way": [
       "no-stock-phrases"
     ],
@@ -40,11 +49,17 @@
       "no-stock-phrases"
     ],
     "scene-talk.follow-thank.i-m-holding-you-to-that-you-know": ["no-filler"],
+    "scene-talk.follow-thank.thank-you-chair-i-yield-the-floor": [
+      "plain-american-talk"
+    ],
     "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over": [
       "narration-assumes-no-reason"
     ],
     "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off": [
       "narration-assumes-no-reason"
+    ],
+    "scene-talk.narrate-narrate.no-one-else-seeks-the-floor-name-is-recognized": [
+      "plain-american-talk"
     ],
     "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face": [
       "narration-assumes-no-reason"
@@ -71,11 +86,20 @@
     "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next": [
       "alright-in-dialogue"
     ],
+    "scene-talk.reply-bargain.put-in-the-sunset-clause-and-i-can-explain-a-yes-at-the-grocery-store": [
+      "plain-american-talk"
+    ],
     "scene-talk.reply-comfort.i-know-its-a-lot-to-watch-im-all-right-really": [
       "alright-in-dialogue"
     ],
+    "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-i-ll-name-it-with-you-tonight": [
+      "plain-american-talk"
+    ],
     "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself": [
       "no-stock-phrases"
+    ],
+    "scene-talk.reply-deflect.the-roll-call-is-public-start-there-then-ask-me-what-it-leaves-out": [
+      "plain-american-talk"
     ],
     "scene-talk.reply-leave.i-hear-you-and-i-have-to-take-the-next-question": [
       "no-stock-phrases"
@@ -91,6 +115,12 @@
     ],
     "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no": [
       "no-stock-phrases"
+    ],
+    "scene-talk.reply-stall.don-t-write-me-down-yet-i-m-waiting-on-the-fiscal-note": [
+      "plain-american-talk"
+    ],
+    "scene-talk.reply-stall.i-want-to-hear-from-my-constituents-first": [
+      "plain-american-talk"
     ],
     "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running": [
       "no-stock-phrases"
@@ -112,7 +142,8 @@
     ],
     "scene-talk.state-threaten.nothing-has-to-change-between-us-first-unless-you-make-it-think": [
       "commitment-names-who-what-why"
-    ]
+    ],
+    "scene-words.setting-phone-phone.the-phone-rang": ["plain-american-talk"]
   },
   "noReplyFollows": {
     "scene-talk.follow-answer.about-twenty-of-us-mostly-neighbors": [
