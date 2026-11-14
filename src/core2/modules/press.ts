@@ -2429,6 +2429,9 @@ export function deskContext(api: CoreAPI): DeskContext {
       ).some((s) => s.outletId === outletId),
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
+    commentTakenBy: (wireId) =>
+      (table(api, "comments").get(wireId) as unknown as CommentRow | undefined)
+        ?.reporterId ?? null,
   };
 }
 
@@ -3937,6 +3940,8 @@ export interface CommentRow {
   readonly date: string;
   readonly quote: string | null;
   readonly replyId: string;
+  /** The reporter who asked: the story is theirs to file. */
+  readonly reporterId?: string | null;
 }
 
 /** The comment kept on a record, by the record's id. */
@@ -3969,6 +3974,7 @@ function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     date: api.state.date,
     quote: said ? String(facts.line ?? "") || null : null,
     replyId: event.id,
+    reporterId: event.personIds.find((id) => id !== personId) ?? null,
   } satisfies CommentRow as unknown as ModuleRow);
 }
 

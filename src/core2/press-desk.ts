@@ -163,6 +163,8 @@ export interface DeskContext {
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
   readonly save: (story: PrintedStory) => void;
+  /** The reporter who took a comment on a record for its story, or null. */
+  readonly commentTakenBy?: (wireId: string) => string | null;
 }
 
 const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x));
@@ -907,7 +909,15 @@ export function runDesk(
           (!racesTold.has(race) &&
             all.findIndex((other) => raceTold(other.item) === race) === at)
         );
-      });
+      })
+      // A story the reporter asked someone to comment on is theirs to file
+      // (a press interview whose ending keeps that the story runs): it comes
+      // first among their week's stories, ahead of the rest by score.
+      .sort(
+        (a, b) =>
+          Number(ctx.commentTakenBy?.(b.item.id) === reporterId) -
+          Number(ctx.commentTakenBy?.(a.item.id) === reporterId),
+      );
     const count = Math.min(
       p(
         outlet.tier === "national"
