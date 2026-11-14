@@ -68,6 +68,7 @@ import {
   touchImpression,
   registerAdOutlet,
   parsePlatform,
+  contestPositions,
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
@@ -397,6 +398,7 @@ export const PRESS_MODULE: CoreModule = {
   onDay: enrollPressEmployers,
   onCalendarWork: (api, work) => {
     if (work.kind === "press-dig") checkClaim(api, work);
+    else if (work.kind === "press-invite") inviteDay(api, work);
     else pressWeek(api, work);
   },
   eventKinds: ["*"],
@@ -1495,6 +1497,27 @@ export function townConcernReader(api: CoreAPI): (question: string) => number {
 }
 
 /**
+ * The questions the seat a speaker runs for or holds decides (the same read
+ * the filing panel lists its positions from), or null where they have none.
+ */
+function seatQuestions(
+  api: CoreAPI,
+  speaker: Speaker,
+): ReadonlySet<string> | null {
+  const offices = speaker.filing
+    ? [contestOf(api, speaker.filing.contestId).officeId]
+    : servingTerms(api, speaker.personId).map((t) => t.officeId);
+  if (!offices.length) return null;
+  const positions = new Set(
+    offices.flatMap((officeId) => contestPositions(api, { officeId })),
+  );
+  // A body whose list is empty (a world that keeps no budget for it and whose
+  // state lets it decide none of the platform questions) leaves nothing to
+  // restrict to, so the reporter asks as before.
+  return positions.size ? positions : null;
+}
+
+/**
  * What the reporter asks: the questions the race's record puts in play,
  * scored by every reason a reporter has to ask each one: a promise the
  * candidate broke; the incumbent's recent recorded votes; how far apart the
@@ -1637,6 +1660,15 @@ export function interviewQuestions(
         ),
     );
   }
+  // A reporter asks what the seat's own body decides, and otherwise only what
+  // is truly in the news in the town: a question the body cannot decide keeps
+  // nothing but the town's concern for it, so it is asked as the town's news
+  // and never for the candidate's record or the rivals' gap.
+  const seat = seatQuestions(api, speaker);
+  if (seat)
+    for (const [q] of score)
+      if (!seat.has(q))
+        score.set(q, pressParameter("townConcernNewsWeight") * concern(q));
   // Asked before, on the record: less to learn from asking again.
   const asked = new Map<string, number>();
   for (const row of table(api, "interviews").query("byCandidate", [
@@ -3655,6 +3687,8 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       // The town's outlet interviews a district candidate by the town's share
       // of the race (the player's own invitations are never thinned).
       if (f.personId !== playerId && !interviewHeldInTown(api, f.id)) continue;
+      // An outlet asks for its own reason: the race is on its beat.
+      if (!outletCoversContest(outlet, contestOf(api, f.contestId))) continue;
       const row = arrange(api, f.id, outlet.id, "outlet");
       if (row.status === "invited" && f.personId === playerId)
         invitedThisWeek.set(row.candidateId, [
@@ -3782,13 +3816,72 @@ export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
 export const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline"]);
 
 /**
- * The outlets' invitations of the week to the player, on the record as one
- * for the candidate and the first outlet's reporter who asks: the director
- * stages it as a call from that reporter, and the answer there is read back
- * here for every outlet that asked (`answerInvitation`).
+ * Whether a race is on an outlet's beat. A national outlet covers the nation
+ * and the town's own state, as its desk does with the wire; a county or town
+ * race is not its beat, so it never asks that race's candidates for a sitting.
+ */
+export function outletCoversContest(
+  outlet: OutletRow,
+  contest: ContestRow,
+): boolean {
+  return (
+    outlet.tier !== "national" ||
+    contest.level === "federal" ||
+    contest.level === "state"
+  );
+}
+
+/**
+ * The outlets' invitations of the week to the player. Each outlet's is its
+ * own record and its own call from its own reporter, and the player's answer
+ * goes to that outlet alone (`answerInvitation`). They reach the player one a
+ * day, the outlet whose reporter knows them best first, so a week of requests
+ * is not one day of calls; one whose day would fall on or after the vote is
+ * never put (the week's pass refuses it once the race is over).
  */
 function invited(api: CoreAPI, rows: readonly InterviewRow[]): void {
-  const row = rows[0]!;
+  rows
+    .map((row) => ({
+      row,
+      tie: row.reporterId ? closeness(api, row.candidateId, row.reporterId) : 0,
+    }))
+    .sort((a, b) => b.tie - a.tie || a.row.id.localeCompare(b.row.id))
+    .forEach(({ row }, index) => {
+      if (index === 0) return invitation(api, row);
+      const date = addDays(makeIsoDate(api.state.date), index);
+      if (row.contestId && contestOf(api, row.contestId).electionDate <= date)
+        return;
+      api.moduleCalendar(PRESS_MODULE_ID).schedule({
+        key: `press-invite:${row.id}`,
+        date,
+        kind: "press-invite",
+        source: {
+          tag: "ESTIMATED",
+          citation:
+            "An outlet's political reporter calls a candidate on the day the reporter can",
+          asOf: api.state.date,
+          estimatedFrom: "interviewsPerWeek",
+        },
+        sourceRecordIds: [row.id],
+      });
+    });
+}
+
+/** The day an outlet's turn comes: its invitation goes out if it still stands. */
+function inviteDay(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const row = table(api, "interviews").get(
+    work.sourceRecordIds[0] ?? "",
+  ) as unknown as InterviewRow | undefined;
+  if (
+    row?.status === "invited" &&
+    (!row.contestId ||
+      contestOf(api, row.contestId).electionDate > api.state.date)
+  )
+    invitation(api, row);
+}
+
+/** One outlet's invitation on the record: the director stages it as a call from that outlet's reporter. */
+function invitation(api: CoreAPI, row: InterviewRow): void {
   const ids = [row.candidateId, row.reporterId ?? ""].filter((id) =>
     api.state.people.has(id),
   );
@@ -3804,14 +3897,11 @@ function invited(api: CoreAPI, rows: readonly InterviewRow[]): void {
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
-      citation: `Interviews ${rows.map((r) => r.id).join(", ")}`,
+      citation: `Interview ${row.id}`,
       asOf: api.state.date,
     },
     facts: {
       interviewId: row.id,
-      // Every outlet that asked this week; the answer goes to each.
-      interviewIds: rows.map((r) => r.id).join(" "),
-      outlets: String(rows.length),
       invitedId: row.candidateId,
       outletId: outlet?.organizationId ?? row.outletId,
       ...(row.reporterId ? { reporterId: row.reporterId } : {}),
@@ -3848,9 +3938,60 @@ export function platformAnswers(
   });
 }
 
+/** A stand on a question and where it comes from. */
+export interface StandOnRecord {
+  readonly question: string;
+  /** In [-1, 1], or null where the candidate holds none of their own. */
+  readonly position: number | null;
+  /** The filed platform, a vote, their own view; null for none (a stand only their party takes is not theirs). */
+  readonly source: "platform" | "vote" | "view" | null;
+}
+
+/**
+ * What a candidate holds on each question, on the record, when a sitting
+ * puts it: the stand their filed platform states; where it states none, a
+ * vote of theirs or their own view (`candidateStance`, the read the platform
+ * itself is built from, blended with their party's position). A stand that
+ * rests only on their party's position is not theirs and counts as none.
+ * Nothing is made up and nothing is said for them: the sitting offers the
+ * candidate this stand as one of the sides they may take.
+ */
+export function standsOnRecord(
+  api: CoreAPI,
+  filingId: string | null,
+  questions: readonly string[],
+): readonly StandOnRecord[] {
+  const filing = filingId
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filingId) as unknown as FilingRow | undefined)
+    : undefined;
+  const reader = filing
+    ? stanceReader(api, filing.personId, filing.party ?? null)
+    : null;
+  return platformAnswers(api, filingId, questions).map(
+    ({ question, position }): StandOnRecord => {
+      if (position !== null) return { question, position, source: "platform" };
+      const grounds = reader?.grounds(question) ?? null;
+      const stance =
+        grounds === "vote" || grounds === "view"
+          ? reader!.stance(question)
+          : null;
+      return stance === null
+        ? { question, position: null, source: null }
+        : {
+            question,
+            position: Math.round(stance * 1000) / 1000,
+            source: grounds as "vote" | "view",
+          };
+    },
+  );
+}
+
 /**
  * The answer to an outlet's invitation, said in its scene: a yes puts the
- * sitting on the record (`interview-accepted`, one for each outlet that
+ * sitting on the record (`interview-accepted`, one for the outlet that
  * asked) and the interview waits for the candidate to sit for it, answering
  * each question as a line of their own; a no is a refusal on the record (the
  * outlet's people may take it as a snub); and anything else leaves it open
@@ -3861,14 +4002,13 @@ function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const cause = api.state.durableLog.get(String(facts.causeId ?? ""));
   if (cause?.kind !== INTERVIEW_INVITED_EVENT) return;
   const move = String(facts.move);
-  for (const id of String(cause.facts?.interviewIds ?? "").split(" ")) {
-    const row = table(api, "interviews").get(id) as unknown as
-      InterviewRow | undefined;
-    if (row?.status !== "invited" || !event.personIds.includes(row.candidateId))
-      continue;
-    if (ACCEPTING_MOVES.has(move)) accepted(api, row, event.id);
-    else if (REFUSING_MOVES.has(move)) refuse(api, row);
-  }
+  const row = table(api, "interviews").get(
+    String(cause.facts?.interviewId ?? ""),
+  ) as unknown as InterviewRow | undefined;
+  if (row?.status !== "invited" || !event.personIds.includes(row.candidateId))
+    return;
+  if (ACCEPTING_MOVES.has(move)) accepted(api, row, event.id);
+  else if (REFUSING_MOVES.has(move)) refuse(api, row);
 }
 
 /** What a person told a reporter about a record, or that they declined (the press-interview scene's ending). */

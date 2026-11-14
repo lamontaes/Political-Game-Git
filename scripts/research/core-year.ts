@@ -24,7 +24,7 @@ import { coreStateName } from "../../src/core2/place-lookup";
 import { RENEWAL_MODULE_ID } from "../../src/core2/modules/renewal";
 import {
   RECALLS_MODULE_ID,
-  recallBarsFor,
+  recallBarRowFor,
   recallRule,
 } from "../../src/core2/modules/recalls";
 import type { IsoDate, PersonState } from "../../src/core2/types";
@@ -245,7 +245,7 @@ const rule = recallRule(api);
 const statute = recallStatutes.places[usps];
 const recalls = api.moduleState(RECALLS_MODULE_ID).table("recalls").rows();
 console.log(
-  `recall (SG-GOV-recall-bars-national): ${usps} ${rule ? `has a petitioned local recall; bars for a four-year term ${JSON.stringify(recallBarsFor(usps, 4) ?? "national estimate recallTermOpeningDays")}; statute row ${statute?.tag ?? "none"}; after a failed recall: ${statute?.afterFailed ?? "not read"}` : "has no petitioned local recall, so no bar applies"}; ${recalls.length} recall petitions in the year${
+  `recall: ${usps} ${rule ? `has a petitioned local recall; bars ${JSON.stringify(recallBarRowFor(usps) ?? "national estimate recallTermOpeningDays")}; statute row ${statute?.tag ?? "none"}; after a failed recall: ${statute?.afterFailed ?? "not read"}` : "has no petitioned local recall, so no bar applies"}; ${recalls.length} recall petitions in the year${
     recalls.length
       ? ` (${recalls
           .slice(0, 3)
