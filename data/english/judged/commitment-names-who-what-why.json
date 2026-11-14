@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 710,
+  "judged": 693,
   "no": {
     "000kvn97gfw": {
       "keys": [
@@ -265,19 +265,6 @@
         "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
       ],
       "why": "The large bribe never names what it buys; the refusal is to an unnamed favor."
-    },
-    "0aep7nbc5zi": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-been-proud-of-you-for-a-day-and-can-t-keep-quiet-about-it-any-longer",
-        "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
-        "scene-talk.reply-boast.told-you-i-d-get-through-it",
-        "scene-talk.follow-confront.sure-you-did-barely",
-        "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me",
-        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
-        "scene-talk.reply-thank.thank-you-that-means-a-lot",
-        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
-      ],
-      "why": "No plan is mentioned on this path, so 'the next thing' has no referent."
     },
     "0aou0ffro19": {
       "keys": [
@@ -2177,17 +2164,6 @@
       ],
       "why": "The scandal subject is never said; 'document that' refers to a lean on an unnamed matter."
     },
-    "21lh2rqgnmj": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-heard-about-the-diploma-and-won-t-let-it-pass-without-a-word",
-        "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
-        "scene-talk.reply-thank.thanks-it-means-a-lot-coming-from-you",
-        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
-        "scene-talk.reply-thank.thank-you-that-means-a-lot",
-        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
-      ],
-      "why": "'Make sure the next thing goes as well' never names the next thing or what is promised."
-    },
     "222jsqjcwym": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
@@ -2478,17 +2454,6 @@
       ],
       "why": "'Take the deal' never named."
     },
-    "2b9ejfud6sa": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-been-proud-of-you-for-a-day-and-can-t-keep-quiet-about-it-any-longer",
-        "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
-        "scene-talk.reply-thank.thanks-it-means-a-lot-coming-from-you",
-        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
-        "scene-talk.reply-thank.thank-you-that-means-a-lot",
-        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
-      ],
-      "why": "No plan has been mentioned on this path, so 'the next thing' has nothing to refer to."
-    },
     "2bs66wu232g": {
       "keys": [
         "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
@@ -2674,5 +2639,5 @@
       "why": "The scandal interview never names its subject or the vote the player says yes to; the documentation question refers to an unnamed matter."
     }
   },
-  "yesHash": "28vfmqp4d10"
+  "yesHash": "2a4tkvlfr1w"
 }
