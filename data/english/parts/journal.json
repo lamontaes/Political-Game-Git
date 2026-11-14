@@ -9180,7 +9180,7 @@
       "key": "journal.office-line-petition.my-petition-came-back-with-valid-good-signatures-against-needed",
       "move": "office-line-petition",
       "kind": "spoken",
-      "text": "My petition came back with {valid} good signatures, against {needed}.",
+      "text": "My petition came back with {valid} good signatures, and I needed {needed}.",
       "uses": [
         {
           "move": "office-line-petition",

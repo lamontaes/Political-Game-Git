@@ -257,7 +257,7 @@ describe("the journal as a story from birth", () => {
 
   it("opens no chapter on someone else's filing or oath over two played years", () => {
     const passed: string[] = [];
-    for (let draw = 0; draw < 3; draw += 1) {
+    for (let draw = 0; draw < 6; draw += 1) {
       const skipped = ownChaptersOnly(`${seed}:others:${draw}`);
       if (!skipped) return;
       passed.push(skipped);

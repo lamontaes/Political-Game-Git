@@ -2441,9 +2441,9 @@ export function composeJournal(
         .filter(
           (unit) =>
             unit.paragraph !== "play" &&
-            unit.moment.causeKind !== "family:child" &&
-            unit.moment.causeKind !== "household:partners-met" &&
-            unit.row.entry !== "setting",
+            JOURNAL_OUTLINE.childrenAlone.some((prefix) =>
+              unit.moment.causeKind.startsWith(prefix),
+            ),
         )
         .map((unit) => yearOf(unit.moment.date)),
     );
@@ -2458,10 +2458,7 @@ export function composeJournal(
       (entry) => entry.kindPrefix === "household:children-together",
     );
     if (row && together.length > one) {
-      const names = together.map((unit) => {
-        const childId = lifeById.get(unit.moment.causeId)?.withIds[zero];
-        return core.people.get(childId as PersonId)?.givenName ?? "";
-      });
+      const names = together.map((unit) => unit.facts.name?.text ?? "");
       const first = yearOf(together[zero]!.moment.date);
       const last = yearOf(together.at(-one)!.moment.date);
       const ids = together.flatMap((unit) => [unit.moment.causeId]);
