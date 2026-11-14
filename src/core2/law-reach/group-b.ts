@@ -277,6 +277,46 @@ function assistanceTimeLimit(
         .filter((r) => !r.named)
         .map((r) => [r.id, (r.weight ?? 1) * (r.scale ?? 1)]),
     ),
+    limitMonths: reachParameter("snapWorkTimeLimitMonths"),
+    windowMonths: reachParameter("snapWorkTimeLimitWindowMonths"),
+  };
+}
+
+/** Who the cash welfare work rule reaches; each number is a parameter key. */
+export const WELFARE_WORK_RULE: PeopleSelector = {
+  ageFrom: "snapWorkAgeFrom",
+  ageBelow: "snapWorkAgeBelow",
+  incomeBelowPovertyShare: "assistanceIncomeShare",
+  hoursBelowPerWeek: "tanfWorkHoursPerWeek",
+  withChildBelow: "tanfChildBelowAge",
+};
+
+/**
+ * The cash welfare line's own limit and work rule while a work requirement is
+ * law: families with a minor child, adults working under the cash assistance
+ * hours, stopped after a lifetime count of months on the line. Food aid's
+ * three months in 36 is a different rule (assistanceTimeLimit above).
+ */
+function welfareTimeLimit(
+  api: CoreAPI,
+  facts: TownFacts,
+  stateKey: string,
+): AssistanceTimeLimit | null {
+  const row = yesLevels(api, ASSISTANCE_WORK)[0]?.row;
+  if (!row) return null;
+  const reached = selectResidents(facts, WELFARE_WORK_RULE, stateKey);
+  return {
+    key: ASSISTANCE_WORK,
+    lawId: row.id,
+    since: row.effectiveDate,
+    reachedIds: new Set(reached.map((r) => r.id)),
+    counts: new Map(
+      reached
+        .filter((r) => !r.named)
+        .map((r) => [r.id, (r.weight ?? 1) * (r.scale ?? 1)]),
+    ),
+    limitMonths: reachParameter("tanfTimeLimitMonths"),
+    windowMonths: null,
   };
 }
 
@@ -934,6 +974,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
       service,
       heads: selected,
       modeledShare: share,
+      timeLimit: welfareTimeLimit(api, facts, chain.stateKey),
     });
   }
   if (def.roadCondition && api.state.modules.has(PLACE_PRICES_MODULE_ID)) {
