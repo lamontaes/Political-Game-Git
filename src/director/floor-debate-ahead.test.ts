@@ -48,9 +48,15 @@ const PLACES = [
     name: "Columbus, Indiana",
     body: "legislature-lower",
     state: true,
+    // The state's session reaches its first floor day on March 24 in this
+    // world since the train's calendar change (Nov 14), so it is played longer.
+    days: 75,
   },
 ] as const;
 const DAYS = 45;
+const DAYS_BY_SEED = new Map<string, number>(
+  PLACES.flatMap((row) => ("days" in row ? [[row.seed, row.days]] : [])),
+);
 
 function localMember(
   core: CoreState,
@@ -117,7 +123,7 @@ describe("the floor is heard before the roll at a town board", () => {
       let packet = advancePlayerV1(core, {
         controlledPersonId: personId!,
         through: {
-          date: addDays(makeIsoDate(core.date), DAYS),
+          date: addDays(makeIsoDate(core.date), DAYS_BY_SEED.get(seed) ?? DAYS),
           minuteOfDay: P.zero,
         },
       });
@@ -250,5 +256,5 @@ describe("the floor is heard before the roll at a town board", () => {
         heard,
         `${name}: a floor debate heard before a roll`,
       ).not.toHaveLength(0);
-    }, 240_000);
+    }, 420_000);
 });
