@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude (views thread)
-pr:
+pr: 9283
 after:
 blocked-on:
 model: opus
