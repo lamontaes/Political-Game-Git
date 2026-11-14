@@ -116,7 +116,10 @@ it("a bill the House passes waits for the Senate's own sitting, at Ciales, Puert
   const senateCommittee = committeeRecords(api, id).find(
     (c) => c.chamber === senate,
   );
-  expect(senateCommittee, "the Senate's committee met on the bill").toBeTruthy();
+  expect(
+    senateCommittee,
+    "the Senate's committee met on the bill",
+  ).toBeTruthy();
   expect(senateCommittee!.date > crossed).toBe(true);
   expect(senateCommittee!.reported).toBe(true);
   expect(days.get(senate)).toBe(booked);

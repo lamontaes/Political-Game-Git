@@ -161,6 +161,13 @@
     "year": "one year",
     "years": "{count} years"
   },
+  "length": {
+    "about": "A prison term or other length of months as people say it in talk (\"eight months\", \"three years\"): whole years when the months make whole years, else months. Read by lengthSaid in src/english/count-words.ts.",
+    "month": "a month",
+    "months": "{count} months",
+    "year": "a year",
+    "years": "{count} years"
+  },
   "moneyUnits": {
     "about": "A sum of a million dollars or more said in the unit people use (\"about $40 million\", \"about $2.3 billion\"), never the dollars written out; one decimal below ten of the unit, whole units above. Read by moneySaid in src/english/count-words.ts.",
     "rows": [

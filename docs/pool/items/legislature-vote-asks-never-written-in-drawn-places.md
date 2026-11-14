@@ -24,7 +24,7 @@ root: none
 - src/core2/legislature-ask-reaches-roll.test.ts, GOLDEN_PATH_SEED=a4283ecd1ef6d55c: "no ask in 365 days" with the player in the state's lower chamber in East Valley, Nevada (3221520); Chautauqua, New York (3614058); Adams, Oregon (4100350); Ogilvie, Minnesota (2748166).
 - src/director/ask-vote-variants.test.ts, GOLDEN_PATH_SEED=612deadbcae7ad23: "no staged ask in 240 days" in all six draws: Nathrop, Colorado (0853010); Smithville, Georgia (1371464); Patagonia, Arizona (0453490); draw 3 (world seed 3dd46573...); Norwalk, Connecticut (0955990); Palmdale, California (0655156). (Reported by the bargaining thread, which had filed it as words-ask-vote-no-staged-ask-in-six-draws; that file is folded into this one.)
 
-The player sees it in play as a floor vote with no member asking for their vote the evening before, and no chance to ask a colleague for theirs.
+The player sees it in play as a floor vote with no member asking for their vote the evening before, and no chance to ask a colleague for theirs. Seen: the scene the evening before a floor vote, where a colleague asks the player for their vote or the player asks one for theirs.
 
 **Cause.** Needs cause. Looked at: the three commands above, red on the clean train 942bea34 and on #9207's head ceea29e1 with the same places. `askBeforeTheRoll` reads `floorAgendaOn(tomorrow)` and asks only where the player sits in the voting chamber and the margin is short. Not yet known whether no bill reaches that agenda the evening before (the floor week's reader, the meeting's agenda), the margin is never short, or the player's floor-vote stop (owner's card, Nov 14 02:03Z) keeps the asks from being written.
 

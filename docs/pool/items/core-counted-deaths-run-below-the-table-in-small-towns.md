@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9241
 after:
 blocked-on:
 lead: speed
@@ -34,6 +34,6 @@ source: found by the Account lead's carry of #8804 on Nov 14, 2026
 
 **Files.** src/core2/births-counted.ts, src/core2/counted-deaths-opening.test.ts
 
-**Notes.** Opened with the carry of #8804 (part deaths). The whole-population measurement of Nov 14 (death-rate/report.md) found full people at 0.7 to 0.9 of the table; counted residents at San Isidro were at about half before this change.
+**Notes.** Cause found Nov 14 and fixed in the PR that carries this item (src/core2/births-counted.ts, test src/core2/counted-deaths-by-cohort.test.ts). Measured at San Isidro, Texas (place 4865432, seed 92ca3f7f5afd93ea5d976c2fdb9f55d85f493c32783fb7bd72e72b487a2f9085) for a year with the owed and paid deaths of each cohort: the town owed 217 deaths and paid 216 in total, but all of them to cohorts aged 65 and over (paid by age band: 65 to 74, 28; 75 to 84, 140; 85 and up, 54; everyone under 65, 0, against 21, 36 and 3 owed to the bands under 65). Two faults. First, a month's pool of owed deaths went in one lump to the one cohort that owed the most (always the oldest), as a part death of its record of up to the whole month's owed count; its own debt went to minus 12 or worse while 25 to 64 stayed owed, and because the pool nets those together the owed total read under one and no young person fell ill for the rest of the year. Second, a record ill in part was dropped from the next months' exposure altogether, though it is well in all its other households. The opening looked back ten months but each month's lump went to a person in the oldest cohort whose course ended before the opening, so only 38 people were booked ill at the opening against about 79 in the steady state. Fix: a cohort pays no more than it owes, rounded up to a whole person; a part-ill record is exposed for the households still well. Two years, three places, one process each, before and after (counted deaths per 1,000 a year, whole run seconds): San Isidro 3.8 to 5.0 (99 s to 103 s); North Vacherie 10.2 to 11.0 (155 s to 156 s); Spearman 8.7 to 8.4 (308 s to 283 s); about 5.5, 9.4 and 9.4 from each place's age mix. Under 65 now die in San Isidro: 25 to 44, 8; 45 to 64, 42 in year 1 (none before). North Vacherie estate tax (federal and state death taxes set low as in counted-part-death-estate.test.ts, one year, journal postings): 35 settlements moving 59,718 dollars with 406 deaths before; 128 settlements moving 68,879 dollars with 377 deaths after. The earlier lower tax with more deaths was which records died (a few heavy old records took the lumps), not the tax code, which the part-death test already holds to the per-household amount of a whole death. Opened with the carry of #8804 (part deaths). The whole-population measurement of Nov 14 (death-rate/report.md) found full people at 0.7 to 0.9 of the table; counted residents at San Isidro were at about half before this change.
 
 Also read with the age-band breakout (Nov 14, the carry of #8804): North Vacherie, Louisiana took in less counted estate tax over year 1 with part deaths (5,420,666 minor over 51 rows, 24 paying) than without (8,541,914 over 37 rows, 21 paying) although more people died (352 against 313.6). Cause untraced. A likely reading: a whole-record death without part deaths stands for every household of a heavy record and taxes all of them at once, while a part death taxes only its share. Check it by listing each death's households and tax by record.
