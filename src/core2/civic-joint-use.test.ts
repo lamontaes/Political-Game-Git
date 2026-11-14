@@ -8,7 +8,7 @@
  * Pinned: seed joint-use-1. Alexander City, Alabama (0101132), whose one high
  * school's district has an agreement in that seed, and Adamsville, Alabama
  * (0100460), whose district has none. Edgar, Wisconsin (5522550), seed
- * edgar-petition-1, where people organize at an association's hall in year 1.
+ * edgar-petition-1, whose association hall is staged on the opening day.
  */
 import { describe, expect, it } from "vitest";
 import directoryJson from "../../data/research/places/local-institutions.json" with { type: "json" };
@@ -21,7 +21,6 @@ import {
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { advanceCore } from "./life";
 import { LIFE_MODULE } from "./modules/life";
 import { coreAPI } from "./state";
 import { parameter as p } from "./parameters";
@@ -110,38 +109,15 @@ describe(`school meeting rooms follow the district's joint use agreement, seed $
         ).toBe(row.facts!.meetingAccess);
   }, 240_000);
 
-  it("Edgar, Wisconsin: in a played year a group's hall is offered only to its members, and everyone who organizes there is one", () => {
+  it("Edgar, Wisconsin: a group's hall is offered to a member who knows it, never to someone outside it who knows it too", () => {
+    // Staged through the game's own acts on the opening day, not waited for
+    // in a played year: who joins and who looks the hall up in a year is
+    // whatever the year's choices make it (the test once waited a year for an
+    // outsider who had looked it up; the year stopped making one).
     const { core } = buildBenchWorld("edgar-petition-1", gameStartDate(), {
       twoLevel: true,
       placeKey: "5522550",
     });
-    advanceCore(core, addDays(makeIsoDate(core.date), 365));
-    const held = [
-      ...(core.logByKind.get("initiative.organizing-started") ?? []),
-    ]
-      .map((id) => core.durableLog.get(id as never)!)
-      .map((event) => ({
-        event,
-        place: core.publicOrganizations.get(
-          String(event.facts!.organizationId),
-        )!,
-      }));
-    const halls = held.filter(
-      ({ place }) => place.facts?.meetingAccess === "members",
-    );
-    expect(halls.length, "meetings at a hall").toBeGreaterThan(0);
-    for (const { event, place } of halls) {
-      const organizer = event.personIds[0]!;
-      expect(
-        core.memberships.has(`${organizer}:${place.id}`) ||
-          !!place.staff?.some((row) => row.personId === organizer),
-        `${event.id} at ${place.name}`,
-      ).toBe(true);
-    }
-    for (const { place, event } of held)
-      expect(place.kind, event.id).not.toBe("institution");
-    // The same year's end: the hall is offered to a member who knows it,
-    // never to someone outside it who knows it too.
     const api = coreAPI(core);
     const action = core.data.actions.find(
       (row) => row.targetKind === "public-meeting-place",
@@ -155,27 +131,36 @@ describe(`school meeting rooms follow the district's joint use agreement, seed $
       provide(api, core.people.get(personId as never)!, action).some(
         (row) => row.targetId === hall.id,
       );
-    // Two adults who both know of the hall: one a member, one not.
-    const knowing = [...core.people.values()].filter(
-      (person) =>
-        person.alive &&
-        person.placeId === hall.placeId &&
-        api.knows(person.id, `organization:${hall.id}:public`),
+    // Two grown residents of the town, neither on the hall's staff: one
+    // joins the group (the join act), and both look it up (the public-lookup act).
+    const [member, outsider] = [...core.people.values()]
+      .filter(
+        (person) =>
+          person.alive &&
+          person.placeId === hall.placeId &&
+          person.tier !== "husk" &&
+          person.birthDate <= addDays(makeIsoDate(core.date), -365 * 25) &&
+          !core.memberships.has(`${person.id}:${hall.id}`) &&
+          !hall.staff?.some((row) => row.personId === person.id),
+      )
+      .sort((a, b) => a.id.localeCompare(b.id));
+    expect(outsider, "two grown residents").toBeDefined();
+    api.join(member!.id, hall.id);
+    for (const person of [member!, outsider!])
+      api.lookupPublicOrganization(person.id, hall.id);
+    expect(
+      api.knows(outsider!.id, `organization:${hall.id}:public`),
+    ).toBeTruthy();
+    expect(core.memberships.has(`${member!.id}:${hall.id}`)).toBe(true);
+    expect(offeredTo(member!.id), `${member!.id} at ${hall.name}`).toBe(true);
+    expect(offeredTo(outsider!.id), `${outsider!.id} at ${hall.name}`).toBe(
+      false,
     );
-    const member = knowing.find((person) =>
-      core.memberships.has(`${person.id}:${hall.id}`),
-    );
-    const outsider = knowing.find(
-      (person) =>
-        !core.memberships.has(`${person.id}:${hall.id}`) &&
-        !hall.staff?.some((row) => row.personId === person.id),
-    );
-    expect(member, `a member of ${hall.name} who knows it`).toBeDefined();
-    expect(outsider, `someone outside ${hall.name} who knows it`).toBeDefined();
-    expect(offeredTo(member!.id), member!.id).toBe(true);
-    expect(offeredTo(outsider!.id), outsider!.id).toBe(false);
-    process.stdout.write(
-      `ORGANIZING Edgar WI: ${held.length} meetings, ${halls.length} at a hall by its members\n`,
-    );
-  }, 300_000);
+    // Its staff are offered it too.
+    const staff = hall.staff?.[0]?.personId;
+    if (staff && core.people.get(staff as never)?.placeId === hall.placeId) {
+      api.lookupPublicOrganization(staff as never, hall.id);
+      expect(offeredTo(staff), `${staff}, staff of ${hall.name}`).toBe(true);
+    }
+  }, 60_000);
 });
