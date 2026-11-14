@@ -1147,8 +1147,8 @@ function badFacts(country: Country, topic: string): Facts {
 /** Whether the bank holds a context piece for a topic, to say it over the speaker's years in office. */
 const CONTEXT_TOPICS: ReadonlySet<string> = new Set(
   OPENING_SPEECH_BANK.parts
-    .filter((part) => part.move === "context")
     .flatMap((part) => part.uses ?? [])
+    .filter((use) => use.role === "context")
     .flatMap((use) => use.requiresFacts ?? [])
     .filter((fact) => fact.startsWith("context-"))
     .map((fact) => fact.slice("context-".length)),
