@@ -50,10 +50,16 @@ import {
   members,
 } from "./modules/legislature";
 import { provisionFor } from "./bill-catalog";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  localPowerBarred,
+} from "./modules/laws";
 import { OFFICES_MODULE_ID, townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
-import type { CoreAPI, CoreState, Source } from "./types";
+import type { CoreAPI, CoreState, PersonState, Source } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 // A draw reads only the opening records of the place it builds; one missing
@@ -67,6 +73,15 @@ const BALANCED = "us-policy-positions:fiscal.balanced-operating-budget";
 const PENSIONS = "us-policy-positions:fiscal.fund-pensions-to-schedule";
 const RESERVE = "us-policy-positions:fiscal.minimum-reserve-balance";
 const QUESTIONS = [ADOPT, GRADUATED, CAP, BALANCED, PENSIONS, RESERVE];
+
+/**
+ * The level an act is passed at: the town's own for the growth cap, unless the
+ * state bars its places from making it (Dennis, Massachusetts, seed f090a903...:
+ * a town's cap is void there, so the state legislature passes it); the state's
+ * for the rest.
+ */
+const levelFor = (api: CoreAPI, key: string): string | undefined =>
+  key !== CAP || localPowerBarred(api, key) ? "state" : undefined;
 
 const run = (core: CoreState, days: number) =>
   advanceCore(core, addDays(makeIsoDate(core.date), days));
@@ -271,8 +286,7 @@ function play(where: string, core: CoreState): Attempt {
   let profited = false;
   const lastProfit = new Map<string, number>();
   const ids: Record<string, string> = {};
-  for (const key of QUESTIONS)
-    setQuestion(api, key, 1, key === CAP ? undefined : "state");
+  for (const key of QUESTIONS) setQuestion(api, key, 1, levelFor(api, key));
   // The acts take effect first (adopting or graduating writes its own income-tax
   // row); the rates are then raised on the rows in force.
   run(core, 3);
@@ -299,8 +313,7 @@ function play(where: string, core: CoreState): Attempt {
   try {
     const putBack = () => {
       const back = QUESTIONS.filter((key) => lawInForce(api, key).value !== 1);
-      for (const key of back)
-        setQuestion(api, key, 1, key === CAP ? undefined : "state");
+      for (const key of back) setQuestion(api, key, 1, levelFor(api, key));
       if (back.includes(ADOPT) || back.includes(GRADUATED)) {
         run(core, 2);
         ids.income = scaleAmount(api, "income-tax", 1.1);
@@ -766,15 +779,20 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           },
         });
         run(core, 2);
+        // Probate waits nine months, and an heir who dies in that time leaves
+        // the estate with none (it escheats, assessed on nothing; Dennis,
+        // Massachusetts, seed f090a903...: a House member's only heir, her
+        // partner at 37, died of heart disease on 2025-10-25). The decedent
+        // with the most heirs, up to two, is the one likeliest to keep one.
+        const heirCount = (p: Readonly<PersonState>) =>
+          Math.min(2, heirsOf(api, p).heirs.length);
         const decedent = [...core.people.values()]
-          .filter(
-            (p) =>
-              p.alive &&
-              p.liquidMinor > 100_00 &&
-              heirsOf(api, p).heirs.length > 0,
-          )
+          .filter((p) => p.alive && p.liquidMinor > 100_00 && heirCount(p) > 0)
           .sort(
-            (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
+            (a, b) =>
+              heirCount(b) - heirCount(a) ||
+              b.liquidMinor - a.liquidMinor ||
+              a.id.localeCompare(b.id),
           )[0];
         expect(
           decedent,
@@ -1102,6 +1120,18 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
             julyBusinesses.find(
               (id) => (paidOn(id, `${year}-07-01`).record?.paidMinor ?? 0) > 0,
             ) ?? business;
+          // A location that closed on the quarter day is not taxed (its books
+          // are closed), so a place whose every location closed then is
+          // redrawn, like one with none open (Grace, Mississippi, seed
+          // f090a903...: its one location closed on July 1, losing money).
+          if (
+            julyBusinesses.every(
+              (id) => core.finance.businesses.get(id)?.closedAt,
+            )
+          ) {
+            tried.push(`${where}: every corporation location closed on July 1`);
+            continue;
+          }
           const july = paidOn(paying, `${year}-07-01`);
           expect(
             july.record,
