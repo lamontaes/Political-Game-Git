@@ -7,7 +7,6 @@ import { Session } from "node:inspector/promises";
 import { writeFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { setFastForward } from "../../src/core2/fast-forward";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
@@ -24,7 +23,6 @@ const out = option("out", "profile.cpuprofile");
 const drawn = drawPlace(seed, "speed-year");
 const placeKey = option("place", drawn.key);
 setBookkeeping(false);
-setFastForward(option("fast", "0") === "1");
 const world = buildBenchWorld(drawn.seed, gameStartDate(), {
   twoLevel: true,
   placeKey,

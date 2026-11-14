@@ -505,25 +505,24 @@ function billMembers(
           cost * q(SHARE_KEY[m.plan]) * (m.plan === "medicare" ? drugs : one),
         );
         const added = billMinor - Math.round(cost * medicaidShare);
-        // The law reached this Medicare member (a named person; the counted
-        // members are read the same way and kept as the household's totals).
-        if (
-          m.plan === "medicare" &&
-          drugs !== one &&
-          drugLaw.governing &&
-          api.state.people.has(m.personId)
-        )
+        // The law reached this Medicare member by the same rule, full or
+        // counted: a counted member stands for their household's weight.
+        if (m.plan === "medicare" && drugs !== one && drugLaw.governing) {
+          const full = api.state.people.has(m.personId);
+          const times = full ? one : h.weight;
           lawApplied(api, {
             key: DRUG_NEGOTIATION,
             lawId: drugLaw.governing.id,
             targetId: m.personId,
-            target: "person",
+            target: full ? "person" : "group",
             engine: MEDICAL_BILLS_ENGINE,
             what: "medicare-drug-bill-lowered",
+            ...(full ? {} : { count: Math.max(one, Math.round(times)) }),
             amountMinor: Math.round(
-              cost * q(SHARE_KEY.medicare) * (drugs - one),
+              cost * q(SHARE_KEY.medicare) * (drugs - one) * times,
             ),
           });
+        }
         return {
           personId: m.personId,
           plan: m.plan,

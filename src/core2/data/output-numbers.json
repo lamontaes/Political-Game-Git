@@ -657,6 +657,52 @@
         "waitsOn": "metrics-state-figures-one-owner"
       }
     },
+    "population.people-in-town": {
+      "id": "population.people-in-town",
+      "owner": "residents",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": ["peopleNamed", "peopleCounted"],
+      "kept": {
+        "table": "months",
+        "field": "people"
+      },
+      "metrics": {
+        "section": "city",
+        "key": "people",
+        "unit": "count"
+      }
+    },
+    "population.households": {
+      "id": "population.households",
+      "owner": "residents",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "kept": {
+        "table": "months",
+        "field": "households"
+      },
+      "metrics": {
+        "section": "city",
+        "key": "households",
+        "unit": "count"
+      }
+    },
     "labor.residents-at-work": {
       "id": "labor.residents-at-work",
       "owner": "jobs",
@@ -727,19 +773,21 @@
       "unit": "count",
       "level": "place",
       "denominator": "none",
-      "cadence": "on-change",
+      "cadence": "monthly",
       "source": {
         "tag": "SOURCED",
         "citation": "The engine's own records in the played world."
       },
       "fold": "december",
       "traceInputs": [],
-      "reader": "housing-stock:rentalUnits",
       "metrics": {
         "section": "housing",
         "key": "rentals",
-        "unit": "count",
-        "waitsOn": "metrics-people-and-homes-by-year"
+        "unit": "count"
+      },
+      "kept": {
+        "table": "months",
+        "field": "rentalUnits"
       }
     },
     "housing.empty-rentals": {
@@ -748,6 +796,29 @@
       "unit": "count",
       "level": "place",
       "denominator": "rental homes in the town",
+      "cadence": "monthly",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The engine's own records in the played world."
+      },
+      "fold": "december",
+      "traceInputs": [],
+      "metrics": {
+        "section": "housing",
+        "key": "vacant",
+        "unit": "count"
+      },
+      "kept": {
+        "table": "months",
+        "field": "vacantRentals"
+      }
+    },
+    "housing.people-without-a-home": {
+      "id": "housing.people-without-a-home",
+      "owner": "core2-homeless-count-v1",
+      "unit": "count",
+      "level": "place",
+      "denominator": "none",
       "cadence": "on-change",
       "source": {
         "tag": "SOURCED",
@@ -755,12 +826,14 @@
       },
       "fold": "december",
       "traceInputs": [],
-      "reader": "housing-stock:vacantRental",
+      "kept": {
+        "table": "months",
+        "field": "peopleWithoutHome"
+      },
       "metrics": {
         "section": "housing",
-        "key": "vacant",
-        "unit": "count",
-        "waitsOn": "metrics-people-and-homes-by-year"
+        "key": "homeless",
+        "unit": "count"
       }
     },
     "housing.typical-rent": {

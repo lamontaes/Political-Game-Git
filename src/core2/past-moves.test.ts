@@ -16,6 +16,9 @@ import { gameStartDate } from "./game-start";
 import { PAST_WORK_SPELL, PERSON_MOVED_IN, pastWorkOf } from "./past-module";
 import { preStartHistory } from "./pre-start";
 import type { PersonId } from "./types";
+import { placeStateKey } from "./place-map";
+import { residenceOn } from "./past-moves";
+import { ELSEWHERE_EMPLOYER, organizationName } from "./places-elsewhere";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const start = gameStartDate();
@@ -95,9 +98,21 @@ describe(`moves before the start, ${label}`, () => {
         if (startedAt >= row.date || spell.facts.end === "held-at-start")
           continue;
         checked += 1;
-        expect(spell.placeId, spell.id).toBe(row.facts.fromPlaceId);
-        // The world keeps no employers where they came from.
-        expect(spell.facts.organizationId, spell.id).toBeUndefined();
+        // Where they lived then: the record's place, or where it says only a
+        // state, one of its towns (residenceOn), in the record's own state.
+        const person = core.people.get(id)!;
+        expect(spell.placeId, spell.id).toBe(
+          residenceOn(core, person, startedAt).placeId,
+        );
+        expect(placeStateKey(spell.placeId), spell.id).toBe(
+          placeStateKey(String(row.facts.fromPlaceId)),
+        );
+        // The world keeps no employers there: one of the place's is named.
+        const employer = String(spell.facts.organizationId ?? "");
+        if (employer.startsWith(ELSEWHERE_EMPLOYER)) {
+          expect(organizationName(core, employer), spell.id).toBeTruthy();
+          expect(spell.facts.employerEstimated, spell.id).toBe("true");
+        }
       }
     }
     console.log(

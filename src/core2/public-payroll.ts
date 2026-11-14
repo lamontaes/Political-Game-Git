@@ -21,6 +21,28 @@ import type {
 } from "./types";
 import { publicPayFloorHourly } from "./public-pay-floor";
 
+/** Hours a day in a public post's full-time week. */
+function postHoursPerDay(api: CoreAPI): number {
+  return (
+    api.parameter("openingFullTimeWeeklyHours") / api.parameter("daysPerWeek")
+  );
+}
+
+/**
+ * The hourly rate a post's budget line can carry: the post's rate, cut to what the line's daily
+ * room pays over a full-time day. Zero or less means the line cannot pay the post at all, and
+ * `startPublicJob` holds the post unpaid (a hiring decision reads the same figure first).
+ */
+export function lineHourlyMinor(
+  api: CoreAPI,
+  hourlyMinor: number,
+  maxDailyMinor: number | undefined,
+): number {
+  return maxDailyMinor === undefined
+    ? hourlyMinor
+    : Math.min(hourlyMinor, Math.floor(maxDailyMinor / postHoursPerDay(api)));
+}
+
 /** Puts a person on a government's payroll today; returns the job id, or null if the person or employer cannot take the post. */
 export function startPublicJob(
   api: CoreAPI,
@@ -105,17 +127,13 @@ export function startPublicJob(
     const template = { id: basis.payTemplateId, hoursDaily: basis.hoursDaily };
     // A post's pay is stated for a full-time week, whatever week the
     // schedule it follows runs.
-    const postHoursDaily =
-      api.parameter("openingFullTimeWeeklyHours") /
-      api.parameter("daysPerWeek");
+    const postHoursDaily = postHoursPerDay(api);
     // stopgapId: SG-GOV-officer-stipend-hours (a post whose line carries less than a full-time week is paid by cutting its hourly rate, not its hours)
-    const linePostedHourlyMinor =
-      input.maxDailyMinor === undefined
-        ? input.hourlyMinor
-        : Math.min(
-            input.hourlyMinor,
-            Math.floor(input.maxDailyMinor / postHoursDaily),
-          );
+    const linePostedHourlyMinor = lineHourlyMinor(
+      api,
+      input.hourlyMinor,
+      input.maxDailyMinor,
+    );
     // A post its line cannot pay at all is held unpaid.
     if (linePostedHourlyMinor <= 0) return null;
     // A public post is paid at the public pay floor in force the day it is

@@ -26,6 +26,8 @@ export interface AppointmentCandidate {
   readonly qualificationRecords?: readonly string[];
   /** Whether the appointing official knows them. */
   readonly known: boolean;
+  /** The relationship record that makes the appointer know them (the tie the reason cites). */
+  readonly knownRecordId?: string;
 }
 
 export interface NominationReasons {
@@ -35,6 +37,8 @@ export interface NominationReasons {
   /** The records the qualification was read from (work, its tenure, schooling). */
   readonly qualificationRecords?: readonly string[];
   readonly acquaintance: number;
+  /** The relationship record the acquaintance was read from, by id; none where the appointer does not know them. */
+  readonly acquaintanceRecordId?: string;
   /** How much the appointer's own traits count loyalty and merit (1 each where no appointer is named). */
   readonly loyaltyWeight?: number;
   readonly meritWeight?: number;
@@ -163,6 +167,9 @@ export function nominateAndConfirm(input: {
           ? { qualificationRecords: c.qualificationRecords }
           : {}),
         acquaintance,
+        ...(c.known && c.knownRecordId
+          ? { acquaintanceRecordId: c.knownRecordId }
+          : {}),
         ...(input.weighing
           ? { loyaltyWeight: loyalty, meritWeight: merit }
           : {}),

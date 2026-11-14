@@ -1,0 +1,86 @@
+{
+  "schema": "english-parts/1",
+  "register": "meeting",
+  "description": "Lines on the meeting panel for a resident in the room, from the meeting's own record (the body, its date and its agenda). The panel picks among a part's wordings (`<key>.w2`, `<key>.w3`) with screenPick.",
+  "slots": {
+    "body": "The body's recorded office title (its council or board), from the meeting's record.",
+    "date": "The meeting's date, as people say it (\"March 4\").",
+    "count": "How many items are on the meeting's agenda, as a word (\"three\"), from the agenda.",
+    "item": "The one open item's title as the panel shows it (\"Budget Ordinance\"), from the bill's title record; unsaid when the bill has none."
+  },
+  "maxWords": 16,
+  "parts": [
+    {
+      "key": "meeting.empty-agenda.1",
+      "move": "empty-agenda",
+      "text": "The {body} has nothing on its agenda for {date}.",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.empty-agenda.1.w2",
+      "move": "empty-agenda",
+      "text": "No item is before the {body} on {date}.",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.empty-agenda.1.w3",
+      "move": "empty-agenda",
+      "text": "Nothing is up before the {body} on {date}.",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak.1",
+      "move": "resident-can-speak",
+      "text": "You can speak for or against any of the {count} items before the {body} votes.",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak-two.1",
+      "move": "resident-can-speak-two",
+      "text": "You can speak for or against either of the two items before the {body} votes.",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak-one.1",
+      "move": "resident-can-speak-one",
+      "text": "You can speak for or against the one item before the {body} votes.",
+      "origin": "authored",
+      "author": "Words builder W3",
+      "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak-one-named.1",
+      "move": "resident-can-speak-one-named",
+      "text": "You can speak for or against the {item} before the {body} votes.",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak-one-named.1.w2",
+      "move": "resident-can-speak-one-named",
+      "text": "The {item} is still open. You can speak for or against it before the {body} votes.",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "kind": "written"
+    }
+  ]
+}

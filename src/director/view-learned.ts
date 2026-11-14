@@ -16,6 +16,7 @@
  * taught it. Nothing here decides what anyone believes: it only moves what
  * the views engine already holds into what the player knows.
  */
+import { organizationName } from "./words";
 import { closenessBetween } from "../core2/closeness";
 import {
   VIEWS_MODULE_ID,
@@ -179,7 +180,7 @@ const FITS = (
  * hardship (`hardship`). A side with no fit, or a record that does not bear
  * it, gives none: they say the principle. Each reason cites its record.
  */
-function viewReason(
+export function viewReason(
   core: Readonly<CoreState>,
   personId: PersonId,
   question: string,
@@ -240,7 +241,7 @@ function viewReason(
   return fits
     ? {
         reason: "work",
-        employer: employer.name,
+        employer: organizationName(employer),
         recordIds: [job.id, employer.id],
         fit,
       }

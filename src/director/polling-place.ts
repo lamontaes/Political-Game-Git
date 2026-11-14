@@ -22,6 +22,9 @@ import {
   ELECTIONS_MODULE_ID,
   ballot,
   contestsOnDate,
+  runningMateOf,
+  ticketGovernorContest,
+  ticketOfficeContest,
   type ContestRow,
 } from "../core2/modules/elections";
 import {
@@ -47,12 +50,16 @@ export interface PollingCandidate {
   /** The party label on the ballot, or null for one running without one. */
   readonly party: string | null;
   readonly filingId: string;
+  /** A governor candidate's running mate, on one line of the ballot with them: one mark counts both. */
+  readonly runningMate?: { readonly personId: PersonId; readonly name: string };
 }
 
 export interface PollingContest {
   readonly id: string;
   readonly title: string;
   readonly level: string;
+  /** The office elected on the governor's ticket, where this race carries one ("Lieutenant Governor"). */
+  readonly ticketTitle?: string;
   readonly candidates: readonly PollingCandidate[];
   readonly sourceRecordIds: readonly string[];
 }
@@ -77,9 +84,11 @@ const visitId = (personId: PersonId, date: IsoDate) => `${personId}:${date}`;
 function contestsOn(api: CoreAPI, date: IsoDate): readonly ContestRow[] {
   // A world without the elections engine holds no elections.
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
-  return [...contestsOnDate(api, date)].sort((a, b) =>
-    a.id.localeCompare(b.id),
-  );
+  // An office elected on the governor's ticket is marked with the governor:
+  // it is not a race of its own on the ballot.
+  return [...contestsOnDate(api, date)]
+    .filter((row) => !ticketGovernorContest(api, row))
+    .sort((a, b) => a.id.localeCompare(b.id));
 }
 
 /**
@@ -119,24 +128,48 @@ function pollingContest(
   contest: ContestRow,
 ): PollingContest {
   const filings = ballot(api, contest.id);
+  const ticket = ticketOfficeContest(api, contest);
+  const nameOf = (personId: string) => {
+    const person = core.people.get(personId);
+    return person ? `${person.givenName} ${person.familyName}` : null;
+  };
+  const mates = filings.flatMap((filing) => {
+    const mate = ticket ? runningMateOf(api, filing, ticket) : null;
+    return mate ? [mate] : [];
+  });
   return {
     id: contest.id,
     title: contest.title,
     level: contest.level,
+    ...(ticket ? { ticketTitle: ticket.title } : {}),
     candidates: filings.flatMap((filing) => {
-      const person = core.people.get(filing.personId);
-      return person
+      const name = nameOf(filing.personId);
+      const mate = mates.find((m) => m.ticketWith === filing.id);
+      const mateName = mate ? nameOf(mate.personId) : null;
+      return name
         ? [
             {
               personId: filing.personId,
-              name: `${person.givenName} ${person.familyName}`,
+              name,
               party: filing.party ?? null,
               filingId: filing.id,
+              ...(mate && mateName
+                ? {
+                    runningMate: {
+                      personId: mate.personId as PersonId,
+                      name: mateName,
+                    },
+                  }
+                : {}),
             },
           ]
         : [];
     }),
-    sourceRecordIds: [contest.id, ...filings.map((filing) => filing.id)],
+    sourceRecordIds: [
+      contest.id,
+      ...filings.map((filing) => filing.id),
+      ...(ticket ? [ticket.id, ...mates.map((m) => m.id)] : []),
+    ],
   };
 }
 

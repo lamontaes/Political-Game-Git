@@ -16,6 +16,7 @@
  * The eligible voters stay the people who live there, so a world's turnout
  * differs from the published one.
  */
+import { shareValue } from "./shares";
 import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { type: "json" };
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
@@ -433,7 +434,8 @@ function readHousePlace(
   const districts = CAL.house.filter((h) => h.stateUsps === usps).length || 1;
   const votes = stateTwoPartyVotes(usps, seed) / districts;
   if (!votes) return null;
-  const share = 0.5 + side * campaignParameter("legislativeSeatMargin");
+  const share =
+    shareValue("evenSplit") + side * campaignParameter("legislativeSeatMargin");
   return makePlace(
     seed,
     `district:${row?.districtGeoid ?? `${usps}${code}`}`,

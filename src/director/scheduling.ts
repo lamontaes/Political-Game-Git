@@ -173,9 +173,10 @@ export interface SituationType {
    */
   arrivesBy?: "day";
   /**
-   * A scene that is an event in itself (a swearing-in, owner Oct 29): it
-   * stops the day however strongly the moment was felt, for the one whose
-   * record it is.
+   * A scene that is an event in itself (a swearing-in, owner Oct 29; a
+   * person's own first date, the proposal they are asked, the birth of their
+   * child, family life report 1, Nov 14): it stops the day however strongly
+   * the moment was felt, for the one whose record it is.
    */
   stopsDay?: boolean;
   /**
@@ -251,7 +252,7 @@ export interface SceneBinding {
    * no others (the plan of Oct 28, section 3: "One cast, decided once").
    */
   presentReasons: Record<PersonId, string>;
-  setting: { kind: string; recordId: string };
+  setting: { kind: string; recordId: string; seat?: true };
   timing: string;
   opener?: string;
   opening?: string;
@@ -302,6 +303,11 @@ export interface ScheduleEntry {
   /** The reply records the player's answers wrote, for the journal to tell. */
   replies?: string[];
   coverage?: CoverageRow;
+  /**
+   * Why a waiting scene closed without playing: its open days ran out before
+   * the player met it ("not met in time"). Its outcome is then a journal line.
+   */
+  closed?: string;
 }
 
 /** About how many scenes a year this life carries now, by band of childhood agency. */
@@ -646,7 +652,7 @@ function resolveSetting(
   core: Readonly<CoreState>,
   moment: Moment,
   peopleBound: number,
-): { kind: string; recordId: string } | undefined {
+): { kind: string; recordId: string; seat?: true } | undefined {
   const subject = core.people.get(moment.personId);
   if (!subject) return undefined;
   const counterpart = moment.counterpartIds[zero]
@@ -692,7 +698,11 @@ function resolveSetting(
           )
         : null;
       return seat
-        ? { kind: "venue", recordId: seat.place.context.jurisdiction.id }
+        ? {
+            kind: "venue",
+            recordId: seat.place.context.jurisdiction.id,
+            seat: true as const,
+          }
         : undefined;
     }
     case "office": {
@@ -1086,8 +1096,13 @@ export function scheduleMoment(
   const metHere = (library.scheduling.metWhereYouAre ?? []).some((prefix) =>
     moment.label.startsWith(prefix),
   );
+  // The one whose record it is: named by the moment, or by the cause record
+  // itself (a birth names its parents, though its moment is about the child).
+  const ownRecord =
+    moment.selfNamed === true ||
+    !!core.durableLog.get(moment.causeId)?.personIds.includes(moment.personId);
   const stopsDay =
-    moment.selfNamed === true &&
+    ownRecord &&
     bindings.some(
       (row) => library.types.find((type) => type.key === row.typeKey)?.stopsDay,
     );

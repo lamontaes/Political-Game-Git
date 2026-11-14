@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 Deferred Oct 25: nothing on screen reads it yet.
 
 Oct 25 audit: blocked-on now names the item (people-partnership-forms) instead of its PR.
+
+Nov 14 2026 (family life report 1): still true on the train (`claude/project-thread-lhbwzt`, 3076c6088c). `knownSingle` skips anyone of the same sex (src/core2/modules/partnerships.ts, about line 567) and `meetPartner` draws the other sex only (about line 194), so a player who is gay is never paired in a played town and none of the courtship scenes can reach them. Report: /mnt/project-files/words-lead/family-life/report-1.md.

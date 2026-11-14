@@ -20,54 +20,49 @@
   ],
   "rules": {
     "address-is-national-not-about-the-player": {
-      "read": 6,
+      "read": 9,
       "breaks": 0,
       "per100": 0
     },
     "speech-has-one-theme": {
-      "read": 6,
-      "breaks": 0,
-      "per100": 0
+      "read": 9,
+      "breaks": 1,
+      "per100": 11.1
     },
     "asks-differ-by-world": {
-      "read": 6,
+      "read": 9,
       "breaks": 0,
       "per100": 0
     },
     "person-said-by-role-pronoun-or-relationship": {
-      "read": 45,
-      "breaks": 16,
-      "per100": 35.6
+      "read": 58,
+      "breaks": 21,
+      "per100": 36.2
     },
     "one-idea-to-a-sentence": {
-      "read": 45,
+      "read": 58,
       "breaks": 0,
       "per100": 0
     },
     "no-reply-asks-what-the-listener-cannot-know": {
-      "read": 12,
+      "read": 22,
       "breaks": 0,
       "per100": 0
     },
     "two-speakers-make-different-points": {
-      "read": 12,
+      "read": 22,
       "breaks": 0,
       "per100": 0
     },
     "line-fits-the-hour": {
-      "read": 17,
+      "read": 27,
       "breaks": 0,
       "per100": 0
     },
     "no-non-replies": {
-      "read": 12,
-      "breaks": 0,
-      "per100": 0
-    },
-    "reason-holds-for-the-side": {
-      "read": 10,
-      "breaks": 0,
-      "per100": 0
+      "read": 22,
+      "breaks": 5,
+      "per100": 22.7
     },
     "note-stands-alone": {
       "read": 12,

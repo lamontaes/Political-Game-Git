@@ -1,0 +1,24 @@
+{
+  "id": "country-federal-lines",
+  "about": "Where each line of the federal budget in force reaches a state in the country tier: its households (benefits paid through the cells, which follow the line against the opening's), one of its sectors (purchases, bought from the state's firms), or out of the cells (interest to bondholders, aid abroad). The state each line's dollars reach is read from data/research/federal/federal-spending-by-state-fy2024.json (each state's population times its stake in the line). The government sector is never a destination: a state's government work is its own ledger's, fitted at the opening. A line the table does not name (none at the FY 2025 budget's lines) leaves the cells; a line the research gives no stake (otherPrograms) is shared by population.",
+  "tag": "ESTIMATED",
+  "source": "OMB Historical Tables 3.2 (outlays by function and subfunction, FY 2024) for what each budget function pays for: benefits to persons (Social Security, income security, veterans' compensation and pensions, farm income support), purchases of care (Medicare, Medicaid and other health), contracts and grants for construction (highways, transit, community development), defense procurement and services, and net interest. A function's mix of payments is assigned whole to its largest part.",
+  "spread": "A function that mixes benefits and purchases (veterans: about half benefits, half VA care; agriculture) is assigned to its larger part; the other part's dollars land in the wrong destination of the same state.",
+  "lines": {
+    "nationalDefense": "manufacturing",
+    "internationalAffairs": "elsewhere",
+    "naturalResources": "professional-business",
+    "agriculture": "households",
+    "transportation": "construction",
+    "communityAndRegionalDevelopment": "construction",
+    "education": "education-health",
+    "health": "education-health",
+    "medicare": "education-health",
+    "incomeSecurity": "households",
+    "socialSecurity": "households",
+    "veterans": "households",
+    "administration": "professional-business",
+    "netInterest": "elsewhere",
+    "otherPrograms": "professional-business"
+  }
+}

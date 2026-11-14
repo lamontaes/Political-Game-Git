@@ -5,10 +5,10 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9143
 after:
 blocked-on:
 lead: governing
@@ -35,6 +35,6 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/modules/campaigns.ts, data/research/elections/cbp-2023-campaign-sellers.json, src/core2/data/stopgaps/gov.json, src/core2/campaigns.test.ts
 
-**Notes.** TODO
+**Notes.** Built Nov 14 on the train (lead ruling: a town with no fitting business pays the town's outside account, not a county or state firm; the unused county counts file stays calibration only). Postage is always paid outside. Rows removed: SG-GOV-campaign-pollster-seller, SG-GOV-campaign-mail-seller, SG-GOV-campaign-venue-seller. The outside payment is `campaign-purchase` in outside-flows.json.
 
 Deferred Oct 25: nothing on screen reads it yet.

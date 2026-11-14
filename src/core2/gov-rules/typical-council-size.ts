@@ -9,6 +9,7 @@
  * See local-governing-body-rules.ts for the sources.
  */
 import { municipalGovernments, primaryReading } from "./municipal-government";
+import { shareTable } from "../shares";
 
 /** Where a typical council value comes from, for the record. */
 export const TYPICAL_COUNCIL_SOURCE =
@@ -28,24 +29,6 @@ export interface Share {
   /** Percent of responding municipalities. */
   readonly percent: number;
 }
-
-/** ICMA 2018, council size, n=3,910 (see the note above for the bands). */
-const COUNCIL_SIZE_SHARES: readonly Share[] = [
-  { value: 4, percent: 12.0 },
-  { value: 5, percent: 39.3 },
-  { value: 6, percent: 12.5 },
-  { value: 7, percent: 26.1 },
-  // Replaced below by the read sizes from 8 to 15, which share this 10.1%.
-  { value: 8, percent: 10.1 },
-];
-
-/** ICMA 2018, at-large council terms in years, n=3,254; "other" left out. */
-const COUNCIL_TERM_SHARES: readonly Share[] = [
-  { value: 2, percent: 18.6 },
-  { value: 3, percent: 13.1 },
-  { value: 4, percent: 63.6 },
-  { value: 6, percent: 2.8 },
-];
 
 /**
  * The modal value of a share table: the value the largest share of
@@ -69,7 +52,10 @@ export function typicalCouncilTables(): {
   readonly seats: readonly Share[];
   readonly termYears: readonly Share[];
 } {
-  return { seats: COUNCIL_SIZE_SHARES, termYears: COUNCIL_TERM_SHARES };
+  return {
+    seats: shareTable("councilSize"),
+    termYears: shareTable("councilTermYears"),
+  };
 }
 
 /**

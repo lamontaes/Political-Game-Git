@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/press-staff-cash.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=cbde9425c9b39c9028eb1b3abe5ce48509818e965fd5d5e38b0673d16bb83741: 1 of 1 passed. Fresh draw GOLDEN_PATH_SEED=sweep-fresh-<random> (number not kept): 1 of 1 passed. Green on both. Proposed for the CTO: drop as fixed on main.
 
 Cause finder (Nov 11, 2026, for Fable B): one more run with the pinned seed on main 8c980a59 passed. Proposed: close.
+
+Dropped Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: `npx vitest run src/core2/press-staff-cash.test.ts` passes on the train (1 of 1, in a run with the business and consumer-credit tests).

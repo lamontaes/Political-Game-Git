@@ -29,6 +29,7 @@
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
+import { jobTitleByKind } from "../core2/person-work";
 import {
   PERSON_MOVED_IN,
   heldSinceRecord,
@@ -82,6 +83,7 @@ import {
   type OutletKind,
 } from "../core2/modules/press";
 import { decisionLean, hardshipStress } from "../core2/trait-decisions";
+import { believesClaim } from "../core2/heard-claims";
 import type {
   CoreAPI,
   CoreModule,
@@ -133,7 +135,12 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { jobSaid, kinAddress, relationPhrase } from "../english/journal-words";
+import {
+  jobSaid,
+  kinAddress,
+  relationPhrase,
+  withArticle,
+} from "../english/journal-words";
 import { OFFICES_MODULE_ID, servingTermsOf } from "../core2/modules/offices";
 import {
   JUSTICE_MODULE_ID,
@@ -170,6 +177,7 @@ import { SAID_AS_DATA as saidAsData } from "../english/said-as";
 import { COMPOSED_CHECKS_DATA as composedChecksData } from "../english/composed-checks";
 import { budgetPurposeSaid } from "../english/bill-names";
 import {
+  organizationName,
   properName,
   spoken,
   spokenDate,
@@ -180,7 +188,6 @@ import {
 import { dayParts, sceneMinute } from "./day-part";
 import {
   employerSaidAs,
-  jobSaidAs,
   officeWords,
   personSlot,
   nameOnceThen,
@@ -442,7 +449,10 @@ function fullName(core: Readonly<CoreState>, id: PersonId): string {
 function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
-  return job && org ? { job, org } : null;
+  // The title as people say it of that kind of government ("town clerk").
+  return job && org
+    ? { job, org, title: jobTitleByKind(job.title, org.name) }
+    : null;
 }
 
 /**
@@ -467,20 +477,16 @@ function sayJob(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   return held && employer ? { ...held, employer } : null;
 }
 
-/** A job's title as said after "works as" ("a stocker"), through the said-as reader; undefined when it cannot be said. */
-function titleWords(
-  title: string | undefined,
-  org: Readonly<OrganizationInput> | undefined,
-): string | undefined {
-  const said = jobSaidAs(
-    title,
-    org ? { outside: !!org.outsideFlow } : undefined,
-  );
-  return said?.kind === "title" ? said.asJob : undefined;
-}
-
 const HEAD_TITLE =
   /\b(chief|director|manager|officer|superintendent|administrator|commissioner|supervisor|principal|clerk of|head|president)\b/i;
+
+/**
+ * Whether a job's title can be said the way people say a job: never a form's
+ * title with a parenthesis, a comma or a slash in it.
+ */
+function sayableTitle(title: string | undefined): title is string {
+  return !!title && !/[(),/]/.test(title);
+}
 
 /**
  * What a person does at their job and, when the employer is out of their
@@ -495,12 +501,14 @@ function workDetail(
   slots: { position: string; place?: string },
 ): Facts {
   const facts: Facts = {};
-  const title = titleWords(held.job.title, held.org);
-  if (title) {
-    facts[slots.position] = { text: title, sourceRecordIds: [held.job.id] };
+  if (sayableTitle(held.title)) {
+    facts[slots.position] = {
+      text: withArticle(held.title),
+      sourceRecordIds: [held.job.id],
+    };
     // A title that heads a department or a body is not "just" anything
     // (round 11, rule 81).
-    if (HEAD_TITLE.test(title))
+    if (HEAD_TITLE.test(held.title))
       facts[`${slots.position}-head`] = {
         text: "yes",
         sourceRecordIds: [held.job.id],
@@ -2446,7 +2454,7 @@ export function subjectsBetween(
       },
       own: { key: `person:${speakerId}:employer`, value: mine.org.id },
       // A true answer also tells what they do there, for the person card.
-      ...(titleWords(mine.job.title, mine.org)
+      ...(sayableTitle(mine.title)
         ? {
             alsoOwn: [
               {
@@ -2497,7 +2505,7 @@ export function subjectsBetween(
           ...(org
             ? {
                 employer: {
-                  text: properName(org.name),
+                  text: organizationName(org),
                   sourceRecordIds: [ended!.id, org.id],
                 },
               }
@@ -2537,7 +2545,9 @@ export function subjectsBetween(
     });
     // What the new job is, from its record, for the listener who asks
     // ("What will you be doing there?"): a question is never left unanswered.
-    const position = titleWords(startedJob.title, startedOrg);
+    const position = sayableTitle(startedJob.title)
+      ? withArticle(startedJob.title)
+      : undefined;
     if (position)
       out.push({
         id: `job-new-detail:${started.causeId}`,
@@ -2572,7 +2582,7 @@ export function subjectsBetween(
       aboutId: listenerStarted.causeId,
       facts: {
         employer: {
-          text: properName(listenerOrg.name),
+          text: organizationName(listenerOrg),
           sourceRecordIds: [listenerJob.id, listenerOrg.id],
         },
       },
@@ -2621,7 +2631,7 @@ export function subjectsBetween(
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
   const theirSaid = theirs ? employerWords(theirs.org) : null;
-  if (theirs && theirSaid && titleWords(theirs.job.title, theirs.org))
+  if (theirs && theirSaid && sayableTitle(theirs.title))
     out.push({
       id: `their-position:${listenerId}`,
       kind: "their-position",
@@ -2655,7 +2665,7 @@ export function subjectsBetween(
         aboutId: row.recordId,
         facts: {
           school: {
-            text: properName(school.name),
+            text: organizationName(school),
             sourceRecordIds: [row.recordId],
           },
           years: {
@@ -2678,7 +2688,7 @@ export function subjectsBetween(
         aboutId: org.id,
         facts: {
           employer: {
-            text: properName(org.name),
+            text: organizationName(org),
             sourceRecordIds: [org.id],
           },
           // Work together that ended long ago is a reason to ask after it.
@@ -2914,7 +2924,7 @@ export function subjectsBetween(
       news: { institutionId: institution.id },
       facts: {
         topic: {
-          text: properName(institution.name),
+          text: organizationName(institution),
           sourceRecordIds: [news.eventId, institution.id],
         },
         // A place in town that closed, by the change's own record.
@@ -3755,7 +3765,7 @@ function replyFacts(
     }
     case "their-position": {
       const theirs = sayJob(core, listener);
-      return theirs && titleWords(theirs.job.title, theirs.org)
+      return theirs && sayableTitle(theirs.title)
         ? {
             facts: {
               employer: {
@@ -3851,6 +3861,26 @@ function calledBy(
       speaker.givenName,
     sourceRecordIds: [tie?.factId ?? speakerId],
   };
+}
+
+/**
+ * What the speaker calls the player in an answer, left out when an earlier
+ * line of the same talk already said it (rule 105: a name once per talk), so
+ * the answer picks a wording without it.
+ */
+function youIn(
+  core: Readonly<CoreState>,
+  conversation: Pick<Conversation, "lines">,
+  speakerId: PersonId,
+  playerId: PersonId,
+): { you?: Fact } {
+  const you = calledBy(core, speakerId, playerId);
+  const said = conversation.lines.some(
+    (line) =>
+      line.speakerId === speakerId &&
+      new RegExp(`\\b${you.text}\\b`, "i").test(line.text),
+  );
+  return said ? {} : { you };
 }
 
 /** The facts the player's own answers can add, from the player's records. */
@@ -5038,6 +5068,16 @@ function mainTopic(
       conversation.used.includes(`${otherId}>${subject.id}`)
     )
       return;
+    // A scene's talk does not turn to the day's news the occasion is not
+    // about: bring-it-up, which says what the news is, is skipped in a
+    // scene, so "What do you think?" would ask about nothing (a death
+    // told at home, a letter, a friend met on the street).
+    if (
+      occasion &&
+      subject.kind === "news" &&
+      !isAbout(subject, occasion, data)
+    )
+      return;
     // A scene's moment with the other person in it (a reunion) is about the
     // two of them: what they share stands for it when no subject is about
     // its cause, ahead of any other recorded event.
@@ -5902,7 +5942,8 @@ function lieClaims(
     claims.push({ stage: "none", value: "none", facts: {} });
     const nearby = [...(core.peopleByPlace.get(player.placeId) ?? [])]
       .map((id) => jobOf(core, core.people.get(id)!)?.org)
-      .filter((org) => org && org.id !== own.value);
+      // The market's stand-in for work out of town is no employer to claim.
+      .filter((org) => org && org.id !== own.value && !org.outsideFlow);
     const other = nearby.sort((a, b) =>
       stableHash(`${key}:${a!.id}`).localeCompare(
         stableHash(`${key}:${b!.id}`),
@@ -5914,7 +5955,7 @@ function lieClaims(
         value: other.id,
         facts: {
           claimed: {
-            text: properName(other.name),
+            text: employerWords(other) ?? properName(other.name),
             sourceRecordIds: [other.id],
           },
         },
@@ -6946,24 +6987,16 @@ function endConversation(
 }
 
 /**
- * Whether a hearer doubts a claim they cannot check: the usual benefit of the
- * doubt (truth-default) against every trait's lean toward doubting.
+ * Whether a hearer doubts a claim they cannot check: the one believing rule every resident's
+ * claim goes through (`believesClaim`: the stranger's pull, closeness to the teller, every trait's
+ * lean toward doubting), here with the player as the teller.
  */
 export function doubtsClaim(
-  core: Pick<CoreState, "data">,
-  hearer: Pick<PersonState, "traits">,
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  hearer: Pick<PersonState, "traits"> & { id?: string },
+  tellerId?: string,
 ): boolean {
-  return (
-    P.truthDefaultPull +
-      decisionLean(
-        core,
-        hearer,
-        "conversation.believe-claim",
-        "believe",
-        "doubt",
-      ) <
-    P.zero
-  );
+  return !believesClaim(core, hearer, tellerId ? { tellerId } : {});
 }
 
 /** The player says a choice: it is recorded, and the other person replies. */
@@ -7025,7 +7058,7 @@ function sayNow(
     const keeps = core.modules.has(BELIEFS_MODULE_ID);
     for (const hearerId of hearers) {
       const hearer = core.people.get(hearerId);
-      if (hearer && doubtsClaim(core, hearer)) {
+      if (hearer && doubtsClaim(core, hearer, playerId)) {
         if (hearerId === otherId) doubted = true;
         continue;
       }
@@ -7113,7 +7146,7 @@ function sayNow(
       core,
       otherId,
       OWN_VIEW_BACK,
-      { ...last.facts, you: calledBy(core, otherId, playerId) },
+      { ...last.facts, ...youIn(core, conversation, otherId, playerId) },
       "default",
       `${eventId}:back`,
       saidParts(conversation, otherId),
@@ -7164,7 +7197,7 @@ function sayNow(
       core,
       otherId,
       OWN_VIEW_TAKE,
-      { ...last.facts, you: calledBy(core, otherId, playerId) },
+      { ...last.facts, ...youIn(core, conversation, otherId, playerId) },
       choice.move,
       `${eventId}:take`,
       saidParts(conversation, otherId),
@@ -7236,7 +7269,7 @@ function sayNow(
       core,
       otherId,
       `${last.kind}-back`,
-      { ...backFacts, you: calledBy(core, otherId, playerId) },
+      { ...backFacts, ...youIn(core, conversation, otherId, playerId) },
       choice.move,
       `${eventId}:back`,
       saidParts(conversation, otherId),
@@ -7432,7 +7465,10 @@ function answerPoint(
     otherId,
     POINT_BACK,
     // The answer may name the player as the speaker calls them.
-    { ...last.facts, you: calledBy(core, otherId, conversation.playerId) },
+    {
+      ...last.facts,
+      ...youIn(core, conversation, otherId, conversation.playerId),
+    },
     choice.move,
     `${eventId}:back`,
     saidParts(conversation, otherId),

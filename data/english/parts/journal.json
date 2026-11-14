@@ -44,7 +44,8 @@
     "after_illness": "What the death record's topic says the person had been, in plain words.",
     "school_for": "How long the person had been at a school, from the school's attendance record.",
     "body": "The body a relative's seat belongs to, as the reader says it: the Nelson City Council.",
-    "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market."
+    "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market.",
+    "about": "A question someone holds a view on, as people name it, from the views engine's stance record."
   },
   "maxWords": 10,
   "mining": {
@@ -10860,6 +10861,110 @@
       "origin": "authored",
       "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
       "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-view-promise.i-told-other-i-d-keep-about-in-front-of-me",
+      "move": "scene-line-view-promise",
+      "kind": "spoken",
+      "text": "I told {other} I'd keep {about} in front of me.",
+      "uses": [
+        {
+          "move": "scene-line-view-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "view-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:view-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-view-promise.i-gave-other-my-word-on-about",
+      "move": "scene-line-view-promise",
+      "kind": "spoken",
+      "text": "I gave {other} my word on {about}.",
+      "uses": [
+        {
+          "move": "scene-line-view-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "view-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:view-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-view-promise.i-promised-other-i-d-look-hard-at-about",
+      "move": "scene-line-view-promise",
+      "kind": "spoken",
+      "text": "I promised {other} I'd look hard at {about}.",
+      "uses": [
+        {
+          "move": "scene-line-view-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "view-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:view-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-view-promise.other-cares-about-about-i-said-i-d-remember",
+      "move": "scene-line-view-promise",
+      "kind": "spoken",
+      "text": "{other} cares about {about}. I said I'd remember.",
+      "uses": [
+        {
+          "move": "scene-line-view-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "view-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:view-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }

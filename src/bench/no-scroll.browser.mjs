@@ -1,9 +1,10 @@
-/* global process, URL, console, document */
+/* global process, console, document */
 // Every sheet of a new game, at the start and after a day, fits its window: the
 // sheet's panel and the page overflow by no more than 8 pixels. A long body scrolls
 // inside the panel under the game's own scroller; it never pages (owner, Oct 29).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { startLife } from "./start-life.mjs";
 const SLACK = 8;
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -14,28 +15,8 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 const bad = [];
 try {
-  const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
-  await ready;
-  if (await page.locator("#front-continue").isEnabled()) {
-    await page.locator("#front-continue").click();
-  } else {
-    const response = page.waitForResponse(
-      (r) => new URL(r.url()).pathname === "/api/newlife",
-      { timeout: 300000 },
-    );
-    await page.locator("#new-life").click();
-    await page.locator("#new-advanced").click();
-    await page.locator("#new-world").click();
-    const r = await response;
-    assert.equal(r.status(), 200);
-    console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-  }
-  await page.waitForFunction(
-    () =>
-      document.getElementById("card-name").textContent.trim() &&
-      document.getElementById("card-clock").textContent.trim(),
-  );
+  // The one start: a new life (or the saved one) with its opening played through.
+  await startLife(page);
   console.log(
     "Player:",
     await page.locator("#card-name").innerText(),

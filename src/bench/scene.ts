@@ -154,6 +154,23 @@ function firstPainted(
   return null;
 }
 
+/**
+ * The room a person serving in a full-time office works in, by the kind of
+ * office on their record (the Oval Office, the governor's office); null for
+ * anyone else. Story scenes staged "in the office" read this.
+ */
+export function officeWorkplace(core: CoreState, personId: string) {
+  return firstPainted(
+    core,
+    servingOfficeKinds(core, personId).map((kind) => OFFICE_WORK[kind]),
+  );
+}
+
+/** The offices a person is serving in now, by id. */
+export function servingOfficeIds(core: CoreState, personId: string): string[] {
+  return servingTermsOf(coreAPI(core), personId).map((term) => term.officeId);
+}
+
 function workplaceOf(core: CoreState, person: PersonState): string {
   // An officeholder works where the office sits: the president in the Oval
   // Office, a governor in the governor's office.

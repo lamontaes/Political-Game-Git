@@ -79,3 +79,13 @@ restrict-abortion	1,2,3,4	1,2,3,4	every life deserves protection, born and unbor
 grow-defense-spending	1,2,4	1,2,3	our troops deserve what they need to keep the peace	our money should go to needs here at home first
 increase-foreign-aid	2,3	1,2,3	this country is safest when it stands with its friends	families here come before spending overseas
 raise-tariffs	1,2,3,4	1,2,3	our workers and our factories deserve a fair shot	every tariff ends up on a family's receipt
+budget-line:police	1		a call for help should be answered fast	money spent before trouble starts goes further than money spent after
+budget-line:corrections	1,2	2	a jail that's short of guards isn't safe for anybody inside it	keeping people out of jail costs less than keeping them in
+budget-line:schools	1,2	2	a child's school shouldn't depend on which side of the line they live on	the families paying the tax bill deserve a say in how fast it grows
+budget-line:higherEducation	2	2	anybody willing to learn a trade should have a seat to learn it in	the taxpayer shouldn't cover a budget that grows faster than the classes
+budget-line:parks			every family deserves a safe place for their kids to play	the things we need come before the things that are nice to have
+budget-line:naturalResources	1,2	1,2	clean water is cheaper to keep than to win back	the people who own the land take better care of it than any program
+budget-line:housing	1	2	the people who work here should be able to live here	the market builds more homes than any program can
+budget-line:healthAndHospitals	1,2		nobody should have to drive an hour to see a doctor	a budget that grows faster than the town can't keep growing
+budget-line:welfareAndMedicaid	2	1,2	a family in trouble shouldn't wait weeks for aid it qualifies for	aid should lead back to a paycheck
+budget-line:highways	1		the roads we all drive on come first	we should fix what we have before we build more
