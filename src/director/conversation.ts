@@ -2749,7 +2749,14 @@ export function subjectsBetween(
     // What a government did, from a record the speaker has of it.
     const governed = governmentNews(core, speaker, listener);
     if (governed) out.push(governed);
-    out.push(...playerDay(core, director, listener, room.minuteOfDay));
+    out.push(
+      ...playerDay(
+        core,
+        director,
+        listener,
+        room.minuteOfDay ?? sceneMinute(core, listener.id),
+      ),
+    );
     const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
     if (quiet) out.push(quiet);
   }
