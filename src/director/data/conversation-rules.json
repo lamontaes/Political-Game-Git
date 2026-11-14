@@ -328,8 +328,9 @@
     },
     "death-news": {
       "ask": "request",
+      "okay": "request",
       "help": "answer",
-      "comfort": "answer"
+      "condole": "answer"
     },
     "illness-news": {
       "ask": "request",
@@ -338,6 +339,7 @@
     },
     "prison-news": {
       "ask": "request",
+      "what": "request",
       "help": "answer",
       "comfort": "answer"
     },

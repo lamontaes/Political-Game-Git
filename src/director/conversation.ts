@@ -863,9 +863,11 @@ function relativeNewsFacts(
   // ("my father", or "Dad" when the listener has the same tie to them); a
   // tie the record does not hold (a spouse's parent) leaves it unset, and the
   // line says the listener's word for them ("your grandfather").
+  const gender = about.looks?.gender ?? "other";
+  facts[gender === "male" ? "he" : gender === "female" ? "she" : "they"] =
+    fact("yes");
   const tie = familyFactsOf(speaker).get(about.id);
   if (tie) {
-    const gender = about.looks?.gender ?? "other";
     const shared = familyFactsOf(listener).get(about.id);
     const said =
       (shared?.relation === tie.relation

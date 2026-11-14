@@ -15,6 +15,7 @@ const say = (
   subject: string,
   facts: Record<string, ReturnType<typeof fact>>,
   stage = "default",
+  moment = "",
 ) =>
   composeConversationLine({
     seed: "relative-news-talk-words",
@@ -23,8 +24,19 @@ const say = (
     traits: {},
     facts,
     stage,
-    momentKey: `${subject}:${stage}`,
+    momentKey: `${subject}:${stage}${moment}`,
   });
+/** Every wording a set of facts can draw, over several moments. */
+const tellings = (
+  subject: string,
+  facts: Record<string, ReturnType<typeof fact>>,
+) =>
+  new Set(
+    Array.from(
+      { length: 24 },
+      (_, at) => say(subject, facts, "default", `:${at}`)?.text,
+    ),
+  );
 const BASE = {
   relation: fact("your grandmother"),
   name: fact("Laura"),
@@ -40,23 +52,36 @@ describe("a relative's news told at home through the composer", () => {
       say("death-news-say", { ...BASE, age: fact("50"), young: fact("yes") })!
         .text,
     ).toMatch(/only 50|at 50/);
+    // A teller with a tie to the relative says it in their own word
+    // ("my mother"); the telling that names the illness is among the ones
+    // drawn.
+    const kin = { kin: fact("my mother") };
     expect(
-      say("illness-news-say", { ...BASE, illness: fact("cancer") })!.text,
-    ).toContain("cancer");
+      [
+        ...tellings("illness-news-say", {
+          ...BASE,
+          ...kin,
+          illness: fact("cancer"),
+        }),
+      ].some((text) => text?.includes("My mother is very sick. It's cancer.")),
+    ).toBe(true);
     expect(
-      say("prison-news-say", {
-        ...BASE,
-        term: fact("eight months"),
-        offense: fact("taking bribes"),
-      })!.text,
-    ).toContain("eight months");
+      [
+        ...tellings("prison-news-say", {
+          ...BASE,
+          ...kin,
+          term: fact("eight months"),
+          offense: fact("taking bribes"),
+        }),
+      ].some((text) => text?.includes("eight months")),
+    ).toBe(true);
   });
 
   it("answers every reply and names the relative as the player's, not by first name", () => {
     for (const [kind, moves] of [
-      ["death-news", ["comfort", "help"]],
+      ["death-news", ["condole", "ask", "okay", "help"]],
       ["illness-news", ["ask", "comfort", "help"]],
-      ["prison-news", ["ask", "comfort", "help"]],
+      ["prison-news", ["ask", "comfort", "what", "help"]],
     ] as const)
       for (const move of moves) {
         const back = say(`${kind}-back`, { ...BASE, you: fact("Micah") }, move);
