@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 1777,
+  "judged": 1934,
   "no": {
     "01ci5tbdc2u": {
       "keys": [
@@ -68,5 +68,5 @@
       "why": "Two unrelated denials (no one directed me / no complaints) that don't form one thought."
     }
   },
-  "yesHash": "1ffp3xwvwov"
+  "yesHash": "0dz7lozbhko"
 }

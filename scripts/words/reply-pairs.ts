@@ -19,6 +19,7 @@
  * A reviewer writes `{ rule, verdicts: [{ id, passes, why }] }` beside each
  * sheet; `npm run words:verdicts -- --from <dir>` folds them into the store.
  */
+import { execFileSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import type { PartGradeLedger } from "../../src/english/english-grades";
@@ -27,6 +28,7 @@ import type { RulePiece } from "../../src/english/line-rules";
 import {
   exchangePairs,
   playableParts,
+  PARTS_DIR,
   readBankPieces,
   readLedger,
   readRules,
@@ -236,6 +238,41 @@ export interface ExchangeSheet {
 }
 
 /**
+ * The keys of the bank lines that are new, or say different words, since the
+ * commit `ref`: what a words builder added on a branch, or what a merge
+ * brought in. A pair made only of lines that were there in the same words is
+ * left out, so a builder judges only the pairs their lines made.
+ */
+export function changedSince(
+  ref: string,
+  pieces: readonly RulePiece[] = readBankPieces(),
+): Set<string> {
+  const run = (args: string[]) =>
+    execFileSync("git", args, {
+      encoding: "utf8",
+      maxBuffer: 256 * 1024 * 1024,
+    });
+  const before = new Map<string, string>();
+  for (const name of run(["ls-tree", "--name-only", `${ref}:${PARTS_DIR}`])
+    .split("\n")
+    .filter((entry) => entry.endsWith(".json"))) {
+    const bank = JSON.parse(run(["show", `${ref}:${PARTS_DIR}/${name}`])) as {
+      parts?: { key: string; text: unknown }[];
+    };
+    for (const part of bank.parts ?? [])
+      before.set(
+        part.key,
+        typeof part.text === "string" ? part.text : JSON.stringify(part.text),
+      );
+  }
+  return new Set(
+    pieces
+      .filter((piece) => before.get(piece.key) !== piece.text)
+      .map((piece) => piece.key),
+  );
+}
+
+/**
  * The sheets for a `judged` exchange rule: every line it judges with no
  * verdict yet on some subject, each with the lines it can answer
  * (`exchangeSubjects`); a reviewer judges each pair, the line after that line.
@@ -250,6 +287,8 @@ export function exchangeSheets(
   perFile = 400,
   /** Only these pairs (`before\u0000reply`), and the lines judged alone: the pairs built scenes produced. */
   only?: ReadonlySet<string>,
+  /** Only subjects with a line in these keys: the lines new or reworded since a commit (`changedSince`). */
+  changed?: ReadonlySet<string>,
 ): Map<string, ExchangeSheet> {
   if (!judgesExchanges(rule))
     throw new Error(`${rule.id} does not judge an exchange`);
@@ -257,6 +296,7 @@ export function exchangeSheets(
   const rows = new Map<string, ExchangeSheetLine>();
   for (const subject of exchangeSubjects(rule, pieces, ledger, pairs)) {
     if (verdictOf(store, subject.id) !== undefined) continue;
+    if (changed && !subject.keys.some((key) => changed.has(key))) continue;
     if (
       only &&
       subject.keys.length === 2 &&
@@ -540,6 +580,7 @@ function main() {
       exchangePairs(),
       value("--per-file") ? Number(value("--per-file")) : 400,
       only,
+      value("--since") ? changedSince(value("--since")!) : undefined,
     );
     mkdirSync(out, { recursive: true });
     let lines = 0;
