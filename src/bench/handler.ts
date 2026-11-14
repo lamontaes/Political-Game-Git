@@ -151,6 +151,8 @@ import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
 import {
   meetOverTalk,
+  noteHeard,
+  noteSceneHeard,
   openConversation,
   say,
   sayNothing,
@@ -682,6 +684,9 @@ const ROUTES: readonly Route[] = [
       // The player talked with them: the two have met (the encounters
       // engine's meeting, through the director's one entry for it).
       meetOverTalk(requireCore(), state.conversation);
+      // What they said is heard today by the player (the telling's "said
+      // today"): the next housemate says something else.
+      noteHeard(requireCore(), state.conversation);
       send(200, talkView(state.conversation));
       return;
     },
@@ -1871,6 +1876,13 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       if (!state.player?.personId || !state.director)
         throw new Error("Choose a resident first.");
+      // The scene's story is heard for the day: talk does not tell it again.
+      noteSceneHeard(
+        requireCore(),
+        state.director,
+        state.player.personId,
+        url.searchParams.get("momentId") ?? "",
+      );
       send(
         200,
         storyReply(
