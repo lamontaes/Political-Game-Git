@@ -74,6 +74,7 @@
       "high": 6,
       "unit": "people outside the household",
       "citation": "From the nearest one confidant to about twice the surveyed discussion network."
-    }
+    },
+    "role": "coefficient"
   }
 }

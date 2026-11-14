@@ -27,9 +27,9 @@ claimed-at:
 
 **Time box.** 1 hour for one Sonnet session at medium effort. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** Never loosen the assertion; the counted case still has to read as its problem. Pin the place and seed (`pinned-tests`).
+**Rules.** One model, two tiers: a counted resident's case is read by the same rule as a full person's, times their count, never skipped. Never loosen the assertion; the test is pinned to a named place and seed as `pinned-tests` says.
 
-**Done when.** A second session runs the test at seeds `a1`, `b2` and `c3` on main and all three pass, with the pinned place named.
+**Done when.** A second session runs the constituent-cases test on main at seeds `a1`, `b2` and `c3`, each in its drawn place (place and seed named in the output), and all three pass, with a counted resident's open case read in a played world by its record id.
 
 **Waits on.** Nothing.
 

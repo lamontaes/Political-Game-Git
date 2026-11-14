@@ -23,13 +23,13 @@ claimed-at:
 
 **Cause.** Needs cause. Measured: the same assertion fails with the same numbers on the clean train head 8bc765b3 and on the branch of #9191, so it is not caused by the counted-case warmth change. Candidate places to look: the ballot rule in `countedDivision` (src/core2/modules/voting.ts) against the test's `divide()` for a race with and without party labels, and a record whose pledge or pledged choice is set.
 
-**Fix.** Find the cause (`docs/pool/FIND-A-CAUSE.md`), then fix in `countedDivision` or the test, whichever holds the wrong rule, and say which.
+**Fix.** None until the cause is found.
 
 **Time box.** 2 hours for one Opus session at medium effort. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** No dice. Never loosen the test to get green; pin it to a named place and seed (`pinned-tests`).
+**Rules.** No dice: a counted record's split is a share of its count, never a roll. Never loosen the test to get green; it is pinned to a named place and seed as `pinned-tests` says.
 
-**Done when.** A second session runs the command above on main and the test passes at that seed, and on two other named places and seeds the test file pins; the cause is named in the item's Notes.
+**Done when.** A second session runs the command above on main in the drawn place, Magnolia, Delaware (place key 1044430, seed e2051d49e318d174), and the test passes there, and in two other drawn places with their seeds pinned in the test file; the cause is named in the item's Notes by record id.
 
 **Waits on.** Nothing.
 
