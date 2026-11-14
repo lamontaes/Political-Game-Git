@@ -140,8 +140,10 @@ describe("seatSaid", () => {
       ["Board of Councillors", "councilor"],
     ] as const) {
       const seat = { title: "Board member", seats: 5, bodyName };
-      expect(seatSaid(seat)).toBe(said);
-      expect(seatSaid(seat, { first: false })).toBe(said);
+      expect(seatSaid(seat, { asMember: true })).toBe(said);
+      expect(seatSaid(seat, { first: false, asMember: true })).toBe(said);
+      // Said as a body anywhere else (a subject of a sentence), #8750.
+      expect(seatSaid(seat)).toBe(`the ${bodyName}`);
     }
     // A body named as a body keeps its name.
     expect(

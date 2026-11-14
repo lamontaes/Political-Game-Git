@@ -148,7 +148,7 @@ export function openFilingVisit(
   const greet = back
     ? visitLine(core, visit, "clerk", "greet-back", {
         "filed-office": {
-          text: seatSaid(back.seat),
+          text: seatSaid(back.seat, { asMember: true }),
           sourceRecordIds: [back.filingId],
         },
         ...clerkFact(core, clerkId),
@@ -177,7 +177,9 @@ export function openFilingVisit(
       "pick-office",
       {
         office: {
-          text: seatSaid(contest.seat ?? { title: contest.title }),
+          text: seatSaid(contest.seat ?? { title: contest.title }, {
+            asMember: true,
+          }),
           sourceRecordIds: [contest.id],
         },
       },
@@ -654,8 +656,8 @@ function raceFacts(
   // "the council"); never the form's title with its parenthesis.
   const record = contest.seat ?? { title: contest.title };
   const facts: Record<string, Fact> = {
-    office: fact(seatSaid(record)),
-    seat: fact(seatSaid(record, { first: false })),
+    office: fact(seatSaid(record, { asMember: true })),
+    seat: fact(seatSaid(record, { first: false, asMember: true })),
   };
   if (contest.electionDate)
     facts.general = fact(spokenDate(contest.electionDate, core.date));
@@ -758,6 +760,7 @@ export function counterNarration(
     facts.office = {
       text: seatSaid(
         visit.contests[zero]!.seat ?? { title: visit.contests[zero]!.title },
+        { asMember: true },
       ),
       sourceRecordIds: [visit.contests[zero]!.id],
     };

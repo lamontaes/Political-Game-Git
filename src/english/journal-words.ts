@@ -642,7 +642,15 @@ export interface SeatRecord {
  */
 export function seatSaid(
   seat: SeatRecord,
-  options: { first?: boolean } = {},
+  options: {
+    first?: boolean;
+    /**
+     * Said as the candidate's own seat ("run for alderman", "file for trustee"):
+     * a body named for its members is one member, with no article. Left off, a
+     * body is said as a body ("the Board of Trustees", #8750).
+     */
+    asMember?: boolean;
+  } = {},
 ): string {
   const first = options.first ?? true;
   const title = seat.title.replace(/\s*\([^)]*\)/g, "").trim();
@@ -699,11 +707,11 @@ export function seatSaid(
     if (level === "state") return chamber();
     if (level === "county") return seatWords.body.replace("{body}", named);
     const last = body.split(/\s+/).at(-one) ?? body;
-    // A body named for its members is one member after the first mention.
+    // A body named for its members is one member where a candidate runs for it.
     const member = (seatWords.memberBodies as Readonly<Record<string, string>>)[
       last.toLowerCase()
     ];
-    if (member) return member;
+    if (member && options.asMember) return member;
     return seatWords.body.replace("{body}", first ? named : jobSaid(last));
   }
   return jobSaid(title);
