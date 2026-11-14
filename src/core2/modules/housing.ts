@@ -94,7 +94,7 @@ import {
   regroupHousehold,
   residentsRuntime,
 } from "./residents";
-import { LAWS_MODULE_ID, lawChain, lawInForce, webFactorFor } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
@@ -2161,7 +2161,6 @@ export function townFiguresByPlace(
   api: CoreAPI,
   placeIds: ReadonlySet<string>,
 ): Map<string, TownHousingFigures> {
-  const c = core(api);
   const grouped = new Map(
     [...placeIds].map((id) => [
       id,
