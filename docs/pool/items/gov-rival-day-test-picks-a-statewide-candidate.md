@@ -29,7 +29,7 @@ checked:
 
 **Rules.** No dice. A retry over fresh seeds is still a draw. Never loosen the line "the rich turn holds the event" for a town race.
 
-**Done when.** The test passes at a statewide place (Hayfield, Virginia, seed above) and at a town-race place, each by its place seed, and fails if `heldInTown` is changed to return false for a town race.
+**Done when.** A second session runs the test at Hayfield, Virginia (seed above) and at a town-race place in a played world built with buildBenchWorld, sees each pass by its place seed with the failure message naming the place, and sees the test fail when `heldInTown` is made to return false for a town race.
 
 **Waits on.** Nothing.
 
