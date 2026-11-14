@@ -4783,7 +4783,12 @@ function mainTopic(
   asks: boolean;
 } | null {
   const { playerId, otherId, director } = conversation;
-  let best: { subject: Subject; asks: boolean; weight: number } | null = null;
+  let best: {
+    subject: Subject;
+    asks: boolean;
+    weight: number;
+    hard: boolean;
+  } | null = null;
   // The occasion comes first: a talk a scene opens is about the scene's
   // moment.
   const occasion = conversation.occasion;
@@ -4871,8 +4876,21 @@ function mainTopic(
       )
     )
       return;
-    if (weight > zero && (!best || weight > best.weight))
-      best = { subject, asks, weight };
+    // Hard news of the teller's own life (an eviction, a lost job, a death)
+    // leads before any other opener, whatever the day's news weighs, until
+    // it has been told (Words lead, Nov 14: a relative put out that day
+    // opened on consumer loan interest because an unwatched person's moment
+    // weighs only the book's floor and a story with a stand weighs more).
+    // A talk a scene opens keeps to its occasion.
+    const hard =
+      !occasion && !asks && NEWS_SUBJECTS.has(subject.kind) && weight > zero;
+    if (
+      weight > zero &&
+      (!best ||
+        (hard && !best.hard) ||
+        (hard === best.hard && weight > best.weight))
+    )
+      best = { subject, asks, weight, hard };
   };
   for (const subject of subjectsBetween(
     core,
@@ -5071,9 +5089,24 @@ function openConversationNow(
       (row) =>
         row.id === toldStory && row.facts.recordKind === OPENING_ADDRESS_EVENT,
     );
+  // The speaker's own hard news (an eviction, a lost job, a death) leads
+  // their talk, so the newest change they know of is not brought up ahead of
+  // it; with none untold, they bring the change up as before (Words lead,
+  // Nov 14: a person put out that day opened on a business closing).
+  const ownLoss =
+    !!told &&
+    subjectsBetween(core, otherId, playerId, conversation.director).some(
+      (row) =>
+        NEWS_SUBJECTS.has(row.kind) &&
+        !!data.otherRaises[row.kind] &&
+        !talked.has(row.id) &&
+        !talked.has(`${otherId}>${row.id}`) &&
+        !heardNow.has(`${HEARD_SUBJECT}${row.id}`),
+    );
   const brought =
     told &&
     !aboutShared &&
+    !ownLoss &&
     !toldIds.some(
       (id) =>
         heardNow.has(`${HEARD_SUBJECT}${id}`) ||
