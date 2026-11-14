@@ -1,19 +1,20 @@
 /**
  * A rival's campaign day in a played world (pool item
- * gov-rival-campaign-day-shared-choices): in a place drawn from all 56 on a
- * seed nobody chose (RIVAL_DAY_SEED pins one), a world candidate who is on a
+ * gov-rival-campaign-day-shared-choices): a world candidate who is on a
  * ballot is offered the same campaign-day acts the player has, and the day
  * they take leans on their money and standing: a poorer or less known
  * candidate on calls and doors, a richer or better known one on an event.
  * The acts run through `takeCampaignDayChoice` and are read back by the
  * campaign records they wrote.
+ *
+ * Pinned (pinned-tests): each case names its place, seed, contest and the
+ * day its world starts, so a rival is on a ballot within a few days and no
+ * place is drawn or passed over. A case whose premise is not true fails
+ * naming the place, the seed and the contest.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
-import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
@@ -28,9 +29,45 @@ import {
   campaignTurn,
   doorsKnockedOf,
   rivalDay,
+  townDoorCount,
+  townShareOfRace,
 } from "./modules/campaigns";
 import { coreAPI } from "./state";
 import type { CoreAPI } from "./types";
+
+interface Pin {
+  readonly name: string;
+  readonly key: string;
+  readonly seed: string;
+  /** The day the world starts: inside the pinned contest's filing window. */
+  readonly start: string;
+  readonly contestId: string;
+}
+
+/** A town race (the town is the whole electorate), in a council with rivals filed by June. */
+const FLUSHING: Pin = {
+  name: "Flushing, Michigan",
+  key: "2629200",
+  seed: "2d52cc38e0d07e243741fa1f37ad5c3eefb14a63af2cb23c360d0dd8a0f742f7",
+  start: "2025-06-19",
+  contestId: "contest:seat:gus2025:106328:council:0:2025-11-04",
+};
+/** A statewide special (filed by early May; the world starts at game start): the town holds 0.0002 of the race's voters. */
+const KIRBY: Pin = {
+  name: "Kirby, Wyoming",
+  key: "5642730",
+  seed: "e2c89bdf506a144e1bc3624d1a5dbedb86f7911e4a6df969adb7e1f0c28e73a8",
+  start: "2025-01-20",
+  contestId: "contest:seat:US-WY:secretary-of-state:2025-08-02:special",
+};
+/** A town council race where the pinned rival can walk every door the town has. */
+const CAPAC: Pin = {
+  name: "Capac, Michigan",
+  key: "2613140",
+  seed: "a3cbd278d04af1450584269dfd85eef98b032266e1701011510a7cd1f7db8003",
+  start: "2025-06-19",
+  contestId: "contest:seat:gus2025:204671:council:0:2025-11-04",
+};
 
 const electionOfFiling = (api: CoreAPI, filing: FilingRow) =>
   (
@@ -40,167 +77,152 @@ const electionOfFiling = (api: CoreAPI, filing: FilingRow) =>
       .get(filing.contestId) as unknown as ContestRow
   ).electionDate;
 
-const seed = process.env.RIVAL_DAY_SEED ?? randomBytes(8).toString("hex");
-
-function attemptPlace(attempt: number): { proven: string } | { tried: string } {
-  {
-    const place = drawPlace(`${seed}:${attempt}`, "rival-day-played");
-    const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const api = coreAPI(core);
-    // Play on until a world candidate is on a ballot with an event and an
-    // interview on offer.
-    const rivalFilings = () =>
-      (
-        api
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("filings")
-          .rows() as unknown as FilingRow[]
-      ).filter((f) => {
-        if (!standing(f) || f.personId === core.playerId) return false;
-        const offered = campaignDayChoices(api, f.id, true);
-        return (
-          core.people.get(f.personId)?.alive === true &&
-          offered.some((c) => c.kind === "event" && c.available) &&
-          offered.some((c) => c.kind === "interview" && c.available)
-        );
-      });
-    let filings = rivalFilings();
-    for (let month = 0; !filings.length && month < 15; month += 1) {
-      advanceCore(core, addDays(makeIsoDate(core.date), 30));
-      filings = rivalFilings();
-    }
-    if (!filings.length)
-      return {
-        tried: `${where}: no world candidate with an event and an interview on offer`,
-      };
-    // Each world candidate's day, poor and rich: the contrast the item asks
-    // for is a candidate whose poor day holds no event and whose rich day
-    // does. A candidate the interview suits better (holding the seat, well
-    // known) builds either day on that, so the place needs one that shows it.
-    const seen: string[] = [];
-    let shown = "";
-    for (const filing of filings) {
-      const campaign = campaignFor(api, filing.id);
-      const candidate = core.people.get(campaign.candidateId)!;
-      const bank = core.organizations.get(campaign.organizationId)!;
-      const town = candidate.placeId;
-      const day = () => rivalDay(api, filing.id, candidate, town);
-      bank.liquidMinor = 0;
-      const poor = day();
-      bank.liquidMinor = 50_000_000_00;
-      const rich = day();
-      seen.push(`${filing.id}: poor ${poor.act}, rich ${rich.act}`);
-      if (poor.act === "event" || rich.act !== "event") continue;
-      expect(poor.callHours + poor.doorHours, where).toBeGreaterThan(0);
-      // Richer: the rival's own turn takes the event through the shared choice.
-      const turn = campaignTurn(api, filing.id, electionOfFiling(api, filing));
-      expect(turn.dayAct, `${where}: the rich turn holds the event`).toBe(
-        "event",
-      );
-      const event = takeCampaignDayChoice(api, filing.id, "event", {
-        world: true,
-      });
-      expect(event.eventMoneyId, where).toMatch(/^event:/);
-      expect(
-        event.causeIds.length,
-        `${where}: the event reached people`,
-      ).toBeGreaterThan(0);
-      // Poorer: the day is on calls and doors.
-      bank.liquidMinor = 0;
-      const calls = takeCampaignDayChoice(api, filing.id, "raise-money", {
-        world: true,
-        hours: poor.callHours,
-      });
-      // An interview is on offer and runs through the same choice.
-      const interview = takeCampaignDayChoice(api, filing.id, "interview", {
-        world: true,
-      }).interview;
-      expect(interview?.id, `${where}: the interview record`).toBeTruthy();
-      shown = `filing ${filing.id} (${candidate.id}) of ${filings.length} on offer; poor day act ${poor.act}, calls ${poor.callHours.toFixed(2)} h, doors ${poor.doorHours.toFixed(2)} h; rich day act ${rich.act} (turn took ${turn.dayAct}); records: event ${event.eventMoneyId} reached ${event.causeIds.length} (first ${event.causeIds[0]}); calls asked ${calls.asked}; interview ${interview?.id}`;
-      break;
-    }
-    // Less known, more of the day on doors; better known, fewer. A candidate
-    // already known to the whole town has nothing to show, so one who is not.
-    let known = "";
-    for (const filing of filings) {
-      const campaign = campaignFor(api, filing.id);
-      const candidate = core.people.get(campaign.candidateId)!;
-      const bank = core.organizations.get(campaign.organizationId)!;
-      const share = () => {
-        const d = rivalDay(api, filing.id, candidate, candidate.placeId);
-        return d.doorHours / (d.callHours + d.doorHours);
-      };
-      bank.liquidMinor = 0;
-      const before = campaignRecognition(api, filing.id);
-      if (before >= 0.9) continue;
-      const lessKnown = share();
-      const doorsBefore = doorsKnockedOf(api, campaign.id).length;
-      const peopleBefore = core.people.size;
-      const countedBefore = campaignFor(api, filing.id).countedReached ?? 0;
-      const doors = takeCampaignDayChoice(api, filing.id, "canvass", {
-        world: true,
-        hours: 400,
-      });
-      expect(
-        doorsKnockedOf(api, campaign.id).length,
-        `${where}: doors knocked`,
-      ).toBeGreaterThan(doorsBefore);
-      // A world candidate's doors reach the wider population as a count: no
-      // counted resident who opened was filled in as a full person.
-      expect(
-        core.people.size,
-        `${where}: a rival's doors filled in no counted resident`,
-      ).toBe(peopleBefore);
-      // Recognition grows only from someone reached: a heard-of impression or
-      // a counted household. A day that reached neither (nobody home) has no
-      // recognition to show, so the next candidate is tried.
-      const countedReach =
-        (campaignFor(api, filing.id).countedReached ?? 0) - countedBefore;
-      if (doors.causeIds.length + countedReach === 0) {
-        seen.push(`${filing.id}: 400 h of doors reached no one`);
-        continue;
-      }
-      const after = campaignRecognition(api, filing.id);
-      expect(after, `${where}: doors made them known`).toBeGreaterThan(before);
-      bank.liquidMinor = 0;
-      expect(share(), `${where}: better known, fewer doors`).toBeLessThan(
-        lessKnown,
-      );
-      known = `filing ${filing.id}: recognition ${before.toFixed(4)} to ${after.toFixed(4)}, door share ${lessKnown.toFixed(3)} to ${share().toFixed(3)}, doors record ${doors.causeIds[0]}, full people ${peopleBefore} before and after, counted households reached ${countedReach}`;
-      break;
-    }
-    if (shown && known) {
-      return { proven: `${where}: ${shown}; ${known}` };
-    }
-    return {
-      tried: `${where}: event contrast ${shown ? "shown" : "not shown"}, recognition contrast ${known ? "shown" : "not shown"} (${seen.join("; ")})`,
-    };
-  }
+/**
+ * The pinned world, played day by day until a world candidate stands in the
+ * pinned contest with an event on offer; fails naming the place if none does
+ * within `maxDays` days.
+ */
+function rivalIn(pin: Pin, maxDays = 20) {
+  const where = `${pin.name} (${pin.key}), seed ${pin.seed}, contest ${pin.contestId}, from ${pin.start}`;
+  const { core } = buildBenchWorld(pin.seed, pin.start, {
+    twoLevel: true,
+    placeKey: pin.key,
+  });
+  const api = coreAPI(core);
+  const rivals = () =>
+    (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .rows() as unknown as FilingRow[]
+    ).filter(
+      (f) =>
+        f.contestId === pin.contestId &&
+        standing(f) &&
+        f.personId !== core.playerId &&
+        core.people.get(f.personId)?.alive === true &&
+        campaignDayChoices(api, f.id, true).some(
+          (c) => c.kind === "event" && c.available,
+        ),
+    );
+  for (let day = 0; day < maxDays && !rivals().length; day += 1)
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  const filing = rivals()[0];
+  if (!filing)
+    throw new Error(
+      `no world candidate on the ballot with an event on offer within ${maxDays} days: ${where}`,
+    );
+  const campaign = campaignFor(api, filing.id);
+  const candidate = core.people.get(campaign.candidateId)!;
+  const bank = core.organizations.get(campaign.organizationId)!;
+  return { core, api, filing, campaign, candidate, bank, where };
 }
 
-const proven: string[] = [];
-const tried: string[] = [];
+it("a rival with doors left leans on money and standing, over days of their own hours", () => {
+  const { core, api, filing, campaign, candidate, bank, where } =
+    rivalIn(FLUSHING);
+  expect(townShareOfRace(api, filing.contestId), `town race: ${where}`).toBe(1);
+  const doorsLeft = () =>
+    townDoorCount(api) - doorsKnockedOf(api, campaign.id).length;
+  expect(doorsLeft(), `doors left: ${where}`).toBeGreaterThan(0);
+  const day = () => rivalDay(api, filing.id, candidate, candidate.placeId);
 
-// One draw per test, so a long run yields between places; the last test
-// fails, naming every place tried, when no draw showed the contrast.
-const DRAWS = 5;
-for (let attempt = 0; attempt < DRAWS; attempt += 1)
-  it(`draw ${attempt}: a played world's rival is offered the player's day acts and leans on them by money and standing`, () => {
-    if (proven.length) return;
-    const result = attemptPlace(attempt);
-    process.stdout.write(`DRAW ${attempt}: ${JSON.stringify(result)}\n`);
-    if ("proven" in result) proven.push(result.proven);
-    else tried.push(result.tried);
-  }, 900_000);
-
-it("some drawn place showed the rival's day leaning on money and standing, with its records", () => {
+  // Poor, the day is on calls and doors; rich, it holds an event.
+  bank.liquidMinor = 0;
+  const poor = day();
+  bank.liquidMinor = 50_000_000_00;
+  const rich = day();
+  expect(poor.act, `the poor day holds no event: ${where}`).not.toBe("event");
+  expect(rich.act, `the rich day holds the event: ${where}`).toBe("event");
+  expect(poor.callHours + poor.doorHours, where).toBeGreaterThan(0);
+  const turn = campaignTurn(api, filing.id, electionOfFiling(api, filing));
+  expect(turn.dayAct, `the rich turn holds the event: ${where}`).toBe("event");
+  const event = takeCampaignDayChoice(api, filing.id, "event", { world: true });
+  expect(event.eventMoneyId, where).toMatch(/^event:/);
   expect(
-    proven.length,
-    `no drawn place showed it in ${DRAWS} draws (seed ${seed}): ${tried.join("; ")}`,
+    event.causeIds.length,
+    `the event reached people: ${where}`,
   ).toBeGreaterThan(0);
-  process.stdout.write(`PROVEN seed ${seed}: ${proven[0]}\n`);
-});
+
+  // Poorer: a day of calls, then an interview through the same choice.
+  bank.liquidMinor = 0;
+  takeCampaignDayChoice(api, filing.id, "raise-money", {
+    world: true,
+    hours: poor.callHours,
+  });
+  const interview = takeCampaignDayChoice(api, filing.id, "interview", {
+    world: true,
+  }).interview;
+  expect(interview?.id, `the interview record: ${where}`).toBeTruthy();
+
+  // Doors: the days' own hours, one day at a time as play does. Each day's
+  // doors add to the households reached, reach the wider population as a
+  // count (no counted resident filled in as a full person), and make the
+  // rival better known; a better known rival gives doors a smaller share of
+  // the day.
+  const share = () => {
+    bank.liquidMinor = 0;
+    const d = day();
+    return d.doorHours / (d.callHours + d.doorHours);
+  };
+  const doorsBefore = doorsKnockedOf(api, campaign.id).length;
+  const peopleBefore = core.people.size;
+  const knownBefore = campaignRecognition(api, filing.id);
+  const shareBefore = share();
+  const DAYS = 7;
+  for (let n = 0; n < DAYS; n += 1) {
+    bank.liquidMinor = 0;
+    const hours = day().doorHours;
+    takeCampaignDayChoice(api, filing.id, "canvass", { world: true, hours });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  }
+  expect(
+    doorsKnockedOf(api, campaign.id).length,
+    `doors knocked over ${DAYS} days: ${where}`,
+  ).toBeGreaterThan(doorsBefore);
+  expect(core.people.size, `no counted resident filled in: ${where}`).toBe(
+    peopleBefore,
+  );
+  const knownAfter = campaignRecognition(api, filing.id);
+  expect(knownAfter, `doors made them known: ${where}`).toBeGreaterThan(
+    knownBefore,
+  );
+  expect(share(), `better known, fewer doors: ${where}`).toBeLessThan(
+    shareBefore,
+  );
+}, 110_000);
+
+it("a candidate for a statewide race holds no town event from the town's share of its voters", () => {
+  const { api, filing, bank, where } = rivalIn(KIRBY, 120);
+  const share = townShareOfRace(api, filing.contestId);
+  expect(share, `the town's share of the race: ${where}`).toBeLessThan(0.01);
+  bank.liquidMinor = 50_000_000_00;
+  // One turn owes the town its share of an event, far short of one.
+  const turn = campaignTurn(api, filing.id, electionOfFiling(api, filing));
+  expect(
+    turn.dayAct,
+    `no town event from a share of ${share}: ${where}`,
+  ).toBeNull();
+}, 75_000);
+
+it("a rival whose town's doors are all knocked adds none", () => {
+  const { api, filing, campaign, candidate, bank, where } = rivalIn(CAPAC);
+  expect(townShareOfRace(api, filing.contestId), `town race: ${where}`).toBe(1);
+  bank.liquidMinor = 0;
+  const walkAll = () =>
+    takeCampaignDayChoice(api, filing.id, "canvass", {
+      world: true,
+      hours: 100_000,
+    });
+  walkAll();
+  expect(
+    doorsKnockedOf(api, campaign.id).length,
+    `every door of ${candidate.placeId} knocked: ${where}`,
+  ).toBe(townDoorCount(api));
+  const knocked = doorsKnockedOf(api, campaign.id).length;
+  walkAll();
+  expect(
+    doorsKnockedOf(api, campaign.id).length,
+    `another day adds no door: ${where}`,
+  ).toBe(knocked);
+}, 35_000);
