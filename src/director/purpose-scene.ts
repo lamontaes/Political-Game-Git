@@ -39,7 +39,11 @@ import {
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { billNameFor, spokenDesignation } from "../english/bill-names";
+import {
+  billNameFor,
+  billNameOf,
+  spokenDesignation,
+} from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
@@ -1108,6 +1112,71 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, askerId],
     };
+  // A witness at a committee's hearing (legislature.ts committeeStage): their
+  // side on the bill and what it reaches in their own life, from the record's
+  // lists (the job it binds, their lease or mortgage, a child at home, their
+  // own age, or only a view), with what the bill does in words and whether the
+  // player is its sponsor. The witness never says a figure about the world.
+  if (record?.kind === "committee-hearing" && said.witnessIds) {
+    const at = said.witnessIds.split(",").indexOf(askerId);
+    const side = (said.witnessSides ?? "").split(",")[at];
+    const life = (said.witnessLives ?? "").split(",")[at];
+    const cited = [moment.causeId, askerId];
+    if (side === "for" || side === "against")
+      facts[`witness-${side}`] = { text: "yes", sourceRecordIds: cited };
+    const lifeRecord = (said.witnessLifeRecords ?? "").split(",")[at] ?? "";
+    if (life)
+      facts[`life-${life}`] = {
+        text: "yes",
+        sourceRecordIds: lifeRecord ? [...cited, lifeRecord] : cited,
+      };
+    // The record that life rests on, worded where a person would name it:
+    // the place they work, their child.
+    const job = core.work.commitments.get(lifeRecord);
+    const workplace = job
+      ? core.organizations.get(job.organizationId)
+      : undefined;
+    if (workplace)
+      facts["own-workplace"] = {
+        text: organizationName(workplace),
+        sourceRecordIds: [...cited, lifeRecord, workplace.id],
+      };
+    const child =
+      life === "children-at-home"
+        ? core.people.get(lifeRecord as PersonId)
+        : undefined;
+    if (child)
+      facts["own-child"] = {
+        text: child.givenName,
+        sourceRecordIds: [...cited, child.id],
+      };
+    // The bill's area, so a line about a school, a doctor, a home or a raise
+    // plays only on a bill about one.
+    const area = {
+      wage: "bill-wage",
+      education: "bill-schools",
+      "health-human-services": "bill-health",
+      "housing-land-use": "bill-housing",
+    }[said.area ?? ""];
+    if (area) facts[area] = { text: "yes", sourceRecordIds: [moment.causeId] };
+    // A witness who holds a job took time off from it to come.
+    const working = [...(core.work.commitmentsByPerson.get(askerId) ?? [])]
+      .map((id) => core.work.commitments.get(id))
+      .find((row) => row && row.endsAt === undefined);
+    if (working)
+      facts["has-job"] = {
+        text: "yes",
+        sourceRecordIds: [...cited, working.id],
+      };
+    if (named?.sponsorId === askedId)
+      facts["you-sponsor"] = { text: "yes", sourceRecordIds: [named.id] };
+    const does = named ? billNameOf(named)?.purpose : undefined;
+    if (does)
+      facts["bill-does"] = {
+        text: does,
+        sourceRecordIds: [named!.id, moment.causeId],
+      };
+  }
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {

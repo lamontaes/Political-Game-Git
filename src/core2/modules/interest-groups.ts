@@ -35,6 +35,7 @@ import {
   registerLegislatureHooks,
   votesOn,
   type BillRow,
+  type HearingWitness,
 } from "./legislature";
 import { personLean } from "../campaign-views";
 import { registerStanceListener } from "../stance-listeners";
@@ -970,13 +971,72 @@ function reviewMember(api: CoreAPI, personId: string, question: string): void {
 
 registerStanceListener(reviewMember);
 
+/**
+ * What a question reaches in one resident's own life, from their records: the job the policy binds,
+ * their own work on a labor or tax question, their lease or mortgage on a housing question, a child at
+ * home on a school or family question, their own age on a health question; else a view held with no
+ * life it touches ("believes"). The same reading `concerns` makes (meetings.ts), with the record named.
+ */
+export function witnessLife(
+  api: CoreAPI,
+  personId: string,
+  question: string,
+): Pick<HearingWitness, "life" | "lifeRecordId"> {
+  const core = api.state as CoreState;
+  const person = core.people.get(personId);
+  if (!person) return { life: "believes" };
+  const commitments = [...(core.work.commitmentsByPerson.get(person.id) ?? [])]
+    .map((id) => core.work.commitments.get(id))
+    .filter((c) => c !== undefined && c.endsAt === undefined)
+    .sort((a, b) => a!.id.localeCompare(b!.id));
+  const bound = groupBPolicy(question)?.organizations ?? [];
+  const boundJob = commitments.find((c) =>
+    bound.includes(
+      core.organizations.get(c!.organizationId)?.classification ?? "",
+    ),
+  );
+  if (boundJob)
+    return { life: "works-where-it-binds", lifeRecordId: boundJob.id };
+  const topic = question.split(":")[1]?.split(".")[0] ?? "";
+  const touches = concerns(api, person)(question);
+  if ((topic.startsWith("labor-") || topic === "fiscal") && touches)
+    return { life: "works", lifeRecordId: commitments[0]!.id };
+  if (topic === "housing-land-use") {
+    // Their household's home on the books: a lease or a mortgage with no end.
+    for (const [id, row] of core.finance.contracts)
+      if (row.householdId === person.householdId && !row.endedAt) {
+        if (id.startsWith("lease:")) return { life: "rents", lifeRecordId: id };
+        if (id.startsWith("mortgage:"))
+          return { life: "owns", lifeRecordId: id };
+      }
+  }
+  if (
+    (topic === "education" || topic === "civil-family-community") &&
+    touches
+  ) {
+    const child = [...person.familyIds].sort().find((id) => {
+      const kin = core.people.get(id);
+      return (
+        kin?.alive &&
+        ageInYears(kin.birthDate, core.date) < api.parameter("votingAge") &&
+        kin.placeId === person.placeId
+      );
+    });
+    if (child) return { life: "children-at-home", lifeRecordId: child };
+  }
+  if (topic === "health-human-services" && touches)
+    return { life: "own-age-health" };
+  return { life: "believes" };
+}
+
 // A hearing on a question hears the residents the interest groups' records show on each side of
-// it, alternating sides: a for-witness, then an against-witness (the stake is the side, as a code).
+// it, alternating sides: a for-witness, then an against-witness, each with what the question reaches
+// in their own life.
 function hearingWitnesses(
   api: CoreAPI,
   bill: BillRow,
   question: string,
-): readonly { personId: string; stake: string }[] {
+): readonly HearingWitness[] {
   // The town's groups are its residents: they testify on law that reaches
   // them (the nation's and their own chain's), as they organize over it
   // (`organize`), never at another state's committee.
@@ -989,12 +1049,18 @@ function hearingWitnesses(
         (id) => api.state.people.get(id)?.alive,
       ),
     }));
-  const out: { personId: string; stake: string }[] = [];
+  const out: HearingWitness[] = [];
   const longest = Math.max(0, ...sides.map((row) => row.people.length));
-  for (let at = 0; at < longest; at += 1)
+  // A hearing hears a few; what each one's life holds is read only for those it hears.
+  const most = campaignParameter("hearingWitnesses");
+  for (let at = 0; at < longest && out.length < most; at += 1)
     for (const row of sides)
-      if (row.people[at])
-        out.push({ personId: row.people[at]!, stake: row.side });
+      if (row.people[at] && out.length < most)
+        out.push({
+          personId: row.people[at]!,
+          stake: row.side === "against" ? "against" : "for",
+          ...witnessLife(api, row.people[at]!, question),
+        });
   return out;
 }
 

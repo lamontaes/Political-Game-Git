@@ -554,11 +554,12 @@ function poolOf(
       .map((meeting) => ({ id: meeting.lobbyistId as PersonId, named: false }));
   }
   if (source.startsWith("fact:")) {
-    // The person a fact of the record names (a message's candidate).
-    const id = record.facts[source.slice("fact:".length)];
-    return id && core.people.has(id as PersonId)
-      ? [{ id: id as PersonId, named: true }]
-      : [];
+    // The people a fact of the record names (a message's candidate), or the
+    // list it names in order, comma-joined (a hearing's witnesses).
+    return (record.facts[source.slice("fact:".length)] ?? "")
+      .split(",")
+      .filter((id) => id && core.people.has(id as PersonId))
+      .map((id) => ({ id: id as PersonId, named: true }));
   }
   if (source.startsWith("civic:")) {
     // A civic role the record's bill or body names (the press corps that
