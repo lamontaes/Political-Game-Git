@@ -90260,10 +90260,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-the-floor-tonight",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-the-others-who-voted-for-it",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll tell the floor tonight.",
+      "text": "Thank you. I'll tell the others who voted for it.",
       "uses": [
         {
           "subject": "scene",
@@ -90390,10 +90390,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.done-i-ll-get-the-follow-up-drafted-this-week",
+      "key": "scene-talk.follow-accept.done-i-ll-get-the-follow-up-drafted",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Done. I'll get the follow-up drafted this week.",
+      "text": "Done. I'll get the follow-up drafted.",
       "uses": [
         {
           "subject": "scene",
@@ -91314,10 +91314,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.bring-me-the-fix-in-writing-and-i-ll-sign-it-today",
+      "key": "scene-talk.reply-bargain.bring-me-the-fix-in-writing-and-i-ll-sign-it",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Bring me the fix in writing, and I'll sign it today.",
+      "text": "Bring me the fix in writing, and I'll sign it.",
       "uses": [
         {
           "subject": "scene",
@@ -91456,110 +91456,6 @@
       "move": "reply-leave",
       "kind": "spoken",
       "text": "I'll decide by the deadline. You'll hear from my office.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "plea"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "threaten"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "leave",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.leave-me-the-file-i-ll-call-the-other-side-before-i-decide",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Leave me the file. I'll call the other side before I decide.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "plea"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "threaten"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "leave",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-ll-sleep-on-it-and-tell-you-in-the-morning",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'll sleep on it and tell you in the morning.",
       "uses": [
         {
           "subject": "scene",
@@ -92053,30 +91949,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "press",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.beat-beat.down-the-hall-a-phone-rings-and-rings",
-      "move": "beat-beat",
-      "kind": "spoken",
-      "text": "Down the hall, a phone rings and rings.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "beat",
-          "move": "beat",
-          "role": "narrator",
-          "purpose": "desk-visit",
-          "key": "desk-visit"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "beat",
         "key": "desk-visit"
       }
     },

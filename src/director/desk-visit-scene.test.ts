@@ -209,8 +209,39 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         }
       })(scene.talk.tree),
     ];
+    // Every path of the tree, a speaker on every line, and what each ending
+    // writes (Words lead, Nov 14: the replay shows who says what).
+    const spoken = (line: { speaker: string; text: string }) =>
+      `${line.speaker}: ${line.text}`;
+    const paths: string[] = [];
+    (function walk(node: typeof scene.talk.tree, before: string[]) {
+      for (const reply of node.replies) {
+        const here = [
+          ...before,
+          `PLAYER: ${reply.line.text}`,
+          ...(reply.next?.lines ?? []).map(spoken),
+        ];
+        const end = reply.next?.end;
+        if (end?.ending)
+          paths.push(
+            [
+              ...here,
+              ...(end.close ? [spoken(end.close)] : []),
+              `ENDING ${end.ending.id}, keeps ${end.ending.keeps}`,
+            ].join("\n    "),
+          );
+        if (reply.next) walk(reply.next, here);
+      }
+    })(scene.talk.tree, []);
+    const firstReply = scene.talk.lines.findIndex(
+      (line) => line.text === scene.talk.tree.replies[0]?.line.text,
+    );
+    const opening = scene.talk.lines
+      .slice(0, firstReply < 0 ? 0 : firstReply)
+      .map(spoken)
+      .join("\n    ");
     process.stdout.write(
-      `DESK-TALK ${where}:\n${lines.map((line) => `  ${line.text}`).join("\n")}\n`,
+      `DESK-TALK ${where}:\n  opening:\n    ${opening}\n${paths.map((path, n) => `  path ${n + 1}:\n    ${path}`).join("\n")}\n`,
     );
     for (const line of lines)
       expect(line.text, where).not.toMatch(
