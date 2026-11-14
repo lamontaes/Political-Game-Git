@@ -20,6 +20,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { lawChain } from "./modules/laws";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import {
   billOf,
   draftBill,
@@ -225,12 +226,45 @@ it("a bill drafted after the session opened gets a floor date, is whipped the da
           committee.heard ? committee.votes.map((v) => v.memberId).sort() : [],
           `${where}: ${committee.id}`,
         ).toEqual(committee.heard ? [...committee.memberIds].sort() : []);
-      } else
-        for (const t of members(api, bill.bodyOfficeId))
+      } else {
+        // Every member whose term covered the day of the vote: a seat filled
+        // after it (a special election, months later once the floor paces
+        // the session and Congress sits all year) had no vote to cast, and a
+        // member who sat at the vote and has since left still must have one.
+        const day = record!.decidedOn;
+        const covered = (t: TermRow) =>
+          t.startDate <= day &&
+          (t.status === "serving" || t.endDate === null || t.endDate > day);
+        const seated =
+          bill.bodyOfficeId === FEDERAL_HOUSE
+            ? members(api, bill.bodyOfficeId).filter(covered)
+            : (["serving", "ended"] as const)
+                .flatMap(
+                  (status) =>
+                    api
+                      .moduleState(OFFICES_MODULE_ID)
+                      .table("terms")
+                      .query("byOfficeStatus", [
+                        bill.bodyOfficeId,
+                        status,
+                      ]) as unknown as TermRow[],
+                )
+                .filter(covered);
+        // The check cannot go empty, and counts the chamber as it sat that
+        // day: one member for each seat filled on it.
+        expect(
+          seated.length,
+          `${where}: ${bill.id} seated on ${day}`,
+        ).toBeGreaterThan(0);
+        expect(seated.length, `${where}: ${bill.id} seated on ${day}`).toBe(
+          new Set(seated.map((t) => t.seatId)).size,
+        );
+        for (const t of seated)
           expect(
             votes.some((v) => v.memberId === memberKey(t)),
             `${where}: ${bill.id} (${after.status}, ${votes.length} votes) no vote by ${memberKey(t)}`,
           ).toBe(true);
+      }
       lines.push(
         `${bill.id} (${after.number}), sponsor ${bill.sponsorId}, drafted ${bill.introduced}, floor date ${scheduled.get(bill.id)}, whip the day before: ${whips.get(bill.id)}; decided ${record?.decidedOn ?? "by its committee"}: ${after.status}, ${held ? `held in committee ${committee.id}, ${committee.heard ? `${committee.yes} for and ${committee.no} against` : `not heard by chair ${committee.chairId}`}` : `${votes.length} votes, e.g. vote:${bill.id}:${votes[0]?.memberId} ${votes[0]?.vote}`}`,
       );
