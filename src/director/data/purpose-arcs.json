@@ -4080,7 +4080,14 @@
             "move": "accept",
             "carries": "none"
           }
-        ]
+        ],
+        "first": {
+          "tell": "ask",
+          "then": [
+            { "move": "answer", "carries": "lean" },
+            { "move": "deflect", "carries": "hedged" }
+          ]
+        }
       },
       "replies": ["agree", "decline"],
       "again": {

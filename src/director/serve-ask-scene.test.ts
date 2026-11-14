@@ -167,12 +167,17 @@ function ask(w: World, personId: string, take: "thank" | "accept") {
   expect(scene.playerAsks).toBe(true);
   expect(scene.askerId).toBe(personId);
   const first = scene.talk.tree.lines[0]!;
+  // A stranger who would say yes asks the player one thing first, and the
+  // player answers it straight (brief J batch 2); everyone else answers at once.
+  const asksFirst = !row.standing.grounds.knows && row.standing.lean > 0;
   expect(first.move, `${w.where}: lean ${row.standing.lean}`).toBe(
-    row.standing.lean > 0 ? "agree" : "decline",
+    asksFirst ? "ask" : row.standing.lean > 0 ? "agree" : "decline",
   );
   for (const node of ends(scene.talk.tree))
     expect(node.end?.ending?.id, w.where).toBeTruthy();
-  const index = scene.talk.tree.replies.findIndex((r) => r.line.move === take);
+  const index = scene.talk.tree.replies.findIndex(
+    (r) => r.line.move === (asksFirst ? "answer" : take),
+  );
   expect(index, `${w.where}: no ${take} reply`).toBeGreaterThanOrEqual(0);
   const replyId = replyInScene(w.core, w.director, w.playerId, entry!, [index]);
   const reply = w.core.durableLog.get(replyId!)!;

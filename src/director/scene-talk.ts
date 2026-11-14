@@ -123,6 +123,17 @@ interface PurposeArc {
       tell: string;
       then: { move: string; carries: "favor" | "lean" | "none" }[];
     };
+    /**
+     * One the player has never met, who would say yes, asks the player one
+     * thing first (Words lead, Nov 14, brief J batch 2: a stranger's yes in
+     * one line is thin): their question (`tell`), the player's answers
+     * (`then`), and each answer's yes or no. `hedged` weighs the answer
+     * with the player's stance left unsaid (`AskStanding.hedged`).
+     */
+    first?: {
+      tell: string;
+      then: { move: string; carries: "lean" | "hedged" }[];
+    };
   };
 }
 
@@ -286,6 +297,10 @@ export interface AskStanding {
   lean: number;
   /** What a yes given as a favor to the player adds at the roll. */
   favor: number;
+  /** They ask the player one thing before they answer (`asks.first`). */
+  asksFirst?: boolean;
+  /** Their position were the player to leave their own stance unsaid. */
+  hedged?: number;
 }
 
 export interface SceneTalkCast {
@@ -943,6 +958,70 @@ export function composeSceneTalk(
     request.auto = true;
     const said = addParts(set, request);
     const carried = standing.lean + standing.favor > zero;
+    // A stranger who would say yes asks one thing first; the player's answer
+    // is a choice, and each answer ends in their yes or no.
+    if (standing.asksFirst && ask.first) {
+      const asked = theirs([ask.first.tell], request, "first-ask", said);
+      const node: TreeNode = { lines: asked ? [asked] : [], replies: [] };
+      const heard = asked ? addParts(said, asked) : said;
+      for (const then of asked ? ask.first.then : []) {
+        const line = mine(
+          {
+            step: "follow",
+            move: then.move,
+            after: asked!.move,
+            ...(asked!.parts[zero] ? { afterPiece: asked!.parts[zero] } : {}),
+          },
+          `first:${then.move}`,
+          heard,
+        );
+        if (!line) {
+          gap("follow", then.move, asked!.move);
+          continue;
+        }
+        line.round = two;
+        const yes =
+          (then.carries === "hedged"
+            ? (standing.hedged ?? standing.lean)
+            : standing.lean) > zero;
+        const last = theirs(
+          yes ? [ask.yes] : [ask.no],
+          line,
+          `first-last:${then.move}`,
+          addParts(heard, line),
+        );
+        const next: TreeNode = { lines: [], replies: [] };
+        if (last) {
+          last.round = two;
+          next.lines.push(last);
+        }
+        next.end = { outcome: outcomeOf(last?.move ?? ask.yes) };
+        node.replies.push({ line, next });
+      }
+      // Fewer than two answers is no choice: they answer at once instead.
+      if (asked && node.replies.length >= two) {
+        asked.round = one;
+        const [led] = [...node.replies].sort(
+          (a, b) =>
+            leanOf(core, b.line.move, askedTraits) -
+              leanOf(core, a.line.move, askedTraits) ||
+            stableHash(`${scene}:first:${a.line.move}`).localeCompare(
+              stableHash(`${scene}:first:${b.line.move}`),
+            ),
+        );
+        if (led) led.line.chosen = true;
+        return finish({
+          narrate,
+          open: null,
+          intro: [],
+          statement: request,
+          root: node,
+          nodes: one + node.replies.length,
+          ledChoices: new Map(led ? [[node, led] as const] : []),
+          ledBranch: new Map(),
+        });
+      }
+    }
     const first = theirs(
       standing.lean > zero ? [ask.yes] : carried ? [ask.carried] : [ask.no],
       request,
