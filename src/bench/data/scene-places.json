@@ -415,7 +415,9 @@
     "asked-out:venue": ["tavern", "coffee-shop"],
     "proposal-answered:home": ["@home"],
     "proposal-answered:public": ["park"],
-    "proposal-answered:venue": ["tavern"]
+    "proposal-answered:venue": ["tavern"],
+    "party-welcome:venue": ["campaign-office-storefront"],
+    "party-welcome:public": ["campaign-office-storefront"]
   },
   "schoolPlacesByAge": [
     {
