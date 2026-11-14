@@ -27,3 +27,7 @@ A row lives in a family file under `src/core2/data/stopgaps/` (the director's in
 - "Resolved" does not mean removed. About 378 rows were closed Nov 10 as "dropped: too in depth" while the estimate still runs, and 176 of them still have a live marker. Reading a resolved row, check the code.
 - A stand-in row with no player effect and no data is dropped without asking. One a player can see stays until replaced.
 - A design call about the player's own experience is an `owner-decision` row plus a decision card, never a wait.
+
+## No new stopgaps (owner's rule, Nov 14)
+
+This overrides any older note, item or skill line that says a builder may leave or register a new stopgap. Build the real thing through the engine that exists, or say in the PR what is missing and stop.

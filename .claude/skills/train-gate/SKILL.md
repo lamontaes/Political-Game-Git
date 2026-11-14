@@ -41,3 +41,7 @@ Compare against the clean train head, not only main: main's reds and the train's
 - Words and story PRs also need `Words lead: train-ready #N <sha>` before they join.
 - A PR based on the train branch shows "merged" on GitHub when folded. That is not a merge to main.
 - After a usage limit resets, every thread that failed needs a message.
+
+## A moved head needs a new stamp
+
+A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads.

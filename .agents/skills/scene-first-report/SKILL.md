@@ -25,3 +25,7 @@ Report, for each variant of the scene:
 7. **What the player's offered replies are** and how they differ by traits.
 
 Then stop and wait for the ruling while other work continues. The owner's example in the ask is a generality (`owners-words-to-threads`): name the class of cases the scene serves.
+
+## Before you start a design
+
+Look in `/mnt/project-files/words-lead/words-machine/` and the story queue for a sibling thread doing the same work, and ask that thread before building a second one (`look-first`).
