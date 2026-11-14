@@ -1,7 +1,7 @@
 ---
 id: lives-civic-roles-read-from-party-records
 title: "A person's civic roles are read from the party records that name them, so they count as a reason to run"
-area: lives
+area: people
 kind: stopgap
 priority: 2
 size: S
