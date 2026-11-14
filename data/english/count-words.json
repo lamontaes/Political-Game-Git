@@ -160,5 +160,12 @@
     "about": "A term of office in years as people say it in a speech (\"four years\"), from the term record's length: the number in words up to twelve. Words composer, an address's occasion (lead, Nov 13).",
     "year": "one year",
     "years": "{count} years"
+  },
+  "length": {
+    "about": "A prison term or other length of months as people say it in talk (\"eight months\", \"three years\"): whole years when the months make whole years, else months. Read by lengthSaid in src/english/count-words.ts.",
+    "month": "a month",
+    "months": "{count} months",
+    "year": "a year",
+    "years": "{count} years"
   }
 }

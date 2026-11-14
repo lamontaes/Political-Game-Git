@@ -71,7 +71,12 @@
     "host-place": "The town of the relative an evicted household moved in with, when it is not their own, from the housing status and the host household's record.",
     "shelter-place": "The town whose shelter took an evicted household in, from the housing status record.",
     "no-bed-place": "The town whose shelters had no bed for an evicted household, from the housing status record.",
-    "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record."
+    "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record.",
+    "young": "A mark: the age at death is below the age people call too soon (data/english/relative-news-words.json).",
+    "cause": "A cause of death as family says it plainly (\"a car crash\"), from the health engine's record; absent for causes not said aloud.",
+    "illness": "A serious illness by its common name (\"cancer\", \"a stroke\"), from the health engine's condition record.",
+    "term": "A prison term's length as people say it (\"eight months\", \"three years\"), from the justice engine's custody record.",
+    "offense": "What a prison term was for, as people say it (\"taking bribes\"), from the justice engine's case."
   },
   "maxWords": 10,
   "lineWords": {
@@ -7910,12 +7915,6 @@
         },
         {
           "choice": "ask",
-          "move": "prison-news-reply-answer-ask",
-          "role": "answer",
-          "subject": "prison-news-reply"
-        },
-        {
-          "choice": "ask",
           "move": "charge-reply-answer-ask",
           "role": "answer",
           "subject": "charge-reply"
@@ -8288,6 +8287,18 @@
           "move": "victimization-reply-answer-comfort",
           "role": "answer",
           "subject": "victimization-reply"
+        },
+        {
+          "move": "death-news-answer-comfort",
+          "subject": "death-news",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "illness-news-answer-comfort",
+          "subject": "illness-news",
+          "role": "answer",
+          "choice": "comfort"
         }
       ]
     },
@@ -10011,12 +10022,6 @@
         },
         {
           "choice": "comfort",
-          "move": "prison-news-reply-answer-comfort",
-          "role": "answer",
-          "subject": "prison-news-reply"
-        },
-        {
-          "choice": "comfort",
           "move": "charge-reply-answer-comfort",
           "role": "answer",
           "subject": "charge-reply"
@@ -11734,6 +11739,12 @@
           "subject": "conviction-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "prison-news-answer-comfort",
+          "subject": "prison-news",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 13,
@@ -12041,9 +12052,9 @@
         },
         {
           "choice": "help",
-          "move": "death-news-reply-answer-help",
+          "move": "death-news-answer-help",
           "role": "answer",
-          "subject": "death-news-reply"
+          "subject": "death-news"
         }
       ]
     },
@@ -12314,6 +12325,12 @@
           "subject": "acquittal-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "death-news-answer-help",
+          "subject": "death-news",
+          "role": "answer",
+          "choice": "help"
         }
       ],
       "transcriptsUsing": 5,
@@ -14276,472 +14293,582 @@
       }
     },
     {
-      "key": "conversation.death-news-raise-raise.relation-passed-away",
-      "move": "death-news-raise-raise",
+      "key": "conversation.death-news-say-core.relation-died-when-it-was-cause",
+      "move": "death-news-say-core",
       "kind": "spoken",
-      "text": "{relation} passed away.",
+      "text": "{relation} died {when}. It was {cause}.",
       "uses": [
         {
-          "move": "death-news-raise-raise",
-          "subject": "death-news",
-          "role": "raise",
-          "choice": "raise"
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core",
+          "requiresFacts": ["cause"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
       "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.death-news-raise-raise.relation-died",
-      "move": "death-news-raise-raise",
+      "key": "conversation.death-news-say-core.relation-died-when-name-was-only-age",
+      "move": "death-news-say-core",
       "kind": "spoken",
-      "text": "{relation} died.",
+      "text": "{relation} died {when}. {name} was only {age}.",
       "uses": [
         {
-          "move": "death-news-raise-raise",
-          "subject": "death-news",
-          "role": "raise",
-          "choice": "raise"
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core",
+          "requiresFacts": ["young"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
       "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.death-news-raise-raise.i-have-some-bad-news-relation-died",
-      "move": "death-news-raise-raise",
+      "key": "conversation.death-news-say-core.relation-passed-away-when-name-was-age",
+      "move": "death-news-say-core",
       "kind": "spoken",
-      "text": "I have some bad news. {relation} died.",
+      "text": "{relation} passed away {when}. {name} was {age}.",
       "uses": [
         {
-          "move": "death-news-raise-raise",
-          "subject": "death-news",
-          "role": "raise",
-          "choice": "raise"
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core",
+          "excludesFacts": ["young"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
       "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.death-news-reply-answer-condole.i-m-so-sorry",
-      "move": "death-news-reply-answer-condole",
+      "key": "conversation.death-news-say-core.relation-died-when-at-age",
+      "move": "death-news-say-core",
       "kind": "spoken",
-      "text": "I'm so sorry.",
+      "text": "{relation} died {when}, at {age}.",
       "uses": [
         {
-          "move": "death-news-reply-answer-condole",
-          "subject": "death-news-reply",
-          "role": "answer",
-          "choice": "condole"
+          "move": "death-news-say-core",
+          "subject": "death-news-say",
+          "role": "core"
         }
       ],
+      "piece": {
+        "of": "death-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "condole",
-        "key": "loss"
-      }
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.death-news-reply-answer-condole.i-m-sorry-for-your-loss",
-      "move": "death-news-reply-answer-condole",
+      "key": "conversation.death-news-answer-ask.how",
+      "move": "death-news-answer-ask",
       "kind": "spoken",
-      "text": "I'm sorry for your loss.",
+      "text": "How?",
       "uses": [
         {
-          "move": "death-news-reply-answer-condole",
-          "subject": "death-news-reply",
+          "move": "death-news-answer-ask",
+          "subject": "death-news",
           "role": "answer",
-          "choice": "condole"
+          "choice": "ask",
+          "requiresFacts": ["cause"],
+          "excludesFacts": ["told-cause"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "condole",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.death-news-reply-answer-help.is-there-anything-i-can-do",
-      "move": "death-news-reply-answer-help",
-      "kind": "spoken",
-      "text": "Is there anything I can do?",
-      "uses": [
-        {
-          "move": "death-news-reply-answer-help",
-          "subject": "death-news-reply",
-          "role": "answer",
-          "choice": "help"
-        },
-        {
-          "move": "illness-news-reply-answer-help",
-          "subject": "illness-news-reply",
-          "role": "answer",
-          "choice": "help"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.death-news-reply-answer-brief.oh-no-how-are-you-holding-up",
-      "move": "death-news-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Oh, no. How are you holding up?",
-      "uses": [
-        {
-          "move": "death-news-reply-answer-brief",
-          "subject": "death-news-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.death-news-reply-answer-brief.oh-no-when-did-you-find-out",
-      "move": "death-news-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Oh, no. When did you find out?",
-      "uses": [
-        {
-          "move": "death-news-reply-answer-brief",
-          "subject": "death-news-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "bearing": "curious",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.illness-news-raise-raise.relation-is-very-sick",
-      "move": "illness-news-raise-raise",
-      "kind": "spoken",
-      "text": "{relation} is very sick.",
-      "uses": [
-        {
-          "move": "illness-news-raise-raise",
-          "subject": "illness-news",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.illness-news-raise-raise.relation-is-seriously-ill",
-      "move": "illness-news-raise-raise",
+      "key": "conversation.death-news-answer-comfort.are-you-okay",
+      "move": "death-news-answer-comfort",
       "kind": "spoken",
-      "text": "{relation} is seriously ill.",
+      "text": "Are you okay?",
       "uses": [
         {
-          "move": "illness-news-raise-raise",
-          "subject": "illness-news",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.illness-news-reply-answer-comfort.i-m-sorry-how-bad-is-it",
-      "move": "illness-news-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "I'm sorry. How bad is it?",
-      "uses": [
-        {
-          "move": "illness-news-reply-answer-comfort",
-          "subject": "illness-news-reply",
+          "move": "death-news-answer-comfort",
+          "subject": "death-news",
           "role": "answer",
           "choice": "comfort"
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "bearing": "tender",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.illness-news-reply-answer-comfort.oh-no-give-name-my-best",
-      "move": "illness-news-reply-answer-comfort",
+      "key": "conversation.death-news-back-core.cause-i-m-still-taking-it-in",
+      "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "Oh, no. Give {name} my best.",
+      "text": "{cause}. I'm still taking it in.",
       "uses": [
         {
-          "move": "illness-news-reply-answer-comfort",
-          "subject": "illness-news-reply",
-          "role": "answer",
-          "choice": "comfort"
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause"]
         }
       ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.illness-news-reply-answer-help.can-i-help-with-anything",
-      "move": "illness-news-reply-answer-help",
+      "key": "conversation.death-news-back-core.i-ll-be-okay-it-s-relation-i-keep-thinking-about",
+      "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "Can I help with anything?",
+      "text": "I'll be okay. It's {relation} I keep thinking about.",
       "uses": [
         {
-          "move": "illness-news-reply-answer-help",
-          "subject": "illness-news-reply",
-          "role": "answer",
-          "choice": "help"
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["comfort"]
         }
       ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.illness-news-reply-answer-ask.what-did-the-doctors-say",
-      "move": "illness-news-reply-answer-ask",
+      "key": "conversation.death-news-back-core.not-really-i-can-t-believe-relation-is-gone",
+      "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "What did the doctors say?",
+      "text": "Not really. I can't believe {relation} is gone.",
       "uses": [
         {
-          "move": "illness-news-reply-answer-ask",
-          "subject": "illness-news-reply",
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.death-news-back-core.we-ll-need-to-call-the-family-about-relation",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "We'll need to call the family about {relation}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.death-news-back-core.there-ll-be-a-service-for-relation-i-ll-find-out-when",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "There'll be a service for {relation}. I'll find out when.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.illness-news-say-core.relation-is-very-sick-it-s-illness",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "{relation} is very sick. It's {illness}.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "requiresFacts": ["illness"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.illness-news-say-core.relation-got-very-sick-when",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "{relation} got very sick {when}.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "excludesFacts": ["illness"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.illness-news-say-core.relation-is-seriously-ill-we-heard-when",
+      "move": "illness-news-say-core",
+      "kind": "spoken",
+      "text": "{relation} is seriously ill. We heard {when}.",
+      "uses": [
+        {
+          "move": "illness-news-say-core",
+          "subject": "illness-news-say",
+          "role": "core",
+          "excludesFacts": ["illness"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.illness-news-answer-ask.how-bad",
+      "move": "illness-news-answer-ask",
+      "kind": "spoken",
+      "text": "How bad?",
+      "uses": [
+        {
+          "move": "illness-news-answer-ask",
+          "subject": "illness-news",
           "role": "answer",
           "choice": "ask"
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "bearing": "curious",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.illness-news-reply-answer-ask.how-long-has-name-been-sick",
-      "move": "illness-news-reply-answer-ask",
+      "key": "conversation.illness-news-back-core.we-don-t-know-yet-i-ll-keep-calling-relation",
+      "move": "illness-news-back-core",
       "kind": "spoken",
-      "text": "How long has {name} been sick?",
+      "text": "We don't know yet. I'll keep calling {relation}.",
       "uses": [
         {
-          "move": "illness-news-reply-answer-ask",
-          "subject": "illness-news-reply",
-          "role": "answer",
-          "choice": "ask"
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["ask"]
         }
       ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.prison-news-raise-raise.relation-was-sent-to-prison",
-      "move": "prison-news-raise-raise",
+      "key": "conversation.illness-news-back-core.i-know-let-s-call-relation-together",
+      "move": "illness-news-back-core",
       "kind": "spoken",
-      "text": "{relation} was sent to prison.",
+      "text": "I know. Let's call {relation} together.",
       "uses": [
         {
-          "move": "prison-news-raise-raise",
-          "subject": "prison-news",
-          "role": "raise",
-          "choice": "raise"
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["comfort"]
         }
       ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.illness-news-back-core.just-call-relation-it-ll-mean-a-lot",
+      "move": "illness-news-back-core",
+      "kind": "spoken",
+      "text": "Just call {relation}. It'll mean a lot.",
+      "uses": [
+        {
+          "move": "illness-news-back-core",
+          "subject": "illness-news-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "illness-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.prison-news-say-core.relation-got-term-for-offense",
+      "move": "prison-news-say-core",
+      "kind": "spoken",
+      "text": "{relation} got {term} for {offense}.",
+      "uses": [
+        {
+          "move": "prison-news-say-core",
+          "subject": "prison-news-say",
+          "role": "core",
+          "requiresFacts": ["term", "offense"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-say",
+        "part": "core",
+        "required": true
+      },
       "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.prison-news-raise-raise.relation-is-going-to-prison",
-      "move": "prison-news-raise-raise",
+      "key": "conversation.prison-news-say-core.relation-was-sentenced-when-it-s-term",
+      "move": "prison-news-say-core",
       "kind": "spoken",
-      "text": "{relation} is going to prison.",
+      "text": "{relation} was sentenced {when}. It's {term}.",
       "uses": [
         {
-          "move": "prison-news-raise-raise",
-          "subject": "prison-news",
-          "role": "raise",
-          "choice": "raise"
+          "move": "prison-news-say-core",
+          "subject": "prison-news-say",
+          "role": "core",
+          "requiresFacts": ["term"],
+          "excludesFacts": ["offense"]
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "piece": {
+        "of": "prison-news-say",
+        "part": "core",
+        "required": true
+      },
       "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.prison-news-reply-answer-ask.for-how-long",
-      "move": "prison-news-reply-answer-ask",
+      "key": "conversation.prison-news-say-core.relation-was-sent-to-prison-when",
+      "move": "prison-news-say-core",
+      "kind": "spoken",
+      "text": "{relation} was sent to prison {when}.",
+      "uses": [
+        {
+          "move": "prison-news-say-core",
+          "subject": "prison-news-say",
+          "role": "core",
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.prison-news-answer-ask.for-how-long",
+      "move": "prison-news-answer-ask",
       "kind": "spoken",
       "text": "For how long?",
       "uses": [
         {
-          "move": "prison-news-reply-answer-ask",
-          "subject": "prison-news-reply",
+          "move": "prison-news-answer-ask",
+          "subject": "prison-news",
           "role": "answer",
-          "choice": "ask"
+          "choice": "ask",
+          "excludesFacts": ["told-term"]
         }
       ],
+      "bearing": "curious",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "braced",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.prison-news-reply-answer-comfort.that-s-hard-i-m-sorry",
-      "move": "prison-news-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "That's hard. I'm sorry.",
-      "uses": [
-        {
-          "move": "prison-news-reply-answer-comfort",
-          "subject": "prison-news-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.prison-news-reply-answer-promise.can-we-visit",
-      "move": "prison-news-reply-answer-promise",
+      "key": "conversation.prison-news-answer-help.can-we-visit",
+      "move": "prison-news-answer-help",
       "kind": "spoken",
       "text": "Can we visit?",
       "uses": [
         {
-          "move": "prison-news-reply-answer-promise",
-          "subject": "prison-news-reply",
+          "move": "prison-news-answer-help",
+          "subject": "prison-news",
           "role": "answer",
-          "choice": "promise"
+          "choice": "help"
         }
       ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
       "bearing": "tender",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
-      "author": "Words session",
-      "bearing": "tender",
-      "date": "2026-10-15",
-      "key": "conversation.prison-news-reply-answer-promise.we-ll-get-through-this",
+      "key": "conversation.prison-news-back-core.i-don-t-know-yet-you-nobody-s-told-us",
+      "move": "prison-news-back-core",
       "kind": "spoken",
-      "move": "prison-news-reply-answer-promise",
-      "origin": "authored",
-      "tag": {
-        "key": "loss",
-        "move": "promise"
-      },
-      "text": "We'll get through this.",
+      "text": "I don't know yet, {you}. Nobody's told us.",
       "uses": [
         {
-          "choice": "promise",
-          "move": "prison-news-reply-answer-promise",
-          "role": "answer",
-          "subject": "prison-news-reply"
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "excludesFacts": ["term"]
         }
-      ]
+      ],
+      "piece": {
+        "of": "prison-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.prison-news-back-core.it-is-i-ll-write-to-relation-this-week",
+      "move": "prison-news-back-core",
+      "kind": "spoken",
+      "text": "It is. I'll write to {relation} this week.",
+      "uses": [
+        {
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.prison-news-back-core.we-can-i-ll-find-out-how-to-visit-relation",
+      "move": "prison-news-back-core",
+      "kind": "spoken",
+      "text": "We can. I'll find out how to visit {relation}.",
+      "uses": [
+        {
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["help"]
+        }
+      ],
+      "piece": {
+        "of": "prison-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (a relative's news told through the composer)",
+      "date": "2026-11-12"
     },
     {
       "key": "conversation.job-new-told-raise-raise.congratulations-on-the-job-at-employer",
@@ -16255,12 +16382,6 @@
         },
         {
           "choice": "ask",
-          "move": "prison-news-reply-answer-ask",
-          "role": "answer",
-          "subject": "prison-news-reply"
-        },
-        {
-          "choice": "ask",
           "move": "charge-reply-answer-ask",
           "role": "answer",
           "subject": "charge-reply"
@@ -16357,50 +16478,6 @@
       }
     },
     {
-      "key": "conversation.death-news-raise-raise.sit-down-a-minute-relation-died",
-      "move": "death-news-raise-raise",
-      "kind": "spoken",
-      "text": "Sit down a minute. {relation} died.",
-      "uses": [
-        {
-          "move": "death-news-raise-raise",
-          "subject": "death-news",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-news-talk)",
-      "date": "2026-10-27",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.death-news-raise-raise.i-don-t-know-how-to-say-this-relation-is-gone",
-      "move": "death-news-raise-raise",
-      "kind": "spoken",
-      "text": "I don't know how to say this. {relation} is gone.",
-      "uses": [
-        {
-          "move": "death-news-raise-raise",
-          "subject": "death-news",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-news-talk)",
-      "date": "2026-10-27",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
       "author": "Claude Opus (pool item words-home-news-talk)",
       "bySource": {
         "chrg": 1,
@@ -16434,165 +16511,11 @@
         },
         {
           "choice": "help",
-          "move": "death-news-reply-answer-help",
+          "move": "death-news-answer-help",
           "role": "answer",
-          "subject": "death-news-reply"
+          "subject": "death-news"
         }
       ]
-    },
-    {
-      "key": "conversation.death-news-reply-answer-brief.oh-come-here",
-      "move": "death-news-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Oh. Come here.",
-      "uses": [
-        {
-          "move": "death-news-reply-answer-brief",
-          "subject": "death-news-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-news-talk)",
-      "date": "2026-10-27",
-      "bearing": "tender",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.illness-news-raise-raise.i-got-a-call-about-relation-it-s-serious",
-      "move": "illness-news-raise-raise",
-      "kind": "spoken",
-      "text": "I got a call about {relation}. It's serious.",
-      "uses": [
-        {
-          "move": "illness-news-raise-raise",
-          "subject": "illness-news",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-news-talk)",
-      "date": "2026-10-27",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.illness-news-raise-raise.relation-is-in-a-bad-way",
-      "move": "illness-news-raise-raise",
-      "kind": "spoken",
-      "text": "{relation} is in a bad way.",
-      "uses": [
-        {
-          "move": "illness-news-raise-raise",
-          "subject": "illness-news",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-news-talk)",
-      "date": "2026-10-27",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.illness-news-reply-answer-ask.have-you-talked-to-them",
-      "move": "illness-news-reply-answer-ask",
-      "kind": "spoken",
-      "text": "Have you talked to them?",
-      "uses": [
-        {
-          "move": "illness-news-reply-answer-ask",
-          "subject": "illness-news-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-news-talk)",
-      "date": "2026-10-27",
-      "bearing": "curious",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.illness-news-reply-answer-comfort.i-m-sorry-that-s-a-lot-to-carry",
-      "move": "illness-news-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "I'm sorry. That's a lot to carry.",
-      "uses": [
-        {
-          "move": "illness-news-reply-answer-comfort",
-          "subject": "illness-news-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-news-talk)",
-      "date": "2026-10-27",
-      "bearing": "tender",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.prison-news-raise-raise.relation-got-sentenced-it-s-prison",
-      "move": "prison-news-raise-raise",
-      "kind": "spoken",
-      "text": "{relation} got sentenced. It's prison.",
-      "uses": [
-        {
-          "move": "prison-news-raise-raise",
-          "subject": "prison-news",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-news-talk)",
-      "date": "2026-10-27",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.prison-news-raise-raise.it-s-done-relation-is-going-away",
-      "move": "prison-news-raise-raise",
-      "kind": "spoken",
-      "text": "It's done. {relation} is going away.",
-      "uses": [
-        {
-          "move": "prison-news-raise-raise",
-          "subject": "prison-news",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-news-talk)",
-      "date": "2026-10-27",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
     },
     {
       "author": "Claude Opus (pool item words-home-news-talk)",
@@ -16646,12 +16569,6 @@
           "move": "job-cause-reply-answer-comfort",
           "role": "answer",
           "subject": "job-cause-reply"
-        },
-        {
-          "choice": "comfort",
-          "move": "prison-news-reply-answer-comfort",
-          "role": "answer",
-          "subject": "prison-news-reply"
         },
         {
           "choice": "comfort",
@@ -16717,12 +16634,6 @@
           "move": "job-lost-reply-answer-ask",
           "role": "answer",
           "subject": "job-lost-reply"
-        },
-        {
-          "choice": "ask",
-          "move": "prison-news-reply-answer-ask",
-          "role": "answer",
-          "subject": "prison-news-reply"
         },
         {
           "choice": "ask",
