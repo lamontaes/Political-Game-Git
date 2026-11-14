@@ -39328,10 +39328,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.let-me-chew-on-that-literally",
+      "key": "scene-talk.reply-leave.let-me-chew-on-that",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let me chew on that. Literally.",
+      "text": "Let me chew on that.",
       "uses": [
         {
           "subject": "scene",
@@ -125843,10 +125843,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.nobody-told-me-what-to-do-i-haven-t-heard-a-complaint",
+      "key": "scene-talk.reply-lie.nobody-told-me-what-to-do-that-vote-was-mine",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "Nobody told me what to do. I haven't heard a complaint.",
+      "text": "Nobody told me what to do. That vote was mine.",
       "uses": [
         {
           "subject": "scene",
