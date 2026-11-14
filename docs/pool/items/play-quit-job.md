@@ -34,4 +34,4 @@ source: owner decision card, Nov 14 12:57Z ("Yes, add Leave this job")
 
 **Files.** src/core2/modules/jobs.ts, src/bench/handler.ts, src/bench/openings.ts, src/bench/card.ts, src/bench/play.mjs, src/bench/data/controls.json, src/core2/jobs-player-quits.test.ts
 
-**Notes.** Words lines for the two new strings: /mnt/project-files/words-lead/quit-job/lines.md. Not built here: leaving a public post or an office (it resigns through the executive or offices engine), and an owner closing or selling their business.
+**Notes.** Words lines for the two new strings went to the Words lead with the played examples. Not built here: leaving a public post or an office (it resigns through the executive or offices engine), and an owner closing or selling their business.
