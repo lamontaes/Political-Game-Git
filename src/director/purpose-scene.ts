@@ -66,7 +66,11 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import { areaName } from "../english/area-names";
-import { NAMED_QUESTIONS, questionAbout, questionSaid } from "../english/question-names";
+import {
+  NAMED_QUESTIONS,
+  questionAbout,
+  questionSaid,
+} from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import {
   questionSubject,
