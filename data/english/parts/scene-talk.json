@@ -187948,31 +187948,6 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-filing-fee.no-fee-no-filing-i-dont-get-to-bend-that",
-      "move": "state-rule-filing-fee",
-      "kind": "spoken",
-      "text": "No fee, no filing. I don't get to bend that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "rule-filing-fee",
-          "role": "asker",
-          "requiresFacts": ["fee"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words lead (carried onto the train with #8722)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-come-back.ill-come-back-with-it",
       "move": "reply-come-back",
       "kind": "spoken",
