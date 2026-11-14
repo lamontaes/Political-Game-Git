@@ -3581,6 +3581,10 @@ async function seatRows() {
         addStep: seat.addStep ?? "",
         firstStep: seat.firstStep ?? "",
         stepDate: seat.stepDate ?? "",
+        risePerYear: seat.risePerYear ?? "",
+        risePercent: seat.risePercent ?? "",
+        riseYears: seat.riseYears ?? "",
+        riseFirstDate: seat.riseFirstDate ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
@@ -3613,7 +3617,7 @@ async function seatRows() {
               : "",
         })),
       })),
-      onDraft: (item, typed, steps = []) => {
+      onDraft: (item, typed, steps = [], rise = null) => {
         const [kind, key] = [
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
@@ -3626,23 +3630,30 @@ async function seatRows() {
             : kind === "line"
               ? { line: key }
               : { question: key }),
-          // A phase-in names each step's amount and day; a single bill, one amount.
-          ...(steps.length
+          // A phase-in names each step's amount and day, or a percent a year, its years and
+          // its first day; a single bill, one amount.
+          ...(rise
             ? {
-                steps: JSON.stringify(
-                  steps.map((step) => ({
-                    value: item.cents
-                      ? Math.round(Number(step.amount) * 100)
-                      : Number(step.amount),
-                    effectiveDate: step.date,
-                  })),
-                ),
+                risePercent: String(rise.percent),
+                riseYears: String(rise.years),
+                riseFirstDate: rise.firstDate,
               }
-            : {
-                value: item.cents
-                  ? String(Math.round(Number(typed) * 100))
-                  : typed,
-              }),
+            : steps.length
+              ? {
+                  steps: JSON.stringify(
+                    steps.map((step) => ({
+                      value: item.cents
+                        ? Math.round(Number(step.amount) * 100)
+                        : Number(step.amount),
+                      effectiveDate: step.date,
+                    })),
+                  ),
+                }
+              : {
+                  value: item.cents
+                    ? String(Math.round(Number(typed) * 100))
+                    : typed,
+                }),
         };
         // An executive's bill goes through a member the player picks: the body's members, the
         // one the engine would ask marked as the likely yes.

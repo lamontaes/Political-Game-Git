@@ -13,8 +13,9 @@ import { rosterTitle, stripSection } from "./strips.mjs";
 
 /**
  * `groups`: [{ name, items: [{ value, label, today, unit, cents, note, blocked }] }];
- * `words`: { title, issue, today, newAmount, draft, none }; `onDraft(item, typed)`
- * drafts the bill. Returns the screen's node.
+ * `words`: { title, issue, today, newAmount, draft, none, risePerYear, risePercent,
+ * riseYears, riseFirstDate }; `onDraft(item, typed, steps, rise)` drafts the bill (`rise` is
+ * the percent a year, its years and its first day, in place of a value or steps). Returns the screen's node.
  */
 export function draftCard({ groups, words, onDraft }) {
   const unitOf = (item) =>
@@ -86,20 +87,72 @@ export function draftCard({ groups, words, onDraft }) {
         ),
       );
     });
-    draft.addEventListener("click", () =>
-      onDraft(
-        item,
-        typed.value,
-        firstDate
-          ? [
-              { amount: typed.value, date: firstDate.value },
-              ...rows.map((row) => ({
-                amount: row.amount.value,
-                date: row.date.value,
-              })),
-            ]
-          : [],
+    // A phase-in by a percent a year (the owner's ruling, Sept 12: dated steps or a percent a
+    // year): the percent, the years it runs and the day of the first rise. The amount in force
+    // is what it rises from, so the typed amount and the added steps give way to it.
+    const percent = numberBox({
+      value: 0,
+      step: "any",
+      label: words.risePercent,
+    });
+    const years = numberBox({ value: 2, min: 2, label: words.riseYears });
+    const riseDate = dateField(words.riseFirstDate ?? "");
+    const riseRow = (...children) =>
+      el("div", { className: "draft-rise-row" }, ...children);
+    const rise = el(
+      "div",
+      { className: "draft-rise" },
+      riseRow(
+        el("span", { className: "draft-entry" }, percent),
+        el("span", {
+          className: "draft-when",
+          textContent: words.risePercent ?? "",
+        }),
       ),
+      riseRow(
+        el("span", { className: "draft-entry" }, years),
+        el("span", {
+          className: "draft-when",
+          textContent: words.riseYears ?? "",
+        }),
+      ),
+      riseRow(
+        riseDate,
+        el("span", {
+          className: "draft-when",
+          textContent: words.riseFirstDate ?? "",
+        }),
+      ),
+    );
+    rise.hidden = true;
+    const riseToggle = makeButton({
+      className: "action small draft-rise-toggle",
+      textContent: words.risePerYear ?? "",
+    });
+    riseToggle.addEventListener("click", () => {
+      rise.hidden = !rise.hidden;
+      firstRow.hidden = steps.hidden = addStep.hidden = !rise.hidden;
+    });
+    draft.addEventListener("click", () =>
+      rise.hidden
+        ? onDraft(
+            item,
+            typed.value,
+            firstDate
+              ? [
+                  { amount: typed.value, date: firstDate.value },
+                  ...rows.map((row) => ({
+                    amount: row.amount.value,
+                    date: row.date.value,
+                  })),
+                ]
+              : [],
+          )
+        : onDraft(item, typed.value, [], {
+            percent: percent.value,
+            years: years.value,
+            firstDate: riseDate.value,
+          }),
     );
     return [
       rosterTitle(item.label),
@@ -116,7 +169,9 @@ export function draftCard({ groups, words, onDraft }) {
         words.newAmount,
         firstRow,
         steps,
-        ...(item.value.startsWith("series:") ? [addStep] : []),
+        ...(item.value.startsWith("series:")
+          ? [addStep, riseToggle, rise]
+          : []),
         ...(item.note
           ? [el("p", { className: "draft-note", textContent: item.note })]
           : []),

@@ -426,8 +426,10 @@ export function seatAct(
     const inForce = menusFor(api, body.level, input.officeId!)
       .flatMap((menu) => menu.items)
       .find((row) => row.series === input.series)?.inForce;
-    if (typeof inForce !== "number")
-      throw new Error("There is no amount in force to raise.");
+    if (typeof inForce !== "number" || inForce <= 0)
+      throw new Error(
+        "A rise by a percent a year needs an amount in force above zero.",
+      );
     const base = inForce;
     const first = makeIsoDate(rise.firstDate);
     let amount = base;
