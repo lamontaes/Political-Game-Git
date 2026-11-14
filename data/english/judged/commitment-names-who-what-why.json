@@ -16,17 +16,17 @@
       "keys": ["scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word"],
       "why": "Bare promise with no what or why."
     },
+    "05gszuke2ef": {
+      "keys": [
+        "scene-talk.state-threaten.last-chance-first-after-today-i-stop-being-polite"
+      ],
+      "why": "Threat naming nothing about who or what."
+    },
     "07ia88elql4": {
       "keys": [
         "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
       ],
       "why": "Threat naming nothing about who or what."
-    },
-    "0epjfrm5cds": {
-      "keys": [
-        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still"
-      ],
-      "why": "Veiled threat naming nothing."
     },
     "0kkc8oy93nz": {
       "keys": ["scene-talk.follow-promise.i-always-will"],
@@ -46,21 +46,27 @@
       "keys": ["scene-talk.reply-promise.you-have-my-word-i-ll-do-it"],
       "why": "Bare promise with no what or why."
     },
-    "1gcc9somxcg": {
-      "keys": ["scene-talk.reply-promise.i-ll-figure-it-out-i-promise"],
-      "why": "Bare promise to figure it out with no what or why."
-    },
-    "1jkxi72uz4y": {
-      "keys": [
-        "scene-talk.state-threaten.last-chance-first-after-today-i-stop-being-polite"
-      ],
-      "why": "Threat naming nothing about who or what."
-    },
-    "1vjtpvaw9iv": {
+    "0sy4jipbnxc": {
       "keys": [
         "scene-talk.follow-threaten.youll-regret-it-first-everyone-does"
       ],
       "why": "Threat that names no who, what or why."
+    },
+    "177j0ie9ean": {
+      "keys": [
+        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still"
+      ],
+      "why": "Veiled threat naming nothing."
+    },
+    "17a8s55kqko": {
+      "keys": [
+        "scene-talk.state-threaten.nothing-has-to-change-between-us-first-unless-you-make-it-think"
+      ],
+      "why": "Veiled threat naming nothing."
+    },
+    "1gcc9somxcg": {
+      "keys": ["scene-talk.reply-promise.i-ll-figure-it-out-i-promise"],
+      "why": "Bare promise to figure it out with no what or why."
     },
     "20bdh3o0vo8": {
       "keys": [
@@ -72,12 +78,6 @@
       "keys": ["scene-talk.follow-threaten.you-know-how-this-works"],
       "why": "Veiled threat that names nothing."
     },
-    "2cverzn4662": {
-      "keys": [
-        "scene-talk.state-threaten.nothing-has-to-change-between-us-first-unless-you-make-it-think"
-      ],
-      "why": "Veiled threat naming nothing."
-    },
     "2e0a9k483ss": {
       "keys": [
         "scene-talk.reply-promise.i-m-going-to-make-it-count-you-ll-see"
@@ -85,5 +85,5 @@
       "why": "Promise to make it count names nothing specific."
     }
   },
-  "yesHash": "1cazuqocbme"
+  "yesHash": "1emrtnza3p5"
 }

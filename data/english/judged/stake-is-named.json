@@ -94,6 +94,12 @@
       "keys": ["scene-talk.follow-plea.not-even-if-we-fix-what-bothers-you"],
       "why": "No stake named."
     },
+    "1eiemn4ucbf": {
+      "keys": [
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends"
+      ],
+      "why": "No stake named."
+    },
     "1jra634qvdc": {
       "keys": [
         "scene-talk.reply-offer.come-in-we-ll-figure-out-the-rest-together-as-it-comes"
@@ -110,12 +116,6 @@
       "keys": ["scene-talk.follow-plea.then-why-have-a-town-hall"],
       "why": "Complaint with no concrete effect named."
     },
-    "1zkwt83thtq": {
-      "keys": [
-        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends"
-      ],
-      "why": "No stake named."
-    },
     "1zu017wgv9v": {
       "keys": ["scene-talk.follow-plea.who-else-would-you-trust-with-it"],
       "why": "No stake named."
@@ -130,12 +130,12 @@
       "keys": ["scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything"],
       "why": "Offers nothing and names no trade."
     },
-    "24r51ycle2u": {
+    "2a0b6n5j7jk": {
       "keys": [
         "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first"
       ],
       "why": "No stake named."
     }
   },
-  "yesHash": "1jv5ewxp6ss"
+  "yesHash": "295edaycf94"
 }

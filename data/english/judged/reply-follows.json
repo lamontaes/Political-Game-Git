@@ -11,13 +11,6 @@
       ],
       "why": "'The third' has no referent in A."
     },
-    "005s74dxjw2": {
-      "keys": [
-        "scene-talk.follow-ask.friend.is-that-all-of-it-first",
-        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
-      ],
-      "why": "A asks if that is all; B answers about the rule to vote."
-    },
     "010ckajk5hi": {
       "keys": [
         "scene-talk.follow-press.two-pages-and-i-have-them-right-here",
@@ -31,6 +24,13 @@
         "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
       ],
       "why": "The reply disagrees with something the line before never claimed."
+    },
+    "029hlixc6bp": {
+      "keys": [
+        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
+        "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment"
+      ],
+      "why": "A asks how it won't recur and says sorry helped; B just apologizes first time."
     },
     "04qttiyvz5v": {
       "keys": [
@@ -60,26 +60,26 @@
       ],
       "why": "B answers an apology A never made."
     },
-    "09ih80j2yok": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything"
-      ],
-      "why": "Agrees and apologizes though A accused nothing and only said the prosecutor has the account."
-    },
-    "09zfiao27u0": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
-        "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
-      ],
-      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
-    },
     "0bghh99u4t5": {
       "keys": [
         "scene-talk.follow-confront.prove-it-by-lunch",
         "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
       ],
       "why": "\"The third\" has no referent in A."
+    },
+    "0bqh33eopjl": {
+      "keys": [
+        "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public",
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first"
+      ],
+      "why": "A never said B brings up the past; B answers a claim not made."
+    },
+    "0brt2y5azoo": {
+      "keys": [
+        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks if B expects belief; B answers about the rule to vote."
     },
     "0cbtdmj81qe": {
       "keys": [
@@ -101,13 +101,6 @@
         "scene-talk.follow-confront.i-will"
       ],
       "why": "A asks a question; \"I will\" answers nothing"
-    },
-    "0eifhuilq50": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
-        "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
     "0f0mtplffmf": {
       "keys": [
@@ -151,19 +144,19 @@
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
+    "0h06vooa3bi": {
+      "keys": [
+        "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
+        "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor"
+      ],
+      "why": "A asks for something checkable; B accuses A of going to a prosecutor."
+    },
     "0h4swhf2th3": {
       "keys": [
         "scene-talk.follow-answer.twenty-or-so-mostly-folks-from-around-here",
         "scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"
       ],
       "why": "The reply picks a job from a list the line before never gave."
-    },
-    "0hp9pzdy21e": {
-      "keys": [
-        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote",
-        "scene-talk.follow-ask.taken.who-else-knew-first"
-      ],
-      "why": "'Who else knew?' has no link to A's rule-and-vote reason."
     },
     "0i8e0laa1yw": {
       "keys": [
@@ -179,13 +172,6 @@
       ],
       "why": "The reply picks a job from a list the line before never gave."
     },
-    "0jpnijlix4q": {
-      "keys": [
-        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
-        "scene-talk.reply-agree.you-re-right-i-ll-contact-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
-    },
     "0jr9cjjfmfz": {
       "keys": [
         "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
@@ -200,12 +186,26 @@
       ],
       "why": "The reply tells the person to think it over, but the line before only said they have to return books."
     },
+    "0k186lhn649": {
+      "keys": [
+        "scene-talk.follow-ask.taken.who-else-knew-first",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks who else knew; B gives a voting justification"
+    },
     "0kiemnnltxn": {
       "keys": [
         "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
         "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here"
       ],
       "why": "A agrees to apologize; B's complaint answers a refusal."
+    },
+    "0kr9vfwe3li": {
+      "keys": [
+        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
+        "scene-talk.reply-agree.you-re-right-i-ll-contact-them"
+      ],
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
     "0lctwmt3y20": {
       "keys": [
@@ -214,19 +214,19 @@
       ],
       "why": "The reply treats a request for time as a yes, and the line before accepted nothing."
     },
+    "0lpi4nnpmi9": {
+      "keys": [
+        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
+        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything"
+      ],
+      "why": "Agrees and apologizes though A accused nothing and only said the prosecutor has the account."
+    },
     "0ltw3nyspt7": {
       "keys": [
         "scene-talk.reply-offer.i-ll-step-out-on-this-one-not-because-i-ve-done-anything-but-because-y",
         "scene-talk.follow-accept.send-me-the-letter-that-s-all-i-need"
       ],
       "why": "A says it will step out; B asks for a letter A never mentioned"
-    },
-    "0nka4nwhlbo": {
-      "keys": [
-        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
-      ],
-      "why": "A asks if B expects belief; B answers about the rule to vote."
     },
     "0o087msunuv": {
       "keys": [
@@ -242,13 +242,6 @@
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
-    "0ob72df98dw": {
-      "keys": [
-        "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
-        "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor"
-      ],
-      "why": "A asks for something checkable; B accuses A of going to a prosecutor."
-    },
     "0ont3ctgtib": {
       "keys": [
         "scene-talk.follow-ask.then-why-vote-at-all",
@@ -262,13 +255,6 @@
         "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
-    },
-    "0pv0hl3ta0e": {
-      "keys": [
-        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
-        "scene-talk.reply-agree.you-have-a-point-so-i-ll-get-in-touch-with-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
     "0pwy84y1ru6": {
       "keys": [
@@ -290,13 +276,6 @@
         "scene-talk.reply-tell.my-family-s-already-said-yes-that-was-the-hard-part"
       ],
       "why": "A asks how much was given; B answers about family saying yes"
-    },
-    "0ra7obs8amj": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
-      ],
-      "why": "'There is' answers nothing in A's statement about being told."
     },
     "0rb4jkz03k0": {
       "keys": [
@@ -326,6 +305,13 @@
       ],
       "why": "A's 'I will' is not something B answers with 'Where did you hear that?'"
     },
+    "0tt5wxgqbhv": {
+      "keys": [
+        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
+        "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them"
+      ],
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
     "0tw45fjmewk": {
       "keys": [
         "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
@@ -340,12 +326,26 @@
       ],
       "why": "The reply treats a request for time as a yes, and the line before accepted nothing."
     },
+    "0vkn5faq7hi": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
+        "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them"
+      ],
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
     "0vuzlpyzaom": {
       "keys": [
         "scene-talk.follow-answer.three-minutes-after-that-they-cut-you-off-anyway",
         "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
       ],
       "why": "The reply disagrees with something the line before never claimed."
+    },
+    "0w3alip8x2v": {
+      "keys": [
+        "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
+        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
+      ],
+      "why": "'There is' answers nothing in A's statement about being told."
     },
     "0xg45rgwav2": {
       "keys": [
@@ -403,12 +403,19 @@
       ],
       "why": "The reply disagrees with something the line before never claimed."
     },
-    "132szf5jj6e": {
+    "10z13s7t10k": {
       "keys": [
-        "scene-talk.reply-confront.i-m-not-doing-penance-on-the-record-for-a-fair-fight",
-        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first"
+        "scene-talk.follow-answer.close.i-only-want-to-know-i-can-count-on-you-first-that-s-all",
+        "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me"
       ],
-      "why": "A never said B brings up the past; B answers a claim not made."
+      "why": "A made no accusation; B excuses itself as if accused."
+    },
+    "12inx8c101n": {
+      "keys": [
+        "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks why B didn't tell them; B answers about the rule to vote."
     },
     "142jeqe18nd": {
       "keys": [
@@ -431,13 +438,6 @@
       ],
       "why": "A asks what is in the way; B agrees as if told something."
     },
-    "16jayhlgr3g": {
-      "keys": [
-        "scene-talk.follow-ask.taken.who-else-knew-first",
-        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
-      ],
-      "why": "A asks who else knew; B gives a voting justification"
-    },
     "16scfax8sdc": {
       "keys": [
         "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look",
@@ -451,6 +451,13 @@
         "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
       ],
       "why": "The reply disagrees with something the line before never claimed."
+    },
+    "186ucqdh56v": {
+      "keys": [
+        "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
+        "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor"
+      ],
+      "why": "A never mentions a prosecutor or going to one."
     },
     "18beakglilu": {
       "keys": [
@@ -571,13 +578,6 @@
       ],
       "why": "Funerals appear nowhere in A"
     },
-    "1j6lk0hhuag": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
-        "scene-talk.reply-agree.you-re-right-i-ll-contact-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
-    },
     "1k7soz35rxr": {
       "keys": [
         "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
@@ -592,26 +592,19 @@
       ],
       "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
-    "1n54l4pkxj9": {
-      "keys": [
-        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
-        "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
-    },
-    "1na9nr4igpn": {
-      "keys": [
-        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
-        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
-      ],
-      "why": "'There is' answers nothing A said; A made no question or claim to affirm."
-    },
     "1o69lay5te0": {
       "keys": [
         "scene-talk.reply-agree.let-me-see-them-i-ll-read-them-now",
         "scene-talk.follow-thank.good-we-ll-see-you-there"
       ],
       "why": "The reply says they will see the person there, but the line before was only about reading the pages."
+    },
+    "1ofe6hnaves": {
+      "keys": [
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote",
+        "scene-talk.follow-ask.taken.who-else-knew-first"
+      ],
+      "why": "'Who else knew?' has no link to A's rule-and-vote reason."
     },
     "1ohl0yu5i6o": {
       "keys": [
@@ -626,6 +619,13 @@
         "scene-talk.follow-thank.that-s-all-i-ask-thank-you"
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
+    },
+    "1ppucbswlvf": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
+        "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
     "1q2j2b5iqu3": {
       "keys": [
@@ -655,19 +655,19 @@
       ],
       "why": "A only says \"I will\"; stepping out is unprompted"
     },
+    "1s9x0e3h4nz": {
+      "keys": [
+        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
+        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
+      ],
+      "why": "'There is' answers nothing A said; A made no question or claim to affirm."
+    },
     "1sf94tox9vo": {
       "keys": [
         "scene-talk.follow-press.is-there-something-i-can-fix-i-d-like-to-understand",
         "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
-    },
-    "1sgfquy62fh": {
-      "keys": [
-        "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
-        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
-      ],
-      "why": "A asks why B didn't tell them; B answers about the rule to vote."
     },
     "1sp6kmb0ain": {
       "keys": [
@@ -683,13 +683,6 @@
       ],
       "why": "'I will' answers nothing in A's statement."
     },
-    "1t8lx52yoeg": {
-      "keys": [
-        "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public",
-        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first"
-      ],
-      "why": "A never said B brings up the past; B answers a claim not made."
-    },
     "1u9zeyy89k0": {
       "keys": [
         "scene-talk.follow-plea.at-least-tell-me-what-would-change-your-mind",
@@ -704,12 +697,12 @@
       ],
       "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
     },
-    "1wnrxnv1ddq": {
+    "1vs9mf7vf98": {
       "keys": [
-        "scene-talk.follow-answer.close.i-only-want-to-know-i-can-count-on-you-first-that-s-all",
-        "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me"
+        "scene-talk.reply-confront.i-m-not-doing-penance-on-the-record-for-a-fair-fight",
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first"
       ],
-      "why": "A made no accusation; B excuses itself as if accused."
+      "why": "A never said B brings up the past; B answers a claim not made."
     },
     "1wod050lzsl": {
       "keys": [
@@ -753,12 +746,19 @@
       ],
       "why": "A comments on quiet people; B's bag remark answers nothing in A."
     },
-    "22ian24oux6": {
+    "213ui9tkfsr": {
       "keys": [
-        "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
-        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
+        "scene-talk.reply-agree.you-have-a-point-so-i-ll-get-in-touch-with-them"
       ],
-      "why": "A asks where the money went; B answers about the rule to vote."
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
+    "22ai2600ip5": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
+        "scene-talk.reply-agree.you-re-right-i-ll-contact-them"
+      ],
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
     "238fyxz5dig": {
       "keys": [
@@ -788,13 +788,6 @@
       ],
       "why": "A asks for a number; B says \"we understand each other\""
     },
-    "257geqjbw0k": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
-        "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
-      ],
-      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
-    },
     "25hgc4lmj4g": {
       "keys": [
         "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
@@ -816,12 +809,26 @@
       ],
       "why": "The reply picks a job from a list the line before never gave."
     },
-    "28hkgoc5y65": {
+    "28gmm76b35l": {
       "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment"
+        "scene-talk.follow-ask.friend.is-that-all-of-it-first",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
       ],
-      "why": "A asks how it won't recur and says sorry helped; B just apologizes first time."
+      "why": "A asks if that is all; B answers about the rule to vote."
+    },
+    "28ny9ex5puz": {
+      "keys": [
+        "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks where the money went; B answers about the rule to vote."
+    },
+    "29aa6vf9uql": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
+        "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
     "29e6o7o0wgc": {
       "keys": [
@@ -829,13 +836,6 @@
         "scene-talk.close-accept.i-understand-take-care-of-yourself"
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
-    "29kwxhoqov6": {
-      "keys": [
-        "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
-        "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor"
-      ],
-      "why": "A never mentions a prosecutor or going to one."
     },
     "2agljwb7pq2": {
       "keys": [
@@ -901,5 +901,5 @@
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     }
   },
-  "yesHash": "26cshybt5ft"
+  "yesHash": "2d898oepnzc"
 }
