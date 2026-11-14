@@ -1393,6 +1393,9 @@ function composeBinding(
   // the bill (`promised-against`) is said only from a record of one, which no
   // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
 
+  // Joining a party: the party the record names, by its name.
+  if (type.purpose === "party-welcome" && typeof said.party === "string")
+    facts.party = { text: said.party, sourceRecordIds: [moment.causeId] };
   // Taking office (offices.ts): the office by its title in the offices
   // engine's rows, whatever wording the record carries (a contest's title, or
   // an office's id from a dev start); an executive office goes on to an

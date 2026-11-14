@@ -372,18 +372,6 @@
     "status": "open"
   },
   {
-    "id": "SG-PLAY-party-joined-scene-awaits-words",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/parties.ts",
-    "line": 479,
-    "whatItFakes": "Joining a party writes the party-joined record, and Travel lists the party office for members, but no director scene plays at the office and no journal line tells it: the record has no situation type or lines yet.",
-    "why": "A cause bound to a type with no lines stages an empty scene that still stops the player (scene-producers, #6990), and lines under data/english/parts are the words session's to write.",
-    "addedBy": "play-join-a-party-has-no-scene-and-no-headquarters",
-    "addedAt": "2026-11-11",
-    "replacement": "play-party-joined-scene-at-the-office: a situation type caused by party-joined, staged at the party office with its leader, with the welcome, the replies and the journal line from the banks.",
-    "status": "open"
-  },
-  {
     "id": "SG-PLAY-creator-bust-choices",
     "kind": "placeholder-art",
     "file": "src/bench/appearance.ts",

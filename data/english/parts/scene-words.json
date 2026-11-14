@@ -6025,6 +6025,86 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-other.other-is-waiting-to-welcome-you-to-the-party",
+      "move": "lead-party-welcome-other",
+      "kind": "spoken",
+      "text": "{other} is waiting to welcome you to the {party}.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-other",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-other.other-has-been-expecting-you-since-you-signed-up",
+      "move": "lead-party-welcome-other",
+      "kind": "spoken",
+      "text": "{other} has been expecting you since you signed up.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-other",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-alone.you-go-down-to-the-party-office-to-see-who-runs-it",
+      "move": "lead-party-welcome-alone",
+      "kind": "spoken",
+      "text": "You go down to the {party} office to see who runs it.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-alone",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-alone.the-party-office-is-open-and-someone-is-expecting-you",
+      "move": "lead-party-welcome-alone",
+      "kind": "spoken",
+      "text": "The {party} office is open, and someone is expecting you.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-alone",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }

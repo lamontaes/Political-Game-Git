@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
 pr:
@@ -35,3 +35,5 @@ source: added with npm run pool -- add
 **Files.** src/director/data/director.json, src/director/data/situation-types.json, data/english/parts/scene-words.json, data/english/parts/scene-talk.json
 
 **Notes.** Split from play-join-a-party-has-no-scene-and-no-headquarters by its builder (opus-1fd7, Nov 11): the record, the opening and Travel landed there; the scene waits on words.
+
+Notes. Built on cluster 29 (Account lead builder, Nov 14): party-joined now fills in the party's leader when they are still counted, stages the `party-welcome` scene at the campaign office with the leader, 33 talk pieces and 4 lead pieces, and the reply writes a record. SG-PLAY-party-joined-scene-awaits-words is deleted. Pinned to four drawn places in src/director/party-welcome.test.ts. A party whose leader lives in the player's own house plays no welcome (the type's receive rule is "apart"), so the test picks a party whose leader lives apart.

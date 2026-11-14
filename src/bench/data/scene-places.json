@@ -409,7 +409,9 @@
     "filing:venue": ["clerk-counter"],
     "address:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:seat": ["@seatroom", "@office", "council-chamber"],
-    "floor-debate:venue": ["public-meeting-room"]
+    "floor-debate:venue": ["public-meeting-room"],
+    "party-welcome:venue": ["campaign-office-storefront"],
+    "party-welcome:public": ["campaign-office-storefront"]
   },
   "schoolPlacesByAge": [
     {
