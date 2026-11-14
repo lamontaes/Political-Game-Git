@@ -1,6 +1,6 @@
 /**
  * A campaign's acts are about more than its lead question (pool item
- * campaign-platform-emphasis-c1; stopgap SG-GOV-platform-emphasis-lead-only,
+ * campaign-platform-emphasis-c1; the lead-only rule it
  * replaced): each ad, mailer, night of doors, event and donor meeting is about
  * the platform question the campaign is furthest behind on, measured against
  * that question's share of the platform's scores (`nextTopic`,

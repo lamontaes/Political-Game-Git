@@ -4475,7 +4475,7 @@ interface EmphasisRow {
 }
 
 /**
- * The question a campaign's next act is about (SG-GOV-platform-emphasis-lead-only
+ * The question a campaign's next act is about (every act carrying the lead alone
  * replaced): the platform question furthest behind its share of what the
  * campaign has said so far, this act counted, taking its place in the whole
  * and in its own kind of act (an ad, a mailer, a night of doors, an event or

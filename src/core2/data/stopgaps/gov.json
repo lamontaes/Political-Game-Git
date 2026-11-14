@@ -2161,11 +2161,11 @@
     "kind": "uncalibrated-tunable",
     "file": "src/core2/campaign-stances.ts",
     "line": 366,
-    "whatItFakes": "platformSupportSlope is the study's domestic coefficient carried over, and the played total it is checked against does not reach the research's band. The research's C1 (docs/research/platform-emphasis-2026-10-30.md, as its quote verification restates it: +16% to +86% emphasis per 10 points of support), measured from what candidates said by record (messages and speeches on each question they hold a view on, silences included, each candidate offset by how many questions they hold a view on) over 42 candidates in four drawn places' years (run seed b6c9d59eda6a31f1, src/core2/campaign-platform-played.test.ts), gives -3% at the slope's value 0.035; with each campaign's lead chosen again from the recorded scores, -16% at 0 (the old rule), -10% at 0.015 and -3% at 0.028, 0.043 and 0.062. No slope in the research's spread brings it in. Every act carries the campaign's lead alone (SG-GOV-platform-emphasis-lead-only), so each candidate's emphasis is all on their top score, the fit within one candidate's questions has no finite value, and the pooled total is set by the differences between candidates; over every slope from 0.028 up the top score does not change. Earlier measures on score shares (-13% pooled, +345% to +712% within candidates) overshoot or miss for the same reasons: picking the top 3 with silences sharpens the slope, as the research's C1 warns.",
+    "whatItFakes": "platformSupportSlope is the study's domestic coefficient carried over, and the played total it is checked against does not reach the research's band. The research's C1 (docs/research/platform-emphasis-2026-10-30.md, as its quote verification restates it: +16% to +86% emphasis per 10 points of support), measured from what candidates said by record (messages and speeches on each question they hold a view on, silences included, each candidate offset by how many questions they hold a view on) over 42 candidates in four drawn places' years (run seed b6c9d59eda6a31f1, src/core2/campaign-platform-played.test.ts), gives -3% at the slope's value 0.035; with each campaign's lead chosen again from the recorded scores, -16% at 0 (the old rule), -10% at 0.015 and -3% at 0.028, 0.043 and 0.062. No slope in the research's spread brings it in. Every act carries the campaign's lead alone (every act carrying the lead alone), so each candidate's emphasis is all on their top score, the fit within one candidate's questions has no finite value, and the pooled total is set by the differences between candidates; over every slope from 0.028 up the top score does not change. Earlier measures on score shares (-13% pooled, +345% to +712% within candidates) overshoot or miss for the same reasons: picking the top 3 with silences sharpens the slope, as the research's C1 warns.",
     "why": "The study followed one candidate who spoke on many issues in graded amounts; the played world's candidates each speak on one question, and their support varies mostly between candidates (a candidate on the town's minority side has low support on most questions), not between one candidate's questions. Which total C1 holds in a world of many candidates, and whether a campaign's acts should share its emphasis over the platform by score as the research's emphasis share has it, is the governing lead's ruling.",
     "addedBy": "governing lead",
     "addedAt": "2026-10-30",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The slope measured into the C1 band once a campaign's acts share its emphasis over the platform by score (SG-GOV-platform-emphasis-lead-only's replacement), by the pooled total with each candidate's offset, and the played-year test holds the band again: pool item campaign-platform-emphasis-c1. Until then the test prints C1 and does not hold it (governing lead, Nov 2, under the CTO's Nov 1 ruling that an unmet calibration line is reported in the PR and carried to its own item, never tuned or widened to pass).",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The slope measured into the C1 band once a campaign's acts share its emphasis over the platform by score (every act carrying the lead alone's replacement), by the pooled total with each candidate's offset, and the played-year test holds the band again: pool item campaign-platform-emphasis-c1. Until then the test prints C1 and does not hold it (governing lead, Nov 2, under the CTO's Nov 1 ruling that an unmet calibration line is reported in the PR and carried to its own item, never tuned or widened to pass).",
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
@@ -2195,20 +2195,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
-  },
-  {
-    "id": "SG-GOV-platform-emphasis-lead-only",
-    "kind": "missing-mechanic",
-    "file": "src/core2/campaign-data.ts",
-    "line": 27,
-    "whatItFakes": "Every campaign act that carries one question (a donor meeting, an event, an ad, a mailer, an evening of doors) carries the campaign's lead (platformLead), so everything a candidate chooses to say in a race is on one question, the top score of their platform; the other platform questions are heard only where the whole platform is (a door, an interview answer).",
-    "why": "The research's emphasis share gives each platform question its score's share of the space in speeches, flyers, ads and news quotes (docs/research/platform-emphasis-2026-10-30.md, section 1), and no campaign engine yet takes its acts' topics in turn over the platform.",
-    "addedBy": "governing lead",
-    "addedAt": "2026-10-30",
-    "replacement": "Replaced Nov 14, 2026: each act's topic is taken in turn over the platform, the question furthest behind its platform-score share of what the campaign has said so far (nextTopic in src/core2/modules/campaigns.ts; shares from platformShares in src/core2/campaign-stances.ts; no roll). Was: each act's topic taken in turn over the platform, the question furthest behind its score's share of what the campaign has said so far (no roll), so a candidate's messages and speeches follow the score shares; C1 then measured from those records.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-14",
-    "resolvedBy": "rival issues thread"
   },
   {
     "id": "SG-GOV-counted-lean-spread",
