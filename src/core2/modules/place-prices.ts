@@ -166,6 +166,8 @@ interface Rule {
   payeeId?: string;
   providerId?: string;
   cause: string;
+  /** The statute this rule is one of, so two statutes on one good (a clean-electricity standard and retail choice) are two rules, not one overwriting the other. */
+  statute?: string;
   since: string;
   source: Source;
 }
@@ -229,12 +231,21 @@ function store(api: CoreAPI) {
 }
 const core = (api: CoreAPI) => api.state as CoreState;
 
+export function ruleId(
+  placeId: string,
+  good: Good,
+  kind: Rule["kind"],
+  statute?: string,
+): string {
+  return `${placeId}:${good}:${kind}${statute ? `:${statute}` : ""}`;
+}
+
 function put(api: CoreAPI, rule: Omit<Rule, "id" | "since">): void {
   store(api)
     .table("rules")
     .put({
       ...rule,
-      id: `${rule.placeId}:${rule.good}:${rule.kind}`,
+      id: ruleId(rule.placeId, rule.good, rule.kind, rule.statute),
       since: api.state.date,
       isRule: true,
     } as unknown as { id: string });
@@ -374,8 +385,11 @@ export function endPlaceRule(
   placeId: string,
   good: Good,
   kind: Rule["kind"],
+  statute?: string,
 ): void {
-  store(api).table("rules").remove(`${placeId}:${good}:${kind}`);
+  store(api)
+    .table("rules")
+    .remove(ruleId(placeId, good, kind, statute));
 }
 
 /**
@@ -1120,14 +1134,14 @@ function readPriceLaws(api: CoreAPI): void {
     publicPayee = false,
   ) => {
     const law = lawInForce(api, question);
-    const id = `${placeId}:${rule.good}:${rule.kind}`;
+    const id = ruleId(placeId, rule.good, rule.kind, question);
     const cause = `law:${question}:`;
     if (law.value !== 1 || !law.governing) {
       // End only this statute's price, not a separately recorded service rule.
       if (
         String(store(api).table("rules").get(id)?.cause ?? "").startsWith(cause)
       )
-        endPlaceRule(api, placeId, rule.good, rule.kind);
+        endPlaceRule(api, placeId, rule.good, rule.kind, question);
       return;
     }
     if (gap) api.stopgap(gap);
@@ -1154,12 +1168,13 @@ function readPriceLaws(api: CoreAPI): void {
       if (
         String(store(api).table("rules").get(id)?.cause ?? "").startsWith(cause)
       )
-        endPlaceRule(api, placeId, rule.good, rule.kind);
+        endPlaceRule(api, placeId, rule.good, rule.kind, question);
       return;
     }
     put(api, {
       ...rule,
       placeId,
+      statute: question,
       cause: `${cause}${law.governing.id}`,
       ...(publicPayee
         ? rule.kind === "offer"

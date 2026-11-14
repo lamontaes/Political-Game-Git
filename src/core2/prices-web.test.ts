@@ -41,7 +41,9 @@ const reachOf = (measure: string, subject?: { incomeFifth?: number }) => {
           ],
   };
 };
-vi.mock("./outcome-web-reach", () => ({
+vi.mock("./outcome-web-reach", async (importOriginal) => ({
+  // Every other export (the day cache the death web reads) stays real.
+  ...(await importOriginal<typeof import("./outcome-web-reach")>()),
   webReach: (
     _a: unknown,
     _p: string,

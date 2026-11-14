@@ -12,6 +12,7 @@ import {
   monthlyChange,
   PLACE_PRICES_MODULE,
   ridersMilesLeft,
+  ruleId,
   useFactor,
   worldGoods,
 } from "./modules/place-prices";
@@ -87,5 +88,11 @@ describe("a household's own use of a priced good", () => {
     expect(left).toBeLessThan(1);
     expect(left).toBeGreaterThan(0);
     expect(ridersMilesLeft(a, 1000, 100)).toBe(0);
+  });
+  it("keeps two statutes on one good as two rules (Hampden, Maine: a state that already allows retail choice also enacts a clean-electricity standard)", () => {
+    const a = ruleId("p", "electricity", "share", "retail-choice");
+    const b = ruleId("p", "electricity", "share", "clean-standard");
+    expect(a).not.toBe(b);
+    expect(ruleId("p", "electricity", "share")).not.toBe(a);
   });
 });
