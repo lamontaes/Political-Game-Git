@@ -37,6 +37,8 @@ describe("the town's labor market a year before the start", () => {
     const seekers = row(opening, "city", "seekers")!;
     expect(employed.before, where).toBeGreaterThan(0);
     expect(seekers.before, where).toBeGreaterThanOrEqual(0);
+    // A year of the economy's movement lies between them, not a copy of today.
+    expect(seekers.before, where).not.toBe(seekers.now);
     // Last year and this year are out of the same labor force.
     expect(employed.before! + seekers.before!, where).toBe(
       employed.now + seekers.now,

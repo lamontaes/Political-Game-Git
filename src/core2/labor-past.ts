@@ -12,9 +12,10 @@
  * against now, out of the same labor force. Jobs open follow the hires the
  * working-life run's own finding rule (`findPerQuarter`, the pass's months)
  * lets seekers make: openings are what is filled, so they move as the seekers
- * times how fast work is found. The year's figures are written at the
- * December the registry folds to and cite the economy pass's month row they
- * were read against.
+ * times how fast work is found. The figures are written into the closed year
+ * row before the start, as the economy stood a year before its latest
+ * published month (the way the state's figures read), and cite the economy
+ * pass's history record in force then.
  */
 import { historyMonths } from "./macro-model";
 import { putPastYear } from "./output-numbers";
@@ -41,9 +42,12 @@ export function laborYearBefore(
   const here = core.date.slice(0, "YYYY-MM".length);
   const now = months.filter((row) => row.month <= here).at(-1);
   if (!now) return;
-  // Last year is the registry's: the December before the year the world opens in.
+  // Last year reads the way the state's figures do: the month a year before
+  // the latest one the economy pass published, so day one shows a year of
+  // movement and not a month's. The closed year row before the start holds it.
   const startYear = Number(core.date.slice(0, "YYYY".length));
-  const then = months.find((row) => row.month === `${startYear - 1}-12`);
+  const back = `${Number(now.month.slice(0, 4)) - 1}${now.month.slice(4)}`;
+  const then = months.find((row) => row.month === back);
   if (!then || !(now.unemploymentPct > 0) || !(then.unemploymentPct > 0))
     return;
   const mean =
@@ -52,7 +56,7 @@ export function laborYearBefore(
   const finds = (month: typeof now) =>
     findPerQuarter(api, month.unemploymentPct / mean, 0);
   const year = startYear - 1;
-  // The economy pass's own history record in force that December (the pass
+  // The economy pass's own history record in force that month (the pass
   // writes one at each coarse step), for dev mode's Trace.
   const recordId =
     preStartHistory(core, { kind: "economy.conditions" })
@@ -69,7 +73,7 @@ export function laborYearBefore(
     putPastYear(api, {
       placeId: town.placeId,
       year,
-      date: `${then.month}-01`,
+      date: `${then.month}-28`,
       closed: true,
       recordId,
       values: {
