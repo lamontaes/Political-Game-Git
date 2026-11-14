@@ -36,7 +36,8 @@
     "player-first": "The player's first name, from their person record, said in a goodbye when the talk already named its topic.",
     "work_place": "The town the speaker's employer is in, when it is not their own town, from the employer's record.",
     "my_position": "The player's job, with its article (\"a server\"), from the job record's title.",
-    "their_first": "The given name of the person the player is talking to, from the person's record."
+    "their_first": "The given name of the person the player is talking to, from the person's record.",
+    "seat": "The seat a race is for, as people say it (\"the Mutual Village Council\", \"mayor\"), from the elections engine's contest and the office's record through the one seat wording."
   },
   "maxWords": 10,
   "lineWords": {
@@ -17849,27 +17850,6 @@
       "date": "2026-10-28"
     },
     {
-      "key": "conversation.interview-open-open.thanks-for-sitting-down-with-me",
-      "move": "interview-open-open",
-      "kind": "spoken",
-      "text": "Thanks for sitting down with me.",
-      "uses": [
-        {
-          "move": "interview-open-open",
-          "subject": "interview-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
       "key": "conversation.interview-open-open.thanks-for-making-the-time-im-with-outlet",
       "move": "interview-open-open",
       "kind": "spoken",
@@ -17881,92 +17861,6 @@
           "role": "open",
           "choice": "open",
           "requiresFacts": ["stranger", "outlet"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.interview-open-open.lets-get-started-ill-keep-it-short",
-      "move": "interview-open-open",
-      "kind": "spoken",
-      "text": "Let's get started. I'll keep it short.",
-      "uses": [
-        {
-          "move": "interview-open-open",
-          "subject": "interview-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.interview-open-open.ill-ask-and-you-answer-as-you-like",
-      "move": "interview-open-open",
-      "kind": "spoken",
-      "text": "I'll ask, and you answer as you like.",
-      "uses": [
-        {
-          "move": "interview-open-open",
-          "subject": "interview-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.interview-open-open.good-to-see-you-again-lets-get-started",
-      "move": "interview-open-open",
-      "kind": "spoken",
-      "text": "Good to see you again. Let's get started.",
-      "uses": [
-        {
-          "move": "interview-open-open",
-          "subject": "interview-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["acquainted"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.interview-open-open.thanks-for-doing-this-you-know-how-it-goes",
-      "move": "interview-open-open",
-      "kind": "spoken",
-      "text": "Thanks for doing this. You know how it goes.",
-      "uses": [
-        {
-          "move": "interview-open-open",
-          "subject": "interview-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["acquainted"]
         }
       ],
       "bearing": "calm",
@@ -18570,28 +18464,6 @@
       }
     },
     {
-      "key": "conversation.interview-question-answer-brief.yes-id-vote-for-it",
-      "move": "interview-question-answer-brief",
-      "kind": "spoken",
-      "text": "Yes. I'd vote for it.",
-      "uses": [
-        {
-          "move": "interview-question-answer-brief",
-          "subject": "interview-question",
-          "role": "answer",
-          "choice": "brief",
-          "requiresFacts": ["stance-for"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.interview-question-answer-brief.im-against-it",
       "move": "interview-question-answer-brief",
       "kind": "spoken",
@@ -18606,28 +18478,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.interview-question-answer-brief.no-id-vote-against-it",
-      "move": "interview-question-answer-brief",
-      "kind": "spoken",
-      "text": "No. I'd vote against it.",
-      "uses": [
-        {
-          "move": "interview-question-answer-brief",
-          "subject": "interview-question",
-          "role": "answer",
-          "choice": "brief",
-          "requiresFacts": ["stance-against"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Words, scenes and the director (interview sitting)",
       "date": "2026-10-29",
@@ -18658,50 +18508,6 @@
       }
     },
     {
-      "key": "conversation.interview-question-answer-brief.nothing-to-add-on-that",
-      "move": "interview-question-answer-brief",
-      "kind": "spoken",
-      "text": "Nothing to add on that.",
-      "uses": [
-        {
-          "move": "interview-question-answer-brief",
-          "subject": "interview-question",
-          "role": "answer",
-          "choice": "brief",
-          "requiresFacts": ["no-stand"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.interview-question-answer-further.i-voted-for-it-and-id-do-it-again",
-      "move": "interview-question-answer-further",
-      "kind": "spoken",
-      "text": "I voted for it, and I'd do it again.",
-      "uses": [
-        {
-          "move": "interview-question-answer-further",
-          "subject": "interview-question",
-          "role": "answer",
-          "choice": "further",
-          "requiresFacts": ["vote-for", "vote-same"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.interview-question-answer-further.i-voted-for-about-my-vote-stands",
       "move": "interview-question-answer-further",
       "kind": "spoken",
@@ -18716,28 +18522,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.interview-question-answer-further.i-voted-against-it-and-id-do-it-again",
-      "move": "interview-question-answer-further",
-      "kind": "spoken",
-      "text": "I voted against it, and I'd do it again.",
-      "uses": [
-        {
-          "move": "interview-question-answer-further",
-          "subject": "interview-question",
-          "role": "answer",
-          "choice": "further",
-          "requiresFacts": ["vote-against", "vote-same"]
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words, scenes and the director (interview sitting)",
       "date": "2026-10-29",
@@ -18768,28 +18552,6 @@
       }
     },
     {
-      "key": "conversation.interview-question-answer-further.i-voted-for-it-i-see-it-differently-now",
-      "move": "interview-question-answer-further",
-      "kind": "spoken",
-      "text": "I voted for it. I see it differently now.",
-      "uses": [
-        {
-          "move": "interview-question-answer-further",
-          "subject": "interview-question",
-          "role": "answer",
-          "choice": "further",
-          "requiresFacts": ["vote-for", "vote-changed"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.interview-question-answer-further.i-voted-for-about-before-ive-changed-my-mind",
       "move": "interview-question-answer-further",
       "kind": "spoken",
@@ -18804,28 +18566,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.interview-question-answer-further.i-voted-against-it-ive-changed-my-mind",
-      "move": "interview-question-answer-further",
-      "kind": "spoken",
-      "text": "I voted against it. I've changed my mind.",
-      "uses": [
-        {
-          "move": "interview-question-answer-further",
-          "subject": "interview-question",
-          "role": "answer",
-          "choice": "further",
-          "requiresFacts": ["vote-against", "vote-changed"]
-        }
-      ],
-      "bearing": "braced",
       "origin": "authored",
       "author": "Words, scenes and the director (interview sitting)",
       "date": "2026-10-29",
@@ -19208,153 +18948,6 @@
       }
     },
     {
-      "key": "conversation.interview-take-plain-reply-take.thank-you-thats-clear",
-      "move": "interview-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Thank you. That's clear.",
-      "uses": [
-        {
-          "move": "interview-take-plain-reply-take",
-          "subject": "interview-take-plain",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-plain-reply-take.got-it-thats-a-straight-answer",
-      "move": "interview-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Got it. That's a straight answer.",
-      "uses": [
-        {
-          "move": "interview-take-plain-reply-take",
-          "subject": "interview-take-plain",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-plain-reply-take.all-right-ill-put-that-down",
-      "move": "interview-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Alright. I'll put that down.",
-      "uses": [
-        {
-          "move": "interview-take-plain-reply-take",
-          "subject": "interview-take-plain",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-further-reply-take.thats-on-the-record-then",
-      "move": "interview-take-further-reply-take",
-      "kind": "spoken",
-      "text": "That's on the record, then.",
-      "uses": [
-        {
-          "move": "interview-take-further-reply-take",
-          "subject": "interview-take-further",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-further-reply-take.good-ill-note-the-vote",
-      "move": "interview-take-further-reply-take",
-      "kind": "spoken",
-      "text": "Good. I'll note the vote.",
-      "uses": [
-        {
-          "move": "interview-take-further-reply-take",
-          "subject": "interview-take-further",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-further-reply-take.noted-the-vote-is-on-the-record",
-      "move": "interview-take-further-reply-take",
-      "kind": "spoken",
-      "text": "Noted. The vote is on the record.",
-      "uses": [
-        {
-          "move": "interview-take-further-reply-take",
-          "subject": "interview-take-further",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-turn-reply-take.ill-ask-them-too-im-asking-you",
-      "move": "interview-take-turn-reply-take",
-      "kind": "spoken",
-      "text": "I'll ask them too. I'm asking you.",
-      "uses": [
-        {
-          "move": "interview-take-turn-reply-take",
-          "subject": "interview-take-turn",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
       "key": "conversation.interview-take-turn-reply-take.ill-put-that-to-rival",
       "move": "interview-take-turn-reply-take",
       "kind": "spoken",
@@ -19376,343 +18969,6 @@
       }
     },
     {
-      "key": "conversation.interview-take-turn-reply-take.fair-enough-thats-theirs-to-answer",
-      "move": "interview-take-turn-reply-take",
-      "kind": "spoken",
-      "text": "Fair enough. That's theirs to answer.",
-      "uses": [
-        {
-          "move": "interview-take-turn-reply-take",
-          "subject": "interview-take-turn",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-brief-reply-take.short-and-clear-thanks",
-      "move": "interview-take-brief-reply-take",
-      "kind": "spoken",
-      "text": "Short and clear. Thanks.",
-      "uses": [
-        {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-brief-reply-take.thats-brief-but-its-an-answer",
-      "move": "interview-take-brief-reply-take",
-      "kind": "spoken",
-      "text": "That's brief, but it's an answer.",
-      "uses": [
-        {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-brief-reply-take.that-was-quick-all-right",
-      "move": "interview-take-brief-reply-take",
-      "kind": "spoken",
-      "text": "That was quick. Alright.",
-      "uses": [
-        {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-lie-reply-take.okay-ill-write-that-down",
-      "move": "interview-take-lie-reply-take",
-      "kind": "spoken",
-      "text": "Okay. I'll write that down.",
-      "uses": [
-        {
-          "move": "interview-take-lie-reply-take",
-          "subject": "interview-take-lie",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-lie-reply-take.understood-that-goes-in-the-story",
-      "move": "interview-take-lie-reply-take",
-      "kind": "spoken",
-      "text": "Understood. That goes in the story.",
-      "uses": [
-        {
-          "move": "interview-take-lie-reply-take",
-          "subject": "interview-take-lie",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-lie-reply-take.thanks-ill-quote-you-on-that",
-      "move": "interview-take-lie-reply-take",
-      "kind": "spoken",
-      "text": "Thanks. I'll quote you on that.",
-      "uses": [
-        {
-          "move": "interview-take-lie-reply-take",
-          "subject": "interview-take-lie",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-declined-reply-take.youd-rather-not-say-ill-note-that",
-      "move": "interview-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "You'd rather not say? I'll note that.",
-      "uses": [
-        {
-          "move": "interview-take-declined-reply-take",
-          "subject": "interview-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-declined-reply-take.nothing-on-that-one-all-right",
-      "move": "interview-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "Nothing on that one. Alright.",
-      "uses": [
-        {
-          "move": "interview-take-declined-reply-take",
-          "subject": "interview-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-take-declined-reply-take.ill-note-you-passed-on-it",
-      "move": "interview-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "I'll note you passed on it.",
-      "uses": [
-        {
-          "move": "interview-take-declined-reply-take",
-          "subject": "interview-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.interview-close-leave-done.thats-everything-i-have-thanks-for-your-time",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "That's everything I have. Thanks for your time.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.interview-close-leave-done.thats-all-my-questions-thank-you",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "That's all my questions. Thank you.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.interview-close-leave-done.were-done-ill-write-it-up",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "We're done. I'll write it up.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.interview-close-leave-done.thanks-for-sitting-down-ill-write-it-up",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "Thanks for sitting down. I'll write it up.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.interview-close-leave-done.thats-all-ill-note-the-ones-you-passed-on",
-      "move": "interview-close-leave-done",
-      "kind": "spoken",
-      "text": "That's all. I'll note the ones you passed on.",
-      "uses": [
-        {
-          "move": "interview-close-leave-done",
-          "subject": "interview-close",
-          "role": "leave",
-          "choice": "done",
-          "requiresFacts": ["passed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (interview sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.debate-open-open.welcome-to-the-debate-lets-begin",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "Welcome to the debate. Let's begin.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
       "key": "conversation.debate-open-open.welcome-to-the-outlet-debate-lets-begin",
       "move": "debate-open-open",
       "kind": "spoken",
@@ -19724,93 +18980,6 @@
           "role": "open",
           "choice": "open",
           "requiresFacts": ["outlet"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.debate-open-open.same-questions-for-every-candidate-keep-it-short",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "Same questions for every candidate. Keep it short.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.debate-open-open.good-to-see-you-again-lets-begin",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "Good to see you again. Let's begin.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["acquainted"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.debate-open-open.thanks-for-coming-you-know-how-this-works",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "Thanks for coming. You know how this works.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["acquainted"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.debate-open-open.im-your-moderator-thanks-for-coming",
-      "move": "debate-open-open",
-      "kind": "spoken",
-      "text": "I'm your moderator. Thanks for coming.",
-      "uses": [
-        {
-          "move": "debate-open-open",
-          "subject": "debate-open",
-          "role": "open",
-          "choice": "open",
-          "requiresFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -20239,90 +19408,6 @@
       }
     },
     {
-      "key": "conversation.debate-take-plain-reply-take.thank-you-thats-a-clear-answer",
-      "move": "debate-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Thank you. That's a clear answer.",
-      "uses": [
-        {
-          "move": "debate-take-plain-reply-take",
-          "subject": "debate-take-plain",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-take-plain-reply-take.thanks-the-audience-has-your-answer",
-      "move": "debate-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Thanks. The audience has your answer.",
-      "uses": [
-        {
-          "move": "debate-take-plain-reply-take",
-          "subject": "debate-take-plain",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-take-further-reply-take.thank-you-your-vote-is-on-the-record",
-      "move": "debate-take-further-reply-take",
-      "kind": "spoken",
-      "text": "Thank you. Your vote is on the record.",
-      "uses": [
-        {
-          "move": "debate-take-further-reply-take",
-          "subject": "debate-take-further",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-take-further-reply-take.noted-that-vote-is-on-the-record",
-      "move": "debate-take-further-reply-take",
-      "kind": "spoken",
-      "text": "Noted. That vote is on the record.",
-      "uses": [
-        {
-          "move": "debate-take-further-reply-take",
-          "subject": "debate-take-further",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
       "key": "conversation.debate-take-turn-reply-take.rival-will-have-a-chance-to-answer-that",
       "move": "debate-take-turn-reply-take",
       "kind": "spoken",
@@ -20365,236 +19450,94 @@
       }
     },
     {
-      "key": "conversation.debate-take-brief-reply-take.short-and-clear-thank-you",
-      "move": "debate-take-brief-reply-take",
+      "key": "conversation.interview-open-open.thanks-for-sitting-down-about-the-race-for-seat",
+      "move": "interview-open-open",
       "kind": "spoken",
-      "text": "Short and clear. Thank you.",
+      "text": "Thanks for sitting down about the race for {seat}.",
       "uses": [
         {
-          "move": "debate-take-brief-reply-take",
-          "subject": "debate-take-brief",
-          "role": "reply",
-          "choice": "take"
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat"]
         }
       ],
-      "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.debate-take-brief-reply-take.a-brief-answer-thank-you",
-      "move": "debate-take-brief-reply-take",
+      "key": "conversation.interview-open-open.good-to-see-you-again-now-the-race-for-seat",
+      "move": "interview-open-open",
       "kind": "spoken",
-      "text": "A brief answer. Thank you.",
+      "text": "Good to see you again. Now, the race for {seat}.",
       "uses": [
         {
-          "move": "debate-take-brief-reply-take",
-          "subject": "debate-take-brief",
-          "role": "reply",
-          "choice": "take"
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "acquainted"]
         }
       ],
-      "bearing": "guarded",
       "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.debate-take-lie-reply-take.thank-you-well-move-on",
-      "move": "debate-take-lie-reply-take",
+      "key": "conversation.interview-open-open.i-m-with-outlet-i-m-writing-about-the-race-for-seat",
+      "move": "interview-open-open",
       "kind": "spoken",
-      "text": "Thank you. We'll move on.",
+      "text": "I'm with {outlet}. I'm writing about the race for {seat}.",
       "uses": [
         {
-          "move": "debate-take-lie-reply-take",
-          "subject": "debate-take-lie",
-          "role": "reply",
-          "choice": "take"
+          "move": "interview-open-open",
+          "subject": "interview-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "outlet", "stranger"]
         }
       ],
-      "bearing": "calm",
       "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
     },
     {
-      "key": "conversation.debate-take-lie-reply-take.understood-thats-your-answer",
-      "move": "debate-take-lie-reply-take",
+      "key": "conversation.interview-close-leave-done.that-s-everything-it-ll-run-in-outlet",
+      "move": "interview-close-leave-done",
       "kind": "spoken",
-      "text": "Understood. That's your answer.",
+      "text": "That's everything. It'll run in {outlet}.",
       "uses": [
         {
-          "move": "debate-take-lie-reply-take",
-          "subject": "debate-take-lie",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-take-declined-reply-take.youd-rather-not-say-all-right",
-      "move": "debate-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "You'd rather not say? Alright.",
-      "uses": [
-        {
-          "move": "debate-take-declined-reply-take",
-          "subject": "debate-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-take-declined-reply-take.no-answer-on-that-one-well-move-on",
-      "move": "debate-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "No answer on that one. We'll move on.",
-      "uses": [
-        {
-          "move": "debate-take-declined-reply-take",
-          "subject": "debate-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "react"
-      }
-    },
-    {
-      "key": "conversation.debate-close-leave-done.thats-all-the-questions-thank-you",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "That's all the questions. Thank you.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.debate-close-leave-done.that-ends-the-debate-thank-you-for-coming",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "That ends the debate. Thank you for coming.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.debate-close-leave-done.were-out-of-questions-thanks-for-taking-part",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "We're out of questions. Thanks for taking part.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.debate-close-leave-done.thats-the-debate-thanks-for-your-time",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "That's the debate. Thanks for your time.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
-          "role": "leave",
-          "choice": "done"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.debate-close-leave-done.thats-the-debate-you-passed-on-some-questions",
-      "move": "debate-close-leave-done",
-      "kind": "spoken",
-      "text": "That's the debate. You passed on some questions.",
-      "uses": [
-        {
-          "move": "debate-close-leave-done",
-          "subject": "debate-close",
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
           "role": "leave",
           "choice": "done",
-          "requiresFacts": ["passed"]
+          "requiresFacts": ["outlet", "stranger"]
         }
       ],
-      "bearing": "guarded",
       "origin": "authored",
-      "author": "Words, scenes and the director (debate sitting)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "farewell"
-      }
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.that-s-all-outlet-will-note-what-you-didn-t-answer",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all. {outlet} will note what you didn't answer.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["outlet", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
     },
     {
       "key": "conversation.address-point-opener.the-president-brought-up-about",
@@ -34511,6 +33454,725 @@
       "origin": "authored",
       "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
       "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.debate-open-open.welcome-to-the-debate-for-seat-let-s-begin",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "Welcome to the debate for {seat}. Let's begin.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.debate-open-open.i-m-your-moderator-this-is-the-debate-for-seat",
+      "move": "debate-open-open",
+      "kind": "spoken",
+      "text": "I'm your moderator. This is the debate for {seat}.",
+      "uses": [
+        {
+          "move": "debate-open-open",
+          "subject": "debate-open",
+          "role": "open",
+          "choice": "open",
+          "requiresFacts": ["seat", "stranger"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.debate-close-leave-done.that-ends-the-debate-for-seat-thank-you-candidates",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "That ends the debate for {seat}. Thank you, candidates.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.debate-close-leave-done.that-s-the-outlet-debate-thank-you-for-coming",
+      "move": "debate-close-leave-done",
+      "kind": "spoken",
+      "text": "That's the {outlet} debate. Thank you for coming.",
+      "uses": [
+        {
+          "move": "debate-close-leave-done",
+          "subject": "debate-close",
+          "role": "leave",
+          "choice": "done",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.for-it-then",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "For it, then.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.against-it-then",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Against it, then.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.that-puts-you-against-rival-on-it",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "That puts you against {rival} on it.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for", "rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against", "rival-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.still-undecided",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "Still undecided.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.as-you-voted",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "As you voted.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-same"]
+        },
+        {
+          "move": "debate-take-further-reply-take",
+          "subject": "debate-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-further-reply-take.that-s-a-change",
+      "move": "interview-take-further-reply-take",
+      "kind": "spoken",
+      "text": "That's a change.",
+      "uses": [
+        {
+          "move": "interview-take-further-reply-take",
+          "subject": "interview-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-changed"]
+        },
+        {
+          "move": "debate-take-further-reply-take",
+          "subject": "debate-take-further",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["vote-changed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-declined-reply-take.no-answer-then",
+      "move": "interview-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "No answer, then.",
+      "uses": [
+        {
+          "move": "interview-take-declined-reply-take",
+          "subject": "interview-take-declined",
+          "role": "reply",
+          "choice": "take"
+        },
+        {
+          "move": "debate-take-declined-reply-take",
+          "subject": "debate-take-declined",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-declined-reply-take.no-comment-then",
+      "move": "interview-take-declined-reply-take",
+      "kind": "spoken",
+      "text": "No comment, then.",
+      "uses": [
+        {
+          "move": "interview-take-declined-reply-take",
+          "subject": "interview-take-declined",
+          "role": "reply",
+          "choice": "take"
+        },
+        {
+          "move": "debate-take-declined-reply-take",
+          "subject": "debate-take-declined",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-lie-reply-take.i-ll-quote-that",
+      "move": "interview-take-lie-reply-take",
+      "kind": "spoken",
+      "text": "I'll quote that.",
+      "uses": [
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-close-leave-done.that-s-all-thanks",
+      "move": "interview-close-leave-done",
+      "kind": "spoken",
+      "text": "That's all. Thanks.",
+      "uses": [
+        {
+          "move": "interview-close-leave-done",
+          "subject": "interview-close",
+          "role": "leave",
+          "choice": "done"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.you-re-for-it",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "You're for it.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.you-re-against-it",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "You're against it.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.short-and-sweet",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Short and sweet.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.plain-enough",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Plain enough.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.clear-enough",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Clear enough.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.that-s-a-yes",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "That's a yes.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.that-s-a-no",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "That's a no.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
     }
   ]
 }

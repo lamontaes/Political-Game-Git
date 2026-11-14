@@ -504,23 +504,44 @@ function put(
   return finish(core, conversation, data);
 }
 
-/** The asker takes an answer in (or the silence), in words written for the move. */
+/**
+ * The asker takes an answer in (or the silence), in words written for the
+ * move, about what was just said: the question's own facts (what it was
+ * about, the vote, the rival) and the side the answer put on the record
+ * (`said-for`, `said-against`, `said-none`), so the take restates the
+ * candidate's answer and never only acknowledges it (owner, Nov 12: "the
+ * just non-replies").
+ */
 function take(
   core: CoreState,
   conversation: Conversation,
   data: ConversationData,
   move: string,
+  answer?: InterviewAnswer,
 ): void {
   const sitting = conversation.sitting!;
   const { row } = sitting;
   const subjects = settingsOf(row.kind).subjects;
+  const side =
+    answer?.position === null || answer?.position === undefined
+      ? "said-none"
+      : answer.position > zero
+        ? "said-for"
+        : answer.position < zero
+          ? "said-against"
+          : "said-none";
   const said = word(core, data, {
     speakerId: conversation.otherId,
     subject: `${subjects.takePrefix}${move}`,
     part: "reply",
     facts: {
       ...row.ties,
+      ...(sitting.now?.facts ?? {}),
       ...(sitting.now?.rival ? { rival: sitting.now.rival } : {}),
+      [side]: {
+        text: "yes",
+        sourceRecordIds: [answer?.recordId ?? row.filingId ?? row.id],
+      },
     },
     momentKey: `${row.id}:${sitting.at}:${move}:take`,
   });
@@ -569,7 +590,7 @@ export function saySitting(
     ...(choice.wording ? { wording: choice.wording } : {}),
   });
   sitting.said.set(answer.question, answer);
-  take(core, conversation, data, choice.move);
+  take(core, conversation, data, choice.move, answer);
   return next(core, conversation, data);
 }
 
