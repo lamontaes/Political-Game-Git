@@ -194,16 +194,28 @@ export function replyPairs(
           byStep.set(use.step, list);
         }
     // A reply meets the line before it only where the facts both need can
-    // hold at once: never a reply that rules out a fact the line before
-    // needs (or the other way round), and never two facts the arc keeps
-    // apart. Such a pair can never be said in play.
+    // hold at once: never a reply that rules out a fact the line before needs
+    // or sets (or the other way round), and never two facts the arc keeps
+    // apart. A fact some line sets (`setsFacts`) holds only once a line said
+    // it, so a reply that needs one follows only a line that sets it. Such
+    // pairs can never be said in play.
+    const setOnly = new Set(serving.flatMap((row) => row.use.setsFacts ?? []));
     const apart = options.flow?.apart?.(scene) ?? [];
     const meets = (before: Row, row: Row): boolean => {
-      const holds = before.use.requiresFacts ?? [];
+      const holds = new Set([
+        ...(before.use.requiresFacts ?? []),
+        ...(before.use.setsFacts ?? []),
+      ]);
       const needs = row.use.requiresFacts ?? [];
-      if (row.use.excludesFacts?.some((name) => holds.includes(name)))
+      if (needs.some((name) => setOnly.has(name) && !holds.has(name)))
         return false;
-      if (before.use.excludesFacts?.some((name) => needs.includes(name)))
+      if (row.use.excludesFacts?.some((name) => holds.has(name))) return false;
+      if (
+        before.use.excludesFacts?.some(
+          (name) =>
+            needs.includes(name) && !before.use.setsFacts?.includes(name),
+        )
+      )
         return false;
       const all = new Set([...holds, ...needs]);
       return !apart.some(
