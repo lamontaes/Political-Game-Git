@@ -1556,7 +1556,7 @@
     "kind": "missing-data",
     "file": "src/core2/law-reach/group-b-money.ts",
     "line": 1604,
-    "whatItFakes": "Repealing a starting graduated income-tax schedule uses the existing estimated state or local flat rate. The binary catalog provision carries no replacement rate, deduction or filing-status rules.",
+    "whatItFakes": "Repealing a starting graduated income-tax schedule writes a flat rate of the place's own old top rate times the median share real conversions chose (0.786, estimated). The binary catalog provision carries no sponsor-written rate, deduction or filing-status rules.",
     "why": "Tax Foundation's 2025 state survey and actual conversion laws have distinct enacted rates and deductions. The catalog's Boolean question cannot supply those terms. Received explanation and director acceptance remain unproven.",
     "addedBy": "Session A",
     "addedAt": "2026-10-15",
