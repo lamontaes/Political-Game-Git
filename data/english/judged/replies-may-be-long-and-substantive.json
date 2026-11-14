@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1278,
+  "judged": 1255,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -275,15 +275,6 @@
       ],
       "why": "Not canceling, canceling and meeting at the door state choices but not why."
     },
-    "03ncv3xd0zg": {
-      "keys": [
-        "scene-talk.follow-plea.then-whose-is-it-i-keep-getting-sent-somewhere-else",
-        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
-        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk",
-        "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
-      ],
-      "why": "'I'll find out', 'Call my office Monday' and 'it's the state' carry no reason or argument."
-    },
     "03rmwnpfp3z": {
       "keys": [
         "scene-talk.follow-plea.a-hearing-is-all-i-want-when",
@@ -383,14 +374,6 @@
         "scene-talk.reply-leave.you-need-to-rest-i-ll-come-back-in-the-morning"
       ],
       "why": "A promise, tea and a morning visit give no reason."
-    },
-    "05ocabdbhtm": {
-      "keys": [
-        "scene-talk.follow-plea.i-ve-got-nowhere-else-to-go",
-        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
-        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
-      ],
-      "why": "'I'll find out whose it is' and 'Call my office Monday' give no reason."
     },
     "05u4grh6r9b": {
       "keys": [
@@ -947,16 +930,6 @@
       ],
       "why": "\"I'd do it again,\" the hallway refusal, \"Asking twice,\" \"I've said what I'm going to say\" and \"Nobody's even asked me that\" give no reason."
     },
-    "0ezo4plb2zb": {
-      "keys": [
-        "scene-talk.beat-beat.the-moderator-glances-at-the-clock-and-lets-it-run",
-        "scene-talk.reply-promise.i-ll-call-the-workforce-office-this-afternoon-and-ask-what-they-have-for-someone",
-        "scene-talk.reply-ask.what-did-they-tell-you-when-they-let-you-go-and-who-told-you",
-        "scene-talk.reply-offer.stay-and-see-my-caseworker-before-you-go-she-ll-set-you-up-at-the-job-center-and",
-        "scene-talk.reply-lie.two-of-the-big-employers-told-me-last-week-they-re-hiring"
-      ],
-      "why": "Calling the workforce office, asking a question, sending them to the caseworker and saying two employers are hiring are actions and facts, not reasons."
-    },
     "0f0tx72zwym": {
       "keys": [
         "scene-talk.follow-confront.you-did-don-t-let-it-go-to-your-head",
@@ -1188,15 +1161,6 @@
         "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
       ],
       "why": "The replies offer to explain, apologize, challenge or exit, and none gives a reason."
-    },
-    "0hqm252zkof": {
-      "keys": [
-        "scene-talk.beat-beat.two-people-near-the-back-lean-together-and-whisper",
-        "scene-talk.reply-apologize.you-re-right-to-be-tired-of-it-i-m-sorry",
-        "scene-talk.reply-leave.next-question-please",
-        "scene-talk.reply-lie.it-s-already-on-the-calendar"
-      ],
-      "why": "An apology, 'Next question' and 'It's already on the calendar' give no reason."
     },
     "0hyohuodhkb": {
       "keys": [
@@ -1462,16 +1426,6 @@
       ],
       "why": "Agreeing, a hearing promise and a call-me exit state no reason."
     },
-    "0l5hcqlt7fo": {
-      "keys": [
-        "scene-talk.follow-answer.nobody-explained-i-got-a-form-and-a-box-for-my-locker-since-then-it-s-the-same-t",
-        "scene-talk.reply-promise.i-ll-ask-the-workforce-office-to-see-you-before-friday-and-i-ll-find-out-who-sig",
-        "scene-talk.reply-offer.leave-me-your-number-my-staff-will-send-you-every-posting-the-workforce-office-g",
-        "scene-talk.reply-decline.then-i-don-t-have-more-for-you-tonight",
-        "scene-talk.reply-leave.there-are-a-dozen-people-behind-you-leave-your-number-at-the-desk-and-my-staff-w"
-      ],
-      "why": "Asking the workforce office, sending postings, 'I don't have more' and 'leave your number' are promises and exits with no reason."
-    },
     "0l6jkcuj1m3": {
       "keys": [
         "scene-talk.follow-press.it-s-easy-to-promise-from-your-side-of-the-glass-i-need-it-done",
@@ -1489,14 +1443,6 @@
         "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
       ],
       "why": "Thanks, a question about the workplace and a ready line carry no reason."
-    },
-    "0lonb66q03f": {
-      "keys": [
-        "scene-talk.follow-plea.then-tell-me-where-i-go-that-doesn-t-send-me-back-to-the-same-boss",
-        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
-        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
-      ],
-      "why": "'I'll find out whose it is' and 'Call my office Monday' give no reason."
     },
     "0lpw6omos20": {
       "keys": [
@@ -1727,15 +1673,6 @@
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
     },
-    "0pptz4zgscp": {
-      "keys": [
-        "scene-talk.follow-press.when-though-people-have-heard-find-out-before",
-        "scene-talk.reply-apologize.you-re-right-to-be-tired-of-it-i-m-sorry",
-        "scene-talk.reply-leave.next-question-please",
-        "scene-talk.reply-lie.it-s-already-on-the-calendar"
-      ],
-      "why": "Apologizing, 'Next question' and 'It's already on the calendar' answer the doubt about 'find out' with no reason."
-    },
     "0ptijp9su3l": {
       "keys": [
         "scene-talk.follow-plea.we-miss-you-that-s-all",
@@ -1843,15 +1780,6 @@
         "scene-talk.reply-leave.let-s-talk-over-dinner-not-here"
       ],
       "why": "'You can count on me', the deferral until heard out and 'over dinner, not here' give no reason."
-    },
-    "0rhyt9arph4": {
-      "keys": [
-        "scene-talk.beat-beat.somebody-in-the-back-says-answer-the-question-just-loud-enough",
-        "scene-talk.reply-promise.i-ll-send-your-pay-stub-to-the-labor-standards-office-today-and-i-ll-give-you-th",
-        "scene-talk.reply-offer.leave-the-stubs-with-my-staff-they-ll-copy-them-and-start-the-complaint-with-you",
-        "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
-      ],
-      "why": "Sending the paycheck, having staff copy the stubs and 'it's the state' are promises without a reason."
     },
     "0rjyhokjnnt": {
       "keys": [
@@ -2289,15 +2217,6 @@
       ],
       "why": "\"When you called my office. Not a day before\" states a time with no reason, and the others deflect or leave."
     },
-    "0ym7ystftm3": {
-      "keys": [
-        "scene-talk.beat-beat.two-people-near-the-back-lean-together-and-whisper",
-        "scene-talk.reply-promise.i-ll-put-your-name-in-front-of-the-biggest-employers-in-town-this-week-and-i-ll",
-        "scene-talk.reply-offer.my-caseworker-can-sit-with-you-for-an-hour-and-go-through-the-openings-bring-you",
-        "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
-      ],
-      "why": "Promising to contact employers, sending them to the caseworker and 'it's the state' offer actions but no reason."
-    },
     "0yx5fpbnlbo": {
       "keys": [
         "scene-talk.follow-press.luck-had-nothing-to-do-with-it-i-waited",
@@ -2511,14 +2430,6 @@
       ],
       "why": "Both replies are a promise or thanks with no reason in them."
     },
-    "123cgssb6h0": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-for-a-favor-i-m-asking-whether-anyone-in-this-building-knows-who",
-        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
-        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
-      ],
-      "why": "'I'll find out whose it is' and 'Call my office Monday' are promises with no reason."
-    },
     "12d9wvg2hk9": {
       "keys": [
         "scene-talk.follow-ask.taken.who-else-knew-first",
@@ -2689,15 +2600,6 @@
         "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "16d5dtfyxrw": {
-      "keys": [
-        "scene-talk.beat-beat.somebody-in-the-back-says-answer-the-question-just-loud-enough",
-        "scene-talk.reply-promise.i-ll-find-out-what-the-town-and-the-state-pay-for-in-home-help-and-i-ll-have-it",
-        "scene-talk.reply-offer.leave-me-a-number-where-you-can-answer-at-odd-hours-my-staff-will-call-when-ther",
-        "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
-      ],
-      "why": "Finding out about in-home help, a phone number and 'it's the state' carry no reason."
     },
     "16h770yfk8n": {
       "keys": [
@@ -3456,15 +3358,6 @@
       ],
       "why": "A short yes with a chore and an exit give no reason or argument."
     },
-    "1ixwc1g860q": {
-      "keys": [
-        "scene-talk.beat-beat.two-people-near-the-back-lean-together-and-whisper",
-        "scene-talk.reply-promise.i-ll-find-out-what-the-town-and-the-state-pay-for-in-home-help-and-i-ll-have-it",
-        "scene-talk.reply-offer.stay-with-my-caseworker-she-ll-go-through-what-you-may-qualify-for-and-fill-out",
-        "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
-      ],
-      "why": "Finding out what is paid, the caseworker and 'it's the state' are promises and pointers with no reason."
-    },
     "1iz4ftoyf5x": {
       "keys": [
         "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
@@ -3648,15 +3541,6 @@
         "scene-talk.reply-lie.yes-stop-worrying-about-it"
       ],
       "why": "Two yeses, an emotional can't, a hearing trade and a deferral carry no reason."
-    },
-    "1nszb68ywui": {
-      "keys": [
-        "scene-talk.beat-beat.somebody-in-the-back-says-answer-the-question-just-loud-enough",
-        "scene-talk.reply-promise.i-ll-find-out-today-whether-the-town-has-any-rent-help-left-and-i-ll-tell-you-th",
-        "scene-talk.reply-offer.leave-the-notice-with-my-staff-they-ll-copy-it-and-call-the-landlord-s-office-to",
-        "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
-      ],
-      "why": "Finding out about rent help, having staff copy the notice and 'it's the state' are promises with no reason."
     },
     "1nyevper59j": {
       "keys": [
@@ -4269,15 +4153,6 @@
       ],
       "why": "Refusal, threat, silence and exit with no reason."
     },
-    "1wnkaaxjndp": {
-      "keys": [
-        "scene-talk.beat-beat.two-people-near-the-back-lean-together-and-whisper",
-        "scene-talk.reply-promise.i-ll-send-your-pay-stub-to-the-labor-standards-office-today-and-i-ll-give-you-th",
-        "scene-talk.reply-offer.my-caseworker-will-walk-you-through-the-labor-standards-form-bring-every-stub-yo",
-        "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
-      ],
-      "why": "Sending the paycheck, the caseworker's walk-through and 'it's the state' are actions with no reason."
-    },
     "1wz8z20ura0": {
       "keys": [
         "scene-talk.follow-plea.please-i-stood-up-to-ask-this",
@@ -4512,14 +4387,6 @@
       ],
       "why": "Thanks, \"Done\" and a minute request carry no reason."
     },
-    "20d14kbryk0": {
-      "keys": [
-        "scene-talk.follow-plea.then-where-do-i-take-it-i-can-t-get-to-three-different-offices-with-someone-who",
-        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
-        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
-      ],
-      "why": "'I'll find out whose it is' and 'Call my office Monday' answer the plea with promises, not a reason."
-    },
     "20en1r6g04r": {
       "keys": [
         "scene-talk.follow-press.then-give-me-a-reason-i-can-take-back-to-the-people-who-chipped-in",
@@ -4638,14 +4505,6 @@
         "scene-talk.reply-leave.i-have-to-go"
       ],
       "why": "Conceding it was personal, disagreeing about the room, and leaving give no reason or argument."
-    },
-    "227jpfpqb4j": {
-      "keys": [
-        "scene-talk.follow-plea.then-tell-me-who-to-ask-so-i-m-not-back-in-here-next-week-with-the-same-paper",
-        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
-        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk"
-      ],
-      "why": "'I'll find out whose it is' and 'Call my office Monday' are promises without a reason."
     },
     "2287mixmsat": {
       "keys": [
@@ -4835,6 +4694,14 @@
       ],
       "why": "\"Even then. It's the right call\" restates the stance without saying why it is right, and the others deny or leave."
     },
+    "2641ch6gg9v": {
+      "keys": [
+        "scene-talk.follow-answer.bad-enough-that-i-haven-t-slept-i-ll-show-you-the-estimate",
+        "scene-talk.reply-promise.then-let-s-get-it-done-i-ll-start-with-the-contractor",
+        "scene-talk.reply-deflect.let-s-get-a-second-estimate-before-we-decide-anything"
+      ],
+      "why": "Starting with the contractor and getting a second estimate state plans without a reason."
+    },
     "26azqxokkcc": {
       "keys": [
         "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
@@ -4995,15 +4862,6 @@
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
     },
-    "29dq4w45r5i": {
-      "keys": [
-        "scene-talk.beat-beat.two-people-near-the-back-lean-together-and-whisper",
-        "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
-        "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk",
-        "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
-      ],
-      "why": "Promising to find out, offering to walk it to a desk and 'it's the state' say where it goes but give no reason or argument."
-    },
     "29gvjn5be5p": {
       "keys": [
         "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
@@ -5112,6 +4970,15 @@
         "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say-my-office-has-the-rest"
       ],
       "why": "Asking for word-for-word printing, refusing, demanding names and pointing to the office give no reason for the stance."
+    },
+    "2bke9ro20lr": {
+      "keys": [
+        "scene-talk.follow-answer.we-never-caught-up-after-one-bad-month-then-it-got-away-from-me",
+        "scene-talk.reply-promise.then-we-fix-it-now-i-ll-help",
+        "scene-talk.reply-offer.i-ve-got-a-little-put-away-use-it",
+        "scene-talk.reply-deflect.maybe-they-ll-wait-if-we-ask"
+      ],
+      "why": "Fixing it now, offering savings and hoping they wait carry no argument."
     },
     "2bvuqpi80e3": {
       "keys": [
@@ -5460,5 +5327,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "1dsil0uph81"
+  "yesHash": "0hwml9n0xep"
 }

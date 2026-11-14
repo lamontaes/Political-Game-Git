@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1255,
+  "judged": 1234,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -779,20 +779,6 @@
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
-    "0b23ehdzalj": {
-      "keys": [
-        "scene-talk.beat-beat.two-people-near-the-back-lean-together-and-whisper",
-        "scene-talk.reply-promise.i-ll-call-the-labor-office-myself-and-have-them-tell-you-what-they-need-from-you",
-        "scene-talk.reply-ask.how-long-have-you-worked-there-and-has-the-rate-ever-changed",
-        "scene-talk.reply-decline.wage-claims-go-through-the-state-labor-office-not-the-town-i-ll-give-you-the-add",
-        "scene-talk.reply-offer.sit-with-my-caseworker-she-ll-tell-you-what-to-write-down-and-what-to-leave-out",
-        "scene-talk.reply-lie.the-state-already-has-a-complaint-on-that-employer",
-        "scene-talk.reply-promise.i-ll-send-your-pay-stub-to-the-labor-standards-office-today-and-i-ll-give-you-th",
-        "scene-talk.reply-offer.my-caseworker-will-walk-you-through-the-labor-standards-form-bring-every-stub-yo",
-        "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
-      ],
-      "why": "Sending the paycheck to the labor office, the caseworker form and 'it's the state' repeat the first labor office, caseworker and state options."
-    },
     "0bljejzqwm2": {
       "keys": [
         "scene-talk.follow-plea.who-else-would-you-trust-with-it",
@@ -898,20 +884,6 @@
         "scene-talk.reply-deflect.i-ll-get-you-some-soup-first-then-we-ll-talk"
       ],
       "why": "\"I promise\" and the soup offer repeat the first yes and the eating deflection."
-    },
-    "0de0nsfsm6c": {
-      "keys": [
-        "scene-talk.beat-beat.somebody-in-the-back-says-answer-the-question-just-loud-enough",
-        "scene-talk.reply-promise.i-ll-call-the-labor-office-myself-and-have-them-tell-you-what-they-need-from-you",
-        "scene-talk.reply-ask.how-long-have-you-worked-there-and-has-the-rate-ever-changed",
-        "scene-talk.reply-decline.wage-claims-go-through-the-state-labor-office-not-the-town-i-ll-give-you-the-add",
-        "scene-talk.reply-offer.sit-with-my-caseworker-she-ll-tell-you-what-to-write-down-and-what-to-leave-out",
-        "scene-talk.reply-lie.the-state-already-has-a-complaint-on-that-employer",
-        "scene-talk.reply-promise.i-ll-send-your-pay-stub-to-the-labor-standards-office-today-and-i-ll-give-you-th",
-        "scene-talk.reply-offer.leave-the-stubs-with-my-staff-they-ll-copy-them-and-start-the-complaint-with-you",
-        "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state"
-      ],
-      "why": "Sending the paycheck to the labor office, staff starting the complaint and 'it's the state' repeat the first options."
     },
     "0diprbfc46i": {
       "keys": [
@@ -1256,21 +1228,6 @@
         "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
       ],
       "why": "'You win', 'No' and 'Stand next to me... and I'll vote yes' restate the first yes, refusal and hear-me-out condition."
-    },
-    "0jufk55jztn": {
-      "keys": [
-        "scene-talk.follow-answer.since-march-same-rate-on-every-check-and-i-kept-all-of-them-in-a-drawer",
-        "scene-talk.reply-promise.i-ll-call-the-labor-office-myself-and-have-them-tell-you-what-they-need-from-you",
-        "scene-talk.reply-ask.how-long-have-you-worked-there-and-has-the-rate-ever-changed",
-        "scene-talk.reply-decline.wage-claims-go-through-the-state-labor-office-not-the-town-i-ll-give-you-the-add",
-        "scene-talk.reply-offer.sit-with-my-caseworker-she-ll-tell-you-what-to-write-down-and-what-to-leave-out",
-        "scene-talk.reply-lie.the-state-already-has-a-complaint-on-that-employer",
-        "scene-talk.reply-promise.i-ll-ask-the-labor-office-to-open-a-file-before-the-month-is-out-and-i-won-t-use",
-        "scene-talk.reply-offer.leave-the-stubs-with-my-staff-they-ll-copy-them-and-start-the-complaint-with-you",
-        "scene-talk.reply-decline.i-can-t-make-your-employer-pay-you-i-can-tell-you-where-to-file-and-what-to-brin",
-        "scene-talk.reply-leave.i-have-to-take-the-next-person-put-the-stubs-in-an-envelope-with-your-name-on-it"
-      ],
-      "why": "A labor office file, staff starting the complaint and 'where to file' restate the first labor office, caseworker and state address options."
     },
     "0jvqsp6n6tl": {
       "keys": [
@@ -2457,6 +2414,19 @@
         "scene-talk.reply-leave.this-conversation-is-over"
       ],
       "why": "Refusing, taking it, reporting it and ending the talk are the first bribe choices again in new words."
+    },
+    "12b3e2jg7qm": {
+      "keys": [
+        "scene-talk.follow-answer.we-never-caught-up-after-one-bad-month-then-it-got-away-from-me",
+        "scene-talk.reply-promise.i-ll-find-the-money-i-don-t-know-how-yet-but-i-will",
+        "scene-talk.reply-ask.how-did-we-get-behind",
+        "scene-talk.reply-offer.i-can-give-you-what-i-ve-saved-it-s-not-much",
+        "scene-talk.reply-deflect.it-s-a-letter-they-always-send-a-letter-first",
+        "scene-talk.reply-promise.then-we-fix-it-now-i-ll-help",
+        "scene-talk.reply-offer.i-ve-got-a-little-put-away-use-it",
+        "scene-talk.reply-deflect.maybe-they-ll-wait-if-we-ask"
+      ],
+      "why": "Fixing it now, using what's put away and maybe they'll wait reword the first find-the-money, savings and just-a-letter options."
     },
     "12inebytgb4": {
       "keys": [
@@ -4394,20 +4364,6 @@
       ],
       "why": "Both replies restate first options: the answer is still no, and the talk is finished."
     },
-    "20unxal7tbb": {
-      "keys": [
-        "scene-talk.follow-plea.then-tell-me-where-i-go-that-doesn-t-send-me-back-to-the-same-boss",
-        "scene-talk.reply-promise.i-ll-call-the-labor-office-myself-and-have-them-tell-you-what-they-need-from-you",
-        "scene-talk.reply-ask.how-long-have-you-worked-there-and-has-the-rate-ever-changed",
-        "scene-talk.reply-decline.wage-claims-go-through-the-state-labor-office-not-the-town-i-ll-give-you-the-add",
-        "scene-talk.reply-offer.sit-with-my-caseworker-she-ll-tell-you-what-to-write-down-and-what-to-leave-out",
-        "scene-talk.reply-lie.the-state-already-has-a-complaint-on-that-employer",
-        "scene-talk.reply-promise.i-ll-ask-the-labor-office-to-open-a-file-before-the-month-is-out-and-i-won-t-use",
-        "scene-talk.reply-offer.my-caseworker-will-walk-you-through-the-labor-standards-form-bring-every-stub-yo",
-        "scene-talk.reply-decline.i-can-t-make-your-employer-pay-you-i-can-tell-you-where-to-file-and-what-to-brin"
-      ],
-      "why": "A labor office file, the caseworker form and 'where to file' are the first labor office, caseworker and state options in new words."
-    },
     "21qply46e0m": {
       "keys": [
         "scene-talk.follow-press.you-ll-really-do-it-i-d-like-to-know-i-can-plan-around-it",
@@ -4644,21 +4600,6 @@
         "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
       ],
       "why": "Going over all of it, hearing him out but not voting as a friend and 'I can't' repeat the first read-every-page, can't-promise and sorry options."
-    },
-    "27gjvt7ljk4": {
-      "keys": [
-        "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us",
-        "scene-talk.reply-promise.i-ll-look-into-it-and-tell-you-what-i-find-here-in-public",
-        "scene-talk.reply-ask.why-does-it-matter-to-you",
-        "scene-talk.reply-decline.that-one-isn-t-the-city-s-to-decide-i-won-t-pretend-it-is",
-        "scene-talk.reply-offer.leave-your-number-with-my-office-tonight-i-ll-call-you-this-week",
-        "scene-talk.reply-lie.it-s-already-on-next-month-s-agenda",
-        "scene-talk.reply-promise.then-you-ll-get-a-straight-answer-from-me-before-the-next-meeting",
-        "scene-talk.reply-offer.talk-to-me-after-i-want-the-details",
-        "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself",
-        "scene-talk.reply-leave.thank-you-for-telling-us-next-question"
-      ],
-      "why": "A straight answer before the next meeting, talking after and 'the city can't change it' restate the first look-into-it, call-you and not-the-city's options."
     },
     "27jhvgejyos": {
       "keys": [
@@ -5163,5 +5104,5 @@
       "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "0o7nif8ctef"
+  "yesHash": "1326r3vtg0v"
 }
