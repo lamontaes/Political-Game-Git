@@ -19,7 +19,7 @@ import {
   type SceneBinding,
   type ScheduleEntry,
 } from "./scheduling";
-import { properName, spoken } from "./words";
+import { organizationName, spoken } from "./words";
 import { dayOpening, daySince } from "../english/day-words";
 
 const zero = P.zero;
@@ -41,7 +41,7 @@ export type { SceneLine };
 export interface Scene {
   momentId: string;
   typeKey: string;
-  setting: { kind: string; recordId: string };
+  setting: { kind: string; recordId: string; seat?: true };
   presentIds: PersonId[];
   /** Why each person present is there: the fill of the role that cast them. */
   presentReasons: Record<PersonId, string>;
@@ -188,10 +188,13 @@ export function composeScene(
     : (opener?.personIds.find((id) => id !== personId) ??
       moment.counterpartIds.find((id) => binding.presentIds.includes(id)));
   const meeting = talkToId ? core.people.get(talkToId) : undefined;
-  const settingOrg =
+  // The market's stand-in for work out of town is no place to be found at
+  // (Fable A, Nov 13, rule 20): the scene says "at work" without it.
+  const settingRow =
     kind === "workplace" || kind === "office" || kind === "school"
       ? core.organizations.get(binding.setting.recordId)
       : undefined;
+  const settingOrg = settingRow?.outsideFlow ? undefined : settingRow;
   // A scene whose setting stands in for its own room opens on the day alone.
   const dayOnly =
     SITUATION_LIBRARY.types.find((row) => row.key === binding.typeKey)
@@ -223,7 +226,7 @@ export function composeScene(
             };
           if (settingOrg)
             facts.where = {
-              text: properName(settingOrg.name),
+              text: organizationName(settingOrg),
               sourceRecordIds: [settingOrg.id],
             };
           return facts;
@@ -275,7 +278,7 @@ export function composeScene(
           // The school or workplace the scene is set at, by its record.
           if (settingOrg)
             facts.where = {
-              text: properName(settingOrg.name),
+              text: organizationName(settingOrg),
               sourceRecordIds: [settingOrg.id],
             };
           const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
@@ -284,7 +287,7 @@ export function composeScene(
             : undefined;
           if (org)
             facts.employer = {
-              text: properName(org.name),
+              text: organizationName(org),
               sourceRecordIds: [org.id],
             };
           const town = place(person.placeId);
@@ -345,7 +348,7 @@ export function composeScene(
               : undefined;
           if (org)
             facts.employer = {
-              text: properName(org.name),
+              text: organizationName(org),
               sourceRecordIds: [org.id],
             };
           const town = place(person.placeId);

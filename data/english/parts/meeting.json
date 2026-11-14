@@ -5,7 +5,8 @@
   "slots": {
     "body": "The body's recorded office title (its council or board), from the meeting's record.",
     "date": "The meeting's date, as people say it (\"March 4\").",
-    "count": "How many items are on the meeting's agenda, as a word (\"three\"), from the agenda."
+    "count": "How many items are on the meeting's agenda, as a word (\"three\"), from the agenda.",
+    "item": "The one open item's title as the panel shows it (\"Budget Ordinance\"), from the bill's title record; unsaid when the bill has none."
   },
   "maxWords": 16,
   "parts": [
@@ -61,6 +62,24 @@
       "origin": "authored",
       "author": "Words builder W3",
       "date": "2026-11-13",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak-one-named.1",
+      "move": "resident-can-speak-one-named",
+      "text": "You can speak for or against the {item} before the {body} votes.",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "kind": "written"
+    },
+    {
+      "key": "meeting.resident-can-speak-one-named.1.w2",
+      "move": "resident-can-speak-one-named",
+      "text": "The {item} is still open. You can speak for or against it before the {body} votes.",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "kind": "written"
     }
   ]

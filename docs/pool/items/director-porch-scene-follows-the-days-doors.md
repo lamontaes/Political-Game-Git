@@ -24,7 +24,7 @@ Seen: the porch scene after Knock on doors.
 
 **Cause.** Design: owner ruling, Nov 14, 2026, 00:50Z in chat ("scenes every now and then, maybe sometimes no scenes"). src/director/ledger.ts stages a circumstance moment when `spacingAllows` (a fixed number of days since the last) and the season cap allow it. src/director/doors.ts already names the day's door with the strongest stake (`stake`, the resident's agreement with the platform, for or against), but how strong that stake is plays no part in whether a scene comes.
 
-**Fix.** Needs a design read by the Words lead: whether a porch scene comes from the day's doors (a resident who holds a strong stake, a full person met, someone the player knows) instead of a fixed spacing, keeping the season cap. No dice, no threshold flip.
+**Fix.** Needs a design read by the Words lead: whether a porch scene comes from the day's doors (a resident who holds a strong stake, a full person met, someone the player knows) instead of a fixed spacing, keeping the season cap. No dice, no threshold flip. The Words lead's read (Nov 14, 03:20Z, from the door scene writer): a plain door has nothing to play, so the day's door is the one whose resident has a cause on record (sick, lost a job, a rent notice, knows the player) ahead of one with only a stance. Today `doorsKnocked` picks `stake` only by the strength of the resident's agreement with the platform, and the campaign engine fills in the player's counted openers by the same measure (`countedToFill`, `playerDoorFillIns` 2, src/core2/modules/campaigns.ts), so a resident with a life cause who is still a count can never be the porch door. Both picks change together.
 
 **Time box.** 3 hours for one Opus session at medium effort, after the design read.
 
@@ -34,4 +34,4 @@ Seen: the porch scene after Knock on doors.
 
 **Waits on.** The Words lead's design read.
 
-**Files.** src/director/ledger.ts, src/director/doors.ts, src/director/data/director.json
+**Files.** src/core2/modules/campaigns.ts (`countedToFill`), src/director/ledger.ts, src/director/doors.ts, src/director/data/director.json

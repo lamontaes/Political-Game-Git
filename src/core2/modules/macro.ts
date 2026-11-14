@@ -31,9 +31,9 @@ import {
   checkBands,
   historyMonths,
   monthKey,
-  publishedMonth,
   shiftMonth,
   countryMacroMonth,
+  worldPublishedMonth,
   type MacroMonth,
   type NationFigures,
   type MacroParameter,
@@ -1013,14 +1013,18 @@ export function linkCreditLineToPrime(
 
 export const MACRO_MODULE: PreStartModule = {
   id: MACRO_MODULE_ID,
-  // History before the start (M1-14): the nation's published months, and each change in the policy rate.
+  // History before the start (M1-14): this world's months (the published
+  // months moved by its own offsets, the rule its opening month follows),
+  // and each change in the policy rate.
   preStart: {
     phase: "economy",
     run(api, window, history) {
+      const p = params(api);
+      const { startedAt, seed } = api.state;
       let previous: number | undefined;
       for (const date of coarseSteps(window)) {
         const month = date.slice(0, "YYYY-MM".length);
-        const row = publishedMonth(month);
+        const row = worldPublishedMonth(month, startedAt, seed, p);
         if (!row) continue;
         const facts: Record<string, number> = {};
         for (const key of [
@@ -1034,9 +1038,11 @@ export const MACRO_MODULE: PreStartModule = {
         ] as const)
           if (row[key] !== undefined) facts[key] = row[key]!;
         const source: Source = {
-          tag: "SOURCED",
+          tag: "ESTIMATED",
           asOf: api.state.date,
           citation: MACRO_HISTORY_SOURCE.citation,
+          estimatedFrom:
+            "The published month moved by this world's own offsets (macroWorldOffsets), the rule the opening month follows.",
         };
         history.record({
           id: `economy.conditions:${month}`,

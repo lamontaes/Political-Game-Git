@@ -212,6 +212,7 @@
       "coworker": "Works with you",
       "worked": "Worked with you",
       "schoolmate": "At school with you",
+      "schooled": "Went to school together",
       "campaign": "On a campaign with you"
     },
     "since": "Since",
@@ -1090,6 +1091,7 @@
   "campaignResults": {
     "doors": "{n} doors",
     "reached": "{n} reached",
+    "answered": "{n} answered",
     "signed": "{n} signed",
     "signedNone": "No one signed",
     "raised": "{amount} raised",
@@ -1143,6 +1145,7 @@
     "up": "up",
     "down": "down",
     "same": "no change",
+    "points": "points",
     "since": "since last year"
   },
   "titles": {

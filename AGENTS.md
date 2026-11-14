@@ -75,6 +75,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 - **Ask why (owner, Oct 14).** Every proof answers why, by record. Nobody attributes a change to a law unless they learned of it (news received, a conversation, a notice, an ad), and the stance cites that source. See `ask-why`.
 - **Owner decisions are flagged, never waited on (owner, Oct 14).** Build the simplest version that follows this file, register a stopgap of kind `owner-decision`, and write the question under **OWNER DECISIONS NEEDED** in the PR body and in `OWNER-DECISIONS.md`. The CTO brings the open list to the owner in one sitting.
 - **No hand-written player text in code.** Words come from the English engine's banks (`scene-standard`); screens show record data only through worded labels and control names, never raw kinds, ids, ISO dates or unrounded numbers (`player-screen-text`). Every bank piece plays unless the owner's grades reject it; a grade run sets every bank at once, and nothing waits on his grading (owner, Oct 24; `words-engine`).
+- **Every scene has a picture row; a missing picture never holds work back (owner, Nov 14: "do not let pics hold it back. it can be generated later"; `.agents/rules/scene-pictures.md`).** Every scene type is mapped to a picture in `situationPlaces`; one with no fitting picture ships on its fallback with a line in the generated pictures-wanted list, and no session generates pictures in that step. Skill `scene-pictures`; guard `scene-pictures`.
 - **Research before building.** Real data checks the simulation and never decides an outcome by itself. See `research-habit`.
 - **Speed (owner, Oct 29: "It has to be a country's year... I want simulations to be able to go hundreds of years").** A country's year (the whole played world, not one town) runs in under two minutes on `npm run speed:year`, which measures four years so every check includes an election year; the bar holds for each year. No change may make a year more than 20% slower than its base, measured on the same base and machine, one process at a time. Over one save, years 97 to 100 run at most 1.2 times as long as years 1 to 4, and memory and records kept hold the same way: old records fold into summaries once play no longer reads them. Never scan the whole world or history every day; use indexes or act on the day something changed. See `OWNER-DECISIONS.md`, Oct 30 01:55.
 - **Saves don't matter** until early-access preparation, when a versioned save format is built.
@@ -130,6 +131,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `red-main`: taking a red on main from report to fix
 - `researcher`: turning a stopgap into a sourced number
 - `room-spots`: rooms and where people stand or sit in them
+- `scene-pictures`: giving a scene its picture: the one list, the lookup, the gap report, wanted pictures
 - `scene-producers`: a scene's cause wired to an engine's record
 - `scene-standard`: the standard every scene meets
 - `scenes-from-life`: new scenes from real lives

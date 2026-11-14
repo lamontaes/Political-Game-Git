@@ -16,6 +16,7 @@ import {
   LEGISLATURE_MODULE_ID,
   billOf,
   favorWorth,
+  floorDateOf,
   memberPosition,
   votesOn,
 } from "../core2/modules/legislature";
@@ -26,6 +27,7 @@ import {
 } from "../core2/modules/meetings";
 import { viewOn } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
+import { dayAhead, inNextMonth } from "../english/day-words";
 import { P } from "../core2/parameters";
 import { dayParts, sceneMinute } from "./day-part";
 import {
@@ -128,7 +130,7 @@ import { remarkOf } from "./remark";
 import { counterFilingReplyId } from "./filing-visit";
 import {
   numberWord,
-  properName,
+  organizationName,
   spoken,
   spokenDate,
   stateInSentence,
@@ -384,6 +386,29 @@ function composeBinding(
       sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
   }
+  // When the bill comes to a vote, from its own record, so a promise of
+  // time fits the calendar: on the day of the vote it is "tonight"; before
+  // it, a count is promised for the day before the vote, never a day after
+  // it (Fable A, Nov 13, rule 22; P3: "I'll have a real count by Friday" on
+  // the morning of the vote).
+  const floor =
+    billId && named ? floorDateOf(coreAPI(core as CoreState), billId) : null;
+  if (floor && daysBetweenText(core.date, floor) === P.zero)
+    facts["vote-tonight"] = { text: "yes", sourceRecordIds: [billId!] };
+  else if (floor) {
+    const countBy = dayAhead(addDays(makeIsoDate(floor), -P.one), core.date);
+    if (countBy)
+      facts["count-by"] = { text: countBy, sourceRecordIds: [billId!] };
+    // "Next month" is said only when the vote falls in the month after the
+    // scene's; any other day is said from the record (Fable A, rule 22).
+    if (inNextMonth(floor, core.date))
+      facts["vote-next-month"] = { text: "yes", sourceRecordIds: [billId!] };
+    else {
+      const voteOn = dayAhead(floor, core.date);
+      if (voteOn)
+        facts["vote-on"] = { text: voteOn, sourceRecordIds: [billId!] };
+    }
+  }
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
   if (said.lawId && said.series) {
@@ -461,7 +486,7 @@ function composeBinding(
     const org = core.organizations.get(said.organizationId);
     const ids = [moment.causeId, said.organizationId];
     if (org)
-      facts.employer = { text: properName(org.name), sourceRecordIds: ids };
+      facts.employer = { text: organizationName(org), sourceRecordIds: ids };
     if (said.title)
       facts.position = { text: withArticle(said.title), sourceRecordIds: ids };
     if (Number(said.hourlyMinor) > P.zero)
@@ -587,7 +612,7 @@ function composeBinding(
     const printer = story ? core.organizations.get(story.outletId) : undefined;
     if (printer)
       facts.outlet = {
-        text: properName(printer.name),
+        text: organizationName(printer),
         sourceRecordIds: [...cited, printer.id],
       };
   }
@@ -832,7 +857,7 @@ function composeBinding(
     const cited = [moment.causeId, said.storyId ?? moment.causeId];
     if (outlet) {
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [...cited, outlet.id],
       };
       facts["press-story"] = facts.outlet;
@@ -912,7 +937,7 @@ function composeBinding(
       : undefined;
     if (outlet)
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [employer!.id, outlet.id],
       };
   }
@@ -922,7 +947,7 @@ function composeBinding(
     const outlet = core.organizations.get(said.outletId);
     if (outlet)
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }

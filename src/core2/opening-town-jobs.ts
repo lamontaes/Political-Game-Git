@@ -56,7 +56,10 @@ import {
   localInstitutionsFor,
   type LocalInstitutionRow,
 } from "./reference/local-institutions";
-import { townWorkplaceWeights } from "./town-employment-mix";
+import {
+  sectorSiblingWorkplaces,
+  townWorkplaceWeights,
+} from "./town-employment-mix";
 import { parameter as p } from "./parameters";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
@@ -388,6 +391,49 @@ function writeGovernmentOrganization(
 /* Employers                                                                  */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * The kinds of workplace that enter a town only under a source record's name:
+ * a hospital and a bank. A clinic with no record is named as any other
+ * employer is (a doctor's office or health center is in nearly every town).
+ */
+const SOURCED_ONLY = new Set(["bank", "hospital"]);
+
+/** Whether this kind of workplace cannot be written in the town: sourced-only with no record. */
+function unwritableInTown(town: EntityId, key: string): boolean {
+  return SOURCED_ONLY.has(key) && !sourcedTownInstitution(town, key);
+}
+
+/**
+ * The town's mix as its written employers can hold it. A sourced-only kind
+ * the town has no institution for (a hospital, a bank) gives its share to the
+ * other workplaces of its own sector in their shares (a hospital's to the
+ * clinic and the care home, a bank's to the insurance agency); with none, the
+ * share leaves the mix and every other kind takes it in proportion. Never into
+ * whichever kind is next in line, which filled towns with stores, kitchens
+ * and warehouses (owner, Nov 12: "only the market and like craft shops").
+ */
+export function writableTownWeights(
+  town: EntityId,
+  seed: string,
+): readonly (readonly [string, number])[] {
+  const weights = new Map(townWorkplaceWeights(town, seed));
+  for (const key of SOURCED_ONLY) {
+    if (!unwritableInTown(town, key)) continue;
+    const share = weights.get(key) ?? p("zero");
+    weights.delete(key);
+    const to = sectorSiblingWorkplaces(key).filter(
+      ([other]) => !unwritableInTown(town, other),
+    );
+    const sum = to.reduce((total, [, part]) => total + part, p("zero"));
+    for (const [other, part] of to)
+      weights.set(
+        other,
+        (weights.get(other) ?? p("zero")) + (share * part) / sum,
+      );
+  }
+  return [...weights].filter(([, weight]) => weight > p("zero"));
+}
+
 /** Public facilities get a real source name, or they do not enter the world. */
 function sourcedTownInstitution(
   town: EntityId,
@@ -430,13 +476,7 @@ function writeTownEmployer(
           (row) => row.kind === "school-district",
         )
       : undefined);
-  if (
-    (workplace.key === "bank" ||
-      workplace.key === "hospital" ||
-      workplace.key === "clinic") &&
-    !institution
-  )
-    return;
+  if (SOURCED_ONLY.has(workplace.key) && !institution) return;
   const founder = draft.people[founderPersonId]!;
   const profiles = draftOrganizationProfiles(draft);
   const taken = new Set(
@@ -526,9 +566,7 @@ function fillTownJobs(
   const countyName = countyUnit
     ? countyDisplayName(countyUnit.name, countyUnit.id)
     : null;
-  const weights = [...townWorkplaceWeights(town, draft.seed)].filter(
-    ([, w]) => w > 0,
-  );
+  const weights = writableTownWeights(town, draft.seed);
   const organizations = new Map<string, EntityId>();
   const outletsOf = new Map<string, readonly number[]>();
   // The town's jobs today, counting the hires made here: staff and
@@ -695,13 +733,7 @@ function fillTownJobs(
     workplace: Workplace,
     founderPersonId: EntityId,
   ): EntityId | null => {
-    if (
-      (workplace.key === "bank" ||
-        workplace.key === "hospital" ||
-        workplace.key === "clinic") &&
-      !sourcedTownInstitution(town, workplace.key)
-    )
-      return null;
+    if (unwritableInTown(town, workplace.key)) return null;
     const already = existingOf(workplace);
     if (workplace.existing || workplace.governmentOffice)
       return already.length > 0
