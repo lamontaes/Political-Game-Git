@@ -33,7 +33,7 @@ import {
   statementSpeechId,
   type PromiseRow,
 } from "../core2/modules/campaigns";
-import { fileCandidacy, openContests } from "../core2/modules/elections";
+import { fileCandidacy, playerContests } from "../core2/modules/elections";
 import {
   DEBATE_ACCEPTED_EVENT,
   DEBATE_INVITED_EVENT,
@@ -112,7 +112,10 @@ function play(draw: number): Evidence | string {
     }),
   );
   const findContest = () =>
-    [...openContests(api)]
+    // A local race: a petition for a state or federal office asks thousands of
+    // signatures (the race's own electorate), more than a player gathers.
+    [...playerContests(api)]
+      .filter((c) => c.level !== "federal" && c.level !== "state")
       .filter((c) => c.electionDate >= addDays(makeIsoDate(core.date), 120))
       .sort(
         (a, b) =>
