@@ -1,3 +1,5 @@
+import type { CoreState } from "../core2/types";
+import { markWordsStopgap } from "./stopgaps";
 import { yearClaimAbout } from "../english/question-names";
 
 /**
@@ -20,7 +22,51 @@ export const ADDRESS_FACT = {
   text: "address:text",
   /** The address in its parts, one per Continue, split by ADDRESS_PART_BREAK. */
   parts: "address:parts",
+  /** The bank pieces the address was said with, in order, split by a space: what its speaker's later addresses read so they say other words. */
+  pieces: "address:pieces",
+  /** The speaker's office as the said-as words key it ("governor", "county-board:presiding"): the nameplate says them by it ("Chair Sara Mullen"). */
+  office: "address:office",
 } as const;
+
+/**
+ * The bank pieces a speaker said in the addresses on the record before this
+ * one, oldest first: the one writer of every address reads them so a voice
+ * prefers a wording it has not used lately, and says the one used longest
+ * ago when every fitting wording has been said (no dice; owner, Nov 12: the
+ * same sentence in address after address). Read once an address is composed,
+ * a few times a year.
+ */
+export function earlierAddressPieces(
+  core: CoreState,
+  /** One speaker's addresses; left out, every address in the world (the frames a governor said are not said again by the town's head). */
+  speakerId?: string,
+): string[] {
+  // stopgapId: SG-WORDS-address-pieces-log-scan
+  markWordsStopgap("SG-WORDS-address-pieces-log-scan");
+  return [...core.durableLog.values()]
+    .filter(
+      (row) =>
+        // Before today, so the day's own address, once recorded, composes
+        // the same again (composed from records, the same every time).
+        row.date < core.date &&
+        (speakerId === undefined ||
+          row.facts?.[ADDRESS_FACT.speaker] === speakerId) &&
+        !!row.facts?.[ADDRESS_FACT.pieces],
+    )
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id))
+    .flatMap((row) => row.facts![ADDRESS_FACT.pieces]!.split(" "));
+}
+
+/** The pieces an address's sentences were said with, as its record keeps them. */
+export function addressPiecesFact(
+  sentences: readonly { readonly pieces: readonly string[] }[],
+  points: readonly { readonly belief: { readonly piece: string } | null }[],
+): string {
+  return [
+    ...sentences.flatMap((row) => row.pieces),
+    ...points.flatMap((row) => (row.belief ? [row.belief.piece] : [])),
+  ].join(" ");
+}
 
 /** What separates the parts of the address in its recorded `address:parts` fact. */
 export const ADDRESS_PART_BREAK = "\n\n";

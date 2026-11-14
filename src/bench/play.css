@@ -1663,6 +1663,27 @@ body:not(.dev) .dev-only {
   text-transform: uppercase;
   color: var(--text-3);
 }
+/* A broadcast heard at home: the station over the line, with a tiny icon of
+   its kind (owner, Oct 14: a small card with a radio/TV icon, the station,
+   and the line). */
+.talk-lines .heard .history-who::before {
+  content: "";
+  display: inline-block;
+  width: 0.9em;
+  height: 0.65em;
+  margin-right: 0.45em;
+  border: 1.5px solid currentColor;
+  border-radius: var(--control-radius);
+  vertical-align: -0.05em;
+}
+.talk-lines .heard-radio .history-who::before {
+  border-radius: 50%;
+}
+.talk-lines .heard-newspaper .history-who::before {
+  height: 0.8em;
+  width: 0.65em;
+  border-radius: 0;
+}
 /* Several past lines stack as one block; the rule sits under the last of them. */
 .talk-lines .history:has(+ .history) {
   padding-bottom: 0;
@@ -5195,6 +5216,17 @@ select.release-pick {
 }
 .news-headline.side {
   font-size: var(--t-h3);
+}
+/* A brief with a body: its headline opens it, set smaller than a front story's. */
+.news-dateline {
+  display: block;
+  font-size: var(--t-ui);
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+.news-headline.brief {
+  font-size: var(--t-ui);
+  margin-bottom: 2px;
 }
 .news-text .intro {
   margin: 0 0 10px;

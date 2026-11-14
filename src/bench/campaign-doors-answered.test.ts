@@ -8,9 +8,11 @@ import {
   fileCandidacy,
   openContests,
   petitionOf,
+  petitionSigners,
 } from "../core2/modules/elections";
 import { corePlaceByKey } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
+import { petitionAsksAtDoors } from "../core2/modules/campaigns";
 import { campaignDay } from "./campaign";
 import { buildBenchWorld } from "./world";
 
@@ -70,10 +72,25 @@ it(`a petition outing's signers never outnumber the doors answered (Otisville NY
   let signedOverReached = 0;
   for (let day = 0; day < OUTINGS; day += 1) {
     if (core.date > petitionOf(api, filingId)!.due) break;
+    const asking = petitionAsksAtDoors(api, filingId);
+    const doorSigned = () =>
+      petitionSigners(api, filingId).filter((row) => row.via === "door").length;
+    const signedBefore = doorSigned();
     const out = campaignDay(core, personId, { filingId, kind: "canvass" });
     days.push(
       `${core.date}: ${out.doorsKnocked} doors, ${out.answered} answered, ${out.reached} reached, ${out.signed} signed`,
     );
+    if (!asking) {
+      // Past the target plus the cushion (owner, Nov 14) the doors ask for
+      // votes: no signed figure, no signature asked; every door that opened
+      // asked for the vote.
+      expect(out.signed, days.at(-1)).toBeNull();
+      expect(out.answered, days.at(-1)).toBe(out.votesAsked);
+      expect(out.answered!, days.at(-1)).toBeGreaterThanOrEqual(out.reached);
+      expect(doorSigned(), days.at(-1)).toBe(signedBefore);
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      continue;
+    }
     expect(out.answered, days.at(-1)).not.toBeNull();
     expect(out.signed!, days.at(-1)).toBeLessThanOrEqual(out.answered!);
     expect(out.answered!, days.at(-1)).toBeGreaterThanOrEqual(out.reached);
@@ -85,4 +102,4 @@ it(`a petition outing's signers never outnumber the doors answered (Otisville NY
   expect(days.length).toBeGreaterThan(0);
   // The case the label fixes: more signed than full people met.
   expect(signedOverReached, days.join("\n")).toBeGreaterThan(0);
-});
+}, 180_000);

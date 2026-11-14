@@ -1220,8 +1220,9 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
     "us-policy-positions:fiscal.cap-property-tax-growth",
   );
   const capped = cap.value === 1 && cap.governing;
-  // The state's own cap statute where its row is read; the generic estimate
-  // (stopgapId: SG-GOV-REACH-B-property-tax-bills) for a state without one.
+  // The state's own cap statute where its row is read; the game's estimate
+  // (propertyTaxGrowthCapShare, ESTIMATED with its source and spread) for a
+  // state without one.
   const statute = capped
     ? (
         propertyTaxCaps.states as Record<
@@ -1230,7 +1231,6 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
         >
       )[lawChain(api).stateKey.slice(3)]
     : undefined;
-  if (capped && !statute) api.stopgap("SG-GOV-REACH-B-property-tax-bills");
   const capShare = statute
     ? statute.capShare
     : lawParameters.parameters.propertyTaxGrowthCapShare.value;
@@ -1264,8 +1264,6 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
  * source. Never the played town's rate or collector.
  */
 function otherPlacePropertyTax(api: CoreAPI, placeId: string) {
-  // stopgapId: SG-WORLD-property-tax-other-places-state-average
-  api.stopgap("SG-WORLD-property-tax-other-places-state-average");
   const usps = placeStateKey(placeId)?.slice(3) ?? "";
   return {
     rate: stateEffectiveRate(usps),

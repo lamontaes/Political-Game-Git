@@ -413,18 +413,6 @@
     "resolvedBy": "stand-in triage T4"
   },
   {
-    "id": "SG-WORLD-property-tax-other-places-state-average",
-    "kind": "assumed-data",
-    "file": "src/core2/modules/budgets.ts",
-    "line": 1194,
-    "whatItFakes": "A home outside the played town is billed its state's average effective property tax rate, paid to its place's outside account, because no law row is kept for that place.",
-    "why": "Officials and other full people live in places the world does not govern at the town level; billing them the played town's rate was wrong, and billing nothing was wrong too (owner, Nov 5).",
-    "addedBy": "sonnet builder",
-    "addedAt": "2026-11-11",
-    "replacement": "The place's own property-tax law row and collector once other places keep law rows.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORLD-business-compliance-cost",
     "kind": "assumed-data",
     "file": "src/core2/data/business/parameters.json",

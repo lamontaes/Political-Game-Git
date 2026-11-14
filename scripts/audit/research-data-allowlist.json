@@ -22,6 +22,10 @@
       "reason": "Raw poll evidence (YouGov Daily Question, September 16, 2022, with crossbreaks): the figures the policy-support row for ban-the-box in public hiring uses are copied from it with their citation; the game does not read the file."
     },
     {
+      "file": "data/research/core-figures/P0-4/absence-2025.json",
+      "reason": "Provenance record for the CPS 2025 absence table (url, hash, retrieval date) with no rows; evidence of what was fetched, not game data."
+    },
+    {
       "file": "data/research/executive/ban-the-box-outcomes-2026-11.json",
       "reason": "Raw research evidence on the measured effects of ban the box (26 sourced findings); the outcome-web link for the question will cite it. The game does not read the file."
     },
@@ -58,6 +62,10 @@
       "reason": "Raw source the game does not read directly: source cited by the stopgap register (src/core2/data/stopgaps/). Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
+      "file": "data/research/macro/sources.json",
+      "reason": "The macro series' source list (publishers, urls, terms, check date); provenance for the series files the macro engine reads, not data the game reads."
+    },
+    {
       "file": "data/research/money/minimum-wage-2026.json",
       "reason": "Raw source the game does not read directly: source cited by src/core2/reference/town-pay.generated.ts. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
@@ -78,8 +86,20 @@
       "reason": "Raw source the game does not read directly: source cited by src/core2/data/parameters.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
+      "file": "data/research/nationwide1/chief-executive-baseline-51.json",
+      "reason": "Carries its own flag runtimeAdmitted: false: the Coordinator's chief-executive baseline kept as evidence for the starting-law work, not admitted to the game."
+    },
+    {
       "file": "data/research/outcome-web/sizes-2026-10-29.json",
       "reason": "Raw research result for ten outcome-web link sizes (quote, conversion, value, range, verifier's finding each); a later family copies a size into the link's row in links.json, which the outcome web reads, and the game never reads this file."
+    },
+    {
+      "file": "data/research/renewal/calibration.json",
+      "reason": "An exploratory single-town fit of the births parameters (status exploratory-single-town-fit) kept as the evidence behind tuned values; the engine reads the parameter table, not this report."
+    },
+    {
+      "file": "data/research/renewal/sources.json",
+      "reason": "The renewal research's source list (NCHS tables, terms, permissions); provenance for natality-2024.json and the other files the engine reads."
     },
     {
       "file": "data/research/stand-in-figures-2026-10-12.json",
@@ -112,11 +132,6 @@
   ],
   "unreadFound": [
     {
-      "prefix": "data/research/core-figures/P0-4/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/drives/",
       "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
@@ -142,16 +157,6 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/macro/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/nationwide1/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/offices/",
       "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
@@ -173,11 +178,6 @@
     },
     {
       "prefix": "data/research/regional/series/",
-      "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/renewal/",
       "files": 2,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     }

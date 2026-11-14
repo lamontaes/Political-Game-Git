@@ -63,33 +63,57 @@ describe("the opening story", () => {
       expect(sentence.sourceRecordIds).toContain(story.president.id);
     }
     // A claim about the country cites the macro engine's months.
+    // A claim about the country's measures cites the macro engine's months;
+    // a point's "today" cites its question (speech outline, Nov 12).
     for (const sentence of story.address.sentences.filter(
-      (row) => row.level === "country" && row.facts.length,
+      (row) =>
+        row.level === "country" &&
+        row.facts.some((key) => /^(context|meaning)-|-(up|down)$/.test(key)) &&
+        // "today-clause" is the same sentence after an opener (W-E, Nov 12).
+        !row.facts.some((key) => key.startsWith("today")),
     ))
       expect(
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
         sentence.text,
       ).toBe(true);
-    // No figure at all (owner, Nov 1: "I don't like where this part of the
-    // speech where it just laces statistics"): the year is told in words.
+    // No figure but a point's context (owner, Nov 1: "I don't like where
+    // this part of the speech where it just laces statistics"; changed with
+    // the speech outline for his Nov 12 note that context may give one).
     for (const sentence of story.address.sentences)
-      expect(sentence.text, sentence.text).not.toMatch(/\d|percent/);
+      if (!sentence.facts.some((key) => /^context-/.test(key)))
+        expect(sentence.text, sentence.text).not.toMatch(/\d|percent/);
     // The party creed says the President's own party (an Oct 28 voice note:
     // the speech reads the President's party, traits and the world), and the
     // country's story ends on what the President will do about it.
-    expect(levels).toContain("occasion");
+    // The occasion is said where one of its pieces fits the record; since
+    // the speech outline (Nov 12) a piece that carries nothing is not
+    // picked, so an address may open straight from its greeting into its
+    // first point.
+    expect(levels).toContain("country");
     const country = story.address.sentences.filter(
       (row) => row.level === "country",
     );
-    if (country.length)
+    // The theme's first point says how its question stands today, from the
+    // law in force, or gives a figure from the records (changed with the
+    // speech outline, Nov 12; since the W-E pass a point has four shapes, so
+    // its paragraph, not its first sentence, holds the context).
+    if (country.length) {
+      const part = country[0]!.part;
       expect(
         country
-          .at(-1)!
-          .facts.some((key) =>
-            /^(mood|unemployment|inflation|wages)-/.test(key),
+          .filter((row) => row.part === part)
+          .some((row) =>
+            row.facts.some(
+              (key) =>
+                key === "today" ||
+                key === "today-clause" ||
+                key.startsWith("today-") ||
+                /^context-/.test(key),
+            ),
           ),
-        country.at(-1)!.text,
+        country[0]!.text,
       ).toBe(true);
+    }
     // Composed from records, the same every time.
     expect(composeOpeningStory(core, playerId)).toEqual(story);
   });

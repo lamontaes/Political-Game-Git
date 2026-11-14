@@ -6,13 +6,7 @@
 import type { IncomingMessage } from "node:http";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import {
-  DevMode,
-  type RunEvent,
-  type DevStep,
-  type Experiment,
-  type LawLevel,
-} from "./dev-mode";
+import { DevMode, type RunEvent, type LawLevel } from "./dev-mode";
 import { traceReport } from "./dev-trace";
 import { compareProofs, recordProof, type RecordProof } from "./dev-proof";
 import type { CoreState } from "../core2/types";
@@ -37,9 +31,8 @@ export interface DevWorld {
   placeId: string;
 }
 
-// Saved experiments the owner adds, kept beside the checkout, out of git.
+// Local files kept beside the checkout, out of git.
 const LOCAL = new URL("../../.bench-local/", import.meta.url);
-const SAVED = new URL("dev-experiments.json", LOCAL);
 // Records proofs saved to compare two builds' runs (`dev-proof.ts`).
 const PROOFS = new URL("proofs/", LOCAL);
 
@@ -57,14 +50,6 @@ async function body(
   let text = "";
   for await (const chunk of request) text += chunk;
   return text ? (JSON.parse(text) as Record<string, unknown>) : {};
-}
-
-async function savedExperiments(): Promise<Experiment[]> {
-  try {
-    return JSON.parse(await readFile(SAVED, "utf8")) as Experiment[];
-  } catch {
-    return [];
-  }
 }
 
 /** The date a time control reaches from today. */
@@ -94,13 +79,6 @@ export async function handleDev(
   if (!path.startsWith("/api/dev/")) return false;
   const route = `${request.method} ${path.slice("/api/dev/".length)}`;
   const q = (key: string) => url.searchParams.get(key) ?? "";
-  if (route === "GET experiments") {
-    send(200, {
-      builtIn: DevMode.experiments(),
-      saved: await savedExperiments(),
-    });
-    return true;
-  }
   const mode = devFor(world());
   const core = mode.core;
   switch (route) {
@@ -490,36 +468,6 @@ export async function handleDev(
     case "GET watch":
       send(200, mode.watchView(q("since") || undefined));
       return true;
-    case "POST experiment/save": {
-      const input = await body(request);
-      const experiment: Experiment = {
-        id: String(input.id),
-        steps: input.steps as DevStep[],
-        runMonths: Number(input.runMonths) || 12,
-      };
-      const saved = (await savedExperiments()).filter(
-        (row) => row.id !== experiment.id,
-      );
-      saved.push(experiment);
-      await mkdir(new URL(".", SAVED), { recursive: true });
-      await writeFile(SAVED, JSON.stringify(saved, null, 2));
-      send(200, experiment);
-      return true;
-    }
-    case "POST experiment/apply": {
-      const input = await body(request);
-      const id = String(input.id);
-      const found = [
-        ...DevMode.experiments(),
-        ...(await savedExperiments()),
-      ].find((row) => row.id === id);
-      if (!found) throw new Error(`No saved experiment: ${id}`);
-      send(200, {
-        experiment: found,
-        ...mode.applySteps(found.id, found.steps),
-      });
-      return true;
-    }
   }
   send(404, { error: "Unknown dev mode route." });
   return true;

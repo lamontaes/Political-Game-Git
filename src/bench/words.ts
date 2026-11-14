@@ -82,6 +82,17 @@ export function choiceName(
   };
 }
 
+/**
+ * A law's measure as a sentence says it, from its catalog label: a label
+ * kept as "what: for whom" ("State campaign contribution limit: governor")
+ * is said as a phrase ("campaign contribution limit for governor"), and
+ * whose law it is ("State") the sentence says, not the label (Fable A,
+ * Nov 13, rule 15).
+ */
+export function measureSaid(label: string): string {
+  return label.replace(/^state /i, "").replace(/:\s*/, " for ");
+}
+
 /** Each policy question's and law amount's name on OPUS-GOV's bill catalog ("Limit groundwater withdrawal", "Minimum wage"). */
 export function policyNames(): Record<string, string> {
   const names: Record<string, string> = {};

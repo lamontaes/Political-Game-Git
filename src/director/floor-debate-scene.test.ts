@@ -12,6 +12,9 @@ import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
+import { composeScene } from "./scene";
+import { billOf } from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
 import { wordPrintedStory } from "../bench/archive-words";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
@@ -122,6 +125,30 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
             expect(row.text, here).not.toMatch(
               /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
             );
+          // A town body's floor speech is the planner's, played in the
+          // scene in the speaker's own words, and it is the speaker's opening.
+          const bill = billOf(coreAPI(core), String(cause!.facts!.billId));
+          const town = townSeats(coreAPI(core)).some(
+            (row) => row.office.id === bill?.bodyOfficeId,
+          );
+          const staged = composeScene(core, director, personId, entry);
+          if (town) {
+            expect(
+              staged?.speech,
+              `${here}: the floor speech plays`,
+            ).toBeTruthy();
+            expect(staged!.speech!.speakerId, here).toBe(scene.askerId);
+            expect(staged!.speech!.opens, here).toBe(true);
+            expect(staged!.speech!.inRoom, here).toBe(true);
+            expect(staged!.speech!.parts.length, here).toBeGreaterThan(0);
+            expect(staged!.speech!.text, here).not.toMatch(
+              /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
+            );
+            if (found === 1)
+              process.stdout.write(
+                `FLOOR SPEECH ${here}\n  ${staged!.speech!.parts.join("\n  ")}\n`,
+              );
+          }
           const told = wordPrintedStory(core, {
             id: `printed:test:${cause!.id}`,
             kind: "press.printed",

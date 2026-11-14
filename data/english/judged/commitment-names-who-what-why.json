@@ -2,7 +2,88 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 92,
-  "no": {},
-  "yesHash": "24hswbkygpf"
+  "judged": 27,
+  "no": {
+    "00nxu254m0b": {
+      "keys": ["scene-talk.follow-threaten.don-t-count-on-my-help-next-time"],
+      "why": "Threat names no who, what or why; the owner flagged it as missing context."
+    },
+    "017p7s0la6x": {
+      "keys": ["scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it"],
+      "why": "Bare promise with no what or why."
+    },
+    "04ci7aa0nss": {
+      "keys": ["scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word"],
+      "why": "Bare promise with no what or why."
+    },
+    "07ia88elql4": {
+      "keys": [
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "Threat naming nothing about who or what."
+    },
+    "0epjfrm5cds": {
+      "keys": [
+        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still"
+      ],
+      "why": "Veiled threat naming nothing."
+    },
+    "0kkc8oy93nz": {
+      "keys": ["scene-talk.follow-promise.i-always-will"],
+      "why": "Promise with no who, what or why."
+    },
+    "0noc9iguaeq": {
+      "keys": [
+        "scene-talk.reply-promise.i-know-how-it-sounds-i-mean-it-anyway"
+      ],
+      "why": "Commitment that names nothing."
+    },
+    "0rr0fv3vd07": {
+      "keys": ["scene-talk.close-promise.i-ll-keep-my-word-you-ll-see"],
+      "why": "Promise to keep my word names nothing specific."
+    },
+    "0sv07cofcxz": {
+      "keys": ["scene-talk.reply-promise.you-have-my-word-i-ll-do-it"],
+      "why": "Bare promise with no what or why."
+    },
+    "1gcc9somxcg": {
+      "keys": ["scene-talk.reply-promise.i-ll-figure-it-out-i-promise"],
+      "why": "Bare promise to figure it out with no what or why."
+    },
+    "1jkxi72uz4y": {
+      "keys": [
+        "scene-talk.state-threaten.last-chance-first-after-today-i-stop-being-polite"
+      ],
+      "why": "Threat naming nothing about who or what."
+    },
+    "1vjtpvaw9iv": {
+      "keys": [
+        "scene-talk.follow-threaten.youll-regret-it-first-everyone-does"
+      ],
+      "why": "Threat that names no who, what or why."
+    },
+    "20bdh3o0vo8": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word"
+      ],
+      "why": "Bare promise with no what or why."
+    },
+    "20cretbbd3j": {
+      "keys": ["scene-talk.follow-threaten.you-know-how-this-works"],
+      "why": "Veiled threat that names nothing."
+    },
+    "2cverzn4662": {
+      "keys": [
+        "scene-talk.state-threaten.nothing-has-to-change-between-us-first-unless-you-make-it-think"
+      ],
+      "why": "Veiled threat naming nothing."
+    },
+    "2e0a9k483ss": {
+      "keys": [
+        "scene-talk.reply-promise.i-m-going-to-make-it-count-you-ll-see"
+      ],
+      "why": "Promise to make it count names nothing specific."
+    }
+  },
+  "yesHash": "1cazuqocbme"
 }

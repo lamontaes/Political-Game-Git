@@ -58,6 +58,8 @@ import {
 import {
   applyElectionLaws,
   barredFromVoting,
+  prisonPartOfBarredShare,
+  prisonersBarredHere,
   recordRedistricting,
   electionLawTurnoutCost,
 } from "../law-reach/group-a-voting";
@@ -1539,7 +1541,7 @@ function countedAdultsToday(api: CoreAPI): number {
   const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   let n = 0;
-  for (const v of countedResidents(api.state as CoreState))
+  for (const v of countedVoters(api))
     if (v.placeId === townPlaceId && ageOn(v, date) >= adultAge) n += v.weight;
   countedByDay.set(api.state, { date, n });
   return n;
@@ -1603,7 +1605,7 @@ function townIncumbentLean(api: CoreAPI): number {
   const adultAge = api.parameter("votingAge");
   let sum = 0,
     weight = 0;
-  for (const voter of countedResidents(api.state as CoreState)) {
+  for (const voter of countedVoters(api)) {
     if (
       voter.placeId !== townPlaceId ||
       ageOn(voter, api.state.date) < adultAge
@@ -1759,7 +1761,7 @@ export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
     weeklyMinutes: weeklyWorkOf(state, p.id),
   }));
   const scale = countedScale(api);
-  for (const v of countedResidents(state))
+  for (const v of countedVoters(api))
     if (v.placeId === townPlaceId && ageOn(v, date) >= adultAge)
       rows.push({
         id: v.id,
@@ -2267,7 +2269,7 @@ function countPrimary(
         !barredFromVoting(api, p.id),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
-  const counted = countedResidents(api.state as CoreState).filter(
+  const counted = countedVoters(api).filter(
     (v) => v.placeId === townPlaceId && ageOn(v, date) >= adultAge,
   );
   // Who identifies with a party: the firmest leans in town, at the real
@@ -3424,7 +3426,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       ? (appeal: Parameters<typeof oneSeat>[0]) =>
           blockShares(oneSeat(appeal), seats)
       : oneSeat;
-  for (const voter of countedResidents(api.state as CoreState)) {
+  for (const voter of countedVoters(api)) {
     if (voter.placeId !== townPlaceId) continue;
     const age = ageOn(voter, date);
     if (age < adultAge) continue;
@@ -3931,17 +3933,35 @@ export function cycleTurnout(date: string): { share: number; cost: number } {
  */
 function countedScale(api: CoreAPI): number {
   const usps = town(api).stateKey.slice(3);
-  // Counted residents of adult correctional rooms vote at this scale too.
-  // stopgapId: SG-GQ-counted-prisoners-vote
+  // The prison part of the barred share is left out: those rooms are not in
+  // the counted electorate where the state bars them (`countedVoters`).
   return (
     citizenShareOf(
       api.state.placeMetadata.placeKey as string | undefined,
       usps,
       api.state.seed,
     ) *
-    (1 - electorateChange(api).barred)
+    (1 - (electorateChange(api).barred - prisonPartOfBarredShare(api)))
   );
 }
+
+/**
+ * The counted residents who vote: every counted resident but those of adult
+ * correctional rooms where the state's law bars people held in prison
+ * (`incarceratedMayVote`, through `prisonersBarredHere`). The one list every
+ * counted voter loop reads.
+ */
+export function countedVoters(api: CoreAPI): readonly CountedVoter[] {
+  const all = countedResidents(api.state as CoreState);
+  if (!prisonersBarredHere(api)) return all;
+  // Kept for as long as `countedResidents` keeps the list (a day).
+  const held = votersOfList.get(all);
+  if (held) return held;
+  const voters = all.filter((v) => v.quarters !== "adultCorrectional");
+  votersOfList.set(all, voters);
+  return voters;
+}
+const votersOfList = new WeakMap<readonly CountedVoter[], CountedVoter[]>();
 
 /**
  * The town's eligible voters past its named and counted adults: its
@@ -4123,7 +4143,7 @@ export function electorateSample(
   const { townPlaceId } = town(api);
   const adultAge = api.parameter("votingAge");
   const today = api.state.date;
-  const counted = countedResidents(api.state as CoreState).filter(
+  const counted = countedVoters(api).filter(
     (v) => v.placeId === townPlaceId && ageOn(v, today) >= adultAge,
   );
   const voters: {

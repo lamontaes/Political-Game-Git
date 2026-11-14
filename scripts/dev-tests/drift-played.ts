@@ -10,28 +10,50 @@ import { drawPlace } from "../core2-year/place";
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { setFastForward } from "../../src/core2/fast-forward";
 import { advanceCore } from "../../src/core2/life";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { vitals } from "./vitals";
 setBookkeeping(false);
-// CORE2_FAST_FORWARD=1: campaign stride (development only, SG-SPEED-fast-forward-campaigns).
-setFastForward(process.env.CORE2_FAST_FORWARD === "1");
 const [seed = "dp1", yearsArg = "20"] = process.argv.slice(2);
 const place = drawPlace(seed, "drift-played");
-const w = buildBenchWorld(place.seed, gameStartDate(), { twoLevel: true, placeKey: place.key });
-const kinds = () => Object.fromEntries([...w.core.logByKind].map(([k, s]) => [k, s.size]));
+const w = buildBenchWorld(place.seed, gameStartDate(), {
+  twoLevel: true,
+  placeKey: place.key,
+});
+const kinds = () =>
+  Object.fromEntries([...w.core.logByKind].map(([k, s]) => [k, s.size]));
 let last = kinds();
 const checkpoint = (label: string) => {
   const now = kinds();
   const d: Record<string, number> = {};
-  for (const k of Object.keys(now)) { const n = now[k]! - (last[k] ?? 0); if (n) d[k] = n; }
+  for (const k of Object.keys(now)) {
+    const n = now[k]! - (last[k] ?? 0);
+    if (n) d[k] = n;
+  }
   last = now;
-  const pick = (re: RegExp) => Object.fromEntries(Object.entries(d).filter(([k]) => re.test(k)));
-  console.log(JSON.stringify({
-    place: place.name, key: place.key, seed: place.seed, label, date: w.core.date, vitals: vitals(w.core),
-    since: { laws: pick(/^law-|law\./), bills: pick(/^bill-|legislative-vote|veto/), elections: pick(/elect|race|recall|resign|vacan|seat-/), people: pick(/death|birth|moved|marri|divorce/), top: Object.fromEntries(Object.entries(d).sort((a, b) => b[1] - a[1]).slice(0, 12)) },
-  }));
+  const pick = (re: RegExp) =>
+    Object.fromEntries(Object.entries(d).filter(([k]) => re.test(k)));
+  console.log(
+    JSON.stringify({
+      place: place.name,
+      key: place.key,
+      seed: place.seed,
+      label,
+      date: w.core.date,
+      vitals: vitals(w.core),
+      since: {
+        laws: pick(/^law-|law\./),
+        bills: pick(/^bill-|legislative-vote|veto/),
+        elections: pick(/elect|race|recall|resign|vacan|seat-/),
+        people: pick(/death|birth|moved|marri|divorce/),
+        top: Object.fromEntries(
+          Object.entries(d)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 12),
+        ),
+      },
+    }),
+  );
 };
 checkpoint("start");
 const years = Number(yearsArg);

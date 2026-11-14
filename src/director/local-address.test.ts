@@ -13,6 +13,8 @@ import {
   partHolds,
 } from "../english/english-opening-speech";
 import { ADDRESS_FACT } from "./opening-facts";
+import { HURT_KINDS } from "./address-kind";
+import { answersCondition } from "./speech-outline";
 import {
   composeLocalAddress,
   localAddressDate,
@@ -121,18 +123,50 @@ describe("a governor's and a mayor's address", () => {
           story.sentences.flatMap((row) =>
             row.facts.filter((key) => /-(?:worse|better)$/.test(key)),
           );
-        expect(
-          claims(bad).some((key) => key.endsWith("-worse")),
-          level,
-        ).toBe(true);
-        expect(
-          claims(bad).some((key) => key.endsWith("-better")),
-          level,
-        ).toBe(false);
-        expect(
-          claims(good).some((key) => key.endsWith("-better")),
-          level,
-        ).toBe(true);
+        // Since the speech outline (Nov 12) an address tells only its one
+        // theme's measures, and the theme comes from the speaker's own issues
+        // first; so the term's news is checked where the theme told it.
+        if (claims(bad).length)
+          expect(
+            claims(bad).some((key) => key.endsWith("-better")),
+            level,
+          ).toBe(false);
+        if (claims(good).length)
+          expect(
+            claims(good).some((key) => key.endsWith("-worse")),
+            level,
+          ).toBe(false);
+        // A hurt address answers its condition from the speaker's own record
+        // (the words lead's rule 2): the paragraph that states the worst
+        // condition also holds an ask on a question in that condition's
+        // area, by record id.
+        if (HURT_KINDS.includes(bad.addressKind)) {
+          const crisis = bad.crisis!;
+          expect(
+            crisis,
+            `${level} ${fixture.where}: no condition`,
+          ).toBeTruthy();
+          const stated = bad.sentences.find((row) =>
+            row.facts.includes(`${crisis}-worse`),
+          );
+          expect(
+            stated,
+            `${level} ${fixture.where}: ${crisis} is not stated`,
+          ).toBeTruthy();
+          const answer = bad.sentences.filter(
+            (row) =>
+              row.part === stated!.part &&
+              row.sourceRecordIds.some(
+                (id) =>
+                  id.startsWith("question:") &&
+                  answersCondition(id.slice("question:".length), crisis),
+              ),
+          );
+          expect(
+            answer.length,
+            `${level} ${fixture.where}: the paragraph that states ${crisis} asks nothing in its area`,
+          ).toBeGreaterThan(0);
+        }
         // It is a state's or a town's own address, never the nation's.
         expect(bad.text, level).not.toMatch(/Congress|Washington|Americans/);
       }
