@@ -1314,7 +1314,6 @@ function arrivals(
       rates ??= unplacedRates(residents, date);
       h.unplacedWorkers = jobShare(residents, h, rates, date);
       rt.serial++;
-      const reasonBand = band < 0 ? 2 : band;
       api
         .moduleState(COUNTED_MOVES_MODULE_ID)
         .table(TABLE)
