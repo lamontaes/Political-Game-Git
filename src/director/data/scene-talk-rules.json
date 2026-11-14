@@ -2,6 +2,10 @@
   "schema": "director-scene-talk-rules/1",
   "note": "How a scene with a purpose picks the player's path. Moves only, no sentence. The player's character leans toward the reply whose act kinds (`scene-talk.move` in data/content/trait-decisions.json) its traits pull toward most, by the same lean the asker's answers read. Nothing here is a roll; a tie goes to the stable hash of the scene.",
   "terminalFollow": ["thank", "accept"],
+  "pleaFollow": {
+    "about": "A plea gives the player the next turn (Account lead, Nov 14, on a friend's \"Help me.\" followed at once by a thanks): an asker line of these moves never sits right before the close. Where the talk ends there, the plea is not said and the close answers the reply before it.",
+    "moves": ["press"]
+  },
   "tree": {
     "about": "Owner, Oct 15, night: a scene is a tree, a branch for each thing the player might say. The bounds keep a page readable: past maxNodes only the branch the player's traits lean toward is kept.",
     "maxReplies": {
