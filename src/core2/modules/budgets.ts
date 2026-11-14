@@ -1627,6 +1627,27 @@ export function lineWithoutBills(
   );
 }
 
+/**
+ * A line's spending above what it would be with no budget bill and no act: the budget row's line less the
+ * line as the government's receipts scale its Census base (`lineWithoutBills`). The one reading of "how far
+ * a line stands above its base" (owner rule: one engine per mechanic). Subtracting `baseBudget` from a line
+ * is wrong for a state or county, whose adopted lines are scaled by `receiptsFactor`, which `baseBudget` leaves
+ * out: a line no bill raised read as raised (Whitney, Nevada: 475,182,513 of a county's housing line), and a
+ * factor below one hid a real raise (Fort Carson, Colorado). A guard (tests/guards/line-extra.test.ts) fails
+ * when a reader subtracts it again.
+ */
+export function lineExtra(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  budget: BudgetRow,
+  line: string,
+): number {
+  return (
+    (budget.spendingMinor[line] ?? 0) -
+    lineWithoutBills(api, gov, budget.fiscalYear, line)
+  );
+}
+
 /** A year's budget when its bill fails: the enacted lines carried forward. */
 export function carriedBudget(
   api: CoreAPI,
