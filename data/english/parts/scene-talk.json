@@ -40,7 +40,7 @@
     "reporter": "The reporter who wrote a story, by name, from the press record.",
     "lead": "How far ahead the winner finished, in votes, from the result record's totals.",
     "first": "The given name of the person spoken to, from their record.",
-    "seat-place": "The place a filed seat is in (\"Alcorn County\"), from the seat's place record, said where the seat is not the town's own.",
+    "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer).",
     "counter": "The place the player goes to at a filing counter, as people say it: the clerk's office (\"the town clerk's office\"), or the agency itself when the person heads a state agency.",
     "post": "The post the person holds, as people say it (\"Secretary of State\", \"city clerk\"), from the office record of the seat the person holds.",
     "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
@@ -146,7 +146,6 @@
     "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
     "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
     "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
-    "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer).",
     "rent": "The rent a renter pays each month, as said money, from their home's record."
   },
   "maxWords": 70,
@@ -146529,7 +146528,7 @@
       "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-fought-over-money-before-and-the-missed-payment-has-opened-it-up-again",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You and {name} have fought over money before, and the missed payment has opened it up again.",
+      "text": "The missed payment has opened money up between you and {name}.",
       "uses": [
         {
           "subject": "scene",
