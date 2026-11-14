@@ -3287,18 +3287,6 @@ function pointSubject(
   facts.decider = { text: saidAsData.deciders.federal, sourceRecordIds: said };
   mark(`${pick.point.kind}-point`, said);
   if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
-  // The lead's grammar: a stance that answers "is for" reads only after
-  // such a lead, one that answers "said no to" only after that (round 11,
-  // rule 75). Fixed by the speaker and the question, never rolled.
-  if (pick.point.stance) {
-    const forms =
-      pick.point.stance === "against" ? ["plain", "is", "no"] : ["plain", "is"];
-    const sum = [...stableHash(`${speakerId}:${pick.point.question}`)].reduce(
-      (n, c) => n + c.charCodeAt(0),
-      0,
-    );
-    mark(`lead-${forms[sum % forms.length]}`, said);
-  }
   mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
   if (pick.reason === "work") {
     mark("why-work", pick.reasonIds);
@@ -3861,11 +3849,14 @@ const GIVES_BACK: readonly string[] = (
 
 /** The raised kinds a give-back already told, by the asked kind (conversation-rules.json givesBack.covers). */
 const GIVES_COVER: Readonly<Record<string, readonly string[]>> = (() => {
-  const { about: _about, ...covers } = (
-    CONVERSATION_RULES as unknown as {
-      givesBack: { covers: Record<string, string[] | string> };
-    }
-  ).givesBack.covers;
+  const covers = {
+    ...(
+      CONVERSATION_RULES as unknown as {
+        givesBack: { covers: Record<string, string[] | string> };
+      }
+    ).givesBack.covers,
+  };
+  delete covers.about;
   return covers as Record<string, string[]>;
 })();
 
@@ -4317,6 +4308,33 @@ function raiseSubject(
         );
   const lines = said ?? (line ? [line] : []);
   if (!lines.length) return false;
+  // A told line never stands where the player cannot answer it (lead, Nov
+  // 14: a talk's opening is a greeting and one line the player can reply
+  // to): a first line with no reply on record is not raised; the person
+  // asks something else, or says nothing.
+  if (!remark && conversation.lines.every((row) => row.kind === "greet")) {
+    const probe: Conversation = {
+      ...conversation,
+      choices: [],
+      lines: [...conversation.lines],
+      last: {
+        subject: {
+          id: `${otherId}>${subject.id}`,
+          kind: subject.kind,
+          facts: subject.facts,
+          ...(subject.aboutId ? { aboutId: subject.aboutId } : {}),
+          ...(subject.stage ? { stage: subject.stage } : {}),
+          ...(subject.point ? { point: subject.point } : {}),
+          ...(subject.news ? { news: subject.news } : {}),
+        },
+        kind: then.kind,
+        facts: subject.facts,
+        stage: then.stage,
+      },
+    };
+    offerChoices(core, probe, data);
+    if (!probe.choices.length) return false;
+  }
   for (const row of lines)
     conversation.lines.push({
       speakerId: otherId,
@@ -6416,6 +6434,7 @@ function onShift(
     return true;
   const minute =
     conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId);
+  if (minute === undefined) return false;
   try {
     return workSpansOnDateV1(coreAPI(core as CoreState), {
       controlledPersonId: speakerId,
@@ -6599,7 +6618,7 @@ function endConversation(
   const town = them?.placeId
     ? corePlaceByJurisdictionId(them.placeId as never)
     : null;
-  if (town && them?.placeId === me?.placeId) {
+  if (town && them && them.placeId === me?.placeId) {
     markNameless("both-here", [them.householdId]);
     nameless.place = {
       text: spoken(town),

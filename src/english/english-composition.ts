@@ -116,6 +116,8 @@ export type LinePartVariant = AuthoredEnglishVariant & {
   readonly device?: SpeechDevice;
   /** A core that is already a goodbye: no closer follows it. */
   readonly closesTalk?: boolean;
+  /** Facts the part sets for the parts after it. */
+  readonly setsFacts?: readonly string[];
 };
 
 export interface LinePartBank {
@@ -268,7 +270,7 @@ export const SLOW_OPENER_BANK: LinePartBank = {
 const SLOW_OPENER_KEY = "english.slow-opener";
 
 export function composeGroundedLine(
-  packet: GroundedEnglishPacket,
+  basePacket: GroundedEnglishPacket,
   bank: ComposedLineBank,
   context: CompositionContext = {},
 ): ComposedLineResult {
@@ -286,6 +288,9 @@ export function composeGroundedLine(
   const reasons: string[] = [];
 
   let closed = false;
+  // A part that sets facts (a lead that fixes how its stance reads) shapes
+  // the parts after it.
+  let packet = basePacket;
   for (const part of LINE_PARTS) {
     if (part === "closer" && closed) continue;
     // Agreeing is short: it gives no reason.
@@ -406,6 +411,22 @@ export function composeGroundedLine(
     }
 
     if (part === "core" && chosen.closesTalk) closed = true;
+    if (chosen.setsFacts?.length)
+      packet = {
+        ...packet,
+        facts: {
+          ...packet.facts,
+          ...Object.fromEntries(
+            chosen.setsFacts.map((key) => [
+              key,
+              {
+                text: "yes",
+                sourceRecordIds: [...rendered.sourceRecordIds],
+              },
+            ]),
+          ),
+        },
+      };
     parts.push({
       part,
       partKey: `${bankKey}:${part}:${rendered.variantKey}`,
