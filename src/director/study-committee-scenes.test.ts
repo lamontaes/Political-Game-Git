@@ -93,38 +93,36 @@ it(`the paper tells a study committee, and its members are spoken to when it for
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "study-committee");
     const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
-    // 1. Scout: stage the committee, to see who sits on it.
-    const scout = buildBenchWorld(place.seed, gameStartDate(), {
+    // One world: the committee is staged, then the member who sits on it is
+    // watched and controlled. A member the floor debate did not call a scene
+    // for hears the committee's own first (a vote's own debate takes the one
+    // scene a day), so the member who joined last and lives in town is chosen.
+    const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
     });
-    const picked = stageStudy(scout.core);
+    const picked = stageStudy(core);
     if (!picked) {
       tried.push(`${where}: no committee formed`);
       continue;
     }
-    // A person who lives in the played town and sits on the committee (a member
-    // before the chair), as the town's own body sends them.
-    const town = scout.core.people.get(scout.core.playerId!)?.placeId;
-    const local = (id: string) => {
-      const person = scout.core.people.get(id as PersonId);
-      return person?.alive === true && person.placeId === town;
-    };
-    const study = studyRecord(scout.core, picked.studyId)!;
-    const personId = ((study.memberIds.find(
-      (id) => id !== study.chairId && local(id),
-    ) ?? study.memberIds.find(local)) as PersonId | undefined)!;
+    const town = core.people.get(core.playerId!)?.placeId;
+    const study = studyRecord(core, picked.studyId)!;
+    const sitters = study.memberIds.filter((id) => {
+      const person = core.people.get(id as PersonId);
+      return (
+        id !== study.chairId &&
+        person?.alive === true &&
+        person.placeId === town
+      );
+    });
+    const personId = sitters.at(-1) as PersonId | undefined;
     if (!personId) {
       tried.push(`${where}: no member lives in town`);
       continue;
     }
     const studyId = picked.studyId;
     const formedOn = study.formedOn;
-    // 2. Replay: the same world, the member controlled and watched from the start.
-    const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
     core.focusPersonIds.add(personId);
     director.watch(core, personId);
     // The member's council meetings do not hold the clock here: their stops are
@@ -135,7 +133,6 @@ it(`the paper tells a study committee, and its members are spoken to when it for
       personId,
       Object.fromEntries(stopKinds().map((kind) => [kind, false])),
     );
-    stageStudy(core);
     const book = director.ledger.people.get(personId)!;
     const through = addDays(makeIsoDate(study.sunsetOn), AFTER_REPORT_DAYS);
     const seen: Record<string, number> = {

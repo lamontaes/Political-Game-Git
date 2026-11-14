@@ -802,9 +802,6 @@ export function chooseVariant(
     scores.find(
       (row) => row.purpose === input.family || row.variant === PLAIN_VARIANT,
     )?.score ?? P.zero;
-  // A cause no variant is open for (an ask-support cause without the petition fact
-  // the family's variants name) plays the purpose's one arc.
-  if (!scores.length) return null;
   const second = scores[P.one];
   const best =
     input.nextDown && second && second.score > P.zero && second.score >= plain
