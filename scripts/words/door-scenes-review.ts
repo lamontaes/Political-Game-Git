@@ -111,6 +111,8 @@ interface OutLine {
   key: string;
   move: string;
   tag?: string;
+  /** Not a line of the scene: a header, a seed line, a screen note. */
+  meta?: true;
 }
 interface OutChoice {
   line: OutLine;
@@ -556,13 +558,20 @@ for (const entry of manifest) {
     sceneNo += 1;
     const n = { i: 0 };
     const ids = { next: () => `${sceneNo}.1.${(n.i += 1)}` };
+    const META =
+      /^(Seed:|Place:|Filed:|COUNTER TEXT|CAMPAIGN TAB|\[screen|Continue$|MEANING-COUNT|- ?outlet:|World seed)/;
     const lines = (entry.lines ?? []).map<OutLine>((l) => ({
       id: ids.next(),
       who: l.who ?? "",
       role: l.role,
       text: l.text,
-      key: l.key ?? "",
+      // A tag from a played file (here/ask) is not a bank piece key.
+      key: "",
       move: "",
+      ...(l.key ? { tag: l.key } : {}),
+      ...(l.role === "plain" && META.test(l.text)
+        ? { meta: true as const }
+        : {}),
     }));
     scenes.push({
       id: String(sceneNo),
@@ -806,7 +815,12 @@ if (process.env.REVIEW_BATCH) {
       moment: Number(row.id),
       description: row.title,
       sceneKind: row.kind,
-      lines: lines.map((l) => ({ id: l.id, key: l.key, line: l.text })),
+      lines: lines.map((l) => ({
+        id: l.id,
+        key: l.key,
+        line: l.text,
+        ...(l.meta ? { meta: true } : {}),
+      })),
     };
   });
   writeFileSync(

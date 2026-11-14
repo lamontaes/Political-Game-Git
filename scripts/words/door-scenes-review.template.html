@@ -521,7 +521,7 @@
     const bub = el("div", "bubble");
     if (l.who) bub.appendChild(el("span", "who", l.who));
     bub.appendChild(document.createTextNode(l.text));
-    if (l.key)
+    if (l.key || l.tag)
       bub.appendChild(
         el(
           "div",
