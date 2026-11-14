@@ -110,6 +110,7 @@ import {
   backdropPath,
   benchScene,
   faceOf,
+  roomIds,
   scenePlace,
 } from "./scene";
 import { occluderPath } from "./occluders";
@@ -622,6 +623,16 @@ const ROUTES: readonly Route[] = [
               OPENING_EVENING_MINUTE,
             )
           : clockMinute;
+      // The room is handed to the talk (the telling): who else is here hears
+      // it, and nobody is asked after while they stand there.
+      const openingDay =
+        state.director?.ledger.opening?.date === requireCore().date;
+      const room = roomIds(
+        requireCore(),
+        state.player.personId,
+        state.player.packet,
+        openingDay ? minuteOfDay : undefined,
+      );
       state.conversation = openConversation(
         requireCore(),
         state.player.personId,
@@ -629,6 +640,7 @@ const ROUTES: readonly Route[] = [
         state.director
           ? {
               director: state.director,
+              presentIds: room,
               ...(occasionId ? { occasionId } : {}),
               ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
               // The place the player came to, so a goodbye knows it is said
