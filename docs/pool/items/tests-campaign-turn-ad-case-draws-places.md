@@ -20,7 +20,7 @@ root: none
 
 **What.** The case "an ad is a message the views engine reads for the people who saw it" in src/core2/campaign-turn.test.ts draws up to eight places (world(`ad-views:${attempt}`) from a run seed that defaults to the clock) and skips each one that has no platform, no money raised, no viewers or no stance, so which place it tests and whether it passes depends on the draw. It failed on one draw after PR #9155 changed what an ad is about and passed on three reruns. Guards: an ad reaching its viewers' stances in a played town.
 
-**Cause.** Found in code: runSeed in src/core2/campaign-turn.test.ts defaults to createHash of Date.now(), and the case loops attempts over world(`ad-views:${attempt}`) until one passes its skips, which the lead ruled on Nov 14 a test the train carries must not do.
+**Cause.** Found in code: runSeed (src/core2/campaign-turn.test.ts line 67) defaults to createHash of Date.now(), and the case loops attempts over world(`ad-views:${attempt}`) until one passes its skips, which the lead ruled on Nov 14 a test the train carries must not do.
 
 **Fix.** Pin one place and seed named in the test, chosen from a built world whose rival raises money and whose viewers hold a stance on the ad's recorded question, and fail with the place, seed and reason if it does not.
 
