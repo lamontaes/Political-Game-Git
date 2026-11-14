@@ -9,19 +9,22 @@ const leave = { key: "leave", action: { kind: "done" } };
 const day = (choice: { action: { contestId?: string } }) =>
   choice.action.contestId ?? "";
 
-it("every race is offered at the counter, a few at a time", () => {
+it("every race is offered at the counter, a few at a time, and the paging ends", () => {
   const races = ["g", "f", "e", "d", "c", "b", "a"].map(pick);
   const seen: string[] = [];
-  for (let turn = 0; turn < 4; turn += 1) {
+  const mores: boolean[] = [];
+  for (let turn = 0; turn < 6; turn += 1) {
     const { shown, more } = counterReplies([...races, leave], day, turn);
-    expect(more).toBe(true);
-    // A reply is left for "What else is open?".
+    mores.push(more);
+    // A reply is left for "What else is open?", and the way out is last.
     expect(shown.length).toBeLessThan(COUNTER_REPLIES);
+    expect(shown.at(-1)).toBe(leave);
     for (const choice of shown)
-      if (choice.action.kind === "pick") seen.push(day(choice));
+      if (choice.action.kind === "pick" && turn < 4) seen.push(day(choice));
   }
-  // Soonest first; each race shows once before any shows twice.
-  expect(seen.slice(0, 7)).toEqual(["a", "b", "c", "d", "e", "f", "g"]);
+  // Soonest first, each race once, and the last page is the last: no wrap.
+  expect(seen).toEqual(["a", "b", "c", "d", "e", "f", "g"]);
+  expect(mores).toEqual([true, true, true, false, false, false]);
 });
 
 it("a short list shows whole, with no ask for more", () => {

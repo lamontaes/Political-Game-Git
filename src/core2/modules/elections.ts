@@ -104,7 +104,7 @@ export interface FilingRequirements {
   readonly registeredVoter: boolean;
   readonly source: string;
   readonly estimate: boolean;
-  /** Which of these rules came from the fallback data (an ESTIMATED row in `data/elections/filing-fallbacks.json`), not the place's own row. */
+  /** Which of these rules came from the fallback data (an ESTIMATED row in `src/core2/data/elections/filing-fallbacks.json`), not the place's own row. */
   readonly fallbacks: readonly (
     "filedWith" | "minimumAge" | "registeredVoter"
   )[];

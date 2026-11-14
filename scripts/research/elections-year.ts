@@ -63,9 +63,6 @@ const deadlineRows = readJson<{
 }>("src/core2/data/elections/filing-deadlines.json");
 
 const STOPGAPS_WATCHED = [
-  "SG-GOV-campaign-pollster-seller",
-  "SG-GOV-campaign-mail-seller",
-  "SG-GOV-campaign-venue-seller",
   "SG-GOV-polling-place-kind",
   "SG-GOV-ballot-order-estimates",
 ];

@@ -284,8 +284,15 @@ function play(draw: number): Evidence | string {
       expect(stored.recordId, label).toBe(vote.id);
     } else {
       expect(stored.move, label).toBe(move);
+      // The brief reply is the way not to answer: it states nothing. Any
+      // other reply states the side taken: the filed stand where the
+      // platform holds one, else the stand the record offered.
       expect(stored.position, label).toBe(
-        move === "further" ? (stand ?? vote.stance.position) : stand,
+        move === "brief"
+          ? null
+          : move === "further"
+            ? (stand ?? vote.stance.position)
+            : (stand ?? stored.position),
       );
     }
   });

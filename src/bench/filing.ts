@@ -469,7 +469,7 @@ export interface CounterOpening {
 
 /**
  * The spans of an office with no work record for its clerk: its estimated
- * weekday hours, an ESTIMATED place row (`data/office-hours.json`, with its
+ * weekday hours, an ESTIMATED place row (`src/bench/data/office-hours.json`, with its
  * source and spread), so that every office has hours.
  */
 function assumedSpans(

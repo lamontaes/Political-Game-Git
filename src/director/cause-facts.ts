@@ -27,7 +27,7 @@ interface OfficeRow {
   readonly level?: string;
 }
 
-function officeSaid(
+export function officeSaid(
   core: Readonly<CoreState>,
   facts: Readonly<Record<string, unknown>>,
 ): { text: string; ids: string[] } | null {
