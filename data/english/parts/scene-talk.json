@@ -147,7 +147,9 @@
     "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
     "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
     "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer).",
-    "rent": "The rent a renter pays each month, as said money, from their home's record."
+    "rent": "The rent a renter pays each month, as said money, from their home's record.",
+    "own-workplace": "The business where a witness works, by its name, from their job's record (the witness after the hearing).",
+    "own-child": "The given name of a witness's child at home, from the child's record (the witness after the hearing)."
   },
   "maxWords": 70,
   "parts": [
