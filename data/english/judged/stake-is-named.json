@@ -2,16 +2,8 @@
   "schema": "english-judged/2",
   "rule": "stake-is-named",
   "rubric": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-  "judged": 76,
+  "judged": 75,
   "no": {
-    "050jxoy5cvo": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-one-of-your-donors-is-on-the-line",
-        "scene-talk.state-request.i-need-you-to-take-another-look-at-bill",
-        "scene-talk.reply-offer.let-me-put-you-on-the-calendar-for-a-real-meeting"
-      ],
-      "why": "The donor only asks you to 'take another look' at the bill; what they want changed and what rides on it for either side is never said."
-    },
     "0bspjln7yty": {
       "keys": [
         "scene-talk.narrate-narrate.name-comes-in-with-an-envelope-held-in-both-hands-as-though-it-might-b",
