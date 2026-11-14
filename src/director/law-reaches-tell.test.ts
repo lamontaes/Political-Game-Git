@@ -152,7 +152,8 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
   // A law no longer in force is said by the day it ended, only when it ended
   // during play and nothing replaced it (Words lead, Nov 14): the world's own
   // rows that ended before the game began, or that a newer rate replaced, are
-  // never raised. The law that ends in play is the world's own row with the
+  // never raised. SYNTHETIC: no drawn world ends a law in play, so the law that
+  // ends in play is the world's own row with the
   // end date a repeal would write on the day.
   const old = rows.find(
     (row) =>
@@ -166,7 +167,7 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
   const base = rows.find(
     (row) => row.jurisdiction !== elsewhere && lawName(row.series),
   )!;
-  const over = { ...base, id: base.id, endDate: core.date };
+  const over = { ...base, id: base.id, endDate: core.date }; // synthetic end
   expect(
     lawReachFacts(over, home, core.date, cite, { ...play, replaced: true }),
     `${where}: a replaced rate is not raised`,
