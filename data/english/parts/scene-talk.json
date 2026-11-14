@@ -126,7 +126,11 @@
     "signed": "How many signatures a petition holds so far, from the petition record.",
     "none-signed": "That a petition holds no signatures yet, from the petition record.",
     "filed-office": "The office the player already filed for at this counter, from the filing's contest record.",
-    "back-again": "Set when the player is back at a counter where their own filing is already in, for another race."
+    "back-again": "Set when the player is back at a counter where their own filing is already in, for another race.",
+    "purpose": "What a bill does, as a short phrase, from the bill record's own sections.",
+    "names": "The members who voted no on a bill, by name, three or fewer, from the vote record.",
+    "group": "The group that pressed the members who voted no, by its said name, from the lobbying record.",
+    "budget-cost": "What a bill adds to the budget each year, one rounded sum, from its budget-line sections."
   },
   "maxWords": 70,
   "parts": [
