@@ -2147,7 +2147,7 @@ function postTitleSaid(title: string): string {
   const names = plain.split("/").map((name) => name.trim());
   const first = names[P.zero]!;
   if (names.length < P.two || /\s/.test(first)) return first;
-  const role = plain.split(/\s+/).at(-1)!;
+  const role = plain.split(/\s+/).at(P.negativeOne)!;
   return `${first} ${role}`;
 }
 
