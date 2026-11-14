@@ -38,7 +38,6 @@ import { SeededRng } from "../kernel/rng";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import {
-  bestPartnerAgeLikelihood,
   partnerAgeFor,
   partnerAgeLikelihood,
   partneringPerYear,
