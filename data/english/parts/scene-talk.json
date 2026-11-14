@@ -180555,10 +180555,10 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-name-is-at-their-desk",
+      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-name-is-in",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "You have {bill} drafted and no names on it but yours. {name} is at their desk.",
+      "text": "You have {bill} drafted and no names on it but yours. {name} is in.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), co-sponsor ask",
       "date": "2026-11-14",
@@ -181019,106 +181019,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-refuse.no-the-people-i-caucus-with-won-t-stand-for-it",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "No. The people I caucus with won't stand for it.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "refuse",
-        "key": "vote-wanted"
-      },
-      "bearing": "guarded",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
-          "requiresFacts": ["no-wing"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.reply-refuse.i-d-never-hear-the-end-of-it-from-my-caucus",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I'd never hear the end of it from my caucus.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "refuse",
-        "key": "vote-wanted"
-      },
-      "bearing": "braced",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
-          "requiresFacts": ["no-wing"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.reply-refuse.i-d-need-to-know-you-better-before-i-put-my-name-on-something",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I'd need to know you better before I put my name on something.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "refuse",
-        "key": "vote-wanted"
-      },
-      "bearing": "calm",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
-          "requiresFacts": ["no-standing"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.reply-refuse.i-m-sorry-we-haven-t-worked-together-enough-for-that",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I'm sorry. We haven't worked together enough for that.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "refuse",
-        "key": "vote-wanted"
-      },
-      "bearing": "contrite",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
-          "requiresFacts": ["no-standing"]
-        }
-      ]
-    },
-    {
       "key": "scene-talk.reply-refuse.i-don-t-sign-on-to-other-people-s-bills-it-s-nothing-personal",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -181139,7 +181039,7 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "vote-wanted",
-          "requiresFacts": ["no-trait"]
+          "requiresFacts": ["no-trait", "signed-none"]
         }
       ]
     },
@@ -181189,7 +181089,7 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "vote-wanted",
-          "requiresFacts": ["no-consistency"]
+          "requiresFacts": ["no-consistency", "voted-against-before"]
         }
       ]
     },
@@ -181214,7 +181114,7 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "vote-wanted",
-          "requiresFacts": ["no-consistency"]
+          "requiresFacts": ["no-consistency", "voted-against-before"]
         }
       ]
     },

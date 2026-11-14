@@ -2558,6 +2558,20 @@ function answerSignOn(api: CoreAPI, event: CoreEventInput, causeId: string) {
       ...bill,
       cosponsors: [...(bill.cosponsors ?? []), ask.askedId],
     } as unknown as ModuleRow);
+    // A yes given after the player pleaded is a favor owed, kept where a
+    // deal's debts are, until the colleague calls it in.
+    if (String(event.facts?.asked ?? "") === "plea")
+      table(api, "obligations").put({
+        id: `obligation:${bill.id}:${ask.askedId}:sign-on`,
+        owedBy: ask.askerId,
+        owedTo: ask.askedId,
+        kind: "favor",
+        billId: bill.id,
+        measure: bill.number,
+        date: event.date,
+        settled: false,
+        replyId: event.id,
+      } as unknown as ModuleRow);
     return;
   }
   if (!signOnMoves.no.includes(move)) return;
@@ -3819,6 +3833,37 @@ export function publicDeclineReason(
   if (views < 0 || constituents < 0)
     return views <= constituents ? "views" : "constituents";
   return "standing";
+}
+
+/**
+ * Whether a member's record backs the two reasons a no can give that rest on
+ * their own past: a no vote on an earlier bill on the same question
+ * (`votedAgainst`), and signing on to no bill but their own (`signedNone`).
+ */
+export function signOnRecord(
+  api: CoreAPI,
+  memberId: string,
+  bill: BillRow,
+): { votedAgainst?: string; signedNone: boolean } {
+  const question = bill.provisions[0]?.question;
+  let votedAgainst: string | undefined;
+  let signed = false;
+  for (const row of table(api, "bills").rows() as unknown as BillRow[]) {
+    if (row.cosponsors?.includes(memberId)) signed = true;
+    if (
+      !votedAgainst &&
+      row.id !== bill.id &&
+      question &&
+      row.provisions[0]?.question === question &&
+      (row.provisions[0]?.value ?? 0) * (bill.provisions[0]?.value ?? 0) > 0
+    ) {
+      const vote = votesOn(api, row.id).find(
+        (v) => v.memberId === memberId && v.vote === "no",
+      );
+      if (vote) votedAgainst = row.id;
+    }
+  }
+  return { ...(votedAgainst ? { votedAgainst } : {}), signedNone: !signed };
 }
 
 /** The asks this asker made of this member of this body that were turned down, oldest first. */

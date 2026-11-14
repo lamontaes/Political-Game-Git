@@ -24,6 +24,7 @@ import {
   floorDateOf,
   memberPosition,
   publicDeclineReason,
+  signOnRecord,
   votesOn,
 } from "../core2/modules/legislature";
 import {
@@ -666,14 +667,39 @@ function composeBinding(
         text: purpose,
         sourceRecordIds: [named.id, moment.causeId],
       };
-    const reason = publicDeclineReason({
-      position: memberPosition(api, named.id, askerId),
+    const position = memberPosition(api, named.id, askerId);
+    const said = publicDeclineReason({
+      position,
       standing: favorWorth(api, askerId, askedId),
     });
+    const past = signOnRecord(api, askerId, named);
+    // Holding to a past stand is said only where a past no vote is on the
+    // record; otherwise the member gives the reason a member says aloud.
+    const reason =
+      said !== "consistency" || past.votedAgainst
+        ? said
+        : position.views < 0 || position.constituents < 0
+          ? position.views <= position.constituents
+            ? "views"
+            : "constituents"
+          : "standing";
     facts[`no-${reason}`] = {
       text: "yes",
       sourceRecordIds: [named.id, moment.causeId],
     };
+    // The two reasons that rest on the member's own past are said only where
+    // the record holds it: a no vote on the question before, and no name on
+    // anyone else's bill.
+    if (past.votedAgainst)
+      facts["voted-against-before"] = {
+        text: "yes",
+        sourceRecordIds: [past.votedAgainst, moment.causeId],
+      };
+    if (past.signedNone)
+      facts["signed-none"] = {
+        text: "yes",
+        sourceRecordIds: [named.id, moment.causeId],
+      };
     // Turned down before on the same question, on an earlier bill.
     const question = named.provisions[0]?.question;
     const before = declinedAsks(
