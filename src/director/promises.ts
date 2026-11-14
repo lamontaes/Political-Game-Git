@@ -42,7 +42,7 @@ interface PromiseKindRow {
   /** Cause record facts that tie the promise: its key on the promise, the cause's fact name. */
   tie: Readonly<Record<string, string>>;
   settle: readonly SettleRow[];
-  /** The director parameter that holds the window in days. */
+  /** The parameter (promise-kinds.json `parameters`) that holds the window in days. */
   windowDays: string;
   /** What the window's close means: kept, broken or lapsed. */
   windowEnds: "kept" | "broken" | "lapsed";
@@ -75,6 +75,7 @@ export interface PromiseKinds {
   schema: string;
   endings: readonly PromiseEndingRow[];
   kinds: readonly PromiseKindRow[];
+  parameters: Readonly<Record<string, { value: number; tag: string }>>;
   answers: {
     kept: readonly PromiseAnswerRow[];
     keptOffered: number;
@@ -87,6 +88,14 @@ const one = P.one;
 const minusOne = P.negativeOne;
 
 export const PROMISE_KINDS = kindsJson as unknown as PromiseKinds;
+
+/** A size promises run on, from the parameter table in promise-kinds.json. */
+export function promiseParam(key: string): number {
+  const value = PROMISE_KINDS.parameters[key]?.value;
+  if (value === undefined || !Number.isFinite(value))
+    throw new Error(`Untagged promise parameter: ${key}`);
+  return value;
+}
 
 /** The fact on a `scene.reply` record that names a promise's kind. */
 export const PROMISE_FACT = "promise";

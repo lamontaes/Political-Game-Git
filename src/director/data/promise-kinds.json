@@ -105,16 +105,114 @@
   "answersNote": "The player's answers when the one owed raises a settled promise (Words lead rulings 2, Nov 14). Each is read, or it is not offered. Kept: two of three courtesy answers, the two the player's traits lean to most (a trait's value is -2 to 2; `sign` -1 reads its low end); none moves the tie, which warmed when the promise was kept. Broken: `recovers` gives back a share (promiseOwnShare) of the hours the broken promise cost, times the one owed's lean to smooth things over (low `people-mind-v1:conflict`), divided by one more than the promises this person broke to them before (the ledger); `countedOnFactor` takes it down again by the one owed's own reliability where the kind is one they counted on. `cools` takes more hours off (promiseDeniedHours). `renews` writes a new promise of the same kind, offered only where the kind is renewable (a record can settle the new one). The answer is a `promise.answer` record either way.",
   "answers": {
     "kept": [
-      { "id": "plain", "trait": "people-mind-v1:reliability", "sign": 1 },
-      { "id": "modest", "trait": "people-mind-v1:deliberation", "sign": -1 },
-      { "id": "warm", "trait": "people-mind-v1:sociability", "sign": 1 }
+      {
+        "id": "plain",
+        "trait": "people-mind-v1:reliability",
+        "sign": 1
+      },
+      {
+        "id": "modest",
+        "trait": "people-mind-v1:deliberation",
+        "sign": -1
+      },
+      {
+        "id": "warm",
+        "trait": "people-mind-v1:sociability",
+        "sign": 1
+      }
     ],
     "keptOffered": 2,
     "broken": [
-      { "id": "own-it", "recovers": true },
-      { "id": "explain", "recovers": true, "countedOnFactor": true },
-      { "id": "deny", "cools": true },
-      { "id": "make-it-right", "renews": true }
+      {
+        "id": "own-it",
+        "recovers": true
+      },
+      {
+        "id": "explain",
+        "recovers": true,
+        "countedOnFactor": true
+      },
+      {
+        "id": "deny",
+        "cools": true
+      },
+      {
+        "id": "make-it-right",
+        "renews": true
+      }
     ]
+  },
+  "parametersNote": "The sizes promises run on (Words lead brief T and rulings 1 and 2, Nov 14 2026): how long each kind stays open, how much keeping or breaking one moves the tie in hours of contact, and how the answers move it. Tuned values, checked against played talks within each spread.",
+  "parameters": {
+    "promiseVoteWindowDays": {
+      "value": 90,
+      "tag": "TUNABLE",
+      "citation": "A sponsor's count is taken the evening before the roll; a roll put off past a season (a bill held, a session ended) no longer holds anyone to a word given the night before, and the promise lapses with no outcome (promises.ts).",
+      "spread": "30 to 180",
+      "checkRange": {
+        "min": 30,
+        "max": 180
+      }
+    },
+    "promisePayWindowDays": {
+      "value": 62,
+      "tag": "TUNABLE",
+      "citation": "Two monthly due dates (the credit engine bills monthly): a promise to pay on time is kept when the next two payments are made, broken by the first missed (promises.ts).",
+      "spread": "31 to 93",
+      "checkRange": {
+        "min": 31,
+        "max": 93
+      }
+    },
+    "promiseShowAroundWindowDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "citation": "A new hire's first two weeks: showing someone how things run is done in their first days or not at all (promises.ts).",
+      "spread": "7 to 30",
+      "checkRange": {
+        "min": 7,
+        "max": 30
+      }
+    },
+    "promiseKeptHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "One talk's time together, as scene-talk-rules endingStrain relationship-strained: a kept word warms the tie about as much as a strained ending cools it (promises.ts).",
+      "spread": "0.5 to 2",
+      "checkRange": {
+        "min": 0.5,
+        "max": 2
+      }
+    },
+    "promiseBrokenHours": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "citation": "As scene-talk-rules endingStrain trust-lost: a promise broken costs what trust lost costs (promises.ts).",
+      "spread": "1 to 4",
+      "checkRange": {
+        "min": 1,
+        "max": 4
+      }
+    },
+    "promiseOwnShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "Words lead rulings 2 (Nov 14): owning a broken promise wins back a part of what it cost; at most this share, for one who smooths things over and has not been let down before (promise-talk.ts).",
+      "spread": "0.25 to 0.75",
+      "checkRange": {
+        "min": 0.25,
+        "max": 0.75
+      }
+    },
+    "promiseDeniedHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "Words lead rulings 2 (Nov 14): denying a broken promise cools the tie further; half of what the promise cost (promise-talk.ts).",
+      "spread": "0.5 to 2",
+      "checkRange": {
+        "min": 0.5,
+        "max": 2
+      }
+    }
   }
 }

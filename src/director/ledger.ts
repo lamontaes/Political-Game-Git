@@ -61,6 +61,7 @@ import {
   promiseOfEvent,
   settlePromisesOnEvent,
   settlePromisesOnTie,
+  promiseParam,
 } from "./promises";
 import type {
   BackdropEntry,
@@ -1835,7 +1836,9 @@ export function createDirector(
       const [holderId, otherId] = event.personIds;
       if (!holderId || !otherId) continue;
       const promise =
-        kind.endsOn === "settling-record" ? promiseOfEvent(event, param) : null;
+        kind.endsOn === "settling-record"
+          ? promiseOfEvent(event, promiseParam)
+          : null;
       if (kind.endsOn === "settling-record" && !promise) continue;
       const fact: KeptFact = {
         id: `${kind.id}:${event.id}`,
@@ -1892,7 +1895,7 @@ export function createDirector(
     },
     onEvent(api, event, learnedBy) {
       if (!started) return;
-      settlePromisesOnEvent(api, ledger, event, param);
+      settlePromisesOnEvent(api, ledger, event, promiseParam);
       if (circumstanceRows.has(event.kind)) {
         const queued = queuedOf(event);
         circumstanceQueue.push(queued);
@@ -1909,7 +1912,7 @@ export function createDirector(
     relationshipKinds: data.relationshipKinds,
     onRelationshipChange(api, notice) {
       if (!started) return;
-      settlePromisesOnTie(api, ledger, notice, param);
+      settlePromisesOnTie(api, ledger, notice, promiseParam);
       rateNow(api.state, [notice.actorId, notice.otherId]);
     },
     onWorkResult(api, receipt) {
@@ -1921,7 +1924,7 @@ export function createDirector(
       if (!started)
         throw new Error("The story director was installed but not started.");
       // Promises whose window closes today end as their kind says.
-      closeDuePromises(api, ledger, param);
+      closeDuePromises(api, ledger, promiseParam);
       for (const book of ledger.people.values()) measureDay(api.state, book);
       produceCircumstances(api.state);
       // Election day (the polling-place type's producer): the eve's close

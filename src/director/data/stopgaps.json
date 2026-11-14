@@ -1,17 +1,5 @@
 [
   {
-    "id": "SG-WORDS-param-promise-weights",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How long a promise stays open before its window closes (a vote 90 days, paying on time 62, showing someone around 14), how much keeping or breaking it moves the tie (1 and 2 hours of contact, as a scene's warm and trust-lost endings), how much owning a break wins back (half) and how much denying it costs (1 hour).",
-    "why": "Words lead brief T and rulings 1 and 2 (Nov 14, 2026) set what settles a promise and how each answer is read, not the sizes; no source measures how long a promise is held or what a broken one costs a tie.",
-    "addedBy": "Promises builder (Opus)",
-    "addedAt": "2026-11-14",
-    "replacement": "A calibration against played talks: how often a promise is still open when it is raised, and closeness after kept and broken promises in replayed lives.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-favor-promise-keeps-unread",
     "kind": "missing-hook",
     "file": "src/director/purpose-scene.ts",

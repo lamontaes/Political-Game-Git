@@ -17,7 +17,6 @@ import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { P as CORE } from "../core2/parameters";
-import directorJson from "./data/director.json" with { type: "json" };
 import type { Director } from "./ledger";
 import {
   PROMISE_FACT,
@@ -25,6 +24,7 @@ import {
   kindOf,
   markPromise,
   markPromiseSaid,
+  promiseParam,
   promisesBetween,
   type PromiseAnswerRow,
 } from "./promises";
@@ -89,18 +89,7 @@ export function promiseSaid(
   markPromiseSaid(director.ledger, subject.id, core.date);
 }
 
-/** The director's parameter table. */
-const P = (
-  directorJson as unknown as {
-    parameters: Record<string, { value: number }>;
-  }
-).parameters;
-const param = (key: string): number => {
-  const value = P[key]?.value;
-  if (value === undefined || !Number.isFinite(value))
-    throw new Error(`Untagged director parameter: ${key}`);
-  return value;
-};
+const param = promiseParam;
 
 /** A trait's value from -2 to 2 as a share from 0 to 1 (0.5 when unknown). */
 const zero = CORE.zero;
