@@ -83,7 +83,11 @@ describe(`an offer left for an official (seed ${seed})`, () => {
       "favor-vote": fact("vote"),
       bill: fact("H.R. 12"),
     });
-    const contract = statement({ ...cast, "favor-contract": fact("contract") });
+    const contract = statement({
+      ...cast,
+      "favor-contract": fact("contract"),
+      contract: fact("the road contract"),
+    });
     expect(vote).toMatch(/vote|H\.R\. 12/);
     expect(contract).toMatch(/bid|contract/);
     expect(contract).not.toMatch(/vote/);
@@ -91,7 +95,11 @@ describe(`an offer left for an official (seed ${seed})`, () => {
   });
 
   it("offers five replies that are five stances, never three words for one answer", () => {
-    const talk = compose({ ...cast, "favor-contract": fact("contract") });
+    const talk = compose({
+      ...cast,
+      "favor-contract": fact("contract"),
+      contract: fact("the road contract"),
+    });
     const moves = talk.tree.replies.map((reply) => reply.line.move).sort();
     expect(moves).toEqual(["accept", "confront", "lie", "refuse", "stall"]);
     expect(
@@ -103,6 +111,7 @@ describe(`an offer left for an official (seed ${seed})`, () => {
     const talk = compose({
       ...cast,
       "favor-contract": fact("contract"),
+      contract: fact("the road contract"),
       source: fact("the town clerk"),
       "knows-truth": fact("yes"),
     });
