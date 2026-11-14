@@ -3,7 +3,7 @@ import { townSeats } from "../core2/modules/offices";
 import type { CoreState, PersonId } from "../core2/types";
 import type { OpeningStory } from "../director/opening-story";
 import { wordSceneLine } from "../english/scene-words";
-import { dayLanding } from "../english/day-words";
+import { homeAloneDayFacts } from "../director/day-part";
 import { addressAiring } from "../director/address-airing";
 import { workSpansOf } from "./places";
 
@@ -58,10 +58,7 @@ function landingLine(
     move: { part: "arrival", kind: "home" },
     viewerId: playerId as PersonId,
     facts: {
-      begins: {
-        text: dayLanding(core.date, minute),
-        sourceRecordIds: [story.id],
-      },
+      ...homeAloneDayFacts(core.date, minute, story.id),
     },
     stage: () => "alone",
     momentKey: `${story.id}:landing`,
