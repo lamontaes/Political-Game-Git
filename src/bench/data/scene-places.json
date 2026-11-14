@@ -412,7 +412,9 @@
     "floor-debate:venue": ["public-meeting-room"],
     "move-in:home": ["@home"],
     "hearing-witness:seat": ["@seatroom", "@office"],
-    "hearing-witness:venue": ["public-meeting-room"]
+    "hearing-witness:venue": ["public-meeting-room"],
+    "party-welcome:venue": ["campaign-office-storefront"],
+    "party-welcome:public": ["campaign-office-storefront"]
   },
   "schoolPlacesByAge": [
     {
