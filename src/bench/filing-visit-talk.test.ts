@@ -236,7 +236,7 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     // first visit; told from the filing's record.
     // Back at the counter (P1, Commack, New York): the race already filed in
     // is never offered again; with only the petition left, the clerk says
-    // where it stands and the player can only leave; with nothing left, no
+    // nothing of the count and the player can only leave; with nothing left, no
     // scene (rule 19).
     let back: ReturnType<typeof openBenchFilingVisit> | null = null;
     try {
@@ -251,12 +251,13 @@ it(`a first visit asks for the papers, the player says only what they chose, and
         `${where}: the filed race is offered again`,
       ).toBe(false);
       if (!back.visit.contests.length) {
-        const status = back.visit.lines.at(-1)!;
+        // The clerk never says how many have signed (owner, Nov 14: no count
+        // or status line is dialogue): the narration sets the return and the
+        // player can only leave.
         process.stdout.write(
-          `${where} back with the petition: ${status.text}\n`,
+          `${where} back with the petition: ${back.intro.map((line) => line.text).join(" / ")}\n`,
         );
-        expect(status.speaker, where).toBe("clerk");
-        expect(status.sourceRecordIds, where).toContain(filing!.id);
+        expect(back.visit.lines, where).toEqual([]);
         expect(
           back.visit.choices.map((row) => row.control),
           where,

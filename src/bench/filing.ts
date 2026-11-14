@@ -304,8 +304,6 @@ export function openBenchFilingVisit(
   const visit =
     here && petition
       ? petitionAtCounter(core, playerId, clerk ?? undefined, here.id, {
-          needed: petition.needed,
-          signed: petition.signed,
           due: petition.due,
         })
       : openFilingVisit(

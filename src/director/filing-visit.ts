@@ -497,17 +497,17 @@ function recordReply(
 
 /**
  * A filed player back at the counter while the petition gathers signatures:
- * the clerk says where it stands, from the petition's record (signed so far,
- * how many it needs, the day it is due), and the player can only leave; the
- * race they are in is not offered again (P1, Commack, New York; Fable A,
- * Nov 13 07:05Z).
+ * the clerk says nothing of how many have signed (owner, Nov 14: no count or
+ * status line is dialogue), and the player can only leave, saying the day it
+ * is due; the race they are in is not offered again (P1, Commack, New York;
+ * Fable A, Nov 13 07:05Z).
  */
 export function petitionAtCounter(
   core: Readonly<CoreState>,
   playerId: PersonId,
   clerkId: PersonId | undefined,
   filingId: string,
-  petition: { needed: number; signed: number; due: string },
+  petition: { due: string },
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -518,15 +518,9 @@ export function petitionAtCounter(
   };
   const fact = (text: string) => ({ text, sourceRecordIds: [filingId] });
   const facts: Record<string, Fact> = {
-    signatures: fact(petition.needed.toLocaleString("en-US")),
     due: fact(spokenDate(petition.due, core.date)),
-    ...(petition.signed > zero
-      ? { signed: fact(petition.signed.toLocaleString("en-US")) }
-      : { "none-signed": fact("yes") }),
     ...clerkFact(core, clerkId),
   };
-  const status = visitLine(core, visit, "clerk", "petition-status", facts);
-  if (status) visit.lines.push({ speaker: "clerk", ...status });
   const leave = visitLine(
     core,
     visit,
