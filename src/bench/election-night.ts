@@ -31,6 +31,7 @@ import {
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { officeInSentence } from "../core2/person-work";
 import type { EntityId } from "../core2/kernel/brands";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -142,7 +143,7 @@ export function electionDay(
     const rivalName = rival ? nameOf(api, rival.personId) : null;
     say("ballot", {
       candidate: fact("yes", own.filing.id),
-      office: fact(own.contest.title, own.contest.id),
+      office: fact(officeInSentence(own.contest.title), own.contest.id),
       ...(rival && rivalName ? { opponent: fact(rivalName, rival.id) } : {}),
     });
   } else if (visit) {
@@ -151,7 +152,12 @@ export function electionDay(
       number: fact(count(races), ...visit.contests.map((row) => row.id)),
       [races === 1 ? "one" : "several"]: fact("yes"),
       ...(races === 1
-        ? { office: fact(visit.contests[0]!.title, visit.contests[0]!.id) }
+        ? {
+            office: fact(
+              officeInSentence(visit.contests[0]!.title),
+              visit.contests[0]!.id,
+            ),
+          }
         : {}),
     });
   }

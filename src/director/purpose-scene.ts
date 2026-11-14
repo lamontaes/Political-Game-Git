@@ -147,8 +147,8 @@ import {
   meetOfficiant,
   outgoingHolder,
   swornOffice,
-  titleInSentence,
 } from "./swearing-in";
+import { officeInSentence } from "../core2/person-work";
 
 export interface PurposeScene {
   typeKey: string;
@@ -1211,7 +1211,7 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: titleInSentence(said.office),
+      text: officeInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
@@ -1424,7 +1424,10 @@ function composeBinding(
   const sworn = swornOffice(core, moment.causeId);
   if (sworn) {
     const ids = [moment.causeId, sworn.officeId];
-    facts.office = { text: titleInSentence(sworn.title), sourceRecordIds: ids };
+    facts.office = {
+      text: officeInSentence(sworn.title),
+      sourceRecordIds: ids,
+    };
     if (sworn.givesAddress) {
       facts.address = { text: "", sourceRecordIds: ids };
       const stand = inauguralStand(core, askedId);
@@ -1507,7 +1510,7 @@ function composeBinding(
     // Bethel Town Council", "mayor", never the form's title in a sentence.
     const seat = officeSaid(core, { contestId: door.contestId });
     facts.office = {
-      text: seat?.text ?? titleInSentence(door.office),
+      text: seat?.text ?? officeInSentence(door.office),
       sourceRecordIds: [moment.causeId, door.contestId],
     };
     // The race's next vote as a day, and while the petition circulates the

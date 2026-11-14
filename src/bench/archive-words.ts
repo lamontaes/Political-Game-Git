@@ -1,4 +1,5 @@
 import type { EntityId } from "../core2/kernel/brands";
+import { officeInSentence } from "../core2/person-work";
 import { spokenDate } from "../core2/kernel/dates";
 import {
   followersOf,
@@ -312,7 +313,9 @@ export function wordOwnResult(
     },
     [race.won ? "won" : "lost"]: { text: "yes", sourceRecordIds: ids },
     ...(typeof office === "string"
-      ? { office: { text: office, sourceRecordIds: ids } }
+      ? {
+          office: { text: officeInSentence(office), sourceRecordIds: ids },
+        }
       : {}),
     ...(race.rival
       ? {
