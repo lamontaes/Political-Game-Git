@@ -16,8 +16,18 @@ import { placeLocalities } from "../../src/core2/places";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { composeLocalAddress } from "../../src/director/local-address";
+import {
+  composeCampaignSpeech,
+  composeFloorSpeech,
+} from "../../src/director/local-speeches";
+import { coreAPI } from "../../src/core2/state";
+import { townSeats } from "../../src/core2/modules/offices";
+import { advanceCore } from "../../src/core2/life";
+import { addDays } from "../../src/core2/kernel/dates";
+import type { PersonId } from "../../src/core2/types";
 
 setBookkeeping(false);
+const FLOOR_DAYS = Number(process.env.FLOOR_DAYS ?? "0");
 const LABELED = "a9c85de3-e7fa-4418-8499-569a5c5e6e10";
 
 function labeledPlace(): { seed: string; key: string; name: string } {
@@ -63,9 +73,64 @@ for (const place of places) {
   for (const level of ["state", "town"] as const) {
     const local = composeLocalAddress(world.core, level);
     console.log(
-      `\n**The ${level === "state" ? "governor's" : "mayor's"} address** (theme: ${local?.theme ?? "none"}; asks: ${(local?.asks ?? []).join(", ") || "none"})\n`,
+      `\n**The ${level === "state" ? "governor's" : "local head's"} address**${local ? ` by ${world.core.people.get(local.speakerId)?.givenName ?? ""} ${world.core.people.get(local.speakerId)?.familyName ?? ""}` : ""} (theme: ${local?.theme ?? "none"}; asks: ${(local?.asks ?? []).join(", ") || "none"}; sides: ${(local?.points ?? []).map((p) => `${p.side}/${p.pole}`).join(", ")})\n`,
     );
     if (!local) console.log("> (no one seated to give it)");
     for (const part of local?.parts ?? []) console.log(`> ${part}\n>`);
+  }
+  // A member of the town's body: their campaign speech for their own seat,
+  // and their floor speech on the first measure before the body (the world
+  // is played forward a day at a time until one is, at most FLOOR_DAYS).
+  const api = coreAPI(world.core);
+  const bodies = new Set(["council", "township-board", "county-board"]);
+  const members = townSeats(api).filter(
+    (row) => bodies.has(row.office.kind) && row.holder?.personId,
+  );
+  const member = members[0];
+  if (member?.holder?.personId) {
+    const name = (id: string) =>
+      `${world.core.people.get(id as PersonId)?.givenName ?? ""} ${world.core.people.get(id as PersonId)?.familyName ?? ""}`;
+    const stump = composeCampaignSpeech(
+      world.core,
+      member.holder.personId as PersonId,
+      member.office.id,
+      member.holder.party ?? null,
+    );
+    console.log(
+      `\n**A campaign speech** by ${name(member.holder.personId)}, ${member.office.title} (${member.office.governmentName}) (theme: ${stump?.theme ?? "none"}; asks: ${(stump?.asks ?? []).join(", ") || "none"})\n`,
+    );
+    for (const part of stump?.parts ?? []) console.log(`> ${part}\n>`);
+    const offices = new Set(members.map((row) => row.office.id));
+    // The floor before the roll on a measure of the town's body
+    // (legislature.ts recordFloorDebate): the member who rose for it and the
+    // one who rose against it. A bill is drafted and voted the same day, so
+    // the record is read after the day, not the bill's status.
+    const debate = () =>
+      [...world.core.durableLog.values()].find(
+        (event) =>
+          event.kind === "floor-debate" &&
+          offices.has(String(event.facts?.chamber ?? "")),
+      );
+    let found = debate();
+    for (let day = 0; !found && day < FLOOR_DAYS; day += 1) {
+      advanceCore(world.core, addDays(world.core.date as never, 1) as never);
+      found = debate();
+    }
+    if (!found)
+      console.log(
+        `\n**A floor speech**: no measure reached the floor of the body in ${FLOOR_DAYS} days`,
+      );
+    else
+      for (const id of [found.facts!.forId, found.facts!.againstId]) {
+        const floor = composeFloorSpeech(
+          world.core,
+          String(found.facts!.billId),
+          String(id) as PersonId,
+        );
+        console.log(
+          `\n**A floor speech** on ${String(found.facts!.number)} (${found.date}) by ${name(String(id))} (asks: ${(floor?.asks ?? []).join(", ") || "none"}; side: ${floor?.points[0]?.side ?? "none"})\n`,
+        );
+        for (const part of floor?.parts ?? []) console.log(`> ${part}\n>`);
+      }
   }
 }

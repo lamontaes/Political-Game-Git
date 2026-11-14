@@ -3,7 +3,7 @@
  * place: the kept year row where world-metrics keeps the figure, or the
  * owning engine's own dated record where that engine keeps the rows itself
  * (the nation's months, the state's regional months, the budgets' fiscal
- * years, the jobs engine's and the housing stock's live records). One read
+ * years, the jobs engine's live records). One read
  * per figure, each a lookup; a screen words what comes back and counts
  * nothing. A figure the owner holds no value for reads null, and so does a
  * last year no record holds.
@@ -15,7 +15,6 @@ import {
   type MacroMonth,
 } from "./macro-model";
 import { budgetsOf, governments, type GovernmentRow } from "./modules/budgets";
-import { HOUSING_MODULE_ID } from "./modules/housing";
 import { regionOfPlace } from "./modules/regional";
 import { townJobsPanel } from "./modules/world-panels";
 import {
@@ -257,15 +256,6 @@ const READERS: Readonly<
           },
         )
       : null;
-  },
-  "housing-stock": (reads, field) => {
-    const id = `stock:${reads.placeId}`;
-    const stock = reads.core.modules.has(HOUSING_MODULE_ID)
-      ? (reads.api.moduleState(HOUSING_MODULE_ID).table("stock").get(id) as
-          Record<string, unknown> | undefined)
-      : undefined;
-    const value = stock?.[field];
-    return typeof value === "number" ? reading(value, null, id, null) : null;
   },
   "town-budget": (reads, field) => {
     const budget = townBudget(reads);

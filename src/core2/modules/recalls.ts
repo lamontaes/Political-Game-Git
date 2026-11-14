@@ -32,7 +32,12 @@ import { campaignParameter } from "../campaign-data";
 import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
-import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  servingTermsOf,
+  vacateSeat,
+  type TermRow,
+} from "./offices";
 import { lastVotesAtLevel, lastVotesForOffice, turnoutOn } from "./voting";
 import { countedResidents } from "../electorate";
 import { NEWS_MODULE_ID, storiesHeard, type Story } from "./news";
@@ -199,13 +204,23 @@ function grievance(
   return -stance * enacted * memberVote;
 }
 
-function termOf(api: CoreAPI, memberId: string): TermRow | undefined {
+/**
+ * The term an official holds now. A named official's id is minted from the term they were first
+ * seated on (`official:<termId>`), which a re-election ends; the one reader of what a person serves
+ * is `servingTermsOf`, so the id's person is resolved to the term serving on the same seat (else the
+ * same office). A person who no longer serves there has none.
+ */
+export function termOf(api: CoreAPI, memberId: string): TermRow | undefined {
   const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
-  if (memberId.startsWith("official:"))
-    return terms.get(memberId.slice("official:".length)) as unknown as
-      TermRow | undefined;
-  return (terms.rows() as unknown as TermRow[]).find(
-    (t) => t.personId === memberId && t.status === "serving",
+  if (!memberId.startsWith("official:"))
+    return servingTermsOf(api, memberId)[0];
+  const minted = terms.get(memberId.slice("official:".length)) as unknown as
+    TermRow | undefined;
+  if (!minted?.personId) return undefined;
+  const serving = servingTermsOf(api, minted.personId);
+  return (
+    serving.find((t) => t.seatId === minted.seatId) ??
+    serving.find((t) => t.officeId === minted.officeId)
   );
 }
 

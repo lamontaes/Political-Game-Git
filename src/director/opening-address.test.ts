@@ -137,7 +137,15 @@ describe("the opening address from a world's records", () => {
         const lawId = sentence.sourceRecordIds.find((id) =>
           id.startsWith("law:"),
         );
-        expect(lawId, `${where}: ${sentence.text}`).toBeTruthy();
+        // A question the laws engine holds no row for is open, cited by the
+        // powers record (SG-WORDS-speech-unseeded-law-open, W-E, Nov 12).
+        if (!lawId) {
+          expect(
+            sentence.facts.includes("law-not-in-force"),
+            `${where}: ${sentence.text}`,
+          ).toBe(true);
+          continue;
+        }
         const row = laws.get(lawId!) as unknown as {
           value: number;
           series: string;

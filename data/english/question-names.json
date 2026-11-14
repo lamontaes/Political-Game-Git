@@ -1,6 +1,6 @@
 {
   "schema": "english-question-names/1",
-  "about": "Each bill-catalog policy question has one spoken name in two fixed forms, so a stand can be said as a plain sentence: `about` is a noun phrase that reads after 'about' or 'on' ('the bill is about a higher minimum wage'); `to` is a verb phrase that reads after 'to' or 'I want to' ('I want to raise the minimum wage'). Authored to the English engine's patterns, American English; a question with no entry is not offered as a stand. Each question also has a form for each side, written by scripts/words/question-sides.ts: `for` is what a supporter wants done and `against` what an opponent will keep off the books (\"keep higher tariffs off the books\"), and `repeal` what they will undo; both read after \"I want to\" and \"I will\". `today` says how the question stands now, as each side describes it: `without.for` and `without.against` while no law answers it yes, `with.for` and `with.against` once one does. `family` and `pole` type the belief a speaker gives (speech-outline.ts); `number` is `one` or `many`, for the verbs that agree with `about`; `figures` names the measures that bear on the question and the side each helps.",
+  "about": "Each bill-catalog policy question has one spoken name in two fixed forms, so a stand can be said as a plain sentence: `about` is a noun phrase that reads after 'about' or 'on' ('the bill is about a higher minimum wage'); `to` is a verb phrase that reads after 'to' or 'I want to' ('I want to raise the minimum wage'). Authored to the English engine's patterns, American English; a question with no entry is not offered as a stand. Each question also has a form for each side, written by scripts/words/question-sides.ts: `for` is what a supporter wants done and `against` what an opponent will keep off the books (\"keep higher tariffs off the books\"), and `repeal` what they will undo; both read after \"I want to\" and \"I will\". `today` says how the question stands now, as each side describes it: `without.for` and `without.against` while no law answers it yes, `with.for` and `with.against` once one does. `family` and `pole` type the belief a speaker gives (speech-outline.ts); `number` is `one` or `many`, for the verbs that agree with `about`; `figures` names the measures that bear on the question and the side each helps. `points` groups the wordings of a question that make the same claim, by a short tag (its reason for a side, the today wordings and the bank's belief clauses that restate it): a speech's planner never says two of one group in one paragraph (src/director/speech-outline.ts). A wording in no group makes a claim of its own.",
   "origin": "authored",
   "author": "Claude Code, pool session",
   "date": "2026-10-16",
@@ -56,7 +56,8 @@
       "reasons": {
         "for": "getting to work shouldn't cost a family a day's groceries",
         "against": "riders who use the bus can chip in for what it costs"
-      }
+      },
+      "again": "free rides"
     },
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
       "about": "a mileage fee in place of the fuel tax",
@@ -114,7 +115,8 @@
       "reasons": {
         "for": "everyone who uses the roads should pay a share of them",
         "against": "the state has no business counting the miles a family drives"
-      }
+      },
+      "again": "the fee"
     },
     "us-policy-positions:transportation-infrastructure.public-broadband": {
       "about": "public broadband",
@@ -167,7 +169,8 @@
       "reasons": {
         "for": "every home deserves an internet line, not only the ones a company finds worth wiring",
         "against": "government shouldn't compete with the companies already building internet lines"
-      }
+      },
+      "again": "a public network"
     },
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
       "about": "shifting highway money to transit",
@@ -225,7 +228,8 @@
       "reasons": {
         "for": "a good bus line moves more working people than another highway lane",
         "against": "the money drivers pay for roads should fix the roads they drive"
-      }
+      },
+      "again": "shifting highway money to transit"
     },
     "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
       "about": "expanding Medicaid",
@@ -283,7 +287,8 @@
       "reasons": {
         "for": "working people who can't afford insurance deserve a doctor",
         "against": "Medicaid should stay for the people it was built to serve"
-      }
+      },
+      "again": "expanding Medicaid"
     },
     "us-policy-positions:health-human-services.medicaid-work-requirement": {
       "about": "a work requirement for Medicaid",
@@ -341,7 +346,8 @@
       "reasons": {
         "for": "help should come with a path back to work",
         "against": "nobody should lose their doctor over a form"
-      }
+      },
+      "again": "the work requirement for Medicaid"
     },
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
       "about": "a work requirement for assistance",
@@ -394,7 +400,8 @@
       "reasons": {
         "for": "cash help works best when it comes with a job search",
         "against": "a family in a hard stretch shouldn't lose help over paperwork"
-      }
+      },
+      "again": "the work requirement for assistance"
     },
     "us-policy-positions:education.universal-preschool": {
       "about": "universal preschool",
@@ -452,7 +459,8 @@
       "reasons": {
         "for": "every child should start school ready to learn",
         "against": "parents should decide whether their little one goes to preschool"
-      }
+      },
+      "again": "universal preschool"
     },
     "us-policy-positions:education.public-funds-for-private-schooling": {
       "about": "public money for private schools",
@@ -510,7 +518,8 @@
       "reasons": {
         "for": "the money for a child's schooling should follow the child",
         "against": "public money belongs in the public schools most children attend"
-      }
+      },
+      "again": "public money for private schools"
     },
     "us-policy-positions:education.raise-teacher-minimum-salary": {
       "about": "a higher minimum salary for teachers",
@@ -568,7 +577,8 @@
       "reasons": {
         "for": "a good teacher should be paid enough to stay in the classroom",
         "against": "each district should set its pay to fit its own budget"
-      }
+      },
+      "again": "the higher minimum salary for teachers"
     },
     "us-policy-positions:fiscal.adopt-income-tax": {
       "about": "an income tax",
@@ -621,7 +631,8 @@
       "reasons": {
         "for": "a paycheck tax spreads the load more fairly than a sales tax",
         "against": "folks should keep every dollar of their paycheck"
-      }
+      },
+      "again": "the tax"
     },
     "us-policy-positions:fiscal.cap-property-tax-growth": {
       "about": "a cap on property tax growth",
@@ -674,7 +685,8 @@
       "reasons": {
         "for": "a family shouldn't be taxed out of a home it already owns",
         "against": "the schools and towns that count on that tax should set it"
-      }
+      },
+      "again": "the cap"
     },
     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
       "about": "taking the sales tax off groceries",
@@ -732,7 +744,8 @@
       "reasons": {
         "for": "nobody should pay a tax on the food they put on the table",
         "against": "the sales tax on food pays for the schools and roads we all use"
-      }
+      },
+      "again": "the exemption"
     },
     "us-policy-positions:fiscal.graduated-income-tax": {
       "about": "a graduated income tax",
@@ -785,7 +798,8 @@
       "reasons": {
         "for": "the folks who earn the most can carry more of the load",
         "against": "one rate for everybody is the fairest rate"
-      }
+      },
+      "again": "the tax"
     },
     "us-policy-positions:fiscal.balanced-operating-budget": {
       "about": "a balanced operating budget",
@@ -838,7 +852,8 @@
       "reasons": {
         "for": "the state shouldn't spend more than it takes in",
         "against": "a hard year shouldn't mean cutting the services people count on"
-      }
+      },
+      "again": "the budget"
     },
     "us-policy-positions:fiscal.fund-pensions-to-schedule": {
       "about": "funding pensions on schedule",
@@ -891,7 +906,8 @@
       "reasons": {
         "for": "a promise made to a retiree should be paid on time",
         "against": "the budget should pay for the needs in front of it first"
-      }
+      },
+      "again": "funding pensions on schedule"
     },
     "us-policy-positions:fiscal.minimum-reserve-balance": {
       "about": "a minimum reserve balance",
@@ -944,7 +960,8 @@
       "reasons": {
         "for": "a state should put money aside for a bad year",
         "against": "money in a reserve does nobody any good while needs go unmet"
-      }
+      },
+      "again": "the reserve requirement"
     },
     "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
       "about": "apartments in single-family neighborhoods",
@@ -1002,7 +1019,8 @@
       "reasons": {
         "for": "young families need more places to live they can afford",
         "against": "the people who bought into a neighborhood should shape it"
-      }
+      },
+      "again": "apartments in single-family neighborhoods"
     },
     "us-policy-positions:housing-land-use.inclusionary-requirement": {
       "about": "an affordable-housing requirement for new buildings",
@@ -1060,7 +1078,8 @@
       "reasons": {
         "for": "every new building should hold some homes working families can afford",
         "against": "builders build more homes when the rules don't make them lose money"
-      }
+      },
+      "again": "the affordable-housing requirement for new buildings"
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "about": "rent stabilization",
@@ -1118,7 +1137,8 @@
       "reasons": {
         "for": "a family shouldn't lose its home because the rent jumped",
         "against": "the market builds more homes when rents are left alone"
-      }
+      },
+      "again": "the rent rules"
     },
     "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
       "about": "a lawyer for tenants facing eviction",
@@ -1176,7 +1196,8 @@
       "reasons": {
         "for": "nobody should lose their home in court without a lawyer",
         "against": "a landlord shouldn't wait months to be paid while every case is fought"
-      }
+      },
+      "again": "the right to a lawyer for tenants facing eviction"
     },
     "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
       "about": "a higher federal minimum wage",
@@ -1238,7 +1259,8 @@
       "reasons": {
         "for": "a full day's work ought to pay enough to live on",
         "against": "the states can set a wage that fits what living there costs"
-      }
+      },
+      "again": "the higher federal minimum wage"
     },
     "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
       "about": "letting cities set their own minimum wage",
@@ -1291,7 +1313,8 @@
       "reasons": {
         "for": "the people who live in a town know what living there costs",
         "against": "a business should know the rules from one town to the next"
-      }
+      },
+      "again": "letting cities set their own minimum wage"
     },
     "us-policy-positions:labor-workforce.raise-minimum-wage": {
       "about": "a higher minimum wage",
@@ -1353,7 +1376,8 @@
       "reasons": {
         "for": "a full day's work ought to pay enough to live on",
         "against": "a first job at a lower wage beats no job at all"
-      }
+      },
+      "again": "the higher minimum wage"
     },
     "us-policy-positions:labor-workforce.paid-family-leave": {
       "about": "paid family leave",
@@ -1406,7 +1430,8 @@
       "reasons": {
         "for": "no worker should lose a paycheck caring for a new baby or a sick parent",
         "against": "time off is between workers and the people who hire them"
-      }
+      },
+      "again": "paid family leave"
     },
     "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
       "about": "collective bargaining for public workers",
@@ -1459,7 +1484,8 @@
       "reasons": {
         "for": "public workers deserve a say in what they're paid",
         "against": "the voters' own officials should set the public payroll"
-      }
+      },
+      "again": "bargaining rights"
     },
     "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
       "about": "asking about criminal records on state job applications",
@@ -1512,6 +1538,19 @@
       "reasons": {
         "for": "people who've served their time deserve a fair look for a job",
         "against": "the state should know who it is hiring from the start"
+      },
+      "again": "the rule against asking about criminal records on state job applications",
+      "points": {
+        "a-fair-look": [
+          "people who've served their time deserve a fair look for a job",
+          "A state application waits to ask about a record, so people get a fair look.",
+          "A state job application doesn't ask about a criminal record up front, so people who served their time get a fair look.",
+          "Someone who served their time gets an interview before the record comes up."
+        ],
+        "know-who-is-hired": [
+          "the state should know who it is hiring from the start",
+          "A state job application asks about a criminal record up front, so the state knows who it's hiring."
+        ]
       }
     },
     "us-policy-positions:labor-workforce.right-to-work": {
@@ -1565,7 +1604,8 @@
       "reasons": {
         "for": "no worker should have to pay a union to keep a job",
         "against": "everybody who gets the union's raise should pay a share of winning it"
-      }
+      },
+      "again": "the rules"
     },
     "us-policy-positions:business-commerce.legalize-cannabis-sales": {
       "about": "legal cannabis sales",
@@ -1618,7 +1658,8 @@
       "reasons": {
         "for": "grown adults can make their own choices",
         "against": "a drug sold on every corner hurts the kids who see it"
-      }
+      },
+      "again": "legal sales"
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "about": "a cap on consumer loan rates",
@@ -1671,7 +1712,8 @@
       "reasons": {
         "for": "nobody should be charged hundreds of percent for a small loan",
         "against": "a family that needs cash fast should still find a lender"
-      }
+      },
+      "again": "the cap"
     },
     "us-policy-positions:environment-energy.ban-new-gas-hookups": {
       "about": "banning new gas hookups",
@@ -1729,7 +1771,8 @@
       "reasons": {
         "for": "new homes shouldn't lock in another fifty years of burning gas",
         "against": "a family should choose how it heats its own home"
-      }
+      },
+      "again": "the ban"
     },
     "us-policy-positions:environment-energy.allow-retail-electric-choice": {
       "about": "letting customers pick their electricity supplier",
@@ -1782,7 +1825,8 @@
       "reasons": {
         "for": "a family should be able to shop for its power",
         "against": "one utility that answers to the state keeps the lights on"
-      }
+      },
+      "again": "letting customers pick their electricity supplier"
     },
     "us-policy-positions:environment-energy.clean-electricity-standard": {
       "about": "a clean electricity standard",
@@ -1840,7 +1884,8 @@
       "reasons": {
         "for": "the power we make today shouldn't poison the air tomorrow",
         "against": "a family's power bill matters more than a planner's formula"
-      }
+      },
+      "again": "the standard"
     },
     "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
       "about": "a clean air plan for polluted counties",
@@ -1898,7 +1943,8 @@
       "reasons": {
         "for": "nobody should have to breathe dirty air",
         "against": "each county can look after its own air"
-      }
+      },
+      "again": "the plan"
     },
     "us-policy-positions:environment-energy.bottle-deposit": {
       "about": "a bottle deposit",
@@ -1956,7 +2002,8 @@
       "reasons": {
         "for": "a deposit brings the cans back off our roadsides",
         "against": "families shouldn't pay a few cents more on every can"
-      }
+      },
+      "again": "the deposit"
     },
     "us-policy-positions:environment-energy.price-carbon": {
       "about": "a price on carbon",
@@ -2018,7 +2065,8 @@
       "reasons": {
         "for": "the company that pollutes should pay for it",
         "against": "families shouldn't pay more for power and gas"
-      }
+      },
+      "again": "the price"
     },
     "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
       "about": "civilian oversight of the police",
@@ -2076,6 +2124,21 @@
       "reasons": {
         "for": "the police should answer to the people they serve",
         "against": "an officer should be judged by people who have done the job"
+      },
+      "again": "civilian oversight of the police",
+      "points": {
+        "police-answer-to-the-public": [
+          "the police should answer to the people they serve",
+          "The police answer only to themselves when a complaint comes in."
+        ],
+        "judged-by-those-who-did-the-job": [
+          "an officer should be judged by people who have done the job",
+          "A complaint against an officer goes up the chain of command, to people who know the job.",
+          "A complaint goes up the chain of command, to people who know the work.",
+          "Officers answer to a board of people who have never done the job.",
+          "Officers answer to a board of people who have never worn the badge.",
+          "A board with no police experience judges officers."
+        ]
       }
     },
     "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
@@ -2134,7 +2197,8 @@
       "reasons": {
         "for": "our laws mean something only if we enforce them",
         "against": "our police should keep their focus on local crime"
-      }
+      },
+      "again": "the agreement to work with federal immigration enforcement"
     },
     "us-policy-positions:justice-public-safety.end-cash-bail": {
       "about": "ending cash bail",
@@ -2192,6 +2256,26 @@
       "reasons": {
         "for": "how much money you have shouldn't decide whether you sit in jail",
         "against": "a person charged with a crime needs a reason to come back to court"
+      },
+      "again": "ending cash bail",
+      "points": {
+        "money-decides-who-waits-in-jail": [
+          "how much money you have shouldn't decide whether you sit in jail",
+          "how much money you have shouldn't decide whether you sit in jail",
+          "Whether someone waits for trial at home can come down to money.",
+          "Whether someone waits for trial in jail can come down to whether they can pay bail.",
+          "Money no longer decides who waits for trial at home.",
+          "A person can sit in jail before trial just because they can't pay bail.",
+          "Nobody sits in jail before trial just because they can't pay bail.",
+          "Nobody waits in jail before trial just because they can't pay."
+        ],
+        "bail-brings-people-back": [
+          "a person charged with a crime needs a reason to come back to court",
+          "A judge can set bail so a person charged with a crime has a reason to come back to court.",
+          "A judge can set bail to make sure people come back to court.",
+          "Bail gives a person charged with a crime a reason to show up.",
+          "There's no bail to make sure people come back to court."
+        ]
       }
     },
     "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
@@ -2245,6 +2329,21 @@
       "reasons": {
         "for": "someone who has served their sentence has earned the vote back",
         "against": "the vote has to be earned back after a serious crime"
+      },
+      "again": "restoring the vote after a sentence",
+      "points": {
+        "served-sentence-earns-the-vote": [
+          "someone who has served their sentence has earned the vote back",
+          "A person who has served their sentence can vote again.",
+          "Someone who has served their sentence can vote again.",
+          "The vote comes back once the sentence is served."
+        ],
+        "the-vote-is-earned-back": [
+          "the vote has to be earned back after a serious crime",
+          "A person convicted of a serious crime has to earn the vote back.",
+          "Someone convicted of a serious crime has to earn the vote back.",
+          "The vote comes back after a serious crime only when it's earned."
+        ]
       }
     },
     "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
@@ -2303,6 +2402,14 @@
       "reasons": {
         "for": "a seventeen-year-old is still a kid, and can still turn around",
         "against": "someone who commits a serious crime should answer for it"
+      },
+      "again": "the higher age for juvenile court",
+      "points": {
+        "answer-for-a-crime": [
+          "someone who commits a serious crime should answer for it",
+          "people who break the law should answer for it",
+          "A seventeen-year-old who commits a serious crime can answer for it as an adult."
+        ]
       }
     },
     "us-policy-positions:justice-public-safety.child-access-prevention": {
@@ -2356,7 +2463,8 @@
       "reasons": {
         "for": "a loaded gun has no business where a child can reach it",
         "against": "a gun owner knows best how to keep a gun safe at home"
-      }
+      },
+      "again": "those rules"
     },
     "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
       "about": "a permit to carry a concealed gun",
@@ -2392,7 +2500,7 @@
           ],
           "against": [
             "A law-abiding adult can carry for protection without asking permission.",
-            "A grown adult can carry a gun without a permit."
+            "Someone with a clean record can carry for protection, no permit needed."
           ]
         },
         "with": {
@@ -2401,7 +2509,7 @@
             "A person needs a permit to carry a hidden gun."
           ],
           "against": [
-            "A law-abiding adult has to ask permission to carry for protection.",
+            "Someone with a clean record still waits on the state's say-so to carry for protection.",
             "A person has to get a permit before carrying a gun for safety."
           ]
         }
@@ -2414,7 +2522,8 @@
       "reasons": {
         "for": "someone carrying a hidden gun should have training and a permit",
         "against": "a law-abiding adult shouldn't need a permission slip to protect their family"
-      }
+      },
+      "again": "the permit"
     },
     "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
       "about": "a higher age to buy a handgun",
@@ -2445,7 +2554,7 @@
           ],
           "against": [
             "An adult of eighteen can buy a handgun for protection.",
-            "A grown adult can buy a handgun to protect themselves."
+            "At eighteen, a person can buy a handgun to keep their home safe."
           ]
         },
         "with": {
@@ -2455,7 +2564,7 @@
           ],
           "against": [
             "An adult of eighteen can't buy a handgun for protection.",
-            "A grown adult is turned away at the gun counter."
+            "Someone old enough to vote and to enlist is turned away at the gun counter."
           ]
         }
       },
@@ -2467,7 +2576,8 @@
       "reasons": {
         "for": "a handgun should wait until a person is a little older",
         "against": "an adult of eighteen has a right to defend themselves"
-      }
+      },
+      "again": "the higher age to buy a handgun"
     },
     "us-policy-positions:justice-public-safety.stand-your-ground": {
       "about": "stand-your-ground rules",
@@ -2525,7 +2635,8 @@
       "reasons": {
         "for": "nobody should have to back down from an attacker",
         "against": "walking away when you safely can keeps a fight from ending in a shooting"
-      }
+      },
+      "again": "the rules"
     },
     "us-policy-positions:government-operations.all-mail-voting": {
       "about": "voting by mail for everyone",
@@ -2535,7 +2646,7 @@
       "today": {
         "without": {
           "for": "Most voters have to go to a polling place or ask for a ballot by mail.",
-          "against": "Voters come to a polling place, where workers check who they are."
+          "against": "Voters come to a polling place, where workers check names against the rolls."
         },
         "with": {
           "for": "Every voter gets a ballot in the mail.",
@@ -2555,7 +2666,7 @@
             "A voter who works long hours can miss the chance to vote."
           ],
           "against": [
-            "Voters come to a polling place, where workers check who they are.",
+            "Voters come to a polling place, where workers check names against the rolls.",
             "Folks vote in person, and workers at the polls check who they are."
           ]
         },
@@ -2578,7 +2689,8 @@
       "reasons": {
         "for": "every voter should get a ballot at home",
         "against": "every ballot should be cast where workers can check who's voting"
-      }
+      },
+      "again": "mail ballots"
     },
     "us-policy-positions:government-operations.automatic-voter-registration": {
       "about": "automatic voter registration",
@@ -2631,7 +2743,8 @@
       "reasons": {
         "for": "every eligible citizen should be on the rolls",
         "against": "signing up to vote should be a citizen's own choice"
-      }
+      },
+      "again": "automatic voter registration"
     },
     "us-policy-positions:government-operations.independent-redistricting": {
       "about": "independent redistricting",
@@ -2684,7 +2797,8 @@
       "reasons": {
         "for": "voters should choose their lawmakers, not the other way around",
         "against": "the people the voters elected should draw the lines"
-      }
+      },
+      "again": "the commission"
     },
     "us-policy-positions:government-operations.require-photo-id-to-vote": {
       "about": "photo ID to vote",
@@ -2737,7 +2851,8 @@
       "reasons": {
         "for": "every vote counts only if every voter is checked",
         "against": "no citizen should be turned away from the polls for lacking the right card"
-      }
+      },
+      "again": "the photo ID law"
     },
     "us-policy-positions:government-operations.same-day-voter-registration": {
       "about": "same-day voter registration",
@@ -2790,7 +2905,8 @@
       "reasons": {
         "for": "no citizen should lose a vote over a deadline",
         "against": "the rolls have to be checked before Election Day"
-      }
+      },
+      "again": "same-day voter registration"
     },
     "us-policy-positions:government-operations.ban-lobbying-after-office": {
       "about": "a ban on lobbying after leaving office",
@@ -2843,7 +2959,8 @@
       "reasons": {
         "for": "public office is a trust, not a way to get rich",
         "against": "a former official should be free to work where they please"
-      }
+      },
+      "again": "the ban"
     },
     "us-policy-positions:government-operations.broaden-local-authority": {
       "about": "more local government power",
@@ -2896,7 +3013,8 @@
       "reasons": {
         "for": "towns should decide more of their own business",
         "against": "one set of rules from town to town makes life easier for everybody"
-      }
+      },
+      "again": "the local government power"
     },
     "us-policy-positions:government-operations.legislative-term-limits": {
       "about": "term limits for legislators",
@@ -2949,7 +3067,8 @@
       "reasons": {
         "for": "no seat should belong to one person for decades",
         "against": "the voters, not new rules, should decide who serves and for how long"
-      }
+      },
+      "again": "the limits"
     },
     "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
       "about": "a ban on discrimination in housing and work",
@@ -3002,7 +3121,8 @@
       "reasons": {
         "for": "nobody should be turned away for who they are",
         "against": "a small business owner has a right to run things by their own beliefs"
-      }
+      },
+      "again": "the ban"
     },
     "us-policy-positions:civil-family-community.dedicated-parks-funding": {
       "about": "dedicated funding for parks",
@@ -3055,7 +3175,8 @@
       "reasons": {
         "for": "our parks should never be the first thing cut",
         "against": "the parks should make their case like everything else"
-      }
+      },
+      "again": "dedicated funding for parks"
     },
     "us-policy-positions:civil-family-community.restrict-abortion": {
       "about": "restricting abortion",
@@ -3108,7 +3229,8 @@
       "reasons": {
         "for": "every life deserves protection, born and unborn",
         "against": "a woman should make her own decisions about her own body"
-      }
+      },
+      "again": "those limits"
     },
     "us-policy-positions:technology-privacy.age-verification-for-social-media": {
       "about": "age checks for social media",
@@ -3161,7 +3283,8 @@
       "reasons": {
         "for": "kids need protecting from what's online",
         "against": "adults shouldn't hand over an ID to use a website"
-      }
+      },
+      "again": "the checks"
     },
     "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
       "about": "limits on government facial recognition",
@@ -3214,6 +3337,22 @@
       "reasons": {
         "for": "government shouldn't scan our faces without rules",
         "against": "police need every tool to find a suspect fast"
+      },
+      "again": "the limits",
+      "points": {
+        "rules-on-face-scanning": [
+          "government shouldn't scan our faces without rules",
+          "Government can't scan faces in a crowd without rules.",
+          "Government agencies can scan a face in a crowd with no rules at all.",
+          "Government can scan faces in a crowd with no rules at all."
+        ],
+        "find-a-suspect-fast": [
+          "police need every tool to find a suspect fast",
+          "Facial recognition helps police find suspects quickly.",
+          "Police can use facial recognition to find a suspect fast.",
+          "Police can't use a tool that finds suspects fast.",
+          "The law keeps police from using a tool that finds suspects fast."
+        ]
       }
     },
     "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
@@ -3267,7 +3406,8 @@
       "reasons": {
         "for": "what a company knows about you is yours to protect",
         "against": "a company and its customers can set their own terms"
-      }
+      },
+      "again": "the consumer data privacy law"
     },
     "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
       "about": "limits on pumping groundwater",
@@ -3325,7 +3465,8 @@
       "reasons": {
         "for": "we can't pump the wells dry and leave our grandkids nothing",
         "against": "a family's well is theirs to use"
-      }
+      },
+      "again": "the limits"
     },
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
       "about": "protecting farmland from development",
@@ -3378,7 +3519,8 @@
       "reasons": {
         "for": "good farmland, once it is paved over, never comes back",
         "against": "a farmer's land is theirs to sell"
-      }
+      },
+      "again": "protecting farmland from development"
     },
     "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
       "about": "raising the debt limit only with spending cuts to match",
@@ -3431,7 +3573,8 @@
       "reasons": {
         "for": "new borrowing should come with spending cuts to match",
         "against": "the country should pay the bills it has already run up"
-      }
+      },
+      "again": "raising the debt limit only with spending cuts to match"
     },
     "us-federal-positions:tax.raise-top-income-tax-rate": {
       "about": "a higher top income tax rate",
@@ -3484,7 +3627,8 @@
       "reasons": {
         "for": "the highest earners can afford to pay a higher top rate",
         "against": "the people who start businesses and hire should keep more of what they make"
-      }
+      },
+      "again": "the higher top income tax rate"
     },
     "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
       "about": "a cap on consumer loan interest",
@@ -3537,7 +3681,8 @@
       "reasons": {
         "for": "nobody should be charged a crushing rate on a loan",
         "against": "a family with poor credit still needs somewhere to borrow"
-      }
+      },
+      "again": "the cap"
     },
     "us-federal-positions:defense.grow-defense-spending": {
       "about": "more defense spending",
@@ -3590,7 +3735,8 @@
       "reasons": {
         "for": "our troops deserve what they need to keep the peace",
         "against": "our money should go to needs here at home first"
-      }
+      },
+      "again": "the increase in defense spending"
     },
     "us-federal-positions:foreign-affairs.increase-foreign-aid": {
       "about": "more foreign aid",
@@ -3643,7 +3789,8 @@
       "reasons": {
         "for": "this country is safest when it stands with its friends",
         "against": "families here come before spending overseas"
-      }
+      },
+      "again": "the increase in foreign aid"
     },
     "us-federal-positions:trade.raise-tariffs": {
       "about": "higher tariffs",
@@ -3705,7 +3852,8 @@
       "reasons": {
         "for": "our workers and our factories deserve a fair shot",
         "against": "every tariff ends up on a family's receipt"
-      }
+      },
+      "again": "the tariffs"
     },
     "us-federal-positions:immigration.admit-more-immigrants": {
       "about": "admitting more immigrants",
@@ -3758,7 +3906,8 @@
       "reasons": {
         "for": "people who want to come here and work should have a fair way in",
         "against": "a country has to know who is coming in"
-      }
+      },
+      "again": "admitting more immigrants"
     },
     "us-federal-positions:health.medicare-drug-price-negotiation": {
       "about": "Medicare negotiating drug prices",
@@ -3816,7 +3965,8 @@
       "reasons": {
         "for": "Medicare should get the best price for the people it covers",
         "against": "the next cure comes from companies that can afford to look for it"
-      }
+      },
+      "again": "Medicare negotiating drug prices"
     },
     "us-federal-positions:social-insurance.raise-retirement-age": {
       "about": "a higher retirement age",
@@ -3869,7 +4019,8 @@
       "reasons": {
         "for": "people live longer now, and the program has to last",
         "against": "folks who worked hard jobs all their lives have earned their retirement on time"
-      }
+      },
+      "again": "the higher retirement age"
     },
     "us-federal-positions:education.forgive-student-loans": {
       "about": "forgiving student loans",
@@ -3922,7 +4073,8 @@
       "reasons": {
         "for": "a young person shouldn't start life buried in debt for going to school",
         "against": "a worker who never went to college shouldn't pay someone else's loan"
-      }
+      },
+      "again": "forgiving student loans"
     },
     "us-federal-positions:housing.vouchers-for-every-eligible-family": {
       "about": "housing vouchers for every family that qualifies",
@@ -3980,7 +4132,8 @@
       "reasons": {
         "for": "every family that qualifies for housing help should get it",
         "against": "more homes, not more vouchers, bring the rent down"
-      }
+      },
+      "again": "the vouchers"
     },
     "us-federal-positions:transport-water.expand-passenger-rail": {
       "about": "more passenger rail",
@@ -4033,7 +4186,8 @@
       "reasons": {
         "for": "trains are worth building for everybody to use",
         "against": "rail money is better spent on the roads most folks drive"
-      }
+      },
+      "again": "the new lines"
     },
     "us-federal-positions:energy-environment.limit-power-plant-carbon": {
       "about": "limits on power plant carbon",
@@ -4091,7 +4245,8 @@
       "reasons": {
         "for": "the power we make today shouldn't poison the air tomorrow",
         "against": "power should be cheap and the lights should stay on"
-      }
+      },
+      "again": "the limits"
     },
     "us-federal-positions:agriculture.cut-farm-subsidies": {
       "about": "cutting farm subsidies",
@@ -4144,7 +4299,8 @@
       "reasons": {
         "for": "taxpayers shouldn't keep paying farm subsidies forever",
         "against": "farm families need a steady footing through bad harvests"
-      }
+      },
+      "again": "cutting farm subsidies"
     },
     "us-federal-positions:emergencies.states-share-disaster-costs": {
       "about": "states sharing disaster costs",
@@ -4197,7 +4353,8 @@
       "reasons": {
         "for": "the states should carry part of the cost of their own disasters",
         "against": "when disaster strikes, the whole country helps"
-      }
+      },
+      "again": "states sharing disaster costs"
     },
     "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
       "about": "shorter mandatory minimum sentences",
@@ -4255,6 +4412,15 @@
       "reasons": {
         "for": "a judge should fit the sentence to the person in front of them",
         "against": "people who break the law should answer for it"
+      },
+      "again": "the shorter mandatory minimums",
+      "points": {
+        "fit-the-sentence-to-the-case": [
+          "a judge should fit the sentence to the person in front of them",
+          "A judge can weigh each case before setting a sentence.",
+          "Judges have more room to fit a sentence to the case."
+        ],
+        "answer-for-a-crime": ["people who break the law should answer for it"]
       }
     },
     "us-federal-positions:government.ban-congressional-stock-trading": {
@@ -4308,7 +4474,8 @@
       "reasons": {
         "for": "those who write the laws should never profit from them",
         "against": "a member of Congress should be free to invest like anyone else"
-      }
+      },
+      "again": "the ban"
     },
     "us-federal-positions:science-communications.national-data-privacy": {
       "about": "a national data privacy law",
@@ -4361,7 +4528,8 @@
       "reasons": {
         "for": "what a company knows about you is yours to protect",
         "against": "a company and its customers can set their own terms"
-      }
+      },
+      "again": "the national data privacy law"
     },
     "us-federal-positions:territories-culture.statehood-for-dc": {
       "about": "statehood for the nation's capital",
@@ -4414,6 +4582,623 @@
       "reasons": {
         "for": "the people of the capital deserve a vote in Congress",
         "against": "the nation's capital belongs to the whole country"
+      },
+      "again": "statehood for the nation's capital"
+    },
+    "budget-line:police": {
+      "about": "a bigger police budget",
+      "to": "give the police department more to work with",
+      "for": "give the police department more to work with",
+      "against": "keep the police budget where it is",
+      "today": {
+        "without": {
+          "for": "Our officers are covering more calls than there are officers to answer them.",
+          "against": "Every dollar the police budget grows comes out of something else we need."
+        },
+        "with": {
+          "for": "Our officers are covering more calls than there are officers to answer them.",
+          "against": "Every dollar the police budget grows comes out of something else we need."
+        }
+      },
+      "repeal": "keep the police budget where it is",
+      "keep": "keep the bigger police budget in the budget",
+      "family": "justice",
+      "pole": "b",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Calls for help wait longer than they should for an officer.",
+            "The department has fewer officers on a shift than it needs."
+          ],
+          "against": [
+            "The police already take the biggest share of what we spend.",
+            "More money for patrols leaves less for what keeps trouble from starting."
+          ]
+        },
+        "with": {
+          "for": [
+            "Calls for help wait longer than they should for an officer.",
+            "The department has fewer officers on a shift than it needs."
+          ],
+          "against": [
+            "The police already take the biggest share of what we spend.",
+            "More money for patrols leaves less for what keeps trouble from starting."
+          ]
+        }
+      },
+      "law": "the bigger police budget",
+      "principles": {
+        "for": [1],
+        "against": []
+      },
+      "reasons": {
+        "for": "a call for help should be answered fast",
+        "against": "money spent before trouble starts goes further than money spent after"
+      },
+      "again": "the bigger police budget",
+      "points": {
+        "calls-answered-fast": [
+          "a call for help should be answered fast",
+          "Calls for help wait longer than they should for an officer."
+        ]
+      }
+    },
+    "budget-line:corrections": {
+      "about": "more jail spending",
+      "to": "staff the jail fully",
+      "for": "staff the jail fully",
+      "against": "keep the jail budget from growing",
+      "today": {
+        "without": {
+          "for": "The jail is short of guards, and the people who work there feel it every shift.",
+          "against": "The jail takes more of the budget every year, and it keeps nobody out of trouble."
+        },
+        "with": {
+          "for": "The jail is short of guards, and the people who work there feel it every shift.",
+          "against": "The jail takes more of the budget every year, and it keeps nobody out of trouble."
+        }
+      },
+      "repeal": "keep the jail budget from growing",
+      "keep": "keep the bigger jail budget in the budget",
+      "family": "justice",
+      "pole": "b",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The jail runs short of guards on most shifts.",
+            "The guards at the jail work doubles to cover the gaps."
+          ],
+          "against": [
+            "We spend more holding people than keeping them from ending up there.",
+            "The jail's share of the budget grows while the same people keep going back."
+          ]
+        },
+        "with": {
+          "for": [
+            "The jail runs short of guards on most shifts.",
+            "The guards at the jail work doubles to cover the gaps."
+          ],
+          "against": [
+            "We spend more holding people than keeping them from ending up there.",
+            "The jail's share of the budget grows while the same people keep going back."
+          ]
+        }
+      },
+      "law": "the bigger jail budget",
+      "principles": {
+        "for": [1, 2],
+        "against": [2]
+      },
+      "reasons": {
+        "for": "a jail that's short of guards isn't safe for anybody inside it",
+        "against": "keeping people out of jail costs less than keeping them in"
+      },
+      "again": "the bigger jail budget",
+      "points": {
+        "jail-short-of-guards": [
+          "a jail that's short of guards isn't safe for anybody inside it",
+          "The jail is short of guards, and the people who work there feel it every shift.",
+          "The jail runs short of guards on most shifts.",
+          "The guards at the jail work doubles to cover the gaps."
+        ],
+        "holding-costs-more-than-preventing": [
+          "keeping people out of jail costs less than keeping them in",
+          "We spend more holding people than keeping them from ending up there."
+        ]
+      }
+    },
+    "budget-line:schools": {
+      "about": "more school funding",
+      "to": "spend more on our schools",
+      "for": "spend more on our schools",
+      "against": "keep school spending in check",
+      "today": {
+        "without": {
+          "for": "Our teachers are buying supplies out of their own pockets, and classes keep getting bigger.",
+          "against": "School spending keeps climbing, and the property tax bill climbs right along with it."
+        },
+        "with": {
+          "for": "Our teachers are buying supplies out of their own pockets, and classes keep getting bigger.",
+          "against": "School spending keeps climbing, and the property tax bill climbs right along with it."
+        }
+      },
+      "repeal": "keep school spending in check",
+      "keep": "keep the bigger school budget in the budget",
+      "family": "schools",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Classes are bigger than they were, and the buildings are older.",
+            "Teachers buy their own supplies to get through the year."
+          ],
+          "against": [
+            "The school budget grows every year, and so does the tax bill that pays for it.",
+            "Taxpayers have given the schools more year after year."
+          ]
+        },
+        "with": {
+          "for": [
+            "Classes are bigger than they were, and the buildings are older.",
+            "Teachers buy their own supplies to get through the year."
+          ],
+          "against": [
+            "The school budget grows every year, and so does the tax bill that pays for it.",
+            "Taxpayers have given the schools more year after year."
+          ]
+        }
+      },
+      "law": "the bigger school budget",
+      "principles": {
+        "for": [1, 2],
+        "against": [2]
+      },
+      "reasons": {
+        "for": "a child's school shouldn't depend on which side of the line they live on",
+        "against": "the families paying the tax bill deserve a say in how fast it grows"
+      },
+      "again": "the bigger school budget"
+    },
+    "budget-line:higherEducation": {
+      "about": "a bigger college budget",
+      "to": "fund more seats at the community college",
+      "for": "fund more seats at the community college",
+      "against": "hold the college to what it gets now",
+      "today": {
+        "without": {
+          "for": "The college turns away people who want to train for a better job.",
+          "against": "The college's budget grows faster than the number of people it trains."
+        },
+        "with": {
+          "for": "The college turns away people who want to train for a better job.",
+          "against": "The college's budget grows faster than the number of people it trains."
+        }
+      },
+      "repeal": "hold the college to what it gets now",
+      "keep": "keep the bigger college budget in the budget",
+      "family": "schools",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "More people want to learn a trade than there are seats to teach them.",
+            "Folks who want to retrain wait a year to get into a class."
+          ],
+          "against": [
+            "The college asks for more every year, and the taxpayer covers it.",
+            "Spending on the college has grown faster than its classes."
+          ]
+        },
+        "with": {
+          "for": [
+            "More people want to learn a trade than there are seats to teach them.",
+            "Folks who want to retrain wait a year to get into a class."
+          ],
+          "against": [
+            "The college asks for more every year, and the taxpayer covers it.",
+            "Spending on the college has grown faster than its classes."
+          ]
+        }
+      },
+      "law": "the bigger college budget",
+      "principles": {
+        "for": [2],
+        "against": [2]
+      },
+      "reasons": {
+        "for": "anybody willing to learn a trade should have a seat to learn it in",
+        "against": "the taxpayer shouldn't cover a budget that grows faster than the classes"
+      },
+      "again": "the bigger college budget",
+      "points": {
+        "seats-to-learn-a-trade": [
+          "anybody willing to learn a trade should have a seat to learn it in",
+          "More people want to learn a trade than there are seats to teach them."
+        ],
+        "budget-outgrows-the-classes": [
+          "the taxpayer shouldn't cover a budget that grows faster than the classes",
+          "Spending on the college has grown faster than its classes.",
+          "The college's budget grows faster than the number of people it trains."
+        ]
+      }
+    },
+    "budget-line:parks": {
+      "about": "more parks spending",
+      "to": "fix up our parks",
+      "for": "fix up our parks",
+      "against": "put the parks behind what we need first",
+      "today": {
+        "without": {
+          "for": "Our parks are wearing out faster than we fix them.",
+          "against": "The parks get more every year, and the money has to come from somewhere."
+        },
+        "with": {
+          "for": "Our parks are wearing out faster than we fix them.",
+          "against": "The parks get more every year, and the money has to come from somewhere."
+        }
+      },
+      "repeal": "put the parks behind what we need first",
+      "keep": "keep the bigger parks budget in the budget",
+      "family": "land",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The playgrounds and the ball fields are showing their age.",
+            "The parks need repairs the budget hasn't covered."
+          ],
+          "against": [
+            "The parks get more every year while the roads wait.",
+            "Every dollar in the parks is a dollar the roads and the police don't get."
+          ]
+        },
+        "with": {
+          "for": [
+            "The playgrounds and the ball fields are showing their age.",
+            "The parks need repairs the budget hasn't covered."
+          ],
+          "against": [
+            "The parks get more every year while the roads wait.",
+            "Every dollar in the parks is a dollar the roads and the police don't get."
+          ]
+        }
+      },
+      "law": "the bigger parks budget",
+      "principles": {
+        "for": [],
+        "against": []
+      },
+      "reasons": {
+        "for": "every family deserves a safe place for their kids to play",
+        "against": "the things we need come before the things that are nice to have"
+      },
+      "again": "the bigger parks budget"
+    },
+    "budget-line:naturalResources": {
+      "about": "more spending on land and water",
+      "to": "do more to care for our creeks and woods",
+      "for": "do more to care for our creeks and woods",
+      "against": "leave the care of the land to the people who own it",
+      "today": {
+        "without": {
+          "for": "Our creeks and our woods need more care than we've been giving them.",
+          "against": "The land and water budget grows, and the landowners already do the work."
+        },
+        "with": {
+          "for": "Our creeks and our woods need more care than we've been giving them.",
+          "against": "The land and water budget grows, and the landowners already do the work."
+        }
+      },
+      "repeal": "leave the care of the land to the people who own it",
+      "keep": "keep the bigger land and water budget in the budget",
+      "family": "land",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The creeks and the woods need more care than they get.",
+            "Runoff and erosion are wearing away land we can't replace."
+          ],
+          "against": [
+            "The folks who own the land already do the work of caring for it.",
+            "Each new land program adds another line to the tax bill."
+          ]
+        },
+        "with": {
+          "for": [
+            "The creeks and the woods need more care than they get.",
+            "Runoff and erosion are wearing away land we can't replace."
+          ],
+          "against": [
+            "The folks who own the land already do the work of caring for it.",
+            "Each new land program adds another line to the tax bill."
+          ]
+        }
+      },
+      "law": "the bigger land and water budget",
+      "principles": {
+        "for": [1, 2],
+        "against": [1, 2]
+      },
+      "reasons": {
+        "for": "clean water is cheaper to keep than to win back",
+        "against": "the people who own the land take better care of it than any program"
+      },
+      "again": "the bigger land and water budget",
+      "points": {
+        "owners-care-for-the-land": [
+          "the people who own the land take better care of it than any program",
+          "The folks who own the land already do the work of caring for it.",
+          "The land and water budget grows, and the landowners already do the work."
+        ]
+      }
+    },
+    "budget-line:housing": {
+      "about": "more housing money",
+      "to": "build more homes people can afford",
+      "for": "build more homes people can afford",
+      "against": "stop growing the housing programs",
+      "today": {
+        "without": {
+          "for": "Working families here are paying more for rent than they can keep up with.",
+          "against": "Government money for housing grows, and the builders who could build more wait on permits."
+        },
+        "with": {
+          "for": "Working families here are paying more for rent than they can keep up with.",
+          "against": "Government money for housing grows, and the builders who could build more wait on permits."
+        }
+      },
+      "repeal": "stop growing the housing programs",
+      "keep": "keep the bigger housing budget in the budget",
+      "family": "housing",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "People who work here can't afford to live here.",
+            "Rent takes too much of a working family's paycheck."
+          ],
+          "against": [
+            "The money spent on housing hasn't built much housing.",
+            "Builders wait on permits while the housing budget grows."
+          ]
+        },
+        "with": {
+          "for": [
+            "People who work here can't afford to live here.",
+            "Rent takes too much of a working family's paycheck."
+          ],
+          "against": [
+            "The money spent on housing hasn't built much housing.",
+            "Builders wait on permits while the housing budget grows."
+          ]
+        }
+      },
+      "law": "the bigger housing budget",
+      "principles": {
+        "for": [1],
+        "against": [2]
+      },
+      "reasons": {
+        "for": "the people who work here should be able to live here",
+        "against": "the market builds more homes than any program can"
+      },
+      "again": "the bigger housing budget",
+      "points": {
+        "live-where-you-work": [
+          "the people who work here should be able to live here",
+          "People who work here can't afford to live here."
+        ],
+        "programs-build-little": [
+          "the market builds more homes than any program can",
+          "The money spent on housing hasn't built much housing."
+        ]
+      }
+    },
+    "budget-line:healthAndHospitals": {
+      "about": "a bigger health budget",
+      "to": "fund the clinic and the hospital",
+      "for": "fund the clinic and the hospital",
+      "against": "keep health spending from outgrowing everything else",
+      "today": {
+        "without": {
+          "for": "The clinic is full, and folks without insurance wait the longest.",
+          "against": "Health spending takes a bigger share of the budget every year."
+        },
+        "with": {
+          "for": "The clinic is full, and folks without insurance wait the longest.",
+          "against": "Health spending takes a bigger share of the budget every year."
+        }
+      },
+      "repeal": "keep health spending from outgrowing everything else",
+      "keep": "keep the bigger health budget in the budget",
+      "family": "health",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "People drive a long way to see a doctor.",
+            "The emergency room is the only care a lot of folks get."
+          ],
+          "against": [
+            "The health budget grows faster than anything else we pay for.",
+            "The hospital asks for more every year, and every year we find it."
+          ]
+        },
+        "with": {
+          "for": [
+            "People drive a long way to see a doctor.",
+            "The emergency room is the only care a lot of folks get."
+          ],
+          "against": [
+            "The health budget grows faster than anything else we pay for.",
+            "The hospital asks for more every year, and every year we find it."
+          ]
+        }
+      },
+      "law": "the bigger health budget",
+      "principles": {
+        "for": [1, 2],
+        "against": []
+      },
+      "reasons": {
+        "for": "nobody should have to drive an hour to see a doctor",
+        "against": "a budget that grows faster than the town can't keep growing"
+      },
+      "again": "the bigger health budget",
+      "points": {
+        "a-doctor-close-by": [
+          "nobody should have to drive an hour to see a doctor",
+          "People drive a long way to see a doctor."
+        ],
+        "budget-outgrows-the-town": [
+          "a budget that grows faster than the town can't keep growing",
+          "The health budget grows faster than anything else we pay for.",
+          "Health spending takes a bigger share of the budget every year."
+        ]
+      }
+    },
+    "budget-line:welfareAndMedicaid": {
+      "about": "more assistance spending",
+      "to": "get families in need what they qualify for sooner",
+      "for": "get families in need what they qualify for sooner",
+      "against": "tie more of our aid to getting back to work",
+      "today": {
+        "without": {
+          "for": "More families are coming to the office than it can see in a week.",
+          "against": "Spending on assistance keeps growing, and fewer of those dollars lead to a job."
+        },
+        "with": {
+          "for": "More families are coming to the office than it can see in a week.",
+          "against": "Spending on assistance keeps growing, and fewer of those dollars lead to a job."
+        }
+      },
+      "repeal": "tie more of our aid to getting back to work",
+      "keep": "keep the bigger assistance budget in the budget",
+      "family": "safety-net",
+      "pole": "b",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Families wait weeks for the aid they qualify for.",
+            "The office that serves families in trouble can't keep up."
+          ],
+          "against": [
+            "The assistance budget grows whether or not anyone gets back to work.",
+            "Too few of the dollars spent on assistance lead to a job."
+          ]
+        },
+        "with": {
+          "for": [
+            "Families wait weeks for the aid they qualify for.",
+            "The office that serves families in trouble can't keep up."
+          ],
+          "against": [
+            "The assistance budget grows whether or not anyone gets back to work.",
+            "Too few of the dollars spent on assistance lead to a job."
+          ]
+        }
+      },
+      "law": "the bigger assistance budget",
+      "principles": {
+        "for": [2],
+        "against": [1, 2]
+      },
+      "reasons": {
+        "for": "a family in trouble shouldn't wait weeks for aid it qualifies for",
+        "against": "aid should lead back to a paycheck"
+      },
+      "again": "the bigger assistance budget",
+      "points": {
+        "aid-without-the-wait": [
+          "a family in trouble shouldn't wait weeks for aid it qualifies for",
+          "Families wait weeks for the aid they qualify for."
+        ],
+        "aid-leads-to-a-paycheck": [
+          "aid should lead back to a paycheck",
+          "Spending on assistance keeps growing, and fewer of those dollars lead to a job.",
+          "Too few of the dollars spent on assistance lead to a job."
+        ]
+      }
+    },
+    "budget-line:highways": {
+      "about": "more road spending",
+      "to": "fix our roads",
+      "for": "fix our roads",
+      "against": "fix the roads we have before we pave more",
+      "today": {
+        "without": {
+          "for": "Our roads are full of potholes, and folks are paying for it in tires and repairs.",
+          "against": "The road budget grows, and we keep paving instead of fixing what we have."
+        },
+        "with": {
+          "for": "Our roads are full of potholes, and folks are paying for it in tires and repairs.",
+          "against": "The road budget grows, and we keep paving instead of fixing what we have."
+        }
+      },
+      "repeal": "fix the roads we have before we pave more",
+      "keep": "keep the bigger road budget in the budget",
+      "family": "transit",
+      "pole": "b",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The roads are wearing out faster than we repave them.",
+            "Potholes are costing drivers here in tires and repairs."
+          ],
+          "against": [
+            "We pave new roads and let the old ones go.",
+            "The road budget grows while what we have goes unfixed."
+          ]
+        },
+        "with": {
+          "for": [
+            "The roads are wearing out faster than we repave them.",
+            "Potholes are costing drivers here in tires and repairs."
+          ],
+          "against": [
+            "We pave new roads and let the old ones go.",
+            "The road budget grows while what we have goes unfixed."
+          ]
+        }
+      },
+      "law": "the bigger road budget",
+      "principles": {
+        "for": [1],
+        "against": []
+      },
+      "reasons": {
+        "for": "the roads we all drive on come first",
+        "against": "we should fix what we have before we build more"
+      },
+      "again": "the bigger road budget",
+      "points": {
+        "fix-before-building": [
+          "we should fix what we have before we build more",
+          "The road budget grows, and we keep paving instead of fixing what we have.",
+          "We pave new roads and let the old ones go.",
+          "The road budget grows while what we have goes unfixed."
+        ]
       }
     }
   }

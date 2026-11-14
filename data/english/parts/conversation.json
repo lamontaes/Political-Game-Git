@@ -32319,7 +32319,7 @@
       "key": "conversation.rent-due-answer-ask.do-we-have-the-money-put-",
       "move": "rent-due-answer-ask",
       "kind": "spoken",
-      "text": "Do we have the money put by for {rent_again}?",
+      "text": "Do we have the money put aside for {rent_again}?",
       "uses": [
         {
           "move": "rent-due-answer-ask",

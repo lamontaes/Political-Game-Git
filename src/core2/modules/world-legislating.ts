@@ -2292,7 +2292,8 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     allowed: (question, value) =>
       levelMayDecide(api, office?.level ?? "city", question, value),
     barred: (question, direction) =>
-      recentlyDefeated(api, officeId, question, direction),
+      recentlyDefeated(api, officeId, question, direction) ||
+      stillWaiting(api, officeId, question, direction),
   });
 }
 
@@ -2359,6 +2360,40 @@ function recentlyDefeated(
           status !== "awaiting-signature"
         );
       }),
+  );
+}
+
+/**
+ * A change the body already has waiting on its agenda (filed after a
+ * meeting's hour, it waits for the next meeting) is not filed again.
+ */
+function stillWaiting(
+  api: CoreAPI,
+  officeId: string,
+  question: string,
+  direction: number,
+): boolean {
+  const change = direction > 0 ? "enact" : "repeal";
+  let live: Map<string, BillRow> | undefined;
+  return (
+    api
+      .moduleState(WORLD_LEGISLATING_MODULE_ID)
+      .table("sessions")
+      .rows() as unknown as {
+      bodyOfficeId: string | null;
+      bills?: SessionBill[];
+    }[]
+  ).some(
+    (s) =>
+      s.bodyOfficeId === officeId &&
+      (s.bills ?? []).some(
+        (b) =>
+          b.question === question &&
+          b.change === change &&
+          b.status === "drafted" &&
+          (live ??= liveBills(api, officeId)).get(b.number)?.status ===
+            "drafted",
+      ),
   );
 }
 

@@ -9,7 +9,6 @@ import {
   talkReply,
   fillTalk,
   talkControls,
-  addTalkLine,
   mountTalkKeys,
   mountSpeakers,
 } from "./ui/talk-box.mjs";
@@ -811,6 +810,8 @@ function inMeeting() {
     const draw = (scene) => {
       if (!scene) return finish();
       $("meeting-adjourn").disabled = false;
+      $("meeting-adjourn").textContent =
+        (scene.seated ? words.adjourn : words.leave) ?? "";
       $("backdrop").src = scene.backdrop.url;
       drawHere(scene);
       $("card-place").textContent = scene.title;
@@ -843,10 +844,14 @@ function inMeeting() {
             );
             return b;
           });
+          // Anyone in the room speaks, at any board; only the seated vote.
           return billBlock(
             item,
             scene.members ?? [],
-            item.takenUp ? [] : [speak, vote],
+            // A bill a committee already failed stays listed, with nothing to press.
+            item.takenUp || item.status !== "drafted"
+              ? []
+              : [speak, ...(scene.seated ? [vote] : [])],
             (billId) =>
               openBillPaper(
                 billId,
@@ -857,6 +862,17 @@ function inMeeting() {
           );
         }),
       );
+      // A resident's one line under the title: an empty agenda, or what they can do here.
+      if (scene.note)
+        $("meeting-items").prepend(prose(scene.note, "meeting-note"));
+      // Said before the press: what Adjourn does with the items still open.
+      $("meeting-adjourn-note")?.remove();
+      if (scene.items.some((item) => !item.takenUp))
+        $("meeting-adjourn").before(
+          Object.assign(prose(words.adjournNote ?? "", "meeting-note"), {
+            id: "meeting-adjourn-note",
+          }),
+        );
       $("meeting-adjourn").onclick = async () => {
         $("meeting-adjourn").disabled = true;
         await post(
@@ -988,7 +1004,15 @@ function atNominations() {
                       { value: "", label: words.own ?? "" },
                       ...entry.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: (value) => {
@@ -1050,7 +1074,15 @@ function atOrders() {
                       { value: "", label: words["post-own"] ?? "" },
                       ...item.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: (value) => {
@@ -1655,31 +1687,8 @@ function renderFiling(value) {
     buttons[i].append(" ", smallText(factsOf(choice), "reply-facts"));
   });
   fillTalk({ replies: buttons });
-  // The filing's record once it is made: its status, shown as the record's
-  // label under the talk, not as words in the clerk's mouth.
-  if (value.result?.petition)
-    addTalkLine(
-      talkLine({
-        kind: "label",
-        text: controls.filing.petition
-          .replace("{needed}", String(value.result.petition.needed))
-          .replace("{date}", dateWords(value.result.petition.due)),
-      }),
-    );
-  if (value.result)
-    addTalkLine(
-      talkLine({
-        kind: "label",
-        text: value.result.filing
-          ? (controls.filing?.status?.[value.result.status] ??
-            words(value.result.status))
-          : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
-              value.result.unmet ?? []
-            )
-              .map((u) => controls.filing?.rules?.[u.rule] ?? words(u.rule))
-              .join(", ")}`,
-      }),
-    );
+  // What the filing asks next is said by the clerk, once, in the talk: no
+  // count or status label sits under the dialogue (owner, Nov 14).
   setScales({ available: false });
 }
 async function openFiling(filedWith, contestId) {
@@ -1700,6 +1709,8 @@ async function openFiling(filedWith, contestId) {
       return;
     }
   }
+  // Nothing to file and no petition out: the counter has no scene.
+  if (opened.nothing) return;
   const pick =
     contestId &&
     opened.visit?.choices.find(
@@ -1801,6 +1812,68 @@ function playAsks({ asked, summary, scene }) {
   };
   step(0);
 }
+/**
+ * A governor's race that carries the office the law elects on its ticket: the running mate
+ * once named, else the people of the player's party the world's own pick ranks, best first, to
+ * choose from, and Choose for me for the world's pick (owner, Nov 14).
+ */
+function ticketSection(filing, ticket) {
+  const words = controls.runningMate ?? {};
+  const title = words.title;
+  if (ticket.mate) return stripSection(1, title, introText(ticket.mate.name));
+  if (!ticket.choices.length)
+    return stripSection(
+      1,
+      title,
+      introText(
+        ticket.joinsAfterPrimary
+          ? words.nominee.replace("{ticket}", ticket.officeSaid)
+          : words.later,
+      ),
+    );
+  let picked = ticket.choices[0].id;
+  const choose = async (personId) => {
+    await post(
+      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id, ...(personId ? { personId } : {}) })}`,
+    );
+    await openSheet("campaign");
+  };
+  return stripSection(
+    1,
+    title,
+    select({
+      options: ticket.choices.map((c) => ({
+        value: c.id,
+        label: (c.work && c.place
+          ? words.row
+          : c.place
+            ? words.rowPlace
+            : c.work
+              ? words.rowWork
+              : "{name}"
+        )
+          .replace("{name}", c.name)
+          .replace("{work}", c.work ?? "")
+          .replace("{place}", c.place ?? ""),
+      })),
+      onChange: (value) => {
+        picked = value;
+      },
+    }),
+    buttonRow(
+      makeButton({
+        className: "action primary",
+        textContent: words.choose,
+        onclick: () => choose(picked),
+      }),
+      makeButton({
+        className: "action",
+        textContent: words.own,
+        onclick: () => choose(null),
+      }),
+    ),
+  );
+}
 async function campaignParts() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const parts = [];
@@ -1814,6 +1887,7 @@ async function campaignParts() {
     standing,
     debates,
     pictures,
+    runningMate,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
       const kindOf = {
@@ -1847,7 +1921,23 @@ async function campaignParts() {
         result.doorsKnocked
           ? controls.campaignResults.doors.replace("{n}", result.doorsKnocked)
           : "",
-        result.reached
+        // Doors that opened on a petition's outing, whether asked to sign or
+        // for the vote (the Words lead, Nov 14); "reached" says the people met
+        // and shows where any door asked for the vote.
+        result.answered !== null && result.answered !== undefined
+          ? controls.campaignResults.answered.replace("{n}", result.answered)
+          : "",
+        // How many signed at the doors, a day of none included (owner, Nov 14:
+        // "Tab total and each outing"), outside the dialogue.
+        result.signed === null || result.signed === undefined
+          ? ""
+          : result.signed === 0
+            ? controls.campaignResults.signedNone
+            : controls.campaignResults.signed.replace("{n}", result.signed),
+        result.reached &&
+        (result.votesAsked === null ||
+          result.votesAsked === undefined ||
+          result.votesAsked > 0)
           ? controls.campaignResults.reached.replace("{n}", result.reached)
           : "",
         result.raisedMinor ? moneyWords(result.raisedMinor) : "",
@@ -1952,6 +2042,18 @@ async function campaignParts() {
                 label: T.howLong,
                 value: `${choice.hours} ${controls.campaignOutings.hours}`,
               },
+              // What the doors ask for now: signatures while the petition is
+              // short of its target, votes after it and in a race with none.
+              ...(choice.outing === "doors"
+                ? [
+                    {
+                      label: T.asking,
+                      value: petition?.asksAtDoors
+                        ? T.askingSignatures
+                        : T.askingVotes,
+                    },
+                  ]
+                : []),
             ],
             does: why ? [why] : [],
           }),
@@ -2084,7 +2186,8 @@ async function campaignParts() {
     ];
     // The campaign board (the mock's pl-campaign): where the race stands in sentences the
     // English engine wrote, the money, and the way out onto the trail.
-    const part = { filing, contest, trail };
+    // Its card in Travel shows the street the trail starts on, as each act's tile shows its place.
+    const part = { filing, contest, trail, picture: pictures?.doors };
     const labelsC = controls.campaignBoard ?? {};
     const out = makeButton({ textContent: labelsC.trail });
     out.addEventListener("click", () => trailView(part));
@@ -2097,6 +2200,7 @@ async function campaignParts() {
             controls.raceStanding.title,
             ...(standing ?? []).map((text) => introText(text)),
           ),
+          ...(runningMate ? [ticketSection(filing, runningMate)] : []),
         ],
         [
           stripSection(
@@ -2112,29 +2216,20 @@ async function campaignParts() {
               { label: labelsC.volunteers, value: String(campaign.volunteers) },
               { label: labelsC.doors, value: String(campaign.doors) },
               // The petition record: the signatures held against those the
-              // clerk will count, and the clerk's verdict once it has checked.
-              ...(petition
+              // law asks, and the day they are due (owner, Nov 14: the tab keeps
+              // the running total). A race that asks no signatures shows none.
+              ...(petition?.needed
                 ? [
                     {
                       label: labelsC.signatures,
-                      value: labelsC.signaturesHeld
+                      value: (petition.signed >= petition.needed
+                        ? labelsC.signaturesEnough
+                        : labelsC.signaturesHeld
+                      )
                         .replace("{signed}", String(petition.signed))
                         .replace("{needed}", String(petition.needed))
                         .replace("{date}", dateWords(petition.due)),
                     },
-                    ...(petition.check
-                      ? [
-                          {
-                            label: labelsC.clerkCount,
-                            value: labelsC.clerkCounted
-                              .replace("{valid}", String(petition.check.valid))
-                              .replace(
-                                "{struck}",
-                                String(petition.check.struck),
-                              ),
-                          },
-                        ]
-                      : []),
                   ]
                 : []),
               ...(campaign.endorsements
@@ -2238,7 +2333,13 @@ async function showStory(momentId) {
     for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
-      setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+      // A speaker heard on a broadcast is named, never drawn in the room
+      // (the narrator said how it was heard); one on the montage or in the
+      // room stands on the strip.
+      setWho(
+        story.beats || story.speech.inRoom ? story.speech.speakerId : null,
+        story.names[story.speech.speakerId],
+      );
       // The part's picture and cast: the desk, the town, the colonnade, the
       // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
@@ -2247,12 +2348,25 @@ async function showStory(momentId) {
         drawHere(beat);
       }
       talkControls({ silent: false, leave: false });
+      // Heard on a broadcast: the station over the line with its small icon
+      // (owner, Oct 14: "a small card in the conversation text style with a
+      // tiny radio/TV icon, the station, and the line").
+      const on = story.speech.heardOn;
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: parts[at] })],
+        lines: [
+          talkLine({
+            kind: on ? `speech heard heard-${on.medium}` : "speech",
+            text: parts[at],
+            ...(on ? { who: on.station } : {}),
+          }),
+        ],
         replies: [],
       });
       setScales({ available: false });
       if (at + 1 < parts.length) onContinue = () => sayPart(at + 1);
+      // A floor or campaign speech is followed by its exchange: the player
+      // answers the member who rose, or the candidate who comes over.
+      else if (story.talk) onContinue = () => playExchange(story);
     };
     narrateFirst(setting, () => sayPart(0));
     return;
@@ -2669,7 +2783,15 @@ async function officeParts() {
                       { value: "", label: words.ownChoice ?? "" },
                       ...head.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: async (nomineeId) => {
@@ -2750,7 +2872,9 @@ async function officeParts() {
               v.acts.map((a) =>
                 row(
                   `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
-                  `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
+                  a.how === "absent"
+                    ? (words.absent?.[a.detail] ?? "")
+                    : `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
                 ),
               ),
               { rows: 4, columns: 1, rowHeight: 48, className: "office-paged" },
@@ -2858,6 +2982,9 @@ function billEstimate(paper, section) {
       proposed: roundedMoney(est.lineNewMinor),
     };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
+  // A phase-in's step names the day it takes effect.
+  if (est.effectiveDate)
+    lines.push(`${words.takesEffectOn ?? ""} ${dateWords(est.effectiveDate)}`);
   // The two cells above carry the amounts; the line is then only named.
   if (est.line)
     lines.push(
@@ -2892,6 +3019,8 @@ function billEstimate(paper, section) {
     prose: shown.length || compare ? "" : (words.noFigure ?? ""),
     lines: shown,
     compare,
+    // A phase-in's step: the paper lists every step beside the others, in order.
+    dated: Boolean(est.effectiveDate),
   };
 }
 /**
@@ -3075,6 +3204,8 @@ async function openBillPaper(billId, show, back, backLabel) {
       },
       views: { clean: pageWords.clean, compare: pageWords.compare },
       amendsLabel: words.amends ?? "",
+      // A phase-in's later steps: what stands until the step takes effect.
+      untilLabel: words.untilThen ?? "",
       // Each chamber's result as the English engine words it, from the stage view, then the floor's
       // vote by party and those who cast none, from the page view.
       votes: [...stage.floor, ...stage.override].map((entry) => {
@@ -3206,6 +3337,9 @@ async function seatRows() {
         today: seat.today ?? "",
         newAmount: seat.newAmount ?? "",
         draft: seat.draft ?? "",
+        addStep: seat.addStep ?? "",
+        firstStep: seat.firstStep ?? "",
+        stepDate: seat.stepDate ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
@@ -3219,11 +3353,16 @@ async function seatRows() {
                 ? policyLabel(item.question)
                 : item.name
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          // What the law in force holds, as the bill's paper cites it.
+          // What the law in force holds, as the bill's paper cites it: a
+          // yes-or-no question reads Yes or No, as the Issues tab says it.
           today:
-            item.today?.value != null
-              ? amount(item.today.value, item.today.unit)
-              : null,
+            item.today?.value == null
+              ? null
+              : item.kind === "policy-question"
+                ? item.today.value
+                  ? controls.politics.yes
+                  : controls.politics.no
+                : amount(item.today.value, item.today.unit),
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
@@ -3233,7 +3372,7 @@ async function seatRows() {
               : "",
         })),
       })),
-      onDraft: (item, typed) => {
+      onDraft: (item, typed, steps = []) => {
         const [kind, key] = [
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
@@ -3246,7 +3385,23 @@ async function seatRows() {
             : kind === "line"
               ? { line: key }
               : { question: key }),
-          value: item.cents ? String(Math.round(Number(typed) * 100)) : typed,
+          // A phase-in names each step's amount and day; a single bill, one amount.
+          ...(steps.length
+            ? {
+                steps: JSON.stringify(
+                  steps.map((step) => ({
+                    value: item.cents
+                      ? Math.round(Number(step.amount) * 100)
+                      : Number(step.amount),
+                    effectiveDate: step.date,
+                  })),
+                ),
+              }
+            : {
+                value: item.cents
+                  ? String(Math.round(Number(typed) * 100))
+                  : typed,
+              }),
         });
       },
     });
@@ -3855,7 +4010,7 @@ const sheets = {
               : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
             row.before === null
               ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : `${Math.abs(moved).toFixed(1)} ${words.points}`) : "", words.since].filter(Boolean).join(" ")}`,
           );
         }),
       ),
@@ -4052,7 +4207,19 @@ const sheets = {
               ),
               ...sinceLast(latest.totals?.balance, { short: true }),
               ...(books
-                ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
+                ? [
+                    typedRow(
+                      words.savings,
+                      // The opening's estimate until play has replaced it, said
+                      // on the row itself (no note under a figure).
+                      gov.savingsEstimated
+                        ? words.savingsEstimated.replace(
+                            "{amount}",
+                            roundedMoney(books.cashMinor),
+                          )
+                        : roundedMoney(books.cashMinor),
+                    ),
+                  ]
                 : []),
             ),
             ...(gov.executive?.title
@@ -4110,6 +4277,12 @@ const sheets = {
           closeSheet();
           act(`/api/advance?mode=calendar&date=${day}`);
         },
+        onAttend: async ({ officeId, date: day }, attend) =>
+          (
+            await post(
+              `/api/meeting/attend?${new URLSearchParams({ officeId, date: day, attend: String(attend) })}`,
+            )
+          ).items,
       }),
       devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
       ...(devModeOn()
@@ -4457,7 +4630,7 @@ const sheets = {
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
-      const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      const name = c.filingOffice.said;
       // A town's or county's own clerk is named for the place ("City or town
       // clerk, Point Pleasant"); a state's or the nation's office already is.
       const title =
@@ -4489,6 +4662,7 @@ const sheets = {
     const trails = (await campaignParts()).map((part) => ({
       name: labels.trail,
       trail: part,
+      presentation: { imageUrl: part.picture },
       presentCount: 0,
       presentNames: [],
       reasons: [],
@@ -4685,7 +4859,17 @@ const sheets = {
     };
     const labels = controls.localRaces;
     const stance = voteWords();
-    const filed = new Set(v.filings.map((f) => f.contestId));
+    const filedFor = new Set(v.filings.map((f) => f.contestId));
+    // A filing for any seat of an at-large race is a filing for the race.
+    const filed = {
+      has: (contestId) =>
+        filedFor.has(contestId) ||
+        ballot.races.some(
+          (race) =>
+            race.contestId === contestId &&
+            race.contestIds?.some((id) => filedFor.has(id)),
+        ),
+    };
     const status = (race) =>
       filed.has(race.contestId)
         ? labels.youFiled
@@ -4751,6 +4935,16 @@ const sheets = {
           // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
           stripSection(1, labels.whoIsRunning, ...candidates),
           rosterSide(
+            // An at-large race fills several seats at once.
+            ...(race.seats > 1
+              ? [
+                  stripSection(
+                    3,
+                    labels.seats,
+                    dotRows([{ label: labels.seatsToFill, value: race.seats }]),
+                  ),
+                ]
+              : []),
             ...(race.lastTime
               ? [
                   stripSection(
@@ -5890,7 +6084,8 @@ async function openSheet(tab) {
  * No menu scrolls (owner, Oct 29; Lane 4, path 11): once a sheet is on
  * screen, each pager in a part of it that runs past its foot (the sheet's
  * body, or a split screen's side or main) gives back a row at a time until
- * the part fits or the pager holds one row. A screen counts its rows from the
+ * the part fits, the pager holds one row, or a row given back no longer
+ * shortens the part (something else in it is the taller). A screen counts its rows from the
  * window; what sits above a pager (a tray of buttons, a long title) is only
  * known once drawn.
  */
@@ -5919,8 +6114,20 @@ function fitPagersNow(root, waits = 30) {
       while (
         (over(part) || over(screen) || over($("sheet-body"))) &&
         box.rowCount() > 1
-      )
+      ) {
+        // A row given back only where it makes the part shorter: a list
+        // beside a taller page (a race's page of candidates) keeps its rows.
+        const tall = over(part)
+          ? part
+          : over(screen)
+            ? screen
+            : $("sheet-body");
+        const before = tall.scrollHeight;
         box.setRows(box.rowCount() - 1);
+        if (tall.scrollHeight < before) continue;
+        box.setRows(box.rowCount() + 1);
+        break;
+      }
     }
     // A side still past its foot: its list of recent votes keeps the newest
     // that fit (at least one).
