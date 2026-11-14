@@ -37,8 +37,8 @@ import municipalPetitionRules from "../data/elections/municipal-petition-rules.j
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { transferSplit } from "../accounts";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { payGovernmentFee } from "../budgets-treasury";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import {
@@ -1411,22 +1411,14 @@ function payFilingFee(
   const gov =
     governments(api).find((row) => row.level === level) ??
     governments(api).find((row) => row.level === "state");
-  const from = `cash:${personId}:residual`;
-  const to = gov ? `cash:${gov.organizationId}:residual` : null;
-  const accounts = (api.state as CoreState).cashJournal.accounts;
-  if (!to || !accounts.has(from) || !accounts.has(to)) return;
-  transferSplit(api.state as CoreState, api, {
+  if (!gov) return;
+  payGovernmentFee(api, {
     id: `filing-fee:${filingId}`,
-    lines: [
-      { accountId: from, deltaMinor: -feeMinor },
-      { accountId: to, deltaMinor: feeMinor },
-    ],
+    personId,
+    governmentId: gov.organizationId,
+    amountMinor: feeMinor,
     reasonKey: "elections.filing-fee",
-    source: {
-      tag: "SOURCED",
-      asOf: api.state.date,
-      citation: `The filing fee the law charges for ${contest.officeId} (data/research/elections/filing-requirements.json).`,
-    },
+    citation: `The filing fee the law charges for ${contest.officeId} (data/research/elections/filing-requirements.json).`,
   });
 }
 

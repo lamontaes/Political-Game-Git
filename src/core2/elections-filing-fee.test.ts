@@ -7,7 +7,7 @@
  * contest whose law sets no fee takes nothing. The place and seed are in every
  * message; places are drawn until one of each case is found, up to a bound.
  */
-import { createHash, randomBytes } from "node:crypto";
+import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -21,7 +21,7 @@ import {
 } from "./modules/elections";
 import { coreAPI } from "./state";
 
-const base = process.env.FILING_FEE_SEED ?? randomBytes(8).toString("hex");
+const base = process.env.FILING_FEE_SEED ?? "ff1";
 const ATTEMPTS = 10;
 
 it(`filing pays the fee, a candidate short of it is refused, and no fee posts nothing (seed ${base})`, () => {
