@@ -2023,8 +2023,8 @@
     "why": "The town's contests run each office separately: candidacy files each office's runners alone, and no running mate is chosen with a governor candidate.",
     "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
     "addedAt": "2026-10-30",
-    "replacement": "A running mate chosen with each governor candidate and filed on the same ticket, so the ticket office's ballot carries the governor candidate's running mate and one vote counts both.",
-    "status": "open"
+    "replacement": "A running mate chosen with each governor candidate and filed on the same ticket, so the ticket office's ballot carries the governor candidate's running mate and one vote counts both. Resolved 2026-11-14 (pool item gov-governor-running-mates): each governor candidate in the town's state files with a running mate when the state's law joins the ticket (ticketJoins in data/research/offices/state-offices.json: at filing, after the primary, or the office's own primary nominee), nobody files for the office on their own, and the voting engine decides the office from the governor's count (voting.ts decideTicket); a player running for governor picks their running mate or takes the world's pick (owner, Nov 14).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-outside-seat-party-unread",

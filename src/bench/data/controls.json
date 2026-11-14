@@ -497,6 +497,8 @@
     "leaveBlank": "Leave blank",
     "leave": "Leave",
     "forRace": "For {title}",
+    "forTicket": "For {title} and {ticket}",
+    "ticket": "{name} and {mate}",
     "know": "What I know about them"
   },
   "meeting": {
@@ -581,6 +583,10 @@
     "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
     "adjourned": "Cast when you adjourned",
+    "absent": {
+      "stop-off": "Absent: you did not attend",
+      "district": "Absent: at home in the district"
+    },
     "nameHeadPick": "Name to the post"
   },
   "floor": {
@@ -624,6 +630,8 @@
     "today": "In force today",
     "proposed": "The bill makes it",
     "newAmount": "The new amount",
+    "takesEffectOn": "Takes effect on",
+    "untilThen": "Until then",
     "none": "Not set",
     "figures": "Budget lines",
     "thisYear": "This year",
@@ -1105,7 +1113,10 @@
     "title": "Draft a bill",
     "issue": "What it is about",
     "today": "In force today",
-    "newAmount": "The new amount"
+    "newAmount": "The new amount",
+    "addStep": "Add a step",
+    "firstStep": "Takes effect when it becomes law",
+    "stepDate": "Takes effect on"
   },
   "journal": {
     "title": "My story",
@@ -1287,6 +1298,22 @@
     "groupSpeak": "Speak",
     "debate": "Debate",
     "speech": "Give a speech"
+  },
+  "runningMate": {
+    "title": "Your running mate",
+    "choose": "Choose",
+    "own": "Choose for me",
+    "later": "You name your running mate after the primary.",
+    "nominee": "Your party's nominee for {ticket} joins your ticket after the primary.",
+    "row": "{name}, {work}, {place}",
+    "rowPlace": "{name}, {place}",
+    "rowWork": "{name}, {work}",
+    "former": "former {office}",
+    "roles": {
+      "party-officer": "party officer",
+      "former-candidate": "ran for office before",
+      "prominent": "well known in {place}"
+    }
   },
   "nominations": {
     "own": "Decided for me",
