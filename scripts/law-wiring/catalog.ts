@@ -7,6 +7,7 @@
 import billCatalog from "../../src/core2/data/legislature/bill-catalog.json" with { type: "json" };
 import seriesPowers from "../../src/core2/data/legislature/series-powers.json" with { type: "json" };
 import startingLaw from "../../src/core2/data/laws/starting-law.json" with { type: "json" };
+import socialSecurityAges from "../../src/core2/data/laws/social-security-ages.json" with { type: "json" };
 import reachA from "../../src/core2/data/laws/reach-group-a.json" with { type: "json" };
 import reachB from "../../src/core2/data/laws/reach-group-b.json" with { type: "json" };
 import webLinks from "../../data/research/outcome-web/links.json" with { type: "json" };
@@ -209,6 +210,10 @@ export function existsInData(law: LawEntry): {
       if (jur === "US" || r.level === "federal") federal = true;
       else if (PLACE_KEYS.includes(jur)) places.add(jur);
     }
+  // The Social Security ages are federal law rows the laws module opens in
+  // every place from their own file (modules/laws.ts), not starting-law.json.
+  const ages = !!law.series && law.series in socialSecurityAges.series;
+  if (ages) federal = true;
   // A federal law (one row in US) is in force in every place it covers.
   const count = federal || NONE_BY_SURVEY[law.key] ? 56 : places.size;
   return {
@@ -222,7 +227,9 @@ export function existsInData(law: LawEntry): {
     evidence:
       law.series === "property-tax"
         ? "src/core2/data/laws/starting-law.json propertyTax"
-        : `src/core2/data/laws/starting-law.json jurisdictions${NONE_BY_SURVEY[law.key] ? `; elsewhere none: ${NONE_BY_SURVEY[law.key]}` : ""}`,
+        : ages
+          ? "src/core2/data/laws/social-security-ages.json (federal, opened by src/core2/modules/laws.ts)"
+          : `src/core2/data/laws/starting-law.json jurisdictions${NONE_BY_SURVEY[law.key] ? `; elsewhere none: ${NONE_BY_SURVEY[law.key]}` : ""}`,
   };
 }
 
