@@ -2446,8 +2446,15 @@ export function subjectsBetween(
     // thing the President said in that address and where they stand on it
     // from their own life").
     const opening = director?.ledger.opening;
+    // One person in the house raises the address in a day; the others raise
+    // something of their own or stay quiet (lead, Nov 14, rule 61).
+    const raisedToday = [...heardNow].some((key) =>
+      key.startsWith(`${HEARD_SUBJECT}${POINT}:`),
+    );
     const point =
-      opening?.id === address.value && takesStands(core, speakerId)
+      opening?.id === address.value &&
+      takesStands(core, speakerId) &&
+      !raisedToday
         ? addressPointFor(
             core,
             speakerId,
