@@ -125,3 +125,40 @@ describe("a relative's news told at home through the composer", () => {
     ).toBe(true);
   });
 });
+
+describe("the answers that close a death's telling without a promise", () => {
+  const heard = (
+    stage: string,
+    facts: Record<string, ReturnType<typeof fact>>,
+  ) =>
+    new Set(
+      Array.from(
+        { length: 60 },
+        (_, at) => say("death-news-back", facts, stage, `:${at}`)?.text,
+      ),
+    );
+  const KIN = { kin: fact("my father") };
+  it("says it hears it from them when they are kin, and only then", () => {
+    expect(heard("condole", KIN)).toContain("I wanted you to hear it from me.");
+    expect(heard("condole", {})).not.toContain(
+      "I wanted you to hear it from me.",
+    );
+  });
+  it("says it knows no more only when no cause or illness is on record", () => {
+    expect(heard("ask", {})).toContain("I don't know more than that.");
+    expect(heard("ask", { cause: fact("a stroke") })).not.toContain(
+      "I don't know more than that.",
+    );
+    expect(heard("ask", { "illness-known": fact("yes") })).not.toContain(
+      "I don't know more than that.",
+    );
+  });
+  it("says it was coming only when the illness was known", () => {
+    expect(heard("ask", { "illness-known": fact("yes") })).toContain(
+      "We knew it was coming. It's still hard.",
+    );
+    expect(heard("ask", {})).not.toContain(
+      "We knew it was coming. It's still hard.",
+    );
+  });
+});
