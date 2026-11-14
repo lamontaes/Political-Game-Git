@@ -1,0 +1,8 @@
+{
+  "schema": "english-judged/2",
+  "rule": "player-never-says-unchosen",
+  "rubric": "A line is never put in the player's mouth that they did not choose; a choice is worded as the player's actual reply.",
+  "judged": 7,
+  "no": {},
+  "yesHash": "0osslh6d6my"
+}

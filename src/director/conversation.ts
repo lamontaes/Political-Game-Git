@@ -29,6 +29,7 @@
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
+import { jobTitleByKind } from "../core2/person-work";
 import {
   PERSON_MOVED_IN,
   heldSinceRecord,
@@ -79,6 +80,7 @@ import {
   type OutletKind,
 } from "../core2/modules/press";
 import { decisionLean, hardshipStress } from "../core2/trait-decisions";
+import { believesClaim } from "../core2/heard-claims";
 import type {
   CoreAPI,
   CoreModule,
@@ -394,7 +396,10 @@ function fullName(core: Readonly<CoreState>, id: PersonId): string {
 function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
-  return job && org ? { job, org } : null;
+  // The title as people say it of that kind of government ("town clerk").
+  return job && org
+    ? { job, org, title: jobTitleByKind(job.title, org.name) }
+    : null;
 }
 
 /**
@@ -440,9 +445,9 @@ function workDetail(
   slots: { position: string; place?: string },
 ): Facts {
   const facts: Facts = {};
-  if (sayableTitle(held.job.title))
+  if (sayableTitle(held.title))
     facts[slots.position] = {
-      text: withArticle(held.job.title),
+      text: withArticle(held.title),
       sourceRecordIds: [held.job.id],
     };
   const away =
@@ -1232,7 +1237,7 @@ export function subjectsBetween(
       },
       own: { key: `person:${speakerId}:employer`, value: mine.org.id },
       // A true answer also tells what they do there, for the person card.
-      ...(sayableTitle(mine.job.title)
+      ...(sayableTitle(mine.title)
         ? {
             alsoOwn: [
               {
@@ -1403,7 +1408,7 @@ export function subjectsBetween(
     });
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
-  if (theirs && !theirs.org.outsideFlow && sayableTitle(theirs.job.title))
+  if (theirs && !theirs.org.outsideFlow && sayableTitle(theirs.title))
     out.push({
       id: `their-position:${listenerId}`,
       kind: "their-position",
@@ -2307,7 +2312,7 @@ function replyFacts(
     }
     case "their-position": {
       const theirs = namedJobOf(core, listener);
-      return theirs && sayableTitle(theirs.job.title)
+      return theirs && sayableTitle(theirs.title)
         ? {
             facts: {
               employer: {
@@ -3042,6 +3047,16 @@ function mainTopic(
     if (
       conversation.used.includes(subject.id) ||
       conversation.used.includes(`${otherId}>${subject.id}`)
+    )
+      return;
+    // A scene's talk does not turn to the day's news the occasion is not
+    // about: bring-it-up, which says what the news is, is skipped in a
+    // scene, so "What do you think?" would ask about nothing (a death
+    // told at home, a letter, a friend met on the street).
+    if (
+      occasion &&
+      subject.kind === "news" &&
+      !isAbout(subject, occasion, data)
     )
       return;
     // A scene's moment with the other person in it (a reunion) is about the
@@ -4430,24 +4445,16 @@ function endConversation(
 }
 
 /**
- * Whether a hearer doubts a claim they cannot check: the usual benefit of the
- * doubt (truth-default) against every trait's lean toward doubting.
+ * Whether a hearer doubts a claim they cannot check: the one believing rule every resident's
+ * claim goes through (`believesClaim`: the stranger's pull, closeness to the teller, every trait's
+ * lean toward doubting), here with the player as the teller.
  */
 export function doubtsClaim(
-  core: Pick<CoreState, "data">,
-  hearer: Pick<PersonState, "traits">,
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  hearer: Pick<PersonState, "traits"> & { id?: string },
+  tellerId?: string,
 ): boolean {
-  return (
-    P.truthDefaultPull +
-      decisionLean(
-        core,
-        hearer,
-        "conversation.believe-claim",
-        "believe",
-        "doubt",
-      ) <
-    P.zero
-  );
+  return !believesClaim(core, hearer, tellerId ? { tellerId } : {});
 }
 
 /** The player says a choice: it is recorded, and the other person replies. */
@@ -4509,7 +4516,7 @@ function sayNow(
     const keeps = core.modules.has(BELIEFS_MODULE_ID);
     for (const hearerId of hearers) {
       const hearer = core.people.get(hearerId);
-      if (hearer && doubtsClaim(core, hearer)) {
+      if (hearer && doubtsClaim(core, hearer, playerId)) {
         if (hearerId === otherId) doubted = true;
         continue;
       }

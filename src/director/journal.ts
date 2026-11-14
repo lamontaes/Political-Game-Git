@@ -7,7 +7,7 @@ import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { personWorkOf } from "../core2/person-work";
+import { jobTitleSaid, personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -565,7 +565,7 @@ function householdMoments(
           ...(job
             ? {
                 job: {
-                  text: withArticle(job.title),
+                  text: withArticle(jobTitleSaid(core, job)),
                   sourceRecordIds: [job.id],
                 },
                 ...(side ? { workplace: side } : {}),
@@ -616,7 +616,10 @@ function householdMoments(
       counterpartIds: [earner.id],
       beat: "work",
       actFacts: {
-        job: { text: withArticle(job.title), sourceRecordIds: [job.id] },
+        job: {
+          text: withArticle(jobTitleSaid(core, job)),
+          sourceRecordIds: [job.id],
+        },
         ...(employer ? { employer } : {}),
         ...(remembered
           ? {
@@ -875,11 +878,22 @@ function sceneEndingMoments(
           id,
           date: reply.date as IsoDate,
           causeId: id,
-          // A promise given only as "I'll look at it" is told as that.
+          // A promise made on someone's own question is told by its name
+          // (ruling 72, a door); one given only as "I'll look at it" is told
+          // as that.
           causeKind:
-            keeps === "promise" && reply.facts?.firmness === "vague"
-              ? "scene-ending:vague-promise"
-              : `scene-ending:${keeps}`,
+            keeps === "promise" && typeof reply.facts?.about === "string"
+              ? "scene-ending:view-promise"
+              : keeps === "promise" && reply.facts?.firmness === "vague"
+                ? "scene-ending:vague-promise"
+                : `scene-ending:${keeps}`,
+          ...(keeps === "promise" && typeof reply.facts?.about === "string"
+            ? {
+                actFacts: {
+                  about: { text: reply.facts.about, sourceRecordIds: [id] },
+                },
+              }
+            : {}),
           counterpartIds: [otherId as PersonId],
           selfNamed: true,
           hindsight: zero,

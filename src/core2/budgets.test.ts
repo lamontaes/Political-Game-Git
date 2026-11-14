@@ -422,6 +422,7 @@ describe(
         api,
         api.moduleState(HOUSING_MODULE_ID).table("assessments"),
         homes,
+        () => true,
       );
       expect(paid, where).toBeGreaterThan(0);
       // Every dollar paid is with the county's tax collector, none outside.
