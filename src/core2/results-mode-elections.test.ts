@@ -16,9 +16,10 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
-  ballot,
   ELECTIONS_MODULE_ID,
+  standing,
   type ContestRow,
+  type FilingRow,
 } from "./modules/elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { resultOf, type ResultRow } from "./modules/voting";
@@ -26,14 +27,21 @@ import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "results-mode-elections");
-const where = `${place.name} (${place.key}), seed ${seed}, world seed ${place.seed}`;
+/**
+ * Places pinned by their seed, each one a place where a race read four years
+ * after its day once showed nobody on the ballot because the one filer had died
+ * since (a dead filer leaves `ballot`, but not the filing or the count).
+ */
+const PINNED_SEEDS: readonly string[] = [
+  "aa11bb22cc33dd44", // Ririe, Idaho: the 2027 council race's only filer died by 2029
+  "59a5f208ec60b2e40ea8f4744156f4b9a484124b", // Maybeury, West Virginia: a coroner race
+];
 /** Four years from the game's start: the 2026 and 2028 general elections. */
 const SKIPPED_DAYS = 1461;
 /** The day-by-day world plays to the morning after the first general election. */
 const FIRST_GENERAL = "2026-11-03";
 
-const build = () => {
+const build = (place: ReturnType<typeof drawPlace>) => {
   setBookkeeping(false);
   return buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -57,8 +65,10 @@ const turnoutAndShare = (result: ResultRow | null) => {
   return `${Math.round(result.electorate).toLocaleString("en-US")} voted, winner ${(share * 100).toFixed(1)}%`;
 };
 
-it(`races in four skipped years are counted from the voters, in ${where}`, () => {
-  const skipped = build();
+const run = (runSeed: string) => {
+  const place = drawPlace(runSeed, "results-mode-elections");
+  const where = `${place.name} (${place.key}), seed ${runSeed}, world seed ${place.seed}`;
+  const skipped = build(place);
   const api = coreAPI(skipped);
   const end = addDays(makeIsoDate(skipped.date), SKIPPED_DAYS);
   const skip = advanceCore(skipped, end, { results: true });
@@ -75,9 +85,19 @@ it(`races in four skipped years are counted from the voters, in ${where}`, () =>
   for (const contest of held) {
     const result = resultOf(api, contest.id);
     const label = `${contest.title} on ${contest.electionDate}, in ${where}`;
+    // Read the race as it was held: the filings on it and the candidates the
+    // count counted, however long ago a filer died (`ballot` drops the dead,
+    // so a race read years later can look empty when it was not).
+    const filings = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byContest", [contest.id]) as unknown as FilingRow[]
+    ).filter(standing);
+    expect(filings.length, `${label}: someone filed`).toBeGreaterThan(0);
     expect(
-      ballot(api, contest.id).length,
-      `${label}: someone filed`,
+      Object.keys(result?.totals ?? {}).length,
+      `${label}: the count had candidates`,
     ).toBeGreaterThan(0);
     expect(result?.winnerId, `${label}: a winner`).toBeTruthy();
     if (!result?.takesOffice || result.takesOffice >= end) continue;
@@ -97,7 +117,7 @@ it(`races in four skipped years are counted from the voters, in ${where}`, () =>
   }
   // Three races of the first general election beside the same races played
   // day by day.
-  const daily = build();
+  const daily = build(place);
   advanceCore(daily, addDays(makeIsoDate(FIRST_GENERAL), 1));
   const dailyApi = coreAPI(daily);
   const compared = held
@@ -111,4 +131,17 @@ it(`races in four skipped years are counted from the voters, in ${where}`, () =>
     `results-mode elections in ${where}: ${held.length} races in ${SKIPPED_DAYS} skipped days, each with a winner. ${compared.join(". ")}.\n`,
   );
   expect(compared.length).toBeGreaterThan(0);
-}, 3_000_000);
+};
+
+it(
+  `races in four skipped years are counted from the voters, in a drawn place (seed ${seed})`,
+  () => run(seed),
+  3_000_000,
+);
+
+for (const pinned of PINNED_SEEDS)
+  it(
+    `races in four skipped years are counted from the voters, in the place pinned by seed ${pinned}`,
+    () => run(pinned),
+    3_000_000,
+  );
