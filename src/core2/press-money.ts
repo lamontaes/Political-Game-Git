@@ -13,10 +13,20 @@
  *   business short of cash advertises less, on a sliding scale to its cash
  *   cushion.
  *
- * Both follow the audience the day they are paid. What the town's readers and
- * advertisers pay short of what the outlet's people here cost, its wider
- * audience makes up each week (an owner decision,
- * SG-PEOPLE-press-bureau-shortfall).
+ * - A newspaper serves its county, wider than the town. The county's adults
+ *   beyond the town are counted, not simulated people: each month they pay
+ *   the paper the national revenue per reader (advertising included) times the
+ *   readers they stand for, from the town's outside customers' account (the
+ *   one that pays the town's outside sales). That amount follows the market's
+ *   size, its reading habits and the price per reader, never the paper's cost.
+ *   Nobody tops up what a paper leaves short: it shows operating losses, and
+ *   its owner weighs closing it as for any business.
+ *
+ * Both follow the audience the day they are paid. A station's wider audience
+ * still makes up, each week, what the town's readers and advertisers pay short
+ * of what the station's people here cost (an owner decision,
+ * SG-PEOPLE-press-bureau-shortfall, for television and radio only until their
+ * whole-cost model).
  */
 import { transfer } from "./accounts";
 import { setLivingCostSplit, setOutsideCostSplit } from "./living-cost-split";
@@ -44,6 +54,10 @@ export interface OutletMoneyDeps {
   readonly adShareOfCosts: number;
   /** Share of advertising bought from local news outlets. */
   readonly localNewsShareOfAds: number;
+  /** The adults beyond the town in a newspaper's county whom it reaches (the county's adults less the town's, at the town's reading habits); counted, not simulated. Zero for a station. */
+  readonly marketReaders: (outletId: string) => number;
+  /** What a reader beyond the town pays a newspaper each month (the national revenue per reader). */
+  readonly marketMonthlyPerReaderMinor: (outletId: string) => number;
   /** What each outlet's people here cost in a month. */
   readonly monthlyCostMinor: (outletId: string) => number;
   readonly source: Source;
@@ -60,6 +74,8 @@ export interface OutletRevenueMonthRow {
   readonly adsMinor: number;
   /** What its wider audience made up at the month's end. */
   readonly shortfallMinor: number;
+  /** What the county's adults beyond the town paid a newspaper, from the outside account. */
+  readonly marketMinor: number;
   /** Full households' payments of its subscription this month. */
   readonly subscriberPayments: number;
   /** Its readers, full and counted, the day its subscriptions were last paid. */
@@ -154,6 +170,7 @@ function bump(
     subscriptionsCountedMinor: 0,
     adsMinor: 0,
     shortfallMinor: 0,
+    marketMinor: 0,
     subscriberPayments: 0,
     readers: 0,
     adPayments: 0,
@@ -169,7 +186,8 @@ function bump(
     (change.subscriptionsFullMinor ?? 0) +
     (change.subscriptionsCountedMinor ?? 0) +
     (change.adsMinor ?? 0) +
-    (change.shortfallMinor ?? 0);
+    (change.shortfallMinor ?? 0) +
+    (change.marketMinor ?? 0);
   if (book && minor > 0) {
     book.receivedMinor += minor;
     book.salesReceivedMinor += minor;
@@ -355,7 +373,8 @@ export function payWiderAudience(
   const table = api.moduleState(deps.moduleId).table("revenueMonths");
   const part = (days * MONTHS) / 365;
   const last = lastMonthOf(core.date);
-  for (const outlet of deps.outlets()) {
+  // Newspapers are paid by their market, not topped up.
+  for (const outlet of deps.outlets().filter((o) => o.kind !== "newspaper")) {
     const paidByTown = town(
       table.get(`${outlet.id}:${last}`) as unknown as
         OutletRevenueMonthRow | undefined,
@@ -385,6 +404,42 @@ export function payWiderAudience(
   }
 }
 
+/**
+ * Each month the county's adults beyond the town pay each newspaper the
+ * national revenue per reader times the readers they stand for, from the
+ * town's outside customers' account.
+ */
+export function payMarket(
+  api: CoreAPI,
+  deps: OutletMoneyDeps,
+  payerId: string | undefined,
+): void {
+  const core = api.state as CoreState;
+  if (!payerId) return;
+  const from = core.cashJournal.residualAccountByOwner.get(payerId);
+  if (!from) return;
+  for (const outlet of deps.outlets()) {
+    const to = core.cashJournal.residualAccountByOwner.get(
+      outlet.organizationId,
+    );
+    const minor = Math.round(
+      deps.marketMonthlyPerReaderMinor(outlet.id) *
+        deps.marketReaders(outlet.id),
+    );
+    if (!(minor > 0) || !to) continue;
+    const paid = transfer(core, api, {
+      id: `outside-sales:press-market:${outlet.organizationId}:${core.date}`,
+      from,
+      to,
+      amountMinor: minor,
+      reasonKey: "press.market-readers",
+      source: deps.source,
+      partial: true,
+    }).paidMinor;
+    if (paid > 0) bump(api, deps, outlet.organizationId, { marketMinor: paid });
+  }
+}
+
 /** The month before a date's month, as "YYYY-MM". */
 function lastMonthOf(date: string): string {
   const year = Number(date.slice(0, 4)),
@@ -408,7 +463,7 @@ export function outletYearlyRevenue(
     if (row)
       yearly.set(
         outlet.organizationId,
-        (town(row) + row.shortfallMinor) * MONTHS,
+        (town(row) + row.shortfallMinor + row.marketMinor) * MONTHS,
       );
   }
   return yearly;
