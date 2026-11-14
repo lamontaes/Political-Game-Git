@@ -263,6 +263,7 @@
 /src/core2/emotion.ts @lamontaes
 /src/core2/mind-*.ts @lamontaes
 /src/core2/closeness.ts @lamontaes
+/src/core2/family-origin.ts @lamontaes
 /src/core2/encounters.ts @lamontaes
 /src/core2/knowledge-retention.ts @lamontaes
 /src/core2/event-id-retention.ts @lamontaes
