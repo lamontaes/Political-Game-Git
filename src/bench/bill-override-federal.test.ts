@@ -11,7 +11,7 @@ import {
   executiveDecision,
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
-  holdVote,
+  holdEveryChamber,
   memberKey,
   members,
   overridePending,
@@ -84,7 +84,7 @@ describe(`a presidential veto the player may override (seed ${seed})`, () => {
           if (id !== member) castMemberVote(api, draft.id, id, "yes");
         // The president's own choice is a veto; Congress passes the bill, the veto lands.
         executiveDecision(api, draft.id, false);
-        const after = holdVote(api, draft.id);
+        const after = holdEveryChamber(api, draft.id);
         if (after.status !== "vetoed" && after.status !== "overridden")
           continue;
         const stage = billStage(core, draft.id, member);

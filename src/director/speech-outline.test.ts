@@ -403,7 +403,14 @@ describe("every speech through the one outline planner", () => {
                 })
               : [],
           );
-          const unowned = [...(ownName ? [ownName] : []), ...governmentNames]
+          // A drawn person's own name is not a place ("Virginia Shah" is
+          // a person, not the state), so the names of the people the speech
+          // names are taken out too, whole, before the states are read.
+          const unowned = [
+            ...(ownName ? [ownName] : []),
+            ...governmentNames,
+            ...people.map((person) => person.name),
+          ]
             .sort((a, b) => b.length - a.length)
             .reduce((text, name) => text.split(name).join(""), withoutAsks);
           for (const state of stateNames)
