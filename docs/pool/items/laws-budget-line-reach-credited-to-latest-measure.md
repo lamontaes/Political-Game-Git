@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: Account lead thread "Check state and federal laws take effect"
 pr:
 after:
 blocked-on:
