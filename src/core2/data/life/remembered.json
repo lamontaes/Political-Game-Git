@@ -972,6 +972,11 @@
       "reason": "a body's act on a bill; the legislature's record holds it"
     },
     {
+      "kind": "sign-on-asked",
+      "from": "event",
+      "reason": "a body's act on a bill; the legislature's record holds it"
+    },
+    {
       "kind": "campaign-message",
       "from": "event",
       "reason": "campaign traffic; the race's record and the journal tell it"

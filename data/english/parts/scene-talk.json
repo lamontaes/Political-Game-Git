@@ -137,7 +137,8 @@
     "wanted": "What a bribe offer wants, the bill or the contract the offer record names.",
     "their-bill": "A colleague's own bill waiting in the same body, by its title as a sentence says it, from the legislature record (askPrice).",
     "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
-    "ask-day": "A day between the ask and the vote, as people say it, from the bill's calendar."
+    "ask-day": "A day between the ask and the vote, as people say it, from the bill's calendar.",
+    "bill-purpose": "What a bill does, said plainly (\"free fares on public transit\"), from its policy's purpose in data/english/bill-names.json."
   },
   "maxWords": 70,
   "parts": [
@@ -6541,6 +6542,14 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
         }
       ],
       "bearing": "glad",
@@ -13321,6 +13330,14 @@
           "role": "asker",
           "step": "follow",
           "subject": "scene"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
         }
       ],
       "bearing": "glad",
@@ -180534,6 +180551,935 @@
           "key": "honor",
           "after": "leave",
           "outcome": "open"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-name-is-at-their-desk",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You have {bill} drafted and no names on it but yours. {name} is at their desk.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["bill"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-catch-name-in-the-hallway-outside-the-chamber-between-meetings",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You catch {name} in the hallway outside the chamber, between meetings.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-s-door-is-open-you-knock-on-the-frame-and-step-in",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name}'s door is open. You knock on the frame and step in.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-putting-in-a-bill-for-bill-purpose-will-you-sign-on-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm putting in a bill for {bill-purpose}. Will you sign on with me?",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      },
+      "bearing": "hopeful",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill-purpose"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-got-a-bill-for-bill-purpose-i-d-like-your-name-on-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've got a bill for {bill-purpose}. I'd like your name on it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill-purpose"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-looking-for-names-on-my-bill-for-bill-purpose-will-you-be-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm looking for names on my bill for {bill-purpose}. Will you be one?",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill-purpose"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-put-my-name-on-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Put my name on it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-was-hoping-somebody-would-bring-this-i-m-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I was hoping somebody would bring this. I'm in.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-with-you-on-this-one-sign-me-up",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm with you on this one. Sign me up.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-m-not-sure-about-this-one",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'm not sure about this one.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-d-be-sticking-my-neck-out",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'd be sticking my neck out.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-could-be-talked-into-it-i-m-not-there-yet",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I could be talked into it. I'm not there yet.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-asked-me-this-before-it-s-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You asked me this before. It's still no.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-don-t-believe-in-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I don't believe in it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-views"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.it-s-not-about-you-i-just-don-t-believe-in-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "It's not about you. I just don't believe in it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-views"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-people-i-represent-don-t-want-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "The people I represent don't want it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-constituents"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-d-hear-about-it-back-home-i-can-t",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'd hear about it back home. I can't.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-constituents"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-my-party-s-leaders-are-against-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. My party's leaders are against it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-party"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-cross-my-leaders-on-this-one",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't cross my leaders on this one.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-party"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-the-people-i-caucus-with-won-t-stand-for-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. The people I caucus with won't stand for it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-wing"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-d-never-hear-the-end-of-it-from-my-caucus",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'd never hear the end of it from my caucus.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-wing"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-d-need-to-know-you-better-before-i-put-my-name-on-something",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'd need to know you better before I put my name on something.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-standing"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-sorry-we-haven-t-worked-together-enough-for-that",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm sorry. We haven't worked together enough for that.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "contrite",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-standing"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-don-t-sign-on-to-other-people-s-bills-it-s-nothing-personal",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I don't sign on to other people's bills. It's nothing personal.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-trait"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.my-answer-s-the-same-for-everybody-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "My answer's the same for everybody. No.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-trait"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-voted-against-this-before-i-m-not-changing-now",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've voted against this before. I'm not changing now.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-consistency"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-d-look-like-i-didn-t-mean-it-the-first-time",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'd look like I didn't mean it the first time.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["no-consistency"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-relent.for-you-okay-put-my-name-on-it",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "For you, okay. Put my name on it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted",
+          "requiresFacts": ["tie-friend"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-relent.okay-you-can-count-me-in",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Okay. You can count me in.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.it-would-mean-a-lot-to-me-to-have-you-on-it",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "It would mean a lot to me to have you on it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.i-need-a-name-people-trust-next-to-mine",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I need a name people trust next to mine.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      },
+      "bearing": "hopeful",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.i-d-owe-you-one-i-won-t-forget-it",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'd owe you one. I won't forget it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.read-it-again-it-s-a-good-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Read it again. It's a good bill.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.look-at-who-it-helps-that-s-all-i-ask",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Look at who it helps. That's all I ask.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      },
+      "bearing": "braced",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-won-t-push",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I won't push.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-thanks-for-hearing-me-out",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Thanks for hearing me out.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      },
+      "bearing": "warm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.don-t-make-me-regret-it",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Don't make me regret it.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      },
+      "bearing": "guarded",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-accept.let-s-get-it-a-hearing",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Let's get it a hearing.",
+      "origin": "authored",
+      "author": "Bill stages (Claude Code), co-sponsor ask",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "vote-wanted"
         }
       ]
     }

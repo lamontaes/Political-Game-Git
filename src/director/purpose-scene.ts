@@ -19,9 +19,11 @@ import {
   absenceCarries,
   askPrice,
   billOf,
+  declinedAsks,
   favorWorth,
   floorDateOf,
   memberPosition,
+  publicDeclineReason,
   votesOn,
 } from "../core2/modules/legislature";
 import {
@@ -650,6 +652,44 @@ function composeBinding(
       facts.bill = {
         text: `the ${name.title}`,
         sourceRecordIds: [moment.causeId],
+      };
+  }
+  // The player's ask of a colleague to sign on to their bill (legislature.ts
+  // askToSignOn): the bill said by what it does, the reason the colleague
+  // would give for a no (never a deal, a lobby or a bribe), and whether the
+  // player asked them before and was turned down.
+  if (record?.kind === "sign-on-asked" && said.billId && named) {
+    const api = coreAPI(core as CoreState);
+    const purpose = billNameOf(named)?.purpose;
+    if (purpose)
+      facts["bill-purpose"] = {
+        text: purpose,
+        sourceRecordIds: [named.id, moment.causeId],
+      };
+    const reason = publicDeclineReason({
+      position: memberPosition(api, named.id, askerId),
+      standing: favorWorth(api, askerId, askedId),
+    });
+    facts[`no-${reason}`] = {
+      text: "yes",
+      sourceRecordIds: [named.id, moment.causeId],
+    };
+    // Turned down before on the same question, on an earlier bill.
+    const question = named.provisions[0]?.question;
+    const before = declinedAsks(
+      api,
+      askedId,
+      askerId,
+      named.bodyOfficeId,
+      "sign-on",
+    ).filter(
+      (row) =>
+        row.billId !== named.id && row.provisions[0]?.question === question,
+    );
+    if (before.length)
+      facts["asked-before"] = {
+        text: "yes",
+        sourceRecordIds: [before.at(-1)!.id, moment.causeId],
       };
   }
   // A job offer (jobs.ts offerToPlayer): the employer, the position with its

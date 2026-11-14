@@ -109,6 +109,8 @@ interface PurposeArc {
     relent: string[];
     /** The player's line after a yes. */
     thanks: string;
+    /** The one asked's last word after the player thanks them for a yes, where the purpose has one. */
+    thanked?: string;
     /** The player's second ask after a "not yet" or a no, and what it weighs. */
     again: { move: string; carries: AskCarries }[];
     /**
@@ -1026,14 +1028,21 @@ export function composeSceneTalk(
       root.replies.push({ line, next });
       const carries = carriesOf(again.carries);
       const last =
-        carries === undefined
-          ? null
-          : theirs(
-              answerOf(again.carries, carries),
+        yes && ask.thanked
+          ? theirs(
+              [ask.thanked],
               line,
               `last:${again.move}`,
               addParts(addParts(said, first), line),
-            );
+            )
+          : carries === undefined
+            ? null
+            : theirs(
+                answerOf(again.carries, carries),
+                line,
+                `last:${again.move}`,
+                addParts(addParts(said, first), line),
+              );
       if (last) {
         last.round = two;
         next.lines.push(last);
