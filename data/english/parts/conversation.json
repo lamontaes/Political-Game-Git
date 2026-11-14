@@ -65,6 +65,7 @@
     "their_name": "A stranger's own first name, as they give it.",
     "self": "The player's own first name, as the player gives it.",
     "rent_again": "The rent after its figure was said (\"the rent\"), so the figure is said once in a talk.",
+    "there": "A workplace already named, as people say it afterward (\"there\"), so a reply never repeats the employer or says \"at work\".",
     "owed": "What a household owed its landlord, as people round it, from the housing engine's case at removal.",
     "behind": "How many months of rent a sum owed comes to, as people say it (\"about two months\"), from the case's rent owed against the lease's monthly rent.",
     "lost-at": "The employer of a job the speaker lost in the year before an eviction, from their own record of it ending.",
@@ -72,7 +73,6 @@
     "shelter-place": "The town whose shelter took an evicted household in, from the housing status record.",
     "no-bed-place": "The town whose shelters had no bed for an evicted household, from the housing status record.",
     "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record.",
-    "there": "A workplace already named, as people say it afterward (\"there\"), so a reply never repeats the employer or says \"at work\".",
     "host-here": "The player's own household when it takes an evicted relative in, said to the player (\"you\", or \"you all\" when others live there), from the housing status and the host household's record.",
     "young": "A mark: the age at death is below the age people call too soon (data/english/relative-news-words.json).",
     "cause": "A cause of death as family says it plainly (\"a car crash\"), from the health engine's record; absent for causes not said aloud.",
@@ -3743,7 +3743,8 @@
           "role": "answer",
           "choice": "tenure",
           "stages": ["working"],
-          "raises": "their-tenure"
+          "raises": "their-tenure",
+          "requiresFacts": ["their-tenure"]
         }
       ],
       "transcriptsUsing": 27,
@@ -7922,6 +7923,12 @@
         },
         {
           "choice": "ask",
+          "move": "prison-news-reply-answer-ask",
+          "role": "answer",
+          "subject": "prison-news-reply"
+        },
+        {
+          "choice": "ask",
           "move": "charge-reply-answer-ask",
           "role": "answer",
           "subject": "charge-reply"
@@ -7931,6 +7938,13 @@
           "move": "victimization-reply-answer-ask",
           "role": "answer",
           "subject": "victimization-reply"
+        },
+        {
+          "choice": "what",
+          "move": "eviction-answer-what",
+          "requiresFacts": ["guarded"],
+          "role": "answer",
+          "subject": "eviction"
         }
       ]
     },
@@ -9330,37 +9344,6 @@
       "bearing": "tender"
     },
     {
-      "key": "conversation.farewell-leave-bye.stay-in-touch",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Stay in touch.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "nps.gov (PDF)": 3
-      },
-      "source": {
-        "document": "Junior Ranger Booklet for Ages 9 and Up",
-        "date": "2023-09-26",
-        "granule": "npspdf-romo-learn-kidsyouth-upload-jr9up",
-        "url": "https://www.nps.gov/romo/learn/kidsyouth/upload/JR9UP.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "tender"
-    },
-    {
       "key": "conversation.farewell-leave-bye.well-talk",
       "move": "farewell-leave-bye",
       "kind": "spoken",
@@ -10029,6 +10012,12 @@
         },
         {
           "choice": "comfort",
+          "move": "prison-news-reply-answer-comfort",
+          "role": "answer",
+          "subject": "prison-news-reply"
+        },
+        {
+          "choice": "comfort",
           "move": "charge-reply-answer-comfort",
           "role": "answer",
           "subject": "charge-reply"
@@ -10047,7 +10036,7 @@
         },
         {
           "choice": "comfort",
-          "excludesFacts": ["together"],
+          "excludesFacts": ["guarded", "together"],
           "move": "eviction-answer-comfort",
           "role": "answer",
           "subject": "eviction"
@@ -22883,29 +22872,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.greet-core.name-you-re-looking-well",
-      "move": "greet-core",
-      "kind": "spoken",
-      "text": "{name}, you're looking well.",
-      "piece": {
-        "of": "greet-open",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "greet-core",
-          "subject": "greet",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["no-when"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.greet-core.glad-i-caught-you-name",
       "move": "greet-core",
       "kind": "spoken",
@@ -26809,7 +26775,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -26856,7 +26822,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -27039,7 +27005,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "long-talk"],
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "long-talk",
+            "met-before"
+          ],
           "closesTalk": true
         }
       ],
@@ -27063,7 +27034,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -27101,35 +27072,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.farewell-core.say-hi-to-your-folks-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Say hi to your folks, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": [
-            "about-again",
-            "player-first",
-            "not-housemate",
-            "met-before"
-          ],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.farewell-core.nice-to-see-a-friendly-face-player-first",
       "move": "farewell-core",
       "kind": "spoken",
@@ -27154,30 +27096,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.farewell-core.look-after-yourself-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Look after yourself, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.farewell-core.back-to-work-for-me-player-first",
       "move": "farewell-core",
       "kind": "spoken",
@@ -27193,7 +27111,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "at-their-work"],
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "at-their-work",
+            "met-before"
+          ],
           "closesTalk": true
         }
       ],
@@ -27826,7 +27749,8 @@
           "role": "answer",
           "choice": "tenure",
           "stages": ["working"],
-          "raises": "their-tenure"
+          "raises": "their-tenure",
+          "requiresFacts": ["their-tenure"]
         }
       ],
       "bearing": "curious",
@@ -27846,7 +27770,8 @@
           "role": "answer",
           "choice": "tenure",
           "stages": ["working"],
-          "raises": "their-tenure"
+          "raises": "their-tenure",
+          "requiresFacts": ["their-tenure"]
         }
       ],
       "bearing": "curious",
@@ -27866,7 +27791,8 @@
           "role": "answer",
           "choice": "tenure",
           "stages": ["working"],
-          "raises": "their-tenure"
+          "raises": "their-tenure",
+          "requiresFacts": ["their-tenure"]
         }
       ],
       "bearing": "curious",
@@ -27886,7 +27812,8 @@
           "role": "answer",
           "choice": "tenure",
           "stages": ["working"],
-          "raises": "their-tenure"
+          "raises": "their-tenure",
+          "requiresFacts": ["their-tenure"]
         }
       ],
       "bearing": "curious",
@@ -29279,31 +29206,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "player-works"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.keep-well-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Keep well, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "player-works",
+            "met-before"
+          ],
           "closesTalk": true
         }
       ],
@@ -29327,7 +29235,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "at-their-work"],
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "at-their-work",
+            "met-before"
+          ],
           "closesTalk": true
         }
       ],
@@ -29399,7 +29312,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "daytime"],
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "daytime",
+            "met-before"
+          ],
           "closesTalk": true
         }
       ],
@@ -29510,7 +29428,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -29534,7 +29452,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -29606,7 +29524,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -29630,7 +29548,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -29678,7 +29596,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -29702,7 +29620,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -29726,7 +29644,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -34815,829 +34733,6 @@
       "date": "2026-11-12"
     },
     {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "solemn",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.i-still-can-t-believe-they-put-us-out-when",
-      "kind": "spoken",
-      "move": "eviction-say-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "text": "I still can't believe they put us out {when}.",
-      "uses": [
-        {
-          "move": "eviction-say-core",
-          "requiresFacts": ["together"],
-          "role": "core",
-          "subject": "eviction-say"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.they-put-us-out-when-we-owed-owed",
-      "kind": "spoken",
-      "move": "eviction-say-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "text": "They put us out {when}. We owed {owed}.",
-      "uses": [
-        {
-          "move": "eviction-say-core",
-          "requiresFacts": ["together", "owed"],
-          "role": "core",
-          "subject": "eviction-say"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "solemn",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.the-landlord-put-us-out-when-we-owed-owed",
-      "kind": "spoken",
-      "move": "eviction-say-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "text": "The landlord put us out {when}. We owed {owed}.",
-      "uses": [
-        {
-          "excludesFacts": ["together", "alone"],
-          "move": "eviction-say-core",
-          "requiresFacts": ["owed"],
-          "role": "core",
-          "subject": "eviction-say"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.the-landlord-had-us-put-out-when-we-were-behind-behind",
-      "kind": "spoken",
-      "move": "eviction-say-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "text": "The landlord had us put out {when}. We were {behind} behind.",
-      "uses": [
-        {
-          "excludesFacts": ["together", "alone"],
-          "move": "eviction-say-core",
-          "requiresFacts": ["behind"],
-          "role": "core",
-          "subject": "eviction-say"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "solemn",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.we-lost-our-place-when-behind-behind-on-the-rent",
-      "kind": "spoken",
-      "move": "eviction-say-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "text": "We lost our place {when}, {behind} behind on the rent.",
-      "uses": [
-        {
-          "excludesFacts": ["together", "alone"],
-          "move": "eviction-say-core",
-          "requiresFacts": ["behind"],
-          "role": "core",
-          "subject": "eviction-say"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "solemn",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.the-landlord-put-me-out-when-i-owed-owed",
-      "kind": "spoken",
-      "move": "eviction-say-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "text": "The landlord put me out {when}. I owed {owed}.",
-      "uses": [
-        {
-          "move": "eviction-say-core",
-          "requiresFacts": ["owed", "alone"],
-          "role": "core",
-          "subject": "eviction-say"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.the-landlord-had-me-put-out-when-i-was-behind-behind",
-      "kind": "spoken",
-      "move": "eviction-say-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "text": "The landlord had me put out {when}. I was {behind} behind.",
-      "uses": [
-        {
-          "move": "eviction-say-core",
-          "requiresFacts": ["behind", "alone"],
-          "role": "core",
-          "subject": "eviction-say"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "solemn",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-say-core.i-lost-my-place-when-i-was-behind-behind-on-rent",
-      "kind": "spoken",
-      "move": "eviction-say-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-say",
-        "part": "core",
-        "required": true
-      },
-      "text": "I lost my place {when}. I was {behind} behind on rent.",
-      "uses": [
-        {
-          "move": "eviction-say-core",
-          "requiresFacts": ["behind", "alone"],
-          "role": "core",
-          "subject": "eviction-say"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "curious",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-answer-where.where-to-now",
-      "kind": "spoken",
-      "move": "eviction-answer-where",
-      "origin": "authored",
-      "text": "Where to now?",
-      "uses": [
-        {
-          "choice": "where",
-          "move": "eviction-answer-where",
-          "role": "answer",
-          "subject": "eviction"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "curious",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-answer-where.where-ll-you-stay",
-      "kind": "spoken",
-      "move": "eviction-answer-where",
-      "origin": "authored",
-      "text": "Where'll you stay?",
-      "uses": [
-        {
-          "choice": "where",
-          "excludesFacts": ["together"],
-          "move": "eviction-answer-where",
-          "role": "answer",
-          "subject": "eviction"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "nervous",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-answer-where.where-ll-we-sleep",
-      "kind": "spoken",
-      "move": "eviction-answer-where",
-      "origin": "authored",
-      "text": "Where'll we sleep?",
-      "uses": [
-        {
-          "choice": "where",
-          "move": "eviction-answer-where",
-          "requiresFacts": ["together"],
-          "role": "answer",
-          "subject": "eviction"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "curious",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-answer-ask.how-d-it-happen",
-      "kind": "spoken",
-      "move": "eviction-answer-ask",
-      "origin": "authored",
-      "text": "How'd it happen?",
-      "uses": [
-        {
-          "choice": "ask",
-          "move": "eviction-answer-ask",
-          "requiresFacts": ["lost-at"],
-          "role": "answer",
-          "subject": "eviction"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-answer-comfort.we-ll-manage",
-      "kind": "spoken",
-      "move": "eviction-answer-comfort",
-      "origin": "authored",
-      "text": "We'll manage.",
-      "uses": [
-        {
-          "choice": "comfort",
-          "move": "eviction-answer-comfort",
-          "requiresFacts": ["together"],
-          "role": "answer",
-          "subject": "eviction"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.at-host-s-in-host-place-until-we-find-something",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "At {host}'s, in {host-place}, until we find something.",
-      "uses": [
-        {
-          "excludesFacts": ["alone"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["host", "host-place"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.at-host-s-in-host-place-for-now",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "At {host}'s, in {host-place}, for now.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["host", "host-place", "alone"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.host-is-taking-us-in-for-a-while",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "{host} is taking us in for a while.",
-      "uses": [
-        {
-          "excludesFacts": ["host-place", "alone"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["host"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.we-re-on-host-s-floor-until-something-opens-up",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "We're on {host}'s floor until something opens up.",
-      "uses": [
-        {
-          "excludesFacts": ["host-place", "alone"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["host"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.we-re-staying-with-host-until-we-find-a-place",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "We're staying with {host} until we find a place.",
-      "uses": [
-        {
-          "excludesFacts": ["host-place", "alone"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["host"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.host-is-taking-me-in-for-a-while",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "{host} is taking me in for a while.",
-      "uses": [
-        {
-          "excludesFacts": ["host-place"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["host", "alone"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.at-host-s-for-a-while",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "At {host}'s, for a while.",
-      "uses": [
-        {
-          "excludesFacts": ["host-place"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["host", "alone"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.i-m-staying-with-host-until-i-find-a-place",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "I'm staying with {host} until I find a place.",
-      "uses": [
-        {
-          "excludesFacts": ["host-place"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["host", "alone"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.the-shelter-in-shelter-place-had-beds-so-that-s-where-we-are",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "The shelter in {shelter-place} had beds, so that's where we are.",
-      "uses": [
-        {
-          "excludesFacts": ["alone"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["shelter-place"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.the-shelter-in-shelter-place-had-a-bed-for-me",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "The shelter in {shelter-place} had a bed for me.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["shelter-place", "alone"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.nowhere-yet-the-shelter-in-no-bed-place-was-full",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Nowhere yet. The shelter in {no-bed-place} was full.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["no-bed-place"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "nervous",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.i-don-t-know-every-bed-in-no-bed-place-was-taken",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "I don't know. Every bed in {no-bed-place} was taken.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["no-bed-place"],
-          "role": "core",
-          "stages": ["where"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "solemn",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.i-lost-the-job-at-lost-at-and-the-rent-slipped",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "I lost the job at {lost-at}, and the rent slipped.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["lost-at"],
-          "role": "core",
-          "stages": ["ask"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "solemn",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.once-lost-at-let-me-go-we-couldn-t-catch-up",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Once {lost-at} let me go, we couldn't catch up.",
-      "uses": [
-        {
-          "excludesFacts": ["alone"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["lost-at"],
-          "role": "core",
-          "stages": ["ask"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "solemn",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.once-lost-at-let-me-go-i-couldn-t-catch-up",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "Once {lost-at} let me go, I couldn't catch up.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["lost-at", "alone"],
-          "role": "core",
-          "stages": ["ask"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.i-ll-be-fine-at-host-s-a-while",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "I'll be fine at {host}'s a while.",
-      "uses": [
-        {
-          "excludesFacts": ["together"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["host", "alone"],
-          "role": "core",
-          "stages": ["comfort"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "calm",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.we-ll-be-fine-at-host-s-a-while",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "We'll be fine at {host}'s a while.",
-      "uses": [
-        {
-          "excludesFacts": ["alone"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["host"],
-          "role": "core",
-          "stages": ["comfort"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "braced",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.the-shelter-in-shelter-place-will-do-for-now",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "The shelter in {shelter-place} will do for now.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["shelter-place"],
-          "role": "core",
-          "stages": ["comfort"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "nervous",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.i-ll-find-a-bed-somewhere-the-shelter-in-no-bed-place-is-full",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "I'll find a bed somewhere. The shelter in {no-bed-place} is full.",
-      "uses": [
-        {
-          "move": "eviction-back-core",
-          "requiresFacts": ["no-bed-place", "alone"],
-          "role": "core",
-          "stages": ["comfort"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "nervous",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.we-ll-find-beds-somewhere-the-shelter-in-no-bed-place-is-full",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "We'll find beds somewhere. The shelter in {no-bed-place} is full.",
-      "uses": [
-        {
-          "excludesFacts": ["alone"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["no-bed-place"],
-          "role": "core",
-          "stages": ["comfort"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "solemn",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.if-lost-at-had-kept-me-we-d-still-be-there",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "If {lost-at} had kept me, we'd still be there.",
-      "uses": [
-        {
-          "excludesFacts": ["alone", "host", "shelter-place", "no-bed-place"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["lost-at"],
-          "role": "core",
-          "stages": ["comfort"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
-      "author": "Words builder W1 (eviction told through the composer)",
-      "bearing": "solemn",
-      "date": "2026-11-12",
-      "key": "conversation.eviction-back-core.if-lost-at-had-kept-me-i-d-still-be-there",
-      "kind": "spoken",
-      "move": "eviction-back-core",
-      "origin": "authored",
-      "piece": {
-        "of": "eviction-back",
-        "part": "core",
-        "required": true
-      },
-      "text": "If {lost-at} had kept me, I'd still be there.",
-      "uses": [
-        {
-          "excludesFacts": ["host", "shelter-place", "no-bed-place"],
-          "move": "eviction-back-core",
-          "requiresFacts": ["lost-at", "alone"],
-          "role": "core",
-          "stages": ["comfort"],
-          "subject": "eviction-back"
-        }
-      ]
-    },
-    {
       "key": "conversation.government-news-back-core.then-we-agree-you-let-s-hope-it-sticks",
       "move": "government-news-back-core",
       "kind": "spoken",
@@ -36826,31 +35921,6 @@
       }
     },
     {
-      "key": "conversation.farewell-leave-bye.be-seeing-you",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Be seeing you.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        },
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "closer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 6)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave"
-      }
-    },
-    {
       "key": "conversation.farewell-leave-bye.so-long",
       "move": "farewell-leave-bye",
       "kind": "spoken",
@@ -36951,60 +36021,10 @@
       }
     },
     {
-      "key": "conversation.farewell-leave-bye.look-after-yourself",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Look after yourself.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        },
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "closer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 6)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave"
-      }
-    },
-    {
       "key": "conversation.farewell-leave-bye.got-to-run",
       "move": "farewell-leave-bye",
       "kind": "spoken",
       "text": "Got to run.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        },
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "closer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 6)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-bye.better-get-on",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Better get on.",
       "uses": [
         {
           "move": "farewell-leave-bye",
@@ -37110,27 +36130,6 @@
       }
     },
     {
-      "key": "conversation.farewell-leave-bye.good-day-then",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Good day, then.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "requiresFacts": ["daytime"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 6)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave"
-      }
-    },
-    {
       "key": "conversation.farewell-leave-bye.good-night-then",
       "move": "farewell-leave-bye",
       "kind": "spoken",
@@ -37156,31 +36155,6 @@
       "move": "farewell-leave-bye",
       "kind": "spoken",
       "text": "Be well.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        },
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "closer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 6)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-bye.go-easy",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Go easy.",
       "uses": [
         {
           "move": "farewell-leave-bye",
@@ -37247,80 +36221,10 @@
       }
     },
     {
-      "key": "conversation.farewell-leave-bye.that-s-me-then",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "That's me, then.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        },
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "closer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 6)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-bye.well-good-luck",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Well, good luck.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 6)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave"
-      }
-    },
-    {
       "key": "conversation.farewell-leave-bye.goodbye-then",
       "move": "farewell-leave-bye",
       "kind": "spoken",
       "text": "Goodbye, then.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        },
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "closer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 6)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-bye.off-i-go",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Off I go.",
       "uses": [
         {
           "move": "farewell-leave-bye",
@@ -39661,31 +38565,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.good-luck-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Good luck, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -39709,7 +38589,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -39733,7 +38613,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -39757,55 +38637,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.go-well-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Go well, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.mind-how-you-go-player-fi",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Mind how you go, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -39829,7 +38661,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -39853,227 +38685,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "daytime"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.hang-in-there-player-firs",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Hang in there, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.good-to-meet-you-player-f",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Good to meet you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true,
-          "excludesFacts": ["met-before"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.nice-meeting-you-player-f",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Nice meeting you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true,
-          "excludesFacts": ["met-before"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.glad-i-met-you-player-fir",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Glad I met you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true,
-          "excludesFacts": ["met-before"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.pleasure-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Pleasure, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true,
-          "excludesFacts": ["met-before"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.cheers-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Cheers, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.best-of-luck-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Best of luck, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.all-the-best-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "All the best, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.off-i-go-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Off I go, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "daytime",
+            "met-before"
+          ],
           "closesTalk": true
         }
       ],
@@ -40097,7 +38714,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40121,31 +38738,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.time-i-got-on-player-firs",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Time I got on, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40169,7 +38762,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40193,7 +38786,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40217,55 +38810,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.be-seeing-you-player-firs",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Be seeing you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.until-later-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Until later, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40289,7 +38834,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40313,55 +38858,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.good-day-to-you-player-fi",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Good day to you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "daytime"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.easy-does-it-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Easy does it, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40385,31 +38882,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.good-luck-to-you-player-f",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Good luck to you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40433,55 +38906,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.look-after-yourself-now-p",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Look after yourself now, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.go-well-now-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Go well now, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40505,7 +38930,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "daytime"],
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "daytime",
+            "met-before"
+          ],
           "closesTalk": true
         }
       ],
@@ -40529,7 +38959,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "evening"],
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "evening",
+            "met-before"
+          ],
           "closesTalk": true
         }
       ],
@@ -40553,79 +38988,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "evening"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.rest-up-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Rest up, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.keep-going-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Keep going, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.hang-on-there-player-firs",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Hang on there, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "evening",
+            "met-before"
+          ],
           "closesTalk": true
         }
       ],
@@ -40649,31 +39017,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.right-then-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Right, then, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40697,7 +39041,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40721,7 +39065,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40745,7 +39089,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40769,7 +39113,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40793,7 +39137,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40817,31 +39161,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.until-we-meet-player-firs",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Until we meet, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -40865,322 +39185,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.keep-safe-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Keep safe, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.stay-safe-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Stay safe, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.be-careful-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Be careful, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.get-some-rest-player-firs",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Get some rest, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.don-t-mind-me-player-firs",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Don't mind me, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.say-no-more-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Say no more, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.best-wishes-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Best wishes, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.wish-you-well-player-firs",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Wish you well, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.good-health-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Good health, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.glad-to-know-you-player-f",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Glad to know you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true,
-          "excludesFacts": ["met-before"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.nice-to-know-you-player-f",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Nice to know you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true,
-          "excludesFacts": ["met-before"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.good-to-know-you-player-f",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Good to know you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
-          "closesTalk": true,
-          "excludesFacts": ["met-before"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.i-m-off-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "I'm off, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"],
+          "requiresFacts": ["about-again", "player-first", "met-before"],
           "closesTalk": true
         }
       ],
@@ -41601,6 +39606,2088 @@
       "origin": "authored",
       "author": "Words builder A (round 11, rule 75)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-blocked-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President blocked {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words builder A (more leads so five worlds seldom share one line, round 11 fix)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-rejected-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President rejected {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words builder A (more leads so five worlds seldom share one line, round 11 fix)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-fought-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President fought {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words builder A (more leads so five worlds seldom share one line, round 11 fix)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-wants-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President wants {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words builder A (more leads so five worlds seldom share one line, round 11 fix)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-urged-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President urged {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words builder A (more leads so five worlds seldom share one line, round 11 fix)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-favors-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President favors {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words builder A (more leads so five worlds seldom share one line, round 11 fix)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.catch-you-later",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Catch you later.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.nice-talking",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Nice talking.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.nice-chat",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Nice chat.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.good-talk",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good talk.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.good-chat",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good chat.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.see-you-later",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "See you later.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.till-next-time",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Till next time.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.be-good",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Be good.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.see-you-then",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "See you then.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.good-seeing-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good seeing you.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.glad-we-met",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Glad we met.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.okay-then",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Okay, then.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.that-s-all-then",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "That's all, then.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.well-bye",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Well, bye.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.bye-for-now",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Bye for now.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.goodbye-now",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Goodbye now.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.you-take-care",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "You take care.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.always-good-talking",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Always good talking.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.it-s-been-nice",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "It's been nice.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.that-was-nice",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "That was nice.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.thanks-for-talking",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Thanks for talking.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.i-d-better-go",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'd better go.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.i-should-go",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I should go.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.i-d-best-run",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'd best run.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.well-take-care",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Well, take care.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.well-see-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Well, see you.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.well-all-right",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Well, all right.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.okay-take-care",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Okay, take care.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.okay-see-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Okay, see you.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.all-right-bye",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "All right, bye.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.right-see-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Right, see you.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.talk-to-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Talk to you.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.see-you-tomorrow",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "See you tomorrow.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.see-you-monday",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "See you Monday.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.see-you-again",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "See you again.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.nice-seeing-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Nice seeing you.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.take-care-now",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Take care now.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.bye-now",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Bye, now.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.bye-for-today",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Bye for today.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.gotta-run",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Gotta run.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.gotta-go",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Gotta go.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.got-to-go",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Got to go.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.heading-out",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Heading out.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.i-m-heading-out",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'm heading out.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.should-get-going",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Should get going.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.better-be-going",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Better be going.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.talk-later",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Talk later.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.enjoy-yourself",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Enjoy yourself.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.have-fun",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Have fun.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.thanks-again",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Thanks again.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.thanks-bye",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Thanks, bye.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.thanks-see-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Thanks, see you.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.okay-thanks",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Okay, thanks.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.alright-then",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Alright, then.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.that-s-about-it",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "That's about it.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.well-that-s-that",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Well, that's that.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.anyway-see-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Anyway, see you.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.anyway-take-care",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Anyway, take care.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.anyway-good-talk",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Anyway, good talk.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.enjoy-the-evening",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Enjoy the evening.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true,
+          "requiresFacts": ["evening"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.enjoy-the-day",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Enjoy the day.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true,
+          "requiresFacts": ["daytime"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.enjoy-your-afternoon",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Enjoy your afternoon.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "closesTalk": true,
+          "requiresFacts": ["daytime"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
+      "date": "2026-11-14"
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "solemn",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-say-core.i-still-can-t-believe-they-put-us-out-when",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "text": "I still can't believe they put us out {when}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["together"],
+          "role": "core",
+          "subject": "eviction-say",
+          "excludesFacts": ["guarded"]
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "braced",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-say-core.they-put-us-out-when",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "text": "They put us out {when}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["together"],
+          "role": "core",
+          "subject": "eviction-say",
+          "excludesFacts": ["guarded"]
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "solemn",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-say-core.the-landlord-put-us-out-when",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "text": "The landlord put us out {when}.",
+      "uses": [
+        {
+          "excludesFacts": ["alone", "guarded", "together"],
+          "move": "eviction-say-core",
+          "role": "core",
+          "subject": "eviction-say"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "braced",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-say-core.the-landlord-had-us-put-out-when-we-were-behind-behind",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "text": "The landlord had us put out {when}. We were {behind} behind.",
+      "uses": [
+        {
+          "excludesFacts": ["alone", "guarded", "together"],
+          "move": "eviction-say-core",
+          "requiresFacts": ["behind"],
+          "role": "core",
+          "subject": "eviction-say"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "solemn",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-say-core.we-lost-our-place-when-behind-behind-on-the-rent",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "text": "We lost our place {when}, {behind} behind on the rent.",
+      "uses": [
+        {
+          "excludesFacts": ["alone", "guarded", "together"],
+          "move": "eviction-say-core",
+          "requiresFacts": ["behind"],
+          "role": "core",
+          "subject": "eviction-say"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "solemn",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-say-core.the-landlord-put-me-out-when",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "text": "The landlord put me out {when}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["alone"],
+          "role": "core",
+          "subject": "eviction-say",
+          "excludesFacts": ["guarded"]
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "braced",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-say-core.the-landlord-had-me-put-out-when-i-was-behind-behind",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "text": "The landlord had me put out {when}. I was {behind} behind.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["behind", "alone"],
+          "role": "core",
+          "subject": "eviction-say",
+          "excludesFacts": ["guarded"]
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "solemn",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-say-core.i-lost-my-place-when-i-was-behind-behind-on-rent",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "text": "I lost my place {when}. I was {behind} behind on rent.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["behind", "alone"],
+          "role": "core",
+          "subject": "eviction-say",
+          "excludesFacts": ["guarded"]
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "curious",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-answer-where.where-to-now",
+      "kind": "spoken",
+      "move": "eviction-answer-where",
+      "origin": "authored",
+      "text": "Where to now?",
+      "uses": [
+        {
+          "choice": "where",
+          "move": "eviction-answer-where",
+          "role": "answer",
+          "subject": "eviction",
+          "excludesFacts": ["guarded"]
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "curious",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-answer-where.where-ll-you-stay",
+      "kind": "spoken",
+      "move": "eviction-answer-where",
+      "origin": "authored",
+      "text": "Where'll you stay?",
+      "uses": [
+        {
+          "choice": "where",
+          "excludesFacts": ["guarded", "together"],
+          "move": "eviction-answer-where",
+          "role": "answer",
+          "subject": "eviction"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "nervous",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-answer-where.where-ll-we-sleep",
+      "kind": "spoken",
+      "move": "eviction-answer-where",
+      "origin": "authored",
+      "text": "Where'll we sleep?",
+      "uses": [
+        {
+          "choice": "where",
+          "move": "eviction-answer-where",
+          "requiresFacts": ["together"],
+          "role": "answer",
+          "subject": "eviction",
+          "excludesFacts": ["guarded"]
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "curious",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-answer-ask.how-d-it-happen",
+      "kind": "spoken",
+      "move": "eviction-answer-ask",
+      "origin": "authored",
+      "text": "How'd it happen?",
+      "uses": [
+        {
+          "choice": "ask",
+          "move": "eviction-answer-ask",
+          "requiresFacts": ["lost-at"],
+          "role": "answer",
+          "subject": "eviction",
+          "excludesFacts": ["guarded"]
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "calm",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-answer-comfort.we-ll-manage",
+      "kind": "spoken",
+      "move": "eviction-answer-comfort",
+      "origin": "authored",
+      "text": "We'll manage.",
+      "uses": [
+        {
+          "choice": "comfort",
+          "move": "eviction-answer-comfort",
+          "requiresFacts": ["together"],
+          "role": "answer",
+          "subject": "eviction",
+          "excludesFacts": ["guarded"]
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "calm",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.at-host-s-in-host-place-until-we-find-something",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "At {host}'s, in {host-place}, until we find something.",
+      "uses": [
+        {
+          "excludesFacts": ["alone"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "host-place"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "calm",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.at-host-s-in-host-place-for-now",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "At {host}'s, in {host-place}, for now.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "host-place", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "calm",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.host-is-taking-us-in-for-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "{host} is taking us in for a while.",
+      "uses": [
+        {
+          "excludesFacts": ["host-place", "alone"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "braced",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.we-re-on-host-s-floor-until-something-opens-up",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're on {host}'s floor until something opens up.",
+      "uses": [
+        {
+          "excludesFacts": ["host-place", "alone"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "calm",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.we-re-staying-with-host-until-we-find-a-place",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We're staying with {host} until we find a place.",
+      "uses": [
+        {
+          "excludesFacts": ["host-place", "alone"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "calm",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.host-is-taking-me-in-for-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "{host} is taking me in for a while.",
+      "uses": [
+        {
+          "excludesFacts": ["host-place"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "calm",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.at-host-s-for-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "At {host}'s, for a while.",
+      "uses": [
+        {
+          "excludesFacts": ["host-place"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "calm",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.i-m-staying-with-host-until-i-find-a-place",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'm staying with {host} until I find a place.",
+      "uses": [
+        {
+          "excludesFacts": ["host-place"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "braced",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.the-shelter-in-shelter-place-had-beds-so-that-s-where-we-are",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "The shelter in {shelter-place} had beds, so that's where we are.",
+      "uses": [
+        {
+          "excludesFacts": ["alone"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["shelter-place"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "braced",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.the-shelter-in-shelter-place-had-a-bed-for-me",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "The shelter in {shelter-place} had a bed for me.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["shelter-place", "alone"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "braced",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.nowhere-yet-the-shelter-in-no-bed-place-was-full",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Nowhere yet. The shelter in {no-bed-place} was full.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["no-bed-place"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "nervous",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.i-don-t-know-every-bed-in-no-bed-place-was-taken",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I don't know. Every bed in {no-bed-place} was taken.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["no-bed-place"],
+          "role": "core",
+          "stages": ["where"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "solemn",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.i-lost-the-job-at-lost-at-and-the-rent-slipped",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I lost the job at {lost-at}, and the rent slipped.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["lost-at"],
+          "role": "core",
+          "stages": ["ask"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "solemn",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.once-lost-at-let-me-go-we-couldn-t-catch-up",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Once {lost-at} let me go, we couldn't catch up.",
+      "uses": [
+        {
+          "excludesFacts": ["alone"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["lost-at"],
+          "role": "core",
+          "stages": ["ask"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "solemn",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.once-lost-at-let-me-go-i-couldn-t-catch-up",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "Once {lost-at} let me go, I couldn't catch up.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["lost-at", "alone"],
+          "role": "core",
+          "stages": ["ask"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "calm",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.i-ll-be-fine-at-host-s-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'll be fine at {host}'s a while.",
+      "uses": [
+        {
+          "excludesFacts": ["together"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["host", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "calm",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.we-ll-be-fine-at-host-s-a-while",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We'll be fine at {host}'s a while.",
+      "uses": [
+        {
+          "excludesFacts": ["alone"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["host"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "braced",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.the-shelter-in-shelter-place-will-do-for-now",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "The shelter in {shelter-place} will do for now.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["shelter-place"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "nervous",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.i-ll-find-a-bed-somewhere-the-shelter-in-no-bed-place-was-full",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "I'll find a bed somewhere. The shelter in {no-bed-place} was full.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["no-bed-place", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "nervous",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.we-ll-find-beds-somewhere-the-shelter-in-no-bed-place-was-full",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "We'll find beds somewhere. The shelter in {no-bed-place} was full.",
+      "uses": [
+        {
+          "excludesFacts": ["alone"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["no-bed-place"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "solemn",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.if-lost-at-had-kept-me-we-d-still-be-there",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "If {lost-at} had kept me, we'd still be there.",
+      "uses": [
+        {
+          "excludesFacts": ["alone", "host", "shelter-place", "no-bed-place"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["lost-at"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
+    },
+    {
+      "author": "Words builder W1 (eviction told through the composer)",
+      "bearing": "solemn",
+      "date": "2026-11-12",
+      "key": "conversation.eviction-back-core.if-lost-at-had-kept-me-i-d-still-be-there",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "text": "If {lost-at} had kept me, I'd still be there.",
+      "uses": [
+        {
+          "excludesFacts": ["host", "shelter-place", "no-bed-place"],
+          "move": "eviction-back-core",
+          "requiresFacts": ["lost-at", "alone"],
+          "role": "core",
+          "stages": ["comfort"],
+          "subject": "eviction-back"
+        }
+      ]
     },
     {
       "author": "Account lead S1 (Words lead rulings, #8924, rulings-2.md)",
@@ -42308,6 +42395,250 @@
           "stages": ["comfort"],
           "subject": "eviction-back",
           "excludesFacts": ["alone"]
+        }
+      ]
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-say-core.don-t-ask",
+      "kind": "spoken",
+      "move": "eviction-say-core",
+      "origin": "authored",
+      "text": "Don't ask.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "requiresFacts": ["guarded"],
+          "role": "core",
+          "subject": "eviction-say"
+        },
+        {
+          "move": "prison-news-back-core",
+          "subject": "prison-news-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "solemn",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.the-landlord-had-me-put-out-when",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "The landlord had me put out {when}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["guarded", "alone"],
+          "role": "core",
+          "stages": ["what"],
+          "subject": "eviction-back"
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "solemn",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.the-landlord-had-us-put-out-when",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "The landlord had us put out {when}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["guarded"],
+          "role": "core",
+          "stages": ["what"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-was-put-out-when-behind-behind-on-rent",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "I was put out {when}, {behind} behind on rent.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["guarded", "alone", "behind"],
+          "role": "core",
+          "stages": ["what"],
+          "subject": "eviction-back"
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "braced",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-were-put-out-when-behind-behind-on-rent",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "We were put out {when}, {behind} behind on rent.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["guarded", "behind"],
+          "role": "core",
+          "stages": ["what"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.i-owed-owed",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "I owed {owed}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["owed", "alone"],
+          "role": "core",
+          "stages": ["owed"],
+          "subject": "eviction-back"
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "guarded",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.it-came-to-owed",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "It came to {owed}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["owed"],
+          "role": "core",
+          "stages": ["owed"],
+          "subject": "eviction-back"
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "calm",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.we-owed-owed",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "We owed {owed}.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["owed"],
+          "role": "core",
+          "stages": ["owed"],
+          "subject": "eviction-back",
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "solemn",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-back-core.owed-all-told",
+      "kind": "spoken",
+      "move": "eviction-back-core",
+      "origin": "authored",
+      "text": "{owed}, all told.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "requiresFacts": ["owed"],
+          "role": "core",
+          "stages": ["owed"],
+          "subject": "eviction-back"
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "author": "Account lead S1 (Words lead rulings, #8924, held/eviction.md and the second reader)",
+      "bearing": "curious",
+      "date": "2026-11-14",
+      "key": "conversation.eviction-answer-owed.how-much",
+      "kind": "spoken",
+      "move": "eviction-answer-owed",
+      "origin": "authored",
+      "text": "How much?",
+      "uses": [
+        {
+          "choice": "owed",
+          "move": "eviction-answer-owed",
+          "requiresFacts": ["owed"],
+          "role": "answer",
+          "subject": "eviction",
+          "excludesFacts": ["guarded"]
         }
       ]
     },
@@ -43341,29 +43672,6 @@
         "required": true
       },
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.prison-news-back-core.don-t-ask",
-      "move": "prison-news-back-core",
-      "kind": "spoken",
-      "text": "Don't ask.",
-      "uses": [
-        {
-          "move": "prison-news-back-core",
-          "subject": "prison-news-back",
-          "role": "core",
-          "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "prison-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
       "origin": "authored",
       "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
       "date": "2026-11-14"
