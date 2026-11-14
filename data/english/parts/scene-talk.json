@@ -21571,10 +21571,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-come-find-me-next-week-and-we-ll-talk-about-it-through",
+      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-come-find-me-next-week-and-we-ll-talk-it-through",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not today. Let me get through today. Come find me next week, and we'll talk about it through.",
+      "text": "Not today. Let me get through today. Come find me next week, and we'll talk it through.",
       "uses": [
         {
           "subject": "scene",
@@ -89140,10 +89140,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.we-ll-need-to-sit-down-and-talk-about-it-properly-soon",
+      "key": "scene-talk.close-press.we-ll-need-to-sit-down-and-talk-about-it-soon",
       "move": "close-press",
       "kind": "spoken",
-      "text": "We'll need to sit down and talk about it properly soon.",
+      "text": "We'll need to sit down and talk about it soon.",
       "uses": [
         {
           "subject": "scene",
@@ -112322,10 +112322,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.count-it-if-you-like-its-a-serious-sum-and-i-want-a-serious-answer",
+      "key": "scene-talk.state-request.count-it-if-you-like-it-s-serious-money-and-i-want-a-serious-answer",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Count it if you like. It's a serious money, and I want a serious answer.",
+      "text": "Count it if you like. It's serious money, and I want a serious answer.",
       "uses": [
         {
           "subject": "scene",
@@ -140554,10 +140554,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-properly-right-just-now",
+      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-right-just-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I wish I could, but I don't have the time to do it properly right just now.",
+      "text": "I wish I could, but I don't have the time to do it right just now.",
       "uses": [
         {
           "subject": "scene",
@@ -144593,10 +144593,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.will-you-talk-to-child-yourself-first-they-were-in-the-room-when-you-fell-ill",
+      "key": "scene-talk.state-request.the-youngest-in-the-house-child-was-in-the-room-when-you-got-sick-will-you-talk-to-them-yourself-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The youngest in the house, {child}, was in the room when you got sick.",
+      "text": "The youngest in the house, {child}, was in the room when you got sick. Will you talk to them yourself, {first}?",
       "uses": [
         {
           "subject": "scene",
@@ -146684,10 +146684,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-fought-over-money-before",
+      "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-fought-over-money-before-and-the-missed-payment-has-opened-it-up-again",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You and {name} have fought over money before",
+      "text": "You and {name} have fought over money before, and the missed payment has opened it up again.",
       "uses": [
         {
           "subject": "scene",

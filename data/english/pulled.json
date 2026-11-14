@@ -220,9 +220,6 @@
     "scene-talk.close-press.i-ll-ask-again-later-if-that-s-all-right": [
       "alright-in-dialogue"
     ],
-    "scene-talk.close-press.we-ll-need-to-sit-down-and-talk-about-it-properly-soon": [
-      "plain-american-reads-stiff"
-    ],
     "scene-talk.close-press.we-still-have-to-settle-this-you-know": [
       "no-filler"
     ],
@@ -282,9 +279,6 @@
     ],
     "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself": [
       "no-stock-phrases"
-    ],
-    "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-properly-right-just-now": [
-      "plain-american-reads-stiff"
     ],
     "scene-talk.reply-leave.i-hear-you-and-i-have-to-take-the-next-question": [
       "no-stock-phrases"
