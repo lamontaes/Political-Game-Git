@@ -1638,6 +1638,11 @@ const endorsement: Builder = (read, f) => {
       ...(said && form?.plural
         ? { "plural-subject": read.fact("yes", f.organizationId ?? "") }
         : {}),
+      // What the group works for, from the stance its endorsement stood on
+      // (a group told by that stance already says it in its lede).
+      ...(said && "purpose" in stance && stance.purpose
+        ? { work: stance.purpose }
+        : {}),
       ...(office ? { office: read.fact(office, f.contestId ?? "") } : {}),
       ...(vote
         ? {

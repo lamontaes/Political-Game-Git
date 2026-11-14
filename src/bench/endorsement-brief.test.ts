@@ -8,9 +8,7 @@
  * group keeps its capitals, takes the verb its number needs, and the body
  * says the vote's day instead of the headline again.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import {
@@ -23,15 +21,18 @@ import { allQuestions } from "../english/policy-names";
 import { wordPrintedStory } from "./archive-words";
 import { buildBenchWorld } from "./world";
 
-const seed = process.env.GOLDEN_PATH_SEED || randomBytes(10).toString("hex");
+// Pinned (lead's ruling, Nov 14: no run-time draws): Laurel, Montana, a world
+// seed chosen from data, the place of the played proof in
+// endorsement-played.test.ts.
+const seed = "61920e6dab2c03e17ef5ac6f144609e87ba9b08f99dcf251c8f0ef6b7d82e6a4";
+const placeKey = "3042700";
 
-it(`an endorsement brief keeps the group's name and number and does not repeat its headline (seed ${seed})`, () => {
+it(`an endorsement keeps the group's name and number, says what it works for and does not repeat its headline (seed ${seed})`, () => {
   setBookkeeping(false);
-  const place = drawPlace(seed, "endorsement-brief");
-  const where = `${place.name} (${place.key}), seed ${seed}`;
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+  const where = `place ${placeKey}, seed ${seed}`;
+  const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
-    placeKey: place.key,
+    placeKey,
   });
   const api = coreAPI(core);
   const contest = (
@@ -78,6 +79,10 @@ it(`an endorsement brief keeps the group's name and number and does not repeat i
         organizationId: id,
         candidateId: candidate.id,
         contestId: contest!.id,
+        // The stance the group's yes stood on: the second sentence says what
+        // the group works for, from its own record.
+        stanceQuestion: topic,
+        stancePosition: "1",
       },
     } as never);
     const body = worded?.paragraphs?.length
@@ -93,10 +98,13 @@ it(`an endorsement brief keeps the group's name and number and does not repeat i
     if (plural)
       expect(text, where).not.toMatch(/ backs | endorses | is backing /);
     else expect(text, where).not.toMatch(/ back | endorse | are backing /);
+    // The body says what the group works for, the second sentence.
+    expect(body.join(" "), `${where}: what the group works for`).toMatch(
+      /works for|Its cause is/,
+    );
     // The body says something the headline does not: the vote's day.
-    for (const paragraph of body)
-      expect(paragraph, where).toMatch(
-        /\b(January|February|March|April|May|June|July|August|September|October|November|December) \d/,
-      );
+    expect(body.join(" "), where).toMatch(
+      /\b(January|February|March|April|May|June|July|August|September|October|November|December) \d/,
+    );
   }
 }, 600_000);

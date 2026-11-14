@@ -101,6 +101,7 @@
     "day": "The day of the count as the paper says it (on Tuesday, on November 4), from the result record.",
     "field": "How many were on the ballot in a race, in words, from the race's count.",
     "short-by": "The votes a failed bill lacked for a majority of those cast, as a number, from the vote's yeas and nays.",
+    "work": "What the endorsing group works for, from the stance its endorsement stood on (the group's own record), as the paper says it.",
     "plural-subject": "Set when the group's name takes a plural verb (\"Friends of policing\"), from its name's form in data/english/group-names.json."
   },
   "maxWords": 14,
@@ -8107,6 +8108,50 @@
       "origin": "authored",
       "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
       "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.endorsement-work.the-group-works-for-work",
+      "move": "endorsement-work",
+      "kind": "written",
+      "text": "The group works for {work}.",
+      "uses": [
+        {
+          "move": "endorsement-work",
+          "subject": "news",
+          "role": "endorsement-work",
+          "choice": "context",
+          "requiresFacts": ["work"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead F5 (carried #9046, second sentence)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.endorsement-work.its-cause-is-work",
+      "move": "endorsement-work",
+      "kind": "written",
+      "text": "Its cause is {work}.",
+      "uses": [
+        {
+          "move": "endorsement-work",
+          "subject": "news",
+          "role": "endorsement-work",
+          "choice": "context",
+          "requiresFacts": ["work"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead F5 (carried #9046, second sentence)",
+      "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
