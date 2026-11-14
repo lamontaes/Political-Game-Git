@@ -495,54 +495,6 @@ function recordReply(
   });
 }
 
-/**
- * A filed player back at the counter while the petition gathers signatures:
- * the clerk says nothing of how many have signed (owner, Nov 14: no count or
- * status line is dialogue), and the player can only leave, saying the day it
- * is due; the race they are in is not offered again (P1, Commack, New York;
- * Fable A, Nov 13 07:05Z).
- */
-export function petitionAtCounter(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-  clerkId: PersonId | undefined,
-  filingId: string,
-  petition: { due: string },
-): FilingVisit {
-  const visit: FilingVisit = {
-    playerId,
-    ...(clerkId ? { clerkId } : {}),
-    contests: [],
-    lines: [],
-    choices: [],
-  };
-  const fact = (text: string) => ({ text, sourceRecordIds: [filingId] });
-  const facts: Record<string, Fact> = {
-    due: fact(spokenDate(petition.due, core.date)),
-    ...clerkFact(core, clerkId),
-  };
-  const leave = visitLine(
-    core,
-    visit,
-    "player",
-    "petition-leave",
-    facts,
-    undefined,
-    new Set(),
-    "reply",
-  );
-  if (leave)
-    visit.choices.push({
-      key: "leave",
-      text: leave.text,
-      control: "leave",
-      move: "leave",
-      action: { kind: "done" },
-      sourceRecordIds: leave.sourceRecordIds,
-    });
-  return visit;
-}
-
 /** The player says a reply in the clerk's scene that is not filing or leaving. */
 export function sayAtCounter(
   core: Readonly<CoreState>,

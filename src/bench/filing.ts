@@ -25,7 +25,6 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   sayAtCounter,
   counterNarration,
-  petitionAtCounter,
   saidOffice,
   counterFilingReplyId,
   filedAtCounter,
@@ -256,12 +255,10 @@ export function openBenchFilingVisit(
       ];
     }),
   );
-  // With no race left to file for here, the visit is about the player's own
-  // filing: while its petition gathers signatures the clerk says where it
-  // stands; with nothing left to do there is no scene (Fable A, Nov 13,
-  // rule 19).
+  // With no race left to file for here there is no scene (Fable A, Nov 13,
+  // rule 19; owner, Nov 14: the clerk never says how many signatures are in,
+  // so a petition still gathering gives the counter nothing to say).
   const mineHere = filedHere(core, playerId, filedWith);
-  const here = contests.length ? null : mineHere;
   // Back for another race with one already filed here: the clerk opens from
   // that filing (Fable A, Nov 13, Miracle Valley, Arizona).
   const filedRow =
@@ -291,29 +288,18 @@ export function openBenchFilingVisit(
           },
         }
       : undefined;
-  // A race that takes no signatures has no petition for the clerk to tell
-  // (Fable A, Nov 13: "a thing that does not exist for this race is not
-  // shown and not told").
-  const view =
-    here?.status === "petitioning" ? petitionView(api, here.id) : null;
-  const petition = view?.needed ? view : null;
-  if (!contests.length && !(here && petition)) throw new NothingAtCounter();
+  if (!contests.length) throw new NothingAtCounter();
   // The clerk the contest's filing office records name (none for a state or federal counter).
-  const clerkRow = filingClerkFor(api, contests[0]?.id ?? here!.contestId);
+  const clerkRow = filingClerkFor(api, contests[0]!.id);
   const clerk = clerkRow?.personId;
-  const visit =
-    here && petition
-      ? petitionAtCounter(core, playerId, clerk ?? undefined, here.id, {
-          due: petition.due,
-        })
-      : openFilingVisit(
-          core,
-          playerId,
-          contests,
-          clerk ?? undefined,
-          filedWith,
-          back,
-        );
+  const visit = openFilingVisit(
+    core,
+    playerId,
+    contests,
+    clerk ?? undefined,
+    filedWith,
+    back,
+  );
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;
   const cast: { id: string; name: string; reason: StageReason }[] = [

@@ -95182,54 +95182,6 @@
       "date": "2026-11-01"
     },
     {
-      "key": "scene-talk.reply-petition-leave.ill-be-back-with-them-before-due",
-      "move": "reply-petition-leave",
-      "kind": "spoken",
-      "text": "I'll be back with them before {due}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "petition-leave",
-          "role": "asked",
-          "requiresFacts": ["due"]
-        }
-      ],
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      },
-      "author": "Words builder W3",
-      "date": "2026-11-13",
-      "origin": "authored"
-    },
-    {
-      "key": "scene-talk.reply-petition-leave.then-id-better-get-back-out-there-before-due",
-      "move": "reply-petition-leave",
-      "kind": "spoken",
-      "text": "Then I'd better get back out there before {due}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "reply",
-          "move": "petition-leave",
-          "role": "asked",
-          "requiresFacts": ["due"]
-        }
-      ],
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      },
-      "author": "Words builder W3",
-      "date": "2026-11-13",
-      "origin": "authored"
-    },
-    {
       "key": "scene-talk.state-rule-minimum-age.you-have-to-be-at-least-required",
       "move": "state-rule-minimum-age",
       "kind": "spoken",

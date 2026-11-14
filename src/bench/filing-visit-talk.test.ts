@@ -230,39 +230,22 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     const filing = (state.result as { filing?: { id: string; status: string } })
       .filing;
     expect(filing, where).toBeTruthy();
-    // Back at the counter: with the petition while it gathers signatures,
-    // with nothing to bring once the name is on the ballot (a race with no
-    // petition, as in Laramie, Wyoming at seed 7d9f1b3a5c0e2468), never as a
-    // first visit; told from the filing's record.
     // Back at the counter (P1, Commack, New York): the race already filed in
-    // is never offered again; with only the petition left, the clerk says
-    // nothing of the count and the player can only leave; with nothing left, no
-    // scene (rule 19).
+    // is never offered again; with nothing else to file for there is no scene
+    // (rule 19), a petition still gathering signatures included: the clerk
+    // never says how many are in (owner, Nov 14).
     let back: ReturnType<typeof openBenchFilingVisit> | null = null;
     try {
       back = openBenchFilingVisit(core, me, filedWith, 10 * 60);
     } catch (error) {
       expect(error, where).toBeInstanceOf(NothingAtCounter);
-      expect(filing!.status, where).not.toBe("petitioning");
     }
     if (back) {
       expect(
         back.visit.choices.some((row) => row.key === pick),
         `${where}: the filed race is offered again`,
       ).toBe(false);
-      if (!back.visit.contests.length) {
-        // The clerk never says how many have signed (owner, Nov 14: no count
-        // or status line is dialogue): the narration sets the return and the
-        // player can only leave.
-        process.stdout.write(
-          `${where} back with the petition: ${back.intro.map((line) => line.text).join(" / ")}\n`,
-        );
-        expect(back.visit.lines, where).toEqual([]);
-        expect(
-          back.visit.choices.map((row) => row.control),
-          where,
-        ).toEqual(["leave"]);
-      }
+      expect(back.visit.contests.length, where).toBeGreaterThan(0);
     }
     return;
   }
