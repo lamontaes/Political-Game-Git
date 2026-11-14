@@ -842,6 +842,13 @@
       "source": "How much the farthest-out home (a distance share near 1) takes from a member's reason to go to the meeting; a home at the middle of town loses nothing. No study gives the size; distance to a meeting is a recognized cost of attending but no source reports its weight against the other reasons.",
       "spread": [0.5, 3]
     },
+    "partyMeetingContactHours": {
+      "role": "coefficient",
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The time together one party meeting gives the chair and a member who came, in the hours the closeness model counts: the value the monthly meeting has always written (src/core2/modules/parties.ts, meetTheChair), now one parameter for the meeting and for the meetings before the world opens. A short evening in a room of a dozen or more people, so a small share of an hour of real time with the chair.",
+      "spread": [0.05, 0.5]
+    },
     "partyMeetingHalfDistanceMiles": {
       "value": 3,
       "tag": "TUNABLE",

@@ -103,10 +103,19 @@ export function changeSaid(
   return said === percentSaid(0) ? null : words.by.replace("{change}", said);
 }
 
-/** A whole count as people say it: below ten in words ("two years"), else in digits. */
-export function countSaid(count: number): string {
-  const word = data.smallCounts.words[count];
-  return word && Number.isInteger(count) ? word : count.toLocaleString("en-US");
+/**
+ * A whole count as people say it: below ten in words ("two years"), else in
+ * digits. A line that opens on the count passes a higher limit (Infinity: as far as the table goes, ninety-nine) and
+ * gets "thirteen" or "forty-two".
+ */
+export function countSaid(count: number, limit = 9): string {
+  const { words, tens } = data.smallCounts;
+  if (!Number.isInteger(count) || count < 0 || count > Math.min(limit, 99))
+    return count.toLocaleString("en-US");
+  if (count < words.length) return words[count]!;
+  const rest = count % 10;
+  const ten = tens[Math.floor(count / 10)]!;
+  return rest ? `${ten}-${words[rest]}` : ten;
 }
 
 /**
@@ -176,11 +185,19 @@ export function daysSaid(days: number): string {
   );
 }
 
-/** A length of time in months as people say it: "a month", "eight months", "a year", "three years". */
-export function lengthSaid(months: number): string {
+/**
+ * A length of time in months as people say it: "a month", "eight months", "a
+ * year", "three years". A line that opens on the length asks for it in words
+ * ("thirteen months"), as far as countSaid goes.
+ */
+export function lengthSaid(months: number, inWords = false): string {
   const count = Math.max(1, Math.round(months));
   const said = (n: number) =>
-    n <= HOURS_ON_A_CLOCK ? data.clock.numbers[n]! : String(n);
+    inWords
+      ? countSaid(n, Infinity)
+      : n <= HOURS_ON_A_CLOCK
+        ? data.clock.numbers[n]!
+        : String(n);
   const term = data.length as Readonly<Record<string, string>>;
   if (count % MONTHS_PER_YEAR === 0) {
     const years = count / MONTHS_PER_YEAR;
