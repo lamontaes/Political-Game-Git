@@ -26,7 +26,37 @@ export function draftCard({ groups, words, onDraft }) {
       textContent: words.draft,
     });
     draft.disabled = Boolean(item.blocked);
-    draft.addEventListener("click", () => onDraft(item, typed.value));
+    // A phase-in: each added step has its own amount and the day it takes
+    // effect; the engine refuses a bad date and the screen shows its reason.
+    const steps = el("div", { className: "draft-steps" });
+    const rows = [];
+    const addStep = makeButton({
+      className: "action small draft-add-step",
+      textContent: words.addStep ?? "",
+    });
+    addStep.addEventListener("click", () => {
+      const amount = numberBox({ value: 0, label: words.newAmount });
+      const date = el("input", {
+        type: "date",
+        className: "draft-step-date",
+        ariaLabel: words.stepDate ?? "",
+      });
+      rows.push({ amount, date });
+      steps.append(
+        el(
+          "div",
+          { className: "draft-step" },
+          el("span", { className: "draft-entry" }, amount, date),
+        ),
+      );
+    });
+    draft.addEventListener("click", () =>
+      onDraft(
+        item,
+        typed.value,
+        rows.map((row) => ({ amount: row.amount.value, date: row.date.value })),
+      ),
+    );
     return [
       rosterTitle(item.label),
       stripSection(
@@ -48,6 +78,8 @@ export function draftCard({ groups, words, onDraft }) {
             ? [unitOf(item), typed]
             : [typed, unitOf(item)]),
         ),
+        steps,
+        addStep,
         ...(item.note
           ? [el("p", { className: "draft-note", textContent: item.note })]
           : []),

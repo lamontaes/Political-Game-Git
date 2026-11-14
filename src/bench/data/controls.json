@@ -637,6 +637,7 @@
     "today": "In force today",
     "proposed": "The bill makes it",
     "newAmount": "The new amount",
+    "takesEffectOn": "Takes effect on",
     "none": "Not set",
     "figures": "Budget lines",
     "thisYear": "This year",
@@ -1115,7 +1116,9 @@
     "title": "Draft a bill",
     "issue": "What it is about",
     "today": "In force today",
-    "newAmount": "The new amount"
+    "newAmount": "The new amount",
+    "addStep": "Add a step",
+    "stepDate": "Takes effect on"
   },
   "journal": {
     "title": "My story",

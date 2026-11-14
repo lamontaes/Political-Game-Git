@@ -1,4 +1,4 @@
-/* global process, URL, console, document, setTimeout */
+/* global process, URL, console, document, setTimeout, fetch */
 // The bill screens (owner, Oct 29: "the layout of all those bill screens needs to be adjusted"):
 // a member of a body drafts a law amount on the draft card, which shows what is in force today
 // beside the new amount, and reads the bill, whose estimate shows today's amount beside the new one.
@@ -106,6 +106,7 @@ try {
     option.click();
     await new Promise((done) => setTimeout(done, 100));
     return {
+      value: option.dataset.value,
       issue: option.querySelector("b").textContent,
       today: document.querySelector(".draft-today").textContent,
       unit: document.querySelector(".draft-unit").textContent,
@@ -142,9 +143,59 @@ try {
     chosen.today,
     `the draft card says ${chosen.today} today, the paper says ${cells[0]}`,
   );
-  assert.deepEqual(errors, [], "page errors");
   console.log(
     "ok: the draft card and the paper show today's amount beside the new one",
+  );
+  // A phase-in: two steps, each with its own amount and day, one bill whose
+  // paper shows both with their dates; a step not after the one before is refused.
+  await page
+    .locator("#sheet-tabs")
+    .getByRole("button", { name: "Your office" })
+    .click();
+  await page.locator(".office-board").waitFor();
+  await page.locator('.office-board [data-act="write-a-bill"]').first().click();
+  await page.locator(".draft-card .pick").first().waitFor();
+  await page.locator(`.draft-card .pick[data-value="${chosen.value}"]`).click();
+  const start = await page.evaluate(async () =>
+    (await (await fetch("/api/title")).json()).life?.date.slice(0, 4),
+  );
+  const addStep = page.locator(".draft-card .draft-add-step");
+  const stepAmounts = [];
+  for (const [amount, year] of [
+    ["2", Number(start) + 1],
+    ["3", Number(start) + 2],
+  ]) {
+    await addStep.click();
+    const row = page.locator(".draft-step").last();
+    await row.locator("input[type=number]").fill(amount);
+    await row.locator("input[type=date]").fill(`${year}-01-02`);
+    stepAmounts.push(amount);
+  }
+  assert.equal(await page.locator(".draft-step").count(), stepAmounts.length);
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-steps.png` });
+  await page
+    .locator(".draft-card button", { hasText: /^Draft$/ })
+    .first()
+    .click();
+  await page.waitForTimeout(2500);
+  await page
+    .locator("#sheet-body button", { hasText: /Read the bill/ })
+    .last()
+    .click();
+  await page.waitForTimeout(1500);
+  const paper = await page.locator("#sheet-body").innerText();
+  console.log("phase-in paper:", paper.replace(/\s+/g, " ").slice(0, 1800));
+  assert.match(paper, /2 percent/, "the first step's amount is on the paper");
+  assert.match(paper, /3 percent/, "the second step's amount is on the paper");
+  // The estimate names the day the shown step takes effect (the first section's).
+  assert.match(
+    paper,
+    new RegExp(`Takes effect on[^\\n]*${Number(start) + 1}`),
+    "the step's day is on its estimate",
+  );
+  assert.deepEqual(errors, [], "page errors");
+  console.log(
+    "ok: a phase-in of two dated steps is one bill with both sections",
   );
 } finally {
   await browser.close();
