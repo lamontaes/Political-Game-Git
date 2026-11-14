@@ -177,6 +177,27 @@ export function addDays(date: IsoDate, days: number): IsoDate {
   return result;
 }
 
+/**
+ * A date a whole number of calendar months from `date` (negative counts back).
+ * A day past the target month's end lands on its last day, so six months from
+ * August 31 is the last day of February.
+ */
+export function addMonths(date: string, months: number): string {
+  if (!Number.isSafeInteger(months)) {
+    throw new Error("Months must be a safe integer.");
+  }
+  const from = makeIsoDate(date);
+  const index = yearOf(from) * 12 + (Number(from.slice(5, 7)) - 1) + months;
+  const year = Math.floor(index / 12);
+  const month = (index % 12) + 1;
+  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  return isoDateFromParts(
+    year,
+    month,
+    Math.min(Number(from.slice(8, 10)), lastDay),
+  );
+}
+
 const DATE_OF_EPOCH_DAY_LIMIT = 100_000;
 const DATE_OF_EPOCH_DAY = new Map<number, IsoDate>();
 

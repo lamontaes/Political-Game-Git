@@ -61,7 +61,13 @@ import {
 } from "./election-night";
 import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
 import { openingsView } from "./openings";
-import { billPaper, seatAct, seatView } from "./legislature";
+import {
+  billPaper,
+  isByRequest,
+  seatAct,
+  seatAsk,
+  seatView,
+} from "./legislature";
 import {
   billPageView,
   billStage,
@@ -93,6 +99,7 @@ import {
   nominationsView,
   budgetLinePick,
   officeView,
+  officeStops,
 } from "./office";
 import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
@@ -110,6 +117,7 @@ import {
   backdropPath,
   benchScene,
   faceOf,
+  roomIds,
   scenePlace,
 } from "./scene";
 import { occluderPath } from "./occluders";
@@ -622,6 +630,16 @@ const ROUTES: readonly Route[] = [
               OPENING_EVENING_MINUTE,
             )
           : clockMinute;
+      // The room is handed to the talk (the telling): who else is here hears
+      // it, and nobody is asked after while they stand there.
+      const openingDay =
+        state.director?.ledger.opening?.date === requireCore().date;
+      const room = roomIds(
+        requireCore(),
+        state.player.personId,
+        state.player.packet,
+        openingDay ? minuteOfDay : undefined,
+      );
       state.conversation = openConversation(
         requireCore(),
         state.player.personId,
@@ -629,6 +647,7 @@ const ROUTES: readonly Route[] = [
         state.director
           ? {
               director: state.director,
+              presentIds: room,
               ...(occasionId ? { occasionId } : {}),
               ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
               // The place the player came to, so a goodbye knows it is said
@@ -1592,6 +1611,23 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/office/stops",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        officeStops(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("key") ?? "",
+          url.searchParams.get("on") === "true",
+        ),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/office/hire-aide",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
@@ -1646,6 +1682,19 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
       const q = (key: string) => url.searchParams.get(key) ?? undefined;
+      if (isByRequest(requireCore(), state.player.personId, q("officeId"))) {
+        send(
+          200,
+          seatAsk(requireCore(), state.player.personId, {
+            officeId: q("officeId"),
+            series: q("series"),
+            question: q("question"),
+            line: q("line"),
+            value: q("value") === undefined ? undefined : Number(q("value")),
+          }),
+        );
+        return;
+      }
       send(
         200,
         seatAct(requireCore(), state.player.personId, {
