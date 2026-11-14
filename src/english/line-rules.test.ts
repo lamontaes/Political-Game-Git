@@ -9,6 +9,7 @@ import {
   caseBreaksRule,
   caseText,
   gradedGood,
+  placeRuleProblems,
   ruleApplies,
   ruleFlags,
   runRules,
@@ -119,6 +120,51 @@ describe("a rule's own test", () => {
     expect(ruleFlags(judged, piece("a", "x"), storesSaying("a", "x"))).toBe(
       true,
     );
+  });
+});
+
+describe("where an enforced place rule points", () => {
+  const files = (
+    present: Record<string, string>,
+    tested: readonly string[] = Object.keys(present),
+  ) => ({
+    exists: (file: string) => file in present,
+    read: (file: string) => present[file] ?? "",
+    inTestSet: (file: string) => tested.includes(file),
+  });
+  const placed = (test: { reads?: string; by?: string }) =>
+    rule({
+      id: "placed-rule",
+      status: "enforced",
+      test: { kind: "place", ...test },
+    });
+
+  it("holds when it names a verdict file that exists, and not when the file is gone", () => {
+    const reads = placed({ reads: "data/english/judged/x.json" });
+    expect(
+      placeRuleProblems(reads, files({ "data/english/judged/x.json": "{}" })),
+    ).toEqual([]);
+    expect(placeRuleProblems(reads, files({}))).toEqual([
+      "placed-rule: data/english/judged/x.json does not exist",
+    ]);
+  });
+
+  it("holds when it names a test that exists, names the rule and runs in the gate, and says which of those fails", () => {
+    const by = placed({ by: "src/english/x.test.ts" });
+    const test = { "src/english/x.test.ts": "// Words rule placed-rule" };
+    expect(placeRuleProblems(by, files(test))).toEqual([]);
+    expect(placeRuleProblems(by, files({}))).toEqual([
+      "placed-rule: src/english/x.test.ts does not exist",
+    ]);
+    expect(
+      placeRuleProblems(by, files({ "src/english/x.test.ts": "// another" })),
+    ).toEqual(["placed-rule: src/english/x.test.ts does not name the rule"]);
+    expect(placeRuleProblems(by, files(test, []))).toEqual([
+      "placed-rule: src/english/x.test.ts is not in the gate's test set",
+    ]);
+    expect(placeRuleProblems(placed({}), files({}))).toEqual([
+      "placed-rule: names neither a verdict file nor a test",
+    ]);
   });
 });
 
