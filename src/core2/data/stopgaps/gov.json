@@ -2014,8 +2014,8 @@
     "why": "The opening-stance loadings (opening-stance-loadings.json, CES 2020) cover the survey's policy items only; no loading table exists for the GSS spending items, and the spending preferences in data/research/money are kept by party only.",
     "addedBy": "governing lead",
     "addedAt": "2026-10-30",
-    "replacement": "Faith, degree and age loadings for each budget line from the GSS spending items (NATEDUC, NATHEAL, NATCRIME and the rest, 2024 cumulative file) and the national share wanting more spent on each, read into the opening stance by the views engine for named and counted voters alike.",
-    "status": "open"
+    "replacement": "Faith, degree and age loadings for each budget line from the GSS spending items (NATEDUC, NATHEAL, NATCRIME and the rest, 2024 cumulative file) and the national share wanting more spent on each, read into the opening stance by the views engine for named and counted voters alike. Resolved 2026-11-14 (views from life, cuts 3a and 3b, and campaign-money-refit-after-views-carry-popularity): a voter's stance on a spending line now carries how popular the line is across the world's country (`popularity` in src/core2/campaign-views.ts, from the national share wanting more spent among those wanting a change, scripts/research/build-budget-line-axes.py) and the person's own circumstances (stake rows in src/core2/data/views/stakes.json), for full people and counted residents by one rule, so lines no longer split the town alike. Faith and degree loadings for spending lines are not held, as for 47 of the 55 policy questions; the views-from-life item's cut 4 covers both.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-platform-record-term-left-out",
