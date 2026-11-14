@@ -12,6 +12,8 @@ import {
   giveSpeech,
   runAd,
   sendMail,
+  hireCirculators,
+  circulatorsCanWork,
   statementSpeechId,
   type CauseRow,
 } from "../core2/modules/campaigns";
@@ -89,6 +91,9 @@ export function petitionView(api: CoreAPI, filingId: string) {
     needed: petition.needed,
     due: petition.due,
     signed: petition.signed,
+    // Whether paid circulators can gather the race's signatures outside the
+    // town: a county, district, state or federal race while it circulates.
+    outside: circulatorsCanWork(api, filingId),
   };
 }
 const CAMPAIGNS = "core2-campaigns-v1";
@@ -681,6 +686,17 @@ export function campaignAct(
         spentMinor: campaignFor(api, input.filingId).spentMinor - before,
       };
     }
+    case "circulators":
+      // Paid circulators for the race's voters outside the town: the amount
+      // the player chose is set aside from what the campaign holds and paid
+      // as the signatures come in, until the petition is due.
+      return {
+        setAsideMinor: hireCirculators(
+          api,
+          input.filingId,
+          input.amountMinor ?? 0,
+        ),
+      };
     case "poll":
       return commissionPoll(api, {
         filingId: input.filingId,

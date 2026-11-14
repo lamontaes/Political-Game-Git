@@ -4,8 +4,7 @@
  * place drawn from all 56:
  *
  * - a filing opens a petition asking the signatures the place's law asks
- *   (`filingRequirements`), the town's share of them where the district
- *   reaches past the town;
+ *   (`filingRequirements`), for the race's own electorate;
  * - the candidate's campaign gathers them: their circle, the doors they
  *   knock and their evenings, each signer an adult answering from their own
  *   reasons;

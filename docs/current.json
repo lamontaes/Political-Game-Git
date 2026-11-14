@@ -518,6 +518,12 @@
       "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
       "when": "2026-11-12",
       "why": "It played testimony-heard, deleted by the scene inventory (town-hall-question’s arc)."
+    },
+    {
+      "old": "src/core2/data/elections/municipal-petition-rules.json",
+      "now": "src/core2/data/elections/petition-rules.json",
+      "when": "2026-11-14",
+      "why": "Every family of offices now reads its petition rule from one file, computed for the race's own electorate; the municipal rows moved in unchanged."
     }
   ]
 }
