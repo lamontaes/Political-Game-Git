@@ -3586,6 +3586,25 @@ function giveBack(
       learned: { "their-home": own },
     };
   }
+  if (kind === "school") {
+    // Where the asker went to school, given back after the player's answer
+    // (lead, Nov 14, rule 55): a talk never ends on the player's answer.
+    const own = schoolOf(core, asker);
+    if (!own) return null;
+    const ownFact = { key: `person:${askerId}:school`, value: own.recordId };
+    if (known(ownFact)) return null;
+    return {
+      facts: {
+        you,
+        "their-school": {
+          text: own.text,
+          sourceRecordIds: own.sourceRecordIds,
+        },
+      },
+      stage: schoolStage(core, asker),
+      learned: { "their-school": ownFact },
+    };
+  }
   if (kind === "own-work-new") {
     const held = sayJob(core, asker);
     if (!held) return { facts: { you }, stage: "none", learned: {} };
@@ -3655,6 +3674,32 @@ function giveBack(
     };
   }
   return null;
+}
+
+/**
+ * Whether the asker has an answer to give back that the bank can say: with
+ * no `<kind>-give` piece for it, the small question is not offered (lead,
+ * Nov 14: new subjects stay unoffered when their pieces are absent).
+ */
+function canGiveBack(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  otherId: PersonId,
+  kind: string,
+  subject: Subject,
+): boolean {
+  const back = giveBack(core, playerId, otherId, kind, subject);
+  return (
+    !!back &&
+    !!composedLine(
+      core,
+      otherId,
+      `${kind}-give`,
+      back.facts,
+      back.stage,
+      `${playerId}:${otherId}:${core.date}:${subject.id}:can-give`,
+    )
+  );
 }
 
 /**
@@ -3747,7 +3792,7 @@ function askSubject(
   // give back (lead, Nov 13).
   if (
     GIVES_BACK.includes(kind) &&
-    !giveBack(core, playerId, otherId, kind, subject)
+    !canGiveBack(core, playerId, otherId, kind, subject)
   ) {
     conversation.used.push(subject.id);
     return false;
@@ -3830,7 +3875,7 @@ function raiseSubject(
   // record is not asked about.
   if (
     GIVES_BACK.includes(then.kind) &&
-    !giveBack(core, playerId, otherId, then.kind, subject)
+    !canGiveBack(core, playerId, otherId, then.kind, subject)
   )
     return false;
   const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`;
