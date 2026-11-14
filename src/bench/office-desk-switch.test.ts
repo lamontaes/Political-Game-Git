@@ -118,7 +118,9 @@ it(`the desk switch: ${PLACE.name}, seed ${PLACE.seed}`, () => {
       (a) => a.recordId === id && (a.kind === "sign" || a.kind === "veto"),
     );
 
-  // The mayor's seat has the desk switch, On; a mayor sits no floor.
+  // The mayor's seat has the desk switch, On; a mayor sits no floor and is stopped at no meeting
+  // (the mayor is not a member of the council), so there is no meetings switch for nothing.
+  expect(officeView(core, mayor).stops.map((s) => s.key)).toEqual(["desk"]);
   expect(officeView(core, mayor).stops.find((s) => s.key === "desk")).toEqual({
     key: "desk",
     on: true,
