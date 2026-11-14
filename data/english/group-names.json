@@ -1,21 +1,35 @@
 {
-  "about": "How a cause group founded in the simulation is named when a screen or story says it (data/english, read by src/english/group-names.ts). A form is filled with the group's topic as a sentence says it mid-line; the form is picked by a fixed reading of the group's key so a group keeps one name. Replaces SG-P10-group-name-key. A form's `plural` says whether the name takes a plural verb (\"Friends of ... back\", \"Coalition for ... backs\").",
+  "about": "How a cause group founded in the simulation is named when a screen or story says it (data/english, read by src/english/group-names.ts). A form is filled with the group's topic as a sentence says it mid-line; the form is picked by a fixed reading of the group's key so a group keeps one name. Replaces SG-P10-group-name-key. A form's `plural` says whether the name takes a plural verb (\"Friends of ... back\", \"Coalition for ... backs\"). A form's `side` is the side of a question its group stands on: a group formed over a stance takes a form of its own side (the key ends in :for or :against), so a name never contradicts the group and the two sides of one question never share a name (Words lead, Nov 14).",
   "forms": [
     {
       "text": "Citizens for {topic}",
-      "plural": true
+      "plural": true,
+      "side": "for"
     },
     {
       "text": "Neighbors Concerned About {topic}",
-      "plural": true
+      "plural": true,
+      "side": "for"
     },
     {
       "text": "Coalition for {topic}",
-      "plural": false
+      "plural": false,
+      "side": "for"
     },
     {
       "text": "Friends of {topic}",
-      "plural": true
+      "plural": true,
+      "side": "for"
+    },
+    {
+      "text": "{topic} Watch",
+      "plural": false,
+      "side": "against"
+    },
+    {
+      "text": "Citizens' Council on {topic}",
+      "plural": false,
+      "side": "against"
     }
   ]
 }

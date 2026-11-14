@@ -539,10 +539,17 @@ class Reader {
   organization(id: string | undefined): string | null {
     const org = id ? this.core.organizations.get(id as EntityId) : undefined;
     if (!org) return null;
-    if (/[:_]/.test(org.name))
-      return org.kind === "cause-group" && org.topic
-        ? causeGroupName(org.id, org.topic)
-        : null;
+    if (/[:_]/.test(org.name)) {
+      if (org.kind === "cause-group" && org.topic)
+        return causeGroupName(org.id, org.topic);
+      // A group formed over a stance (interest-groups.ts): its record keeps
+      // the question, and its id ends with the side; it is named from them by
+      // the one namer, on read, the same everywhere it is said.
+      if (org.kind === "interest-group" && org.topic) {
+        return causeGroupName(org.id, org.topic);
+      }
+      return null;
+    }
     return org.name || null;
   }
   /** An outlet's name, from its organization. */

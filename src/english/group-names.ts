@@ -7,16 +7,25 @@
 import data from "../../data/english/group-names.json" with { type: "json" };
 import { topicInSentence } from "./policy-names";
 
-const FORMS = data.forms as readonly { text: string; plural: boolean }[];
+const FORMS = data.forms as readonly {
+  text: string;
+  plural: boolean;
+  side: "for" | "against";
+}[];
 
 /** The group's name, or null where its topic has no name to say. */
 export function causeGroupName(key: string, topic: string): string | null {
   const said = topicInSentence(topic);
   if (!said) return null;
+  // A group formed over a stance names its side in its key (":against"); the
+  // name is made from that side's forms, so it never contradicts the group.
+  const forms = FORMS.filter(
+    (f) => f.side === (key.endsWith(":against") ? "against" : "for"),
+  );
   let sum = 0;
   for (let i = 0; i < key.length; i++)
     sum = (sum * 31 + key.charCodeAt(i)) >>> 0;
-  return FORMS[sum % FORMS.length]!.text.replace("{topic}", titled(said));
+  return forms[sum % forms.length]!.text.replace("{topic}", titled(said));
 }
 
 /** Words a name keeps small inside it ("Friends of the Clean Water Rule"). */

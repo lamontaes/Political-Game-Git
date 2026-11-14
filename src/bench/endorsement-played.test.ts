@@ -83,7 +83,7 @@ it("North Courtland, Alabama: the player's endorsements print", () => {
     "2025-07-01",
   );
   process.stdout.write(
-    `${where}: ${yes.length} yes; ${stories.map((s) => `${s?.headline} | ${s?.lede}`).join(" // ")}\n`,
+    `${where}: ${yes.length} yes; ${stories.map((s) => `${s?.headline} | ${s?.lede} | ${(s?.paragraphs ?? []).join(" ")}`).join(" // ")}\n`,
   );
   expect(yes.length, where).toBeGreaterThan(0);
   expect(stories.length, `${where}: a printed endorsement`).toBeGreaterThan(0);
@@ -97,16 +97,22 @@ it("Laurel, Montana: a group's endorsement is told by what it works for", () => 
     "2025-08-15",
   );
   process.stdout.write(
-    `${where}: ${yes.length} yes; ${stories.map((s) => `${s?.headline} | ${s?.lede}`).join(" // ")}\n`,
+    `${where}: ${yes.length} yes; ${stories.map((s) => `${s?.headline} | ${s?.lede} | ${(s?.paragraphs ?? []).join(" ")}`).join(" // ")}\n`,
   );
   expect(yes.length, where).toBeGreaterThan(0);
   expect(stories.length, `${where}: a printed endorsement`).toBeGreaterThan(0);
+  // The group is named, not told by its stance, and the stance stays in the
+  // words ("Policing Watch"; Words lead, Nov 14).
   expect(
-    stories.some((s) =>
-      /civilian board that reviews the police/.test(
-        `${s?.headline} ${s?.lede}`,
-      ),
+    stories.some(
+      (s) =>
+        /^Policing Watch (backs|endorses) /.test(s?.headline ?? "") &&
+        /Policing Watch/.test(s?.lede ?? ""),
     ),
+    where,
+  ).toBe(true);
+  expect(
+    stories.every((s) => !/^Group for /.test(s?.headline ?? "")),
     where,
   ).toBe(true);
 }, 600_000);

@@ -46,4 +46,51 @@ describe("cause group names", () => {
     });
     expect(causeGroupForm("the Republican Party")).toBeNull();
   });
+  // The two sides of one question never share a name, and a name never
+  // contradicts its side (Words lead, Nov 14): a group against something is
+  // never "Friends of" it or "for" it.
+  it("names the two sides of every question apart, each from its own forms", () => {
+    let named = 0;
+    for (const question of allQuestions()) {
+      const forName = causeGroupName(
+        `organization:group:town:${question}:for`,
+        question,
+      );
+      const againstName = causeGroupName(
+        `organization:group:town:${question}:against`,
+        question,
+      );
+      expect(Boolean(forName), question).toBe(Boolean(againstName));
+      if (!forName || !againstName) continue;
+      named += 1;
+      expect(againstName, question).not.toBe(forName);
+      // Take the topic out: what is left is the form.
+      const topic = againstName
+        .replace(/^Citizens' Council on /, "")
+        .replace(/ Watch$/, "");
+      const form = againstName.replace(topic, "{topic}");
+      expect(form, `${question}: ${againstName}`).toMatch(
+        /^(\{topic\} Watch|Citizens' Council on \{topic\})$/,
+      );
+      expect(form, againstName).not.toMatch(/\bfor\b|Friends of/);
+      expect(causeGroupForm(againstName), againstName).toEqual({
+        plural: false,
+      });
+    }
+    expect(named).toBeGreaterThan(0);
+  });
+  // The two sides of one question in a named place and a fixed world (Laurel,
+  // Montana 3042700, seed 61920e6d...; the endorsement of Nina Jacobs in
+  // src/bench/endorsement-played.test.ts): the id is the played group's.
+  it("names the same question from each side with a different name", () => {
+    const question =
+      "us-policy-positions:justice-public-safety.civilian-oversight-of-police";
+    const id = (side: string) =>
+      `organization:group:jurisdiction_8eebeac6136504cb:${question}:${side}`;
+    expect(causeGroupName(id("against"), question)).toBe("Policing Watch");
+    expect(causeGroupName(id("for"), question)).not.toBe("Policing Watch");
+    expect(causeGroupName(id("for"), question)).toMatch(
+      /^(Citizens for|Neighbors Concerned About|Coalition for|Friends of) /,
+    );
+  });
 });
