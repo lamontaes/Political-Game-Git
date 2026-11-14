@@ -5649,6 +5649,9 @@ function offerChoices(
     ...(other
       ? { "their-first": { text: other.givenName, sourceRecordIds: [otherId] } }
       : {}),
+    // Their workplace once it has been named, as people say it: "there"
+    // (round 11, rule 74: never "worked at work?").
+    there: { text: "there", sourceRecordIds: [otherId] },
   };
   const stage = own.stage ?? last.stage;
   const turn = conversation.lines.length;
@@ -6372,7 +6375,12 @@ function partingLine(
     if (mine) mark("player-works", [mine.job.id]);
     if (!housemate) mark("not-housemate", [speakerId]);
     // "Thanks for the company" needs a talk of four exchanges (round 11).
-    if (conversation.lines.length >= 8) mark("long-talk", [speakerId]);
+    if (
+      conversation.lines.length >=
+      (rulesFile as unknown as { longTalkLines: { value: number } })
+        .longTalkLines.value
+    )
+      mark("long-talk", [speakerId]);
     for (const part of dayParts(
       conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId),
     ))

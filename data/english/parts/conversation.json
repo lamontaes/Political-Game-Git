@@ -64,7 +64,8 @@
     "kin_home": "Where the speaker's relative lives, from the relative's household record.",
     "their_name": "A stranger's own first name, as they give it.",
     "self": "The player's own first name, as the player gives it.",
-    "rent_again": "The rent after its figure was said (\"the rent\"), so the figure is said once in a talk."
+    "rent_again": "The rent after its figure was said (\"the rent\"), so the figure is said once in a talk.",
+    "there": "A workplace already named, as people say it afterward (\"there\"), so a reply never repeats the employer or says \"at work\"."
   },
   "maxWords": 10,
   "lineWords": {
@@ -29296,7 +29297,7 @@
       "key": "conversation.other-work-answer-tenure.how-long-have-you-worked-",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How long have you worked there?",
+      "text": "How long have you worked {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -29316,7 +29317,7 @@
       "key": "conversation.other-work-answer-tenure.how-long-have-you-been-wo",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How long have you been working there?",
+      "text": "How long have you been working {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -29336,7 +29337,7 @@
       "key": "conversation.other-work-answer-tenure.how-many-years-have-you-p",
       "move": "other-work-answer-tenure",
       "kind": "spoken",
-      "text": "How many years have you put in there?",
+      "text": "How many years have you put in {there}?",
       "uses": [
         {
           "move": "other-work-answer-tenure",
@@ -29508,7 +29509,7 @@
       "key": "conversation.other-work-answer-detail.what-do-you-do-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do you do there?",
+      "text": "What do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -29526,7 +29527,7 @@
       "key": "conversation.other-work-answer-detail.what-s-your-job-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What's your job there?",
+      "text": "What's your job {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -29544,7 +29545,7 @@
       "key": "conversation.other-work-answer-detail.what-kind-of-work-do-you-",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What kind of work do you do there?",
+      "text": "What kind of work do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -29562,7 +29563,7 @@
       "key": "conversation.other-work-answer-detail.what-do-they-have-you-doi",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do they have you doing there?",
+      "text": "What do they have you doing {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -29580,7 +29581,7 @@
       "key": "conversation.other-work-answer-detail.and-what-do-you-do-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "And what do you do there?",
+      "text": "And what do you do {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -29598,7 +29599,7 @@
       "key": "conversation.other-work-answer-detail.what-do-you-do-over-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
-      "text": "What do you do over there?",
+      "text": "What do you do over {there}?",
       "uses": [
         {
           "move": "their-position-raise-ask",
@@ -42192,10 +42193,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.i-see-it-differently",
+      "key": "conversation.address-point-core-against.see-it-differently",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I see it differently.",
+      "text": "See it differently.",
       "uses": [
         {
           "move": "address-point-core-against",
