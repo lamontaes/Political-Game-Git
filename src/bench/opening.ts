@@ -4,6 +4,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import type { OpeningStory } from "../director/opening-story";
 import { wordSceneLine } from "../english/scene-words";
 import { dayOpening } from "../english/day-words";
+import { addressAiring } from "../director/address-airing";
 import { workSpansOf } from "./places";
 
 const MINUTES_PER_DAY = 24 * 60;
@@ -12,19 +13,14 @@ const MINUTES_PER_DAY = 24 * 60;
 // home that evening, where that night's news can be picked up. Every word is
 // the director's opening story, composed by the English engine at loading.
 
-/**
- * The evening news hour, for a household with no one at work on the opening
- * day: home all day, the address on that night's news.
- */
-// stopgapId: SG-DIRECTOR-opening-evening-news-minute
-export const OPENING_EVENING_MINUTE = 20 * 60 + 30;
-
 const arrivals = new WeakMap<CoreState, Map<string, number>>();
 
 /**
  * When the player lands at home on the opening day (owner, Oct 14: home after
  * the address): once the household's last shift that day has ended, from each
- * member's own work spans; the evening news hour where no one works that day.
+ * member's own work spans, and never before the address airs at the player's
+ * own clock (data/opening/address-airing.json), the hour a household with no
+ * one at work sits down to it.
  */
 export function openingArrivalMinute(
   core: CoreState,
@@ -40,9 +36,11 @@ export function openingArrivalMinute(
     .filter((id) => core.people.get(id)?.alive)
     .flatMap((id) => workSpansOf(core, id, core.date) ?? [])
     .map((span) => span.endMinute);
-  const minute = ends.length
-    ? Math.min(Math.max(...ends), MINUTES_PER_DAY - 1)
-    : OPENING_EVENING_MINUTE;
+  const airs = addressAiring(
+    core,
+    core.people.get(playerId)?.placeId ?? "",
+  ).minuteOfDay;
+  const minute = Math.min(Math.max(airs, ...ends), MINUTES_PER_DAY - 1);
   if (!arrivals.has(core)) arrivals.set(core, new Map());
   arrivals.get(core)!.set(key, minute);
   return minute;

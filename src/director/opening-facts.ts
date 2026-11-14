@@ -24,6 +24,8 @@ export const ADDRESS_FACT = {
   parts: "address:parts",
   /** The bank pieces the address was said with, in order, split by a space: what its speaker's later addresses read so they say other words. */
   pieces: "address:pieces",
+  /** The clock minute of the day the address airs at the hearer's own place (the opening day's address only). */
+  airsAtMinute: "address:airs-at-minute",
   /** The speaker's office as the said-as words key it ("governor", "county-board:presiding"): the nameplate says them by it ("Chair Sara Mullen"). */
   office: "address:office",
 } as const;
