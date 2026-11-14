@@ -42,6 +42,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
+import { floorDebateFacts } from "./floor-debate-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import { storyTopicName, topicInSentence } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
@@ -1085,11 +1086,13 @@ function composeBinding(
     };
   // The floor before the roll (legislature.ts recordFloorDebate): which side
   // the speaker rose for, and the bill.
-  if (record?.kind === "floor-debate")
+  if (record?.kind === "floor-debate") {
     facts[said.forId === askerId ? "speaks-for" : "speaks-against"] = {
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, askerId],
     };
+    floorDebateFacts(core, facts, said, moment.causeId, askerId);
+  }
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {

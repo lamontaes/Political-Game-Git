@@ -3425,6 +3425,12 @@
           }
         },
         {
+          "id": "held-against",
+          "label": "You held your ground",
+          "keeps": "relationship-strained",
+          "when": { "reply": ["disagree"], "asker": ["press"] }
+        },
+        {
           "id": "spoke-against",
           "label": "You said you disagreed",
           "keeps": "none",
