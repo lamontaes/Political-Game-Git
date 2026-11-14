@@ -106,6 +106,13 @@ for (let draw = 0; draw < draws; draw += 1) {
     // does when a day is begun, so the scene has the hour the game gives it.
     const bench = new BenchPlayer(core, director);
     bench.select(me);
+    // One press of Day: the clock lands on the next morning, the hour the
+    // bench plays a day-stopping scene at.
+    try {
+      bench.advance("day");
+    } catch (error) {
+      say(`Day did not move: ${(error as Error).message}`);
+    }
     const book = director.ledger.people.get(me)!;
     const entry = book.schedule.find((r) =>
       book.momentsById

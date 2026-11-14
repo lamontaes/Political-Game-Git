@@ -164647,10 +164647,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-still-here-at-breakfast-and-hasn-t-said-much",
+      "key": "scene-talk.narrate-narrate.name-comes-by-early-and-sits-down-at-the-kitchen-table-with-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is still here at breakfast, and hasn't said much.",
+      "text": "{name} comes by early and sits down at the kitchen table with you.",
       "uses": [
         {
           "subject": "scene",
