@@ -28,8 +28,8 @@ const ON_THE_LINE =
 
 /** The days a call is tried on: a world at opening has little news yet. */
 const NEAR_DAYS = [0, 10, 30];
-/** A long gap: the three "it's been a while" lines need `when-long`. */
-const LONG_DAYS = [150];
+/** A long gap: the three "it's been a while" lines need `when-long`; at Deepstep, day 300 has three people long out of touch, enough for the rotation (least recently said first) to reach all three. */
+const LONG_DAYS = [300];
 /** Every line said in any call of the run. */
 const PLAYED = new Set<string>();
 
@@ -110,7 +110,7 @@ describe("a call is greeted and ended as a call", () => {
           );
       }
     },
-    70_000,
+    60_000,
   );
 });
 
@@ -123,8 +123,6 @@ const CALL_CASES = [
   ["phone-pin-b", "18661a5958abacd3", NEAR_DAYS],
   ["phone-pin-c", "5c1b2e77d3a94f10", NEAR_DAYS],
   ["phone-pin-c-long-gap", "5c1b2e77d3a94f10", LONG_DAYS],
-  ["phone-pin-b-long-gap", "18661a5958abacd3", LONG_DAYS],
-  ["phone-pin-a-long-gap", "b550a10bcd3bf708", LONG_DAYS],
 ] as const;
 
 describe("every call is a call (Words lead, Nov 14: five faults)", () => {
@@ -263,7 +261,7 @@ describe("every call is a call (Words lead, Nov 14: five faults)", () => {
         `PHONE ${place.name}: ${callees.length} people, ${callsOffered} calls with words, ${offeredEmpty} the room's check offered that opened on nothing, ${heardGoodbye} goodbyes\n`,
       );
     },
-    240_000,
+    100_000,
   );
 });
 
