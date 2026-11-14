@@ -107,6 +107,7 @@ describe("a relative's news told at home through the composer", () => {
       );
       expect(back?.text).toBeTruthy();
       expect(back!.text).not.toContain("Nobody has told us");
+      expect(back!.text).not.toContain("don't know yet");
       said.add(back!.text);
     }
     expect([...said].some((text) => text.includes("since March"))).toBe(true);

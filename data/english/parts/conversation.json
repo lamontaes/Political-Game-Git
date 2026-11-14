@@ -42728,7 +42728,7 @@
           "subject": "death-news-back",
           "role": "core",
           "stages": ["ask"],
-          "excludesFacts": ["cause"]
+          "excludesFacts": ["cause", "illness-known"]
         }
       ],
       "piece": {
