@@ -897,7 +897,7 @@ function relativeNewsFacts(
     const heard = heardRows.find((row) => row.key.startsWith(told));
     if (heard) {
       const recordId = heard.key.slice(`${HEARD_SUBJECT}illness-news:`.length);
-      const began = recordId.slice(recordId.lastIndexOf(":") + 1);
+      const began = recordId.slice(recordId.lastIndexOf(":") + one);
       facts["illness-known"] = {
         text: "yes",
         sourceRecordIds: [recordId, ...cites],
