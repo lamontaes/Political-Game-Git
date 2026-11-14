@@ -45,6 +45,8 @@ export function schoolNameWords(name: string): string {
         ? beforeSchool
         : word;
     const beforeHigh = BEFORE_HIGH.get(key);
-    return beforeHigh && /^\s+High\b/.test(after) ? beforeHigh : word;
+    return beforeHigh && /^(?:\/[A-Za-z]+)?\s+High\b/.test(after)
+      ? beforeHigh
+      : word;
   });
 }

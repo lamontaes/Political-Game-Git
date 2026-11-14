@@ -55,6 +55,9 @@ it("keeps a state's postal code and a person's Jr or Sr, and spells out the rest
     "Martin Luther King Jr. Elementary School",
   );
   expect(said("Lincoln Jr High")).toBe("Lincoln Junior High");
+  expect(said("New Haven Jr/Sr High School")).toBe(
+    "New Haven Junior/Senior High School",
+  );
   expect(said("Northwestern MS")).toBe("Northwestern Middle School");
   expect(said("Shamokin Area El Sch")).toBe("Shamokin Area Elementary School");
   expect(said("El Paso Academy")).toBe("El Paso Academy");
