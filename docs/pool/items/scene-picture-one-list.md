@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-md7v2m
-pr:
+pr: #9094
 after:
 blocked-on:
 lead: words
