@@ -15,7 +15,10 @@ import {
 import { useSpotId } from "./spot-id";
 import { spotTags, spotTagsOf, typesByPurpose } from "./spot-tags";
 
-const NO_GRADES: PartGradeLedger = { schema: "english-part-grades/1", parts: {} };
+const NO_GRADES: PartGradeLedger = {
+  schema: "english-part-grades/1",
+  parts: {},
+};
 
 const TYPES = [
   {
