@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude (views thread)
-pr:
+pr: 9307
 after: people-views-stances-from-life
 blocked-on:
 root: design-electorate-one-model
