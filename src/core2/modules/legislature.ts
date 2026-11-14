@@ -4682,6 +4682,11 @@ function committeeStage(
       witnessSides: witnesses.map((w) => w.stake).join(","),
       witnessLives: witnesses.map((w) => w.life).join(","),
       witnessLifeRecords: witnesses.map((w) => w.lifeRecordId ?? "").join(","),
+      // What the bill is about, so a witness's line fits it: a wage bill, or the
+      // policy area of the question it was heard on.
+      area: bill.provisions.some((p) => p.series === "minimum-wage")
+        ? "wage"
+        : (question?.question.split(":")[1]?.split(".")[0] ?? ""),
     },
   });
   return record;

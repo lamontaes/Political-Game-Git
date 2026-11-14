@@ -1132,6 +1132,24 @@ function composeBinding(
         text: child.givenName,
         sourceRecordIds: [...cited, child.id],
       };
+    // The bill's area, so a line about a school, a doctor, a home or a raise
+    // plays only on a bill about one.
+    const area = {
+      wage: "bill-wage",
+      education: "bill-schools",
+      "health-human-services": "bill-health",
+      "housing-land-use": "bill-housing",
+    }[said.area ?? ""];
+    if (area) facts[area] = { text: "yes", sourceRecordIds: [moment.causeId] };
+    // A witness who holds a job took time off from it to come.
+    const working = [...(core.work.commitmentsByPerson.get(askerId) ?? [])]
+      .map((id) => core.work.commitments.get(id))
+      .find((row) => row && row.endsAt === undefined);
+    if (working)
+      facts["has-job"] = {
+        text: "yes",
+        sourceRecordIds: [...cited, working.id],
+      };
     if (named?.sponsorId === askedId)
       facts["you-sponsor"] = { text: "yes", sourceRecordIds: [named.id] };
     const does = named ? billNameOf(named)?.purpose : undefined;

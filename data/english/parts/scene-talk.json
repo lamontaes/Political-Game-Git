@@ -178614,10 +178614,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-a-coat-on-but-hasn-t-left-they-wave-you-over",
+      "key": "scene-talk.narrate-narrate.name-has-a-coat-on-but-hasn-t-left-and-waves-you-over",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has a coat on but hasn't left. They wave you over.",
+      "text": "{name} has a coat on but hasn't left, and waves you over.",
       "uses": [
         {
           "subject": "scene",
@@ -178637,10 +178637,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-testified-on-your-bill-they-re-still-in-the-hall-when-you-come-out",
+      "key": "scene-talk.narrate-narrate.name-testified-on-your-bill-and-is-still-in-the-hall-when-you-come-out",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} testified on your bill. They're still in the hall when you come out.",
+      "text": "{name} testified on your bill and is still in the hall when you come out.",
       "uses": [
         {
           "subject": "scene",
@@ -178706,7 +178706,7 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-paid-under-the-floor"]
+          "requiresFacts": ["life-paid-under-the-floor", "bill-wage"]
         }
       ]
     },
@@ -178731,7 +178731,7 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-paid-under-the-floor"]
+          "requiresFacts": ["life-paid-under-the-floor", "bill-wage"]
         }
       ]
     },
@@ -178943,7 +178943,7 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-owns", "witness-for"]
+          "requiresFacts": ["life-owns", "witness-for", "bill-housing"]
         }
       ]
     },
@@ -178968,7 +178968,7 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-owns", "witness-against"]
+          "requiresFacts": ["life-owns", "witness-against", "bill-housing"]
         }
       ]
     },
@@ -178993,7 +178993,12 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-children-at-home", "witness-for", "own-child"]
+          "requiresFacts": [
+            "life-children-at-home",
+            "witness-for",
+            "own-child",
+            "bill-schools"
+          ]
         }
       ]
     },
@@ -179047,7 +179052,7 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-own-age-health", "witness-for"]
+          "requiresFacts": ["life-own-age-health", "witness-for", "bill-health"]
         }
       ]
     },
@@ -179072,7 +179077,11 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-own-age-health", "witness-against"]
+          "requiresFacts": [
+            "life-own-age-health",
+            "witness-against",
+            "bill-health"
+          ]
         }
       ]
     },
@@ -179127,10 +179136,10 @@
       ]
     },
     {
-      "key": "scene-talk.state-tell.i-drove-a-long-way-to-say-that-i-hope-somebody-was-listening",
+      "key": "scene-talk.state-tell.i-ve-never-done-anything-like-that-before-i-hope-somebody-was-listening",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I drove a long way to say that. I hope somebody was listening.",
+      "text": "I've never done anything like that before. I hope somebody was listening.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
@@ -179415,10 +179424,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-deflect.can-you-send-that-to-my-office",
+      "key": "scene-talk.reply-deflect.i-can-t-talk-right-now",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Can you send that to my office?",
+      "text": "I can't talk right now.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
@@ -179587,10 +179596,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.it-means-i-stop-picking-up-extra-shifts-maybe-i-make-it-home-for-dinner",
+      "key": "scene-talk.follow-answer.it-means-i-m-not-short-every-month",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It means I stop picking up extra shifts. Maybe I make it home for dinner.",
+      "text": "It means I'm not short every month.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
@@ -179607,7 +179616,7 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-paid-under-the-floor"]
+          "requiresFacts": ["life-paid-under-the-floor", "bill-wage"]
         }
       ]
     },
@@ -179732,15 +179741,20 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-children-at-home", "witness-for", "own-child"]
+          "requiresFacts": [
+            "life-children-at-home",
+            "witness-for",
+            "own-child",
+            "bill-schools"
+          ]
         }
       ]
     },
     {
-      "key": "scene-talk.follow-answer.it-means-i-stop-splitting-pills-to-make-them-last",
+      "key": "scene-talk.follow-answer.it-means-i-can-stop-putting-off-the-doctor",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It means I stop splitting pills to make them last.",
+      "text": "It means I can stop putting off the doctor.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
@@ -179757,7 +179771,7 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-own-age-health", "witness-for"]
+          "requiresFacts": ["life-own-age-health", "witness-for", "bill-health"]
         }
       ]
     },
@@ -179782,7 +179796,11 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
-          "requiresFacts": ["life-own-age-health", "witness-against"]
+          "requiresFacts": [
+            "life-own-age-health",
+            "witness-against",
+            "bill-health"
+          ]
         }
       ]
     },
@@ -179914,10 +179932,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-press.i-came-a-long-way-to-hear-that",
+      "key": "scene-talk.follow-press.i-wish-you-d-heard-me-out",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I came a long way to hear that.",
+      "text": "I wish you'd heard me out.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
@@ -179984,6 +180002,7 @@
           "role": "asker",
           "purpose": "witness-stake",
           "key": "honor",
+          "requiresFacts": ["has-job"],
           "after": "deflect"
         }
       ]
