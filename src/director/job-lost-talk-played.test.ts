@@ -26,8 +26,8 @@ const PLACES = [
   },
   {
     seed: "5d20040f-f644-490d-a78c-694236af4bcd",
-    draw: 2,
-    name: "Littlejohn Island, Maine",
+    draw: 1,
+    name: "Hotevilla-Bacavi, Arizona",
   },
   {
     seed: "9d453478-d777-4f4b-acce-06824b7697f4",

@@ -834,6 +834,29 @@ function seekingOf(
     : undefined;
 }
 
+/**
+ * Whether a moment is the day the person's job ended when the ledger kept the
+ * day's one cause under another kind: a closure that also formed a drive
+ * shares the drive's cause id, so the moment is labeled for the drive and its
+ * money channel carries the pay lost. The jobs record says which: the person's
+ * own record of a job ending was learned that day.
+ */
+function jobEndedWithMoment(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  moment: { date: string; channels?: readonly { channel: string }[] },
+): boolean {
+  if (!moment.channels?.some((row) => row.channel === "money")) return false;
+  for (const [key, row] of core.knowledgeByPerson.get(personId) ?? [])
+    if (
+      /^job:.+:status$/.test(key) &&
+      row.value === "ended" &&
+      row.learnedAt === moment.date
+    )
+      return true;
+  return false;
+}
+
 /** The job a person last saw end, from their own record of it. */
 function lastEndedJob(core: Readonly<CoreState>, personId: PersonId) {
   let best: { jobId: string; at: string } | undefined;
@@ -1239,7 +1262,9 @@ function jobLost(
     employer: fact(employer, [ended.id, org.id]),
     when: fact(spokenWhen(lost.date, core.date)),
   };
-  const position = titleWords(ended.title, org);
+  const position = sayableTitle(ended.title)
+    ? withArticle(ended.title)
+    : undefined;
   if (position) facts.position = fact(position, [ended.id]);
   const held = heldSinceRecord(core as CoreState, speaker.id, ended.id);
   const years = tenureYears(
@@ -2392,7 +2417,9 @@ export function subjectsBetween(
   const lost =
     recentMoments(core, director, speakerId).find(
       (moment) =>
-        moment.label === "money:job-ended" && !moment.counterpartIds.length,
+        !moment.counterpartIds.length &&
+        (moment.label === "money:job-ended" ||
+          jobEndedWithMoment(core, speakerId, moment)),
     ) ??
     recentMoments(core, director, listenerId).find(
       (moment) =>
