@@ -1574,8 +1574,9 @@ function composeBinding(
         };
   // A constituent's own records, worded: the job they lost, the notice on
   // their rent, the pay under the floor, the relative who is ill. A resident
-  // at their door speaks from the same records.
-  if (variant && (type.purpose === "constituent-help" || door))
+  // at their door speaks from the same records. Office hours always carries
+  // the case's own facts, whether or not a variant was chosen.
+  if (type.purpose === "constituent-help" || (variant && door))
     Object.assign(
       facts,
       constituentFacts(

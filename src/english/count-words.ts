@@ -118,3 +118,9 @@ export function filedSoFarSaid(count: number): string {
   if (count < 1) return "";
   return filedWords.soFar[count - 1] ?? filedWords.manySoFar;
 }
+
+/** Days from today as people say them: "today", "tomorrow", "in three days". */
+export function daysSaid(days: number): string {
+  const said = data.days as Readonly<Record<string, string>>;
+  return said[String(days)] ?? said.more!.replace("{count}", countSaid(days));
+}

@@ -160,5 +160,10 @@
       "eight",
       "nine"
     ]
+  },
+  "days": {
+    "0": "today",
+    "1": "tomorrow",
+    "more": "in {count} days"
   }
 }

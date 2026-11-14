@@ -1,0 +1,9 @@
+{
+  "about": "The shared move sets of the scene-talk bank (words composer). A scene step is a move said about the scene's records, not a stock sentence per scene: a piece whose use names a `set` instead of a `purpose` serves every purpose listed here under that set, as closely as a piece written for the purpose itself. A purpose keeps a piece of its own only for what is particular to it. src/english/scene-talk-words.ts reads this file; the records each slot is filled from are bound by the purpose's facts in src/director.",
+  "sets": {
+    "case-help": {
+      "about": "Office hours: a constituent brings the problem their own case holds (constituent-cases.ts: out of work with savings running down, or paid under the minimum wage in force; {employer}, {since}, {money-left}, {pay}, {floor}) and the official answers with what the office can do: take it up, which refers it to {agency}; hand it to {staffer}; or turn it away. The close says when the office decides ({respond-in}). The scene's ending decides the case (constituent-cases.ts reads scene.reply).",
+      "purposes": ["constituent-help"]
+    }
+  }
+}
