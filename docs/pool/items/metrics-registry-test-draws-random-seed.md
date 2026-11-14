@@ -18,7 +18,7 @@ root: rc10-screens-keep-own-facts
 source: Account lead thread "Show last year on the metrics", Nov 14
 ---
 
-**What.** `src/bench/metrics-registry.test.ts` draws one of its two places at random, so it is red or green by draw. Seen: Metrics' budget heading and the Budgets tab in a drawn place; for the draw below the played town has no government of its own. The fix goes in the test file and the budgets engine, not in the screen.
+**What.** `src/bench/metrics-registry.test.ts` draws one of its two places at random, so it is red or green by draw. For one draw the played town has no government of its own. The fix goes in the test file and the budgets engine, not in the screen. Seen: Metrics' budget heading and the Budgets tab in a drawn place.
 
 **Cause.** Measured: seed 9ca49eb7074e5581, Fananganan, Northern Mariana Islands, `buildBenchWorld(seed, gameStartDate(), { twoLevel: true })`, run to 2026-03-25: the assertion at the town-government line (`town?.jurisdictionId` equals the place) gets undefined. Red the same way on train head 8bb1ff9d without any Metrics change. Why `budgetView(core, playerId).townGovernmentId` names no government there is not yet found.
 
