@@ -33,3 +33,5 @@ lead: words
 **Files.** src/director/filing-visit.ts, src/director/scene-talk.ts, src/bench/filing.ts, data/english/parts/scene-talk.json, src/director/data/purpose-arcs.json
 
 **Notes.** Filed by the #9153 carry thread, Nov 14. The owner's Oct 28 item 32 (the clerk says the duties) is already met by `tell-duty`; this item is only about making the fee one talk with the scene. The account lead ruled this comes after #9153 and before petition in lieu; the fee, refusal and "I'll come back with it." lines of #9153 are the nodes it joins to the tree.
+
+Built (Nov 14): the fee is a `tell-filing-fee` move in the `filing-clerk` arc's statement (`stateMoves`); the refusal is `follow` `refuse` after `agree`, worded only with the `fee-short` fact (the accept pieces exclude it); `come-back` is the scene's reply after the refusal (`again.refuse`), with an act-kind row in `data/content/trait-decisions.json`; the separate `visitLine` fee steps in `filing-visit.ts` are gone. The paid line stays one step after the filing is taken (it cites the filing record), and the one accept piece that says "on the list" is excluded where a fee was paid so the list is said once.

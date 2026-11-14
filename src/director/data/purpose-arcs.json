@@ -2211,15 +2211,16 @@
     },
     "filing-clerk": {
       "state": "tell",
-      "stateMoves": ["tell-running", "tell-race", "tell-duty", "tell-deadline"],
+      "stateMoves": ["tell-running", "tell-race", "tell-duty", "tell-deadline", "tell-filing-fee"],
       "replies": ["agree", "ask", "confront", "leave"],
       "follow": {
-        "agree": ["accept"],
+        "agree": ["accept", "refuse"],
         "ask": ["answer"],
         "confront": ["answer"]
       },
       "again": {
-        "answer": ["agree", "leave"]
+        "answer": ["agree", "leave"],
+        "refuse": ["come-back", "leave"]
       },
       "endings": [
         {

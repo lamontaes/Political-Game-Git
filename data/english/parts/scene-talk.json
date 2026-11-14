@@ -158,7 +158,8 @@
     "agency": "The office a constituent's case is referred to when the official takes it up (\"the workforce office\"), by the case's problem in the constituent-cases record.",
     "staffer": "The first name of an aide serving on the official's staff, from the staff record.",
     "respond-in": "When the office decides a constituent's case if nobody does sooner (\"in seven days\"), from the case's deadline.",
-    "money-left": "How a job seeker's savings stand, in words and never a figure (\"running low\", \"almost gone\"), from their constituent case's severity."
+    "money-left": "How a job seeker's savings stand, in words and never a figure (\"running low\", \"almost gone\"), from their constituent case's severity.",
+    "fee-short": "Yes where the one filing cannot pay the fee (their cash is under the sum); nothing otherwise."
   },
   "maxWords": 70,
   "parts": [
@@ -154678,7 +154679,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "agree"
+          "after": "agree",
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -154706,7 +154708,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "agree"
+          "after": "agree",
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -154734,7 +154737,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "agree"
+          "after": "agree",
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -154762,7 +154766,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "agree"
+          "after": "agree",
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -154791,7 +154796,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -154821,7 +154827,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -154851,7 +154858,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -154881,7 +154889,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "seat-place"]
+          "requiresFacts": ["seat", "seat-place"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -154911,7 +154920,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -154941,7 +154951,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "opponent"]
+          "requiresFacts": ["seat", "opponent"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -154971,7 +154982,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -155001,7 +155013,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "filed"]
+          "requiresFacts": ["seat", "filed"],
+          "excludesFacts": ["fee", "fee-short"]
         }
       ],
       "origin": "authored",
@@ -155031,7 +155044,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "seat-place"]
+          "requiresFacts": ["seat", "seat-place"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -155061,7 +155075,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -184677,8 +184692,8 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-filing-fee.im-sorry-i-cant-take-the-papers-without-the-fee",
-      "move": "state-rule-filing-fee",
+      "key": "scene-talk.follow-refuse.im-sorry-i-cant-take-the-papers-without-the-fee",
+      "move": "follow-refuse",
       "kind": "spoken",
       "text": "I'm sorry. I can't take the papers without the fee.",
       "uses": [
@@ -184686,10 +184701,11 @@
           "subject": "scene",
           "purpose": "filing-clerk",
           "key": "routine",
-          "step": "state",
-          "move": "rule-filing-fee",
+          "step": "follow",
+          "move": "refuse",
           "role": "asker",
-          "requiresFacts": ["fee"]
+          "requiresFacts": ["fee", "fee-short"],
+          "after": "agree"
         }
       ],
       "bearing": "warm",
@@ -184702,8 +184718,8 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-filing-fee.i-cant-file-you-without-the-fee-thats-the-rule-not-me",
-      "move": "state-rule-filing-fee",
+      "key": "scene-talk.follow-refuse.i-cant-file-you-without-the-fee-thats-the-rule-not-me",
+      "move": "follow-refuse",
       "kind": "spoken",
       "text": "I can't file you without the fee. That's the rule, not me.",
       "uses": [
@@ -184711,10 +184727,11 @@
           "subject": "scene",
           "purpose": "filing-clerk",
           "key": "routine",
-          "step": "state",
-          "move": "rule-filing-fee",
+          "step": "follow",
+          "move": "refuse",
           "role": "asker",
-          "requiresFacts": ["fee"]
+          "requiresFacts": ["fee", "fee-short"],
+          "after": "agree"
         }
       ],
       "bearing": "steady",
@@ -184736,10 +184753,11 @@
           "subject": "scene",
           "purpose": "filing-clerk",
           "key": "routine",
-          "step": "state",
+          "step": "reply",
           "move": "come-back",
           "role": "asked",
-          "requiresFacts": ["fee"]
+          "requiresFacts": ["fee"],
+          "after": "refuse"
         }
       ],
       "bearing": "calm",
