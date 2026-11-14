@@ -64,8 +64,14 @@
     "person-history.story.school.elsewhere.they.w3": [
       "plain-american-spelling-and-phrasing"
     ],
+    "scene-talk.follow-answer.on-bill-they-re-scared-of-their-own-voters-that-s-the-whole-of-it": [
+      "plain-american-spelling-and-phrasing"
+    ],
     "scene-talk.follow-thank.good-the-body-will-take-its-cue-from-the-people-who": [
       "plain-american-no-jargon"
+    ],
+    "scene-talk.state-request.bill-means-purpose-that-s-the-whole-of-it": [
+      "plain-american-spelling-and-phrasing"
     ]
   },
   "waiting": {},
@@ -99,7 +105,7 @@
     "conversation.farewell-leave-bye.all-right-then": ["alright-in-dialogue"],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
     "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
-    "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right": [
+    "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right": [
       "alright-in-dialogue"
     ],
     "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
@@ -157,9 +163,6 @@
       "narration-assumes-no-reason"
     ],
     "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face": [
       "narration-assumes-no-reason"
     ],
     "scene-talk.open-greet.deceased-talked-about-you-you-know": ["no-filler"],
@@ -330,8 +333,8 @@
   },
   "barred": {},
   "awaitingVerdict": {
-    "narration-assumes-no-reason": 35,
+    "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 14319
+    "reply-second-move-follows-the-first (pairs)": 14145
   }
 }
