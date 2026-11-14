@@ -49,8 +49,8 @@ function placeOfBody(area: string): string {
  * What a board of a county, parish or township is called: its government as
  * people say it plus the board's own name, without saying "County" twice.
  * "COUNTY OF POCAHONTAS" with "County Commission" is "Pocahontas County
- * Commission"; with "Board of County Commissioners" it is "Board of County
- * Commissioners of Pocahontas County"; with "Board of Supervisors" it is
+ * Commission"; with "Board of County Commissioners" it is "Pocahontas County
+ * Board of Commissioners", the kind said once; with "Board of Supervisors" it is
  * "Pocahontas County Board of Supervisors".
  */
 export function boardBodyName(
@@ -62,7 +62,12 @@ export function boardBodyName(
   const kind = area.split(" ").at(-1)!;
   if (bodyName.startsWith(`${kind} `))
     return `${area.slice(0, -kind.length)}${bodyName}`;
-  if (bodyName.split(" ").includes(kind)) return `${bodyName} of ${area}`;
+  // The board's own name says the place's kind once the place has said it:
+  // "Board of Township Trustees" for Auglaize Township is the "Auglaize
+  // Township Board of Trustees" (Words lead, Nov 14).
+  const words = bodyName.split(" ");
+  if (words.includes(kind))
+    return `${area} ${words.filter((word) => word !== kind).join(" ")}`;
   return `${area} ${bodyName}`;
 }
 

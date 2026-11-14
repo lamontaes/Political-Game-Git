@@ -1655,6 +1655,20 @@ const ROUTES: readonly Route[] = [
           question: q("question"),
           line: q("line"),
           value: q("value") === undefined ? undefined : Number(q("value")),
+          // A phase-in: each step's amount and the day it takes effect.
+          ...(q("steps")
+            ? {
+                steps: (
+                  JSON.parse(q("steps")!) as {
+                    value: number;
+                    effectiveDate: string;
+                  }[]
+                ).map((step) => ({
+                  value: Number(step.value),
+                  effectiveDate: String(step.effectiveDate),
+                })),
+              }
+            : {}),
         }),
       );
       return;

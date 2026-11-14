@@ -2833,7 +2833,9 @@ async function officeParts() {
               v.acts.map((a) =>
                 row(
                   `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
-                  `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
+                  a.how === "absent"
+                    ? (words.absent?.[a.detail] ?? "")
+                    : `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
                 ),
               ),
               { rows: 4, columns: 1, rowHeight: 48, className: "office-paged" },
@@ -2941,6 +2943,9 @@ function billEstimate(paper, section) {
       proposed: roundedMoney(est.lineNewMinor),
     };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
+  // A phase-in's step names the day it takes effect.
+  if (est.effectiveDate)
+    lines.push(`${words.takesEffectOn ?? ""} ${dateWords(est.effectiveDate)}`);
   // The two cells above carry the amounts; the line is then only named.
   if (est.line)
     lines.push(
@@ -2975,6 +2980,8 @@ function billEstimate(paper, section) {
     prose: shown.length || compare ? "" : (words.noFigure ?? ""),
     lines: shown,
     compare,
+    // A phase-in's step: the paper lists every step beside the others, in order.
+    dated: Boolean(est.effectiveDate),
   };
 }
 /**
@@ -3158,6 +3165,8 @@ async function openBillPaper(billId, show, back, backLabel) {
       },
       views: { clean: pageWords.clean, compare: pageWords.compare },
       amendsLabel: words.amends ?? "",
+      // A phase-in's later steps: what stands until the step takes effect.
+      untilLabel: words.untilThen ?? "",
       // Each chamber's result as the English engine words it, from the stage view, then the floor's
       // vote by party and those who cast none, from the page view.
       votes: [...stage.floor, ...stage.override].map((entry) => {
@@ -3289,6 +3298,9 @@ async function seatRows() {
         today: seat.today ?? "",
         newAmount: seat.newAmount ?? "",
         draft: seat.draft ?? "",
+        addStep: seat.addStep ?? "",
+        firstStep: seat.firstStep ?? "",
+        stepDate: seat.stepDate ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
@@ -3321,7 +3333,7 @@ async function seatRows() {
               : "",
         })),
       })),
-      onDraft: (item, typed) => {
+      onDraft: (item, typed, steps = []) => {
         const [kind, key] = [
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
@@ -3334,7 +3346,23 @@ async function seatRows() {
             : kind === "line"
               ? { line: key }
               : { question: key }),
-          value: item.cents ? String(Math.round(Number(typed) * 100)) : typed,
+          // A phase-in names each step's amount and day; a single bill, one amount.
+          ...(steps.length
+            ? {
+                steps: JSON.stringify(
+                  steps.map((step) => ({
+                    value: item.cents
+                      ? Math.round(Number(step.amount) * 100)
+                      : Number(step.amount),
+                    effectiveDate: step.date,
+                  })),
+                ),
+              }
+            : {
+                value: item.cents
+                  ? String(Math.round(Number(typed) * 100))
+                  : typed,
+              }),
         });
       },
     });
