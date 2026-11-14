@@ -449,7 +449,9 @@ function linesFromRange(from: NonNullable<ManifestEntry["from"]>): {
     ? all.findIndex((r, i) => i > first && r.includes(from.end!))
     : all.length;
   if (first < 0 || last < 0) throw new Error(`range not found in ${from.file}`);
-  const text = all.slice(first, last).filter((r) => r.trim());
+  const text = all
+    .slice(first + (from.start ? 1 : 0), last)
+    .filter((r) => r.trim());
   return {
     lines: text.map((r) => ({ role: "plain" as const, text: r.trim() })),
     context,
