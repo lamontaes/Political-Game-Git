@@ -595,7 +595,30 @@ export class CountedStore {
   releaseWeight(h: CountedHousehold): number {
     const rest = this.weightOf(h) - 1;
     if (rest <= 0) return 0;
-    const people = rest * this.countedCount(h);
+    return this.spreadPeople(h, rest * this.countedCount(h));
+  }
+
+  /**
+   * One member of a household record dies in `share` of the households it
+   * stands for, fewer than all (births-counted.ts): the record stands for
+   * `share` fewer households, and the people who lived with them in those
+   * households go to the other households of its group, as a filled-in
+   * record's do (`releaseWeight`), so only the dead leave the counts.
+   * Returns the people that had nowhere to go.
+   */
+  dieInPart(h: CountedHousehold, share: number): number {
+    const weight = this.weightOf(h);
+    if (!(share > 0) || share >= weight) return 0;
+    const survivors = share * (this.countedCount(h) - 1);
+    h.weight = weight - share;
+    this.version++;
+    this.changedGroup(h.group);
+    h.wagesMinorYear = this.wagesOf(h);
+    return survivors > 0 ? this.spreadPeople(h, survivors) : 0;
+  }
+
+  /** People who leave a record go to the other households of its group, or of its place when it was alone in it; returns those with nowhere to go. */
+  private spreadPeople(h: CountedHousehold, people: number): number {
     if (people <= 0) return 0;
     const near = (pool: Iterable<CountedHousehold>) => {
       const targets: CountedHousehold[] = [];
