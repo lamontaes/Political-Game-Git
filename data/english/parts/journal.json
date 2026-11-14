@@ -6522,10 +6522,10 @@
       }
     },
     {
-      "key": "journal.office-line-took-office.my-bill-law-became-law-over-the-veto",
+      "key": "journal.office-line-took-office.my-bill-law-became-law-over-other-s-veto",
       "move": "office-line-took-office",
       "kind": "spoken",
-      "text": "My bill, {law}, became law over the veto.",
+      "text": "My bill, {law}, became law over {other}'s veto.",
       "uses": [
         {
           "move": "office-line-took-office",

@@ -2139,6 +2139,24 @@ export function composeJournal(
       "family"
     );
   };
+  // An at-large race for several seats keeps one result record per seat; the
+  // person's race is one, told from the record they won if they won one, else
+  // the first (the seat's number sorts first).
+  const poolKeyOf = (moment: JournalMoment) =>
+    `${moment.causeId.replace(/:\d+(:\d{4}-\d{2}-\d{2})$/, "$1")}|${moment.counterpartIds.join(",")}|${moment.selfNamed ?? false}`;
+  const pooledTold = new Map<string, string>();
+  const pooledWon = new Set<string>();
+  for (const moment of moments) {
+    if (!moment.causeKind.startsWith("event:election-result")) continue;
+    const key = poolKeyOf(moment);
+    const wonHere =
+      core.durableLog.get(moment.causeId)?.facts?.winnerId === personId;
+    if (!pooledTold.has(key) || wonHere) {
+      if (!pooledTold.has(key) || !pooledWon.has(key))
+        pooledTold.set(key, moment.id);
+      if (wonHere) pooledWon.add(key);
+    }
+  }
   const units: Unit[] = [];
   // Each fact is told once in a life: the same kind, the same people and the
   // same facts, whenever it happened (#8234: "I moved to Jaguas" twice).
@@ -2154,6 +2172,15 @@ export function composeJournal(
       continue;
     const facts = factsFor(moment);
     if (!facts) continue;
+    // An at-large race for several seats is one race: the count the clerk
+    // keeps for each seat is the same loss or win, told once (Hope Valley,
+    // Rhode Island, seed 224ba354-7613-4852-a48c-c2747306de10: five seats of
+    // one council, "We lost." five times).
+    if (
+      row.kindPrefix === "event:election-result" &&
+      pooledTold.get(poolKeyOf(moment)) !== moment.id
+    )
+      continue;
     const once = row.oncePer ? facts[row.oncePer]?.text : undefined;
     if (once !== undefined) {
       if (toldFacts.has(`${row.kindPrefix}|${once}`)) continue;
@@ -2202,6 +2229,20 @@ export function composeJournal(
       // The school year's end is the person's own result, whoever the
       // scene of it was with.
       moment.causeKind === SCHOOL_FINISHED;
+    // Another person's vote, bill or race alone is not this life (Hope
+    // Valley, Rhode Island, seed 224ba354-7613-4852-a48c-c2747306de10: forty
+    // lines of a council's votes in a Journal whose person sat on no council):
+    // told only when it is a relative's race.
+    if (!own) {
+      const whose = subjectOf(moment);
+      if (
+        row.kindPrefix === "event:office.voted" ||
+        row.kindPrefix === "event:office.introduced" ||
+        (row.kindPrefix === "event:election-result" &&
+          !(whose && kin.has(whose)))
+      )
+        continue;
+    }
     // A move the household made together is "we".
     const together =
       (selfCount ??
