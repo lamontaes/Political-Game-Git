@@ -133,6 +133,7 @@ import {
   endServingTerms,
   unfilledTerm,
   repeatSpecialElection,
+  electedWithGovernorOnTicket,
   type TermRow,
 } from "./offices";
 import {
@@ -3050,6 +3051,62 @@ export function winningPersonId(api: CoreAPI, candidateId: string): string {
 }
 
 /**
+ * Who an at-large race's count put inside its seats: the top finishers, as
+ * many as there are seats with a candidate ranked, each above the next, and
+ * the names tied across the last seat (the place's tie law decides those).
+ * Everyone else on the ballot missed the cut. With one seat, the cut is the
+ * first finisher, or the names tied for first.
+ */
+function atLargeCut(
+  ranked: readonly (readonly [string, number])[],
+  seats: number,
+): { top: string[]; straddled: string[] } {
+  const live = ranked.filter(([, votes]) => votes > 0);
+  const top: string[] = [];
+  let straddled: string[] = [];
+  for (const [n, [id, votes]] of live.entries()) {
+    if (top.length >= seats) break;
+    // A tie straddling the last seat decides none of the tied by the count.
+    const next = live[n + 1];
+    if (top.length === seats - 1 && next && next[1] === votes) {
+      straddled = live.filter(([, v]) => v === votes).map(([tied]) => tied);
+      break;
+    }
+    top.push(id);
+  }
+  return { top, straddled };
+}
+
+/**
+ * The candidate a race's winner beat: the first finisher among those who
+ * missed the cut, by the result record's `outIds` and `totals` (in an
+ * at-large race the other winners are not beaten, they were seated too). A
+ * record kept before `outIds` reads everyone but the winner. Ties go by id.
+ */
+export function beatenRunnerUp(
+  facts: Readonly<Record<string, unknown>> | undefined,
+  winnerId: string,
+): { id: string; votes: number } | null {
+  const totals = parseTally(facts?.totals);
+  const out = facts?.outIds
+    ? (JSON.parse(String(facts.outIds)) as string[])
+    : Object.keys(totals).filter((id) => id !== winnerId);
+  const best = out
+    .filter((id) => id !== winnerId)
+    .map((id) => ({ id, votes: totals[id] ?? 0 }))
+    .sort((a, b) => b.votes - a.votes || a.id.localeCompare(b.id))[0];
+  return best ?? null;
+}
+
+function parseTally(raw: unknown): Record<string, number> {
+  try {
+    return JSON.parse(String(raw ?? "{}")) as Record<string, number>;
+  } catch {
+    return {};
+  }
+}
+
+/**
  * The winner an at-large race gives one of its seats: the top finishers, as
  * many as there are seats with a candidate ranked, each above the next; a
  * holder among them keeps their own seat, and the rest take the other seats
@@ -3064,22 +3121,8 @@ function atLargeWinner(
   ranked: readonly (readonly [string, number])[],
   electorate?: number,
 ): string | null {
-  const live = ranked.filter(([, votes]) => votes > 0);
   const seats = group.length;
-  const top: string[] = [];
-  // The names tied across the last seat, when a tie straddles it.
-  let straddled: string[] = [];
-  for (const [n, [id, votes]] of live.entries()) {
-    if (top.length >= seats) break;
-    // A tie straddling the last seat decides none of the tied by the count:
-    // the place's tie law decides it below, as for a single seat.
-    const next = live[n + 1];
-    if (top.length === seats - 1 && next && next[1] === votes) {
-      straddled = live.filter(([, v]) => v === votes).map(([tied]) => tied);
-      break;
-    }
-    top.push(id);
-  }
+  const { top, straddled } = atLargeCut(ranked, seats);
   const assigned = new Map<string, string>();
   const placed = new Set<string>();
   for (const row of group) {
@@ -3510,13 +3553,51 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // mailed a ballot, who registered at the polls, and what the election's
   // administration cost the government that ran it.
   applyElectionLaws(api, "vote", electorateRoll(api), contestId);
+  // One race, one result every reader agrees on: those the count put inside
+  // the race's seats, and those who missed the cut (`outIds`, on every seat's
+  // record). A seat of an at-large race names its own winner, the names tied
+  // across the last seat where it is that seat, and those who missed the cut
+  // and filed for that seat (their campaign is that seat's): each candidate
+  // is named once, so nobody is both elected and beaten by one count.
+  // A tie across the last seat that this count settled (a lot, a vote of
+  // the body) leaves the other tied names out; one still to be settled (a
+  // second election) keeps them in the race.
+  const cut = atLargeCut(rankTotals(totals), seats);
+  const settledTie =
+    !!winnerCandidateId && cut.straddled.includes(winnerCandidateId);
+  const inside = new Set([
+    ...cut.top,
+    ...(settledTie ? [] : cut.straddled),
+    ...(winnerCandidateId ? [winnerCandidateId] : []),
+  ]);
+  const person = (id: string) => winningPersonId(api, id);
+  const missed = filings.filter((f) => !inside.has(f.personId));
+  const out = missed
+    .map((f) => person(f.personId))
+    .filter((id) => api.state.people.has(id))
+    .sort();
+  const undecided = !winnerCandidateId || settledTie;
+  const naming =
+    seats > 1
+      ? [
+          ...(winnerCandidateId ? [winnerCandidateId] : []),
+          ...(undecided ? cut.straddled : []),
+        ].map(person)
+      : filings.map((f) => person(f.personId));
   api.emit({
     id: `election-result:${contestId}`,
     date,
     kind: "election-result",
-    personIds: filings
-      .map((f) => winningPersonId(api, f.personId))
-      .filter((id) => api.state.people.has(id)),
+    personIds: [
+      ...new Set([
+        ...naming,
+        ...(seats > 1
+          ? missed
+              .filter((f) => f.contestId === contestId)
+              .map((f) => person(f.personId))
+          : []),
+      ]),
+    ].filter((id) => api.state.people.has(id)),
     placeId: townPlaceId,
     source: { tag: "SOURCED", citation: `Count of ${contestId}`, asOf: date },
     publicRecord: true,
@@ -3527,6 +3608,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       office: contest.title,
       winnerId: winnerId ?? "",
       totals: JSON.stringify(totals),
+      outIds: JSON.stringify(out),
+      // An at-large race: the race (its first seat's contest) and its seats.
+      ...(seats > 1 ? { race: counting.id, seats: String(seats) } : {}),
       ...mandateLean(api, winnerId),
       // A recount the margin opened, or the player's to ask for: the
       // election night scene and the paper read it by its id.
@@ -4751,6 +4835,20 @@ export function countedBallotsOf(
   return row ? row.voterIds.map((_, i) => countedBallotAt(row, i)) : [];
 }
 
+/**
+ * Whether a person was on a count's roll: a named voter the count gave a
+ * ballot in the contest, cast or not (every eligible adult in its ward, or
+ * in town for an at-large or wider seat). The press reads it for who a
+ * race's result concerns.
+ */
+export function onContestRoll(
+  api: CoreAPI,
+  contestId: string,
+  personId: string,
+): boolean {
+  return !!table(api, "ballots").get(`ballot:${contestId}:${personId}`);
+}
+
 export function resultOf(api: CoreAPI, contestId: string): ResultRow | null {
   return (
     (table(api, "results").get(`result:${contestId}`) as unknown as
@@ -5099,7 +5197,13 @@ function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       last: api.state.date,
     } as unknown as ModuleRow);
     scheduleElection(api, nextRaceYear(api, year + 1));
-    for (const race of racesIn(api, year)) decide(api, race, year);
+    // A ticket office is decided with its governor's race, counted first.
+    const races = racesIn(api, year);
+    for (const race of [
+      ...races.filter((r) => !onGovernorTicket(api, r)),
+      ...races.filter((r) => onGovernorTicket(api, r)),
+    ])
+      decide(api, race, year);
     if (year % 4 === 0)
       api.moduleCalendar(VOTING_MODULE_ID).schedule({
         key: `electors:${year}`,
@@ -5807,10 +5911,6 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
       api.stopgap("SG-GOV-outside-nonpartisan-race");
       nonpartisan = true;
     }
-    if (executive) {
-      // stopgapId: SG-GOV-outside-ticket-raced-alone (a statewide officer the law elects on the governor's ticket is raced on its own seat)
-      api.stopgap("SG-GOV-outside-ticket-raced-alone");
-    }
     races.push({
       ...seatRace(api, seat, office, year),
       ...(nonpartisan ? { nonpartisan: true } : {}),
@@ -6001,6 +6101,29 @@ function decide(
   year: number,
   special?: SpecialRace,
 ): void {
+  const governor = special ? null : ticketRace(api, race, year);
+  if (governor) {
+    keepRace(
+      api,
+      race,
+      {
+        id: `race:${race.seatId}:${year}`,
+        seatId: race.seatId,
+        office: race.office,
+        date: api.state.date,
+        incumbentParty: race.incumbentParty,
+        lean: governor.lean,
+        winnerParty: governor.winnerParty,
+        seatedOn: race.seatedOn,
+        leanSource: `the governor's race, ${governor.id}`,
+        resultId: governor.resultId,
+        votes: governor.votes,
+        cast: governor.cast,
+      },
+      {},
+    );
+    return;
+  }
   const side = sideOf(race.incumbentParty);
   // stopgapId: SG-GOV-world-race-lean
   api.stopgap("SG-GOV-world-race-lean");
@@ -6093,37 +6216,57 @@ function decide(
     stateKey,
     office: race.office,
   });
-  const row: RaceRow = {
-    id: raceId,
-    seatId: race.seatId,
-    office: race.office,
-    date,
-    incumbentParty: race.incumbentParty,
-    lean,
-    winnerParty,
-    seatedOn: race.seatedOn,
-    leanSource: race.leanSource,
-    resultId: result.id,
-    votes: {
-      republican: result.totals["party:R"] ?? 0,
-      democratic: result.totals["party:D"] ?? 0,
+  keepRace(
+    api,
+    race,
+    {
+      id: raceId,
+      seatId: race.seatId,
+      office: race.office,
+      date,
+      incumbentParty: race.incumbentParty,
+      lean,
+      winnerParty,
+      seatedOn: race.seatedOn,
+      leanSource: race.leanSource,
+      resultId: result.id,
+      votes: {
+        republican: result.totals["party:R"] ?? 0,
+        democratic: result.totals["party:D"] ?? 0,
+      },
+      cast: result.placesCast ?? result.electorate,
+      ...(race.nonpartisan ? { nonpartisan: true } : {}),
     },
-    cast: result.placesCast ?? result.electorate,
-    ...(race.nonpartisan ? { nonpartisan: true } : {}),
-  };
+    special
+      ? { special, candidates: specialCandidates(api, race, parties, raceId) }
+      : {},
+    result.takesOffice,
+  );
+}
+
+/**
+ * Keep a decided race's row and, where it names a winner, schedule the
+ * winner's seating on the term's first day (the morning after the count where
+ * that day has come by then; the calendar takes only a day not yet run).
+ */
+function keepRace(
+  api: CoreAPI,
+  race: Race,
+  row: RaceRow,
+  extra: { special?: SpecialRace; candidates?: readonly SpecialCandidate[] },
+  takesOffice?: string | null,
+): void {
   table(api, "races").put({
     ...row,
     offices: race.offices ?? null,
-    ...(special
-      ? { special, candidates: specialCandidates(api, race, parties, row.id) }
-      : {}),
+    ...extra,
   } as unknown as ModuleRow);
   // An even split with no holder's side seats no one.
-  if (!winnerParty) return;
+  if (!row.winnerParty) return;
   // The winner is seated on the term's first day, or the day a recount ends
   // where that is later; where that day has come by the count's own day, the
   // morning after (the calendar takes only a day not yet run).
-  const seatedOn = result.takesOffice ?? race.seatedOn;
+  const seatedOn = takesOffice ?? race.seatedOn;
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
     key: `seat:${row.id}`,
     date: seatedOn > api.state.date ? seatedOn : dayAfter(api.state.date),
@@ -6135,6 +6278,41 @@ function decide(
     },
     sourceRecordIds: [row.id],
   });
+}
+
+/**
+ * Whether the law elects this race's office on one ticket with its state's
+ * governor (a lieutenant governor in about thirty places, read from the
+ * office's research row): its race is decided with the governor's.
+ */
+function onGovernorTicket(api: CoreAPI, race: Race): boolean {
+  if (!race.offices) return false;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(race.offices.officeId) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  return office
+    ? electedWithGovernorOnTicket(office.jurisdiction, office.kind)
+    : false;
+}
+
+/**
+ * A ticket office's race, decided with its governor's: the governor race's
+ * winning party seats the running mate the same day. Null for any other race
+ * and where the state's governor is not raced this year, so the office is
+ * counted on its own.
+ */
+function ticketRace(api: CoreAPI, race: Race, year: number): RaceRow | null {
+  if (!onGovernorTicket(api, race)) return null;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(race.offices!.officeId) as unknown as { jurisdiction: string };
+  const governor = table(api, "races").get(
+    `race:seat:${office.jurisdiction}:governor:${year}`,
+  ) as unknown as RaceRow | undefined;
+  return governor ?? null;
 }
 
 /** Seat the winner on the term's first day. */

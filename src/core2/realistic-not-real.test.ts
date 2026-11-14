@@ -92,7 +92,9 @@ import {
 } from "./hud-rents";
 import { permitRates, publishedPermitRates } from "./housing-construction";
 import { publishedShelterRateFor, shelterRateFor } from "./housing-homeless";
-import { homePriceRatio, publishedHomePriceRatio } from "./housing-prices";
+import { pastPriceRatio } from "./housing-price-path";
+import { housingMacroParameter } from "./modules/housing";
+import { publishedHomePriceRatio } from "../../scripts/research/home-price-fit";
 import { worldRateFactor, type BaseRateTable } from "./world-base-rates";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
@@ -312,13 +314,17 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     };
     const usps = place.state.slice(3);
     const jurisdiction = corePlaceByKey(place.key)!.context.jurisdiction.id;
-    // Row 5: how far a home's price moved from the ACS value date to the start.
+    // Row 5: how far a home's price moved from the ACS value date to the
+    // start: this world's own price level (the housing engine's step on its
+    // own past pay and rates), not the published index, and not another
+    // world's.
+    const p = housingMacroParameter;
     for (const from of ["2015-07-01", "2022-07-01"])
       differs(
         `home price ratio since ${from}`,
-        homePriceRatio(usps, from, a.date, a.seed),
+        pastPriceRatio({ startedAt: a.date, seed: a.seed }, from, a.date, p),
         publishedHomePriceRatio(usps, from, a.date),
-        homePriceRatio(usps, from, a.date, b.seed),
+        pastPriceRatio({ startedAt: a.date, seed: b.seed }, from, a.date, p),
       );
     // Row 7, the old core's county median home value, is checked beside its
     // reader (the old engine's county-home-value-world.test.ts): nothing here
@@ -695,7 +701,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       worldUnionRatePct(b.seed, state),
     );
     // Row 24: margin, payroll share and sales-sensitive cost share of every kind of business.
-    const p = (key: string) => parameter(key);
+    const p = housingMacroParameter;
     for (const kind of DEFAULT_BUSINESS_BOOKS_DATA.kinds)
       for (const which of [
         "margin",

@@ -1,0 +1,238 @@
+{
+  "seed": "a4c2bd5bd896ac75",
+  "place": {
+    "seed": "3faf142c52fc752de7c3d8c51bcc990976433087809a74824b3ebeabfc90a878",
+    "key": "territory:GU:hagatna",
+    "name": "Hagåtña, Guam",
+    "state": "US-GU"
+  },
+  "window": 35,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "kind": "question",
+      "family": "healthcare",
+      "inForceAtOpening": true,
+      "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+        "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef",
+        "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-02-26:law-wiring-786e7fef-b"
+      ],
+      "openingReach": {
+        "fullPeople": 17,
+        "countedGroups": 844,
+        "countedPeople": 844,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 861,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b946554f847221",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b943554f846d08",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b944554f846ebb",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b948554f847587"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:208": 16,
+        "src/core2/life.ts:552": 5,
+        "src/core2/medical-bills.ts:490": 2
+      },
+      "openingRow": "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+            "treatment": 894791,
+            "control": 881072,
+            "ids": [
+              "journal:2025-02-01:4120",
+              "journal:2025-02-01:4121",
+              "journal:2025-02-01:4122"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:808",
+            "treatment": 370007850,
+            "control": 369959844,
+            "ids": [
+              "journal:2025-02-01:2071",
+              "journal:2025-02-01:2072",
+              "journal:2025-02-01:2073"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+            "treatment": 894791,
+            "control": 881072,
+            "ids": [
+              "journal:2025-02-01:4120",
+              "journal:2025-02-01:4121",
+              "journal:2025-02-01:4122"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:450",
+            "treatment": 226225,
+            "control": 226228,
+            "ids": [
+              "journal:2025-02-06:5602",
+              "journal:2025-02-06:5603",
+              "journal:2025-02-06:5604"
+            ]
+          }
+        ],
+        "diffKinds": 3,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 861,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+              "way": "in",
+              "targets": 6,
+              "moved": 13719,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "person_022e585b69147d8f",
+                  "row": "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_022e585b69147d8f",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+                  "way": "in",
+                  "treatment": -30543,
+                  "control": -27805,
+                  "journal": "journal:2025-02-01:4145"
+                },
+                {
+                  "target": "person_03e959aba66ceb08",
+                  "row": "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_03e959aba66ceb08",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+                  "way": "in",
+                  "treatment": -13936,
+                  "control": -13612,
+                  "journal": "journal:2025-02-01:4146"
+                },
+                {
+                  "target": "person_2cfedcd32847b97c",
+                  "row": "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_2cfedcd32847b97c",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+                  "way": "in",
+                  "treatment": -19865,
+                  "control": -18275,
+                  "journal": "journal:2025-02-01:4147"
+                },
+                {
+                  "target": "person:press:outlet:newspaper:0:jurisdiction_e310a6aecc2b3e79:owner:0",
+                  "row": "applied|us-federal-positions:health.medicare-drug-price-negotiation|person:press:outlet:newspaper:0:jurisdiction_e310a6aecc2b3e79:owner:0",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+                  "way": "in",
+                  "treatment": -26811,
+                  "control": -24666,
+                  "journal": "journal:2025-02-01:4150"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "drug-negotiation-to-out-of-pocket",
+            "status": "built",
+            "to": "health.drug-out-of-pocket"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 70,
+        "sample": [
+          "person_bf387883fab7c6d9:printed:outlet:newspaper:2:jurisdiction_e310a6aecc2b3e79:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef",
+          "person_291f359bf9faadc3:printed:outlet:newspaper:2:jurisdiction_e310a6aecc2b3e79:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef",
+          "person_8382c55eb791ac79:printed:outlet:newspaper:2:jurisdiction_e310a6aecc2b3e79:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 17,
+        "countedGroups": 843,
+        "countedPeople": 843,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 860,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b946554f847221",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b943554f846d08",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b944554f846ebb",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b948554f847587"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 15
+    }
+  ]
+}

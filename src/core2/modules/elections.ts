@@ -55,7 +55,12 @@ import {
 } from "../elections-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import {
+  electedWithGovernorOnTicket,
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+} from "./offices";
 import { stableHash } from "../kernel/ids";
 import { placeStateKey } from "../place-map";
 
@@ -680,6 +685,9 @@ function contestFor(
 ): ContestRow | null {
   // The vice president is the president's running mate, not a race.
   if (!office.elected || office.kind === "vice-president") return null;
+  // stopgapId: SG-GOV-outside-ticket-raced-alone
+  if (electedWithGovernorOnTicket(office.jurisdiction, office.kind))
+    api.stopgap("SG-GOV-outside-ticket-raced-alone");
   const { stateKey, geoid } = town(api);
   const tomorrow = new Date(
     Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
@@ -953,7 +961,6 @@ export function playerMayFileForKind(
  * cover the town. A home the place listing gives no local government has
  * none, so its first race is its state's or territory's own lawmaking body.
  */
-// stopgapId: SG-GOV-first-race-no-local-office
 function townLocalKinds(api: CoreAPI): readonly string[] {
   return (
     api
@@ -1443,6 +1450,24 @@ export function standing(filing: Readonly<Pick<FilingRow, "status">>): boolean {
 }
 
 /**
+ * Whether a filing's race is still ahead: the filing was not withdrawn and
+ * its contest is decided on today or later (a petition the clerk found short
+ * stays, for the player to see it left them off). A filing keeps "on-ballot"
+ * after its race is counted, so what a person is running in now is read
+ * through this, never the status alone. A primary's loser is already "withdrawn" when the primary
+ * is counted, and a primary's winner stays here until the general.
+ */
+export function raceAhead(
+  api: CoreAPI,
+  filing: Readonly<Pick<FilingRow, "status" | "contestId">>,
+): boolean {
+  if (filing.status === "withdrawn") return false;
+  const contest = table(api, "contests").get(filing.contestId) as unknown as
+    ContestRow | undefined;
+  return !!contest && contest.electionDate >= api.state.date;
+}
+
+/**
  * Everyone standing in a contest, filed so far: on the ballot, or with a
  * petition out until the clerk checks it the morning after the deadline, so
  * after that only the names on the ballot. A candidate who has since died is
@@ -1707,3 +1732,4 @@ export { groupDraw, joinsGroup } from "./interest-groups";
 export { foundMovement, movementGroupId } from "./interest-groups";
 // Re-exported so the opening county sample reads them through this entry (families guard).
 export { countyPlaceIdOf, statePlaces } from "../electorate-places";
+export { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./ballot-measures";

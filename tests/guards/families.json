@@ -15,6 +15,7 @@
     "src/core2/stopgaps.ts",
     "src/core2/seeded.ts",
     "src/core2/world-base-rates.ts",
+    "src/core2/shares.ts",
     "src/core2/world-draw.ts",
     "src/core2/union-rate.ts",
     "src/core2/module-*.ts",
@@ -148,7 +149,8 @@
         "src/core2/modules/budgets.ts",
         "src/core2/modules/finance.ts",
         "src/core2/budgets-treasury.ts",
-        "src/core2/tax-index.ts"
+        "src/core2/tax-index.ts",
+        "src/core2/tax-listeners.ts"
       ],
       "paths": [
         "src/core2/modules/budgets.ts",
@@ -419,11 +421,15 @@
         "src/core2/opening-tenure.ts",
         "src/core2/opening-origin.ts",
         "src/core2/opening-roles.ts",
-        "src/core2/game-start.ts"
+        "src/core2/game-start.ts",
+        "src/core2/output-numbers.ts",
+        "src/core2/output-number-readers.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",
         "src/core2/modules/world-metrics.ts",
+        "src/core2/output-numbers.ts",
+        "src/core2/output-number-readers.ts",
         "src/core2/modules/disasters.ts",
         "src/core2/life.ts",
         "src/core2/calendar.ts",
@@ -432,6 +438,7 @@
         "src/core2/place-map.ts",
         "src/core2/place-lookup.ts",
         "src/core2/coarse-place.ts",
+        "src/core2/community-events-table.ts",
         "src/core2/world-settings.ts",
         "src/core2/player-*.ts",
         "src/core2/opening-*.ts",

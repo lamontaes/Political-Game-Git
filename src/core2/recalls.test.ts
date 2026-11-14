@@ -18,6 +18,7 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { openOfficeDay } from "./modules/office-day";
 import { openOfficeDayState } from "./office-day-state";
+import { openWorldLegislating } from "./modules/world-legislating";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
 import {
   openRecalls,
@@ -93,8 +94,10 @@ describe("M3-10 recalls", () => {
       openRecord(core);
       openLegislature(core);
       openRecalls(core);
-      // Every played world installs the office day; the legislature reads it
-      // when a body meets.
+      // Every played world installs the lawmaking calendar and then the office
+      // day; the legislature reads the office day when a body meets, and the
+      // office day reads the calendar's agenda filings when a meeting closes.
+      openWorldLegislating(core);
       openOfficeDay(core, seed);
       openOfficeDayState(core);
       const api = coreAPI(core);

@@ -29,7 +29,7 @@ import {
   housingStatusCounts,
   shelterBeds,
 } from "../../src/core2/housing-homeless";
-import { publishedHomePriceRatio } from "../../src/core2/housing-prices";
+import { publishedHomePriceRatio } from "./home-price-fit";
 import { HOUSING_MODULE_ID, ownedHomes } from "../../src/core2/modules/housing";
 import housing from "../../src/core2/data/housing/housing.json" with { type: "json" };
 import evictionReads from "../../data/research/world/eviction-statute-reads-2026.json" with { type: "json" };
