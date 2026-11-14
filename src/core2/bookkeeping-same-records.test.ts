@@ -13,7 +13,7 @@
  * took the week's shortlist of ties to visit days before play's first look.
  *
  * Pinned: Edgar, Wisconsin (5522550), seed edgar-petition-1, which split on
- * day 1 before the fix; Alexander City, Alabama (0101132), seed joint-use-1.
+ * day 1 before the fix; Denver, Pennsylvania (4218888), seed cb7367e1.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -62,12 +62,12 @@ function recordsByDay(placeKey: string, seed: string, on: boolean) {
 describe("bookkeeping changes no record of three played days", () => {
   for (const [name, placeKey, seed] of [
     ["Edgar, Wisconsin", "5522550", "edgar-petition-1"],
-    ["Alexander City, Alabama", "0101132", "joint-use-1"],
+    ["Denver, Pennsylvania", "4218888", "cb7367e1"],
   ] as const)
     it(`${name} (${placeKey}), seed ${seed}: the same records day by day in play and with bookkeeping`, () => {
       const play = recordsByDay(placeKey, seed, false);
       const kept = recordsByDay(placeKey, seed, true);
       expect(play.some((day) => day.count > 0)).toBe(true);
       expect(kept).toEqual(play);
-    }, 240_000);
+    }, 90_000);
 });
