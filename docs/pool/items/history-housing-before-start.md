@@ -1,7 +1,7 @@
 ---
 id: history-housing-before-start
 title: "Housing has a simulated past: leases, rents and home values before day one, so Metrics shows last year's rent and home value on the first day"
-area: housing
+area: world
 kind: feature
 priority: 1
 size: M

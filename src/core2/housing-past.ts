@@ -33,16 +33,17 @@ import {
 import { residentsRuntime } from "./modules/residents";
 import { setResidentFlowAmount } from "./residents-economy";
 import { putPastYear } from "./output-numbers";
-import { PERSON_MOVED_IN, PERSON_MOVED_WITHIN } from "./past-moves";
 import {
   coarseSteps,
+  PERSON_MOVED_IN,
+  PERSON_MOVED_WITHIN,
   preStartHistory,
   preStartWindowOf,
   recordPreStartLater,
   type HistoryRecord,
   type HistoryWriter,
   type PreStartWindow,
-} from "./pre-start";
+} from "./past-module";
 import type {
   CoreAPI,
   CoreState,

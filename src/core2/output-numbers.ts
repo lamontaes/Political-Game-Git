@@ -97,6 +97,8 @@ export interface OutputYearRow {
   readonly closedAt?: string;
   /** The monthly row the December-fold figures were last read from. */
   readonly monthRowId?: string;
+  /** The figures a pre-start pass wrote into the row (`putPastYear`). */
+  readonly pastFields?: readonly string[];
   /** How many months a mean has folded, by field. */
   readonly months?: Readonly<Record<string, number>>;
   /** The named inputs kept beside a figure, by figure id. */
@@ -179,7 +181,9 @@ export function putOutputNumber(
  * the place's year row, with the history record kept beside each figure for
  * dev mode's Trace. A year before the world's start is closed; the start
  * year's row is the one play folds its months into. Other engines' figures
- * already on the row are kept.
+ * already on the row are kept. The row names the figures the passes wrote
+ * (`pastFields`): in a closed past year, any other figure is unknown, never
+ * zero.
  */
 export function putPastYear(
   api: CoreAPI,
@@ -211,14 +215,16 @@ export function putPastYear(
     ...(past.closed ? { closedAt: `${past.year + 1}-01-01` } : {}),
   };
   const inputs = { ...row.inputs };
+  const fields = new Set(row.pastFields);
   for (const [id, value] of Object.entries(past.values)) {
     const number = NUMBERS[id];
     if (!number?.kept) throw new Error(`No kept output number "${id}".`);
     if (!Number.isFinite(value)) continue;
     written[number.kept.field] = value;
+    fields.add(number.kept.field);
     inputs[id] = { historyRecordId: past.recordId };
   }
-  table.put({ ...written, inputs } as never);
+  table.put({ ...written, inputs, pastFields: [...fields] } as never);
 }
 
 /**
@@ -294,6 +300,9 @@ function valueIn(
   if (!row) return null;
   const value = row[number.kept!.field];
   if (typeof value === "number") return value;
+  // A year the pre-start passes wrote holds only the figures they ran: an
+  // event they did not run (notices served) is not known to have been none.
+  if (row.closedAt && row.pastFields) return null;
   // A place whose year row is kept and saw no such event has had none.
   return number.fold === "sum" && number.cadence === "on-change" ? 0 : null;
 }
