@@ -37553,213 +37553,6 @@
       "bearing": "warm"
     },
     {
-      "key": "conversation.address-point-core-against.the-president-came-out-for-about-i-think-that-s-wrong",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "The President came out for {about}. I think that's wrong.",
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.the-president-came-out-against-about-i-think-that-s-wrong",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "The President came out against {about}. I think that's wrong.",
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-heard-the-president-turn-down-about-we-need-it",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I heard the President turn down {about}. We need it.",
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-came-out-against-about-good-so-am-i",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President came out against {about}. Good. So am I.",
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-won-t-have-about-and-i-m-glad-of-it",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President won't have {about}, and I'm glad of it.",
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.i-heard-the-president-turn-down-about-i-agree",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "I heard the President turn down {about}. I agree.",
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-came-out-for-about-i-m-for-it-too",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President came out for {about}. I'm for it too.",
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-backed-about-i-hope-congress-passes-it",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President backed {about}. I hope Congress passes it.",
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.the-president-backed-about-i-can-t-go-along-with-that",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "The President backed {about}. I can't go along with that.",
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.farewell-leave-bye.good-talking",
       "move": "farewell-leave-bye",
       "kind": "spoken",
@@ -39997,408 +39790,405 @@
       }
     },
     {
-      "key": "conversation.address-point-core-with.the-president-came-out-for-about-about-time",
-      "move": "address-point-core-with",
+      "key": "conversation.address-point-opener-lead.the-president-came-out-for-about",
+      "move": "address-point-opener-lead",
       "kind": "spoken",
-      "text": "The President came out for {about}. About time.",
+      "text": "The President came out for {about}.",
       "uses": [
         {
-          "move": "address-point-core-with",
+          "move": "address-point-opener-lead",
           "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
+          "role": "opener",
           "requiresFacts": ["president-for", "about"]
         }
       ],
       "piece": {
         "of": "address-point",
-        "part": "core",
-        "required": true
+        "part": "opener"
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-with.the-president-backed-about-i-m-glad-of-it",
-      "move": "address-point-core-with",
+      "key": "conversation.address-point-opener-lead.the-president-backed-about",
+      "move": "address-point-opener-lead",
       "kind": "spoken",
-      "text": "The President backed {about}. I'm glad of it.",
+      "text": "The President backed {about}.",
       "uses": [
         {
-          "move": "address-point-core-with",
+          "move": "address-point-opener-lead",
           "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
+          "role": "opener",
           "requiresFacts": ["president-for", "about"]
         }
       ],
       "piece": {
         "of": "address-point",
-        "part": "core",
-        "required": true
+        "part": "opener"
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-with.the-president-is-for-about-so-am-i",
-      "move": "address-point-core-with",
+      "key": "conversation.address-point-opener-lead.the-president-is-for-about",
+      "move": "address-point-opener-lead",
       "kind": "spoken",
-      "text": "The President is for {about}. So am I.",
+      "text": "The President is for {about}.",
       "uses": [
         {
-          "move": "address-point-core-with",
+          "move": "address-point-opener-lead",
           "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
+          "role": "opener",
           "requiresFacts": ["president-for", "about"]
         }
       ],
       "piece": {
         "of": "address-point",
-        "part": "core",
-        "required": true
+        "part": "opener"
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-with.did-you-hear-the-president-on-about-i-agree",
-      "move": "address-point-core-with",
+      "key": "conversation.address-point-opener-lead.the-president-spoke-up-for-about",
+      "move": "address-point-opener-lead",
       "kind": "spoken",
-      "text": "Did you hear the President on {about}? I agree.",
+      "text": "The President spoke up for {about}.",
       "uses": [
         {
-          "move": "address-point-core-with",
+          "move": "address-point-opener-lead",
           "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
+          "role": "opener",
           "requiresFacts": ["president-for", "about"]
         }
       ],
       "piece": {
         "of": "address-point",
-        "part": "core",
-        "required": true
+        "part": "opener"
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-with.the-president-spoke-up-for-about-good",
-      "move": "address-point-core-with",
+      "key": "conversation.address-point-opener-lead.the-president-s-for-about",
+      "move": "address-point-opener-lead",
       "kind": "spoken",
-      "text": "The President spoke up for {about}. Good.",
+      "text": "The President's for {about}.",
       "uses": [
         {
-          "move": "address-point-core-with",
+          "move": "address-point-opener-lead",
           "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
+          "role": "opener",
           "requiresFacts": ["president-for", "about"]
         }
       ],
       "piece": {
         "of": "address-point",
-        "part": "core",
-        "required": true
+        "part": "opener"
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-with.the-president-s-for-about-that-s-my-side-too",
-      "move": "address-point-core-with",
+      "key": "conversation.address-point-opener-lead.the-president-pushed-for-about",
+      "move": "address-point-opener-lead",
       "kind": "spoken",
-      "text": "The President's for {about}. That's my side too.",
+      "text": "The President pushed for {about}.",
       "uses": [
         {
-          "move": "address-point-core-with",
+          "move": "address-point-opener-lead",
           "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
+          "role": "opener",
           "requiresFacts": ["president-for", "about"]
         }
       ],
       "piece": {
         "of": "address-point",
-        "part": "core",
-        "required": true
+        "part": "opener"
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-with.i-liked-what-the-president-said-about-about",
-      "move": "address-point-core-with",
+      "key": "conversation.address-point-opener-lead.the-president-came-out-against-about",
+      "move": "address-point-opener-lead",
       "kind": "spoken",
-      "text": "I liked what the President said about {about}.",
+      "text": "The President came out against {about}.",
       "uses": [
         {
-          "move": "address-point-core-with",
+          "move": "address-point-opener-lead",
           "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-pushed-for-about-congress-should-listen",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President pushed for {about}. Congress should listen.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.the-president-came-out-for-about-i-m-against-it",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "The President came out for {about}. I'm against it.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.the-president-backed-about-that-s-a-mistake",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "The President backed {about}. That's a mistake.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.the-president-is-for-about-i-m-not",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "The President is for {about}. I'm not.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.did-you-hear-the-president-on-about-i-don-t-agree",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "Did you hear the President on {about}? I don't agree.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.the-president-spoke-up-for-about-count-me-out",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "The President spoke up for {about}. Count me out.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.the-president-s-for-about-not-me",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "The President's for {about}. Not me.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.i-didn-t-like-what-the-president-said-about-about",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "I didn't like what the President said about {about}.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.the-president-pushed-for-about-i-hope-congress-says-no",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "The President pushed for {about}. I hope Congress says no.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-for", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-against.the-president-came-out-against-about-i-m-for-it",
-      "move": "address-point-core-against",
-      "kind": "spoken",
-      "text": "The President came out against {about}. I'm for it.",
-      "uses": [
-        {
-          "move": "address-point-core-against",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["against"],
+          "role": "opener",
           "requiresFacts": ["president-against", "about"]
         }
       ],
       "piece": {
         "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-opposed-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President opposed {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-is-against-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President is against {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-spoke-against-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President spoke against {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-s-against-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President's against {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-said-no-to-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President said no to {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.the-president-won-t-back-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "The President won't back {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.so-am-i",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "So am I.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
         "part": "core",
         "required": true
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.the-president-opposed-about-that-s-a-mistake",
+      "key": "conversation.address-point-core-with.about-time",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "About time.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["president-for", "about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-agree",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I agree.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-m-glad",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I'm glad.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.that-s-my-side",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "That's my side.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-m-not",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "The President opposed {about}. That's a mistake.",
+      "text": "I'm not.",
       "uses": [
         {
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against", "about"]
+          "requiresFacts": ["about"],
+          "stages": ["against"]
         }
       ],
       "piece": {
@@ -40407,21 +40197,21 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.the-president-is-against-about-i-m-not",
+      "key": "conversation.address-point-core-against.not-me",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "The President is against {about}. I'm not.",
+      "text": "Not me.",
       "uses": [
         {
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against", "about"]
+          "requiresFacts": ["president-for", "about"],
+          "stages": ["against"]
         }
       ],
       "piece": {
@@ -40430,21 +40220,21 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.the-president-spoke-against-about-we-need-it",
+      "key": "conversation.address-point-core-against.count-me-out",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "The President spoke against {about}. We need it.",
+      "text": "Count me out.",
       "uses": [
         {
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against", "about"]
+          "requiresFacts": ["president-for", "about"],
+          "stages": ["against"]
         }
       ],
       "piece": {
@@ -40453,21 +40243,21 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.the-president-s-against-about-i-think-that-s-wrong",
+      "key": "conversation.address-point-core-against.that-s-a-mistake",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "The President's against {about}. I think that's wrong.",
+      "text": "That's a mistake.",
       "uses": [
         {
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against", "about"]
+          "requiresFacts": ["about"],
+          "stages": ["against"]
         }
       ],
       "piece": {
@@ -40476,21 +40266,21 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.the-president-said-no-to-about-i-d-say-yes",
+      "key": "conversation.address-point-core-against.i-don-t-agree",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "The President said no to {about}. I'd say yes.",
+      "text": "I don't agree.",
       "uses": [
         {
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against", "about"]
+          "requiresFacts": ["about"],
+          "stages": ["against"]
         }
       ],
       "piece": {
@@ -40499,21 +40289,21 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-against.the-president-won-t-back-about-somebody-should",
+      "key": "conversation.address-point-core-against.i-d-say-no",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "The President won't back {about}. Somebody should.",
+      "text": "I'd say no.",
       "uses": [
         {
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "stages": ["against"],
-          "requiresFacts": ["president-against", "about"]
+          "requiresFacts": ["president-for", "about"],
+          "stages": ["against"]
         }
       ],
       "piece": {
@@ -40522,21 +40312,90 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.address-point-core-with.the-president-came-out-against-about-i-m-against-it-too",
+      "key": "conversation.address-point-core-against.we-need-it",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "We need it.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["president-against", "about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-d-say-yes",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'd say yes.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["president-against", "about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.somebody-should",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "Somebody should.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["president-against", "about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.neither-would-i",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "The President came out against {about}. I'm against it too.",
+      "text": "Neither would I.",
       "uses": [
         {
           "move": "address-point-core-with",
           "subject": "address-point",
           "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against", "about"]
+          "requiresFacts": ["president-against", "about"],
+          "stages": ["with"]
         }
       ],
       "piece": {
@@ -40545,145 +40404,7 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-opposed-about-i-m-glad-of-it",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President opposed {about}. I'm glad of it.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-is-against-about-so-am-i",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President is against {about}. So am I.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-spoke-against-about-good",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President spoke against {about}. Good.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-s-against-about-that-s-my-side-too",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President's against {about}. That's my side too.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-said-no-to-about-so-would-i",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President said no to {about}. So would I.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.address-point-core-with.the-president-won-t-back-about-neither-will-i",
-      "move": "address-point-core-with",
-      "kind": "spoken",
-      "text": "The President won't back {about}. Neither will I.",
-      "uses": [
-        {
-          "move": "address-point-core-with",
-          "subject": "address-point",
-          "role": "core",
-          "stages": ["with"],
-          "requiresFacts": ["president-against", "about"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 8)",
+      "author": "Words lead (two-part address-point cores, Nov 14 04:17Z)",
       "date": "2026-11-14"
     }
   ]
