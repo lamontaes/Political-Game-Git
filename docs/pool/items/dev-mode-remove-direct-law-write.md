@@ -35,7 +35,7 @@ branch: claude/pool-dev-mode-remove-direct-law-write
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-mode.ts, src/bench/dev-api.ts, src/bench/dev-mode.test.ts, src/bench/data/dev-experiments.json
+**Files.** src/bench/dev-mode.ts, src/bench/dev-api.ts, src/bench/dev-mode.test.ts
 
 **Notes.** TODO
 
@@ -50,3 +50,5 @@ Released (2026-11-11): Not built; inventory for the next builder. The experiment
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:06 UTC) on branch claude/pool-dev-mode-remove-direct-law-write.
 
 Released by next (2026-11-13): no push to claude/pool-dev-mode-remove-direct-law-write since 2026-11-11 06:10 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-dev-mode-remove-direct-law-write.
+
+Partly done (account lead carry of #8684, Nov 14): the experiments and saved-experiments routes, methods and `dev-experiments.json` are removed; `setLaw` and its eight test callers stay, so the item stays open for that part.
