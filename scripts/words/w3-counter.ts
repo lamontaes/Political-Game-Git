@@ -80,6 +80,21 @@ for (let attempt = 0; attempt < 6; attempt += 1) {
     counter = chooseAtCounter(core, counter, "file", {});
     show("filed");
   }
+  // Back at the counter a week later: the race filed in is not offered
+  // again; with only the petition left the clerk says where it stands; with
+  // nothing left there is no scene.
+  advanceCore(core, addDays(makeIsoDate(core.date), 7));
+  try {
+    const back = openBenchFilingVisit(core, playerId, filedWith, 10 * 60);
+    console.log("-- back a week later");
+    for (const line of back.intro) console.log(`  [narration] ${line.text}`);
+    for (const line of back.visit.lines)
+      console.log(`  ${line.speaker}: ${line.text}`);
+    for (const choice of back.visit.choices)
+      console.log(`    [${choice.key}] ${choice.text}`);
+  } catch (error) {
+    console.log(`-- back a week later: ${(error as Error).message}`);
+  }
   const replies = [...core.eventIds].filter((id) =>
     id.startsWith("scene-reply:filing-counter:"),
   );

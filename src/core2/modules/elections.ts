@@ -1732,3 +1732,4 @@ export { groupDraw, joinsGroup } from "./interest-groups";
 export { foundMovement, movementGroupId } from "./interest-groups";
 // Re-exported so the opening county sample reads them through this entry (families guard).
 export { countyPlaceIdOf, statePlaces } from "../electorate-places";
+export { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./ballot-measures";

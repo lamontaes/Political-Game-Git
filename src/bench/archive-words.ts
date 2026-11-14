@@ -147,6 +147,7 @@ export function wordPrintedStory(
     read.kind,
     read.speaker || story.id,
     read.facts,
+    read.turn,
   );
   if (!text) return null;
   // In talk a bill is said by what it does: the same words, with the
@@ -244,6 +245,7 @@ function worded(
   kind: StoryKind,
   speaker: string,
   facts: Record<string, StoryFact>,
+  turn?: number,
 ): WordedStory | null {
   const packet: GroundedEnglishPacket = {
     surface: "dialogue",
@@ -260,7 +262,7 @@ function worded(
       sourceRecordIds: row.sourceRecordIds,
     })),
   };
-  const composed = composeNewsStory(packet, kind);
+  const composed = composeNewsStory(packet, kind, turn);
   if (!composed.headline && !composed.lede) return null;
   // A headline or sentence opens with a capital, whatever fact starts it.
   const opened = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
