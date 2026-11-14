@@ -1073,6 +1073,12 @@ const override: Builder = (read, f) =>
 /** An executive signing or vetoing a bill. */
 const signed: Builder = (read, f) => {
   const vetoed = f.action === "vetoed";
+  // A bill left on the desk past its deadline is law without the signature.
+  const act = vetoed
+    ? "vetoed"
+    : f.action === "unsigned"
+      ? "unsigned"
+      : "signed";
   return story(
     "signed",
     {
@@ -1080,8 +1086,8 @@ const signed: Builder = (read, f) => {
       ...read.billFacts(f.billId, f.number),
       ...read.billBody(f.billId),
       date: read.date(),
-      // A veto fails the bill; a signature passes it into law.
-      [vetoed ? "vetoed" : "signed"]: read.yes(),
+      // A veto fails the bill; a signature, or the deadline passing, makes it law.
+      [act]: read.yes(),
       [vetoed ? "failed" : "passed"]: read.yes(),
     },
     ["name", "designation"],

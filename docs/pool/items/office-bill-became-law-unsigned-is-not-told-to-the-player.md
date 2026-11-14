@@ -5,9 +5,9 @@ area: office
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: Account lead, thread "Write the mayor's and governor's desk"
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: none
 source: "Account lead T56, Nov 14, 2026, from the Words lead's read of #9126 and its Your office screens (the desk test at Bedford, Kentucky)"
 checked:
-claimed-at:
+claimed-at: 2026-11-14
 ---
 
 **What.** With the desk switch Off, a passed ordinance sat on the mayor's desk until its deadline and became law unsigned (Bedford, Kentucky, 2104816, seed 32c170e3abe9f5f7feb31111bbc126194618a4cd9a3170a4679fe58824228764: the deadline was Feb 2, 2025 and the ordinance lapsed into law on Feb 3, 2025). The owner ruled on Nov 14, 2026 (card, 06:08Z) that this real-life rule stands and the Journal says so. Nothing tells the player. Seen: Politics, then Your office, and the Journal, after the deadline with the desk switch Off. Seen: Politics, then Your office, in the screens at /mnt/project-files/t56/heber2/ (Potter Lake, Wisconsin, seed fb9b371a2c260c1e5bd2ea80924b870a320f30742d81a7daca8fe7535f0c943d).
@@ -37,3 +37,4 @@ claimed-at:
 **Files.** src/core2/modules/legislature.ts, src/english, src/bench/play.mjs
 
 **Notes.**
+- Nov 14 2026, desk thread (branch claude/project-thread-hkqdh2): `deadlinePassed` now writes the same `executive-action` record with action `unsigned` (one writer, `executiveActionRecord`, shared with the signature and the veto). The paper's builder words it as its own fact with six pieces the Words lead ruled; the Journal's four lines are handed to the Journal thread (#9119), which owns those files. Test: src/director/desk-unsigned-told.test.ts at Gates, Tennessee.

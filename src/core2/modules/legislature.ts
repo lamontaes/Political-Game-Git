@@ -5727,18 +5727,51 @@ function decideAtDesk(
     });
   // The signature, the veto and any override vote are public record the
   // press reads, like the floor's roll call.
+  executiveActionRecord(
+    api,
+    bill,
+    key,
+    executive.personId,
+    status,
+    override
+      ? {
+          override: override.tallies
+            .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
+            .join(","),
+        }
+      : {},
+  );
+  return { status, decision: { executiveId: key, action: status }, override };
+}
+
+/**
+ * What the executive did with a bill on their desk, on the public record the
+ * press, the reporter's question and the Journal read: signed, vetoed,
+ * overridden, or let become law unsigned when the deadline passed.
+ */
+function executiveActionRecord(
+  api: CoreAPI,
+  bill: BillRow,
+  executiveId: string,
+  personId: string | null | undefined,
+  action: string,
+  extra: Readonly<Record<string, string>> = {},
+): void {
   api.emit({
     id: `executive-action:${bill.id}`,
     date: api.state.date,
     kind: "executive-action",
     personIds: [
-      ...(executive.personId ? [executive.personId] : []),
+      ...(personId ? [personId] : []),
       ...(api.state.people.has(bill.sponsorId) ? [bill.sponsorId] : []),
     ],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
-      citation: `${status === "signed" ? "Signing" : "Veto"} of ${bill.number}`,
+      citation:
+        action === "unsigned"
+          ? `${bill.number} became law unsigned when the deadline to act passed`
+          : `${action === "signed" ? "Signing" : "Veto"} of ${bill.number}`,
       asOf: api.state.date,
     },
     publicRecord: true,
@@ -5747,18 +5780,11 @@ function decideAtDesk(
       billId: bill.id,
       number: bill.number,
       level: billReach(api, bill).level,
-      executiveId: key,
-      action: status,
-      ...(override
-        ? {
-            override: override.tallies
-              .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
-              .join(","),
-          }
-        : {}),
+      executiveId,
+      action,
+      ...extra,
     },
   });
-  return { status, decision: { executiveId: key, action: status }, override };
 }
 
 /** The vote to override a veto, run and put on the public record (the same for any executive and body). */
@@ -6646,6 +6672,10 @@ function deadlinePassed(api: CoreAPI, billId: string): void {
     executiveId: executiveId ?? "",
     action: "unsigned",
   });
+  // The lapse is the executive's act as much as a signature is (owner's
+  // card, Nov 14 2026, 06:08Z: "the Journal says so"), on the same record.
+  if (executiveId)
+    executiveActionRecord(api, unsigned, executiveId, executiveId, "unsigned");
 }
 
 /** The body's next sitting day after today, with where its date comes from. */
