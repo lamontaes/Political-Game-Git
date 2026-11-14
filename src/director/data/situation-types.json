@@ -490,7 +490,7 @@
       "key": "apology",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
+        "counterpart": "any",
         "seat": "any"
       },
       "roles": [

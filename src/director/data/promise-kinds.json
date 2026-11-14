@@ -1,0 +1,95 @@
+{
+  "schema": "promise-kinds-v1",
+  "note": "Promises a scene ending keeps (Words lead brief T, Nov 14 2026; owner, Oct 13: an effect is a read, not a record). Developer data, never shown to a player. A scene reply that reaches an ending listed under `endings` (a family's row covers its variants) writes its promise's kind, tie and due day on its `scene.reply` record; the director keeps it as a kept fact held by the one who answered and owed to the other (ledger.ts), and ends it kept or broken on the day the record that settles it lands, or when its window closes (promises.ts), never by a daily scan. The settle operations are registered by name in promises.ts. A kind with `settle: []` has no player act that settles it yet: no ending names it, so it is never offered, and its row says what the missing act is.",
+  "endings": [
+    {
+      "purpose": "ask-vote",
+      "ending": "vote-given",
+      "kind": "vote",
+      "causeKinds": ["vote-ahead"]
+    },
+    {
+      "purpose": "ask-vote",
+      "ending": "traded",
+      "kind": "vote",
+      "causeKinds": ["vote-ahead"]
+    },
+    {
+      "purpose": "ask-vote",
+      "ending": "false-yes",
+      "kind": "vote",
+      "causeKinds": ["vote-ahead"]
+    },
+    {
+      "purpose": "owed-apology",
+      "ending": "promised-to-make-it-right",
+      "kind": "pay-on-time",
+      "causeKinds": ["family.quarrel"]
+    },
+    {
+      "purpose": "introduction",
+      "ending": "took-them-in-hand",
+      "kind": "show-around"
+    }
+  ],
+  "kinds": [
+    {
+      "id": "vote",
+      "about": "A member's vote promised on a bill: settled by that member's vote at the bill's roll call, kept if it is the side asked, broken if not. The bill and the side come from the cause record (the sponsor's count, `vote-ahead`).",
+      "tie": {
+        "billId": "billId",
+        "side": "side"
+      },
+      "settle": [
+        {
+          "operation": "bill-roll",
+          "eventKind": "legislative-vote"
+        }
+      ],
+      "windowDays": "promiseVoteWindowDays",
+      "windowEnds": "lapsed"
+    },
+    {
+      "id": "pay-on-time",
+      "about": "Paying on time, promised to the housemate wronged by a missed payment: broken by the borrower's next missed payment (the credit engine's `credit.payment-missed`), kept when the window closes with none missed.",
+      "tie": {},
+      "settle": [
+        {
+          "operation": "holder-missed-payment",
+          "eventKind": "credit.payment-missed"
+        }
+      ],
+      "windowDays": "promisePayWindowDays",
+      "windowEnds": "kept"
+    },
+    {
+      "id": "show-around",
+      "about": "Showing a new coworker how things run: kept by a talk between the two (the conversation engine's time together, cause `conversation`), broken when the window closes with none.",
+      "tie": {},
+      "settle": [
+        {
+          "operation": "pair-talk",
+          "relationshipCause": "conversation"
+        }
+      ],
+      "windowDays": "promiseShowAroundWindowDays",
+      "windowEnds": "broken"
+    },
+    {
+      "id": "reach-someone",
+      "about": "No settling act yet: a call, a letter, a visit, a dinner at their home or a stay. The player has no act that reaches a relative or friend outside a talk where both are. Named so the record takes it unchanged when that act is built (pool item design-player-reaches-a-relative-or-friend).",
+      "tie": {},
+      "settle": [],
+      "windowDays": "promiseShowAroundWindowDays",
+      "windowEnds": "broken"
+    },
+    {
+      "id": "see-a-doctor",
+      "about": "No settling act yet: the player has no act that takes them to a doctor; care is the coverage engine's monthly bill. Named so the record takes it unchanged when that act is built (pool item design-player-goes-to-a-doctor).",
+      "tie": {},
+      "settle": [],
+      "windowDays": "promiseShowAroundWindowDays",
+      "windowEnds": "broken"
+    }
+  ]
+}

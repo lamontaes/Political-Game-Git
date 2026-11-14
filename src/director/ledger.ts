@@ -55,6 +55,13 @@ import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
+import {
+  closeDuePromises,
+  indexPromise,
+  promiseOfEvent,
+  settlePromisesOnEvent,
+  settlePromisesOnTie,
+} from "./promises";
 import type {
   BackdropEntry,
   CallbackLink,
@@ -207,6 +214,8 @@ export function createDirector(
     broadEvents: new Map(),
     hitBy: new Map(),
     liesByLearner: new Map(),
+    promisesBySettle: new Map(),
+    promisesDue: new Map(),
     stopgapHits: new Set(),
     sceneFilters: new Map(),
     pollingVisits: new Map(),
@@ -1815,9 +1824,19 @@ export function createDirector(
 
   function produceKeptFacts(event: CoreEventInput, book: PersonLedger): void {
     for (const kind of data.keptFactKinds) {
-      if (!kind.producedBy.includes(event.kind)) continue;
+      // A kind is recorded by its event kinds, or by an event kind that
+      // carries a fact (a scene reply that keeps a promise or a favor).
+      const byFact = kind.producedByFact?.some((row) => {
+        if (row.eventKind !== event.kind) return false;
+        const value = event.facts?.[row.fact];
+        return row.equals === undefined ? !!value : value === row.equals;
+      });
+      if (!kind.producedBy.includes(event.kind) && !byFact) continue;
       const [holderId, otherId] = event.personIds;
       if (!holderId || !otherId) continue;
+      const promise =
+        kind.endsOn === "settling-record" ? promiseOfEvent(event, param) : null;
+      if (kind.endsOn === "settling-record" && !promise) continue;
       const fact: KeptFact = {
         id: `${kind.id}:${event.id}`,
         kind: kind.id,
@@ -1827,8 +1846,10 @@ export function createDirector(
         sinceBasis: "recorded",
         sourceId: event.id,
         ...(event.topic ? { concernsKey: event.topic } : {}),
+        ...(promise ? { promise } : {}),
       };
       keepFact(book, fact);
+      if (promise) indexPromise(ledger, book.keptFacts.get(fact.id)!);
       if (kind.endsOn === "contradicting-fact-learned" && fact.concernsKey) {
         const key = `${otherId}|${fact.concernsKey}`;
         let set = ledger.liesByLearner.get(key);
@@ -1871,6 +1892,7 @@ export function createDirector(
     },
     onEvent(api, event, learnedBy) {
       if (!started) return;
+      settlePromisesOnEvent(api, ledger, event, param);
       if (circumstanceRows.has(event.kind)) {
         const queued = queuedOf(event);
         circumstanceQueue.push(queued);
@@ -1887,6 +1909,7 @@ export function createDirector(
     relationshipKinds: data.relationshipKinds,
     onRelationshipChange(api, notice) {
       if (!started) return;
+      settlePromisesOnTie(api, ledger, notice, param);
       rateNow(api.state, [notice.actorId, notice.otherId]);
     },
     onWorkResult(api, receipt) {
@@ -1897,6 +1920,8 @@ export function createDirector(
     onAfterDay(api) {
       if (!started)
         throw new Error("The story director was installed but not started.");
+      // Promises whose window closes today end as their kind says.
+      closeDuePromises(api, ledger, param);
       for (const book of ledger.people.values()) measureDay(api.state, book);
       produceCircumstances(api.state);
       // Election day (the polling-place type's producer): the eve's close
@@ -1983,6 +2008,8 @@ export function createDirector(
       refill(ledger.broadEvents, fromLedger.broadEvents);
       refill(ledger.hitBy, fromLedger.hitBy);
       refill(ledger.liesByLearner, fromLedger.liesByLearner);
+      refill(ledger.promisesBySettle, fromLedger.promisesBySettle ?? new Map());
+      refill(ledger.promisesDue, fromLedger.promisesDue ?? new Map());
       ledger.stopgapHits.clear();
       for (const hit of fromLedger.stopgapHits) ledger.stopgapHits.add(hit);
       refill(ledger.sceneFilters, fromLedger.sceneFilters);

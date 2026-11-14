@@ -94,6 +94,7 @@ import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
+import { promiseReplyFacts } from "./promises";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
@@ -1885,6 +1886,9 @@ export function replyInScene(
       ...(enlists && filingId ? { enlisted: filingId } : {}),
       ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
+      // A promise a record can settle: its kind and its tie, from the
+      // ending's row in data/promise-kinds.json (promises.ts).
+      ...(ending ? promiseReplyFacts({ ...scene, endingId: ending.id }) : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       ...(conceded ? { conceded } : {}),
     },
@@ -1930,7 +1934,6 @@ export function replyInScene(
       undefined,
       { cause: "scene-reply", sourceId: id },
     );
-  // stopgapId: SG-WORDS-favor-promise-keeps-unread
   const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
   if (strain)
     coreAPI(core).relationship(

@@ -17,10 +17,19 @@ export interface ChannelRow {
 
 export interface KeptFactKindRow {
   id: string;
-  /** "never", "contradicting-fact-learned" or "world-event". */
+  /** "never", "contradicting-fact-learned" or "settling-record". */
   endsOn: string;
   /** Core event kinds that record a fact of this kind. */
   producedBy: readonly string[];
+  /**
+   * Core event kinds that record a fact of this kind when a fact on the event
+   * is present (or equals a value): a scene reply that keeps a promise.
+   */
+  producedByFact?: readonly {
+    eventKind: string;
+    fact: string;
+    equals?: string;
+  }[];
   stopgapId?: string;
 }
 
@@ -186,6 +195,22 @@ export interface KeptFact {
   concernsKey?: string;
   endedAt?: IsoDate;
   endedBy?: string;
+  /** A promise's kind, tie, due day and how it ended (promises.ts). */
+  promise?: KeptPromise;
+}
+
+export interface KeptPromise {
+  /** The kind's row in data/promise-kinds.json. */
+  kind: string;
+  /** The day its window closes. */
+  dueOn: IsoDate;
+  billId?: string;
+  /** The side promised on a bill: 1 for, -1 against. */
+  side?: number;
+  /** Kept, broken, or lapsed (its window closed with nothing to settle it). */
+  outcome?: "kept" | "broken" | "lapsed";
+  /** Once the one owed has said it to the one who promised (promise-talk.ts). */
+  saidAt?: IsoDate;
 }
 
 export interface BackdropEntry {
@@ -249,6 +274,10 @@ export interface Ledger {
   hitBy: Map<string, Set<PersonId>>;
   /** Open lies indexed by the deceived person and the fact they deny. */
   liesByLearner: Map<string, Set<string>>;
+  /** Open promises by the record that would settle them (promises.ts). */
+  promisesBySettle: Map<string, Set<string>>;
+  /** Open promises by the day their window closes. */
+  promisesDue: Map<string, Set<string>>;
   stopgapHits: Set<string>;
   /** The opening, the first scene: the President's address, that night's news, then home that evening. */
   opening?: OpeningStory;

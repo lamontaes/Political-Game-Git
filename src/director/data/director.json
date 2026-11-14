@@ -894,6 +894,41 @@
         "unit": "lead over the runner-up, as a share of votes cast",
         "citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 points or fewer and at half a point or fewer); not yet sourced here."
       }
+    },
+    "promiseVoteWindowDays": {
+      "value": 90,
+      "tag": "TUNABLE",
+      "citation": "A sponsor's count is taken the evening before the roll; a roll put off past a season (a bill held, a session ended) no longer holds anyone to a word given the night before, and the promise lapses with no outcome (promises.ts).",
+      "spread": "30 to 180",
+      "checkRange": { "min": 30, "max": 180 }
+    },
+    "promisePayWindowDays": {
+      "value": 62,
+      "tag": "TUNABLE",
+      "citation": "Two monthly due dates (the credit engine bills monthly): a promise to pay on time is kept when the next two payments are made, broken by the first missed (promises.ts).",
+      "spread": "31 to 93",
+      "checkRange": { "min": 31, "max": 93 }
+    },
+    "promiseShowAroundWindowDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "citation": "A new hire's first two weeks: showing someone how things run is done in their first days or not at all (promises.ts).",
+      "spread": "7 to 30",
+      "checkRange": { "min": 7, "max": 30 }
+    },
+    "promiseKeptHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "One talk's time together, as scene-talk-rules endingStrain relationship-strained: a kept word warms the tie about as much as a strained ending cools it (promises.ts).",
+      "spread": "0.5 to 2",
+      "checkRange": { "min": 0.5, "max": 2 }
+    },
+    "promiseBrokenHours": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "citation": "As scene-talk-rules endingStrain trust-lost: a promise broken costs what trust lost costs (promises.ts).",
+      "spread": "1 to 4",
+      "checkRange": { "min": 1, "max": 4 }
     }
   },
   "channels": [
@@ -964,15 +999,17 @@
     },
     {
       "id": "favor",
-      "endsOn": "world-event",
+      "endsOn": "never",
       "producedBy": [],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedByFact": [
+        { "eventKind": "scene.reply", "fact": "keeps", "equals": "favor-owed" }
+      ]
     },
     {
       "id": "promise",
-      "endsOn": "world-event",
+      "endsOn": "settling-record",
       "producedBy": [],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedByFact": [{ "eventKind": "scene.reply", "fact": "promise" }]
     }
   ],
   "broadEventFlags": ["publicRecord", "news"],
