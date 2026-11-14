@@ -87,7 +87,7 @@
     "src/core2/modules/ballot-measures.ts": 1,
     "src/core2/modules/budgets.ts": 7,
     "src/core2/modules/business.ts": 6,
-    "src/core2/modules/campaigns.ts": 9,
+    "src/core2/modules/campaigns.ts": 8,
     "src/core2/modules/candidacy.ts": 5,
     "src/core2/modules/constituent-cases.ts": 4,
     "src/core2/modules/contracts.ts": 1,
