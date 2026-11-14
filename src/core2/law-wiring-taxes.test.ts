@@ -374,7 +374,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
     "applies each law to people, groups and treasuries, moves money, and ends on repeal",
     // Each draw builds a town; only the first with a subject for every law
     // runs its 170 days.
-    { timeout: 900_000 },
+    { timeout: 320_000 },
     () => {
       setBookkeeping(false);
       try {
@@ -998,7 +998,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
   it(
     "keeps a corporation's unpaid profit tax owed to each treasury, through a zero-profit quarter and a repealed state rate",
     // Each attempt builds a town and runs to October 1 (three quarter days).
-    { timeout: 900_000 },
+    { timeout: 260_000 },
     () => {
       setBookkeeping(false);
       const testSource: Source = {
@@ -1008,7 +1008,11 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
       };
       try {
         const tried: string[] = [];
-        for (let i = 0; i < TRIES; i++) {
+        // The pinned seed's third draw (University at Buffalo, New York) is
+        // the first with a corporation location that stays open through July 1:
+        // Grace, Mississippi's one location closed that day, and Bethel,
+        // Vermont has no state corporate rate. An env seed starts at its first.
+        for (let i = process.env.GOLDEN_PATH_SEED ? 0 : 2; i < TRIES; i++) {
           const drawn = drawPlace(seed, `law-wiring-taxes-arrears:${i}`);
           const where = `${drawn.name} (${drawn.key}), seed ${seed}`;
           const core = buildBenchWorld(drawn.seed, gameStartDate(), {
