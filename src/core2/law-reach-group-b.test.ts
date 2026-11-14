@@ -1007,7 +1007,6 @@ describe("law reach, group B: a city income tax", () => {
       treasury: city.organizationId,
     };
     enact(key, 0, LOCAL);
-    const repealedOn = api.state.date;
     // Where a higher level's own act still says yes to the question (a
     // territory whose income tax is the federal mandate), repealing the lower
     // level's tax does not end the policy and its rows stay open; the tax is
