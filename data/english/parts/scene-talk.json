@@ -11603,7 +11603,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -12506,7 +12507,8 @@
           "role": "asked",
           "purpose": "rally-opponent",
           "key": "threat",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["debate"]
         },
         {
           "subject": "scene",
@@ -14324,7 +14326,8 @@
           "role": "asked",
           "purpose": "rally-opponent",
           "key": "threat",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -19813,7 +19816,8 @@
           "role": "asked",
           "purpose": "rally-opponent",
           "key": "threat",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -186060,32 +186064,6 @@
       "date": "2026-11-14",
       "tag": {
         "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.that-s-where-i-am-and-i-m-staying-there",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "That's where I am, and I'm staying there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "requiresFacts": ["debate", "issue"],
-          "excludesFacts": ["said-none"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Campaign events builder, draft for the Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
         "key": "threat"
       }
     },

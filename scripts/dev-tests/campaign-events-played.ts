@@ -355,6 +355,7 @@ const playEntry = (r: Rec) => {
     L(`- ${f.key}: ${f.text} [${f.recordIds.join(", ").slice(0, 160)}]`);
   L("Narration: " + s.talk.narration.map((l) => l.text).join(" / "));
   if (s.talk.open) L(`Opens: [${s.talk.open.speaker}] ${s.talk.open.text}`);
+  L(`States: [${s.talk.state.speaker}] ${s.talk.state.text}`);
   for (const l of dumpTree(s.talk.tree, 0, { n: 40 })) L(l);
   if (ANSWER_YES.has(r.typeKey) && r.interrupt) {
     const yes = s.talk.tree.replies.findIndex((x) =>
