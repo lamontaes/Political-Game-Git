@@ -460,3 +460,54 @@ it.each(BUDGET_DAY_PLACES)(
   },
   600_000,
 );
+
+/**
+ * Pool item office-filed-after-the-meeting-hour-voted-for-the-player: a county
+ * board whose first meeting (Jan 21, 9 a.m.) comes with under a day's notice
+ * had its members' bills filed after that hour and voted at once, the
+ * player's seat "Decided for me" on two ordinances. Filed late, they wait for
+ * the next meeting, where the player is held, and nobody files them again.
+ */
+const LATE_FILING = {
+  key: "4030915",
+  name: "Grandview, Oklahoma",
+  seed: "80ea7a2f8a3a22473502acd7fa4162c4b06c0db09b05fdefa59390a6f203b46a",
+};
+
+it("Grandview: bills filed after the first meeting's hour wait for the next meeting, where the player is held and presses them", () => {
+  const where = `${LATE_FILING.name} (${LATE_FILING.key}), seed ${LATE_FILING.seed}`;
+  const s = seated(LATE_FILING);
+  expect(s, `${where}: a seated member`).not.toBeNull();
+  const { api, core, me } = s!;
+  const pressed = new Map<string, string>();
+  const heldWith = new Map<string, string[]>();
+  play(
+    s!,
+    () => core.date >= "2025-02-05",
+    (meeting) => {
+      heldWith.set(meeting.date, [...meeting.agenda]);
+      pressAll(api, meeting, "no", pressed);
+    },
+  );
+  const bills = (
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as BillRow[]
+  ).filter((b) => b.bodyOfficeId === s!.officeId);
+  const late = bills.filter((b) => b.introduced === "2025-01-21");
+  expect(late.length, `${where}: bills filed on Jan 21`).toBeGreaterThan(0);
+  for (const bill of late) {
+    expect(voteDay(api, bill.id), `${where}: ${bill.number} waits`).toBe(
+      "2025-02-04",
+    );
+    expect(heldWith.get("2025-02-04"), where).toContain(bill.id);
+    expect(pressed.get(bill.id), `${where}: ${bill.number} pressed`).toBe("no");
+  }
+  // Nothing waiting is filed again.
+  const changes = bills.map((b) => JSON.stringify(b.provisions));
+  expect(new Set(changes).size, `${where}: ${changes.join(" | ")}`).toBe(
+    changes.length,
+  );
+  expect(unpressed(api, me, pressed)).toEqual([]);
+}, 600_000);

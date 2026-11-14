@@ -1131,8 +1131,21 @@ function placeFiled(
   api: CoreAPI,
   officeId: string,
   date: string,
-  billIds: readonly string[],
+  filed: readonly string[],
 ): void {
+  let billIds = filed;
+  // Filed on the meeting's own day (a meeting with under a day's notice, the
+  // first after a world begins among them): the filings come after its hour,
+  // when nobody, the player included, could be told of them, so they wait for
+  // the next meeting whose agenda is not yet posted, like any late item. A
+  // filing the body may not act on (blocked) is never voted, and stays where
+  // it was filed.
+  if (date <= api.state.date && nextMeeting(api, officeId, date)) {
+    const waits = (id: string) => billOf(api, id)?.status === "drafted";
+    for (const billId of billIds) if (waits(billId)) placeOnAgenda(api, billId);
+    billIds = billIds.filter((id) => !waits(id));
+    if (!billIds.length) return;
+  }
   const row = meetingOf(api, meetingId(officeId, date));
   if (!row || row.status === "adjourned") {
     for (const billId of billIds) voteItem(api, billId);
