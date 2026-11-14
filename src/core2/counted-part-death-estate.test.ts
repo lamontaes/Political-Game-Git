@@ -15,6 +15,7 @@ import { settleCountedEstate } from "./estates";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn } from "./law-reach/applied";
+import { setJournalTrace } from "./journal-state";
 import { advanceCore } from "./life";
 import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import {
@@ -135,13 +136,29 @@ it("a part death's estate is taxed as a whole death's, scaled by its share of th
         `${where}: the record stands for fewer`,
       ).toBe(weight - share);
       const placeId = lawChain(api).townPlaceId;
-      settleCountedEstate(api, {
-        deceasedId: heavy.dead as never,
-        placeId,
-        estate: { ...part!.estate, households: share },
+      // The money the settlement moved, from the journal, against what it recorded.
+      let moved = 0;
+      setJournalTrace((input) => {
+        if (!/:(estate-tax|inheritance-tax):/.test(input.sourceRef.id)) return;
+        for (const posting of input.postings)
+          if (posting.deltaMinor > 0) moved += posting.deltaMinor;
       });
+      try {
+        settleCountedEstate(api, {
+          deceasedId: heavy.dead as never,
+          placeId,
+          estate: { ...part!.estate, households: share },
+        });
+      } finally {
+        setJournalTrace(null);
+      }
       const afterPart = taxRows(api);
       const partTax = perHousehold(before, afterPart);
+      const recorded = [...afterPart]
+        .filter(([id, row]) => before.get(id)?.minor !== row.minor)
+        .reduce((n, [, row]) => n + row.minor, 0);
+      // What the treasury took is what the town recorded: the payment is for the share that died.
+      expect(moved, `${where}: tax moved against tax recorded`).toBe(recorded);
       expect(
         [...partTax.values()].reduce((n, v) => n + v, 0),
         `${where}: tax booked for the part`,
