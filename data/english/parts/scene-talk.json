@@ -179227,10 +179227,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.our-office-held-seat-is-the-one-we-ve-got-so-we-look-after-it-come-knock-doors-with-us-when-it-s-time-or-chip-in-what-you-can",
+      "key": "scene-talk.follow-answer.our-office-held-seat-is-the-one-we-ve-got-so-we-take-care-of-it-come-knock-doors-with-us-when-it-s-time-or-chip-in-what-you-can",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Our {office-held} seat is the one we've got, so we look after it. Come knock doors with us when it's time, or chip in what you can.",
+      "text": "Our {office-held} seat is the one we've got, so we take care of it. Come knock doors with us when it's time, or chip in what you can.",
       "uses": [
         {
           "subject": "scene",
