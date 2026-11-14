@@ -10,7 +10,6 @@
  * from work.
  */
 import { townLean } from "../core2/modules/campaigns";
-import { personLean } from "../core2/campaign-views";
 import {
   LEGISLATURE_MODULE_ID,
   billOf,
@@ -19,7 +18,7 @@ import {
 import { viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
-import type { CoreState, PersonId } from "../core2/types";
+import type { CoreState, PersonId, PersonState } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
 import { questionAbout } from "../english/question-names";
 import { billTitleOf, billTitleSaid } from "../english/bill-names";
@@ -40,6 +39,12 @@ export function donorAskFacts(
   donorId: PersonId,
   causeId: string,
   billId: string | undefined,
+  /** How far left or right a person leans (the campaign views' `personLean`, handed in so this file reaches no other engine's insides). */
+  leanOf: (
+    people: CoreState["people"],
+    person: Readonly<PersonState>,
+    townLean: number,
+  ) => number,
 ): Record<string, Fact> {
   const facts: Record<string, Fact> = {};
   const donor = core.people.get(donorId);
@@ -78,7 +83,7 @@ export function donorAskFacts(
     api,
     donorId,
     stance.question,
-    personLean(core.people, donor, townLean(api)),
+    leanOf(core.people, donor, townLean(api)),
   );
   const leaning = view * stance.position;
   if (leaning !== P.zero)

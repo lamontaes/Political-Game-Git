@@ -1184,6 +1184,7 @@ function composeBinding(
         record?.kind === "campaign-gift" && facts["donor-bill"]
           ? said.billId
           : undefined,
+        personLean,
       ),
     );
   // How the two stand, so a line can fit the tie: the asked person's known
