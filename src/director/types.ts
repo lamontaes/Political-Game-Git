@@ -200,7 +200,7 @@ export interface KeptFact {
 }
 
 export interface KeptPromise {
-  /** The kind's row in data/promise-kinds.json. */
+  /** The kind's row in src/director/data/promise-kinds.json. */
   kind: string;
   /** The day its window closes. */
   dueOn: IsoDate;

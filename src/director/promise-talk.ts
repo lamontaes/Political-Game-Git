@@ -33,7 +33,7 @@ import {
 export interface PromiseSubject {
   /** The kept fact's id: the listener's topic memory keeps it from coming back. */
   id: string;
-  /** The promise's kind (data/promise-kinds.json). */
+  /** The promise's kind (src/director/data/promise-kinds.json). */
   promiseKind: string;
   kind: "promise-kept" | "promise-broken";
   facts: Record<string, Fact>;

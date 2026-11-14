@@ -3,7 +3,7 @@
  * owner, Oct 13: an effect is a read, not a record).
  *
  * A scene ending that keeps a promise names its kind on its `scene.reply`
- * record (`promiseReplyFacts`, from `data/promise-kinds.json`), and the
+ * record (`promiseReplyFacts`, from `src/director/data/promise-kinds.json`), and the
  * director keeps it as a kept fact held by the one who answered and owed to
  * the other (ledger.ts `produceKeptFacts`). This file indexes each open
  * promise by the record that would settle it and by the day its window
