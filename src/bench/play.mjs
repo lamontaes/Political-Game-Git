@@ -2775,8 +2775,10 @@ async function doAct(kind, personId) {
     if (done.packet) renderPacket(done.packet);
   }
   // The talk opens where they are, or on the phone; nothing to say hands the
-  // room back, as after any talk's end.
+  // room back, as after any talk's end. An ask's answer is a scene the room
+  // now plays.
   if (done.talk) renderTalk(done.talk);
+  else if (done.momentId) await showStory(done.momentId);
   else await renderScene();
 }
 

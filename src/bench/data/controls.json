@@ -178,13 +178,19 @@
   },
   "person": {
     "actsTitle": "Get in touch",
-    "acts": { "visit": "Visit", "call": "Call" },
+    "acts": {
+      "visit": "Visit",
+      "call": "Call",
+      "ask-out": "Ask out",
+      "propose": "Propose"
+    },
     "actReasons": {
       "here": "{first} is right here with you.",
       "elsewhere": "{first} lives too far away to visit.",
       "away": "You can't get to where {first} is right now.",
       "held": "Finish what you're in the middle of first.",
-      "died": "{first} has died."
+      "died": "{first} has died.",
+      "nothing-changed": "{first} gave you an answer. Nothing has changed since."
     },
     "homeOf": "{name}'s home",
     "whoIs": "Who {lower} is",

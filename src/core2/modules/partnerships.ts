@@ -1070,7 +1070,10 @@ export type AskReason =
   | "age-gap"
   | "nothing-changed"
   | "not-together"
-  | "too-soon";
+  | "too-soon"
+  | "not-sure-yet"
+  /** Already promised to marry, or married: nothing to propose. */
+  | "engaged";
 
 export type AskKind = "ask-out" | "propose";
 
@@ -1194,7 +1197,12 @@ function proposeWeight(
     (closenessBetween(core, asked.id, asker.id) /
       typicalCloseness(api, asked)) *
     partnerFactorOf(api, asked);
-  return { weight: (along / half) * tie, reason: "too-soon" };
+  // A no says whichever falls further short: the time the two have had, or
+  // how sure the partner is of the tie.
+  return {
+    weight: (along / half) * tie,
+    reason: along / half < tie ? "too-soon" : "not-sure-yet",
+  };
 }
 
 /** Whether the player may ask this person now, and if not, why. */
@@ -1236,7 +1244,7 @@ export function canAsk(
       return { open: false, reason: "not-together" };
     const couple = coupleOf(api, mine);
     if (["proposed", "engaged", "married"].includes(couple.stage))
-      return { open: false, reason: "nothing-changed" };
+      return { open: false, reason: "engaged" };
   }
   const held = store(api)
     .table("asks")

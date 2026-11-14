@@ -410,7 +410,12 @@
     "address:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:venue": ["public-meeting-room"],
-    "move-in:home": ["@home"]
+    "move-in:home": ["@home"],
+    "asked-out:public": ["park", "coffee-shop"],
+    "asked-out:venue": ["tavern", "coffee-shop"],
+    "proposal-answered:home": ["@home"],
+    "proposal-answered:public": ["park"],
+    "proposal-answered:venue": ["tavern"]
   },
   "schoolPlacesByAge": [
     {

@@ -171,6 +171,7 @@ import { benchProgress } from "./progress";
 import { townPlaces, visitHome, visitPlace } from "./places";
 import {
   personActs,
+  askFromCard,
   recordPlayerCall,
   recordPlayerVisit,
   visitHoursOf,
@@ -2386,6 +2387,22 @@ const ROUTES: readonly Route[] = [
       state.conversation = undefined;
       if (kind === "visit") {
         send(200, visitPerson(otherId));
+        return;
+      }
+      // Ask out or Propose: the other person answers from their own record
+      // (the partnerships engine), and the answer is a record the director
+      // stages at once as the scene on the player's clock.
+      if (kind === "ask-out" || kind === "propose") {
+        send(200, {
+          talk: null,
+          ...askFromCard(
+            requireCore(),
+            state.director,
+            state.player.personId,
+            otherId,
+            kind,
+          ),
+        });
         return;
       }
       const talk = openTalk(otherId, undefined, true);

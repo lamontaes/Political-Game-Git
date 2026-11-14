@@ -5,6 +5,13 @@
 // card words), and the writers that put a done act on the record. Nothing
 // here is rolled: the records say whether the act is open.
 import { recordVisit } from "../core2/modules/people";
+import {
+  askOut,
+  canAsk,
+  FAMILY_ASKED_OUT,
+  FAMILY_PROPOSAL_ANSWERED,
+  propose,
+} from "../core2/modules/partnerships";
 import { livesElsewhere } from "../core2/modules/moves";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { parameter } from "../core2/parameters";
@@ -15,7 +22,7 @@ import { orgPlace } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import { shiftOrganization } from "./shift";
 
-export type ActKind = "visit" | "call";
+export type ActKind = "visit" | "call" | "ask-out" | "propose";
 
 /** Why an act is closed, as a key the card words (controls.json person.actReasons). */
 export type ActReason =
@@ -28,7 +35,9 @@ export type ActReason =
   /** A stop or choice holds the clock, so a trip cannot be taken. */
   | "held"
   /** The person has died: the card says so and offers nothing. */
-  | "died";
+  | "died"
+  /** Asked before and told no, and the reason they gave still holds. */
+  | "nothing-changed";
 
 export interface PersonAct {
   kind: ActKind;
@@ -104,7 +113,42 @@ export function personActs(
       look: true,
     },
   );
-  return talk.lines.length ? [visit, { kind: "call", open: true }] : [visit];
+  return [
+    visit,
+    ...(talk.lines.length ? [{ kind: "call" as const, open: true }] : []),
+    ...courtshipActs(core, playerId, otherId, context),
+  ];
+}
+
+/**
+ * Ask out and Propose (family life question 1, ruled Nov 14 2026 under the
+ * owner's overnight say): offered only where they could mean something. Ask
+ * out is offered for an adult in town who is not family and not the player's
+ * partner; Propose only for the player's partner before an engagement. Each
+ * is open or closed by the partnerships engine's own `canAsk` (a player
+ * who is seeing someone is not offered Ask out); the answer
+ * itself is the other person's, from their record, when the player presses.
+ */
+function courtshipActs(
+  core: CoreState,
+  playerId: string,
+  otherId: string,
+  context: ActContext,
+): PersonAct[] {
+  const api = coreAPI(core);
+  const shown = (kind: "ask-out" | "propose"): PersonAct | undefined => {
+    const gate = canAsk(api, playerId as PersonId, otherId as PersonId, kind);
+    if (gate.open)
+      return context.held
+        ? { kind, open: false, reason: "held" }
+        : { kind, open: true };
+    if (gate.reason === "nothing-changed")
+      return { kind, open: false, reason: "nothing-changed" };
+    return undefined;
+  };
+  return [shown("ask-out"), shown("propose")].filter(
+    (act): act is PersonAct => act !== undefined,
+  );
 }
 
 /**
@@ -169,3 +213,31 @@ function emitContact(
 /** The hours a visit takes: the people engine's own visit effort (socialHours). */
 export const visitHoursOf = (core: CoreState): number =>
   parameter("socialHours", core.data.parameters);
+
+/**
+ * The player's Ask out or Propose from the card: the partnerships engine
+ * decides the other person's answer from their own record and writes it,
+ * and the director stages that record at once on the player's clock. Returns
+ * the moment the answer is, for the screen to play as its scene.
+ */
+export function askFromCard(
+  core: CoreState,
+  director: Director | undefined,
+  playerId: string,
+  otherId: string,
+  kind: "ask-out" | "propose",
+): { momentId?: string } {
+  const ask = kind === "ask-out" ? askOut : propose;
+  const answered = ask(
+    coreAPI(core),
+    playerId as PersonId,
+    otherId as PersonId,
+  );
+  if (!answered.asked) return {};
+  const recordId = `${kind === "ask-out" ? FAMILY_ASKED_OUT : FAMILY_PROPOSAL_ANSWERED}:${playerId}:${otherId}:${core.date}`;
+  const book = director?.ledger.people.get(playerId as PersonId);
+  const entry = book?.schedule.find(
+    (row) => book.momentsById.get(row.momentId)?.causeId === recordId,
+  );
+  return entry ? { momentId: entry.momentId } : {};
+}

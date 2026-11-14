@@ -88,7 +88,10 @@ for (const seed of WORLDS) {
       expect(rows[0]?.kind, `${where}: Visit is always listed`).toBe("visit");
       for (const row of rows)
         expect(row.open || !!row.reason, `${where}: reason`).toBe(true);
-      if (rows.length === 2 && rows.every((r) => r.open)) {
+      // Visit and Call both open (Ask out or Propose may follow them).
+      const open = (kind: string) =>
+        rows.some((r) => r.kind === kind && r.open);
+      if (open("visit") && open("call")) {
         other = candidate.id;
         break;
       }

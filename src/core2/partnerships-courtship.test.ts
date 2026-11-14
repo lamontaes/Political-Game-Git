@@ -191,6 +191,6 @@ describe("the player's own courtship acts (Pulaski, Ohio)", () => {
       expect((couples.get(link!.id) as { stage: string }).stage, where).toBe(
         "engaged",
       );
-    else expect(asked.reason, where).toBe("too-soon");
+    else expect(["too-soon", "not-sure-yet"], where).toContain(asked.reason);
   }, 120_000);
 });
