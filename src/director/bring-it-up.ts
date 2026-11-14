@@ -265,11 +265,11 @@ function electionResultOf(
  * or from someone who told them (the told record's heard key), by the
  * result's record id.
  */
-function resultsKnownTo(
+export function resultsKnownTo(
   core: Readonly<CoreState>,
   api: ReturnType<typeof coreAPI>,
   personId: PersonId,
-  data: Pick<BringRows, "heardKey">,
+  data: Pick<BringRows, "heardKey"> = BRING_IT_UP_ROWS,
 ): Set<string> {
   const known = new Set<string>();
   for (const fact of core.knowledgeByPerson.get(personId)?.values() ?? []) {

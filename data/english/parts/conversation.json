@@ -3173,7 +3173,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result-known"]
         },
         {
           "move": "lie-doubt-question",
@@ -8543,7 +8544,7 @@
           "subject": "news",
           "role": "answer",
           "choice": "react",
-          "excludesFacts": ["result-not-close"]
+          "excludesFacts": ["result-known", "result-not-close"]
         }
       ],
       "transcriptsUsing": 23,

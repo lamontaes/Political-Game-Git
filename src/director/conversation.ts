@@ -95,7 +95,12 @@ import type {
   PersonState,
   Source,
 } from "../core2/types";
-import { BRING_IT_UP_ROWS, bringItUp, changesKnownTo } from "./bring-it-up";
+import {
+  BRING_IT_UP_ROWS,
+  bringItUp,
+  changesKnownTo,
+  resultsKnownTo,
+} from "./bring-it-up";
 import { raceMargin } from "./race-margin";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
@@ -4070,7 +4075,11 @@ function playerFacts(
   // or by saying the player knew); a feeling about it is never answered
   // "Yes, ... had it." (`before-feeling` holds that wording back).
   if (last.kind === "news" && last.subject.aboutId) {
-    const heard = knowsNews(core, playerId, last.subject.aboutId);
+    // A race's result is known to the player when they knew it before this
+    // telling (`result-known`, from any outlet's story or an earlier telling).
+    const heard = last.facts.result
+      ? !!last.facts["result-known"]
+      : knowsNews(core, playerId, last.subject.aboutId);
     const asked = !!before && asksQuestion(before);
     stage = heard ? "heard" : asked ? "not-heard" : "told";
     if (before?.feeling && !asked)
@@ -4559,10 +4568,15 @@ function resultSubject(
   core: Readonly<CoreState>,
   subject: Subject,
   resultId: string,
+  /** The player knew the result before this telling. */
+  known: boolean,
 ): Subject {
   const facts: Facts = {
     ...subject.facts,
     result: { text: "yes", sourceRecordIds: [resultId] },
+    ...(known
+      ? { "result-known": { text: "yes", sourceRecordIds: [resultId] } }
+      : {}),
     ...(raceMargin(core, resultId) === "close"
       ? {}
       : { "result-not-close": { text: "yes", sourceRecordIds: [resultId] } }),
@@ -5419,6 +5433,10 @@ function openConversationNow(
       ...opener,
       sourceRecordIds: [occasion!.causeId, ...opener.sourceRecordIds],
     });
+  // The race results the player knew before anyone here tells them one.
+  const knewResults = occasion
+    ? new Set<string>()
+    : resultsKnownTo(core, coreAPI(core as CoreState), playerId);
   // Away from a scene's occasion, they mention the newest change they know
   // of and who they blame (bring-it-up, which passes both on). Those lines
   // are the talk's raise of that news, said once: the talk goes on from it.
@@ -5514,7 +5532,14 @@ function openConversationNow(
           // A race's result is told by who won, not by a question the
           // winner ran on: the player answers who won, never a stand on a
           // question nobody said.
-          brought.resultId ? resultSubject(core, news, brought.resultId) : news,
+          brought.resultId
+            ? resultSubject(
+                core,
+                news,
+                brought.resultId,
+                knewResults.has(brought.resultId),
+              )
+            : news,
           false,
           // A race's result is told by who won and how it sits with them,
           // not by the paper's headline.

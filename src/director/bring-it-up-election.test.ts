@@ -28,6 +28,19 @@ const NOT_AFTER_FEELING = new Set(
     )
     .map((part) => part.key),
 );
+// The noises a race's result never gets ("Huh."), from the bank.
+const NOT_TO_A_RESULT = new Set(
+  (
+    conversationParts.parts as {
+      key: string;
+      uses: { excludesFacts?: string[] }[];
+    }[]
+  )
+    .filter((part) =>
+      part.uses.some((use) => use.excludesFacts?.includes("result")),
+    )
+    .map((part) => part.key),
+);
 
 // After a count, a person who read the result brings it up: who won, and,
 // for a person clearly with or against the winner's party, how it sits with
@@ -190,6 +203,11 @@ describe.each(PLACES)("a race's result brought up in $name", (place) => {
         if (!asksQuestion(before))
           for (const choice of talk.choices)
             expect(choice.wording?.stage, shown).not.toBe("not-heard");
+        for (const choice of talk.choices)
+          expect(
+            (choice.wording?.parts ?? []).some((id) => NOT_TO_A_RESULT.has(id)),
+            shown,
+          ).toBe(false);
         if (before.feeling)
           for (const choice of talk.choices)
             expect(
