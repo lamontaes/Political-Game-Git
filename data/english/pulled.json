@@ -6,13 +6,21 @@
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
     ],
+    "conversation.farewell-core.all-right-bye": ["alright-in-dialogue"],
     "conversation.farewell-core.all-right-then-player-fir": [
       "alright-in-dialogue"
     ],
+    "conversation.farewell-core.well-all-right": [
+      "no-filler",
+      "alright-in-dialogue"
+    ],
+    "conversation.farewell-core.well-bye": ["no-filler"],
     "conversation.farewell-core.well-goodbye-player-first": ["no-filler"],
     "conversation.farewell-core.well-player-first-goodbye": ["no-filler"],
+    "conversation.farewell-core.well-see-you": ["no-filler"],
+    "conversation.farewell-core.well-take-care": ["no-filler"],
+    "conversation.farewell-core.well-that-s-that": ["no-filler"],
     "conversation.farewell-leave-bye.all-right-then": ["alright-in-dialogue"],
-    "conversation.farewell-leave-bye.well-good-luck": ["no-filler"],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
     "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
     "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right": [

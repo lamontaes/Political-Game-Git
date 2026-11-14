@@ -843,8 +843,7 @@ const NEWS_KINDS: Readonly<Record<string, string>> = {
 };
 
 // A counted household evicted and filled in later holds its case and status
-// row but no such moment, so its people never tell it.
-// stopgapId: SG-WORDS-eviction-moment-at-fill-in
+// row but no such moment: `evictionSubjects` reads the case from the status row.
 const EVICTION_LABEL = "feeling:event:housing.eviction";
 const EVICTION_EVENT = "event:housing.eviction:";
 
@@ -870,16 +869,24 @@ function evictionSubjects(
   const speaker = core.people.get(speakerId)!;
   const together =
     core.people.get(listenerId)?.householdId === speaker.householdId;
-  const evicted = [
+  // How soon hard news is told slides with the tie (Words lead, Nov 14):
+  // someone close (kin, or in the same house) leads with it; someone who
+  // knew the player before today says only that it has been a hard time,
+  // and the fact follows if the player asks; a stranger does not volunteer
+  // it at all.
+  const close =
+    together ||
+    speaker.familyIds.has(listenerId) ||
+    core.people.get(listenerId)?.familyIds.has(speakerId) === true;
+  if (!close && !saysName(core, speakerId, listenerId)) return [];
+  const moment = [
     ...recentMoments(core, director, speakerId),
     ...(together ? recentMoments(core, director, listenerId) : []),
   ].find(
     // The record is the household's: it may name the other members too.
-    (moment) =>
-      moment.label === EVICTION_LABEL &&
-      moment.causeId.startsWith(EVICTION_EVENT),
+    (m) => m.label === EVICTION_LABEL && m.causeId.startsWith(EVICTION_EVENT),
   );
-  if (!evicted || !core.modules.has(HOUSING_MODULE_ID)) return [];
+  if (!core.modules.has(HOUSING_MODULE_ID)) return [];
   // A child of the house does not tell it.
   if (
     ageOnDate(makeIsoDate(speaker.birthDate), makeIsoDate(core.date)) <
@@ -887,6 +894,23 @@ function evictionSubjects(
   )
     return [];
   const housing = coreAPI(core as CoreState).moduleState(HOUSING_MODULE_ID);
+  // A household evicted while counted and filled in later has no moment, but
+  // its housing status row names the case, and the case holds the day it was
+  // removed and its event id (event:housing.eviction:<caseId>).
+  const onRecord = (() => {
+    if (moment) return undefined;
+    const held = housing.table("statuses").get(speaker.householdId) as
+      { caseId?: string } | undefined;
+    const kept = held?.caseId
+      ? (housing.table("cases").get(held.caseId) as
+          { stage?: string; removedAt?: string } | undefined)
+      : undefined;
+    return kept?.stage === "removed" && kept.removedAt
+      ? { causeId: `${EVICTION_EVENT}${held!.caseId}`, date: kept.removedAt }
+      : undefined;
+  })();
+  const evicted = moment ?? onRecord;
+  if (!evicted) return [];
   const caseId = evicted.causeId.slice(EVICTION_EVENT.length);
   const row = housing.table("cases").get(caseId) as
     | {
@@ -908,6 +932,7 @@ function evictionSubjects(
   ).filter((id) => core.people.get(id)?.alive);
   // What the speaker calls the listener to their face.
   facts.you = calledBy(core, speakerId, listenerId);
+  if (!close) facts.guarded = fact("yes");
   if (together) facts.together = fact("yes");
   else if (members.length <= one)
     facts.alone = fact("yes", [speaker.householdId]);
@@ -2382,7 +2407,7 @@ export function subjectsBetween(
   if (!mine || theirs?.org.id !== mine.org.id)
     out.push({ id: `their-work:${listenerId}`, kind: "their-work", facts: {} });
   // Asked only right after they name their work.
-  if (theirs)
+  if (theirs && tenureYears(startedOf(core, listener), core.date))
     out.push({
       id: `their-tenure:${listenerId}`,
       kind: "their-tenure",
@@ -5820,6 +5845,11 @@ function offerChoices(
             { text: "yes", sourceRecordIds: [otherId] },
           ]),
         )
+      : {}),
+    // They have held the job long enough to say how long: the question
+    // "How long?" is offered only then (a question is answered).
+    ...(other && tenureYears(startedOf(core, other), core.date)
+      ? { "their-tenure": { text: "yes", sourceRecordIds: [otherId] } }
       : {}),
     // Their workplace once it has been named, as people say it: "there"
     // (round 11, rule 74: never "worked at work?").

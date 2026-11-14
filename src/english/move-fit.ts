@@ -12,7 +12,7 @@ export interface FitMove {
   part?: string;
   text: string;
   requiresFacts?: string[];
-  /** Facts whose presence holds the wording back (a plainer line where a rival splits on it). */
+  /** Facts whose presence holds the wording back. */
   excludesFacts?: string[];
   /** Whom the sentence speaks of, when it opens with a pronoun. */
   pronoun?: "he" | "she" | "they";

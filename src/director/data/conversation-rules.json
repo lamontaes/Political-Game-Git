@@ -320,7 +320,9 @@
     "eviction": {
       "ask": "request",
       "where": "request",
-      "comfort": "answer"
+      "comfort": "answer",
+      "what": "request",
+      "owed": "request"
     },
     "job-lost": {
       "ask": "request",
