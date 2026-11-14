@@ -1,0 +1,89 @@
+{
+  "source": "How each kind of business in the business books (src/core2/data/business-books.json) is said in a paper's sentence, one and many; read only by src/bench/printed-words.ts.",
+  "kinds": {
+    "farm": {
+      "one": "a farm",
+      "many": "farms"
+    },
+    "quarry": {
+      "one": "a quarry",
+      "many": "quarries"
+    },
+    "construction": {
+      "one": "a construction company",
+      "many": "construction companies"
+    },
+    "manufacturing": {
+      "one": "a manufacturer",
+      "many": "manufacturers"
+    },
+    "wholesale": {
+      "one": "a wholesaler",
+      "many": "wholesalers"
+    },
+    "retail": {
+      "one": "a store",
+      "many": "stores"
+    },
+    "trucking": {
+      "one": "a trucking company",
+      "many": "trucking companies"
+    },
+    "information": {
+      "one": "a phone and internet company",
+      "many": "phone and internet companies"
+    },
+    "insurance": {
+      "one": "an insurance agency",
+      "many": "insurance agencies"
+    },
+    "realty": {
+      "one": "a real estate office",
+      "many": "real estate offices"
+    },
+    "professional": {
+      "one": "a professional services firm",
+      "many": "professional services firms"
+    },
+    "building-services": {
+      "one": "a cleaning and maintenance company",
+      "many": "cleaning and maintenance companies"
+    },
+    "private-school": {
+      "one": "a private school",
+      "many": "private schools"
+    },
+    "clinic": {
+      "one": "a doctor's office",
+      "many": "doctors' offices"
+    },
+    "care-home": {
+      "one": "a care home",
+      "many": "care homes"
+    },
+    "recreation": {
+      "one": "a recreation business",
+      "many": "recreation businesses"
+    },
+    "restaurant": {
+      "one": "a restaurant",
+      "many": "restaurants"
+    },
+    "inn": {
+      "one": "an inn",
+      "many": "inns"
+    },
+    "repair": {
+      "one": "a repair shop",
+      "many": "repair shops"
+    },
+    "personal-care": {
+      "one": "a personal care business",
+      "many": "personal care businesses"
+    },
+    "utility": {
+      "one": "a utility",
+      "many": "utilities"
+    }
+  }
+}

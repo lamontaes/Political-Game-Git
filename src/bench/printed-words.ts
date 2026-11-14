@@ -9,6 +9,7 @@
 import { governmentProperName } from "../core2/government-proper-name";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import businessBooks from "../core2/data/business-books.json" with { type: "json" };
+import kindWords from "./data/business-kind-words.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate, spokenDate } from "../core2/kernel/dates";
 import { partyName } from "../core2/appointments";
@@ -186,6 +187,17 @@ const INDUSTRIES = new Map<string, string>(
     return kind ? [[row.classification, kind.industry] as const] : [];
   }),
 );
+/** The kind of business each classification is, by the kind's id. */
+const CLASSIFICATION_KINDS = new Map<string, string>(
+  businessBooks.classifications.flatMap((row) =>
+    row.kindId ? [[row.classification, row.kindId] as const] : [],
+  ),
+);
+/** How a kind of business is said in a sentence ("a doctor's office", "doctors' offices"), by the kind's id. */
+const KIND_WORDS = kindWords.kinds as Record<
+  string,
+  { readonly one: string; readonly many: string }
+>;
 /** The industry of each kind of business, by the kind's id. */
 const KIND_INDUSTRIES = new Map<string, string>(
   businessBooks.kinds.map((kind) => [kind.id, kind.industry]),
@@ -2597,11 +2609,28 @@ function businessExtras(
 ): Facts {
   const industry = read.industry(id);
   const extras: Facts = industry ? { industry: read.fact(industry, id) } : {};
+  // What the business is, as a sentence says it ("a doctor's office"), from
+  // the kind its classification is in the books.
+  const kindId =
+    read.core.finance.businesses.get(id)?.kindId ??
+    CLASSIFICATION_KINDS.get(
+      read.core.organizations.get(id as EntityId)?.classification ?? "",
+    ) ??
+    "";
+  const words = KIND_WORDS[kindId];
+  if (words) {
+    extras.kind = read.fact(words.one, id);
+    extras.kinds = read.fact(words.many, id);
+  }
   if (kind === "staff-cut") {
     // The staff the business has after the cut, which its jobs engine kept on
     // the record with the event (the staff it has changes day to day).
     const staff = Math.round(num(f.staffAfter) ?? 0);
     if (staff > 1) extras.staff = read.fact(count(staff), id);
+    // The day the cut was made, from the record: a story printed days later
+    // says which day, not "this month".
+    if (read.happened)
+      extras.day = read.fact(`on ${spokenDate(read.happened)}`, id);
   }
   if (kind === "owner-changed") {
     const handover = read.row<{

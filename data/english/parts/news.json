@@ -98,7 +98,7 @@
     "lasts": "The winners of a race for several seats by last name, from the race's count.",
     "winners": "The winners of a race for several seats by full name, from the race's count.",
     "seats": "How many seats a race filled, in words, from the race's count.",
-    "day": "The day of the count as the paper says it (on Tuesday, on November 4), from the result record.",
+    "day": "The day a record happened, as the paper says it (on Tuesday, on November 4, on December 1, 2025), from the result or event record.",
     "field": "How many were on the ballot in a race, in words, from the race's count.",
     "short-by": "The votes a failed bill lacked for a majority of those cast, as a number, from the vote's yeas and nays.",
     "work": "What the endorsing group works for, from the stance its endorsement stood on (the group's own record), as the paper says it.",
@@ -111,7 +111,9 @@
     "soon": "'later this month', when the regional bee is held in the month the paper is printed.",
     "usual": "How many police reports the town's month usually holds, the mean of its last closed months, from the crime engine's month rows.",
     "extra": "How many reports a month ran over the town's usual, from the crime engine's month rows.",
-    "rising": "The kind of police report that rose most over its own usual that month, from the crime engine's month rows."
+    "rising": "The kind of police report that rose most over its own usual that month, from the crime engine's month rows.",
+    "kind": "What a business is, with its article (\"a doctor's office\"), from the business books' kind for its classification.",
+    "kinds": "What a business is, in the plural (\"doctors' offices\"), from the business books' kind for its classification."
   },
   "maxWords": 14,
   "mining": {
@@ -4592,22 +4594,22 @@
       }
     },
     {
-      "key": "news.staff-cut.subject-let-number-people-go-this-month",
+      "key": "news.staff-cut.subject-let-number-people-go-day",
       "move": "staff-cut",
       "kind": "written",
-      "text": "{subject} let {number} people go this month.",
+      "text": "{subject} let {number} people go {day}.",
       "uses": [
         {
           "move": "staff-cut",
           "subject": "news",
           "role": "staff-cut",
           "choice": "lede",
-          "requiresFacts": ["several"]
+          "requiresFacts": ["several", "day"]
         }
       ],
       "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
+      "author": "Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
+      "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -4623,12 +4625,35 @@
           "move": "staff-cut",
           "subject": "news",
           "role": "staff-cut",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["several", "one"]
         }
       ],
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.staff-cut.subject-let-one-worker-go-day",
+      "move": "staff-cut",
+      "kind": "written",
+      "text": "{subject} let {number} worker go {day}.",
+      "uses": [
+        {
+          "move": "staff-cut",
+          "subject": "news",
+          "role": "staff-cut",
+          "choice": "lede",
+          "requiresFacts": ["one", "day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
+      "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -8204,10 +8229,10 @@
       }
     },
     {
-      "key": "news.staff-cut-remaining.subject-now-plans-to-run-with-about-staff-people",
+      "key": "news.staff-cut-remaining.it-now-plans-to-run-with-about-staff-people",
       "move": "staff-cut-remaining",
       "kind": "written",
-      "text": "{subject} now plans to run with about {staff} people.",
+      "text": "It now plans to run with about {staff} people.",
       "uses": [
         {
           "move": "staff-cut-remaining",
@@ -8218,8 +8243,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
+      "author": "Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
+      "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -8248,110 +8273,66 @@
       }
     },
     {
-      "key": "news.business-kind.subject-works-in-the-industry-field",
+      "key": "news.business-kind.it-is-kind",
       "move": "business-kind",
       "kind": "written",
-      "text": "{subject} works in the {industry} field.",
+      "text": "It is {kind}.",
       "uses": [
         {
           "move": "business-kind",
           "subject": "news",
           "role": "business-kind",
           "choice": "context",
-          "requiresFacts": ["industry"]
+          "requiresFacts": ["kind"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
+      "author": "Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
+      "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
       }
     },
     {
-      "key": "news.business-kind.it-counts-as-part-of-the-industry-field",
+      "key": "news.business-kind.it-is-one-of-the-towns-kinds",
       "move": "business-kind",
       "kind": "written",
-      "text": "It counts as part of the {industry} field.",
+      "text": "It is one of the town's {kinds}.",
       "uses": [
         {
           "move": "business-kind",
           "subject": "news",
           "role": "business-kind",
           "choice": "context",
-          "requiresFacts": ["industry"]
+          "requiresFacts": ["kinds"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
+      "author": "Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
+      "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
       }
     },
     {
-      "key": "news.business-kind.subject-is-one-of-the-towns-industry-businesses",
+      "key": "news.business-kind.the-business-is-kind",
       "move": "business-kind",
       "kind": "written",
-      "text": "{subject} is one of the town's {industry} businesses.",
+      "text": "The business is {kind}.",
       "uses": [
         {
           "move": "business-kind",
           "subject": "news",
           "role": "business-kind",
           "choice": "context",
-          "requiresFacts": ["industry"]
+          "requiresFacts": ["kind"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.business-kind.its-work-is-in-the-industry-field",
-      "move": "business-kind",
-      "kind": "written",
-      "text": "Its work is in the {industry} field.",
-      "uses": [
-        {
-          "move": "business-kind",
-          "subject": "news",
-          "role": "business-kind",
-          "choice": "context",
-          "requiresFacts": ["industry"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.business-kind.subject-does-industry-work",
-      "move": "business-kind",
-      "kind": "written",
-      "text": "{subject} does {industry} work.",
-      "uses": [
-        {
-          "move": "business-kind",
-          "subject": "news",
-          "role": "business-kind",
-          "choice": "context",
-          "requiresFacts": ["industry"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
+      "author": "Claude Sonnet (pool item press-layoff-counts-the-jobs-lost)",
+      "date": "2026-11-14",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
