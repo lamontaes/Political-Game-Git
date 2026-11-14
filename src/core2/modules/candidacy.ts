@@ -994,6 +994,10 @@ export function weighContest(
       p.id === incumbentId) &&
     !appointed.has(p.id) &&
     ageOnDate(p.birthDate, date) >= rules.minimumAge &&
+    // The filing fee weighs in the decision: someone who cannot cover it from
+    // their own cash does not decide to run (the counter's refusal is left
+    // for the player and for money that ran out in between).
+    p.liquidMinor >= rules.feeMinor &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
     !(incumbentFiled && p.id === incumbentId) &&

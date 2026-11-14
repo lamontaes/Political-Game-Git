@@ -164335,10 +164335,10 @@
       }
     },
     {
-      "key": "scene-talk.state-filing-fee-paid.thanks-heres-your-receipt-for-the-fee-youre-filed",
+      "key": "scene-talk.state-filing-fee-paid.thanks-heres-your-receipt-youre-filed",
       "move": "state-filing-fee-paid",
       "kind": "spoken",
-      "text": "Thanks. Here's your receipt for the {fee}. You're filed.",
+      "text": "Thanks. Here's your receipt. You're filed.",
       "uses": [
         {
           "subject": "scene",
@@ -164359,10 +164359,10 @@
       }
     },
     {
-      "key": "scene-talk.state-filing-fee-paid.thats-the-fee-paid-keep-the-receipt-with-your-papers",
+      "key": "scene-talk.state-filing-fee-paid.thats-paid-keep-the-receipt-with-your-papers",
       "move": "state-filing-fee-paid",
       "kind": "spoken",
-      "text": "That's the {fee} paid. Keep the receipt with your papers.",
+      "text": "That's paid. Keep the receipt with your papers.",
       "uses": [
         {
           "subject": "scene",
@@ -164383,10 +164383,10 @@
       }
     },
     {
-      "key": "scene-talk.state-filing-fee-paid.fee-paid-youre-on-the-list",
+      "key": "scene-talk.state-filing-fee-paid.paid-youre-on-the-list",
       "move": "state-filing-fee-paid",
       "kind": "spoken",
-      "text": "{fee}, paid. You're on the list.",
+      "text": "Paid. You're on the list.",
       "uses": [
         {
           "subject": "scene",
@@ -164407,10 +164407,10 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-filing-fee.im-sorry-i-cant-take-the-papers-without-the-fee-fee",
+      "key": "scene-talk.state-rule-filing-fee.im-sorry-i-cant-take-the-papers-without-the-fee",
       "move": "state-rule-filing-fee",
       "kind": "spoken",
-      "text": "I'm sorry. I can't take the papers without the {fee} fee.",
+      "text": "I'm sorry. I can't take the papers without the fee.",
       "uses": [
         {
           "subject": "scene",
@@ -164431,10 +164431,10 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-filing-fee.i-cant-file-you-without-the-fee-fee-thats-the-rule-not-me",
+      "key": "scene-talk.state-rule-filing-fee.i-cant-file-you-without-the-fee-thats-the-rule-not-me",
       "move": "state-rule-filing-fee",
       "kind": "spoken",
-      "text": "I can't file you without the {fee} fee. That's the rule, not me.",
+      "text": "I can't file you without the fee. That's the rule, not me.",
       "uses": [
         {
           "subject": "scene",
@@ -164527,10 +164527,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-come-back.ill-come-back-with-the-fee",
+      "key": "scene-talk.reply-come-back.ill-come-back-with-it",
       "move": "reply-come-back",
       "kind": "spoken",
-      "text": "I'll come back with the {fee}.",
+      "text": "I'll come back with it.",
       "uses": [
         {
           "subject": "scene",
