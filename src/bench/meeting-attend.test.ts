@@ -15,6 +15,7 @@ import { gameStartDate } from "../core2/game-start";
 import { campaignParameter } from "../core2/campaign-data";
 import { members } from "../core2/modules/legislature";
 import { remarksOn } from "../core2/modules/meetings";
+import { addressesGivenBy } from "../core2/modules/speech";
 import { meetingOf } from "../core2/modules/office-day";
 import { coreAPI, type CoreState } from "../core2/state";
 import { calendarItems } from "./calendar";
@@ -50,40 +51,6 @@ const withCommittees = (api: ReturnType<typeof coreAPI>, meetingId: string) =>
   members(api, meetingOf(api, meetingId)!.officeId).length >
   campaignParameter("committeeOfTheWholeMaximum");
 
-/**
- * At a board with a committee stage the panel offers a resident nothing: no
- * line about speaking, no way to speak, and the route leaves no remark.
- */
-function offersNothing(
-  core: CoreState,
-  me: string,
-  minute: number,
-  where: string,
-): boolean {
-  const api = coreAPI(core);
-  const scene = meetingSceneView(core, me, minute)!;
-  expect(scene.speaks, `${where}: no remark offered`).toBe(false);
-  expect(scene.seated, `${where}: not seated`).toBe(false);
-  if (scene.items.length)
-    expect(scene.note, `${where}: no line about speaking`).toBeNull();
-  const item = scene.items.find((row) => !row.takenUp);
-  if (!item) return false;
-  meetingSpeak(core, scene.id, item.billId, "for");
-  expect(
-    remarksOn(api, item.billId).some((r) => r.personId === me),
-    `${where}: no remark on the record`,
-  ).toBe(false);
-  expect(
-    JSON.stringify(
-      meetingSceneView(core, me, minute)!.items.find(
-        (row) => row.billId === item.billId,
-      )?.remarks,
-    ),
-    `${where}: who spoke is unchanged`,
-  ).toBe(JSON.stringify(item.remarks));
-  return true;
-}
-
 it("the Calendar offers a posted meeting, the panel lets a resident speak and leave, and nothing else", () => {
   const tried: string[] = [];
   for (let draw = 0; draw < 6; draw += 1) {
@@ -108,7 +75,6 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
       calendarItems(core, me).filter((item) => item.kind === "meeting");
     let sawOffer = false;
     let emptyRooms = 0;
-    let committeeRooms = 0;
     let done = false;
     for (let guard = 0; guard < 2_000 && core.date < end && !done; guard += 1) {
       for (const item of offered()) {
@@ -149,15 +115,6 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
       // One line under the title for a resident: an empty agenda, or, only at
       // the first meeting they come to, what they can do here.
       const items = scene.items.length;
-      // A board with a committee stage offers a resident nothing to say (the
-      // case below); this walk leaves it and waits for a body that hears them.
-      if (withCommittees(api, scene.id)) {
-        offersNothing(core, me, minute, where);
-        committeeRooms += 1;
-        meetingAdjourn(core, scene.id);
-        continue;
-      }
-      expect(scene.speaks, `${where}: the panel offers a remark`).toBe(true);
       // (This is the first meeting with an item that this resident has come to.)
       expect(scene.note, `${where}: the resident's line`).toMatch(
         items ? /speak for or against/ : /\S/,
@@ -220,7 +177,7 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
       return;
     }
     tried.push(
-      `${where}: offered ${sawOffer}, ${emptyRooms} meetings with no item, ${committeeRooms} at a board with committees`,
+      `${where}: offered ${sawOffer}, ${emptyRooms} meetings with no item`,
     );
   }
   throw new Error(`no meeting with an item was reached; ${tried.join("; ")}`);
@@ -228,8 +185,9 @@ it("the Calendar offers a posted meeting, the panel lets a resident speak and le
 
 // A kept place whose board has committees (pool item
 // meetings-resident-remark-reaches-a-committee-board found it): a remark made
-// at its meeting is not heard yet, so the panel offers none.
-it("at a board with a committee stage the panel offers a resident no remark", () => {
+// at its meeting is heard there by the members, so the panel offers it as at
+// any board, and the members meet the speaker once.
+it("at a board with a committee stage a resident is offered a remark, speaks, and the members hear it once", () => {
   const place = {
     name: "Jaguas, Puerto Rico",
     key: "7237336",
@@ -250,12 +208,8 @@ it("at a board with a committee stage the panel offers a resident no remark", ()
     .toISOString()
     .slice(0, 10);
   let rooms = 0;
-  let withItem = false;
-  for (
-    let guard = 0;
-    guard < 2_000 && core.date < end && !withItem;
-    guard += 1
-  ) {
+  let spoke = false;
+  for (let guard = 0; guard < 2_000 && core.date < end && !spoke; guard += 1) {
     for (const item of calendarItems(core, me))
       if (item.kind === "meeting" && item.attend && !item.attend.marked)
         meetingAttend(core, item.attend.officeId, item.attend.date, true);
@@ -268,18 +222,54 @@ it("at a board with a committee stage the panel offers a resident no remark", ()
       ).stop?.modules?.some((m) => m.reasonKey === "office-day.meeting");
     const scene = stopped ? meetingSceneView(core, me, minute) : null;
     if (!scene) continue;
-    if (withCommittees(api, scene.id)) {
-      rooms += 1;
-      withItem = offersNothing(core, me, minute, where);
+    if (!withCommittees(api, scene.id)) {
+      meetingAdjourn(core, scene.id);
+      continue;
     }
+    rooms += 1;
+    // An item the committee already failed on the eve has nothing to press.
+    const item = scene.items.find(
+      (row) => !row.takenUp && row.status === "drafted",
+    );
+    if (!item) {
+      meetingAdjourn(core, scene.id);
+      continue;
+    }
+    expect(scene.seated, `${where}: not seated`).toBe(false);
+    expect(scene.note, `${where}: the resident's line`).toMatch(
+      /speak for or against/,
+    );
+    meetingSpeak(core, scene.id, item.billId, "for");
+    expect(
+      remarksOn(api, item.billId).some(
+        (r) => r.personId === me && r.signedUp && r.position === 1,
+      ),
+      `${where}: one remark on the record`,
+    ).toBe(true);
+    expect(
+      addressesGivenBy(api, me).filter(
+        (id) => id === `speech:remark:${item.billId}:${me}`,
+      ),
+      `${where}: heard once`,
+    ).toHaveLength(1);
+    const seated = members(api, meetingOf(api, scene.id)!.officeId).flatMap(
+      (t) => (t.personId ? [t.personId] : []),
+    );
+    expect(seated.length, `${where}: named members`).toBeGreaterThan(0);
+    for (const id of seated)
+      expect(
+        core.people.get(id)!.knownIds.has(me),
+        `${where}: ${id} knows the player`,
+      ).toBe(true);
     meetingAdjourn(core, scene.id);
+    spoke = true;
   }
   expect(
     rooms,
     `${where}: a meeting of a board with committees`,
   ).toBeGreaterThan(0);
-  expect(withItem, `${where}: one of them had an item`).toBe(true);
+  expect(spoke, `${where}: one of them had an item`).toBe(true);
   console.log(
-    `meeting-attend-screens ${where}: ${rooms} meetings of a board with committees, nothing offered`,
+    `meeting-attend-screens ${where}: spoke at a board with committees after ${rooms} such meetings; heard once`,
   );
 }, 3_600_000);

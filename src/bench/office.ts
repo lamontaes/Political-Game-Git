@@ -47,8 +47,7 @@ import {
   staffCandidates,
 } from "../core2/modules/staff";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
-import type { CoreAPI, CoreState } from "../core2/types";
-import { campaignParameter } from "../core2/campaign-data";
+import type { CoreState } from "../core2/types";
 import {
   billOf,
   bodyOf,
@@ -164,20 +163,6 @@ export function floorDecide(core: CoreState, billId: string, how: string) {
 }
 
 /**
- * Whether a resident's remark at this meeting reaches the members. A board larger than
- * `committeeOfTheWholeMaximum` hears the public at its committee's day, before the meeting
- * (legislature.ts `holdCommittee`, the same count of `members` against the same parameter),
- * so a remark at the meeting itself is not heard there yet and the panel does not offer one.
- * Pool item meetings-resident-remark-reaches-a-committee-board removes this when it lands.
- */
-function residentIsHeard(api: CoreAPI, meeting: MeetingRow): boolean {
-  return (
-    members(api, meeting.officeId).length <=
-    campaignParameter("committeeOfTheWholeMaximum")
-  );
-}
-
-/**
  * The one line a resident in the room reads under the meeting's title, in the English
  * engine's words: that nothing is on the agenda, or, the first time they come to any
  * meeting with an item before it (none such is on their record yet), what they can do here.
@@ -205,8 +190,6 @@ function residentNote(
     )
   )
     return null;
-  // Nothing is said about speaking where the panel does not offer it.
-  if (!residentIsHeard(coreAPI(core), meeting)) return null;
   // Of two, "either"; of more, "any of the three" (Words lead, Nov 13).
   if (items === 1) return pick("meeting.resident-can-speak-one.1", { body });
   if (items === 2) return pick("meeting.resident-can-speak-two.1", { body });
@@ -256,8 +239,6 @@ export function meetingSceneView(
         ),
         // A resident has no vote and cannot adjourn.
         seated: !watching,
-        // A member speaks at the table; a resident, where the body hears them.
-        speaks: !watching || residentIsHeard(api, meeting),
         // A resident reads the body by its own name, as the Calendar says it
         // (the seat's title names one member, not the body).
         ...(watching ? { title: bodyName } : {}),
@@ -289,11 +270,7 @@ export function meetingSpeak(
   billId: string,
   position: string,
 ) {
-  const api = coreAPI(core);
-  const meeting = meetingOf(api, meetingId);
-  // The panel offers a resident no remark where the body would not hear it.
-  if (meeting?.audience !== undefined && !residentIsHeard(api, meeting)) return;
-  speakOnItem(api, meetingId, billId, position === "for" ? 1 : -1);
+  speakOnItem(coreAPI(core), meetingId, billId, position === "for" ? 1 : -1);
 }
 
 /** The chair's adjournment for a member; for a resident in the room, their leaving. */

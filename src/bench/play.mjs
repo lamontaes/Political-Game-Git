@@ -845,16 +845,14 @@ function inMeeting() {
             );
             return b;
           });
-          // A resident in the room speaks, where the body hears them; only the seated vote.
+          // Anyone in the room speaks, at any board; only the seated vote.
           return billBlock(
             item,
             scene.members ?? [],
-            item.takenUp
+            // A bill a committee already failed stays listed, with nothing to press.
+            item.takenUp || item.status !== "drafted"
               ? []
-              : [
-                  ...(scene.speaks ? [speak] : []),
-                  ...(scene.seated ? [vote] : []),
-                ],
+              : [speak, ...(scene.seated ? [vote] : [])],
             (billId) =>
               openBillPaper(
                 billId,
