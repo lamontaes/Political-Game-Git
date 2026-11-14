@@ -838,9 +838,12 @@ export function runDesk(
       const share = followers.length ? named / followers.length : 1;
       return named + share * ctx.countedFollowers(outlet);
     }
-    // A layoff is the town's business by the people it reaches: those who
-    // lost their jobs and the staff still working there (the record's own
-    // facts), not only the owner it names.
+    // The same rule as every other story here: the people the record
+    // reaches, counted once each (the `people` term below counts the people
+    // a record names the same way). A layoff names its owner, but its own
+    // facts say who else it reaches: the workers whose jobs were cut
+    // (`jobsLost`, the heads of its `jobChangeIds`) and the staff still
+    // working there (`staffAfter`). No weight of its own.
     if (item.kind === "business.staff-reduced") {
       let ids: unknown;
       try {
