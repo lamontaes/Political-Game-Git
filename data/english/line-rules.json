@@ -4194,10 +4194,27 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "sample",
       "test": {
         "kind": "judged"
-      }
+      },
+      "applies": {
+        "banks": ["scene-talk"],
+        "uses": {
+          "has": {
+            "role": "^asked$",
+            "step": "^state$"
+          }
+        }
+      },
+      "catches": ["I see."],
+      "note": "His record (Nov 1): after \"File for this office\" the player was shown saying \"I see.\" The spare is the Words lead's, not a line he liked: offered \"Need help moving?\" and spoken as \"Need help moving?\". No liked player line restates its offered reply. Verdicts: 7 yes, 0 no.",
+      "spares": [
+        {
+          "text": "Need help moving?",
+          "by": "lead"
+        }
+      ]
     },
     {
       "id": "body-named-as-place-names-it",
@@ -4368,7 +4385,7 @@
     {
       "id": "reply-second-move-follows-the-first",
       "says": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-      "judges": "line",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-14",
@@ -4392,9 +4409,10 @@
       },
       "applies": {
         "banks": ["scene-talk"],
-        "moves": "^reply-"
+        "moves": "^reply-",
+        "text": "[.!?][\"')]*\\s+\\S"
       },
-      "note": "Stays judged: whether a reply's second sentence follows its first is meaning across two sentences, and the picker's reply-follows verdicts judge a line against the one before it, not within one reply."
+      "note": "Judged as an exchange (words-machine part 3, Nov 14): only replies of two sentences or more have a second move; each is judged after each line it can answer, since whether its second move follows from its first can lean on what was asked. A \"no\" pair bars the reply after that line only."
     },
     {
       "id": "many-variants-of-the-same-meaning",
@@ -4589,7 +4607,13 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "^reply-lie$"
+      },
+      "catches": ["Not here."],
+      "note": "Stays awaiting-test: no lie in the banks is about where the speaker is from, so there is nothing to judge or spare until one exists. Verdicts kept (81 yes, 0 no on observed pairs), which say nothing yet."
     },
     {
       "id": "no-do-you-remember-the-school",

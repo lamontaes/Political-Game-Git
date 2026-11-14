@@ -358,6 +358,18 @@
   ],
   "replaced": [
     {
+      "old": "src/core2/fast-forward.ts",
+      "now": "src/core2/life.ts results mode (runResultsDay); nothing else stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6",
+      "when": "2026-11-12",
+      "why": "The fast clock, part 4: skipped time is counted from the voters in results mode and the campaign-stride switch is deleted."
+    },
+    {
+      "old": "scripts/speed-years/fast-forward.ts",
+      "now": "nothing stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6",
+      "when": "2026-11-12",
+      "why": "The campaign-stride switch it ran with was deleted with the fast clock, part 4."
+    },
+    {
       "old": "src/simulation",
       "now": "src/core2",
       "when": "2026-10-28",
