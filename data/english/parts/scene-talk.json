@@ -187805,32 +187805,6 @@
         "move": "leave",
         "key": "desk-visit"
       }
-    },
-    {
-      "key": "scene-talk.reply-leave.good-to-know-i-ll-still-use-the-time-i-have",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Good to know. I'll still use the time I have.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer",
-          "requiresFacts": ["for", "heard-cost", "no-cost"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Account lead (desk thread, M5 noes on #9292)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "leave",
-        "key": "desk-visit"
-      }
     }
   ]
 }
