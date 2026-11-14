@@ -402,6 +402,13 @@
       "tag": "SOURCED",
       "source": "Congressional Research Service, LIHEAP: Program and Funding (RL31865), https://www.everycrsreport.com/reports/RL31865.html: \"the percentage of eligible households served settled again at 16% in FY2013 and FY2014\" (21% and 22% at the FY2009-FY2010 funding peak).",
       "spread": [0.14, 0.22]
+    },
+    "graduatedRepealFlatShareOfTopRate": {
+      "value": 0.786,
+      "tag": "ESTIMATED",
+      "source": "ESTIMATED from five real conversions, the flat rate a state adopted over the top rate of the graduated schedule it replaced, Tax Foundation State Individual Income Tax Rates and Brackets (https://taxfoundation.org/data/all/state/state-income-tax-rates/), January 1 tables before and after: Mississippi 2022 to 2023 (5.0 to 5.0, 1.0), Georgia 2023 to 2024 (5.75 to 5.49, 0.955), Iowa 2024 to 2025 (5.7 to 3.8, 0.667), Louisiana 2024 to 2025 (4.25 to 3.0, 0.706), Ohio 2025 to 2026 (3.5 to 2.75, 0.786). Median 0.786, spread 0.667 to 1.0. Five states are a thin sample and the median stands in for the share a sponsor would write; data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json, checked by scripts/research/check-law-reach-sources.ts.",
+      "spread": [0.667, 1.0],
+      "role": "coefficient"
     }
   },
   "povertyGuidelineByState": {
