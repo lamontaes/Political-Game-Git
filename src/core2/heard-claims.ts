@@ -5,8 +5,8 @@
  * trait's lean toward doubting, through the shared two-way formula. One rule
  * wherever one resident's claim reaches another: a story a neighbor passes
  * on, a speech a listener retells at home. The player's own line in a
- * conversation is still read by the director's `doubtsClaim` until the Words
- * line routes it here.
+ * conversation is read by the director's `doubtsClaim`, which routes here with the player as the
+ * teller.
  *
  * The case differs from one hearing to the next (who told it, how close the
  * two are today, whether it argues the way the hearer already leans), so a
@@ -30,7 +30,6 @@ export interface HeardClaim {
   readonly fit?: number;
 }
 
-// stopgapId: SG-TRAITS-director-claims-reader
 export function believesClaim(
   core: Pick<CoreState, "data" | "date" | "relationships">,
   hearer: Pick<PersonState, "traits"> & { id?: string },

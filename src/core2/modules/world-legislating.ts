@@ -97,6 +97,7 @@ import {
   executiveOf,
   FEDERAL_HOUSE,
   holdVote,
+  voteKeyOf,
   leanOf,
   memberKey,
   members,
@@ -1957,7 +1958,7 @@ function chamberBills(
       (b) =>
         chambers.has(b.bodyOfficeId) &&
         !filed.has(b.id) &&
-        !calendar.get(`meeting:${b.id}`),
+        !calendar.get(voteKeyOf(b)),
     )
     .sort(
       (a, b) =>
@@ -2015,6 +2016,7 @@ function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
   const waiting = (b: BillRow | undefined): b is BillRow =>
     !!b &&
     b.status === "drafted" &&
+    !b.chambersPassed?.length &&
     !decided.has(b.number) &&
     !refusedByLeader(api, b.id);
   const today = api.state.date;
@@ -2035,9 +2037,15 @@ function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
 
 /**
  * The floor's weeks from `first` to adjournment, each with the bills it
- * takes up: as many as the week allows, each once committee has had it, in
- * the leader's order. The floor week votes the first of them; the floor
- * date and the agenda the members read ahead come from the same weeks.
+ * takes up, each once committee has had it, in the leader's order. The
+ * leader paces the floor by the session's own calendar: the bills still
+ * waiting (filed or yet to be filed) are spread evenly over the floor weeks
+ * left before adjournment (a week takes its share, rounded, so a short list
+ * is spread out rather than taken a bill a week from the start), at most as
+ * many as the week's floor days allow, and the last week takes what is
+ * left. The floor sits with business until the session ends instead of
+ * clearing it in the first weeks. The floor week votes the first of them; the floor date and
+ * the agenda the members read ahead come from the same weeks.
  */
 function* floorWeeks(
   api: CoreAPI,
@@ -2049,9 +2057,14 @@ function* floorWeeks(
   const done = new Set<number>();
   for (let date = first; date < row.adjournAt; date = plusDays(date, 7)) {
     const ready = plusDays(date, -committee);
+    const weeksLeft = Math.ceil(daysBetween(date, row.adjournAt) / 7);
+    const pace = Math.min(
+      row.perWeek,
+      Math.round((queue.length - done.size) / Math.max(1, weeksLeft)),
+    );
     const taken: Queued[] = [];
     for (const [i, q] of queue.entries()) {
-      if (taken.length >= row.perWeek) break;
+      if (taken.length >= pace) break;
       if (done.has(i) || q.introduced > ready) continue;
       done.add(i);
       taken.push(q);
@@ -2147,9 +2160,7 @@ export function floorDateOf(api: CoreAPI, billId: string): string | null {
     .table("bills")
     .get(billId) as unknown as BillRow | undefined;
   if (!bill || bill.status !== "drafted") return null;
-  const set = api
-    .moduleCalendar(LEGISLATURE_MODULE_ID)
-    .get(`meeting:${billId}`);
+  const set = api.moduleCalendar(LEGISLATURE_MODULE_ID).get(voteKeyOf(bill));
   if (set) return set.date;
   const row = sittingFor(api, bill.bodyOfficeId);
   if (!row) return null;
@@ -2224,6 +2235,32 @@ function closeSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       fate: "not-reached",
       decidedOn: api.state.date,
     });
+  }
+  // A bill one chamber passed is on the list as the floor left it that day:
+  // its ending is the bill's own now, and one the other chamber never took
+  // up dies with the session.
+  const chambers = sessionChambers(api, row);
+  for (const sent of (
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as BillRow[]
+  ).filter((b) => b.chambersPassed?.length && chambers.has(b.bodyOfficeId))) {
+    const crossed = sent.chambersPassed![0]!.on;
+    if (crossed < row.conveneAt || crossed > row.adjournAt) continue;
+    const ended = sent.status === "drafted" ? dieOnCalendar(api, sent) : sent;
+    const at = bills.findIndex(
+      (b) => b.number === sent.number && b.decidedOn === crossed,
+    );
+    if (at >= 0) bills[at] = { ...bills[at]!, status: ended.status };
+    else if (sent.status === "drafted")
+      bills.push({
+        number: ended.number,
+        ...sessionBillOf(sent),
+        status: ended.status,
+        fate: "voted",
+        decidedOn: api.state.date,
+      });
   }
   sessionTable(api).put({ ...row, bills } as unknown as ModuleRow);
   scheduleOpening(api, row.jurisdiction, row.adjournAt, false);

@@ -25,6 +25,7 @@ import { LAW_SERIES } from "../core2/laws-in-force";
 import {
   atLargeGroup,
   checkEligibility,
+  ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingOfficeFor,
   filingWindowOpen,
@@ -35,6 +36,7 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { candidateIdentity, resultOf } from "../core2/modules/voting";
+import { platformForContest } from "../core2/modules/candidacy";
 import {
   PARTIES_MODULE_ID,
   joinParty,
@@ -630,10 +632,23 @@ export function fileForOffice(
     throw new Error(
       "The player files only for the place's own council or its equivalent, its mayor or its equivalent, the state legislature, governor, Congress and president.",
     );
-  return fileCandidacy(coreAPI(core), {
+  const api = coreAPI(core);
+  // Nothing handed in: the filing carries the filer's own stands, read from
+  // their views on the questions this seat takes up (the same read a
+  // simulated candidate's filing makes), and none for a question they have no
+  // view on.
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow | undefined;
+  return fileCandidacy(api, {
     personId,
     contestId,
-    platform: choices.platform ?? [],
+    platform:
+      choices.platform ??
+      (contest
+        ? platformForContest(api, personId, choices.party ?? null, contest)
+        : []),
     party: choices.party ?? null,
   });
 }

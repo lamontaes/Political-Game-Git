@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/campaign-views.ts, src/core2/modules/campaigns.ts, src/core2/campaign-platform-played.test.ts, src/core2/data/stopgaps/gov.json
 
-**Notes.** TODO
+**Notes.** Built Nov 14 (thread "Give rivals more than one issue"), branch claude/project-thread-sfqbmk, on the train. `nextTopic` (src/core2/modules/campaigns.ts) takes each act's question as the platform question furthest behind its share (`platformShares`, src/core2/campaign-stances.ts: the platform rule's own score over the platform's sum, read once when the campaign opens) of what the campaign has said so far, in the whole and in the act's own kind, no roll; counts are the `emphasis` table, one row a filing, cleared by `closeRace`. SG-GOV-platform-emphasis-lead-only is resolved. The C1 band stays printed, not held (SG-GOV-platform-slope-c1-out-of-band is a separate row); `platformLead` stays for a mandate's "led with".

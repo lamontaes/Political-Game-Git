@@ -233,8 +233,8 @@
     "why": "Speeches (M4-04) need a first reception model; persuasion research gives directions and small averages, not these coefficients.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Reception calibrated to persuasion experiments by audience and message, retelling through friends and the news module, and memory by age (M4-04). Researched Oct 23, 2026: Coppock, Hill and Vavreck 2020 (Science Advances 6(36):eabc4046) measure 0.049 points on a 1 to 5 favorability scale per advertisement (SD 0.07 across 59 experiments), held as a band of 0.012 (0 to 0.030) stance strength per message in data/research/core/coppock-2020-ad-persuasion.json and reported against by scripts/research/core-parameters-year.ts. No published effect converts to speechImpulse or speechRetellWeight, so they stay TUNABLE. Oct 25, 2026 (traits-retell-circumstances): speechKeepPull and the two engagement weights of the retelling case are ESTIMATED from ANES 2020 talk at home by interest, and the retelling weighs who is at home to hear it.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026 (elections-read-your-record, speech): a retelling reaches the household and, past it, the listener's ties outside it (family elsewhere, friends, coworkers), each deciding to take it in by closeness to the teller (believesClaim); speechImpulse and speechRetellWeight are TUNABLE with spreads. Was: Reception calibrated to persuasion experiments by audience and message, retelling through friends and the news module, and memory by age (M4-04). Researched Oct 23, 2026: Coppock, Hill and Vavreck 2020 (Science Advances 6(36):eabc4046) measure 0.049 points on a 1 to 5 favorability scale per advertisement (SD 0.07 across 59 experiments), held as a band of 0.012 (0 to 0.030) stance strength per message in data/research/core/coppock-2020-ad-persuasion.json and reported against by scripts/research/core-parameters-year.ts. No published effect converts to speechImpulse or speechRetellWeight, so they stay TUNABLE. Oct 25, 2026 (traits-retell-circumstances): speechKeepPull and the two engagement weights of the retelling case are ESTIMATED from ANES 2020 talk at home by interest, and the retelling weighs who is at home to hear it.",
+    "status": "resolved"
   },
   {
     "id": "SG-P15-corruption-weights",
@@ -339,18 +339,6 @@
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else. Resolved by Same change, October 19, 2026: the moves engine's copy of the lookup is deleted, so a holder of a job a saved agreement names moves like anyone else and the agreement re-resolves at its next payment (finance-cash.ts productJobRelations).",
     "status": "resolved"
-  },
-  {
-    "id": "SG-P15-party-ask-after-player",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/candidacy.ts",
-    "line": 1194,
-    "whatItFakes": "A party's asks for a seat stop at the player: when the player says no or not now in the ask's scene, the party asks none of its other members for that seat.",
-    "why": "The party asks on the day filing opens, and the player's answer comes later, from the scene; nothing returns the party to its list once the player has answered.",
-    "addedBy": "words/party-asks-you-to-run",
-    "addedAt": "2026-10-26",
-    "replacement": "The candidacy engine reads the player's no or not-now reply (a scene.reply naming the party-asked record) and asks the party's next member for the seat while filing is open.",
-    "status": "open"
   },
   {
     "id": "SG-P15-party-ask-order",

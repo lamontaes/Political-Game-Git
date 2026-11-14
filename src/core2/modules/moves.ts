@@ -619,11 +619,10 @@ function decidesAlone(api: CoreAPI, person: Readonly<PersonState>): boolean {
  * or a nursing-home room): an institution admits and discharges them, so no
  * household's pull to leave moves them, full or counted alike.
  */
-function inGroupQuarters(
+export function inGroupQuarters(
   core: CoreState,
   person: Readonly<PersonState>,
 ): boolean {
-  // stopgapId: SG-GQ-no-turnover
   return core.households.get(person.householdId)?.quarters !== undefined;
 }
 

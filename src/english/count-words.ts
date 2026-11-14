@@ -103,10 +103,19 @@ export function changeSaid(
   return said === percentSaid(0) ? null : words.by.replace("{change}", said);
 }
 
-/** A whole count as people say it: below ten in words ("two years"), else in digits. */
-export function countSaid(count: number): string {
-  const word = data.smallCounts.words[count];
-  return word && Number.isInteger(count) ? word : count.toLocaleString("en-US");
+/**
+ * A whole count as people say it: below ten in words ("two years"), else in
+ * digits. A line that opens on the count passes a higher limit (Infinity: as far as the table goes, ninety-nine) and
+ * gets "thirteen" or "forty-two".
+ */
+export function countSaid(count: number, limit = 9): string {
+  const { words, tens } = data.smallCounts;
+  if (!Number.isInteger(count) || count < 0 || count > Math.min(limit, 99))
+    return count.toLocaleString("en-US");
+  if (count < words.length) return words[count]!;
+  const rest = count % 10;
+  const ten = tens[Math.floor(count / 10)]!;
+  return rest ? `${ten}-${words[rest]}` : ten;
 }
 
 /**
@@ -117,4 +126,86 @@ export function countSaid(count: number): string {
 export function filedSoFarSaid(count: number): string {
   if (count < 1) return "";
   return filedWords.soFar[count - 1] ?? filedWords.manySoFar;
+}
+
+const MINUTES_PER_HOUR = 60;
+const HOURS_ON_A_CLOCK = 12;
+const MONTHS_PER_YEAR = 12;
+const HOURS_IN_A_DAY = 24;
+
+/**
+ * A minute of the day as people say it in talk (`data/english/count-words.json`
+ * clock): "seven", "seven-thirty", "noon", rounded to the quarter hour.
+ */
+export function clockSaid(minuteOfDay: number): string {
+  const step = data.clock.stepMinutes.value;
+  const rounded = Math.round(minuteOfDay / step) * step;
+  const hour = Math.floor(rounded / MINUTES_PER_HOUR) % HOURS_IN_A_DAY;
+  const minute = rounded % MINUTES_PER_HOUR;
+  if (!minute && hour === HOURS_ON_A_CLOCK) return data.clock.noon;
+  if (!minute && !hour) return data.clock.midnight;
+  const word = data.clock.numbers[hour % HOURS_ON_A_CLOCK]!;
+  const quarter = (data.clock.quarters as Readonly<Record<string, string>>)[
+    String(minute)
+  ];
+  return quarter ? quarter.replace("{hour}", word) : word;
+}
+
+/** A span of work as people say it: "an hour", "eight hours". */
+export function hoursSaid(minutes: number): string {
+  const count = Math.max(1, Math.round(minutes / MINUTES_PER_HOUR));
+  if (count === 1) return data.clock.hour;
+  return data.clock.hours.replace(
+    "{count}",
+    data.clock.numbers[count] && count <= HOURS_ON_A_CLOCK
+      ? data.clock.numbers[count]!
+      : String(count),
+  );
+}
+
+/** A term of office in years as people say it: "four years". */
+export function termSaid(years: number): string {
+  const count = Math.max(1, Math.round(years));
+  if (count === 1) return data.term.year;
+  return data.term.years.replace(
+    "{count}",
+    data.clock.numbers[count] && count <= HOURS_ON_A_CLOCK
+      ? data.clock.numbers[count]!
+      : String(count),
+  );
+}
+
+/** Days from today as people say them: "today", "tomorrow", "in three days". */
+export function daysSaid(days: number): string {
+  const said = data.clock.days as Readonly<Record<string, string>>;
+  if (said[String(days)]) return said[String(days)]!;
+  return said.more!.replace(
+    "{count}",
+    days <= HOURS_ON_A_CLOCK ? data.clock.numbers[days]! : String(days),
+  );
+}
+
+/**
+ * A length of time in months as people say it: "a month", "eight months", "a
+ * year", "three years". A line that opens on the length asks for it in words
+ * ("thirteen months"), as far as countSaid goes.
+ */
+export function lengthSaid(months: number, inWords = false): string {
+  const count = Math.max(1, Math.round(months));
+  const said = (n: number) =>
+    inWords
+      ? countSaid(n, Infinity)
+      : n <= HOURS_ON_A_CLOCK
+        ? data.clock.numbers[n]!
+        : String(n);
+  const term = data.length as Readonly<Record<string, string>>;
+  if (count % MONTHS_PER_YEAR === 0) {
+    const years = count / MONTHS_PER_YEAR;
+    return years === 1
+      ? term.year!
+      : term.years!.replace("{count}", said(years));
+  }
+  return count === 1
+    ? term.month!
+    : term.months!.replace("{count}", said(count));
 }

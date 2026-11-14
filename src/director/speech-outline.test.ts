@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import OUTLINES from "./data/speech-outlines.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
@@ -35,7 +34,11 @@ import {
 // all 56 on a seed nobody chose; in each, the President's opening address and
 // the governor's and mayor's addresses go through the one planner, and the
 // composed text is read the way the owner read it on Nov 12.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// Pinned to the seed that went red when it was a fresh draw each run (20 of 39
+// points opened on a figure; the shapes' pulls were not centered, so one
+// shape led for most speakers); the env seed still overrides it for a fresh
+// draw.
+const seed = process.env.GOLDEN_PATH_SEED ?? "ecd58aa1425040e9";
 const DRAWS = 10;
 setBookkeeping(false);
 
@@ -92,6 +95,14 @@ const stateNames = placeStateKeys().map((key) => ({
   key,
   name: coreStateName(key.replace(/^US-/, "")) ?? key,
 }));
+
+/** The openings of a question put to a speaker who defends what is in force. */
+const DEFENDING_FORMS = [
+  "Why would we change course, when ",
+  "Why fix what works, when ",
+  "Why would we go back, when ",
+  "Who would want to turn back, when ",
+];
 
 describe("every speech through the one outline planner", () => {
   it(
@@ -187,6 +198,18 @@ describe("every speech through the one outline planner", () => {
             failures.push(
               `${label}: ${points.size} point(s); a speech makes at least one`,
             );
+          // One who defends what is in force never asks "Why would we change
+          // course, when" a complaint (the second reader, Nov 14): the
+          // wording said after such an opening is one the bank was given as a
+          // plain or good one (`today-works`).
+          for (const sentence of speech.sentences)
+            if (
+              DEFENDING_FORMS.some((form) => sentence.text.startsWith(form)) &&
+              !sentence.facts.some((key) => key.startsWith("today-works"))
+            )
+              failures.push(
+                `${label}: "${sentence.text}" asks about a complaint as if it were good news`,
+              );
           // Each point says how its question stands today, in its paragraph:
           // first, after the belief or the question, or after the ask.
           for (const [about, said] of points)
@@ -403,7 +426,14 @@ describe("every speech through the one outline planner", () => {
                 })
               : [],
           );
-          const unowned = [...(ownName ? [ownName] : []), ...governmentNames]
+          // A drawn person's own name is not a place ("Virginia Shah" is
+          // a person, not the state), so the names of the people the speech
+          // names are taken out too, whole, before the states are read.
+          const unowned = [
+            ...(ownName ? [ownName] : []),
+            ...governmentNames,
+            ...people.map((person) => person.name),
+          ]
             .sort((a, b) => b.length - a.length)
             .reduce((text, name) => text.split(name).join(""), withoutAsks);
           for (const state of stateNames)
@@ -460,6 +490,24 @@ describe("every speech through the one outline planner", () => {
     },
     40 * 60 * 1000,
   );
+
+  it("does not open the jail point on 'Why would we change course' at Lakeridge, Nevada", () => {
+    // The second reader, Nov 14: the mayor opposes more jail spending, and the
+    // wording of how it stands today ("we spend more holding people than
+    // keeping them from ending up there") is a complaint, so it is not put
+    // after a question that asks the room to keep things as they are.
+    const place = drawPlace("ecd58aa1425040e9:2", "speech-outline");
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const mayor = composeLocalAddress(world.core, "town");
+    expect(mayor, `${place.name}: no mayor to speak`).toBeTruthy();
+    expect(mayor!.text).toContain("holding people");
+    expect(mayor!.text).not.toMatch(
+      /Why would we change course, when we spend more holding people/,
+    );
+  }, 600_000);
 
   it("puts how a question stands before the ask in every point shape (rule 44)", () => {
     for (const [name, shape] of Object.entries(OUTLINES.pointShapes.shapes)) {

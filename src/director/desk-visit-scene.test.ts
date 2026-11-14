@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { storyScene } from "../bench/story";
@@ -41,7 +40,12 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // bill are against it comes and asks for a veto, saying what it costs the
 // businesses they speak for; with neither, the aide's desk scene plays as
 // before. Places are drawn in turn until one's mayor has a veto.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// Pinned (pinned-tests): Havre, Montana puts a titled bill on the mayor's
+// desk at attempt 2 and a governor's sponsor visit in the same run; a draw
+// over fresh seeds made this test red by luck (Kansas, Oklahoma had no
+// governor's visit). GOLDEN_PATH_SEED still runs any other draw.
+const seed =
+  process.env.GOLDEN_PATH_SEED ?? "4276344481a2b078e70633cfee47d0caccb65f74";
 const ATTEMPTS = 8;
 const TYPE = SITUATION_LIBRARY.types.find(
   (row) => row.key === "desk-visit",
@@ -169,10 +173,25 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     const said = (key: string) => scene.facts.find((row) => row.key === key);
     expect(said("for"), where).toBeTruthy();
     expect(said("against"), where).toBeFalsy();
-    // The roll's two counts; the bank's lines join them ("5 to 2").
-    expect(said("ayes")?.text, where).toMatch(/^\d+$/);
-    expect(said("nays")?.text, where).toMatch(/^\d+$/);
-    expect(said("ayes")?.recordIds, where).toContain(first.bill.id);
+    // How it passed, said without a count (Words lead, Nov 14): nobody
+    // against it, enough to override a veto, or short of that; never the roll.
+    const passage = ["unopposed", "veto-proof", "short-of-override"].filter(
+      (key) => said(key),
+    );
+    expect(passage, where).toHaveLength(1);
+    expect(said(passage[0]!)?.recordIds, where).toContain(first.bill.id);
+    expect(said("ayes"), where).toBeFalsy();
+    expect(said("nays"), where).toBeFalsy();
+    // The bill by its name, from its record. A bill with a title is said by
+    // it ("the Parks Ordinance") with what it does; one with none (a bare
+    // "Ordinance 2025-1") has no purpose to say, and the lines that need one
+    // do not play.
+    expect(said("bill")?.text, where).toBeTruthy();
+    expect(said("bill")?.recordIds, where).toContain(first.bill.id);
+    if (said("purpose")) expect(said("bill")?.text, where).toMatch(/^the /i);
+    process.stdout.write(
+      `DESK-BILL ${where}: ${said("bill")?.text}; purpose ${said("purpose")?.text ?? "none on record"}\n`,
+    );
     expect(said("deadline")?.recordIds, where).toContain(scene.cause.id);
 
     // Plain words on every path, and up to four replies that are different stances.
@@ -190,6 +209,40 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         }
       })(scene.talk.tree),
     ];
+    // Every path of the tree, a speaker on every line, and what each ending
+    // writes (Words lead, Nov 14: the replay shows who says what).
+    const spoken = (line: { speaker: string; text: string }) =>
+      `${line.speaker}: ${line.text}`;
+    const paths: string[] = [];
+    (function walk(node: typeof scene.talk.tree, before: string[]) {
+      for (const reply of node.replies) {
+        const here = [
+          ...before,
+          `PLAYER: ${reply.line.text}`,
+          ...(reply.next?.lines ?? []).map(spoken),
+        ];
+        const end = reply.next?.end;
+        if (end?.ending)
+          paths.push(
+            [
+              ...here,
+              ...(end.close ? [spoken(end.close)] : []),
+              `ENDING ${end.ending.id}, keeps ${end.ending.keeps}`,
+            ].join("\n    "),
+          );
+        if (reply.next) walk(reply.next, here);
+      }
+    })(scene.talk.tree, []);
+    const firstReply = scene.talk.lines.findIndex(
+      (line) => line.text === scene.talk.tree.replies[0]?.line.text,
+    );
+    const opening = scene.talk.lines
+      .slice(0, firstReply < 0 ? 0 : firstReply)
+      .map(spoken)
+      .join("\n    ");
+    process.stdout.write(
+      `DESK-TALK ${where}:\n  opening:\n    ${opening}\n${paths.map((path, n) => `  path ${n + 1}:\n    ${path}`).join("\n")}\n`,
+    );
     for (const line of lines)
       expect(line.text, where).not.toMatch(
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined/,

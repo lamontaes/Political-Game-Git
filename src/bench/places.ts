@@ -3,7 +3,8 @@
 import { personWorkOf } from "../core2/person-work";
 import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
+import { upcomingMeeting } from "../core2/modules/office-day";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { organizationName } from "../director/words";
 import { backdropStaging } from "./staging";
@@ -56,6 +57,8 @@ const PUBLIC_PLACES = new Set([
 const PUBLIC_FILL = 9;
 /** Compulsory schooling ends by 18 in most states; high school runs through 18. */
 const SCHOOL_AGE_UNDER = 19;
+/** The ways a place is tied to the player's work, closest first. */
+const WORK_TIES = ["work", "family", "known"] as const;
 
 /**
  * The town's pictured places the player has a reason to go: where they,
@@ -68,6 +71,66 @@ const SCHOOL_AGE_UNDER = 19;
  * organization with a picture (owner, Oct 13: "Why would you need to visit
  * the market?").
  */
+/** The levels of a body that meets at its town's or county's own office. */
+const LOCAL_BODIES = new Set([
+  "city",
+  "town",
+  "village",
+  "township",
+  "borough",
+  "county",
+]);
+
+/**
+ * The town's and county's offices the player has business at, by the
+ * government's name (the office record names it; its organization carries
+ * the same name, and may sit in the town's own jurisdiction rather than the
+ * census place the player lives in, as a New England town does), each with
+ * the records that are the reasons: the seat they hold on its body ("seat"),
+ * their own body meeting today ("ownMeeting"), or another body's meeting
+ * today ("meeting").
+ */
+type CivicReason = {
+  kind: "seat" | "ownMeeting" | "meeting";
+  recordId: string;
+};
+function civicBusiness(
+  core: CoreState,
+  playerId: string,
+): Map<string, CivicReason[]> {
+  const api = coreAPI(core);
+  const business = new Map<string, CivicReason[]>();
+  const seats = townSeats(api).filter(({ office }) => {
+    return !!office.governmentName && LOCAL_BODIES.has(office.level);
+  });
+  // The bodies the player sits on.
+  const sitsOn = new Set<string>();
+  for (const { office, seat, holder } of seats) {
+    if (holder?.personId !== playerId) continue;
+    sitsOn.add(office.id);
+    const government = office.governmentName!.toLowerCase();
+    const reasons = business.get(government) ?? [];
+    reasons.push({ kind: "seat", recordId: seat.id });
+    business.set(government, reasons);
+  }
+  // A body that meets today: for its own member, "your board meets today".
+  const counted = new Set<string>();
+  for (const { office } of seats) {
+    if (counted.has(office.id) || office.seats <= 1) continue;
+    counted.add(office.id);
+    const meeting = upcomingMeeting(api, office.id);
+    if (!meeting || meeting.date !== core.date) continue;
+    const government = office.governmentName!.toLowerCase();
+    const reasons = business.get(government) ?? [];
+    reasons.push({
+      kind: sitsOn.has(office.id) ? "ownMeeting" : "meeting",
+      recordId: `${office.id}:${meeting.date}`,
+    });
+    business.set(government, reasons);
+  }
+  return business;
+}
+
 /** A party's office: listed for its members (play-join-a-party-has-no-scene-and-no-headquarters). */
 const PARTY_OFFICE = "membership:political-party";
 
@@ -105,6 +168,13 @@ export function townPlaces(
       birth !== undefined && ageOnDate(birth, core.date) < SCHOOL_AGE_UNDER
     );
   });
+  const playerStudies =
+    ageOnDate(player.birthDate, core.date) < SCHOOL_AGE_UNDER;
+  // Where the player has political business by the records
+  // (play-travel-in-a-village-lists-no-town-office): the town's or county's
+  // office, while they hold a seat on its body or its body meets today.
+  // An office listed only for being an office stays out (owner, Oct 26).
+  const civic = civicBusiness(core, playerId);
   const official = coreAPI(core)
     .moduleState(OFFICES_MODULE_ID)
     .table("terms")
@@ -112,7 +182,10 @@ export function townPlaces(
     .some((row) => (row as { status?: string }).status === "serving");
   return (
     [...core.organizations.values()]
-      .filter((org) => org.placeId === player.placeId)
+      .filter(
+        (org) =>
+          org.placeId === player.placeId || civic.has(org.name.toLowerCase()),
+      )
       .flatMap((org) => {
         const place = orgPlace(core, org.id);
         if (!place || !hasBackdrop(place)) return [];
@@ -134,7 +207,14 @@ export function townPlaces(
               ]
             : []),
           ...(studying && SCHOOLS.has(org.classification ?? "")
-            ? [{ kind: "study" as const, recordId: org.id }]
+            ? [
+                {
+                  kind: playerStudies
+                    ? ("studySelf" as const)
+                    : ("study" as const),
+                  recordId: org.id,
+                },
+              ]
             : []),
           ...known.map((id) => ({ kind: "known" as const, recordId: id })),
           ...actions.map((actionId) => ({
@@ -144,6 +224,7 @@ export function townPlaces(
           ...(official && STATE_OFFICES.has(org.classification ?? "")
             ? [{ kind: "serve" as const, recordId: org.id }]
             : []),
+          ...(civic.get(org.name.toLowerCase()) ?? []),
           // The office of a party the player belongs to (their membership record).
           ...(core.memberships.has(`${playerId}:${org.id}`) &&
           org.classification === PARTY_OFFICE
@@ -152,6 +233,15 @@ export function townPlaces(
         ];
         const open = PUBLIC_PLACES.has(place);
         if (!reasons.length && !open) return [];
+        // One work tie, the closest: you, then your family, then people you know.
+        const closest = WORK_TIES.find((kind) =>
+          reasons.some((r) => r.kind === kind),
+        );
+        const listed = reasons.filter(
+          (r) =>
+            !(WORK_TIES as readonly string[]).includes(r.kind) ||
+            r.kind === closest,
+        );
         // Who is at work there now, by their own work spans.
         const here = full
           .filter((id) => id !== playerId)
@@ -171,7 +261,7 @@ export function townPlaces(
             }),
             // What the player can do there right now: the core's own offers.
             actions,
-            reasons,
+            reasons: listed,
             presentNames: here.slice(0, PRESENT_NAMED).map((id) => {
               const row = core.people.get(id)!;
               return `${row.givenName} ${row.familyName}`;

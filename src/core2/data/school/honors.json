@@ -43,6 +43,7 @@
     {
       "key": "spelling-bee-local",
       "tier": "local",
+      "followedBy": "spelling-bee-regional",
       "about": "The winner of a place's own spelling bee (a school, district or county bee that sends its champion on to the regional): one winner each year for every place with students in grades 5 to 8.",
       "grades": [5, 6, 7, 8],
       "gradesTag": "ESTIMATED",

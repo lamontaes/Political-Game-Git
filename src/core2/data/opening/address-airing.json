@@ -1,0 +1,13 @@
+{
+  "about": "When the President's opening address airs, as a clock time in one named zone; the opening day shifts it to the player's own place clock. Read by src/director/address-airing.ts.",
+  "airsAtMinute": {
+    "id": "openingAddressAirsEasternMinute",
+    "role": "opening",
+    "value": 1260,
+    "unit": "minute of the day, Eastern clock (21:00)",
+    "timeZone": "America/New_York",
+    "tag": "ESTIMATED",
+    "spread": [1200, 1260],
+    "source": "NHPR, Feb 24, 2026, on that year's State of the Union: \"The president is expected to begin at 9 p.m. ET., and if history is any indication, prepare for a long night.\" Joint-session addresses are scheduled for 9 p.m. Eastern; the spread runs from 8 p.m. (early starts) to 9 p.m."
+  }
+}
