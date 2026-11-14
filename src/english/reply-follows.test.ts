@@ -12,7 +12,7 @@ import { replyPairs } from "./reply-pairs";
 import { talkReplyFlow, talkScenes } from "../director/scene-talk";
 import {
   buildTalks,
-  facts as factsOfFixture,
+  factsFor,
   observedPairs,
 } from "../../tests/support/scene-talk-fixture";
 
@@ -142,7 +142,8 @@ describe("a reply that does not follow is not offered after that line", () => {
       };
       const rivals = fitting(
         ask,
-        factsOfFixture,
+        // The facts the fixture built this scene with (a variant's packet holds its complaint).
+        factsFor({ purpose: pair.ask.purpose, family: pair.ask.family }),
         (part) => tagged(part) === pair.ask.tagged,
         parts,
         NONE,

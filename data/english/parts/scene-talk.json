@@ -150464,10 +150464,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.taken.only-the-people-who-were-in-it-i-ll-name-them-to",
+      "key": "scene-talk.reply-tell.taken.only-the-people-who-were-in-it-you-ve-already-taken-this",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Only the people who were in it. I'll name them to the prosecutor before I name them to anyone else.",
+      "text": "Only the people who were in it. You've already taken this to the prosecutor, so that's where I'll name them.",
       "uses": [
         {
           "subject": "scene",
@@ -150789,6 +150789,30 @@
       "date": "2026-11-14",
       "tag": {
         "move": "deny",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.friend.i-don-t-know-how-to-make-this-right-with-you-all",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I don't know how to make this right with you. All I can do is tell the prosecutor the truth and hope you'll still talk to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (short replies, conflict-accuse)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "apologize",
         "key": "threat"
       }
     },

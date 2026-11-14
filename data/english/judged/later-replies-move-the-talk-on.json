@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1166,
+  "judged": 1173,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -4446,5 +4446,5 @@
       "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "0pqed77pwzp"
+  "yesHash": "20iyq2o49fw"
 }
