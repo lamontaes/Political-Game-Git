@@ -3254,6 +3254,11 @@
                   {
                     "move": "defer",
                     "carries": "none"
+                  },
+                  {
+                    "move": "follow-up",
+                    "carries": "none",
+                    "answer": "tell-more"
                   }
                 ]
               },
@@ -3972,6 +3977,11 @@
                   {
                     "move": "defer",
                     "carries": "none"
+                  },
+                  {
+                    "move": "follow-up",
+                    "carries": "none",
+                    "answer": "tell-more"
                   }
                 ]
               },

@@ -75,8 +75,9 @@ import {
 } from "../core2/modules/news";
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
-import { withArticle } from "../english/journal-words";
+import { jobSaid, withArticle } from "../english/journal-words";
 import { contractSaid } from "../english/contract-words";
+import { jobSaidAs } from "../english/said-as";
 import {
   JOBS_MODULE_ID,
   JOB_OFFERED_EVENT,
@@ -2080,11 +2081,26 @@ function doorLifeFacts(
   if (news["new-employer"]) {
     const job = news["new-employer"];
     const started = core.jobs.get(job.sourceRecordIds[P.zero] as never);
+    // What they do there, as people say a job, for when the player asks.
+    const work = started
+      ? jobSaidAs(started.title, {
+          outside: !!core.organizations.get(started.organizationId)
+            ?.outsideFlow,
+        })
+      : null;
     found.push({
       date: (started as { startsAt?: string } | undefined)?.startsAt ?? since,
       facts: {
         "life-new-job": yes(job.sourceRecordIds),
         "new-employer": job,
+        ...(work?.kind === "title"
+          ? {
+              "new-job-title": {
+                text: jobSaid(work.asJob),
+                sourceRecordIds: [...job.sourceRecordIds],
+              },
+            }
+          : {}),
       },
     });
   }

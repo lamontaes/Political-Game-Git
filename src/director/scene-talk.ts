@@ -121,7 +121,15 @@ interface PurposeArc {
     middle?: {
       ask: string;
       tell: string;
-      then: { move: string; carries: "favor" | "lean" | "none" }[];
+      /**
+       * A reply may ask them more (`answer`: the move of what they say back,
+       * from their own record), a different answer from a courtesy.
+       */
+      then: {
+        move: string;
+        carries: "favor" | "lean" | "none";
+        answer?: string;
+      }[];
     };
     /**
      * A second turn after a second ask and its answer (Words lead, Nov 14:
@@ -1125,8 +1133,14 @@ export function composeSceneTalk(
               : then.carries === "lean"
                 ? standing.lean > zero
                 : undefined;
-          const last =
-            carries === undefined
+          const last = then.answer
+            ? theirs(
+                [then.answer],
+                line,
+                `middle-last:${then.move}`,
+                addParts(heard, line),
+              )
+            : carries === undefined
               ? null
               : theirs(
                   carries ? ask.relent : [ask.no],
@@ -1134,11 +1148,21 @@ export function composeSceneTalk(
                   `middle-last:${then.move}`,
                   addParts(heard, line),
                 );
+          // Asked more, they answer from their record or the reply is not offered.
+          if (then.answer && !last) {
+            gap("reply", then.answer, then.move);
+            continue;
+          }
           if (last) {
             last.round = three;
             next.lines.push(last);
           }
-          next.end = { outcome: outcomeOf(last?.move ?? first.move) };
+          // An answer to being asked more settles nothing: the first answer stands.
+          next.end = {
+            outcome: outcomeOf(
+              then.answer ? first.move : (last?.move ?? first.move),
+            ),
+          };
           node.replies.push({ line, next });
         }
         // Fewer than two replies to what they told is no choice: the scene

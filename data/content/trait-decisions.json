@@ -648,6 +648,14 @@
           "actKinds": ["play-safe", "concede"]
         },
         {
+          "id": "follow-up",
+          "actKinds": ["engage", "help-others"]
+        },
+        {
+          "id": "tell-more",
+          "actKinds": ["speak-out", "trust"]
+        },
+        {
           "id": "apologize",
           "actKinds": ["concede", "help-others"]
         },
