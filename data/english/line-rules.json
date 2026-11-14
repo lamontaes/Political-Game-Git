@@ -5116,11 +5116,11 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Composed check, partly: a subject's word said more than three times in one speech (words skill, Nov 11). Whether every point belongs to one theme needs the outline (design part 3). Sample: it reports, it pulls no bank line.",
+      "note": "Composed check, partly: a subject's word said more than three times in one speech (words skill, Nov 11), and one paragraph making one point twice, two wordings of one question-names.json `points` group (the lead, Nov 12). Whether every point belongs to one theme needs the outline (design part 3). Sample: it reports, it pulls no bank line.",
       "status": "sample",
       "test": {
         "kind": "composed",
-        "check": ["subject-budget"],
+        "check": ["subject-budget", "point-made-once"],
         "applies": [
           "speech:president",
           "speech:governor",
