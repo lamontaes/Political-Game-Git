@@ -371,8 +371,6 @@ function groupQuartersSample(
  * opens: the engines that read room records as households, one marker each.
  */
 function groupQuartersStopgaps(type: GroupQuartersType): void {
-  stopgap("SG-GQ-no-turnover");
-  stopgap("SG-GQ-means-tests-poverty");
   stopgap("SG-GQ-crime-exposure");
   stopgap("SG-GQ-home-backdrop");
   if (type === "juvenile") stopgap("SG-GQ-juvenile-school");
