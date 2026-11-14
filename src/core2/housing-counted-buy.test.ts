@@ -19,7 +19,7 @@ import { buyMarket, weighHome } from "./housing-buy";
 import { countedMortgageFlowId } from "./housing-mortgages";
 import { addDays, ageInYears, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { bankYes } from "./modules/credit";
+import { bankYes, heldMortgages, mortgageRoom } from "./modules/credit";
 import { rentHomeValue, weighCountedBuyers } from "./modules/housing";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
@@ -83,13 +83,19 @@ it("counted renters on their lease month buy from their own savings, short ones 
       (n, id) => n + api.accounts().balance(api.accounts().main(id)),
       0,
     ) + outside();
+  const bankId = mortgageRoom(api)!.bankId;
+  const bankCash = () => api.accounts().balance(api.accounts().main(bankId));
   const before = { funds: funds(), others: others() };
+  const heldBefore = heldMortgages(api, bankId).now,
+    bankBefore = bankCash();
 
   const rentIds = new Map(
     weighing.map((row) => [row.id, rt.flows.get(`rent:${row.id}`)!]),
   );
   weighCountedBuyers(api);
   const after = { funds: funds(), others: others() };
+  const heldAfter = heldMortgages(api, bankId).now,
+    bankAfter = bankCash();
 
   const bought = (
     api.moduleState("housing").table("purchases").rows() as unknown as {
@@ -138,6 +144,17 @@ it("counted renters on their lease month buy from their own savings, short ones 
   );
   // Money: the groups paid the down payments; the sellers took them and the bank's loans; nothing else moved.
   const down = bought.reduce((n, row) => n + row.downMinor * row.weight, 0);
+  // The bank's books carry each loan it made for every household the record stands for, as its cash paid it out.
+  const banked = bought
+    .filter((row) => row.holderId === bankId)
+    .reduce((n, row) => n + row.loanMinor * row.weight, 0);
+  expect(banked, detail).toBeGreaterThan(0);
+  expect(Math.abs(heldAfter - heldBefore - banked), detail).toBeLessThanOrEqual(
+    bought.length,
+  );
+  expect(Math.abs(bankBefore - bankAfter - banked), detail).toBeLessThanOrEqual(
+    bought.length,
+  );
   expect(
     Math.abs(before.funds - after.funds - down),
     detail,

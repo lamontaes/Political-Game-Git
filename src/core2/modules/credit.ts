@@ -448,18 +448,26 @@ function lendingRoom(api: CoreAPI, book: ReturnType<typeof equity>): number {
 const openingHeld = new WeakMap<CoreState, number>();
 
 /** What the opening's mortgages held by the bank owe now, and owed at the opening. */
-function heldMortgages(api: CoreAPI, bankId: string) {
+export function heldMortgages(api: CoreAPI, bankId: string) {
   const c = core(api);
   if (!c.modules.has("housing")) return { now: 0, opening: 0 };
+  // A counted household's mortgage row is one household's loan; its record
+  // stands for its weight of households, each owing it (one model, two tiers).
+  const counted = residentsRuntime(c) !== undefined;
   let opening = openingHeld.get(c);
   if (opening === undefined) {
     opening = 0;
     const raw = c.placeMetadata?.housingMortgages;
     for (const row of raw
-      ? (JSON.parse(raw) as { holderId: string; balanceMinor: number }[])
+      ? (JSON.parse(raw) as {
+          holderId: string;
+          householdId: string;
+          balanceMinor: number;
+        }[])
       : [])
-      if (row.holderId === bankId) opening += row.balanceMinor;
-    openingHeld.set(c, opening);
+      if (row.holderId === bankId)
+        opening += row.balanceMinor * loanWeight(api, row.householdId);
+    if (counted) openingHeld.set(c, opening);
   }
   let now = 0;
   const rows = api
@@ -467,11 +475,14 @@ function heldMortgages(api: CoreAPI, bankId: string) {
     .table("mortgages")
     .rows() as unknown as {
     holderId: string;
+    householdId: string;
     balanceMinor: number;
   }[];
   // Before housing opens its table, the opening balances stand.
   if (!rows.length) return { now: opening, opening };
-  for (const row of rows) if (row.holderId === bankId) now += row.balanceMinor;
+  for (const row of rows)
+    if (row.holderId === bankId && row.balanceMinor > 0)
+      now += row.balanceMinor * loanWeight(api, row.householdId);
   return { now, opening };
 }
 

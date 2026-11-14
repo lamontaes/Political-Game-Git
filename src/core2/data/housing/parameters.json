@@ -373,6 +373,17 @@
       "citation": "Savings beyond the down payment make a purchase feasible and are the main enabler of first-time buying (NAR 2025); a sliding pull by the log of means over the down payment, to one."
     }
   },
+  "housingCountedSavingsMonths": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "A counted renter household's own savings count at most this many months of what today's pay leaves after rent and living costs: a household keeps no monthly record, and today's pay overstates earlier years' (SG-WORLD-housing-counted-savings-from-today). Checked against the national first-time buyer count, about 2 to 3 percent of renter households a year (NAR 2025, as housing-renters-buy.test.ts reads it), in a played year at Bastrop LA.",
+    "spread": {
+      "low": 36,
+      "high": 120,
+      "unit": "months of savings counted",
+      "citation": "A counted renter household's own savings count at most this many months of what today's pay leaves after rent and living costs: a household keeps no monthly record, and today's pay overstates earlier years' (SG-WORLD-housing-counted-savings-from-today). Checked against the national first-time buyer count, about 2 to 3 percent of renter households a year (NAR 2025, as housing-renters-buy.test.ts reads it), in a played year at Bastrop LA."
+    }
+  },
   "housingTenureShrinkHomes": {
     "value": 30,
     "tag": "TUNABLE",

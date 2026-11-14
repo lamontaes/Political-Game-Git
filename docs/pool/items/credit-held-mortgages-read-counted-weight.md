@@ -36,3 +36,4 @@ source: Account lead T54 building world-counted-renters-buy (Nov 14, 2026)
 **Files.** src/core2/modules/credit.ts, src/core2/housing-mortgages.ts
 
 **Notes.**
+Nov 14, 2026 (Account lead T54, #9117): the bank's books (`heldMortgages`) now multiply each row by its record's weight, at the opening and in play, with a pinned assertion in src/core2/housing-counted-buy.test.ts that the bank's books and cash move by the same loans. Left for this item: the opening's choice of holder (`openingMortgages`) still compares one household's balance with the bank's room.

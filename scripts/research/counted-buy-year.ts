@@ -64,3 +64,15 @@ for (const row of counted.slice(0, 15))
   console.log(
     `${row.id} w${row.weight} price ${Math.round(Number(row.priceMinor) / 100)} down ${Math.round(Number(row.downMinor) / 100)} loan ${Math.round(Number(row.loanMinor) / 100)} holder ${row.holderId} sellers ${JSON.stringify(row.sellerIds)} savings ${Math.round(Number(row.savingsMinor) / 100)} left/mo ${Math.round(Number(row.monthlyLeftMinor) / 100)} lease months ${row.leaseMonths} rent ${Math.round(Number(row.rentBeforeMinor) / 100)} income/mo ${Math.round(Number(row.monthlyIncomeMinor) / 100)}`,
   );
+const months_ = counted
+  .map((row) => Number(row.leaseMonths))
+  .sort((a, b) => a - b);
+const at = (q: number) =>
+  months_[Math.min(months_.length - 1, Math.floor(q * months_.length))];
+console.log(
+  `Lease months among counted buyers: min ${months_[0]}, quarter ${at(0.25)}, median ${at(0.5)}, three quarters ${at(0.75)}, max ${months_.at(-1)}; over 60: ${months_.filter((m) => m > 60).length}, over 120: ${months_.filter((m) => m > 120).length} of ${months_.length}`,
+);
+const weights = counted.map((row) => Number(row.weight));
+console.log(
+  `Buyer weights: min ${Math.min(...weights)}, max ${Math.max(...weights)}`,
+);

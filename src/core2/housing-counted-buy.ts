@@ -72,8 +72,9 @@ export function countedLeaseStart(
 /**
  * A counted household's own savings on the day it weighs buying: each month
  * since its lease began, what one household's income left after its rent and
- * its members' living costs, never below nothing. Today's pay, rent and costs
- * stand for the months before (a counted household keeps no monthly record).
+ * its members' living costs, never below nothing, over at most
+ * `housingCountedSavingsMonths`. Today's pay, rent and costs stand for the
+ * months before (a counted household keeps no monthly record).
  */
 export function countedOwnSavings(
   api: CoreAPI,
@@ -92,7 +93,11 @@ export function countedOwnSavings(
     .reduce((n, m) => n + rt.store.living[m]!, 0);
   const monthlyLeft =
     householdIncome(rt, h) / p("macroMonthsPerYear") - rent - living * perMonth;
-  const months = Math.max(0, daysBetweenText(leaseStart, c.date) / perMonth);
+  // At most the months the household's own record can stand for at today's pay.
+  const months = Math.min(
+    p("housingCountedSavingsMonths"),
+    Math.max(0, daysBetweenText(leaseStart, c.date) / perMonth),
+  );
   return {
     savingsMinor: Math.max(0, Math.floor(monthlyLeft * months)),
     monthlyLeftMinor: Math.round(monthlyLeft),
