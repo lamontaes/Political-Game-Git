@@ -73,38 +73,35 @@ for (const seed of WORLDS) {
 
     // Someone in town not in the room: Visit is open (or closed with a
     // reason the card words), and a closed act always carries its reason.
-    // Call is open only where the room's own check finds something to say:
-    // on the opening day a call to almost anyone has nothing yet (an
-    // acquaintance is never introduced on a phone), so the days go on, one
-    // at a time through the game's own advance, until someone has both
-    // (the first-day thinness is the pool item
-    // people-have-almost-nothing-to-say-on-the-first-day).
+    // Call is open only where the room's own check finds something to say.
+    // The day after the build is not used: a call to almost anyone then has
+    // nothing yet (an acquaintance is never introduced on a phone), so one
+    // more day goes by through the game's own advance. A one-off run at these
+    // two worlds found a person with both acts on that second day, in both.
+    // (The thin first day is the pool item
+    // people-have-almost-nothing-to-say-on-the-first-day.)
+    expect((await ask("POST", "/api/advance?mode=day")).status, where).toBe(
+      200,
+    );
+    const roomNow = await hereIds();
+    const town = [...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive &&
+          p.id !== me &&
+          p.placeId === core.people.get(me)!.placeId &&
+          !roomNow.includes(p.id),
+      )
+      .sort((a, b) => a.id.localeCompare(b.id));
     let other: string | undefined;
-    let daysOn = 0;
-    for (; daysOn <= 14 && !other; daysOn += 1) {
-      if (daysOn)
-        expect((await ask("POST", "/api/advance?mode=day")).status, where).toBe(
-          200,
-        );
-      const room = await hereIds();
-      const town = [...core.people.values()]
-        .filter(
-          (p) =>
-            p.alive &&
-            p.id !== me &&
-            p.placeId === core.people.get(me)!.placeId &&
-            !room.includes(p.id),
-        )
-        .sort((a, b) => a.id.localeCompare(b.id));
-      for (const candidate of town.slice(0, 60)) {
-        const rows = await acts(candidate.id);
-        expect(rows[0]?.kind, `${where}: Visit is always listed`).toBe("visit");
-        for (const row of rows)
-          expect(row.open || !!row.reason, `${where}: reason`).toBe(true);
-        if (rows.length === 2 && rows.every((r) => r.open)) {
-          other = candidate.id;
-          break;
-        }
+    for (const candidate of town.slice(0, 60)) {
+      const rows = await acts(candidate.id);
+      expect(rows[0]?.kind, `${where}: Visit is always listed`).toBe("visit");
+      for (const row of rows)
+        expect(row.open || !!row.reason, `${where}: reason`).toBe(true);
+      if (rows.length === 2 && rows.every((r) => r.open)) {
+        other = candidate.id;
+        break;
       }
     }
     expect(other, `${where}: someone to visit and call`).toBeDefined();
