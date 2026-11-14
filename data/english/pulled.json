@@ -115,6 +115,9 @@
     "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way": [
       "no-stock-phrases"
     ],
+    "scene-talk.follow-press.i-hear-you-what-s-stopping-you": [
+      "no-stock-phrases"
+    ],
     "scene-talk.follow-thank.i-m-holding-you-to-that-you-know": ["no-filler"],
     "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over": [
       "narration-assumes-no-reason"
@@ -280,6 +283,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 35,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 14983
+    "reply-second-move-follows-the-first (pairs)": 14967
   }
 }

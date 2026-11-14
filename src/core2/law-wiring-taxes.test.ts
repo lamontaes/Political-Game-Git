@@ -44,7 +44,7 @@ import {
   chambersOf,
   draftBill,
   executiveDecision,
-  holdVote,
+  holdEveryChamber,
   LEGISLATURE_MODULE_ID,
   memberKey,
   members,
@@ -659,7 +659,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         );
         expect(chamber, `${where}: the state's chamber`).toBeDefined();
         const sponsors = members(api, chamber!.id).map(memberKey);
-        let passed: ReturnType<typeof holdVote> | undefined;
+        let passed: ReturnType<typeof holdEveryChamber> | undefined;
         for (const sponsorId of sponsors.slice(0, 10)) {
           const grantBill = draftBill(api, {
             bodyOfficeId: chamber!.id,
@@ -677,7 +677,8 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
             for (const member of members(api, office))
               castMemberVote(api, grantBill.id, memberKey(member), "yes");
           executiveDecision(api, grantBill.id, true);
-          const after = holdVote(api, grantBill.id);
+          // Each chamber votes in its turn, held now rather than on each sitting.
+          const after = holdEveryChamber(api, grantBill.id);
           if (["enacted", "signed"].includes(after.status)) {
             passed = after;
             break;
