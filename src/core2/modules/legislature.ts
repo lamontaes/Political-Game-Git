@@ -6370,18 +6370,51 @@ function decideAtDesk(
     });
   // The signature, the veto and any override vote are public record the
   // press reads, like the floor's roll call.
+  executiveActionRecord(
+    api,
+    bill,
+    key,
+    executive.personId,
+    status,
+    override
+      ? {
+          override: override.tallies
+            .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
+            .join(","),
+        }
+      : {},
+  );
+  return { status, decision: { executiveId: key, action: status }, override };
+}
+
+/**
+ * What the executive did with a bill on their desk, on the public record the
+ * press, the reporter's question and the Journal read: signed, vetoed,
+ * overridden, or let become law unsigned when the deadline passed.
+ */
+function executiveActionRecord(
+  api: CoreAPI,
+  bill: BillRow,
+  executiveId: string,
+  personId: string | null | undefined,
+  action: string,
+  extra: Readonly<Record<string, string>> = {},
+): void {
   api.emit({
     id: `executive-action:${bill.id}`,
     date: api.state.date,
     kind: "executive-action",
     personIds: [
-      ...(executive.personId ? [executive.personId] : []),
+      ...(personId ? [personId] : []),
       ...(api.state.people.has(bill.sponsorId) ? [bill.sponsorId] : []),
     ],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
-      citation: `${status === "signed" ? "Signing" : "Veto"} of ${bill.number}`,
+      citation:
+        action === "unsigned"
+          ? `${bill.number} became law unsigned when the deadline to act passed`
+          : `${action === "signed" ? "Signing" : "Veto"} of ${bill.number}`,
       asOf: api.state.date,
     },
     publicRecord: true,
@@ -6390,18 +6423,52 @@ function decideAtDesk(
       billId: bill.id,
       number: bill.number,
       level: billReach(api, bill).level,
-      executiveId: key,
-      action: status,
-      ...(override
-        ? {
-            override: override.tallies
-              .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
-              .join(","),
-          }
-        : {}),
+      executiveId,
+      action,
+      ...extra,
     },
   });
-  return { status, decision: { executiveId: key, action: status }, override };
+}
+
+/**
+ * How many of a body's whole membership an override takes: two thirds (not
+ * of those voting) by default, the state's own share for a mayor's veto,
+ * plus one where its law says so.
+ */
+function overrideNeeded(
+  mayorRule: ReturnType<typeof mayorVeto> | null,
+): (members: number) => number {
+  const share =
+    mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
+  return (n) =>
+    mayorRule?.plusOne
+      ? Math.floor(n * share) + 1
+      : Math.ceil(n * share - 1e-9);
+}
+
+/**
+ * How a bill waiting on the executive's desk passed, by the narrowest of its
+ * chambers' recorded tallies: with no vote against it, with enough yes votes
+ * in every chamber to override a veto, or short of that. Null for a bill with
+ * no tallies on record.
+ */
+export function deskPassage(
+  api: CoreAPI,
+  billId: string,
+): "unopposed" | "veto-proof" | "short-of-override" | null {
+  const bill = table(api, "bills").get(billId) as unknown as
+    | (BillRow & { tallies?: { yes: number; no: number; members: number }[] })
+    | undefined;
+  const tallies = bill?.tallies ?? [];
+  if (!bill || !tallies.length) return null;
+  if (tallies.every((t) => t.no === 0)) return "unopposed";
+  const office = executiveOf(api, bill.bodyOfficeId).office;
+  const needed = overrideNeeded(
+    office?.kind === "mayor" ? mayorVeto(api) : null,
+  );
+  return tallies.every((t) => t.yes >= needed(t.members))
+    ? "veto-proof"
+    : "short-of-override";
 }
 
 /** The vote to override a veto, run and put on the public record (the same for any executive and body). */
@@ -6412,17 +6479,11 @@ function runOverride(
   executive: NonNullable<ReturnType<typeof executiveOf>["term"]>,
   mayorRule: ReturnType<typeof mayorVeto> | null,
 ): ReturnType<typeof overrideVote> {
-  // Two thirds of each body's whole membership (not of those voting).
-  const share =
-    mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
   const override = overrideVote(
     api,
     bill,
     memberSide(api, key, executive.party),
-    (n) =>
-      mayorRule?.plusOne
-        ? Math.floor(n * share) + 1
-        : Math.ceil(n * share - 1e-9),
+    overrideNeeded(mayorRule),
   );
   // The override vote is a public record of its own, beside the veto's.
   api.emit({
@@ -7301,6 +7362,10 @@ function deadlinePassed(api: CoreAPI, billId: string): void {
     executiveId: executiveId ?? "",
     action: "unsigned",
   });
+  // The lapse is the executive's act as much as a signature is (owner's
+  // card, Nov 14 2026, 06:08Z: "the Journal says so"), on the same record.
+  if (executiveId)
+    executiveActionRecord(api, unsigned, executiveId, executiveId, "unsigned");
 }
 
 /** The body's next sitting day after today, with where its date comes from. */

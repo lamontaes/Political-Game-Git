@@ -703,6 +703,7 @@ export function officeActHandlers(host: OfficeActHost) {
         topic: topic.question,
         desiredChange: topic.desiredChange,
         audienceIds: [...audience].sort(),
+        occasion: { recordId: id, kind: "state-of-the-city" },
       });
       host.keep(api, {
         personId: actorId,
