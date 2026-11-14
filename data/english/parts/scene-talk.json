@@ -184152,7 +184152,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office-held"]
+          "requiresFacts": ["office-held"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184165,10 +184166,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.that-s-all-we-ve-got-here-office-held-and-we-work-to-keep-it-come-knock-doors-with-us-when-it-s-time-or-chip-in-what-you-can",
+      "key": "scene-talk.follow-answer.we-ve-got-office-held-and-we-work-to-keep-it-come-knock-doors-with-us-when-it-s-time-or-chip-in-what-you-can",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "That's all we've got here, {office-held}, and we work to keep it. Come knock doors with us when it's time, or chip in what you can.",
+      "text": "We've got {office-held}, and we work to keep it. Come knock doors with us when it's time, or chip in what you can.",
       "uses": [
         {
           "subject": "scene",
@@ -184177,7 +184178,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office-held"]
+          "requiresFacts": ["office-held"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184202,7 +184204,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["race-run"]
+          "requiresFacts": ["race-run"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184227,7 +184230,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["race-run"]
+          "requiresFacts": ["race-run"],
+          "after": "ask"
         }
       ],
       "bearing": "hopeful",
@@ -184252,7 +184256,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["party-holds-nothing"]
+          "requiresFacts": ["party-holds-nothing"],
+          "after": "ask"
         }
       ],
       "bearing": "calm",
@@ -184277,7 +184282,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["party-holds-nothing"]
+          "requiresFacts": ["party-holds-nothing"],
+          "after": "ask"
         }
       ],
       "bearing": "calm",

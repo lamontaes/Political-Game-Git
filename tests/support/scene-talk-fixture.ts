@@ -84,6 +84,9 @@ export const facts: Record<string, Fact> = {
   opponent: fact("Dana Lee"),
   winner: fact("Dana Lee"),
   party: fact("Democratic"),
+  // The party chair answers "what does the party do here" from one of three
+  // records the director always supplies; the fixture holds a seat.
+  "office-held": fact("the mayor's office"),
   ...Object.fromEntries(flags.map((name) => [name, fact("yes")])),
   deceased: fact("Sam Ortiz"),
   cause: fact("a long illness"),
