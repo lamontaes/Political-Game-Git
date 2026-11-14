@@ -13,7 +13,7 @@ claimed-at:
 after: scene-bill-sign-on-colleague-ask
 blocked-on:
 lead: words
-source: 'brief V, stage 2 (co-sponsor ask); account lead ruling, Nov 14, 2026, 17:19Z (no unplayed lines in the bank)'
+source: "brief V, stage 2 (co-sponsor ask); account lead ruling, Nov 14, 2026, 17:19Z (no unplayed lines in the bank)"
 model: sonnet
 effort: medium
 root: rc6-scenes-repeat

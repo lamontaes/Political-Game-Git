@@ -148,7 +148,8 @@
     "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
     "rent": "The rent a renter pays each month, as said money, from their home's record.",
     "own-workplace": "The business where a witness works, by its name, from their job's record (the witness after the hearing).",
-    "own-child": "The given name of a witness's child at home, from the child's record (the witness after the hearing)."
+    "own-child": "The given name of a witness's child at home, from the child's record (the witness after the hearing).",
+    "bill-purpose": "What the player's bill does, as people say it (\"a cap on rent increases\"), from the bill's question (billNameOf), for the co-sponsor ask."
   },
   "maxWords": 70,
   "parts": [
