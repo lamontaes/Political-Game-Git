@@ -32,7 +32,12 @@ import {
   screenPick,
   screenWays,
 } from "../english/screen-words";
-import { articleFor, framedByAge } from "../english/journal-words";
+import {
+  articleFor,
+  employerSaid,
+  framedByAge,
+  withArticle,
+} from "../english/journal-words";
 import controls from "./data/controls.json" with { type: "json" };
 import {
   pronounSetOfGender,
@@ -47,7 +52,7 @@ import {
   coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
-import { stateInSentence } from "../director/words";
+import { organizationName, stateInSentence } from "../director/words";
 import { relationWord, schoolsOf } from "./words";
 import { faceOf, scenePlace } from "./scene";
 import {
@@ -76,7 +81,7 @@ function employerName(
 ): string | undefined {
   const organization = core.organizations.get(organizationId);
   return organization && organization.outsideFlow === undefined
-    ? organization.name
+    ? (employerSaid(organizationName(organization), organization) ?? undefined)
     : undefined;
 }
 
@@ -93,6 +98,9 @@ export function personCard(core: CoreState, personId: string) {
   const relationOf = (id: string) => relatives.get(id as PersonId)?.relation;
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const employer = job ? employerName(core, job.organizationId) : undefined;
+  const outsideWork =
+    !!job &&
+    core.organizations.get(job.organizationId)?.outsideFlow !== undefined;
   const household = core.households.get(person.householdId);
   // Faces for the People map: each the figure a room here would draw.
   const place = scenePlace(core, personId).place;
@@ -176,8 +184,24 @@ export function personCard(core: CoreState, personId: string) {
     },
     job: job && {
       jobId: job.id,
-      title: job.title,
-      employer,
+      // The market's stand-in for work out of town is no employer and no
+      // place (Fable A, Nov 13, rule 20): the job is said as work outside the
+      // town the person lives in, the way their card's summary says it.
+      ...(outsideWork
+        ? {
+            title:
+              screenLine(
+                "person-history",
+                "person-history.summary.work.outside",
+                {
+                  place:
+                    corePlaceByJurisdictionId(person.placeId as never)
+                      ?.displayName ?? "",
+                },
+              )?.replace(/\.$/, "") ?? job.title,
+            employer: undefined,
+          }
+        : { title: job.title, employer }),
       wageDailyMinor: job.wageDailyMinor,
       hoursDaily: job.hoursDaily,
     },
@@ -1304,7 +1328,8 @@ function summaryOf(
     : now.work?.employer
       ? now.work.title
         ? line("work.title", {
-            title: inSentence(now.work.title),
+            // One person's job, with its article: "an aide", "a carpenter".
+            title: withArticle(now.work.title),
             employer: now.work.employer,
           })
         : line("work.employer", { employer: now.work.employer })
@@ -1847,13 +1872,22 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     shared: shared
       .filter((row) => row.kind !== "family")
       .map((row) => ({
-        // Work that ended is said apart from work shared now.
-        kind: row.kind === "coworker" && row.endedOn ? "worked" : row.kind,
+        // Work or school that ended is said apart from what is shared now
+        // (Fable A, Nov 13: "School that has ended is past").
+        kind:
+          row.kind === "coworker" && row.endedOn
+            ? "worked"
+            : row.kind === "schoolmate" && row.ended
+              ? "schooled"
+              : row.kind,
         recordId: row.recordId,
         // The employer or the school, by name.
         name:
           row.kind === "coworker" || row.kind === "schoolmate"
-            ? (core.organizations.get(row.recordId)?.name ?? null)
+            ? (() => {
+                const org = core.organizations.get(row.recordId);
+                return org ? organizationName(org) : null;
+              })()
             : null,
       })),
     // The seats they reached before the start, from the government's history

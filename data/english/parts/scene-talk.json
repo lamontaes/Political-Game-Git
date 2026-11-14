@@ -94413,10 +94413,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-m-self-i-need-a-few-more-signatures-to-run-for-office-could-i-get-yours",
+      "key": "scene-talk.state-request.i-m-self-i-m-collecting-signatures-to-run-for-office-could-i-get-yours",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm {self}. I need a few more signatures to run for {office}. Could I get yours?",
+      "text": "I'm {self}. I'm collecting signatures to run for {office}. Could I get yours?",
       "uses": [
         {
           "subject": "scene",
@@ -94703,10 +94703,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-that-s-one-closer",
+      "key": "scene-talk.follow-thank.thank-you-that-helps",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. That's one closer.",
+      "text": "Thank you. That helps.",
       "uses": [
         {
           "subject": "scene",
@@ -95574,10 +95574,10 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-residency.you-can-only-file-for-office-if-you-live-in-required-and-your-address-has-you-in-actual",
+      "key": "scene-talk.state-rule-residency.you-have-to-live-in-required-to-run-for-office-and-my-records-have-you-somewhere-else",
       "move": "state-rule-residency",
       "kind": "spoken",
-      "text": "You can only file for {office} if you live in {required}, and your address has you in {actual}.",
+      "text": "You have to live in {required} to run for {office}, and my records have you somewhere else.",
       "uses": [
         {
           "subject": "scene",
@@ -96049,7 +96049,7 @@
       "key": "scene-talk.reply-ask.what-if-i-come-up-short",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What if I'm short of {signatures} by {due}?",
+      "text": "What if I come up short by {due}?",
       "uses": [
         {
           "subject": "scene",
@@ -96124,7 +96124,7 @@
       "key": "scene-talk.reply-confront.that-many-for-one-seat",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "All {signatures}? For one seat?",
+      "text": "That many? Just to run for {seat}?",
       "uses": [
         {
           "subject": "scene",
@@ -96149,7 +96149,7 @@
       "key": "scene-talk.reply-confront.who-decided-it-takes-that-many",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Who decided it takes {signatures}?",
+      "text": "Who decided {office} takes that many?",
       "uses": [
         {
           "subject": "scene",
@@ -96249,7 +96249,7 @@
       "key": "scene-talk.follow-thank.good-count-them-before-you-bring-them-in",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. Count them before you bring them in. I need {signatures} that hold up.",
+      "text": "Good. Go over them before {due}. I only take the ones that hold up.",
       "uses": [
         {
           "subject": "scene",
@@ -96377,7 +96377,7 @@
       "key": "scene-talk.follow-refuse.the-law-sets-the-number-i-just-count-them",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "The law sets {signatures}. I just count them.",
+      "text": "The law sets the number, and the day, {due}. I just check them.",
       "uses": [
         {
           "subject": "scene",
@@ -96403,7 +96403,7 @@
       "key": "scene-talk.follow-refuse.that-s-the-law-s-number-not-mine",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "The law's number is {signatures}, not mine.",
+      "text": "That's the law's number, not mine, and so is the {due} deadline.",
       "uses": [
         {
           "subject": "scene",
@@ -96429,7 +96429,7 @@
       "key": "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll go knock on doors until I have {signatures}.",
+      "text": "I'll go start knocking on doors in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -101690,7 +101690,7 @@
       "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-ge-2",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Start with the {signatures} signatures. Knock on doors, set up a table where people shop, and get your friends to carry a sheet each. Then money: ask everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "text": "Start with the signatures for {office}. Knock on doors, set up a table where people shop, and get your friends to carry a sheet each. Then money: ask everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
       "uses": [
         {
           "subject": "scene",
@@ -161419,6 +161419,246 @@
       "date": "2026-11-11",
       "tag": {
         "move": "rule-registered-voter",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-already-filed.you-ve-already-filed-for-office-once-is-all-it-takes",
+      "move": "state-rule-already-filed",
+      "kind": "spoken",
+      "text": "You've already filed for {office}. Once is all it takes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-already-filed",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (T47, play-petition-signatures-come-from-door-days)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-already-filed.your-name-s-already-in-for-office-there-s-nothing-more-to-file",
+      "move": "state-rule-already-filed",
+      "kind": "spoken",
+      "text": "Your name's already in for {office}. There's nothing more to file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-already-filed",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (T47, play-petition-signatures-come-from-door-days)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-term-limit.you-ve-served-all-the-terms-the-law-allows-for-office-i-can-t-take-another-filing",
+      "move": "state-rule-term-limit",
+      "kind": "spoken",
+      "text": "You've served all the terms the law allows for {office}. I can't take another filing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-term-limit",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (T47, play-petition-signatures-come-from-door-days)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-term-limit.the-law-caps-the-terms-for-office-and-you-ve-reached-the-cap",
+      "move": "state-rule-term-limit",
+      "kind": "spoken",
+      "text": "The law caps the terms for {office}, and you've reached the cap.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-term-limit",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (T47, play-petition-signatures-come-from-door-days)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-filing-deadline.i-can-t-take-a-filing-for-office-today-filing-isn-t-open",
+      "move": "state-rule-filing-deadline",
+      "kind": "spoken",
+      "text": "I can't take a filing for {office} today. Filing isn't open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-filing-deadline",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (T47, play-petition-signatures-come-from-door-days)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-filing-deadline.filing-for-office-isn-t-open-today-so-there-s-nothing-i-can-take",
+      "move": "state-rule-filing-deadline",
+      "kind": "spoken",
+      "text": "Filing for {office} isn't open today, so there's nothing I can take.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-filing-deadline",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (T47, play-petition-signatures-come-from-door-days)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-party-member.you-d-have-to-be-registered-with-the-party-to-file-in-its-primary-for-office-and-you-re-no",
+      "move": "state-rule-party-member",
+      "kind": "spoken",
+      "text": "You'd have to be registered with the party to file in its primary for {office}, and you're not on my rolls as a member.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-party-member",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (T47, play-petition-signatures-come-from-door-days)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-party-member.i-can-only-take-a-primary-filing-for-office-from-a-member-of-that-party-and-my-rolls-don-t",
+      "move": "state-rule-party-member",
+      "kind": "spoken",
+      "text": "I can only take a primary filing for {office} from a member of that party, and my rolls don't show you as one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-party-member",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (T47, play-petition-signatures-come-from-door-days)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-district-residency.that-seat-on-office-belongs-to-one-district-and-my-records-have-you-outside-it",
+      "move": "state-rule-district-residency",
+      "kind": "spoken",
+      "text": "That seat on {office} belongs to one district, and my records have you outside it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-district-residency",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (T47, play-petition-signatures-come-from-door-days)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-rule-district-residency.i-can-t-file-you-for-that-seat-on-office-you-don-t-live-in-the-part-of-town-it-stands-for",
+      "move": "state-rule-district-residency",
+      "kind": "spoken",
+      "text": "I can't file you for that seat on {office}. You don't live in the part of town it stands for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "rule-district-residency",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (T47, play-petition-signatures-come-from-door-days)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
         "key": "routine"
       }
     },

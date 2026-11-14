@@ -18,7 +18,7 @@ import { jobSaid, seatSaid } from "../english/journal-words";
 import { spanSaid } from "../english/span-words";
 import type { Fact } from "../english/scene-words";
 import { billName, lawName, lawTopic } from "./journal";
-import { properName } from "./words";
+import { organizationName } from "./words";
 
 interface OfficeRow {
   readonly title: string;
@@ -80,7 +80,7 @@ function orgSaid(
 ): { text: string; id: string } | null {
   if (typeof id !== "string") return null;
   const org = core.organizations.get(id as never);
-  return org ? { text: properName(org.name), id: org.id } : null;
+  return org ? { text: organizationName(org), id: org.id } : null;
 }
 
 /** A person's first name, from their record: the scene's first line has said it in full. */

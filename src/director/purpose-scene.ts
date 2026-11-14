@@ -131,7 +131,7 @@ import { remarkOf } from "./remark";
 import { counterFilingReplyId } from "./filing-visit";
 import {
   numberWord,
-  properName,
+  organizationName,
   spoken,
   spokenDate,
   stateInSentence,
@@ -621,7 +621,7 @@ function composeBinding(
     const org = core.organizations.get(said.organizationId);
     const ids = [moment.causeId, said.organizationId];
     if (org)
-      facts.employer = { text: properName(org.name), sourceRecordIds: ids };
+      facts.employer = { text: organizationName(org), sourceRecordIds: ids };
     if (said.title)
       facts.position = { text: withArticle(said.title), sourceRecordIds: ids };
     if (Number(said.hourlyMinor) > P.zero)
@@ -747,7 +747,7 @@ function composeBinding(
     const printer = story ? core.organizations.get(story.outletId) : undefined;
     if (printer)
       facts.outlet = {
-        text: properName(printer.name),
+        text: organizationName(printer),
         sourceRecordIds: [...cited, printer.id],
       };
   }
@@ -992,7 +992,7 @@ function composeBinding(
     const cited = [moment.causeId, said.storyId ?? moment.causeId];
     if (outlet) {
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [...cited, outlet.id],
       };
       facts["press-story"] = facts.outlet;
@@ -1072,7 +1072,7 @@ function composeBinding(
       : undefined;
     if (outlet)
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [employer!.id, outlet.id],
       };
   }
@@ -1082,7 +1082,7 @@ function composeBinding(
     const outlet = core.organizations.get(said.outletId);
     if (outlet)
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }
