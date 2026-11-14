@@ -1529,7 +1529,7 @@
       "call": "stock",
       "filledBy": "day 31",
       "reason": "People on unemployment insurance on any day; may be held in benefit payments.",
-      "knownRed": "jobs-opening-jobless-stock-drains-toward-flows"
+      "knownRed": "opening-jobs-claims-empty-at-day-0"
     },
     {
       "table": "jobs.countedSeekers",
@@ -1537,7 +1537,7 @@
       "call": "stock",
       "filledBy": "day 1",
       "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here.",
-      "knownRed": "jobs-opening-jobless-stock-drains-toward-flows"
+      "knownRed": "opening-first-step-empty-at-day-0"
     },
     {
       "table": "jobs.elsewhere",
@@ -1552,7 +1552,7 @@
       "call": "stock",
       "filledBy": "day 1",
       "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here.",
-      "knownRed": "jobs-opening-jobless-stock-drains-toward-flows"
+      "knownRed": "opening-first-step-empty-at-day-0"
     },
     {
       "table": "jobs.fullHours",
@@ -1581,7 +1581,7 @@
       "call": "stock",
       "filledBy": "day 1",
       "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here.",
-      "knownRed": "jobs-opening-jobless-stock-drains-toward-flows"
+      "knownRed": "opening-first-step-empty-at-day-0"
     },
     {
       "table": "jobs.raises",
@@ -1610,7 +1610,7 @@
       "call": "stock",
       "filledBy": "day 1",
       "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here.",
-      "knownRed": "jobs-opening-jobless-stock-drains-toward-flows"
+      "knownRed": "opening-first-step-empty-at-day-0"
     },
     {
       "table": "jobs.spells",
@@ -1618,7 +1618,7 @@
       "call": "stock",
       "filledBy": "day 1",
       "reason": "Employment spells  current jobs instead of kept.",
-      "knownRed": "jobs-opening-jobless-stock-drains-toward-flows"
+      "knownRed": "opening-first-step-empty-at-day-0"
     },
     {
       "table": "jobs.state",
