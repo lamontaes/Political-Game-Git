@@ -1292,6 +1292,61 @@
       "stakes": ["home"]
     },
     {
+      "key": "move-in",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "roles": [
+        {
+          "key": "asking",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "tell", "promise", "confess"],
+          "wants": ["commit", "take-risk"],
+          "bearing": "nervous"
+        },
+        {
+          "key": "asked",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["agree", "decline", "request", "thank"],
+          "wants": ["commit", "play-safe"],
+          "bearing": "tender"
+        }
+      ],
+      "setting": ["home", "other-home"],
+      "timing": "next-together",
+      "stopsDay": true,
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.move-in-asked",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.move-in-asked",
+          "bind": {
+            "asking": "counterpart",
+            "asked": "subject"
+          },
+          "opener": "asking",
+          "opening": "greet"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "personal",
+        "registers": ["conversation", "scene-words", "journal"]
+      },
+      "purpose": "move-in-ask",
+      "asker": "asking",
+      "asked": "asked",
+      "stakes": ["home"]
+    },
+    {
       "key": "breakup",
       "receive": {
         "age": "any",
@@ -1754,7 +1809,12 @@
             "label": "feeling:event:justice.accused",
             "selfNamed": true,
             "counterpart": "some",
-            "causeFacts": [{ "key": "accuserId", "is": "other" }]
+            "causeFacts": [
+              {
+                "key": "accuserId",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "justice",
           "causeRecord": "justice.accused",

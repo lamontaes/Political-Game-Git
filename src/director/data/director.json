@@ -1281,6 +1281,11 @@
       "impactParameter": "directorKinUnionImpact"
     },
     {
+      "eventKind": "family.move-in-asked",
+      "channel": "feeling",
+      "impactParameter": "directorKinUnionImpact"
+    },
+    {
       "eventKind": "family.married",
       "channel": "feeling",
       "impactParameter": "directorOwnMarriageImpact"

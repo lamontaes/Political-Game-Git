@@ -466,7 +466,13 @@ function review(api: CoreAPI): void {
 }
 
 /** Where a couple in town stands on the way to a wedding. */
-type Stage = "dating" | "living-together" | "proposed" | "engaged" | "married";
+type Stage =
+  | "dating"
+  | "move-in-asked"
+  | "living-together"
+  | "proposed"
+  | "engaged"
+  | "married";
 
 interface CoupleRow {
   /** The partner link's id. */
@@ -481,9 +487,11 @@ interface CoupleRow {
 export const FAMILY_ENGAGED = "family.engaged";
 export const FAMILY_MARRIED = "family.married";
 export const FAMILY_MOVED_IN = "family.moved-in";
+/** A partner asked the player to live together; the player's answer in the scene decides. */
+export const FAMILY_MOVE_IN_ASKED = "family.move-in-asked";
 
 const NEXT_STAGE: Record<
-  Exclude<Stage, "married" | "proposed">,
+  Exclude<Stage, "married" | "proposed" | "move-in-asked">,
   [Stage, string]
 > = {
   dating: ["living-together", "partnerDatingMonths"],
@@ -505,16 +513,21 @@ function ownsHome(api: CoreAPI, householdId: string): boolean {
   return row?.tenure === "own";
 }
 
-/** Whether these people can leave their household now: it keeps an adult, and an owned home is not left empty. */
+/**
+ * Whether these people can leave their household now: it keeps an adult, and
+ * an owned home is not left empty. `chosen` says the mover chose it (the
+ * player's yes when asked to move in).
+ */
 export function canLeave(
   api: CoreAPI,
   mover: Readonly<PersonState>,
   adultAge: number,
+  chosen = false,
 ): boolean {
   const core = api.state as CoreState;
   // The player's household changes only by their choice, never by the
   // engine's move-in or split (owner's playtest, Nov 8).
-  if (mover.id === core.playerId) return false;
+  if (mover.id === core.playerId && !chosen) return false;
   // The household writer's own rule (`changeHouseholdV1`): whoever is left on
   // its books, the dead included, must hold a living adult, or nobody is left
   // and an owned home is not given up. A household whose only other members
@@ -583,11 +596,16 @@ function knownSingle(
   return best?.row;
 }
 
-/** One of the couple moves into the other's household: the one with less cash goes, the lease and the spending share follow. */
+/**
+ * One of the couple moves into the other's household: the one with less cash
+ * goes, the lease and the spending share follow. `chosenBy` is the one who
+ * said yes in a scene, whose household may then change.
+ */
 function moveIn(
   api: CoreAPI,
   a: Readonly<PersonState>,
   b: Readonly<PersonState>,
+  chosenBy?: PersonId,
 ): boolean {
   const core = api.state as CoreState;
   if (a.householdId === b.householdId) return true;
@@ -601,9 +619,10 @@ function moveIn(
     api,
     mover,
     adultAge,
+    mover.id === chosenBy,
   )
     ? [mover, host]
-    : canLeave(api, host, adultAge)
+    : canLeave(api, host, adultAge, host.id === chosenBy)
       ? [host, mover]
       : undefined;
   if (!order) return false;
@@ -846,6 +865,22 @@ function reviewTown(api: CoreAPI): void {
         .put(couple as never);
       continue;
     }
+    if (couple.stage === "move-in-asked") {
+      // The player was asked to live together and has not answered: the
+      // question lapses as an unanswered proposal does, back to dating.
+      if (
+        ageOnDate(makeIsoDate(couple.since), today) * p("monthsPerYear") >=
+        p("partnerProposalLapseMonths")
+      ) {
+        couple.stage = "dating";
+        couple.since = core.date;
+        couple.progress = p("zero");
+      }
+      store(api)
+        .table("couples")
+        .put(couple as never);
+      continue;
+    }
     if (couple.stage === "proposed") {
       // The player was asked and has not answered: a question left a couple
       // of months lapses back to living together, unanswered.
@@ -867,6 +902,34 @@ function reviewTown(api: CoreAPI): void {
       (p("one") / p(months)) *
       (Math.sqrt(partnerFactorOfCached(a) * partnerFactorOfCached(b)) /
         typicalPartner);
+    const withPlayer = a.id === core.playerId || b.id === core.playerId;
+    if (
+      couple.progress >= p("one") &&
+      next === "living-together" &&
+      withPlayer
+    ) {
+      // Living together changes the player's home, so the partner asks and
+      // the player's answer in the scene decides (coordinator's ruling under
+      // the owner's overnight say, Nov 14 2026, family life question 2).
+      const asker = a.id === core.playerId ? b : a;
+      couple.stage = "move-in-asked";
+      couple.since = core.date;
+      couple.progress = p("zero");
+      api.emit({
+        id: `${FAMILY_MOVE_IN_ASKED}:${link.id}:${core.date}`,
+        date: core.date,
+        kind: FAMILY_MOVE_IN_ASKED,
+        personIds: [asker.id, core.playerId!],
+        placeId: asker.placeId,
+        publicRecord: false,
+        source: source(api, `${asker.givenName} asked to live together.`),
+        facts: { linkId: link.id },
+      });
+      store(api)
+        .table("couples")
+        .put(couple as never);
+      continue;
+    }
     if (couple.progress >= p("one")) {
       const ok = next === "living-together" ? moveIn(api, a, b) : true;
       if (ok) {
@@ -937,6 +1000,46 @@ function answerProposal(api: CoreAPI, event: CoreEventInput): void {
     .put(answered as never);
 }
 
+/**
+ * The player's answer when a partner asks to live together (the move-in
+ * scene's reply, ending the talk): yes moves one of them in with the other,
+ * the one with less cash going, as the engine moves everyone else; turned
+ * down, the couple goes on dating and starts over; asking for time puts the
+ * question half a stage off; a reply that did not end the talk waits.
+ */
+function answerMoveIn(api: CoreAPI, event: CoreEventInput): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "move-in" || !facts.ending) return;
+  const causeId = String(facts.causeId ?? "");
+  const prefix = `${FAMILY_MOVE_IN_ASKED}:`;
+  if (!causeId.startsWith(prefix)) return;
+  // The id is the prefix, the partner link's id, then the day it was asked.
+  const linkId = causeId.slice(prefix.length).replace(/:[^:]+$/, "");
+  const held = store(api).table("couples").get(linkId) as unknown as
+    CoupleRow | undefined;
+  if (held?.stage !== "move-in-asked") return;
+  const core = api.state as CoreState;
+  const zero = api.parameter("zero");
+  const link = core.familyLinks.get(linkId);
+  const [a, b] = (link?.personIds ?? []).map((id) => core.people.get(id));
+  const moved =
+    facts.ending === "said-yes" &&
+    !!a?.alive &&
+    !!b?.alive &&
+    moveIn(api, a, b, core.playerId);
+  const answered: CoupleRow = moved
+    ? { ...held, stage: "living-together", since: core.date, progress: zero }
+    : {
+        ...held,
+        stage: "dating",
+        since: core.date,
+        progress: facts.ending === "not-yet" ? api.parameter("half") : zero,
+      };
+  store(api)
+    .table("couples")
+    .put(answered as never);
+}
+
 function nextFirst(date: string): string {
   const [year, month] = date.split("-").map(Number) as [number, number];
   return month === 12
@@ -990,6 +1093,7 @@ export const partnershipsModule: CoreModule = {
     if (event.kind === "scene.reply") {
       noteReply(api, event);
       answerProposal(api, event);
+      answerMoveIn(api, event);
       return;
     }
     for (const id of event.personIds) store(api).table("pulls").remove(id);

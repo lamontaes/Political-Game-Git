@@ -559,10 +559,10 @@
         ],
         "playerReaches": "no",
         "lines": {
-          "all": 57,
-          "counted": 40,
-          "onlyHere": 56,
-          "onlyHereCounted": 40
+          "all": 55,
+          "counted": 0,
+          "onlyHere": 54,
+          "onlyHereCounted": 0
         }
       }
     },
@@ -1145,10 +1145,10 @@
         "causes": [],
         "playerReaches": "no (The visit plays through src/bench/polling.ts and election-night.ts; the type's own awaitingProducer election-day is never built.)",
         "lines": {
-          "all": 64,
-          "counted": 62,
-          "onlyHere": 64,
-          "onlyHereCounted": 62
+          "all": 0,
+          "counted": 0,
+          "onlyHere": 0,
+          "onlyHereCounted": 0
         }
       }
     },
@@ -1330,10 +1330,10 @@
         ],
         "playerReaches": "yes",
         "lines": {
-          "all": 123,
-          "counted": 98,
-          "onlyHere": 56,
-          "onlyHereCounted": 42
+          "all": 127,
+          "counted": 97,
+          "onlyHere": 60,
+          "onlyHereCounted": 41
         }
       }
     },
@@ -3241,11 +3241,11 @@
             "cause": "feeling:event:family.partnered",
             "engine": "partnerships",
             "record": "family.partnered",
-            "how": "waits: impact 0.29, under the interrupt line 0.5",
-            "plays": "no"
+            "how": "stops the day (the type's stopsDay)",
+            "plays": "yes"
           }
         ],
-        "playerReaches": "no",
+        "playerReaches": "yes",
         "lines": {
           "all": 49,
           "counted": 45,
@@ -3273,16 +3273,47 @@
             "cause": "feeling:event:family.engaged",
             "engine": "partnerships",
             "record": "family.engaged",
-            "how": "waits: impact 0.29, under the interrupt line 0.5",
-            "plays": "no"
+            "how": "stops the day (the type's stopsDay)",
+            "plays": "yes"
           }
         ],
-        "playerReaches": "no",
+        "playerReaches": "yes",
         "lines": {
           "all": 52,
           "counted": 48,
           "onlyHere": 52,
           "onlyHereCounted": 48
+        }
+      }
+    },
+    {
+      "key": "move-in",
+      "kind": "type",
+      "cause": "src/core2/modules/partnerships.ts (family.move-in-asked)",
+      "writes": "the answer; src/core2/modules/partnerships.ts answerMoveIn (one moves in with the other, or they go on dating)",
+      "models": "src/core2/modules/partnerships.ts",
+      "verdict": "KEEP",
+      "why": "Stops the day; a dating couple that includes the player lives together only when the player says yes (family life question 2, Nov 14 2026).",
+      "computed": {
+        "purpose": "move-in-ask",
+        "setting": ["home", "other-home"],
+        "timing": "next-together",
+        "rowsInTypesFile": 1,
+        "causes": [
+          {
+            "cause": "feeling:event:family.move-in-asked",
+            "engine": "partnerships",
+            "record": "family.move-in-asked",
+            "how": "stops the day (the type's stopsDay)",
+            "plays": "yes"
+          }
+        ],
+        "playerReaches": "yes",
+        "lines": {
+          "all": 0,
+          "counted": 0,
+          "onlyHere": 0,
+          "onlyHereCounted": 0
         }
       }
     },
@@ -3599,18 +3630,18 @@
             "cause": "feeling:event:person-birth",
             "engine": "",
             "record": "",
-            "how": "waits: impact 0.39, under the interrupt line 0.5",
-            "plays": "no"
+            "how": "stops the day (the type's stopsDay)",
+            "plays": "yes"
           },
           {
             "cause": "feeling:event:person-birth",
             "engine": "",
             "record": "",
-            "how": "waits: impact 0.39, under the interrupt line 0.5",
-            "plays": "no"
+            "how": "stops the day (the type's stopsDay)",
+            "plays": "yes"
           }
         ],
-        "playerReaches": "no",
+        "playerReaches": "yes",
         "lines": {
           "all": 60,
           "counted": 34,
@@ -3858,9 +3889,9 @@
         "purpose": "filing-clerk",
         "playerReaches": "A screen: the player goes to the filing office.",
         "lines": {
-          "all": 189,
+          "all": 174,
           "counted": 0,
-          "onlyHere": 188,
+          "onlyHere": 173,
           "onlyHereCounted": 0
         }
       }

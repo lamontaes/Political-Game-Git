@@ -3973,6 +3973,53 @@
         }
       ]
     },
+    "move-in-ask": {
+      "state": "request",
+      "replies": ["agree", "decline", "ask", "deflect"],
+      "follow": {
+        "agree": ["thank"],
+        "decline": ["accept", "plea"],
+        "ask": ["answer"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "answer": ["agree", "decline", "deflect"],
+        "press": ["agree", "decline", "leave"],
+        "plea": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "said-yes",
+          "label": "You said yes to living together",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "turned-down",
+          "label": "You said no to living together for now",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "not-yet",
+          "label": "You asked for time",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "breakup-tell": {
       "state": "tell",
       "replies": ["ask", "accept", "apologize", "confront"],
