@@ -53,7 +53,8 @@
         "src/core2/modules/campaigns.ts",
         "src/core2/modules/candidacy.ts",
         "src/core2/campaign-data.ts",
-        "src/core2/modules/national-opinion.ts"
+        "src/core2/modules/national-opinion.ts",
+        "src/core2/modules/serve-asks.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -61,6 +62,7 @@
         "src/core2/modules/campaigns.ts",
         "src/core2/modules/candidacy.ts",
         "src/core2/modules/filing-clerk.ts",
+        "src/core2/modules/serve-asks.ts",
         "src/core2/recount-rules.ts",
         "src/core2/modules/ballot-measures.ts",
         "src/core2/modules/recalls.ts",
@@ -298,7 +300,8 @@
         "src/core2/trait-decisions.ts",
         "src/core2/modules/moves.ts",
         "src/core2/person-work.ts",
-        "src/core2/home-distance.ts"
+        "src/core2/home-distance.ts",
+        "src/core2/life-stake-rule.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -390,7 +393,10 @@
         "src/core2/modules/public-action.ts",
         "src/core2/husk-promoters.ts",
         "src/core2/opening-ties.ts",
-        "src/core2/household-cost.ts"
+        "src/core2/household-cost.ts",
+        "src/core2/life-plan-readers.ts",
+        "src/core2/life-stake-rule.ts",
+        "src/core2/life-stakes.ts"
       ]
     },
     {
@@ -402,6 +408,7 @@
         "src/core2/past-*.ts",
         "src/core2/deep-past.ts",
         "src/core2/own-past-kinds.ts",
+        "src/core2/places-elsewhere.ts",
         "src/core2/pre-start.ts",
         "src/core2/shared-history.ts"
       ]

@@ -140,3 +140,7 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 ## Stop condition
 
 Done when every timed claim names the place, seed, years and machine, every speed PR carries an identical records proof (or a fold's named tables), and the item's done-when lines each have that evidence.
+
+## Unattended-world changes: the speed table
+
+A change to anything that runs without the player watching (monthly engines, skipped time, counted groups) carries two tables in the PR body: year 1 of `npm run speed:year`, and time per record, each at three drawn places, with and without the change. Container noise is 10 to 20 percent, so one process at a time and say the machine. A change that makes a year more than 20 percent slower than its base fails the bar even if each table looks small.

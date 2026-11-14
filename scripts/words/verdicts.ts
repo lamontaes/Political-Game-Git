@@ -31,6 +31,7 @@ import {
   exchangeSubjects,
   isSpotKey,
   judgesExchanges,
+  judgesScenes,
   judgesSpots,
   lineSubjects,
   spotSubjects,
@@ -74,6 +75,8 @@ export interface SubjectSource {
   readonly pairs: () => readonly { before: string; reply: string }[];
   /** The pairs the exchange rules judge (`exchangePairs`, what the run and the sheets read); `pairs` when not given. */
   readonly exchangePairs?: () => readonly { before: string; reply: string }[];
+  /** A path rule's subjects (`scenePaths` over the built scenes); a path rule cannot be folded without it. */
+  readonly paths?: (rule: LineRule) => readonly Subject[];
 }
 
 /** The text of every bank piece, by key. */
@@ -106,6 +109,13 @@ export function subjectsOf(rule: LineRule, source: SubjectSource): Subject[] {
       id: subject.id,
       keys: subject.keys,
     }));
+  if (judgesScenes(rule)) {
+    if (!source.paths)
+      throw new Error(
+        `${rule.id} judges scene paths: give the fold the built scenes' paths`,
+      );
+    return source.paths(rule).map(({ id, keys }) => ({ id, keys }));
+  }
   if (judgesExchanges(rule))
     return exchangeSubjects(
       rule,
@@ -293,9 +303,12 @@ export function foldVerdicts(
     let dropped = 0;
     for (const [id, row] of [...no])
       if (
-        // A line in a spot or in an exchange: it goes when the rule no
-        // longer judges it there in those words (a spot key is no bank line).
-        ((row.keys.some(isSpotKey) || judgesExchanges(rule)) &&
+        // A line in a spot, an exchange or a scene path: it goes when the
+        // rule no longer judges it there in those words (a spot key is no
+        // bank line).
+        ((row.keys.some(isSpotKey) ||
+          judgesExchanges(rule) ||
+          judgesScenes(rule)) &&
           !current.has(id)) ||
         row.keys.some((key) => !isSpotKey(key) && !text.has(key)) ||
         verdictId(

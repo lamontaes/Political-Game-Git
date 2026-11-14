@@ -88,8 +88,14 @@ describe("printed stories in News", () => {
       for (const text of [worded.headline, worded.lede])
         if (text)
           expect(text, `${story.id} in ${where}`).not.toMatch(DEVELOPER);
-      // A brief is a headline and one line, never a body.
-      if (worded.brief) expect(worded.paragraphs, story.id).toBeUndefined();
+      // A brief is a headline and one line; only a school honor opens into a body (owner, Nov 14).
+      if (
+        worded.brief &&
+        !["school.honor", "organization.founded", "retirement"].some((kind) =>
+          story.id.includes(kind),
+        )
+      )
+        expect(worded.paragraphs, story.id).toBeUndefined();
       // A story with a body prints the lede first, then sentences that each
       // say something new.
       if (worded.paragraphs) {

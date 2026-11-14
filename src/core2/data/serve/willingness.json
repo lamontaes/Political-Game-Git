@@ -1,0 +1,123 @@
+{
+  "about": "Whether a person the player asks to serve (a running mate first; department heads, cabinet and aides by the same read later) says yes, read from their own record and never rolled (brief J, Nov 14, 2026; owner's card 05:17Z: 'Yes, but ask again later'). The read is a sum of terms: what the seat offers someone ambitious, how well they know the player, what they would give up, how far apart the two stand on the question the asked person cares most about, and the scandal stories against the player they could have read. Yes where the sum is above zero. A no gives its reason from the term that weighs most against the ask. Real tickets are formed this way: a running mate is chosen from people who would accept and whose standing helps (Sigelman and Wahlbeck 1997, 'The Veepstakes', APSR 91(4)); prospects decline over the seat they would give up and over fit with the top of the ticket.",
+  "seats": {
+    "ticket": {
+      "about": "A governor's running mate on the player's ticket.",
+      "base": {
+        "value": 0.35,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "A place on a statewide ticket is a step up for most people offered one; the base is the pull of the offer before anything weighs against it.",
+        "spread": [0.1, 0.6]
+      },
+      "ambition": {
+        "value": 0.5,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Per unit of ambition (enterprising and risk traits, candidate-pool ambitionOf): ambitious people take the step up (Fox and Lawless 2005, AJPS 49(3)).",
+        "spread": [0.2, 0.8]
+      },
+      "known": {
+        "value": 0.4,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Per unit of closeness to the player (the closeness engine's one read): a friend says yes more easily.",
+        "spread": [0.2, 0.8]
+      },
+      "stranger": {
+        "value": 0.15,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Against the ask where neither knows the other: a stranger is asked to tie their name to someone they have never met.",
+        "spread": [0.05, 0.3]
+      },
+      "ownSeat": {
+        "value": 0.3,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Against the ask where they hold a seat now: they give up the seat's work and its standing for a ticket that may lose.",
+        "spread": [0.1, 0.5]
+      },
+      "ownRace": {
+        "value": 0.3,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "More against the ask where their own seat is on the same year's ballot: they would give up their own race (Rohde 1979, AJPS 23(1): members whose seat is up seek higher office far less often).",
+        "spread": [0.1, 0.6]
+      },
+      "apart": {
+        "value": 0.8,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Per unit of distance (0 to 1) between their stance and the player's on the question they hold most strongly, measured from agreeAt: nearer than that pulls toward yes, farther away. A running mate defends the top of the ticket's platform.",
+        "spread": [0.4, 1.2]
+      },
+      "heard": {
+        "value": 0.6,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Against the ask, as stories / (stories + scale), for scandal stories against the player (voting's scandalStoriesOf, the stories voters weigh).",
+        "spread": [0.3, 1]
+      },
+      "heardScale": {
+        "value": 1,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "Stories at which the scandal term is half its weight.",
+        "spread": [0.5, 2]
+      },
+      "agreeAt": {
+        "value": 0.25,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "The distance on their question (0 to 1) at which it neither helps nor hurts: about a quarter of the scale apart is a running mate who can defend the platform with mild reservations.",
+        "spread": [0.1, 0.4]
+      },
+      "standing": {
+        "value": 0.25,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Per unit of the player's standing in the race (an office held before, endorsements given, dollars raised, each 0 to 1): nobody joins the ticket of a candidate with none of it (Words lead, Nov 14).",
+        "spread": [0.1, 0.4]
+      },
+      "longShot": {
+        "value": 0.3,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Against the ask for a candidate with no standing at all: joining a long-shot ticket costs the person's own name.",
+        "spread": [0.15, 0.5]
+      },
+      "endorsementScale": {
+        "value": 3,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "Endorsements at which that part of standing is half.",
+        "spread": [1, 6]
+      },
+      "raisedScaleMinor": {
+        "value": 10000000,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "Dollars raised at which that part of standing is half: $100,000, a modest early statewide treasury.",
+        "spread": [2500000, 50000000]
+      }
+    }
+  },
+  "askAgain": {
+    "about": "A no stands for now (owner, Nov 14 05:17Z: 'Yes, but ask again later'). The player may ask the same person again once this many days have passed, or sooner when what the no rested on has changed on the record: the player's stance on the person's question, the seat the person held or its race, the scandal stories against the player, whether the two know each other, or the player's own filing's standing (a primary won).",
+    "days": {
+      "value": 30,
+      "role": "level",
+      "tag": "TUNABLE",
+      "source": "About a month: long enough that asking again is a new conversation, short enough to fall inside a filing season.",
+      "spread": [14, 60]
+    }
+  },
+  "askHours": {
+    "value": 1,
+    "role": "level",
+    "tag": "TUNABLE",
+    "source": "An hour's sit-down: asking someone to share a ticket is said in person, not in passing.",
+    "spread": [0.5, 2]
+  }
+}

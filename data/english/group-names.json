@@ -1,5 +1,5 @@
 {
-  "about": "How a cause group founded in the simulation is named when a screen or story says it (data/english, read by src/english/group-names.ts). A form is filled with the group's topic as a sentence says it mid-line; the form is picked by a fixed reading of the group's key so a group keeps one name. Replaces SG-P10-group-name-key. A form's `plural` says whether the name takes a plural verb (\"Friends of ... back\", \"Coalition for ... backs\").",
+  "about": "How a cause group founded in the simulation is named when a screen or story says it (data/english, read by src/english/group-names.ts). A form is filled with the group's topic as a sentence says it mid-line; the form is picked by a fixed reading of the group's key so a group keeps one name. Replaces SG-P10-group-name-key. A form's `plural` says whether the name takes a plural verb (\"Friends of ... back\", \"Coalition for ... backs\"). `stanceForms` name a group formed over a stance from the cause its side would put on a sign (data/english/group-causes.json): which form and cause a group takes is fixed by a reading of its own id, and a name another group of its town already holds goes to the next form, then the next cause (Words lead, Nov 14).",
   "forms": [
     {
       "text": "Citizens for {topic}",
@@ -15,6 +15,36 @@
     },
     {
       "text": "Friends of {topic}",
+      "plural": true
+    }
+  ],
+  "stanceForms": [
+    {
+      "text": "Citizens for {cause}",
+      "plural": true
+    },
+    {
+      "text": "Neighbors for {cause}",
+      "plural": true
+    },
+    {
+      "text": "People for {cause}",
+      "plural": true
+    },
+    {
+      "text": "Committee for {cause}",
+      "plural": false
+    },
+    {
+      "text": "{cause} Coalition",
+      "plural": false
+    },
+    {
+      "text": "{Town} for {cause}",
+      "plural": false
+    },
+    {
+      "text": "{Town} Families for {cause}",
       "plural": true
     }
   ]

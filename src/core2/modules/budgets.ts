@@ -1199,7 +1199,7 @@ export function syncSalesTax(api: CoreAPI): void {
  * the home's value), paid to the treasury that collects it: the county,
  * else the city, else the state.
  */
-function propertyTaxTerms(api: CoreAPI, placeId?: string) {
+export function propertyTaxTerms(api: CoreAPI, placeId?: string) {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return undefined;
   // A home outside the played town is billed by its own place's terms, not
   // the played town's rate and collector (owner, Nov 5: "It should be
@@ -1220,8 +1220,9 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
     "us-policy-positions:fiscal.cap-property-tax-growth",
   );
   const capped = cap.value === 1 && cap.governing;
-  // The state's own cap statute where its row is read; the generic estimate
-  // (stopgapId: SG-GOV-REACH-B-property-tax-bills) for a state without one.
+  // The state's own cap statute where its row is read; the game's estimate
+  // (propertyTaxGrowthCapShare, ESTIMATED with its source and spread) for a
+  // state without one.
   const statute = capped
     ? (
         propertyTaxCaps.states as Record<
@@ -1230,7 +1231,6 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
         >
       )[lawChain(api).stateKey.slice(3)]
     : undefined;
-  if (capped && !statute) api.stopgap("SG-GOV-REACH-B-property-tax-bills");
   const capShare = statute
     ? statute.capShare
     : lawParameters.parameters.propertyTaxGrowthCapShare.value;
@@ -1264,8 +1264,6 @@ function propertyTaxTerms(api: CoreAPI, placeId?: string) {
  * source. Never the played town's rate or collector.
  */
 function otherPlacePropertyTax(api: CoreAPI, placeId: string) {
-  // stopgapId: SG-WORLD-property-tax-other-places-state-average
-  api.stopgap("SG-WORLD-property-tax-other-places-state-average");
   const usps = placeStateKey(placeId)?.slice(3) ?? "";
   return {
     rate: stateEffectiveRate(usps),
@@ -1937,6 +1935,7 @@ function withhold(
     paidMinor: paid,
     fromAt: receipt.fromAt,
     throughAt: receipt.throughAt,
+    workplaceId: api.state.organizations.get(receipt.organizationId)?.placeId,
   });
 }
 
@@ -1955,6 +1954,8 @@ export function withholdPay(
     readonly throughAt: string;
     /** Pay no more than the payer's cash holds: an owner's estimated payment on profit that has not all reached them as cash. */
     readonly limitToCash?: boolean;
+    /** The place the pay was earned in, when it is known; a worker who lives elsewhere owes its local jurisdictions their nonresident rates. */
+    readonly workplaceId?: string;
   },
 ): void {
   const paid = pay.paidMinor;
@@ -1969,7 +1970,16 @@ export function withholdPay(
   );
   const due = withholdingDue(api, person, paid, periodDays);
   const { ytdId, ytd } = due;
-  let lines = due.lines;
+  let lines = [
+    ...due.lines,
+    ...nonresidentLocalLines(
+      api,
+      person.placeId,
+      pay.workplaceId,
+      paid,
+      periodDays,
+    ),
+  ];
   if (pay.limitToCash) {
     const owed = lines.reduce((n, l) => n + l.minor, 0);
     const held = Math.max(
@@ -1990,10 +2000,6 @@ export function withholdPay(
   ) {
     // stopgapId: SG-WORLD-withholding-local-base
     api.stopgap("SG-WORLD-withholding-local-base");
-  }
-  if (person.placeId !== lawChain(api).townPlaceId) {
-    // stopgapId: SG-WORLD-withholding-nonresident-local
-    api.stopgap("SG-WORLD-withholding-nonresident-local");
   }
   const posted = postWithholding(api, {
     id: `withholding:${pay.id}`,
@@ -2030,6 +2036,59 @@ export function withholdPay(
       id: ytdId,
       minor: ytd + paid,
     } as unknown as ModuleRow);
+}
+
+/**
+ * What a worker who lives outside the town owes the town's county, city and
+ * township income taxes for the pay earned in it: each row's nonresident rate
+ * (`terms.nonresidentRate`, a share of the base the row names) in place of its
+ * resident rate. A resident of the town, or pay earned elsewhere, owes none
+ * here; the residence's own law (`withholdingDue`) is read separately.
+ */
+function nonresidentLocalLines(
+  api: CoreAPI,
+  residencePlaceId: string,
+  workplaceId: string | undefined,
+  paidMinor: number,
+  periodDays: number,
+): readonly WithholdingLine[] {
+  const town = lawChain(api).townPlaceId;
+  if (workplaceId !== town || residencePlaceId === town) return [];
+  const answer = lawInForceToday(api, "income-tax");
+  const levels = answer.levels.flatMap((level) => {
+    const rate = level.row?.terms?.nonresidentRate;
+    if (
+      !level.row ||
+      level.setAside ||
+      typeof rate !== "number" ||
+      !(rate > 0) ||
+      (level.level !== "county" &&
+        level.level !== "city" &&
+        level.level !== "township")
+    )
+      return [];
+    return [
+      {
+        ...level,
+        row: {
+          ...level.row,
+          value: rate,
+          unit: "percent-flat",
+        },
+      },
+    ];
+  });
+  if (!levels.length) return [];
+  const none = { ...answer, governing: null, levels: [] };
+  return withholdingFor({
+    paidMinor,
+    periodDays,
+    yearToDateMinor: 0,
+    incomeTax: { ...answer, levels } as typeof answer,
+    socialSecurity: none as typeof answer,
+    medicare: none as typeof answer,
+    index: taxIndexOf(api),
+  });
 }
 
 /**

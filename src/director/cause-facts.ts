@@ -24,6 +24,7 @@ interface OfficeRow {
   readonly title: string;
   readonly seats?: number;
   readonly bodyName?: string | null;
+  readonly level?: string;
 }
 
 export function officeSaid(
@@ -40,7 +41,12 @@ export function officeSaid(
           .moduleState(ELECTIONS_MODULE_ID)
           .table("contests")
           .get(facts.contestId) as unknown as
-          | { officeId: string; title: string; district: string | null }
+          | {
+              officeId: string;
+              title: string;
+              district: string | null;
+              level?: string;
+            }
           | undefined)
       : undefined;
   // A record names its office by the contest, else by the office's id (an
@@ -68,6 +74,7 @@ export function officeSaid(
       seats,
       bodyName: seats > P.one ? (office?.bodyName ?? null) : null,
       district: contest?.district ?? null,
+      level: contest?.level ?? office?.level ?? null,
     }),
     ids: [contest ? String(facts.contestId) : (officeId ?? "")].filter(Boolean),
   };
