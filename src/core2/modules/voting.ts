@@ -869,9 +869,10 @@ function checkPetition(api: CoreAPI, petitionId: string): void {
   const filingId = petitionId.slice("petition:".length);
   const petition = petitionOf(api, filingId);
   if (!petition || petition.check) return;
-  // A counted resident who signs stands for the people like them, as at the
-  // count (one rule for both tiers, times the count).
-  const roll = new Map(electorateRoll(api).map((v) => [v.id, v.count]));
+  // One standing signature row is one signature, a counted resident's as a
+  // full person's (pool item elections-petition-check-miscount): the clerk
+  // counts names on paper, so every row ends up counted or struck.
+  const roll = new Set(electorateRoll(api).map((v) => v.id));
   const signers = petitionSigners(api, filingId);
   const struckIds = signers
     .filter((s) => !roll.has(s.personId))
@@ -883,9 +884,7 @@ function checkPetition(api: CoreAPI, petitionId: string): void {
     0,
   );
   keepPetitionCheck(api, filingId, {
-    valid: Math.round(
-      signers.reduce((n, s) => n + (roll.get(s.personId) ?? 0), 0) + outside,
-    ),
+    valid: signers.length - struckIds.length + outside,
     struckIds,
   });
 }
