@@ -25,7 +25,11 @@ import {
   type CandidateStanding,
   type CampaignDayKind,
 } from "../core2/campaign-day";
-import { petitionOf } from "../core2/modules/elections";
+import {
+  petitionCirculating,
+  petitionOf,
+  petitionSigners,
+} from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
@@ -64,9 +68,10 @@ const POLL_SAMPLE = campaignParameter("pollSampleSize");
 const ELECTIONS = "core2-elections-v1";
 
 /**
- * A filing's petition as the screens show it, read from the petition record
- * (the signatures the clerk will count, the last day, the signatures held and,
- * once the clerk has checked it, the verdict). Null for a filing with none.
+ * A filing's petition as the screens show it, read from the petition record:
+ * the signatures the law asks, the last day and the signatures held. The
+ * clerk's check is told in the news and the Journal, not on a screen (owner,
+ * Nov 14). Null for a filing with none.
  */
 export function petitionView(api: CoreAPI, filingId: string) {
   const petition = petitionOf(api, filingId);
@@ -76,13 +81,6 @@ export function petitionView(api: CoreAPI, filingId: string) {
     needed: petition.needed,
     due: petition.due,
     signed: petition.signed,
-    check: petition.check
-      ? {
-          on: petition.check.on,
-          valid: petition.check.valid,
-          struck: petition.check.struckIds.length,
-        }
-      : null,
   };
 }
 const CAMPAIGNS = "core2-campaigns-v1";
@@ -765,9 +763,18 @@ export function campaignDay(
   ];
   const kind = kinds.find((k) => k === input.kind);
   if (!kind) throw new Error("Unknown campaign day choice.");
+  // While the petition circulates, a doors outing is how signatures come in
+  // (owner, Nov 14): the names the doors added today, from the petition's own
+  // signer rows, some days none and some days many.
+  const doorSigners = () =>
+    petitionSigners(api, input.filingId).filter((s) => s.via === "door").length;
+  const petitionOut =
+    kind === "canvass" && petitionCirculating(api, input.filingId);
+  const signedBefore = petitionOut ? doorSigners() : 0;
   const result = takeCampaignDayChoice(api, input.filingId, kind, {
     ...(input.outletId ? { outletId: input.outletId } : {}),
   });
+  const signed = petitionOut ? doorSigners() - signedBefore : null;
   const met = outingPeople(core, kind, result);
   // Each person asked for money: their name, what they gave or why not, in words.
   const calls = result.answers.map((answer) => {
@@ -812,6 +819,8 @@ export function campaignDay(
     hours: result.hours,
     doorsKnocked: result.doorsKnocked,
     reached: result.causeIds.length,
+    /** Signatures the doors brought in, while the petition circulates; null otherwise. */
+    signed,
     raisedMinor: result.raisedMinor,
     gifts: result.giftIds.length,
     // A forum's town hall: the meetings engine's row, who came and what they asked.
