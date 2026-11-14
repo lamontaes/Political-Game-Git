@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by:
-pr:
+pr: 9174
 after:
 blocked-on:
 source: stand-in triage Nov 10 2026 (docs/stopgaps/triage-2026-11-10/p15.md)
