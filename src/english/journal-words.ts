@@ -466,7 +466,12 @@ function namedFirst(
 function wordingsFor(
   words: JournalWords,
   move: JournalMove,
-): { key: string; rows: readonly Wording[] | undefined } {
+): {
+  key: string;
+  rows: readonly Wording[] | undefined;
+  /** The lines to try when none of `rows` fits the stage the record is in. */
+  fallback?: readonly Wording[] | undefined;
+} {
   const rowOf = (kindPrefix: string) =>
     words.lines.find((row) => row.kindPrefix === kindPrefix);
   switch (move.part) {
@@ -480,6 +485,13 @@ function wordingsFor(
               ? (row?.groupLine ?? row?.line)
               : namedFirst(row?.line, move.named)
             : (row?.otherLine ?? row?.line?.filter(namesTheOther)),
+        // A line that names the other is preferred, never required: the
+        // mayor who signed a bill someone else sponsored says "I signed
+        // it", and that line names no one (journal-signing, Ville Platte,
+        // Louisiana, seed c9bfd392595cf96f).
+        ...(move.whose === "own" && !move.together
+          ? { fallback: row?.line }
+          : {}),
       };
     }
     case "check": {
@@ -556,7 +568,7 @@ export function wordJournalLine(request: {
   words?: JournalWords;
 }): JournalWorded | null {
   const words = request.words ?? JOURNAL_WORDS;
-  const { key, rows } = wordingsFor(words, request.move);
+  const { key, rows, fallback } = wordingsFor(words, request.move);
   const { facts, personId, sourceIds } = request;
   if (!rows?.length || !sourceIds.length) return null;
   // Core record ids stand in for the engine's entity ids.
@@ -565,27 +577,33 @@ export function wordJournalLine(request: {
     factKey,
     sourceRecordIds: fact.sourceRecordIds,
   })) as unknown as GroundedEnglishKnowledge[];
-  const bank: AuthoredEnglishBank = {
-    key,
-    version: words.version,
-    surface: "journal",
-    variants: rows.map((row) => ({ ...row, kind: "template" as const })),
-  };
-  const result = renderGroundedEnglish(
-    {
+  const tries =
+    fallback?.length && fallback !== rows ? [rows, fallback] : [rows];
+  let result: ReturnType<typeof renderGroundedEnglish> | undefined;
+  for (const variants of tries) {
+    const bank: AuthoredEnglishBank = {
+      key,
+      version: words.version,
       surface: "journal",
-      momentKey: request.momentKey,
-      worldSeed: request.seed,
-      bankVersion: words.version,
-      stage: request.stage ?? "journal",
-      sourceRecordIds: sourceIds,
-      facts,
-      viewer: { personId, traits: {} },
-      knowledge,
-    } as unknown as GroundedEnglishPacket,
-    bank,
-  );
-  if (result.kind !== "rendered") return null;
+      variants: variants.map((row) => ({ ...row, kind: "template" as const })),
+    };
+    result = renderGroundedEnglish(
+      {
+        surface: "journal",
+        momentKey: request.momentKey,
+        worldSeed: request.seed,
+        bankVersion: words.version,
+        stage: request.stage ?? "journal",
+        sourceRecordIds: sourceIds,
+        facts,
+        viewer: { personId, traits: {} },
+        knowledge,
+      } as unknown as GroundedEnglishPacket,
+      bank,
+    );
+    if (result.kind === "rendered") break;
+  }
+  if (!result || result.kind !== "rendered") return null;
   // A line or title starts with a capital, whatever its first slot holds.
   return {
     ...result,
