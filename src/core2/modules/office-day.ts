@@ -1672,10 +1672,13 @@ export {
   heldFederal,
   leaveVoteToCharacter,
   voteOnFloor,
+  federalSeatOf,
+  votesOnPassage,
 } from "../office-day-federal";
 export {
   OFFICE_DAY_STATE_MODULE_ID,
   stateFloorHolds,
+  stateOfficeOf,
   voteOnStateFloor,
 } from "../office-day-state";
 export {
