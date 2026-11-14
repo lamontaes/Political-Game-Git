@@ -89662,32 +89662,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.nobody-bill-had-no-votes-against-it",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Nobody. {bill} had no votes against it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "scene-talk.reply-ask.who-is-against-it",
-          "requiresFacts": ["for", "unopposed"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (desk thread, ruled Nov 14 2026)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.the-ones-whose-voters-don-t-want-bill",
       "move": "follow-answer",
       "kind": "spoken",
@@ -89742,10 +89716,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.the-ones-who-vote-with-their-party-bill-never-had-a-chance-with-them",
+      "key": "scene-talk.follow-answer.the-ones-who-vote-with-their-party-they-never-gave-bill-a-chance",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "The ones who vote with their party. {bill} never had a chance with them.",
+      "text": "The ones who vote with their party. They never gave {bill} a chance.",
       "uses": [
         {
           "subject": "scene",
@@ -90410,7 +90384,7 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for", "opposed"]
         }
       ],
       "bearing": "curious",

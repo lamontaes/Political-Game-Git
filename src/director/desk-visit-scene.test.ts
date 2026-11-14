@@ -169,10 +169,18 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     const said = (key: string) => scene.facts.find((row) => row.key === key);
     expect(said("for"), where).toBeTruthy();
     expect(said("against"), where).toBeFalsy();
-    // The roll's two counts; the bank's lines join them ("5 to 2").
-    expect(said("ayes")?.text, where).toMatch(/^\d+$/);
-    expect(said("nays")?.text, where).toMatch(/^\d+$/);
-    expect(said("ayes")?.recordIds, where).toContain(first.bill.id);
+    // How it passed, said without a count (Words lead, Nov 14): nobody
+    // against it, enough to override a veto, or short of that; never the roll.
+    const passage = ["unopposed", "veto-proof", "short-of-override"].filter(
+      (key) => said(key),
+    );
+    expect(passage, where).toHaveLength(1);
+    expect(said(passage[0]!)?.recordIds, where).toContain(first.bill.id);
+    expect(said("ayes"), where).toBeFalsy();
+    expect(said("nays"), where).toBeFalsy();
+    // The bill by its name and what it does.
+    expect(said("bill")?.text, where).toMatch(/^the /i);
+    expect(said("purpose")?.text, where).toBeTruthy();
     expect(said("deadline")?.recordIds, where).toContain(scene.cause.id);
 
     // Plain words on every path, and up to four replies that are different stances.
@@ -239,6 +247,7 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         ? out.talk.lines.map((row) => row.text).join("|")
         : out.reason;
     };
+    process.stdout.write(`SAY+ ${sayWith(2)}\nSAY- ${sayWith(-2)}\n`);
     expect(sayWith(2), where).toBe(sayWith(2));
     expect(sayWith(2), where).not.toBe(sayWith(-2));
 
