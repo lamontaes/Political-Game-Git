@@ -18279,6 +18279,72 @@
       }
     },
     {
+      "key": "conversation.interview-question-answer-brief.yes-id-vote-for-it",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "Yes. I'd vote for it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["stance-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.no-id-vote-against-it",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "No. I'd vote against it.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["stance-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-brief.nothing-to-add-on-that",
+      "move": "interview-question-answer-brief",
+      "kind": "spoken",
+      "text": "Nothing to add on that.",
+      "uses": [
+        {
+          "move": "interview-question-answer-brief",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["no-stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
       "key": "conversation.interview-question-answer-further.i-voted-for-about-my-vote-stands",
       "move": "interview-question-answer-further",
       "kind": "spoken",
@@ -18447,6 +18513,94 @@
         }
       ],
       "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-for-it-and-id-do-it-again",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted for it, and I'd do it again.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "vote-same"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-against-it-and-id-do-it-again",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted against it, and I'd do it again.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "vote-same"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-for-it-i-see-it-differently-now",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted for it. I see it differently now.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-for", "vote-changed"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (interview sitting)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.interview-question-answer-further.i-voted-against-it-ive-changed-my-mind",
+      "move": "interview-question-answer-further",
+      "kind": "spoken",
+      "text": "I voted against it. I've changed my mind.",
+      "uses": [
+        {
+          "move": "interview-question-answer-further",
+          "subject": "interview-question",
+          "role": "answer",
+          "choice": "further",
+          "requiresFacts": ["vote-against", "vote-changed"]
+        }
+      ],
+      "bearing": "braced",
       "origin": "authored",
       "author": "Words, scenes and the director (interview sitting)",
       "date": "2026-10-29",
