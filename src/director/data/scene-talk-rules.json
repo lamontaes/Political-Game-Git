@@ -99,6 +99,15 @@
       "checkedAgainst": "Twice a strained ending: trust lost (a lie found out, a promise broken to their face) costs more than a talk left unfinished."
     }
   },
+  "floorRegister": {
+    "about": "How a floor debate is worded by the body that holds it (Words lead, Nov 14: three registers, chosen from the body's data row). A state or federal chamber is formal whatever its size; a local body with at most this many seats is a small board (a hand up, first names); a bigger local body is a council or county board (the chair calls on people, no yielding, no recognizing). The register reaches the scene as one fact: body-formal, body-council or body-small.",
+    "smallBoardSeats": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [5, 9],
+      "checkedAgainst": "The seat counts of the local boards the generated world seats (three to nine); the register guide for the town meeting (register/town-meeting.md section 4) puts the small board at three to five and the city council above, and a county commission of five to nine is the case between."
+    }
+  },
   "timeOfDay": {
     "about": "When a scene's lines may say what hour it is (words-scene-time-of-day-words). The hour is the player's clock as the scene plays. Before noon the scene is in the morning, and a morning greeting (\"Morning. Here to file?\") may play; from noon it is the afternoon; both are the daytime, when a line that says the afternoon is still ahead (\"I'm vetoing it this afternoon.\") may play. From the evening minute on, a line that says the present is the evening (\"Thanks for your time tonight.\") may play. A scene whose hour no clock keeps sets no mark.",
     "afternoonFromMinute": {

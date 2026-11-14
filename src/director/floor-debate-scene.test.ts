@@ -111,7 +111,14 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
             ),
             here,
           ).toBe(true);
-          expect(scene.talk.state.text, here).toMatch(/^Thank you, Chair\./);
+          // The wording follows the body: a state or territory chamber speaks
+          // formally; a town board or council does not ask the Chair to yield.
+          if (scene.facts.some((row) => row.key === "body-formal"))
+            expect(scene.talk.state.text, here).toMatch(/^Thank you, Chair\./);
+          else
+            expect(scene.talk.state.text, here).not.toMatch(
+              /\bChair\b|\byield\b|recognize/i,
+            );
           const root = scene.talk.tree.replies.map((reply) => reply.line);
           expectUpToFourDifferent(root, here);
           for (const row of root)

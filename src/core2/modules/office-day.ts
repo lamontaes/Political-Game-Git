@@ -54,6 +54,7 @@ import {
   executiveOf,
   executiveItemVeto,
   executiveLean,
+  holdFloorDebate,
   LEGISLATURE_MODULE_ID,
   memberKey,
   members,
@@ -648,9 +649,14 @@ export function leaveMeeting(api: CoreAPI, meetingIdValue: string): void {
  */
 function holdPlayerIfDue(api: CoreAPI, row: MeetingRow): void {
   if (row.status !== "scheduled" || row.date < api.state.date) return;
+  const player = playerOf(api);
+  if (player !== undefined && members(api, row.officeId).some(sits(player)))
+    // The floor speaks the day the agenda is posted, so a member the player
+    // plays hears it on the morning of the meeting, before the roll (the
+    // same record the state and federal floor day holds the evening before).
+    for (const billId of row.agenda) holdFloorDebate(api, billId, row.officeId);
   const held = tokens.get(api.state) ?? new Map<string, ModuleStopTokenV1>();
   if (held.has(row.id)) return;
-  const player = playerOf(api);
   if (player === undefined) return;
   const body = members(api, row.officeId);
   const seated = body.some(sits(player));
