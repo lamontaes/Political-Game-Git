@@ -17,6 +17,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import {
+  castMemberVote,
   billOf,
   bodyOf,
   LEGISLATURE_MODULE_ID,
@@ -699,6 +700,10 @@ it("a member the player plays decides alike at the stop and away from it: the me
           // Adjourn casts the stated side, and abstains where none was stated.
           const spokeOn = open[0];
           if (spokeOn) speakOnItem(api, meeting.id, spokeOn, -1);
+          // A vote the player already put on the record (the bill's page, an
+          // agreement in a scene) stands: Adjourn leaves it and keeps no act of its own.
+          const onPaper = open.length >= 3 ? open[2] : undefined;
+          if (onPaper) castMemberVote(api, onPaper, member, "yes");
           adjourn(api, meeting.id);
           for (const id of open) {
             if (billOf(api, id).moot) continue;
@@ -708,11 +713,15 @@ it("a member the player plays decides alike at the stop and away from it: the me
               .get(`${id}|${member}`) as unknown as
               { vote?: string } | undefined;
             expect(chosen?.vote, `${where}: ${id} cast at Adjourn`).toBe(
-              id === spokeOn ? "no" : "abstain",
+              id === spokeOn ? "no" : id === onPaper ? "yes" : "abstain",
             );
             const act = officeActsOf(api, member).find(
               (a) => a.kind === "vote" && a.recordId === id,
             );
+            if (id === onPaper) {
+              expect(act, `${where}: ${id} kept its own vote`).toBeUndefined();
+              continue;
+            }
             expect(act?.how, `${where}: ${id} act at Adjourn`).toBe(
               "own-choice",
             );
