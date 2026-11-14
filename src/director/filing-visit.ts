@@ -148,7 +148,7 @@ export function openFilingVisit(
   const greet = back
     ? visitLine(core, visit, "clerk", "greet-back", {
         "filed-office": {
-          text: seatSaid(back.seat),
+          text: seatSaid(back.seat, { asMember: true }),
           sourceRecordIds: [back.filingId],
         },
         ...clerkFact(core, clerkId),
@@ -177,7 +177,9 @@ export function openFilingVisit(
       "pick-office",
       {
         office: {
-          text: seatSaid(contest.seat ?? { title: contest.title }),
+          text: seatSaid(contest.seat ?? { title: contest.title }, {
+            asMember: true,
+          }),
           sourceRecordIds: [contest.id],
         },
       },
@@ -282,7 +284,9 @@ export function pickContest(
   });
   const ids = [contest.id, ...contest.sourceIds];
   const facts: Record<string, Fact> = {
-    ...placeFact(core, visit.playerId),
+    // "In {place}" is the town only for a town's seat filed at another
+    // government's counter (Words lead, Nov 14: "for the senate in Edgar").
+    ...seatPlaceFact(core, visit.playerId, contest),
     ...clerkFact(core, visit.clerkId),
     ...raceFacts(core, contest, ids),
     deadline: {
@@ -545,6 +549,27 @@ function placeFact(
     : {};
 }
 
+/**
+ * The "in {seat-place}" of a filing line's closer says the town only where a
+ * town's seat is filed at another government's counter (a county or the
+ * state); at the town's own counter, and for any seat above the town, no
+ * place is said (Words lead, Nov 14, rule 100: "Your name's in for mayor.",
+ * "for governor"). The town itself stays `place` for the lines that talk
+ * about the town.
+ */
+function seatPlaceFact(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contest: FilingContest,
+): Record<string, Fact> {
+  const level = contest.seat?.level;
+  const townsOwn = !level || level === "city" || level === "township";
+  const town = placeFact(core, playerId);
+  return townsOwn && !contest.kind?.startsWith("municipalOffice") && town.place
+    ? { ...town, "seat-place": town.place }
+    : town;
+}
+
 /** The clerk by name, where the filing office's records name one. */
 function clerkFact(
   core: Readonly<CoreState>,
@@ -631,8 +656,8 @@ function raceFacts(
   // "the council"); never the form's title with its parenthesis.
   const record = contest.seat ?? { title: contest.title };
   const facts: Record<string, Fact> = {
-    office: fact(seatSaid(record)),
-    seat: fact(seatSaid(record, { first: false })),
+    office: fact(seatSaid(record, { asMember: true })),
+    seat: fact(seatSaid(record, { first: false, asMember: true })),
   };
   if (contest.electionDate)
     facts.general = fact(spokenDate(contest.electionDate, core.date));
@@ -735,6 +760,7 @@ export function counterNarration(
     facts.office = {
       text: seatSaid(
         visit.contests[zero]!.seat ?? { title: visit.contests[zero]!.title },
+        { asMember: true },
       ),
       sourceRecordIds: [visit.contests[zero]!.id],
     };
