@@ -163995,10 +163995,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-about-is-one-worry-gone",
+      "key": "scene-talk.follow-accept.then-about-is-one-less-thing-to-worry-about",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then {about} is one worry gone.",
+      "text": "Then {about} is one less thing to worry about.",
       "uses": [
         {
           "subject": "scene",
