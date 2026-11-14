@@ -211,9 +211,9 @@
       }
     },
     "directorCircumstanceDoorEveryDays": {
-      "value": 1,
+      "value": 3,
       "tag": "TUNABLE",
-      "citation": "Every campaign act is a scene (owner, Oct 27, 2026, 5 PM Eastern: door knocking is \"a short scene at 1 or 2 doors, maybe sometimes it's uneventful\"; OWNER-DECISIONS). A pacing weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "citation": "Every campaign act is a scene (owner, Oct 27, 2026, 5 PM Eastern: door knocking is \"a short scene at 1 or 2 doors, maybe sometimes it's uneventful\"; OWNER-DECISIONS), and gathering signatures at the doors has \"scenes every now and then, maybe sometimes no scenes\" (owner, chat, Nov 14, 2026, 00:50Z). At 1 a day's doors staged a porch scene on each of the first six outings and then none for the rest of the season (the seasonCap of six in 91 days; three drawn places, pool item play-petition-signatures-come-from-door-days); at 3 the six spread over about three weeks of daily canvassing with outings between that stage none. A pacing weight, not a measured quantity; set by the director lead on Oct 27, 2026, retuned Nov 14, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
       "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
       "spread": {
