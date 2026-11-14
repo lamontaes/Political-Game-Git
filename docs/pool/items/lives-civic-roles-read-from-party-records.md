@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/project-thread-86yqt4
-pr: "#9210"
+pr: "#9234"
 blocked-on:
 source: stopgap plan cluster 29 part 3 (Nov 14, 2026); Account lead ruling A, Nov 14 12:55Z
 claimed-at: 2026-11-14T12:56:00Z
