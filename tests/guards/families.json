@@ -226,7 +226,8 @@
         "src/core2/pay-by-quarter.ts",
         "src/core2/modules/regional.ts",
         "src/core2/macro-model.ts",
-        "src/core2/work-spans-v1.ts"
+        "src/core2/work-spans-v1.ts",
+        "src/core2/country-model.ts"
       ],
       "paths": [
         "src/core2/country-law.ts",
