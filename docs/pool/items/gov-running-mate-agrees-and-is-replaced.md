@@ -33,3 +33,6 @@ root: none
 **Waits on.** gov-governor-running-mates (#9080) on the train.
 
 **Files.** src/core2/modules/voting.ts, src/core2/modules/officials.ts, src/core2/modules/elections.ts, src/bench/campaign.ts, src/bench/play.mjs, src/core2/governor-running-mates.test.ts
+
+**Notes.**
+- Nov 14 2026, S6 (brief J): the player's half is built on branch claude/project-thread-d5qa0q: the player's pick answers from their record in a scene (serve-asks engine), a no is kept with its reason and date and may be asked again after 30 days or when its ground changes, and "Choose for me" names someone willing. The world's picks reading the same willingness is item world-picks-read-serve-willingness; replacement on death, move or withdrawal is still open here.
