@@ -3288,7 +3288,8 @@ function openConversationNow(
       ...(storyId ? [`news:${storyId}`] : []),
     ];
     // A printed story is raised by its own headline and outlet ("I saw it in
-    // the Courier: ..."); other news by the lines bring-it-up worded.
+    // the Courier: ..."), a race's result and other news by the lines
+    // bring-it-up worded.
     const story = storyId
       ? storiesHeard(coreAPI(core), otherId).find((row) => row.id === storyId)
       : undefined;
@@ -3313,7 +3314,9 @@ function openConversationNow(
           data,
           news,
           false,
-          headline ? undefined : brought.lines,
+          // A race's result is told by who won and how it sits with them,
+          // not by the paper's headline.
+          headline && !brought.resultId ? undefined : brought.lines,
         )
       : false;
     // News the talk can't go on from is still said, and not raised again.
