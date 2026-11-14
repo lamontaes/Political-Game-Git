@@ -1,0 +1,30 @@
+{
+  "note": "The tables allowed to be known-red in src/core2/data/opening/day-zero.json. It may only shrink.",
+  "knownRed": [
+    "business.owners",
+    "core2-budgets-v1.enacted",
+    "core2-budgets-v1.federalDebt",
+    "core2-interest-groups-v1.groups",
+    "core2-justice-v1.custody",
+    "core2-justice-v1.sentences",
+    "core2-legislature-v1.committees",
+    "core2-office-day-federal-v1.cabinet",
+    "core2-offices-v1.vacancies",
+    "core2-parties-v1.chairs",
+    "core2-press-v1.stories",
+    "core2-record-v1.votes",
+    "core2-renewal-v1.couples",
+    "core2-voting-v1.results",
+    "core2-world-legislating-v1.sessions",
+    "credit.banks",
+    "housing.assessments",
+    "macro.country",
+    "macro.countryStates",
+    "macro.members",
+    "national-opinion.approval",
+    "part.core2-retirement-claims.claimed",
+    "part.health-runtime.conditionsByPerson",
+    "views.countedStances",
+    "views.stances"
+  ]
+}
