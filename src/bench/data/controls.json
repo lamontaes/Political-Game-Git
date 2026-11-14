@@ -561,7 +561,7 @@
     "nextMeeting": "Next meeting",
     "heads": "Posts you name",
     "acts": "What you have done",
-    "stops": "What stops you",
+    "stops": "Stop me for",
     "left": "Laws that gave way",
     "mySeat": "My seat",
     "onMyDesk": "On my desk",
@@ -590,9 +590,10 @@
       "abstain": "Abstained"
     },
     "switches": {
-      "meetings": "Meetings of your body",
+      "meetings": "Meetings",
+      "meetingsOf": "{body} meetings",
       "floor": "Floor votes",
-      "desk": "Bills on your desk"
+      "desk": "Bills on my desk"
     },
     "absent": {
       "stop-off": "Absent: you did not attend",

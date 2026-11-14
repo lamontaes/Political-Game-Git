@@ -439,6 +439,11 @@ export function officeView(core: CoreState, personId: string) {
       citation: j.citation,
       nextMeeting: nextMeetingDate(api, j.officeId),
     })),
+    // The body's own name for the meetings switch ("City Council"), as the Calendar says it; none for a seat with no body.
+    stopsBody:
+      jobs
+        .map((j) => bodyOf(api, j.officeId)?.bodyName)
+        .find((name) => !!name) ?? null,
     stops: seatSwitches(api, personId).map((row) => ({
       key: row.key,
       on: row.kinds.every((k) => stopsOf(api, personId)[k] !== false),

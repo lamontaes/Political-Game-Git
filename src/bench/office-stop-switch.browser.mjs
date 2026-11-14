@@ -141,7 +141,7 @@ try {
   };
   await openOffice();
   const strip = page.locator(".office-board section", {
-    hasText: "What stops you",
+    hasText: "Stop me for",
   });
   await strip.waitFor();
   console.log("stops strip:", (await strip.innerText()).replace(/\n+/g, " | "));
@@ -154,6 +154,12 @@ try {
     "the meetings switch starts On",
   );
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/stops-on.png` });
+  // STRIP_ONLY=1 only shows the strip (a seat with a desk has no meeting to wait for).
+  if (process.env.STRIP_ONLY) {
+    console.log("ok: the strip shows");
+    await browser.close();
+    process.exit(0);
+  }
   // Off: play 70 days; no meeting may hold the clock.
   const off = page.waitForResponse((r) =>
     r.url().includes("/api/office/stops"),
@@ -210,7 +216,7 @@ try {
   );
   const done = after
     .slice(after.indexOf("What you have done"))
-    .split(" | What stops you")[0];
+    .split(" | Stop me for")[0];
   assert.doesNotMatch(
     done,
     /\b(yes|no|abstain)\b/,
