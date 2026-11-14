@@ -62,6 +62,8 @@ interface Ending {
    * the promise record reads it.
    */
   firmness?: string;
+  /** What this ending does to the resident's case at office hours: the cases engine's decision. */
+  settles?: "help" | "decline";
   when: {
     reply?: string[];
     asker?: string[];
@@ -215,6 +217,7 @@ export interface TreeNode {
       label: string;
       keeps: string;
       firmness?: string;
+      settles?: "help" | "decline";
     };
   };
 }
@@ -423,6 +426,8 @@ export function answerInTalk(
     key: string;
     speakerId: PersonId;
     momentKey: string;
+    /** Pieces the listener already heard today (the telling's "said today"): not said again. */
+    heard?: ReadonlySet<string>;
   },
 ): { move: string; text: string; pieceKey: string; closes: boolean } | null {
   const arc = ARCS.purposes.talk;
@@ -444,7 +449,7 @@ export function answerInTalk(
       speakerId: input.speakerId,
       traits,
       momentKey: `${input.momentKey}:${candidate}`,
-      said: new Set(),
+      said: new Set(input.heard ?? []),
     });
     return line && !("unused" in line) ? [{ candidate, line }] : [];
   });
@@ -753,6 +758,7 @@ export function composeSceneTalk(
           label: found.label,
           keeps: found.keeps,
           ...(found.firmness ? { firmness: found.firmness } : {}),
+          ...(found.settles ? { settles: found.settles } : {}),
         };
         endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
       } else

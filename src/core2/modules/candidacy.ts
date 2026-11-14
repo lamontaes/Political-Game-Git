@@ -30,7 +30,7 @@ import { votesOf } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
 import { bookkeeping } from "../bookkeeping";
-import { ageOnDate } from "../kernel/dates";
+import { ageOnDate, daysBetweenText } from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -69,6 +69,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
+  partyMeetings,
   partyTie,
   type PartyRow,
   type TieRow,
@@ -190,16 +191,46 @@ function cashShareOf(
 }
 
 /** A named person's roles, read from the same record a counted resident's are (opening-roles.ts). */
-function rolesOfNamed(person: Readonly<PersonState>) {
+function rolesOfNamed(api: CoreAPI, person: Readonly<PersonState>) {
   const looks = person.looks ?? {};
   return {
     partyActivity: Number(looks.partyActivity ?? 0) || 0,
     owner: Boolean(looks.ownedEmployerId),
-    civicRoles: looks.civicRoles
-      ? String(looks.civicRoles).split(",").length
-      : 0,
+    civicRoles: civicRolesOf(api, person.id),
   };
 }
+
+/**
+ * How many civic roles a person holds, read from the records that name them:
+ * a party's chair here, and a seat at a party's committee meetings in the
+ * last year (the meeting's own attendance). The same rule for a counted
+ * resident, whom no such record names. Read once a day for the whole town.
+ */
+export function civicRolesOf(api: CoreAPI, personId: string): number {
+  const date = api.state.date;
+  const kept = civicRoleCounts.get(api.state);
+  if (kept?.date === date) return kept.counts.get(personId) ?? 0;
+  const counts = new Map<string, number>();
+  const add = (id: string) => counts.set(id, (counts.get(id) ?? 0) + 1);
+  if (api.state.modules.has(PARTIES_MODULE_ID)) {
+    const year = api.parameter("daysPerMeanYear");
+    const committee = new Set<string>();
+    for (const party of partiesHere(api)) {
+      if (party.leaderId) add(party.leaderId);
+      for (const meeting of partyMeetings(api, party.id))
+        if (daysBetweenText(meeting.date, date) <= year)
+          for (const id of meeting.attendeeIds)
+            if (id !== meeting.leaderId) committee.add(id);
+    }
+    for (const id of committee) add(id);
+  }
+  civicRoleCounts.set(api.state, { date, counts });
+  return counts.get(personId) ?? 0;
+}
+const civicRoleCounts = new WeakMap<
+  object,
+  { readonly date: string; readonly counts: ReadonlyMap<string, number> }
+>();
 
 /** Each recorded reason for running, as a signed pull. */
 export function candidacyReasons(
@@ -239,7 +270,7 @@ export function candidacyReasons(
       cause,
       incumbentTie,
       recordGap,
-      ...rolesOfNamed(person),
+      ...rolesOfNamed(api, person),
       dependents: (
         api.state.households.get(person.householdId)?.memberIds ?? []
       )
@@ -455,7 +486,7 @@ export function countedCandidacyReasons(
       recordGap: recordGapOf(api, voter, contest, true),
       partyActivity: voter.partyActivity ?? zero,
       owner: Boolean(voter.ownedEmployerId),
-      civicRoles: voter.civicRoles?.length ?? 0,
+      civicRoles: civicRolesOf(api, voter.id),
       dependents: countedChildrenOf(
         api.state as CoreState,
         voter.id,
@@ -1381,6 +1412,8 @@ export const PARTY_ASKED_EVENT = "party-asked";
 export const SUCCESSOR_ASKED_EVENT = "successor-asked";
 /** The replies in an ask's scene that mean yes. */
 const AGREEING_MOVES: ReadonlySet<string> = new Set(["agree", "relent"]);
+/** The replies in an ask's scene that mean no, or not now. */
+const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline", "stall"]);
 
 /**
  * A party with no one filed for a partisan seat looks for someone to run
@@ -1592,7 +1625,12 @@ function askForSuccessor(api: CoreAPI, contest: ContestRow): void {
   }
 }
 
-function askForCandidates(api: CoreAPI, contest: ContestRow): void {
+function askForCandidates(
+  api: CoreAPI,
+  contest: ContestRow,
+  /** Only this party asks: its next member, after the player's answer. */
+  onlyPartyId?: string,
+): void {
   const date = api.state.date;
   const town = api
     .moduleState(ELECTIONS_MODULE_ID)
@@ -1621,6 +1659,7 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
       ? incumbentDecision
       : undefined;
   for (const { party, chairId, members } of partyProspects(api, contest)) {
+    if (onlyPartyId && party.id !== onlyPartyId) continue;
     for (const person of members) {
       const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
       if (api.state.eventIds.has(recordId)) continue;
@@ -1647,12 +1686,9 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
         },
       });
       // The player answers in the scene the ask stages, and the party waits
-      // on that answer.
-      if (isExplicitlyControlledPersonV1(api.state, person.id)) {
-        // stopgapId: SG-P15-party-ask-after-player
-        api.stopgap("SG-P15-party-ask-after-player");
-        break;
-      }
+      // on that answer: a yes is the decision to run (`answerPartyAsk`), a no
+      // or a not-now sends the party on to its next member.
+      if (isExplicitlyControlledPersonV1(api.state, person.id)) break;
       const decision = decideToRun(
         api,
         person.id,
@@ -1734,14 +1770,35 @@ function noteHouseholdBacking(
     } satisfies BackingRow as unknown as ModuleRow);
 }
 
+/**
+ * The player said no, or not now, to a party's ask: the party goes on to its
+ * next member for the seat while filing is open, by the same asking the
+ * first round used. The next member weighs it with the new ask as a reason.
+ */
+function askNextAfterRefusal(
+  api: CoreAPI,
+  ask: Readonly<CoreEventInput>,
+): void {
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(String(ask.facts?.contestId ?? "")) as unknown as
+    ContestRow | undefined;
+  if (!contest) return;
+  const rules = filingRulesFor(api, contest, "party");
+  if (api.state.date > (rules.deadline ?? contest.filingDeadline)) return;
+  askForCandidates(api, contest, String(ask.facts?.partyId ?? ""));
+}
+
 function answerPartyAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
   const ask = api.state.durableLog.get(String(facts.causeId ?? ""));
-  if (
-    ask?.kind !== PARTY_ASKED_EVENT ||
-    !AGREEING_MOVES.has(String(facts.move))
-  )
+  if (ask?.kind !== PARTY_ASKED_EVENT) return;
+  if (REFUSING_MOVES.has(String(facts.move))) {
+    askNextAfterRefusal(api, ask);
     return;
+  }
+  if (!AGREEING_MOVES.has(String(facts.move))) return;
   const personId = ask.facts?.askedId as PersonId | undefined;
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)

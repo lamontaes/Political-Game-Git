@@ -21,6 +21,22 @@
  * Views form when first read, so a person filled in later gets theirs too.
  */
 import { isDemoted } from "../counted-groups";
+import {
+  hasStake,
+  LIFE_EVENT_KINDS,
+  questionsReading,
+  stakeShift,
+} from "../life-stake-rule";
+import {
+  countedLifeStake,
+  forgetLife,
+  fullLifeStake,
+  lifeChangesOf,
+  lifeReadPeople,
+} from "../life-stakes";
+
+// Screens read a full person's circumstances through the views engine.
+export { fullLifeStake };
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
@@ -874,10 +890,10 @@ export function openingRecord(
 }
 
 /**
- * The person's opening stance on a question: where their lean puts them on its
- * axis, plus their stored opening record (what their faith and degree add
- * beyond the lean, CES 2020 loadings). A question the survey has no item for
- * takes the lean alone.
+ * The person's stance on a question before what they have heard: where their
+ * lean puts them on its axis, plus their stored opening record (what their
+ * faith and degree add beyond the lean, CES 2020 loadings), plus what their
+ * own circumstances add today (`lifeShift`).
  */
 export function openingStance(
   api: CoreAPI,
@@ -887,14 +903,34 @@ export function openingStance(
 ): number {
   return (
     personStance(lean, question) +
-    (openingRecord(api, personId, question)?.total ?? v("zero"))
+    (openingRecord(api, personId, question)?.total ?? v("zero")) +
+    lifeShift(api, personId, question)
   );
+}
+
+/**
+ * What a full person's own circumstances add to their stance on a question
+ * today (`src/core2/life-stakes.ts`): read from their records each day, so the stance
+ * moves when their life does. Zero for a question no recorded circumstance
+ * bears on.
+ */
+export function lifeShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  if (!hasStake(question)) return v("zero");
+  const person = api.state.people.get(personId);
+  return person
+    ? stakeShift(fullLifeStake(api.state as CoreState, person), question)
+    : v("zero");
 }
 
 /**
  * The person's current view on a policy question, -1 to 1: where their
  * opening lean (`lean`, the campaigns engine's, -1 to 1) puts them on the
- * question's axis, plus how far what they have heard since has moved them.
+ * question's axis, what their faith, degree and own circumstances add
+ * (`openingStance`), plus how far what they have heard since has moved them.
  */
 export function viewOn(
   api: CoreAPI,
@@ -927,11 +963,14 @@ export function countedStanceProfile(
 ): StanceProfile {
   const held = profiles.get(api.state) ?? new Map();
   profiles.set(api.state, held);
-  const kept = held.get(voter.id);
-  if (kept) return kept;
-  const out = profileFromAverage(voter, api.state.startedAt, api.state.seed);
-  held.set(voter.id, out);
-  return out;
+  let kept = held.get(voter.id);
+  if (!kept) {
+    kept = profileFromAverage(voter, api.state.startedAt, api.state.seed);
+    held.set(voter.id, kept);
+  }
+  // Their circumstances are read again as their household's record changes.
+  const life = countedLifeStake(api.state as CoreState, voter.id);
+  return life ? { ...kept, life } : kept;
 }
 
 /**
@@ -1100,6 +1139,65 @@ export function stanceAfterCase(
   };
 }
 
+/**
+ * Tell a full person's stance that their life changed: each question a
+ * changed circumstance bears on moved for them today, so the engines that act
+ * on the day a stance moves (`stance-listeners`) act on it.
+ */
+function tellLifeChange(api: CoreAPI, personId: PersonId): void {
+  const core = api.state as CoreState;
+  const person = core.people.get(personId);
+  if (!person || !person.alive || isDemoted(person)) {
+    forgetLife(core, personId);
+    return;
+  }
+  if (!viewOf(api, personId)) return;
+  for (const question of questionsReading(lifeChangesOf(core, person)))
+    stanceMoved(api, personId, question);
+}
+
+/** A life event names its people; a birth or a home bought or lost changes their whole household's circumstances. */
+function tellLifeEvent(api: CoreAPI, event: CoreEventInput): void {
+  const core = api.state as CoreState;
+  const told = new Set<PersonId>();
+  for (const id of event.personIds) {
+    const person = core.people.get(id);
+    for (const member of core.households.get(person?.householdId ?? "")
+      ?.memberIds ?? [id])
+      told.add(member as PersonId);
+  }
+  for (const id of told) tellLifeChange(api, id);
+}
+
+const LIFE_REVIEW = "views-life-review";
+const reviewing = new WeakSet<CoreState>();
+
+/** The first of next month, when everyone whose circumstances were read is read again. */
+function scheduleLifeReview(api: CoreAPI): void {
+  const core = api.state as CoreState;
+  const next =
+    addDays(
+      makeIsoDate(`${core.date.slice(0, "YYYY-MM".length)}-01`),
+      32,
+    ).slice(0, "YYYY-MM".length) + "-01";
+  const calendar = api.moduleCalendar(VIEWS_MODULE_ID);
+  const key = `life-review:${next}`;
+  reviewing.add(core);
+  if (calendar.get(key)) return;
+  calendar.schedule({
+    key,
+    date: next,
+    kind: LIFE_REVIEW,
+    source: {
+      tag: "SOURCED",
+      asOf: core.date,
+      citation:
+        "The views engine reads again, each month, the circumstances of every full person it has read (src/core2/data/views/stakes.json, lifeEvents).",
+    },
+    sourceRecordIds: ["views:life-stakes"],
+  });
+}
+
 export const viewsModule: CoreModule = {
   id: VIEWS_MODULE_ID,
   state: {
@@ -1122,8 +1220,16 @@ export const viewsModule: CoreModule = {
       },
     },
   },
+  onCalendarWork(api, work) {
+    if (work.kind !== LIFE_REVIEW) return;
+    for (const id of lifeReadPeople(api.state as CoreState))
+      tellLifeChange(api, id as PersonId);
+    scheduleLifeReview(api);
+  },
   eventKinds: ["*"],
   onEvent(api, event, learnedBy) {
+    if (!reviewing.has(api.state as CoreState)) scheduleLifeReview(api);
+    if (LIFE_EVENT_KINDS.has(event.kind)) tellLifeEvent(api, event);
     // Only an event with a topic and a wanted change carries a stance, or a
     // condition someone lives (their household burglarized): that argues no
     // change, so each person it happened to takes it as a reason for the

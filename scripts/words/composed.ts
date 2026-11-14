@@ -35,6 +35,8 @@ import { OPENING_EVENING_MINUTE } from "../../src/bench/opening";
 import { officeholders } from "../../src/bench/officeholders";
 import { corePlaceStateIdentities } from "../../src/core2/place-lookup";
 import { realLocalities } from "../../src/core2/places";
+import { racesOf } from "../../src/core2/modules/voting";
+import { coreAPI } from "../../src/core2/state";
 import { recordLocalAddress } from "../../src/director/local-address";
 import {
   ADDRESS_FACT,
@@ -479,6 +481,8 @@ export async function playLife(
     people,
     stateNames: states.map((row) => row.name),
     townName: town,
+    // The world's election calendar, for a line that names when a vote is.
+    electionDates: racesOf(coreAPI(core)).map((row) => row.date),
     texts,
   };
 }

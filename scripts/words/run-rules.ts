@@ -247,7 +247,7 @@ export const roseMessage = (row: {
   fresh: number;
   committed: number;
 }) =>
-  `${row.rule}: ${row.fresh} lines or pairs wait for a verdict, more than the ${row.committed} committed. Judge the new or changed lines: npm run words:pairs -- --rule ${row.rule.replace(PAIRS_COUNTED, "")} --out <dir outside the repository>, then npm run words:verdicts -- --from <dir>.`;
+  `${row.rule}: ${row.fresh} lines or pairs wait for a verdict, more than the ${row.committed} committed. Judge the pairs your new or changed lines made: npm run words:pairs -- --rule ${row.rule.replace(PAIRS_COUNTED, "")} --since $(git merge-base HEAD origin/main) --out <dir outside the repository>, judge them, then npm run words:verdicts -- --from <dir> and npm run words:rules. How: the words-engine skill, "Keeping line-rules green".`;
 
 const quote = (text: string) => `"${text.replace(/\s+/g, " ").trim()}"`;
 
