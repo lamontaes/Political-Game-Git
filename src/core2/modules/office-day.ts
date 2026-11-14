@@ -152,7 +152,7 @@ export interface OfficeActRow {
   readonly personId: string;
   /** vote, sign, veto, case, town-hall, interview, meet-department-head, name-department-head. */
   readonly kind: string;
-  readonly how: "did" | "own-choice";
+  readonly how: "did" | "own-choice" | "adjourned";
   readonly date: string;
   readonly recordId: string;
   /** For the character's own choice: the position it acted on (the engine's own reasons). */
@@ -898,7 +898,7 @@ function castStatedOrAbstain(api: CoreAPI, billId: string): void {
   keepAct(api, {
     personId: player,
     kind: "vote",
-    how: "own-choice",
+    how: "adjourned",
     recordId: billId,
     position,
     detail: vote,

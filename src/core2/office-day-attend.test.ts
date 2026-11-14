@@ -723,7 +723,7 @@ it("a member the player plays decides alike at the stop and away from it: the me
               continue;
             }
             expect(act?.how, `${where}: ${id} act at Adjourn`).toBe(
-              "own-choice",
+              "adjourned",
             );
             expect(act?.date, `${where}: ${id} Adjourn day`).toBe(core.date);
             adjourned += 1;
