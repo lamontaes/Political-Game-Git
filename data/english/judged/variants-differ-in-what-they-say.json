@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1309,
+  "judged": 1284,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -2152,13 +2152,6 @@
       ],
       "why": "Most of the openers say I need a favor and hope you won't hate me, the same nervous ask with no fact to choose between them."
     },
-    "0xcm101bpyb": {
-      "keys": [
-        "scene-talk.open-greet.hi-sorry-i-don-t-quite-know-what-to-do-with-my-hands",
-        "scene-talk.open-greet.hi-this-is-awkward-isn-t-it-sorry"
-      ],
-      "why": "Both lines say the same thing, that the arrival feels awkward, and the stranger condition does not change what is said."
-    },
     "0xesf7zeo9w": {
       "keys": [
         "scene-talk.state-confront.pressed.i-can-t-cover-for-a-missed-payment-right-now-first-i-d-like-an-apology-and-a-plan",
@@ -2477,15 +2470,6 @@
         "scene-talk.follow-comfort.you-can-be-both-i-was-too"
       ],
       "why": "Both reassure the parent that everyone feels that way."
-    },
-    "11zf7cnp6e0": {
-      "keys": [
-        "scene-talk.reply-stall.ill-have-more-when-the-committee-reports",
-        "scene-talk.reply-stall.im-still-reading-the-latest-draft",
-        "scene-talk.reply-stall.let-me-look-at-the-numbers-first",
-        "scene-talk.reply-stall.well-know-more-next-week"
-      ],
-      "why": "All four lines say the speaker will know more later, with nothing in the record to choose among them."
     },
     "124et5dvcee": {
       "keys": [
@@ -2975,15 +2959,6 @@
       ],
       "why": "Both say the local party chair has come by the house, a rewording."
     },
-    "19va86fz2w7": {
-      "keys": [
-        "scene-talk.reply-deflect.as-ive-said-ill-have-more-to-say-after-the-hearing",
-        "scene-talk.reply-deflect.ill-let-the-bill-speak-for-itself",
-        "scene-talk.reply-deflect.lets-see-where-the-amendments-land",
-        "scene-talk.reply-deflect.thats-a-question-for-the-sponsor"
-      ],
-      "why": "All four lines dodge the question the same way, with no fact tying any of them to the world."
-    },
     "19zzfjuxpfl": {
       "keys": [
         "scene-talk.close-warn.your-call-it-s-your-name-on-the-door",
@@ -3160,13 +3135,6 @@
         "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here"
       ],
       "why": "Both lines stop the conversation and come back later."
-    },
-    "1ce3tws0kbu": {
-      "keys": [
-        "scene-talk.state-ask.i-don-t-want-to-start-off-wrong-how-does-everything-work-here",
-        "scene-talk.state-ask.is-there-anything-i-should-know-i-don-t-want-to-step-on-anybody"
-      ],
-      "why": "Both lines ask the same thing, how the house works so the speaker doesn't start off wrong."
     },
     "1cpkmz6cu0p": {
       "keys": [
@@ -5677,5 +5645,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "0aoyns71w7b"
+  "yesHash": "1pa674iwbz8"
 }
