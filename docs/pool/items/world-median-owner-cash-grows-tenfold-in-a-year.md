@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #9261
 blocked-on:
 source: "stopgap cluster 15 due-date probe, Gibraltar MI seed pt8:0, Nov 14"
 claimed-at:
@@ -37,3 +37,5 @@ checked: sonnet 2026-11-14
 **Files.** src/core2/modules/residents.ts; src/core2/modules/housing.ts; src/core2/data/housing/parameters.json
 
 **Notes.** Found by the stopgap cluster 15 due-date probe (PR #9189). Same run with and without due dates.
+
+**Cause found (Nov 14).** Measured: Matagorda TX seed pt1:0, 40 median-cash away-home owner households over one year: salary:official 57.5 thousand in, living:official 38.1 thousand out, withholding 14.6 thousand, so most of the pay was kept. The 526 of 559 owner households away from the town are officials; their living cost was the fixed one-person basket (about 21 thousand dollars a year) at any pay. Fixed in `officialHousehold` so spending follows pay (research-official-spending-by-pay checks the figures).
