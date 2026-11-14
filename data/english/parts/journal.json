@@ -14,6 +14,7 @@
     "office": "An office, from the candidate filing record.",
     "age": "An age, computed from the birth record.",
     "law": "A law or ordinance, as its record names it.",
+    "law-name": "A law or ordinance by its name alone, without its number: the Police Oversight Ordinance.",
     "name": "A person, by name, from the records.",
     "whose": "A person's name with 's, from the records.",
     "votes": "A vote margin, from the results record.",
@@ -2899,80 +2900,6 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.we-won",
-      "move": "election-line-own-result",
-      "kind": "spoken",
-      "text": "We won.",
-      "uses": [
-        {
-          "move": "election-line-own-result",
-          "subject": "election",
-          "role": "line",
-          "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 49,
-      "bySource": {
-        "chrg": 4,
-        "dcpd": 40,
-        "nasa": 4,
-        "senate": 1
-      },
-      "source": {
-        "document": "Remarks on Affordability in Macungie, Pennsylvania",
-        "date": "2026-06-23",
-        "granule": "DCPD-202600423",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600423",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "journal.election-line-own-result.we-lost",
-      "move": "election-line-own-result",
-      "kind": "spoken",
-      "text": "We lost.",
-      "uses": [
-        {
-          "move": "election-line-own-result",
-          "subject": "election",
-          "role": "line",
-          "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 2,
-        "dcpd": 3
-      },
-      "source": {
-        "document": "Remarks During an Event With Seniors in Middleton, Florida",
-        "date": "2026-05-01",
-        "granule": "DCPD-202600300",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600300",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "loss"
-      }
-    },
-    {
       "key": "journal.election-line-own-result.i-won-by-votes-votes",
       "move": "election-line-own-result",
       "kind": "spoken",
@@ -3063,6 +2990,292 @@
         "url": "https://www.govinfo.gov/app/details/DCPD-202500556",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-won-the-race-for-office-by-a-handful-of-votes",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I won the race for {office} by a handful of votes.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-lost-the-race-for-office-by-a-handful-of-votes",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I lost the race for {office} by a handful of votes.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-won-the-race-for-office-but-it-was-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I won the race for {office}, but it was close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-was-close-but-i-won-the-race-for-office",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It was close, but I won the race for {office}.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-lost-the-race-for-office-but-it-was-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I lost the race for {office}, but it was close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-was-close-and-i-lost-the-race-for-office",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It was close, and I lost the race for {office}.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-won-the-race-for-office-and-it-wasn-t-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I won the race for {office}, and it wasn't close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-lost-the-race-for-office-and-it-wasn-t-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I lost the race for {office}, and it wasn't close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-wasn-t-close-i-lost-the-race-for-office",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It wasn't close. I lost the race for {office}.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-won-the-race-for-office-in-a-landslide",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I won the race for {office} in a landslide.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-lost-the-race-for-office-in-a-landslide",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I lost the race for {office} in a landslide.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }
@@ -3323,32 +3536,6 @@
       "move": "office-other-act",
       "kind": "spoken",
       "text": "{other} introduced {law}.",
-      "uses": [
-        {
-          "move": "office-other-act",
-          "subject": "office",
-          "role": "other",
-          "choice": "act",
-          "journal": [
-            {
-              "kindPrefix": "event:office.introduced",
-              "field": "otherLine"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-other-act.other-put-forward-law",
-      "move": "office-other-act",
-      "kind": "spoken",
-      "text": "{other} put forward {law}.",
       "uses": [
         {
           "move": "office-other-act",
@@ -3959,10 +4146,10 @@
       }
     },
     {
-      "key": "journal.home-line-met.i-met-other-in-place",
+      "key": "journal.home-line-met.i-met-named-in-place",
       "move": "home-line-met",
       "kind": "spoken",
-      "text": "I met {other} in {place}.",
+      "text": "I met {named} in {place}.",
       "uses": [
         {
           "move": "home-line-met",
@@ -3978,17 +4165,17 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.home-line-met.other-and-i-met-in-place",
+      "key": "journal.home-line-met.named-and-i-met-in-place",
       "move": "home-line-met",
       "kind": "spoken",
-      "text": "{other} and I met in {place}.",
+      "text": "{named} and I met in {place}.",
       "uses": [
         {
           "move": "home-line-met",
@@ -4004,17 +4191,17 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.home-line-met.i-first-met-other-in-place",
+      "key": "journal.home-line-met.i-met-named-in-place-when-i-was-age",
       "move": "home-line-met",
       "kind": "spoken",
-      "text": "I first met {other} in {place}.",
+      "text": "I met {named} in {place} when I was {age}.",
       "uses": [
         {
           "move": "home-line-met",
@@ -4030,8 +4217,34 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.named-and-i-met-in-place-when-i-was-age",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "{named} and I met in {place} when I was {age}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }
@@ -6522,10 +6735,10 @@
       }
     },
     {
-      "key": "journal.office-line-took-office.my-bill-law-became-law-over-the-veto",
+      "key": "journal.office-line-took-office.my-bill-law-became-law-over-other-s-veto",
       "move": "office-line-took-office",
       "kind": "spoken",
-      "text": "My bill, {law}, became law over the veto.",
+      "text": "My bill, {law}, became law over {other}'s veto.",
       "uses": [
         {
           "move": "office-line-took-office",
@@ -6543,6 +6756,110 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.law-name-became-law-without-my-signature",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{law-name} became law without my signature.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-let-law-name-become-law-unsigned",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I let {law-name} become law unsigned.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-never-signed-law-name-it-is-law-anyway",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I never signed {law-name}. It is law anyway.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.law-name-became-law-other-never-signed-it",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{law-name} became law. {other} never signed it.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }
@@ -6982,7 +7299,7 @@
       "key": "journal.work-line-again.employer-took-me-on",
       "move": "work-line-again",
       "kind": "spoken",
-      "text": "{employer} took me on.",
+      "text": "{employer} hired me.",
       "uses": [
         {
           "move": "work-line-again",

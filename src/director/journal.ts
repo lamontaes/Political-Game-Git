@@ -71,7 +71,7 @@ import {
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
-import type { RACE_MARGINS } from "../english/mined/journal-bank";
+import { raceMargin } from "./race-margin";
 import { properName, spokenDate, stateInSentence } from "./words";
 import { graduationResults, schoolResult } from "./school";
 import {
@@ -210,38 +210,6 @@ export function lawTopic(
     .get(lawId) as unknown as LawRowInput | undefined;
   const text = law ? topicInSentence(law.series) : null;
   return text ? { text, recordIds: [lawId] } : undefined;
-}
-
-/**
- * How a race was decided, from its result record's totals: "alone" when one
- * candidate stood, "close" or "wide" by the winner's lead over the runner-up
- * as a share of the votes cast, and "middle" between them or when the totals
- * are not on record, so no line claims a margin the record does not show.
- */
-function raceMargin(
-  core: Readonly<CoreState>,
-  resultId: string,
-): (typeof RACE_MARGINS)[number] {
-  let votes: number[] = [];
-  try {
-    votes = Object.values(
-      JSON.parse(String(core.durableLog.get(resultId)?.facts?.totals ?? "{}")),
-    )
-      .map(Number)
-      .filter(Number.isFinite)
-      .sort((a, b) => b - a);
-  } catch {
-    votes = [];
-  }
-  if (votes.length === one) return "alone";
-  const cast = votes.reduce((sum, count) => sum + count, zero);
-  if (votes.length < P.two || !(cast > zero)) return "middle";
-  const lead = (votes[zero]! - votes[one]!) / cast;
-  const { journalRaceCloseMargin, journalRaceWideMargin } =
-    DEFAULT_DIRECTOR_DATA.parameters;
-  if (lead <= journalRaceCloseMargin!.value) return "close";
-  if (lead >= journalRaceWideMargin!.value) return "wide";
-  return "middle";
 }
 
 /**
@@ -1036,7 +1004,17 @@ function sceneEndingMoments(
       const reply = core.durableLog.get(id);
       const keeps = reply?.facts?.keeps;
       const otherId = reply?.personIds.find((row) => row !== personId);
-      if (!reply || typeof keeps !== "string" || keeps === "none" || !otherId)
+      // A promise or a favor says nothing of what was promised or owed (the
+      // reply record keeps only that there was one), so it is not told: "I
+      // gave her my word" without the word is not a line (Words lead, rule 91).
+      if (
+        !reply ||
+        typeof keeps !== "string" ||
+        keeps === "none" ||
+        keeps === "promise" ||
+        keeps === "favor-owed" ||
+        !otherId
+      )
         return [];
       return [
         {
@@ -1146,7 +1124,7 @@ function billTopic(bill: BillRow): string | undefined {
       .find(Boolean);
     if (name) counts.set(name, (counts.get(name) ?? zero) + one);
   }
-  const top = [...counts].sort((a, b) => b[one] - a[one])[zero]?.[zero];
+  const [top] = [...counts].sort(([, a], [, b]) => b - a)[zero] ?? [];
   // Said inside a sentence: a capitalized word is lowered, an initialism
   // ("K-12") is kept.
   return top?.replace(
@@ -1662,6 +1640,8 @@ export function composeJournal(
           text: spanSaid(days),
           sourceRecordIds: [moment.causeId],
         };
+      // How old the person was, for "when I was 24" (rule 84).
+      facts.age = ageThen(person.birthDate, person.id);
     }
     // A death in the family: how old they were, and whether it followed an illness the record names.
     if (moment.causeKind === "event:life.death") {
@@ -1975,11 +1955,21 @@ export function composeJournal(
       return `${stage}:${row.stageMark.mark}`;
     // The one the record names in a fact (the executive who signed) tells
     // it in their own words, apart from the others it names (the sponsor).
-    return stage !== undefined &&
+    if (
+      stage !== undefined &&
       row.stageSelf &&
       logged?.[row.stageSelf.fact] === personId
-      ? `${stage}:${row.stageSelf.mark}`
-      : stage;
+    )
+      return `${stage}:${row.stageSelf.mark}`;
+    // The one the record names who did not act (the bill's sponsor) tells it
+    // as theirs: "My bill, ..., became law over Mara's veto."
+    if (
+      stage !== undefined &&
+      row.stageNamed?.stages.includes(stage) &&
+      core.durableLog.get(moment.causeId)?.personIds.includes(personId)
+    )
+      return `${stage}:${row.stageNamed.mark}`;
+    return stage;
   };
 
   const through = options.through ?? core.date;
@@ -2139,6 +2129,27 @@ export function composeJournal(
       "family"
     );
   };
+  // An at-large race for several seats keeps one result record per seat; the
+  // person's race is one, told from the record they won if they won one, else
+  // the first (the seat's number sorts first).
+  const poolKeyOf = (moment: JournalMoment) =>
+    `${moment.causeId.replace(/:\d+(:\d{4}-\d{2}-\d{2})$/, "$1")}|${moment.counterpartIds.join(",")}|${moment.selfNamed ?? false}`;
+  const pooledTold = new Map<string, string>();
+  const pooledWon = new Set<string>();
+  // Every seat's record of the one race, so the told line cites them all.
+  const pooledIds = new Map<string, string[]>();
+  for (const moment of moments) {
+    if (!moment.causeKind.startsWith("event:election-result")) continue;
+    const key = poolKeyOf(moment);
+    pooledIds.set(key, [...(pooledIds.get(key) ?? []), moment.causeId]);
+    const wonHere =
+      core.durableLog.get(moment.causeId)?.facts?.winnerId === personId;
+    if (!pooledTold.has(key) || wonHere) {
+      if (!pooledTold.has(key) || !pooledWon.has(key))
+        pooledTold.set(key, moment.id);
+      if (wonHere) pooledWon.add(key);
+    }
+  }
   const units: Unit[] = [];
   // Each fact is told once in a life: the same kind, the same people and the
   // same facts, whenever it happened (#8234: "I moved to Jaguas" twice).
@@ -2154,12 +2165,28 @@ export function composeJournal(
       continue;
     const facts = factsFor(moment);
     if (!facts) continue;
+    // An at-large race for several seats is one race: the count the clerk
+    // keeps for each seat is the same loss or win, told once (Hope Valley,
+    // Rhode Island, seed 224ba354-7613-4852-a48c-c2747306de10: five seats of
+    // one council, "We lost." five times).
+    if (
+      row.kindPrefix === "event:election-result" &&
+      pooledTold.get(poolKeyOf(moment)) !== moment.id
+    )
+      continue;
     const once = row.oncePer ? facts[row.oncePer]?.text : undefined;
     if (once !== undefined) {
       if (toldFacts.has(`${row.kindPrefix}|${once}`)) continue;
       toldFacts.add(`${row.kindPrefix}|${once}`);
     }
-    const sourceIds = [moment.causeId];
+    const sourceIds = [
+      moment.causeId,
+      ...(row.kindPrefix === "event:election-result"
+        ? (pooledIds.get(poolKeyOf(moment)) ?? []).filter(
+            (id) => id !== moment.causeId,
+          )
+        : []),
+    ];
     if (row.entry === "setting") {
       const employer = facts.employer?.sourceRecordIds.at(-one);
       if (employer) employerIds.push(employer);
@@ -2202,6 +2229,21 @@ export function composeJournal(
       // The school year's end is the person's own result, whoever the
       // scene of it was with.
       moment.causeKind === SCHOOL_FINISHED;
+    // Another person's vote, bill or race alone is not this life (Hope
+    // Valley, Rhode Island, seed 224ba354-7613-4852-a48c-c2747306de10: forty
+    // lines of a council's votes in a Journal whose person sat on no council):
+    // told only when it is a relative's race.
+    if (!own) {
+      const whose = subjectOf(moment);
+      if (
+        row.kindPrefix === "event:office.voted" ||
+        row.kindPrefix === "event:office.introduced" ||
+        ((row.kindPrefix === "event:election-result" ||
+          row.kindPrefix === "event:took-office") &&
+          !(whose && kin.has(whose)))
+      )
+        continue;
+    }
     // A move the household made together is "we".
     const together =
       (selfCount ??
@@ -2341,6 +2383,10 @@ export function composeJournal(
             size,
           });
       }
+  // A view is told once, when it changed and what changed it: one stance is
+  // never told twice, and one event that moved the person says what they
+  // think now once, not once for each record it left (Words lead, rule 86).
+  const viewsSaid = new Set<string>();
   const viewMovedBy = (unit: Unit): JournalWorded | null => {
     const moved =
       movedViews.get(unit.moment.causeId) ??
@@ -2348,10 +2394,12 @@ export function composeJournal(
         ? movedViews.get(unit.moment.causeFactId)
         : undefined);
     if (!moved) return null;
+    const eventKey = `${unit.moment.causeKind.split(":")[zero]}:${unit.moment.date}`;
+    if (viewsSaid.has(moved.id) || viewsSaid.has(eventKey)) return null;
     const enact = moved.side === "enact";
     const text = enact ? questionTo(moved.topic) : questionAbout(moved.topic);
     if (!text) return null;
-    return render(
+    const told = render(
       { part: "memoir", field: enact ? "viewFor" : "viewAgainst" },
       {
         [enact ? "to" : "about"]: {
@@ -2362,6 +2410,11 @@ export function composeJournal(
       `${unit.moment.id}:view`,
       [moved.id, unit.moment.causeId],
     );
+    if (told) {
+      viewsSaid.add(moved.id);
+      viewsSaid.add(eventKey);
+    }
+    return told;
   };
 
   // The facts a sentence names once in a paragraph (an employer, a place, a
@@ -2560,6 +2613,8 @@ export function composeJournal(
     until?: IsoDate,
     /** What the stretch has named already: a place said is not said again. */
     alreadySaid?: Set<string>,
+    /** The whole working life, for weighing a short spell against it. */
+    life?: { days: number; laterKinds: ReadonlySet<string> },
   ): JournalWorded[] | null => {
     const employers = new Map<string, string>();
     for (const unit of told)
@@ -2590,6 +2645,29 @@ export function composeJournal(
       row.n += one;
       row.ids.push(orgId);
       kinds.set(word, row);
+    }
+    // A spell is told by how much it changed (Words lead, rule 87): a short
+    // spell of the same work the later years hold, with no layoff, is folded
+    // into them; the share of the working life it covers, doubled when it was
+    // another kind of work, and a layoff weigh against the tuned weight.
+    // Nothing flips at a length.
+    if (!lastPart && life && life.days > zero) {
+      const spellDays = daysBetween(
+        makeIsoDate(first.moment.date),
+        makeIsoDate(
+          endedOut ? lastUnit.moment.date : (until ?? core.startedAt),
+        ),
+      );
+      const newKinds =
+        [...kinds.keys()].filter((word) => !life.laterKinds.has(word)).length /
+        Math.max(one, kinds.size);
+      const letGoWeight = lostIds.length ? one : zero;
+      const weight =
+        Math.min(one, spellDays / life.days) * (one + newKinds) + letGoWeight;
+      if (
+        weight < DEFAULT_DIRECTOR_DATA.parameters.journalSpellTellWeight!.value
+      )
+        return [];
     }
     const said = [...kinds]
       .sort(([a, x], [b, y]) => y.n - x.n || a.localeCompare(b))
@@ -2911,7 +2989,7 @@ export function composeJournal(
       if (text) tally.set(text, [...(tally.get(text) ?? []), unit]);
     }
     const [topText, topUnits] =
-      [...tally].sort((a, b) => b[one].length - a[one].length)[zero] ?? [];
+      [...tally].sort(([, a], [, b]) => b.length - a.length)[zero] ?? [];
     const most =
       topText && topUnits && topUnits.length * P.two > group.length
         ? {
@@ -3034,6 +3112,7 @@ export function composeJournal(
         kind: string;
         parentId?: string;
         change: number;
+        follow?: number;
       }[];
     } | null;
     const out: JournalWorded[] = [];
@@ -3205,6 +3284,37 @@ export function composeJournal(
       (last, row, at) => (row.some(isWork) ? at : last),
       -one,
     );
+    // The whole working life, to weigh a short spell against: its days, and
+    // the kinds of work the later stretches hold.
+    const kindWords = JOURNAL_OUTLINE.workWords as Record<string, string>;
+    const kindsHeld = (units: readonly Unit[]) =>
+      new Set(
+        units.flatMap((unit) =>
+          [unit.facts.employer, unit.facts.next].flatMap((fact) => {
+            const org = fact
+              ? core.organizations.get(String(fact.sourceRecordIds.at(-one)))
+              : undefined;
+            const word =
+              kindWords[(org?.classification ?? "").split(":").at(-one)!];
+            return word ? [word] : [];
+          }),
+        ),
+      );
+    const allWork = stretches.flat().filter(isWork);
+    const workLife = (at: number) => ({
+      days: allWork.length
+        ? daysBetween(
+            makeIsoDate(allWork[zero]!.moment.date),
+            makeIsoDate(core.startedAt),
+          )
+        : zero,
+      laterKinds: kindsHeld(
+        stretches
+          .slice(at + one)
+          .flat()
+          .filter(isWork),
+      ),
+    });
     const viewsTold = new Set<string>();
     stretches.forEach((row, at) => {
       const until = (stretches[at + one]?.[zero]?.moment.date ??
@@ -3237,7 +3347,7 @@ export function composeJournal(
           ),
         ]);
         const told =
-          tellWork(work, at === lastWork, until, placesLater) ??
+          tellWork(work, at === lastWork, until, placesLater, workLife(at)) ??
           tellParagraph(work, "work", said);
         // The places and employers the work sentence named, said once.
         for (const unit of work)

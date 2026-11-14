@@ -447,11 +447,20 @@
         "fact": "executiveId",
         "mark": "desk"
       },
+      "stageNamed": {
+        "mark": "sponsor",
+        "stages": ["signed", "vetoed", "overridden"]
+      },
       "stageWords": {
+        "overridden:sponsor": "^My bill\\b.*\\bover\\b",
+        "vetoed:sponsor": "^My bill\\b.*\\bvetoed\\b",
+        "signed:sponsor": "^My bill\\b.*\\bsigned\\b",
+        "unsigned:desk": "\\b(?:without my signature|become law unsigned|I never signed)\\b",
+        "unsigned": "\\bnever signed it\\b",
         "overridden:desk": "^I vetoed\\b.*\\boverridden\\b",
         "vetoed:desk": "^I vetoed\\b",
         "signed:desk": "^I signed\\b",
-        "overridden": "\\b(?:overridden|over the veto)\\b",
+        "overridden": "\\b(?:overridden|over the veto|over [^.]*?'s veto)\\b",
         "vetoed": "\\bvetoed\\b",
         "signed": "\\bsigned\\b"
       },
@@ -459,6 +468,10 @@
         "law": {
           "fact": "billId",
           "format": "billNumberAndName"
+        },
+        "law-name": {
+          "fact": "billId",
+          "format": "billName"
         }
       }
     },

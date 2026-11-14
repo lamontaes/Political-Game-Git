@@ -852,6 +852,51 @@
       "citation": "A crime against one's household or oneself, sized as the Social Readjustment Rating Scale's 'Change in living conditions', 25 life-change units divided by 100, up to 'Personal injury or illness', 53, for a robbery or an assault (Holmes and Rahe 1967, J Psychosom Res 11(2):213-8; the scale has no crime item). It reaches the people the crime engine's record names.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.25 to 0.53"
     },
+    "journalSpellTellWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "citation": "Words judgment: a work spell outside the last working stretch is told when its share of the working life (doubled when it was another kind of work than the later years held), plus one for a layoff, reaches a quarter; a smaller one is folded into the working years.",
+      "stopgapId": "SG-WORDS-param-journalRaceCloseMargin",
+      "checkRange": {
+        "ref": "WORDS-RACE-MARGIN-BAND"
+      },
+      "spread": {
+        "low": 0.1,
+        "high": 0.5,
+        "unit": "weight of a work spell in a journal",
+        "citation": "A judgment band for how much a journal tells of a short job; not sourced here."
+      }
+    },
+    "journalRaceHandfulMargin": {
+      "value": 0.01,
+      "tag": "TUNABLE",
+      "citation": "Words judgment: a winner's lead over the runner-up of one point or fewer of the votes cast is a race decided by a handful of votes in a journal.",
+      "stopgapId": "SG-WORDS-param-journalRaceCloseMargin",
+      "checkRange": {
+        "ref": "WORDS-RACE-MARGIN-BAND"
+      },
+      "spread": {
+        "low": 0.002,
+        "high": 0.02,
+        "unit": "lead over the runner-up, as a share of votes cast",
+        "citation": "A judgment band for how a journal says a race went; Ballotpedia buckets races at half a point or fewer."
+      }
+    },
+    "journalRaceLandslideMargin": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "citation": "Words judgment: a winner's lead over the runner-up of thirty points or more of the votes cast is a landslide in a journal.",
+      "stopgapId": "SG-WORDS-param-journalRaceCloseMargin",
+      "checkRange": {
+        "ref": "WORDS-RACE-MARGIN-BAND"
+      },
+      "spread": {
+        "low": 0.2,
+        "high": 0.4,
+        "unit": "lead over the runner-up, as a share of votes cast",
+        "citation": "A judgment band for how a journal says a race went; not sourced here."
+      }
+    },
     "journalRaceCloseMargin": {
       "value": 0.05,
       "tag": "TUNABLE",

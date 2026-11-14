@@ -1396,6 +1396,39 @@ const RISK_TRAIT = "people-mind-v1:risk";
 const playerNewsHeard = (causeId: string) => `player-news:${causeId}`;
 
 /**
+ * Whether a person won the race a result record is for. A council elected at
+ * large keeps one result record per seat (`...:board:0:date`, `...:board:1:date`),
+ * and a person who won any seat of the race won it, whichever seat's record
+ * the news cites.
+ */
+export function wonRace(
+  core: Readonly<CoreState>,
+  resultId: string,
+  personId: string,
+): boolean {
+  const seats = /^(.*:)\d+(:\d{4}-\d{2}-\d{2})$/.exec(resultId);
+  const ids = seats
+    ? Array.from(
+        { length: seatsOf(core, seats[1]!, seats[2]!) },
+        (_, seat) => `${seats[1]}${seat}${seats[2]}`,
+      )
+    : [resultId];
+  return [resultId, ...ids].some(
+    (id) =>
+      (
+        core.durableLog.get(id as never) as
+          { facts?: Readonly<Record<string, string>> } | undefined
+      )?.facts?.winnerId === personId,
+  );
+}
+/** How many seat records of one race the log holds, counted up from seat 0. */
+function seatsOf(core: Readonly<CoreState>, head: string, tail: string) {
+  let count = 0;
+  while (core.durableLog.get(`${head}${count}${tail}` as never)) count += 1;
+  return count;
+}
+
+/**
  * The player's own recorded news, brought up by someone they live with (words
  * composer; lead, Nov 12: "the people at home talk most about the person in
  * front of them"): the newest moment of the player's own ledger within the
@@ -1456,7 +1489,7 @@ function playerNews(
       const office = record?.facts?.office;
       if (office) facts.office = fact(properName(office));
       if (mark === "result") {
-        said = record?.facts?.winnerId === listener.id ? "won" : "lost";
+        said = wonRace(core, moment.causeId, listener.id) ? "won" : "lost";
         if (!office) continue;
       }
       if (mark === "filed" && !office) continue;

@@ -357,7 +357,7 @@
     {
       "key": "person-history.story.office.entered-again.third",
       "move": "story",
-      "text": "{who} took office as {seat}, and was returned in {years}.",
+      "text": "{who} took office as {seat}, and was reelected in {years}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -366,7 +366,7 @@
     {
       "key": "person-history.story.office.entered-again.they",
       "move": "story",
-      "text": "They took office as {seat}, and were returned in {years}.",
+      "text": "They took office as {seat}, and were reelected in {years}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -645,7 +645,7 @@
     {
       "key": "person-history.story.office.entered-always.third",
       "move": "story",
-      "text": "{who} took office as {seat}, and was returned at every election after that.",
+      "text": "{who} took office as {seat}, and was reelected every time after that.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -654,7 +654,7 @@
     {
       "key": "person-history.story.office.entered-always.they",
       "move": "story",
-      "text": "They took office as {seat}, and were returned at every election after that.",
+      "text": "They took office as {seat}, and were reelected every time after that.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -825,7 +825,7 @@
     {
       "key": "person-history.story.health.ill.third",
       "move": "story",
-      "text": "{who} fell seriously ill in {year}.",
+      "text": "{who} got seriously ill in {year}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -834,7 +834,7 @@
     {
       "key": "person-history.story.health.ill.they",
       "move": "story",
-      "text": "They fell seriously ill in {year}.",
+      "text": "They got seriously ill in {year}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1356,7 +1356,7 @@
     {
       "key": "person-history.story.office.entered-again.i",
       "move": "story",
-      "text": "I took office as {seat}, and was returned in {years}.",
+      "text": "I took office as {seat}, and was reelected in {years}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1383,7 +1383,7 @@
     {
       "key": "person-history.story.office.entered-always.i",
       "move": "story",
-      "text": "I took office as {seat}, and was returned at every election after that.",
+      "text": "I took office as {seat}, and was reelected every time after that.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -1437,7 +1437,7 @@
     {
       "key": "person-history.story.health.ill.i",
       "move": "story",
-      "text": "I fell seriously ill in {year}.",
+      "text": "I got seriously ill in {year}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -2922,7 +2922,7 @@
     {
       "key": "person-history.story.moved.home.i.w2",
       "move": "story",
-      "text": "I moved house in {year}.",
+      "text": "I moved in {year}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -2967,7 +2967,7 @@
     {
       "key": "person-history.story.moved.home.third.w2",
       "move": "story",
-      "text": "{who} moved house in {year}.",
+      "text": "{who} moved in {year}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -3012,7 +3012,7 @@
     {
       "key": "person-history.story.moved.home.they.w2",
       "move": "story",
-      "text": "They moved house in {year}.",
+      "text": "They moved in {year}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -5071,15 +5071,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.school.elsewhere.i.w3",
-      "move": "story",
-      "text": "I did my schooling in {place}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.school.elsewhere.i.w4",
       "move": "story",
       "text": "I went to school back in {place}.",
@@ -5107,15 +5098,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.school.elsewhere.third.w3",
-      "move": "story",
-      "text": "{who} did {their} schooling in {place}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.school.elsewhere.third.w4",
       "move": "story",
       "text": "{who} went to school back in {place}.",
@@ -5137,15 +5119,6 @@
       "key": "person-history.story.school.elsewhere.they.w2",
       "move": "story",
       "text": "They grew up going to school in {place}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.school.elsewhere.they.w3",
-      "move": "story",
-      "text": "They did their schooling in {place}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
