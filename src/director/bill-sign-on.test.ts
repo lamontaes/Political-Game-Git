@@ -10,11 +10,11 @@
  * voted no on the question before says so, from that vote.
  *
  * Pinned to three drawn places and their world seeds (drawPlace from
- * "bill-stages-state" draws 2, 6 and 10), chosen because their records give a
- * no for each reason the bank can say: Manteca, California (party), Wilmont,
- * Minnesota (views, and trait after a press) and Wiggins, Colorado (trait).
- * The earlier no vote is staged through the game's own path: the player's
- * first bill on a question goes to its floor vote before the second is drafted.
+ * "bill-stages-state" draws 2, 6 and 10): Manteca, California, Wilmont,
+ * Minnesota and Wiggins, Colorado. Together they give a no for every reason
+ * the bank can say. The earlier no votes are staged through the game's own
+ * path: the player's first bills, one on every question, go to the floor at
+ * the chamber's next sitting before the second round is drafted.
  */
 import { afterAll, describe, expect, it } from "vitest";
 import { seatAct, seatView } from "../bench/legislature";
@@ -60,7 +60,12 @@ const PLACES = [
 ] as const;
 const TYPE = "bill-sign-on";
 /** What the three places played, together: the reasons said for a no, and the lines that need a record. */
-const seen = { reasons: new Set<string>(), lines: new Set<string>() };
+const seen = {
+  reasons: new Set<string>(),
+  lines: new Set<string>(),
+  votedBefore: 0,
+  askedAgain: 0,
+};
 
 function livePlayer(core: CoreState, player: PersonId, through: string) {
   let packet: ReturnType<typeof advancePlayerV1> | undefined = advancePlayerV1(
@@ -128,41 +133,29 @@ describe("asking colleagues to sign on", () => {
           (row) => row.kind === "sign-on-asked" && row.facts?.billId === billId,
         );
 
-      // The earlier vote: the player's first bill on the question a colleague
-      // they would ask stands furthest against goes to its floor vote.
+      // The earlier votes: the player's first bills, one on every question
+      // the chamber can pass, go to the floor of the session's next sitting
+      // (a bill the committee holds dies there, as it does in play).
       const questions = seatView(core, player).questions;
-      let earlier: {
-        question: string;
-        colleague: string;
-        billId: string;
-      } | null = null;
-      for (const question of questions) {
-        const billId = draft(question);
-        if (!billId) continue;
-        const against = asksOn(billId)
-          .map((row) => row.facts!.askedId!)
-          .map((id) => ({ id, total: memberPosition(api, billId, id).total }))
-          .filter((row) => row.total < 0)
-          .sort((a, b) => a.total - b.total || a.id.localeCompare(b.id))[0];
-        if (against) {
-          earlier = { question, colleague: against.id, billId };
-          break;
-        }
-      }
-      if (earlier) {
-        scheduleVote(api, earlier.billId);
-        const floor = floorDateOf(api, earlier.billId);
-        if (floor) advanceCore(core, addDays(makeIsoDate(floor), 1));
-      }
-      if (earlier)
-        process.stdout.write(
-          `DEBUG ${where} floor ${floorDateOf(api, earlier.billId)} now ${core.date} status ${billOf(api, earlier.billId)?.status} votes ${JSON.stringify(votesOn(api, earlier.billId).map((v) => [v.memberId === earlier!.colleague, v.vote]))}\n`,
-        );
-      const votedNo =
-        earlier &&
-        votesOn(api, earlier.billId).some(
-          (v) => v.memberId === earlier!.colleague && v.vote === "no",
-        );
+      const earlier = questions.map(draft).filter((id): id is string => !!id);
+      for (const id of earlier) scheduleVote(api, id);
+      const floor = earlier
+        .map((id) => floorDateOf(api, id))
+        .filter((date): date is string => !!date)
+        .sort()
+        .at(-1);
+      expect(floor, `${where}: the bills have a sitting`).toBeTruthy();
+      advanceCore(core, addDays(makeIsoDate(floor!), 1));
+      const votedNo = new Set(
+        earlier.flatMap((id) =>
+          votesOn(api, id)
+            .filter((v) => v.vote === "no")
+            .map(
+              (v) =>
+                `${billOf(api, id)!.provisions[0]!.question}|${v.memberId}`,
+            ),
+        ),
+      );
 
       // The player drafts a bill on every question the chamber can pass, and
       // goes to their colleagues the days after.
@@ -172,20 +165,22 @@ describe("asking colleagues to sign on", () => {
       livePlayer(core, player, addDays(makeIsoDate(core.date), 2));
 
       const book = director.ledger.people.get(player)!;
-      const units = book.schedule
-        .filter((row) => row.bindings.some((b) => b.typeKey === TYPE))
-        .flatMap((entry) => {
-          const moment = book.momentsById.get(entry.momentId)!;
-          const binding = entry.bindings.find((row) => row.typeKey === TYPE)!;
-          return [
-            { entry, unit: TYPE, causeId: moment.causeId },
-            ...(binding.joined ?? []).map((row) => ({
-              entry,
-              unit: `${TYPE}|${row.causeId}`,
-              causeId: row.causeId,
-            })),
-          ];
-        });
+      const staged = () =>
+        book.schedule
+          .filter((row) => row.bindings.some((b) => b.typeKey === TYPE))
+          .flatMap((entry) => {
+            const moment = book.momentsById.get(entry.momentId)!;
+            const binding = entry.bindings.find((row) => row.typeKey === TYPE)!;
+            return [
+              { entry, unit: TYPE, causeId: moment.causeId },
+              ...(binding.joined ?? []).map((row) => ({
+                entry,
+                unit: `${TYPE}|${row.causeId}`,
+                causeId: row.causeId,
+              })),
+            ];
+          });
+      const units = staged();
       // The asks on the bills drafted before the earlier vote were played in
       // the days the test skipped; these are the asks on the new drafts.
       const fresh = new Set(billIds);
@@ -200,7 +195,6 @@ describe("asking colleagues to sign on", () => {
       let signed = 0;
       const refused: { billId: string; colleague: string }[] = [];
       const reasonsHere = new Set<string>();
-      const tally = new Map<string, number>();
       for (const { entry, unit, causeId } of units) {
         const cause = core.durableLog.get(causeId)!;
         const result = purposeScene(core, director, player, entry, {
@@ -225,6 +219,14 @@ describe("asking colleagues to sign on", () => {
         const reason = result.scene.facts
           .find((row) => row.key.startsWith("no-"))
           ?.key.slice("no-".length);
+        // A no vote on the question before is said only from that vote.
+        const question = billOf(api, cause.facts!.billId!)!.provisions[0]!
+          .question;
+        const keys = new Set(result.scene.facts.map((row) => row.key));
+        expect(keys.has("voted-against-before"), where).toBe(
+          votedNo.has(`${question}|${colleague}`),
+        );
+        if (keys.has("voted-against-before")) seen.votedBefore += 1;
         const first = talk.tree.lines[0]!;
         const pick = (move: string) =>
           talk.tree.replies.findIndex((reply) => reply.line.move === move);
@@ -255,8 +257,6 @@ describe("asking colleagues to sign on", () => {
         });
         expect(replyId, `${where}: the reply is recorded`).toBeTruthy();
         const bill = billOf(api, cause.facts!.billId!)!;
-        const k = `${first.move}:${reason}:${chosen.line.move}:${last.move}`;
-        tally.set(k, (tally.get(k) ?? 0) + 1);
         if (["agree", "relent", "accept"].includes(last.move)) {
           expect(bill.cosponsors, where).toContain(colleague);
           signed += 1;
@@ -291,9 +291,6 @@ describe("asking colleagues to sign on", () => {
       // Asked again on the same question: the colleague who said no knows it,
       // and the one who voted no before says so.
       const again = [
-        ...(earlier && votedNo
-          ? [{ question: earlier.question, colleague: earlier.colleague }]
-          : []),
         ...refused.slice(0, 1).map((row) => ({
           question: billOf(api, row.billId)!.provisions[0]!.question!,
           colleague: row.colleague,
@@ -305,17 +302,29 @@ describe("asking colleagues to sign on", () => {
         const id = `sign-on:${billId}:${colleague}`;
         if (!core.durableLog.get(id)) continue;
         livePlayer(core, player, addDays(makeIsoDate(core.date), 2));
-        const entry = book.schedule.find(
-          (row) =>
-            book.momentsById.get(row.momentId)?.causeId === id ||
-            row.bindings.some((b) => b.joined?.some((j) => j.causeId === id)),
-        );
-        expect(entry, `${where}: the second ask is staged`).toBeTruthy();
-        const unit =
-          book.momentsById.get(entry!.momentId)?.causeId === id
-            ? TYPE
-            : `${TYPE}|${id}`;
-        const result = purposeScene(core, director, player, entry!, {
+        const found = staged().find((row) => row.causeId === id);
+        // The director stages a scene type at most so many times a season
+        // (situation-types.json seasonCap); past it the ask is a Journal line,
+        // and the player is not asked twice in one sitting.
+        if (!found) {
+          const held = book.schedule.find(
+            (row) =>
+              book.momentsById.get(row.momentId)?.causeId === id &&
+              row.heldBack?.some(
+                (h) => h.typeKey === TYPE && h.reason === "season-cap",
+              ),
+          );
+          expect(
+            held,
+            `${where}: the second ask is staged or capped`,
+          ).toBeTruthy();
+          process.stdout.write(
+            `SIGN-ON ${where} asked again: held, the season's asks are full\n`,
+          );
+          continue;
+        }
+        const { entry, unit } = found!;
+        const result = purposeScene(core, director, player, entry, {
           typeKey: unit,
         });
         expect(result?.kind, where).toBe("composed");
@@ -328,6 +337,7 @@ describe("asking colleagues to sign on", () => {
           ),
         ];
         for (const line of lines) seen.lines.add(line);
+        if (facts.has("asked-before")) seen.askedAgain += 1;
         process.stdout.write(
           `SIGN-ON ${where} asked again (${[...facts].filter((k) => k === "asked-before" || k === "voted-against-before" || k.startsWith("no-")).join(", ")}): ${lines.join(" | ")}\n`,
         );
@@ -340,16 +350,17 @@ describe("asking colleagues to sign on", () => {
         const read = chairHears(api, bill, bill.bodyOfficeId);
         expect(read.cosponsorPull, where).toBeGreaterThanOrEqual(0);
       }
-      process.stdout.write(`TALLY ${place.name} ${JSON.stringify([...tally])}\n`);
       process.stdout.write(
-        `SIGN-ON ${where}: ${units.length} asks played, ${signed} signed, ${refused.length} said no (${[...reasonsHere].join(", ")}); earlier vote ${earlier ? `${earlier.question} ${votedNo ? "no" : "not no"}` : "none"}\n`,
+        `SIGN-ON ${where}: ${units.length} asks played, ${signed} signed, ${refused.length} said no (${[...reasonsHere].join(", ")}); ${earlier.length} earlier bills, ${votedNo.size} no votes on them\n`,
       );
     }, 300_000);
 
   afterAll(() => {
     // Every reason the bank can say for a no played somewhere, and the two
     // lines that rest on a record played after it.
-    for (const reason of ["party", "views", "trait"])
+    for (const reason of ["views", "constituents", "party", "consistency"])
       expect(seen.reasons, reason).toContain(reason);
+    expect(seen.votedBefore, "an earlier no vote is said").toBeGreaterThan(0);
+    expect(seen.askedAgain, "a second ask knows the first").toBeGreaterThan(0);
   });
 });

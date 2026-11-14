@@ -181019,56 +181019,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-refuse.i-don-t-sign-on-to-other-people-s-bills-it-s-nothing-personal",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I don't sign on to other people's bills. It's nothing personal.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "refuse",
-        "key": "vote-wanted"
-      },
-      "bearing": "steady",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
-          "requiresFacts": ["no-trait", "signed-none"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.reply-refuse.my-answer-s-the-same-for-everybody-no",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "My answer's the same for everybody. No.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "refuse",
-        "key": "vote-wanted"
-      },
-      "bearing": "guarded",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
-          "requiresFacts": ["no-trait"]
-        }
-      ]
-    },
-    {
       "key": "scene-talk.reply-refuse.i-ve-voted-against-this-before-i-m-not-changing-now",
       "move": "reply-refuse",
       "kind": "spoken",

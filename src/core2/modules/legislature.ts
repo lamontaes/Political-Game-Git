@@ -3836,34 +3836,31 @@ export function publicDeclineReason(
 }
 
 /**
- * Whether a member's record backs the two reasons a no can give that rest on
- * their own past: a no vote on an earlier bill on the same question
- * (`votedAgainst`), and signing on to no bill but their own (`signedNone`).
+ * The member's no vote on an earlier bill on the same question and in the
+ * same direction, which a no to signing on may cite (`votedAgainst`).
  */
 export function signOnRecord(
   api: CoreAPI,
   memberId: string,
   bill: BillRow,
-): { votedAgainst?: string; signedNone: boolean } {
+): { votedAgainst?: string } {
   const question = bill.provisions[0]?.question;
-  let votedAgainst: string | undefined;
-  let signed = false;
+  if (!question) return {};
   for (const row of table(api, "bills").rows() as unknown as BillRow[]) {
-    if (row.cosponsors?.includes(memberId)) signed = true;
     if (
-      !votedAgainst &&
-      row.id !== bill.id &&
-      question &&
-      row.provisions[0]?.question === question &&
-      (row.provisions[0]?.value ?? 0) * (bill.provisions[0]?.value ?? 0) > 0
-    ) {
-      const vote = votesOn(api, row.id).find(
+      row.id === bill.id ||
+      row.provisions[0]?.question !== question ||
+      (row.provisions[0]?.value ?? 0) * (bill.provisions[0]?.value ?? 0) <= 0
+    )
+      continue;
+    if (
+      votesOn(api, row.id).some(
         (v) => v.memberId === memberId && v.vote === "no",
-      );
-      if (vote) votedAgainst = row.id;
-    }
+      )
+    )
+      return { votedAgainst: row.id };
   }
-  return { ...(votedAgainst ? { votedAgainst } : {}), signedNone: !signed };
+  return {};
 }
 
 /** The asks this asker made of this member of this body that were turned down, oldest first. */
