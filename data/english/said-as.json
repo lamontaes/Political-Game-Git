@@ -81,5 +81,16 @@
     "title": "Works outside the town",
     "does": "works outside the town",
     "job": "a job out of town"
+  },
+  "clerkOffice": {
+    "about": "The place a counter line sends the player: the clerk's office, or for the head of a state agency the agency itself, never \"the head of the agency's office\".",
+    "said": "the {post}'s office"
+  },
+  "agencyHead": {
+    "about": "A person who heads a state agency is said by what they do, never by the agency's name as a job (#8520, third reader): \"head of the {agency}\". The agency's name is said without a form's parenthesis, and a name that is itself an office (\"Ohio Secretary of State\") is said as that office: the person is the office, and the place is the office's own.",
+    "said": "head of the {agency}",
+    "office": "the {agency}",
+    "ownOffice": "the {agency}'s office",
+    "namedAsOffice": ["Secretary of State"]
   }
 }

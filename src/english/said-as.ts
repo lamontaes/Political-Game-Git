@@ -186,6 +186,44 @@ export function employerSaidAs(employer: SaidEmployer): string | null {
   return employerSaid(employer.name, employer);
 }
 
+/**
+ * What a person who heads an agency does, as running text says it ("head of
+ * the Pennsylvania Department of State"): the agency is the slot; a record
+ * hands over the agency, never the phrase.
+ */
+export function agencyHeadSaid(agency: string): string {
+  const name = agencyNameSaid(agency);
+  return isOfficeName(name)
+    ? name
+    : data.agencyHead.said.replace("{agency}", name);
+}
+
+/** An agency's name as people say it: a form's parenthesis dropped ("Department of Elections (State Board)"). */
+function agencyNameSaid(agency: string): string {
+  return agency
+    .replace(/\s*\([^)]*\)/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** A name that is itself an office ("Ohio Secretary of State"), not an agency with a head. */
+function isOfficeName(name: string): boolean {
+  return data.agencyHead.namedAsOffice.some((office) => name.endsWith(office));
+}
+
+/**
+ * The place a counter line sends the player: "the town clerk's office", or the
+ * agency itself when the person heads a state agency. The one reader for the
+ * possessive; a line says it as one slot, never "the {post}'s office".
+ */
+export function counterSaid(post: string, agency?: string): string {
+  if (!agency) return data.clerkOffice.said.replace("{post}", post);
+  const name = agencyNameSaid(agency);
+  return (
+    isOfficeName(name) ? data.agencyHead.ownOffice : data.agencyHead.office
+  ).replace("{agency}", name);
+}
+
 /** A job as people say it. */
 export type JobSaid =
   /** A job with the outside market: "works outside the town" / "a job out of town". */

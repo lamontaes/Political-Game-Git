@@ -31,6 +31,7 @@ import {
 import { dayOpening } from "../english/day-words";
 import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
+import { agencyHeadSaid, counterSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 
 const zero = P.zero;
@@ -324,7 +325,13 @@ export function pickContest(
     const line = visitLine(core, visit, "clerk", `rule-${check.rule}`, {
       ...facts,
       required: { text: required, sourceRecordIds: ids },
-      actual: { text: actual, sourceRecordIds: [visit.playerId] },
+      // Where the records put them, when they say a place; "somewhere else"
+      // only when they do not (T47's line lost the found place).
+      ...(check.rule === "residency" && !/^lives /.test(actual)
+        ? { actual: { text: actual, sourceRecordIds: [visit.playerId] } }
+        : check.rule === "residency"
+          ? { "no-actual": { text: "yes", sourceRecordIds: [visit.playerId] } }
+          : { actual: { text: actual, sourceRecordIds: [visit.playerId] } }),
     });
     if (line) visit.lines.push({ speaker: "clerk", ...line });
   }
@@ -710,7 +717,7 @@ function raceFacts(
 export function counterNarration(
   core: Readonly<CoreState>,
   visit: FilingVisit,
-  clerk: { title: string; recordId: string },
+  clerk: { title: string; recordId: string; heads?: string },
   /**
    * The player's filing at this counter, when there is one: they are back
    * for another race. Without one, this is their first visit, to ask for the
@@ -752,7 +759,14 @@ export function counterNarration(
     // A title the record capitalizes only at its start ("County clerk") is said
     // in running text as a common noun; one with proper names stays as written.
     post: {
-      text: titleInSentence(clerk.title),
+      text: clerk.heads
+        ? agencyHeadSaid(clerk.heads)
+        : titleInSentence(clerk.title),
+      sourceRecordIds: [clerk.recordId],
+    },
+    // Where the player goes: the clerk's office, or the agency itself.
+    counter: {
+      text: counterSaid(titleInSentence(clerk.title), clerk.heads),
       sourceRecordIds: [clerk.recordId],
     },
   };
