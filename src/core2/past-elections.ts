@@ -460,7 +460,7 @@ function pastChallenger(
   return fits[0]?.id ?? null;
 }
 
-/** The record kind of a race lost before the game began, told on the loser's own list (data/life/remembered.json). */
+/** The record kind of a race lost before the game began, told on the loser's own list (src/core2/data/life/remembered.json). */
 export const PAST_RACE_LOST = "election.lost-before-start";
 
 export function buildPriorElections(

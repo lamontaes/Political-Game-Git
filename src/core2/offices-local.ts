@@ -178,7 +178,7 @@ export function townAndBody(town: string, body: string): string {
  * compiled, else the usual body of its kind of municipality in its state
  * ("VILLAGE OF EOLIA" in a state whose villages elect a board of trustees is
  * "Eolia Board of Trustees"), else the generic municipal name, an ESTIMATED
- * row in `data/offices/body-names.json`.
+ * row in `src/core2/data/offices/body-names.json`.
  */
 function municipalBodyName(unit: GovernmentUnitIdentity): string {
   const charter = localGoverningBodyName(unit);
