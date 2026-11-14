@@ -571,42 +571,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-GOV-REACH-B-transit-fare-price",
-    "kind": "missing-engine",
-    "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 17,
-    "whatItFakes": "Fare-free transit is read by the price engine and refunds each full and counted household an estimated fare bill (average trips per household scaled by pay and the web's ridership factor); no rider or trip is recorded and the operator's lost fares are not traced.",
-    "why": "Trips remain consumption estimates, and a received notice must connect the saving to an informed view and director line.",
-    "addedBy": "OPUS-GOV (sub-agent B)",
-    "addedAt": "2026-10-12",
-    "replacement": "Replace remaining estimated-use or provider assumptions with their records and prove the journal payment, received notice, informed stance and director line in a played world.",
-    "status": "open"
-  },
-  {
-    "id": "SG-GOV-REACH-B-mileage-fee-price",
-    "kind": "missing-engine",
-    "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 31,
-    "whatItFakes": "The price engine now reads the mileage law at payment and offsets estimated fuel tax for each household; miles are the average household's scaled by pay and by the outcome web's factor on vehicle miles per resident, and the fuel tax and fuel economy are national averages, not the household's state and vehicle.",
-    "why": "Vehicle use is not yet metered on household records, and the paid adjustment lacks a received explanation and director line.",
-    "addedBy": "OPUS-GOV (sub-agent B)",
-    "addedAt": "2026-10-12",
-    "replacement": "Replace remaining estimated-use or provider assumptions with their records and prove the journal payment, received notice, informed stance and director line in a played world.",
-    "status": "open"
-  },
-  {
-    "id": "SG-GOV-REACH-B-broadband-bill",
-    "kind": "missing-engine",
-    "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 47,
-    "whatItFakes": "The price engine now pays the law's treasury for cheaper broadband and offsets the estimated old bill for full and counted households.",
-    "why": "A public provider, individual subscription choice and actual old service contract still need records; a subscription share remains registered in SG-WORLD-prices-household-shares.",
-    "addedBy": "OPUS-GOV (sub-agent B)",
-    "addedAt": "2026-10-12",
-    "replacement": "Replace remaining estimated-use or provider assumptions with their records and prove the journal payment, received notice, informed stance and director line in a played world.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-REACH-B-medicaid-coverage",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
@@ -686,33 +650,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in-triage"
-  },
-  {
-    "id": "SG-GOV-REACH-B-energy-price",
-    "kind": "missing-engine",
-    "file": "src/core2/modules/place-prices.ts",
-    "line": 1012,
-    "whatItFakes": "Clean-electricity and carbon costs are charged to full and counted households by the price engine under the law in force (replaced). Still estimated: each household's metered electricity and fuel use; its tons of carbon are an estimate times the outcome web's emissions-per-resident factor.",
-    "why": "The payment reaches the journal, but no delivered bill yet connects the recipient's informed stance and director line.",
-    "addedBy": "OPUS-GOV (sub-agent B)",
-    "addedAt": "2026-10-12",
-    "replacement": "Replace remaining estimated-use or provider assumptions with their records and prove the journal payment, received notice, informed stance and director line in a played world.",
-    "status": "open"
-  },
-  {
-    "id": "SG-GOV-REACH-B-retail-price",
-    "kind": "faked-mechanic",
-    "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 295,
-    "whatItFakes": "The price engine charges container deposits to full and counted households under the live law. Container use still uses a household estimate rather than each person's purchases and return decision; the share of containers returned is the outcome web's level for the place.",
-    "why": "Per-container charges now settle on the journal, but return transactions and a received bill-to-view/director chain are missing.",
-    "addedBy": "OPUS-GOV (sub-agent B)",
-    "addedAt": "2026-10-12",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Recorded container purchases and return transactions, plus a delivered explanation that an affected person can cite.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
   },
   {
     "id": "SG-GOV-REACH-B-nonattainment-data",
