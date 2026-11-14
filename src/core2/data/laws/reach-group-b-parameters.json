@@ -407,7 +407,8 @@
       "value": 0.786,
       "tag": "ESTIMATED",
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets, January 1 tables 2022 to 2026 (https://taxfoundation.org/data/all/state/state-income-tax-rates/): five states that replaced a graduated wage income tax with one rate chose 0.667 to 1.0 of their old top rate, median 0.786; data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json. ESTIMATED: the median stands in for the share a sponsor would write.",
-      "spread": [0.667, 1.0]
+      "spread": [0.667, 1.0],
+      "role": "coefficient"
     }
   },
   "povertyGuidelineByState": {
