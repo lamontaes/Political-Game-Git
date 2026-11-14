@@ -13,6 +13,8 @@ import {
   giveSpeech,
   runAd,
   sendMail,
+  hireCirculators,
+  circulatorsCanWork,
   statementSpeechId,
   type CauseRow,
 } from "../core2/modules/campaigns";
@@ -57,6 +59,7 @@ import { campaignParameter } from "../core2/campaign-data";
 import { backdropFor, homeOf, peopleHere } from "./scene";
 import { doorPlaceFor } from "./scene-picture-steps";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
+import { personName } from "./legislature";
 import { campaignAnswer } from "../director/campaign-answer";
 import { spokenDate as dateSaid, stateInSentence } from "../director/words";
 import { seatSaid } from "../english/journal-words";
@@ -90,6 +93,9 @@ export function petitionView(api: CoreAPI, filingId: string) {
     needed: petition.needed,
     due: petition.due,
     signed: petition.signed,
+    // Whether paid circulators can gather the race's signatures outside the
+    // town: a county, district, state or federal race while it circulates.
+    outside: circulatorsCanWork(api, filingId),
     /** Whether the doors still ask for signatures; past the target plus the cushion they ask for the vote. */
     asksAtDoors: petitionAsksAtDoors(api, filingId),
   };
@@ -168,6 +174,16 @@ export function campaignView(core: CoreState, personId: string) {
           endorsements: endorsementsOf(api, filing.id).filter(
             (row) => row.answer === "yes",
           ).length,
+        },
+        // The people on the campaign's own record: who runs it and helps, by name, so the board reads the one source.
+        team: {
+          staff: campaign.staffIds.map((id) => ({
+            id,
+            name: personName(core, id),
+          })),
+          volunteers: campaign.volunteerIds
+            .filter((id) => !campaign.staffIds.includes(id))
+            .map((id) => ({ id, name: personName(core, id) })),
         },
         polls: polls.slice(-3),
         petition: petitionView(api, filing.id),
@@ -683,6 +699,35 @@ export function campaignAct(
       return {
         ...summary(read),
         spentMinor: campaignFor(api, input.filingId).spentMinor - before,
+      };
+    }
+    case "circulators": {
+      // Paid circulators for the race's voters outside the town: the amount
+      // the player chose is set aside from what the campaign holds and paid
+      // as the signatures come in, until the petition is due.
+      const setAsideMinor = hireCirculators(
+        api,
+        input.filingId,
+        input.amountMinor ?? 0,
+      );
+      const after = campaignFor(api, input.filingId);
+      const petition = petitionView(api, input.filingId);
+      // What the money bought, from the campaign and petition records: the
+      // amount set aside and the signatures held, or why nothing was.
+      return {
+        setAsideMinor,
+        line:
+          setAsideMinor > 0 && petition
+            ? controls.campaignGatherers.hired
+                .replace("{cost}", dollarsOf(setAsideMinor))
+                .replace("{due}", dateSaid(petition.due, core.date))
+                .replace("{signed}", petition.signed.toLocaleString("en-US"))
+            : after.raisedMinor > 0
+              ? controls.campaignGatherers.noMoney.replace(
+                  "{raised}",
+                  dollarsOf(after.raisedMinor),
+                )
+              : controls.campaignGatherers.noMoneyYet,
       };
     }
     case "poll":
