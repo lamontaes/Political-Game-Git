@@ -54,8 +54,6 @@ export interface CountedVoter {
   readonly partyActivity?: number;
   /** The county employer they own, where they own one. */
   readonly ownedEmployerId?: string;
-  /** Civic roles they hold (a board, the party committee), where the place's records name them. */
-  readonly civicRoles?: readonly string[];
   /** Whole years their household has lived in its place (absent where unrecorded). */
   readonly yearsInPlace?: number;
   /** The sampled county employer they work at, where the county's sample holds one. */
@@ -80,11 +78,9 @@ function rolesOf(store: CountedStore, m: number) {
   };
   const party = text("partyActivity");
   const owned = text("ownedEmployerId");
-  const civic = text("civicRoles");
   return {
     ...(party ? { partyActivity: Number(party) } : {}),
     ...(owned ? { ownedEmployerId: owned } : {}),
-    ...(civic ? { civicRoles: civic.split(",") } : {}),
   };
 }
 
@@ -491,6 +487,8 @@ export interface CountedAppeal {
   readonly scandal: number;
   /** Their own "yes" at the candidate's door, as far as it still holds. */
   readonly pledge: number;
+  /** What the record's decided cases left them feeling toward the candidate, as the share of the record who brought them. */
+  readonly warmth?: number;
   /** What the held yes adds beyond its weight so it keeps the candidate ahead (`liftHeldPledges`); 0 where none holds. */
   readonly pledgeLift?: number;
 }
@@ -564,6 +562,11 @@ export function countedAppeal(
      */
     readonly pledges?: Readonly<Record<string, number>>;
     /**
+     * How warm the voter's decided cases with each official left them, by
+     * the official's id (a counted resident keeps no impression of their own).
+     */
+    readonly warmths?: Readonly<Record<string, number>>;
+    /**
      * The voter is a counted record's people, who divide among the
      * candidates as the count's rule has them (`countedShareRule`), not one
      * person who picks first place (`countedChoice`): the audit's probe
@@ -601,8 +604,16 @@ export function countedAppeal(
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
     const pledge = pledgeWeight * (where.pledges?.[entry.id] ?? 0);
+    const warmth = where.warmths?.[entry.id] ?? 0;
     const total =
-      party + standing + recognition + incumbent + ballot + scandal + pledge;
+      party +
+      standing +
+      recognition +
+      incumbent +
+      ballot +
+      scandal +
+      pledge +
+      warmth;
     const held = into?.[entry.id] as Mutable<CountedAppeal> | undefined;
     if (held) {
       held.total = total;
@@ -613,6 +624,7 @@ export function countedAppeal(
       held.ballot = ballot;
       held.scandal = scandal;
       held.pledge = pledge;
+      held.warmth = warmth;
     } else
       appeal[entry.id] = {
         total,
@@ -623,6 +635,7 @@ export function countedAppeal(
         ballot,
         scandal,
         pledge,
+        warmth,
       };
   }
   // A held door yes keeps its candidate ahead, in proportion to how far it holds.

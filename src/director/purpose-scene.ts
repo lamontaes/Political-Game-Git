@@ -7,6 +7,9 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { saidAs } from "../english/said-as";
+import { tellingOf } from "../english/telling";
+import { saidPersonOf } from "./said-person";
 import { placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
@@ -56,6 +59,7 @@ import {
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { withArticle } from "../english/journal-words";
+import { contractSaid } from "../english/contract-words";
 import {
   JOBS_MODULE_ID,
   JOB_OFFERED_EVENT,
@@ -93,6 +97,8 @@ import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
+import { careFacts } from "./care-facts";
+import { moveInFacts } from "./move-in-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
@@ -533,6 +539,16 @@ function composeBinding(
   const askedId = cast(type.asked) ?? personId;
   if (!askerId)
     return { kind: "skipped", reason: `no ${type.asker} on record` };
+  // Every person the scene names goes through the one said-as reader with
+  // the scene's telling (words composer, part 2): by role and name the first
+  // time, shorter after. The scene's own cause record names them, so the
+  // listener has been told who they are.
+  const telling = tellingOf({ speakerId: askerId, listenerId: askedId });
+  const sayPerson = (person: { id: string }) =>
+    saidAs(telling, {
+      ...saidPersonOf(core, person.id, telling),
+      knownToListener: true,
+    });
   const asker = core.people.get(askerId);
   const asked = core.people.get(askedId);
   if (!asker || !asked)
@@ -542,7 +558,7 @@ function composeBinding(
   const said = (record?.facts ?? {}) as Readonly<Record<string, string>>;
   const facts: Record<string, Fact> = {
     name: {
-      text: `${asker.givenName} ${asker.familyName}`,
+      text: sayPerson(asker),
       sourceRecordIds: [askerId],
     },
     first: { text: asked.givenName, sourceRecordIds: [askedId] },
@@ -622,7 +638,7 @@ function composeBinding(
     : undefined;
   if (chair && chair.id !== askedId)
     facts.chair = {
-      text: `${chair.givenName} ${chair.familyName}`,
+      text: sayPerson(chair),
       sourceRecordIds: [moment.causeId, chair.id],
     };
   // An executive's ask to carry their bill (legislature.ts askToCarry): the
@@ -706,7 +722,7 @@ function composeBinding(
         : undefined;
       if (before)
         facts.replaced = {
-          text: `${before.givenName} ${before.familyName}`,
+          text: sayPerson(before),
           sourceRecordIds: [...at, before.id],
         };
       const crew = Math.round(staffCount(api, said.organizationId));
@@ -877,6 +893,10 @@ function composeBinding(
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
     ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A visit to someone seriously ill in town: the relative still to be told.
+    ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A partner's ask to live together: who would move, and the asked's kin.
+    ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(
@@ -1020,12 +1040,9 @@ function composeBinding(
       text: said.favor,
       sourceRecordIds: [moment.causeId],
     };
-    const work = (
-      lineNames.lines as Record<string, { readonly name: string } | undefined>
-    )[said.contractLine ?? ""]?.name;
-    if (said.favor === "contract" && work)
+    if (said.favor === "contract")
       facts.contract = {
-        text: `the ${work.charAt(P.zero).toLowerCase()}${work.slice(P.one)} contract`,
+        text: contractSaid(said.contractLine ?? ""),
         sourceRecordIds: [moment.causeId, said.contractId ?? moment.causeId],
       };
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
@@ -1046,7 +1063,7 @@ function composeBinding(
     const reporter = core.people.get((said.reporterId ?? "") as PersonId);
     if (reporter)
       facts.reporter = {
-        text: `${reporter.givenName} ${reporter.familyName}`,
+        text: sayPerson(reporter),
         sourceRecordIds: [...cited, reporter.id],
       };
     const bill =
@@ -1174,9 +1191,17 @@ function composeBinding(
   }
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
-  if (asked.familyIds.has(askerId))
+  // A partner is neither kin nor a stranger: they know each other (family
+  // life, Words lead's read of the move-in scene, Nov 14 2026).
+  const partners = [...core.familyLinks.values()].some(
+    (link) =>
+      link.kind === "partner" &&
+      link.personIds.includes(askerId) &&
+      link.personIds.includes(askedId),
+  );
+  if (asked.familyIds.has(askerId) && !partners)
     facts.kin = { text: asker.givenName, sourceRecordIds: [askerId, askedId] };
-  if (asked.knownIds.has(askerId))
+  if (asked.knownIds.has(askerId) || partners)
     facts.acquainted = {
       text: asker.givenName,
       sourceRecordIds: [askerId, askedId],
@@ -1225,7 +1250,7 @@ function composeBinding(
     : undefined;
   if (rival)
     facts.opponent = {
-      text: `${rival.givenName} ${rival.familyName}`,
+      text: sayPerson(rival),
       sourceRecordIds: [moment.causeId, rival.id],
     };
   // A rival who runs under the candidate's own party label: a primary
@@ -1326,7 +1351,7 @@ function composeBinding(
     : undefined;
   if (winner && winner.id !== askedId)
     facts.opponent = {
-      text: `${winner.givenName} ${winner.familyName}`,
+      text: sayPerson(winner),
       sourceRecordIds: [moment.causeId, winner.id],
     };
   // In a race the asked won, the opponent is the one they beat: first among
@@ -1339,7 +1364,7 @@ function composeBinding(
     const other = runnerUp ? core.people.get(runnerUp as PersonId) : undefined;
     if (other)
       facts.opponent = {
-        text: `${other.givenName} ${other.familyName}`,
+        text: sayPerson(other),
         sourceRecordIds: [moment.causeId, other.id],
       };
   }
@@ -1594,7 +1619,7 @@ function composeBinding(
   }
   if (door) {
     facts.name = {
-      text: `${asker.givenName} ${asker.familyName}`,
+      text: sayPerson(asker),
       sourceRecordIds: [askerId],
     };
     facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
@@ -1634,7 +1659,7 @@ function composeBinding(
   // set its names above, from the prospect's record.
   else if (standing && !serve) {
     facts.name = {
-      text: `${asked.givenName} ${asked.familyName}`,
+      text: sayPerson(asked),
       sourceRecordIds: [askedId],
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
@@ -1918,7 +1943,7 @@ function doorViewFacts(
       },
     };
   const ids = [top.recordId];
-  const reason = viewReason(core, residentId, top.question);
+  const reason = viewReason(core, residentId, top.question, top.side);
   const facts: Record<string, Fact> = {
     about: { text: top.about, sourceRecordIds: ids },
     [`side-${top.side}`]: { text: "yes", sourceRecordIds: ids },

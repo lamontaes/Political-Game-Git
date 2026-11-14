@@ -30,7 +30,7 @@ import {
 import {
   exchangeSubjects,
   judgesExchanges,
-  judgesPaths,
+  judgesScenes,
   lineSubjects,
   type LineRule,
   type RulePiece,
@@ -100,7 +100,7 @@ export function subjectsOf(rule: LineRule, source: SubjectSource): Subject[] {
       };
     });
   }
-  if (judgesPaths(rule)) {
+  if (judgesScenes(rule)) {
     if (!source.paths)
       throw new Error(
         `${rule.id} judges scene paths: give the fold the built scenes' paths`,
@@ -294,7 +294,7 @@ export function foldVerdicts(
     let dropped = 0;
     for (const [id, row] of [...no])
       if (
-        ((judgesExchanges(rule) || judgesPaths(rule)) && !current.has(id)) ||
+        ((judgesExchanges(rule) || judgesScenes(rule)) && !current.has(id)) ||
         row.keys.some((key) => !text.has(key)) ||
         verdictId(
           row.keys,

@@ -17,6 +17,7 @@ Commands and lasting technical constraints. `AGENTS.md` holds the rules; consult
 - `npm run typecheck`, `npm run lint`, `npm run build`: whole-project checks. Run eslint and prettier on changed files for a PR.
 - `npm run test`: the full vitest run. `npm run validate`: the full suite. Neither is a PR gate; run the tests for changed files.
 - `npm run zero-dice`: the dice guard. `npm run old-imports`: refuses any import of the deleted old core (`src/simulation`, gone Oct 28).
+- `npm run tests:load`: loads every tracked test file's imports, in order, and every golden-path command's script in fresh processes (about 18 minutes on 4 cores, so it runs in the hourly validate run on main, not in a PR gate). Prints each file that cannot load with its first error line.
 - `npm run speed:year`: four timed years of the played world, an election year among them (two-minute limit for each year, no more than 20% slower than its base; CTO, Oct 30), with each year's memory and records kept.
 - `npm run all-places`: the played world in all 56 places (cloud only).
 - `npm run pool` and `npm run pool -- --check | claim | status | add`: the pool (`docs/pool/README.md`).
