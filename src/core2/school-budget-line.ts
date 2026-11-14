@@ -6,7 +6,7 @@
  */
 import {
   BUDGETS_MODULE_ID,
-  baseBudget,
+  lineWithoutBills,
   budgetsOf,
   governments,
 } from "./modules/budgets";
@@ -38,8 +38,7 @@ export function schoolsLineAboveBase(
       .filter((row) => row.startsOn <= core.date)
       .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
     if (!budget) continue;
-    const line =
-      baseBudget(api, gov, budget.fiscalYear).spendingMinor["schools"] ?? 0;
+    const line = lineWithoutBills(api, gov, budget.fiscalYear, "schools");
     if (!line) continue;
     const here = budget.spendingMinor["schools"] ?? 0;
     base += line;
