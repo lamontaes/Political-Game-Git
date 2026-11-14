@@ -1410,12 +1410,17 @@ const CONDITION_NOUNS: Readonly<Record<string, string>> = {
 const conditions: Builder = (read, f) => {
   // Who is out of work: the town's economic month the rate was taken from
   // (world-metrics writes it the day before the web's record).
-  const month = read.row<{ id: string; employed: number; unemployed: number }>(
+  const month = read.row<{
+    id: string;
+    residentsEmployed: number;
+    unemployed: number;
+  }>(
     WORLD_METRICS_MODULE_ID,
     "months",
     `metrics:${read.townPlaceId()}:${addDays(makeIsoDate(read.happened || read.story.date), -1)}`,
   );
-  const force = month ? month.employed + month.unemployed : 0;
+  // The rate's own labor force: the residents at work wherever the job is, with the jobless.
+  const force = month ? month.residentsEmployed + month.unemployed : 0;
   const moved: { measure: string; now: number; was: number; move: number }[] =
     [];
   for (const measure of Object.keys(CONDITIONS)) {
