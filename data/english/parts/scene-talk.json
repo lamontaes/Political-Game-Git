@@ -186214,36 +186214,6 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.people-at-employer-vote-too",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "People at {employer} vote too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "warn",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "donor-ask-close-warn",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "scene-talk.close-promise.i-ll-get-you-one-page-on-about-nothing-more",
       "move": "close-promise",
       "kind": "spoken",
