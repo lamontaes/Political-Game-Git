@@ -5,6 +5,7 @@
  * grace period and follows the place's own steps: notice, cure, filing,
  * hearing, judgment and removal, each a dated step on the module calendar.
  */
+import { putOutputNumber } from "../output-numbers";
 import type { PreStartModule } from "../past-module";
 import { townOutsideOf } from "../opening-outside-market";
 import { lawApplied } from "../law-reach/applied";
@@ -1804,6 +1805,15 @@ function review(api: CoreAPI): void {
     // The notice reaches the people it is served on: a record of their own
     // that the story director reads (the household talks it over that day).
     const household = c.households.get(householdId);
+    // The town's count of notices served this year, kept on the day it
+    // happens (the registry of output numbers), for both tiers of household.
+    const servedIn =
+      household?.placeId ??
+      residentsRuntime(c)?.store.liveHousehold(householdId)?.placeId;
+    if (servedIn)
+      putOutputNumber(api, "housing.eviction-notices", servedIn, 1, {
+        lastRecordId: caseId,
+      });
     const servedOn = (household?.memberIds ?? []).filter(
       (member) => c.people.get(member)?.alive,
     );

@@ -4,6 +4,7 @@ import { bodyOf, nextSittingOf } from "../core2/modules/legislature";
 import {
   federalHolidayName,
   federalHolidays,
+  nextMeetingDate,
   officeHost,
 } from "../core2/modules/office-day";
 import { townSeats } from "../core2/modules/offices";
@@ -186,10 +187,15 @@ export function calendarItems(
     // (a council, a township board, a county board: the kind names differ by place).
     const body = bodyOf(api, office.id);
     const sitting = body ? nextSittingOf(api, office.id) : null;
-    if (body && sitting && inWindow(sitting.date))
+    // A meeting set sooner than the rule's next (the one that votes the
+    // budget on the fiscal year's first day) is the body's next meeting.
+    const sooner = body ? nextMeetingDate(api, office.id) : null;
+    const date =
+      sooner && (!sitting || sooner < sitting.date) ? sooner : sitting?.date;
+    if (body && date && inWindow(date))
       bodies.set(office.id, {
         title: body.bodyName ?? body.kind,
-        date: sitting.date,
+        date,
       });
   }
   // The bodies the person sits on, at any level (a legislature, Congress): the next day each sits.
