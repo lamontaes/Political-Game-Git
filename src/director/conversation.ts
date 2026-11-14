@@ -6176,6 +6176,41 @@ function greetingLine(
 }
 
 /**
+ * Whether the speaker is on shift for a goodbye that says they are due back:
+ * the talk is at their own work, or the hour falls in their work span today.
+ */
+function onShift(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  speakerId: PersonId,
+): boolean {
+  const theirJob = jobOf(core, core.people.get(speakerId)!);
+  if (!theirJob) return false;
+  if (
+    conversation.visitOrganizationId &&
+    theirJob.org.id === conversation.visitOrganizationId
+  )
+    return true;
+  const minute =
+    conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId);
+  try {
+    return workSpansOnDateV1(coreAPI(core as CoreState), {
+      controlledPersonId: speakerId,
+      date: core.date,
+    }).owners.some(
+      (owner) =>
+        owner.job.id === theirJob.job.id &&
+        owner.spans.some(
+          (span) => span.startMinute <= minute && minute < span.endMinute,
+        ),
+    );
+  } catch {
+    // Work terms that cannot be read for the date are no shift.
+    return false;
+  }
+}
+
+/**
  * The goodbye, composed: a core that names what the talk was about (the
  * first topic's employer, school, town, news or relative, whichever it
  * carries, with a mark so the wording fits it), someone of the player's the
@@ -6227,6 +6262,7 @@ function partingLine(
       theirJob.org.id === conversation.visitOrganizationId
     )
       mark("at-their-work", [theirJob.job.id, theirJob.org.id]);
+    if (onShift(core, conversation, speakerId)) mark("on-shift", [speakerId]);
     const mine = jobOf(core, player);
     if (mine) mark("player-works", [mine.job.id]);
     if (!housemate) mark("not-housemate", [speakerId]);
@@ -6250,6 +6286,8 @@ function partingLine(
     if (whose)
       facts[`about-${key}-${whose}`] = { text: "yes", sourceRecordIds: ids };
   }
+  if (facts["about-employer-mine"] && onShift(core, conversation, speakerId))
+    facts["on-shift"] = { text: "yes", sourceRecordIds: [speakerId] };
   // Someone of the player's they know, when the talk named nothing else.
   if (family && !found) facts.name = family;
   if (!Object.keys(facts).length) return null;

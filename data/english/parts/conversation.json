@@ -25329,7 +25329,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-employer-mine"]
+          "requiresFacts": ["about-employer-mine", "on-shift"]
         }
       ],
       "origin": "authored",
@@ -25352,7 +25352,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-employer-mine"]
+          "requiresFacts": ["about-employer-mine", "on-shift"]
         }
       ],
       "origin": "authored",
@@ -25375,7 +25375,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-employer-mine"]
+          "requiresFacts": ["about-employer-mine", "on-shift"]
         }
       ],
       "origin": "authored",
@@ -38485,6 +38485,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38505,6 +38510,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38525,6 +38535,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38545,6 +38560,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38565,6 +38585,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38585,6 +38610,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38605,6 +38635,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38625,6 +38660,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38645,6 +38685,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38791,6 +38836,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38811,6 +38861,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38831,6 +38886,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38871,6 +38931,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38911,6 +38976,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38931,6 +39001,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38951,6 +39026,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -38971,6 +39051,11 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "closer"
         }
       ],
       "origin": "authored",
@@ -39946,6 +40031,356 @@
         "of": "player-day-say",
         "part": "core",
         "required": true
+      }
+    },
+    {
+      "key": "conversation.farewell-core.have-a-good-shift-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Have a good shift at {about-said}.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-yours", "player-works"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.go-easy-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Go easy at {about-said}.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-yours"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.i-hope-about-said-treats-you-right",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I hope {about-said} treats you right.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-yours"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.hope-about-said-is-good-to-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Hope {about-said} is good to you.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-yours"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.keep-at-it-over-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Keep at it over at {about-said}.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-yours"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.good-to-know-someone-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good to know someone at {about-said}.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-yours"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.i-ll-look-for-you-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'll look for you at {about-said}.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-yours"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.you-know-where-to-find-me-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "You know where to find me. {about-said}.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-mine"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.if-you-re-ever-near-about-said-say-hello",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "If you're ever near {about-said}, say hello.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-mine"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.stop-in-at-about-said-if-you-need-anything",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Stop in at {about-said} if you need anything.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-mine"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.i-m-due-back-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'm due back at {about-said}.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-mine", "on-shift"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.about-said-is-waiting-on-me",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "{about-said} is waiting on me.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-mine", "on-shift"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.i-d-better-get-back-to-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'd better get back to {about-said}.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-mine", "on-shift"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.farewell-core.that-s-my-break-back-to-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "That's my break. Back to {about-said}.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "requiresFacts": ["about-employer-mine", "on-shift"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 7)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave"
       }
     }
   ]
