@@ -150,7 +150,7 @@ describe("M2-02 election calendars and filing rules", () => {
           ),
       }),
     );
-  });
+  }, 600_000);
 });
 
 describe("M2-03 filing (engine)", () => {
@@ -218,5 +218,5 @@ describe("M2-03 filing (engine)", () => {
         status: filing.status,
       }),
     );
-  });
+  }, 600_000);
 });

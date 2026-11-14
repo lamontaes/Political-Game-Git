@@ -3,11 +3,6 @@
   "rule": "player-never-says-unchosen",
   "rubric": "A line is never put in the player's mouth that they did not choose; a choice is worded as the player's actual reply.",
   "judged": 70,
-  "no": {
-    "1ahaawyz7bw": {
-      "keys": ["scene-talk.reply-come-back.ill-come-back-with-it"],
-      "why": "B is a promise to return with something, which commits the player to a course of action they did not choose."
-    }
-  },
-  "yesHash": "2e7a4qx6bvm"
+  "no": {},
+  "yesHash": "04bm5uth8z7"
 }
