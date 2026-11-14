@@ -743,18 +743,18 @@ function composeBinding(
     // a past stand where a past no vote on the question is on the record.
     // Temperament, a wing, a deal or a lobby are never said; a no they alone
     // carry is said as the member's own view.
-    const sayable: [string, number][] = [
-      ["views", position.views],
-      ["constituents", position.constituents],
-      ["party", position.party ?? 0],
+    const sayable = [
+      { name: "views", value: position.views },
+      { name: "constituents", value: position.constituents },
+      { name: "party", value: position.party ?? P.zero },
       ...(past.votedAgainst
-        ? ([["consistency", position.consistency]] as [string, number][])
+        ? [{ name: "consistency", value: position.consistency }]
         : []),
     ];
-    const worst = sayable
-      .filter(([, value]) => value < 0)
-      .sort((a, b) => a[1] - b[1])[0];
-    const reason = worst ? worst[0] : "views";
+    const [worst] = sayable
+      .filter((row) => row.value < P.zero)
+      .sort((a, b) => a.value - b.value);
+    const reason = worst?.name ?? "views";
     facts[`no-${reason}`] = {
       text: "yes",
       sourceRecordIds: [named.id, moment.causeId],
@@ -766,7 +766,8 @@ function composeBinding(
         sourceRecordIds: [past.votedAgainst, moment.causeId],
       };
     // Turned down before on the same question, on an earlier bill.
-    const question = named.provisions[0]?.question;
+    const [section] = named.provisions;
+    const question = section?.question;
     const before = declinedAsks(
       api,
       askedId,
@@ -775,12 +776,13 @@ function composeBinding(
       "sign-on",
     ).filter(
       (row) =>
-        row.billId !== named.id && row.provisions[0]?.question === question,
+        row.billId !== named.id &&
+        row.provisions.some((other) => other.question === question),
     );
     if (before.length)
       facts["asked-before"] = {
         text: "yes",
-        sourceRecordIds: [before.at(-1)!.id, moment.causeId],
+        sourceRecordIds: [before.at(-P.one)!.id, moment.causeId],
       };
   }
   // A job offer (jobs.ts offerToPlayer): the employer, the position with its
