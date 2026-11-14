@@ -366,10 +366,18 @@ export function seatAct(
     value?: number;
     /** A phase-in: each step's amount and the date it takes effect, in place of `value`. */
     steps?: readonly { value: number; effectiveDate: string }[];
+    /**
+     * A phase-in by a percent a year, in place of `steps`: the amount in force rises by the percent
+     * on `firstDate` and again on each of the next `years - 1` anniversaries, each step the amount
+     * before it raised by the percent. It is drafted as the same dated steps, one section a year.
+     */
+    risePerYear?: { percent: number; years: number; firstDate: string };
   },
 ) {
   const api = coreAPI(core);
   if (input.kind !== "draft") throw new Error("Unknown act from your seat.");
+  if (input.risePerYear && input.steps?.length)
+    throw new Error("A phase-in is dated steps or a percent a year, not both.");
   const body = bodiesOf(core, personId).find(
     (b) => b.officeId === input.officeId,
   );
@@ -412,10 +420,37 @@ export function seatAct(
             question: input.question ?? "",
             value: value ?? 1,
           };
-  // stopgapId: SG-LEGISLATURE-phase-in-percent-a-year
-  // The ruling's other form, a percent a year, is not drafted from the seat:
-  // a phase-in is the dated steps the sponsor names.
-  if (input.steps?.length) {
+  // A percent a year is the same dated steps, one a year, each the amount before it raised by the percent.
+  const rise = input.risePerYear;
+  let steps = input.steps;
+  if (rise) {
+    if (!input.series || input.line)
+      throw new Error("A phase-in steps a law amount.");
+    if (!Number.isFinite(rise.percent) || rise.percent === 0)
+      throw new Error("A rise a year needs a percent.");
+    if (!Number.isInteger(rise.years) || rise.years < 2)
+      throw new Error("A rise a year runs for two years or more.");
+    const inForce = menusFor(api, body.level, input.officeId!)
+      .flatMap((menu) => menu.items)
+      .find((row) => row.series === input.series)?.inForce;
+    if (typeof inForce !== "number")
+      throw new Error("There is no amount in force to raise.");
+    const base = inForce;
+    const first = makeIsoDate(rise.firstDate);
+    let amount = base;
+    steps = Array.from({ length: rise.years }, (_, i) => {
+      amount *= 1 + rise.percent / 100;
+      const value = Number.isInteger(base)
+        ? Math.round(amount)
+        : Math.round(amount * 10_000) / 10_000;
+      const year = Number(first.slice(0, 4)) + i;
+      return {
+        value,
+        effectiveDate: `${year}${first.slice(4)}`,
+      };
+    });
+  }
+  if (steps?.length) {
     if (input.value !== undefined)
       throw new Error("A phase-in gives each step's amount, not a value.");
     // Only a law amount reads a section's date: a budget line is amended the
@@ -424,7 +459,7 @@ export function seatAct(
     if (!input.series || input.line)
       throw new Error("A phase-in steps a law amount.");
     let last = core.date;
-    for (const step of input.steps) {
+    for (const step of steps) {
       const date = makeIsoDate(step.effectiveDate);
       if (date <= last)
         throw new Error(
@@ -433,12 +468,12 @@ export function seatAct(
       last = date;
     }
   }
-  if ("byRequest" in body && body.byRequest && input.steps?.length)
+  if ("byRequest" in body && body.byRequest && steps?.length)
     throw new Error(
       "An executive's bill is sent as one amount, not a phase-in.",
     );
-  const provisions: Provision[] = input.steps?.length
-    ? input.steps.map((step) => ({
+  const provisions: Provision[] = steps?.length
+    ? steps.map((step) => ({
         ...sectionOf(step.value),
         effectiveDate: makeIsoDate(step.effectiveDate),
       }))
@@ -548,8 +583,8 @@ function disputedWarning(
       lawyer: lawyer.toLowerCase(),
       body: name,
     });
-  // stopgapId: SG-GOV-body-lawyer-unrecorded (a county board, a township board, a state chamber or a town with no attorney appointed has no lawyer on record)
-  api.stopgap("SG-GOV-body-lawyer-unrecorded");
+  // Every body has counsel; where the executive engine seated none (a county board in a place a council runs, a township
+  // board, a state chamber) the paper names the role by the body, never a person.
   return screenLine("bill-paper", "bill-paper.authority.disputed-body", {
     body: name,
   });
@@ -593,7 +628,11 @@ export function billPaper(core: CoreState, billId: string) {
     effective: form.effectiveSection,
     before: form.sections.map((section) => section.before),
   });
-  const titled = billTitleOf({ form: bill.form, provisions: bill.provisions });
+  const titled = billTitleOf({
+    form: bill.form,
+    provisions: bill.provisions,
+    budgetFor: bill.budgetFor,
+  });
   const names = { ...policyNames(), ...budgetLineNames() };
   // A fee's section cites what the government's charge is today: the records the draft card reads.
   const billBody = bodyOf(api, bill.bodyOfficeId);

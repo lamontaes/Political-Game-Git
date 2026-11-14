@@ -32,7 +32,7 @@ import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "j
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
 import { OFFICES_MODULE_ID } from "./offices";
-import { lawApplied } from "../law-reach/applied";
+import { lawApplied, TREASURY_ORGANIZATION_PREFIX } from "../law-reach/applied";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -611,7 +611,7 @@ function government(
   // Each government's treasury is its own account. The opening's public
   // employers are outside payers with no cash; their pay should draw from
   // this treasury once the core links them (needs OPUS-CORE).
-  const organizationId = `organization:treasury:${row.id}`;
+  const organizationId = `${TREASURY_ORGANIZATION_PREFIX}${row.id}`;
   const jurisdictionId =
     row.level === "federal"
       ? federalJurisdictionId()
