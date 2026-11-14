@@ -103,6 +103,12 @@ for (const seed of ["pl1", "pl5", "pl6", "pl4"])
           `${where}: ${story.id}: ${text}`,
         ).toBe(figure(total[1]!));
       expect(text, where).not.toMatch(/vandalism cases|busier/);
+      // "Most of them" is said only of three or more reports.
+      if (/most of them/.test(text) && total)
+        expect(
+          figure(total[1]!),
+          `${where}: ${story.id}: ${text}`,
+        ).toBeGreaterThanOrEqual(3);
       // A month is compared with the town's usual only once the usual rests
       // on enough closed months, and only where the month stands off it by
       // more than the town's own months do from their mean.

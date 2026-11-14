@@ -90,6 +90,17 @@ describe("the police log's body slides with the month's distance over usual", ()
       );
     }
   });
+  it("'most of them' is said only when the record marks a majority of three or more", () => {
+    const turns = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    const said = (facts: Record<string, string>) =>
+      turns.map((turn) =>
+        /most of them/.test(
+          composeNewsStory(packet(facts), "police-log", turn).lede ?? "",
+        ),
+      );
+    expect(said(month).some(Boolean)).toBe(false);
+    expect(said({ ...month, most: "yes" }).some(Boolean)).toBe(true);
+  });
   it("a quiet month's log has a lede and no comparison", () => {
     for (const turn of [0, 1, 2, 3, 4]) {
       const story = composeNewsStory(packet(month), "police-log", turn);

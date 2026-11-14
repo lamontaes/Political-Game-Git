@@ -3688,6 +3688,9 @@ const policeLog: Builder = (read, f) => {
       number: read.fact(count(total), row.id),
       crimes: read.fact(REPORT_NOUNS[top.type]!, row.id),
       ...(reported.length === 1 ? { "one-kind": read.yes() } : {}),
+      // "Most of them" is said only when the top kind is more than half of
+      // three or more reports.
+      ...(total >= 3 && top.n * 2 > total ? { most: read.yes() } : {}),
       // How the month stands against the town's own usual, from the wire
       // item's record: said only when the month is over it. The usual is
       // rounded once and the extra taken from it, so the figures add up.
