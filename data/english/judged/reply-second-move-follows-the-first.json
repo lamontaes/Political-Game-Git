@@ -2,7 +2,43 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 92,
-  "no": {},
-  "yesHash": "24hswbkygpf"
+  "judged": 6911,
+  "no": {
+    "01ci5tbdc2u": {
+      "keys": [
+        "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
+        "scene-talk.reply-leave.i-d-rather-not-settle-this-by-letter-i-ll-write-back"
+      ],
+      "why": "Says they won't settle it by letter, then promises to write back by letter; contradicts with no turn."
+    },
+    "07os4i854mu": {
+      "keys": [
+        "scene-talk.follow-press.please-one-line",
+        "scene-talk.reply-decline.you-really-are-running-self-goodbye"
+      ],
+      "why": "An abrupt goodbye does not follow from noticing that the player really is running."
+    },
+    "1zmdwj41zpc": {
+      "keys": [
+        "scene-talk.follow-press.that-s-what-you-always-say",
+        "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end"
+      ],
+      "why": "After 'It was. Most of it.' the speaker jumps to 'grab the other end' with nothing linking the two, and 'It was' does not fit the line it answers."
+    },
+    "21ep9s72dd5": {
+      "keys": [
+        "scene-talk.follow-press.i-m-not-asking-for-your-vote-today-just-a-chance-to-run",
+        "scene-talk.reply-decline.you-really-are-running-self-goodbye"
+      ],
+      "why": "Noting that he really is running doesn't lead to a sudden goodbye."
+    },
+    "2775y7lz5aj": {
+      "keys": [
+        "scene-talk.follow-answer.every-meeting-every-fish-fry-every-funeral-people-vote-for-the-face-th",
+        "scene-talk.reply-thank.going-away-okay-that-s-what-i-needed-to-hear"
+      ],
+      "why": "'Going away' contradicts showing up everywhere, then 'that's what I needed to hear' accepts with no turn; the moves don't form one thought."
+    }
+  },
+  "yesHash": "0en3ocae0z2"
 }

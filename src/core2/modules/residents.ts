@@ -78,6 +78,7 @@ export { incomeBandOf };
 export { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
+import { commuterRole } from "./jobs";
 import { corePlaceByKey } from "../place-lookup";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import { recordEstatePaid, sellHome } from "../housing-sale";
@@ -244,6 +245,12 @@ export interface ResidentsRuntime {
   workingAgeEnds: Map<string, number[]>;
   /** The last day `passWorkingAge` has run through (a skipped month catches up from it). */
   workingAgePassedThrough: string;
+  /**
+   * Counted people in regional work: the workers their start added to their
+   * household (at most one, less what its share already covered), which their
+   * stop takes off again.
+   */
+  regionalGains: Map<string, number>;
 }
 
 interface ResidentMonth {
@@ -294,6 +301,7 @@ registerSnapshotPart("core2-residents", {
       retirementLevel: saved.retirementLevel ?? new Map(),
       workingAgeEnds: saved.workingAgeEnds ?? new Map(),
       workingAgePassedThrough: saved.workingAgePassedThrough ?? core.date,
+      regionalGains: saved.regionalGains ?? new Map(),
       store,
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
@@ -868,6 +876,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     fillIns: 0,
     workingAgeEnds: new Map(),
     workingAgePassedThrough: core.date,
+    regionalGains: new Map(),
   };
   const owners = packOpening(core, rt, input);
   for (const row of input.flows) {
@@ -3158,6 +3167,7 @@ export function removeCountedPerson(
   const h = store.households[store.household[m]!]!;
   // Their share of the household's out-of-town workers dies with them.
   leaveUnplacedWork(rt, h, m, core.date, false);
+  rt.regionalGains.delete(personId);
   dropCountedJobs(rt, countedJobIdsOf(rt, h.jobs, new Set([personId])));
   const awards = h.incomeContracts.filter(
     (row) => row.recipientIncome?.personId === personId,
@@ -3228,6 +3238,61 @@ export function removeCountedPerson(
   writeOffArrears(rt, h, takeArrearsShare(rt, h, store.weightedCount(h)));
   store.retire(h, MemberState.Dead);
   return [];
+}
+
+/**
+ * A counted person died in `share` of the households their record stands for,
+ * fewer than all (an illness in part of them): one model, two tiers, so what
+ * a whole death does to the record, this does to that share of it. The
+ * record stands for `share` fewer households and the people who lived with
+ * the dead there go to the group's other households (`dieInPart`), their
+ * jobs stand for `share` fewer heads at their employers (a job left with
+ * none ends), and the cash and retirement award of those households leave
+ * with the record's weight. The estate is read before the death, for the
+ * caller to settle for the same share. Returns it, with who outlives them.
+ */
+export function countedPartDeath(
+  core: CoreState,
+  personId: PersonId,
+  share: number,
+):
+  | {
+      readonly estate: NonNullable<ReturnType<typeof countedEstateOf>>;
+      readonly survivors: readonly PersonId[];
+    }
+  | undefined {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(personId);
+  if (!rt || m === undefined || !(share > 0)) return undefined;
+  const store = rt.store;
+  const h = store.households[store.household[m]!]!;
+  if (share >= store.weightOf(h)) return undefined;
+  const estate = countedEstateOf(core, personId)!;
+  const survivors = store
+    .countedMembers(h)
+    .filter((member) => member !== m)
+    .map((member) => store.ids[member]! as PersonId);
+  // Their jobs stand for `share` fewer heads; one left with none ends.
+  const ended = new Set<string>();
+  const left: { id: string; heads: number }[] = [];
+  for (const job of h.jobs)
+    if (job.personId === personId && job.endsAt === undefined) {
+      const heads = store.headsOfJob(h, job.id) - share;
+      if (heads > HEADS_EPSILON) left.push({ id: job.id, heads });
+      else ended.add(job.id);
+    }
+  dropCountedJobs(rt, ended);
+  h.jobs = h.jobs.filter((row) => !ended.has(row.id));
+  h.workCommitments = h.workCommitments.filter((row) => !ended.has(row.jobId));
+  // The heads are set against the weight the record stood for, then the
+  // record's weight falls by the share (so the default heads fall with it).
+  store.dieInPart(h, share);
+  for (const row of left) {
+    const job = h.jobs.find((candidate) => candidate.id === row.id)!;
+    store.setJobHeads(job, row.heads);
+  }
+  store.touch(h);
+  return { estate, survivors };
 }
 
 /**
@@ -3778,6 +3843,7 @@ function startCommuterJob(
   personId: string,
   flow: FlowState,
   amount: number,
+  role?: { readonly title: string; readonly occupation: string },
 ): boolean {
   // A fill-in during the world's own build runs before the first day sets rt.api.
   const api = rt.api ?? coreAPI(core);
@@ -3791,6 +3857,18 @@ function startCommuterJob(
   if (!outside?.publicPayAuthority) return false;
   const person = core.people.get(personId);
   if (!person || person.jobId) return false;
+  // The work they do outside the town: the role the regional hire priced, or
+  // their place in the county's mix of work (`commuterRole`).
+  stopgap("SG-LABOR-commuter-role-pool-pay");
+  const work =
+    role ??
+    commuterRole(
+      core,
+      flow.placeId,
+      outside.id,
+      Number(core.date.slice(0, 4)) - Number(person.birthDate.slice(0, 4)),
+    );
+  if (!work) return false;
   const cadence = flow.cadence.every;
   const weekHours =
     countedParameter("countedCommuterWorkdayHours") *
@@ -3816,7 +3894,8 @@ function startCommuterJob(
     id: jobId,
     personId,
     organizationId: outside.id,
-    title: "Works outside the town",
+    title: work.title,
+    occupationClassification: work.occupation,
     hourlyMinor,
     hoursDaily,
     wageDailyMinor: Math.round(weeklyMinor / api.parameter("daysPerWeek")),
@@ -3864,8 +3943,11 @@ function startCommuterJob(
  * is workers per household of its record (the opening's share is, and every
  * reader of its income multiplies by the record's weight), and one counted
  * member stands for one person in each of those households: so the household
- * gains one worker, and the pool's pay grows by as many workers as the record
- * stands for, each at the pool's pay. Returns the job's id for a full person,
+ * gains one worker (less what its share already covered, never past its
+ * working-age members without a recorded job), and the pool's pay grows by
+ * that many workers for each household the record stands for, each at the
+ * pool's pay. A member who holds a recorded job, or whose household's share
+ * already covers all its free members, is not hired (undefined). Returns the job's id for a full person,
  * `counted` for a counted one, and undefined where the place has no unplaced
  * pool to take them.
  */
@@ -3873,6 +3955,7 @@ export function startRegionalWork(
   core: CoreState,
   personId: string,
   hourlyMinor: number,
+  role?: { readonly title: string; readonly occupation: string },
 ): string | undefined {
   const rt = runtimes.get(core);
   if (!rt) return undefined;
@@ -3898,10 +3981,32 @@ export function startRegionalWork(
       base.cadence.kind === "days"
         ? DAYS_PER_YEAR / base.cadence.every
         : 12 / base.cadence.every;
-    base.amountMinor += Math.round(
-      (rt.store.weightOf(h) * perWorker) / perYear,
+    // The household's out-of-town workers never outnumber its working-age
+    // members without a recorded job: a member the household's share already
+    // partly stands for (the opening's share is spread over those members)
+    // adds only what the share left uncovered, and the pool's pay grows by
+    // that many workers for each household the record stands for.
+    const from = countedParameter("countedWorkingAgeFrom"),
+      below = countedParameter("countedWorkingAgeBelow");
+    const held = new Set(
+      h.jobs.filter((job) => job.endsAt === undefined).map((j) => j.personId),
     );
-    h.unplacedWorkers += 1;
+    const open = rt.store.countedMembers(h).filter((x) => {
+      if (held.has(rt.store.ids[x]!)) return false;
+      const a = ageOn(rt.store.born[x]!, core.date);
+      return a >= from && a < below;
+    }).length;
+    // A member who already holds a recorded job takes no regional work, and
+    // neither does one whose household's share already covers every free
+    // working-age member: they are at work, so nobody is hired (they stay a
+    // seeker, if they were one).
+    const gain = Math.min(1, Math.max(0, open - h.unplacedWorkers));
+    if (held.has(personId) || !(gain > 0)) return undefined;
+    rt.regionalGains.set(personId, gain);
+    base.amountMinor += Math.round(
+      (gain * rt.store.weightOf(h) * perWorker) / perYear,
+    );
+    h.unplacedWorkers += gain;
     regroupHousehold(rt, h, core.date);
     return "counted";
   }
@@ -3917,7 +4022,8 @@ export function startRegionalWork(
     (hourlyMinor * weekHours * unplaced.cadence.every) /
       api.parameter("daysPerWeek"),
   );
-  if (!startCommuterJob(core, rt, personId, unplaced, amount)) return undefined;
+  if (!startCommuterJob(core, rt, personId, unplaced, amount, role))
+    return undefined;
   return commuterJobId(personId, addDays(makeIsoDate(core.date), 1));
 }
 
@@ -3931,7 +4037,13 @@ export function stopRegionalWork(core: CoreState, personId: string): boolean {
   const m = rt?.store.countedMember(personId);
   if (!rt || m === undefined) return false;
   const h = rt.store.households[rt.store.household[m]!]!;
-  return shedUnplacedWorkers(rt, h, Math.min(1, h.unplacedWorkers), core.date);
+  // What their start added comes off again; one whose share already covered
+  // them added nothing and ends with nothing to take.
+  const gain = rt.regionalGains.get(personId) ?? 1;
+  rt.regionalGains.delete(personId);
+  const workers = Math.min(gain, h.unplacedWorkers);
+  if (!(workers > 0)) return true;
+  return shedUnplacedWorkers(rt, h, workers, core.date);
 }
 
 /**
@@ -3992,6 +4104,10 @@ function leaveUnplacedWork(
     return age >= from && (age < below || (x === m && leftAge));
   };
   if (!open(m)) return;
+  // Their regional work, if any, leaves with them: its later stop takes
+  // nothing more off the household.
+  if (rt.regionalGains.has(store.ids[m]!))
+    rt.regionalGains.set(store.ids[m]!, 0);
   const members = store.countedMembers(h).filter(open).length;
   if (members > 0)
     shedUnplacedWorkers(rt, h, h.unplacedWorkers / members, date);

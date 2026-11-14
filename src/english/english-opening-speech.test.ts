@@ -74,7 +74,17 @@ const said = (
 describe("the opening address's pieces", () => {
   it("hold no figure, year, state or office, and no line the owner turned down", () => {
     for (const part of OPENING_SPEECH_BANK.parts) {
-      expect(part.text, part.key).not.toMatch(/\d|percent/);
+      // No typed figure. A context sentence may say a figure the world's own
+      // records hold (owner, Nov 12: "for 30 years we've suffered from
+      // terrible inflation, averaging out to over 12% per year ... that just
+      // establishes context in a smooth way"; docs/design/words-composer.md,
+      // "3. The outline"), so "percent" is allowed only directly after the
+      // slot the context reader fills; any other "percent" still fails.
+      expect(part.text, part.key).not.toMatch(/\d/);
+      expect(
+        part.text.replace(/\{context-amount\} percent\b/g, ""),
+        part.key,
+      ).not.toMatch(/percent/);
       expect(part.text, part.key).not.toMatch(FIGURE_SLOT);
       for (const line of TURNED_DOWN)
         expect(part.text, part.key).not.toMatch(line);
@@ -82,6 +92,15 @@ describe("the opening address's pieces", () => {
         /\b(?:Pennsylvania|Ohio|Texas|California|Florida|Congress shall)\b/,
       );
     }
+  });
+
+  it('never contract "is" or "has" onto a noun phrase (words lead, round 7)', () => {
+    // "'s" for "is" attaches only to a pronoun or to "that", "there", "here",
+    // "what" and "who": "Progress on health care's something" is not English.
+    const nounContraction =
+      /(?<![\w'])(?!(?:it|that|there|here|what|who|he|she|let|how|where|when|why|everyone|someone|everybody|nobody|somebody|anyone|one|this)'s\b)[A-Za-z-]+\}?'s (?:a|an|the|within|something|not|so|just|still|more|less|good|bad|always|never|now|no|up|down|better|worse|going|been|got|like)\b/i;
+    for (const part of OPENING_SPEECH_BANK.parts)
+      expect(part.text, part.key).not.toMatch(nounContraction);
   });
 
   it("keep short sentences: a third of each move's cores in the President's address are twelve words or fewer, each with its insert", () => {

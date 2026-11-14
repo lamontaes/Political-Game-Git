@@ -9,7 +9,6 @@ import {
   talkReply,
   fillTalk,
   talkControls,
-  addTalkLine,
   mountTalkKeys,
   mountSpeakers,
 } from "./ui/talk-box.mjs";
@@ -19,6 +18,7 @@ import { chamberHeader } from "./ui/chamber.mjs";
 import { personCard } from "./ui/person-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
+import { counterReplies } from "./ui/counter-picks.mjs";
 import {
   ALL,
   filterLaws,
@@ -811,6 +811,8 @@ function inMeeting() {
     const draw = (scene) => {
       if (!scene) return finish();
       $("meeting-adjourn").disabled = false;
+      $("meeting-adjourn").textContent =
+        (scene.seated ? words.adjourn : words.leave) ?? "";
       $("backdrop").src = scene.backdrop.url;
       drawHere(scene);
       $("card-place").textContent = scene.title;
@@ -843,10 +845,14 @@ function inMeeting() {
             );
             return b;
           });
+          // Anyone in the room speaks, at any board; only the seated vote.
           return billBlock(
             item,
             scene.members ?? [],
-            item.takenUp ? [] : [speak, vote],
+            // A bill a committee already failed stays listed, with nothing to press.
+            item.takenUp || item.status !== "drafted"
+              ? []
+              : [speak, ...(scene.seated ? [vote] : [])],
             (billId) =>
               openBillPaper(
                 billId,
@@ -857,6 +863,17 @@ function inMeeting() {
           );
         }),
       );
+      // A resident's one line under the title: an empty agenda, or what they can do here.
+      if (scene.note)
+        $("meeting-items").prepend(prose(scene.note, "meeting-note"));
+      // Said before the press: what Adjourn does with the items still open.
+      $("meeting-adjourn-note")?.remove();
+      if (scene.items.some((item) => !item.takenUp))
+        $("meeting-adjourn").before(
+          Object.assign(prose(words.adjournNote ?? "", "meeting-note"), {
+            id: "meeting-adjourn-note",
+          }),
+        );
       $("meeting-adjourn").onclick = async () => {
         $("meeting-adjourn").disabled = true;
         await post(
@@ -988,7 +1005,15 @@ function atNominations() {
                       { value: "", label: words.own ?? "" },
                       ...entry.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: (value) => {
@@ -1050,7 +1075,15 @@ function atOrders() {
                       { value: "", label: words["post-own"] ?? "" },
                       ...item.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: (value) => {
@@ -1309,13 +1342,15 @@ function atThePolls(scene) {
           contests: scene.contests,
           labels: { ...labels, blank: controls.polling?.leaveBlank },
           onMark: async (contestId, candidateId) => {
+            // The visit may already be over (voted, or the polls closed): the ballot closes
+            // with it and goes on, never a live button on a ballot nobody is standing at.
             const result = await post(
               `/api/polling-place/mark?${new URLSearchParams({
                 contestId,
                 candidateId: candidateId ?? "",
               })}`,
-            );
-            if (result.pollingPlace) draw(result.pollingPlace);
+            ).catch(() => null);
+            if (result?.pollingPlace) draw(result.pollingPlace);
             else finish();
           },
           know: (personId) =>
@@ -1329,7 +1364,7 @@ function atThePolls(scene) {
               }))
               .catch(() => null),
           onLeave: async () => {
-            await post("/api/polling-place/leave");
+            await post("/api/polling-place/leave").catch(() => null);
             finish();
           },
         }),
@@ -1337,6 +1372,9 @@ function atThePolls(scene) {
     };
     const finish = () => {
       show("ballot", false);
+      // The paper goes with the visit: a ballot left in the page keeps live race buttons that
+      // would post a mark to polls that are no longer open.
+      $("ballot").replaceChildren();
       resolve();
     };
     draw(scene);
@@ -1564,6 +1602,8 @@ $("talk-leave").addEventListener("click", async () => {
 let filing;
 // The counter's narration has played its beat for this visit.
 let filingNarrated = false;
+// How many times the player asked what else is open at this counter.
+let counterTurn = 0;
 function renderFiling(value) {
   filing = value;
   if (!value) return;
@@ -1596,7 +1636,7 @@ function renderFiling(value) {
   fillTalk({ lines: spokenLines(lines) });
   // No form at the counter (owner, Oct 28, point 31: the rules panel was a
   // dev menu): filing carries the party the player is tied to, from the
-  // record; the platform is SG-SCREENS-filing-platform-from-views.
+  // record, and the platform from the filer's own views.
   const choose = async (choice) => {
     // "All right." is the way out: it walks out as Leave does, never a reply
     // that only clears itself (C13).
@@ -1613,8 +1653,8 @@ function renderFiling(value) {
     renderFiling(await post(`/api/filing/choose?${params}`));
   };
   // Each race told apart before the pick: its seat, its election day and
-  // who holds the seat now, from the contest's records. It says nothing of what the
-  // office does (SG-SCREENS-office-hover-prose: no office-duties bank yet).
+  // who holds the seat now, from the contest's records. What the office does
+  // is the clerk's to say once the race is named.
   const counter = controls.filing;
   const factsOf = (choice) => {
     const seat = value.seats?.[choice.action.contestId];
@@ -1625,22 +1665,18 @@ function renderFiling(value) {
       seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
     ].join(" · ");
   };
-  // The counter offers four replies at most (SG-SCREENS-counter-six-replies),
-  // the races soonest first; every race is a way in from the office's own view
-  // in Travel. Each race is told apart in its own line (its seat, its election
+  // The counter offers four replies at most; an office with more races
+  // asks "What else is open?" among them and the next races follow, soonest
+  // first. Each race is told apart in its own line (its seat, its election
   // day and who holds it now), never in a hover card over the next line
   // (owner, Nov 1: "a terribly designed menu").
   const electionOf = (choice) =>
     value.seats?.[choice.action.contestId]?.electionDate ?? "";
-  const picks = new Set(
-    value.visit.choices
-      .filter((choice) => choice.action.kind === "pick")
-      .sort((x, y) => electionOf(x).localeCompare(electionOf(y)))
-      .slice(0, 4),
+  const { shown: choices, more } = counterReplies(
+    value.visit.choices,
+    electionOf,
+    counterTurn,
   );
-  const choices = value.visit.choices
-    .filter((choice) => choice.action.kind !== "pick" || picks.has(choice))
-    .slice(0, 4);
   // At the counter you can walk out where that is a real choice: not beside
   // a lone "All right." that already ends the visit. Silence is not an answer.
   talkControls({
@@ -1654,36 +1690,27 @@ function renderFiling(value) {
     if (choice.action.kind !== "pick") return;
     buttons[i].append(" ", smallText(factsOf(choice), "reply-facts"));
   });
+  if (more) {
+    const whatElse = makeButton({ textContent: controls.filing.whatElse });
+    whatElse.addEventListener("click", () => {
+      counterTurn += 1;
+      renderFiling(value);
+    });
+    // With the races, ahead of any way out: the way out is always last.
+    buttons.splice(
+      choices.filter((choice) => choice.action.kind === "pick").length,
+      0,
+      whatElse,
+    );
+  }
   fillTalk({ replies: buttons });
-  // The filing's record once it is made: its status, shown as the record's
-  // label under the talk, not as words in the clerk's mouth.
-  if (value.result?.petition)
-    addTalkLine(
-      talkLine({
-        kind: "label",
-        text: controls.filing.petition
-          .replace("{needed}", String(value.result.petition.needed))
-          .replace("{date}", dateWords(value.result.petition.due)),
-      }),
-    );
-  if (value.result)
-    addTalkLine(
-      talkLine({
-        kind: "label",
-        text: value.result.filing
-          ? (controls.filing?.status?.[value.result.status] ??
-            words(value.result.status))
-          : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
-              value.result.unmet ?? []
-            )
-              .map((u) => controls.filing?.rules?.[u.rule] ?? words(u.rule))
-              .join(", ")}`,
-      }),
-    );
+  // What the filing asks next is said by the clerk, once, in the talk: no
+  // count or status label sits under the dialogue (owner, Nov 14).
   setScales({ available: false });
 }
 async function openFiling(filedWith, contestId) {
   filingNarrated = false;
+  counterTurn = 0;
   closeSheet();
   renderTalk(undefined);
   const opened = await post(
@@ -1700,6 +1727,8 @@ async function openFiling(filedWith, contestId) {
       return;
     }
   }
+  // Nothing to file and no petition out: the counter has no scene.
+  if (opened.nothing) return;
   const pick =
     contestId &&
     opened.visit?.choices.find(
@@ -1801,6 +1830,91 @@ function playAsks({ asked, summary, scene }) {
   };
   step(0);
 }
+/**
+ * A governor's race that carries the office the law elects on its ticket: the running mate
+ * once named, else the people of the player's party the world's own pick ranks, best first, to
+ * choose from, and Choose for me for the world's pick (owner, Nov 14).
+ */
+function ticketSection(filing, ticket) {
+  const words = controls.runningMate ?? {};
+  const title = words.title;
+  if (ticket.mate) return stripSection(1, title, introText(ticket.mate.name));
+  if (!ticket.choices.length)
+    return stripSection(
+      1,
+      title,
+      introText(
+        ticket.joinsAfterPrimary
+          ? words.nominee.replace("{ticket}", ticket.officeSaid)
+          : words.later,
+      ),
+    );
+  // Only someone who may be asked now is offered; a no stands for a while.
+  const askable = ticket.choices.filter((c) => c.mayAsk);
+  let picked = askable[0]?.id;
+  const chooseForMe = async () => {
+    await post(
+      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id })}`,
+    );
+    await openSheet("campaign");
+  };
+  // Asking is a conversation: it plays as a scene, and the answer is theirs.
+  const ask = async (personId) => {
+    const asked = await post(
+      `/api/campaign/running-mate/ask?${new URLSearchParams({ filingId: filing.id, personId })}`,
+    );
+    if (asked.packet) renderPacket(asked.packet);
+    const moment = storyStop(asked.packet);
+    closeSheet();
+    // The sit-down itself first; anything else that came up waits behind it.
+    if (asked.story) await showStory(asked.story);
+    else if (moment) await showStory(moment.recordId);
+  };
+  const rowLabel = (c) =>
+    (c.work && c.place
+      ? words.row
+      : c.place
+        ? words.rowPlace
+        : c.work
+          ? words.rowWork
+          : "{name}"
+    )
+      .replace("{name}", c.name)
+      .replace("{work}", c.work ?? "")
+      .replace("{place}", c.place ?? "");
+  const declined = ticket.choices.filter((c) => c.declined && !c.mayAsk);
+  return stripSection(
+    1,
+    title,
+    ...(askable.length
+      ? [
+          select({
+            options: askable.map((c) => ({ value: c.id, label: rowLabel(c) })),
+            onChange: (value) => {
+              picked = value;
+            },
+          }),
+        ]
+      : []),
+    ...declined.map((c) => introText(words.declined.replace("{name}", c.name))),
+    buttonRow(
+      ...(askable.length
+        ? [
+            makeButton({
+              className: "action primary",
+              textContent: words.ask,
+              onclick: () => ask(picked),
+            }),
+          ]
+        : []),
+      makeButton({
+        className: "action",
+        textContent: words.own,
+        onclick: () => chooseForMe(),
+      }),
+    ),
+  );
+}
 async function campaignParts() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const parts = [];
@@ -1813,7 +1927,9 @@ async function campaignParts() {
     outings,
     standing,
     debates,
+    team,
     pictures,
+    runningMate,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
       const kindOf = {
@@ -1847,7 +1963,23 @@ async function campaignParts() {
         result.doorsKnocked
           ? controls.campaignResults.doors.replace("{n}", result.doorsKnocked)
           : "",
-        result.reached
+        // Doors that opened on a petition's outing, whether asked to sign or
+        // for the vote (the Words lead, Nov 14); "reached" says the people met
+        // and shows where any door asked for the vote.
+        result.answered !== null && result.answered !== undefined
+          ? controls.campaignResults.answered.replace("{n}", result.answered)
+          : "",
+        // How many signed at the doors, a day of none included (owner, Nov 14:
+        // "Tab total and each outing"), outside the dialogue.
+        result.signed === null || result.signed === undefined
+          ? ""
+          : result.signed === 0
+            ? controls.campaignResults.signedNone
+            : controls.campaignResults.signed.replace("{n}", result.signed),
+        result.reached &&
+        (result.votesAsked === null ||
+          result.votesAsked === undefined ||
+          result.votesAsked > 0)
           ? controls.campaignResults.reached.replace("{n}", result.reached)
           : "",
         result.raisedMinor ? moneyWords(result.raisedMinor) : "",
@@ -1875,23 +2007,25 @@ async function campaignParts() {
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
       );
       campaignResult =
-        result.volunteers !== undefined
-          ? controls.campaignVolunteers.asked
-              .replace("{asked}", String(result.answers.length))
-              .replace(
-                "{yes}",
-                String(result.answers.filter((a) => a.yes).length),
-              )
-              .replace("{volunteers}", volunteerCount(result.volunteers))
-          : result.contacted !== undefined
-            ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
-                result.answers,
-              )
-                .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
-                .join(" · ")}`
-            : result.reached !== undefined
-              ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-              : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+        typeof result.line === "string" && result.setAsideMinor !== undefined
+          ? result.line
+          : result.volunteers !== undefined
+            ? controls.campaignVolunteers.asked
+                .replace("{asked}", String(result.answers.length))
+                .replace(
+                  "{yes}",
+                  String(result.answers.filter((a) => a.yes).length),
+                )
+                .replace("{volunteers}", volunteerCount(result.volunteers))
+            : result.contacted !== undefined
+              ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
+                  result.answers,
+                )
+                  .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
+                  .join(" · ")}`
+              : result.reached !== undefined
+                ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+                : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A volunteer shift is a scene: each person asked is the next Continue.
       if (kind === "ad" && result.scene) {
         playAsks({ asked: [], summary: result.line, scene: result.scene });
@@ -1952,6 +2086,18 @@ async function campaignParts() {
                 label: T.howLong,
                 value: `${choice.hours} ${controls.campaignOutings.hours}`,
               },
+              // What the doors ask for now: signatures while the petition is
+              // short of its target, votes after it and in a race with none.
+              ...(choice.outing === "doors"
+                ? [
+                    {
+                      label: T.asking,
+                      value: petition?.asksAtDoors
+                        ? T.askingSignatures
+                        : T.askingVotes,
+                    },
+                  ]
+                : []),
             ],
             does: why ? [why] : [],
           }),
@@ -1991,6 +2137,36 @@ async function campaignParts() {
           return { nodes: [buttonRow(dollarsOut, send)] };
         },
       },
+      // Paid circulators gather the signatures a county, district or
+      // statewide race needs outside the town while its petition circulates.
+      ...(petition?.outside
+        ? [
+            {
+              group: T.groupMoney,
+              title: controls.campaignActs.circulators,
+              picture: pictures?.mail,
+              load: async () => {
+                const dollarsOut = numberBox({
+                  value: 500,
+                  min: 0,
+                  step: 1,
+                  label: controls.campaignContribute.dollars,
+                });
+                const hire = button(
+                  controls.campaignActs.circulators,
+                  "circulators",
+                  () => ({
+                    amountMinor: String(
+                      Math.round(Number(dollarsOut.value) * 100),
+                    ),
+                  }),
+                );
+                hire.dataset.testid = "campaign-circulators";
+                return { nodes: [buttonRow(dollarsOut, hire)] };
+              },
+            },
+          ]
+        : []),
       {
         group: T.groupMoney,
         title: controls.campaignContribute.give,
@@ -2057,7 +2233,8 @@ async function campaignParts() {
           nodes: [
             debateCard({
               words: controls.debate,
-              debate,
+              // The day in words ("October 20, 2026"), never the record's digits.
+              debate: { ...debate, date: dateWords(debate.date) },
               questionLabel: policyLabel,
               onAnswer: async (answers) => {
                 await post(
@@ -2084,7 +2261,8 @@ async function campaignParts() {
     ];
     // The campaign board (the mock's pl-campaign): where the race stands in sentences the
     // English engine wrote, the money, and the way out onto the trail.
-    const part = { filing, contest, trail };
+    // Its card in Travel shows the street the trail starts on, as each act's tile shows its place.
+    const part = { filing, contest, trail, picture: pictures?.doors };
     const labelsC = controls.campaignBoard ?? {};
     const out = makeButton({ textContent: labelsC.trail });
     out.addEventListener("click", () => trailView(part));
@@ -2097,6 +2275,7 @@ async function campaignParts() {
             controls.raceStanding.title,
             ...(standing ?? []).map((text) => introText(text)),
           ),
+          ...(runningMate ? [ticketSection(filing, runningMate)] : []),
         ],
         [
           stripSection(
@@ -2112,29 +2291,20 @@ async function campaignParts() {
               { label: labelsC.volunteers, value: String(campaign.volunteers) },
               { label: labelsC.doors, value: String(campaign.doors) },
               // The petition record: the signatures held against those the
-              // clerk will count, and the clerk's verdict once it has checked.
-              ...(petition
+              // law asks, and the day they are due (owner, Nov 14: the tab keeps
+              // the running total). A race that asks no signatures shows none.
+              ...(petition?.needed
                 ? [
                     {
                       label: labelsC.signatures,
-                      value: labelsC.signaturesHeld
+                      value: (petition.signed >= petition.needed
+                        ? labelsC.signaturesEnough
+                        : labelsC.signaturesHeld
+                      )
                         .replace("{signed}", String(petition.signed))
                         .replace("{needed}", String(petition.needed))
                         .replace("{date}", dateWords(petition.due)),
                     },
-                    ...(petition.check
-                      ? [
-                          {
-                            label: labelsC.clerkCount,
-                            value: labelsC.clerkCounted
-                              .replace("{valid}", String(petition.check.valid))
-                              .replace(
-                                "{struck}",
-                                String(petition.check.struck),
-                              ),
-                          },
-                        ]
-                      : []),
                   ]
                 : []),
               ...(campaign.endorsements
@@ -2148,7 +2318,39 @@ async function campaignParts() {
             ]),
           ),
         ],
-        [buttonTray(out)],
+        [
+          // The inbox: only requests a record holds (a debate the outlet invited you to), each
+          // opening where it is answered; no heading when there is none.
+          ...(debates?.length
+            ? [
+                stripSection(
+                  3,
+                  labelsC.inbox,
+                  ...debates.map((debate) => {
+                    const open = makeButton({ textContent: labelsC.inboxOpen });
+                    open.addEventListener("click", () => trailView(part));
+                    return deskBill(
+                      line(controls.debate?.title ?? labelsC.debate),
+                      line(dateWords(debate.date)),
+                      buttonRow(open),
+                    );
+                  }),
+                ),
+              ]
+            : []),
+          // The team: the people on the campaign's own record, who runs it and who helps.
+          ...(team?.staff.length || team?.volunteers.length
+            ? [
+                stripSection(
+                  4,
+                  labelsC.team,
+                  ...team.staff.map((p) => row(p.name, labelsC.staff)),
+                  ...team.volunteers.map((p) => row(p.name, labelsC.volunteer)),
+                ),
+              ]
+            : []),
+          buttonTray(out),
+        ],
       ],
     });
     parts.push(part);
@@ -2238,7 +2440,13 @@ async function showStory(momentId) {
     for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
-      setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+      // A speaker heard on a broadcast is named, never drawn in the room
+      // (the narrator said how it was heard); one on the montage or in the
+      // room stands on the strip.
+      setWho(
+        story.beats || story.speech.inRoom ? story.speech.speakerId : null,
+        story.names[story.speech.speakerId],
+      );
       // The part's picture and cast: the desk, the town, the colonnade, the
       // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
@@ -2247,12 +2455,25 @@ async function showStory(momentId) {
         drawHere(beat);
       }
       talkControls({ silent: false, leave: false });
+      // Heard on a broadcast: the station over the line with its small icon
+      // (owner, Oct 14: "a small card in the conversation text style with a
+      // tiny radio/TV icon, the station, and the line").
+      const on = story.speech.heardOn;
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: parts[at] })],
+        lines: [
+          talkLine({
+            kind: on ? `speech heard heard-${on.medium}` : "speech",
+            text: parts[at],
+            ...(on ? { who: on.station } : {}),
+          }),
+        ],
         replies: [],
       });
       setScales({ available: false });
       if (at + 1 < parts.length) onContinue = () => sayPart(at + 1);
+      // A floor or campaign speech is followed by its exchange: the player
+      // answers the member who rose, or the candidate who comes over.
+      else if (story.talk) onContinue = () => playExchange(story);
     };
     narrateFirst(setting, () => sayPart(0));
     return;
@@ -2610,6 +2831,25 @@ async function playAs(personId) {
   await refresh();
 }
 
+/** An On and Off toggle (the Options pattern): `on()` says which is lit, `set(bool)` changes it. */
+function onOffToggle({ attr, on, set, testid, labels }) {
+  const bar = tabBar({
+    attr,
+    active: on() ? "on" : "off",
+    tabs: ["on", "off"].map((key) => ({
+      key,
+      label: labels[key],
+      onSelect: async () => {
+        await set(key === "on");
+        chooseTab(bar, attr, on() ? "on" : "off");
+      },
+    })),
+  });
+  for (const tab of bar.querySelectorAll(".tab"))
+    tab.dataset.testid = `${testid}-${tab.dataset[attr]}`;
+  return bar;
+}
+
 // ---- The seat as a job, and what stops you (OFFICE-LOCAL) ----
 /**
  * What the player holds as an official, as plate-built nodes for Your office: the seat (office,
@@ -2618,7 +2858,8 @@ async function playAs(personId) {
  */
 async function officeParts() {
   const v = await api(`/api/office?id=${encodeURIComponent(me.id)}`);
-  if (!v.jobs.length) return { seat: [], budget: [], deals: [] };
+  if (!v.jobs.length && !v.stops.length)
+    return { seat: [], stops: [], budget: [], deals: [] };
   const words = controls.officeStops ?? {};
   const labels = controls.officeScreen ?? {};
   const paged = (items, { rows, columns, rowHeight, className }) =>
@@ -2631,6 +2872,36 @@ async function officeParts() {
       gap: 8,
       className,
     });
+  // What stops you: one On and Off switch per kind of vote this seat has. Off, you are away from
+  // that kind of vote: the record has you absent, a bill on your desk waits, nothing is cast for you.
+  const stops = v.stops.length
+    ? [
+        stripSection(
+          1,
+          labels.stops,
+          ...v.stops.map((stop) =>
+            settingRow(
+              stop.key === "meetings" && v.stopsBody
+                ? v.stopsBody
+                : (words.switches?.[stop.key] ?? ""),
+              onOffToggle({
+                attr: "stop",
+                testid: `office-stop-${stop.key}`,
+                labels: controls.options,
+                on: () => stop.on,
+                set: async (wanted) => {
+                  const next = await post(
+                    `/api/office/stops?${new URLSearchParams({ key: stop.key, on: String(wanted) })}`,
+                  );
+                  stop.on =
+                    next.stops.find((s) => s.key === stop.key)?.on ?? wanted;
+                },
+              }),
+            ),
+          ),
+        ),
+      ]
+    : [];
   const seat = [
     ...v.jobs.map((job) =>
       stripSection(
@@ -2669,7 +2940,15 @@ async function officeParts() {
                       { value: "", label: words.ownChoice ?? "" },
                       ...head.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: async (nomineeId) => {
@@ -2750,7 +3029,9 @@ async function officeParts() {
               v.acts.map((a) =>
                 row(
                   `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
-                  `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
+                  a.how === "absent"
+                    ? (words.absent?.[a.detail] ?? "")
+                    : `${a.kind === "vote" ? (words.votes?.[a.detail] ?? a.detail) : a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : a.how === "adjourned" ? ` · ${words.adjourned ?? ""}` : ""}`,
                 ),
               ),
               { rows: 4, columns: 1, rowHeight: 48, className: "office-paged" },
@@ -2818,7 +3099,7 @@ async function officeParts() {
       ),
     ),
   );
-  return { seat, budget, deals };
+  return { seat, stops, budget, deals };
 }
 
 // ---- The bill on paper: one document, every section clickable ----
@@ -2858,6 +3139,9 @@ function billEstimate(paper, section) {
       proposed: roundedMoney(est.lineNewMinor),
     };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
+  // A phase-in's step names the day it takes effect.
+  if (est.effectiveDate)
+    lines.push(`${words.takesEffectOn ?? ""} ${dateWords(est.effectiveDate)}`);
   // The two cells above carry the amounts; the line is then only named.
   if (est.line)
     lines.push(
@@ -2892,6 +3176,8 @@ function billEstimate(paper, section) {
     prose: shown.length || compare ? "" : (words.noFigure ?? ""),
     lines: shown,
     compare,
+    // A phase-in's step: the paper lists every step beside the others, in order.
+    dated: Boolean(est.effectiveDate),
   };
 }
 /**
@@ -3075,6 +3361,8 @@ async function openBillPaper(billId, show, back, backLabel) {
       },
       views: { clean: pageWords.clean, compare: pageWords.compare },
       amendsLabel: words.amends ?? "",
+      // A phase-in's later steps: what stands until the step takes effect.
+      untilLabel: words.untilThen ?? "",
       // Each chamber's result as the English engine words it, from the stage view, then the floor's
       // vote by party and those who cast none, from the page view.
       votes: [...stage.floor, ...stage.override].map((entry) => {
@@ -3176,16 +3464,50 @@ async function seatRows() {
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
-    seatResult = r.number
-      ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
-          r.authority?.some((a) => !a.allowed)
-            ? ` · ${r.authority
-                .filter((a) => !a.allowed)
-                .map((a) => controls.authority?.[a.reason] ?? "")
-                .join("; ")}`
-            : ""
-        }`
+    // An executive's bill goes through a member: who was asked and what they said.
+    const askedWord = r.asked
+      ? (() => {
+          const say = r.asked.pronouns;
+          const fill = (line) =>
+            line
+              .replace("{name}", r.asked.name)
+              .replace("{words}", r.asked.reasonWords ?? "")
+              .replace("{subject}", say?.lower ?? "they")
+              .replace("{object}", say?.object ?? "them")
+              .replace("{possessive}", say?.possessive ?? "their");
+          const reasons = say
+            ? controls.seat.askedReasons
+            : controls.seat.askedReasonsThey;
+          const reason = reasons[r.asked.reason];
+          const line = r.asked.carried
+            ? controls.seat.askedCarried
+            : r.asked.reasonWords
+              ? controls.seat.askedRefusedSaid
+              : reason
+                ? controls.seat.askedRefusedBecause.replace("{reason}", reason)
+                : controls.seat.askedRefused;
+          const earlier = r.asked.earlier ?? [];
+          const before = earlier.length
+            ? ` ${(earlier.length === 1
+                ? controls.seat.askedBefore
+                : controls.seat.askedBeforeMore
+              ).replace("{date}", dateWords(earlier.at(-1)))}`
+            : "";
+          return fill(line + before);
+        })()
       : "";
+    seatResult = r.asked
+      ? askedWord
+      : r.spoken
+        ? `${r.spoken} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
+            r.authority?.some((a) => !a.allowed)
+              ? ` · ${r.authority
+                  .filter((a) => !a.allowed)
+                  .map((a) => controls.authority?.[a.reason] ?? "")
+                  .join("; ")}`
+              : ""
+          }`
+        : "";
     openSheet("office");
   };
   for (const body of v.bodies) {
@@ -3206,6 +3528,9 @@ async function seatRows() {
         today: seat.today ?? "",
         newAmount: seat.newAmount ?? "",
         draft: seat.draft ?? "",
+        addStep: seat.addStep ?? "",
+        firstStep: seat.firstStep ?? "",
+        stepDate: seat.stepDate ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
@@ -3219,11 +3544,16 @@ async function seatRows() {
                 ? policyLabel(item.question)
                 : item.name
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-          // What the law in force holds, as the bill's paper cites it.
+          // What the law in force holds, as the bill's paper cites it: a
+          // yes-or-no question reads Yes or No, as the Issues tab says it.
           today:
-            item.today?.value != null
-              ? amount(item.today.value, item.today.unit)
-              : null,
+            item.today?.value == null
+              ? null
+              : item.kind === "policy-question"
+                ? item.today.value
+                  ? controls.politics.yes
+                  : controls.politics.no
+                : amount(item.today.value, item.today.unit),
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
@@ -3233,7 +3563,7 @@ async function seatRows() {
               : "",
         })),
       })),
-      onDraft: (item, typed) => {
+      onDraft: (item, typed, steps = []) => {
         const [kind, key] = [
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
@@ -3246,7 +3576,23 @@ async function seatRows() {
             : kind === "line"
               ? { line: key }
               : { question: key }),
-          value: item.cents ? String(Math.round(Number(typed) * 100)) : typed,
+          // A phase-in names each step's amount and day; a single bill, one amount.
+          ...(steps.length
+            ? {
+                steps: JSON.stringify(
+                  steps.map((step) => ({
+                    value: item.cents
+                      ? Math.round(Number(step.amount) * 100)
+                      : Number(step.amount),
+                    effectiveDate: step.date,
+                  })),
+                ),
+              }
+            : {
+                value: item.cents
+                  ? String(Math.round(Number(typed) * 100))
+                  : typed,
+              }),
         });
       },
     });
@@ -3275,7 +3621,7 @@ async function seatRows() {
   const labels = controls.officeScreen ?? {};
   // Your bills, each with its standing, the day it is taken up, how the vote came out and
   // the paper that opens to read it (the mock's "On my desk").
-  const desk = v.bills.map(({ bill, votes, tally, floorDate }) => {
+  const desk = v.bills.map(({ bill, spoken, votes, tally, floorDate }) => {
     const open = makeButton({
       className: "action",
       textContent: controls.bill?.open ?? "",
@@ -3288,7 +3634,7 @@ async function seatRows() {
       ),
     );
     return deskBill(
-      deskTitle(`${bill.number} · ${floor.status[bill.status] ?? ""}`),
+      deskTitle(`${spoken} · ${floor.status[bill.status] ?? ""}`),
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
         : []),
@@ -3304,7 +3650,7 @@ async function seatRows() {
     );
   });
   const left = (v.incompatibilities ?? []).map((l) =>
-    line(`${l.date} · ${l.left} → ${l.took} · ${l.law}`),
+    line(`${dateWords(l.date)} · ${l.left} → ${l.took} · ${l.law}`),
   );
   const result = seatResult
     ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]
@@ -3359,6 +3705,7 @@ async function seatRows() {
       columns: [
         parts.seat,
         [
+          ...parts.stops,
           ...result,
           ...(desk.length
             ? [
@@ -3835,7 +4182,8 @@ const sheets = {
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
-        words[section.key],
+        // A section that shows one government's books is headed by that government's name.
+        section.name ?? words[section.key],
         ...section.rows.map((row) => {
           const moved = row.before === null ? null : row.now - row.before;
           const direction =
@@ -3848,10 +4196,13 @@ const sheets = {
                   : words.down;
           return typedRow(
             words[row.key],
-            figure(row, row.now),
+            // A small town's count shows the people behind it ("13 of 86").
+            row.of === undefined
+              ? figure(row, row.now)
+              : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
             row.before === null
               ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : `${Math.abs(moved).toFixed(1)} ${words.points}`) : "", words.since].filter(Boolean).join(" ")}`,
           );
         }),
       ),
@@ -3864,13 +4215,11 @@ const sheets = {
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    // The town's own books open first; a place with no city government opens
-    // on the county's, the local government that serves it.
-    const town = ["city", "county"]
-      .map((level) =>
-        view.governments.find((g) => g.level === level && g.latest),
-      )
-      .find(Boolean);
+    // The town's own books open first: the government the budget view names as the town's
+    // (its city, or the county that runs a town with no city government).
+    const town = view.governments.find(
+      (g) => g.id === view.townGovernmentId && g.latest,
+    );
     const chosen =
       view.governments.find((g) => g.id === budgetGovernment) ?? town;
     const gov = chosen ?? view.governments[0];
@@ -4050,7 +4399,19 @@ const sheets = {
               ),
               ...sinceLast(latest.totals?.balance, { short: true }),
               ...(books
-                ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
+                ? [
+                    typedRow(
+                      words.savings,
+                      // The opening's estimate until play has replaced it, said
+                      // on the row itself (no note under a figure).
+                      gov.savingsEstimated
+                        ? words.savingsEstimated.replace(
+                            "{amount}",
+                            roundedMoney(books.cashMinor),
+                          )
+                        : roundedMoney(books.cashMinor),
+                    ),
+                  ]
                 : []),
             ),
             ...(gov.executive?.title
@@ -4103,10 +4464,17 @@ const sheets = {
         date,
         items,
         labels,
+        held: packet?.kind === "stop",
         onAdvance: (day) => {
           closeSheet();
           act(`/api/advance?mode=calendar&date=${day}`);
         },
+        onAttend: async ({ officeId, date: day }, attend) =>
+          (
+            await post(
+              `/api/meeting/attend?${new URLSearchParams({ officeId, date: day, attend: String(attend) })}`,
+            )
+          ).items,
       }),
       devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
       ...(devModeOn()
@@ -4329,23 +4697,7 @@ const sheets = {
   async options() {
     await controlsReady;
     const labels = controls.options;
-    const toggle = ({ attr, on, set, testid }) => {
-      const bar = tabBar({
-        attr,
-        active: on() ? "on" : "off",
-        tabs: ["on", "off"].map((key) => ({
-          key,
-          label: labels[key],
-          onSelect: async () => {
-            await set(key === "on");
-            chooseTab(bar, attr, on() ? "on" : "off");
-          },
-        })),
-      });
-      for (const tab of bar.querySelectorAll(".tab"))
-        tab.dataset.testid = `${testid}-${tab.dataset[attr]}`;
-      return bar;
-    };
+    const toggle = (spec) => onOffToggle({ ...spec, labels });
     const seeing = document.fullscreenEnabled
       ? [
           settingRow(
@@ -4454,7 +4806,7 @@ const sheets = {
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
-      const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      const name = c.filingOffice.said;
       // A town's or county's own clerk is named for the place ("City or town
       // clerk, Point Pleasant"); a state's or the nation's office already is.
       const title =
@@ -4486,6 +4838,7 @@ const sheets = {
     const trails = (await campaignParts()).map((part) => ({
       name: labels.trail,
       trail: part,
+      presentation: { imageUrl: part.picture },
       presentCount: 0,
       presentNames: [],
       reasons: [],
@@ -4533,13 +4886,31 @@ const sheets = {
           .filter((name) => !known.has(name))
           .map((name) => ({ name })),
       ]);
+      const open = p.filing
+        ? opensLine || labels.filing
+        : p.presentCount
+          ? labels.open
+          : labels.closed;
+      // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
+      // of the records' reasons once, or open to the public where none.
+      const why = p.filing
+        ? [labels.reasons?.filing].filter(Boolean)
+        : [
+            ...new Set(
+              (p.reasons ?? [])
+                .map((r) => labels.reasons?.[r.kind])
+                .filter(Boolean),
+            ),
+          ];
+      if (!p.filing && !why.length && labels.reasons?.public)
+        why.push(labels.reasons.public);
       return {
-        openLabel: labels.openLabel,
-        open: p.filing
-          ? opensLine || labels.filing
-          : p.presentCount
-            ? labels.open
-            : labels.closed,
+        facts: [
+          { label: labels.openLabel, value: open },
+          ...(why.length
+            ? [{ label: labels.why, value: why.join(" · ") }]
+            : []),
+        ],
         who,
         does: doHere(p),
       };
@@ -4682,7 +5053,17 @@ const sheets = {
     };
     const labels = controls.localRaces;
     const stance = voteWords();
-    const filed = new Set(v.filings.map((f) => f.contestId));
+    const filedFor = new Set(v.filings.map((f) => f.contestId));
+    // A filing for any seat of an at-large race is a filing for the race.
+    const filed = {
+      has: (contestId) =>
+        filedFor.has(contestId) ||
+        ballot.races.some(
+          (race) =>
+            race.contestId === contestId &&
+            race.contestIds?.some((id) => filedFor.has(id)),
+        ),
+    };
     const status = (race) =>
       filed.has(race.contestId)
         ? labels.youFiled
@@ -4748,6 +5129,16 @@ const sheets = {
           // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
           stripSection(1, labels.whoIsRunning, ...candidates),
           rosterSide(
+            // An at-large race fills several seats at once.
+            ...(race.seats > 1
+              ? [
+                  stripSection(
+                    3,
+                    labels.seats,
+                    dotRows([{ label: labels.seatsToFill, value: race.seats }]),
+                  ),
+                ]
+              : []),
             ...(race.lastTime
               ? [
                   stripSection(
@@ -5887,7 +6278,8 @@ async function openSheet(tab) {
  * No menu scrolls (owner, Oct 29; Lane 4, path 11): once a sheet is on
  * screen, each pager in a part of it that runs past its foot (the sheet's
  * body, or a split screen's side or main) gives back a row at a time until
- * the part fits or the pager holds one row. A screen counts its rows from the
+ * the part fits, the pager holds one row, or a row given back no longer
+ * shortens the part (something else in it is the taller). A screen counts its rows from the
  * window; what sits above a pager (a tray of buttons, a long title) is only
  * known once drawn.
  */
@@ -5916,8 +6308,20 @@ function fitPagersNow(root, waits = 30) {
       while (
         (over(part) || over(screen) || over($("sheet-body"))) &&
         box.rowCount() > 1
-      )
+      ) {
+        // A row given back only where it makes the part shorter: a list
+        // beside a taller page (a race's page of candidates) keeps its rows.
+        const tall = over(part)
+          ? part
+          : over(screen)
+            ? screen
+            : $("sheet-body");
+        const before = tall.scrollHeight;
         box.setRows(box.rowCount() - 1);
+        if (tall.scrollHeight < before) continue;
+        box.setRows(box.rowCount() + 1);
+        break;
+      }
     }
     // A side still past its foot: its list of recent votes keeps the newest
     // that fit (at least one).

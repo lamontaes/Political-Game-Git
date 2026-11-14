@@ -43,7 +43,7 @@ import {
   requestProject,
   committeeRecords,
   draftBill,
-  holdVote,
+  holdEveryChamber,
   learnStake,
   castMemberVote,
   mayorVeto,
@@ -226,7 +226,7 @@ describe(
         );
       }
       // The vote: each member's reasons are recorded, and on the record.
-      const after = holdVote(api, bill.id);
+      const after = holdEveryChamber(api, bill.id);
       const votes = votesOn(api, bill.id);
       expect(votes.length).toBeGreaterThanOrEqual(council.length);
       for (const v of votes)
@@ -330,7 +330,7 @@ describe(
         provisions: [{ kind: "budget-line", line: "parks", value: 50_000_000 }],
       });
       expect(bill.status).toBe("drafted");
-      const after = holdVote(api, bill.id);
+      const after = holdEveryChamber(api, bill.id);
       const now = budgetsOf(api, city.governmentId).find(
         (b) => b.fiscalYear === city.fiscalYear,
       )!;
@@ -447,7 +447,7 @@ describe(
         const cityCash = () =>
           api.accounts().balance(api.accounts().main(city.organizationId));
         const before = cityCash();
-        const result = holdVote(api, bill.id);
+        const result = holdEveryChamber(api, bill.id);
         if (!["enacted", "signed", "overridden"].includes(result.status)) {
           tried.push(`${key}: ${result.status}`);
           continue;
@@ -569,7 +569,7 @@ describe(
         ],
       });
       expect(bill.status).toBe("drafted");
-      const after = holdVote(api, bill.id);
+      const after = holdEveryChamber(api, bill.id);
       // The chamber is large: the bill went to committee first, on the record.
       const committees = committeeRecords(api, bill.id);
       expect(committees.length).toBeGreaterThanOrEqual(1);
@@ -934,7 +934,7 @@ describe(
         "state-preempts-local-minimum-wage",
         "state-gives-no-local-minimum-wage",
       ]).toContain(bill.authority[0]!.reason);
-      expect(holdVote(api, bill.id).status).toBe("blocked");
+      expect(holdEveryChamber(api, bill.id).status).toBe("blocked");
     });
 
     it("a ban from the state blocks the seat's draft with its reason and never reaches a vote", () => {
@@ -1020,7 +1020,7 @@ describe(
       expect(entry!.bill.authority[0]!.reason, tag).toBe(
         acted.authority[0]!.reason,
       );
-      expect(holdVote(api, acted.id).status, tag).toBe("blocked");
+      expect(holdEveryChamber(api, acted.id).status, tag).toBe("blocked");
       expect(votesOn(api, acted.id), `${tag} has no vote row`).toHaveLength(0);
     }, 600_000);
 
@@ -1101,7 +1101,7 @@ describe(
       // Not cast: the player is never voted for, so they abstain.
       const first = draft();
       expect(first.status).not.toBe("blocked");
-      holdVote(api, first.id);
+      holdEveryChamber(api, first.id);
       expect(
         votesOn(api, first.id).find((v) => v.memberId === player)?.vote,
       ).toBe("abstain");
@@ -1110,7 +1110,7 @@ describe(
       const mine =
         memberPosition(api, second.id, player).total > 0 ? "no" : "yes";
       castMemberVote(api, second.id, player, mine);
-      holdVote(api, second.id);
+      holdEveryChamber(api, second.id);
       expect(
         votesOn(api, second.id).find((v) => v.memberId === player)?.vote,
       ).toBe(mine);
@@ -1123,7 +1123,7 @@ describe(
       const third = draft();
       for (const seat of council)
         castMemberVote(api, third.id, seat.holder!.personId!, "yes");
-      const waiting = holdVote(api, third.id);
+      const waiting = holdEveryChamber(api, third.id);
       // Only where the state gives the mayor a veto does the bill wait for
       // a signature; otherwise the passed ordinance is law.
       if (!mayorVeto(api).veto) {
@@ -1145,7 +1145,7 @@ describe(
       });
       for (const seat of council)
         castMemberVote(api, fourth.id, seat.holder!.personId!, "yes");
-      holdVote(api, fourth.id);
+      holdEveryChamber(api, fourth.id);
       const left = billOf(api, fourth.id) as typeof fourth & {
         signBy?: string;
       };
@@ -1508,7 +1508,7 @@ describe("a member who has died", () => {
     });
     // Edge fixture: the holder dies before the sitting.
     api.state.people.get(dead)!.alive = false;
-    holdVote(api, bill.id);
+    holdEveryChamber(api, bill.id);
     const votes = votesOn(api, bill.id);
     expect(votes.find((v) => v.memberId === dead)?.vote).toBe("absent");
     expect(votes.some((v) => v.vote === "yes" || v.vote === "no")).toBe(true);

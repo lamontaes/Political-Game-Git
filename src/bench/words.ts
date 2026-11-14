@@ -2,6 +2,7 @@
 import { admittedParts } from "../english/bank-parts";
 import { JOURNAL_WORDS } from "../english/journal-words";
 import { properName } from "../director/words";
+import { schoolNameWords } from "../english/school-names";
 import type { CoreState } from "../core2/types";
 import { schoolsAttended } from "../core2/past";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
@@ -31,7 +32,7 @@ export function schoolsOf(core: CoreState, personId: string) {
         row.name
           ? [
               {
-                name: properName(row.name),
+                name: schoolNameWords(properName(row.name)),
                 date: row.date,
                 recordId: row.recordId,
                 stage: row.stage,
@@ -80,6 +81,17 @@ export function choiceName(
     key: part.key,
     text: part.text.replace(SLOT, () => targetName ?? ""),
   };
+}
+
+/**
+ * A law's measure as a sentence says it, from its catalog label: a label
+ * kept as "what: for whom" ("State campaign contribution limit: governor")
+ * is said as a phrase ("campaign contribution limit for governor"), and
+ * whose law it is ("State") the sentence says, not the label (Fable A,
+ * Nov 13, rule 15).
+ */
+export function measureSaid(label: string): string {
+  return label.replace(/^state /i, "").replace(/:\s*/, " for ");
 }
 
 /** Each policy question's and law amount's name on OPUS-GOV's bill catalog ("Limit groundwater withdrawal", "Minimum wage"). */

@@ -1,0 +1,556 @@
+{
+  "version": "speech-outlines-v1",
+  "about": "One outline row per kind of speech, read by the one planner every speech goes through (src/director/speech-outline.ts; words composer, unit 3, docs/design/words-composer.md). A row says the sections in order, which are required, how many points and asks the theme carries, whether the asks are numbered, and whether the speech may tell the past year as the speaker's own record. Sections: `salutation` (the people acknowledged, one sentence of its own), `occasion` (why we are here; `oath` in an inaugural), `creed` (what the speaker believes, and unity with those who voted otherwise), `history` (the day in the long story), `theme` (the theme's point, one paragraph in order: its context from the world's records, what that has meant for people, the year's claim where the speaker governed it, the speaker's stand, then the ask, plainly for or against, to the level that can act; a theme makes `points` of them at most and `leastPoints` at least, or the speech is not given), `people` (the people met), `states` (the turn to the states, with no federal ask), `call` (what the speaker asks of the people), `hope`, `families`, `close`. A section in `asides` is said only when the speaker's traits pull for it (opening-address.json `asides`). The rows hold no sentence: the words are the opening-speech bank's. ESTIMATED from the pages read in docs/research/speech-structure-2026-11-12.md: real inaugurals give no numbered ask list and no last-year record (Bush 2001, Biden 2021); a State of the Union moves each point context, stand, ask and numbers its asks (Biden 2022); a State of the State and a State of the City do the same at their level (Polis 2024, Ginther 2024); speech courses keep one theme with about three points.",
+  "tag": "ESTIMATED",
+  "source": "docs/research/speech-structure-2026-11-12.md",
+  "kinds": {
+    "inaugural": {
+      "bank": "inaugural",
+      "register": "inaugural",
+      "level": "federal",
+      "sections": [
+        "salutation",
+        "occasion",
+        "creed",
+        "history",
+        "theme",
+        "people",
+        "states",
+        "call",
+        "hope",
+        "families",
+        "close"
+      ],
+      "required": ["salutation", "theme", "close"],
+      "asides": ["history", "people", "call", "hope"],
+      "points": 3,
+      "asks": 2,
+      "numberedAsks": false,
+      "ownRecord": false,
+      "sentences": {
+        "value": 18,
+        "spread": "12 to 26",
+        "note": "Real inaugurals run about 1,400 to 2,400 words; the game's paragraph-per-Continue address keeps the shape at a third of that."
+      },
+      "leastPoints": 1
+    },
+    "state-of-the-union": {
+      "bank": "state-of-the-union",
+      "register": "state-of-the-union",
+      "level": "federal",
+      "sections": [
+        "salutation",
+        "occasion",
+        "theme",
+        "people",
+        "states",
+        "call",
+        "hope",
+        "close"
+      ],
+      "required": ["salutation", "theme", "close"],
+      "asides": ["people", "call", "hope"],
+      "points": 3,
+      "asks": 3,
+      "numberedAsks": true,
+      "ownRecord": true,
+      "sentences": {
+        "value": 20,
+        "spread": "14 to 30",
+        "note": "A State of the Union runs 5,000 to 7,000 words; the game keeps its order at a small share of that."
+      },
+      "leastPoints": 1
+    },
+    "state-of-the-state": {
+      "bank": "state-of-the-state",
+      "register": "state-of-the-state",
+      "level": "state",
+      "sections": ["salutation", "occasion", "theme", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 3,
+      "asks": 2,
+      "numberedAsks": false,
+      "ownRecord": true,
+      "sentences": {
+        "value": 12,
+        "spread": "8 to 18",
+        "note": "Shorter than the President's: a governor's address is about a third as long as a State of the Union (Polis 2024)."
+      },
+      "leastPoints": 1
+    },
+    "town-address": {
+      "bank": "town-address",
+      "register": "town-address",
+      "level": "city",
+      "sections": ["salutation", "occasion", "theme", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 3,
+      "asks": 2,
+      "numberedAsks": false,
+      "ownRecord": true,
+      "sentences": {
+        "value": 10,
+        "spread": "6 to 16",
+        "note": "A State of the City gives three or four points (Ginther 2024)."
+      },
+      "leastPoints": 1
+    },
+    "campaign": {
+      "bank": "campaign-speech",
+      "register": "campaign",
+      "level": null,
+      "sections": ["salutation", "occasion", "theme", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 2,
+      "asks": 1,
+      "numberedAsks": false,
+      "ownRecord": false,
+      "sentences": {
+        "value": 6,
+        "spread": "4 to 10",
+        "note": "A stump speech is short and repeated at every stop (Wikipedia, Stump speech): the place greeted, the office sought and the theme, two points from what the candidate runs on (campaign-stances.ts candidatePlatform), the ask for the vote."
+      },
+      "leastPoints": 1
+    },
+    "floor": {
+      "bank": "floor-speech",
+      "register": "floor",
+      "level": null,
+      "sections": ["salutation", "theme", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 1,
+      "numberedAsks": false,
+      "ownRecord": false,
+      "sentences": {
+        "value": 4,
+        "spread": "2 to 6",
+        "note": "A House one-minute addresses the chair, makes one point and yields (CRS RL30135): a member's floor speech on the measure before the body makes its one point and asks the members for their vote."
+      },
+      "leastPoints": 1
+    },
+    "victory": {
+      "bank": null,
+      "register": "election-night",
+      "level": null,
+      "sections": ["salutation", "creed", "theme", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 0,
+      "numberedAsks": false,
+      "ownRecord": false,
+      "sentences": {
+        "value": 5,
+        "spread": "3 to 8",
+        "note": "Thanks, what the win is for, unity with those who voted otherwise, close."
+      },
+      "leastPoints": 1
+    },
+    "concession": {
+      "bank": null,
+      "register": "election-night",
+      "level": null,
+      "sections": ["salutation", "creed", "theme", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 0,
+      "numberedAsks": false,
+      "ownRecord": false,
+      "sentences": {
+        "value": 4,
+        "spread": "2 to 7",
+        "note": "Defeat and congratulations, thanks, a call to unite, the cause carried on (Wikipedia, Concession (politics))."
+      },
+      "leastPoints": 1
+    },
+    "swearing-in": {
+      "bank": null,
+      "register": "inaugural",
+      "level": null,
+      "sections": ["salutation", "occasion", "theme", "close"],
+      "required": ["salutation", "close"],
+      "asides": [],
+      "points": 1,
+      "asks": 0,
+      "numberedAsks": false,
+      "ownRecord": false,
+      "sentences": {
+        "value": 5,
+        "spread": "3 to 8",
+        "note": "An inaugural at small scale: thanks, the oath's meaning, one charge, close."
+      },
+      "leastPoints": 1
+    }
+  },
+  "theme": {
+    "about": "How the one theme is picked from the speaker's own record and their world (owner, Nov 12: 'There's no theme for the speech. That's a problem.'). Every subject of the bill catalog scores: each of the speaker's signature issues in it, at any level (`signature`); whether their level has an open question in it to ask for (`actable`); how far their view on its strongest open question stands from a centrist's (`stance`); and, for a governor or mayor only, how far the subject's measures moved the wrong way in their realm (`condition`). The President's theme takes no condition: the national figures are nearly the same in every world, so they cannot decide it. The highest score is the theme; a tie goes by the subject's id. No roll.",
+    "signature": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": "1 to 2",
+      "note": "A signature issue outweighs everything else, so the speaker's own causes lead."
+    },
+    "actable": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": "0.25 to 0.75",
+      "note": "A subject the speaker's level can ask for something on wins a tie of signature issues."
+    },
+    "stance": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "spread": "0.1 to 0.5",
+      "note": "Per unit of distance from a centrist's stance (ownStance at lean 0); a tiebreak, never enough to beat a signature issue."
+    },
+    "condition": {
+      "value": 0.75,
+      "tag": "TUNABLE",
+      "spread": "0.25 to 1",
+      "note": "Governors and mayors only: how far the realm's measure went the wrong way, over its change scale."
+    },
+    "contextYearsMin": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "1 to 3",
+      "note": "A context sentence says 'for N years' only over at least this many whole years of the record."
+    },
+    "lawYearsMax": {
+      "value": 60,
+      "tag": "TUNABLE",
+      "spread": "30 to 100",
+      "note": "A law's age is said as context only up to this many years, past which the starting law's date is a stand-in, not a record a speaker would cite."
+    },
+    "traits": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": "0.25 to 1",
+      "note": "The speaker's recorded traits toward a theme's subjects (subjectPull), 0 to 1 against their strongest pull: after their own signature issues, before the world, so two Presidents of one party with no cause in reach still differ."
+    },
+    "closeSharedWordsLeast": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "1 to 3",
+      "note": "A close's own reason or after-sentence is left out when it shares this many subject words with what the speech said already, the ask included (words lead, Nov 14, rule 41: a close says something new)."
+    }
+  },
+  "topicsBySubject": {
+    "about": "Which of the world's measures bear on each subject of the bill catalog: the macro engine's year (unemployment, inflation, wages, mortgage, growth, jobs) and the term read's areas (rent, crime, schools, health, roads, environment). A theme's points are its subject's measures.",
+    "labor": ["wages", "unemployment", "jobs"],
+    "housing": ["mortgage", "rent"],
+    "taxes-finance": ["inflation", "growth"],
+    "business": ["growth", "jobs"],
+    "energy-environment": ["environment"],
+    "justice": ["crime"],
+    "education": ["schools"],
+    "healthcare": ["health"],
+    "infrastructure": ["roads"]
+  },
+  "subjectOfQuestion": {
+    "about": "Questions the bill catalog gives no subject, placed under the subject a speech treats them as part of.",
+    "us-federal-positions:tax.raise-top-income-tax-rate": "taxes-finance",
+    "us-federal-positions:monetary-financial.cap-consumer-loan-interest": "business",
+    "us-federal-positions:defense.grow-defense-spending": "defense",
+    "us-federal-positions:foreign-affairs.increase-foreign-aid": "foreign-affairs",
+    "us-federal-positions:social-insurance.raise-retirement-age": "social-insurance",
+    "us-federal-positions:transport-water.expand-passenger-rail": "infrastructure",
+    "us-federal-positions:agriculture.cut-farm-subsidies": "agriculture"
+  },
+  "budgetLineTopics": {
+    "about": "The measures each line of a budget bears on, for the answer a hurt address gives to its worst condition (a line the speaker backs in that area is a response; owner rule via the words lead, Nov 12: a hurt address answers its own bad news). The bill catalog gives budget lines no subject, so they are placed here, and only this answer reads them, so no theme changes.",
+    "budget-line:police": ["crime"],
+    "budget-line:corrections": ["crime"],
+    "budget-line:schools": ["schools"],
+    "budget-line:higherEducation": ["schools"],
+    "budget-line:parks": ["environment"],
+    "budget-line:naturalResources": ["environment"],
+    "budget-line:housing": ["rent"],
+    "budget-line:healthAndHospitals": ["health"],
+    "budget-line:welfareAndMedicaid": ["health"],
+    "budget-line:highways": ["roads"]
+  },
+  "answerTopics": {
+    "about": "The bill catalog topics whose questions answer each area of the term read, for a hurt address's answer to its worst condition: a subject is wider than its area (restoring the vote after a sentence is justice, and no answer to crime; the words lead read it so on Leonidas, Minnesota, Nov 12). TUNABLE wording of the match, checked by reading composed addresses.",
+    "rent": [
+      "Rental rules",
+      "Affordable and public housing",
+      "Planning and zoning",
+      "Homelessness services"
+    ],
+    "crime": [
+      "Policing",
+      "Criminal law and sentencing",
+      "Courts and legal aid",
+      "Juvenile justice",
+      "Firearms and weapons rules"
+    ],
+    "schools": [
+      "K-12 schools",
+      "School funding",
+      "Teachers and support staff",
+      "Early childhood and preschool",
+      "Special education"
+    ],
+    "health": [
+      "Coverage and insurance",
+      "Hospitals and clinics",
+      "Mental health and addiction services",
+      "Public health",
+      "Medicines and medical products"
+    ],
+    "roads": ["Transportation"],
+    "environment": [
+      "Air and emissions",
+      "Water quality",
+      "Pollution cleanup",
+      "Climate and resilience",
+      "Electricity and the grid"
+    ]
+  },
+  "subjectPull": {
+    "about": "Which subject under a theme a speaker leads with when none of their own causes is in it: the subject whose facets their recorded traits sum highest on (the traits are the speaker's record; no roll). The facets are the personality catalog's. TUNABLE: checked so that no question leads more than half of ten drawn addresses.",
+    "tag": "TUNABLE",
+    "healthcare": [
+      "personality-v1:facet-nurturing",
+      "personality-v1:facet-comforting",
+      "personality-v1:facet-tender-hearted"
+    ],
+    "education": [
+      "personality-v1:facet-studious",
+      "personality-v1:facet-analytical",
+      "personality-v1:facet-imaginative"
+    ],
+    "social-insurance": [
+      "personality-v1:facet-duty-bound",
+      "personality-v1:facet-meticulous",
+      "personality-v1:facet-contented"
+    ],
+    "housing": [
+      "personality-v1:facet-supportive",
+      "personality-v1:facet-affectionate"
+    ],
+    "rights": [
+      "personality-v1:facet-sincere",
+      "personality-v1:facet-sensitive"
+    ],
+    "taxes-finance": [
+      "personality-v1:facet-meticulous",
+      "personality-v1:facet-practical"
+    ],
+    "labor": [
+      "personality-v1:facet-work-centered",
+      "personality-v1:facet-supportive"
+    ],
+    "business": [
+      "personality-v1:facet-enterprising",
+      "personality-v1:facet-ambitious"
+    ],
+    "foreign-trade": [
+      "personality-v1:facet-competitive",
+      "personality-v1:facet-assertive"
+    ],
+    "government": [
+      "personality-v1:facet-sincere",
+      "personality-v1:facet-humble"
+    ],
+    "technology": [
+      "personality-v1:facet-analytical",
+      "personality-v1:facet-studious"
+    ],
+    "justice": [
+      "personality-v1:facet-duty-bound",
+      "personality-v1:facet-assertive"
+    ],
+    "energy-environment": [
+      "personality-v1:facet-imaginative",
+      "personality-v1:facet-philanthropic"
+    ],
+    "infrastructure": [
+      "personality-v1:facet-practical",
+      "personality-v1:facet-work-centered"
+    ],
+    "agriculture": [
+      "personality-v1:facet-practical",
+      "personality-v1:facet-contented"
+    ],
+    "immigration": [
+      "personality-v1:facet-friendly",
+      "personality-v1:facet-philanthropic"
+    ],
+    "defense": [
+      "personality-v1:facet-assertive",
+      "personality-v1:facet-competitive",
+      "personality-v1:facet-proud"
+    ],
+    "foreign-affairs": [
+      "personality-v1:facet-philanthropic",
+      "personality-v1:facet-mediating"
+    ]
+  },
+  "pointShapes": {
+    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. A condition comes before its answer (the words lead, Nov 14, rule 44): no shape puts how it stands, the figure or the question after the ask. A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll. The figure's tie names no question, so the ask after it names the question once. The question-first shape asks the audience about how things stand (\"Is it fair that ...?\"), so it names no question and says no separate today sentence. Where a belief goes is `beliefJoins`, one join to a point, in order.",
+    "shapes": {
+      "context-first": {
+        "moves": ["today", "figure", "ask"],
+        "pull": [
+          "personality-v1:facet-analytical",
+          "personality-v1:facet-studious",
+          "personality-v1:facet-practical",
+          "personality-v1:facet-guarded"
+        ]
+      },
+      "figure-first": {
+        "moves": ["figure", "today", "ask"],
+        "pull": [
+          "personality-v1:facet-sincere",
+          "personality-v1:facet-duty-bound",
+          "personality-v1:facet-proud",
+          "personality-v1:facet-philanthropic"
+        ]
+      },
+      "question-first": {
+        "moves": ["question", "figure", "ask"],
+        "pull": [
+          "personality-v1:facet-dramatic",
+          "personality-v1:facet-charming",
+          "personality-v1:facet-excitable",
+          "personality-v1:facet-imaginative"
+        ]
+      },
+      "plain-first": {
+        "moves": ["today", "ask"],
+        "pull": [
+          "personality-v1:facet-blunt",
+          "personality-v1:facet-assertive",
+          "personality-v1:facet-informal",
+          "personality-v1:facet-argumentative"
+        ]
+      }
+    }
+  },
+  "themeNames": {
+    "about": "A speech's theme said as people say it, by the question family (the principle both sides argue from). TUNABLE wording, checked by reading the composed addresses.",
+    "transit": "how people get around",
+    "taxes": "what families pay in taxes",
+    "health": "what health care costs",
+    "safety-net": "how we help people through hard times",
+    "schools": "our schools",
+    "budget": "how we pay our bills",
+    "housing": "the cost of a place to live",
+    "wages": "what work pays",
+    "self-rule": "who makes the rules where you live",
+    "unions": "workers and their unions",
+    "justice": "how we keep people safe and treat them fairly",
+    "consumers": "how families are treated when they buy and borrow",
+    "energy": "the power we use and what it costs",
+    "land": "our land and water",
+    "immigration": "who comes to this country",
+    "guns": "guns and safety at home",
+    "elections": "how we run our elections",
+    "ethics": "trust in government",
+    "civil-rights": "fair treatment at work and at home",
+    "abortion": "abortion",
+    "world": "our place in the world",
+    "trade": "trade and the jobs it brings"
+  },
+  "themeShort": {
+    "about": "A theme said short, for a frame that names it after the speech has said it in full (a close): at most themeShortWords words (src/director/speech-closes-fit.test.ts). TUNABLE wording, checked by reading the closes.",
+    "transit": "getting around",
+    "taxes": "taxes",
+    "health": "health care",
+    "safety-net": "hard times",
+    "schools": "our schools",
+    "budget": "the budget",
+    "housing": "housing",
+    "wages": "pay",
+    "self-rule": "local rules",
+    "unions": "unions",
+    "justice": "public safety",
+    "consumers": "fair lending",
+    "energy": "energy",
+    "land": "land and water",
+    "immigration": "immigration",
+    "guns": "guns",
+    "elections": "elections",
+    "ethics": "trust in government",
+    "civil-rights": "fair treatment",
+    "abortion": "abortion",
+    "world": "the wider world",
+    "trade": "trade"
+  },
+  "todaySlots": ["", "-second", "-third"],
+  "todaySlotsAbout": "The slot endings of the first, second and third wordings of how a question stands today ({today}, {today-second}, {today-third}); a slot name holds no digit, so the bank test's no-figure check reads its text. A fourth wording is not offered: the bank says three.",
+  "pastWords": [
+    "went",
+    "rose",
+    "fell",
+    "grew",
+    "dropped",
+    "was",
+    "were",
+    "became",
+    "ended",
+    "passed",
+    "took",
+    "raised",
+    "cut",
+    "lost",
+    "gained",
+    "doubled",
+    "jumped",
+    "climbed",
+    "shrank",
+    "got"
+  ],
+  "themeShortNoOn": {
+    "about": "Themes whose short name does not read after \"On\" (the words lead, Nov 14, round 4): a close for one of them says no theme tag. A tag (\"On X, ...\") is said at most once in an address, so a close that follows a meaning line says none either.",
+    "themes": ["safety-net"]
+  },
+  "themeShortWords": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "spread": "2 to 4",
+    "note": "The most words a theme takes in a close frame; a longer name breaks the frame (\"On how we keep people safe and treat them fairly, ... has waited long enough\")."
+  },
+  "measureWords": {
+    "about": "What a body passes, by the form its measures take (src/core2/legislature-bill-form.ts formKindOf): a legislature or Congress passes bills for acts, a town, township or county body ordinances (line rule body-named-as-place-names-it).",
+    "act": "bill",
+    "ordinance": "ordinance"
+  },
+  "conditions": {
+    "about": "This year's conditions a governor or a local head tells in the opening (speech-outline.ts conditionFacts): the budget's balance is said as ahead or short only past this share of what the budget spends, and as better or worse than the year before only past the same share; inside it, about even or about the same. The balance is said only when it is short, when the speech's theme is one of `budgetThemes`, or when a point asks for a line of the budget.",
+    "budgetEvenBand": {
+      "value": 0.01,
+      "tag": "TUNABLE",
+      "spread": "0.005 to 0.03",
+      "note": "A gap under one percent of spending is what a budget officer calls balanced; checked by reading the composed addresses."
+    },
+    "budgetThemes": ["budget", "taxes"]
+  },
+  "topicWords": {
+    "about": "Each measure said short, where a figure's meaning names it (\"On crime, that has meant ...\"): the slot context-name, read in speech-outline.ts contextFacts (words lead, Nov 14, rules 39 and 41: the years are said once, so the meaning names its measure instead).",
+    "inflation": "prices",
+    "wages": "pay",
+    "growth": "the economy",
+    "unemployment": "jobs",
+    "mortgage": "home loans",
+    "jobs": "jobs",
+    "pay": "pay",
+    "prices": "prices",
+    "rent": "rent",
+    "crime": "crime",
+    "schools": "our schools",
+    "health": "health care",
+    "roads": "our roads",
+    "environment": "our air and water"
+  },
+  "beliefJoins": {
+    "about": "How a point's belief joins its ask, one join to a point in the order of the speech's points, so no two points share one and \"Because I ...\" opens at most one sentence (the words lead, Nov 14, rule 38): `belief-leads` says the belief first (\"Because I believe X, I will Y\"); `belief-after` says the ask and then the belief as its own sentence; `belief-folded` folds it into the ask (\"I am against X because Y, and ...\"). A point after the last join says no belief.",
+    "joins": ["belief-leads", "belief-after", "belief-folded"]
+  }
+}

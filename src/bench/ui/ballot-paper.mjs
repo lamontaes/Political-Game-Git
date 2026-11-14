@@ -8,8 +8,11 @@ import { face as drawFace } from "./face.mjs";
 import { stripSection, introText } from "./strips.mjs";
 
 /**
- * `contests`: [{ id, title, candidates: [{ personId, name, party }], marked }]; `labels`:
- * { forRace ("For {title}"), blank, leave, know, official }; `onMark(contestId, candidateId)`
+ * `contests`: [{ id, title, ticketTitle?, candidates: [{ personId, name, party, runningMate? }],
+ * marked }]; `labels`: { forRace ("For {title}"), forTicket ("For {title} and {ticket}"), ticket
+ * ("{name} and {mate}"), blank, leave, know, official }; a governor's race that carries the office
+ * the law elects on its ticket is one block, each line the candidate and their running mate, one
+ * mark for both; `onMark(contestId, candidateId)`
  * (null for leave blank); `know(personId) -> { name, face, summary }`; `onLeave()`.
  */
 export function ballotPaper({ contests, labels, onMark, know, onLeave }) {
@@ -57,13 +60,29 @@ export function ballotPaper({ contests, labels, onMark, know, onLeave }) {
       }
       return node;
     };
+    // A ticket: the race names both offices, and each line both people; the
+    // side panel tells about both.
+    const known = (c) =>
+      c.runningMate ? [c, { personId: c.runningMate.personId }] : [c];
     paper.append(
       el("h3", {
         className: "ballot-race",
-        textContent: labels.forRace.replace("{title}", contest.title),
+        textContent: contest.ticketTitle
+          ? labels.forTicket
+              .replace("{title}", contest.title)
+              .replace("{ticket}", contest.ticketTitle)
+          : labels.forRace.replace("{title}", contest.title),
       }),
       ...contest.candidates.map((c) =>
-        choice(c.name, c.personId, contest.candidates),
+        choice(
+          c.runningMate
+            ? labels.ticket
+                .replace("{name}", c.name)
+                .replace("{mate}", c.runningMate.name)
+            : c.name,
+          c.personId,
+          contest.candidates.flatMap(known),
+        ),
       ),
       choice(labels.blank, null),
     );

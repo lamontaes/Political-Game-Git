@@ -13,7 +13,6 @@
  * numbers only; the English engine words them.
  */
 import { daysBetweenText as daysBetween } from "./kernel/dates";
-import { residentsRuntime } from "./modules/residents";
 import { campaignParameter } from "./campaign-data";
 import {
   CAMPAIGNS_MODULE_ID,
@@ -26,6 +25,7 @@ import {
   askToSign,
   campaignFor,
   doorsKnockedOf,
+  townDoorCount,
   giftOf,
   donorMeetingHost,
   holdDonorMeeting,
@@ -42,8 +42,10 @@ import {
   petitionCirculating,
   standing,
   type ContestRow,
+  raceAhead,
   type FilingRow,
 } from "./modules/elections";
+import { VOTING_MODULE_ID, resultOf } from "./modules/voting";
 import {
   answerInterview,
   interviewsFor,
@@ -227,46 +229,35 @@ const elections = (api: CoreAPI, name: string) =>
 const ageOn = (birthDate: string, date: string) =>
   Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
 
-/** The town's households, full and counted, as the campaign engine's doors walk them. */
+/** The doors the campaign engine's canvass walks: the town's households, full and counted, less rooms in institutions. */
 function townHouseholdCount(api: CoreAPI): number {
-  // Group-quarters rooms are doors here, institutions' included.
-  // stopgapId: SG-GQ-campaign-doors
-  const core = api.state as CoreState;
-  const town = (
-    api
-      .moduleState(CAMPAIGNS_MODULE_ID)
-      .table("town")
-      .get("town") as unknown as { townPlaceId: string } | undefined
-  )?.townPlaceId;
-  if (!town) return 0;
-  const ids = new Set<string>();
-  for (const id of core.peopleByPlace.get(town) ?? []) {
-    const person = core.people.get(id);
-    if (person?.alive && core.households.has(person.householdId))
-      ids.add(person.householdId);
-  }
-  for (const h of residentsRuntime(core)?.store.liveHouseholds() ?? [])
-    if (h.placeId === town && !core.households.has(h.id)) ids.add(h.id);
-  return ids.size;
+  return api.moduleState(CAMPAIGNS_MODULE_ID).table("town").get("town")
+    ? townDoorCount(api)
+    : 0;
 }
 
-/** Whether the town has a door to knock: `townHouseholdCount` above zero, read to the first one. */
+/** Whether the town has a door to knock: `townHouseholdCount` above zero. */
 function townHasDoor(api: CoreAPI): boolean {
-  const core = api.state as CoreState;
-  const town = (
-    api
-      .moduleState(CAMPAIGNS_MODULE_ID)
-      .table("town")
-      .get("town") as unknown as { townPlaceId: string } | undefined
-  )?.townPlaceId;
-  if (!town) return false;
-  for (const id of core.peopleByPlace.get(town) ?? []) {
-    const person = core.people.get(id);
-    if (person?.alive && core.households.has(person.householdId)) return true;
-  }
-  for (const h of residentsRuntime(core)?.store.liveHouseholds() ?? [])
-    if (h.placeId === town && !core.households.has(h.id)) return true;
-  return false;
+  return townHouseholdCount(api) > 0;
+}
+
+/**
+ * Whether a filing's race is live for campaigning: it is ahead (`raceAhead`)
+ * and its count is not yet recorded. The general's count is the contest's
+ * `result:` row; a primary keeps its own `primary-result:` record, so a
+ * primary's winner stays live for the general after the primary is counted.
+ */
+export function raceLive(
+  api: CoreAPI,
+  filing: Readonly<Pick<FilingRow, "status" | "contestId">>,
+): boolean {
+  // A world without the voting module has no counts to read.
+  return (
+    raceAhead(api, filing) &&
+    !(
+      api.state.modules.has(VOTING_MODULE_ID) && resultOf(api, filing.contestId)
+    )
+  );
 }
 
 function contextOf(api: CoreAPI, filingId: string, world = false) {
@@ -278,6 +269,7 @@ function contextOf(api: CoreAPI, filingId: string, world = false) {
   ) as unknown as ContestRow;
   const open =
     standing(filing) &&
+    raceLive(api, filing) &&
     (world
       ? !!api.state.people.get(filing.personId)?.alive &&
         filing.personId !== (api.state as CoreState).playerId

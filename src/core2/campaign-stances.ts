@@ -24,7 +24,7 @@ import { votesOf, type VoteRecordRow } from "./modules/record";
 import { electorateSides } from "./modules/voting";
 import { partyName, partySide } from "./appointments";
 import { leanedScore, weighingKept } from "./trait-decisions";
-import type { CoreAPI } from "./types";
+import type { CoreAPI, PersonId } from "./types";
 import { PARTIES_MODULE_ID, partiesHere, type TieRow } from "./modules/parties";
 import {
   officialLean,
@@ -32,7 +32,13 @@ import {
   officialStance,
   type OfficialRow,
 } from "./modules/officials";
-import { stanceOn, viewOf, VIEWS_DATA, VIEWS_MODULE_ID } from "./modules/views";
+import {
+  openingStance,
+  stanceOn,
+  viewOf,
+  VIEWS_DATA,
+  VIEWS_MODULE_ID,
+} from "./modules/views";
 import { personLean, questionAxis } from "./campaign-views";
 import { campaignParameter, type Stance } from "./campaign-data";
 
@@ -238,6 +244,17 @@ export class StanceReader {
     return clamp((1 - weight) * held + weight * voted);
   }
 
+  /**
+   * What their stand on a question rests on: a vote they cast, their own
+   * view (their lean and what has reached them), or only their party's
+   * position; null where they have none of the three.
+   */
+  grounds(question: string): "vote" | "view" | "party" | null {
+    if (this.votesOn(question).length) return "vote";
+    if (this.ownStance(question) !== null) return "view";
+    return positionOf(this.ofParty(), question) === null ? null : "party";
+  }
+
   /** Their record's last vote on a question, or undefined for none. */
   lastVote(question: string): VoteRecordRow | undefined {
     return this.votesOn(question).at(-1);
@@ -263,14 +280,18 @@ export class StanceReader {
       this.leanRead = true;
     }
     if (this.lean === null) return null;
-    // What they've come to want on the question itself (speeches, ads and
-    // news that reached them), on top of where their lean puts them.
-    let moved = 0;
-    if (this.api.state.modules.has(VIEWS_MODULE_ID)) {
-      // Their own row and, if heard among like hearers, their group's.
-      moved += stanceOn(this.api, this.personId, question);
-    }
-    return clamp(this.lean * questionAxis(question) + moved);
+    // Where they start on it: their lean on its axis and, for someone the
+    // views engine knows, what their faith, degree and own circumstances add
+    // (`openingStance`, the same reading a voter's view starts from). Then
+    // what they've come to want on the question itself (speeches, ads and
+    // news that reached them).
+    if (!this.api.state.modules.has(VIEWS_MODULE_ID))
+      return clamp(this.lean * questionAxis(question));
+    const opening = this.api.state.people.has(this.personId as PersonId)
+      ? openingStance(this.api, this.personId as PersonId, question, this.lean)
+      : this.lean * questionAxis(question);
+    // Their own row and, if heard among like hearers, their group's.
+    return clamp(opening + stanceOn(this.api, this.personId, question));
   }
 
   /** Their party's lean (`partyLean`), or null for no party. */
@@ -388,6 +409,36 @@ export function platformScores(
     });
   }
   return scores;
+}
+
+/**
+ * Each question of a platform's share of what the campaign says: the
+ * platform rule's own score (conviction times exp(slope times the percent of
+ * the electorate on the candidate's side), `platformScores`) over the sum of
+ * the platform's, so the shares follow the town the way the platform did and
+ * a stated platform (whose positions carry their conviction) reads the same
+ * as a chosen one. Only questions the candidate takes a side on; the shares
+ * add to one.
+ */
+export function platformShares(
+  api: CoreAPI,
+  platform: readonly { readonly question: string; readonly position: number }[],
+): Readonly<Record<string, number>> {
+  const slope = campaignParameter("platformSupportSlope");
+  const scores: [string, number][] = [];
+  for (const { question, position } of platform) {
+    if (position === 0) continue;
+    const sides = electorateSides(api, question);
+    const support = 100 * (position > 0 ? sides.yes : sides.no);
+    scores.push([question, Math.abs(position) * Math.exp(slope * support)]);
+  }
+  const total = scores.reduce((t, [, score]) => t + score, 0);
+  return Object.fromEntries(
+    scores.map(([question, score]) => [
+      question,
+      total > 0 ? score / total : 0,
+    ]),
+  );
 }
 
 /**

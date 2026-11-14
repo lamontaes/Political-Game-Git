@@ -4,17 +4,21 @@ import { bodyOf, nextSittingOf } from "../core2/modules/legislature";
 import {
   federalHolidayName,
   federalHolidays,
+  meetingToAttend,
+  OFFICE_DAY_MODULE_ID,
+  nextMeetingDate,
   officeHost,
 } from "../core2/modules/office-day";
 import { townSeats } from "../core2/modules/offices";
 import { wordArchiveStory, wordPrintedStory } from "./archive-words";
+import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import { coreAPI } from "../core2/state";
 import {
   standing,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
-import { screenLine } from "../english/screen-words";
+import { screenLine, screenPick, screenWays } from "../english/screen-words";
 import type { CoreState, LogRecord } from "../core2/types";
 import { freshSince, storiesHeard } from "../core2/modules/news";
 
@@ -31,7 +35,25 @@ export interface CalendarItem {
   /** A date in a race the player has filed in: theirs, so it comes first. */
   own: boolean;
   recordIds: string[];
+  /**
+   * A posted meeting the person may come to as a resident (the office-day
+   * engine's `meetingToAttend`), and whether they have marked it.
+   */
+  attend?: {
+    officeId: string;
+    date: string;
+    marked: boolean;
+    /** Once marked: the plan in the English engine's words, one wording per meeting. */
+    plan: string | null;
+  };
 }
+
+/** A meeting's hour as people say it: "7 p.m.", "6:30 p.m.", from its record's start minute. */
+const spokenHour = (minuteOfDay: number) => {
+  const hour = Math.floor(minuteOfDay / 60);
+  const minute = minuteOfDay % 60;
+  return `${hour % 12 || 12}${minute ? `:${String(minute).padStart(2, "0")}` : ""} ${hour < 12 ? "a.m." : "p.m."}`;
+};
 
 /** The levels of the town's own governments. */
 const LOCAL_LEVELS: readonly string[] = ["city", "township", "county"];
@@ -186,10 +208,15 @@ export function calendarItems(
     // (a council, a township board, a county board: the kind names differ by place).
     const body = bodyOf(api, office.id);
     const sitting = body ? nextSittingOf(api, office.id) : null;
-    if (body && sitting && inWindow(sitting.date))
+    // A meeting set sooner than the rule's next (the one that votes the
+    // budget on the fiscal year's first day) is the body's next meeting.
+    const sooner = body ? nextMeetingDate(api, office.id) : null;
+    const date =
+      sooner && (!sitting || sooner < sitting.date) ? sooner : sitting?.date;
+    if (body && date && inWindow(date))
       bodies.set(office.id, {
         title: body.bodyName ?? body.kind,
-        date: sitting.date,
+        date,
       });
   }
   // The bodies the person sits on, at any level (a legislature, Congress): the next day each sits.
@@ -208,6 +235,13 @@ export function calendarItems(
     const line = screenLine("calendar", "calendar.meeting.1", {
       body: body.title,
     });
+    // Only the person the clock is held for can mark a meeting (the engine
+    // answers for the player alone).
+    const open =
+      core.modules.has(OFFICE_DAY_MODULE_ID) &&
+      snapshotExplicitControlV1(core).personId === personId
+        ? meetingToAttend(api, officeId, body.date)
+        : null;
     if (line)
       items.push({
         date: body.date,
@@ -215,6 +249,23 @@ export function calendarItems(
         line,
         own: false,
         recordIds: [officeId],
+        ...(open
+          ? {
+              attend: {
+                officeId,
+                date: body.date,
+                marked: open.marked,
+                plan: open.marked
+                  ? (screenPick(
+                      "calendar",
+                      screenWays("calendar", "calendar.meeting-plan.1"),
+                      { body: body.title, time: spokenHour(open.startMinute) },
+                      { momentKey: open.id, sourceIds: [open.id] },
+                    )?.text ?? null)
+                  : null,
+              },
+            }
+          : {}),
       });
   }
   for (const year of [Number(from.slice(0, 4)), Number(from.slice(0, 4)) + 1])

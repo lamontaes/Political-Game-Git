@@ -539,11 +539,17 @@ describe("jobs", () => {
     expect(
       core.eventIds.has(`event:work.job-lost:${layoffs[0]!.date}:job:w1`),
     ).toBe(true);
-    // The event carries who decided and where, for the director's scene at work.
+    // The event carries who decided, where, and the job change it records, for the director's scene at work.
+    const change = `job-change:${layoffs[0]!.date}:job:w1:layoff`;
+    expect(layoffs[0]!.id).toBe(change);
     expect(
       core.durableLog.get(`event:work.job-lost:${layoffs[0]!.date}:job:w1`)
         ?.facts,
-    ).toEqual({ decidedBy: decider, organizationId: employer });
+    ).toEqual({
+      decidedBy: decider,
+      organizationId: employer,
+      jobChangeId: change,
+    });
     expect(api.moduleState("jobs").table("seekers").get("w1")).toBeTruthy();
     expect(money(core)).toBe(total);
   });

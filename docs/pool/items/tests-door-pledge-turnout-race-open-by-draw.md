@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-12
 **Files.** src/core2/door-pledge.test.ts, src/core2/gov-test-clock.ts
 
 **Notes.** Reproduced Nov 12 17:38Z on a sparse copy of main: `GOLDEN_PATH_SEED=f26db0f13c6bffec4a68430111c0bdb5 npx vitest run src/core2/door-pledge.test.ts -t "pledged as a group" --maxWorkers=1` exit 1, 91 s, failure at :480 with the twelve lines above. Twin searched: `campaign-door-pledge-turnout-total` (done, the band check this test makes), `tests-door-pledge-weighted-record-by-draw` (in-pr, #8580, the weighted test; evidence added in its Cause).
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): fixed already, and it names no player screen (its Seen line says "no player screen"). On the train (c39bbb71), src/core2/door-pledge.test.ts calls `advanceToFilingOpen(core)` after `openParties` (line 107), the fix this item asked for, and `GOLDEN_PATH_SEED=f26db0f13c6bffec4a68430111c0bdb5 npx vitest run src/core2/door-pledge.test.ts --maxWorkers=1` passes 7 of 7 in 172 s, with the PLEDGE TURNOUT line naming its drawn places.

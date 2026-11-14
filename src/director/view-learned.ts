@@ -16,6 +16,7 @@
  * taught it. Nothing here decides what anyone believes: it only moves what
  * the views engine already holds into what the player knows.
  */
+import { organizationName } from "./words";
 import { closenessBetween } from "../core2/closeness";
 import {
   VIEWS_MODULE_ID,
@@ -178,7 +179,7 @@ export function strongestQuestion(
  * money (the question is about prices, rent or taxes, and the trait engine's
  * hardship stress is past zero), else none. Each cites its record.
  */
-function viewReason(
+export function viewReason(
   core: Readonly<CoreState>,
   personId: PersonId,
   question: string,
@@ -207,7 +208,7 @@ function viewReason(
     )
       return {
         reason: "work",
-        employer: employer.name,
+        employer: organizationName(employer),
         recordIds: [job.id, employer.id],
       };
   }

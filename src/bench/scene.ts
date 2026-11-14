@@ -154,6 +154,23 @@ function firstPainted(
   return null;
 }
 
+/**
+ * The room a person serving in a full-time office works in, by the kind of
+ * office on their record (the Oval Office, the governor's office); null for
+ * anyone else. Story scenes staged "in the office" read this.
+ */
+export function officeWorkplace(core: CoreState, personId: string) {
+  return firstPainted(
+    core,
+    servingOfficeKinds(core, personId).map((kind) => OFFICE_WORK[kind]),
+  );
+}
+
+/** The offices a person is serving in now, by id. */
+export function servingOfficeIds(core: CoreState, personId: string): string[] {
+  return servingTermsOf(coreAPI(core), personId).map((term) => term.officeId);
+}
+
 function workplaceOf(core: CoreState, person: PersonState): string {
   // An officeholder works where the office sits: the president in the Oval
   // Office, a governor in the governor's office.
@@ -772,6 +789,35 @@ export function faceOf(
   return bust ? { bust } : null;
 }
 
+/**
+ * Who is in the room with the player now, the same people the scene draws:
+ * the one read a talk is handed as its room (words composer, the telling).
+ */
+export function roomIds(
+  core: CoreState,
+  personId: string,
+  packet?: PlayerPacketV1,
+  /** The opening day: home after the address, by rule (owner, Oct 14, 2026). */
+  openingEvening?: number,
+): string[] {
+  const minute = packet?.at.minuteOfDay ?? openingEvening ?? 12 * 60;
+  const { place, why, targetId } = scenePlace(
+    core,
+    personId,
+    packet,
+    minute,
+    openingEvening !== undefined,
+  );
+  return presentIds(
+    core,
+    personId,
+    place,
+    why,
+    targetId,
+    openingEvening === undefined ? minute : undefined,
+  );
+}
+
 export function benchScene(
   core: CoreState,
   personId: string,
@@ -789,17 +835,7 @@ export function benchScene(
   );
   const working =
     why === "work-shift" || why === "attend-scheduled-work-date-segment";
-  const ids = [
-    personId,
-    ...presentIds(
-      core,
-      personId,
-      place,
-      why,
-      targetId,
-      openingEvening === undefined ? minute : undefined,
-    ),
-  ];
+  const ids = [personId, ...roomIds(core, personId, packet, openingEvening)];
   const backdrop = backdropFor(core, place, minute, personId);
   const { people, more } = peopleHere(
     core,

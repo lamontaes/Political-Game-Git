@@ -1,3 +1,4 @@
+import { organizationName } from "../director/words";
 import { coreAPI } from "../core2/state";
 import { JOBS_MODULE_ID, type PositionRow } from "../core2/modules/jobs";
 import type { CoreState } from "../core2/types";
@@ -25,7 +26,10 @@ export function openingsView(core: CoreState, personId: string) {
       .map((row) => ({
         recordId: row.id,
         title: row.title,
-        employer: core.organizations.get(row.organizationId)?.name ?? null,
+        employer: (() => {
+          const org = core.organizations.get(row.organizationId);
+          return org ? organizationName(org) : null;
+        })(),
         hourlyMinor: row.hourlyMinor,
         hoursDaily: core.jobs.get(row.templateJobId)?.hoursDaily ?? null,
       })),
