@@ -118,6 +118,8 @@
     "replaced": "The full name of the person whose job an opening fills.",
     "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
     "count-by": "The day before a bill's vote, said from the scene's day (\"Thursday\", \"June 7th\"), from the bill's floor date (floorDateOf).",
+    "vote-next-month": "Set when the bill's vote falls in the calendar month after the scene's, from its floor date.",
+    "vote-on": "The day of the bill's vote when it is a later day not in the next month, said from the scene's day (\"Thursday\", \"March 31st\"), from its floor date.",
     "vote-tonight": "Set when the bill's vote is on the scene's own day, from its floor date.",
     "filed-at-counter": "That the player filed at the counter, in the clerk's scene there: the record of the reply that filed.",
     "filed-so-far": "How many have filed for the office so far, said before the player files (\"two candidates\"), from the elections engine's filings."
@@ -14509,7 +14511,8 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor"
+          "after": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor",
+          "requiresFacts": ["vote-next-month"]
         }
       ],
       "bearing": "calm",

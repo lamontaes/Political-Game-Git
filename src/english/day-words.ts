@@ -98,3 +98,12 @@ export function dayAhead(targetIso: string, playIso: string): string | null {
       ]!
     : dateSaid(targetIso);
 }
+
+/** Whether a later day falls in the calendar month after the day a scene plays. */
+export function inNextMonth(targetIso: string, playIso: string): boolean {
+  const months =
+    (Number(targetIso.slice(0, 4)) - Number(playIso.slice(0, 4))) * 12 +
+    Number(targetIso.slice(5, 7)) -
+    Number(playIso.slice(5, 7));
+  return months === 1;
+}

@@ -27,7 +27,7 @@ import {
 } from "../core2/modules/meetings";
 import { viewOn } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
-import { dayAhead } from "../english/day-words";
+import { dayAhead, inNextMonth } from "../english/day-words";
 import { P } from "../core2/parameters";
 import { dayParts, sceneMinute } from "./day-part";
 import {
@@ -398,6 +398,15 @@ function composeBinding(
     const countBy = dayAhead(addDays(makeIsoDate(floor), -P.one), core.date);
     if (countBy)
       facts["count-by"] = { text: countBy, sourceRecordIds: [billId!] };
+    // "Next month" is said only when the vote falls in the month after the
+    // scene's; any other day is said from the record (Fable A, rule 22).
+    if (inNextMonth(floor, core.date))
+      facts["vote-next-month"] = { text: "yes", sourceRecordIds: [billId!] };
+    else {
+      const voteOn = dayAhead(floor, core.date);
+      if (voteOn)
+        facts["vote-on"] = { text: voteOn, sourceRecordIds: [billId!] };
+    }
   }
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
