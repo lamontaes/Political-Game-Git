@@ -116,6 +116,8 @@ it("counted renters on their lease month buy from their own savings, short ones 
   const rentIds = new Map(
     weighing.map((row) => [row.id, rt.flows.get(`rent:${row.id}`)!]),
   );
+  // Newcomers waiting for a home weigh buying in the same review; their own test is housing-counted-newcomers.test.ts.
+  rt.newcomers.length = 0;
   weighCountedBuyers(api);
   const after = { funds: funds(), others: others() };
   const heldAfter = heldMortgages(api, bankId).now,
@@ -126,6 +128,7 @@ it("counted renters on their lease month buy from their own savings, short ones 
       id: string;
       householdId: string;
       counted?: boolean;
+      date: string;
       weight: number;
       downMinor: number;
       loanMinor: number;
@@ -133,7 +136,7 @@ it("counted renters on their lease month buy from their own savings, short ones 
       holderId: string;
       reasons: Record<string, number>;
     }[]
-  ).filter((row) => row.counted);
+  ).filter((row) => row.counted && row.date === core.date);
   const detail = `Bastrop LA (${PLACE}), world ${core.seed}, ${core.date}: ${weighing.length} weighed, ${short.length} short, ${bought.length} bought`;
   expect(bought.length, detail).toBeGreaterThan(0);
   const buyers = new Set(bought.map((row) => row.householdId));
