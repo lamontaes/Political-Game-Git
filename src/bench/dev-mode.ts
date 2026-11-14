@@ -96,6 +96,11 @@ import {
   healthReport,
 } from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
+import {
+  acknowledgeModuleStopsV1,
+  comparePlayerMomentsV1,
+  earliestModuleStopsV1,
+} from "../core2/player-stops-v1";
 import type { CoreAPI, CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
 import { buildBenchWorld, buildRecipeOf } from "./world";
@@ -1744,14 +1749,59 @@ export class DevMode {
 
   // 3. Time ---------------------------------------------------------------
 
+  /**
+   * The played character's registered stops that fall before `target`, answered the way the
+   * player's own clock answers a stop it reaches (`acknowledgeModuleStopsV1`), because dev mode
+   * runs the world past them on its own clock and the player's clock would otherwise refuse
+   * every move behind a stop nothing can raise any more. A stop that holds the clock stays and
+   * is listed. Returns what was passed over and what was left, so a second session can see it.
+   * Only dev mode's own runs call it; the play screens' clock (`BenchPlayer.advance`) never does.
+   */
+  private passPlayerStops(personId: string | undefined, target: string) {
+    const passed: { moduleId: string; recordId: string; at: string }[] = [];
+    const held: { moduleId: string; recordId: string; at: string }[] = [];
+    if (!personId || !this.core.people.get(personId)?.alive)
+      return { passed, held };
+    const through = {
+      date: addDays(makeIsoDate(target), -1),
+      minuteOfDay: 1439,
+    };
+    let from = { date: this.core.date as string, minuteOfDay: 0 };
+    while (comparePlayerMomentsV1(from, through) <= 0) {
+      const stops = earliestModuleStopsV1(this.core, {
+        controlledPersonId: personId,
+        from,
+        through,
+      });
+      const first = stops[0];
+      if (!first) break;
+      acknowledgeModuleStopsV1(this.core, stops);
+      for (const stop of stops) {
+        const row = {
+          moduleId: stop.moduleId,
+          recordId: stop.recordId,
+          at: `${stop.at.date} ${stop.at.minuteOfDay}`,
+        };
+        (stop.hold ? held : passed).push(row);
+      }
+      from =
+        first.at.minuteOfDay >= 1439
+          ? { date: addDays(makeIsoDate(first.at.date), 1), minuteOfDay: 0 }
+          : { date: first.at.date, minuteOfDay: first.at.minuteOfDay + 1 };
+    }
+    return { passed, held };
+  }
+
   /** Run the world to a date on its own clock; dev-mode picks apply at each person's next decision. */
   advance(to: string) {
     const target = makeIsoDate(to);
     if (target <= this.core.date) throw new Error("Pick a later date.");
     // The played character finishes its day and the world takes the clock.
+    const playerId = this.player?.personId;
     this.player?.release();
     if (snapshotExplicitControlV1(this.core).personId !== undefined)
       throw new Error("A person is still under control.");
+    const stops = this.passPlayerStops(playerId, target);
     const started = Date.now();
     const from = this.core.date;
     const controller: Controller = (decision, offers) => {
@@ -1778,7 +1828,15 @@ export class DevMode {
         this.mark("decision-not-offered", [row.personId], { ...row });
       if (this.core.date.slice(0, 7) !== month) this.snapshot();
     }
-    return { from, to: this.core.date, ms: Date.now() - started };
+    return {
+      from,
+      to: this.core.date,
+      ms: Date.now() - started,
+      // Only when the player had stops on the way: which were answered, which hold the clock still.
+      ...(stops.passed.length || stops.held.length
+        ? { passedStops: stops.passed, heldStops: stops.held }
+        : {}),
+    };
   }
 
   /** What a skipped year does not do, read from its registered stopgap. */
@@ -1800,6 +1858,7 @@ export class DevMode {
    * verdict and the stopgap's list of what a skipped year does not do.
    */
   runYear() {
+    const playerId = this.player?.personId;
     try {
       this.player?.release();
     } catch {
@@ -1809,6 +1868,7 @@ export class DevMode {
       return { ran: false as const, held: true as const };
     const from = this.core.date;
     const to = addDays(makeIsoDate(from), 365);
+    const stops = this.passPlayerStops(playerId, to);
     const started = Date.now();
     advanceCore(this.core, to, { results: true });
     const problems = countryTierProblems(this.api);
@@ -1819,6 +1879,9 @@ export class DevMode {
       seconds: (Date.now() - started) / 1000,
       opened: countryOpened(this.api),
       problems: problems.length,
+      ...(stops.passed.length || stops.held.length
+        ? { passedStops: stops.passed, heldStops: stops.held }
+        : {}),
     };
   }
 
