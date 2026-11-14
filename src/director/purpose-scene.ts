@@ -2123,16 +2123,23 @@ function deskFacts(
       new Set(against.map((row) => row.memberId)),
     );
     if (group) facts.group = { text: group.said, sourceRecordIds: [group.id] };
-    const weight = { voters: 0, groups: 0, party: 0, views: 0 };
+    const weight = {
+      voters: P.zero,
+      groups: P.zero,
+      party: P.zero,
+      views: P.zero,
+    };
     for (const { position } of against) {
       weight.voters += position.constituents;
       weight.groups += position.lobby;
-      weight.party += (position.party ?? 0) + (position.wing ?? 0);
+      weight.party += (position.party ?? P.zero) + (position.wing ?? P.zero);
       weight.views += position.views + position.trait + position.consistency;
     }
     const reason = Object.entries(weight)
-      .filter(([why, most]) => most < P.zero && (why !== "groups" || group))
-      .sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0]))[0]?.[0];
+      .map(([why, most]) => ({ why, most }))
+      .filter(({ why, most }) => most < P.zero && (why !== "groups" || group))
+      .sort((a, b) => a.most - b.most || a.why.localeCompare(b.why))
+      .at(P.zero)?.why;
     if (reason)
       facts[`opposed-${reason}`] = { text: "yes", sourceRecordIds: cited };
     // Who they are: by name when they are few enough to say (Words lead,
@@ -2208,11 +2215,13 @@ function opposingGroup(
       cost: Math.max(seen.cost, row.annualCostMinor),
     });
   }
-  const ranked = [...tally].sort(
-    (a, b) =>
-      b[1].met - a[1].met || b[1].cost - a[1].cost || a[0].localeCompare(b[0]),
-  );
-  for (const [groupId] of ranked) {
+  const ranked = [...tally]
+    .map(([groupId, seen]) => ({ groupId, ...seen }))
+    .sort(
+      (a, b) =>
+        b.met - a.met || b.cost - a.cost || a.groupId.localeCompare(b.groupId),
+    );
+  for (const { groupId } of ranked) {
     const org = core.organizations.get(`organization:${groupId}` as never) as
       { id: string; name: string; kind?: string; topic?: string } | undefined;
     if (!org) continue;
