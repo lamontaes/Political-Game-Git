@@ -636,6 +636,10 @@
       "test": {
         "kind": "judged"
       },
+      "applies": {
+        "banks": ["scene-talk", "conversation", "bring-it-up", "hearing"],
+        "kinds": ["spoken"]
+      },
       "catches": [
         "I need a few days.",
         "Make it smaller and you'll have my vote.",
@@ -1039,6 +1043,19 @@
       "test": {
         "kind": "judged"
       },
+      "applies": {
+        "banks": [
+          "scene-talk",
+          "scene-words",
+          "conversation",
+          "journal",
+          "opening-speech",
+          "speech-stages",
+          "bring-it-up",
+          "hearing",
+          "address"
+        ]
+      },
       "note": "Stays judged: whether a line explains its own subtext or tells the player what to feel is meaning, and the only phrases in the banks that come near it (\"what that means\") are also ordinary speech; its saved verdicts come with part 7."
     },
     {
@@ -1185,13 +1202,17 @@
           "words": "Party ask. I like this. I'm on scene 17. The party needs you to run for attorney general. Now, I hope this wouldn't happen randomly. You know, you would have to have some kind of inroads."
         }
       ],
-      "status": "awaiting-test",
+      "status": "sample",
       "test": {
         "kind": "judged"
       },
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "(?:promise|refuse|threaten)"
+      },
       "catches": ["I really need this one."],
       "spares": ["I wish I could, but I can't."],
-      "note": "Stays judged: whether \"I really need this one\" names its reason depends on the move and the record the line commits to, which no pattern on the line's words can read."
+      "note": "A sample (Nov 14): whether a promise, refusal or threat names who, what or why is meaning, so a reviewer judged the 470 lines once; the 16 \"no\" lines are listed for the owner and none is pulled."
     },
     {
       "id": "stake-is-named",
@@ -1281,9 +1302,13 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 15"
       ],
-      "status": "awaiting-test",
+      "status": "sample",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "-(?:plea|bargain|complain)$"
       },
       "catches": [
         "Across the country, unemployment is {unemployment-rate} percent.",
@@ -1298,7 +1323,7 @@
         "I could lose my primary over this",
         "this is a two-way street"
       ],
-      "note": "Stays judged: a stake can be a figure, a favor or a name in any words, so no pattern separates \"We're close, but not there yet.\" from a line that names its stake."
+      "note": "A sample (Nov 14): a stake can be a figure, a favor or a name in any words, so a reviewer judged the 196 plea and bargain lines once; the 27 \"no\" lines are listed for the owner and none is pulled."
     },
     {
       "id": "reply-follows-the-line-before",
@@ -2055,6 +2080,14 @@
       "test": {
         "kind": "judged"
       },
+      "applies": {
+        "banks": ["scene-talk"],
+        "uses": {
+          "has": {
+            "purpose": "press-comment"
+          }
+        }
+      },
       "catches": [
         "Then put this in the story: I'm proud of my vote.",
         "I'll sign it again tomorrow.",
@@ -2331,6 +2364,15 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": [
+          "scene-talk",
+          "conversation",
+          "bring-it-up",
+          "hearing",
+          "opening-speech"
+        ]
       },
       "catches": [
         "I'm a no, and I'll say why to anyone who asks.",
@@ -2952,6 +2994,9 @@
       "test": {
         "kind": "judged"
       },
+      "applies": {
+        "banks": ["opening-speech", "speech-stages"]
+      },
       "catches": [
         "I see you, governors. I see you.",
         "the unemployment rate is better than it was a year ago",
@@ -3028,6 +3073,14 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": [
+          "scene-talk",
+          "conversation",
+          "opening-speech",
+          "speech-stages"
+        ]
       },
       "catches": [
         "a tense night for everyone",
@@ -4093,6 +4146,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["journal"]
       }
     },
     {
@@ -4317,6 +4373,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "^reply-"
       },
       "note": "Stays judged: whether a reply's second sentence follows its first is meaning across two sentences, and the picker's reply-follows verdicts judge a line against the one before it, not within one reply."
     },
@@ -4679,6 +4739,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "promise"
       }
     },
     {
@@ -4718,6 +4782,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["opening-speech", "speech-stages"]
       }
     },
     {
@@ -4776,6 +4843,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["bring-it-up"]
       }
     },
     {
@@ -4992,6 +5062,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "apologize|deflect|stall"
       },
       "catches": [
         "I'm sorry. {winner} won the {office} race.",
