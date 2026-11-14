@@ -368,6 +368,18 @@
     "resolvedBy": "stand-in triage T5"
   },
   {
+    "id": "SG-P8-civic-progress",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/content.json",
+    "line": 141,
+    "whatItFakes": "Prototype civic availability and organization/approach consequences, rather than complete procedures.",
+    "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
+    "addedBy": "SOL-1258",
+    "addedAt": "2026-10-09",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Oct 23, 2026 (research-content-sourced-parameters): lookupHours is now ESTIMATED from ATUS 2025 Table A-1 Government services (0.91 hours for the people who did it; 0.72 to 1.06 across published years), recorded in data/research/core/bls-atus-table-a1-2025.json with ATUS volunteering (4.0 to 5.7 percent of people a day) for the civic acts. Still open: the join, organize, approach and look-up acts are prototype procedures (builder item core-stopgap-content-uncalibrated-tunable), and lookupHours stays ESTIMATED until a time-use source measures looking up an office itself.",
+    "status": "open"
+  },
+  {
     "id": "SG-P8-opening-vintage",
     "kind": "data-gap",
     "file": "src/core2/population.ts",

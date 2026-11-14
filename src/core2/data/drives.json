@@ -564,6 +564,7 @@
           "operation": "drive-target-untold"
         }
       ],
+      "stopgapId": "SG-P10-drive-acts",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
@@ -601,9 +602,7 @@
           "id": "cause-given",
           "provider": "drives:cause-given",
           "weightParameter": "causeGivenWeight",
-          "arguments": {
-            "fadeDaysParameter": "causeJoinedDays"
-          }
+          "arguments": { "fadeDaysParameter": "causeJoinedDays" }
         }
       ],
       "actKinds": ["cooperate", "commit", "engage"],
@@ -621,6 +620,7 @@
           "operation": "not-member"
         }
       ],
+      "stopgapId": "SG-P10-drive-acts",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
@@ -650,6 +650,7 @@
           "operation": "can-afford-donation"
         }
       ],
+      "stopgapId": "SG-P10-drive-acts",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "negativeOne"
@@ -676,6 +677,7 @@
           "operation": "has-drive"
         }
       ],
+      "stopgapId": "SG-P10-drive-acts",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "negativeOne"
@@ -695,6 +697,7 @@
           "operation": "has-drive"
         }
       ],
+      "stopgapId": "SG-P10-drive-acts",
       "emotion": {
         "moodMultiplierParameter": "negativeOne",
         "stressMultiplierParameter": "one"
@@ -714,6 +717,7 @@
           "operation": "has-drive"
         }
       ],
+      "stopgapId": "SG-P10-drive-acts",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "zero"

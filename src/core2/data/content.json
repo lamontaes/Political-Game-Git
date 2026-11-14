@@ -123,6 +123,7 @@
           "operation": "not-member"
         }
       ],
+      "stopgapId": "SG-P8-civic-progress",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
@@ -145,6 +146,7 @@
           "operation": "not-organized-topic"
         }
       ],
+      "stopgapId": "SG-P8-civic-progress",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
@@ -170,6 +172,7 @@
           "operation": "has-organized-topic"
         }
       ],
+      "stopgapId": "SG-P8-civic-progress",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
@@ -184,6 +187,7 @@
       "effectParameter": "one",
       "targetKind": "office-directory",
       "effect": "public-lookup",
+      "stopgapId": "SG-P8-civic-progress",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
