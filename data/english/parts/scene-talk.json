@@ -189700,31 +189700,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.people-back-home-keep-asking-me-for-this-can-i-count-on-you",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "People back home keep asking me for this. Can I count on you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["own-amount", "own-reason-district"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Claude Opus (brief O, amount bills)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "request",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.state-request.the-caucus-is-behind-this-one-and-i-need-your-vote",
       "move": "state-request",
       "kind": "spoken",
