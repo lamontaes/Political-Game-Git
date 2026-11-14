@@ -999,8 +999,11 @@ export function witnessLife(
     return { life: "works-where-it-binds", lifeRecordId: boundJob.id };
   const topic = question.split(":")[1]?.split(".")[0] ?? "";
   const touches = concerns(api, person)(question);
-  if ((topic.startsWith("labor-") || topic === "fiscal") && touches)
-    return { life: "works", lifeRecordId: commitments[0]!.id };
+  // Their own work, where they have a job on the books: one out of work who
+  // still cares holds a view the bill reaches in no record of theirs.
+  const job = commitments[0];
+  if ((topic.startsWith("labor-") || topic === "fiscal") && touches && job)
+    return { life: "works", lifeRecordId: job.id };
   if (topic === "housing-land-use") {
     // Their household's home on the books: a lease or a mortgage with no end.
     for (const [id, row] of core.finance.contracts)
