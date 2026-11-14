@@ -53,6 +53,7 @@ it(`a household member opens from the day, and each reply moves the talk on (see
     }
     const address = `${OPENING_ADDRESS_EVENT}:${core.date}`;
     let opened = 0;
+    let onAddress = 0;
     household.forEach((member, index) => {
       const here = `${where}: ${member.id}`;
       // They watched it with the player.
@@ -87,8 +88,18 @@ it(`a household member opens from the day, and each reply moves the talk on (see
         return;
       }
       opened += 1;
-      expect(opener?.speakerId, here).toBe(member.id);
-      expect(opener?.kind, here).toBe("address-point");
+      // One person in the house raises the address in a day; every other
+      // housemate who speaks opens on something of their own, and says
+      // nothing when they have nothing (lead, Nov 14, rule 61).
+      if (opener?.kind !== "address-point") {
+        if (opener) {
+          expect(opener.speakerId, here).toBe(member.id);
+          expect(opener.kind, here).not.toBe("address");
+        }
+        return;
+      }
+      onAddress += 1;
+      expect(opener.speakerId, here).toBe(member.id);
       // Up to four replies, each a different move (owner, Nov 10).
       expectUpToFourDifferent(talk.choices, here);
       // Each reply is answered: they take it up in their own words.
@@ -107,6 +118,16 @@ it(`a household member opens from the day, and each reply moves the talk on (see
         `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer!.text}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,
       );
     });
+    // The address is raised once in the house, and is not lost: a household
+    // where it was raised by none is passed over, and named.
+    expect(
+      onAddress,
+      `${where}: housemates who opened on the address`,
+    ).toBeLessThanOrEqual(1);
+    if (opened && !onAddress) {
+      tried.push(`${place.name} (no housemate had a point of the address)`);
+      continue;
+    }
     // A household where nobody takes a stand is passed over, and named.
     if (!opened) {
       tried.push(`${place.name} (nobody at home takes a stand)`);
