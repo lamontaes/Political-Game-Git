@@ -134,7 +134,10 @@
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
     "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
     "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
-    "wanted": "What a bribe offer wants, the bill or the contract the offer record names."
+    "wanted": "What a bribe offer wants, the bill or the contract the offer record names.",
+    "bill-name": "The bill's short name as people say it, from the bill catalog's name for its first section.",
+    "bill-purpose": "What the bill does in plain words, from the bill catalog's purpose for its first section.",
+    "presiding": "The presiding officer's title in the body, from the said-as words for its office kind; the chair where none."
   },
   "maxWords": 70,
   "parts": [
@@ -107987,6 +107990,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small", "issue"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council", "issue"]
         }
       ],
       "bearing": "calm",
@@ -108012,6 +108024,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small", "issue"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council", "issue"]
         }
       ],
       "bearing": "calm",
@@ -108037,6 +108058,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small", "issue"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council", "issue"]
         }
       ],
       "bearing": "warm",
@@ -108062,6 +108092,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council"]
         }
       ],
       "bearing": "warm",
@@ -108087,6 +108126,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council"]
         }
       ],
       "bearing": "calm",
@@ -108112,6 +108160,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council"]
         }
       ],
       "bearing": "warm",
@@ -108137,6 +108194,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small", "issue"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council", "issue"]
         }
       ],
       "bearing": "calm",
@@ -108162,6 +108228,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small", "issue"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council", "issue"]
         }
       ],
       "bearing": "guarded",
@@ -108187,6 +108262,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small", "issue"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council", "issue"]
         }
       ],
       "bearing": "braced",
@@ -108212,6 +108296,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council"]
         }
       ],
       "bearing": "calm",
@@ -108237,6 +108330,24 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-formal"]
         }
       ],
       "bearing": "braced",
@@ -108262,298 +108373,7 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.on-issue-i-m-with-you-council",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "On {issue}, I'm with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.on-issue-you-ve-got-me-council",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "On {issue}, you've got me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.on-issue-count-me-with-you-council",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "On {issue}, count me with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "issue"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-m-with-you-on-this-council",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'm with you on this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.you-ve-got-me-on-this-one-council",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You've got me on this one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.yes-i-m-with-you-council",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes, I'm with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.on-issue-i-see-it-differently-council",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "On {issue}, I see it differently.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.on-issue-my-answer-is-still-no-council",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "On {issue}, my answer is still no.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "issue"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.on-issue-it-s-still-a-no-from-me-council",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "On {issue}, it's still a no from me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "issue"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-see-it-differently-council",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I see it differently.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-can-t-go-along-with-that-council",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I can't go along with that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-still-can-t-back-it-council",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I still can't back it.",
-      "uses": [
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -108849,31 +108669,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-disagree.i-can-t-go-along-with-that-formal",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I can't go along with that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-formal"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "disagree",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.reply-disagree.i-respectfully-disagree-with-the-member",
       "move": "reply-disagree",
       "kind": "spoken",
@@ -108987,6 +108782,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small", "bill-purpose"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council", "bill-purpose"]
         }
       ],
       "bearing": "curious",
@@ -109012,6 +108816,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small", "bill-purpose"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council", "bill-purpose"]
         }
       ],
       "bearing": "curious",
@@ -109037,6 +108850,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small", "bill-purpose"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council", "bill-purpose"]
         }
       ],
       "bearing": "curious",
@@ -109062,6 +108884,15 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["body-council"]
         }
       ],
       "bearing": "curious",
@@ -109087,123 +108918,7 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["body-small"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "ask",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-does-it-do-exactly-council",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What does it do, exactly?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "bill-purpose"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "ask",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.why-bring-this-now-council",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Why bring this now?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "bill-purpose"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "ask",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-is-this-really-for-council",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who is this really for?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council", "bill-purpose"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "ask",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.why-now-council",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Why now?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["body-council"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "ask",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-is-it-for-council",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who is it for?",
-      "uses": [
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -109363,6 +109078,16 @@
           "key": "honor",
           "requiresFacts": ["speaks-for", "bill-purpose"],
           "after": "scene-talk.reply-ask.what-does-it-do-exactly"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "bill-purpose"],
+          "after": "scene-talk.reply-ask.would-the-member-say-what-the-bill-does"
         }
       ],
       "bearing": "calm",
@@ -109389,6 +109114,16 @@
           "key": "honor",
           "requiresFacts": ["speaks-against", "bill-purpose"],
           "after": "scene-talk.reply-ask.what-does-it-do-exactly"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "bill-purpose"],
+          "after": "scene-talk.reply-ask.would-the-member-say-what-the-bill-does"
         }
       ],
       "bearing": "calm",
@@ -109415,6 +109150,36 @@
           "key": "honor",
           "requiresFacts": ["speaks-for", "reason-own-view"],
           "after": "scene-talk.reply-ask.why-bring-this-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-view"],
+          "after": "scene-talk.reply-ask.why-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-view"],
+          "after": "scene-talk.reply-ask.would-the-member-say-why-this-bill-and-why-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-view"],
+          "after": "scene-talk.reply-ask.would-the-member-say-why-now"
         }
       ],
       "bearing": "calm",
@@ -109441,6 +109206,36 @@
           "key": "honor",
           "requiresFacts": ["speaks-for", "reason-people"],
           "after": "scene-talk.reply-ask.why-bring-this-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-people"],
+          "after": "scene-talk.reply-ask.why-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-people"],
+          "after": "scene-talk.reply-ask.would-the-member-say-why-this-bill-and-why-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-people"],
+          "after": "scene-talk.reply-ask.would-the-member-say-why-now"
         }
       ],
       "bearing": "warm",
@@ -109467,6 +109262,36 @@
           "key": "honor",
           "requiresFacts": ["speaks-for", "reason-own-bill"],
           "after": "scene-talk.reply-ask.why-bring-this-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-bill"],
+          "after": "scene-talk.reply-ask.why-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-bill"],
+          "after": "scene-talk.reply-ask.would-the-member-say-why-this-bill-and-why-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-bill"],
+          "after": "scene-talk.reply-ask.would-the-member-say-why-now"
         }
       ],
       "bearing": "proud",
@@ -109493,6 +109318,36 @@
           "key": "honor",
           "requiresFacts": ["speaks-against", "reason-own-view"],
           "after": "scene-talk.reply-ask.why-bring-this-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "reason-own-view"],
+          "after": "scene-talk.reply-ask.why-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "reason-own-view"],
+          "after": "scene-talk.reply-ask.would-the-member-say-why-this-bill-and-why-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "reason-own-view"],
+          "after": "scene-talk.reply-ask.would-the-member-say-why-now"
         }
       ],
       "bearing": "braced",
@@ -109519,6 +109374,36 @@
           "key": "honor",
           "requiresFacts": ["speaks-against", "reason-people"],
           "after": "scene-talk.reply-ask.why-bring-this-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "reason-people"],
+          "after": "scene-talk.reply-ask.why-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "reason-people"],
+          "after": "scene-talk.reply-ask.would-the-member-say-why-this-bill-and-why-now"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "reason-people"],
+          "after": "scene-talk.reply-ask.would-the-member-say-why-now"
         }
       ],
       "bearing": "guarded",
@@ -109545,6 +109430,36 @@
           "key": "honor",
           "requiresFacts": ["speaks-for", "reason-people"],
           "after": "scene-talk.reply-ask.who-is-this-really-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-people"],
+          "after": "scene-talk.reply-ask.who-is-it-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-people"],
+          "after": "scene-talk.reply-ask.would-the-member-say-who-this-is-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-people"],
+          "after": "scene-talk.reply-ask.would-the-member-say-who-it-is-for"
         }
       ],
       "bearing": "warm",
@@ -109571,6 +109486,36 @@
           "key": "honor",
           "requiresFacts": ["speaks-for", "reason-own-view"],
           "after": "scene-talk.reply-ask.who-is-this-really-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-view"],
+          "after": "scene-talk.reply-ask.who-is-it-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-view"],
+          "after": "scene-talk.reply-ask.would-the-member-say-who-this-is-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-view"],
+          "after": "scene-talk.reply-ask.would-the-member-say-who-it-is-for"
         }
       ],
       "bearing": "calm",
@@ -109597,6 +109542,36 @@
           "key": "honor",
           "requiresFacts": ["speaks-for", "reason-own-bill"],
           "after": "scene-talk.reply-ask.who-is-this-really-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-bill"],
+          "after": "scene-talk.reply-ask.who-is-it-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-bill"],
+          "after": "scene-talk.reply-ask.would-the-member-say-who-this-is-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "reason-own-bill"],
+          "after": "scene-talk.reply-ask.would-the-member-say-who-it-is-for"
         }
       ],
       "bearing": "proud",
@@ -109623,6 +109598,36 @@
           "key": "honor",
           "requiresFacts": ["speaks-against", "reason-people"],
           "after": "scene-talk.reply-ask.who-is-this-really-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "reason-people"],
+          "after": "scene-talk.reply-ask.who-is-it-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "reason-people"],
+          "after": "scene-talk.reply-ask.would-the-member-say-who-this-is-for"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "reason-people"],
+          "after": "scene-talk.reply-ask.would-the-member-say-who-it-is-for"
         }
       ],
       "bearing": "guarded",
@@ -109649,257 +109654,7 @@
           "key": "honor",
           "requiresFacts": ["speaks-against", "reason-own-view"],
           "after": "scene-talk.reply-ask.who-is-this-really-for"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-i-ve-waited-long-enough-to-say-where-i-stand-why-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because I've waited long enough to say where I stand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view"],
-          "after": "scene-talk.reply-ask.why-now"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-folks-keep-asking-and-they-deserve-an-answer-why-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because folks keep asking, and they deserve an answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people"],
-          "after": "scene-talk.reply-ask.why-now"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-it-s-ready-and-it-s-been-put-off-long-enough-why-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because it's ready, and it's been put off long enough.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-bill"],
-          "after": "scene-talk.reply-ask.why-now"
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-i-would-rather-say-no-now-than-let-anyone-think-i-d-go-why-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because I would rather say no now than let anyone think I'd go along.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-own-view"],
-          "after": "scene-talk.reply-ask.why-now"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-people-told-me-where-they-stand-and-i-won-t-wait-to-sa-why-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because people told me where they stand, and I won't wait to say it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people"],
-          "after": "scene-talk.reply-ask.why-now"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-folks-who-come-to-me-about-it-who-is-it-fo",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The folks who come to me about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people"],
-          "after": "scene-talk.reply-ask.who-is-it-for"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-in-town-it-touches-that-s-who-i-think-about-who-is-it-fo",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone in town it touches. That's who I think about.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view"],
-          "after": "scene-talk.reply-ask.who-is-it-for"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-in-town-it-touches-that-s-who-i-wrote-it-for-who-is-it-fo",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone in town it touches. That's who I wrote it for.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-bill"],
-          "after": "scene-talk.reply-ask.who-is-it-for"
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-folks-who-asked-me-not-to-go-along-with-it-who-is-it-fo",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The folks who asked me not to go along with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people"],
-          "after": "scene-talk.reply-ask.who-is-it-for"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-people-it-would-land-on-i-don-t-think-it-helps-them-who-is-it-fo",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The people it would land on. I don't think it helps them.",
-      "uses": [
+        },
         {
           "subject": "scene",
           "step": "follow",
@@ -109909,881 +109664,7 @@
           "key": "honor",
           "requiresFacts": ["speaks-against", "reason-own-view"],
           "after": "scene-talk.reply-ask.who-is-it-for"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-bill-purpose-that-s-all-it-is-what-does-it",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's {bill-purpose}. That's all it is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "bill-purpose"],
-          "after": "scene-talk.reply-ask.what-does-it-do-exactly-council"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-bill-purpose-and-i-don-t-think-that-s-worth-doing-what-does-it",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's {bill-purpose}, and I don't think that's worth doing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "bill-purpose"],
-          "after": "scene-talk.reply-ask.what-does-it-do-exactly-council"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-i-ve-waited-long-enough-to-say-where-i-stand-why-bring-th",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because I've waited long enough to say where I stand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view"],
-          "after": "scene-talk.reply-ask.why-bring-this-now-council"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-folks-keep-asking-and-they-deserve-an-answer-why-bring-th",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because folks keep asking, and they deserve an answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people"],
-          "after": "scene-talk.reply-ask.why-bring-this-now-council"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-it-s-ready-and-it-s-been-put-off-long-enough-why-bring-th",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because it's ready, and it's been put off long enough.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-bill"],
-          "after": "scene-talk.reply-ask.why-bring-this-now-council"
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-i-would-rather-say-no-now-than-let-anyone-think-i-d-go-why-bring-th",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because I would rather say no now than let anyone think I'd go along.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-own-view"],
-          "after": "scene-talk.reply-ask.why-bring-this-now-council"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-people-told-me-where-they-stand-and-i-won-t-wait-to-sa-why-bring-th",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because people told me where they stand, and I won't wait to say it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people"],
-          "after": "scene-talk.reply-ask.why-bring-this-now-council"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-folks-who-come-to-me-about-it-who-is-this-",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The folks who come to me about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people"],
-          "after": "scene-talk.reply-ask.who-is-this-really-for-council"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-in-town-it-touches-that-s-who-i-think-about-who-is-this-",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone in town it touches. That's who I think about.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view"],
-          "after": "scene-talk.reply-ask.who-is-this-really-for-council"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-in-town-it-touches-that-s-who-i-wrote-it-for-who-is-this-",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone in town it touches. That's who I wrote it for.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-bill"],
-          "after": "scene-talk.reply-ask.who-is-this-really-for-council"
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-folks-who-asked-me-not-to-go-along-with-it-who-is-this-",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The folks who asked me not to go along with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people"],
-          "after": "scene-talk.reply-ask.who-is-this-really-for-council"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-people-it-would-land-on-i-don-t-think-it-helps-them-who-is-this-",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The people it would land on. I don't think it helps them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-own-view"],
-          "after": "scene-talk.reply-ask.who-is-this-really-for-council"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-i-ve-waited-long-enough-to-say-where-i-stand-why-now-coun",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because I've waited long enough to say where I stand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view"],
-          "after": "scene-talk.reply-ask.why-now-council"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-folks-keep-asking-and-they-deserve-an-answer-why-now-coun",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because folks keep asking, and they deserve an answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people"],
-          "after": "scene-talk.reply-ask.why-now-council"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-it-s-ready-and-it-s-been-put-off-long-enough-why-now-coun",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because it's ready, and it's been put off long enough.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-bill"],
-          "after": "scene-talk.reply-ask.why-now-council"
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-i-would-rather-say-no-now-than-let-anyone-think-i-d-go-why-now-coun",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because I would rather say no now than let anyone think I'd go along.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-own-view"],
-          "after": "scene-talk.reply-ask.why-now-council"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-people-told-me-where-they-stand-and-i-won-t-wait-to-sa-why-now-coun",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because people told me where they stand, and I won't wait to say it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people"],
-          "after": "scene-talk.reply-ask.why-now-council"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-folks-who-come-to-me-about-it-who-is-it-fo-council",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The folks who come to me about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people"],
-          "after": "scene-talk.reply-ask.who-is-it-for-council"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-in-town-it-touches-that-s-who-i-think-about-who-is-it-fo-council",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone in town it touches. That's who I think about.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view"],
-          "after": "scene-talk.reply-ask.who-is-it-for-council"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-in-town-it-touches-that-s-who-i-wrote-it-for-who-is-it-fo-council",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone in town it touches. That's who I wrote it for.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-bill"],
-          "after": "scene-talk.reply-ask.who-is-it-for-council"
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-folks-who-asked-me-not-to-go-along-with-it-who-is-it-fo-council",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The folks who asked me not to go along with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people"],
-          "after": "scene-talk.reply-ask.who-is-it-for-council"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-people-it-would-land-on-i-don-t-think-it-helps-them-who-is-it-fo-council",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The people it would land on. I don't think it helps them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-own-view"],
-          "after": "scene-talk.reply-ask.who-is-it-for-council"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-bill-purpose-that-s-all-it-is-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's {bill-purpose}. That's all it is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "bill-purpose"],
-          "after": "scene-talk.reply-ask.would-the-member-say-what-the-bill-does"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-s-bill-purpose-and-i-don-t-think-that-s-worth-doing-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It's {bill-purpose}, and I don't think that's worth doing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "bill-purpose"],
-          "after": "scene-talk.reply-ask.would-the-member-say-what-the-bill-does"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-i-ve-waited-long-enough-to-say-where-i-stand-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because I've waited long enough to say where I stand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view"],
-          "after": "scene-talk.reply-ask.would-the-member-say-why-this-bill-and-why-now"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-folks-keep-asking-and-they-deserve-an-answer-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because folks keep asking, and they deserve an answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people"],
-          "after": "scene-talk.reply-ask.would-the-member-say-why-this-bill-and-why-now"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-it-s-ready-and-it-s-been-put-off-long-enough-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because it's ready, and it's been put off long enough.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-bill"],
-          "after": "scene-talk.reply-ask.would-the-member-say-why-this-bill-and-why-now"
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-i-would-rather-say-no-now-than-let-anyone-think-i-d-go-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because I would rather say no now than let anyone think I'd go along.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-own-view"],
-          "after": "scene-talk.reply-ask.would-the-member-say-why-this-bill-and-why-now"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-people-told-me-where-they-stand-and-i-won-t-wait-to-sa-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because people told me where they stand, and I won't wait to say it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people"],
-          "after": "scene-talk.reply-ask.would-the-member-say-why-this-bill-and-why-now"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-folks-who-come-to-me-about-it-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The folks who come to me about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people"],
-          "after": "scene-talk.reply-ask.would-the-member-say-who-this-is-for"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-in-town-it-touches-that-s-who-i-think-about-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone in town it touches. That's who I think about.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view"],
-          "after": "scene-talk.reply-ask.would-the-member-say-who-this-is-for"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-in-town-it-touches-that-s-who-i-wrote-it-for-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone in town it touches. That's who I wrote it for.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-bill"],
-          "after": "scene-talk.reply-ask.would-the-member-say-who-this-is-for"
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-folks-who-asked-me-not-to-go-along-with-it-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The folks who asked me not to go along with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people"],
-          "after": "scene-talk.reply-ask.would-the-member-say-who-this-is-for"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-people-it-would-land-on-i-don-t-think-it-helps-them-would-the-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The people it would land on. I don't think it helps them.",
-      "uses": [
+        },
         {
           "subject": "scene",
           "step": "follow",
@@ -110793,257 +109674,7 @@
           "key": "honor",
           "requiresFacts": ["speaks-against", "reason-own-view"],
           "after": "scene-talk.reply-ask.would-the-member-say-who-this-is-for"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-i-ve-waited-long-enough-to-say-where-i-stand-would-the-me-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because I've waited long enough to say where I stand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view"],
-          "after": "scene-talk.reply-ask.would-the-member-say-why-now"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-folks-keep-asking-and-they-deserve-an-answer-would-the-me-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because folks keep asking, and they deserve an answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people"],
-          "after": "scene-talk.reply-ask.would-the-member-say-why-now"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-it-s-ready-and-it-s-been-put-off-long-enough-would-the-me-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because it's ready, and it's been put off long enough.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-bill"],
-          "after": "scene-talk.reply-ask.would-the-member-say-why-now"
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-i-would-rather-say-no-now-than-let-anyone-think-i-d-go-would-the-me-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because I would rather say no now than let anyone think I'd go along.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-own-view"],
-          "after": "scene-talk.reply-ask.would-the-member-say-why-now"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.because-people-told-me-where-they-stand-and-i-won-t-wait-to-sa-would-the-me-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Because people told me where they stand, and I won't wait to say it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people"],
-          "after": "scene-talk.reply-ask.would-the-member-say-why-now"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-folks-who-come-to-me-about-it-would-the-me-for",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The folks who come to me about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-people"],
-          "after": "scene-talk.reply-ask.would-the-member-say-who-it-is-for"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-in-town-it-touches-that-s-who-i-think-about-would-the-me-for",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone in town it touches. That's who I think about.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-view"],
-          "after": "scene-talk.reply-ask.would-the-member-say-who-it-is-for"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-in-town-it-touches-that-s-who-i-wrote-it-for-would-the-me-for",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone in town it touches. That's who I wrote it for.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-for", "reason-own-bill"],
-          "after": "scene-talk.reply-ask.would-the-member-say-who-it-is-for"
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-folks-who-asked-me-not-to-go-along-with-it-would-the-me-for",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The folks who asked me not to go along with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": ["speaks-against", "reason-people"],
-          "after": "scene-talk.reply-ask.would-the-member-say-who-it-is-for"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-people-it-would-land-on-i-don-t-think-it-helps-them-would-the-me-for",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The people it would land on. I don't think it helps them.",
-      "uses": [
+        },
         {
           "subject": "scene",
           "step": "follow",
