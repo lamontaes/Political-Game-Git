@@ -1,13 +1,10 @@
 {
   "schema": "english-pulled/1",
   "pulled": {
-    "conversation.family-answer-ill.name-fell-ill-when": [
+    "conversation.farewell-core.all-right-then-player-fir": [
       "plain-american-spelling-and-phrasing"
     ],
-    "conversation.farewell-core.look-after-yourself-player-first": [
-      "plain-american-spelling-and-phrasing"
-    ],
-    "conversation.news-back-core.that-s-the-whole-of-it-it-ran-ran": [
+    "conversation.farewell-leave-bye.all-right-then": [
       "plain-american-spelling-and-phrasing"
     ],
     "opening-speech.ask.folded-polished-keep-law-short": [
@@ -79,7 +76,23 @@
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
     ],
+    "conversation.farewell-core.all-right-bye": ["alright-in-dialogue"],
+    "conversation.farewell-core.all-right-then-player-fir": [
+      "alright-in-dialogue"
+    ],
+    "conversation.farewell-core.well-all-right": [
+      "no-filler",
+      "alright-in-dialogue"
+    ],
+    "conversation.farewell-core.well-bye": ["no-filler"],
+    "conversation.farewell-core.well-goodbye-player-first": ["no-filler"],
+    "conversation.farewell-core.well-player-first-goodbye": ["no-filler"],
+    "conversation.farewell-core.well-see-you": ["no-filler"],
+    "conversation.farewell-core.well-take-care": ["no-filler"],
+    "conversation.farewell-core.well-that-s-that": ["no-filler"],
+    "conversation.farewell-leave-bye.all-right-then": ["alright-in-dialogue"],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
+    "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
     "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right": [
       "alright-in-dialogue"
     ],
@@ -152,6 +165,9 @@
     ],
     "scene-talk.open-greet.well-look-who-it-is": ["no-filler"],
     "scene-talk.open-greet.well-that-s-the-year": ["no-filler"],
+    "scene-talk.reply-accept.all-right-you-ve-got-me-on-this-one": [
+      "alright-in-dialogue"
+    ],
     "scene-talk.reply-accept.i-hear-you-i-wish-it-had-gone-another-way-we-did-try-and-i-want-to-rem": [
       "no-stock-phrases"
     ],
@@ -188,6 +204,9 @@
     ],
     "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no": [
       "no-stock-phrases"
+    ],
+    "scene-talk.reply-relent.all-right-put-me-down-i-ll-answer-for-it-at-home": [
+      "alright-in-dialogue"
     ],
     "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running": [
       "no-stock-phrases"
@@ -258,6 +277,15 @@
     "scene-talk.follow-press.two-pages-and-i-have-them-right-here": [
       "join-cause/decline"
     ],
+    "scene-talk.follow-press.what-would-change-it": [
+      "ask-vote.friend/relent",
+      "ask-vote.trade/relent",
+      "ask-vote.watched/relent",
+      "ask-vote.whip/relent",
+      "ask-vote/relent",
+      "confirm-vote/relent",
+      "section-bargain/relent"
+    ],
     "scene-talk.follow-press.you-d-say-it-plainly-and-they-would-listen-to-you": [
       "join-cause/decline"
     ],
@@ -298,6 +326,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 35,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 14967
+    "reply-second-move-follows-the-first (pairs)": 14438
   }
 }

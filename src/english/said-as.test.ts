@@ -3,6 +3,8 @@ import {
   employerSaidAs,
   jobSaidAs,
   saidAs,
+  personSlot,
+  wordPersonSlots,
   sentenceStarts,
   type SaidPerson,
 } from "./said-as";
@@ -154,6 +156,62 @@ describe("sentence starts", () => {
   it("capitalizes a sentence a filled slot opens", () => {
     expect(sentenceStarts("the President said it. he meant it.")).toBe(
       "The President said it. He meant it.",
+    );
+  });
+});
+
+describe("person slots", () => {
+  const people = new Map([
+    ["p", { role: "the President", person: { gender: "female" } }],
+  ]);
+  it("words each slot in its own case: the role once, then the pronoun", () => {
+    const a = personSlot("p", "subject");
+    const o = personSlot("p", "object");
+    const s = personSlot("p", "possessive");
+    expect(
+      wordPersonSlots(
+        `${a} spent time on pay. Nothing here looks like what ${a} described.`,
+        people,
+      ),
+    ).toBe(
+      "The President spent time on pay. Nothing here looks like what she described.",
+    );
+    expect(
+      wordPersonSlots(`Same as ${o}, honestly.`, people, new Set(["p"])),
+    ).toBe("Same as her, honestly.");
+    expect(wordPersonSlots(`I wouldn't take ${s} word.`, people)).toBe(
+      "I wouldn't take the President's word.",
+    );
+    // Mequon, Wisconsin (5551150), seed 0fc675ce4beb9bf6f3c8, Nov 12: a guess
+    // from the next word said "and neither does her"; the slot's case says she.
+    expect(
+      wordPersonSlots(
+        `I heard the President on carbon. I don't think we should limit it, and neither does ${a}.`,
+        people,
+      ),
+    ).toBe(
+      "I heard the President on carbon. I don't think we should limit it, and neither does she.",
+    );
+    // The role already in the text counts as the first mention.
+    expect(
+      wordPersonSlots(`The President spoke. Whatever ${a} says, fine.`, people),
+    ).toBe("The President spoke. Whatever she says, fine.");
+  });
+  // Lubec, Maine (2341575), seed 57625996fa1f34b2ceb4, Nov 12: a President
+  // with no he or she on record was said by role twice in one line.
+  it("says they for someone with no he or she on record, with plural verbs", () => {
+    const them = new Map([["p", { role: "the President", person: {} }]]);
+    const a = personSlot("p", "subject");
+    expect(
+      wordPersonSlots(
+        `The President spoke. Nobody needs it, and ${a} knows it. ${a}'s right, and neither does ${a}.`,
+        them,
+      ),
+    ).toBe(
+      "The President spoke. Nobody needs it, and they know it. They're right, and neither do they.",
+    );
+    expect(wordPersonSlots(`I heard ${a}. ${a} should act.`, them)).toBe(
+      "I heard the President. They should act.",
     );
   });
 });
