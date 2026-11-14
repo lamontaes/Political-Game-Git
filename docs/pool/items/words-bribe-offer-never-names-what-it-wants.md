@@ -20,7 +20,7 @@ checked:
 claimed-at: 2026-11-14
 ---
 
-**What.** On 159 bribe scene paths (bribe-offer and bribe-pressed, every variant) the person offering money says only "this", "the contract" or "it goes my way"; the player's refusals answer a favor nobody named. Words lead: "the person offering does not spell out the money or the deal, but the path must name what they want."
+**What.** On 159 bribe scene paths (bribe-offer and bribe-pressed, every variant) the person offering money says only "this", "the contract" or "it goes my way"; the player's refusals answer a favor nobody named. Words lead: "the person offering does not spell out the money or the deal, but the path must name what they want." Seen: a bribe-offer scene's opening ask, "There's real money in this envelope. All I need is for the contract to come to me." (Yigo, Guam, draw bribe-wanted:0).
 
 **Cause.** Found in code: src/core2/modules/corruption.ts writes `favor` and, for a vote, `billId` on the offered, refused and pressed records, but for a contract only the kind; the award's subject (`contract:<government>:<line>:<date>`, contracts.ts) is dropped. src/director/purpose-scene.ts reads `favor` into `favor-vote`/`favor-contract` and nothing names the contract.
 
