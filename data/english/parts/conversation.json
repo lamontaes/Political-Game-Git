@@ -43166,10 +43166,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-answer-help.need-anything",
+      "key": "conversation.job-lost-answer-help.anything-you-need",
       "move": "job-lost-answer-help",
       "kind": "spoken",
-      "text": "Need anything?",
+      "text": "Anything you need?",
       "uses": [
         {
           "move": "job-lost-answer-help",
