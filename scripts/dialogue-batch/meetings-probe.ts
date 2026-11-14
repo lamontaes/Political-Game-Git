@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- development tooling reading untyped records */
 /** Read-only probe for brief O: what stages for bargaining over a bill, player seated in a body. */
 import { seatAct, seatView } from "../../src/bench/legislature";
 import { buildBenchWorld } from "../../src/bench/world";
@@ -110,7 +111,7 @@ for (const question of view.questions) {
       question,
       value: 1,
     });
-  } catch (e) {
+  } catch {
     continue;
   }
   if (bill.status === "blocked") {
@@ -158,7 +159,7 @@ if (!drafted.some((d) => d.against.length >= 2)) {
     let bill: any;
     try {
       bill = seatAct(core, player, input);
-    } catch (e) {
+    } catch {
       continue;
     }
     if (bill.status === "blocked") continue;
@@ -227,7 +228,7 @@ for (let day = 1; day <= DAYS; day++) {
           typeKey: b.typeKey,
           includeHeld: true,
         });
-      } catch (e) {
+      } catch {
         out(`  compose threw ${(e as Error).message}`);
         continue;
       }

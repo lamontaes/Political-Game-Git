@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- development tooling reading untyped records */
 /**
  * Plays a sitting member of a body through a year in drawn places and
  * composes every scene of the thin banks the director stages for them
@@ -108,7 +109,7 @@ for (let i = firstIndex; i < firstIndex + places; i += 1) {
       (a, b) =>
         a.officeId.localeCompare(b.officeId) || a.id.localeCompare(b.id),
     );
-  let personId = local[0]?.personId as PersonId | undefined;
+  const personId = local[0]?.personId as PersonId | undefined;
   if (personId && !core.people.has(personId)) fillInPerson(core, personId);
   if (!personId) {
     perPlace.push(`${where}: no sitting member who is a full person`);
