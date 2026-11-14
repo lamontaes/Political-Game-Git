@@ -352,6 +352,11 @@ function electionLines(
   const winnerName = nameOf(core, winnerId);
   if (!winnerName) return null;
   const winner = { text: winnerName, sourceRecordIds: [result.id, winnerId] };
+  // Where they read it stands on the result it reported, too.
+  const paper = {
+    ...subject,
+    sourceRecordIds: [...subject.sourceRecordIds, result.id],
+  };
   const lean = resultLean(core, result, speakerId);
   const listener = lean ? resultLean(core, result, listenerId) : null;
   const margin = raceMargin(core, result.id);
@@ -359,7 +364,7 @@ function electionLines(
     ? say(
         { part: "lean", side: lean.side },
         {
-          subject,
+          subject: paper,
           winner,
           lean: {
             text: lean.side,
@@ -390,7 +395,7 @@ function electionLines(
   const named = !leanLine?.factKeys?.includes("winner");
   const told = say(
     { part: "election", named },
-    named ? { subject, winner } : { subject },
+    named ? { subject: paper, winner } : { subject: paper },
   );
   if (!told) return null;
   return leanLine ? [told, leanLine] : [told];
@@ -519,7 +524,7 @@ export function bringItUp(
       fallbackSourceId: change.eventId,
       ...(options.words ? { words: options.words } : {}),
     });
-  const lines = [];
+  const lines: Said[] = [];
   const topic = story ? storyTopic(change) : null;
   const facts = {
     subject: {
@@ -558,7 +563,8 @@ export function bringItUp(
         ))) ||
     say({ part: "change", eventKind: change.kind }, facts);
   if (first) lines.push(first);
-  if (election?.[P.one]) lines.push(election[P.one]);
+  const leanLine = election?.[P.one];
+  if (leanLine) lines.push(leanLine);
   // A printed story blames no one: the outlet only printed it. Someone who
   // holds no cause, or none they can name, says nothing more ("I have no
   // idea" answers nothing; owner, Nov 12, on non-replies): the change is
