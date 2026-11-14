@@ -35,4 +35,4 @@ checked: meetings and floor builder 2026-11-14
 
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/data/circumstances.json, data/english/parts/scene-talk.json
 
-**Notes.** Needs the Words lead's ruling on the replacement lines first (report-1.md, items 6 to 8).
+**Notes.** Needs the Words lead's ruling on the replacement lines first (report-1.md, items 6 to 8). Built locally Nov 14: `stopsDay: true` on the town-hall-question type (the same flag took-office carries) stops the player at Roy, Montana (meet-a1:1): 5 stops in 30 days before, 6 after, the new one the town hall on 2025-01-28. The cause above (rank, impact) was not it: a hall the member hosts is selfNamed and `stopsDay` is the data switch for that.

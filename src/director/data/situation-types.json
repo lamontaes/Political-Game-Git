@@ -4438,6 +4438,7 @@
       ],
       "setting": ["venue", "public"],
       "timing": "at-cause",
+      "stopsDay": true,
       "causes": [
         {
           "match": {

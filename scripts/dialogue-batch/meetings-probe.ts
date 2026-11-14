@@ -320,3 +320,22 @@ for (const k of [
 out(
   `\nall scene types staged for player in ${DAYS} days: ${[...allTypes].map(([k, n]) => `${k} ${n}`).join(", ")}`,
 );
+{
+  const book = director.ledger.people.get(player)!;
+  for (const id of [...(core.logByKind.get("town-hall") ?? [])]
+    .filter((i) => (core.durableLog.get(i)?.personIds ?? []).includes(player))
+    .slice(0, 4)) {
+    const ms = [...book.momentsById.values()].filter(
+      (m: any) => m.causeId === id,
+    );
+    out(
+      `town-hall ${id}: ${JSON.stringify(core.durableLog.get(id)?.facts).slice(0, 200)} ${ms.length} moments ${ms.map((m: any) => m.label + " selfNamed=" + m.selfNamed + " impact=" + m.impact).join("; ")}; schedule ${book.schedule
+        .filter((e: any) => ms.some((m: any) => m.id === e.momentId))
+        .map(
+          (e: any) =>
+            e.outcome + ":" + e.bindings.map((b: any) => b.typeKey).join(","),
+        )
+        .join(" | ")}`,
+    );
+  }
+}
