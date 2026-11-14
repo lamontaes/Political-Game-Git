@@ -447,7 +447,7 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
   } finally {
     setBookkeeping(true);
   }
-}, 3_600_000);
+}, 120_000);
 
 it(`the shared facts come from the world's own records in drawn places (seed ${seed})`, () => {
   setBookkeeping(false);
