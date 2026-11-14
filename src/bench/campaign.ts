@@ -13,6 +13,7 @@ import {
   giveSpeech,
   runAd,
   sendMail,
+  freeMinor,
   hireCirculators,
   circulatorsCanWork,
   statementSpeechId,
@@ -712,7 +713,7 @@ export function campaignAct(
       );
       const after = campaignFor(api, input.filingId);
       const spentMinor = after.spentMinor - before;
-      const cashMinor = after.raisedMinor - after.spentMinor;
+      const cashMinor = freeMinor(after);
       // When nothing was bought, the line says why from the campaign's own
       // books: nothing raised since filing, all of it spent, or money left.
       const filedOn = (

@@ -11,6 +11,7 @@
  */
 import { describe, expect, it } from "vitest";
 import { composeConversationLine } from "../english/conversation-words";
+import { sentenceStarts } from "../english/said-as";
 import type { PersonId } from "../core2/types";
 
 const fact = (text: string) => ({ text, sourceRecordIds: ["case:test"] });
@@ -128,7 +129,7 @@ describe("a court case told through the composer", () => {
   it("owns a denial once a trial they fought ends in a conviction", () => {
     const facts = {
       "told-offense": fact("offering a bribe"),
-      "told-term": fact("30 months"),
+      "told-term": fact("two and a half years"),
       contested: fact("yes"),
       you: fact("Elizabeth"),
     };
@@ -176,5 +177,30 @@ describe("a court case told through the composer", () => {
       "blame",
     );
     expect(blamed!.text).toBe("I know. Sorry.");
+  });
+
+  it("opens a sentence on a probation length in words, with a capital", () => {
+    const opened = new Set<string>();
+    for (let at = 0; at < 24; at += 1) {
+      const line = composeConversationLine({
+        seed: "court-case-talk-words",
+        subject: "conviction-say",
+        speakerId: "person_test" as PersonId,
+        traits: {},
+        facts: {
+          ...OFFENSE,
+          probation: fact("thirteen months"),
+          fine: fact("yes"),
+        },
+        stage: "default",
+        momentKey: `probation:${at}`,
+      });
+      // The director capitalizes sentence starts on every composed line.
+      opened.add(sentenceStarts(line!.text));
+    }
+    expect([...opened].some((text) => text.includes(". Thirteen months"))).toBe(
+      true,
+    );
+    expect([...opened].some((text) => /\d/.test(text))).toBe(false);
   });
 });

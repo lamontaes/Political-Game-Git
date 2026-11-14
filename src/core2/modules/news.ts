@@ -543,7 +543,11 @@ function scheduleDeliveries(
       makeIsoDate(story.date),
       atOnce.has(personId) ? 0 : delay,
     );
-    if (date < api.state.date)
+    // A reading day already past is heard on that day; the story's own
+    // subject hears it now. A delivery for today would wait on today's
+    // reading, which has already run when a story is printed in the player's
+    // turn (an interview sat for), so it is never left to the queue.
+    if (date < api.state.date || atOnce.has(personId))
       hear(api, personId, story, "public", story.id, date);
     else
       deliveries(api).put({
