@@ -3953,10 +3953,15 @@ function countedScale(api: CoreAPI): number {
  */
 export function countedVoters(api: CoreAPI): readonly CountedVoter[] {
   const all = countedResidents(api.state as CoreState);
-  return prisonersBarredHere(api)
-    ? all.filter((v) => v.quarters !== "adultCorrectional")
-    : all;
+  if (!prisonersBarredHere(api)) return all;
+  // Kept for as long as `countedResidents` keeps the list (a day).
+  const held = votersOfList.get(all);
+  if (held) return held;
+  const voters = all.filter((v) => v.quarters !== "adultCorrectional");
+  votersOfList.set(all, voters);
+  return voters;
 }
+const votersOfList = new WeakMap<readonly CountedVoter[], CountedVoter[]>();
 
 /**
  * The town's eligible voters past its named and counted adults: its
