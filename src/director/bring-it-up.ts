@@ -42,7 +42,6 @@ import {
 } from "../english/bring-it-up-words";
 import rowsJson from "./data/bring-it-up-rows.json" with { type: "json" };
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { raceMargin } from "./race-margin";
 import { seatFact } from "./sitting-ties";
 import { organizationName, possessive } from "./words";
 
@@ -367,8 +366,8 @@ type Said = { text: string; sourceRecordIds: readonly string[] };
  * A race's result as the speaker tells it: the line that says who won, and,
  * for a speaker clearly with or against the winner's side, the line that
  * says how it sits with them. A line that claims a ballot, a side shared
- * with the listener or a fair race is said only where the record holds it
- * (the `ballot`, `ourSide` and `fair` facts its bank part requires).
+ * with the listener is said only where the record holds it (the `ballot`
+ * and `ourSide` facts its bank part requires).
  * Every telling names the seat once (Words lead, Nov 14). Told to a listener
  * who already knows the result, it is one line: who won what, and how it
  * sits with them (`known`; only a speaker with a lean raises it then).
@@ -415,7 +414,6 @@ function electionLines(
     : {};
   const lean = resultLean(core, result, speakerId);
   const listener = lean ? resultLean(core, result, listenerId) : null;
-  const margin = raceMargin(core, result.id);
   if (known && !lean) return null;
   const leanLine = lean
     ? say(
@@ -444,9 +442,6 @@ function electionLines(
                   sourceRecordIds: [result.id, listenerId],
                 },
               }
-            : {}),
-          ...(margin === "close" || margin === "middle"
-            ? { fair: { text: margin, sourceRecordIds: [result.id] } }
             : {}),
         },
       )

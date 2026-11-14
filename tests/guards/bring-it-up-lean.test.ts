@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 // A race's result brought up in talk is read on one path: bring-it-up's
 // `resultLean` (the teller's lean against the winner's party, checked by their
 // ballot) and `electionLines`, which set the facts the bank's lines require.
-// A line that claims a ballot, a shared side or a fair race plays only where
+// A line that claims a ballot or a shared side plays only where
 // that path sets the fact, and no line says a figure, a place or a first name.
 const root = process.cwd();
 const BANK = "data/english/parts/bring-it-up.json";

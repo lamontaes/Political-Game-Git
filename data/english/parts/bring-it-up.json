@@ -887,24 +887,6 @@
       "kind": "spoken"
     },
     {
-      "key": "bring-it-up.lean-against.winner-won-it-fair-it-still-stings",
-      "move": "lean-against",
-      "text": "{winner} won it fair. It still stings.",
-      "uses": [
-        {
-          "move": "lean-against",
-          "subject": "lean",
-          "role": "against",
-          "choice": "against",
-          "requiresFacts": ["lean", "fair"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruling on #8831, Nov 14)",
-      "date": "2026-11-14",
-      "kind": "spoken"
-    },
-    {
       "key": "bring-it-up.lean-against.winner-has-to-earn-it-now",
       "move": "lean-against",
       "text": "{winner} has to earn it now.",
@@ -995,24 +977,6 @@
       "kind": "spoken"
     },
     {
-      "key": "bring-it-up.election-result-named.i-heard-on-subject-that-winner-won-the-race-for-seat",
-      "move": "election-result-named",
-      "text": "I heard on {subject} that {winner} won the race for {seat}.",
-      "uses": [
-        {
-          "move": "election-result-named",
-          "subject": "election",
-          "role": "result",
-          "choice": "named",
-          "requiresFacts": ["radio"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-14",
-      "kind": "spoken"
-    },
-    {
       "key": "bring-it-up.election-result-named.subject-says-winner-won-the-race-for-seat",
       "move": "election-result-named",
       "text": "{subject} says {winner} won the race for {seat}.",
@@ -1058,24 +1022,6 @@
           "role": "result",
           "choice": "unnamed",
           "requiresFacts": ["television"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-14",
-      "kind": "spoken"
-    },
-    {
-      "key": "bring-it-up.election-result-unnamed.i-heard-the-results-for-seat-on-subject",
-      "move": "election-result-unnamed",
-      "text": "I heard the results for {seat} on {subject}.",
-      "uses": [
-        {
-          "move": "election-result-unnamed",
-          "subject": "election",
-          "role": "result",
-          "choice": "unnamed",
-          "requiresFacts": ["radio"]
         }
       ],
       "origin": "authored",
