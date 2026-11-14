@@ -5210,7 +5210,7 @@
       "key": "opening-speech.subject.plain-ina-sta-all-inflation:say-core-the-weekly-shopping",
       "move": "subject",
       "kind": "spoken",
-      "text": "the weekly shopping",
+      "text": "the grocery run",
       "uses": [
         {
           "move": "subject",
@@ -5944,7 +5944,7 @@
       "key": "opening-speech.salutation.polished-sta-combative-core-i-greet-vice-president-vice-president-and-every-member",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {vice-president-object} and every member here, including those who have spent this year blocking the work the country sent us to do.",
+      "text": "I see {vice-president-object} and every member here, including those who have spent this year blocking the work the country sent us to do.",
       "uses": [
         {
           "move": "salutation",
@@ -6048,7 +6048,7 @@
       "key": "opening-speech.salutation.polished-sta-hopeful-core-i-greet-vice-president-vice-president-and-all-of",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {vice-president-object} and all of you in a spirit of hope, because the work ahead of us is work worth doing.",
+      "text": "I come to {vice-president-object} and all of you in a spirit of hope, because the work ahead of us is work worth doing.",
       "uses": [
         {
           "move": "salutation",
@@ -6152,7 +6152,7 @@
       "key": "opening-speech.salutation.polished-sta-victory-core-i-greet-vice-president-vice-president-and-this-chamber",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {vice-president-object} and this chamber with gratitude, because together we have done much of what we promised.",
+      "text": "I thank {vice-president-object} and this chamber, because together we have done much of what we promised.",
       "uses": [
         {
           "move": "salutation",
@@ -6360,7 +6360,7 @@
       "key": "opening-speech.salutation.polished-sta-policy-core-i-greet-vice-president-vice-president-and-every-member",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {vice-president-object} and every member here, and I ask you to judge what follows by whether it works.",
+      "text": "I thank {vice-president-object} and every member here, and I ask you to judge what follows by whether it works.",
       "uses": [
         {
           "move": "salutation",
@@ -7350,7 +7350,7 @@
       "key": "opening-speech.salutation.polished-ina-combative-core-i-greet-speaker-speaker-and-the-congress-and-i",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {speaker-object} and the Congress, and I say plainly that the old excuses for doing nothing end today.",
+      "text": "I thank {speaker-object} and the Congress, and I say plainly that the old excuses for doing nothing end today.",
       "uses": [
         {
           "move": "salutation",
@@ -7454,7 +7454,7 @@
       "key": "opening-speech.salutation.polished-ina-hopeful-core-i-greet-speaker-speaker-and-the-members-of-congress",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {speaker-object} and the members of Congress in good faith, and with confidence in the work we can do together.",
+      "text": "I come to {speaker-object} and the members of Congress in good faith, and with confidence in the work we can do together.",
       "uses": [
         {
           "move": "salutation",
@@ -7480,7 +7480,7 @@
       "key": "opening-speech.salutation.polished-ina-hopeful-core-with-vice-president-vice-president-here-i-take-up",
       "move": "salutation",
       "kind": "spoken",
-      "text": "with {vice-president-object} here, I take up this office glad of the chance and hopeful about the years ahead.",
+      "text": "with {vice-president-object} here, I take up this office glad for the chance and hopeful about the years ahead.",
       "uses": [
         {
           "move": "salutation",
@@ -7558,7 +7558,7 @@
       "key": "opening-speech.salutation.polished-ina-victory-core-i-greet-speaker-speaker-and-the-congress-with-thanks",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {speaker-object} and the Congress with thanks for the work we have done and for the work still ahead.",
+      "text": "I thank {speaker-object} and the Congress for the work we have done and for the work still ahead.",
       "uses": [
         {
           "move": "salutation",
@@ -7662,7 +7662,7 @@
       "key": "opening-speech.salutation.polished-ina-mourning-core-i-greet-speaker-speaker-with-a-heavy-heart-because",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {speaker-object} with a heavy heart, because this is a day of grief as much as a day of beginning.",
+      "text": "I stand before {speaker-object} with a heavy heart, because this is a day of grief as much as a day of beginning.",
       "uses": [
         {
           "move": "salutation",
@@ -7766,7 +7766,7 @@
       "key": "opening-speech.salutation.polished-ina-policy-core-i-greet-speaker-speaker-and-the-congress-whose-help",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {speaker-object} and the Congress, whose help I will need on every task I am about to set out.",
+      "text": "I thank {speaker-object} and the Congress, whose help I will need on every task I am about to set out.",
       "uses": [
         {
           "move": "salutation",
@@ -12263,7 +12263,7 @@
       "key": "opening-speech.unity.polished-ina-combative-core-my-quarrel-is-with-what-has-gone-wrong-not",
       "move": "unity",
       "kind": "spoken",
-      "text": "my quarrel is with what has gone wrong, not with the Americans who voted against me, and I will fight for them on {hardest} too.",
+      "text": "my fight is with what has gone wrong, not with the Americans who voted against me, and I will fight for them on {hardest} too.",
       "uses": [
         {
           "move": "unity",
@@ -16347,7 +16347,7 @@
       "key": "opening-speech.creed.plain-ina-sta-mourning-core-we-grieve-together-because-we-re-in-this-together",
       "move": "creed",
       "kind": "spoken",
-      "text": "we grieve together because we're in this together, and {hardest} can wait until every family has been looked after.",
+      "text": "we grieve together because we're in this together, and {hardest} can wait until every family has been taken care of.",
       "uses": [
         {
           "move": "creed",
@@ -29896,7 +29896,7 @@
       "key": "opening-speech.pledge.polished-ina-sta-mourning-core-i-will-look-after-those-who-are-hurting-before",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I will look after those who are hurting before anything else, and I will not let this loss undo the progress on {best}.",
+      "text": "I will take care of those who are hurting before anything else, and I will not let this loss undo the progress on {best}.",
       "uses": [
         {
           "move": "pledge",
@@ -30127,7 +30127,7 @@
       "key": "opening-speech.pledge.polished-ina-sta-policy-core-i-will-set-out-clear-steps-on-hardest-with",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I will set out clear steps on {hardest}, with a cost, a schedule and someone answerable for each.",
+      "text": "I will set out clear steps on {hardest}, with a cost, a schedule and someone accountable for each.",
       "uses": [
         {
           "move": "pledge",
@@ -39063,7 +39063,7 @@
       "key": "opening-speech.salutation.polished-sta-combative-core-i-greet-vice-president-vice-president-and-then-i",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {vice-president-object}, and then I turn to what failed.",
+      "text": "I thank {vice-president-object}, and then I turn to what failed.",
       "uses": [
         {
           "move": "salutation",
@@ -39213,7 +39213,7 @@
       "key": "opening-speech.salutation.polished-sta-mourning-core-i-greet-vice-president-vice-president-and-my-thoughts",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {vice-president-object}, and my thoughts are with the grieving.",
+      "text": "I thank {vice-president-object}, and my thoughts are with the grieving.",
       "uses": [
         {
           "move": "salutation",
@@ -39713,7 +39713,7 @@
       "key": "opening-speech.salutation.polished-ina-hopeful-core-i-greet-speaker-speaker-gladly-and-i-look-forward",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {speaker-object} gladly, and I look forward to the work.",
+      "text": "I'm glad to see {speaker-object}, and I look forward to the work.",
       "uses": [
         {
           "move": "salutation",
@@ -39763,7 +39763,7 @@
       "key": "opening-speech.salutation.polished-ina-victory-core-i-greet-speaker-speaker-and-the-congress-proud-of",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {speaker-object} and the Congress, proud of the record behind us.",
+      "text": "I thank {speaker-object} and Congress, proud of the record behind us.",
       "uses": [
         {
           "move": "salutation",
@@ -39838,7 +39838,7 @@
       "key": "opening-speech.salutation.polished-ina-mourning-core-i-greet-speaker-speaker-quietly-because-so-many-families",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {speaker-object} quietly, because so many families are grieving.",
+      "text": "I stand before {speaker-object} quietly today, because so many families are grieving.",
       "uses": [
         {
           "move": "salutation",
@@ -39863,7 +39863,7 @@
       "key": "opening-speech.salutation.polished-ina-policy-core-i-greet-speaker-speaker-and-my-first-plans-go",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {speaker-object}, and my first plans go to Congress soon.",
+      "text": "I thank {speaker-object}, and my first plans go to Congress soon.",
       "uses": [
         {
           "move": "salutation",
@@ -41570,7 +41570,7 @@
       "key": "opening-speech.oath.plain-ina-mourning-core-i-swore-to-look-after-every-grieving-family-in",
       "move": "oath",
       "kind": "spoken",
-      "text": "I swore to look after every grieving family, in {home-state} and beyond.",
+      "text": "I swore to care for every grieving family, in {home-state} and beyond.",
       "uses": [
         {
           "move": "oath",
@@ -45885,7 +45885,7 @@
       "key": "opening-speech.pledge.polished-ina-sta-mourning-core-i-will-carry-on-the-work-on-best-in",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I will carry on the work on {best} in their memory.",
+      "text": "I will continue the work on {best} in their memory.",
       "uses": [
         {
           "move": "pledge",
@@ -48646,7 +48646,7 @@
       "key": "opening-speech.salutation.polished-ina-hopeful-core-vice-president-vice-president-and-i-are-ready-to",
       "move": "salutation",
       "kind": "spoken",
-      "text": "{vice-president} and I are ready to begin, and glad of it.",
+      "text": "{vice-president} and I are ready to begin, and glad to be here.",
       "uses": [
         {
           "move": "salutation",
@@ -48746,7 +48746,7 @@
       "key": "opening-speech.salutation.polished-ina-mourning-core-i-greet-speaker-speaker-and-ask-congress-to-remember",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet {speaker-object} and ask Congress to remember those we lost.",
+      "text": "I thank {speaker-object} and ask Congress to remember those we lost.",
       "uses": [
         {
           "move": "salutation",
@@ -49499,7 +49499,7 @@
       "key": "opening-speech.creed.polished-ina-crisis-core-a-hard-year-with-hardest-is-no-time-for",
       "move": "creed",
       "kind": "spoken",
-      "text": "a hard year with {hardest} is no time for party quarrels.",
+      "text": "a hard year with {hardest} is no time for party fights.",
       "uses": [
         {
           "move": "creed",
@@ -52353,7 +52353,7 @@
       "key": "opening-speech.pledge.polished-ina-sta-all-unemployment-core-i-will-ask-this-congress-to-put-say-unemployment",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I will ask this Congress to put {say-unemployment} ahead of its quarrels.",
+      "text": "I will ask this Congress to put {say-unemployment} ahead of its fights.",
       "uses": [
         {
           "move": "pledge",
@@ -53153,7 +53153,7 @@
       "key": "opening-speech.salutation.polished-ina-hopeful-core-i-thank-vice-president-vice-president-who-will-work",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I welcome {vice-president-object}, who will work with me, and I am glad of the chance to serve.",
+      "text": "I welcome {vice-president-object}, who will work with me, and I am glad for the chance to serve.",
       "uses": [
         {
           "move": "salutation",
@@ -53253,7 +53253,7 @@
       "key": "opening-speech.salutation.plain-ina-hopeful-core-i-ve-got-vice-president-vice-president-working-with",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I've got {vice-president-object} working with me, and I'm glad of it.",
+      "text": "I've got {vice-president-object} working with me, and I'm glad about that.",
       "uses": [
         {
           "move": "salutation",
@@ -54617,7 +54617,7 @@
       "key": "opening-speech.creed.polished-ina-sta-hopeful-core-the-country-wants-results-on-best-not-more-quarrels",
       "move": "creed",
       "kind": "spoken",
-      "text": "the country wants results on {best}, not more quarrels.",
+      "text": "the country wants results on {best}, not more fighting.",
       "uses": [
         {
           "move": "creed",
@@ -67563,7 +67563,7 @@
       "key": "opening-speech.salutation.polished-ina-hopeful-core-i-greet-this-congress-and-speaker-speaker-with-high",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I greet this Congress and {speaker} with high hopes.",
+      "text": "I come to this Congress and {speaker} with high hopes.",
       "uses": [
         {
           "move": "salutation",
@@ -71619,7 +71619,7 @@
       "key": "opening-speech.creed.plain-ina-sta-hopeful-core-i-m-not-here-to-win-one-for-a",
       "move": "creed",
       "kind": "spoken",
-      "text": "I'm not here to win one for a party; I'm here to get {hardest} sorted out.",
+      "text": "I'm not here to win one for a party; I'm here to get {hardest} fixed.",
       "uses": [
         {
           "move": "creed",
@@ -74382,7 +74382,7 @@
       "key": "opening-speech.ask.polished-ina-sta-all-core-i-look-to-the-congress-to-to-and-i",
       "move": "ask",
       "kind": "spoken",
-      "text": "I look to the Congress to {to}, and I will hold it to that charge.",
+      "text": "I'm counting on Congress to {to}, and I'll hold them to it.",
       "uses": [
         {
           "move": "ask",
@@ -75581,7 +75581,7 @@
       "key": "opening-speech.context.polished-roads-in-the-years-since-i-took-this-office",
       "move": "context",
       "kind": "spoken",
-      "text": "In the {context-years} years since I took this office, our roads and bridges have worn down faster than we have mended them.",
+      "text": "In the {context-years} years since I took this office, our roads and bridges have worn down faster than we have fixed them.",
       "uses": [
         {
           "move": "context",
@@ -82280,7 +82280,7 @@
       "key": "opening-speech.belief-words.both-inaugural-a-person-s-land-and-water-are-theirs-family-land-pole-b",
       "move": "belief-words",
       "kind": "spoken",
-      "text": "a person's land and water are theirs to look after",
+      "text": "a person's land and water are theirs to take care of",
       "uses": [
         {
           "move": "belief-words",
@@ -99400,7 +99400,7 @@
       "key": "opening-speech.close.polished-campaign-speech-if-we-will-be-the-better-for-it-first-side-realm-name",
       "move": "close",
       "kind": "spoken",
-      "text": "If we {first-side}, {realm-bare} will be the better for it. Thank you.",
+      "text": "If we {first-side}, {realm-bare} will be better off. Thank you.",
       "uses": [
         {
           "move": "close",
@@ -106209,7 +106209,7 @@
       "key": "opening-speech.ask.folded-polished-ina-sta-all-core-i-look-to-the-congress-to-to-and-i",
       "move": "ask",
       "kind": "spoken",
-      "text": "I look to the Congress to {to} because {belief}, and I will hold it to that charge.",
+      "text": "I'm counting on Congress to {to} because {belief}, and I'll hold them to it.",
       "uses": [
         {
           "move": "ask",

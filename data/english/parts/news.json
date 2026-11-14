@@ -12016,10 +12016,10 @@
       }
     },
     {
-      "key": "news.public-action.residents-of-place-turned-out-on-date-glad-of-how",
+      "key": "news.public-action.residents-of-place-turned-out-on-date-glad-about-how-it-has",
       "move": "public-action",
       "kind": "written",
-      "text": "Residents of {place} turned out on {date}, glad of how it has gone with {area}.",
+      "text": "Residents of {place} turned out on {date}, glad about how it has gone with {area}.",
       "uses": [
         {
           "move": "public-action",
@@ -12474,10 +12474,10 @@
       }
     },
     {
-      "key": "news.cabinet-rejected.the-senate-turned-down-name-for-office-and-the-post-stays-open",
+      "key": "news.cabinet-rejected.the-senate-turned-down-name-for-office-and-the-job-stays-open",
       "move": "cabinet-rejected",
       "kind": "written",
-      "text": "The Senate turned down {name} for {office}, and the post stays open.",
+      "text": "The Senate turned down {name} for {office}, and the job stays open.",
       "uses": [
         {
           "move": "cabinet-rejected",
@@ -12759,10 +12759,10 @@
       }
     },
     {
-      "key": "news.took-office-cause.before-moved-away-and-the-seat-fell-empty-on-vacated",
+      "key": "news.took-office-cause.before-moved-away-and-the-seat-has-been-empty-since-vacated",
       "move": "took-office-cause",
       "kind": "written",
-      "text": "{before} moved away, and the seat fell empty on {vacated}.",
+      "text": "{before} moved away, and the seat has been empty since {vacated}.",
       "uses": [
         {
           "move": "took-office-cause",
