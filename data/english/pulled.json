@@ -89,6 +89,10 @@
     "conversation.farewell-core.well-that-s-that": ["no-filler"],
     "conversation.farewell-leave-bye.all-right-then": ["alright-in-dialogue"],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
+    "conversation.greet-core.phone-well-hello-it-s-been-a-while": ["no-filler"],
+    "conversation.greet-core.phone-well-hello-what-can-i-do-for-you": [
+      "no-filler"
+    ],
     "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
     "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right": [
       "alright-in-dialogue"

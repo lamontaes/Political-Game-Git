@@ -528,7 +528,8 @@
         {
           "move": "greet-opener",
           "subject": "greet",
-          "role": "opener"
+          "role": "opener",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 213,
@@ -9286,7 +9287,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 2,
@@ -24205,7 +24207,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["no-when"]
+          "requiresFacts": ["no-when"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24228,7 +24231,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["no-when"]
+          "requiresFacts": ["no-when"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24251,7 +24255,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["no-when"]
+          "requiresFacts": ["no-when"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24274,7 +24279,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["no-when"]
+          "requiresFacts": ["no-when"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24343,7 +24349,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["no-when"]
+          "requiresFacts": ["no-when"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24366,7 +24373,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["no-when"]
+          "requiresFacts": ["no-when"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24412,7 +24420,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["no-when"]
+          "requiresFacts": ["no-when"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24481,7 +24490,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-long"]
+          "requiresFacts": ["when-long"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -24960,7 +24970,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-place-yours"]
+          "requiresFacts": ["about-place-yours"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -25006,7 +25017,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-place-mine"]
+          "requiresFacts": ["about-place-mine"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -25185,7 +25197,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-month"]
+          "requiresFacts": ["when-month"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -27125,7 +27138,8 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-month", "when-since"]
+          "requiresFacts": ["when-month", "when-since"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -28281,7 +28295,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -28310,7 +28325,8 @@
             "at-their-work",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -28334,7 +28350,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -28363,7 +28380,8 @@
             "at-their-work",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -28474,7 +28492,8 @@
             "at-their-work",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30574,7 +30593,8 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -30738,7 +30758,8 @@
             "at-their-work",
             "met-before"
           ],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -37601,7 +37622,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -37697,7 +37719,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "requiresFacts": ["both-here", "place"]
+          "requiresFacts": ["both-here", "place"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -37718,7 +37741,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "requiresFacts": ["both-here", "place"]
+          "requiresFacts": ["both-here", "place"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -38889,7 +38913,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-mine"]
+          "requiresFacts": ["about-employer-mine"],
+          "excludesFacts": ["by-phone"]
         }
       ],
       "piece": {
@@ -41180,7 +41205,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41576,7 +41602,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -41684,7 +41711,8 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "closesTalk": true
+          "closesTalk": true,
+          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -42082,6 +42110,608 @@
       },
       "origin": "authored",
       "author": "Words builder A (the address point asks the player, the train's question kept)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-open-hello.phone-hello",
+      "move": "greet-open-hello",
+      "kind": "spoken",
+      "text": "Hello?",
+      "piece": {
+        "of": "greet-open",
+        "part": "opener"
+      },
+      "uses": [
+        {
+          "move": "greet-opener",
+          "subject": "greet",
+          "role": "opener",
+          "requiresFacts": ["by-phone"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-open-hello.phone-yes-hello",
+      "move": "greet-open-hello",
+      "kind": "spoken",
+      "text": "Yes, hello?",
+      "piece": {
+        "of": "greet-open",
+        "part": "opener"
+      },
+      "uses": [
+        {
+          "move": "greet-opener",
+          "subject": "greet",
+          "role": "opener",
+          "requiresFacts": ["by-phone"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-oh-hi-what-s-up",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Oh, hi. What's up?",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-hey-what-s-going-on",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Hey. What's going on?",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-oh-hello-good-to-hear-from-you",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Oh, hello. Good to hear from you.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-well-hello-what-can-i-do-for-you",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Well, hello. What can I do for you?",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-hey-you-what-s-up",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Hey, you. What's up?",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "close-tie"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-oh-hi-is-everything-okay",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Oh, hi. Is everything okay?",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "close-tie"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-hey-i-was-just-thinking-about-you",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Hey. I was just thinking about you.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "close-tie"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-hey-everything-okay",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Hey. Everything okay?",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "kin-or-household"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-oh-hi-how-are-you-doing",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Oh, hi. How are you doing?",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "kin-or-household"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-hey-it-s-good-to-hear-your-voice",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Hey, it's good to hear your voice.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "kin-or-household"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-hi-it-s-been-a-while",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Hi. It's been a while.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "when-long"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-well-hello-it-s-been-a-while",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Well, hello. It's been a while.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "when-long"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-core.phone-hey-stranger-it-s-been-too-long",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Hey, stranger. It's been too long.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "when-long"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-phone-self.phone-hey-it-s-me",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "Hey, it's me.",
+      "uses": [
+        {
+          "move": "greet-phone-self",
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["kin-or-household"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-phone-self.phone-hi-it-s-me",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "Hi, it's me.",
+      "uses": [
+        {
+          "move": "greet-phone-self",
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["close-tie"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-phone-self.phone-hi-it-s-player-first",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "Hi, it's {player-first}.",
+      "uses": [
+        {
+          "move": "greet-phone-self",
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "excludesFacts": ["kin-or-household", "close-tie"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-phone-self.phone-hello-it-s-player-first",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "Hello, it's {player-first}.",
+      "uses": [
+        {
+          "move": "greet-phone-self",
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "excludesFacts": ["kin-or-household", "close-tie"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.greet-phone-self.phone-hey-it-s-player-first",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "Hey, it's {player-first}.",
+      "uses": [
+        {
+          "move": "greet-phone-self",
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "excludesFacts": ["kin-or-household", "close-tie"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.phone-thanks-for-calling",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Thanks for calling.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.phone-thanks-for-the-call",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Thanks for the call.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.phone-i-ll-let-you-go",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'll let you go.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.phone-glad-you-called",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Glad you called.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.phone-okay-bye-now",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Okay, bye now.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.phone-call-anytime",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Call anytime.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "kin-or-household"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.phone-call-me-anytime",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Call me anytime.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "close-tie"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.phone-good-to-hear-your-voice",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good to hear your voice.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "close-tie"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.farewell-core.phone-it-was-good-to-hear-your-voice",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "It was good to hear your voice.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "kin-or-household"],
+          "closesTalk": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder A (by-phone lines, round 12)",
       "date": "2026-11-14"
     }
   ]

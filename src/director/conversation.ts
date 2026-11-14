@@ -28,6 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
+import { closenessBetween } from "../core2/closeness";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import { jobTitleByKind } from "../core2/person-work";
 import {
@@ -391,6 +392,8 @@ export interface Conversation {
   minuteOfDay?: number;
   /** The organization whose place the player came to for the talk, when the screen knows it (internal). */
   visitOrganizationId?: string;
+  /** The talk is by phone: the greeting and goodbye carry the fact "by-phone" (internal). */
+  byPhone?: boolean;
   /** A look only: whether there is anything to say, with nothing learned (internal). */
   look?: boolean;
   /** The director's ledger, read for what happened to whom (internal). */
@@ -4795,6 +4798,8 @@ function openConversationNow(
     minuteOfDay?: number;
     /** The organization whose place the player came to (a visit), where the screen knows it. */
     visitOrganizationId?: string;
+    /** The talk is a phone call: words that fit only in person are held back by the fact "by-phone". */
+    byPhone?: boolean;
     /** Only looking whether there is anything to say (the room's check): nothing is learned. */
     look?: boolean;
   } = {},
@@ -4819,6 +4824,7 @@ function openConversationNow(
     ...(options.visitOrganizationId
       ? { visitOrganizationId: options.visitOrganizationId }
       : {}),
+    ...(options.byPhone ? { byPhone: true } : {}),
     ...(options.look ? { look: true } : {}),
   };
   const occasion = options.occasionId
@@ -4846,7 +4852,7 @@ function openConversationNow(
     core.people.get(otherId)?.householdId === player.householdId;
   const greeting = housemate
     ? null
-    : greetingLine(core, data, playerId, otherId, !!knows);
+    : greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone);
   if (greeting) {
     // The hello is its own short turn, as people say it ("Hi." then "Back
     // again?"): a composed greeting's opener is said first, the rest after.
@@ -4874,7 +4880,20 @@ function openConversationNow(
             },
           ]
         : [greeting];
-    for (const line of said)
+    // On a call the other person answers, the player says who it is, and the
+    // other person goes on: the player's own words, from the same facts.
+    const self =
+      options.byPhone && said.length > one
+        ? composedLine(
+            core,
+            playerId,
+            GREET_AND_PART.phoneSelf,
+            phoneFacts(core, playerId, otherId),
+            "default",
+            `${playerId}:${otherId}:${core.date}:greet-self`,
+          )
+        : null;
+    said.forEach((line, at) => {
       conversation.lines.push({
         speakerId: otherId,
         subjectId: `greet:${otherId}`,
@@ -4882,6 +4901,15 @@ function openConversationNow(
         act: "tell",
         ...line,
       });
+      if (at === zero && self)
+        conversation.lines.push({
+          speakerId: playerId,
+          subjectId: `greet:${otherId}`,
+          kind: "greet",
+          act: "tell",
+          ...self,
+        });
+    });
   }
   // At home, a scene with the household's hard news opens by asking for the player's attention
   // ("We need to talk.") instead of a greeting (owner, Oct 14, 2026, night: a
@@ -6208,6 +6236,7 @@ const GREET_AND_PART = (
     greetAndPart: {
       greet: string;
       farewell: string;
+      phoneSelf: string;
       aboutFacts: readonly string[];
     };
   }
@@ -6240,12 +6269,66 @@ function saysName(
   return !!seen && seen.date < core.date;
 }
 
+/** How close a tie must be, on the closeness scale, for a call to be answered as one from a voice they know (conversation-rules.json, TUNABLE). */
+const CLOSE_TIE_LEVEL = (
+  rulesFile as unknown as { closeTieLevel: { value: number } }
+).closeTieLevel.value;
+
+/**
+ * What a call's words need to know about the tie: a relative or someone of
+ * the house (`kin-or-household`), or a tie that has stayed close
+ * (`close-tie`). Each cites the tie record the answer rests on.
+ */
+function phoneTieFacts(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  otherId: PersonId,
+): Facts {
+  const facts: Facts = {};
+  const mark = (name: string, ids: readonly string[]) => {
+    facts[name] = { text: "yes", sourceRecordIds: [...ids] };
+  };
+  const player = core.people.get(playerId);
+  const other = core.people.get(otherId);
+  const ties = [...(core.relationshipsByPerson.get(playerId) ?? [])]
+    .map((id) => core.relationships.get(id)!)
+    .filter((row) => row.actorId === otherId || row.otherId === otherId);
+  const family = ties.find((row) => row.kind === "family");
+  if (player && other && player.householdId === other.householdId)
+    mark("kin-or-household", [player.householdId]);
+  else if (family) mark("kin-or-household", [family.id]);
+  if (
+    ties[zero] &&
+    closenessBetween(core, playerId, otherId) >= CLOSE_TIE_LEVEL
+  )
+    mark("close-tie", [ties[zero].id]);
+  return facts;
+}
+
+/** What a call's greeting knows: it is a call, the tie, and the player's own name (said by the player on the line). */
+function phoneFacts(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  otherId: PersonId,
+): Facts {
+  const facts = phoneTieFacts(core, playerId, otherId);
+  facts["by-phone"] = { text: "yes", sourceRecordIds: [playerId] };
+  const player = core.people.get(playerId);
+  if (player?.givenName)
+    facts["player-first"] = {
+      text: player.givenName,
+      sourceRecordIds: [playerId],
+    };
+  return facts;
+}
+
 function greetingLine(
   core: Readonly<CoreState>,
   data: ConversationData,
   playerId: PersonId,
   otherId: PersonId,
   knows: boolean,
+  byPhone = false,
 ): ReturnType<typeof words> {
   const player = core.people.get(playerId)!;
   const momentKey = `${playerId}:${otherId}:${core.date}:greet`;
@@ -6261,6 +6344,8 @@ function greetingLine(
       }
     : {};
   const facts: Facts = { ...name };
+  // A call: the greetings that fit only in person ("Good to see you") wait on this.
+  if (byPhone) Object.assign(facts, phoneFacts(core, playerId, otherId));
   // When they last met, said in passing, from the tie's own contact date;
   // never a meeting earlier today.
   const seen = lastContact(core, otherId, playerId);
@@ -6361,6 +6446,13 @@ function partingLine(
     conversation.lines.some((line) => line.text.includes(topic[found]!.text));
   const key = named ? undefined : found;
   const player = core.people.get(conversation.playerId);
+  if (conversation.byPhone) {
+    Object.assign(facts, phoneTieFacts(core, conversation.playerId, speakerId));
+    facts["by-phone"] = {
+      text: "yes",
+      sourceRecordIds: [conversation.playerId],
+    };
+  }
   // A name given in this talk (the introduction) is a name to say goodbye by.
   const introduced = found === undefined && !!conversation.nameGiven;
   if (
