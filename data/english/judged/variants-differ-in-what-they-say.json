@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1407,
+  "judged": 1398,
   "no": {
     "001j6ajusyx": {
       "keys": [
@@ -3917,13 +3917,6 @@
       ],
       "why": "Both thank the player warmly, a rewording."
     },
-    "1nd4vqrgmpa": {
-      "keys": [
-        "scene-talk.state-request.i-voted-yes-on-earlier-when-you-needed-it-i-need-you-on-bill",
-        "scene-talk.state-request.last-time-you-needed-a-vote-it-was-earlier-this-time-it-s-bill-and-i-m-the-one-a"
-      ],
-      "why": "Both lines need the same bill and earlier favor and both say I backed you on {earlier}, now back me on {bill}, the same ask in other words."
-    },
     "1ng8hngdpyy": {
       "keys": [
         "scene-talk.state-request.it-s-self-again-from-the-petition-for-office-do-you-have-a-minute-to-sign",
@@ -5527,23 +5520,6 @@
       ],
       "why": "All three lines just end the meeting, with nothing to choose between them."
     },
-    "2bci8ntwx2g": {
-      "keys": [
-        "scene-talk.follow-threaten.people-will-remember-this-at-the-next-election",
-        "scene-talk.follow-threaten.you-can-t-win-without-friends",
-        "scene-talk.follow-threaten.you-know-how-this-works"
-      ],
-      "why": "All three are the same vague political threat with nothing in the record behind them."
-    },
-    "2be2vxgwf39": {
-      "keys": [
-        "scene-talk.follow-accept.all-right-we-have-a-deal",
-        "scene-talk.follow-accept.deal",
-        "scene-talk.follow-accept.that-i-can-live-with",
-        "scene-talk.follow-accept.then-your-amendment-goes-in-deal"
-      ],
-      "why": "Three of the four lines are the same generic deal, and only one is tied to an added section."
-    },
     "2bel6v25y5u": {
       "keys": [
         "scene-talk.narrate-returns-unopposed.nobody-ran-against-winner-for-office",
@@ -5901,5 +5877,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "23jm1nucbvm"
+  "yesHash": "0kb3ygqtflc"
 }
