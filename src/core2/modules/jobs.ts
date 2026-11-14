@@ -23,6 +23,7 @@ import { parameter, type Parameter } from "../parameters";
 import { townWorkplaceWeights } from "../town-employment-mix";
 import { TOWN_WORKPLACES } from "../town-workplaces";
 import { stopgap } from "../stopgaps";
+import { workedToday } from "../job-lifecycle";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -2325,6 +2326,75 @@ function workerOffers(
   };
 }
 
+/**
+ * A worker's own leaving of a job, the one way it ends and is written: the search ends, the job ends
+ * before its day's work, and the change records who decided it (the worker). The monthly review's
+ * choice to leave and the player's press on Leave this job both come here.
+ */
+function leaveWork(
+  api: CoreAPI,
+  job: JobInput,
+  reasonKey: string,
+  values: Readonly<Record<string, number>>,
+): void {
+  store(api).table("seekers").remove(job.personId);
+  endSpell(api, job.personId);
+  api.endJob(job.id, `jobs:left-work:${api.state.date}`);
+  record(api, {
+    personId: job.personId,
+    organizationId: job.organizationId,
+    jobId: job.id,
+    kind: "left-work",
+    reasonKey,
+    decidedBy: job.personId,
+    values,
+  });
+}
+
+/**
+ * Why a person's job cannot be left by their own press, or null when it can. A post held by
+ * appointment or by office is left by resigning through the executive or offices engine; a business
+ * owner leaves by closing or selling it; a person already worked today leaves tomorrow (a job ends
+ * before its day's work).
+ */
+export function jobLeaveBlock(
+  api: CoreAPI,
+  personId: string,
+): "no-job" | "post" | "owner" | "worked-today" | null {
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return "no-job";
+  const c = core(api);
+  const person = c.people.get(personId);
+  const job = person?.jobId ? c.jobs.get(person.jobId) : undefined;
+  if (!person || !job || job.endsAt !== undefined) return "no-job";
+  if (job.id.startsWith("job:public:") || job.id.startsWith("job:office:"))
+    return "post";
+  if (ownerOf(api, job.organizationId) === personId) return "owner";
+  if (workedToday(c, person)) return "worked-today";
+  return null;
+}
+
+/**
+ * The player (or anyone the world does not choose for) leaves their job by their own press. The pay
+ * stops with the job, the employer's need for the role grows by one (it hires to replace them), and
+ * the record is the same left-work change a monthly choice to leave writes, so the household's
+ * scene, the coworkers' farewell and the Journal read it as a job left, never a job lost. No claim
+ * is filed: a quit does not qualify. Returns the change id, or why the job stays.
+ */
+export function quitJob(
+  api: CoreAPI,
+  personId: string,
+): { left: true; id: string } | { left: false; why: string } {
+  const why = jobLeaveBlock(api, personId);
+  if (why) return { left: false, why };
+  const c = core(api);
+  const job = c.jobs.get(c.people.get(personId)!.jobId!)!;
+  leaveWork(api, job, jobsData.reasons.leftWork, {
+    hourlyMinor: job.hourlyMinor ?? 0,
+    pressed: 1,
+  });
+  return { left: true, id: `job-change:${api.state.date}:${job.id}:left-work` };
+}
+
 /** Each worker: stay, look around, or leave work, from pay against the going rate, savings, needs and traits. */
 function reviewWorkers(api: CoreAPI): void {
   const c = core(api);
@@ -2380,20 +2450,12 @@ function reviewWorkers(api: CoreAPI): void {
       if (seeking?.employed) store(api).table("seekers").remove(person.id);
     } else if (chosen === jobsData.actions.leave.id) {
       const retiring = result.selected!.targetId.startsWith("retire:");
-      store(api).table("seekers").remove(person.id);
-      endSpell(api, person.id);
-      api.endJob(job.id, `jobs:left-work:${api.state.date}`);
-      record(api, {
-        personId: person.id,
-        organizationId: job.organizationId,
-        jobId: job.id,
-        kind: "left-work",
-        reasonKey: retiring
-          ? jobsData.reasons.retired
-          : jobsData.reasons.leftWork,
-        decidedBy: person.id,
-        values: { bufferMonths, strain, age },
-      });
+      leaveWork(
+        api,
+        job,
+        retiring ? jobsData.reasons.retired : jobsData.reasons.leftWork,
+        { bufferMonths, strain, age },
+      );
     }
   }
   markUnwiredLaborLinks();
