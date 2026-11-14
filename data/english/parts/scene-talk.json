@@ -95271,10 +95271,10 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-residency.you-can-only-file-for-office-if-you-live-in-required-and-your-address-has-you-in-actual",
+      "key": "scene-talk.state-rule-residency.you-have-to-live-in-required-to-run-for-office-and-my-records-have-you-somewhere-else",
       "move": "state-rule-residency",
       "kind": "spoken",
-      "text": "You can only file for {office} if you live in {required}, and your address has you in {actual}.",
+      "text": "You have to live in {required} to run for {office}, and my records have you somewhere else.",
       "uses": [
         {
           "subject": "scene",

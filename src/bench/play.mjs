@@ -1842,9 +1842,13 @@ async function campaignParts() {
         result.doorsKnocked
           ? controls.campaignResults.doors.replace("{n}", result.doorsKnocked)
           : "",
-        result.reached
-          ? controls.campaignResults.reached.replace("{n}", result.reached)
-          : "",
+        // A petition outing says the doors that opened, everyone asked to
+        // sign (the Words lead, Nov 14); "reached" stays for vote-asking doors.
+        result.answered !== null && result.answered !== undefined
+          ? controls.campaignResults.answered.replace("{n}", result.answered)
+          : result.reached
+            ? controls.campaignResults.reached.replace("{n}", result.reached)
+            : "",
         // How many signed at the doors, a day of none included (owner, Nov 14:
         // "Tab total and each outing"), outside the dialogue.
         result.signed === null || result.signed === undefined
