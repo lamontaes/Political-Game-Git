@@ -312,7 +312,7 @@
   },
   "barred": {},
   "awaitingVerdict": {
-    "narration-assumes-no-reason": 1,
+    "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
     "reply-second-move-follows-the-first (pairs)": 14279
   }
