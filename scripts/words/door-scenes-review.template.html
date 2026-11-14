@@ -1,0 +1,1016 @@
+<meta charset="utf-8" />
+<title>Scenes</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover"
+/>
+<style>
+  :root {
+    --bg: #f2f2f7;
+    --card: #ffffff;
+    --fg: #1c1c1e;
+    --muted: #6c6c70;
+    --sep: #d8d8de;
+    --accent: #0a64d6;
+    --accent-fg: #ffffff;
+    --soft: #e6eefb;
+    --warn: #b25b00;
+    --you: #0a64d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #000000;
+      --card: #1c1c1e;
+      --fg: #f2f2f7;
+      --muted: #98989f;
+      --sep: #38383a;
+      --accent: #4c9bff;
+      --accent-fg: #00142e;
+      --soft: #122a4a;
+      --warn: #ffb259;
+      --you: #6fb0ff;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #000000;
+    --card: #1c1c1e;
+    --fg: #f2f2f7;
+    --muted: #98989f;
+    --sep: #38383a;
+    --accent: #4c9bff;
+    --accent-fg: #00142e;
+    --soft: #122a4a;
+    --warn: #ffb259;
+    --you: #6fb0ff;
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--fg);
+    font-family:
+      -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  #app {
+    position: fixed;
+    inset: 0;
+    margin: 0 auto;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+  }
+  /* top bar */
+  .bar {
+    flex: none;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .bar .title {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tool {
+    min-width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    color: var(--accent);
+    padding: 0 8px;
+  }
+  .tool.on {
+    background: var(--soft);
+  }
+  .tool small {
+    font-size: 13px;
+    font-weight: 600;
+  }
+  /* home */
+  .large {
+    flex: none;
+    font-size: 34px;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 4px 0 2px;
+  }
+  .sub {
+    flex: none;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  .grid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 10px;
+    padding-bottom: 14px;
+  }
+  .tile {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 12px 14px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .tile:active,
+  .row:active,
+  .opt:active {
+    transform: scale(0.985);
+    opacity: 0.85;
+  }
+  .tile b {
+    font-size: 18px;
+    line-height: 1.15;
+    font-weight: 650;
+  }
+  .tile span {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .dot {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background: var(--accent);
+  }
+  /* list */
+  .rows {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+  .row {
+    flex: 1;
+    min-height: 0;
+    max-height: 84px;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 8px 16px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .row .t {
+    flex: 1;
+    min-width: 0;
+    font-size: 17px;
+    font-weight: 560;
+    line-height: 1.2;
+  }
+  .row .t i {
+    display: block;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 2px;
+  }
+  .row .chev {
+    color: var(--muted);
+    font-size: 22px;
+  }
+  .row.off {
+    opacity: 0.5;
+  }
+  .pill {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--soft);
+    border-radius: 10px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+  .pager {
+    flex: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  /* scene */
+  .opts {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .seg {
+    flex: 1;
+    display: flex;
+    background: var(--sep);
+    border-radius: 10px;
+    padding: 2px;
+    gap: 2px;
+  }
+  .seg button {
+    flex: 1;
+    height: 34px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 560;
+    color: var(--fg);
+  }
+  .seg button.on {
+    background: var(--card);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    color: var(--muted);
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .step button {
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+    color: var(--accent);
+  }
+  .step button:disabled {
+    opacity: 0.3;
+  }
+  .stage {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 4px;
+    overflow: hidden;
+  }
+  .prev {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.35;
+    margin-bottom: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .prev b {
+    font-weight: 600;
+  }
+  .who {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .who.you {
+    color: var(--you);
+  }
+  .say {
+    font-weight: 560;
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+    overflow: hidden;
+  }
+  .say.nar {
+    font-style: italic;
+    font-weight: 450;
+  }
+  .meta {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .was {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--card);
+    font-size: 14px;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+  .was b {
+    color: var(--warn);
+    font-weight: 650;
+  }
+  .choices {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .opt {
+    background: var(--card);
+    color: var(--fg);
+    border-radius: 16px;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.3;
+    border: 1.5px solid var(--sep);
+  }
+  .opt small {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .endcard {
+    text-align: center;
+  }
+  .endcard h2 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+  }
+  .endcard p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .dots {
+    flex: none;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    height: 14px;
+    align-items: center;
+  }
+  .dots i {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--sep);
+  }
+  .dots i.on {
+    background: var(--accent);
+    width: 16px;
+  }
+  .nav {
+    flex: none;
+    display: flex;
+    gap: 10px;
+    padding: 8px 0 14px;
+  }
+  .btn {
+    flex: 1;
+    height: 56px;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 620;
+    background: var(--card);
+    color: var(--accent);
+  }
+  .btn.main {
+    flex: 2;
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  .btn:disabled {
+    opacity: 0.35;
+  }
+  .btn:active {
+    opacity: 0.8;
+  }
+  .coming {
+    text-align: center;
+    color: var(--muted);
+  }
+  .coming h2 {
+    color: var(--fg);
+    margin: 0 0 6px;
+    font-size: 24px;
+  }
+</style>
+
+<div id="app"></div>
+
+<script id="data" type="application/json">
+  /*__DATA__*/
+</script>
+<script>
+  const D = JSON.parse(document.getElementById("data").textContent);
+  const app = document.getElementById("app");
+  const ANS = { yes: "Agrees", maybe: "Holds back", no: "Declines" };
+  const NEWS = D.news || { fresh: [], revised: [] };
+
+  // ---- remembered between visits (never needed) ----
+  function load(k, d) {
+    try {
+      const v = localStorage.getItem(k);
+      return v === null ? d : JSON.parse(v);
+    } catch (e) {
+      return d;
+    }
+  }
+  function save(k, v) {
+    try {
+      localStorage.setItem(k, JSON.stringify(v));
+    } catch (e) {}
+  }
+  const seen = load("seen", {});
+  const prefs = load("prefs", { ids: true });
+
+  // ---- data ----
+  function scenesText(s) {
+    const out = [];
+    const walk = (t) => {
+      if (!t) return;
+      (t.lines || []).forEach((l) => out.push(l.text));
+      (t.choices || []).forEach((c) => {
+        out.push(c.line.text);
+        walk(c.next);
+      });
+    };
+    (s.versions || []).forEach((v) =>
+      v.answers.forEach((a) => {
+        a.opening.forEach((l) => out.push(l.text));
+        walk(a.tree);
+      }),
+    );
+    return out.join("|");
+  }
+  function hash(str) {
+    let h = 5381;
+    for (let i = 0; i < str.length; i++)
+      h = ((h * 33) ^ str.charCodeAt(i)) >>> 0;
+    return String(h);
+  }
+  D.scenes.forEach((s) => {
+    s.hash = hash(s.title + scenesText(s));
+    s.fresh = (NEWS.fresh || []).includes(s.title);
+    s.rev = !!s.revised || (NEWS.revised || []).includes(s.title);
+    s.isNew = (s.fresh || s.rev) && !s.coming && seen[s.title] !== s.hash;
+    // earlier text by line id
+    s.was = (s.previous && s.previous.was) || {};
+  });
+  const ORDER = [
+    "At the door",
+    "Campaign",
+    "In office",
+    "Money and favors",
+    "Press and the paper",
+    "Home and family",
+    "Work and school",
+    "The Journal",
+  ];
+  const kinds = [];
+  D.scenes.forEach((s) => {
+    let k = kinds.find((x) => x.name === s.kind);
+    if (!k) kinds.push((k = { name: s.kind, scenes: [] }));
+    k.scenes.push(s);
+  });
+  kinds.sort((a, b) => {
+    const x = ORDER.indexOf(a.name);
+    const y = ORDER.indexOf(b.name);
+    return (x < 0 ? 99 : x) - (y < 0 ? 99 : y);
+  });
+  // ---- state ----
+  const S = {
+    screen: "home",
+    kind: null,
+    sub: null,
+    page: 0,
+    scene: null,
+    v: 0,
+    ans: 0,
+    choices: [],
+    i: 0,
+    was: false,
+  };
+
+  // ---- helpers ----
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function btn(cls, text, fn) {
+    const b = el("button", cls, text);
+    b.onclick = fn;
+    return b;
+  }
+  function plural(n, one, many) {
+    return n + " " + (n === 1 ? one : many);
+  }
+  // Long lines page by sentence so nothing scrolls.
+  function pages(text) {
+    const MAX = 230;
+    if (text.length <= MAX) return [text];
+    const parts = text.match(/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g) || [text];
+    const out = [];
+    let cur = "";
+    parts.forEach((p) => {
+      if (cur && (cur + p).length > MAX) {
+        out.push(cur.trim());
+        cur = "";
+      }
+      cur += p;
+    });
+    if (cur.trim()) out.push(cur.trim());
+    return out;
+  }
+  function size(len) {
+    return len < 70 ? 30 : len < 130 ? 26 : len < 190 ? 23 : 20;
+  }
+
+  // ---- beats of one scene ----
+  function current() {
+    const s = S.scene;
+    const ver = s.versions[S.v];
+    const a = ver.answers[Math.min(S.ans, ver.answers.length - 1)];
+    return { s, ver, a };
+  }
+  function beats() {
+    const { a } = current();
+    const out = [];
+    const add = (l, extra) => {
+      const ps = pages(l.text);
+      ps.forEach((t, n) =>
+        out.push(
+          Object.assign(
+            {
+              line: l,
+              text: t,
+              part: ps.length > 1 ? n + 1 + "/" + ps.length : "",
+            },
+            extra,
+          ),
+        ),
+      );
+    };
+    a.opening.forEach((l) => add(l));
+    let t = a.tree;
+    let k = 0;
+    let end = null;
+    while (t) {
+      (t.lines || []).forEach((l) => add(l));
+      if (t.end) end = t.end;
+      if (t.choices && t.choices.length) {
+        const pick = S.choices[k];
+        if (pick === undefined) {
+          out.push({ choice: t.choices, k });
+          return { out, end: null, pending: true };
+        }
+        add(t.choices[pick].line, { chosen: true });
+        t = t.choices[pick].next;
+        k++;
+      } else break;
+    }
+    return { out, end, pending: false };
+  }
+
+  // ---- screens ----
+  function home() {
+    app.replaceChildren();
+    const bar = el("div", "bar");
+    bar.append(el("div", "title", ""));
+    app.append(bar, el("div", "large", "Scenes"));
+    const n = D.scenes.filter((s) => !s.coming).length;
+    app.append(
+      el("div", "sub", plural(n, "scene", "scenes") + " from across the game"),
+    );
+    const grid = el("div", "grid");
+    kinds.forEach((k) => {
+      const real = k.scenes.filter((s) => !s.coming);
+      const t = btn("tile", "", () => openKind(k));
+      t.append(el("b", "", k.name));
+      t.append(
+        el(
+          "span",
+          "",
+          real.length ? plural(real.length, "scene", "scenes") : "Coming",
+        ),
+      );
+      if (k.scenes.some((s) => s.isNew)) t.append(el("div", "dot"));
+      grid.append(t);
+    });
+    app.append(grid);
+  }
+  // A group with many scenes first lists its sub-groups (the code's own kinds, in words).
+  function subsOf(k) {
+    const by = [];
+    k.scenes.forEach((s) => {
+      let g = by.find((x) => x.name === (s.sub || k.name));
+      if (!g) by.push((g = { name: s.sub || k.name, scenes: [] }));
+      g.scenes.push(s);
+    });
+    return by.length > 1 && k.scenes.length > 7 ? by : null;
+  }
+  function openKind(k) {
+    S.kind = k;
+    S.sub = null;
+    S.page = 0;
+    if (k.scenes.length === 1 && !k.scenes[0].coming)
+      return openScene(k.scenes[0]);
+    S.screen = "kind";
+    render();
+  }
+  function listed() {
+    return S.sub ? S.sub.scenes : S.kind.scenes;
+  }
+  function kindScreen() {
+    app.replaceChildren();
+    const k = S.kind;
+    const subs = subsOf(k);
+    const showSubs = subs && !S.sub;
+    const bar = el("div", "bar");
+    bar.append(
+      btn("tool", S.sub ? "‹ " + k.name : "‹ Scenes", () => {
+        if (S.sub) ((S.sub = null), (S.page = 0));
+        else S.screen = "home";
+        render();
+      }),
+      el("div", "title", ""),
+    );
+    const items = showSubs ? subs : listed();
+    app.append(bar, el("div", "large", S.sub ? S.sub.name : k.name));
+    const count = (S.sub ? S.sub.scenes : k.scenes).filter(
+      (s) => !s.coming,
+    ).length;
+    app.append(el("div", "sub", plural(count, "scene", "scenes")));
+    const per = Math.max(
+      3,
+      Math.floor((window.innerHeight - 52 - 120 - 60) / 76),
+    );
+    const pagesN = Math.ceil(items.length / per);
+    S.page = Math.min(S.page, pagesN - 1);
+    const rows = el("div", "rows");
+    items.slice(S.page * per, S.page * per + per).forEach((s) => {
+      if (showSubs) {
+        const r = btn("row", "", () => ((S.sub = s), (S.page = 0), render()));
+        const n = s.scenes.filter((x) => !x.coming).length;
+        const t = el("div", "t", s.name);
+        t.append(el("i", "", n ? plural(n, "scene", "scenes") : "Coming"));
+        r.append(t);
+        if (s.scenes.some((x) => x.isNew)) r.append(el("span", "pill", "New"));
+        r.append(el("span", "chev", "›"));
+        rows.append(r);
+        return;
+      }
+      const r = btn(
+        "row" + (s.coming ? " off" : ""),
+        "",
+        () => !s.coming && openScene(s),
+      );
+      const t = el("div", "t", s.title);
+      const sub = [
+        !S.sub && s.sub !== k.name ? s.sub : "",
+        s.type !== "text" ? s.place : "",
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      if (sub) t.append(el("i", "", sub));
+      r.append(t);
+      if (s.coming) r.append(el("span", "pill", "Coming"));
+      else if (s.isNew)
+        r.append(el("span", "pill", s.fresh ? "New" : "Revised"));
+      else if (s.rev) r.append(el("span", "pill", "Revised"));
+      if (!s.coming) r.append(el("span", "chev", "›"));
+      rows.append(r);
+    });
+    app.append(rows);
+    if (pagesN > 1) {
+      const pg = el("div", "pager");
+      const prev = btn("tool", "‹ Earlier", () => ((S.page -= 1), render()));
+      prev.disabled = S.page === 0;
+      prev.style.opacity = S.page === 0 ? 0.3 : 1;
+      const next = btn("tool", "More ›", () => ((S.page += 1), render()));
+      next.disabled = S.page >= pagesN - 1;
+      next.style.opacity = S.page >= pagesN - 1 ? 0.3 : 1;
+      pg.append(prev, el("span", "", S.page + 1 + " of " + pagesN), next);
+      app.append(pg);
+    }
+  }
+  function openScene(s) {
+    S.scene = s;
+    S.v = 0;
+    S.ans = 0;
+    S.choices = [];
+    S.i = 0;
+    S.was = false;
+    S.screen = "scene";
+    seen[s.title] = s.hash;
+    save("seen", seen);
+    s.isNew = false;
+    render();
+  }
+  function restart() {
+    S.choices = [];
+    S.i = 0;
+    S.was = false;
+    render();
+  }
+  function nextScene() {
+    const list = S.kind ? listed().filter((s) => !s.coming) : [];
+    const at = list.indexOf(S.scene);
+    return at >= 0 && at < list.length - 1 ? list[at + 1] : null;
+  }
+  function sceneScreen() {
+    app.replaceChildren();
+    const { s, ver, a } = current();
+    const bar = el("div", "bar");
+    const many = S.kind && S.kind.scenes.length > 1;
+    const back = btn(
+      "tool",
+      many ? "‹ " + (S.sub ? S.sub.name : S.kind.name) : "‹ Scenes",
+      () => {
+        S.screen = many ? "kind" : "home";
+        render();
+      },
+    );
+    bar.append(back, el("div", "title", ""));
+    const idb = btn("tool" + (prefs.ids ? " on" : ""), "", () => {
+      prefs.ids = !prefs.ids;
+      save("prefs", prefs);
+      render();
+    });
+    idb.append(el("small", "", "ID"));
+    idb.setAttribute("aria-label", "Show line ids");
+    bar.append(idb, btn("tool", "↺", restart));
+    bar.lastChild.setAttribute("aria-label", "Start over");
+    app.append(bar);
+
+    // options: who answers (doors) and which wording
+    const multiAns = ver.answers.length > 1;
+    const multiVer = s.versions.length > 1;
+    if (multiAns || multiVer) {
+      const o = el("div", "opts");
+      if (multiAns) {
+        const seg = el("div", "seg");
+        ver.answers.forEach((x, n) =>
+          seg.append(
+            btn(
+              n === S.ans ? "on" : "",
+              ANS[x.answer] || x.label || x.answer,
+              () => {
+                S.ans = n;
+                S.choices = [];
+                S.i = 0;
+                render();
+              },
+            ),
+          ),
+        );
+        o.append(seg);
+      } else o.append(el("div", "seg"));
+      if (multiVer) {
+        const st = el("div", "step");
+        const p = btn(
+          "",
+          "‹",
+          () => ((S.v -= 1), (S.choices = []), (S.i = 0), render()),
+        );
+        p.disabled = S.v === 0;
+        const nx = btn(
+          "",
+          "›",
+          () => ((S.v += 1), (S.choices = []), (S.i = 0), render()),
+        );
+        nx.disabled = S.v >= s.versions.length - 1;
+        st.append(
+          p,
+          el("span", "", "Wording " + (S.v + 1) + "/" + s.versions.length),
+          nx,
+        );
+        o.append(st);
+      }
+      app.append(o);
+    }
+
+    const stage = el("div", "stage");
+    app.append(stage);
+    const B = beats();
+    const total = B.out.length;
+    if (S.i > total) S.i = total;
+    const cur = B.out[S.i];
+    const dots = el("div", "dots");
+
+    if (s.coming) {
+      const c = el("div", "coming");
+      c.append(
+        el("h2", "", s.title.replace(/^The paper: /, "")),
+        el("p", "", "Nothing here yet. It will appear in this spot."),
+      );
+      stage.append(c);
+    } else if (cur && cur.choice) {
+      // a choice: the line before stays visible
+      const before = B.out[S.i - 1];
+      if (before && !before.choice) {
+        const pv = el("div", "prev");
+        pv.append(
+          el("b", "", (before.line.who || "") + (before.line.who ? ": " : "")),
+          document.createTextNode(before.text),
+        );
+        stage.append(pv);
+      }
+      stage.append(el("div", "who you", "You say"));
+      const ch = el("div", "choices");
+      cur.choice.forEach((c, n) => {
+        const o = btn("opt", c.line.text, () => {
+          S.choices = S.choices.slice(0, cur.k);
+          S.choices[cur.k] = n;
+          S.i += 1;
+          render();
+        });
+        o.style.fontSize = (c.line.text.length > 120 ? 15 : 17) + "px";
+        if (prefs.ids) o.append(el("small", "", c.line.id));
+        ch.append(o);
+      });
+      stage.append(ch);
+      stage.style.justifyContent = "flex-end";
+    } else if (cur) {
+      const before = B.out[S.i - 1];
+      if (before && !before.choice) {
+        const pv = el("div", "prev");
+        if (before.line.who) pv.append(el("b", "", before.line.who + ": "));
+        pv.append(document.createTextNode(before.text));
+        stage.append(pv);
+      }
+      const l = cur.line;
+      const you = l.role === "you";
+      const nar = l.role === "narrator" || (!l.who && l.role !== "plain");
+      stage.append(
+        el(
+          "div",
+          "who" + (you ? " you" : ""),
+          you ? "You" : l.who || (nar ? "" : ""),
+        ),
+      );
+      const say = el("div", "say" + (nar ? " nar" : ""), cur.text);
+      say.style.fontSize = size(cur.text.length) + "px";
+      stage.append(say);
+      if (prefs.ids)
+        stage.append(
+          el(
+            "div",
+            "meta",
+            "Scene " +
+              s.id +
+              " · line " +
+              l.id +
+              (cur.part ? " · part " + cur.part : ""),
+          ),
+        );
+      const was = s.was[l.id];
+      if (s.rev && was !== undefined && was !== l.text) {
+        if (S.was) {
+          const w = el("div", "was");
+          w.append(el("b", "", "Earlier"), document.createTextNode(" " + was));
+          stage.append(w);
+        }
+      }
+      if (s.rev && was !== undefined && was !== l.text) {
+        const wb = btn(
+          "tool" + (S.was ? " on" : ""),
+          "",
+          () => ((S.was = !S.was), render()),
+        );
+        wb.append(el("small", "", "Revised · earlier text"));
+        wb.style.alignSelf = "flex-start";
+        wb.style.marginTop = "6px";
+        wb.style.paddingLeft = "0";
+        stage.append(wb);
+      }
+    } else {
+      // finished
+      const e = el("div", "endcard");
+      e.append(el("h2", "", B.end ? B.end.label : "End of scene"));
+      e.append(el("p", "", s.title));
+      stage.append(e);
+    }
+
+    // progress dots (one per beat, capped)
+    const n = Math.min(total + 1, 24);
+    for (let d = 0; d < n; d++)
+      dots.append(el("i", d === Math.min(S.i, n - 1) ? "on" : ""));
+    app.append(dots);
+
+    // bottom controls
+    const nav = el("div", "nav");
+    const last = S.i >= total && !B.pending;
+    const prev = btn("btn", "Back", () => {
+      S.i = Math.max(0, S.i - 1);
+      const b2 = beats().out[S.i];
+      if (b2 && b2.choice) S.choices = S.choices.slice(0, b2.k);
+      S.was = false;
+      render();
+    });
+    prev.disabled = S.i === 0;
+    nav.append(prev);
+    if (s.coming) {
+      nav.append(
+        btn(
+          "btn main",
+          "Back to the list",
+          () => ((S.screen = "kind"), render()),
+        ),
+      );
+    } else if (cur && cur.choice) {
+      const p = el("div", "btn");
+      p.style.visibility = "hidden";
+      nav.append(p);
+    } else if (!last) {
+      nav.append(
+        btn("btn main", "Next", () => {
+          S.i += 1;
+          S.was = false;
+          render();
+        }),
+      );
+    } else {
+      const ns = nextScene();
+      nav.append(
+        ns
+          ? btn("btn main", "Next scene", () => openScene(ns))
+          : btn(
+              "btn main",
+              "All scenes",
+              () => ((S.screen = "home"), render()),
+            ),
+      );
+    }
+    app.append(nav);
+  }
+
+  function render() {
+    if (S.screen === "home") home();
+    else if (S.screen === "kind") kindScreen();
+    else sceneScreen();
+  }
+  // swipe and keys
+  let x0 = null;
+  document.addEventListener("touchstart", (e) => (x0 = e.touches[0].clientX), {
+    passive: true,
+  });
+  document.addEventListener(
+    "touchend",
+    (e) => {
+      if (x0 === null || S.screen !== "scene") return;
+      const dx = e.changedTouches[0].clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) < 70) return;
+      const b = [...document.querySelectorAll(".nav .btn")];
+      const target = dx < 0 ? b[1] : b[0];
+      if (target && !target.disabled && target.style.visibility !== "hidden")
+        target.click();
+    },
+    { passive: true },
+  );
+  document.addEventListener("keydown", (e) => {
+    if (S.screen !== "scene") return;
+    const b = [...document.querySelectorAll(".nav .btn")];
+    if (e.key === "ArrowRight" && b[1]) b[1].click();
+    if (e.key === "ArrowLeft" && b[0] && !b[0].disabled) b[0].click();
+  });
+  window.addEventListener("resize", () => S.screen === "kind" && render());
+  render();
+</script>
