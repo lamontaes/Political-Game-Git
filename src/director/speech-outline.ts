@@ -180,6 +180,8 @@ const OUTLINES = outlineData as unknown as {
   topicWords: Readonly<Record<string, string>>;
   /** The slot endings of the first, second and third wordings of how a question stands. */
   todaySlots: readonly string[];
+  /** Themes whose short name does not read after "On" (round 4). */
+  themeShortNoOn: { readonly themes: readonly string[] };
   /** What a body's measures are called by their form (bodyNumbering's kind). */
   measureWords: Readonly<Record<string, string>>;
   conditions: { budgetEvenBand: Weight; budgetThemes: readonly string[] };
@@ -2088,6 +2090,8 @@ export function planSpeech(
   // The close returns to the theme: its first point after a hurt address's
   // answer, or the theme's own lead where the row's one point is the answer;
   // else the first point.
+  // Whether a meaning line (which leads with the "On X," tag) is said.
+  let tagSaid = false;
   const closing = turnsTo[P.zero] ?? themeLead ?? pointStands[P.zero];
   const closeFacts = (): Facts => {
     const first = closing;
@@ -2126,7 +2130,13 @@ export function planSpeech(
       ...(reason && sayingNew(reason) && !plan?.belief
         ? { "first-reason": fact(reason, cited) }
         : {}),
-      ...(short ? { "theme-short": fact(short, cited) } : {}),
+      // A tag ("On X, ...") is said once in an address: not after a meaning
+      // line, and not for a theme that does not sit after "On" (round 4).
+      ...(short &&
+      !tagSaid &&
+      !OUTLINES.themeShortNoOn.themes.includes(theme ?? "")
+        ? { "theme-short": fact(short, cited) }
+        : {}),
     };
   };
   /**
@@ -2140,6 +2150,7 @@ export function planSpeech(
     const told = context[`context-${topic}`]
       ? move("context", { topic })
       : null;
+    if (told) tagSaid = true;
     return {
       key: `crisis-${topic}`,
       level: "country",
@@ -2291,6 +2302,10 @@ export function planSpeech(
       const figured = new Set(
         pointStands.map((stand) => topicOf.get(stand.question)),
       );
+      // The measure nearest the address's subject is praised first (round 4).
+      const nearTheme = new Set(
+        theme ? subjectsOf(theme).flatMap(topicsOf) : [],
+      );
       const goodTopic =
         !crisis &&
         !federal &&
@@ -2304,8 +2319,10 @@ export function planSpeech(
               )
               .sort(
                 (a, b) =>
+                  Number(nearTheme.has(b)) - Number(nearTheme.has(a)) ||
                   (country.movement[b] ?? P.zero) -
-                    (country.movement[a] ?? P.zero) || a.localeCompare(b),
+                    (country.movement[a] ?? P.zero) ||
+                  a.localeCompare(b),
               )[P.zero] ?? null)
           : null;
       const goodDrafts: Draft[] = goodTopic
@@ -2349,6 +2366,13 @@ export function planSpeech(
               ? contextFacts(core, topic, country, speaker.serviceStart)
               : {};
           if (figuredFacts["context-years"]) yearsSaid = true;
+          // A meaning line leads with the address's one tag (round 4).
+          if (
+            topic &&
+            (figuredFacts["context-years"] || !yearsSaid) &&
+            wrongBy(country, topic) > P.zero
+          )
+            tagSaid = true;
           const figureMoves =
             topic && (figuredFacts["context-years"] || !yearsSaid)
               ? [
@@ -2370,14 +2394,6 @@ export function planSpeech(
             level: "country",
             facts: {
               ...themeFacts,
-              ...(theme && OUTLINES.themeShort[theme]
-                ? {
-                    "theme-short": fact(
-                      OUTLINES.themeShort[theme]!,
-                      ...themeCited,
-                    ),
-                  }
-                : {}),
               ...(topic && figureMoves.length
                 ? {
                     ...figuredFacts,

@@ -393,7 +393,7 @@
     ]
   },
   "pointShapes": {
-    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. A condition comes before its answer (the words lead, Nov 14, rule 44): no shape puts the figure after the ask. A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll. The figure's tie names no question, so the ask after it names the question once. The question-first shape asks the audience about how things stand (\"Is it fair that ...?\"), so it names no question and says no separate today sentence. Where a belief goes is `beliefJoins`, one join to a point, in order.",
+    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. A condition comes before its answer (the words lead, Nov 14, rule 44): no shape puts how it stands, the figure or the question after the ask. A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll. The figure's tie names no question, so the ask after it names the question once. The question-first shape asks the audience about how things stand (\"Is it fair that ...?\"), so it names no question and says no separate today sentence. Where a belief goes is `beliefJoins`, one join to a point, in order.",
     "shapes": {
       "context-first": {
         "moves": ["today", "figure", "ask"],
@@ -422,8 +422,8 @@
           "personality-v1:facet-imaginative"
         ]
       },
-      "ask-first": {
-        "moves": ["figure", "ask", "today"],
+      "plain-first": {
+        "moves": ["today", "ask"],
         "pull": [
           "personality-v1:facet-blunt",
           "personality-v1:facet-assertive",
@@ -485,6 +485,10 @@
   },
   "todaySlots": ["", "-second", "-third"],
   "todaySlotsAbout": "The slot endings of the first, second and third wordings of how a question stands today ({today}, {today-second}, {today-third}); a slot name holds no digit, so the bank test's no-figure check reads its text. A fourth wording is not offered: the bank says three.",
+  "themeShortNoOn": {
+    "about": "Themes whose short name does not read after \"On\" (the words lead, Nov 14, round 4): a close for one of them says no theme tag. A tag (\"On X, ...\") is said at most once in an address, so a close that follows a meaning line says none either.",
+    "themes": ["safety-net"]
+  },
   "themeShortWords": {
     "value": 3,
     "tag": "TUNABLE",

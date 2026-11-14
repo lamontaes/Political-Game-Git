@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import OUTLINES from "./data/speech-outlines.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -300,6 +301,12 @@ describe("every speech through the one outline planner", () => {
             failures.push(
               `${label}: ${becauseI.length} sentences open "Because I"`,
             );
+          // 4. A tag ("On crime, ...") is said at most once (words lead, round 4).
+          const tags = speech.text
+            .split(/(?<=[.!?])\s+/)
+            .filter((sentence) => /^On (?!average\b)[a-z' ]+, /.test(sentence));
+          if (tags.length > 1)
+            failures.push(`${label}: ${tags.length} sentences open with a tag`);
           // 6. Removed by kind: the last office's lesson, a greeting that is
           // not a list, a close that warns against its own ask.
           for (const [pattern, why] of [
@@ -427,6 +434,19 @@ describe("every speech through the one outline planner", () => {
     },
     40 * 60 * 1000,
   );
+
+  it("puts how a question stands before the ask in every point shape (rule 44)", () => {
+    for (const [name, shape] of Object.entries(OUTLINES.pointShapes.shapes)) {
+      const moves = shape.moves as readonly string[];
+      const asked = moves.indexOf("ask");
+      expect(asked, name).toBeGreaterThan(-1);
+      for (const before of ["today", "figure", "question"])
+        if (moves.includes(before))
+          expect(moves.indexOf(before), `${name}: ${before}`).toBeLessThan(
+            asked,
+          );
+    }
+  });
 
   it("has an outline row for every kind of speech, with a salutation first and a close last", () => {
     for (const kind of [
