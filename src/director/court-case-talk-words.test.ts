@@ -35,7 +35,6 @@ describe("a court case told through the composer", () => {
     for (const [mark, text] of [
       [{ plea: fact("yes") }, "pleading guilty"],
       [{ trial: fact("March 4") }, "March 4"],
-      [{}, "taking bribes"],
     ] as const) {
       const line = say("charge-say", { ...OFFENSE, ...mark });
       expect(line!.text).toContain("taking bribes");
@@ -45,9 +44,15 @@ describe("a court case told through the composer", () => {
 
   it("tells a conviction with the sentence it carries", () => {
     for (const [mark, text] of [
-      [{ term: fact("eight months") }, "eight months"],
+      [
+        { term: fact("eight months"), fine: fact("about $5,000") },
+        "eight months",
+      ],
       [{ term: fact("a month"), fine: fact("about $5,000") }, "a fine"],
-      [{ probation: fact("two years") }, "two years"],
+      [
+        { probation: fact("two years"), fine: fact("about $5,000") },
+        "two years",
+      ],
     ] as const)
       expect(say("conviction-say", { ...OFFENSE, ...mark })!.text).toContain(
         text,
@@ -65,13 +70,14 @@ describe("a court case told through the composer", () => {
     ][] = [
       [
         "charge-reply-back",
-        ["ask", "comfort", "blame"],
+        ["ask", "comfort"],
         [
           told(["offense", "plea"]),
           { ...told(["offense", "trial"]), bail: fact("$5,000") },
           told(["offense"]),
         ],
       ],
+      ["charge-reply-back", ["blame"], [told(["offense", "plea"])]],
       [
         "conviction-reply-back",
         ["ask", "comfort", "blame"],
@@ -151,5 +157,24 @@ describe("a court case told through the composer", () => {
       "fine",
     );
     expect(asked!.text).toContain("$5,000");
+  });
+
+  it("answers a doubt with a denial and a blame with a confession, never the other way", () => {
+    const denial = say(
+      "charge-reply-back",
+      { "told-offense": fact("paying a bribe"), you: fact("Dad") },
+      "doubt",
+    );
+    expect(denial!.text).toBe("I didn't.");
+    const blamed = say(
+      "charge-reply-back",
+      {
+        "told-offense": fact("paying a bribe"),
+        "told-plea": fact("yes"),
+        you: fact("Dad"),
+      },
+      "blame",
+    );
+    expect(blamed!.text).toBe("I know. Sorry.");
   });
 });

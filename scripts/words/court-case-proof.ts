@@ -55,6 +55,12 @@ const refused = option("refused", "no") === "yes";
 // Money on hand the accused can put into a defense (the justice engine's own
 // reading of a person's cash against a defense's cost), in dollars; staged.
 const liquid = option("liquid", "");
+// The player is the one charged, and a housemate asks them about it
+// (the other way round: the talk's asks and the player's answers).
+const playerCharged = option("player-charged", "no") === "yes";
+// Per reply, how many other days' draws of the same reply to list, so every
+// wording the bank can give for these facts is shown played.
+const redraws = Number(option("redraws", "14"));
 const KINDS = new Set(["charge", "conviction", "acquittal"]);
 const bearings = new Map(
   (bank.parts as { key: string; bearing?: string }[]).map((row) => [
@@ -84,7 +90,7 @@ for (let draw = 0; draw < draws; draw += 1) {
     core.people.get(playerId)!.householdId as never,
   );
   for (const id of home?.memberIds ?? []) director.watch(core, id);
-  const accused = (home?.memberIds ?? []).find((id) => {
+  const housemate = (home?.memberIds ?? []).find((id) => {
     const person = core.people.get(id);
     return (
       id !== playerId &&
@@ -92,10 +98,13 @@ for (let draw = 0; draw < draws; draw += 1) {
       ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) >= 18
     );
   });
+  const accused = playerCharged ? playerId : housemate;
+  // Who speaks to the player: the accused, or the housemate asking.
+  const partner = playerCharged ? housemate : accused;
   console.log(
     `\n## ${place.name} (draw ${seed}:${draw}, place seed ${place.seed}), player ${nameOf(core, playerId)}`,
   );
-  if (!accused) {
+  if (!housemate || !accused || !partner) {
     console.log("  no adult housemate to charge in this place; skipped");
     continue;
   }
@@ -150,13 +159,18 @@ for (let draw = 0; draw < draws; draw += 1) {
   const told = new Set<string>();
   const tell = (advance = true) => {
     if (advance) advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    for (const subject of subjectsBetween(core, accused, playerId, director)) {
+    for (const subject of subjectsBetween(
+      core,
+      accused,
+      playerCharged ? partner : playerId,
+      director,
+    )) {
       if (!KINDS.has(subject.kind) || told.has(subject.id)) continue;
       told.add(subject.id);
       const occasion = director.ledger.people
         .get(playerId)
         ?.moments.find((m) => subject.id.endsWith(m.causeId));
-      const first = openConversation(core, playerId, accused, {
+      const first = openConversation(core, playerId, partner, {
         director,
         ...(occasion ? { occasionId: occasion.id } : {}),
       });
@@ -168,13 +182,37 @@ for (let draw = 0; draw < draws; draw += 1) {
         continue;
       }
       console.log(
-        `\n### ${core.date}: ${subject.kind}, record ${subject.id}; ${nameOf(core, accused)} tells the player`,
+        `\n### ${core.date}: ${subject.kind}, record ${subject.id}; ${nameOf(core, partner)} ${playerCharged ? "asks the player" : "tells the player"}`,
       );
       console.log(
-        `  ${nameOf(core, accused)}: ${line.text}  {bearing: ${bearingOf(line.wording?.parts)}} [${line.wording?.facts.join(", ")}]`,
+        `  ${nameOf(core, partner)}: ${line.text}  {bearing: ${bearingOf(line.wording?.parts)}} [${line.wording?.facts.join(", ")}]`,
       );
       for (const choice of first.choices)
         console.log(`  - offered: ${choice.text} (${choice.move})`);
+      // The same opening on other days' draws: the other wordings of the
+      // line and of the choices (labeled: only the day id moves).
+      {
+        const lines = new Set<string>();
+        const offered = new Set<string>();
+        const realDay = core.date;
+        for (let k = 1; k <= redraws; k += 1) {
+          (core as { date: string }).date = addDays(makeIsoDate(realDay), k);
+          const again = openConversation(core, playerId, partner, {
+            director,
+            ...(occasion ? { occasionId: occasion.id } : {}),
+          });
+          const row = again.lines.find((l) => l.kind.startsWith(subject.kind));
+          if (row) lines.add(row.text);
+          for (const c of again.choices) offered.add(c.text);
+        }
+        (core as { date: string }).date = realDay;
+        console.log(
+          `    line also drawn on other days: ${[...lines].join(" | ") || "(none)"}`,
+        );
+        console.log(
+          `    choices also drawn on other days: ${[...offered].join(" | ") || "(none)"}`,
+        );
+      }
       for (const choice of first.choices) {
         const talk = Object.fromEntries(
           Object.entries(first).map(([key, value]) => [
@@ -191,8 +229,30 @@ for (let draw = 0; draw < draws; draw += 1) {
             (l) =>
               `${l.text} {bearing: ${bearingOf(l.wording?.parts)}} [${l.wording?.facts.join(", ")}]`,
           );
+        // The same reply on other days' draws, from the same record: every
+        // wording the bank can give for these facts, played (labeled: only the
+        // draw's day id moves; nothing else in the world does).
+        const drawn = new Set<string>();
+        const realDate = core.date;
+        for (let k = 1; k <= redraws; k += 1) {
+          const other = Object.fromEntries(
+            Object.entries(first).map(([key, value]) => [
+              key,
+              Array.isArray(value) ? [...value] : value,
+            ]),
+          ) as typeof first;
+          (core as { date: string }).date = addDays(makeIsoDate(realDate), k);
+          const before = other.lines.length;
+          say(core, other, choice.key);
+          for (const l of other.lines.slice(before))
+            if (l.speakerId !== playerId) drawn.add(l.text);
+        }
+        (core as { date: string }).date = realDate;
         console.log(
-          `  > You: ${choice.text}\n    ${nameOf(core, accused)}: ${back.join(" / ") || "(says nothing more)"}\n    offered next: ${talk.choices.map((c) => c.text).join(" | ") || "(nothing; the talk ends)"}`,
+          `  > You: ${choice.text}\n    ${nameOf(core, partner)}: ${back.join(" / ") || "(says nothing more)"}\n    offered next: ${talk.choices.map((c) => c.text).join(" | ") || "(nothing; the talk ends)"}`,
+        );
+        console.log(
+          `    also drawn on other days (${redraws}): ${[...drawn].join(" | ") || "(nothing)"}`,
         );
       }
     }
