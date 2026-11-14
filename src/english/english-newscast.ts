@@ -17,6 +17,7 @@
 import newscastJson from "../../data/english/parts/newscast.json" with { type: "json" };
 import headlinesJson from "../../data/english/parts/headlines.json" with { type: "json" };
 import newsJson from "../../data/english/parts/news.json" with { type: "json" };
+import noticeJson from "../../data/english/parts/notice.json" with { type: "json" };
 import { admittedParts, directorSlots, type BankPart } from "./bank-parts";
 import {
   composeGroundedLine,
@@ -30,6 +31,8 @@ type Bank = { parts: BankPart[] };
 export const NEWSCAST_BANK = newscastJson as unknown as Bank;
 export const HEADLINES_BANK = headlinesJson as unknown as Bank;
 export const NEWS_BANK = newsJson as unknown as Bank;
+/** The clerk's public notices (an election's), whose wording the paper prints as a lede. */
+export const NOTICE_BANK = noticeJson as unknown as Bank;
 
 /** The kinds of story the records make, and the mined roles that word each. */
 export const STORY_KINDS = {
@@ -54,6 +57,13 @@ export const STORY_KINDS = {
     story: "filing",
     headline: ["candidate-filed"],
     lede: ["candidate-filed"],
+  },
+  // The clerk's notice of an election, a brief: the place, the day and every
+  // office on the ballot.
+  "election-notice": {
+    headline: ["election-notice"],
+    lede: ["election-notice"],
+    brief: true,
   },
   "vote-or-law": {
     story: "vote-or-law",
@@ -377,7 +387,12 @@ export const STORY_KINDS = {
   // Side items the town's records already hold: a line, never opened.
   crime: { headline: ["crime"], lede: ["crime"], brief: true },
   // The month's police log: the crimes residents reported, as a count.
-  "police-log": { headline: ["police-log"], lede: ["police-log"], brief: true },
+  "police-log": {
+    headline: ["police-log"],
+    lede: ["police-log"],
+    context: ["police-log-usual", "police-log-rising"],
+    brief: true,
+  },
   // A school honor: a spelling bee won, seniors signing to play Division I.
   honor: {
     headline: ["honor"],
@@ -554,11 +569,12 @@ export function composeNewsStory(
       ),
     ),
   );
-  const ledeParts = variants(
-    NEWS_BANK,
-    (use) => (roles.lede as readonly string[]).includes(use.role),
-    packet.facts,
-  );
+  const ledeRole = (use: { role: string }) =>
+    (roles.lede as readonly string[]).includes(use.role);
+  const ledeParts = [
+    ...variants(NEWS_BANK, ledeRole, packet.facts),
+    ...variants(NOTICE_BANK, ledeRole, packet.facts),
+  ];
   ledes = Math.max(1, sayable(ledeParts).length);
   const lede = keep(
     line(packet, `${kind}/lede`, "news", "tell", turned(ledeParts)),

@@ -5,8 +5,8 @@
  * may turn it into a cause. Then each listener decides, through the core's one
  * chooser, whether to retell it at home, from how far it moved them, how
  * closely they follow politics and their temperament; a retelling reaches
- * their household and moves them the same way. A listener with nobody at home
- * outside the audience has no one to tell and weighs nothing. The wording of the speech is GOV's (`giveSpeech`) and the English
+ * their household and the ties they have outside it, and moves them the same way. A listener with nobody at home
+ * or in their ties outside the audience has no one to tell and weighs nothing. The wording of the speech is GOV's (`giveSpeech`) and the English
  * engine's; this engine records who heard it and what it did.
  */
 import { scoreOffers, decisionFromScores } from "../choice";
@@ -24,6 +24,7 @@ import type {
 } from "../types";
 import { engagementOf, NATIONAL_ENGAGEMENT } from "../electorate";
 import { believesClaim, claimFit } from "../heard-claims";
+import { currentCloseness } from "../closeness";
 import { decisionKinds } from "../trait-decision-table";
 import { stanceRow, VIEWS_SPEAKER_KEY, VIEWS_SPEAKER_LEAN_KEY } from "./views";
 import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
@@ -38,7 +39,6 @@ const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 const s = (api: CoreAPI, key: string) => {
   const row = PARAMETERS[key];
   if (!row) return api.parameter(key);
-  if (row.stopgapId) api.stopgap(row.stopgapId);
   return row.value;
 };
 
@@ -95,7 +95,6 @@ function action(id: string, retelling: boolean): ActionDefinition {
         provider: "speech-reception",
         weightParameter: "one",
         arguments: { retelling: String(retelling) },
-        stopgapId: "SG-P15-speech-reception",
       },
     ],
   };
@@ -144,6 +143,49 @@ function movedBy(
       .reduce((sum, row) => sum + row.change, api.parameter("zero")) ??
     api.parameter("zero")
   );
+}
+
+/**
+ * The living people a listener is tied to outside their household and outside
+ * the audience: relatives elsewhere, friends and coworkers, from the kept ties
+ * (`relationshipsByPerson`), the few they are closest to (speechRetellTies).
+ * How far a retelling moves each is decided by the hearer, by how close they
+ * are to the teller (`believesClaim`) and by the speaker's standing with them.
+ */
+function tiesBeyondHome(
+  api: CoreAPI,
+  listener: Readonly<PersonState>,
+  speech: Readonly<SpeechInput>,
+  audience: ReadonlySet<string>,
+  atHome: readonly string[],
+): readonly PersonState[] {
+  const household = new Set(
+    api.state.households.get(listener.householdId)?.memberIds ?? [],
+  );
+  const out: { person: PersonState; closeness: number }[] = [];
+  for (const key of api.state.relationshipsByPerson.get(listener.id) ?? []) {
+    const tie = api.state.relationships.get(key);
+    if (!tie) continue;
+    const otherId = tie.actorId === listener.id ? tie.otherId : tie.actorId;
+    if (
+      otherId === speech.speakerId ||
+      household.has(otherId) ||
+      audience.has(otherId) ||
+      atHome.includes(otherId)
+    )
+      continue;
+    const other = api.state.people.get(otherId);
+    if (other?.alive)
+      out.push({ person: other, closeness: currentCloseness(api.state, tie) });
+  }
+  // A person talks it over with a few: the ones they are closest to.
+  return out
+    .sort(
+      (a, b) =>
+        b.closeness - a.closeness || a.person.id.localeCompare(b.person.id),
+    )
+    .slice(0, s(api, "speechRetellTies"))
+    .map((row) => row.person);
 }
 
 /** A speech is heard by its audience; some listeners retell it at home. */
@@ -236,17 +278,26 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
         !audience.has(id) &&
         api.state.people.get(id)?.alive,
     );
+    // The people they see outside the house (family elsewhere, friends,
+    // coworkers) are also whom a retelling can reach; their own household
+    // first, since that is where talk of politics mostly happens.
+    const beyond = () =>
+      tiesBeyondHome(api, listener, speech, audience, atHome);
     let retold = false;
     let scored: ReturnType<typeof scoreOffers> = [];
     let weighed: { engagement: number; home: number } | undefined;
-    if (atHome.length) {
+    let outside: readonly PersonState[] = [];
+    // Nobody at home to tell: the ones they would tell are the ties outside it.
+    if (!atHome.length) outside = beyond();
+    const hearers = atHome.length
+      ? atHome.map((id) => api.state.people.get(id)!)
+      : outside;
+    if (hearers.length) {
       const follows = (person: PersonState) =>
         engagementOf(api.state as CoreState, person) ?? NATIONAL_ENGAGEMENT;
       weighed = {
         engagement: follows(listener),
-        home: Math.max(
-          ...atHome.map((id) => follows(api.state.people.get(id)!)),
-        ),
+        home: Math.max(...hearers.map(follows)),
       };
       weighing.set(api.state, { moved: amount, ...weighed });
       const offers: ActOffer[] = [KEEP, RETELL].map((definition) => ({
@@ -261,9 +312,15 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
       weighing.delete(api.state);
       retold = decision.selected?.definition.id === RETELL.id;
     }
-    const told = retold ? atHome : [];
-    // Each one told decides for themselves whether to take it in, as anyone
-    // does a claim they cannot check; only those who do are moved by it.
+    // A retold speech reaches the household and, past it, the listener's ties
+    // outside the house; each decides below whether to take it in, by how
+    // close they are to the one telling it.
+    if (retold && atHome.length) outside = beyond();
+    const told = retold
+      ? [...atHome.map((id) => api.state.people.get(id)!), ...outside].map(
+          (person) => person.id,
+        )
+      : [];
     const toIds = told.filter((id) => {
       const hearer = api.state.people.get(id)!;
       return believesClaim(api.state, hearer, {
