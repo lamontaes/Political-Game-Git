@@ -330,8 +330,9 @@ export interface VariantInput {
   readonly setting?: string;
   /**
    * A return visit (a second knock on the same door): the variant with the
-   * next highest score plays where it scores above nothing, so a resident
-   * with two records raises the other one the second time.
+   * next highest score plays where it scores above nothing and no less than
+   * the family's plain arc, so a resident with two records raises the other
+   * one the second time.
    */
   readonly nextDown?: boolean;
 }
@@ -726,9 +727,14 @@ export function chooseVariant(
       };
     })
     .sort((a, b) => b.score - a.score || a.variant.localeCompare(b.variant));
+  // A return visit plays the next one down only where it holds its own
+  // against the family's plain arc: a tie made by the first knock alone is
+  // not someone who knows the player.
+  const plain =
+    scores.find((row) => row.purpose === input.family)?.score ?? P.zero;
   const second = scores[P.one];
   const best =
-    input.nextDown && second && second.score > P.zero
+    input.nextDown && second && second.score > P.zero && second.score >= plain
       ? second
       : scores[P.zero]!;
   const choice: VariantChoice = {

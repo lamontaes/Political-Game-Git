@@ -173,7 +173,9 @@ it(`a door the player knocks plays as the player's ask, answered from the knock 
     const signed = petitionSignerIds(coreAPI(core), filing.id).has(
       cause.voterId,
     );
-    expect(result.scene.purpose, where).toBe(
+    // The door's family; the arc within it is the one the resident's own
+    // records give (door-variants.test.ts checks each against its record).
+    expect(result.scene.purpose.split(".")[0], where).toBe(
       petition ? "ask-signature" : "ask-support",
     );
     expect(

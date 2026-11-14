@@ -62,34 +62,54 @@ export function doorsKnocked(
     .sort((a, b) => strength(b) - strength(a) || a.id.localeCompare(b.id))[
     P.zero
   ];
-  return today.map((row) => {
-    const petition = petitionAtDoor(core, personId, row.voterId as PersonId);
-    // A door the candidate knocked on an earlier day is a return visit,
-    // a closed race's door among them (its folded summary).
-    const firstDoor = causeSummaryOf(api, row.voterId, personId)?.firstDoor;
-    const before =
-      (!!firstDoor && firstDoor < row.date) ||
-      (causes.query("byVoter", [row.voterId]) as unknown as CauseRow[]).some(
-        (earlier) =>
-          earlier.candidateId === personId &&
-          door(earlier) &&
-          earlier.date < row.date,
-      );
-    return {
-      id: row.id,
-      kind: "campaign.door",
-      direct: true as const,
-      personIds: [row.voterId as PersonId],
-      witnessIds: [],
-      facts: {
-        first: String(!before),
-        stake: String(row.id === most?.id),
-        candidateId: personId,
-        petition: String(!!petition),
-        ...(petition ? { signed: String(petition.signed) } : {}),
-      },
-    };
-  });
+  return today.map((row) => ({
+    id: row.id,
+    kind: "campaign.door",
+    direct: true as const,
+    personIds: [row.voterId as PersonId],
+    witnessIds: [],
+    facts: {
+      ...knockFacts(core, row),
+      stake: String(row.id === most?.id),
+      candidateId: personId,
+    },
+  }));
+}
+
+/**
+ * What one knock says of its door, from the campaign engine's records:
+ * whether the candidate knocked there on an earlier day (`first`, a closed
+ * race's door among them by its folded summary), and whether the
+ * candidate's petition circulates (`petition`) and the resident signed it
+ * (`signed`). The director's door record and the door scene read the same.
+ */
+export function knockFacts(
+  core: Readonly<CoreState>,
+  row: CauseRow,
+): Record<string, string> {
+  const api = coreAPI(core as CoreState);
+  const personId = row.candidateId as PersonId;
+  const petition = petitionAtDoor(core, personId, row.voterId as PersonId);
+  const firstDoor = causeSummaryOf(api, row.voterId, personId)?.firstDoor;
+  const before =
+    (!!firstDoor && firstDoor < row.date) ||
+    (
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("causes")
+        .query("byVoter", [row.voterId]) as unknown as CauseRow[]
+    ).some(
+      (earlier) =>
+        earlier.candidateId === personId &&
+        earlier.act === "door" &&
+        earlier.actorId === personId &&
+        earlier.date < row.date,
+    );
+  return {
+    first: String(!before),
+    petition: String(!!petition),
+    ...(petition ? { signed: String(petition.signed) } : {}),
+  };
 }
 
 /**

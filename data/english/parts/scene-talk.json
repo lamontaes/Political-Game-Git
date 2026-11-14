@@ -165351,10 +165351,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-with-the-chain-still-on-and-looks-past-you-down-the-hall",
+      "key": "scene-talk.narrate-narrate.name-opens-the-door-with-the-chain-still-on-and-looks-past-you-before-looking-at",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} opens the door with the chain still on and looks past you, down the hall.",
+      "text": "{name} opens the door with the chain still on and looks past you before looking at you.",
       "uses": [
         {
           "subject": "scene",
@@ -167231,10 +167231,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-can-t-get-out-to-vote-much-these-days-but-i-can-sign-this-where",
+      "key": "scene-talk.reply-agree.i-don-t-get-out-much-these-days-but-i-can-sign-this-where",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I can't get out to vote much these days, but I can sign this. Where?",
+      "text": "I don't get out much these days, but I can sign this. Where?",
       "uses": [
         {
           "subject": "scene",
@@ -168016,7 +168016,23 @@
           "purpose": "ask-signature.sick",
           "key": "door",
           "after": "decline"
-        },
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-ll-be-quick-i-just-want-you-to-know-who-s-asking",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'll be quick. I just want you to know who's asking.",
+      "uses": [
         {
           "subject": "scene",
           "step": "follow",
@@ -168084,7 +168100,23 @@
           "purpose": "ask-signature.sick",
           "key": "door",
           "after": "decline"
-        },
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.please-just-think-about-it-before-the-election",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Please. Just think about it before the election.",
+      "uses": [
         {
           "subject": "scene",
           "step": "follow",
@@ -168371,10 +168403,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-from-inside-someone-calls-for-them-relative",
+      "key": "scene-talk.narrate-narrate.name-opens-the-door-from-inside-relative-calls-their-name",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} opens the door. From inside, someone calls for them. {relative}.",
+      "text": "{name} opens the door. From inside, {relative} calls their name.",
       "uses": [
         {
           "subject": "scene",
@@ -169396,7 +169428,23 @@
           "purpose": "ask-signature.caring",
           "key": "door",
           "after": "decline"
-        },
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.give-me-one-minute-to-tell-you-why-i-m-running",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Give me one minute to tell you why I'm running.",
+      "uses": [
         {
           "subject": "scene",
           "step": "follow",
@@ -169464,7 +169512,23 @@
           "purpose": "ask-signature.caring",
           "key": "door",
           "after": "decline"
-        },
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.just-say-you-ll-think-about-me-and-i-m-gone",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Just say you'll think about me, and I'm gone.",
+      "uses": [
         {
           "subject": "scene",
           "step": "follow",
@@ -171851,6 +171915,306 @@
       "date": "2026-11-14",
       "tag": {
         "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.hi-again-it-s-self-still-collecting-signatures-for-office-would-you-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Hi again. It's {self}, still collecting signatures for {office}. Would you sign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.me-again-self-i-m-still-trying-to-get-on-the-ballot-for-office-could-i-get-your",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Me again, {self}. I'm still trying to get on the ballot for {office}. Could I get your name on this?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.sorry-to-knock-twice-it-s-self-with-the-petition-for-office-would-you-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Sorry to knock twice. It's {self}, with the petition for {office}. Would you sign it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-know-i-ve-been-by-before-it-s-self-running-for-office-will-you-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I know I've been by before. It's {self}, running for {office}. Will you sign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.hello-again-self-for-office-i-d-still-like-your-signature",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Hello again. {self}, for {office}. I'd still like your signature.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-self-again-from-the-petition-for-office-do-you-have-a-minute-to-sign",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's {self} again, from the petition for {office}. Do you have a minute to sign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-signature",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.hi-again-it-s-self-running-for-office-can-i-count-on-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Hi again. It's {self}, running for {office}. Can I count on your vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.me-again-self-the-election-for-office-is-coming-up-and-i-d-like-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Me again, {self}. The election for {office} is coming up, and I'd like your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.sorry-to-knock-twice-it-s-self-i-m-still-asking-for-your-vote-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Sorry to knock twice. It's {self}. I'm still asking for your vote for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-know-i-ve-been-by-before-it-s-self-will-you-vote-for-me-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I know I've been by before. It's {self}. Will you vote for me for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.hello-again-self-for-office-have-you-thought-about-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Hello again. {self}, for {office}. Have you thought about your vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-self-again-running-for-office-i-wanted-to-ask-you-for-your-vote-one-more-ti",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's {self} again, running for {office}. I wanted to ask you for your vote one more time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-support",
+          "key": "door",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
         "key": "door"
       }
     },

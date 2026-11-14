@@ -64,7 +64,7 @@ import {
 } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
-import { petitionAtDoor } from "./doors";
+import { knockFacts, petitionAtDoor } from "./doors";
 import {
   SITUATION_LIBRARY,
   type ScheduleEntry,
@@ -1302,6 +1302,13 @@ function composeBinding(
       text: titleInSentence(door.office),
       sourceRecordIds: [moment.causeId, door.contestId],
     };
+    // A second knock: the two have met at this door, so the player does not
+    // introduce themself as a stranger again.
+    if (door.knock.first === "false")
+      facts["knocked-before"] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId],
+      };
   }
   // The player asks: their lines speak to the colleague by name.
   else if (standing) {
@@ -1338,10 +1345,10 @@ function composeBinding(
           cause: {
             id: moment.causeId,
             date: record?.date ?? moment.date,
-            facts: said,
+            facts: door ? { ...said, ...door.knock } : said,
           },
           setting: binding.setting.kind,
-          ...(door && said.first === "false" ? { nextDown: true } : {}),
+          ...(door?.knock.first === "false" ? { nextDown: true } : {}),
         })
       : null;
   // What the records gave the variant, for the lines that say it: every read
@@ -1445,7 +1452,12 @@ function doorStanding(
   causeId: string,
   residentId: PersonId,
   purpose: string,
-): { standing: AskStanding; office: string; contestId: string } | null {
+): {
+  standing: AskStanding;
+  office: string;
+  contestId: string;
+  knock: Record<string, string>;
+} | null {
   if (
     !core.modules.has(CAMPAIGNS_MODULE_ID) ||
     !core.modules.has(ELECTIONS_MODULE_ID)
@@ -1481,6 +1493,7 @@ function doorStanding(
     },
     office: contest.title,
     contestId: impression!.contestId!,
+    knock: knockFacts(core, cause),
   };
 }
 
