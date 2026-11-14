@@ -26,7 +26,7 @@ source: Found while gating #9279 (Nov 14); red the same on the clean train 9ed4b
 
 **Time box.** 1 hour for one Sonnet session at medium effort.
 
-**Rules.** No line changes in the bank; the fact the hook reads changes.
+**Rules.** No line changes in the bank; the fact the hook reads changes. Ask why: the fix names the record that made the helper the hook's {name} before changing it.
 
 **Done when.** A second session, on main, reruns the test with the seed above and it passes, and in a drawn place a lost race shared with a door-walker never names the door-walker in the race's journal line.
 
