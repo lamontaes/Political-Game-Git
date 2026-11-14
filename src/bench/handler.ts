@@ -39,6 +39,7 @@ import {
   donationAsksView,
   campaignDay,
   campaignView,
+  runningMateAsked,
   runningMatePicked,
   playerRecord,
   debateAnswer,
@@ -166,7 +167,7 @@ import {
 } from "./government";
 import { governmentBodies } from "./government-bodies";
 import type { Director } from "../director/ledger";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
@@ -1867,8 +1868,8 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
-  // A player running for governor names their running mate: one of the people offered, or none
-  // for the world's own pick (Choose for me).
+  // A player running for governor takes "Choose for me": the strongest of the people offered
+  // who would say yes is named, with no scene (asking someone is /api/campaign/running-mate/ask).
   {
     match: ({ request, url }) =>
       request.method === "POST" &&
@@ -1881,9 +1882,39 @@ const ROUTES: readonly Route[] = [
           requireCore(),
           state.player.personId,
           url.searchParams.get("filingId") ?? "",
-          url.searchParams.get("personId") || null,
         ),
       );
+      return;
+    },
+  },
+  // A player running for governor asks one of the people offered to be their running mate:
+  // the ask plays as a scene on the clock, and only its ending names anyone (brief J).
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/running-mate/ask",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const asked = runningMateAsked(
+        requireCore(),
+        state.player.personId,
+        url.searchParams.get("filingId") ?? "",
+        url.searchParams.get("personId") ?? "",
+      );
+      // The sit-down opens at once: the ask is the player's own press, so
+      // its scene is staged now and shown, not held for the day's close.
+      const staged = state.director?.stageOwnPress(
+        requireCore(),
+        state.player.personId as PersonId,
+        asked.eventId,
+      );
+      const spent = state.player.spend(asked.hours);
+      send(200, {
+        ...(staged ? { story: staged.momentId } : {}),
+        ...(spent
+          ? { packet: spent.packet, names: namesFor(spent.packet) }
+          : {}),
+      });
       return;
     },
   },

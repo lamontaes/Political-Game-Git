@@ -44,3 +44,4 @@ Run this checklist over every result before it goes out. Each hit needs a cause,
 - A cause that is a seeded roll or fixed percentage deciding one actor's outcome breaks `no-dice`.
 - Nobody attributes a change to a law unless they learned of it; cite the source (news, conversation, notice).
 - Put findings on the item's own pull request (owner, Nov 10: the pull request is the item's thread, `docs/pool/START-A-BUILDER.md`), or in the job's report. A line for the whole crew goes in the leads channel (`docs/coordination/LEADS-2026-10-24.md`). Write in plain American English per `civic-reports` and run `npm run report:check -- <file>` on any file you send.
+- A rate or share has the same people in its numerator and denominator. The Nov 14 "too many deaths" count put about 6,200 officials kept as outside records in the top and none in the bottom; once both counted one population the rate matched the game's own table.

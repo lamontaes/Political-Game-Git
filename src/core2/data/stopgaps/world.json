@@ -614,20 +614,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-WORLD-business-premises-property-tax",
-    "kind": "missing-engine",
-    "file": "src/core2/modules/employer-taxes.ts",
-    "line": 196,
-    "whatItFakes": "Businesses pay no property tax on their premises; the property-tax engine bills homes only.",
-    "why": "A business's books record no premises or their value, so there is nothing for the property-tax rate in force to read.",
-    "addedBy": "OPUS-WORLD",
-    "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Business premises recorded with an assessed value (commercial values by place), billed at the property-tax rate in force like homes.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage"
-  },
-  {
     "id": "SG-WORLD-owner-decision-business-books",
     "kind": "owner-decision",
     "file": "src/core2/business-books-view.ts",
