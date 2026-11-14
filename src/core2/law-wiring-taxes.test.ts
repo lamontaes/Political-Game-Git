@@ -50,7 +50,13 @@ import {
   members,
 } from "./modules/legislature";
 import { provisionFor } from "./bill-catalog";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  localPowerBarred,
+} from "./modules/laws";
 import { OFFICES_MODULE_ID, townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState, Source } from "./types";
@@ -67,6 +73,15 @@ const BALANCED = "us-policy-positions:fiscal.balanced-operating-budget";
 const PENSIONS = "us-policy-positions:fiscal.fund-pensions-to-schedule";
 const RESERVE = "us-policy-positions:fiscal.minimum-reserve-balance";
 const QUESTIONS = [ADOPT, GRADUATED, CAP, BALANCED, PENSIONS, RESERVE];
+
+/**
+ * Where a question is put in force. The growth cap is a local measure only
+ * where the state leaves it to its places; where the state bars them
+ * (`preempts` in the researched starting law) a city's row is set aside, so
+ * the test enacts it at the state, where it governs.
+ */
+const levelFor = (api: CoreAPI, key: string): string | undefined =>
+  key === CAP && !localPowerBarred(api, CAP) ? undefined : "state";
 
 const run = (core: CoreState, days: number) =>
   advanceCore(core, addDays(makeIsoDate(core.date), days));
@@ -271,8 +286,7 @@ function play(where: string, core: CoreState): Attempt {
   let profited = false;
   const lastProfit = new Map<string, number>();
   const ids: Record<string, string> = {};
-  for (const key of QUESTIONS)
-    setQuestion(api, key, 1, key === CAP ? undefined : "state");
+  for (const key of QUESTIONS) setQuestion(api, key, 1, levelFor(api, key));
   // The acts take effect first (adopting or graduating writes its own income-tax
   // row); the rates are then raised on the rows in force.
   run(core, 3);
@@ -299,8 +313,7 @@ function play(where: string, core: CoreState): Attempt {
   try {
     const putBack = () => {
       const back = QUESTIONS.filter((key) => lawInForce(api, key).value !== 1);
-      for (const key of back)
-        setQuestion(api, key, 1, key === CAP ? undefined : "state");
+      for (const key of back) setQuestion(api, key, 1, levelFor(api, key));
       if (back.includes(ADOPT) || back.includes(GRADUATED)) {
         run(core, 2);
         ids.income = scaleAmount(api, "income-tax", 1.1);
@@ -769,6 +782,9 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           .filter(
             (p) =>
               p.alive &&
+              // A resident: the death taxes are the decedent's own state's,
+              // and the test puts the low rows in the town's state.
+              p.placeId === lawChain(api).townPlaceId &&
               p.liquidMinor > 100_00 &&
               heirsOf(api, p).heirs.length > 0,
           )
