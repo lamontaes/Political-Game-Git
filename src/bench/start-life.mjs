@@ -243,3 +243,44 @@ export async function fileWhenFilingOpens(page, { maxWeeks = 104 } = {}) {
     tried,
   };
 }
+
+/**
+ * Someone in the room the player can talk to: the first talkable person, after
+ * waiting an hour at a time (the Hour button, as a player does) while no one
+ * is there, for at most `hours`. Who is home depends on the household and the
+ * hour, so a check never assumes someone is in the room the first evening.
+ * Throws when no one comes.
+ */
+export async function someoneToTalkTo(page, { hours = 24 } = {}) {
+  const talkable = page.locator("#here .busts-person.talkable");
+  for (let hour = 0; hour <= hours; hour += 1) {
+    const found = await talkable
+      .first()
+      .waitFor({ timeout: 5000 })
+      .then(() => true)
+      .catch(() => false);
+    if (found) return talkable;
+    await finishTalk(page);
+    const press = page.locator("#hour");
+    await page.waitForFunction(
+      () => !document.getElementById("hour")?.disabled,
+    );
+    await press.click();
+    await page.waitForFunction(
+      () => !document.getElementById("hour")?.disabled,
+    );
+    await finishTalk(page);
+  }
+  throw new Error(`No one to talk to in ${hours} hours`);
+}
+
+/** Leaves the open talk as a player does: Leave where it is offered (and waits for the talk to close), else plays it to its end. */
+export async function leaveTalk(page) {
+  const leave = page.locator("#talk-leave");
+  if (await leave.isVisible()) {
+    await leave.click();
+    await page.locator("#talk").waitFor({ state: "hidden" });
+    return;
+  }
+  await finishTalk(page);
+}

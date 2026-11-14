@@ -56,6 +56,7 @@ import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRulesFor,
+  filledByTickets,
   checkEligibility,
   filingWindowOpens as electionsFilingWindowOpens,
   officeFamily,
@@ -757,9 +758,12 @@ function queuesFor(api: CoreAPI): Queues | null {
   const held = queues.get(api.state);
   if (held && held.size === contests.size) return held;
   const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
-  const rows = (contests.rows() as unknown as ContestRow[]).filter(
-    (row) => row.filingDeadline >= api.state.date,
+  // A running mate's office is filled by the governor candidates' tickets:
+  // nobody weighs running for it on their own (`filledByTickets`).
+  const own = (contests.rows() as unknown as ContestRow[]).filter(
+    (row) => !filledByTickets(api, row),
   );
+  const rows = own.filter((row) => row.filingDeadline >= api.state.date);
   const built: Queues = {
     size: contests.size,
     localRank: Math.max(
@@ -782,7 +786,7 @@ function queuesFor(api: CoreAPI): Queues | null {
     // (a tie's second election reuses its field).
     opening: held
       ? []
-      : (contests.rows() as unknown as ContestRow[])
+      : own
           .filter(
             (row) =>
               row.filingDeadline < api.state.date &&
