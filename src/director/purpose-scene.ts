@@ -1011,12 +1011,27 @@ function composeBinding(
     if (said.size)
       facts.number = { text: said.size, sourceRecordIds: [said.actionId] };
   }
-  // What an offer asks in return (a vote, a contract): the lines about that favor need it.
-  if (said.favor)
+  // What an offer asks in return (a vote, a contract): the lines about that
+  // favor need it, and the thing itself is named so the one offering says
+  // what they want (Words lead, Nov 14): the bill for a vote (`bill`, above),
+  // the award for a contract by the work it pays for (`contract`). `wanted`
+  // is whichever of the two the record names, for lines either side shares.
+  if (said.favor) {
     facts[`favor-${said.favor}`] = {
       text: said.favor,
       sourceRecordIds: [moment.causeId],
     };
+    const work = (
+      lineNames.lines as Record<string, { readonly name: string } | undefined>
+    )[said.contractLine ?? ""]?.name;
+    if (said.favor === "contract" && work)
+      facts.contract = {
+        text: `the ${work.charAt(P.zero).toLowerCase()}${work.slice(P.one)} contract`,
+        sourceRecordIds: [moment.causeId, said.contractId ?? moment.causeId],
+      };
+    const wanted = said.favor === "vote" ? facts.bill : facts.contract;
+    if (wanted) facts.wanted = wanted;
+  }
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
   if (record?.kind === PRESS_STORY_EVENT) {
