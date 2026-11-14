@@ -29,7 +29,7 @@ checked:
 
 **Rules.** Plain American English; the word comes from the record, never from the bank. Review: words.
 
-**Done when.** A second session plays the Stony Creek VA seed `q4` campaign and sees the manager offer's lead name the asker with the word the owner chose.
+**Done when.** A second session plays a campaign in a drawn place (Stony Creek VA, seed `q4`, is the case where the asker is nonbinary) and sees the manager offer's lead name the asker with the word the owner chose.
 
 **Waits on.** Nothing.
 
