@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** `src/core2/law-wiring-housing.test.ts` builds its played world in one `beforeAll` that draws places and plays 700 days in each until one has a subject, up to 14 builds. Every one of its 13 cases then reads that one world, and the cases themselves take milliseconds. The file never finishes on a normal run (over 30 minutes with no output; earlier builders saw 28, 50 and 100 minutes).
+**What.** `src/core2/law-wiring-housing.test.ts` builds its played world in one `beforeAll` that draws places and plays 700 days in each until one has a subject, up to 14 builds. Every one of its 13 cases then reads that one world, and the cases themselves take milliseconds. The file never finishes on a normal run (over 30 minutes with no output; earlier builders saw 28, 50 and 100 minutes). Seen: nowhere in play; it guards the housing laws' wiring test.
 
 **Cause.** Measured: with `GOLDEN_PATH_PLACE_KEY=3455620` (Packanack Lake, New Jersey, 6,321 people, which passes the apartment gate) and `GOLDEN_PATH_WORLD_SEED=f6-seed-1`, all 14 attempts ended "no subject: 110 renters, 1 landlords" and the file took 350 s (about 25 s a build), then all 13 cases failed. The gate in `apartmentsPermitted` and the `people < MIN_RENTERS` check count the town's people, not its renters or landlords, so a place can pass the gate and still have no subject. With the pin set, the same place is rebuilt 14 times. At Azalea Park, Florida (1202850, 16,180 people, same seed) the run did not finish in 1,500 s.
 
@@ -30,7 +30,7 @@ root: none
 
 **Rules.** No dice: pins are chosen from built worlds' records. One rule, all 56 places: the pins are three named places in three states, none Washington, D.C.
 
-**Done when.** The family test finishes in under 10 minutes on three pinned places, each named with its seed, and each case passes.
+**Done when.** The family test finishes in under 10 minutes per pinned place on three pinned places, each a drawn place named with its seed, and each case passes. A second session sees it in the running game: it runs the file on main and reads each place and seed in the output.
 
 **Waits on.** Nothing.
 
