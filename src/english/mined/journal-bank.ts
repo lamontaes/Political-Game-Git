@@ -13,6 +13,7 @@
  */
 import bankJson from "../../../data/english/parts/journal.json" with { type: "json" };
 import { admittedParts, directorSlots, type BankPart } from "../bank-parts";
+import { RACE_MARGINS } from "../../director/race-margin";
 import rowsJson from "../../director/data/journal-rows.json" with { type: "json" };
 import type { JournalRows, JournalWords } from "../journal-words";
 
@@ -44,16 +45,6 @@ function resultStages(text: string): string[] | undefined {
   if (/\b(?:won|win|elected)\b/i.test(text)) return ["won"];
   return undefined;
 }
-
-/** How a race was decided, as the result record's totals show it. */
-export const RACE_MARGINS = [
-  "handful",
-  "close",
-  "wide",
-  "landslide",
-  "middle",
-  "alone",
-] as const;
 
 /**
  * One's own race, said by result and by margin ("won:close"): a line that

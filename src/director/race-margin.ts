@@ -1,10 +1,19 @@
-import type { RACE_MARGINS } from "../english/mined/journal-bank";
 import type { CoreState } from "../core2/types";
 import { P } from "../core2/parameters";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 
 const zero = P.zero;
 const one = P.one;
+
+/** The steps a race's margin is said in, as the result record's totals show it. */
+export const RACE_MARGINS = [
+  "handful",
+  "close",
+  "wide",
+  "landslide",
+  "middle",
+  "alone",
+] as const;
 
 /** One of the five steps a race's margin is said in, plus a race with one candidate and one with no totals. */
 export type RaceMargin = (typeof RACE_MARGINS)[number];

@@ -2995,10 +2995,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.i-won-by-a-handful-of-votes",
+      "key": "journal.election-line-own-result.i-won-the-race-for-office-by-a-handful-of-votes",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "I won by a handful of votes.",
+      "text": "I won the race for {office} by a handful of votes.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3021,10 +3021,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.i-lost-by-a-handful-of-votes",
+      "key": "journal.election-line-own-result.i-lost-the-race-for-office-by-a-handful-of-votes",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "I lost by a handful of votes.",
+      "text": "I lost the race for {office} by a handful of votes.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3047,10 +3047,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.i-won-but-it-was-close",
+      "key": "journal.election-line-own-result.i-won-the-race-for-office-but-it-was-close",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "I won, but it was close.",
+      "text": "I won the race for {office}, but it was close.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3073,10 +3073,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.it-was-close-but-i-won",
+      "key": "journal.election-line-own-result.it-was-close-but-i-won-the-race-for-office",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "It was close, but I won.",
+      "text": "It was close, but I won the race for {office}.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3099,10 +3099,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.i-lost-but-it-was-close",
+      "key": "journal.election-line-own-result.i-lost-the-race-for-office-but-it-was-close",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "I lost, but it was close.",
+      "text": "I lost the race for {office}, but it was close.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3125,10 +3125,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.it-was-close-and-i-lost",
+      "key": "journal.election-line-own-result.it-was-close-and-i-lost-the-race-for-office",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "It was close, and I lost.",
+      "text": "It was close, and I lost the race for {office}.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3151,10 +3151,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.i-won-and-it-wasn-t-close",
+      "key": "journal.election-line-own-result.i-won-the-race-for-office-and-it-wasn-t-close",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "I won, and it wasn't close.",
+      "text": "I won the race for {office}, and it wasn't close.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3177,10 +3177,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.i-lost-and-it-wasn-t-close",
+      "key": "journal.election-line-own-result.i-lost-the-race-for-office-and-it-wasn-t-close",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "I lost, and it wasn't close.",
+      "text": "I lost the race for {office}, and it wasn't close.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3203,10 +3203,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.it-wasn-t-close-i-lost",
+      "key": "journal.election-line-own-result.it-wasn-t-close-i-lost-the-race-for-office",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "It wasn't close. I lost.",
+      "text": "It wasn't close. I lost the race for {office}.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3229,10 +3229,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.i-won-in-a-landslide",
+      "key": "journal.election-line-own-result.i-won-the-race-for-office-in-a-landslide",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "I won in a landslide.",
+      "text": "I won the race for {office} in a landslide.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3255,10 +3255,10 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.i-lost-in-a-landslide",
+      "key": "journal.election-line-own-result.i-lost-the-race-for-office-in-a-landslide",
       "move": "election-line-own-result",
       "kind": "spoken",
-      "text": "I lost in a landslide.",
+      "text": "I lost the race for {office} in a landslide.",
       "uses": [
         {
           "move": "election-line-own-result",
@@ -3536,32 +3536,6 @@
       "move": "office-other-act",
       "kind": "spoken",
       "text": "{other} introduced {law}.",
-      "uses": [
-        {
-          "move": "office-other-act",
-          "subject": "office",
-          "role": "other",
-          "choice": "act",
-          "journal": [
-            {
-              "kindPrefix": "event:office.introduced",
-              "field": "otherLine"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-journal-relative-office-acts-told-as-own)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-other-act.other-put-forward-law",
-      "move": "office-other-act",
-      "kind": "spoken",
-      "text": "{other} put forward {law}.",
       "uses": [
         {
           "move": "office-other-act",
@@ -4172,10 +4146,10 @@
       }
     },
     {
-      "key": "journal.home-line-met.i-met-other-in-place",
+      "key": "journal.home-line-met.i-met-named-in-place",
       "move": "home-line-met",
       "kind": "spoken",
-      "text": "I met {other} in {place}.",
+      "text": "I met {named} in {place}.",
       "uses": [
         {
           "move": "home-line-met",
@@ -4191,17 +4165,17 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.home-line-met.other-and-i-met-in-place",
+      "key": "journal.home-line-met.named-and-i-met-in-place",
       "move": "home-line-met",
       "kind": "spoken",
-      "text": "{other} and I met in {place}.",
+      "text": "{named} and I met in {place}.",
       "uses": [
         {
           "move": "home-line-met",
@@ -4217,17 +4191,17 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.home-line-met.i-first-met-other-in-place",
+      "key": "journal.home-line-met.i-met-named-in-place-when-i-was-age",
       "move": "home-line-met",
       "kind": "spoken",
-      "text": "I first met {other} in {place}.",
+      "text": "I met {named} in {place} when I was {age}.",
       "uses": [
         {
           "move": "home-line-met",
@@ -4243,8 +4217,34 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.named-and-i-met-in-place-when-i-was-age",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "{named} and I met in {place} when I was {age}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }
@@ -7299,7 +7299,7 @@
       "key": "journal.work-line-again.employer-took-me-on",
       "move": "work-line-again",
       "kind": "spoken",
-      "text": "{employer} took me on.",
+      "text": "{employer} hired me.",
       "uses": [
         {
           "move": "work-line-again",

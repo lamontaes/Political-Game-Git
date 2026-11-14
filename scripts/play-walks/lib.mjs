@@ -155,6 +155,31 @@ export async function playTalk(walk, label, { most = 5, picture = true } = {}) {
 export async function pressDay(walk) {
   const { page } = walk;
   walk.say(`=== Day pressed at [${await clockOf(page)}]`);
+  // Something may hold the screen over Day: a scene's talk, a stop, a panel.
+  // Answer it, and write down what was there.
+  for (
+    let held = 0;
+    held < 40 && !(await page.locator("#day").isVisible());
+    held += 1
+  ) {
+    const seen = await page.evaluate(() =>
+      [...document.querySelectorAll("section, dialog, .panel, .modal")]
+        .filter((el) => el.getClientRects().length)
+        .map(
+          (el) =>
+            `${el.id || el.className}: ${(el.textContent ?? "").replace(/\s+/g, " ").slice(0, 160)}`,
+        )
+        .slice(0, 6),
+    );
+    walk.say(`    (Day is covered: ${JSON.stringify(seen)})`);
+    if (await shown(page, "talk")) await playTalk(walk, "scene");
+    else if (await shown(page, "continue"))
+      await page
+        .locator("#continue")
+        .click({ timeout: 3000 })
+        .catch(() => {});
+    else await page.waitForTimeout(1500);
+  }
   await page.locator("#day").click();
   const free = () =>
     page.evaluate(() => !document.getElementById("day").disabled);

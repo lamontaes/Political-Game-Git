@@ -1630,6 +1630,8 @@ export function composeJournal(
           text: spanSaid(days),
           sourceRecordIds: [moment.causeId],
         };
+      // How old the person was, for "when I was 24" (rule 84).
+      facts.age = ageThen(person.birthDate, person.id);
     }
     // A death in the family: how old they were, and whether it followed an illness the record names.
     if (moment.causeKind === "event:life.death") {
@@ -2124,9 +2126,12 @@ export function composeJournal(
     `${moment.causeId.replace(/:\d+(:\d{4}-\d{2}-\d{2})$/, "$1")}|${moment.counterpartIds.join(",")}|${moment.selfNamed ?? false}`;
   const pooledTold = new Map<string, string>();
   const pooledWon = new Set<string>();
+  // Every seat's record of the one race, so the told line cites them all.
+  const pooledIds = new Map<string, string[]>();
   for (const moment of moments) {
     if (!moment.causeKind.startsWith("event:election-result")) continue;
     const key = poolKeyOf(moment);
+    pooledIds.set(key, [...(pooledIds.get(key) ?? []), moment.causeId]);
     const wonHere =
       core.durableLog.get(moment.causeId)?.facts?.winnerId === personId;
     if (!pooledTold.has(key) || wonHere) {
@@ -2164,7 +2169,14 @@ export function composeJournal(
       if (toldFacts.has(`${row.kindPrefix}|${once}`)) continue;
       toldFacts.add(`${row.kindPrefix}|${once}`);
     }
-    const sourceIds = [moment.causeId];
+    const sourceIds = [
+      moment.causeId,
+      ...(row.kindPrefix === "event:election-result"
+        ? (pooledIds.get(poolKeyOf(moment)) ?? []).filter(
+            (id) => id !== moment.causeId,
+          )
+        : []),
+    ];
     if (row.entry === "setting") {
       const employer = facts.employer?.sourceRecordIds.at(-one);
       if (employer) employerIds.push(employer);
@@ -2360,6 +2372,10 @@ export function composeJournal(
             size,
           });
       }
+  // A view is told once, when it changed and what changed it: one stance is
+  // never told twice, and one event that moved the person says what they
+  // think now once, not once for each record it left (Words lead, rule 86).
+  const viewsSaid = new Set<string>();
   const viewMovedBy = (unit: Unit): JournalWorded | null => {
     const moved =
       movedViews.get(unit.moment.causeId) ??
@@ -2367,10 +2383,12 @@ export function composeJournal(
         ? movedViews.get(unit.moment.causeFactId)
         : undefined);
     if (!moved) return null;
+    const eventKey = `${unit.moment.causeKind.split(":")[zero]}:${unit.moment.date}`;
+    if (viewsSaid.has(moved.id) || viewsSaid.has(eventKey)) return null;
     const enact = moved.side === "enact";
     const text = enact ? questionTo(moved.topic) : questionAbout(moved.topic);
     if (!text) return null;
-    return render(
+    const told = render(
       { part: "memoir", field: enact ? "viewFor" : "viewAgainst" },
       {
         [enact ? "to" : "about"]: {
@@ -2381,6 +2399,11 @@ export function composeJournal(
       `${unit.moment.id}:view`,
       [moved.id, unit.moment.causeId],
     );
+    if (told) {
+      viewsSaid.add(moved.id);
+      viewsSaid.add(eventKey);
+    }
+    return told;
   };
 
   // The facts a sentence names once in a paragraph (an employer, a place, a
