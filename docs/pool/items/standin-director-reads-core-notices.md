@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr:
 after:
