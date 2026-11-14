@@ -37,6 +37,8 @@ import municipalPetitionRules from "../data/elections/municipal-petition-rules.j
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
+import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { payGovernmentFee } from "../budgets-treasury";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import {
@@ -113,6 +115,8 @@ export interface FilingRequirements {
   readonly deadline: string | null;
   /** The signatures the side's petition must hold. */
   readonly petition: PetitionRule;
+  /** The filing fee in minor units the place's law charges this side (zero where its row gives none or a formula). */
+  readonly feeMinor: number;
 }
 
 /** What an estimate from a place's scaled petition rule names as its source. */
@@ -208,7 +212,8 @@ export interface RequirementCheck {
     | "residency"
     | "party-member"
     | "term-limit"
-    | "district-residency";
+    | "district-residency"
+    | "filing-fee";
   readonly met: boolean;
   readonly required: string;
   readonly actual: string;
@@ -388,6 +393,7 @@ export function filingRequirements(
       source || "data/research/elections/filing-requirements.json",
       municipalScale(usps, family, sideName, read),
     ),
+    feeMinor: feeOf(sideRow(read, sideName)),
   };
 }
 
@@ -460,6 +466,12 @@ export function petitionSignatures(
     if (scale.max !== undefined) count = Math.min(count, scale.max);
   }
   return Math.max(1, Math.min(count, Math.floor(town.eligible)));
+}
+
+/** The fee a side's row reads, in minor units: the row's own dollar figure, none where it gives none or a formula. */
+function feeOf(side: ReadSide | undefined): number {
+  const fee = side?.feeUSD;
+  return typeof fee === "number" && fee > 0 ? Math.round(fee * 100) : 0;
 }
 
 /** A side's row as an object, the party side where the independents' is not one. */
@@ -1220,6 +1232,19 @@ export function checkEligibility(
       actual: filed ? "filed" : "not filed",
       source: "File once (owner, Oct 8)",
     },
+    // The fee the place's law charges, where it charges one: the candidate
+    // must hold it when they file (it is paid at the counter).
+    ...(rules.feeMinor > 0
+      ? [
+          {
+            rule: "filing-fee" as const,
+            met: person.liquidMinor >= rules.feeMinor,
+            required: `$${Math.round(rules.feeMinor / 100)}`,
+            actual: `$${Math.max(0, Math.floor(person.liquidMinor / 100))}`,
+            source: rules.source,
+          },
+        ]
+      : []),
     {
       rule: "minimum-age",
       met: age >= rules.minimumAge,
@@ -1350,6 +1375,7 @@ export function fileCandidacy(
   if (unmet.length) return { status: "refused", unmet };
   const today = api.state.date;
   const id = `filing:${input.contestId}:${input.personId}`;
+  payFilingFee(api, input.personId, contest, rules.feeMinor, id);
   const filing: FilingRow = {
     id,
     contestId: input.contestId,
@@ -1366,6 +1392,34 @@ export function fileCandidacy(
   // (the voting engine's check, on the announcement): read it back.
   const kept = table(api, "filings").get(id) as unknown as FilingRow;
   return { status: kept.status, filing: kept };
+}
+
+/**
+ * The filing fee leaves the candidate's cash for the treasury of the
+ * government whose office takes the filing, through the money journal, where
+ * the place's law charges one. A world without budgets has no treasury to pay.
+ */
+function payFilingFee(
+  api: CoreAPI,
+  personId: string,
+  contest: ContestRow,
+  feeMinor: number,
+  filingId: string,
+): void {
+  if (feeMinor <= 0 || !api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  const level = contest.level === "township" ? "city" : contest.level;
+  const gov =
+    governments(api).find((row) => row.level === level) ??
+    governments(api).find((row) => row.level === "state");
+  if (!gov) return;
+  payGovernmentFee(api, {
+    id: `filing-fee:${filingId}`,
+    personId,
+    governmentId: gov.organizationId,
+    amountMinor: feeMinor,
+    reasonKey: "elections.filing-fee",
+    citation: `The filing fee the law charges for ${contest.officeId} (data/research/elections/filing-requirements.json).`,
+  });
 }
 
 /** The state a place lies in, from the place records. */

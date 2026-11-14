@@ -27,6 +27,7 @@ import federalBudget from "../../data/research/money/federal-budget-fy2025.json"
 import budgetBases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
+import { transferSplit } from "./accounts";
 import { townOutsideOf } from "./opening-outside-market";
 import type { ModuleRow } from "./module-data";
 import {
@@ -2015,3 +2016,34 @@ export { withholdingFor } from "./tax-withholding";
 
 /** A state's stake in a federal budget line, for the readers outside the budgets family (the country tier). */
 export { stateStake } from "./budget-stakes";
+
+/**
+ * A fee a person pays a government (a filing fee): their cash to the
+ * government's treasury through the money journal, kept as one transfer under
+ * the caller's id. Nothing moves where either account is not on the journal.
+ */
+export function payGovernmentFee(
+  api: CoreAPI,
+  input: {
+    readonly id: string;
+    readonly personId: string;
+    readonly governmentId: string;
+    readonly amountMinor: number;
+    readonly reasonKey: string;
+    readonly citation: string;
+  },
+): void {
+  const from = `cash:${input.personId}:residual`;
+  const to = `cash:${input.governmentId}:residual`;
+  const held = (api.state as CoreState).cashJournal.accounts;
+  if (input.amountMinor <= 0 || !held.has(from) || !held.has(to)) return;
+  transferSplit(api.state as CoreState, api, {
+    id: input.id,
+    lines: [
+      { accountId: from, deltaMinor: -input.amountMinor },
+      { accountId: to, deltaMinor: input.amountMinor },
+    ],
+    reasonKey: input.reasonKey,
+    source: { tag: "SOURCED", asOf: api.state.date, citation: input.citation },
+  });
+}
