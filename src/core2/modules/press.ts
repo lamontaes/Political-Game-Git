@@ -3789,7 +3789,10 @@ export const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline"]);
  * and the town's own state, as its desk does with the wire; a county or town
  * race is not its beat, so it never asks that race's candidates for a sitting.
  */
-function outletCoversContest(outlet: OutletRow, contest: ContestRow): boolean {
+export function outletCoversContest(
+  outlet: OutletRow,
+  contest: ContestRow,
+): boolean {
   return (
     outlet.tier !== "national" ||
     contest.level === "federal" ||

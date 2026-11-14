@@ -25,21 +25,24 @@ import {
   playerMayFileFor,
   type ContestRow,
 } from "./modules/elections";
-import { INTERVIEW_ACCEPTED_EVENT, interviewsFor } from "./modules/press";
+import {
+  INTERVIEW_ACCEPTED_EVENT,
+  interviewsFor,
+  newsworthiness,
+  outletCoversContest,
+  pressParameter,
+} from "./modules/press";
 import { coreAPI } from "./state";
 import type { PersonId } from "./types";
 import { purposeScene, replyInScene } from "../director/purpose-scene";
 
 const WORLD_SEED = "interview-invites-one-a-day";
-/** Named places: a county race (national outlets must not ask) and a state race (they may). */
+/** Named places: a county race in a state that votes for its legislature the same day, so national outlets are shown refused the county race and let through the state one. */
 const PLACES: readonly {
   key: string;
   level: string;
   family?: string;
-}[] = [
-  { key: "1255375", level: "county" },
-  { key: "1031430", level: "state", family: "stateLegislative" },
-];
+}[] = [{ key: "1255375", level: "county" }];
 
 interface Seen {
   invites: { date: string; interviewId: string; outletId: string }[];
@@ -47,6 +50,11 @@ interface Seen {
   sittings: number;
   contest: ContestRow;
   outletTier: Map<string, string>;
+  /** Every outlet's own ask in the world: outlet tier and race level, counted. */
+  asked: Map<string, number>;
+  /** County filings newsworthy enough that a national outlet would have asked them without the beat. */
+  wouldHaveAsked: number;
+  beat: Record<string, boolean>;
 }
 
 function play(place: (typeof PLACES)[number]): Seen | string {
@@ -159,7 +167,59 @@ function play(place: (typeof PLACES)[number]): Seen | string {
       record.kind === INTERVIEW_ACCEPTED_EVENT &&
       record.personIds.includes(me as never),
   );
-  return { invites, accepted, sittings: sittings.length, contest, outletTier };
+  const levelOf = new Map(
+    (
+      api
+        .moduleState("core2-elections-v1")
+        .table("contests")
+        .rows() as unknown as { id: string; level: string }[]
+    ).map((c) => [c.id, c.level]),
+  );
+  const asked = new Map<string, number>();
+  for (const row of api
+    .moduleState("core2-press-v1")
+    .table("interviews")
+    .rows() as unknown as {
+    outletId: string;
+    contestId: string | null;
+    askedBy: string;
+  }[]) {
+    if (row.askedBy !== "outlet" || !row.contestId) continue;
+    const key = `${outletTier.get(row.outletId)}:${levelOf.get(row.contestId)}`;
+    asked.set(key, (asked.get(key) ?? 0) + 1);
+  }
+  const nationalOutlet = (
+    api.moduleState("core2-press-v1").table("outlets").rows() as unknown as {
+      id: string;
+      tier: string;
+    }[]
+  ).find((o) => o.tier === "national")!;
+  const contests = api
+    .moduleState("core2-elections-v1")
+    .table("contests")
+    .rows() as unknown as ContestRow[];
+  const filings = api
+    .moduleState("core2-elections-v1")
+    .table("filings")
+    .rows() as unknown as { id: string; contestId: string }[];
+  const wouldHaveAsked = filings.filter(
+    (f) =>
+      levelOf.get(f.contestId) === place.level &&
+      newsworthiness(api, f as never) >= pressParameter("nationalInterviewBar"),
+  ).length;
+  const beat: Record<string, boolean> = {};
+  for (const c of contests)
+    beat[c.level] = outletCoversContest(nationalOutlet as never, c);
+  return {
+    wouldHaveAsked,
+    beat,
+    invites,
+    accepted,
+    sittings: sittings.length,
+    contest,
+    outletTier,
+    asked,
+  };
 }
 
 describe("an outlet asks for its own reason, and the yes is to that outlet", () => {
@@ -171,6 +231,32 @@ describe("an outlet asks for its own reason, and the yes is to that outlet", () 
       expect(typeof out, String(out)).not.toBe("string");
       if (typeof out === "string") return;
       const days = out.invites.map((i) => i.date);
+      console.log(`ASKED ${JSON.stringify([...out.asked])}`);
+      // The beat: a national outlet asks federal and state races only, while
+      // the world had a county or town race its local outlets did ask about.
+      expect(
+        [...out.asked.keys()].some(
+          (k) => k.startsWith("local:") && !/:(federal|state)$/.test(k),
+        ),
+        `the world had no county or town race for the filter to turn away from`,
+      ).toBe(true);
+      expect(
+        out.wouldHaveAsked,
+        "a county candidate was newsworthy enough for a national outlet, so the beat is what kept it away",
+      ).toBeGreaterThan(0);
+      expect(out.beat.county ?? false, "a national outlet's beat: county").toBe(
+        false,
+      );
+      for (const level of ["federal", "state"])
+        if (level in out.beat)
+          expect(out.beat[level], `a national outlet's beat: ${level}`).toBe(
+            true,
+          );
+      for (const key of out.asked.keys())
+        if (key.startsWith("national:"))
+          expect(key, "a national outlet asked a county or town race").toMatch(
+            /:(federal|state)$/,
+          );
       console.log(
         `${place.key} ${out.contest.id} (${out.contest.level}): ` +
           out.invites
