@@ -149,6 +149,7 @@ import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
 import {
   clockSaid,
   daysSaid,
+  countSaid,
   hoursSaid,
   lateSaid,
   moneySaid,
@@ -1106,7 +1107,7 @@ function jobLost(
     held ? { date: String(held.facts.startedAt), factId: held.id } : null,
     lost.date,
   );
-  if (years) facts.years = { ...years };
+  if (years) facts.years = { ...years, text: countSaid(Number(years.text)) };
   Object.assign(facts, hourlyFact(core, ended.id));
   const seeking = seekingOf(core, speaker.id);
   const reason = seeking && JOB_LOSS_STAGES[seeking.reasonKey];

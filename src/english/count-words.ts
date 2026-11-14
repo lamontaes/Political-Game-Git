@@ -94,6 +94,12 @@ export function hoursSaid(minutes: number): string {
   );
 }
 
+/** A count under ten as people say it aloud ("five"); ten and more stay figures ("12"). */
+export function countSaid(count: number): string {
+  const word = data.clock.numbers[count];
+  return count > 0 && count < 10 && word ? word : String(count);
+}
+
 /** A term of office in years as people say it: "four years". */
 export function termSaid(years: number): string {
   const count = Math.max(1, Math.round(years));

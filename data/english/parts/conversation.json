@@ -41562,7 +41562,8 @@
           "move": "job-lost-answer-hope",
           "subject": "job-lost",
           "role": "answer",
-          "choice": "hope"
+          "choice": "hope",
+          "excludesFacts": ["told-seeking"]
         }
       ],
       "bearing": "curious",
@@ -41580,7 +41581,8 @@
           "move": "job-lost-answer-hope",
           "subject": "job-lost",
           "role": "answer",
-          "choice": "hope"
+          "choice": "hope",
+          "excludesFacts": ["told-seeking"]
         }
       ],
       "bearing": "curious",
