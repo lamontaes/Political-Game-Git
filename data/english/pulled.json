@@ -9,6 +9,7 @@
     "conversation.farewell-leave-bye.all-right-then": ["alright-in-dialogue"],
     "conversation.farewell-leave-bye.well-good-luck": ["no-filler"],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
+    "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
     "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right": [
       "alright-in-dialogue"
     ],

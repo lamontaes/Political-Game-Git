@@ -58,10 +58,12 @@
     "sponsor": "The person who brought the bill a story covers, by name, from the bill's sponsor record (legislature bills).",
     "their_home": "Where the person speaking lives, as a resident says it, from their household record.",
     "their_school": "The school the person speaking went to, or goes to, as its proper name, from their school record.",
-    "their_employer": "The speaker's own employer, from their job record.",
+    "their_employer": "The employer a stranger works for, when the two are at it.",
     "their_years": "How long the speaker has held their job, in whole years with the word (\"seven years\"), from the job's start record.",
     "kin_employer": "Where the speaker's relative works, from the relative's job record.",
-    "kin_home": "Where the speaker's relative lives, from the relative's household record."
+    "kin_home": "Where the speaker's relative lives, from the relative's household record.",
+    "their_name": "A stranger's own first name, as they give it.",
+    "self": "The player's own first name, as the player gives it."
   },
   "maxWords": 10,
   "lineWords": {
@@ -39018,6 +39020,381 @@
       "date": "2026-11-14",
       "tag": {
         "move": "leave"
+      }
+    },
+    {
+      "key": "conversation.here-say-core.we-haven-t-met-i-m-their-name-i-work-here-at-their-employer",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "We haven't met. I'm {their_name}. I work here at {their_employer}.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["working"],
+          "requiresFacts": ["their-name", "their-employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.i-m-their-name-i-work-here",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. I work here.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["working"],
+          "requiresFacts": ["their-name", "their-employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.new-face-i-m-their-name-i-m-with-their-employer",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "New face. I'm {their_name}, I'm with {their_employer}.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["working"],
+          "requiresFacts": ["their-name", "their-employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.i-don-t-think-we-ve-met-i-m-their-name",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I don't think we've met. I'm {their_name}.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["customer"],
+          "requiresFacts": ["their-name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.i-don-t-believe-i-know-you-i-m-their-name",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I don't believe I know you. I'm {their_name}.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["customer"],
+          "requiresFacts": ["their-name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.we-haven-t-met-have-we-i-m-their-name",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "We haven't met, have we? I'm {their_name}.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["customer"],
+          "requiresFacts": ["their-name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.i-m-their-name-i-don-t-think-i-ve-had-the-pleasure",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. I don't think I've had the pleasure.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["customer"],
+          "requiresFacts": ["their-name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.i-m-their-name-i-don-t-think-we-ve-met",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. I don't think we've met.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["street"],
+          "requiresFacts": ["their-name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.you-re-not-somebody-i-ve-met-i-m-their-name",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "You're not somebody I've met. I'm {their_name}.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["street"],
+          "requiresFacts": ["their-name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-answer-name.i-m-self",
+      "move": "here-answer-name",
+      "kind": "spoken",
+      "text": "I'm {self}.",
+      "uses": [
+        {
+          "move": "here-answer-name",
+          "subject": "here",
+          "role": "answer",
+          "choice": "name",
+          "requiresFacts": ["self"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.here-answer-name.self-good-to-meet-you",
+      "move": "here-answer-name",
+      "kind": "spoken",
+      "text": "{self}. Good to meet you.",
+      "uses": [
+        {
+          "move": "here-answer-name",
+          "subject": "here",
+          "role": "answer",
+          "choice": "name",
+          "requiresFacts": ["self"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.here-answer-name.i-m-self-good-to-meet-you-their-name",
+      "move": "here-answer-name",
+      "kind": "spoken",
+      "text": "I'm {self}. Good to meet you, {their_name}.",
+      "uses": [
+        {
+          "move": "here-answer-name",
+          "subject": "here",
+          "role": "answer",
+          "choice": "name",
+          "requiresFacts": ["self", "their-name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.here-back-core.good-to-meet-you-you",
+      "move": "here-back-core",
+      "kind": "spoken",
+      "text": "Good to meet you, {you}.",
+      "uses": [
+        {
+          "move": "here-back-core",
+          "subject": "here-back",
+          "role": "core",
+          "stages": ["name"],
+          "requiresFacts": ["you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-back-core.you-glad-to-know-you",
+      "move": "here-back-core",
+      "kind": "spoken",
+      "text": "{you}. Glad to know you.",
+      "uses": [
+        {
+          "move": "here-back-core",
+          "subject": "here-back",
+          "role": "core",
+          "stages": ["name"],
+          "requiresFacts": ["you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-back",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-back-core.well-you-now-we-ve-met",
+      "move": "here-back-core",
+      "kind": "spoken",
+      "text": "Well, {you}, now we've met.",
+      "uses": [
+        {
+          "move": "here-back-core",
+          "subject": "here-back",
+          "role": "core",
+          "stages": ["name"],
+          "requiresFacts": ["you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md section 2)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-back",
+        "part": "core",
+        "required": true
       }
     }
   ]

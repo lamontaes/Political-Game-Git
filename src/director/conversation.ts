@@ -377,6 +377,8 @@ export interface Conversation {
   topicFacts?: Facts;
   /** The policy questions this talk named (internal): kept as heard today, so a housemate names another. */
   questions?: string[];
+  /** The player gave their name in this talk, so the other may now say it (internal). */
+  nameGiven?: boolean;
   /** The minute of the day the talk is had at, when the caller gave it (internal). */
   minuteOfDay?: number;
   /** The organization whose place the player came to for the talk, when the screen knows it (internal). */
@@ -1899,6 +1901,41 @@ function printedSubject(
   }
 }
 
+/**
+ * What a stranger says first: who they are. Their own name and, where the
+ * two are at the speaker's work, the work; the stage says why the two are in
+ * one place (working there, a customer or visitor, or the street).
+ */
+function introduction(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+  listener: Readonly<PersonState>,
+  work: ReturnType<typeof sayJob>,
+  room: { visitOrganizationId?: string },
+): Subject | null {
+  if (
+    speaker.householdId === listener.householdId ||
+    speaker.familyIds.has(listener.id as PersonId) ||
+    saysName(core, speaker.id as PersonId, listener.id as PersonId)
+  )
+    return null;
+  const facts: Facts = {
+    "their-name": { text: speaker.givenName, sourceRecordIds: [speaker.id] },
+  };
+  let stage = "street";
+  if (room.visitOrganizationId) {
+    stage = "customer";
+    if (work && work.org.id === room.visitOrganizationId) {
+      stage = "working";
+      facts["their-employer"] = {
+        text: work.employer,
+        sourceRecordIds: [work.job.id, work.org.id],
+      };
+    }
+  }
+  return { id: `here:${speaker.id}`, kind: "here", facts, stage };
+}
+
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
 export function subjectsBetween(
   core: Readonly<CoreState>,
@@ -1906,7 +1943,11 @@ export function subjectsBetween(
   listenerId: PersonId,
   director?: Director,
   /** The talk's room and hour (the telling): who else is here, and the minute it is said at. */
-  room: { presentIds?: readonly PersonId[]; minuteOfDay?: number } = {},
+  room: {
+    presentIds?: readonly PersonId[];
+    minuteOfDay?: number;
+    visitOrganizationId?: string;
+  } = {},
 ): Subject[] {
   const speaker = core.people.get(speakerId)!;
   // Someone not in the room is talked about only when something recorded
@@ -2611,6 +2652,10 @@ export function subjectsBetween(
     const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
     if (quiet) out.push(quiet);
   }
+  // A stranger who meets the player says who they are (Words lead, Nov 14,
+  // rules 51, 52 and 56): their own name, and why the two are in one place.
+  const introduces = introduction(core, speaker, listener, mine, room);
+  if (introduces) out.push(introduces);
   // A figure of their own (what they make an hour) told to this listener
   // lately and unchanged since is not said again (lead, Nov 12: Brett states
   // his hourly wage in three of four talks).
@@ -3341,6 +3386,8 @@ function playerFacts(
       workDetail(core, player, mine, { position: "my-position" }),
     );
   }
+  if (last.kind === "here")
+    facts.self = { text: player.givenName, sourceRecordIds: [playerId] };
   // How long the player has worked there; a home answer counts its own years.
   const tenure = last.kind.startsWith("home")
     ? undefined
@@ -3788,6 +3835,15 @@ function askSubject(
     conversation.used.push(subject.id);
     return false;
   }
+  // Nobody asks what they can see (Words lead, rule 52): "Where are you
+  // from?" is for when one of the two is not from here.
+  if (
+    subject.kind === "home" &&
+    core.people.get(otherId)?.placeId === core.people.get(playerId)?.placeId
+  ) {
+    conversation.used.push(subject.id);
+    return false;
+  }
   const kind = askedKind(core, data, otherId, playerId, subject);
   // A small question is asked only when the asker has their own answer to
   // give back (lead, Nov 13).
@@ -4045,27 +4101,36 @@ function tellable(
       row.kind === kind &&
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !!data.otherRaises[row.kind] &&
-      !!(row.kind === POINT
+      !!(row.kind === "here"
         ? composedLine(
             core,
             otherId,
-            POINT,
+            "here-say",
             row.facts,
             row.stage ?? "default",
             `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
           )
-        : words(
-            core,
-            data,
-            otherId,
-            row.kind,
-            "raise",
-            ALL,
-            row.facts,
-            `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
-            row.stage ?? "default",
-            row,
-          )),
+        : row.kind === POINT
+          ? composedLine(
+              core,
+              otherId,
+              POINT,
+              row.facts,
+              row.stage ?? "default",
+              `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
+            )
+          : words(
+              core,
+              data,
+              otherId,
+              row.kind,
+              "raise",
+              ALL,
+              row.facts,
+              `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
+              row.stage ?? "default",
+              row,
+            )),
   );
 }
 
@@ -4107,6 +4172,16 @@ function otherAsks(
       subjects.filter((row) => row.kind === kind && row !== sameWork),
     ),
   ];
+  // A stranger says who they are before asking anything.
+  if (order.includes("here")) {
+    const here = tellable(core, conversation, data, "here");
+    if (
+      here &&
+      !heardNow.has(`${HEARD_SUBJECT}${here.id}`) &&
+      raiseSubject(core, conversation, data, here)
+    )
+      return true;
+  }
   for (const subject of ordered)
     if (askSubject(core, conversation, data, subject)) return true;
   return otherRaises(core, conversation, data, order);
@@ -4166,6 +4241,8 @@ function otherRaises(
  * the quiet day itself.
  */
 const OPENING_ORDER = [
+  // A stranger says who they are first.
+  "here",
   "shared-school",
   "shared-work",
   "own-work",
@@ -5916,7 +5993,9 @@ function saysName(
   core: Readonly<CoreState>,
   otherId: PersonId,
   playerId: PersonId,
+  conversation?: Pick<Conversation, "nameGiven">,
 ): boolean {
+  if (conversation?.nameGiven) return true;
   const other = core.people.get(otherId);
   if (!other?.knownIds.has(playerId)) return false;
   if (other.familyIds.has(playerId)) return true;
@@ -6014,7 +6093,7 @@ function partingLine(
   if (
     named &&
     player?.givenName &&
-    saysName(core, speakerId, conversation.playerId)
+    saysName(core, speakerId, conversation.playerId, conversation)
   ) {
     facts["about-again"] = topic[found!]!;
     facts["player-first"] = {
@@ -6454,6 +6533,7 @@ function sayNow(
       `${eventId}:back`,
       saidParts(conversation, otherId),
     );
+    if (last.kind === "here") conversation.nameGiven = true;
     if (back)
       conversation.lines.push({
         speakerId: otherId,
