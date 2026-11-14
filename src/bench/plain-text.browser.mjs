@@ -103,14 +103,23 @@ async function sheet(tab) {
   await page.locator("#sheet-body").waitFor();
   await page.waitForTimeout(800);
 }
-// A place to start in (PLAIN_TEXT_PLACE_KEY, a place key as drawPlace gives
-// it), to reread a draw a merger reported; otherwise the game draws one.
-const placeKey = process.env.PLAIN_TEXT_PLACE_KEY;
-if (placeKey)
+// The named repro the check runs by default, so it never goes red by draw:
+// Junction City, Georgia (a place key as drawPlace gives it) on its seed.
+// PLAIN_TEXT_PLACE_KEY and PLAIN_TEXT_SEED name another; PLAIN_TEXT_DRAW=1
+// leaves the game to draw both.
+const drawn = process.env.PLAIN_TEXT_DRAW === "1";
+const placeKey =
+  process.env.PLAIN_TEXT_PLACE_KEY ?? (drawn ? undefined : "1342800");
+const seedWanted =
+  process.env.PLAIN_TEXT_SEED ??
+  (drawn ? undefined : "a3b686cb-ba71-4137-957b-a2e414912b99");
+if (placeKey || seedWanted)
   await page.route("**/api/newlife?*", (route) => {
     const url = new URL(route.request().url());
-    if (!url.searchParams.has("placeKey"))
+    if (placeKey && !url.searchParams.has("placeKey"))
       url.searchParams.set("placeKey", placeKey);
+    if (seedWanted && !url.searchParams.has("person"))
+      url.searchParams.set("seed", seedWanted);
     return route.continue({ url: url.toString() });
   });
 let filingWaited = false;
@@ -163,49 +172,63 @@ try {
     await page.waitForTimeout(800);
     await read(`Politics ${name}`, "#sheet");
   }
-  // The filing counter: the first office in Travel that takes filings.
+  // The filing counter: the first office in Travel that takes filings. The
+  // clerk's races each carry their seat line (`.reply-facts`, play.mjs
+  // renderFiling); a talk at the counter without them is another scene, which
+  // is left as a player would before the tile is opened again. A story that
+  // came up on the way (filingWaited) is lived first and the office visited again.
   const counter = async (who, tries = 3) => {
-    await finishTalk(page);
-    await sheet("travel");
-    const go = page.locator(".travel-tile[data-filing]");
-    await go.first().waitFor();
-    let opened = false;
-    for (let i = 0; i < (await go.count()) && !opened; i++) {
-      await go.nth(i).click();
-      const placeGo = page.locator('[data-testid="place-go"]');
-      // The place card draws after its tile is chosen (it loads what the place offers first).
-      if (
-        await placeGo.waitFor({ timeout: 5000 }).then(
-          () => true,
-          () => false,
-        )
-      )
-        await placeGo.click();
-      opened = await page
-        .locator("#talk:not([hidden])")
-        .waitFor({ timeout: 5000 })
-        .then(() => true)
-        .catch(() => false);
-    }
-    assert.ok(opened, "no place in Travel takes filings");
-    // A story on the way plays first: it is lived, and the office is visited again.
-    if (filingWaited && tries > 1) {
+    const race = page.locator("#talk-choices button:has(.reply-facts)");
+    for (let visit = 0; visit < 4; visit += 1) {
       await finishTalk(page);
-      return counter(who, tries - 1);
+      await sheet("travel");
+      const go = page.locator(".travel-tile[data-filing]");
+      await go.first().waitFor();
+      let opened = false;
+      for (let i = 0; i < (await go.count()) && !opened; i++) {
+        await go.nth(i).click();
+        const placeGo = page.locator('[data-testid="place-go"]');
+        // The place card draws after its tile is chosen (it loads what the place offers first).
+        if (
+          await placeGo.waitFor({ timeout: 5000 }).then(
+            () => true,
+            () => false,
+          )
+        )
+          await placeGo.click();
+        opened = await page
+          .locator("#talk:not([hidden])")
+          .waitFor({ timeout: 5000 })
+          .then(() => true)
+          .catch(() => false);
+      }
+      assert.ok(opened, "no place in Travel takes filings");
+      if (filingWaited && tries > 1) {
+        await finishTalk(page);
+        return counter(who, tries - 1);
+      }
+      await read(`Talk box (${who})`, "#talk");
+      // The clerk's scene leads in before the race choices: Continue until they are offered.
+      const choice = page.locator("#talk-choices button").first();
+      const next = page.locator("#talk-next:visible");
+      for (let turn = 0; turn < 12 && !(await choice.count()); turn += 1) {
+        await choice.or(next).first().waitFor();
+        if (await choice.count()) break;
+        await next.click();
+        await read(`Talk box, lead-in (${who})`, "#talk");
+      }
+      if (await race.count()) {
+        await race.first().click();
+        await page.waitForTimeout(600);
+        await read(`Talk box, race picked (${who})`, "#talk");
+        return;
+      }
+      console.log(
+        `At the counter (${who}): another scene, left before the clerk: ${(await page.locator("#talk-choices").innerText()).replace(/\s+/g, " ")}`,
+      );
+      await leaveTalk(page);
     }
-    await read(`Talk box (${who})`, "#talk");
-    // The clerk's scene leads in before the race choices: Continue until they are offered.
-    const choice = page.locator("#talk-choices button").first();
-    const next = page.locator("#talk-next:visible");
-    for (let turn = 0; turn < 12 && !(await choice.count()); turn += 1) {
-      await choice.or(next).first().waitFor();
-      if (await choice.count()) break;
-      await next.click();
-      await read(`Talk box, lead-in (${who})`, "#talk");
-    }
-    await choice.click();
-    await page.waitForTimeout(600);
-    await read(`Talk box, race picked (${who})`, "#talk");
+    assert.fail(`the clerk offered no race in four visits (${who})`);
   };
   // Escape closes the top open thing and opens Options only when nothing is
   // open, so a sheet left open (Travel, after the filing counter) is closed first.
@@ -299,8 +322,8 @@ try {
         await page.locator("#talk-leave").click();
       else if (await page.locator("#talk-next").isVisible())
         await page.locator("#talk-next").click();
-      else if (await page.locator("#talk-choices button").count())
-        await page.locator("#talk-choices button").first().click();
+      else if (await page.locator("#talk-choices button:visible").count())
+        await page.locator("#talk-choices button:visible").first().click();
       else if (await page.locator("#continue").isVisible())
         await page.locator("#continue").click();
       await page.waitForTimeout(500);
