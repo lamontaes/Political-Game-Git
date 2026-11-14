@@ -1144,7 +1144,29 @@
     "firstStep": "Takes effect when it becomes law",
     "stepDate": "Takes effect on",
     "askedCarried": "{name} agreed to carry your bill.",
-    "askedRefused": "{name} declined to carry your bill, and nothing was filed."
+    "askedRefused": "{name} said no to sponsoring your bill, so nothing was filed.",
+    "askedRefusedSaid": "{name} said no to sponsoring your bill, so nothing was filed. \"{words},\" {subject} said.",
+    "askedRefusedBecause": "{name} said no to sponsoring your bill, so nothing was filed: {reason}.",
+    "askedBefore": "You asked {object} once before, on {date}.",
+    "askedBeforeMore": "You have asked {object} before; the last time was {date}.",
+    "askedReasons": {
+      "views": "{subject} doesn't believe in it",
+      "constituents": "the people {subject} represents don't want it",
+      "standing": "{subject} doesn't know you well enough to put {possessive} name on it",
+      "trait": "it isn't the kind of bill {subject} brings",
+      "consistency": "it runs against how {subject} voted last",
+      "party": "{possessive} party's leaders are against it",
+      "wing": "{possessive} wing of the party is against it"
+    },
+    "askedReasonsThey": {
+      "views": "they don't believe in it",
+      "constituents": "the people they represent don't want it",
+      "standing": "they don't know you well enough to put their name on it",
+      "trait": "it isn't the kind of bill they bring",
+      "consistency": "it runs against how they voted last",
+      "party": "their party's leaders are against it",
+      "wing": "their wing of the party is against it"
+    }
   },
   "journal": {
     "title": "My story",
