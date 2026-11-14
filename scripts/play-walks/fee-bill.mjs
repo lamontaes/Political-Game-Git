@@ -1,4 +1,4 @@
-/* global process, URL, console, document, setTimeout, fetch */
+/* global process, URL, console, document */
 // A fee bill as a player meets it (pull request #9308): the Fees and charges list on the draft card, one drafted
 // fee bill and its paper. Writes what the screen says. Run on a fresh bench: node scripts/play-walks/fee-bill.mjs <out-dir>
 // The bill screens (owner, Oct 29: "the layout of all those bill screens needs to be adjusted"):
