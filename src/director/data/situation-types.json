@@ -1195,6 +1195,7 @@
       ],
       "setting": ["public", "venue"],
       "timing": "next-together",
+      "stopsDay": true,
       "causes": [
         {
           "match": {
@@ -1255,6 +1256,7 @@
       ],
       "setting": ["home", "public", "venue"],
       "timing": "next-together",
+      "stopsDay": true,
       "causes": [
         {
           "match": {
@@ -4049,6 +4051,7 @@
       ],
       "setting": ["home"],
       "timing": "at-cause",
+      "stopsDay": true,
       "causes": [
         {
           "match": {
