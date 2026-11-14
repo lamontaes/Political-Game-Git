@@ -107,3 +107,39 @@ Doors outing strip (screen `after-3-doors-1-strip.png`): "Knock on doors · 49 d
 ## Not replayed yet
 
 A refused filing with each new state-rule line, and a petition visit with a confront reply answered by the reworded clerk lines (the Words lead's ask).
+
+## Replayed: refused visits and the clerk's petition scene, as played (Nov 14)
+
+Script `.t47/replay.ts` (not committed): drawn places, real `openBenchFilingVisit` and `chooseAtCounter`, the director's `purposeScene` for the filing scene. The last three lines of each refused visit, then the replies offered.
+
+**already-filed**, Marysville KS, seed 448c075a4e213c0bf1b91ddeb2bd7bb8513fa53c2d53e74d738502cee146c051, Council member:
+
+- Player: I want to run for the Marysville City Council.
+- Clerk: Alright, then. Another one for the council. It's 4 years if you win. No primary, just the one election, November 4. You'd have a seat on the Marysville City Council, voting on the budget and every ordinance that comes before it. The papers are due back June 1.
+- Clerk: Your name's already in for the Marysville City Council. There's nothing more to file.
+- Replies: Thank you.
+
+**residency**, Brookhaven WV, seed cf3f7396c28d3f08a06fb91eb43a60540afadf5cfcea9fbe6545450294372e32, County Commissioner:
+
+- Player: I want to run for county commissioner in District 1.
+- Clerk: Okay then. Another one for the seat. You'd serve 6 years. First comes the primary, May 12, and then the general, November 3. You've got until January 31 to get it all back to me.
+- Clerk: You can only file for county commissioner in District 1 if you live in Brookhaven, West Virginia, and your address has you in lives elsewhere.
+- Replies: Understood. I'll sort it out and come back for the seat.
+
+The residency line ("your address has you in lives elsewhere") is an existing piece with a broken slot fill, not one of the ten new lines; reported to the Words lead.
+
+**minimum-age**, Ocean Pointe HI, seed a5ffa8d5734a07a0348ee2ee0d80a252bf4c3fc16dae156babfdfc81b968b35c, Mayor:
+
+- Player: I want to run for mayor.
+- Clerk: Okay then. Another one for mayor. It's a 2-year term. The primary is August 9, and if you get through that, the general is November 4. It's a county office. You'd answer to everyone in the county, not just Ocean Pointe. It all has to be back to me by June 3.
+- Clerk: You have to be at least 18.
+- Replies: Then running for mayor will have to wait.
+
+**The clerk's petition scene with every reply**, Brookhaven WV, seed cf3f7396…, County Commissioner, needs 2:
+
+- Narrator: Back at the counter, Rebekah Gallagher finds your papers for County Commissioner and pulls one sheet out.
+- Rebekah Gallagher: Next you collect 2 signatures, and I need them by January 31. Have you done this before?
+- (agree) You: I have. I'll have them back before January 31. / Rebekah Gallagher: Good. Go over them before January 31. I only take the ones that hold up.
+- (ask) You: Not really. Can you walk me through a run for County Commissioner? / Rebekah Gallagher: Signatures first. Doors are slow but they work, and a table outside the grocery on a Saturday works faster. Once you're on, it's money and the press. Raise what you can, buy ads in the Brookhaven Enterprise or send mailers, and get to know whoever covers the town there.
+- (confront) You: Who decided County Commissioner takes that many? / Rebekah Gallagher: That's the law's number, not mine, and so is the January 31 deadline.
+- (leave) You: I'll go start knocking on doors in Brookhaven.
