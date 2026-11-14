@@ -153,8 +153,7 @@ import {
   PRESS_STORY_EVENT,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
-import { decisionLean } from "../core2/trait-decisions";
-import { ILLNESS_EVENT, newsSince, recordsSince } from "./life-news";
+import { newsSince } from "./life-news";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
@@ -1669,7 +1668,7 @@ function composeBinding(
     // (Words lead, Nov 14, batch 3); only with nothing recent on record do
     // they have nothing to say.
     if (facts["no-view"]) {
-      const life = doorLifeFacts(core, askerId, askedId);
+      const life = doorLifeFacts(core, askerId);
       if (life) {
         delete facts["no-view"];
         Object.assign(facts, life);
@@ -2037,19 +2036,16 @@ function doorViewFacts(
 
 /**
  * What is going on in a resident's life, said at their door when they hold
- * no view of their own (Words lead, Nov 14, batch 3): the newest of a new
- * job, a baby born at home, a serious illness of their own or of someone in
- * their house, each from a record dated in the last year (and after the
- * world opened, so a job held since then is not new). What a stranger tells
- * a candidate slides with how private it is: work and a baby come out
- * easily; an illness only when the resident is the kind to carry a talk on
- * (the trait engine's `conversation.reply-reach`) or already knows the
- * player. Null with nothing recent.
+ * no view of their own (Words lead, Nov 14, batch 3): the newer of a new job
+ * and a baby born at home, each from a record dated in the last year (and
+ * after the world opened, so a job held since then is not new). Both come
+ * out easily to a stranger. The private kinds (an illness, a death) join
+ * only once each is seen played, and then only when the resident is open or
+ * knows the player (Words lead's rule 2). Null with nothing recent.
  */
 function doorLifeFacts(
   core: Readonly<CoreState>,
   residentId: PersonId,
-  playerId: PersonId,
 ): Record<string, Fact> | null {
   const person = core.people.get(residentId);
   if (!person) return null;
@@ -2058,21 +2054,7 @@ function doorLifeFacts(
     -Math.round(parameter("daysPerMeanYear", core.data.parameters)),
   );
   const since = yearAgo > core.startedAt ? yearAgo : core.startedAt;
-  const home = core.households.get(person.householdId);
   const news = newsSince(core, residentId, since, "");
-  const open =
-    core.relationships.has(
-      residentId < playerId
-        ? `${residentId}:${playerId}`
-        : `${playerId}:${residentId}`,
-    ) ||
-    decisionLean(
-      core,
-      person,
-      "conversation.reply-reach",
-      "carry-on",
-      "keep-short",
-    ) > P.zero;
   const found: { date: string; facts: Record<string, Fact> }[] = [];
   const yes = (ids: readonly string[]): Fact => ({
     text: "yes",
@@ -2081,6 +2063,9 @@ function doorLifeFacts(
   if (news["new-employer"]) {
     const job = news["new-employer"];
     const started = core.jobs.get(job.sourceRecordIds[P.zero] as never);
+    const employer = started
+      ? core.organizations.get(started.organizationId)
+      : undefined;
     // What they do there, as people say a job, for when the player asks.
     const work = started
       ? jobSaidAs(started.title, {
@@ -2092,7 +2077,13 @@ function doorLifeFacts(
       date: (started as { startsAt?: string } | undefined)?.startsAt ?? since,
       facts: {
         "life-new-job": yes(job.sourceRecordIds),
-        "new-employer": job,
+        // The employer is said by name only where people would say it: never
+        // a treasury or the outside account.
+        ...(employer &&
+        !employer.outsideFlow &&
+        employer.kind !== "government-treasury"
+          ? { "new-employer": job }
+          : {}),
         ...(work?.kind === "title"
           ? {
               "new-job-title": {
@@ -2115,27 +2106,6 @@ function doorLifeFacts(
         "new-child": news["new-child"],
       },
     });
-  }
-  if (open) {
-    const own = recordsSince(core, residentId, ILLNESS_EVENT, since).at(P.zero);
-    if (own)
-      found.push({ date: own.date, facts: { "life-ill": yes([own.id]) } });
-    for (const id of home?.memberIds ?? []) {
-      const kin = core.people.get(id as PersonId);
-      if (id === residentId || !kin?.alive) continue;
-      const ill = recordsSince(core, kin.id, ILLNESS_EVENT, since).at(P.zero);
-      if (ill)
-        found.push({
-          date: ill.date,
-          facts: {
-            "life-sick-home": yes([ill.id]),
-            relative: {
-              text: kin.givenName,
-              sourceRecordIds: [kin.id, ill.id],
-            },
-          },
-        });
-    }
   }
   found.sort((a, b) => b.date.localeCompare(a.date));
   return found[P.zero]?.facts ?? null;
