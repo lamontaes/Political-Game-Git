@@ -20,17 +20,17 @@ root: rc2-done-from-records
 checked: sonnet 2026-11-14
 ---
 
-**What.** `src/core2/law-reach-group-b.test.ts` fails in setup, so none of its 32 cases run and the policies it covers (budget lines, a city income tax, the repeal of a graduated tax and more) are proved by nothing. Seen: `npx vitest run src/core2/law-reach-group-b.test.ts` goes green with the cases counted as run, not skipped.
+**What.** `src/core2/law-reach-group-b.test.ts` fails in setup, so none of its 32 cases run and the policies it covers (budget lines, a city income tax, the repeal of a graduated tax and more) are proved by nothing. A policy that changes the law and reaches no one would pass unseen. Seen: `npx vitest run src/core2/law-reach-group-b.test.ts` goes green with the cases counted as run, not skipped.
 
-**Cause.** Measured: place pinned in the test's own setup, run on clean train head 628ff74d: `Error: Module has no registered state.` from `moduleState` (src/core2/module-state.ts:234), reached through `sittingExecutiveOf` (src/core2/modules/budgets.ts:121), `executiveOfCut`, `amendBudget` (budgets.ts:2346) and the test's own `amend` (law-reach-group-b.test.ts:407). `sittingExecutiveOf` reads the offices module (`OFFICES_MODULE_ID`) since #8712 ("A budget line cut names the sitting executive"), and the test's setup installs only laws and budgets (`openLaws`, `openBudgets`, around line 151).
+**Cause.** Measured: command `npx vitest run src/core2/law-reach-group-b.test.ts` in the test's own drawn places and seeds, run on clean train head 628ff74d: `Error: Module has no registered state.` from `moduleState` (src/core2/module-state.ts:234), reached through `sittingExecutiveOf` (src/core2/modules/budgets.ts:121), `executiveOfCut`, `amendBudget` (budgets.ts:2346) and the test's own `amend` (law-reach-group-b.test.ts:407). `sittingExecutiveOf` reads the offices module (`OFFICES_MODULE_ID`) since #8712 ("A budget line cut names the sitting executive"), and the test's setup installs only laws and budgets (`openLaws`, `openBudgets`, around line 151).
 
 **Fix.** Design: install the offices module in the test's setup before budgets, or make `sittingExecutiveOf` return none where the offices module is not installed, as the other readers of optional modules do. Then run the file; a case that still fails for its own reason becomes its own item.
 
 **Time box.** 1 hour for one Sonnet session at low effort. When it runs out, write what was seen in the item and stop.
 
-**Rules.** Never loosen or skip a case to get green. Pinned places and fixed seeds only.
+**Rules.** Wire to the world: the fix makes the cases run through the engines a played world uses, and a case that fails for its own reason is filed, never loosened or skipped. One rule, all 56 places: the cases that draw places keep drawing them and name each place and seed.
 
-**Done when.** A second session, not the builder, runs the file on main and sees its cases run (none skipped by a setup error), with the result of each case named.
+**Done when.** A second session, not the builder, runs `npx vitest run src/core2/law-reach-group-b.test.ts` on main and sees its cases run with none skipped by a setup error, in a drawn place and seed each case names, with the result of each case named by record id where it writes one.
 
 **Waits on.** Nothing.
 
