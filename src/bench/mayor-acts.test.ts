@@ -70,5 +70,5 @@ describe.each(PINNED)("a mayor's free days ($name)", ({ at, name }) => {
     // No one act is the whole office: the cadence follows the intervals.
     for (const [kind, n] of kinds)
       expect(n / total, `${kind}: ${note}`).toBeLessThan(0.7);
-  }, 300000);
+  }, 60_000);
 });
