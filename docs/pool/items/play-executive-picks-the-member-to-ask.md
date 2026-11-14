@@ -5,7 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
+claimed-by: claude/play-player-picks-the-member-to-ask
+branch: claude/play-player-picks-the-member-to-ask
+pr: 0
 standard: 2
 after: play-bill-ask-no-is-kept-with-its-reason-and-date
 blocked-on:

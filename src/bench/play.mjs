@@ -3432,6 +3432,32 @@ async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const parts = await officeParts();
   const draftNodes = [];
+  // Who to ask to carry an executive's bill: the members, likeliest yes first and marked; a press
+  // asks that member (`/api/seat/act` with `memberId`).
+  const chooseMember = async (body, params) => {
+    const options = await api(
+      `/api/seat/ask-options?${new URLSearchParams(params)}`,
+    );
+    $("sheet-body").replaceChildren(
+      plate(
+        null,
+        line(controls.seat.askWho),
+        ...options.members.map((member) => {
+          const pick = makeButton({
+            className: "action",
+            textContent: member.likely
+              ? `${member.name} · ${controls.seat.askLikely}`
+              : member.name,
+          });
+          pick.dataset.act = "ask-member";
+          pick.addEventListener("click", () =>
+            act({ ...params, memberId: member.key }),
+          );
+          return pick;
+        }),
+      ),
+    );
+  };
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
@@ -3539,7 +3565,7 @@ async function seatRows() {
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
         ];
-        act({
+        const params = {
           kind: "draft",
           officeId: body.officeId,
           ...(kind === "series"
@@ -3564,7 +3590,11 @@ async function seatRows() {
                   ? String(Math.round(Number(typed) * 100))
                   : typed,
               }),
-        });
+        };
+        // An executive's bill goes through a member the player picks: the body's members, the
+        // one the engine would ask marked as the likely yes.
+        if (body.byRequest) chooseMember(body, params);
+        else act(params);
       },
     });
     // The body's line on the board: who sits on it, and the way in to writing

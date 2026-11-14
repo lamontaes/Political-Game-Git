@@ -1153,6 +1153,8 @@
     "askedRefused": "{name} said no to sponsoring your bill, so nothing was filed.",
     "askedRefusedSaid": "{name} said no to sponsoring your bill, so nothing was filed. \"{words},\" {subject} said.",
     "askedRefusedBecause": "{name} said no to sponsoring your bill, so nothing was filed: {reason}.",
+    "askWho": "Who do you ask to carry it?",
+    "askLikely": "most likely to say yes",
     "askedBefore": "You asked {object} once before, on {date}.",
     "askedBeforeMore": "You have asked {object} before; the last time was {date}.",
     "askedReasons": {
