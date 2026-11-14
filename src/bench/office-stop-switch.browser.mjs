@@ -1,4 +1,4 @@
-/* global process, URL, console, document */
+/* global process, URL, URLSearchParams, console, document */
 // Your office's stop switches (owner's card, Nov 14, 2026, "Stop me at every vote"): steps in as a
 // member of a body, switches "Meetings of your body" Off on Politics, Your office, plays on past a
 // meeting day without a meeting holding the clock, and reads the absent row; with it On, a meeting
@@ -103,7 +103,6 @@ try {
     await page.keyboard.press("Escape");
     await page.waitForTimeout(400);
   };
-  const meetingOpen = () => visible("meeting");
   const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
   /**
    * Play `days` days through the advance route as the Day button does, answering every stop with
