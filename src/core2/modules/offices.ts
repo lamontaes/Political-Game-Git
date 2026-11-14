@@ -1969,6 +1969,7 @@ const ticketPlaces = (
           executives?: {
             key: string;
             electedWithGovernorOnTicket?: boolean;
+            ticketJoins?: { stage: GovernorTicketStage };
           }[];
         }
       | undefined
@@ -1989,5 +1990,26 @@ export function electedWithGovernorOnTicket(
   return (
     ticketPlaces[stateKey]?.executives?.find((e) => e.key === kind)
       ?.electedWithGovernorOnTicket === true
+  );
+}
+
+/**
+ * When a ticket office joins its governor's ticket, by the state's law: the
+ * governor candidate files with a running mate ("at-filing"), the governor
+ * nominee names one after the primary ("after-primary"), or the office wins
+ * a primary of its own and runs on the ticket in the general election
+ * ("separate-primary"). Null for an office the law elects on its own.
+ */
+export type GovernorTicketStage =
+  "at-filing" | "after-primary" | "separate-primary";
+
+export function governorTicketStage(
+  stateKey: string,
+  kind: string,
+): GovernorTicketStage | null {
+  if (!electedWithGovernorOnTicket(stateKey, kind)) return null;
+  return (
+    ticketPlaces[stateKey]?.executives?.find((e) => e.key === kind)?.ticketJoins
+      ?.stage ?? "at-filing"
   );
 }

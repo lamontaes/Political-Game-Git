@@ -1801,6 +1801,54 @@ function playAsks({ asked, summary, scene }) {
   };
   step(0);
 }
+/**
+ * A governor's race that carries the office the law elects on its ticket: the running mate
+ * once named, else the people of the player's party the world's own pick ranks, best first, to
+ * choose from, and Choose for me for the world's pick (owner, Nov 14).
+ */
+function ticketSection(filing, ticket) {
+  const words = controls.runningMate ?? {};
+  const title = words.title.replace("{office}", ticket.office);
+  if (ticket.mate) return stripSection(1, title, introText(ticket.mate.name));
+  if (!ticket.choices.length)
+    return stripSection(
+      1,
+      title,
+      introText(ticket.joinsAfterPrimary ? words.nominee : words.later),
+    );
+  let picked = ticket.choices[0].id;
+  const choose = async (personId) => {
+    await post(
+      `/api/campaign/running-mate?${new URLSearchParams({ filingId: filing.id, ...(personId ? { personId } : {}) })}`,
+    );
+    await openSheet("campaigns");
+  };
+  return stripSection(
+    1,
+    title,
+    select({
+      options: ticket.choices.map((c) => ({
+        value: c.id,
+        label: c.job ? `${c.name} · ${c.job}` : c.name,
+      })),
+      onChange: (value) => {
+        picked = value;
+      },
+    }),
+    buttonRow(
+      makeButton({
+        className: "action primary",
+        textContent: words.choose,
+        onclick: () => choose(picked),
+      }),
+      makeButton({
+        className: "action",
+        textContent: words.own,
+        onclick: () => choose(null),
+      }),
+    ),
+  );
+}
 async function campaignParts() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const parts = [];
@@ -1814,6 +1862,7 @@ async function campaignParts() {
     standing,
     debates,
     pictures,
+    runningMate,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
       const kindOf = {
@@ -2097,6 +2146,7 @@ async function campaignParts() {
             controls.raceStanding.title,
             ...(standing ?? []).map((text) => introText(text)),
           ),
+          ...(runningMate ? [ticketSection(filing, runningMate)] : []),
         ],
         [
           stripSection(

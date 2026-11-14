@@ -55,7 +55,8 @@ import { campaignAnswer } from "../director/campaign-answer";
 import { spokenDate as dateSaid } from "../director/words";
 import { seatSaid } from "../english/journal-words";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { filingDeadlineFor } from "../core2/modules/elections";
+import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
+import { chooseRunningMate, runningMateChoice } from "../core2/modules/voting";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
@@ -203,6 +204,8 @@ export function campaignView(core: CoreState, personId: string) {
         }),
         // The picture on each of the trail's other tiles (the asks, the money, the speech, a debate).
         pictures,
+        // A governor's race that carries the office the law elects on its ticket: who runs with them.
+        runningMate: ticketView(api, core, filing.id),
         // Debates the outlet has invited the candidates to, waiting for their answers.
         debates: debatesIn(api, filing.contestId)
           .filter((row) => row.status === "invited")
@@ -214,6 +217,67 @@ export function campaignView(core: CoreState, personId: string) {
           })),
       };
     }),
+  };
+}
+
+/** The player names their running mate on one of their own filings; the campaigns as they stand after. */
+export function runningMatePicked(
+  core: CoreState,
+  personId: string,
+  filingId: string,
+  pick: string | null,
+) {
+  const api = coreAPI(core);
+  const filing = api
+    .moduleState(ELECTIONS)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  if (filing?.personId !== personId)
+    throw new Error("That isn't one of your races.");
+  chooseRunningMate(api, filingId, pick);
+  return campaignView(core, personId);
+}
+
+/**
+ * A governor candidate's ticket as the campaign board shows it: the office on
+ * it, the running mate by name once named, else the people of their party to
+ * choose from (each with the seat they hold now), and when the ticket forms
+ * where it is not yet the candidate's to name. Null for a race with no ticket.
+ */
+function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
+  const ticket = runningMateChoice(api, filingId);
+  if (!ticket) return null;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const nameOf = (id: string) => {
+    const person = core.people.get(id as PersonId);
+    return person ? `${person.givenName} ${person.familyName}` : null;
+  };
+  const jobOf = (seatId: string | null) => {
+    if (!seatId) return null;
+    const seat = offices.table("seats").get(seatId) as unknown as
+      { officeId: string; district: string | null } | undefined;
+    const office = seat
+      ? (offices.table("offices").get(seat.officeId) as unknown as
+          { title: string } | undefined)
+      : undefined;
+    return office ? raceTitle(office.title, seat!.district) : null;
+  };
+  const contest = api
+    .moduleState(ELECTIONS)
+    .table("contests")
+    .get(ticket.ticketContestId) as unknown as ContestRow;
+  const mateName = ticket.mateId ? nameOf(ticket.mateId) : null;
+  return {
+    office: ticket.office,
+    mate: ticket.mateId ? { id: ticket.mateId, name: mateName } : null,
+    // Where the state's law has the office win a primary of its own, its
+    // party's nominee joins the ticket; otherwise the candidate names one.
+    joinsAfterPrimary: ticketStageOf(api, contest) === "separate-primary",
+    choices: ticket.choices.map((c) => ({
+      id: c.id,
+      name: c.name,
+      job: jobOf(c.seatId),
+    })),
   };
 }
 

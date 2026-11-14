@@ -493,6 +493,8 @@
     "leaveBlank": "Leave blank",
     "leave": "Leave",
     "forRace": "For {title}",
+    "forTicket": "For {title} and {ticket}",
+    "ticket": "{name} and {mate}",
     "know": "What I know about them"
   },
   "meeting": {
@@ -1291,6 +1293,13 @@
     "groupSpeak": "Speak",
     "debate": "Debate",
     "speech": "Give a speech"
+  },
+  "runningMate": {
+    "title": "Running mate for {office}",
+    "choose": "Choose",
+    "own": "Choose for me",
+    "later": "You name your running mate after the primary",
+    "nominee": "Your party's nominee joins your ticket after the primary"
   },
   "nominations": {
     "own": "Decided for me",
