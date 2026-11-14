@@ -30,4 +30,6 @@ source: follow-up to #9022 and #9076 (Account lead T46, Nov 14); filed by hand o
 
 **Done when.** A second session sees it in the running game: at a drawn board with a committee stage, a resident sees Speak and the "You can speak" line, speaks, and the next morning the members know them; at a small board nothing differs.
 
+**Waits on.** meetings-resident-remark-reaches-a-committee-board (#9076, on the train)
+
 **Files.** src/bench/office.ts, src/bench/play.mjs, src/bench/meeting-attend.test.ts
