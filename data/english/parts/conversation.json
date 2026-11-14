@@ -13416,27 +13416,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.charge-say-reason.they-set-bail-at-bail",
-      "move": "charge-say-reason",
-      "kind": "spoken",
-      "text": "They set bail at {bail}.",
-      "uses": [
-        {
-          "move": "charge-say-reason",
-          "subject": "charge-say",
-          "role": "reason",
-          "requiresFacts": ["bail"]
-        }
-      ],
-      "piece": {
-        "of": "charge-say",
-        "part": "reason"
-      },
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.conviction-say-core.guilty-of-offense-i-m-going-away-for-term",
       "move": "conviction-say-core",
       "kind": "spoken",
@@ -13446,7 +13425,8 @@
           "move": "conviction-say-core",
           "subject": "conviction-say",
           "role": "core",
-          "requiresFacts": ["offense", "term"]
+          "requiresFacts": ["offense", "term"],
+          "excludesFacts": ["fine"]
         }
       ],
       "piece": {
@@ -13455,30 +13435,6 @@
         "required": true
       },
       "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.conviction-say-core.i-was-convicted-of-offense-the-fine-is-fine",
-      "move": "conviction-say-core",
-      "kind": "spoken",
-      "text": "I was convicted of {offense}. The fine is {fine}.",
-      "uses": [
-        {
-          "move": "conviction-say-core",
-          "subject": "conviction-say",
-          "role": "core",
-          "requiresFacts": ["offense", "fine"],
-          "excludesFacts": ["term", "probation"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
       "origin": "authored",
       "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
       "date": "2026-11-14"
@@ -13541,7 +13497,8 @@
           "move": "conviction-say-core",
           "subject": "conviction-say",
           "role": "core",
-          "requiresFacts": ["contested", "term"]
+          "requiresFacts": ["contested", "term"],
+          "excludesFacts": ["fine"]
         }
       ],
       "piece": {
@@ -14094,30 +14051,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.conviction-reply-back-core.little-by-little",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "Little by little.",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["told-fine"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.conviction-reply-back-core.i-report-soon",
       "move": "conviction-reply-back-core",
       "kind": "spoken",
@@ -14152,31 +14085,6 @@
           "subject": "conviction-reply-back",
           "role": "core",
           "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.conviction-reply-back-core.it-s-only-money",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "It's only money.",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["comfort"],
-          "requiresFacts": ["told-fine"],
-          "excludesFacts": ["told-term", "told-probation"]
         }
       ],
       "piece": {
@@ -14517,30 +14425,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.conviction-reply-back-core.pay-and-done",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "Pay and done.",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["told-fine"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.conviction-reply-back-core.probation-then-done",
       "move": "conviction-reply-back-core",
       "kind": "spoken",
@@ -14657,10 +14541,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.charge-say-core.they-re-saying-offense-i-ll-see-them-in-court-trial",
+      "key": "conversation.charge-say-core.they-re-charging-me-with-offense-i-ll-see-them-in-court-trial",
       "move": "charge-say-core",
       "kind": "spoken",
-      "text": "They're saying {offense}. I'll see them in court {trial}.",
+      "text": "They're charging me with {offense}. I'll see them in court {trial}.",
       "uses": [
         {
           "move": "charge-say-core",
@@ -14680,10 +14564,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.charge-say-core.they-re-saying-i-m-guilty-of-offense",
+      "key": "conversation.charge-say-core.they-say-i-m-guilty-of-offense",
       "move": "charge-say-core",
       "kind": "spoken",
-      "text": "They're saying I'm guilty of {offense}.",
+      "text": "They say I'm guilty of {offense}.",
       "uses": [
         {
           "move": "charge-say-core",
@@ -14737,7 +14621,8 @@
           "move": "conviction-say-core",
           "subject": "conviction-say",
           "role": "core",
-          "requiresFacts": ["offense", "term"]
+          "requiresFacts": ["offense", "term"],
+          "excludesFacts": ["fine"]
         }
       ],
       "piece": {
@@ -14760,7 +14645,8 @@
           "move": "conviction-say-core",
           "subject": "conviction-say",
           "role": "core",
-          "requiresFacts": ["offense", "term"]
+          "requiresFacts": ["offense", "term"],
+          "excludesFacts": ["fine"]
         }
       ],
       "piece": {
@@ -14769,54 +14655,6 @@
         "required": true
       },
       "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.conviction-say-core.i-got-fined-fine-for-offense",
-      "move": "conviction-say-core",
-      "kind": "spoken",
-      "text": "I got fined {fine} for {offense}.",
-      "uses": [
-        {
-          "move": "conviction-say-core",
-          "subject": "conviction-say",
-          "role": "core",
-          "requiresFacts": ["offense", "fine"],
-          "excludesFacts": ["term", "probation"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.conviction-say-core.offense-guilty-the-fine-is-fine",
-      "move": "conviction-say-core",
-      "kind": "spoken",
-      "text": "{offense}. Guilty. The fine is {fine}.",
-      "uses": [
-        {
-          "move": "conviction-say-core",
-          "subject": "conviction-say",
-          "role": "core",
-          "requiresFacts": ["offense", "fine"],
-          "excludesFacts": ["term", "probation"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
       "origin": "authored",
       "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
       "date": "2026-11-14"
@@ -14856,7 +14694,7 @@
           "subject": "conviction-say",
           "role": "core",
           "requiresFacts": ["offense", "probation"],
-          "excludesFacts": ["term"]
+          "excludesFacts": ["term", "fine"]
         }
       ],
       "piece": {
@@ -14913,29 +14751,6 @@
         "required": true
       },
       "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.conviction-say-core.they-convicted-me-of-offense-anyway-i-fought-it",
-      "move": "conviction-say-core",
-      "kind": "spoken",
-      "text": "They convicted me of {offense} anyway. I fought it.",
-      "uses": [
-        {
-          "move": "conviction-say-core",
-          "subject": "conviction-say",
-          "role": "core",
-          "requiresFacts": ["offense", "contested"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
       "date": "2026-11-14"
@@ -45482,6 +45297,289 @@
         "part": "core",
         "required": true
       }
+    },
+    {
+      "key": "conversation.charge-say-reason.they-set-bail-it-s-more-than-i-have",
+      "move": "charge-say-reason",
+      "kind": "spoken",
+      "text": "They set bail. It's more than I have.",
+      "uses": [
+        {
+          "move": "charge-say-reason",
+          "subject": "charge-say",
+          "role": "reason",
+          "requiresFacts": ["bail", "bailOver"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "charge-say",
+        "part": "reason",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.charge-say-reason.they-set-bail-i-can-cover-it",
+      "move": "charge-say-reason",
+      "kind": "spoken",
+      "text": "They set bail. I can cover it.",
+      "uses": [
+        {
+          "move": "charge-say-reason",
+          "subject": "charge-say",
+          "role": "reason",
+          "requiresFacts": ["bail", "bailCovered"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "charge-say",
+        "part": "reason",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.charge-reply-answer-bail.how-much",
+      "move": "charge-reply-answer-bail",
+      "kind": "spoken",
+      "text": "How much?",
+      "uses": [
+        {
+          "move": "charge-reply-answer-bail",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "bail",
+          "requiresFacts": ["bail"]
+        },
+        {
+          "move": "conviction-reply-answer-fine",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "fine",
+          "requiresFacts": ["fine"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.bail",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "{bail}.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["bail"],
+          "requiresFacts": ["bail"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-reply-back-core.fine",
+      "move": "conviction-reply-back-core",
+      "kind": "spoken",
+      "text": "{fine}.",
+      "uses": [
+        {
+          "move": "conviction-reply-back-core",
+          "subject": "conviction-reply-back",
+          "role": "core",
+          "stages": ["fine"],
+          "requiresFacts": ["fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-got-term-and-a-fine-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I got {term} and a fine for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.they-sentenced-me-to-term-and-a-fine-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "They sentenced me to {term} and a fine for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-got-probation-of-probation-and-a-fine-for-offense",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I got {probation} of probation and a fine for {offense}.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation", "fine"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.guilty-of-offense-probation-for-probation-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "Guilty of {offense}. Probation for {probation}, and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation", "fine"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead rulings on #9190, Nov 14: fact first, figure when asked)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.guilty-of-offense-i-m-going-away-for-term-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "Guilty of {offense}. I'm going away for {term}, and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.i-was-convicted-of-offense-i-got-probation-of-probation-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "I was convicted of {offense}. I got {probation} of probation, and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["offense", "probation", "fine"],
+          "excludesFacts": ["term"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.conviction-say-core.they-didn-t-believe-me-i-got-term-and-a-fine",
+      "move": "conviction-say-core",
+      "kind": "spoken",
+      "text": "They didn't believe me. I got {term}, and a fine.",
+      "uses": [
+        {
+          "move": "conviction-say-core",
+          "subject": "conviction-say",
+          "role": "core",
+          "requiresFacts": ["contested", "term", "fine"]
+        }
+      ],
+      "piece": {
+        "of": "conviction-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
+      "date": "2026-11-14"
     }
   ]
 }

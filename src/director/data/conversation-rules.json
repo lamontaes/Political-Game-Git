@@ -571,9 +571,7 @@
       "offense",
       "plea",
       "trial",
-      "bail",
-      "probation",
-      "fine"
+      "probation"
     ],
     "answersBack": ["charge-reply", "conviction-reply", "acquittal-reply"]
   },

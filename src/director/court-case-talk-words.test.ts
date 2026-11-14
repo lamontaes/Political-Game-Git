@@ -46,7 +46,7 @@ describe("a court case told through the composer", () => {
   it("tells a conviction with the sentence it carries", () => {
     for (const [mark, text] of [
       [{ term: fact("eight months") }, "eight months"],
-      [{ fine: fact("about $5,000") }, "about $5,000"],
+      [{ term: fact("a month"), fine: fact("about $5,000") }, "a fine"],
       [{ probation: fact("two years") }, "two years"],
     ] as const)
       expect(say("conviction-say", { ...OFFENSE, ...mark })!.text).toContain(
@@ -77,7 +77,7 @@ describe("a court case told through the composer", () => {
         ["ask", "comfort", "blame"],
         [
           told(["offense", "term"]),
-          told(["offense", "fine"]),
+          { ...told(["offense", "term"]), fine: fact("ZZFINE") },
           told(["offense", "probation"]),
         ],
       ],
@@ -129,5 +129,27 @@ describe("a court case told through the composer", () => {
     expect(say("conviction-reply-back", facts, "blame")!.text).toContain(
       "I'm sorry",
     );
+  });
+
+  it("says what bail and a fine mean first, and the sum only when asked", () => {
+    const told = say("charge-say", {
+      ...OFFENSE,
+      trial: fact("March 4"),
+      bail: fact("about $10,000"),
+      bailOver: fact("yes"),
+    });
+    expect(told!.text).not.toContain("$");
+    const fined = say("conviction-say", {
+      ...OFFENSE,
+      term: fact("a month"),
+      fine: fact("about $5,000"),
+    });
+    expect(fined!.text).not.toContain("$");
+    const asked = say(
+      "conviction-reply-back",
+      { fine: fact("about $5,000"), you: fact("Dad") },
+      "fine",
+    );
+    expect(asked!.text).toContain("$5,000");
   });
 });

@@ -1299,9 +1299,14 @@ function caseFacts(
     `justice.pretrial:${row.id}` as never,
   ) as { facts?: Readonly<Record<string, string>> } | undefined;
   if (pretrial?.facts?.decision === "held") facts.held = fact("yes");
-  else if (Number(pretrial?.facts?.bailMinor) > zero)
-    // Bail and fine are said as people say money (Words lead, Nov 14).
-    facts.bail = fact(moneySaid(Number(pretrial!.facts!.bailMinor)));
+  else if (Number(pretrial?.facts?.bailMinor) > zero) {
+    const bailMinor = Number(pretrial!.facts!.bailMinor);
+    facts.bail = fact(moneySaid(bailMinor));
+    // Said first as what it means to them (the person's own cash against it);
+    // the sum is said only when asked (Words lead, rule 104, Nov 14).
+    const cash = core.people.get(row.defendantId)?.liquidMinor ?? zero;
+    facts[cash >= bailMinor ? "bailCovered" : "bailOver"] = fact("yes");
+  }
   const sentence = row.sentenceId
     ? (api.table("sentences").get(row.sentenceId) as
         | {
