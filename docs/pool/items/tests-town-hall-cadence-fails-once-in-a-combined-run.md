@@ -23,7 +23,7 @@ checked:
 
 **Cause.** Needs cause. The first assertion that failed and the place were not captured (only the test name was). Candidate: one world reaching another in the same process (open question); the mayor-acts change adds no per-process state beyond the idempotent assignment of its reason provider into `OFFICE_DAY_MODULE.reasonProviders` in `openOfficeDay`, the same pattern as the existing offer providers and handlers.
 
-**Fix.** Re-run the exact command in a loop with the output kept until it fails, record the assertion and place, then find what carries between the worlds.
+**Fix.** None until the cause is found.
 
 **Time box.** 2 hours.
 
