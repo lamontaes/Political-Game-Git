@@ -158,6 +158,9 @@ export function townMetrics(api: CoreAPI) {
     if (h.unplacedWorkers > 0 && !outsideLaborForce(h.quarters))
       at(h.placeId).residentsEmployed +=
         h.unplacedWorkers * rt!.store.weightOf(h);
+  // Whole residents, the figure the rate and the tab both read.
+  for (const row of places.values())
+    row.residentsEmployed = Math.round(row.residentsEmployed);
   // Eviction orders (judgments) in the month before this one, by where the household lives.
   const lastMonth = addDays(makeIsoDate(`${month}-01`), -1).slice(
     0,
@@ -262,7 +265,7 @@ export function townMetrics(api: CoreAPI) {
         placeId,
         date: c.date,
         employed: row.employed,
-        residentsEmployed: Math.round(row.residentsEmployed),
+        residentsEmployed: row.residentsEmployed,
         unemployed: row.unemployed,
         unemploymentRate:
           // Residents who are out of work over residents in the labor force:
