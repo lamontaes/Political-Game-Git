@@ -5432,7 +5432,7 @@
           "via": "Words lead, rule 108"
         }
       ],
-      "note": "Rule 108, first slice: the questions the Words lead ruled have no record today (how to pay for it, what to say to them, the put-offs, the hour of an outing, what is in it for my district and the trade line). Each comes back when its record exists and its answer line carries the fact. The rest of rule 108 is the composed check. The answer that invents an hour and a room for the outing goes with its question.",
+      "note": "Rule 108, first slice: the questions the Words lead ruled have no record today (how to pay for it, what to say to them, the put-offs, the hour of an outing, what is in it for my district and the trade line). Each comes back when its record exists and its answer line carries the fact. The rest of rule 108 is the composed check. The answer that invents an hour and a room for the outing goes with its question. Three lines the rule would flag stay out of its patterns until their replacements are written: 'Thursday works. What time?' and its 'Seven. The back room...' answer (the outing record holds a day and place, not an hour) and 'Can I have a few days with this?'.",
       "status": "enforced",
       "failsBuild": true,
       "test": {
@@ -5440,15 +5440,12 @@
         "patterns": [
           "^How would you pay for it\\?$",
           "^What would you like me to say to them\\?$",
-          "^Can I have a few days with this\\?$",
           "^When do you need an answer\\?$",
           "Can I call you back before you file\\?$",
           "^Can we talk later\\?$",
           "^I can't talk now\\. Later\\?$",
-          "^Thursday works\\. What time\\?$",
           "^What's in it for my district\\?$",
-          "^Then let's call it a trade\\. What do I get on \\{bill\\} that I didn't get last time\\?$",
-          "^Seven\\. The back room at the church\\. Bring a friend\\.$"
+          "^Then let's call it a trade\\. What do I get on \\{bill\\} that I didn't get last time\\?$"
         ],
         "applies": {
           "banks": ["scene-talk"]

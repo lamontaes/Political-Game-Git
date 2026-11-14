@@ -4505,38 +4505,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.what-s-in-it-for-my-district",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "What's in it for my district?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.reply-bargain.i-ll-carry-it-if-you-ll-help-me-find-the-votes",
       "move": "reply-bargain",
       "kind": "spoken",
@@ -15023,40 +14991,6 @@
       "tag": {
         "move": "plea",
         "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-bargain.i-ll-make-sure-your-district-comes-first-in-the-next-budget",
-      "move": "follow-bargain",
-      "kind": "spoken",
-      "text": "I'll make sure your district comes first in the next budget.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
       }
     },
     {
@@ -70685,30 +70619,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.how-would-you-pay-for-it",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How would you pay for it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "vote-wanted",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "ask",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.you-ve-got-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
@@ -82005,29 +81915,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.when-do-you-need-an-answer",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "When do you need an answer?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "invite-debate",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-stall.let-me-think-it-over-and-call-you-back",
       "move": "reply-stall",
       "kind": "spoken",
@@ -82823,29 +82710,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-can-t-talk-now-later",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I can't talk now. Later?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.let-s-talk-another-time",
       "move": "reply-leave",
       "kind": "spoken",
@@ -83622,29 +83486,6 @@
       "move": "reply-leave",
       "kind": "spoken",
       "text": "I need to go. Thanks, though.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "leave",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.can-we-talk-later",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Can we talk later?",
       "uses": [
         {
           "subject": "scene",
@@ -125121,30 +124962,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-want-to-check-one-number-first-can-i-call-you-back-before-you-file",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "I want to check one number first. Can I call you back before you file?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "press-comment.friendly",
-          "key": "routine"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, press-comment variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "stall",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.the-roll-call-is-public-start-there-then-ask-me-what-it-leaves-out",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -130276,31 +130093,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "refuse",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.then-let-s-call-it-a-trade-what-do-i-get-on-bill-that-i-didn-t-get-last-time",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Then let's call it a trade. What do I get on {bill} that I didn't get last time?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "ask-vote.trade",
-          "key": "vote-wanted",
-          "requiresFacts": ["bill"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "bargain",
         "key": "vote-wanted"
       }
     },
@@ -144790,29 +144582,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-would-you-like-me-to-say-to-them",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What would you like me to say to them?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "gathering-ask",
-          "key": "loss"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
         "key": "loss"
       }
     },
