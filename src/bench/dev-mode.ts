@@ -1374,8 +1374,8 @@ export class DevMode {
       .find((row) => row.key === typeKey)
       ?.causes?.some(
         (cause) =>
-          cause.match.label === "feeling:event:health.serious-illness" &&
-          cause.match.counterpart === "some",
+          cause.match?.label === "feeling:event:health.serious-illness" &&
+          cause.match?.counterpart === "some",
       );
     if (!aboutOther) return player.id;
     const home = this.core.households.get(player.householdId);

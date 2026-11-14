@@ -37,14 +37,15 @@ export function moveInFacts(
     asked,
     core.playerId ?? undefined,
   );
-  if (order?.[0].id === askerId)
+  const [mover] = order ?? [];
+  if (mover?.id === askerId)
     facts["asker-moves"] = {
       text: asker.givenName,
       sourceRecordIds: [causeId, askerId, askedId],
     };
-  const relative = [...asked.familyIds]
+  const [relative] = [...asked.familyIds]
     .filter((id) => id !== askerId && core.people.get(id)?.alive)
-    .sort()[0];
+    .sort();
   if (relative)
     facts["asked-has-family"] = {
       text: core.people.get(relative)!.givenName,

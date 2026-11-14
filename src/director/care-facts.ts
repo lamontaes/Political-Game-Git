@@ -41,7 +41,7 @@ export function careFacts(
   if (!ill?.alive || !asked || ill.placeId !== asked.placeId) return {};
   // The relative of theirs who does not live with them and is closest to
   // them: the one they would want told first.
-  const relative = [...ill.familyIds]
+  const [relative] = [...ill.familyIds]
     .filter((id) => id !== askedId)
     .map((id) => core.people.get(id))
     .filter(
@@ -50,7 +50,7 @@ export function careFacts(
     )
     .map((row) => ({ row, close: closenessBetween(core, ill.id, row.id) }))
     .sort((a, b) => b.close - a.close || a.row.id.localeCompare(b.row.id))
-    .at(0)?.row;
+    .map((row) => row.row);
   if (!relative) return {};
   return {
     relative: {
