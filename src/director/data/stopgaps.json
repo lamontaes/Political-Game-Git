@@ -1121,5 +1121,17 @@
     "addedAt": "2026-11-12",
     "replacement": "Talk reads the budget, benefits and tax engines' records of whom a changed line reached, and a speaker it reached gives that as their reason.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-eviction-help-spends-no-day",
+    "kind": "partial-model",
+    "file": "src/director/conversation.ts",
+    "line": 6843,
+    "whatItFakes": "A player who answers an evicted relative's telling with the offer of help moving (\"Need help moving?\") and hears \"Sure\" spends hours together on the tie (contact) but no day of their own: the talk engine has no way to spend the player's time on another day.",
+    "why": "Words lead ruling, Nov 14, 2026: smallest true version is contact on the tie through the writer scenes use; do not build a new time system.",
+    "addedBy": "Account lead S1 (#8924 carry)",
+    "addedAt": "2026-11-14",
+    "replacement": "When the talk engine can place a block of the player's time on a day (the scheduling engine), the help takes it and the day shows in the player's calendar.",
+    "status": "open"
   }
 ]
