@@ -2360,20 +2360,36 @@
         "docs/research/dialogue/ (how games write dialogue), rule 7",
         "docs/research/dialogue/ (how games write dialogue), rule 8"
       ],
-      "note": "Stays judged: its catches turn on the speaker's age, job and tie to the listener and on the occasion; a use carries the tie only in sittings (`stranger`, `acquainted`), and no tag holds the speaker's age or job.",
+      "note": "Judged in each spot (words machine part 2), narrowed by the Words lead (Nov 14) to openers and statements by speakers who are not household or kin, and conversation openers outside kin; replies are judged with what they answer (part 3). The speaker, listener, setting and tie are on each use; age and job are read by the reviewer from the speaker role. Awaits its first verdicts.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
-      "applies": {
-        "banks": [
-          "scene-talk",
-          "conversation",
-          "bring-it-up",
-          "hearing",
-          "opening-speech"
-        ]
-      },
+      "applies": [
+        {
+          "banks": ["scene-talk"],
+          "uses": {
+            "has": {
+              "step": "^(open|state)$",
+              "speaker": "."
+            },
+            "lacks": {
+              "speakerFill": "^(household|household-stake|kin|kin-visiting)$"
+            }
+          }
+        },
+        {
+          "banks": ["conversation"],
+          "uses": {
+            "has": {
+              "role": "^(open|opener|raise)$"
+            },
+            "lacks": {
+              "tie": "^kin$"
+            }
+          }
+        }
+      ],
       "catches": [
         "I'm a no, and I'll say why to anyone who asks.",
         "Where'd you drive in from?",
@@ -4735,14 +4751,20 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "note": "Awaits a tag: whether the speaker can keep a promise depends on who they are (a lobbyist can call a stranger's office, a shopper cannot), and no tag holds the speaker's means.",
+      "note": "Judged in each spot (words machine part 2): every scene-talk promise where the director names who says it to whom and where (the use tags speaker, listener, setting, tie). The speaker's means (a lobbyist can call an office, a shopper cannot) is read by the reviewer from those tags; awaits its first verdicts.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
       "applies": {
         "banks": ["scene-talk"],
-        "moves": "promise"
+        "moves": "promise",
+        "uses": {
+          "has": {
+            "speaker": ".",
+            "listener": "."
+          }
+        }
       }
     },
     {
@@ -4822,7 +4844,7 @@
           "via": "words.md"
         }
       ],
-      "note": "Awaits a tag: it needs the speaker's crudeness and whether the room is private, and no use carries either; no bank line swears today.",
+      "note": "Awaits a list of words: the use tags now say where a scene is set (setting: home, phone, other-home are private) and the register cards say where swearing is never allowed (speech-registers.ts), but no bank line swears today and the speaker's crudeness is a trait read at play time; the Words lead writes the word list with the first line that swears.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -5058,14 +5080,20 @@
           "via": "docs/coordination/OWNER-DECISIONS.md, Oct 16 batch 15 review; also data/english/grades/voice-notes-batches-11-19.json, note on scene-talk.reply-deflect.you-ll-have-to-ask-the-chair"
         }
       ],
-      "note": "Stays judged: whether a line fits who is in the situation is a reading of the roles; a race-told use marks a listener who ran (`you-ran`), but no tag on a use says whether a vote the line sends elsewhere is the speaker's own.",
+      "note": "Judged in each spot (words machine part 2): the use tags name who says the line to whom (a member sending a reporter to the chair, a relative telling the player a result); whether a vote the line sends elsewhere is the speaker's own is read from those roles by the reviewer. Awaits its first verdicts.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
       "applies": {
         "banks": ["scene-talk"],
-        "moves": "apologize|deflect|stall"
+        "moves": "apologize|deflect|stall",
+        "uses": {
+          "has": {
+            "speaker": ".",
+            "listener": "."
+          }
+        }
       },
       "catches": [
         "I'm sorry. {winner} won the {office} race.",
