@@ -44712,7 +44712,8 @@
           "subject": "job-lost-back-back",
           "role": "core",
           "stages": ["where"],
-          "requiresFacts": ["seeking", "outlook-not-unsure"]
+          "requiresFacts": ["seeking", "outlook-not-unsure"],
+          "excludesFacts": ["outlook-bleak"]
         }
       ],
       "origin": "authored",
