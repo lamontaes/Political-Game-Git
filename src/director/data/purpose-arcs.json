@@ -2581,12 +2581,11 @@
     },
     "offer-to-run": {
       "state": "request",
-      "replies": ["ask", "agree", "decline", "stall"],
+      "replies": ["ask", "agree", "decline"],
       "follow": {
         "ask": ["answer"],
         "agree": ["thank"],
-        "decline": ["press", "accept"],
-        "stall": ["accept", "press"]
+        "decline": ["press", "accept"]
       },
       "again": {
         "answer": ["agree", "decline", "leave"],
@@ -2599,14 +2598,6 @@
           "keeps": "promise",
           "when": {
             "reply": ["agree"]
-          }
-        },
-        {
-          "id": "thinking",
-          "label": "You'll let them know",
-          "keeps": "none",
-          "when": {
-            "reply": ["stall"]
           }
         },
         {

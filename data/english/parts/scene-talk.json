@@ -97560,52 +97560,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.let-me-work-out-what-i-need-first",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Let me work out what I need first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-to-run",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-stall.give-me-a-few-days-with-it",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Give me a few days with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-to-run",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.one-list-of-everyone-you-know-one-calendar-and-the-money-counted-every-week",
       "move": "follow-answer",
       "kind": "spoken",
@@ -97809,7 +97763,8 @@
           "key": "favor-asked",
           "step": "close",
           "move": "promise",
-          "role": "asker"
+          "role": "asker",
+          "outcome": "resolved"
         }
       ],
       "bearing": "firm",
@@ -97833,7 +97788,8 @@
           "key": "favor-asked",
           "step": "close",
           "move": "thank",
-          "role": "asker"
+          "role": "asker",
+          "outcome": "resolved"
         }
       ],
       "bearing": "glad",
@@ -97857,7 +97813,8 @@
           "key": "favor-asked",
           "step": "close",
           "move": "press",
-          "role": "asker"
+          "role": "asker",
+          "outcome": "open"
         }
       ],
       "bearing": "calm",
@@ -97870,10 +97827,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.can-we-talk-about-this-another-night",
+      "key": "scene-talk.reply-leave.not-tonight-i-m-not-ready-to-say",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Can we talk about this another night?",
+      "text": "Not tonight. I'm not ready to say.",
       "uses": [
         {
           "subject": "scene",
@@ -97894,10 +97851,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.not-tonight-let-me-think-on-it",
+      "key": "scene-talk.reply-leave.i-can-t-decide-this-right-now",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Not tonight. Let me think on it.",
+      "text": "I can't decide this right now.",
       "uses": [
         {
           "subject": "scene",
@@ -97905,8 +97862,7 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked",
-          "excludesFacts": ["daytime"]
+          "role": "asked"
         }
       ],
       "origin": "authored",

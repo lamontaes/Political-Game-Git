@@ -2264,7 +2264,18 @@ function offersToHelp(api: CoreAPI): void {
     // While nobody runs the campaign, the closest who have heard (its
     // household too, who heard it first) weigh running it, nearest first,
     // before anyone weighs giving evenings; the first yes is the week's offer.
-    if (!existing?.staffIds.length) {
+    // The player is offered a manager once (`answerOffer` staffs the helper
+    // on a yes): a no or a walk away is not followed by the next in line
+    // asking in the same week, since nothing is decided for the player.
+    const offeredToPlayer =
+      candidate.id === (api.state as CoreState).playerId &&
+      (existing?.managerWeighedIds ?? []).some(
+        (id) =>
+          api.state.durableLog.get(
+            `${VOLUNTEER_OFFERED_EVENT}:${filing.id}:${id}` as never,
+          )?.facts?.role === "manager",
+      );
+    if (!existing?.staffIds.length && !offeredToPlayer) {
       const campaign = campaignFor(api, filing.id);
       const asked = new Set(campaign.managerWeighedIds ?? []);
       const before = asked.size;
@@ -2311,8 +2322,12 @@ function offersToHelp(api: CoreAPI): void {
         if (manager)
           offerHelp(api, filing, contest, candidate.id, manager, "manager");
         const current = campaignFor(api, filing.id);
+        // A world candidate takes the help; the player's offer is theirs to
+        // answer in its scene, and the helper runs the campaign only on a
+        // yes (`answerOffer`): nothing is decided for the player.
+        const playersOwn = candidate.id === (api.state as CoreState).playerId;
         save(api, {
-          ...(manager ? onStaff(current, manager) : current),
+          ...(manager && !playersOwn ? onStaff(current, manager) : current),
           managerWeighedIds: [...asked],
           ...(manager ? { lastOfferOn: date } : {}),
         });
@@ -2629,20 +2644,30 @@ export function offerReason(
 
 /**
  * The candidate's answer to an offer of help, said in its scene: the one who
- * offered is already on the campaign's volunteers (its staff, for an offer to
- * run it), and a refusal takes them off; a yes, or no answer, keeps them.
+ * offered is already on the campaign's volunteers, and a refusal takes them
+ * off; a yes, or no answer, keeps them. An offer to run the campaign made to
+ * the player puts its helper on the staff only on a yes.
  */
 function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
   const offer = api.state.durableLog.get(String(facts.causeId ?? ""));
   if (offer?.kind !== VOLUNTEER_OFFERED_EVENT) return;
   const move = String(facts.move);
-  if (ACCEPTING_MOVES.has(move) || !REFUSING_MOVES.has(move)) return;
   const filingId = String(offer.facts?.filingId ?? "");
   const helperId = String(offer.facts?.offeredBy ?? "");
   const candidateId = String(offer.facts?.invitedId ?? "");
   if (!event.personIds.includes(candidateId)) return;
   const campaign = campaignFor(api, filingId);
+  // The player's yes to an offer to run the campaign is what puts the helper
+  // on its staff; no other answer does.
+  if (
+    offer.facts?.role === "manager" &&
+    candidateId === (api.state as CoreState).playerId
+  ) {
+    if (ACCEPTING_MOVES.has(move)) save(api, onStaff(campaign, helperId));
+    return;
+  }
+  if (ACCEPTING_MOVES.has(move) || !REFUSING_MOVES.has(move)) return;
   if (
     !campaign.volunteerIds.includes(helperId) &&
     !campaign.staffIds.includes(helperId)

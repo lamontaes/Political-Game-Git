@@ -24,6 +24,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { campaignFor } from "../core2/modules/campaigns";
 import { coreAPI } from "../core2/state";
+import { purposeScene, replyInScene } from "./purpose-scene";
 import type { PersonId } from "../core2/types";
 
 const STONY_CREEK = {
@@ -32,6 +33,7 @@ const STONY_CREEK = {
   seed: "8f24b411dde6c73638211e2756d6f3899707979906e0ceff6fd58e6e4144ef03",
   contest: "contest:seat:gus2025:136051:council:0:2025-11-04",
   opens: "2025-04-21",
+  answer: "agree" as const,
 };
 // The county board race there is not at the top of the day's impact, so the
 // type itself stops the day (stopsDay) where the offer's weight would not.
@@ -41,6 +43,7 @@ const PATRICK_AFB = {
   seed: "8cace34a6d31334e7f59ce6072715a15fc4635c6c9a9b2d6da606338769b2332",
   contest: "contest:seat:gus2025:161546:board:2:2026-11-03",
   opens: "2026-02-23",
+  answer: "decline" as const,
 };
 
 function offerAtHomeStopsTheDay(c: {
@@ -49,6 +52,7 @@ function offerAtHomeStopsTheDay(c: {
   seed: string;
   contest: string;
   opens: string;
+  answer: "agree" | "decline";
 }) {
   const where = `${c.name} (${c.place}), world seed ${c.seed}, ${c.contest}`;
   setBookkeeping(false);
@@ -95,7 +99,12 @@ function offerAtHomeStopsTheDay(c: {
     home.memberIds.includes(helper as never),
     `${where}: ${offer.id} came from ${helper}, who lives apart`,
   ).toBe(true);
-  expect(campaignFor(api, filingId).staffIds).toContain(helper);
+  // Nothing is decided for the player: the helper runs the campaign only on
+  // the player's yes in the scene.
+  expect(
+    campaignFor(api, filingId).staffIds,
+    `${where}: ${helper} was staffed before the player answered`,
+  ).not.toContain(helper);
 
   const book = director.ledger.people.get(me)!;
   const moment = book.moments.find((m) => m.causeId === offer.id);
@@ -110,6 +119,30 @@ function offerAtHomeStopsTheDay(c: {
     entry!.bindings[0]!.roles.find((r) => r.role === "helper")!.personIds,
   ).toEqual([helper]);
   expect(entry!.bindings[0]!.setting.kind).toBe("home");
+
+  const res = purposeScene(core, director, me, entry!, {
+    typeKey: "manager-offer",
+  });
+  expect(res?.kind, where).toBe("composed");
+  const tree = (
+    res as {
+      scene: { talk: { tree: { replies: { line: { move: string } }[] } } };
+    }
+  ).scene.talk.tree;
+  expect(
+    tree.replies.map((r) => r.line.move).sort(),
+    `${where}: the replies`,
+  ).toEqual(["agree", "ask", "decline"]);
+  const pick = tree.replies.findIndex((r) => r.line.move === c.answer);
+  expect(
+    replyInScene(core, director, me, entry!, [pick], {
+      typeKey: "manager-offer",
+    }),
+    where,
+  ).toBeTruthy();
+  const staff = campaignFor(api, filingId).staffIds;
+  if (c.answer === "agree") expect(staff, where).toContain(helper);
+  else expect(staff, where).not.toContain(helper);
 }
 
 it(
