@@ -164,7 +164,7 @@ export const OFFICIALS_MODULE: CoreModule = {
       const winner = event.personIds[0];
       if (winner) tookOffice(api, winner, seatId);
       else {
-        seatUnheldFiller(api, seatId);
+        seatUnheldFiller(api, seatId, event.facts);
         // A holder the offices engine seated by identity alone (a vacancy's filler, a
         // successor) is a person from the day they take the seat, not the first time it is read.
         for (const term of api
@@ -212,10 +212,15 @@ const unheld = (row: OfficialRow) =>
 
 /**
  * The offices engine filled a seat it keeps no term for: the new holder
- * takes the seat as a person, in the party of the one they replace (who
- * leaves it today).
+ * takes the seat as a person. A special election's winner is named by the
+ * record (their party and who they are); an appointee takes the party of the
+ * one they replace (who leaves it today).
  */
-function seatUnheldFiller(api: CoreAPI, seatId: string): void {
+function seatUnheldFiller(
+  api: CoreAPI,
+  seatId: string,
+  facts: Readonly<Record<string, string>> | undefined,
+): void {
   const rows = table(api, "officials").query("bySeat", [
     seatId,
   ]) as unknown as OfficialRow[];
@@ -225,8 +230,11 @@ function seatUnheldFiller(api: CoreAPI, seatId: string): void {
       (a.ended ?? "9999").localeCompare(b.ended ?? "9999") ||
       a.id.localeCompare(b.id),
   )[rows.length - 1]!;
-  // stopgapId: SG-GOV-unheld-filler-party (the new holder takes the party of the one they replace)
-  api.stopgap("SG-GOV-unheld-filler-party");
+  const elected = facts?.["winnerParty"] !== undefined;
+  if (!elected) {
+    // stopgapId: SG-GOV-unheld-filler-party (the new holder takes the party of the one they replace)
+    api.stopgap("SG-GOV-unheld-filler-party");
+  }
   seatOfficial(api, {
     key: `${seatId}:${api.state.date}`,
     seatId,
@@ -235,10 +243,40 @@ function seatUnheldFiller(api: CoreAPI, seatId: string): void {
     officeKind: last.officeKind,
     stateKey: last.stateKey,
     district: last.district,
-    party: last.party,
-    ...(last.partySource ? { partySource: last.partySource } : {}),
+    party: elected ? facts!["winnerParty"]! : last.party,
+    ...(elected
+      ? { partySource: "elected in a special election" }
+      : last.partySource
+        ? { partySource: last.partySource }
+        : {}),
+    ...(elected
+      ? {
+          identity: {
+            givenName: facts!["winnerGivenName"]!,
+            familyName: facts!["winnerFamilyName"]!,
+            gender: facts!["winnerGender"]!,
+            birthDate: facts!["winnerBirthDate"]!,
+            homeState: facts!["winnerHomeState"]!,
+          },
+        }
+      : {}),
     termYears: last.termYears,
   });
+}
+
+/** The party of the last person who held a seat the offices engine keeps no term for, or null. */
+export function lastUnheldParty(api: CoreAPI, seatId: string): string | null {
+  const rows = (
+    table(api, "officials").query("bySeat", [
+      seatId,
+    ]) as unknown as OfficialRow[]
+  ).filter(unheld);
+  const last = [...rows].sort(
+    (a, b) =>
+      (a.ended ?? "9999").localeCompare(b.ended ?? "9999") ||
+      a.id.localeCompare(b.id),
+  )[rows.length - 1];
+  return last?.party ?? null;
 }
 
 const weight = (key: keyof typeof OFFICIALS_DATA.weights) =>
@@ -363,6 +401,8 @@ interface Spec {
   readonly role:
     "sitting-legislator-at-opening" | "executive-officeholder-at-opening";
   readonly legalMinimumAge?: number;
+  /** Who the holder is where a race already named them (a special election's winner). */
+  readonly identity?: TermRow["identity"];
 }
 
 /** Congress is one body however the offices engine files its seats. */
@@ -651,7 +691,7 @@ function seatAll(
   const identities = new Map(
     drafted.map((s) => [
       s.key,
-      s.term?.identity ?? officialIdentity(api, seed, s),
+      s.term?.identity ?? s.identity ?? officialIdentity(api, seed, s),
     ]),
   );
   const minimum = TENURE["minimumAgeAtFirstTerm"]!.value;

@@ -4730,6 +4730,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "sets": "later",
+      "applies": {
+        "banks": ["scene-talk"]
       }
     },
     {
@@ -4746,6 +4750,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "sets": "every",
+      "applies": {
+        "banks": ["scene-talk"]
       }
     },
     {
@@ -4762,6 +4770,11 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "sets": "every",
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "^(?:state|follow|continue)-(?:confront|threaten)$"
       }
     },
     {

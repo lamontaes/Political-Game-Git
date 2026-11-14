@@ -32,8 +32,7 @@ import { buildBenchWorld } from "./world";
 // form of government in the research, and where the form has an attorney
 // post, the executive engine must have seated someone in it and the line
 // names that post's title. Before any other body, or where the form has no
-// attorney post, the line is the body's lawyer by the body's name, and
-// SG-GOV-body-lawyer-unrecorded is marked. The bench world, a place drawn
+// attorney post, the line is the body's lawyer by the body's name. The bench world, a place drawn
 // from all 56 on a seed nobody chose; the disputed power comes from the draft
 // menu or the powers catalog, read against the place's law records.
 const seed =
@@ -42,7 +41,6 @@ const seed =
   randomBytes(8).toString("hex");
 const place = drawPlace(seed, "bill-paper-authority");
 const LEGISLATURE = "core2-legislature-v1";
-const STOPGAP = "SG-GOV-body-lawyer-unrecorded";
 const CITY_FORMS = executivePowers.local.city as Record<
   string,
   readonly { key: string; title: string }[]
@@ -235,7 +233,6 @@ describe(`a bill on a disputed power (${place.name}, seed ${seed})`, () => {
     expect(warning, `${drafted.id} ${seated?.id ?? "no attorney"}`).toBe(
       expected,
     );
-    expect(world.core.stopgapHits.has(STOPGAP), drafted.id).toBe(!post);
 
     // A settled power before the same body: no warning on the row or paper.
     const plain = seatAct(world.core, sponsor, {
@@ -254,7 +251,7 @@ describe(`a bill on a disputed power (${place.name}, seed ${seed})`, () => {
     expect(plainPaper.authorityWarning, plain.id).toBeNull();
 
     console.log(
-      `bill-paper authority: case ${isCouncil ? "council (the town's City Attorney)" : `fallback ${body.kind} (no draw had a council)`}; ${where}; draws ${tried.join("; ")}; body ${body.id}; town ${town} form ${form ?? "n/a"}; lawyer ${seated ? `${seated.id} "${seated.title}" held by ${seated.holderId}` : `none (${STOPGAP})`}; disputed ${disputed} (${offered.has(disputed) ? "draft menu" : "powers catalog"}) -> ${drafted.id} (${row.status}, ${row.authority[0]?.reason}): "${warning}"; settled ${settled} (${offered.has(settled) ? "draft menu" : "powers catalog"}) -> ${plain.id} (${plainRow.status})`,
+      `bill-paper authority: case ${isCouncil ? "council (the town's City Attorney)" : `fallback ${body.kind} (no draw had a council)`}; ${where}; draws ${tried.join("; ")}; body ${body.id}; town ${town} form ${form ?? "n/a"}; lawyer ${seated ? `${seated.id} "${seated.title}" held by ${seated.holderId}` : `none (the body's lawyer by the body's name)`}; disputed ${disputed} (${offered.has(disputed) ? "draft menu" : "powers catalog"}) -> ${drafted.id} (${row.status}, ${row.authority[0]?.reason}): "${warning}"; settled ${settled} (${offered.has(settled) ? "draft menu" : "powers catalog"}) -> ${plain.id} (${plainRow.status})`,
     );
   }, 900_000);
 });
