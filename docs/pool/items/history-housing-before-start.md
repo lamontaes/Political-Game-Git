@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-l20ff2
-pr:
+pr: #9084
 after:
 blocked-on:
 lead: money
