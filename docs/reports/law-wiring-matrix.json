@@ -104,6 +104,18 @@
       "state": "US-TX"
     },
     {
+      "seed": "cb99dfa75270766e4b4fc6e03b3f8f7684aeac7648aa15336c03156f5ec41879",
+      "key": "0975065",
+      "name": "Taylor Corners, Connecticut",
+      "state": "US-CT"
+    },
+    {
+      "seed": "3510982722ac209dd5d487a84181866b845325ffc453791747affca625a59c92",
+      "key": "4049450",
+      "name": "Morrison, Oklahoma",
+      "state": "US-OK"
+    },
+    {
       "seed": "914c2a715334c3bd2a320d56578de541a632342058c7332150a9a6bd9ec0c7bc",
       "key": "2723660",
       "name": "Ghent, Minnesota",
@@ -219,9 +231,9 @@
         "n/a": 0
       },
       "reach": {
-        "wired": 101,
+        "wired": 102,
         "partial": 4,
-        "missing": 22,
+        "missing": 21,
         "stopgap": 0,
         "n/a": 60
       },
@@ -235,9 +247,9 @@
       "money": {
         "wired": 95,
         "partial": 3,
-        "missing": 19,
+        "missing": 18,
         "stopgap": 1,
-        "n/a": 69
+        "n/a": 70
       },
       "web": {
         "wired": 76,
@@ -254,16 +266,16 @@
         "n/a": 50
       },
       "repeal": {
-        "wired": 106,
+        "wired": 107,
         "partial": 0,
-        "missing": 22,
+        "missing": 21,
         "stopgap": 0,
         "n/a": 59
       },
       "allPlaces": {
-        "wired": 107,
+        "wired": 108,
         "partial": 0,
-        "missing": 22,
+        "missing": 21,
         "stopgap": 0,
         "n/a": 58
       }
@@ -13389,19 +13401,19 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 56 open (full 0, counted groups 56/4635 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE; Taylor Corners, Connecticut, US-CT (seed 55957a2f6206fb43): 56 open (full 0, counted groups 56/4578 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE; Morrison, Oklahoma, US-OK (seed 6dafdf4f432b6193): 56 open (full 0, counted groups 56/4556 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/counted-moves.ts:204",
+          "evidence": "src/core2/modules/counted-moves.ts:206, src/core2/modules/counted-moves.ts:1181, src/core2/modules/counted-moves.ts:205, src/core2/modules/counted-moves.ts:1179",
           "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it"
+          "status": "n/a",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 56 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE); Taylor Corners, Connecticut, US-CT (seed 55957a2f6206fb43): 56 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE); Morrison, Oklahoma, US-OK (seed 6dafdf4f432b6193): 56 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE)",
+          "why": "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held"
         },
         "web": {
           "status": "missing",
@@ -13410,24 +13422,34 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 108 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9)",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 112 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9); Taylor Corners, Connecticut, US-CT (seed 55957a2f6206fb43): 133 people heard (person_159f88364698405c:printed:outlet:newspaper:3:jurisdiction_e6b56b78fd71dc51:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9); Morrison, Oklahoma, US-OK (seed 6dafdf4f432b6193): 109 people heard (person_60f18c9d9262776a:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 56 open -> after repeal 0 open, 0 ended; Taylor Corners, Connecticut, US-CT (seed 55957a2f6206fb43): 56 open -> after repeal 0 open, 0 ended; Morrison, Oklahoma, US-OK (seed 6dafdf4f432b6193): 56 open -> after repeal 0 open, 0 ended",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6); Taylor Corners, Connecticut, US-CT (seed 55957a2f6206fb43); Morrison, Oklahoma, US-OK (seed 6dafdf4f432b6193)",
+          "why": ""
         }
       },
       "screens": [],
       "runs": [
         {
           "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Taylor Corners, Connecticut, US-CT (seed 55957a2f6206fb43)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Morrison, Oklahoma, US-OK (seed 6dafdf4f432b6193)",
           "change": "enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
           "inForceAtOpening": false
         }
