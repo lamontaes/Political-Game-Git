@@ -16,7 +16,7 @@ import {
   executiveLean,
   authorityFor,
   type Provision,
-  holdVote,
+  holdEveryChamber,
 } from "../core2/modules/legislature";
 import { lawInForce } from "../core2/modules/laws";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
@@ -108,7 +108,7 @@ describe(`the governor's desk in the stage view (seed ${seed})`, () => {
         if (draft.status === "blocked") continue;
         for (const seat of members)
           castMemberVote(api, draft.id, seat.holder!.personId!, "yes");
-        holdVote(api, draft.id);
+        holdEveryChamber(api, draft.id);
         if (!deskWaiting(api).some((b) => b.id === draft.id)) continue;
         bill = draft;
         break;

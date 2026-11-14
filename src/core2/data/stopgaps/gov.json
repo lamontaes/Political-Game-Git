@@ -1820,32 +1820,6 @@
     "resolvedBy": "stand-in triage T2"
   },
   {
-    "id": "SG-GOV-petition-count-estimated",
-    "kind": "estimated-data",
-    "file": "src/core2/modules/elections.ts",
-    "line": 452,
-    "whatItFakes": "Where a place's filing row in data/research/elections/filing-requirements.json gives its signature rule as a formula (for example a share of the votes cast for the office at its last election: 27 municipal, 21 county, 14 state legislative, 13 statewide and 13 U.S. House party rows) or gives nothing, the filing's petition asks the median of the read counts for its office family and side (an independents' row that is not its own reads the party row): for a party filing 28 municipal, 50 county, 113 state legislative, 2,000 statewide and 500 U.S. House; for an independent 30, 25, 125, 3,501 and 1,000.",
-    "why": "The formulas are kept as free text; no structured threshold (share, base, minimum and maximum) is read for them yet.",
-    "addedBy": "claude/elections-petition-filing",
-    "addedAt": "2026-10-28",
-    "replacement": "A structured threshold for each formula row, its base read from the world's own results through the recall engine's signatureBase (src/core2/modules/recalls.ts), the median kept only where a row gives nothing.",
-    "status": "open"
-  },
-  {
-    "id": "SG-GOV-petition-town-share",
-    "kind": "partial-model",
-    "file": "src/core2/modules/voting.ts",
-    "line": 572,
-    "whatItFakes": "Where a contest's district reaches past the town (a county seat drawn as a state's places, a legislative, U.S. House or statewide race), the clerk counts the town's share of the law's signatures, by the town's eligible voters over the district's, at least one: the signatures a candidate would gather in the places the world holds only as counts are neither gathered nor checked.",
-    "why": "The world holds people one by one only in the town (two-level population); a canvass, an event and a circle reach only the town.",
-    "addedBy": "claude/elections-petition-filing",
-    "addedAt": "2026-10-28",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Signatures gathered in the district's other places at a coarse step, from the campaign's effort there, checked against the law's whole count.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T2"
-  },
-  {
     "id": "SG-GOV-territory-legislature-race",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
@@ -2116,8 +2090,8 @@
     "why": "Asks whose bill never reaches a roll call are pulls no vote reads (pool item legislature-ask-skips-bills-the-committee-will-hold); the model gives a bill one floor day for every chamber.",
     "addedBy": "governing lead",
     "addedAt": "2026-11-02",
-    "replacement": "A later chamber takes up a bill on a floor day of its own after the first chamber passes it, with its own committee meeting the evening before and its own asks.",
-    "status": "open"
+    "replacement": "A later chamber takes up a bill on a floor day of its own after the first chamber passes it, with its own committee meeting the evening before and its own asks. Resolved 2026-11-14 (pool item laws-second-chamber-takes-the-bill-on-its-own-day): countVote runs one chamber per call, a carried bill is booked on the next chamber's sitting through scheduleVote and holdCommittee (chamberNow, voteKeyOf), and askBeforeTheRoll asks in the chamber whose turn it is. Shown in second-chamber-own-day.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-player-emergency-offer",
@@ -2298,7 +2272,7 @@
     "why": "Counted residents keep no impression of an official of their own, and the counted electorate's warmth toward a candidate is read from the town's named adults (voting.ts, townContacts). Filling a resident in to hold the view was the largest part of a played year's memory growth (play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth).",
     "addedBy": "opus-5251",
     "addedAt": "2026-11-11",
-    "replacement": "The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026 (elections-read-counted-cases): the counted electorate reads a counted resident's decided cases as warmth toward the official (caseWarmthsOf in constituent-cases.ts, read by countedAppeal at the election count, the primary, the door answer and the turnout reason), by the same step touchImpression applies, at the share of the record who brought the case. Was: The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
+    "status": "resolved"
   }
 ]

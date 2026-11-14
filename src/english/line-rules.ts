@@ -68,13 +68,15 @@ export type RuleTest =
  * close together) or `piece-in-context` (a line with the record or screen it
  * sits on, such as a journal line's subject).
  */
-export type RuleJudges = "line" | "set" | "exchange" | "piece-in-context";
+export type RuleJudges =
+  "line" | "set" | "exchange" | "piece-in-context" | "path";
 
 export const RULE_JUDGES: readonly RuleJudges[] = [
   "line",
   "set",
   "exchange",
   "piece-in-context",
+  "path",
 ];
 
 /**
@@ -152,6 +154,14 @@ export interface LineRule {
   readonly test: RuleTest;
   /** Where the rule applies; a list applies where any one of its entries does. */
   readonly applies?: RuleApplies | readonly RuleApplies[];
+  /**
+   * For a judged `set` rule read from composed scenes (words machine part 3):
+   * which reply sets it reads. `every` is each set of two or more replies the
+   * player is offered; `later` is only those after the first exchange. The
+   * rule's `applies` is tested on the line the set answers. A set rule
+   * without it waits for its own reader (variants of a slot, a speech).
+   */
+  readonly sets?: "every" | "later";
   readonly catches?: readonly RuleCase[];
   readonly spares?: readonly RuleCase[];
   /**
@@ -324,6 +334,27 @@ export function lineSubjects(
  */
 export const judgesExchanges = (rule: LineRule): boolean =>
   rule.test.kind === "judged" && rule.judges === "exchange";
+
+/**
+ * Whether a `judged` rule judges a path through a composed scene (words
+ * machine part 3, Words lead's ruling of Nov 14): the scene from its first
+ * line up to and including each line the rule applies to (the ask, the
+ * promise), judged as one subject by `scenePaths` (scripts/words/scene-paths.ts).
+ * A "no" is a gap in the scene for the Words lead to write, never a bar or a
+ * pull: the run judges no line by it.
+ */
+export const judgesPaths = (rule: LineRule): boolean =>
+  rule.test.kind === "judged" && rule.judges === "path";
+
+/**
+ * Whether a `judged` rule is read from composed scenes: a path (`judgesPaths`)
+ * or a set of replies offered at one point of a scene, with the scene up to
+ * there (`sets`). Both are built by `scenePaths` and saved in the one store; a
+ * "no" is a gap for the Words lead, never a bar or a pull.
+ */
+export const judgesScenes = (rule: LineRule): boolean =>
+  judgesPaths(rule) ||
+  (rule.test.kind === "judged" && rule.judges === "set" && !!rule.sets);
 
 /** The suffix on an exchange rule's name in `awaitingVerdict`: its waiting subjects are pairs. */
 export const PAIRS_COUNTED = " (pairs)";

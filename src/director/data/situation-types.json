@@ -128,6 +128,7 @@
       "cause:event:rival-filed",
       "cause:event:party-asked",
       "cause:event:vote-ahead",
+      "cause:event:serve-asked",
       "cause:event:recall-petition",
       "cause:event:job-offered"
     ],
@@ -1195,6 +1196,7 @@
       ],
       "setting": ["public", "venue"],
       "timing": "next-together",
+      "stopsDay": true,
       "causes": [
         {
           "match": {
@@ -1255,6 +1257,7 @@
       ],
       "setting": ["home", "public", "venue"],
       "timing": "next-together",
+      "stopsDay": true,
       "causes": [
         {
           "match": {
@@ -1287,6 +1290,61 @@
       "purpose": "proposal-ask",
       "asker": "proposing",
       "asked": "proposed-to",
+      "stakes": ["home"]
+    },
+    {
+      "key": "move-in",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "roles": [
+        {
+          "key": "asking",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "tell", "promise", "confess"],
+          "wants": ["commit", "take-risk"],
+          "bearing": "nervous"
+        },
+        {
+          "key": "asked",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["agree", "decline", "request", "thank"],
+          "wants": ["commit", "play-safe"],
+          "bearing": "tender"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "next-together",
+      "stopsDay": true,
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.move-in-asked",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.move-in-asked",
+          "bind": {
+            "asking": "counterpart",
+            "asked": "subject"
+          },
+          "opener": "asking",
+          "opening": "greet"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "personal",
+        "registers": ["conversation", "scene-words", "journal"]
+      },
+      "purpose": "move-in-ask",
+      "asker": "asking",
+      "asked": "asked",
       "stakes": ["home"]
     },
     {
@@ -1599,7 +1657,7 @@
       "key": "care",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
+        "counterpart": "any",
         "seat": "any"
       },
       "roles": [
@@ -1626,11 +1684,11 @@
         {
           "match": {
             "label": "feeling:event:health.serious-illness",
-            "counterpart": "none"
+            "counterpart": "some"
           },
           "bind": {
-            "cared-for": "subject",
-            "caregiver": "kin"
+            "cared-for": "counterpart",
+            "caregiver": "subject"
           },
           "opener": "cared-for"
         }
@@ -1752,7 +1810,12 @@
             "label": "feeling:event:justice.accused",
             "selfNamed": true,
             "counterpart": "some",
-            "causeFacts": [{ "key": "accuserId", "is": "other" }]
+            "causeFacts": [
+              {
+                "key": "accuserId",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "justice",
           "causeRecord": "justice.accused",
@@ -3160,6 +3223,67 @@
       }
     },
     {
+      "key": "serve-sought",
+      "note": "The player asks someone to serve: today a governor candidate asks one of the people offered to run as their running mate (brief J, Nov 14). The serve-asks engine keeps the ask and reads where the person stands from their record (willingness.json); the scene is the ask, their answer, and the player's follow. Only the ending seats anyone: serving names them on the ticket, turned-down keeps the no with its reason and date, and the seat stays open.",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "purpose": "ask-to-serve",
+      "playerAsks": true,
+      "eachCause": true,
+      "asker": "prospect",
+      "asked": "you",
+      "stakes": ["office", "race", "tie"],
+      "roles": [
+        {
+          "key": "prospect",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["agree", "decline", "relent"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "press", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        }
+      ],
+      "setting": ["office", "other-home", "home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:serve-asked",
+            "causeFacts": [
+              {
+                "key": "askerId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "serve-asks",
+          "causeRecord": "serve-asked",
+          "bind": {
+            "prospect": "counterpart",
+            "you": "subject"
+          },
+          "opener": "you",
+          "setting": ["office", "other-home", "home"]
+        }
+      ],
+      "tag": {
+        "key": "serve-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "vote-confirmed",
       "receive": {
         "age": "any",
@@ -4049,6 +4173,7 @@
       ],
       "setting": ["home"],
       "timing": "at-cause",
+      "stopsDay": true,
       "causes": [
         {
           "match": {
@@ -4933,10 +5058,10 @@
       "key": "manager-offer",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
+        "counterpart": "any",
         "seat": "any"
       },
-      "note": "Someone close to a candidate (a partner, a relative, a best friend) heard they filed and offers to run the campaign, not only to help with it: the campaigns engine's volunteer-offered record with role manager, weighed by the same liking, closeness and work hours with closeness and family counted again (managerReason). It comes before any volunteer's offer while the campaign has nobody running it, the household included. A yes puts them on the campaign's staff, where the cast and election night read them; a no takes them off (answerOffer). The owner's election team (Oct 26) and campaign board (Oct 27: 'maybe it's your significant other or your best friend').",
+      "note": "Someone close to a candidate (a partner, a relative, a best friend) heard they filed and offers to run the campaign, not only to help with it: the campaigns engine's volunteer-offered record with role manager, weighed by the same liking, closeness and work hours with closeness and family counted again (managerReason). It comes before any volunteer's offer while the campaign has nobody running it, the household included. Only the player's yes puts them on the campaign's staff, where the cast and election night read them (answerOffer); a no or a walk away leaves them off, and a world candidate takes the help without a scene. The owner's election team (Oct 26) and campaign board (Oct 27: 'maybe it's your significant other or your best friend').",
       "roles": [
         {
           "key": "helper",
@@ -4963,6 +5088,7 @@
           "bearing": "curious"
         }
       ],
+      "stopsDay": true,
       "setting": ["home"],
       "timing": "at-cause",
       "causes": [
