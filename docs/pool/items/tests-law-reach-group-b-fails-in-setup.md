@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #PRNUM
 blocked-on:
 source: "found while changing the graduated-tax repeal (#9235), Nov 14"
 claimed-at:

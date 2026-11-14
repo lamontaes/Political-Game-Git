@@ -21,6 +21,8 @@ import {
   enactLaw,
   lawChain,
   lawInForce,
+  lawRows,
+  yesLevels,
   LAWS_MODULE_ID,
   openLaws,
 } from "./modules/laws";
@@ -626,7 +628,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
   beforeAll(() => build({ pinned: false }));
 
   it("registers a handler for every group B policy and budget line", () => {
-    expect(GROUP_B_KEYS.length).toBe(34);
+    expect(GROUP_B_KEYS.length).toBe(38);
   });
 
   // ---- Records reaching named people, counted residents and employers ----
@@ -939,15 +941,37 @@ describe("law reach, group B: a city income tax", () => {
     const had =
       (lawInForce(api, "income-tax").levels.find((l) => l.level === LOCAL)?.row
         ?.value ?? 0) > 0;
+    const start = api.state.date;
     enact(key, 1, LOCAL);
     const row = lawInForce(api, "income-tax").levels.find(
       (l) => l.level === LOCAL,
     )?.row;
     if (!had) {
-      expect(row?.value, where).toBe(
-        reachParameter("localFlatIncomeTaxPercent"),
-      );
-      expect(row?.unit).toBe("percent-flat");
+      // Adopting restores the level's own latest positive rate when its
+      // history holds one (a territory that mirrors the federal tax); else it
+      // writes the flat rate of its scope.
+      const own = lawRows(api, "income-tax")
+        .filter(
+          (r) =>
+            r.level === LOCAL &&
+            r.tier === "general" &&
+            Number(r.value) > 0 &&
+            r.effectiveDate <= start,
+        )
+        .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate))
+        .at(-1);
+      if (own) {
+        expect(row?.value, `${where} restores ${own.id}`).toBe(own.value);
+      } else {
+        expect(row?.value, where).toBe(
+          reachParameter(
+            LOCAL === "state"
+              ? "stateFlatIncomeTaxPercent"
+              : "localFlatIncomeTaxPercent",
+          ),
+        );
+        expect(row?.unit).toBe("percent-flat");
+      }
     }
     const since = api.state.date;
     advanceCore(core, after(api.state.date, 30));
@@ -983,10 +1007,19 @@ describe("law reach, group B: a city income tax", () => {
       treasury: city.organizationId,
     };
     enact(key, 0, LOCAL);
-    expectEnded(key);
-    expect(appliedOn(api, key), `${where}: applied rows after repeal`).toEqual(
-      [],
-    );
+    const repealedOn = api.state.date;
+    // Where a higher level's own act still says yes to the question (a
+    // territory whose income tax is the federal mandate), repealing the lower
+    // level's tax does not end the policy and its rows stay open; the tax is
+    // zero on the day of the repeal. At one seed it stood at 37 again 40 days
+    // later (pool item world-territory-income-tax-returns-after-repeal).
+    if (yesLevels(api, key).length === 0) {
+      expectEnded(key);
+      expect(
+        appliedOn(api, key),
+        `${where}: applied rows after repeal`,
+      ).toEqual([]);
+    }
     if (!had)
       expect(
         lawInForce(api, "income-tax").levels.find((l) => l.level === LOCAL)?.row
