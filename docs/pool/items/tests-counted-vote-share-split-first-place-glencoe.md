@@ -34,4 +34,4 @@ source: views thread, Nov 14 (seen while gating views cut 3b)
 
 **Files.** src/core2/modules/voting.ts, src/core2/counted-vote-share.test.ts
 
-**Notes.** Nov 14 (claude, views thread): found while gating views cut 3b; red on the clean train at the same seed. Where to look: how the count decides a ballot is labelled (`countedShareRule` and `countedChoice` in src/core2/modules/voting.ts) against the test's `labelled` (any field entry with a side).
+**Notes.** Nov 14 (claude, views thread): found while gating views cut 3b; red on the clean train at the same seed. Where to look: how the count decides a ballot is labeled (`countedShareRule` and `countedChoice` in src/core2/modules/voting.ts) against the test's `labeled` (any field entry with a side).
