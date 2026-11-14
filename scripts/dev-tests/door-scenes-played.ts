@@ -9,7 +9,7 @@
  * resident's home), so each resident's own records pick the scene. Prints
  * markdown.
  *
- *   node --import tsx scripts/dev-tests/door-scenes-played.ts <seed> <places> [signDays] [voteDays]
+ *   node --import tsx scripts/dev-tests/door-scenes-played.ts <seed> <places> [signDays] [voteDays] [level]
  */
 import { campaignDay } from "../../src/bench/campaign";
 import { buildBenchWorld } from "../../src/bench/world";
@@ -36,14 +36,25 @@ import { purposeScene } from "../../src/director/purpose-scene";
 import type { TreeNode } from "../../src/director/scene-talk";
 import type { ScheduleEntry } from "../../src/director/scheduling";
 
-const [seed = "door-played", placesArg = "3", signArg = "4", voteArg = "4"] =
-  process.argv.slice(2);
+const [
+  seed = "door-played",
+  placesArg = "3",
+  signArg = "4",
+  voteArg = "4",
+  levelArg = "",
+] = process.argv.slice(2);
 
 function fileLocal(core: CoreState, personId: string) {
   const api = coreAPI(core);
   if (townSeats(api).some((s) => s.holder?.personId === personId)) return null;
   for (const contest of openContests(api)) {
-    if (contest.level === "federal" || contest.level === "state") continue;
+    // A level named on the command line (county, state) files only there.
+    if (
+      levelArg
+        ? contest.level !== levelArg
+        : contest.level === "federal" || contest.level === "state"
+    )
+      continue;
     const filed = fileCandidacy(api, {
       personId,
       contestId: contest.id,
@@ -86,6 +97,9 @@ const byTownOffice = new Map<number, number>();
 const matters = new Map<string, number>();
 let mattersFromViews = 0;
 let mattersNoView = 0;
+let officeDecides = 0;
+let aboveOffice = 0;
+let promisedAbove = 0;
 const townOfficeLines: string[] = [];
 let drawn = 0;
 for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
@@ -310,6 +324,22 @@ for (let attempt = 0; drawn < Number(placesArg) && attempt < 12; attempt += 1) {
         if (fromViews) mattersFromViews += 1;
         else mattersNoView += 1;
       }
+      // Rule 99: a question the office decides, or one above it, which the
+      // player can answer but never promise on.
+      if (tells.length && fromViews) {
+        const local = scene.facts.some((row) => row.key === "office-decides");
+        if (local) officeDecides += 1;
+        else aboveOffice += 1;
+        const promises = (node: TreeNode): number =>
+          node.replies.reduce(
+            (n, reply) =>
+              n +
+              (reply.line.move === "promise" ? 1 : 0) +
+              (reply.next ? promises(reply.next) : 0),
+            0,
+          );
+        if (!local && promises(scene.talk.tree)) promisedAbove += 1;
+      }
       const choices = scene.talk.tree.replies.length;
       byChoices.set(choices, (byChoices.get(choices) ?? 0) + 1);
       const ends = scene.talk.endings.length;
@@ -368,7 +398,7 @@ out.push(
     .map(([n, c]) => `${n}: ${c} scenes`)
     .join(
       ", ",
-    )}.\n\n${townOfficeLines.map((line) => `- ${line}`).join("\n")}\n\nWhat matters, asked at a plain door: ${matters.size} distinct answers in ${mattersFromViews + mattersNoView}; ${mattersFromViews} name the resident's own question from their views record, ${mattersNoView} say they hold no view strong enough.\n\n${[
+    )}.\n\n${townOfficeLines.map((line) => `- ${line}`).join("\n")}\n\nWhat matters, asked at a plain door: ${matters.size} distinct answers in ${mattersFromViews + mattersNoView}; ${mattersFromViews} name the resident's own question from their views record, ${mattersNoView} say they hold no view strong enough. Of those with a view, ${officeDecides} name a question this office decides and ${aboveOffice} one above it (scenes offering a promise on one above it: ${promisedAbove}).\n\n${[
     ...matters,
   ]
     .sort((a, b) => b[1] - a[1])
