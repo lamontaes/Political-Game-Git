@@ -518,11 +518,11 @@
     "file": "src/director/filing-visit.ts",
     "line": 1,
     "whatItFakes": "The counter's talk before filing (which office, the rules that stop a filing, the dates, the term and the duty) is still the filing visit's own sequence of moves, worded from the filing-clerk lines, rather than one scene of the scene engine. The clerk's talk after filing (the petition) is already the scheduled filing scene (purpose filing-petition). The filing-clerk tree lines (key routine: replies, follows and closes about a rival who filed) wait for that scene and play nowhere until then.",
-    "why": "The plan approved Oct 28 (section 1) has the filing conversation fire through the one scheduler; the CTO (Nov 1, 16:05) kept the counter as the player's action screen for now and moved only the after-filing talk, so the golden path's filing step keeps working while the whole talk is built.",
+    "why": "The plan approved Oct 28 (section 1) has the filing conversation fire through the one scheduler; the CTO (Nov 1, 16:05) kept the counter as the player's action screen for now and moved only the after-filing talk, so the golden path's filing step keeps working while the whole talk is built. Resolved Nov 13 (Words builder W3, Fable A's rulings of 04:19Z and 05:03Z on #8928): after the race is named, the counter's talk is one scene of the scene engine (composeSceneTalk, the filing-clerk arc: the race told, then file, ask, a rival or leave), each reply is a scene.reply record, and the next day's filing scene reads the reply that filed; the race pick and a rule refusal stay the counter screen's own steps.",
     "addedBy": "Words session",
     "addedAt": "2026-11-01",
     "replacement": "A filing-clerk scene, caused by the player arriving at the office that takes filings, that plays the whole counter talk through the scene engine and ends by opening the counter screen (the filing-clerk arc's endings already open it); filing-visit.ts's own sequence is then deleted.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORDS-term-read-warmup",
@@ -1067,7 +1067,7 @@
     "kind": "missing-hook",
     "file": "src/director/speech-outline.ts",
     "line": 1,
-    "whatItFakes": "The outline rows for a campaign speech, a floor speech, a victory, a concession and a swearing-in exist, but those speeches are still worded by their own paths (speech-builder.ts, wordSpeechPart, single scene lines) and do not go through planSpeech, because their banks hold no pieces by section.",
+    "whatItFakes": "The outline rows for a victory, a concession and a swearing-in exist, but those speeches are still worded by their own paths and do not go through planSpeech. A council or board member's floor speech and a local campaign speech now go through it (local-speeches.ts); the player's own built speech (speech-builder.ts) does not yet.",
     "why": "Unit 3's time box (Nov 12) covered the planner and the addresses of the President, governors and mayors; the other kinds need their banks typed by section first.",
     "addedBy": "Words builder W-C",
     "addedAt": "2026-11-12",
@@ -1120,6 +1120,90 @@
     "addedBy": "Words builder (words-telling-said-as-talk)",
     "addedAt": "2026-11-12",
     "replacement": "Talk reads the budget, benefits and tax engines' records of whom a changed line reached, and a speaker it reached gives that as their reason.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-speech-unseeded-law-open",
+    "kind": "assumed-data",
+    "file": "src/director/speech-outline.ts",
+    "line": 1,
+    "whatItFakes": "A policy question the laws engine holds no row for in a jurisdiction is read as open (no law answers it yes), cited by the powers record, so a speaker can ask for it. On Nov 12, 11 of the 23 federal questions (a higher top income tax rate, defense spending, foreign aid, a national loan-interest cap, passenger rail and others) had no starting row.",
+    "why": "Every President spoke to the same twelve federal questions, so the same three asks led every address (owner: \"why is it always stock trading?\").",
+    "addedBy": "Words builder W-E",
+    "addedAt": "2026-11-12",
+    "replacement": "The laws engine seeds a starting row for every federal question (in force or not, from the record), and this default is deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-address-pieces-log-scan",
+    "kind": "missing-record",
+    "file": "src/director/opening-facts.ts",
+    "line": 1,
+    "whatItFakes": "A speaker's earlier addresses are found by reading the durable log for address records that name them as speaker, once each time an address is composed (a few times a year), instead of through an index by speaker.",
+    "why": "The one writer of every address prefers the wordings a voice has not used in its earlier addresses, and no record lists a speaker's addresses with the pieces they were said with.",
+    "addedBy": "Words builder W-F",
+    "addedAt": "2026-11-12",
+    "replacement": "The speech module's addresses table (bySpeaker) keeps each address with its pieces, and this read uses its index.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-local-address-conditions",
+    "kind": "missing-hook",
+    "file": "src/director/speech-outline.ts",
+    "line": 1,
+    "whatItFakes": "A governor's or local head's opening tells the budget's balance (budgets.ts), a law of the jurisdiction that took effect in the past year (the laws engine) or a disaster declared for the place (disasters.ts), but no change in jobs or in a big employer: no engine keeps a town's or a state's own year-over-year jobs record the speech could cite, and the outcome web's term read holds no months in a world's first year.",
+    "why": "The words lead, Nov 12: no speech named anything that happened in its place. The budget, the laws and the disasters are read now (words builder, Nov 12); the jobs reader waits on its engine.",
+    "addedBy": "Words builder W-F",
+    "addedAt": "2026-11-12",
+    "replacement": "The planner reads the jobs record of the speaker's realm (a town's employers, a state's jobs) once an engine keeps it by year, and the term read once it holds months.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-local-speaker-no-signature",
+    "kind": "assumed-data",
+    "file": "src/director/speech-outline.ts",
+    "line": 1,
+    "whatItFakes": "A town's, township's or county's officeholder or candidate has no signature issues: the officials engine draws a few causes of their own only for the officials it keeps a row for (state and federal), so a local speaker's theme is picked from how strongly they hold each view and what their traits pull toward, never from causes of their own.",
+    "why": "Local officeholders are full people read through the one stance engine (campaign-stances.ts stanceReader); giving them causes needs the officials engine's drawn signature for local seats.",
+    "addedBy": "Words builder (Opus), Nov 12",
+    "addedAt": "2026-11-12",
+    "replacement": "The officials engine draws a local officeholder's signature issues when they take a local seat (pool item core-local-official-signature), and standsOfPerson reads them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-local-head-longest-serving",
+    "kind": "assumed-data",
+    "file": "src/director/local-address.ts",
+    "line": 1,
+    "whatItFakes": "Where a local government seats no mayor or county executive and its body has not yet chosen whoever presides (no leadership post held), the member who has served longest gives the local address.",
+    "why": "The leadership engine organizes a body the first time a post is read; a board it has not organized has no chair on record.",
+    "addedBy": "Words builder (Opus), Nov 12",
+    "addedAt": "2026-11-12",
+    "replacement": "The leadership engine organizes every local body at the opening, and the address reads its presiding officer only.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-floor-speech-state-chambers",
+    "kind": "missing-hook",
+    "file": "src/director/local-speeches.ts",
+    "line": 1,
+    "whatItFakes": "The floor-debate scene and the scene after a candidate's stump speech play the speech composed by the one planner (speechOfRecord) only for a town's, township's or county's body and race; a state or federal chamber's floor debate still opens on its talk line, and a state or federal candidate's speech is not played.",
+    "why": "composeFloorSpeech and composeCampaignSpeech read the town's seats (townSeats); a state legislator's or a congressional candidate's speech needs the officials engine's row as the governor's address reads it (words builder, Nov 12).",
+    "addedBy": "Words builder (Opus), Nov 12",
+    "addedAt": "2026-11-12",
+    "replacement": "composeFloorSpeech and composeCampaignSpeech read any chamber's members and any race's office through the officials engine, and the floor-debate talk lines that open the scene are deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-player-speech-not-planned",
+    "kind": "missing-hook",
+    "file": "src/director/speech-builder.ts",
+    "line": 1,
+    "whatItFakes": "The player's own campaign speech is the stage builder's four picked parts, each said on its own, not planned by the one outline planner, and a player seated on a town body has no floor speech of their own.",
+    "why": "Wiring the stage choices into planSpeech is more than this pull request's hour (words builder, Nov 12); pool item words-player-speech-through-planner.",
+    "addedBy": "Words builder (Opus), Nov 12",
+    "addedAt": "2026-11-12",
+    "replacement": "Each stage offers the planner's points for the player's stands and /give composes the speech from the plan; the floor day offers the player composeFloorSpeech.",
     "status": "open"
   }
 ]

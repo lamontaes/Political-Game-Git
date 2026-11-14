@@ -14,7 +14,11 @@ import { addDays, makeIsoDate, spokenDate } from "../core2/kernel/dates";
 import { partyName } from "../core2/appointments";
 import board from "../core2/data/macro/board.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
+import {
+  atLargeGroup,
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../core2/modules/elections";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
 import {
@@ -55,13 +59,13 @@ import {
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
-import { causeGroupName } from "../english/group-names";
+import { causeGroupForm, causeGroupName } from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
-import { policyNames } from "./words";
+import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
 import { stateInSentence } from "../director/words";
-import { beatenRunnerUp } from "../core2/modules/voting";
+import { beatenRunnerUp, VOTING_MODULE_ID } from "../core2/modules/voting";
 
 /**
  * The ids of the modules whose tables a story is told from, named here by
@@ -89,6 +93,8 @@ export interface PrintedFacts {
   readonly kind: StoryKind;
   readonly speaker: string;
   readonly facts: Facts;
+  /** Which of the outlets that printed the same record this story is: each takes its own wordings. */
+  readonly turn?: number;
 }
 
 const MONTHS = [
@@ -136,7 +142,7 @@ const SMALL = [
   "nine",
 ];
 /** A count as a paper prints it: one through nine in words, then "1,250". */
-const count = (value: number) =>
+export const count = (value: number) =>
   SMALL[Math.round(value)] ??
   new Intl.NumberFormat("en-US").format(Math.round(value));
 const ORDINALS = [
@@ -206,7 +212,10 @@ const appointerWords = (appointedBy: string | undefined) => {
  * without its article, else the key read as words.
  */
 const measureName = (series: string) =>
-  storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series);
+  // A label kept as "what: for whom" ("State campaign contribution limit:
+  // governor") is said as a phrase ("campaign contribution limit for
+  // governor"); whose law it is the sentence says (Fable A, Nov 13, rule 15).
+  measureSaid(storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series));
 /** A record key read as words: "finance-director" and "financeDirector" are "finance director". */
 const spaced = (key: string) =>
   key
@@ -632,6 +641,7 @@ function story(
   facts: Facts,
   needs: readonly string[],
   speaker = "",
+  turn?: number,
 ): PrintedFacts | null {
   if (!needs.every((key) => facts[key])) return null;
   const said = facts.number?.text.replace(/,/g, "") ?? "";
@@ -641,6 +651,7 @@ function story(
     kind,
     speaker,
     facts: size ? { ...facts, [size]: facts.number! } : facts,
+    ...(turn !== undefined ? { turn } : {}),
   };
 }
 
@@ -1589,10 +1600,25 @@ const debate: Builder = (read, f) => {
 const endorsement: Builder = (read, f) => {
   const group = read.organization(f.organizationId);
   // A group takes its article ("the Republican Party"), and a name that is
-  // no proper name is said in lower case ("the employers' association").
+  // no proper name is said in lower case ("the employers' association"). A
+  // founded group's name is a proper name, cased whole: it keeps its
+  // capitals and takes the verb its number needs (P2, Fruitland, Idaho, Nov
+  // 13: "The friends of policing backs Clara Evans", rule 15).
+  const form = group ? causeGroupForm(group) : null;
+  // A founded group's name is said as its record names it, with no article
+  // added ("Friends of Transportation back ..."; Fable A, Nov 13).
   const said = group
-    ? `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
+    ? form
+      ? group
+      : `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
     : undefined;
+  // The vote the endorsement is for, from the contest's record, so the brief
+  // says something its headline does not.
+  const vote = read.row<{ electionDate?: string }>(
+    ELECTIONS_MODULE_ID,
+    "contests",
+    f.contestId,
+  )?.electionDate;
   const stance = f.stanceQuestion
     ? read.purpose(f.stanceQuestion, Number(f.stancePosition) < 0)
     : {};
@@ -1609,7 +1635,20 @@ const endorsement: Builder = (read, f) => {
     {
       ...read.who(f.candidateId, "name", false),
       ...backer,
+      ...(said && form?.plural
+        ? { "plural-subject": read.fact("yes", f.organizationId ?? "") }
+        : {}),
+      // What the group works for, from the stance its endorsement stood on
+      // (a group told by that stance already says it in its lede).
+      ...(said && "purpose" in stance && stance.purpose
+        ? { work: stance.purpose }
+        : {}),
       ...(office ? { office: read.fact(office, f.contestId ?? "") } : {}),
+      ...(vote
+        ? {
+            when: read.fact(spokenDate(vote), f.contestId ?? ""),
+          }
+        : {}),
     },
     [
       "name",
@@ -1657,38 +1696,272 @@ const electionResult: Builder = (read, f) => {
       ["office"],
       f.contestId,
     );
-  // The one the winner beat: first among those who missed the cut (in an
-  // at-large race the other winners were seated too).
-  const beaten = beatenRunnerUp(f, f.winnerId ?? "");
+  const contest = read.row<ContestRow>(
+    ELECTIONS_MODULE_ID,
+    "contests",
+    f.contestId,
+  );
+  const cite = f.contestId ?? "";
+  const ranked = Object.entries(totals).sort(
+    (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+  );
+  // A race that fills several seats at once (vote for N) is one story that
+  // names its winners together, from the race's own count: everyone who did
+  // not miss the cut (Words lead, Nov 13, rule 30).
+  const seats = num(f.seats) ?? 1;
+  // A seat's record names as out only those who filed for that seat, so a
+  // race for several seats reads its winners from each seat's result (a tie
+  // at the cut is settled by the place's law, not by the totals) and the
+  // first who missed from the whole race's count.
+  const seatWinners =
+    seats > 1 && contest
+      ? atLargeGroup(read.api, contest).flatMap((seat) => {
+          const won = read.row<{ winnerId?: string | null }>(
+            VOTING_MODULE_ID,
+            "results",
+            `result:${seat.id}`,
+          )?.winnerId;
+          return won ? [won] : [];
+        })
+      : [];
+  const winners =
+    seats > 1
+      ? ranked.map(([id]) => id).filter((id) => seatWinners.includes(id))
+      : [f.winnerId ?? ""];
+  // No more names on the ballot than seats is a race without opposition,
+  // for one seat or several (rules 32 and the Words lead's read, Nov 14).
+  const unopposed = ranked.length <= seats;
+  // The one the winner beat: first among those who missed the cut, read from
+  // this race's own count (in an at-large race the other winners were seated
+  // too).
+  const beaten = unopposed
+    ? null
+    : seats > 1
+      ? (ranked
+          .map(([id]) => ({ id }))
+          .find(({ id }) => !winners.includes(id)) ?? null)
+      : beatenRunnerUp(f, f.winnerId ?? "");
   const rival = beaten && read.name(beaten.id) ? beaten.id : undefined;
-  const cast = Object.values(totals).reduce((a, b) => a + b, 0);
+  const cast = ranked.reduce((sum, [, votes]) => sum + votes, 0);
+  // Each person in the story is named in full once, then by last name; two
+  // who share a last name keep their full names (rule 31). A headline also
+  // keeps full names where two of the day's winners share a last name.
+  const named = [...winners, ...(rival ? [rival] : [])].filter((id) =>
+    read.name(id),
+  );
+  const families = named.map((id) => familyOf(read, id));
+  const last = (id: string) => {
+    const family = familyOf(read, id);
+    return families.filter((other) => other === family).length > 1
+      ? read.name(id)!
+      : family;
+  };
+  const dayWinners = contest ? winnersOn(read, contest.electionDate) : [];
+  const short = (id: string) => {
+    const family = familyOf(read, id);
+    return dayWinners.some(
+      (other) => other !== id && familyOf(read, other) === family,
+    )
+      ? read.name(id)!
+      : last(id);
+  };
+  const officeId = contest?.officeId;
+  const district = seatFacts(read, contest?.seatId).district?.text;
+  // The office as a person says it (rule 34): lower case, its district
+  // before it where the seat is numbered ("District 5 commissioner").
+  const said = f.office
+    ? `${district ? `District ${district} ` : ""}${officeWords(f.office)}`
+    : null;
+  // The day of the count as the paper says it a few days on: the weekday
+  // within the week, the date after.
+  const day = read.happened
+    ? Number(
+        (Date.parse(read.story.date) - Date.parse(read.happened)) / 86_400_000,
+      ) < 7
+      ? `on ${WEEKDAYS[new Date(`${read.happened}T12:00:00Z`).getUTCDay()]}`
+      : `on ${spokenDate(read.happened)}`
+    : null;
+  // Who voted: the people the count kept as turning out, where the race is
+  // the town's own count; a wider race is told by its votes (rule 36). A
+  // race without opposition prints no total.
+  const result = read.row<{
+    namedTurnout?: number;
+    countedTurnout?: number;
+    placeVotes?: Record<string, number>;
+  }>(VOTING_MODULE_ID, "results", `result:${cite}`);
+  const voters =
+    result && !Object.keys(result.placeVotes ?? {}).length
+      ? Math.round((result.namedTurnout ?? 0) + (result.countedTurnout ?? 0))
+      : 0;
+  const town =
+    !district && (contest?.level === "city" || contest?.level === "township")
+      ? read.place()
+      : null;
+  const shown = winners.filter((id) => read.name(id));
+  const lastWinner = winners.at(-1);
+  const behind =
+    rival && lastWinner !== undefined
+      ? (totals[lastWinner] ?? 0) - (totals[rival] ?? 0)
+      : 0;
+  const body = read.body(officeId);
+  const winnerVotes = f.winnerId ? totals[f.winnerId] : undefined;
+  const share =
+    cast > 0 && winnerVotes !== undefined ? (winnerVotes / cast) * 100 : null;
   return story(
     "election",
     {
       ...read.who(f.winnerId, "name", false),
+      ...(f.winnerId && read.name(f.winnerId)
+        ? {
+            last: read.fact(last(f.winnerId), f.winnerId),
+            short: read.fact(short(f.winnerId), f.winnerId),
+          }
+        : {}),
       ...read.who(rival, "opponent"),
-      ...(f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {}),
-      ...seatFacts(
-        read,
-        read.row<{ seatId?: string }>(
-          ELECTIONS_MODULE_ID,
-          "contests",
-          f.contestId,
-        )?.seatId,
-      ),
+      ...(rival ? { rival: read.fact(last(rival), rival, cite) } : {}),
+      ...(said ? { office: read.fact(said, cite) } : {}),
+      ...(town ? { place: read.fact(town, cite) } : {}),
+      ...(day ? { day: read.fact(day, cite) } : {}),
       won: read.yes(),
+      ...(unopposed ? { unopposed: read.fact("yes", cite) } : {}),
+      ...(seats > 1
+        ? {
+            atLarge: read.fact("yes", cite),
+            winners: read.fact(listed(shown.map((id) => read.name(id)!)), cite),
+            lasts: read.fact(listed(shown.map(short)), cite),
+            seats: read.fact(count(seats), cite),
+            ...(body ? { body: read.fact(body, officeId!) } : {}),
+            ...(rival && behind > 0
+              ? {
+                  ordinal: read.fact(ordinal(seats + 1), cite),
+                  margin: read.fact(
+                    `${count(behind)} ${behind === 1 ? "vote" : "votes"}`,
+                    cite,
+                  ),
+                }
+              : {}),
+          }
+        : unopposed
+          ? {}
+          : {
+              contested: read.fact("yes", cite),
+              ...(rival && winnerVotes !== undefined
+                ? {
+                    count: read.fact(
+                      `${figure(winnerVotes)} ${winnerVotes === 1 ? "vote" : "votes"} to ${figure(totals[rival] ?? 0)}`,
+                      cite,
+                    ),
+                  }
+                : {}),
+              // A share means something only in a race for one seat
+              // between two or more (rule 33): a whole number, in words;
+              // under half, with the size of the field it led.
+              ...(share !== null
+                ? {
+                    percent: read.fact(`${Math.round(share)} percent`, cite),
+                    ...(share < 50
+                      ? { field: read.fact(count(ranked.length), cite) }
+                      : {}),
+                  }
+                : {}),
+            }),
       ...concessionFacts(read, f.contestId, rival),
-      ...voteFacts(
-        read,
-        num(f.winnerVotes) ?? totals[f.winnerId ?? ""],
-        num(f.totalVotes) ?? (cast > 0 ? cast : undefined),
-        f.contestId,
-      ),
+      ...(unopposed
+        ? {}
+        : voters > 0
+          ? {
+              number: read.fact(count(voters), cite),
+              voters: read.fact("yes", cite),
+            }
+          : cast > 1
+            ? {
+                number: read.fact(count(cast), cite),
+                cast: read.fact("yes", cite),
+              }
+            : {}),
     },
     ["name"],
     f.winnerId,
+    raceTurn(read, contest),
   );
 };
+
+/** Who won each race the town counted on one day, from the elections engine's results. */
+function winnersOn(read: Reader, date: string): string[] {
+  return read
+    .query<ContestRow>(ELECTIONS_MODULE_ID, "contests", "byDate", [date])
+    .flatMap((row) => {
+      const won = read.row<{ winnerId?: string | null }>(
+        VOTING_MODULE_ID,
+        "results",
+        `result:${row.id}`,
+      )?.winnerId;
+      return won ? [won] : [];
+    });
+}
+
+/**
+ * Which of the town's outlets that printed a race this story is, in the
+ * order of their ids: each takes its own wordings (rule 37). An at-large
+ * race may be printed from any of its seats' records.
+ */
+function raceTurn(read: Reader, contest: ContestRow | undefined): number {
+  if (!contest || !read.core.modules.has(PRESS_MODULE_ID)) return 0;
+  const outlets = new Set<string>();
+  for (const seat of atLargeGroup(read.api, contest))
+    for (const row of read.query<{ outletId: string }>(
+      PRESS_MODULE_ID,
+      "stories",
+      "byWire",
+      [`election-result:${seat.id}`],
+    ))
+      outlets.add(row.outletId);
+  const mine = /^printed:(.+?):election-result:/.exec(read.story.id)?.[1];
+  return Math.max(0, [...outlets].sort().indexOf(mine ?? ""));
+}
+
+/** A vote count as a paper prints it, always in figures: "23 votes to 5". */
+const figure = (value: number) =>
+  new Intl.NumberFormat("en-US").format(Math.round(value));
+
+const WEEKDAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+/** A person's or a named official's last name, from their record. */
+function familyOf(read: Reader, id: string): string {
+  const person = read.core.people.get(id as EntityId);
+  if (person) return person.familyName;
+  return read.term(id)?.identity.familyName ?? read.name(id) ?? "";
+}
+
+/**
+ * An office title as a sentence says it (rule 34): "Council member" is
+ * "council member", "County assessor" "county assessor"; an abbreviation
+ * ("U.S.") keeps its capitals.
+ */
+function officeWords(title: string): string {
+  return title
+    .split(" ")
+    .map((word) =>
+      /^[A-Z.]+$/.test(word) && word.length > 1 ? word : word.toLowerCase(),
+    )
+    .join(" ");
+}
+
+/** Up to three names, then how many more (rule 30): "A, B, C and two others". */
+function listed(names: readonly string[]): string {
+  if (names.length <= 2) return names.join(" and ");
+  if (names.length === 3) return `${names[0]}, ${names[1]} and ${names[2]}`;
+  const more = names.length - 3;
+  return `${names.slice(0, 3).join(", ")} and ${count(more)} ${more === 1 ? "other" : "others"}`;
+}
 
 /**
  * Whether the runner-up conceded on the call after the count, or would not
@@ -1759,21 +2032,6 @@ function seatFacts(read: Reader, seatId: string | undefined): Facts {
   // stopgapId: SG-GOV-named-district-story (a district named by place or a ward prints the office only)
   read.api.stopgap("SG-GOV-named-district-story");
   return {};
-}
-
-/** The winner's share of the vote and how many votes were cast, when the count is kept. */
-function voteFacts(
-  read: Reader,
-  won: number | undefined,
-  cast: number | undefined,
-  cite: string | undefined,
-): Facts {
-  return won && cast && cast > 1 && won <= cast
-    ? {
-        percent: read.fact(percent((won / cast) * 100), cite ?? ""),
-        number: read.fact(count(cast), cite ?? ""),
-      }
-    : {};
 }
 
 /** A party primary held for a race. */
@@ -3327,14 +3585,62 @@ const localAddress =
 const ARCHIVED: Readonly<Record<string, Builder>> = {
   "election-result": (read, f) => {
     const office = read.officeTitle(f.officeId);
+    const seat = seatFacts(read, f.seatId);
+    const body = read.body(f.officeId);
+    const won = num(f.winnerVotes);
+    const cast = num(f.totalVotes);
+    const cite = f.recordId ?? "";
+    // The archive keeps the winner's votes and all votes cast, not the
+    // field: one name on the ballot took every vote; an at-large seat is a
+    // seat on its body, told without a share (rules 32 to 34).
+    const counted = won !== undefined && cast !== undefined && cast > 1;
     return story(
       "election",
       {
         ...read.who(f.winnerId, "name", false),
-        ...(office ? { office: read.fact(office, f.officeId ?? "") } : {}),
-        ...seatFacts(read, f.seatId),
+        ...(f.winnerId && read.name(f.winnerId)
+          ? {
+              last: read.fact(familyOf(read, f.winnerId), f.winnerId),
+              short: read.fact(familyOf(read, f.winnerId), f.winnerId),
+            }
+          : {}),
+        ...(seat.atLarge && body
+          ? {
+              office: read.fact(`a seat on the ${body}`, f.officeId ?? ""),
+              seat: read.yes(),
+            }
+          : office
+            ? {
+                office: read.fact(
+                  `${seat.district ? `District ${seat.district.text} ` : ""}${officeWords(office)}`,
+                  f.officeId ?? "",
+                ),
+              }
+            : {}),
+        ...(read.happened
+          ? { day: read.fact(`on ${spokenDate(read.happened)}`, cite) }
+          : {}),
         won: read.yes(),
-        ...voteFacts(read, num(f.winnerVotes), num(f.totalVotes), f.recordId),
+        ...(seat.atLarge || !counted
+          ? {}
+          : won >= cast
+            ? { unopposed: read.yes() }
+            : {
+                contested: read.yes(),
+                // The archive keeps no field, so a share under half (which
+                // needs its field said) is left out.
+                ...(won * 2 >= cast
+                  ? {
+                      percent: read.fact(
+                        `${Math.round((won / cast) * 100)} percent`,
+                        cite,
+                      ),
+                    }
+                  : {}),
+              }),
+        ...(counted && !(won >= cast)
+          ? { number: read.fact(count(cast), cite), cast: read.yes() }
+          : {}),
       },
       ["name"],
       f.winnerId,
@@ -3354,6 +3660,10 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       POLICIES[f.question ?? ""]?.purpose ?? ISSUES[f.question ?? ""];
     if (yes === undefined || no === undefined || !body || !measure) return null;
     const margin = Math.abs(yes - no);
+    // A bill that failed fell short by the votes it lacked for a majority of
+    // those cast (the engine passes a bill when its yeas outnumber its nays),
+    // never by the margin (Fable A, Nov 13, rule 15: 61 to 89 is 15 short).
+    const shortBy = Math.floor((yes + no) / 2) + 1 - yes;
     return story(
       "vote-or-law",
       {
@@ -3367,6 +3677,9 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
           : margin > 1
             ? { margin: read.fact(count(margin)) }
             : {}),
+        ...(f.passed !== "true" && shortBy > 1
+          ? { "short-by": read.fact(count(shortBy)) }
+          : {}),
       },
       ["body", "measure"],
     );

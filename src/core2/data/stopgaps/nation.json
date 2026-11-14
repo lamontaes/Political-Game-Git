@@ -158,8 +158,8 @@
     "why": "The federal budget engine in the played world is the town's own chain's; the tier has no federal budget lines by state yet (data/research/federal/federal-spending-by-state-fy2024.json is not read).",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "The federal ledger's lines read from the federal budget the game's Congress adopts, with federal spending by state from the research file, so a federal budget change reaches each state's cells.",
-    "status": "open"
+    "replacement": "Resolved (pool item core-country-tier-federal-budget-reaches-the-states, Nov 11, 2026): the fitted figure is deleted. The tier's federal ledger reads the federal budget in force line by line (federalSpendingReader in src/core2/country-law.ts), each line shared among the states by population times the world's stake in it (data/research/federal/federal-spending-by-state-fy2024.json) and sent where it pays (src/core2/data/country/federal-lines.json): household lines scale the cells' benefits, purchase lines are bought from the state's sectors, interest and aid abroad leave the cells. The nation now runs the deficit its budget gives. Shown in tests/golden-path/federal-dollar.node-test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-NATION-country-tier-state-budgets",

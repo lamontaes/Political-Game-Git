@@ -8,6 +8,7 @@
  * the pieces for each stage, filled from the speaker's records, and a subject
  * with no record for its slots is never offered.
  */
+// stopgapId: SG-WORDS-player-speech-not-planned
 import { heldSinceRecord, schoolsAttended } from "../core2/past";
 import {
   speechPartsByReach,
@@ -32,7 +33,7 @@ import {
   questionName,
   questionTopic,
 } from "../english/policy-names";
-import { numberWord, properName, spoken } from "./words";
+import { numberWord, organizationName, properName, spoken } from "./words";
 
 export type SpeechStage = "opener" | "core" | "closer";
 /** Opener, two parts at the core, closer. */
@@ -84,7 +85,7 @@ function factsOf(
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
   if (org)
-    facts.employer = { text: properName(org.name), sourceRecordIds: [org.id] };
+    facts.employer = { text: organizationName(org), sourceRecordIds: [org.id] };
   // How long they have held it, from the record of their working life.
   const tenure = heldSinceRecord(core as CoreState, person.id, person.jobId);
   if (tenure) {

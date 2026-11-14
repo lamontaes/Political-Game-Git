@@ -38,13 +38,24 @@ import type {
   OpeningMove,
   OpeningSpeechKind,
 } from "../english/english-opening-speech";
-import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
+import {
+  ADDRESS_FACT,
+  ADDRESS_PART_BREAK,
+  addressPiecesFact,
+  earlierAddressPieces,
+} from "./opening-facts";
 import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
+import {
+  questionAbout,
+  questionAgain,
+  questionLaw,
+} from "../english/question-names";
+import { SUBJECT_WORDS } from "../english/composed-checks";
 import { P } from "../core2/parameters";
 import { officeWords, saidAs } from "../english/said-as";
-import { tellingOf } from "../english/telling";
+import { mentionsOf, noteMention, tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
 import type { AddressKind } from "./address-kind";
 import {
@@ -53,6 +64,7 @@ import {
   planSpeech,
   type Block,
   type Facts,
+  type PlannedPoint,
 } from "./speech-outline";
 
 export {
@@ -65,6 +77,7 @@ export {
   fact,
   type Block,
   type Facts,
+  type PlannedPoint,
   type Stand,
 } from "./speech-outline";
 
@@ -105,6 +118,8 @@ export interface OpeningStory {
   readonly theme: string | null;
   /** The questions the speech asks for or against, each once, by question. */
   readonly asks: readonly string[];
+  /** Each point as the outline planned it (shape, side, belief, figure). */
+  readonly points: readonly PlannedPoint[];
   readonly president: {
     readonly id: PersonId;
     readonly name: string;
@@ -142,7 +157,15 @@ const INAUGURATION_EVENT = "inauguration";
 export const OPENING_ADDRESS_EVENT = "president.address";
 
 /** The world's names and subjects an address says no more often than `namesSaid` while another wording can do without them. */
-const WORLD_NAMES: readonly string[] = ["prior-office", "hardest", "best"];
+const WORLD_NAMES: readonly string[] = [
+  "prior-office",
+  "hardest",
+  "best",
+  // The governor's state or the local head's place (speech-has-one-theme:
+  // "Tennessee" four times in one address).
+  "realm-name",
+  "realm-bare",
+];
 
 /** The world's names that are never said more than `namesSaid` times unless a required move needs them: its people and the President's own office. */
 const PERSON_NAMES: readonly string[] = ["prior-office"];
@@ -163,6 +186,26 @@ const CASES = {
   "-possessive": "possessive",
   "-addressed": "subject",
 } as const;
+
+/**
+ * The fact keys a composed part used, with each person said in a case
+ * ({vice-president-object}) also counted as that person's own fact: the bank
+ * requires a case slot by its own name, and the composer fills it from the
+ * person's one fact (`withCases`), so the name budgets count the person.
+ */
+function usedKeys(part: {
+  readonly usedFactKeys: readonly string[];
+}): string[] {
+  return [
+    ...new Set([
+      ...part.usedFactKeys,
+      ...part.usedFactKeys.flatMap((key) => {
+        const slot = personSlot(key);
+        return slot ? [slot.person] : [];
+      }),
+    ]),
+  ];
+}
 
 /** The person and the case a slot's fact key says, or null for a slot that is no person. */
 function personSlot(
@@ -214,6 +257,7 @@ function composeAddressOf(
   addressKind: AddressKind;
   theme: string | null;
   asks: readonly string[];
+  points: readonly PlannedPoint[];
 } | null {
   const plan = planSpeech(core, kind, {
     person: president,
@@ -228,6 +272,7 @@ function composeAddressOf(
         addressKind: plan.addressKind,
         theme: plan.theme,
         asks: plan.asks,
+        points: plan.points,
       }
     : null;
 }
@@ -239,6 +284,33 @@ function composeAddressOf(
  * said. The one writer of every address (the President's, a governor's, a
  * mayor's).
  */
+/** The roles of sentences that only set the scene, left out rather than say a subject word past its budget. */
+const LEFT_OUT_PAST_BUDGET: readonly string[] = [
+  // How a point's question stands today is never left out: every point
+  // says it (the words lead, Nov 12: context, stand, ask).
+  "meaning",
+  "tie",
+  "context",
+  "story-says",
+  "budget-condition",
+  "year-condition",
+  "hope",
+];
+/** A question's own record id in a fact's sources (speech-outline.ts `standFacts`). */
+const QUESTION_ID = "question:";
+/** The slots that say a question as a noun phrase, said by its second name once named. */
+const AGAIN_NOUNS: readonly string[] = ["about", "law-name"];
+/** The verbs a side opens with when its object is the question's own name. */
+const SIDE_VERB = /^(?:say no to|repeal|keep|end) /;
+/** The slots that say a side of a question with its name inside ("say no to {about}"). */
+const AGAIN_INSIDE: readonly string[] = ["side", "first-side"];
+/**
+ * The slots whose saying names the question: its name and its sides. How it
+ * stands today does not name it ("Why fix what works, when ...?"), so a
+ * sentence after one still says the question's full name once.
+ */
+const NAMING_KEYS = /^(?:about|law-name|to|side|first-side)$/;
+
 export function composeBlocks(
   core: CoreState,
   president: PersonState,
@@ -254,8 +326,14 @@ export function composeBlocks(
       .map((row) => row.id),
   ];
   const sentences: OpeningSentence[] = [];
-  // Pieces already said, so no wording is used twice while another can say it.
-  const said: string[] = [];
+  // Pieces already said, oldest first: those of every earlier address in
+  // this world, whoever gave it (a frame the governor said is not the town
+  // head's next month), then this one's as it is said, so no wording is used
+  // twice while another can say it, and the one said longest ago comes back
+  // first.
+  const said: string[] = earlierAddressPieces(core);
+  // How often each subject word has been said in the address.
+  const subjectSaid = new Map<string, number>();
   // How often each of the world's names has been said in the address.
   const named = new Map<string, number>();
   // The seats of the people already said in this address, so a person is
@@ -271,11 +349,19 @@ export function composeBlocks(
     const id = row.sourceRecordIds[P.zero];
     if (!slot || !id) return row.text;
     const person = saidPersonOf(core, id, telling);
+    // Spoken to by office and name: the full name at first mention, the
+    // office and family name after ("Thank you, Vice President Franklin"),
+    // and the mention is the telling's, so a part after it in the same
+    // sentence says the person by role (said-as; the Vice President was
+    // named three times in Stockport, Iowa, seed 5c1e8a0b7d2f4e19:0).
     if (slot.ending === "-addressed") {
       const office = officeWords(person.officeKind);
-      return office
+      if (!office) return row.text;
+      const first = mentionsOf(telling, person.id) === P.zero;
+      if (say) noteMention(telling, person.id, first);
+      return first
         ? `${office.before} ${person.givenName} ${person.familyName}`
-        : row.text;
+        : `${office.before} ${person.familyName}`;
     }
     const memory = telling.text;
     const into = say
@@ -318,6 +404,47 @@ export function composeBlocks(
   const ledIn = new Set<string>();
   // Whether the turn to the Vice President, which always names them, is still to come.
   let vpAhead = blocks.some((block) => block.key === "to-vp");
+  // The questions this speech has named (speech-has-one-theme; the words
+  // lead, Nov 12: "The subject is said once, then varied"): once a sentence
+  // has said a question by its name or one of its sides, every later sentence
+  // says it by its second-mention name (question-names `again`: "a clean
+  // electricity standard" is "the standard"), in its noun slots and inside
+  // the side said of it ("say no to the standard").
+  const questionsNamed = new Set<string>();
+  const questionOf = (row: Facts[string] | undefined) =>
+    row?.sourceRecordIds
+      .find((id) => id.startsWith(QUESTION_ID))
+      ?.slice(QUESTION_ID.length) ?? null;
+  const againOf = (facts: Facts): Facts =>
+    Object.fromEntries(
+      Object.entries(facts).map(([key, row]) => {
+        const question = questionOf(row);
+        const again = question ? questionAgain(question) : null;
+        if (!row || !question || !again || !questionsNamed.has(question))
+          return [key, row];
+        const names = [questionAbout(question), questionLaw(question)].filter(
+          (name): name is string => !!name,
+        );
+        if (AGAIN_NOUNS.includes(key)) return [key, { ...row, text: again }];
+        if (!AGAIN_INSIDE.includes(key)) return [key, row];
+        // Only where the side's verb takes the name itself ("say no to a
+        // clean electricity standard"), never inside another noun ("the
+        // rule against asking about ...").
+        const verb = SIDE_VERB.exec(row.text)?.[P.zero] ?? null;
+        const name = verb
+          ? names.find((text) => row.text.slice(verb.length).startsWith(text))
+          : undefined;
+        return [
+          key,
+          verb && name
+            ? {
+                ...row,
+                text: `${verb}${again}${row.text.slice(verb.length + name.length)}`,
+              }
+            : row,
+        ];
+      }),
+    );
   let paragraph: number | null = null;
   for (const block of blocks) {
     // A pronoun points back only within its paragraph: a new paragraph says
@@ -356,7 +483,7 @@ export function composeBlocks(
     // The facts each said move was worded with, the people as the telling had them.
     const toldOf: Facts[] = [];
     for (const planned of moves) {
-      const told = tellOf(block.facts);
+      const told = tellOf(againOf(block.facts));
       // No lead-in ("To Congress,", "Across the country,") is said twice in
       // an address; a move whose lead-ins are all said goes without one.
       const opener = planned.bank.parts.opener;
@@ -364,6 +491,13 @@ export function composeBlocks(
         (variant) =>
           !ledIn.has(variant.kind === "template" ? variant.text : variant.key),
       );
+      // A meaning line says "that" of the fact line before it, so it plays
+      // only after its own fact line in the same block (words lead, round 6).
+      if (
+        (planned.key === "meaning" || planned.key.startsWith("meaning-")) &&
+        !address.moves.some((done) => /^context(-|$)/.test(done.move))
+      )
+        continue;
       const move: OpeningMove =
         opener && unsaid!.length < opener.variants.length
           ? {
@@ -441,7 +575,7 @@ export function composeBlocks(
         row.moves.some((done) => {
           if (
             !done.parts.some((part) =>
-              part.usedFactKeys.includes("vice-president"),
+              usedKeys(part).includes("vice-president"),
             )
           )
             return false;
@@ -453,6 +587,39 @@ export function composeBlocks(
             [...runs].some((run) => earlier.has(run)),
           );
         });
+      // A sentence says a person's full name once (said-as): a greeting that
+      // addresses the Vice President by name and a core joined to it that
+      // names them again ("Vice President Brian Franklin, ... I am grateful
+      // to Vice President Brian Franklin") is drawn again.
+      const fullNames = PEOPLE.flatMap((person) => {
+        const id = block.facts[person]?.sourceRecordIds[P.zero];
+        if (!id) return [];
+        const said = saidPersonOf(core, id, telling);
+        return [`${said.givenName} ${said.familyName}`];
+      });
+      const namesTwice = (row: ReturnType<typeof sayMove>) =>
+        row.kind === "rendered" &&
+        fullNames.some((name) => row.text.split(name).length - P.one > P.one);
+      // A subject's word is said at most the composed check's budget in one
+      // speech (speech-has-one-theme): a wording that would say one more
+      // time is drawn again, a few times, and the fewest over stands.
+      const overBy = (row: ReturnType<typeof sayMove>) => {
+        if (row.kind !== "rendered") return P.zero;
+        const names = new Set(
+          Object.entries(told)
+            .filter(([key]) => !!personSlot(key))
+            .flatMap(([, value]) => SUBJECT_WORDS.wordsOf(value.text)),
+        );
+        const counts = new Map(subjectSaid);
+        let over = P.zero;
+        for (const word of SUBJECT_WORDS.of(row.text)) {
+          if (names.has(word)) continue;
+          const now = (counts.get(word) ?? P.zero) + P.one;
+          counts.set(word, now);
+          if (now > SUBJECT_WORDS.most()) over += P.one;
+        }
+        return over;
+      };
       const tries = [
         within(counted),
         ...(move.required || block.required || block.key === "to-vp"
@@ -468,19 +635,41 @@ export function composeBlocks(
         let said = sayMove(move, facts);
         for (
           let retry = P.one;
-          retry <= SHAPE.parameters.redraws.value && echoesVice(said);
+          retry <= SHAPE.parameters.redraws.value &&
+          (echoesVice(said) || namesTwice(said) || overBy(said) > P.zero);
           retry += P.one
+        ) {
+          const again = sayMove(move, facts, retry);
+          if (
+            again.kind === "rendered" &&
+            !echoesVice(again) &&
+            !namesTwice(again) &&
+            (echoesVice(said) ||
+              namesTwice(said) ||
+              overBy(again) < overBy(said))
+          )
+            said = again;
+        }
+        // A sentence that only sets the scene (a figure, a condition, a
+        // hope) and would still say a subject word past the
+        // budget after its redraws is left out: the point stands on its
+        // belief and its ask (speech-has-one-theme).
+        if (
+          overBy(said) > P.zero &&
+          !move.required &&
+          !block.required &&
+          LEFT_OUT_PAST_BUDGET.some(
+            (role) => move.key === role || move.key.startsWith(`${role}-`),
+          )
         )
-          said = sayMove(move, facts, retry);
+          return [];
         return timeTwice(said) ? [sayMove(bare, facts)] : [said];
       });
       const result = tries.find((row) => row.kind === "rendered") ?? null;
       if (result?.kind === "rendered")
         for (const done of result.moves)
           if (
-            done.parts.some((part) =>
-              part.usedFactKeys.includes("vice-president"),
-            )
+            done.parts.some((part) => usedKeys(part).includes("vice-president"))
           )
             viceSaid.push(
               fourWordRuns(done.text, block.facts["vice-president"]?.text),
@@ -496,7 +685,7 @@ export function composeBlocks(
         for (const part of done.parts)
           if (part.part === "opener") ledIn.add(part.text);
         for (const key of new Set(
-          done.parts.flatMap((part) => part.usedFactKeys),
+          done.parts.flatMap((part) => usedKeys(part)),
         )) {
           const text = told[key]?.text;
           if (counted(key) && text)
@@ -512,6 +701,19 @@ export function composeBlocks(
         }
         // A later move of this block does not repeat this one's wordings.
         said.push(...done.parts.map((part) => part.partKey));
+        // A question said in this sentence is said again by its second name.
+        for (const key of done.parts.flatMap((part) => usedKeys(part))) {
+          const question = questionOf(told[key]);
+          if (question && NAMING_KEYS.test(key)) questionsNamed.add(question);
+        }
+        const nameWords = new Set(
+          Object.entries(told)
+            .filter(([key]) => !!personSlot(key))
+            .flatMap(([, value]) => SUBJECT_WORDS.wordsOf(value.text)),
+        );
+        for (const word of SUBJECT_WORDS.of(done.text))
+          if (!nameWords.has(word))
+            subjectSaid.set(word, (subjectSaid.get(word) ?? P.zero) + P.one);
       }
     }
     if (!address.moves.length) {
@@ -520,7 +722,7 @@ export function composeBlocks(
     }
     for (const [at, move] of address.moves.entries()) {
       const facts = toldOf[at] ?? block.facts;
-      const used = new Set(move.parts.flatMap((part) => part.usedFactKeys));
+      const used = new Set(move.parts.flatMap((part) => usedKeys(part)));
       // A crafted device cites the addresses that earned it.
       const earned = move.parts.some((part) => part.device) ? craft : [];
       const visit = used.has("place")
@@ -589,7 +791,7 @@ export function composeOpeningStory(
     : "state-of-the-union";
   const composed = composeAddressOf(core, president, official, kind);
   if (!composed?.sentences.length) return null;
-  const { sentences, addressKind, theme, asks } = composed;
+  const { sentences, addressKind, theme, asks, points } = composed;
   const pastFact = (kindKey: string) =>
     (president.pastFacts ?? []).find((row) => row.kind === kindKey);
   const home = pastFact(PRESIDENT_FACT.homeState);
@@ -611,6 +813,7 @@ export function composeOpeningStory(
     addressKind,
     theme,
     asks,
+    points,
     president: {
       id: president.id,
       name: `${president.givenName} ${president.familyName}`,
@@ -698,6 +901,10 @@ export function recordOpeningStory(
       [ADDRESS_FACT.remembered]: story.address.rememberedLine.text,
       [ADDRESS_FACT.text]: story.address.text,
       [ADDRESS_FACT.parts]: story.address.parts.join(ADDRESS_PART_BREAK),
+      [ADDRESS_FACT.pieces]: addressPiecesFact(
+        story.address.sentences,
+        story.points,
+      ),
     },
   });
   return story;

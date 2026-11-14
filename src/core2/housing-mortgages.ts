@@ -147,6 +147,61 @@ function balanceAfter(
   return (principal * (n - g)) / (n - 1);
 }
 
+/**
+ * The loan a household took when it bought its home in `boughtYear`, as it
+ * stands at `startedAt`: the price then (today's value moved back by the
+ * state's house price index), the down payment for a first or repeat buyer,
+ * the rate that year and the payments made since. Undefined once paid off.
+ * The opening's mortgages and the housing history's restated ones (a full
+ * owner who moved in after the drawn year) are both this one formula.
+ */
+export function mortgageFrom(
+  owner: { readonly oldest: number; readonly valueMinor: number },
+  boughtYear: number,
+  at: {
+    readonly usps: string;
+    readonly startedAt: string;
+    readonly seed: string;
+    readonly p: MacroParameter;
+  },
+):
+  | {
+      rate: number;
+      down: number;
+      original: number;
+      payment: number;
+      balance: number;
+      paid: number;
+    }
+  | undefined {
+  const { p } = at;
+  const year = Number(at.startedAt.slice(0, "YYYY".length));
+  const months = p("macroMonthsPerYear"),
+    termMonths = p("housingMortgageTermYears") * months;
+  const paid = (year - boughtYear) * months;
+  if (paid >= termMonths) return undefined;
+  const down =
+    boughtYear - owner.oldest < p("housingFirstTimeBuyerMedianAge")
+      ? DATA.downPayment.firstTime
+      : DATA.downPayment.repeat;
+  // What the home cost then: today's value moved back by the state's house price index.
+  const price =
+    owner.valueMinor *
+    homePriceRatio(at.usps, at.startedAt, `${boughtYear}-07-01`, at.seed);
+  const original = price * (1 - down);
+  const rate =
+    historicalMortgageRate(`${boughtYear}-06`, p) / p("macroHundred");
+  const r = rate / months;
+  const payment = Math.round(
+    r > 0
+      ? (original * r) / (1 - (1 + r) ** -termMonths)
+      : original / termMonths,
+  );
+  const balance = Math.round(balanceAfter(original, r, termMonths, paid));
+  if (payment <= 0 || balance <= 0) return undefined;
+  return { rate, down, original, payment, balance, paid };
+}
+
 export function openingMortgages(input: {
   owners: readonly MortgageOwner[];
   startedAt: IsoDate;
@@ -170,12 +225,13 @@ export function openingMortgages(input: {
   contracts: FinanceContractInput[];
   flows: ResidentFlowInput[];
   terms: MortgageTerms[];
+  /** The year every owner bought its home, mortgaged or not. */
+  boughtYears: Record<string, number>;
 } {
   const { owners, p } = input;
   const year = Number(input.startedAt.slice(0, "YYYY".length));
   const months = p("macroMonthsPerYear"),
-    termMonths = p("housingMortgageTermYears") * months,
-    firstTimeAge = p("housingFirstTimeBuyerMedianAge");
+    termMonths = p("housingMortgageTermYears") * months;
   // Older owners moved in earlier: assign the ACS periods by age, oldest first.
   const byAge = [...owners].sort(
     (a, b) => a.oldest - b.oldest || a.id.localeCompare(b.id),
@@ -233,33 +289,9 @@ export function openingMortgages(input: {
   for (const owner of owners) {
     if (!owes.has(owner.id) || owner.valueMinor <= 0) continue;
     const boughtYear = bought.get(owner.id)!;
-    const paid = (year - boughtYear) * months;
-    if (paid >= termMonths) continue;
-    const ageThen = boughtYear - owner.oldest;
-    const down =
-      ageThen < firstTimeAge
-        ? DATA.downPayment.firstTime
-        : DATA.downPayment.repeat;
-    // What the home cost then: today's value moved back by the state's house price index.
-    const price =
-      owner.valueMinor *
-      homePriceRatio(
-        input.usps,
-        input.startedAt,
-        `${boughtYear}-07-01`,
-        input.seed,
-      );
-    const original = price * (1 - down);
-    const rate =
-      historicalMortgageRate(`${boughtYear}-06`, p) / p("macroHundred");
-    const r = rate / months;
-    const payment = Math.round(
-      r > 0
-        ? (original * r) / (1 - (1 + r) ** -termMonths)
-        : original / termMonths,
-    );
-    const balance = Math.round(balanceAfter(original, r, termMonths, paid));
-    if (payment <= 0 || balance <= 0) continue;
+    const loan = mortgageFrom(owner, boughtYear, input);
+    if (!loan) continue;
+    const { rate, down, original, payment, balance, paid } = loan;
     const id = `${MORTGAGE_PREFIX}${owner.id}`;
     // A full household's standing bill can only pay a recorded local account, so the bank holds those loans.
     const holderId =
@@ -323,5 +355,5 @@ export function openingMortgages(input: {
       source: input.source,
     });
   }
-  return { contracts, flows, terms };
+  return { contracts, flows, terms, boughtYears: Object.fromEntries(bought) };
 }

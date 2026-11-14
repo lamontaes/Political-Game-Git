@@ -30,11 +30,27 @@ import { countyDisplayName } from "./business-names";
 import { governmentProperName } from "./government-proper-name";
 
 /**
+ * The place as its body's name says it: a town's, village's or city's class
+ * word goes where the body's own name follows ("Town of Montville" seats the
+ * "Montville Board of Selectmen"), a township's follows its name ("Township
+ * of Ocean" seats the "Ocean Township Committee"), and a Puerto Rico
+ * municipio is said by its name alone ("Ciales Municipal Legislature").
+ * Counties, parishes and boroughs keep theirs ("Example County Commission").
+ * One rule in the name reader (Words lead, Nov 14), so the paper, the
+ * meeting panel and every other view read one name from the office record.
+ */
+function placeOfBody(area: string): string {
+  const of = /^(Town|Village|City|Plantation|Township) of (.+)$/.exec(area);
+  if (of) return of[1] === "Township" ? `${of[2]} Township` : of[2]!;
+  return area.replace(/ Municipio$/, "");
+}
+
+/**
  * What a board of a county, parish or township is called: its government as
  * people say it plus the board's own name, without saying "County" twice.
  * "COUNTY OF POCAHONTAS" with "County Commission" is "Pocahontas County
- * Commission"; with "Board of County Commissioners" it is "Board of County
- * Commissioners of Pocahontas County"; with "Board of Supervisors" it is
+ * Commission"; with "Board of County Commissioners" it is "Pocahontas County
+ * Board of Commissioners", the kind said once; with "Board of Supervisors" it is
  * "Pocahontas County Board of Supervisors".
  */
 export function boardBodyName(
@@ -42,11 +58,16 @@ export function boardBodyName(
   bodyName: string,
   governmentId?: string,
 ): string {
-  const area = countyDisplayName(listed, governmentId);
+  const area = placeOfBody(countyDisplayName(listed, governmentId));
   const kind = area.split(" ").at(-1)!;
   if (bodyName.startsWith(`${kind} `))
     return `${area.slice(0, -kind.length)}${bodyName}`;
-  if (bodyName.split(" ").includes(kind)) return `${bodyName} of ${area}`;
+  // The board's own name says the place's kind once the place has said it:
+  // "Board of Township Trustees" for Auglaize Township is the "Auglaize
+  // Township Board of Trustees" (Words lead, Nov 14).
+  const words = bodyName.split(" ");
+  if (words.includes(kind))
+    return `${area} ${words.filter((word) => word !== kind).join(" ")}`;
   return `${area} ${bodyName}`;
 }
 

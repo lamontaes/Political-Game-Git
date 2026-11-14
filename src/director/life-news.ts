@@ -12,7 +12,7 @@ import { P } from "../core2/parameters";
 import { MOVED_AWAY_EVENT } from "../core2/modules/moves";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { properName } from "./words";
+import { organizationName } from "./words";
 
 export interface NewsFact {
   text: string;
@@ -124,7 +124,7 @@ export function newsSince(
   const job = commitment ? core.jobs.get(commitment.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
   if (commitment && job && org && !job.endsAt) {
-    put("new-employer", properName(org.name), [job.id, org.id]);
+    put("new-employer", organizationName(org), [job.id, org.id]);
   }
 
   const illness = recordsSince(core, personId, ILLNESS_EVENT, since, until).at(

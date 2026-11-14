@@ -64,6 +64,7 @@ export function calendarScreen({
   items: every,
   labels,
   onAdvance,
+  onAttend,
   held = false,
 }) {
   // The kinds the player has hidden stay hidden, and the key lists the kinds
@@ -118,6 +119,22 @@ export function calendarScreen({
     month = new Date(`${iso.slice(0, 7)}-01T12:00:00`);
     select(iso);
   };
+  // A posted meeting the player may come to as a resident: mark it, or take the mark
+  // back. The server answers with the calendar as it now stands.
+  const attendButton = (item) => {
+    const b = button(
+      item.attend.marked ? labels.attending : labels.attend,
+      async () => {
+        b.disabled = true;
+        every = await onAttend(item.attend, !item.attend.marked);
+        rebuild();
+        drawDay();
+      },
+      "action small attend-meeting",
+    );
+    b.setAttribute("aria-pressed", String(item.attend.marked));
+    return b;
+  };
   // The chosen day on its plate: weekday, the date large, how far off it is, each thing on
   // it with its icon, and the jump to it.
   const drawDay = () => {
@@ -135,7 +152,21 @@ export function calendarScreen({
               "div",
               { className: `calendar-entry${item.own ? " own" : ""}` },
               icon(item),
-              el("span", { className: "what", textContent: item.line }),
+              item.attend && onAttend
+                ? el(
+                    "div",
+                    { className: "what" },
+                    el("span", { textContent: item.line }),
+                    // Once marked, the plan in the record's words.
+                    item.attend.plan
+                      ? el("span", {
+                          className: "attend-plan",
+                          textContent: item.attend.plan,
+                        })
+                      : "",
+                    attendButton(item),
+                  )
+                : el("span", { className: "what", textContent: item.line }),
             ),
             groupOf(item.kind),
           ),

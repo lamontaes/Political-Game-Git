@@ -50,6 +50,7 @@ import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import {
   billOf,
+  bodyOf,
   learnedStakesOf,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -60,19 +61,26 @@ import {
 import { remarksOn } from "../core2/modules/meetings";
 import {
   adjourn,
+  attendMeeting,
   clearPrepared,
   decideDesk,
   deskWaiting,
   leaveDeskToCharacter,
+  leaveMeeting,
   meetingInProgress,
+  meetingOf,
   officeActsOf,
   officeHost,
   officeJobsOf,
   prepareAct,
   speakOnItem,
   takeUpItem,
-  upcomingMeeting,
+  type MeetingRow,
+  nextMeetingDate,
 } from "../core2/modules/office-day";
+import { dateWords } from "../english/plain-words.mjs";
+import { screenPick, screenWays } from "../english/screen-words";
+import { count } from "./printed-words";
 import { bodyMembers, bodyScene, personName } from "./legislature";
 import {
   headCandidates,
@@ -154,6 +162,60 @@ export function floorDecide(core: CoreState, billId: string, how: string) {
   voteOnFloor(api, person, billId, how);
 }
 
+/**
+ * The one line a resident in the room reads under the meeting's title, in the English
+ * engine's words: that nothing is on the agenda, or, the first time they come to any
+ * meeting with an item before it (none such is on their record yet), what they can do here.
+ */
+function residentNote(
+  core: CoreState,
+  personId: string,
+  meeting: MeetingRow,
+  body: string,
+): string | null {
+  const request = { momentKey: meeting.id, sourceIds: [meeting.id] };
+  const pick = (key: string, facts: Record<string, string>) =>
+    screenPick("meeting", screenWays("meeting", key), facts, request)?.text ??
+    null;
+  const items = meeting.agenda.length;
+  if (!items)
+    return pick("meeting.empty-agenda.1", {
+      body,
+      date: dateWords(meeting.date, { year: false }),
+    });
+  // Said once: not again after a meeting they came to that had an item before it.
+  if (
+    officeActsOf(coreAPI(core), personId).some(
+      (act) => act.kind === "attend" && act.detail !== "0",
+    )
+  )
+    return null;
+  // The line counts the items a resident can speak on: not one already taken up, nor one
+  // a committee already decided (those show only "Read the bill").
+  const api = coreAPI(core);
+  const openIds = meeting.agenda.filter(
+    (id) =>
+      !meeting.takenUp.includes(id) &&
+      legislatureBillOf(api, id).status === "drafted",
+  );
+  const open = openIds.length;
+  if (!open) return null;
+  // One open among more on the agenda: named, so the reader need not hunt for which.
+  const [only] = openIds;
+  if (open === 1 && items > 1 && only) {
+    const title = billTitleOf(legislatureBillOf(api, only))?.title;
+    if (title)
+      return pick("meeting.resident-can-speak-one-named.1", {
+        body,
+        item: title,
+      });
+  }
+  // Of two, "either"; of more, "any of the three" (Words lead, Nov 13).
+  if (open === 1) return pick("meeting.resident-can-speak-one.1", { body });
+  if (open === 2) return pick("meeting.resident-can-speak-two.1", { body });
+  return pick("meeting.resident-can-speak.1", { body, count: count(open) });
+}
+
 /** The meeting holding the player's clock: the room, the agenda, and what was taken up. */
 export function meetingSceneView(
   core: CoreState,
@@ -173,12 +235,34 @@ export function meetingSceneView(
       takenUp: meeting.takenUp.includes(billId),
     })),
     ...(() => {
-      const scene = bodyScene(core, personId, meeting.officeId, minute);
+      // A resident who came to speak is in the room and not at the table.
+      const watching = meeting.audience !== undefined;
+      const named = bodyOf(api, meeting.officeId);
+      const bodyName = named?.bodyName ?? named?.kind ?? "";
+      const scene = bodyScene(
+        core,
+        personId,
+        meeting.officeId,
+        minute,
+        watching,
+      );
       // The members, with their faces, for the panel's tally (the chamber's own
       // figures are drawn where the room has a mannequin plate for them).
       return {
         ...scene,
-        members: bodyMembers(core, personId, meeting.officeId, scene.place),
+        members: bodyMembers(
+          core,
+          personId,
+          meeting.officeId,
+          scene.place,
+          watching,
+        ),
+        // A resident has no vote and cannot adjourn.
+        seated: !watching,
+        // A resident reads the body by its own name, as the Calendar says it
+        // (the seat's title names one member, not the body).
+        ...(watching ? { title: bodyName } : {}),
+        note: watching ? residentNote(core, personId, meeting, bodyName) : null,
       };
     })(),
   };
@@ -209,8 +293,22 @@ export function meetingSpeak(
   speakOnItem(coreAPI(core), meetingId, billId, position === "for" ? 1 : -1);
 }
 
+/** The chair's adjournment for a member; for a resident in the room, their leaving. */
 export function meetingAdjourn(core: CoreState, meetingId: string) {
-  adjourn(coreAPI(core), meetingId);
+  const api = coreAPI(core);
+  if (meetingOf(api, meetingId)?.audience !== undefined)
+    leaveMeeting(api, meetingId);
+  else adjourn(api, meetingId);
+}
+
+/** The player marks a body's posted meeting to attend as a resident, or takes the mark back. */
+export function meetingAttend(
+  core: CoreState,
+  officeId: string,
+  date: string,
+  attend: boolean,
+) {
+  attendMeeting(coreAPI(core), officeId, date, attend);
 }
 
 /** Bills waiting on the player's desk this morning. */
@@ -241,12 +339,13 @@ export function deskDecide(core: CoreState, billId: string, how: string) {
 export function leaveHoldsToCharacter(core: CoreState, holderId?: string) {
   const api = coreAPI(core);
   const meeting = meetingInProgress(api);
-  if (meeting) {
+  if (meeting?.audience !== undefined) leaveMeeting(api, meeting.id);
+  else if (meeting) {
     for (const billId of meeting.agenda)
       takeUpItem(api, meeting.id, billId, "own");
     adjourn(api, meeting.id);
   }
-  for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
+  for (const bill of deskWaiting(api, true)) leaveDeskToCharacter(api, bill.id);
   if (holderId)
     for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
 }
@@ -264,7 +363,7 @@ export function officeView(core: CoreState, personId: string) {
       payer: core.organizations.get(j.payerId)?.name ?? j.payerId,
       lastPaid: j.lastPaid ?? null,
       citation: j.citation,
-      nextMeeting: upcomingMeeting(api, j.officeId)?.date ?? null,
+      nextMeeting: nextMeetingDate(api, j.officeId),
     })),
     // The town posts the official appoints that stand open, each with the people it could go to, best first by the official's own reasons.
     heads: [
