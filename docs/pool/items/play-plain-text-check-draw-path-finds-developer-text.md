@@ -22,13 +22,13 @@ root: none
 
 **Cause.** Needs cause. The place, the seed and the text were not captured on the failing run, so nothing is known about what a player would read or which screen showed it.
 
-**Fix.** Run the draw path until it fails (the run prints the seed first and the failure prints the text and its screen), then add the place key and seed here and build the fix in the engine or bank that wrote the text.
+**Fix.** None until the cause is found.
 
 **Time box.** 2 hours to reproduce; the fix is sized when the text is known.
 
 **Rules.** Words come from the English engine's banks; screens show record data only through worded labels.
 
-**Done when.** A named place and seed reproduce the failure and, after the fix, `PLAIN_TEXT_PLACE_KEY=<key> PLAIN_TEXT_SEED=<seed> node src/bench/plain-text.browser.mjs` ends "PASS".
+**Done when.** A second session reproduces the failure on a named place and seed in the running game and sees `PLAIN_TEXT_PLACE_KEY=<key> PLAIN_TEXT_SEED=<seed> node src/bench/plain-text.browser.mjs` end "PASS" after the fix.
 
 **Waits on.** Nothing.
 
