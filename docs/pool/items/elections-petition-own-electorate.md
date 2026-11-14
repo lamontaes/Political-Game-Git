@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: in-pr
 claimed-by: claude/project-thread-86yqt4
-pr:
+pr: "#9159"
 blocked-on:
 source: owner, Nov 14, 2026 ("obviously one signature U.S. senator, that shouldn't happen"); stopgap rows SG-GOV-petition-town-share and SG-GOV-petition-count-estimated
 claimed-at: 2026-11-14T06:40:00Z
@@ -20,13 +20,13 @@ root: none
 checked: account lead 2026-11-14
 ---
 
-**What.** A special U.S. Senate race at Edgar, Wisconsin asked one signature: `petitionNeededHere` scaled a statewide or district count to the town's share of the electorate, at least one (SG-GOV-petition-town-share). Where a place's filing row gave a formula, the petition asked a national median for the family (28 for a town party filing, 2,000 statewide) instead of the law's formula (SG-GOV-petition-count-estimated). The player sees it on the Campaign tab's petition line and at the filing counter.
+**What.** A special U.S. Senate race at Edgar, Wisconsin asked one signature: `petitionNeededHere` scaled a statewide or district count to the town's share of the electorate, at least one (SG-GOV-petition-town-share). Where a place's filing row gave a formula, the petition asked a national median for the family (28 for a town party filing, 2,000 statewide) instead of the law's formula (SG-GOV-petition-count-estimated). Seen: the Campaign tab's petition line and the filing counter, after filing for a county, district or statewide race.
 
 **Cause.** Found in code: `src/core2/modules/voting.ts` `petitionNeededHere` multiplied the law's count by the town's share of the race's eligible voters; `src/core2/modules/elections.ts` `petitionRule` returned `readCountsFor`'s median for "formula" and "unread" rows; no engine gathered signatures outside the town.
 
 **Fix.** One rules file for every family (`src/core2/data/elections/petition-rules.json`, the municipal rows moved in unchanged, 134 formula sides added); the count is computed for the race's own electorate (`wideElectorate` in `src/core2/race-places.ts`: the race's places, the town set apart; an island area from its villages' people). A campaign pays circulators (`hireCirculators`, `circulatorShift` in `campaigns.ts`) who gather among the race's counted voters outside the town over the days the petition circulates, paid per signature on the journal; the clerk counts them (`checkPetition`). World candidates hire them for the share the town cannot give; the player sets an amount on the Campaign tab.
 
-**Time box.** One session.
+**Time box.** 6 hours for one opus session.
 
 **Rules.** No dice; one rule, all 56 places; replace, never layer; money only through the campaign's account.
 
