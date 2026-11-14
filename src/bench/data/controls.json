@@ -502,6 +502,7 @@
     "own": "Decide for me",
     "adjourn": "Adjourn",
     "leave": "Leave",
+    "adjournNote": "Adjourn now and you vote the side you have taken on each item still open. Where you have taken none, you abstain.",
     "for": "For",
     "against": "Against",
     "sign": "Signed",
@@ -592,6 +593,7 @@
     "aYear": "a year",
     "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
+    "adjourned": "Cast when you adjourned",
     "nameHeadPick": "Name to the post"
   },
   "floor": {
