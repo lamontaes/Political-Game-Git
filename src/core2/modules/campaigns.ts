@@ -125,6 +125,8 @@ import {
   PRESS_MODULE_ID,
 } from "./press";
 import { newsKey } from "./news";
+import { groupQuartersProfileOf } from "../gov-rules/place-population";
+import type { GroupQuartersType } from "../group-quarters-types";
 import {
   atLargeGroup,
   ballot,
@@ -1105,6 +1107,18 @@ const addressCache = new WeakMap<
 >();
 
 /**
+ * Whether a group-quarters room is an institution's (a cell, a nursing-home
+ * room): no canvasser knocks there. A dormitory or barracks is still a door.
+ */
+const institution = (type: GroupQuartersType | undefined): boolean =>
+  type !== undefined && groupQuartersProfileOf(type).institutional;
+
+/** How many doors the town's canvass has: the one list `townAddresses` walks. */
+export function townDoorCount(api: CoreAPI): number {
+  return townAddresses(api).list.length;
+}
+
+/**
  * The town's addresses, full households and counted ones alike, with how many
  * counted adults live in them, in the order a campaign's walk list stands:
  * households with the oldest member first (older residents answer a knock
@@ -1132,6 +1146,7 @@ function townAddresses(api: CoreAPI): {
     if (
       person?.alive &&
       core.households.has(person.householdId) &&
+      !institution(core.households.get(person.householdId)!.quarters) &&
       !ids.has(person.householdId)
     ) {
       let eldest = person.birthDate;
@@ -1148,7 +1163,7 @@ function townAddresses(api: CoreAPI): {
   // The wider population is read from its groups' columns, never built as records.
   for (const h of rt?.store.liveHouseholds() ?? []) {
     if (h.placeId !== town || ids.has(h.id)) continue;
-    if (core.households.has(h.id)) continue;
+    if (core.households.has(h.id) || institution(h.quarters)) continue;
     let eldest = "9999-12-31";
     for (const m of rt!.store.countedMembers(h)) {
       const born = rt!.store.born[m]!;
