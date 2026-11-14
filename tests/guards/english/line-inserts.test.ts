@@ -32,7 +32,7 @@ import baseline from "./line-inserts-baseline.json";
  *    moment it plays in was chosen by a fact about the world. The padded
  *    names come out."). A part is `placed` when it can play only where a
  *    record chose it: it carries a `bearing`, or every place it is said
- *    (`uses`) carries a non-empty `requiresFacts` or `excludesFacts` naming a
+ *    (`uses`) carries a non-empty `requiresFacts`, `onlyWhen` or `excludesFacts` naming a
  *    fact the packet does not set in every world (ALWAYS_TRUE_FACTS). A line
  *    with no condition at all is counted as before.
  *
@@ -72,6 +72,8 @@ export function wordsIn(text: string): number {
 export interface BankPartUse {
   readonly requiresFacts?: readonly string[];
   readonly excludesFacts?: readonly string[];
+  /** A second fact list (#9130): filters like requiresFacts, adds no rank. */
+  readonly onlyWhen?: readonly string[];
 }
 
 export interface BankPart {
@@ -127,6 +129,7 @@ export function isPlaced(
     uses.every(
       (use) =>
         (use.requiresFacts ?? []).some((fact) => !alwaysTrue.has(fact)) ||
+        (use.onlyWhen ?? []).some((fact) => !alwaysTrue.has(fact)) ||
         (use.excludesFacts ?? []).length > 0,
     )
   );
@@ -282,6 +285,13 @@ describe("every bank line carries an insert from the world's records", () => {
     expect(excusedAs("conversation", { text, bearing: "guarded" }, none)).toBe(
       "placed",
     );
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ onlyWhen: ["acquainted"] }] },
+        none,
+      ),
+    ).toBe("placed");
     // No condition at all is counted, as is a part said anywhere in one of its places.
     expect(excusedAs("conversation", { text }, none)).toBeNull();
     expect(excusedAs("conversation", { text, uses: [] }, none)).toBeNull();
