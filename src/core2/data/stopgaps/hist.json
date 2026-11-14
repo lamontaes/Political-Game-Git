@@ -30,7 +30,7 @@
     "id": "SG-HIST-school-elsewhere-unnamed",
     "kind": "partial-model",
     "file": "src/core2/past-school.ts",
-    "whatItFakes": "A school year in a place with no public school district record (a place the world does not keep, or a town whose opening has no police department to copy the district from) is recorded against the place's schools as the place itself. Where the place lookup knows the place, its schools are named after the town, as a public school district is (src/core2/places-elsewhere.ts); a place it does not know still has no name, so the Journal, the person card and talk leave it out.",
+    "whatItFakes": "A school year in a place with no public school district record (a place the world does not keep, or a town whose opening has no police department to copy the district from) is recorded against the place's schools as the place itself, with no name, so the Journal, the person card and talk leave it out.",
     "why": "The school engine's own rule names the district of the place; only the town's district is an organization, and real campus names are not shown as themselves (owner, Oct 27: real data only calibrates).",
     "addedBy": "wire-opening-and-home (Claude)",
     "addedAt": "2026-10-28",

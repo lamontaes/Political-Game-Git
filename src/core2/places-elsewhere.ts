@@ -1,11 +1,13 @@
 /**
- * The school and the employer of a place the world keeps no records for
- * (core-life-record-part-3): where a person went to school or worked before
- * they moved to town. A place whose schools or employers the world holds is
- * read from its own records; for any other place one of each is named from
- * the place and the world's seed, by the same naming rule as a business in
- * town (src/core2/business-names.ts), the same every time the person is
- * opened, and marked as an estimate. Read-only and pure: nothing is written
+ * The employer of a place the world keeps no records for
+ * (core-life-record-part-3): where a person worked before they moved to
+ * town. A place whose employers the world holds is read from its own
+ * records; for any other place one is named from the place and the world's
+ * seed, by the same naming rule as a business in town
+ * (src/core2/business-names.ts), the same every time the person is opened,
+ * and marked as an estimate. A school is never named here: a school a person
+ * went to is a school organization of the world or has no name (audit row
+ * 37, the realistic-not-real test). Read-only and pure: nothing is written
  * to the world.
  */
 import {
@@ -24,15 +26,11 @@ import {
 import { placeLocalities } from "./places";
 import { placeReferencePopulation } from "./gov-rules/place-population";
 import { townWorkplaceWeights } from "./modules/jobs";
-import schoolDays from "./data/school-days.json" with { type: "json" };
 import employers from "./data/history/elsewhere-employers.json" with { type: "json" };
 import type { CoreState, PersonState } from "./types";
 
 /** How an employer named here is recorded: `employer-elsewhere:<kind>:<place>`. */
 export const ELSEWHERE_EMPLOYER = "employer-elsewhere:";
-/** The schools of a place with no district record (the school engine's own prefix). */
-const SCHOOLS_OF = schoolDays.placeTargetPrefix;
-const SCHOOL_KIND = "public-school";
 const BY_EDUCATION = employers.byEducation as Readonly<
   Record<string, readonly string[]>
 >;
@@ -114,16 +112,6 @@ function familyOf(core: Readonly<CoreState>, placeId: string, kind: string) {
   ).familyName;
 }
 
-/** The name of a place's schools where the world keeps no district: the usual style of a public school's name. */
-export function elsewhereSchoolName(schoolId: string): string | undefined {
-  if (!schoolId.startsWith(SCHOOLS_OF)) return undefined;
-  const placeId = known(schoolId.slice(SCHOOLS_OF.length));
-  const style = businessNameStyles(SCHOOL_KIND)[0];
-  return placeId && style
-    ? fillBusinessName(style, businessNameContext(placeId, ""))
-    : undefined;
-}
-
 /**
  * The employer a person worked for in a place the world keeps none for: a
  * kind common for their schooling, chosen from the world's seed and the
@@ -178,17 +166,12 @@ export function elsewhereEmployerName(
 }
 
 /**
- * An organization's name: its own record, else a school or an employer of a
- * place the world keeps none for. The one reader for a school or employer
- * that a person's past names.
+ * An organization's name: its own record, else an employer of a place the
+ * world keeps none for. A school is only ever its own record.
  */
 export function organizationName(
   core: Readonly<CoreState>,
   id: string,
 ): string | undefined {
-  return (
-    core.organizations.get(id)?.name ??
-    elsewhereSchoolName(id) ??
-    elsewhereEmployerName(core, id)
-  );
+  return core.organizations.get(id)?.name ?? elsewhereEmployerName(core, id);
 }

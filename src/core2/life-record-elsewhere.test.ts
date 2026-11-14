@@ -1,7 +1,8 @@
 /**
  * The school and the work before a move are named (core-life-record-part-3):
- * an adult who came to town after finishing school has a card that names a
- * school in the place they came from and an employer there, the same when
+ * an adult who came to town after finishing school has a card that names an
+ * employer in the place they came from, and names no school the world does
+ * not hold (audit row 37, realistic-not-real), the same when
  * opened a second time and after the world is saved and loaded. Places drawn
  * from all 56; each world is searched for such an adult, and what was passed
  * over is named. Replay with GOLDEN_PATH_SEED.
@@ -67,7 +68,7 @@ function movedAfterSchool(core: CoreState) {
   return undefined;
 }
 
-it("an adult who came to town after school has a school and an employer named where they came from, the same every time", () => {
+it("an adult who came to town after school has an employer named where they came from and no school the world lacks, the same every time", () => {
   setBookkeeping(false);
   const passed: string[] = [];
   for (let draw = 0; draw < DRAWS; draw += 1) {
@@ -81,12 +82,16 @@ it("an adult who came to town after school has a school and an employer named wh
       continue;
     }
     const { person, schools, work } = found;
+    // A school the world holds no organization for has no name.
     const school = organizationName(core, String(schools[0]!.facts.schoolId));
+    expect(
+      school,
+      `${where}: ${person.id} school is the world's own or unnamed`,
+    ).toBe(core.organizations.get(String(schools[0]!.facts.schoolId))?.name);
     const employer = organizationName(
       core,
       String(work[0]!.facts.organizationId),
     );
-    expect(school, `${where}: ${person.id} school named`).toBeTruthy();
     expect(employer, `${where}: ${person.id} employer named`).toBeTruthy();
     const card = () =>
       knownCard(core, core.playerId!, person.id).history.map(
@@ -94,8 +99,8 @@ it("an adult who came to town after school has a school and an employer named wh
       );
     const first = card();
     expect(
-      first.some((line) => line.startsWith("school") && line.includes(school!)),
-      `${where}: ${person.id} card names ${school}: ${first.join(" | ")}`,
+      first.some((line) => line.startsWith("school")),
+      `${where}: ${person.id} card tells the school years: ${first.join(" | ")}`,
     ).toBe(true);
     expect(
       first.some((line) => line.startsWith("work") && line.includes(employer!)),
@@ -112,7 +117,7 @@ it("an adult who came to town after school has a school and an employer named wh
       `${where}: after a reload`,
     ).toEqual(first);
     process.stdout.write(
-      `life record elsewhere: ${where}; ${person.id} came from ${String(found.moved.facts.fromPlaceId)} on ${found.moved.date}: school ${school}, employer ${employer}; passed over ${passed.length} places\n${first.map((line) => `  ${line}`).join("\n")}\n`,
+      `life record elsewhere: ${where}; ${person.id} came from ${String(found.moved.facts.fromPlaceId)} on ${found.moved.date}: school ${school ?? "none named"}, employer ${employer}; passed over ${passed.length} places\n${first.map((line) => `  ${line}`).join("\n")}\n`,
     );
     return;
   }
