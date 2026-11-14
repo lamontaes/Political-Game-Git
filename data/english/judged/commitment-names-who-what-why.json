@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 657,
+  "judged": 604,
   "no": {
     "000kvn97gfw": {
       "keys": [
@@ -871,14 +871,6 @@
       ],
       "why": "The veiled remark about a friend in {place} never names a request, vote or deal."
     },
-    "0q7goi0up3p": {
-      "keys": [
-        "scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name",
-        "scene-talk.state-request.deceased-always-said-you-d-understand-what-was-left-undone",
-        "scene-talk.reply-promise.tell-me-what-it-was-i-can-t-promise-how-it-ends-but-i-ll-take-it-up-in-deceased-s-name"
-      ],
-      "why": "You pledge to take up {deceased}'s unfinished thing, but what it is is never named, not after either."
-    },
     "0r1sw4ulyac": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
@@ -1278,17 +1270,6 @@
         "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway"
       ],
       "why": "The interview's subject is only 'it' and 'your vote' with no bill or story named, so the hallway refusal refuses an unnamed topic."
-    },
-    "11pdpr32z70": {
-      "keys": [
-        "scene-talk.narrate-narrate.a-letter-from-name-has-come-and-there-is-something-they-want-to-ask-you",
-        "scene-talk.open-greet.dear-first-i-m-writing-because-there-is-something-i-want-to-ask-you",
-        "scene-talk.state-request.write-back-and-tell-me-how-you-are-first-i-like-hearing-what-s-going-on-in-your-life",
-        "scene-talk.reply-ask.can-you-tell-me-more-about-what-you-re-asking",
-        "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-i-thought-of-you-first-tell-me-what-you-can-do",
-        "scene-talk.reply-promise.i-ll-be-there-you-have-my-promise"
-      ],
-      "why": "'I'll be there' names no place or event. The ask drifts between letters and a visit, so what you promise is unclear."
     },
     "12a3gn9ip4r": {
       "keys": [
@@ -1907,16 +1888,6 @@
         "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought"
       ],
       "why": "The large bribe only asks to 'see that it goes my way'; the vote, permit or contract is never named."
-    },
-    "1rko8e38n3f": {
-      "keys": [
-        "scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name",
-        "scene-talk.state-request.deceased-always-said-you-d-understand-what-was-left-undone",
-        "scene-talk.reply-ask.what-was-it-exactly",
-        "scene-talk.follow-answer.deceased-kept-asking-for-the-same-thing-year-after-year-and-kept-being-told-next-year",
-        "scene-talk.reply-promise.then-i-ll-take-it-up-i-ll-tell-you-what-comes-of-it"
-      ],
-      "why": "'I'll take it up' refers to 'the same thing' the deceased asked for, never named."
     },
     "1rqwmyz40cb": {
       "keys": [
@@ -2639,5 +2610,5 @@
       "why": "The scandal interview never names its subject or the vote the player says yes to; the documentation question refers to an unnamed matter."
     }
   },
-  "yesHash": "1olk8ncrvry"
+  "yesHash": "1mbbmmb1704"
 }

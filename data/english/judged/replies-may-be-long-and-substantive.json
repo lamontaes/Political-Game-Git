@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1327,
+  "judged": 1323,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -275,15 +275,6 @@
         "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
       ],
       "why": "Looking again, a hearing promise, a deferral and a floor exit carry no argument."
-    },
-    "03shuiity4q": {
-      "keys": [
-        "scene-talk.follow-answer.i-only-want-them-to-hear-from-you-first-it-doesn-t-have-to-be-much",
-        "scene-talk.reply-agree.that-helps-count-me-in",
-        "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-        "scene-talk.reply-decline.thank-you-for-asking-but-i-can-t-do-it-i-m-sorry"
-      ],
-      "why": "\"Thank you for asking, but I can't do it\" refuses with no reason, and the others just agree."
     },
     "03utdosmzum": {
       "keys": [
@@ -2079,16 +2070,6 @@
       ],
       "why": "Coming to one meeting, thinking it over and returning books carry no reason."
     },
-    "0vs4syr6yms": {
-      "keys": [
-        "scene-talk.state-request.the-youngest-in-the-house-child-was-in-the-room-when-you-got-sick-will-you-talk-to-them-yourself-first",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-ask.what-are-you-most-afraid-will-happen-if-i-don-t",
-        "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now"
-      ],
-      "why": "A yes, a bare promise, a question and an unexplained refusal give no reason."
-    },
     "0vxs1whdp0l": {
       "keys": [
         "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
@@ -2986,16 +2967,6 @@
         "scene-talk.reply-leave.i-ve-got-a-meeting-walk-with-me-if-you-want"
       ],
       "why": "\"I meant every word,\" \"time will answer,\" waiting on the committee and a meeting carry no reason."
-    },
-    "1a6hccopwka": {
-      "keys": [
-        "scene-talk.state-request.the-youngest-in-the-house-child-was-in-the-room-when-you-got-sick-will-you-talk-to-them-yourself-first",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry"
-      ],
-      "why": "A concession, a bare promise, a question and an unexplained refusal give no reason."
     },
     "1abb0rvho98": {
       "keys": [
@@ -5499,5 +5470,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "2f2ct1h08vi"
+  "yesHash": "06x92v9aavp"
 }
