@@ -4933,7 +4933,7 @@
       "key": "manager-offer",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
+        "counterpart": "any",
         "seat": "any"
       },
       "note": "Someone close to a candidate (a partner, a relative, a best friend) heard they filed and offers to run the campaign, not only to help with it: the campaigns engine's volunteer-offered record with role manager, weighed by the same liking, closeness and work hours with closeness and family counted again (managerReason). It comes before any volunteer's offer while the campaign has nobody running it, the household included. A yes puts them on the campaign's staff, where the cast and election night read them; a no takes them off (answerOffer). The owner's election team (Oct 26) and campaign board (Oct 27: 'maybe it's your significant other or your best friend').",
