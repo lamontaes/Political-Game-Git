@@ -9,6 +9,8 @@ import {
 } from "../english/bill-names";
 import { moneySaid } from "../english/count-words";
 import { screenLine } from "../english/screen-words";
+import { questionReasons } from "../english/question-names";
+import { pronounSetOfGender, pronounWords } from "../english/pronoun-words";
 import { budgetLineNames, policyNames } from "./words";
 import {
   billForm,
@@ -22,6 +24,8 @@ import {
   memberKey,
   members as bodyMembersOf,
   proposalRight,
+  publicDeclineReason,
+  declinedAsks,
   proposeAsExecutive,
   votesOn,
   whipCount,
@@ -98,10 +102,14 @@ export function bodiesOf(core: CoreState, personId: string) {
           seats: number;
           jurisdiction: string;
           level: string;
+          presidesOverBody?: boolean;
         }
       | undefined;
     if (!office || office.seats >= 2) return [];
     if (proposalRight(api, office.kind).mode !== "by-request") return [];
+    // An executive who presides over the board (the place's own county data) is the body's chair,
+    // not an outsider: the bill goes before it in their own name (`seatAct`), never through a member.
+    const presides = office.presidesOverBody === true;
     return (
       offices
         .table("offices")
@@ -125,8 +133,9 @@ export function bodiesOf(core: CoreState, personId: string) {
           title: body.bodyName ?? body.governmentName,
           level: chamber.level,
           kind: chamber.kind,
-          // Sent through a member, never in the executive's own name.
-          byRequest: true,
+          // Sent through a member, never in the executive's own name, unless the executive
+          // presides over this body and puts the bill before it as its chair.
+          ...(presides ? { presides: true } : { byRequest: true }),
           members: roster.map((row) => ({
             key: memberKey(row),
             name: personName(core, memberKey(row)),
@@ -286,6 +295,8 @@ export function seatView(core: CoreState, personId: string) {
       const votes = votesOn(api, bill.id);
       return {
         bill,
+        // The bill said with its form's word ("Ordinance 2025-8"), never bare.
+        spoken: spokenDesignation(bill.number, bill.form.kind),
         ...floorOf(core, bill),
         votes: votes.map((row) => ({
           ...row,
@@ -441,6 +452,8 @@ export function seatAct(
   const floor = floorOf(core, bill);
   return {
     ...bill,
+    // The bill said with its form's word ("Ordinance 2025-8"), never bare.
+    spoken: spokenDesignation(bill.number, bill.form.kind),
     text,
     ...(floor.agendaDate ? { agendaDate: floor.agendaDate } : {}),
     floorDate: floor.floorDate,
@@ -640,7 +653,10 @@ export function billPaper(core: CoreState, billId: string) {
     id: bill.id,
     number: bill.number,
     spoken: spokenDesignation(bill.number, bill.form.kind),
-    title: composed?.title ?? titled?.title ?? bill.number,
+    title:
+      composed?.title ??
+      titled?.title ??
+      spokenDesignation(bill.number, bill.form.kind),
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
     bodyOfficeId: bill.bodyOfficeId,
@@ -885,13 +901,49 @@ export function seatAsk(
     throw new Error(
       "An executive's bill was asked of the player; the menu should not offer this body.",
     );
+  // A no is kept with its reason and date (the ask's own row, `declinedAsks`) and can be asked
+  // again later; the screen reads the reason back and says when the same member said no before.
+  const reason = asked.carried ? null : publicDeclineReason(asked);
+  const section = asked.provisions[0]!;
+  const spoken =
+    reason === "views" &&
+    section.kind === "policy-question" &&
+    section.question &&
+    section.value > 0
+      ? questionReasons(section.question, "against").reason
+      : null;
+  const earlier = declinedAsks(
+    api,
+    asked.askerId,
+    asked.memberId,
+    asked.bodyOfficeId,
+  )
+    .filter((row) => row.id !== asked.id)
+    .map((row) => row.date);
+  const seat = bodyMembersOf(api, input.officeId!).find(
+    (row) => memberKey(row) === asked.memberId,
+  );
+  const person = api.state.people.get(asked.memberId);
+  const words = pronounWords(
+    person?.looks?.pronouns ?? pronounSetOfGender(seat?.identity.gender),
+  );
   return {
     asked: {
       memberId: asked.memberId,
+      // How the screen speaks of the member, from their record: null is the they form.
+      pronouns: words
+        ? {
+            lower: words.lower,
+            object: words.object,
+            possessive: words.possessive,
+          }
+        : null,
       name: personName(core, asked.memberId),
       carried: asked.carried,
       askId: asked.id,
       billId: asked.billId,
+      ...(reason ? { reason, ...(spoken ? { reasonWords: spoken } : {}) } : {}),
+      ...(!asked.carried && earlier.length ? { earlier } : {}),
     },
   };
 }

@@ -109,7 +109,6 @@ import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
 import { traceNode, type TraceNode } from "./dev-trace";
 import { newsItems } from "./calendar";
-import experiments from "./data/dev-experiments.json" with { type: "json" };
 import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
 
 /** The mark every dev-mode write carries. */
@@ -140,24 +139,6 @@ export const DEV_MODE_RECORD = "dev-mode-change";
 
 export type LawLevel = GovernmentLevel;
 
-/** One step of a change set: the same controls the page offers. */
-export type DevStep = {
-  readonly control: "law";
-  readonly level: LawLevel;
-  readonly series: string;
-  readonly value?: number;
-  readonly unit?: string;
-  readonly repeal?: boolean;
-  /** Days after the step is applied; 0 or absent is now. */
-  readonly effectiveInDays?: number;
-};
-
-export interface Experiment {
-  readonly id: string;
-  readonly steps: readonly DevStep[];
-  readonly runMonths: number;
-}
-
 export interface DevMark {
   readonly id: string;
   readonly date: string;
@@ -179,10 +160,6 @@ interface PaySplit {
   readonly privateJobs: number;
   readonly privateMedianHourlyMinor: number;
 }
-
-const DATA = experiments as unknown as {
-  experiments: readonly Experiment[];
-};
 
 const median = (values: number[]) => {
   if (!values.length) return 0;
@@ -2360,36 +2337,5 @@ export class DevMode {
         states: kept.states.size,
         recordIds: kept.ids,
       }));
-  }
-
-  // 6. Experiments --------------------------------------------------------
-
-  static experiments(): readonly Experiment[] {
-    return DATA.experiments;
-  }
-
-  /** Apply a change set's steps today, through the same controls. */
-  applySteps(experimentId: string, steps: readonly DevStep[]) {
-    const out: unknown[] = [];
-    for (const step of steps) {
-      out.push(
-        this.setLaw({
-          level: step.level,
-          series: step.series,
-          ...(step.value !== undefined ? { value: step.value } : {}),
-          ...(step.unit ? { unit: step.unit } : {}),
-          ...(step.repeal ? { repeal: true } : {}),
-          effectiveDate: addDays(
-            makeIsoDate(this.core.date),
-            step.effectiveInDays ?? 0,
-          ),
-        }),
-      );
-    }
-    const mark = this.mark("experiment", [experimentId], {
-      experimentId,
-      steps: JSON.stringify(steps),
-    });
-    return { mark, results: out };
   }
 }

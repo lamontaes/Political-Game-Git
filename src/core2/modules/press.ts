@@ -14,8 +14,6 @@
  * decide for themselves, with a recorded cause, and the story is a public
  * record the news carries.
  */
-import { contestPositions } from "../contest-positions";
-import { P } from "../parameters";
 import news from "../../../data/research/press/local-news-2026.json" with { type: "json" };
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "../data/press/parameters.json" with { type: "json" };
@@ -70,6 +68,7 @@ import {
   touchImpression,
   registerAdOutlet,
   parsePlatform,
+  contestPositions,
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
@@ -1498,6 +1497,27 @@ export function townConcernReader(api: CoreAPI): (question: string) => number {
 }
 
 /**
+ * The questions the seat a speaker runs for or holds decides (the same read
+ * the filing panel lists its positions from), or null where they have none.
+ */
+function seatQuestions(
+  api: CoreAPI,
+  speaker: Speaker,
+): ReadonlySet<string> | null {
+  const offices = speaker.filing
+    ? [contestOf(api, speaker.filing.contestId).officeId]
+    : servingTerms(api, speaker.personId).map((t) => t.officeId);
+  if (!offices.length) return null;
+  const positions = new Set(
+    offices.flatMap((officeId) => contestPositions(api, { officeId })),
+  );
+  // A body whose list is empty (a world that keeps no budget for it and whose
+  // state lets it decide none of the platform questions) leaves nothing to
+  // restrict to, so the reporter asks as before.
+  return positions.size ? positions : null;
+}
+
+/**
  * What the reporter asks: the questions the race's record puts in play,
  * scored by every reason a reporter has to ask each one: a promise the
  * candidate broke; the incumbent's recent recorded votes; how far apart the
@@ -1640,6 +1660,15 @@ export function interviewQuestions(
         ),
     );
   }
+  // A reporter asks what the seat's own body decides, and otherwise only what
+  // is truly in the news in the town: a question the body cannot decide keeps
+  // nothing but the town's concern for it, so it is asked as the town's news
+  // and never for the candidate's record or the rivals' gap.
+  const seat = seatQuestions(api, speaker);
+  if (seat)
+    for (const [q] of score)
+      if (!seat.has(q))
+        score.set(q, pressParameter("townConcernNewsWeight") * concern(q));
   // Asked before, on the record: less to learn from asking again.
   const asked = new Map<string, number>();
   for (const row of table(api, "interviews").query("byCandidate", [
@@ -1650,29 +1679,11 @@ export function interviewQuestions(
   for (const [q, times] of asked)
     if (score.has(q))
       score.set(q, score.get(q)! - pressParameter("askedAgainPenalty") * times);
-  const ranked = [...score]
+  return [...score]
     .filter(([, v]) => v > 0)
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, pressParameter("questionsPerInterview"))
     .map(([q]) => q);
-  const limit = pressParameter("questionsPerInterview");
-  // What the seat can decide comes first (owner rule 99: a question above the
-  // office is asked only when nothing local is live, and then once): a
-  // council candidate is asked about the town's own records before the
-  // nation's questions, a state candidate about what the state decides.
-  const seat = filing ? contestOf(api, filing.contestId) : null;
-  if (!seat) return ranked.slice(0, limit);
-  const decides = new Set(contestPositions(api, seat));
-  // The race's own record: the stands the candidates filed on, where the seat
-  // may decide them, ask even when nothing about them scored.
-  const filed = [
-    ...own.map((stand) => stand.question),
-    ...rivals.flatMap((rival) => platformOf(api, rival).map((s) => s.question)),
-  ].filter((q) => decides.has(q));
-  const local = [
-    ...new Set([...ranked.filter((q) => decides.has(q)), ...filed]),
-  ];
-  const above = ranked.filter((q) => !decides.has(q));
-  return (local.length ? local : above.slice(0, P.one)).slice(0, limit);
 }
 
 /**

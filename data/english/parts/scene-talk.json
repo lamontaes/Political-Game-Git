@@ -132,7 +132,13 @@
     "effective": "The day a law enacted but not yet in force takes effect, as people say it (\"January 1, 2026\"), from the law record.",
     "about": "What a law not yet in force changes, by what it is (\"the Social Security payroll tax\"), from the law record's policy name.",
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
-    "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record."
+    "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
+    "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
+    "wanted": "What a bribe offer wants, the bill or the contract the offer record names.",
+    "self-full": "The player's full name, as a stranger is introduced to them.",
+    "race-office": "The office the player is running for, from the contest record.",
+    "their-office": "The seat the person asked to serve holds now, as people say it, from their serving term's office record.",
+    "their-first": "The first name of the person the player asks to serve, said by the player after the introduction."
   },
   "maxWords": 70,
   "parts": [
@@ -1478,7 +1484,7 @@
       "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-and-you-don-t-have-the-votes-yet-you-go-looking-for-first",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The vote on {bill} is tomorrow, and you don't have the votes yet. You go looking for {first}.",
+      "text": "The vote on {bill} is tomorrow. You go looking for {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -1503,7 +1509,7 @@
       "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-today-and-you-don-t-have-the-votes-yet-you-go-looking-for-first",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The vote on {bill} is today, and you don't have the votes yet. You go looking for {first}.",
+      "text": "The vote on {bill} is today. You go looking for {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -1553,7 +1559,7 @@
       "key": "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-tomorrow-and-first-is-still-on-your-list",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You've counted the votes on {bill} twice. It comes to the floor tomorrow, and {first} is still on your list.",
+      "text": "{bill} comes to the floor tomorrow. {first} hasn't said yes.",
       "uses": [
         {
           "subject": "scene",
@@ -1578,7 +1584,7 @@
       "key": "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-today-and-first-is-still-on-your-list",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You've counted the votes on {bill} twice. It comes to the floor today, and {first} is still on your list.",
+      "text": "{bill} comes to the floor today. {first} hasn't said yes.",
       "uses": [
         {
           "subject": "scene",
@@ -7171,6 +7177,14 @@
           "role": "asker",
           "purpose": "talk",
           "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
         }
       ],
       "bearing": "calm",
@@ -9386,10 +9400,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.we-re-going-to-talk-about-this-properly",
+      "key": "scene-talk.close-warn.we-re-going-to-talk-about-this-the-right-way",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "We're going to talk about this properly.",
+      "text": "We're going to talk about this the right way.",
       "uses": [
         {
           "key": "threat",
@@ -11397,6 +11411,72 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.sure-i-ll-be-there",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Sure. I'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.of-course-put-me-down",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Of course. Put me down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
       "tag": {
         "move": "lie",
         "key": "vote-wanted"
@@ -19782,10 +19862,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.give-me-some-time-i-ll-find-you-later",
+      "key": "scene-talk.reply-leave.give-me-some-time",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Give me some time. I'll find you later.",
+      "text": "Give me some time.",
       "uses": [
         {
           "key": "news-received",
@@ -19980,7 +20060,7 @@
       "key": "scene-talk.reply-lie.i-m-up-six-points-check-the-paper",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "I'm up six points. Check the paper.",
+      "text": "I'm ahead. Check the paper.",
       "uses": [
         {
           "subject": "scene",
@@ -21571,10 +21651,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-come-find-me-next-week-and-we-ll-talk-about-it-properly",
+      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-come-find-me-next-week-and-we-ll-talk-it-through",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not today. Let me get through today. Come find me next week, and we'll talk about it properly.",
+      "text": "Not today. Let me get through today. Come find me next week, and we'll talk it through.",
       "uses": [
         {
           "subject": "scene",
@@ -21839,10 +21919,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.go-on-i-ll-find-you-later",
+      "key": "scene-talk.close-accept.go-on",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Go on. I'll find you later.",
+      "text": "Go on.",
       "uses": [
         {
           "subject": "scene",
@@ -24582,7 +24662,7 @@
       "key": "scene-talk.narrate-narrate.name-stops-you-on-the-courthouse-steps-you-haven-t-spoken-since-the-sp",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} stops you on the courthouse steps. You haven't spoken since the split.",
+      "text": "{name} stops you. You haven't spoken since the split.",
       "uses": [
         {
           "subject": "scene",
@@ -25960,7 +26040,7 @@
       "key": "scene-talk.narrate-narrate.name-catches-you-outside-the-hardware-store-you-ve-known-each-other-a-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} catches you outside the hardware store. You've known each other a long time.",
+      "text": "{name} catches you on the street.",
       "uses": [
         {
           "subject": "scene",
@@ -28601,10 +28681,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.i-ll-check-back-before-the-roll-call",
+      "key": "scene-talk.close-accept.i-ll-check-back-before-the-vote",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "I'll check back before the roll call.",
+      "text": "I'll check back before the vote.",
       "uses": [
         {
           "subject": "scene",
@@ -32770,10 +32850,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.then-let-s-finish-it-properly-tuesday-in-front-of-everybody",
+      "key": "scene-talk.reply-confront.then-let-s-finish-it-right-tuesday-in-front-of-everybody",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Then let's finish it properly. Tuesday, in front of everybody.",
+      "text": "Then let's finish it right. Tuesday, in front of everybody.",
       "uses": [
         {
           "subject": "scene",
@@ -35731,7 +35811,7 @@
       "key": "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has held office for years. You asked for coffee because you can't decide whether to run for {office} this year.",
+      "text": "{name} has held office for years, and has something to say about running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -39329,10 +39409,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.let-me-chew-on-that-literally",
+      "key": "scene-talk.reply-leave.let-me-chew-on-that",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let me chew on that. Literally.",
+      "text": "Let me chew on that.",
       "uses": [
         {
           "subject": "scene",
@@ -55095,10 +55175,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.nobody-sent-me-i-live-four-streets-from-here",
+      "key": "scene-talk.follow-answer.nobody-sent-me-i-live-four-blocks-from-here",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Nobody sent me. I live four streets from here.",
+      "text": "Nobody sent me. I live four blocks from here.",
       "uses": [
         {
           "subject": "scene",
@@ -60253,7 +60333,7 @@
       "key": "scene-talk.narrate-narrate.the-race-for-office-opens-monday-and-you-re-the-first-one-at-name-s-co",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The race for {office} opens Monday, and you're the first one at {name}'s counter.",
+      "text": "Filing for {office} has opened. {name} looks up from the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -62083,10 +62163,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.a-few-of-us-are-knocking-on-doors-about-cause-saturday-morning-walk-on",
+      "key": "scene-talk.state-request.a-few-of-us-are-knocking-on-doors-about-cause-saturday-morning-walk-a-",
       "move": "state-request",
       "kind": "spoken",
-      "text": "A few of us are knocking on doors about {cause} Saturday morning. Walk one street with us.",
+      "text": "A few of us are knocking on doors about {cause} Saturday morning. Walk a block or two with us.",
       "uses": [
         {
           "subject": "scene",
@@ -62231,10 +62311,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.forty-names-is-already-a-lot-of-names",
+      "key": "scene-talk.reply-deflect.that-s-already-a-lot-of-names",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Forty names is already a lot of names.",
+      "text": "That's already a lot of names.",
       "uses": [
         {
           "subject": "scene",
@@ -62281,10 +62361,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.one-street-saturday",
+      "key": "scene-talk.reply-agree.one-street-with-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "One street. Saturday.",
+      "text": "One street, with me.",
       "uses": [
         {
           "subject": "scene",
@@ -62531,10 +62611,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.forty-names-they-ve-never-heard-of-they-d-know-yours",
+      "key": "scene-talk.follow-press.they-ve-never-heard-of-most-of-those-names-they-d-know-yours",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Forty names they've never heard of. They'd know yours.",
+      "text": "They've never heard of most of those names. They'd know yours.",
       "uses": [
         {
           "subject": "scene",
@@ -62581,10 +62661,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.eight-thirty-at-the-corner-by-the-school",
+      "key": "scene-talk.follow-thank.i-ll-tell-you-where-to-meet",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Eight-thirty, at the corner by the school.",
+      "text": "I'll tell you where to meet.",
       "uses": [
         {
           "subject": "scene",
@@ -62606,10 +62686,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-get-that-we-go-out-every-week-if-one-opens-up",
+      "key": "scene-talk.follow-accept.i-get-that-we-go-out-whenever-one-opens-up",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I get that. We go out every week if one opens up.",
+      "text": "I get that. We go out whenever one opens up.",
       "uses": [
         {
           "subject": "scene",
@@ -62806,10 +62886,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.let-me-sit-with-it-a-day",
+      "key": "scene-talk.reply-leave.i-m-not-ready-to-say-yes",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let me sit with it a day.",
+      "text": "I'm not ready to say yes.",
       "uses": [
         {
           "subject": "scene",
@@ -62881,10 +62961,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.leave-me-a-copy-and-i-ll-decide-by-friday",
+      "key": "scene-talk.reply-leave.leave-me-a-copy-no-promises",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Leave me a copy and I'll decide by Friday.",
+      "text": "Leave me a copy. No promises.",
       "uses": [
         {
           "subject": "scene",
@@ -62906,10 +62986,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-can-do-that-count-me-in-for-saturday",
+      "key": "scene-talk.reply-agree.i-can-do-that-count-me-in",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I can do that. Count me in for Saturday.",
+      "text": "I can do that. Count me in.",
       "uses": [
         {
           "subject": "scene",
@@ -63025,6 +63105,31 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.it-s-just-not-something-i-do",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "It's just not something I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.nobody-is-at-first-you-d-walk-with-me"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
       "tag": {
         "move": "decline",
         "key": "favor-asked"
@@ -65960,10 +66065,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.are-you-here-to-ask-a-question-or-to-catch-me-out",
+      "key": "scene-talk.reply-confront.are-you-here-to-ask-a-question-or-to-trip-me-up",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Are you here to ask a question or to catch me out?",
+      "text": "Are you here to ask a question or to trip me up?",
       "uses": [
         {
           "subject": "scene",
@@ -72055,10 +72160,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-i-ll-name-it-with-you-tonight",
+      "key": "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-we-ll-talk-about-it-toni",
       "move": "reply-comfort",
       "kind": "spoken",
-      "text": "There's a line I won't cross with our savings. I'll name it with you tonight.",
+      "text": "There's a line I won't cross with our savings. We'll talk about it tonight.",
       "uses": [
         {
           "subject": "scene",
@@ -73091,6 +73196,76 @@
       }
     },
     {
+      "key": "scene-talk.reply-thank.thank-you-i-mean-that",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you. I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.that-means-more-than-you-know",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "That means more than you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-i-ll-take-it",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      },
+      "bearing": "guarded"
+    },
+    {
       "key": "scene-talk.state-congratulate.good-now-don-t-waste-it",
       "move": "state-congratulate",
       "kind": "spoken",
@@ -73329,6 +73504,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.good-that-settles-it-for-me",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. That settles it for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.count-how-tell-me-one-thing",
       "move": "follow-press",
       "kind": "spoken",
@@ -73429,6 +73629,129 @@
       }
     },
     {
+      "key": "scene-talk.follow-promise.you-know-i-m-behind-you",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "You know I'm behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.whatever-you-decide-i-m-with-you",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Whatever you decide, I'm with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.okay-okay-i-had-help",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Okay, okay. I had help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "apologize",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.you-re-right-i-had-a-lot-of-people-behind-me",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. I had a lot of people behind me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "apologize",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.tell-me-when-you-know-i-ll-help-if-i-can",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Tell me when you know. I'll help if I can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "tell"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
       "key": "scene-talk.follow-promise.whatever-it-is-i-ll-back-you",
       "move": "follow-promise",
       "kind": "spoken",
@@ -73450,6 +73773,130 @@
       "date": "2026-10-27",
       "tag": {
         "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-know-i-wasn-t-easy-thank-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I know I wasn't easy. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-m-glad",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'm glad.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.nobody-gets-there-by-themselves-go-on",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Nobody gets there by themselves. Go on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-how-it-works-go-enjoy-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's how it works. Go enjoy it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.okay-good",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Okay. Good.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
         "key": "diploma"
       }
     },
@@ -80715,10 +81162,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.you-know-i-cover-place-i-d-like-to-do-a-proper-interview-about-the-office-race",
+      "key": "scene-talk.state-request.you-know-i-cover-place-i-d-like-to-do-a-real-sit-down-interview-about-the-office-race",
       "move": "state-request",
       "kind": "spoken",
-      "text": "You know I cover {place}. I'd like to do a proper interview about the {office} race.",
+      "text": "You know I cover {place}. I'd like to do a real, sit-down interview about the {office} race.",
       "uses": [
         {
           "subject": "scene",
@@ -81259,10 +81706,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-the-date-and-the-format-in-hand",
+      "key": "scene-talk.narrate-narrate.name-has-the-date-and-the-format-settled",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has the date and the format in hand.",
+      "text": "{name} has the date and the format settled.",
       "uses": [
         {
           "subject": "scene",
@@ -83840,7 +84287,7 @@
       "key": "scene-talk.state-deliver-news.they-cut-my-line-by-percent-percent-that-s-cut-i-was-counting-on",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "They cut my line by {percent} percent. That's {cut} I was counting on.",
+      "text": "They cut my line by {cut}. I was counting on that.",
       "uses": [
         {
           "subject": "scene",
@@ -83849,7 +84296,7 @@
           "role": "asker",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["cut", "percent"]
+          "requiresFacts": ["cut"]
         }
       ],
       "bearing": "braced",
@@ -83865,7 +84312,7 @@
       "key": "scene-talk.state-deliver-news.percent-percent-of-my-budget-cut-came-out-in-one-vote",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "{percent} percent of my budget, {cut}, came out in one vote.",
+      "text": "{cut} of my budget came out in one vote.",
       "uses": [
         {
           "subject": "scene",
@@ -83874,7 +84321,7 @@
           "role": "asker",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["cut", "percent"]
+          "requiresFacts": ["cut"]
         }
       ],
       "bearing": "braced",
@@ -84159,7 +84606,7 @@
       "key": "scene-talk.state-deliver-news.percent-percent-of-my-line-is-gone-cut-i-d-like-your-help-finding-a-way-through-it",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "{percent} percent of my line is gone, {cut}. I'd like your help finding a way through it.",
+      "text": "{cut} of my line is gone. I'd like your help finding a way through it.",
       "uses": [
         {
           "subject": "scene",
@@ -84168,7 +84615,7 @@
           "role": "asker",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["cut", "percent"]
+          "requiresFacts": ["cut"]
         }
       ],
       "bearing": "tender",
@@ -86845,7 +87292,7 @@
       "key": "scene-talk.narrate-narrate.name-is-the-newest-person-in-your-household-and-it-s-up-to-you-to-sett",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is the newest person in your household, and it's up to you to settle what that means.",
+      "text": "{name} is the newest person in your household.",
       "uses": [
         {
           "subject": "scene",
@@ -87906,10 +88353,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-can-t-say-yes-to-this-yet-not-until-we-ve-talked-it-over-properly",
+      "key": "scene-talk.reply-decline.i-can-t-say-yes-to-this-yet-not-until-we-ve-really-talked-it-over",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't say yes to this yet. Not until we've talked it over properly.",
+      "text": "I can't say yes to this yet. Not until we've really talked it over.",
       "uses": [
         {
           "subject": "scene",
@@ -89140,10 +89587,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.we-ll-need-to-talk-about-it-properly-soon",
+      "key": "scene-talk.close-press.we-ll-need-to-sit-down-and-talk-about-it-soon",
       "move": "close-press",
       "kind": "spoken",
-      "text": "We'll need to talk about it properly soon.",
+      "text": "We'll need to sit down and talk about it soon.",
       "uses": [
         {
           "subject": "scene",
@@ -97276,10 +97723,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.first-i-ve-been-thinking-about-this-campaign-all-week",
+      "key": "scene-talk.open-greet.first-i-ve-been-thinking-about-this-campaign-since-i-heard-you-filed",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "{first}. I've been thinking about this campaign all week.",
+      "text": "{first}. I've been thinking about this campaign since I heard you filed.",
       "uses": [
         {
           "subject": "scene",
@@ -97561,52 +98008,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.let-me-work-out-what-i-need-first",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Let me work out what I need first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-to-run",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-stall.give-me-a-few-days-with-it",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Give me a few days with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-to-run",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.one-list-of-everyone-you-know-one-calendar-and-the-money-counted-every-week",
       "move": "follow-answer",
       "kind": "spoken",
@@ -97703,10 +98104,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.you-ll-be-out-knocking-every-evening-somebody-has-to-mind-the-rest",
+      "key": "scene-talk.follow-press.you-ll-be-out-knocking-every-evening-somebody-has-to-handle-the-rest",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You'll be out knocking every evening. Somebody has to mind the rest.",
+      "text": "You'll be out knocking every evening. Somebody has to handle the rest.",
       "uses": [
         {
           "subject": "scene",
@@ -97751,10 +98152,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-the-offer-stays-open",
+      "key": "scene-talk.follow-accept.fair-it-s-your-campaign",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair. The offer stays open.",
+      "text": "Fair. It's your campaign.",
       "uses": [
         {
           "subject": "scene",
@@ -97810,7 +98211,8 @@
           "key": "favor-asked",
           "step": "close",
           "move": "promise",
-          "role": "asker"
+          "role": "asker",
+          "outcome": "resolved"
         }
       ],
       "bearing": "firm",
@@ -97834,7 +98236,8 @@
           "key": "favor-asked",
           "step": "close",
           "move": "thank",
-          "role": "asker"
+          "role": "asker",
+          "outcome": "resolved"
         }
       ],
       "bearing": "glad",
@@ -97858,7 +98261,8 @@
           "key": "favor-asked",
           "step": "close",
           "move": "press",
-          "role": "asker"
+          "role": "asker",
+          "outcome": "open"
         }
       ],
       "bearing": "calm",
@@ -97871,10 +98275,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.can-we-talk-about-this-another-night",
+      "key": "scene-talk.reply-leave.not-tonight-i-m-not-ready-to-say",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Can we talk about this another night?",
+      "text": "Not tonight. I'm not ready to say.",
       "uses": [
         {
           "subject": "scene",
@@ -97882,7 +98286,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -97894,10 +98299,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.not-tonight-ask-me-again-this-weekend",
+      "key": "scene-talk.reply-leave.i-can-t-decide-this-right-now",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Not tonight. Ask me again this weekend.",
+      "text": "I can't decide this right now.",
       "uses": [
         {
           "subject": "scene",
@@ -97905,8 +98310,7 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked",
-          "excludesFacts": ["daytime"]
+          "role": "asked"
         }
       ],
       "origin": "authored",
@@ -106797,7 +107201,7 @@
       "key": "scene-talk.follow-press.dont-put-me-off-im-asking-because-im-worried",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Don't put me off. I'm asking because I'm worried.",
+      "text": "Don't brush me off. I'm asking because I'm worried.",
       "uses": [
         {
           "subject": "scene",
@@ -106913,10 +107317,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.no-one-else-seeks-the-floor-name-is-recognized",
+      "key": "scene-talk.narrate-narrate.nobody-else-asks-to-speak-the-chair-calls-on-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "No one else seeks the floor. {name} is recognized.",
+      "text": "Nobody else asks to speak. The chair calls on {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -107063,7 +107467,7 @@
       "key": "scene-talk.state-tell.thank-you-chair-i-ask-the-body-to-hear-me-on-this",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "Thank you, Chair. I ask the body to hear me on this bill.",
+      "text": "Thank you, Chair. I ask my colleagues to hear me on this bill.",
       "uses": [
         {
           "subject": "scene",
@@ -107440,7 +107844,7 @@
       "key": "scene-talk.close-warn.chair-i-hope-the-body-will-remember-this-when-the-roll-is",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Chair, I hope the body will remember this when the roll is called.",
+      "text": "Chair, I hope my colleagues will remember this when the roll is called.",
       "uses": [
         {
           "subject": "scene",
@@ -107701,10 +108105,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-want-to-hear-from-my-constituents-first",
+      "key": "scene-talk.reply-stall.i-want-to-hear-from-the-people-i-represent-first",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I want to hear from my constituents first.",
+      "text": "I want to hear from the people I represent first.",
       "uses": [
         {
           "subject": "scene",
@@ -107824,7 +108228,7 @@
       "key": "scene-talk.narrate-narrate.you-split-a-plate-of-fries-because-neither-of-you-wanted-to-order-firs",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You split a plate of fries because neither of you wanted to order first. {name} keeps nudging the ketchup toward your side.",
+      "text": "{name} keeps nudging the ketchup toward your side of the table.",
       "uses": [
         {
           "subject": "scene",
@@ -107848,7 +108252,7 @@
       "key": "scene-talk.narrate-narrate.you-walk-slowly-a-little-apart-until-your-hands-end-up-closer-than-eit",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You walk slowly, a little apart, until your hands end up closer than either of you planned. {name} watches the sidewalk ahead and smiles at it.",
+      "text": "{name} walks beside you, watches the sidewalk ahead and smiles at it.",
       "uses": [
         {
           "subject": "scene",
@@ -108896,10 +109300,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-d-like-to-do-this-again-i-ll-ask-you-properly-no-circling-the-block-",
+      "key": "scene-talk.close-promise.i-d-like-to-do-this-again-i-ll-ask-you-the-right-way-no-circling-the-b",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'd like to do this again. I'll ask you properly, no circling the block first.",
+      "text": "I'd like to do this again. I'll ask you the right way, no circling the block first.",
       "uses": [
         {
           "subject": "scene",
@@ -109574,10 +109978,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.ask-me-again-after-we-ve-sorted-the-bills-and-i-ve-had-room-to-think-i",
+      "key": "scene-talk.reply-deflect.ask-me-again-after-we-ve-worked-out-the-bills-and-i-ve-had-room-to-thi",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Ask me again after we've sorted the bills and I've had room to think. I want my answer to be real.",
+      "text": "Ask me again after we've worked out the bills and I've had room to think. I want my answer to be real.",
       "uses": [
         {
           "subject": "scene",
@@ -109672,10 +110076,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.okay-good-thank-you-for-answering-straight-away-i-didn-t-have-to-stand",
+      "key": "scene-talk.follow-thank.okay-good-thank-you-for-answering-right-away-i-didn-t-have-to-stand-he",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Okay. Good. Thank you for answering straight away. I didn't have to stand here guessing.",
+      "text": "Okay. Good. Thank you for answering right away. I didn't have to stand here guessing.",
       "uses": [
         {
           "subject": "scene",
@@ -110325,7 +110729,7 @@
       "key": "scene-talk.narrate-narrate.you-have-both-been-careful-with-each-other-for-a-long-time-now-name-se",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You have both been careful with each other for a long time. Now {name} sets the phone face down and turns to look at you.",
+      "text": "{name} sets the phone face down and turns to look at you.",
       "uses": [
         {
           "subject": "scene",
@@ -110349,7 +110753,7 @@
       "key": "scene-talk.narrate-narrate.name-says-your-name-once-quietly-the-way-people-do-when-something-has-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} says your name once, quietly, the way people do when something has already been decided. You put down what you were carrying.",
+      "text": "{name} says your name once, quietly, the way people do when something has already been decided.",
       "uses": [
         {
           "subject": "scene",
@@ -111297,10 +111701,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-plea.i-m-asking-you-to-stay-level-with-me-so-we-can-sort-out-the-lease-and-",
+      "key": "scene-talk.follow-plea.i-m-asking-you-to-stay-calm-so-we-can-work-out-the-lease-and-the-car-w",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "I'm asking you to stay level with me so we can sort out the lease and the car without it getting ugly.",
+      "text": "I'm asking you to stay calm so we can work out the lease and the car without it getting ugly.",
       "uses": [
         {
           "subject": "scene",
@@ -111400,7 +111804,7 @@
       "key": "scene-talk.close-accept.good-let-s-keep-it-simple-and-fair-whoever-can-t-cover-the-rent-alone-",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Good. Let's keep it simple and fair. Whoever can't cover the rent alone gets help from the other until the lease is sorted out.",
+      "text": "Good. Let's keep it simple and fair. Whoever can't cover the rent alone gets help from the other until the lease is worked out.",
       "uses": [
         {
           "subject": "scene",
@@ -112034,7 +112438,7 @@
       "key": "scene-talk.follow-accept.no-of-course-i-should-have-thought-ill-take-it-back",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "No, of course. I should have thought. I'll take it back.",
+      "text": "No, of course. I should have thought of that. I'll take it back.",
       "uses": [
         {
           "subject": "scene",
@@ -112322,10 +112726,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.count-it-if-you-like-its-a-serious-sum-and-i-want-a-serious-answer",
+      "key": "scene-talk.state-request.count-it-if-you-like-it-s-serious-money-and-i-want-a-serious-answer",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Count it if you like. It's a serious sum, and I want a serious answer.",
+      "text": "Count it if you like. It's serious money, and I want a serious answer.",
       "uses": [
         {
           "subject": "scene",
@@ -112715,7 +113119,7 @@
       "key": "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} asks to talk, and you have known them too long to say no.",
+      "text": "{name} asks to talk.",
       "uses": [
         {
           "subject": "scene",
@@ -118184,7 +118588,7 @@
       "key": "scene-talk.state-deliver-news.there-s-left-left-to-pay-on-the-repairs-i-wanted-to-tell-you-before-th",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "There's {left} left to pay on the repairs. I wanted to tell you before the builder calls.",
+      "text": "There's {left} left to pay on the repairs. I wanted to tell you before the contractor calls.",
       "uses": [
         {
           "subject": "scene",
@@ -118452,10 +118856,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.fine-i-ll-call-the-builder-first-thing-and-get-a-date",
+      "key": "scene-talk.reply-promise.fine-i-ll-call-the-contractor-first-thing-and-get-a-date",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Fine. I'll call the builder first thing and get a date.",
+      "text": "Fine. I'll call the contractor first thing and get a date.",
       "uses": [
         {
           "subject": "scene",
@@ -118477,10 +118881,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.then-let-s-get-it-done-i-ll-start-with-the-builder",
+      "key": "scene-talk.reply-promise.then-let-s-get-it-done-i-ll-start-with-the-contractor",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Then let's get it done. I'll start with the builder.",
+      "text": "Then let's get it done. I'll start with the contractor.",
       "uses": [
         {
           "subject": "scene",
@@ -118648,10 +119052,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.i-ll-pick-up-extra-hours-until-the-home-is-put-right",
+      "key": "scene-talk.reply-offer.i-ll-pick-up-extra-hours-until-the-home-is-fixed-up",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "I'll pick up extra hours until the {home} is put right.",
+      "text": "I'll pick up extra hours until the {home} is fixed up.",
       "uses": [
         {
           "subject": "scene",
@@ -118697,10 +119101,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.i-ve-got-a-little-set-aside-use-it-for-the-builder",
+      "key": "scene-talk.reply-offer.i-ve-got-a-little-set-aside-use-it-for-the-contractor",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "I've got a little set aside. Use it for the builder.",
+      "text": "I've got a little set aside. Use it for the contractor.",
       "uses": [
         {
           "subject": "scene",
@@ -118795,10 +119199,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.the-builder-can-wait-a-week-nothing-s-going-to-change-by-then",
+      "key": "scene-talk.reply-deflect.the-contractor-can-wait-a-week-nothing-s-going-to-change-by-then",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "The builder can wait a week. Nothing's going to change by then.",
+      "text": "The contractor can wait a week. Nothing's going to change by then.",
       "uses": [
         {
           "subject": "scene",
@@ -119368,10 +119772,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-refuse.no-keep-it-you-ll-need-that-more-than-the-builder-does",
+      "key": "scene-talk.follow-refuse.no-keep-it-you-ll-need-that-more-than-the-contractor-does",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "No, keep it. You'll need that more than the builder does.",
+      "text": "No, keep it. You'll need that more than the contractor does.",
       "uses": [
         {
           "subject": "scene",
@@ -119496,10 +119900,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-call-the-builder-and-set-a-date",
+      "key": "scene-talk.close-promise.i-ll-call-the-contractor-and-set-a-date",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll call the builder and set a date.",
+      "text": "I'll call the contractor and set a date.",
       "uses": [
         {
           "subject": "scene",
@@ -119646,10 +120050,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-about-it-the-builder-won-t-hold-the-date-much-longer",
+      "key": "scene-talk.close-press.think-about-it-the-contractor-won-t-hold-the-date-much-longer",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Think about it. The builder won't hold the date much longer.",
+      "text": "Think about it. The contractor won't hold the date much longer.",
       "uses": [
         {
           "subject": "scene",
@@ -119769,10 +120173,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.did-the-builder-say-the-work-is-done-for-good",
+      "key": "scene-talk.reply-ask.did-the-contractor-say-the-work-is-done-for-good",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Did the builder say the work is done for good?",
+      "text": "Did the contractor say the work is done for good?",
       "uses": [
         {
           "subject": "scene",
@@ -124712,10 +125116,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.the-roll-call-is-public-start-there-then-ask-me-what-it-leaves-out",
+      "key": "scene-talk.reply-deflect.the-vote-is-on-the-record-start-there-then-ask-me-what-it-leaves-out",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "The roll call is public. Start there, then ask me what it leaves out.",
+      "text": "The vote is on the record. Start there, then ask me what it leaves out.",
       "uses": [
         {
           "subject": "scene",
@@ -125844,10 +126248,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.nobody-told-me-what-to-do-i-haven-t-heard-a-complaint",
+      "key": "scene-talk.reply-lie.nobody-told-me-what-to-do-that-vote-was-mine",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "Nobody told me what to do. I haven't heard a complaint.",
+      "text": "Nobody told me what to do. That vote was mine.",
       "uses": [
         {
           "subject": "scene",
@@ -128836,10 +129240,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.don-t-write-me-down-yet-i-m-waiting-on-the-fiscal-note",
+      "key": "scene-talk.reply-stall.don-t-count-me-yet-i-want-to-see-what-it-costs",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Don't write me down yet. I'm waiting on the fiscal note.",
+      "text": "Don't count me yet. I want to see what it costs.",
       "uses": [
         {
           "subject": "scene",
@@ -131007,10 +131411,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.put-in-the-sunset-clause-and-i-can-explain-a-yes-at-the-grocery-store",
+      "key": "scene-talk.reply-bargain.put-an-end-date-on-it-and-i-can-explain-a-yes-at-the-grocery-store",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Put in the sunset clause and I can explain a yes at the grocery store.",
+      "text": "Put an end date on it and I can explain a yes at the grocery store.",
       "uses": [
         {
           "subject": "scene",
@@ -132963,10 +133367,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-leaving-the-household-behind-and-has-come-to-say-goodbye-prope",
+      "key": "scene-talk.narrate-narrate.name-is-leaving-the-household-behind-and-has-come-to-say-a-real-goodby",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is leaving the household behind, and has come to say goodbye properly.",
+      "text": "{name} is leaving the household behind, and has come to say a real goodbye.",
       "uses": [
         {
           "subject": "scene",
@@ -137006,10 +137410,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-do-you-need-from-me-while-i-find-my-feet",
+      "key": "scene-talk.reply-ask.what-do-you-need-from-me-while-i-get-back-on-my-feet",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What do you need from me while I find my feet?",
+      "text": "What do you need from me while I get back on my feet?",
       "uses": [
         {
           "subject": "scene",
@@ -137865,10 +138269,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.who-is-looking-after-child-i-can-t-do-a-thing-about-it-from-in-here",
+      "key": "scene-talk.state-request.who-is-taking-care-of-child-i-can-t-do-a-thing-about-it-from-in-here",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Who is looking after {child}? I can't do a thing about it from in here.",
+      "text": "Who is taking care of {child}? I can't do a thing about it from in here.",
       "uses": [
         {
           "subject": "scene",
@@ -137893,7 +138297,7 @@
       "key": "scene-talk.state-request.child-will-grow-a-lot-in-sentence-please-look-after-child-for-me-and-bring-child-to-see-me-if-you-can",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{child} is going to be so much bigger by the time I'm out. Please look after {child} for me, and bring them by if you can.",
+      "text": "{child} is going to be so much bigger by the time I'm out. Please take care of {child} for me, and bring them by if you can.",
       "uses": [
         {
           "subject": "scene",
@@ -140554,10 +140958,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-properly-right-now",
+      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-right-just-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I wish I could, but I don't have the time to do it properly right now.",
+      "text": "I wish I could, but I don't have the time to do it right just now.",
       "uses": [
         {
           "subject": "scene",
@@ -141711,10 +142115,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-i-just-need-to-sort-out-my-days-first",
+      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-i-just-need-to-clear-my-schedule-first",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll do it, I promise. I just need to sort out my days first.",
+      "text": "I'll do it, I promise. I just need to clear my schedule first.",
       "uses": [
         {
           "subject": "scene",
@@ -142249,7 +142653,7 @@
       "key": "scene-talk.narrate-narrate.everyone-has-come-together-to-celebrate-name-who-you-last-quarreled-with-is-here-too-and-wants-a-word",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Everyone has come together to celebrate. {name} is here too, and the last time you two talked it ended in a quarrel.",
+      "text": "Everyone has come together to celebrate. {name} is here too, and the last time you two talked it ended in a fight.",
       "uses": [
         {
           "subject": "scene",
@@ -142732,6 +143136,79 @@
       }
     },
     {
+      "key": "scene-talk.reply-decline.i-understand-it-s-still-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I understand. It's still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-and-asking-again-won-t-change-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't, and asking again won't change it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-wish-i-could-i-can-t",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I wish I could. I can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      },
+      "bearing": "tender"
+    },
+    {
       "key": "scene-talk.reply-ask.why-are-you-asking-me-and-why-now",
       "move": "reply-ask",
       "kind": "spoken",
@@ -142825,6 +143302,201 @@
       }
     },
     {
+      "key": "scene-talk.reply-agree.okay-you-talked-me-into-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Okay. You talked me into it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-will-you-have-my-word-just-not-today",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I will. You have my word. Just not today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-promise-give-me-today",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I promise. Give me today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-said-i-d-do-it-let-me-have-the-day",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I said I'd do it. Let me have the day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-m-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-here-not-in-front-of-everyone",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not here. Not in front of everyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-not-doing-this-with-people-watching",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not doing this with people watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      },
+      "bearing": "guarded"
+    },
+    {
       "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-enjoy-the-day-first",
       "move": "reply-promise",
       "kind": "spoken",
@@ -142849,10 +143521,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-don-t-want-to-argue-about-it-in-front-of-everyone-i-ll-find-you-later",
+      "key": "scene-talk.reply-leave.i-don-t-want-to-argue-about-it-in-front-of-everyone",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I don't want to argue about it in front of everyone. I'll find you later.",
+      "text": "I don't want to argue about it in front of everyone.",
       "uses": [
         {
           "subject": "scene",
@@ -142869,6 +143541,81 @@
       "date": "2026-11-09",
       "tag": {
         "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-hear-you-what-s-stopping-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I hear you. What's stopping you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.help-me-understand-what-s-in-the-way",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Help me understand what's in the way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-not-a-reason-what-is-it-really",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not a reason. What is it really?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
         "key": "honor"
       }
     },
@@ -142921,6 +143668,150 @@
       }
     },
     {
+      "key": "scene-talk.close-thank.it-meant-a-lot-having-you-here",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "It meant a lot, having you here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-you-came",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad you came.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-they-re-waiting-for-you",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. They're waiting for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ve-kept-you-long-enough",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I've kept you long enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-be-with-your-people",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go be with your people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.today-was-better-with-you-in-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Today was better with you in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.thank-you-first-that-means-a-lot-to-me",
       "move": "follow-thank",
       "kind": "spoken",
@@ -142940,6 +143831,56 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, celebration and gathering purposes)",
       "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-appreciate-it-really",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I appreciate it. Really.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.okay-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Okay. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
       "tag": {
         "move": "thank",
         "key": "honor"
@@ -142967,6 +143908,81 @@
       "date": "2026-11-09",
       "tag": {
         "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.is-that-a-yes-i-can-plan-on",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is that a yes I can plan on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.people-say-that-do-you-mean-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People say that. Do you mean it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-need-to-hear-you-mean-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I need to hear you mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
         "key": "honor"
       }
     },
@@ -143195,7 +144211,7 @@
       "key": "scene-talk.narrate-narrate.a-birthday-at-home-went-by-with-a-relative-missing-from-it-and-name-wants-to-talk-to-you-about-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A birthday at home went by with a relative missing from it, and {name} wants to talk to you about it.",
+      "text": "A gathering at home went by with a relative missing, and {name} wants to talk about it.",
       "uses": [
         {
           "subject": "scene",
@@ -143335,10 +144351,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-wants-to-talk-to-you-about-absent-who-missed-the-birthday-at-home-the-last-time-you-two-talked-it-ended-in-a-quarrel",
+      "key": "scene-talk.narrate-narrate.name-wants-to-talk-to-you-about-absent-who-missed-the-birthday-at-home-the-last-time-you-two-talked-it-ended-in-a-fight",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} wants to talk to you about {absent}, who missed the birthday at home. The last time you two talked, it ended in a quarrel.",
+      "text": "{name} wants to talk to you about {absent}, who missed the birthday at home. The last time you two talked, it ended in a fight.",
       "uses": [
         {
           "subject": "scene",
@@ -144281,10 +145297,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.when-you-fell-seriously-ill-name-was-the-one-who-called-for-help-now-they-want-to-ask-you-something",
+      "key": "scene-talk.narrate-narrate.when-you-got-seriously-sick-name-was-the-one-who-called-for-help-now-they-want-to-ask-you-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "When you fell seriously ill, {name} was the one who called for help. Now they want to ask you something.",
+      "text": "When you got seriously sick, {name} was the one who called for help. Now they want to ask you something.",
       "uses": [
         {
           "subject": "scene",
@@ -144304,10 +145320,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.when-you-fell-seriously-ill-your-partner-name-called-for-help-afterward-they-sit-you-down-to-ask-you-something",
+      "key": "scene-talk.narrate-narrate.when-you-got-seriously-sick-your-partner-name-called-for-help-afterward-they-sit-you-down-to-ask-you-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "When you fell seriously ill, your partner {name} called for help. Afterward they sit you down to ask you something.",
+      "text": "When you got seriously sick, your partner {name} called for help. Afterward they sit you down to ask you something.",
       "uses": [
         {
           "subject": "scene",
@@ -144328,10 +145344,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-fell-seriously-ill-at-home-with-child-in-the-room-name-called-for-help-and-afterward-comes-to-ask-you-something",
+      "key": "scene-talk.narrate-narrate.you-got-seriously-sick-at-home-with-child-in-the-room-name-called-for-help-and-afterward-comes-to-ask-you-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You fell seriously ill at home with {child} in the room. {name} called for help, and afterward comes to ask you something.",
+      "text": "You got seriously sick at home with {child} in the room. {name} called for help, and afterward comes to ask you something.",
       "uses": [
         {
           "subject": "scene",
@@ -144352,10 +145368,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.other-people-in-the-house-saw-you-fall-seriously-ill-and-name-was-the-one-who-called-for-help-now-they-pull-you-aside-with-a-question",
+      "key": "scene-talk.narrate-narrate.other-people-in-the-house-saw-you-get-seriously-sick-and-name-was-the-one-who-called-for-help-now-they-pull-you-aside-with-a-question",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Other people in the house saw you fall seriously ill, and {name} was the one who called for help. Now they pull you aside with a question.",
+      "text": "Other people in the house saw you get seriously sick, and {name} was the one who called for help. Now they pull you aside with a question.",
       "uses": [
         {
           "subject": "scene",
@@ -144593,10 +145609,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.will-you-talk-to-child-yourself-first-they-were-in-the-room-when-you-fell-ill",
+      "key": "scene-talk.state-request.the-youngest-in-the-house-child-was-in-the-room-when-you-got-sick-will-you-talk-to-them-yourself-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The youngest in the house, {child}, was in the room when you fell ill. Will you talk to them yourself, {first}?",
+      "text": "The youngest in the house, {child}, was in the room when you got sick. Will you talk to them yourself, {first}?",
       "uses": [
         {
           "subject": "scene",
@@ -144875,10 +145891,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-fell-ill",
+      "key": "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Why are you asking me now? What did you see when I fell ill?",
+      "text": "Why are you asking me now? What did you see when I got sick?",
       "uses": [
         {
           "subject": "scene",
@@ -145167,10 +146183,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.i-only-want-you-looked-after-first-whatever-you-can-manage-is-enough-for-me",
+      "key": "scene-talk.follow-answer.i-only-want-you-taken-care-of-first-whatever-you-can-manage-is-enough-for-me",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I only want you looked after, {first}. Whatever you can manage is enough for me.",
+      "text": "I only want you taken care of, {first}. Whatever you can manage is enough for me.",
       "uses": [
         {
           "subject": "scene",
@@ -146684,10 +147700,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-quarreled-over-money-before-and-the-missed-payment-has-opened-it-up-again",
+      "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-fought-over-money-before-and-the-missed-payment-has-opened-it-up-again",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You and {name} have quarreled over money before, and the missed payment has opened it up again.",
+      "text": "You and {name} have fought over money before, and the missed payment has opened it up again.",
       "uses": [
         {
           "subject": "scene",
@@ -146695,7 +147711,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology.repeat",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["quarreled-before"]
         }
       ],
       "origin": "authored",
@@ -148527,10 +149544,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it",
+      "key": "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I did say something about money. Let me tell you the whole of it.",
+      "text": "I did say something about money. Let me tell you all of it.",
       "uses": [
         {
           "subject": "scene",
@@ -156351,8 +157368,8 @@
         "move": "thank",
         "key": "loss"
       },
-      "key": "scene-talk.follow-thank.good-i-ll-let-the-others-know-it-s-in-hand",
-      "text": "Good. I'll let the others know it's in hand.",
+      "key": "scene-talk.follow-thank.good-i-ll-let-the-others-know-it-s-handled",
+      "text": "Good. I'll let the others know it's handled.",
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
@@ -156599,8 +157616,8 @@
         "move": "promise",
         "key": "news-received"
       },
-      "key": "scene-talk.reply-promise.i-will-give-me-a-little-time-to-sort-my-days",
-      "text": "I will. Give me a little time to sort my days.",
+      "key": "scene-talk.reply-promise.i-will-give-me-a-little-time-to-clear-my-schedule",
+      "text": "I will. Give me a little time to clear my schedule.",
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
@@ -158802,8 +159819,8 @@
         "move": "promise",
         "key": "news-received"
       },
-      "key": "scene-talk.close-promise.look-after-yourself-i-ll-write-again-soon",
-      "text": "Look after yourself. I'll write again soon.",
+      "key": "scene-talk.close-promise.take-care-of-yourself-i-ll-write-again-soon",
+      "text": "Take care of yourself. I'll write again soon.",
       "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
@@ -158972,8 +159989,8 @@
         "move": "promise",
         "key": "no-diploma"
       },
-      "key": "scene-talk.close-promise.tomorrow-you-and-i-will-sort-it-out",
-      "text": "Tomorrow, you and I will sort it out.",
+      "key": "scene-talk.close-promise.tomorrow-you-and-i-will-work-it-out",
+      "text": "Tomorrow, you and I will work it out.",
       "bearing": "steady",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
@@ -159414,8 +160431,8 @@
         "move": "leave",
         "key": "school-goodbye"
       },
-      "key": "scene-talk.reply-leave.i-should-head-out-look-after-yourself",
-      "text": "I should head out. Look after yourself.",
+      "key": "scene-talk.reply-leave.i-should-head-out-take-care-of-yourself",
+      "text": "I should head out. Take care of yourself.",
       "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
@@ -161712,10 +162729,10 @@
       }
     },
     {
-      "key": "scene-talk.state-accept-terms.understood-i-ll-sort-it-out-and-come-back-for-seat",
+      "key": "scene-talk.state-accept-terms.understood-i-ll-get-it-straightened-out-and-come-back-for-seat",
       "move": "state-accept-terms",
       "kind": "spoken",
-      "text": "Understood. I'll sort it out and come back for {seat}.",
+      "text": "Understood. I'll get it straightened out and come back for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -162735,7 +163752,7 @@
       "key": "scene-talk.follow-accept.your-name-s-in-for-seat-in-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "your name's in for {seat} in {place}.",
+      "text": "your name's in for {seat} in {seat-place}.",
       "uses": [
         {
           "subject": "scene",
@@ -162745,7 +163762,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "place"]
+          "requiresFacts": ["seat", "seat-place"]
         }
       ],
       "origin": "authored",
@@ -162855,7 +163872,7 @@
       "key": "scene-talk.follow-accept.i-ve-got-you-on-the-list-for-seat-with-filed",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I've got you on the list for {seat} with {filed}.",
+      "text": "I've got you on the list for {seat}. That's you and {filed} so far.",
       "uses": [
         {
           "subject": "scene",
@@ -162885,7 +163902,7 @@
       "key": "scene-talk.follow-accept.you-re-on-file-for-seat-in-place-as-of-now",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "you're on file for {seat} in {place} as of now.",
+      "text": "you're on file for {seat} in {seat-place} as of now.",
       "uses": [
         {
           "subject": "scene",
@@ -162895,7 +163912,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "place"]
+          "requiresFacts": ["seat", "seat-place"]
         }
       ],
       "origin": "authored",
@@ -163697,10 +164714,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.win-it-and-you-d-help-set-the-county-s-budget-and-look-after-its-roads-its-jail",
+      "key": "scene-talk.state-tell-duty.win-it-and-you-d-help-set-the-county-s-budget-and-take-care-of-its-roa-its-jail",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "Win it, and you'd help set the county's budget and look after its roads, its jail and the courthouse, for {place} and every town around it.",
+      "text": "Win it, and you'd help set the county's budget and take care of its roads, its jail and the courthouse, for {place} and every town around it.",
       "uses": [
         {
           "subject": "scene",
@@ -163985,6 +165002,2275 @@
         "of": "filing-running",
         "part": "core",
         "required": true
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-asked-name-for-an-hour-this-morning-you-get-right-to-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You asked {name} for an hour this morning. You get right to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-down-across-from-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sits down across from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-been-down-the-list-more-than-once-you-keep-coming-back-to-name",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You've been down the list more than once. You keep coming back to {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-down-with-you-you-get-right-to-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sits down with you. You get right to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-never-met-name-you-introduce-yourself",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You've never met {name}. You introduce yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-knows-you-today-you-ve-come-to-ask-something-big",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} knows you. Today you've come to ask something big.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-self-full-thank-you-for-seeing-me-i-m-running-for-race-office-and-i-d-like-you-to-run-with-me-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm {self-full}. Thank you for seeing me. I'm running for {race-office}, and I'd like you to run with me for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-haven-t-met-so-i-ll-be-plain-i-want-you-on-my-ticket-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We haven't met, so I'll be plain. I want you on my ticket for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.their-first-you-know-me-i-want-you-beside-me-on-the-ballot-for-office-will-you-run-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{their-first}, you know me. I want you beside me on the ballot for {office}. Will you run with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ll-get-right-to-it-their-first-i-want-you-as-my-office-will-you-do-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'll get right to it, {their-first}. I want you as my {office}. Will you do it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-re-family-their-first-but-that-isn-t-why-i-m-asking-i-d-want-you-for-office-either-way",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You're family, {their-first}, but that isn't why I'm asking. I'd want you for {office} either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-thought-hard-about-who-should-run-with-me-for-office-i-d-like-it-to-be-you-their-first",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've thought hard about who should run with me for {office}. I'd like it to be you, {their-first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-can-win-this-their-first-and-i-want-you-with-me-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We can win this, {their-first}, and I want you with me as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["standing-real"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-know-it-s-a-lot-to-ask-their-first-would-you-run-for-office-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I know it's a lot to ask, {their-first}. Would you run for {office} with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.for-you-self-yes-i-d-be-glad-to",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "For you, {self}? Yes. I'd be glad to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-trust"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-trust-you-self-that-s-most-of-it-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I trust you, {self}. That's most of it. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-trust"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-wanted-a-shot-at-office-self-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've wanted a shot at {office}, {self}. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-step-up"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-self-i-ll-take-it-and-i-ll-earn-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, {self}. I'll take it, and I'll earn it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-step-up"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.we-want-the-same-thing-on-issue-yes-i-ll-run-with-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "We want the same thing on {issue}. Yes. I'll run with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-on-issue-i-can-stand-next-to-that-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right on {issue}. I can stand next to that. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-got-a-real-campaign-going-self-count-me-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've got a real campaign going, {self}. Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-real-race"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-don-t-say-yes-to-long-shots-self-you-aren-t-one-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I don't say yes to long shots, {self}. You aren't one. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-real-race"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-have-to-give-up-their-office-i-m-not-ready-to",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd have to give up {their-office}. I'm not ready to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-seat"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-owe-the-people-i-serve-as-their-office-self-i-m-staying-where-i-am",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I owe the people I serve as {their-office}, {self}. I'm staying where I am.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-seat"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-on-the-ballot-for-their-office-this-year-i-can-t-run-for-two-things",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm on the ballot for {their-office} this year. I can't run for two things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-race"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.my-own-race-is-this-year-self-those-voters-come-first",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "My own race is this year, {self}. Those voters come first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-race"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.we-don-t-see-issue-the-same-way-i-won-t-defend-what-i-don-t-believe",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "We don't see {issue} the same way. I won't defend what I don't believe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-apart"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.on-issue-you-and-i-are-too-far-apart-i-d-be-pretending-on-every-stage",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "On {issue}, you and I are too far apart. I'd be pretending on every stage.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-apart"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-read-what-outlet-printed-about-you-i-can-t-put-my-name-next-to-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I read what {outlet} printed about you. I can't put my name next to that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-heard", "outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-with-that-story-out-there-self-not-this-year",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not with that story out there, {self}. Not this year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-heard"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-don-t-know-you-self-i-don-t-tie-my-name-to-a-stranger-s",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I don't know you, {self}. I don't tie my name to a stranger's.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-stranger"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.you-seem-decent-self-but-we-ve-only-just-met-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You seem decent, {self}, but we've only just met. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-stranger"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-be-signing-on-to-a-long-shot-self-i-can-t-spend-my-name-on-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd be signing on to a long shot, {self}. I can't spend my name on that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-long-shot"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.your-campaign-hasn-t-gotten-off-the-ground-yet-self-ask-me-when-it-has",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Your campaign hasn't gotten off the ground yet, {self}. Ask me when it has.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-long-shot"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-their-first-you-won-t-be-sorry",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {their-first}. You won't be sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-means-a-lot-their-first-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That means a lot, {their-first}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-we-start-tomorrow-their-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. We start tomorrow, {their-first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-their-first-let-s-do-this-right",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {their-first}. Let's do this right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.is-there-anything-that-would-change-your-mind-their-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is there anything that would change your mind, {their-first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.hear-me-out-their-first-nobody-fits-this-like-you-do",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Hear me out, {their-first}. Nobody fits this like you do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-not-asking-lightly-their-first-think-it-over-once-more",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm not asking lightly, {their-first}. Think it over once more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.tell-me-what-it-would-take-their-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Tell me what it would take, {their-first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-their-first-thank-you-for-hearing-me-out",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand, {their-first}. Thank you for hearing me out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-their-first-i-m-glad-we-talked",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough, {their-first}. I'm glad we talked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-their-first-no-hard-feelings",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright, {their-first}. No hard feelings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-respect-that-their-first-my-door-stays-open",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I respect that, {their-first}. My door stays open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-serve",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.ask-me-when-my-term-as-their-office-is-up",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Ask me when my term as {their-office} is up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-own-seat", "their-term-ends"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.if-i-didn-t-hold-their-office-this-would-be-easy-i-do",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "If I didn't hold {their-office}, this would be easy. I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-own-seat"],
+          "excludesFacts": ["their-term-ends"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.ask-me-again-after-my-own-election-self",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Ask me again after my own election, {self}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-own-race"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.come-closer-to-me-on-issue-and-ask-me-again",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Come closer to me on {issue}, and ask me again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-apart"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.answer-that-story-self-all-the-way-then-ask-me-again",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Answer that story, {self}, all the way. Then ask me again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-heard"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.let-me-get-to-know-you-first-self-then-ask",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Let me get to know you first, {self}. Then ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-stranger"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.show-me-this-race-is-real-self-then-ask-me-again",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Show me this race is real, {self}. Then ask me again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-long-shot"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-don-t-even-have-to-ask-twice-self-i-m-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You don't even have to ask twice, {self}. I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-trust"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-known-you-long-enough-self-yes-as-long-as-you-keep-being-straight-with-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've known you long enough, {self}. Yes, as long as you keep being straight with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-trust"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-thought-about-running-for-office-myself-self-doing-it-with-you-works-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've thought about running for {office} myself, {self}. Doing it with you works. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-step-up"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.it-s-a-big-step-self-and-i-want-it-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "It's a big step, {self}, and I want it. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-step-up"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.somebody-has-to-stand-up-on-issue-self-yes-i-ll-run-with-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Somebody has to stand up on {issue}, {self}. Yes, I'll run with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.on-issue-you-ve-been-right-from-the-start-that-s-why-it-s-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "On {issue} you've been right from the start. That's why it's yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-agree"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.people-are-talking-about-your-campaign-self-i-want-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "People are talking about your campaign, {self}. I want in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-real-race"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-can-win-this-self-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You can win this, {self}. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-real-race"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.the-people-who-elected-me-as-their-office-would-never-forgive-me-self-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "The people who elected me as {their-office} would never forgive me, {self}. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-seat"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-just-got-to-where-i-am-as-their-office-self-i-m-not-walking-away-from-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I just got to where I am as {their-office}, {self}. I'm not walking away from it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-seat"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-got-my-own-name-on-a-ballot-this-year-self-i-can-t-split-myself-in-two",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've got my own name on a ballot this year, {self}. I can't split myself in two.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-race"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.my-own-race-comes-first-this-year-self-the-answer-s-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "My own race comes first this year, {self}. The answer's no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-race"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-like-you-self-but-we-re-too-far-apart-on-issue-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I like you, {self}, but we're too far apart on {issue}. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-apart"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.people-would-ask-me-about-issue-every-day-self-i-couldn-t-look-them-in-the-eye",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "People would ask me about {issue} every day, {self}. I couldn't look them in the eye.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-apart"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-heard-what-people-are-saying-about-you-self-i-need-to-stay-out-of-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've heard what people are saying about you, {self}. I need to stay out of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-heard"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.everybody-s-talking-about-that-story-self-i-can-t-be-part-of-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Everybody's talking about that story, {self}. I can't be part of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-heard"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-don-t-run-with-people-i-just-met-self-that-s-not-how-i-do-things",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I don't run with people I just met, {self}. That's not how I do things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-stranger"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.you-re-asking-a-lot-from-someone-you-met-today-self-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You're asking a lot from someone you met today, {self}. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-stranger"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.nobody-knows-your-name-yet-self-i-can-t-bet-mine-on-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Nobody knows your name yet, {self}. I can't bet mine on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-long-shot"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.you-don-t-have-the-money-or-the-votes-yet-self-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You don't have the money or the votes yet, {self}. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-long-shot"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-while-my-own-name-is-on-the-ballot-self-after-that-we-ll-talk",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not while my own name is on the ballot, {self}. After that, we'll talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-own-race"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.if-you-moved-on-issue-self-i-d-think-about-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "If you moved on {issue}, {self}, I'd think about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-apart"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.clear-your-name-self-and-come-see-me-again",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Clear your name, {self}, and come see me again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-heard"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.spend-some-time-with-me-first-self-then-we-ll-see",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Spend some time with me first, {self}. Then we'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-stranger"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.raise-some-money-and-get-some-people-behind-you-self-then-come-back",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Raise some money and get some people behind you, {self}. Then come back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-long-shot"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.my-seat-comes-first-self-that-won-t-change-this-year",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "My seat comes first, {self}. That won't change this year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-own-seat"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.since-we-talked-i-ve-thought-about-it-self-yes-i-ll-run-with-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Since we talked, I've thought about it, {self}. Yes, I'll run with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["changed-met", "self"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.sitting-down-with-you-changed-my-mind-self-i-m-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sitting down with you changed my mind, {self}. I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["changed-met", "self"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-got-real-money-behind-you-now-self-i-ll-run-with-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've got real money behind you now, {self}. I'll run with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["changed-standing", "self"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.people-are-taking-your-race-seriously-now-self-count-me-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "People are taking your race seriously now, {self}. Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["changed-standing", "self"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-come-around-on-issue-self-then-yes-i-ll-run-with-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've come around on {issue}, {self}. Then yes, I'll run with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["changed-agree", "self"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.now-that-we-re-closer-on-issue-self-i-can-say-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Now that we're closer on {issue}, {self}, I can say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["changed-agree", "self"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-talk-about-you-has-died-down-self-alright-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That talk about you has died down, {self}. Alright. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["changed-heard", "self"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-stopped-hearing-those-stories-self-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've stopped hearing those stories, {self}. I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["changed-heard", "self"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.my-own-race-isn-t-in-the-way-anymore-self-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "My own race isn't in the way anymore, {self}. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["changed-seat", "self"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.things-have-changed-with-my-seat-self-i-can-run-with-you-now",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Things have changed with my seat, {self}. I can run with you now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["changed-seat", "self"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
       }
     },
     {
@@ -166753,10 +170039,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-hope-it-sorts-out-before-deadline",
+      "key": "scene-talk.follow-accept.i-hope-it-works-out-before-deadline",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I hope it sorts out before {deadline}.",
+      "text": "I hope it works out before {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -176805,10 +180091,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-comfort.look-after-yourself",
+      "key": "scene-talk.follow-comfort.take-it-easy",
       "move": "follow-comfort",
       "kind": "spoken",
-      "text": "Look after yourself.",
+      "text": "Take it easy.",
       "uses": [
         {
           "subject": "scene",
@@ -177105,10 +180391,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.looking-after-relative-takes-everything-i-ve-got-right-now",
+      "key": "scene-talk.reply-tell.taking-care-of-relative-takes-everything-i-ve-got-right-now",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Looking after {relative} takes everything I've got right now.",
+      "text": "Taking care of {relative} takes everything I've got right now.",
       "uses": [
         {
           "subject": "scene",
