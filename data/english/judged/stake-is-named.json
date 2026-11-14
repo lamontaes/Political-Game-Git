@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "stake-is-named",
   "rubric": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-  "judged": 76,
+  "judged": 68,
   "no": {
     "050jxoy5cvo": {
       "keys": [
@@ -79,31 +79,6 @@
       ],
       "why": "The friend's favor is never stated; nothing about what is wanted or what rides on it has been said."
     },
-    "1zuhbzdo7mi": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-is-the-newest-person-in-your-household-and-it-s-up-to-you-to-sett",
-        "scene-talk.state-ask.can-you-walk-me-through-how-things-work-here-i-d-like-to-get-it-right",
-        "scene-talk.reply-offer.welcome-you-re-part-of-the-household-now-so-make-yourself-at-home"
-      ],
-      "why": "A housemate asks how things work; nothing is gained, lost or traded."
-    },
-    "2226tt8wg1w": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-is-the-newest-person-in-your-household-and-it-s-up-to-you-to-sett",
-        "scene-talk.state-ask.before-we-start-what-do-you-expect-from-me-and-what-can-i-expect-from",
-        "scene-talk.reply-offer.i-m-glad-you-re-here-whatever-you-need-tell-me-and-we-ll-work-it-out"
-      ],
-      "why": "A housemate asks about mutual expectations; no concrete gain, loss or trade is named."
-    },
-    "2b5mlpml7bf": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-is-the-newest-person-in-your-household-and-it-s-up-to-you-to-sett",
-        "scene-talk.open-greet.hi-sorry-i-don-t-quite-know-what-to-do-with-my-hands",
-        "scene-talk.state-ask.how-does-this-place-run-who-does-what-around-here",
-        "scene-talk.reply-offer.welcome-tell-me-what-would-make-this-easier-for-you-and-i-ll-do-what-i"
-      ],
-      "why": "A new housemate asks how the place runs; no gain, loss or trade is named."
-    },
     "2epzuxuqafj": {
       "keys": [
         "scene-talk.narrate-narrate.the-hall-is-full-and-the-questions-are-coming-name-stands-up-with-a-fo",
@@ -113,5 +88,5 @@
       "why": "'I have a question and I'd like a straight answer' names no subject or consequence."
     }
   },
-  "yesHash": "1kbfoeqswiv"
+  "yesHash": "0o9gmgzus3d"
 }

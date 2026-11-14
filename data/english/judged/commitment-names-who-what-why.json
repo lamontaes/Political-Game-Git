@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 707,
+  "judged": 593,
   "no": {
     "01s3uojo7ih": {
       "keys": [
@@ -160,18 +160,6 @@
       ],
       "why": "'Take the deal' only; never names the deal."
     },
-    "08qofr9s2fq": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no",
-        "scene-talk.state-request.youve-always-been-straight-with-me-so-ill-be-straight-i-need-this-to-g",
-        "scene-talk.reply-stall.let-me-sleep-on-it-give-me-a-few-days-as-a-friend",
-        "scene-talk.follow-plea.please-after-all-the-years-youd-really-say-no",
-        "scene-talk.reply-apologize.im-sorry-i-care-about-you-and-i-cant-do-this",
-        "scene-talk.follow-plea.just-think-about-it-for-me",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
-      ],
-      "why": "The friend's 'I need this to go my way' never names the matter."
-    },
     "095xl781sd0": {
       "keys": [
         "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
@@ -189,18 +177,6 @@
         "scene-talk.reply-refuse.i-m-not-answering-that-one"
       ],
       "why": "'Every page of it' and 'the vote' with neither the scandal nor the vote named; documenting an unnamed claim."
-    },
-    "09ew09ypc8q": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no",
-        "scene-talk.state-request.youve-always-been-straight-with-me-so-ill-be-straight-i-need-this-to-g",
-        "scene-talk.reply-confront.i-thought-better-of-you-this-is-a-bribe-and-im-reporting-it-even-from",
-        "scene-talk.follow-plea.youd-report-me-after-everything",
-        "scene-talk.reply-apologize.im-sorry-i-care-about-you-and-i-cant-do-this",
-        "scene-talk.follow-plea.just-think-about-it-for-me",
-        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
-      ],
-      "why": "The friend says 'I need this to go my way' without naming the vote or decision."
     },
     "09il0ujbs8e": {
       "keys": [
@@ -297,18 +273,6 @@
         "scene-talk.reply-refuse.no-and-this-changes-nothing"
       ],
       "why": "'Take the deal' only; the deal is never named."
-    },
-    "0aqhasfpfus": {
-      "keys": [
-        "scene-talk.narrate-narrate.repeat.you-and-name-have-quarreled-over-money-before-and-the-missed-payment-has-opened-it-up-again",
-        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
-        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
-        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
-        "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
-        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
-        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
-      ],
-      "why": "Asked 'what's going to be different this time?', you answer only 'you have my word', with no what."
     },
     "0aw6q5usqoj": {
       "keys": [
@@ -526,16 +490,6 @@
       ],
       "why": "'You have my word' is given without saying what will be different, which is exactly what was asked; the subject is never named."
     },
-    "0evfk4g1y58": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no",
-        "scene-talk.state-request.youve-always-been-straight-with-me-so-ill-be-straight-i-need-this-to-g",
-        "scene-talk.reply-confront.i-thought-better-of-you-this-is-a-bribe-and-im-reporting-it-even-from",
-        "scene-talk.follow-plea.youd-report-me-after-everything",
-        "scene-talk.reply-refuse.i-cant-and-you-shouldnt-have-asked-please-put-that-away"
-      ],
-      "why": "The friend's bribe is for 'this to go my way'; what it is for is never named."
-    },
     "0g07hioi51w": {
       "keys": [
         "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
@@ -568,18 +522,6 @@
         "scene-talk.reply-promise.better-doesnt-mean-done-ill-keep-at-it"
       ],
       "why": "'I'll keep at it' promises to keep at an unnamed 'it'; the scene never says what went well here, so a listener can't say what work is promised."
-    },
-    "0gwy40lbujt": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-is-in-prison-and-a-guard-watches-the-visit-so-there-is-time-for-only-a-thing-or-two",
-        "scene-talk.state-request.who-is-looking-after-child-i-can-t-do-a-thing-about-it-from-in-here",
-        "scene-talk.reply-ask.tell-me-how-to-do-it-i-ve-never-had-to-do-any-of-this",
-        "scene-talk.follow-answer.child-needs-to-be-fed-and-get-to-school-that-s-all-i-need-from-you",
-        "scene-talk.reply-decline.that-s-more-than-i-can-do-i-m-sorry",
-        "scene-talk.follow-press.then-who-everyone-else-stopped-answering",
-        "scene-talk.reply-promise.i-mean-it-i-ll-do-it-this-week"
-      ],
-      "why": "The player has just said it's more than they can do, then 'I mean it. I'll do it this week'. Whether this promises the child's care or repeats the refusal is muddled."
     },
     "0gy0upxav9c": {
       "keys": [
@@ -616,19 +558,6 @@
         "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
       ],
       "why": "'See that it goes my way' never names the vote, permit or contract."
-    },
-    "0iadmqxdjjj": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
-        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
-        "scene-talk.reply-ask.were-you-ever-in-my-spot",
-        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
-        "scene-talk.reply-thank.that-s-the-most-useful-thing-anyone-s-told-me-this-month",
-        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
-        "scene-talk.reply-thank.that-would-mean-a-lot",
-        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
-      ],
-      "why": "'It's done' refers to 'a few calls', but the scene never says who the calls go to or what they are for."
     },
     "0ik8a8sx6s6": {
       "keys": [
@@ -1140,16 +1069,6 @@
       ],
       "why": "A veiled threat with no named aim. What they want and what 'complicated' means are never stated on any branch."
     },
-    "0x3cg7w6rcv": {
-      "keys": [
-        "scene-talk.narrate-narrate.repeat.you-and-name-have-quarreled-over-money-before-and-the-missed-payment-has-opened-it-up-again",
-        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
-        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
-        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
-        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
-      ],
-      "why": "They ask 'what changes' and 'I need to see a change'. 'You have my word' never names what you will do differently."
-    },
     "0yksyhhyuoj": {
       "keys": [
         "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
@@ -1179,21 +1098,6 @@
         "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought"
       ],
       "why": "'Any favor' never named."
-    },
-    "0yoj2ix8kwa": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
-        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
-        "scene-talk.reply-disagree.everybody-says-next-year-next-year-somebody-else-is-already-in-the-cha",
-        "scene-talk.follow-press.then-make-sure-the-person-in-the-chair-owes-you-something",
-        "scene-talk.reply-disagree.i-m-not-running-to-collect-favors",
-        "scene-talk.follow-press.nobody-does-it-s-how-you-stay-running",
-        "scene-talk.reply-ask.so-what-would-you-do-in-my-shoes-honestly",
-        "scene-talk.follow-answer.exactly-what-i-told-you-wait-and-work",
-        "scene-talk.reply-thank.going-away-okay-that-s-what-i-needed-to-hear",
-        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly"
-      ],
-      "why": "'I'll make a few calls this week' with no word on what the calls are for."
     },
     "0ze8eehkrex": {
       "keys": [
@@ -1414,16 +1318,6 @@
       ],
       "why": "The threat follows a 'deal' that is never named, so what was refused, and what the threat is over, is unclear."
     },
-    "14nf0vpo648": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no",
-        "scene-talk.state-request.youve-always-been-straight-with-me-so-ill-be-straight-i-need-this-to-g",
-        "scene-talk.reply-stall.let-me-sleep-on-it-give-me-a-few-days-as-a-friend",
-        "scene-talk.follow-plea.please-after-all-the-years-youd-really-say-no",
-        "scene-talk.reply-refuse.i-cant-and-you-shouldnt-have-asked-please-put-that-away"
-      ],
-      "why": "Friend's offer for an unnamed 'go my way'."
-    },
     "15h1e3djyij": {
       "keys": [
         "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
@@ -1563,19 +1457,6 @@
         "scene-talk.reply-refuse.dont-make-me-say-it-again-no"
       ],
       "why": "A repeat offer with 'more in here' but nothing names what it is for."
-    },
-    "1bj9fxfjrd7": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
-        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
-        "scene-talk.reply-tell.i-ve-already-told-people-i-m-running-backing-out-now-costs-me-somethin",
-        "scene-talk.follow-ask.who-did-you-tell-exactly",
-        "scene-talk.reply-disagree.if-i-wait-somebody-else-takes-it-and-i-m-waiting-another-eight-years",
-        "scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either",
-        "scene-talk.reply-thank.okay-that-one-landed",
-        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly"
-      ],
-      "why": "'I'll make a few calls' never says what the calls are for (backing a run now, or lining up support for waiting) after you argued to run, so the promise has no plain purpose."
     },
     "1cdh24r7hwa": {
       "keys": [
@@ -1804,21 +1685,6 @@
         "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
       ],
       "why": "A threat over a 'deal' that is never named on the path."
-    },
-    "1jak6vu2xj5": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
-        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
-        "scene-talk.reply-ask.were-you-ever-in-my-spot",
-        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
-        "scene-talk.reply-disagree.you-were-luckier-than-i-am-then",
-        "scene-talk.follow-press.luck-had-nothing-to-do-with-it-i-waited",
-        "scene-talk.reply-ask.so-what-would-you-do-in-my-shoes-honestly",
-        "scene-talk.follow-answer.exactly-what-i-told-you-wait-and-work",
-        "scene-talk.reply-thank.going-away-okay-that-s-what-i-needed-to-hear",
-        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly"
-      ],
-      "why": "The mentor promises 'a few calls', but nothing says who they will call or what for. The 'wait with friends' line never comes before this point."
     },
     "1jigqr8um3a": {
       "keys": [
@@ -2099,16 +1965,6 @@
       ],
       "why": "'Take the deal' never says what the deal is."
     },
-    "1xy0vaxeccz": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-is-the-newest-person-in-your-household-and-it-s-up-to-you-to-sett",
-        "scene-talk.open-greet.hi-sorry-i-don-t-quite-know-what-to-do-with-my-hands",
-        "scene-talk.state-ask.how-does-this-place-run-who-does-what-around-here",
-        "scene-talk.reply-offer.welcome-tell-me-what-would-make-this-easier-for-you-and-i-ll-do-what-i",
-        "scene-talk.follow-promise.i-ll-earn-it-you-ll-see"
-      ],
-      "why": "'I'll earn it' has no antecedent. The housemate doesn't answer the offer, so what is promised is unclear."
-    },
     "1y344axo3df": {
       "keys": [
         "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
@@ -2199,21 +2055,6 @@
         "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
       ],
       "why": "'Take the deal' never named."
-    },
-    "205y7sew86b": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
-        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
-        "scene-talk.reply-ask.were-you-ever-in-my-spot",
-        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
-        "scene-talk.reply-tell.i-ve-got-people-counting-on-me-to-say-yes",
-        "scene-talk.follow-ask.are-they-counting-on-you-to-win-or-to-run",
-        "scene-talk.reply-disagree.if-i-wait-somebody-else-takes-it-and-i-m-waiting-another-eight-years",
-        "scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either",
-        "scene-talk.reply-thank.okay-that-one-landed",
-        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly"
-      ],
-      "why": "The mentor will 'make a few calls', but to whom and for what (lining up support while you wait) is never said."
     },
     "21jr8a4jzba": {
       "keys": [
@@ -2348,24 +2189,6 @@
       ],
       "why": "Doubling the money is named, but what the money is for never is; only 'goes my way'."
     },
-    "242ghivqdtc": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no",
-        "scene-talk.state-request.youve-always-been-straight-with-me-so-ill-be-straight-i-need-this-to-g",
-        "scene-talk.reply-refuse.not-even-for-you-take-it-back"
-      ],
-      "why": "'I need this to go my way' names nothing the friend wants."
-    },
-    "243o3ksonch": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no",
-        "scene-talk.state-request.youve-always-been-straight-with-me-so-ill-be-straight-i-need-this-to-g",
-        "scene-talk.reply-apologize.i-wish-i-could-help-not-like-this-and-im-sorry",
-        "scene-talk.follow-plea.just-think-about-it-for-me",
-        "scene-talk.reply-refuse.i-cant-and-you-shouldnt-have-asked-please-put-that-away"
-      ],
-      "why": "Friend's bribe for an unnamed 'go my way'."
-    },
     "24k1zyjztvn": {
       "keys": [
         "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
@@ -2438,16 +2261,6 @@
         "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
       ],
       "why": "'Make sure the next thing goes as well' never names the next thing after 'What's the plan?'"
-    },
-    "27cwsg9ewz3": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-is-in-prison-and-a-guard-watches-the-visit-so-there-is-time-for-only-a-thing-or-two",
-        "scene-talk.state-request.who-is-looking-after-child-i-can-t-do-a-thing-about-it-from-in-here",
-        "scene-talk.reply-decline.i-can-t-do-that-one-i-m-sorry",
-        "scene-talk.follow-press.please-first-you-re-the-only-one-who-still-comes",
-        "scene-talk.reply-promise.i-mean-it-i-ll-do-it-this-week"
-      ],
-      "why": "The prisoner only asked who is looking after the child; 'I can't do that one' then 'I'll do it this week' never says what 'it' is."
     },
     "27iqx4hh6j4": {
       "keys": [
@@ -2550,17 +2363,6 @@
         "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you"
       ],
       "why": "Threat over reporting a 'deal' that is never named."
-    },
-    "2acrp0dlj62": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
-        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
-        "scene-talk.reply-ask.were-you-ever-in-my-spot",
-        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
-        "scene-talk.reply-thank.that-s-the-most-useful-thing-anyone-s-told-me-this-month",
-        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly"
-      ],
-      "why": "'I'll make a few calls' with no word on to whom or for what; the purpose comes only on other paths."
     },
     "2b6dqqkjs32": {
       "keys": [
@@ -2741,5 +2543,5 @@
       "why": "The scandal interview never names its subject or the vote the player says yes to; the documentation question refers to an unnamed matter."
     }
   },
-  "yesHash": "1j6qefi3ip1"
+  "yesHash": "14kpnvy738j"
 }

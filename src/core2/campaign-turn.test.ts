@@ -194,7 +194,10 @@ interface CampaignPayment {
 function campaignPayments<T>(act: () => T): [T, CampaignPayment[]] {
   const payments: CampaignPayment[] = [];
   setJournalTrace((input) => {
-    if (CAMPAIGN_MONEY_KINDS.includes(input.sourceRef.kind))
+    if (
+      CAMPAIGN_MONEY_KINDS.includes(input.sourceRef.kind) ||
+      input.sourceRef.id.startsWith("campaign-purchase:")
+    )
       payments.push({ ...input.sourceRef, postings: input.postings });
   });
   try {
@@ -289,9 +292,11 @@ describe("campaigns that raise and spend", () => {
         paidOut -= out.deltaMinor;
         const to = record.postings.find((p) => p !== out)!;
         const sellerId = to.accountId.slice(5, -":residual".length);
-        expect(core.organizations.get(sellerId)!.liquidMinor).toBeGreaterThan(
-          sellersBefore.get(sellerId) ?? 0,
-        );
+        // An outside seller holds no stock: its flow is the record.
+        if (core.organizations.get(sellerId)!.outsideFlow === undefined)
+          expect(core.organizations.get(sellerId)!.liquidMinor).toBeGreaterThan(
+            sellersBefore.get(sellerId) ?? 0,
+          );
       }
     }
     expect(paidOut).toBe(campaign.spentMinor);
@@ -565,22 +570,44 @@ describe("campaigns that raise and spend", () => {
         tried.push(`${where}: nothing raised or spent`);
         continue;
       }
+      // The ad is about the platform question its campaign was furthest
+      // behind on (`nextTopic`), kept as its message's topic: read it there,
+      // not from the platform's lead.
+      const topics = (
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("messages")
+          .rows() as unknown as {
+          id: string;
+          candidateId: string;
+          topic: string;
+        }[]
+      )
+        .filter(
+          (m) => m.candidateId === rival.personId && m.id.startsWith(prefix),
+        )
+        .map((m) => m.topic);
+      const question = topics[topics.length - 1];
+      if (!question) {
+        tried.push(`${where}: the ad reached no one it could move`);
+        continue;
+      }
       // The views engine moves a stance someone holds: viewers with none on
       // the ad's question have nothing for it to move.
       if (
         !viewers.some((id) =>
-          stancesOf(api, id).some((s) => s.topic === lead.question),
+          stancesOf(api, id).some((s) => s.topic === question),
         )
       ) {
         tried.push(
-          `${where}: none of ${viewers.length} viewers holds a stance on ${lead.question}`,
+          `${where}: none of ${viewers.length} viewers holds a stance on ${question}`,
         );
         continue;
       }
       const moved = viewers.filter((id) =>
         stancesOf(api, id).some(
           (s) =>
-            s.topic === lead.question &&
+            s.topic === question &&
             s.causes.some((x) => x.eventId.startsWith(prefix)),
         ),
       );
