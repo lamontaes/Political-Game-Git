@@ -1,5 +1,5 @@
 {
-  "about": "How people at home say what happened to a relative, in talk, from the health engine's records (Words builder W1, Nov 12, 2026). A cause of death is said only where people say it plainly to family; the rest are told by the age at death alone. An illness is said by its common name. Read by src/director/conversation.ts (relativeNews). Words only; no sentence. A stroke is told without its name, since \"It's a stroke\" is not how people say it.",
+  "about": "How people at home say what happened to a relative, in talk, from the health engine's records (Words builder W1, Nov 12, 2026). A cause of death is said only where people say it plainly to family; the rest are told by the age at death alone. An illness is said by its common name. Read by src/director/conversation.ts (relativeNews). Words only; no sentence. A stroke is told without its name, since \"It's a stroke\" is not how people say it. A case's offense is said from the defendant's own side: taking bribes, paying a bribe or offering one (bribe-taken, bribe-paid, bribe-offered). An official is said as someone outside government says them: by the body they sit on or the office they hold alone (Words builder S3, Nov 14, 2026).",
   "deathCauses": {
     "motor-vehicle": "a car crash",
     "drug-overdose": "an overdose"
@@ -11,12 +11,19 @@
     "diabetes": "diabetes"
   },
   "offenses": {
-    "bribery": "taking bribes"
+    "bribery": "taking bribes",
+    "bribe-taken": "taking bribes",
+    "bribe-paid": "paying a bribe",
+    "bribe-offered": "offering a bribe"
   },
   "youngBelowAge": {
     "value": 60,
     "tag": "TUNABLE",
     "spread": [50, 70],
     "checkedAgainst": "A death below this age is spoken of as early ('only 52'); U.S. life expectancy at birth was 77.5 in 2022 (CDC NCHS, Mortality in the United States, 2022), and a death more than about fifteen years short of it is the one people call too young."
+  },
+  "officials": {
+    "onBody": "someone on the {body}",
+    "sole": "the {office}"
   }
 }
