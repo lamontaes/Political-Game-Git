@@ -1269,7 +1269,9 @@ export interface CoreAPI {
    * The new game's chosen identity for the controlled player, on the day the
    * world opens: name, birth date and look fields (gender, appearance). Only
    * the controlled player, only before any day has passed; the birth date
-   * may not be in the future. The life's generated past is not rewritten.
+   * may not be in the future. The life's generated past is not rewritten. A
+   * `looks.origin` other than the drawn one is taken by the household and
+   * the kin who shared the drawn origin.
    */
   chooseIdentityV1(
     personId: PersonId,

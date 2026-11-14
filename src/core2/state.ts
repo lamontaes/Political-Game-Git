@@ -1660,6 +1660,25 @@ export function coreAPI(core: CoreState): CoreAPI {
       actor.givenName = given;
       actor.familyName = family;
       actor.birthDate = identity.birthDate;
+      // A chosen look from another origin than the household's drawn one
+      // carries its family with it (owner, Nov 8: "I'm Mexican and my son is
+      // white"): the household and its members' kin who shared the drawn
+      // origin take the chosen one, so the family looks related.
+      const drawnOrigin = actor.looks?.origin;
+      const chosenOrigin = identity.looks.origin;
+      if (chosenOrigin && drawnOrigin && chosenOrigin !== drawnOrigin) {
+        const members = [
+          ...(core.households.get(actor.householdId)?.memberIds ?? []),
+        ];
+        const kin = [actor.id, ...members].flatMap((id) => [
+          ...(core.people.get(id)?.familyIds ?? []),
+        ]);
+        for (const id of new Set([...members, ...kin])) {
+          const other = core.people.get(id);
+          if (other?.looks?.origin === drawnOrigin)
+            other.looks = { ...other.looks, origin: chosenOrigin };
+        }
+      }
       actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
       // Brothers and sisters stay born months apart from the chosen birthday:
       // one drawn too close moves, keeping their age where their year allows.

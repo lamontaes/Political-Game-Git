@@ -8,6 +8,7 @@ import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import type { CoreState } from "../core2/types";
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { orgPlace } from "./scene";
+import { originShares } from "../core2/opening-origin";
 import {
   colorParts,
   figureUrl,
@@ -83,6 +84,35 @@ const PACK_SEX: Readonly<Record<string, string>> = rules.packSex;
  * set once from their appearance seed, so the same person is the same
  * everywhere.
  */
+/** A bank person's skin tone as the origins name them, lightest 0 to darkest 2. */
+export function toneOf(person: BustPerson): number {
+  return Math.min(2, person.tone);
+}
+
+/**
+ * The family origin a chosen bank person belongs to: the drawn one where its
+ * tones include theirs, else of the origins whose tones do, the one with the
+ * largest share of the state's adults (originShares). No dice.
+ */
+export function originForChosen(
+  personId: string,
+  drawn: string | undefined,
+  stateKey: string,
+): string | undefined {
+  const person = bustPerson(personId);
+  if (!person) return undefined;
+  const tone = toneOf(person);
+  if (drawn && ORIGIN_TONES[drawn]?.includes(tone)) return drawn;
+  return (
+    [...originShares(stateKey)]
+      .filter(([origin]) => ORIGIN_TONES[origin]?.includes(tone))
+      .sort((a, b) => b[1] - a[1])[0]?.[0] ??
+    Object.keys(ORIGIN_TONES).find((origin) =>
+      ORIGIN_TONES[origin]!.includes(tone),
+    )
+  );
+}
+
 export function bustPersonOf(who: FigurePerson): BustPerson | null {
   const chosen = who.look && bustPerson(who.look.person);
   if (chosen) return chosen;
@@ -95,7 +125,7 @@ export function bustPersonOf(who: FigurePerson): BustPerson | null {
   const tones = who.origin ? ORIGIN_TONES[who.origin] : undefined;
   const toned = tones
     ? fits
-        .filter((row) => tones.includes(Math.min(2, row.tone)))
+        .filter((row) => tones.includes(toneOf(row)))
         .sort((a, b) => a.tone - b.tone || a.id.localeCompare(b.id))
     : fits;
   const from = toned.length ? toned : fits.length ? fits : bustPeople();
