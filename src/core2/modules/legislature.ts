@@ -441,7 +441,7 @@ interface VoteAsk {
 
 /**
  * A reply said in a scene about a member's vote leaves a favor or a strain by
- * its move (`data/legislature/vote-replies.json`; any other move leaves
+ * its move (`src/core2/data/legislature/vote-replies.json`; any other move leaves
  * nothing). One the evening-before ask caused (`askBeforeTheRoll`) is the
  * asked member's answer to the member who asked, read at their position on
  * that bill while it waits for its vote; one a veto override caused, between
@@ -6004,7 +6004,7 @@ export function overridePending(api: CoreAPI, billId: string): boolean {
  * The vote to override a veto, chamber by chamber: each member decides again
  * from their own position on the bill, and a member of the executive's own
  * party also weighs standing with them (OPUS-OFFICIALS: the executive-party
- * pull, `data/officials/officials.json`). Every vote is on the record; the
+ * pull, `src/core2/data/officials/officials.json`). Every vote is on the record; the
  * override needs the share of each chamber's whole membership.
  */
 function overrideVote(
