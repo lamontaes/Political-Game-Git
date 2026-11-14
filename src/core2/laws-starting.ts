@@ -160,7 +160,6 @@ export function startingLawRows(chain: LawChain): readonly LawRowInput[] {
  * American Community Survey; the state figure where the county is not
  * published, with the state's middle half of county rates as its spread.
  */
-// stopgapId: SG-GOV-property-tax-aggregate-calibration
 function propertyTaxRows(chain: LawChain): readonly LawRowInput[] {
   const table = data.propertyTax;
   const state = table.states[chain.stateKey];
