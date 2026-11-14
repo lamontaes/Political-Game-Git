@@ -479,6 +479,8 @@ export function housingPast(
         facts: {
           medianRentMinor: rent,
           medianHomeValueMinor: value,
+          // The market level the pass set once for the place, before any rent was run.
+          marketLevel: level.get(placeId) ?? 1,
           renters: renting.length,
           owners: owning.length,
           payRecordId: payOn(date)!.recordId,
