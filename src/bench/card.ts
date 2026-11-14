@@ -89,11 +89,25 @@ export function personCard(core: CoreState, personId: string) {
   // The People screen's groups a tie falls in: family by kind, by a relation
   // word or by sharing the home; coworkers at work; friends; politics.
   const homeIds = new Set(household?.memberIds ?? []);
+  // Someone who works at this person's employer now is a coworker whatever
+  // kind their tie was first written as (a hire's first-day meeting writes a
+  // contact).
+  const employerId = job && !job.endsAt ? job.organizationId : undefined;
+  const worksHere = (otherId: string) => {
+    const theirs = core.people.get(otherId)?.jobId;
+    const theirJob = theirs ? core.jobs.get(theirs) : undefined;
+    return (
+      employerId !== undefined &&
+      theirJob !== undefined &&
+      !theirJob.endsAt &&
+      theirJob.organizationId === employerId
+    );
+  };
   const groupsOf = (otherId: string, kind: string, relation: unknown) => [
     ...(kind === "family" || relation || homeIds.has(otherId)
       ? ["family"]
       : []),
-    ...(kind === "coworker" ? ["work"] : []),
+    ...(kind === "coworker" || worksHere(otherId) ? ["work"] : []),
     ...(kind === "friend" ? ["friends"] : []),
     ...(kind === "politics" ? ["politics"] : []),
   ];
