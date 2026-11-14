@@ -9,7 +9,6 @@
  * opening and the counted dead of the first four months are the order of what
  * the tables expect.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -19,7 +18,8 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+/** Pinned: the same places on every run (an env seed replaces it to check others). */
+const seed = process.env.GOLDEN_PATH_SEED ?? "pinned-counted-deaths-opening";
 /**
  * Draws before the test gives up. A town whose own counts expect too few
  * deaths is passed over and named; a seed whose first six towns were all that
