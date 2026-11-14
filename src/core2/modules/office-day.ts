@@ -209,7 +209,10 @@ export const OFFICE_DAY_MODULE: CoreModule = {
       scheduleOfficeReview(api);
       holdNewlySeated(api);
     }
-    if (payday) payStipends(api);
+    if (payday) {
+      payStipends(api);
+      for (const kit of officeActKits()) kit.onMonth?.(api);
+    }
     for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
