@@ -29,6 +29,8 @@ root: day-one-in-motion
 
 **Added Nov 14 (Account lead's call on the unsure tables), levels town, county, state and federal as listed.** The same check also found these empty at creation: `core2-legislature-v1.votes` (town, county, state and federal; creation / day 1 / day 31 / year 1) 0/0/0/2237 at Washington, 0/0/65/3661 at Lewiston. Would a real place have them under way on the start date? Yes. Opening stock comes from the engine that makes the flow, run backward or run ahead (a warm-up of its own step, or a draw from its own steady state with the place's own figures), never a second generator and never a hand-filled list. Measured on train head 8bb1ff9d at Washington, District of Columbia (`drawPlace("a1", "day-zero")`) and Lewiston, Maine (`drawPlace("b2", "day-zero")`).
 
+**Warm-up result (Nov 14, 31-day warm-up of src/core2/opening-warmup.ts, measured at Washington DC and Lewiston ME on train head b7ed6337).** Still empty after it: `core2-legislature-v1.votes (at Washington only)`, `core2-record-v1.votes (at Washington only)`. This item now covers only those; the engine that owns each writes its stock for the past date inside the warm-up window.
+
 **Time box.** 4 hours for one Sonnet session at medium effort. When it runs out, write what was read in this item and stop.
 
 **Rules.** Day one in motion (`.agents/skills/day-one-in-motion/SKILL.md`): one engine per mechanic; no dice (seeded generation of who exists is allowed, nothing after day 0 is a draw); one rule, all 56 places; estimate, never UNKNOWN; replace, never layer; a year stays under two minutes (`speed:year` before and after, table in the PR body).

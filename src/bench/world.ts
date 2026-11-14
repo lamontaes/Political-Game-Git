@@ -1,5 +1,11 @@
 import { purposeScene } from "../director/purpose-scene";
-import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../core2/kernel/dates";
+import { warmUpOpening } from "../core2/opening-warmup";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { buildPopulation, inHousehold } from "../core2/population";
@@ -152,7 +158,7 @@ export function entrantChoice(
 ): { id: string; age: number; estimated: boolean } {
   if (birthDate)
     return entrantBornNear(input, placeId, makeIsoDate(birthDate), gender);
-  const at = makeIsoDate(input.startedAt);
+  const at = makeIsoDate(input.placeMetadata?.openingAgeOn ?? input.startedAt);
   const household = inHousehold(input);
   const residents = input.people
     .filter(
@@ -207,7 +213,7 @@ function entrantBornNear(
   chosen: ReturnType<typeof makeIsoDate>,
   gender?: string,
 ): { id: string; age: number; estimated: boolean } {
-  const at = makeIsoDate(input.startedAt);
+  const at = makeIsoDate(input.placeMetadata?.openingAgeOn ?? input.startedAt);
   const born = new Map(input.people.map((row) => [row.id, row.birthDate]));
   const minParentAge = OPENING_KIN.fertilityByAge.rows[0]!.minAge;
   // Whether each relative named by a parent or child record stays at least
@@ -271,6 +277,7 @@ export type BuildStage =
   | "cabinet"
   | "workings"
   | "history"
+  | "warmup"
   | "opening"
   | "done";
 type BuildOptions = {
@@ -304,6 +311,12 @@ type BuildOptions = {
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
   /**
+   * Days the world is built before its start date and run forward to it (src/core2/opening-warmup.ts), so
+   * what an engine makes on its first steps already exists on day one. Default none; the New game route and
+   * the day-zero check set `OPENING_WARMUP_DAYS`. The played person does nothing in them.
+   */
+  warmUpDays?: number;
+  /**
    * Sees the finished opening input just before the core starts from it
    * (the speed guard measures and hashes it; scripts/core2-guard/month.mjs).
    */
@@ -315,6 +328,9 @@ type BuildOptions = {
   onWorld?: (core: CoreState, playerId: string | undefined) => void;
 };
 type Built = BenchWorld & { playerId?: string };
+
+/** The warm-up the New game route and the day-zero check use (owner, Nov 14: the town in motion on day one). */
+export const OPENING_WARMUP_DAYS = 31;
 
 /** Builds the world in one go (tests and checks). */
 export function buildBenchWorld(
@@ -366,6 +382,10 @@ function* benchWorldStages(
   date: string,
   options: BuildOptions,
 ): Generator<BuildStage, Built> {
+  const startDate = date;
+  const warmUp = Math.max(0, Math.floor(options.warmUpDays ?? 0));
+  // A warm-up builds the world that many days early and runs it forward to the start date.
+  if (warmUp) date = addDays(makeIsoDate(date), -warmUp);
   yield "people";
   const place = options.placeKey
     ? realLocalities().find((row) => row.key === options.placeKey)
@@ -374,9 +394,10 @@ function* benchWorldStages(
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
   const minimumPeople = settings.population ?? options.minimumPeople;
-  const population = buildPopulation({
+  const built = buildPopulation({
     seed,
     startedAt: makeIsoDate(date),
+    ...(warmUp ? { cohortsOn: makeIsoDate(startDate) } : {}),
     placeKey: place.key,
     ...(minimumPeople ? { minimumPeople } : {}),
     // Every place opens with the player's cohort, even one whose own survey
@@ -388,12 +409,22 @@ function* benchWorldStages(
       ? {
           playerAge: ageOnDate(
             makeIsoDate(options.playerBirthDate),
-            makeIsoDate(date),
+            makeIsoDate(startDate),
           ),
         }
       : {}),
   });
   yield "past";
+  // The ages that pick the player are the ages on the start date, not on the day the world is built.
+  const population = warmUp
+    ? {
+        ...built,
+        placeMetadata: {
+          ...(built.placeMetadata ?? {}),
+          openingAgeOn: startDate,
+        },
+      }
+    : built;
   const schools = withPublicSchoolDistrict(enrichCivicInputs(population));
   // Public pay must exist before the custom world's wage multiplier runs.
   const input = applyWorldSettings(
@@ -619,6 +650,10 @@ function* benchWorldStages(
   // Last, so everyone the opening seated has a health coverage record on day one
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);
+  if (warmUp) {
+    yield "warmup";
+    director.whileWarming(() => warmUpOpening(core, startDate, playerId));
+  }
   director.start(core);
   options.onWorld?.(core, playerId);
   yield "opening";
@@ -648,9 +683,10 @@ function* benchWorldStages(
     });
   recipes.set(core, {
     seed,
-    date,
+    date: startDate,
     options: {
       twoLevel: options.twoLevel,
+      ...(warmUp ? { warmUpDays: warmUp } : {}),
       placeKey: place.key,
       ...(options.minimumPeople !== undefined
         ? { minimumPeople: options.minimumPeople }

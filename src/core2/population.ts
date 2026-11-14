@@ -142,6 +142,12 @@ export interface PopulationOptions {
   seed: string;
   placeKey?: string;
   startedAt: string;
+  /**
+   * The date the cohort ages (`cohortAge`, `playerAge`) are read on, when the world is built before its start
+   * date and run forward to it (src/core2/opening-warmup.ts): the player is the age they read on the start date.
+   * Defaults to `startedAt`.
+   */
+  cohortsOn?: string;
   minimumPeople?: number;
   /** Opening generation only; false preserves the original canonical employment projection. */
   openingEmployment?: boolean;
@@ -565,6 +571,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   if (!Number.isSafeInteger(target) || target < p("one"))
     throw new Error("Opening population must be a positive whole count.");
   const startedAt = makeIsoDate(options.startedAt);
+  const cohortsOn = makeIsoDate(options.cohortsOn ?? options.startedAt);
   const place = selectedPlace(options, target);
   // A town smaller than the target opens at its real size (its Census
   // reference population); a size asked for by name is kept as asked.
@@ -845,7 +852,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     const shares = anyShape ? everyShape : families;
     const total = totalOf(shares);
     const ofCohort = (person: CharacterHistoryContextPersonInput) =>
-      ageOnDate(makeIsoDate(person.birthDate), startedAt) === cohortAge;
+      ageOnDate(makeIsoDate(person.birthDate), cohortsOn) === cohortAge;
     if (inputs.some(ofCohort)) continue;
     // Searched no further than as many households again as the town has, and
     // never fewer than the floor: a town of a few people has a few households.
