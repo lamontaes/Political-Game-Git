@@ -77,7 +77,7 @@ import {
   questionPoint,
 } from "../english/question-names";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
-import { questionSubject, questionTopic } from "../english/policy-names";
+import { questionSubject } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
@@ -99,6 +99,9 @@ import type { IsoDate } from "../core2/kernel/brands";
 import {
   TERM_AREAS,
   countryTermRead,
+  areasAnswered,
+  questionAnswersArea,
+  topicsAnsweringArea,
   type AreaRead,
 } from "../core2/modules/laws";
 import {
@@ -169,9 +172,6 @@ const OUTLINES = outlineData as unknown as {
   topicsBySubject: Readonly<Record<string, readonly string[] | string>>;
   subjectOfQuestion: Readonly<Record<string, string>>;
   /** The measures a line of the budget bears on, read only by a hurt address's answer. */
-  budgetLineTopics: Readonly<Record<string, readonly string[] | string>>;
-  /** The catalog topics whose questions answer each area of the term read. */
-  answerTopics: Readonly<Record<string, readonly string[] | string>>;
   subjectPull: Readonly<Record<string, readonly string[] | string>>;
   themeNames: Readonly<Record<string, string>>;
   /** A theme said short, where a frame names it after the speech has said it in full (a close). */
@@ -1168,27 +1168,26 @@ function conditionsByWorst(country: Country): string[] {
     );
 }
 
-/** The measures a question bears on: its catalog subject's, or a budget line's own (speech-outlines.json `budgetLineTopics`). */
+/** The measures a question bears on: its catalog subject's, or the areas of the term read a budget line bears on (the term read's `answeredBy`). */
 export function questionTopics(question: string): readonly string[] {
-  const line = OUTLINES.budgetLineTopics[question];
   return [
     ...topicsOf(subjectOf(question) ?? ""),
-    ...(Array.isArray(line) ? line : []),
+    ...(question.startsWith("budget-line:") ? areasAnswered(question) : []),
   ];
 }
 
 /**
  * Whether a question answers a condition: a budget line that bears on it, or
  * a question under one of the catalog topics that answer its area
- * (speech-outlines.json `answerTopics`); a measure of the year with no such
- * row is answered by any question of its subjects.
+ * (the term read's `answeredBy`, src/core2/data/term-read/areas.json); a
+ * measure of the year with no such row is answered by any question of its
+ * subjects.
  */
 export function answersCondition(question: string, topic: string): boolean {
-  const line = OUTLINES.budgetLineTopics[question];
-  if (Array.isArray(line)) return line.includes(topic);
-  const topics = OUTLINES.answerTopics[topic];
-  return Array.isArray(topics)
-    ? topics.includes(questionTopic(question) ?? "")
+  if (question.startsWith("budget-line:"))
+    return areasAnswered(question).includes(topic);
+  return topicsAnsweringArea(topic).length
+    ? questionAnswersArea(question, topic)
     : questionTopics(question).includes(topic);
 }
 
