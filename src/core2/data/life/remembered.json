@@ -972,6 +972,11 @@
       "reason": "a body's act on a bill; the legislature's record holds it"
     },
     {
+      "kind": "serve-asked",
+      "from": "event",
+      "reason": "the player's ask; the seat it fills is told (candidate-filed, official-appointed)"
+    },
+    {
       "kind": "campaign-message",
       "from": "event",
       "reason": "campaign traffic; the race's record and the journal tell it"
@@ -1072,6 +1077,7 @@
       "kind": "health.hospital-stay",
       "life": "health",
       "what": "hospital-stay"
-    }
+    },
+    { "kind": "election.lost-before-start", "life": "politics", "what": "lost" }
   ]
 }

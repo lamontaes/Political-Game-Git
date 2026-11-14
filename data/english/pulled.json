@@ -1,8 +1,78 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {},
+  "pulled": {
+    "conversation.family-answer-ill.name-fell-ill-when": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "conversation.farewell-core.look-after-yourself-player-first": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "conversation.news-back-core.that-s-the-whole-of-it-it-ran-ran": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.ask.folded-polished-keep-law-short": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.ask.polished-keep-law-short": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.pledge.plain-ina-sta-all-inflation-core-i-ll-push-congress-to-first-to-and-i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.salutation.polished-sta-mourning-core-i-thank-vice-president-vice-president-and-before-anything": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "opening-speech.to-states.polished-ina-sta-all-core-you-know-hardest-better-than-anyone-here-and-i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.health.ill.i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.health.ill.they": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.health.ill.third": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.moved.home.i.w2": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.moved.home.they.w2": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.moved.home.third.w2": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-again.i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-again.they": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-again.third": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-always.i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-always.they": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-always.third": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.school.elsewhere.i.w3": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.school.elsewhere.they.w3": [
+      "plain-american-spelling-and-phrasing"
+    ]
+  },
   "waiting": {},
   "sample": {
+    "conversation.charge-answer-deflect.that-s-for-the-court-to-sort-out": [
+      "plain-american-reads-stiff"
+    ],
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
     ],
@@ -20,6 +90,9 @@
     "scene-talk.close-accept.all-right-i-ll-let-you-go": [
       "alright-in-dialogue"
     ],
+    "scene-talk.close-accept.all-right-we-ll-sort-out-the-bills-this-week": [
+      "plain-american-reads-stiff"
+    ],
     "scene-talk.close-accept.that-s-all-right-i-enjoyed-what-we-got-to-ask-me-again-whenever-you-wa": [
       "alright-in-dialogue"
     ],
@@ -33,13 +106,28 @@
       "no-stock-phrases"
     ],
     "scene-talk.follow-accept.it-s-all-right": ["alright-in-dialogue"],
+    "scene-talk.follow-accept.of-course-we-ll-sort-out-the-rest-as-we-go": [
+      "plain-american-reads-stiff"
+    ],
     "scene-talk.follow-press.i-hear-you-but-this-matters-to-the-family-what-s-in-the-way": [
       "no-stock-phrases"
     ],
     "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way": [
       "no-stock-phrases"
     ],
+    "scene-talk.follow-press.i-hear-you-what-s-stopping-you": [
+      "no-stock-phrases"
+    ],
     "scene-talk.follow-thank.i-m-holding-you-to-that-you-know": ["no-filler"],
+    "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over": [
+      "narration-assumes-no-reason"
+    ],
+    "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off": [
+      "narration-assumes-no-reason"
+    ],
+    "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face": [
+      "narration-assumes-no-reason"
+    ],
     "scene-talk.open-greet.deceased-talked-about-you-you-know": ["no-filler"],
     "scene-talk.open-greet.hey-sit-down-for-a-minute-would-you-it-s-not-about-the-bills-well-not-": [
       "no-filler"
@@ -56,6 +144,9 @@
     "scene-talk.reply-agree.well-when-you-put-it-that-way-give-me-the-pen": [
       "no-filler"
     ],
+    "scene-talk.reply-agree.you-can-stay-we-ll-sort-out-the-rest-as-it-comes": [
+      "plain-american-reads-stiff"
+    ],
     "scene-talk.reply-answer.i-hear-you-i-still-think-it-s-the-right-answer": [
       "no-stock-phrases"
     ],
@@ -64,6 +155,9 @@
     ],
     "scene-talk.reply-comfort.i-know-its-a-lot-to-watch-im-all-right-really": [
       "alright-in-dialogue"
+    ],
+    "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying": [
+      "plain-american-reads-stiff"
     ],
     "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself": [
       "no-stock-phrases"
@@ -82,6 +176,9 @@
     ],
     "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running": [
       "no-stock-phrases"
+    ],
+    "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end": [
+      "reply-second-move-follows-the-first"
     ],
     "scene-talk.state-ask.you-settling-in-all-right": ["alright-in-dialogue"],
     "scene-talk.state-confront.you-can-t-win-this-you-know": ["no-filler"],
@@ -180,10 +277,12 @@
     ],
     "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge": [
       "conflict-accuse.taken/ask"
-    ],
-    "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it": [
-      "conflict-accuse.witness/ask"
     ]
   },
-  "awaitingVerdict": {}
+  "barred": {},
+  "awaitingVerdict": {
+    "narration-assumes-no-reason": 35,
+    "player-never-says-unchosen (pairs)": 0,
+    "reply-second-move-follows-the-first (pairs)": 14983
+  }
 }

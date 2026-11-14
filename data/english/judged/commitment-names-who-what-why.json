@@ -2,7 +2,2677 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 92,
-  "no": {},
-  "yesHash": "24hswbkygpf"
+  "judged": 710,
+  "no": {
+    "000kvn97gfw": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-tell.i-ve-got-people-counting-on-me-to-say-yes",
+        "scene-talk.follow-ask.are-they-counting-on-you-to-win-or-to-run",
+        "scene-talk.reply-disagree.if-i-wait-somebody-else-takes-it-and-i-m-waiting-another-eight-years",
+        "scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either",
+        "scene-talk.reply-thank.okay-that-one-landed",
+        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
+    "01s3uojo7ih": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "A threat over 'the deal', which is never named on the path."
+    },
+    "03kq7d4ci07": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "A threat over 'the deal', which is never named; the threat itself is a vague 'bad week'."
+    },
+    "044cequ6m1d": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
+        "scene-talk.state-press.last-time-you-said-no-im-hoping-youve-had-time-to-think-and-theres-mor",
+        "scene-talk.reply-deflect.im-not-discussing-that-again",
+        "scene-talk.follow-press.then-ill-ask-again-i-have-time",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "Repeat bribe; what it should win is never named."
+    },
+    "052mifsa4x6": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "The threat closes a pressure scene in which the deal being pushed is never named."
+    },
+    "059v0f0u3ew": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "The threat follows a deal that is never named, so a listener cannot say what you refused or what the threat is about."
+    },
+    "05ttzhvem14": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-refuse.i-can-t-discuss-it-while-it-s-still-being-looked-at-ask-me-after"
+      ],
+      "why": "The reporter's question has no stated subject; 'it' being looked at is never named."
+    },
+    "06haj5o9h7y": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-back-and-the-confidence-is-gone-what-is-left-is-a-person-with",
+        "scene-talk.state-plea.i-didnt-come-to-threaten-you-first-i-came-to-beg-ill-be-ruined-if-this",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.youre-my-last-chance-first-please",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "The begging briber only says 'if this doesn't go my way'; what 'this' is never appears."
+    },
+    "06nparzd0e7": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no"
+      ],
+      "why": "'You can't avoid me forever' names no request at all."
+    },
+    "06rob5607b9": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'Take the deal' with a threat; the deal is never named."
+    },
+    "07bhlm5u03l": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "The pressurer says only 'take the deal'. What they want is never named on this path, so the threat 'when it goes wrong' points at nothing a listener could name."
+    },
+    "07nkd8ad0w4": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "Threat over refusing a 'deal' never named."
+    },
+    "07opz834dw6": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-refuse.i-can-t-discuss-it-while-it-s-still-being-looked-at-ask-me-after",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office"
+      ],
+      "why": "The reporter's question and its subject are never stated; the player refuses an unnamed matter."
+    },
+    "081h40mgs9v": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Take the deal' only; never names the deal."
+    },
+    "095xl781sd0": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+        "scene-talk.reply-confront.show-me-what-you-have-and-then-i-ll-answer",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.beat-beat.somewhere-behind-you-a-camera-clicks-twice",
+        "scene-talk.reply-confront.why-are-you-asking-me-before-the-vote",
+        "scene-talk.follow-answer.because-your-vote-may-decide-it-and-voters-want-to-know",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-every-page-of-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "'Every page of it' and 'the vote' with neither the scandal nor the vote named; documenting an unnamed claim."
+    },
+    "09il0ujbs8e": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Take the deal' never named."
+    },
+    "09jfdsa7yye": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "Bribe for 'it goes my way'; never named."
+    },
+    "09jll3i2w3x": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "Threat for refusing a deal that is never named."
+    },
+    "09mo1yv6vgn": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Harassment over an earlier bribe whose object is never named."
+    },
+    "09qgt53c6zs": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "The large bribe never names what it buys; the refusal is to an unnamed favor."
+    },
+    "0aep7nbc5zi": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-been-proud-of-you-for-a-day-and-can-t-keep-quiet-about-it-any-longer",
+        "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
+        "scene-talk.reply-boast.told-you-i-d-get-through-it",
+        "scene-talk.follow-confront.sure-you-did-barely",
+        "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me",
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
+        "scene-talk.reply-thank.thank-you-that-means-a-lot",
+        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
+      ],
+      "why": "No plan is mentioned on this path, so 'the next thing' has no referent."
+    },
+    "0aou0ffro19": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Take the deal' only; the deal is never named."
+    },
+    "0aw6q5usqoj": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-in-with-an-envelope-held-in-both-hands-as-though-it-might-b",
+        "scene-talk.state-plea.this-is-all-i-have-im-putting-all-of-it-in-your-hands-and-i-need-this",
+        "scene-talk.reply-refuse.no-take-your-money-home-im-sorry"
+      ],
+      "why": "Desperate offer for an unnamed 'go my way'."
+    },
+    "0ayrppgg3pp": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
+        "scene-talk.state-press.last-time-you-said-no-im-hoping-youve-had-time-to-think-and-theres-mor",
+        "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
+        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
+        "scene-talk.reply-refuse.i-said-no-last-time-and-nothing-has-changed"
+      ],
+      "why": "The return bribe says only 'there's more in here'; what it buys is never named."
+    },
+    "0b7ez6o4f9w": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-to-you",
+        "scene-talk.open-greet.deceased-talked-about-you-you-know",
+        "scene-talk.state-request.i-don-t-know-who-else-to-ask-deceased-trusted-you-with-things",
+        "scene-talk.reply-ask.what-was-it-exactly",
+        "scene-talk.follow-answer.deceased-kept-asking-for-the-same-thing-year-after-year-and-kept-being-told-next-year",
+        "scene-talk.reply-promise.then-i-ll-take-it-up-i-ll-tell-you-what-comes-of-it"
+      ],
+      "why": "'I'll take it up', but what {deceased} kept asking for is never named."
+    },
+    "0bdlvt4yzi1": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-confront.you-printed-one-side-already-print-mine-this-time-whole",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.beat-beat.across-the-hall-someone-stops-to-listen",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway"
+      ],
+      "why": "The scandal story is never named; the refusal is to an unnamed matter."
+    },
+    "0bvesjt3n72": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Take the deal' never says what the deal is."
+    },
+    "0c9hb78wbv0": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off",
+        "scene-talk.state-request.this-is-the-second-time-i-m-asking-i-d-like-a-yes-or-a-no",
+        "scene-talk.reply-stall.i-m-still-waiting-on-the-committee-s-numbers-i-ll-call-when-i-have-th",
+        "scene-talk.follow-press.how-many-more-weeks",
+        "scene-talk.reply-decline.i-ve-thought-about-it-the-vote-is-a-no-a-hearing-is-a-yes",
+        "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
+        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
+        "scene-talk.follow-press.a-hearing-isn-t-a-vote-why-not-the-vote",
+        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
+        "scene-talk.follow-threaten.i-ve-asked-twice-i-won-t-ask-a-third-time"
+      ],
+      "why": "The donor's ask is 'the vote', but what the vote is on is never named."
+    },
+    "0cdpjve3hrw": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-warn.watch-yourself-first-this-town-is-smaller-than-you-think",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'Take the deal' with threats; the deal is never named."
+    },
+    "0cmpuexi5bp": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.pick-that-up-and-go"
+      ],
+      "why": "'Goes my way' with no named vote or decision."
+    },
+    "0crc14m99uy": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no"
+      ],
+      "why": "'Take the deal' never named."
+    },
+    "0cztbsthbs4": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "Large bribe for an unnamed 'goes my way'."
+    },
+    "0dgzwitwi42": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no"
+      ],
+      "why": "Bribe for 'it goes my way'; nothing names what."
+    },
+    "0dsrwbrn84x": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-threaten.be-careful-what-you-refuse-people-notice"
+      ],
+      "why": "Threat over an unnamed 'deal'."
+    },
+    "0dwm9m4oyse": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "Threat over a refused deal that is never named; a listener cannot say what the threatener wants."
+    },
+    "0dzmq397fb2": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
+        "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "Veiled hint about a friend in {place} vs a principle; what is wanted is never named."
+    },
+    "0edv19w2sjc": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
+        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Asked what changes this time, the line promises without naming any change."
+    },
+    "0ekkj0m1ckn": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "'Any favor' / 'goes my way' never named."
+    },
+    "0er9y8ng32l": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-been-waiting-where-you-will-pass-the-easy-manner-is",
+        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Would hate for this to get complicated' never names a request."
+    },
+    "0esyu9mumlh": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.i-m-tired-of-having-this-talk-first-tell-me-what-s-different-now",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "'You have my word' is given without saying what will be different, which is exactly what was asked; the subject is never named."
+    },
+    "0g07hioi51w": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you"
+      ],
+      "why": "Threat over 'the deal', which is never named; what the presser wants is never said."
+    },
+    "0ggv4k5vpma": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no"
+      ],
+      "why": "'Any favor' and 'goes my way' but the favor is never named."
+    },
+    "0gn9qr4bv8j": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment",
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes",
+        "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Asked what changes this time, the line promises without naming any change."
+    },
+    "0gsilmp0y6f": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Asked what changes this time, the line promises without naming any change."
+    },
+    "0gu4nx3sj2z": {
+      "keys": [
+        "scene-talk.narrate-narrate.a-crowd-has-gathered-and-it-is-in-good-spirits-name-works",
+        "scene-talk.state-request.things-have-gone-well-here-first-and-we-wanted-to-say-so",
+        "scene-talk.reply-deflect.you-did-this-not-me-ill-stay-at-the-back",
+        "scene-talk.follow-press.then-tell-us-it-will-last-not-just-that-youre-glad",
+        "scene-talk.reply-promise.better-doesnt-mean-done-ill-keep-at-it"
+      ],
+      "why": "'I'll keep at it' promises to keep at an unnamed 'it'; the scene never says what went well here, so a listener can't say what work is promised."
+    },
+    "0gy0upxav9c": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
+        "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no"
+      ],
+      "why": "Pressure scene only says 'you can't avoid me'; the vote, permit or favor wanted is never named, so 'No' refuses an unnamed thing."
+    },
+    "0h40j7r3fae": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'Take the deal' never named."
+    },
+    "0h477gr0t3w": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "'See that it goes my way' never names the vote, permit or contract."
+    },
+    "0ik8a8sx6s6": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "The large bribe only asks to 'see that it goes my way'; no vote, permit, contract or decision is ever named, so the refusal says no to an unnamed favor."
+    },
+    "0ikun4jherm": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-stall.let-me-think-don-t-call-me",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "Open-mind gift with no named request."
+    },
+    "0iphff1pwnq": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Take the deal' is never named."
+    },
+    "0ix9160fnn6": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.not-for-any-price"
+      ],
+      "why": "'See that it goes my way' never names the vote or decision being bought; 'not for any price' refuses an unnamed deal."
+    },
+    "0izowovm9dg": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
+        "scene-talk.follow-press.deflect-all-you-like-ill-be-around-when-youre-done-deflecting",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "The returning briber never names what they want."
+    },
+    "0j3r7a0bd8g": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-deflect.lets-not-do-this-here-and-not-like-this",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no"
+      ],
+      "why": "Same veiled remark with no named ask; 'my answer is still no' refuses something never said."
+    },
+    "0jdplclctdi": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Take the deal' only; never named."
+    },
+    "0jslcf9yvq2": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
+        "scene-talk.follow-press.deflect-all-you-like-ill-be-around-when-youre-done-deflecting",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "The returning briber never names what they want."
+    },
+    "0k16ad8wegh": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
+        "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me",
+        "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no"
+      ],
+      "why": "The veiled hint names no request; 'still no' refuses an unnamed ask."
+    },
+    "0kg8h6wo52h": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this"
+      ],
+      "why": "'See that it goes my way' never names the matter; 'pay me enough for this' refuses an unnamed favor."
+    },
+    "0kzppjan2b3": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "The veiled remark never names what the briber wants, so the 'no' has no named object."
+    },
+    "0l00jn87xnt": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.pick-that-up-and-go"
+      ],
+      "why": "'Goes my way' with no named vote or decision."
+    },
+    "0llpsfiyc3k": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "Large bribe for an unnamed 'goes my way'; the favor being bought is never named."
+    },
+    "0ltghzedc63": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "The threat 'don't come to me when it goes wrong' rests on a 'deal' never named; what the presser wants is never stated."
+    },
+    "0m8w6sboxmv": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-stall.let-me-think-don-t-call-me",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "Gift with 'keep an open mind' but no named request."
+    },
+    "0mojz5tscq0": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-deflect.lets-not-do-this-here-and-not-like-this",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "The veiled pitch only says a friend is worth more than a principle; no vote, permit or favor is ever named, so the listener can't tell what the player keeps refusing."
+    },
+    "0nizy8qjwdn": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
+        "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Veiled pressure never names the thing wanted."
+    },
+    "0nmkm261g7f": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "The threat is for refusing a deal that is never named; a listener cannot say what the threatener wanted."
+    },
+    "0ogyav0i8lj": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-answer.my-vote-on-bill-was-my-own-ask-anyone-who-sat-in-the-room",
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-confront.show-me-what-you-have-and-then-i-ll-answer",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.beat-beat.two-more-cameras-swing-toward-you",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "The scandal reporter never names the story; 'document that' points at an unnamed subject."
+    },
+    "0poyreh7zt0": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.pick-that-up-and-go"
+      ],
+      "why": "Large bribe for 'it goes my way' with no named object; the refusal has nothing named to refuse."
+    },
+    "0q1xqbz3qeb": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
+        "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "The veiled remark about a friend in {place} never names a request, vote or deal."
+    },
+    "0q7goi0up3p": {
+      "keys": [
+        "scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name",
+        "scene-talk.state-request.deceased-always-said-you-d-understand-what-was-left-undone",
+        "scene-talk.reply-promise.tell-me-what-it-was-i-can-t-promise-how-it-ends-but-i-ll-take-it-up-in-deceased-s-name"
+      ],
+      "why": "You pledge to take up {deceased}'s unfinished thing, but what it is is never named, not after either."
+    },
+    "0r1sw4ulyac": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
+        "scene-talk.state-press.last-time-you-said-no-im-hoping-youve-had-time-to-think-and-theres-mor",
+        "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
+        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "Repeat bribe; neither this visit nor the previous ask is named on the path."
+    },
+    "0sh8hi2d34d": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "'Something in here for you' and 'keep an open mind' never say what the giver wants in return."
+    },
+    "0swz3ono6r9": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-refuse.pick-that-up-and-go",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "The offer only asks to 'keep an open mind'; what the money is meant to buy is never named."
+    },
+    "0tednbxoh1y": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no"
+      ],
+      "why": "The large bribe names no vote or decision; 'twice the number' refuses money for an unnamed favor."
+    },
+    "0tqg8cbr1wd": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-answer.my-vote-on-bill-was-my-own-ask-anyone-who-sat-in-the-room",
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-confront.show-me-what-you-have-and-then-i-ll-answer",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.beat-beat.two-more-cameras-swing-toward-you",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-refuse.no-comment"
+      ],
+      "why": "'No comment' refuses a request about an unnamed story; the reporter never says what the filing concerns."
+    },
+    "0ttet2icqzh": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "Only 'take the deal' with a threat; what the deal is never named."
+    },
+    "0tuzote8477": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+        "scene-talk.reply-confront.show-me-what-you-have-and-then-i-ll-answer",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.beat-beat.somewhere-behind-you-a-camera-clicks-twice",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-refuse.not-today"
+      ],
+      "why": "The reporter never says what story or filing this is; 'not today' refuses an unnamed matter."
+    },
+    "0ty9q6agwf9": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-been-asking-about-you-and-has-brought-the-paperwork",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.two-more-cameras-swing-toward-you",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office"
+      ],
+      "why": "The reporter only says 'I have a question'; the subject is never named."
+    },
+    "0ub8ou5ck31": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "The threat is over 'the deal', which is never named, and 'a bad week' is vague, so a listener can't say what is threatened or why."
+    },
+    "0uyhxzs7fot": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-in-with-an-envelope-held-in-both-hands-as-though-it-might-b",
+        "scene-talk.state-plea.this-is-all-i-have-im-putting-all-of-it-in-your-hands-and-i-need-this",
+        "scene-talk.reply-confront.im-sorry-for-you-but-this-is-a-bribe-and-im-reporting-it",
+        "scene-talk.follow-plea.please-dont-report-it-it-would-finish-me",
+        "scene-talk.reply-refuse.i-cant-take-this-you-need-it-more-than-i-do"
+      ],
+      "why": "Desperate offer for 'this to go my way'; the decision being bought is never named."
+    },
+    "0v04ymfe4xg": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "The threat 'Don't come to me when it goes wrong' hangs on a 'deal' that is never named. What they want from you is never said."
+    },
+    "0v9dpqx66wh": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-confront.you-printed-one-side-already-print-mine-this-time-whole",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.reply-confront.show-me-what-you-have-and-then-i-ll-answer",
+        "scene-talk.follow-answer.everything-i-have-is-on-the-record-i-d-rather-print-your-answer-than-guess-at-it",
+        "scene-talk.beat-beat.two-more-cameras-swing-toward-you",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-every-page-of-it",
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-answer.the-same-week-you-did-and-i-can-show-you-who-told-me",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "The scandal subject is never named; 'document that' refers to an unnamed matter."
+    },
+    "0vm0ahx5vw2": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
+        "scene-talk.follow-press.deflect-all-you-like-ill-be-around-when-youre-done-deflecting",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "The pressing visitor never names what they want; 'my answer is the same' refuses something never said in the scene."
+    },
+    "0w0lgt2lawi": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-confront.you-printed-one-side-already-print-mine-this-time-whole",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.beat-beat.across-the-hall-someone-stops-to-listen",
+        "scene-talk.reply-answer.i-ll-send-you-what-i-have-today-it-s-all-dated",
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "'When did you first learn this was going to come out?' refers to a story never named."
+    },
+    "0wf77mgf6nz": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-warn.watch-yourself-first-this-town-is-smaller-than-you-think",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.be-careful-what-you-refuse-people-notice"
+      ],
+      "why": "The threat is over a deal that is never named, so a listener cannot say what is at stake."
+    },
+    "0wm5cko3fj0": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office"
+      ],
+      "why": "The reporter's story is never named; 'Do you deny it' refers to an unnamed matter."
+    },
+    "0wspje88noj": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no"
+      ],
+      "why": "Veiled remark with no named ask."
+    },
+    "0x331onhlsu": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-been-waiting-where-you-will-pass-the-easy-manner-is",
+        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still"
+      ],
+      "why": "A veiled threat with no named aim. What they want and what 'complicated' means are never stated on any branch."
+    },
+    "0yksyhhyuoj": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+        "scene-talk.reply-confront.show-me-what-you-have-and-then-i-ll-answer",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.beat-beat.somewhere-behind-you-a-camera-clicks-twice",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "The reporter's subject is never said: 'a question', 'the filing', 'this'; the refused question is about an unnamed matter."
+    },
+    "0yog6l4xyj9": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought"
+      ],
+      "why": "'Any favor' never named."
+    },
+    "0ze8eehkrex": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "Large bribe 'goes my way' with no named object."
+    },
+    "0zsmxqseb4j": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "Only 'goes my way'; no named vote, permit or contract."
+    },
+    "101wq1j8apq": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-answer.my-vote-on-bill-was-my-own-ask-anyone-who-sat-in-the-room",
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.beat-beat.two-more-cameras-swing-toward-you",
+        "scene-talk.reply-confront.you-re-not-going-to-like-any-answer-i-give",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "The reporter never names the story; the player's mention of {bill} does not make clear what 'document that' or 'this coming out' refers to."
+    },
+    "104aizw7ddl": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
+        "scene-talk.follow-press.deflect-all-you-like-ill-be-around-when-youre-done-deflecting",
+        "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no"
+      ],
+      "why": "Repeat pressure; the request is never named."
+    },
+    "1081sweez4x": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "Large bribe for an unnamed 'goes my way'."
+    },
+    "109fiufswyi": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Take the deal' only; the deal is never named."
+    },
+    "10a5lpi7w5x": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
+        "scene-talk.state-press.last-time-you-said-no-im-hoping-youve-had-time-to-think-and-theres-mor",
+        "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
+        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "Second bribe never names what it is for; 'win it' is unnamed."
+    },
+    "10fse2ing2p": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
+        "scene-talk.follow-press.deflect-all-you-like-ill-be-around-when-youre-done-deflecting",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "The returning briber never names the favor."
+    },
+    "116n55pa9td": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'Take the deal' is the only description of what is asked; nothing names what the briber wants."
+    },
+    "11b7kgf56og": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-refuse.i-can-t-discuss-it-while-it-s-still-being-looked-at-ask-me-after",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+        "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret",
+        "scene-talk.beat-beat.somewhere-behind-you-a-camera-clicks-twice",
+        "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway"
+      ],
+      "why": "The interview's subject is only 'it' and 'your vote' with no bill or story named, so the hallway refusal refuses an unnamed topic."
+    },
+    "11pdpr32z70": {
+      "keys": [
+        "scene-talk.narrate-narrate.a-letter-from-name-has-come-and-there-is-something-they-want-to-ask-you",
+        "scene-talk.open-greet.dear-first-i-m-writing-because-there-is-something-i-want-to-ask-you",
+        "scene-talk.state-request.write-back-and-tell-me-how-you-are-first-i-like-hearing-what-s-going-on-in-your-life",
+        "scene-talk.reply-ask.can-you-tell-me-more-about-what-you-re-asking",
+        "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-i-thought-of-you-first-tell-me-what-you-can-do",
+        "scene-talk.reply-promise.i-ll-be-there-you-have-my-promise"
+      ],
+      "why": "'I'll be there' names no place or event. The ask drifts between letters and a visit, so what you promise is unclear."
+    },
+    "12a3gn9ip4r": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-refuse.friendly-or-not-the-answer-hasnt-changed"
+      ],
+      "why": "Veiled remark with no named ask; 'the answer hasn't changed' refuses nothing named."
+    },
+    "133kqw1gf6q": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me"
+      ],
+      "why": "'Take the deal' is the whole request; nothing named."
+    },
+    "137rc3ekkoq": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "'Keep an open mind' about an unnamed matter; nothing the giver wants is said."
+    },
+    "13jubzcoqrj": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "The threat backs a 'deal' that is never named; what the briber wants is never stated."
+    },
+    "14dnhlj1e51": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "'Goes my way' and 'win it' never name the vote or decision."
+    },
+    "14nexau69zd": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "The threat follows a 'deal' that is never named, so what was refused, and what the threat is over, is unclear."
+    },
+    "15h1e3djyij": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you"
+      ],
+      "why": "A bribe pressure scene: 'the deal' is never named anywhere on the path, so a listener can't say what the threat is meant to force."
+    },
+    "167fpqc0g9d": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Take the deal' is the only ask; the deal's object is never named."
+    },
+    "16ob62p8fds": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "The large bribe never names the decision it is buying."
+    },
+    "1745kravbmh": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "'Keep an open mind' never names what the money is for."
+    },
+    "17pkbbw6713": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
+        "scene-talk.reply-confront.asking-twice-won-t-get-you-a-better-quote",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "The reporter never says what the story is about; 'deny it', 'the filing' and 'document that' all point at an unnamed subject."
+    },
+    "17qtwqighe6": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-been-waiting-where-you-will-pass-the-easy-manner-is",
+        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'We could still be friends' and 'work this out' never name what is wanted from the player."
+    },
+    "17t7iyges0f": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over",
+        "scene-talk.state-request.the-term-is-over-first-we-have-to-decide-what-happens-now-and-i-don-t-want-to-put-it-off",
+        "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see"
+      ],
+      "why": "'I'll do my part' of an undecided 'what happens now'; what is promised is never said."
+    },
+    "1884u5qv3fv": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "Threat over a 'deal' that is never named; what the presser wants is unknown."
+    },
+    "18ktmih9p88": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-disagree.you-were-luckier-than-i-am-then",
+        "scene-talk.follow-press.luck-had-nothing-to-do-with-it-i-waited",
+        "scene-talk.reply-thank.okay-that-one-landed",
+        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
+    "18r0g29qmiu": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-confront.you-printed-one-side-already-print-mine-this-time-whole",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.beat-beat.across-the-hall-someone-stops-to-listen",
+        "scene-talk.reply-confront.why-are-you-asking-me-before-the-vote",
+        "scene-talk.follow-answer.because-your-vote-may-decide-it-and-voters-want-to-know",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-every-page-of-it",
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "The reporter mentions a vote but never names the story or what 'this' coming out is."
+    },
+    "19ml6gltrxk": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over",
+        "scene-talk.state-request.the-term-is-over-first-we-have-to-decide-what-happens-now-and-i-don-t-want-to-put-it-off",
+        "scene-talk.reply-ask.what-do-you-need-most-right-now",
+        "scene-talk.follow-answer.what-we-both-need-is-a-plan-a-place-to-start-and-someone-in-our-corner",
+        "scene-talk.reply-deflect.let-me-think-it-over-before-i-say-yes",
+        "scene-talk.follow-press.a-few-days-is-a-long-time-when-everything-is-on-hold",
+        "scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week"
+      ],
+      "why": "'You'll see it this week' right after 'let me think it over'; what is promised (bed, job, support) is unclear."
+    },
+    "1ahpueed8b4": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
+        "scene-talk.state-press.last-time-you-said-no-im-hoping-youve-had-time-to-think-and-theres-mor",
+        "scene-talk.reply-refuse.dont-make-me-say-it-again-no"
+      ],
+      "why": "A repeat offer with 'more in here' but nothing names what it is for."
+    },
+    "1cdh24r7hwa": {
+      "keys": [
+        "scene-talk.narrate-narrate.in-the-car-a-stack-of-campaign-flyers-sits-on-the-back-seat-name-looks",
+        "scene-talk.state-ask.what-are-you-hoping-for-these-days-big-or-small-i-d-like-to-know",
+        "scene-talk.reply-tell.i-d-like-to-be-useful-without-being-noticed-for-it-that-s-harder-than-",
+        "scene-talk.follow-ask.that-s-more-honest-than-i-expected-what-was-the-first-small-thing-you-",
+        "scene-talk.reply-tell.i-stayed-because-people-here-know-my-name-and-still-let-me-be-wrong-so",
+        "scene-talk.follow-ask.people-letting-you-be-wrong-who-was-the-first-one-who-did-that-for-you",
+        "scene-talk.reply-promise.i-m-not-going-to-hand-you-a-speech-ask-me-anything-and-i-ll-answer-str"
+      ],
+      "why": "Dodges the question of who let you be wrong with a promise to 'answer straight', so it isn't clear what is refused or promised."
+    },
+    "1crg4fvl516": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought"
+      ],
+      "why": "'See that it goes my way' never names the vote or decision the money is for."
+    },
+    "1d15s2fqdr8": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "Bribe for an unnamed favor."
+    },
+    "1dex2f1jkzu": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you"
+      ],
+      "why": "The threat follows from refusing 'the deal', which is never named."
+    },
+    "1dlcouy1srg": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-refuse.pick-that-up-and-go",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "Bribe never names what is wanted; 'find another way to win it' refuses an unnamed 'it'."
+    },
+    "1dmg8ertjcn": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "A threat over a refused 'deal' that is never named."
+    },
+    "1e126xdiwke": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.not-for-any-price"
+      ],
+      "why": "'Not for any price' refuses a favor never named beyond 'goes my way'."
+    },
+    "1emxz8152fh": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought"
+      ],
+      "why": "Large bribe with only 'goes my way'; no named vote, permit or contract."
+    },
+    "1exthuyoxg0": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal"
+      ],
+      "why": "Threat demands you 'take the deal' without ever naming it."
+    },
+    "1eyymeruo0j": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-thank.that-s-the-most-useful-thing-anyone-s-told-me-this-month",
+        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
+    "1ezgya6ycg5": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-deflect.lets-not-do-this-here-and-not-like-this",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "Veiled remark; favor never named."
+    },
+    "1ffosjzix6r": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
+        "scene-talk.state-press.last-time-you-said-no-im-hoping-youve-had-time-to-think-and-theres-mor",
+        "scene-talk.reply-deflect.im-not-discussing-that-again",
+        "scene-talk.follow-press.then-ill-ask-again-i-have-time",
+        "scene-talk.reply-refuse.i-said-no-last-time-and-nothing-has-changed"
+      ],
+      "why": "The return bribe never names what it is for."
+    },
+    "1fv7ocmaf0b": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-back-and-the-confidence-is-gone-what-is-left-is-a-person-with",
+        "scene-talk.state-plea.i-didnt-come-to-threaten-you-first-i-came-to-beg-ill-be-ruined-if-this",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont",
+        "scene-talk.reply-refuse.im-sorry-for-you-the-answer-is-still-no"
+      ],
+      "why": "'If this doesn't go my way' never names the vote or decision begged for."
+    },
+    "1godw4bng8h": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Take the deal' never named."
+    },
+    "1gwqra1ksuv": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-refuse.pick-that-up-and-go"
+      ],
+      "why": "The offer is only 'something in here for you'; what the money is for is never named."
+    },
+    "1hc0bte8hcc": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
+        "scene-talk.reply-answer.put-this-in-i-ll-vote-yes-and-i-ll-own-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one",
+        "scene-talk.follow-press.not-answering-is-an-answer-too",
+        "scene-talk.reply-refuse.not-today"
+      ],
+      "why": "'Not today' answers 'not answering is an answer' in a scandal whose subject, and the vote mentioned, are never named."
+    },
+    "1hlrut80wzq": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-refuse.pick-that-up-and-go",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "'Something in here for you... keep an open mind' never names what the money is meant to buy."
+    },
+    "1hzcqwjoudu": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-to-you",
+        "scene-talk.state-request.deceased-left-something-unfinished-somebody-has-to-carry-it-and-i-d-like-it-to-be-you",
+        "scene-talk.reply-ask.what-was-it-exactly",
+        "scene-talk.follow-answer.deceased-kept-asking-for-the-same-thing-year-after-year-and-kept-being-told-next-year",
+        "scene-talk.reply-promise.then-i-ll-take-it-up-i-ll-tell-you-what-comes-of-it"
+      ],
+      "why": "You ask what the cause was and hear only 'the same thing, year after year'. You take up something never named."
+    },
+    "1i1mavqxd9a": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'Take the deal' is all; the deal is never named."
+    },
+    "1i5jy36suc5": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "A threat over a 'deal' that is never named on the path."
+    },
+    "1jigqr8um3a": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
+        "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "The veiled remark never names the favor being refused."
+    },
+    "1l4ugh7cve0": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.open-greet.repeat.we-have-to-do-this-again-first-it-s-the-missed-payment",
+        "scene-talk.state-confront.repeat.we-ve-been-through-this-over-money-before-first-i-need-more-than-an-apology-this-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "'You have my word' promises nothing named. The other person asked for more than an apology, and no concrete commitment is ever stated."
+    },
+    "1lqha93fayx": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-back-and-the-confidence-is-gone-what-is-left-is-a-person-with",
+        "scene-talk.state-plea.i-didnt-come-to-threaten-you-first-i-came-to-beg-ill-be-ruined-if-this",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont",
+        "scene-talk.reply-refuse.im-sorry-for-you-the-answer-is-still-no"
+      ],
+      "why": "'If this doesn't go my way' — 'this' is never named."
+    },
+    "1m0cmiey2wz": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-holds-out-a-small-wrapped-gift-and-says-it-is-nothing",
+        "scene-talk.state-offer.open-it-later-if-you-like-its-only-a-thank-you-and-id-like-to-be-remem",
+        "scene-talk.reply-deflect.you-didnt-need-to-do-that",
+        "scene-talk.follow-offer.take-it-home-to-your-family-then-nobodys-keeping-score",
+        "scene-talk.reply-confront.you-know-i-have-to-report-this",
+        "scene-talk.follow-plea.its-only-a-gift-wont-you-at-least-look-at-whats-in-it",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "The gift asks only to be 'remembered kindly'; 'find another way to win it' refers to something never named."
+    },
+    "1mhnfqwl8n5": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-confront.you-printed-one-side-already-print-mine-this-time-whole",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.beat-beat.across-the-hall-someone-stops-to-listen",
+        "scene-talk.reply-answer.i-ll-send-you-what-i-have-today-it-s-all-dated",
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-answer.the-same-week-you-did-and-i-can-show-you-who-told-me",
+        "scene-talk.follow-ask.what-do-you-say-to-people-who-disagree",
+        "scene-talk.reply-refuse.that-s-all-i-m-saying-today"
+      ],
+      "why": "'People who disagree' with what? The scandal's subject is never said anywhere in the scene."
+    },
+    "1mop3gllxz1": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-refuse.i-can-t-discuss-it-while-it-s-still-being-looked-at-ask-me-after",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-confront.show-me-what-you-have-and-then-i-ll-answer",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "The reporter never names the story; 'document that' points at an unnamed matter."
+    },
+    "1mv3ah56ylj": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-in-with-an-envelope-held-in-both-hands-as-though-it-might-b",
+        "scene-talk.state-plea.this-is-all-i-have-im-putting-all-of-it-in-your-hands-and-i-need-this",
+        "scene-talk.reply-stall.give-me-a-little-time-i-cant-answer-you-while-youre-like-this",
+        "scene-talk.follow-plea.please-youre-the-only-one-who-can-help-me",
+        "scene-talk.reply-refuse.i-cant-take-this-you-need-it-more-than-i-do"
+      ],
+      "why": "Desperate envelope 'to go my way'; the matter is never named."
+    },
+    "1om096t75xt": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "The threat follows a 'deal' that is never named. What the person wants from you is never said."
+    },
+    "1petr6f5ldw": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-refuse.i-can-t-discuss-it-while-it-s-still-being-looked-at-ask-me-after",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+        "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret",
+        "scene-talk.beat-beat.somewhere-behind-you-a-camera-clicks-twice",
+        "scene-talk.reply-answer.fine-the-answer-is-i-d-do-it-again",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "Refuses to document 'I'd do it again', but the act or scandal behind it is never named (only a vague 'your vote')."
+    },
+    "1pxjmi996h1": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no"
+      ],
+      "why": "Doubling offer refused, but what the money buys is never named."
+    },
+    "1qi3x1ds0hn": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-been-asking-about-you-and-has-brought-the-paperwork",
+        "scene-talk.open-greet.i-need-to-go-through-a-few-things-with-you-before-i-file",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.two-more-cameras-swing-toward-you",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office"
+      ],
+      "why": "The reporter only has 'a question' and 'a few things'; the subject is never said."
+    },
+    "1qt6homebbk": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought"
+      ],
+      "why": "The large bribe only asks to 'see that it goes my way'; the vote, permit or contract is never named."
+    },
+    "1rko8e38n3f": {
+      "keys": [
+        "scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name",
+        "scene-talk.state-request.deceased-always-said-you-d-understand-what-was-left-undone",
+        "scene-talk.reply-ask.what-was-it-exactly",
+        "scene-talk.follow-answer.deceased-kept-asking-for-the-same-thing-year-after-year-and-kept-being-told-next-year",
+        "scene-talk.reply-promise.then-i-ll-take-it-up-i-ll-tell-you-what-comes-of-it"
+      ],
+      "why": "'I'll take it up' refers to 'the same thing' the deceased asked for, never named."
+    },
+    "1rqwmyz40cb": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-just-started-at-employer-and-belongs-to-the-party-like-you",
+        "scene-talk.open-greet.hi-i-m-name-i-just-started-at-employer-and-you-re-first-right",
+        "scene-talk.state-request.somebody-at-employer-mentioned-you-re-with-the-party-same-as-me-do-you-know-where-the-local-members-meet",
+        "scene-talk.reply-promise.i-will-find-me-before-you-leave-today-and-i-ll-make-the-time"
+      ],
+      "why": "'I will' answers a question (do you know where members meet?) not a request; what is promised is left to guess."
+    },
+    "1rywh8u66tu": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'Take the deal' with threats; the deal's object is never named."
+    },
+    "1tqyvnltk5q": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'Take the deal' only; the deal is never named."
+    },
+    "1u6q5gxmw5t": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'Take the deal' never named."
+    },
+    "1uae27mbe88": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "A threat over a 'deal' that is never named on the path."
+    },
+    "1us271pja71": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-just-started-as-position-at-employer-and-has-come-over-to-say-hello",
+        "scene-talk.state-request.i-just-started-as-position-at-employer-what-s-the-part-of-the-job-nobody-warns-you-about",
+        "scene-talk.reply-ask.why-did-you-pick-me-to-ask",
+        "scene-talk.follow-answer.just-a-few-minutes-whenever-you-have-them-and-a-straight-answer-you-seemed-like-someone-who-d-give-me-one",
+        "scene-talk.reply-promise.i-ll-take-care-of-it-and-i-ll-check-on-you-afterward"
+      ],
+      "why": "'I'll take care of it' answers a request for advice; what 'it' is cannot be said."
+    },
+    "1v63f5ta925": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "The bad-week threat is over 'the deal', which is never named."
+    },
+    "1vravd6qlg7": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.pick-that-up-and-go"
+      ],
+      "why": "Only 'goes my way'; the favor is never named."
+    },
+    "1vs2efko6k5": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'Take the deal' never says what the deal is."
+    },
+    "1x38aup7bjk": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
+        "scene-talk.reply-thank.that-s-what-i-was-afraid-you-d-say-and-probably-right",
+        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
+    "1y344axo3df": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "Threats around 'take the deal' with no named deal."
+    },
+    "1yq4hattt9x": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.dont-do-that-first-think-what-it-does-to-both-of-us",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "The pressing briber never names the favor; only 'a bribe' in the player's line, with nothing it is for."
+    },
+    "1yq577pyfn4": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no"
+      ],
+      "why": "'Take the deal' never named."
+    },
+    "1z34f93h25g": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-deflect.lets-not-do-this-here-and-not-like-this",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Veiled remark; what is wanted is never named."
+    },
+    "1z9bi8vg7ee": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
+        "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+        "scene-talk.reply-stall.let-me-think-don-t-call-me",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "'Keep an open mind' never names what the money should win."
+    },
+    "1zl0lz4ncgx": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "The threat follows a 'deal' that is never named on the path; what the briber wants is never stated."
+    },
+    "1zx027u14xh": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'Take the deal' never named."
+    },
+    "21jr8a4jzba": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you"
+      ],
+      "why": "The threat comes over 'the deal', which is never named."
+    },
+    "21k6pnix0n5": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+        "scene-talk.reply-answer.fine-i-m-leaning-yes-that-s-all-you-get",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "The scandal subject is never said; 'document that' refers to a lean on an unnamed matter."
+    },
+    "21lh2rqgnmj": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-heard-about-the-diploma-and-won-t-let-it-pass-without-a-word",
+        "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
+        "scene-talk.reply-thank.thanks-it-means-a-lot-coming-from-you",
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
+        "scene-talk.reply-thank.thank-you-that-means-a-lot",
+        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
+      ],
+      "why": "'Make sure the next thing goes as well' never names the next thing or what is promised."
+    },
+    "222jsqjcwym": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
+        "scene-talk.state-press.last-time-you-said-no-im-hoping-youve-had-time-to-think-and-theres-mor",
+        "scene-talk.reply-deflect.im-not-discussing-that-again",
+        "scene-talk.follow-press.then-ill-ask-again-i-have-time",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "A second bribe 'with more in here', but neither visit's ask is named on this path."
+    },
+    "22eb1230ukn": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no"
+      ],
+      "why": "The large bribe never names what it buys."
+    },
+    "22efjb9dmxp": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Asked what changes this time, the line promises without naming any change."
+    },
+    "22ihl3mis8c": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-back-and-the-confidence-is-gone-what-is-left-is-a-person-with",
+        "scene-talk.state-plea.i-didnt-come-to-threaten-you-first-i-came-to-beg-ill-be-ruined-if-this",
+        "scene-talk.reply-refuse.i-cant-do-it-and-begging-wont-change-that"
+      ],
+      "why": "'If this doesn't go my way' never names the matter the player can't do."
+    },
+    "22t7zq1em94": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
+      ],
+      "why": "'See that it goes my way' never names the vote or decision."
+    },
+    "22u35r3lcel": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+        "scene-talk.reply-answer.fine-i-m-leaning-yes-that-s-all-you-get",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway"
+      ],
+      "why": "Scandal interview with no named subject; the hallway refusal refuses an unnamed topic."
+    },
+    "23cx3uy22q5": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "A threat over an unnamed 'deal'; what the presser wants is never said."
+    },
+    "23fd22zkl9v": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no"
+      ],
+      "why": "Doubling the money is named, but what the money is for never is; only 'goes my way'."
+    },
+    "24k1zyjztvn": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
+        "scene-talk.reply-refuse.i-don-t-do-hallway-interviews",
+        "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret",
+        "scene-talk.reply-answer.fine-the-answer-is-i-d-do-it-again",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "Scandal interview never names the matter or which vote; 'document that' refers to an unnamed subject."
+    },
+    "24okai7walx": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-to-you",
+        "scene-talk.state-request.deceased-left-something-unfinished-somebody-has-to-carry-it-and-i-d-like-it-to-be-you",
+        "scene-talk.reply-promise.tell-me-what-it-was-i-can-t-promise-how-it-ends-but-i-ll-take-it-up-in-deceased-s-name"
+      ],
+      "why": "Commits to carrying on {deceased}'s 'something unfinished', which is never named, so neither speaker can say what is promised."
+    },
+    "24xzwcwzyge": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "Same veiled hint; the favor sought is never named."
+    },
+    "25d8zyzfzl3": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-to-you",
+        "scene-talk.open-greet.deceased-talked-about-you-you-know",
+        "scene-talk.state-request.i-don-t-know-who-else-to-ask-deceased-trusted-you-with-things",
+        "scene-talk.reply-promise.tell-me-what-it-was-i-can-t-promise-how-it-ends-but-i-ll-take-it-up-in-deceased-s-name"
+      ],
+      "why": "The player promises to take up the dead person's cause before anyone says what that cause is, so a listener can't say what is promised."
+    },
+    "265ksmjixia": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "'Take the deal' is never explained; the deal is unnamed."
+    },
+    "26zk91zzfum": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-heard-about-the-diploma-and-won-t-let-it-pass-without-a-word",
+        "scene-talk.open-greet.i-don-t-want-to-make-a-big-thing-of-it-but-i-m-going-to",
+        "scene-talk.state-congratulate.so-the-diploma-s-done-what-s-the-plan",
+        "scene-talk.reply-thank.thanks-it-means-a-lot-coming-from-you",
+        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
+      ],
+      "why": "'Make sure the next thing goes as well' never names the next thing after 'What's the plan?'"
+    },
+    "27iqx4hh6j4": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "Veiled hint about a friend in {place} never names any request."
+    },
+    "27uw3skrwor": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-deflect.lets-not-do-this-here-and-not-like-this",
+        "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Veiled remark; the favor is never named."
+    },
+    "289vbecggna": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+        "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+        "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
+        "scene-talk.follow-press.deflect-all-you-like-ill-be-around-when-youre-done-deflecting",
+        "scene-talk.reply-deflect.i-have-nothing-to-say-to-you",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Repeat pressure with no named request at all."
+    },
+    "28csjr0axeq": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.pick-that-up-and-go"
+      ],
+      "why": "Only 'goes my way'; the bought decision is never named."
+    },
+    "28n6nq525ny": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.you-cant-ignore-me-forever-first",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong"
+      ],
+      "why": "The threat rests on 'the deal', which is never named; what the presser wants is unknown."
+    },
+    "28tvhcc80yr": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-back-and-the-confidence-is-gone-what-is-left-is-a-person-with",
+        "scene-talk.state-plea.i-didnt-come-to-threaten-you-first-i-came-to-beg-ill-be-ruined-if-this",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.youre-my-last-chance-first-please",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Begging for 'this' to go their way; the matter is never named."
+    },
+    "29b8gk15uk8": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-been-waiting-where-you-will-pass-the-easy-manner-is",
+        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "'I would hate for this to get complicated' never names the ask."
+    },
+    "2a0bbf82j9t": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you"
+      ],
+      "why": "Threat over reporting a 'deal' that is never named."
+    },
+    "2b6dqqkjs32": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no"
+      ],
+      "why": "'Take the deal' never named."
+    },
+    "2b9ejfud6sa": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-been-proud-of-you-for-a-day-and-can-t-keep-quiet-about-it-any-longer",
+        "scene-talk.state-congratulate.you-finished-i-m-proud-of-you-and-i-don-t-say-that-enough",
+        "scene-talk.reply-thank.thanks-it-means-a-lot-coming-from-you",
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
+        "scene-talk.reply-thank.thank-you-that-means-a-lot",
+        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
+      ],
+      "why": "No plan has been mentioned on this path, so 'the next thing' has nothing to refer to."
+    },
+    "2bs66wu232g": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+        "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+        "scene-talk.reply-confront.ill-tell-the-clerk-everything-you-said-to-me",
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Veiled remark; favor never named."
+    },
+    "2byniol8gu9": {
+      "keys": [
+        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment",
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Asked what changes this time, the line promises without naming any change."
+    },
+    "2d1pmi5m3fx": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-thank.that-s-the-most-useful-thing-anyone-s-told-me-this-month",
+        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
+    "2djht1u1ucb": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-heard-about-the-diploma-and-won-t-let-it-pass-without-a-word",
+        "scene-talk.open-greet.i-don-t-want-to-make-a-big-thing-of-it-but-i-m-going-to",
+        "scene-talk.state-congratulate.so-the-diploma-s-done-what-s-the-plan",
+        "scene-talk.reply-boast.told-you-i-d-get-through-it",
+        "scene-talk.follow-confront.sure-you-did-barely",
+        "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me",
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking",
+        "scene-talk.reply-thank.i-mean-it-thank-you",
+        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
+      ],
+      "why": "'The next thing' has no referent. The player never gave a plan, so the commitment names nothing."
+    },
+    "2e8uyvukzwv": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.i-don-t-take-money-from-you-or-from-anyone"
+      ],
+      "why": "The large bribe names no vote or decision, only 'goes my way'; the player refuses money for an unnamed favor."
+    },
+    "2ea3icuq3pb": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-refuse.i-can-t-discuss-it-while-it-s-still-being-looked-at-ask-me-after",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+        "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret",
+        "scene-talk.beat-beat.somewhere-behind-you-a-camera-clicks-twice",
+        "scene-talk.reply-confront.asking-twice-won-t-get-you-a-better-quote",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-every-page-of-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "Scandal interview never names the matter; the documentation question refers to an unnamed subject."
+    },
+    "2eephchzl7r": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+        "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-refuse.pick-that-up-and-go"
+      ],
+      "why": "Large bribe for an unnamed 'goes my way'."
+    },
+    "2et1iqagqee": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-been-asking-about-you-and-has-brought-the-paperwork",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.two-more-cameras-swing-toward-you",
+        "scene-talk.reply-deflect.i-ll-answer-in-writing-once-i-ve-talked-to-the-people-named",
+        "scene-talk.follow-press.a-statement-from-your-office-isn-t-an-answer-do-you-deny-it",
+        "scene-talk.reply-refuse.i-can-t-discuss-it-while-it-s-still-being-looked-at-ask-me-after"
+      ],
+      "why": "'Do you deny it?' — the 'it' of the scandal is never said."
+    },
+    "2etbvb0jjuc": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-confront.you-printed-one-side-already-print-mine-this-time-whole",
+        "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+        "scene-talk.reply-answer.then-write-that-i-stand-by-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.beat-beat.across-the-hall-someone-stops-to-listen",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.reply-answer.fine-the-answer-is-i-d-do-it-again",
+        "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "The question is about when 'this' would come out, but the scandal's subject is never said; only 'the filing and the dates'."
+    },
+    "2f5lms4c4o0": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+        "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+        "scene-talk.reply-refuse.twice-the-number-is-still-no"
+      ],
+      "why": "'See that it goes my way' never names what is wanted."
+    },
+    "2ffe6cdroly": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+        "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+        "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
+        "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
+        "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+        "scene-talk.reply-refuse.no-and-this-changes-nothing"
+      ],
+      "why": "Threats around an unnamed 'deal'."
+    },
+    "2gjybrp6yls": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+        "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+        "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+        "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+        "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+        "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
+      ],
+      "why": "Bribe for 'it goes my way'; what 'it' is never appears."
+    },
+    "2gl4hl1f2dr": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
+        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
+        "scene-talk.reply-answer.put-this-in-i-ll-vote-yes-and-i-ll-own-it",
+        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+        "scene-talk.reply-refuse.i-m-not-answering-that-one"
+      ],
+      "why": "The scandal interview never names its subject or the vote the player says yes to; the documentation question refers to an unnamed matter."
+    }
+  },
+  "yesHash": "28vfmqp4d10"
 }
