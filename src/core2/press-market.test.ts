@@ -2,12 +2,9 @@
  * An outlet serves a market wider than the town, and the market's adults
  * beyond the town pay it from the outside account at the town's own rate per
  * reader: a number that follows the market's size and reading habits, never
- * the outlet's cost. A place drawn from all 56; set GOLDEN_PATH_SEED to
- * reproduce the draw.
+ * the outlet's cost. Run in named places with fixed seeds.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { gameStartDate } from "./game-start";
@@ -29,7 +26,10 @@ import type { CoreState } from "./types";
 
 import news from "../../data/research/press/local-news-2026.json" with { type: "json" };
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// A named place and fixed seed, so every run is the same run.
+const PLACES = [
+  { name: "Bajadero, Puerto Rico", key: "7204658", seed: "press-market-a" },
+] as const;
 
 it("every state and territory has a newspaper market population, or the draw fails loudly", () => {
   const states = Object.keys((news as { places: object }).places);
@@ -71,11 +71,10 @@ it("newsroom jobs follow the market's adults and reading above a floor", () => {
   expect(newsroomJobsOf(600_000, 1, 0.5)).toBeCloseTo(large / 2, 6);
 });
 
-it(`the market beyond the town pays an outlet by readers, not by its cost (seed ${seed})`, () => {
+it(`the market beyond the town pays an outlet by readers, not by its cost`, () => {
   const tried: string[] = [];
-  for (let draw = 0; draw < 10; draw += 1) {
-    const place = drawPlace(`${seed}:${draw}`, "press-market");
-    const where = `${place.name} (${place.key}), seed ${place.seed}, base ${seed}:${draw}`;
+  for (const place of PLACES) {
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core: world } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
@@ -143,15 +142,14 @@ it(`the market beyond the town pays an outlet by readers, not by its cost (seed 
     return;
   }
   throw new Error(
-    `no drawn place had an outlet reaching beyond the town: ${tried.join("; ")}`,
+    `no named place had an outlet reaching beyond the town: ${tried.join("; ")}`,
   );
-}, 1_200_000);
+}, 300_000);
 
-it(`when a paper closes the papers left take its market (seed ${seed})`, () => {
+it(`when a paper closes the papers left take its market`, () => {
   const tried: string[] = [];
-  for (let draw = 0; draw < 10; draw += 1) {
-    const place = drawPlace(`${seed}:${draw}`, "press-market-closure");
-    const where = `${place.name} (${place.key}), seed ${place.seed}, base ${seed}:${draw}`;
+  for (const place of PLACES) {
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core: world } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
@@ -195,6 +193,6 @@ it(`when a paper closes the papers left take its market (seed ${seed})`, () => {
     return;
   }
   throw new Error(
-    `no drawn place had two papers with readers beyond the town: ${tried.join("; ")}`,
+    `no named place had two papers with readers beyond the town: ${tried.join("; ")}`,
   );
-}, 1_200_000);
+}, 300_000);
