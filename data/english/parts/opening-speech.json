@@ -88809,7 +88809,7 @@
       "key": "opening-speech.tie.polished-inaugural-we-cannot-go-another-years-like-that-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, we cannot go on like that.",
+      "text": "When it comes to {context-name}, we cannot go on like that.",
       "uses": [
         {
           "move": "tie",
@@ -88894,7 +88894,7 @@
       "key": "opening-speech.tie.plain-inaugural-we-can-t-keep-that-up-for-another-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, we can't keep that up any longer.",
+      "text": "When it comes to {context-name}, we can't keep that up any longer.",
       "uses": [
         {
           "move": "tie",
@@ -88979,7 +88979,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-this-is-no-time-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, this is no time to lose ground.",
+      "text": "When it comes to {context-name}, this is no time to lose ground.",
       "uses": [
         {
           "move": "tie",
@@ -89064,7 +89064,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-we-can-t-afford-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, we can't afford to go backward.",
+      "text": "When it comes to {context-name}, we can't afford to go backward.",
       "uses": [
         {
           "move": "tie",
@@ -89149,7 +89149,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-families-do-not-need-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, families do not need one more cost.",
+      "text": "When it comes to {context-name}, families do not need one more cost.",
       "uses": [
         {
           "move": "tie",
@@ -89234,7 +89234,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-folks-don-t-need-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, folks don't need one more thing to pay for.",
+      "text": "When it comes to {context-name}, folks don't need one more thing to pay for.",
       "uses": [
         {
           "move": "tie",
@@ -89319,7 +89319,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-it-is-time-for-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, it is time for a change.",
+      "text": "When it comes to {context-name}, it is time for a change.",
       "uses": [
         {
           "move": "tie",
@@ -89404,7 +89404,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-it-s-time-we-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, it's time we tried something else.",
+      "text": "When it comes to {context-name}, it's time we tried something else.",
       "uses": [
         {
           "move": "tie",
@@ -90675,7 +90675,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-waiting-is-no-longer-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, waiting is no longer an answer.",
+      "text": "When it comes to {context-name}, waiting is no longer an answer.",
       "uses": [
         {
           "move": "tie",
@@ -90760,7 +90760,7 @@
       "key": "opening-speech.tie.polished-inaugural-years-of-that-is-long-enough-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that has gone on long enough.",
+      "text": "When it comes to {context-name}, that has gone on long enough.",
       "uses": [
         {
           "move": "tie",
@@ -90930,7 +90930,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-is-plenty-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that is plenty.",
+      "text": "When it comes to {context-name}, that is plenty.",
       "uses": [
         {
           "move": "tie",
@@ -91100,7 +91100,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-folks-are-done-waiting-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, folks are done waiting.",
+      "text": "When it comes to {context-name}, folks are done waiting.",
       "uses": [
         {
           "move": "tie",
@@ -91440,7 +91440,7 @@
       "key": "opening-speech.tie.polished-inaugural-years-of-that-is-a-reason-to-hold-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that is a reason to hold firm.",
+      "text": "When it comes to {context-name}, that is a reason to hold firm.",
       "uses": [
         {
           "move": "tie",
@@ -91525,7 +91525,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-retreat-would-be-a-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, retreat would be a mistake.",
+      "text": "When it comes to {context-name}, retreat would be a mistake.",
       "uses": [
         {
           "move": "tie",
@@ -91695,7 +91695,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-this-is-no-time-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, this is no time to give up ground.",
+      "text": "When it comes to {context-name}, this is no time to give up ground.",
       "uses": [
         {
           "move": "tie",
@@ -91780,7 +91780,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-tells-me-we-hold-the-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that tells me we hold the line.",
+      "text": "When it comes to {context-name}, that tells me we hold the line.",
       "uses": [
         {
           "move": "tie",
@@ -91950,7 +91950,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-like-that-going-backward-makes-no-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, going backward makes no sense.",
+      "text": "When it comes to {context-name}, going backward makes no sense.",
       "uses": [
         {
           "move": "tie",
@@ -92035,7 +92035,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-is-no-time-to-start-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that is no time to start over.",
+      "text": "When it comes to {context-name}, that is no time to start over.",
       "uses": [
         {
           "move": "tie",
@@ -92120,7 +92120,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-the-last-thing-families-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, the last thing families need is a new burden.",
+      "text": "When it comes to {context-name}, the last thing families need is a new burden.",
       "uses": [
         {
           "move": "tie",
@@ -92205,7 +92205,7 @@
       "key": "opening-speech.tie.polished-inaugural-years-of-that-have-asked-enough-of-working-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that has asked enough of working people.",
+      "text": "When it comes to {context-name}, that has asked enough of working people.",
       "uses": [
         {
           "move": "tie",
@@ -92290,7 +92290,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-this-is-the-wrong-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, this is the wrong time for another mandate.",
+      "text": "When it comes to {context-name}, this is the wrong time for another mandate.",
       "uses": [
         {
           "move": "tie",
@@ -92460,7 +92460,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-no-one-should-add-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, no one should add to the load.",
+      "text": "When it comes to {context-name}, no one should add to the load.",
       "uses": [
         {
           "move": "tie",
@@ -92545,7 +92545,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-nobody-needs-another-bill-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, nobody needs another bill to pay.",
+      "text": "When it comes to {context-name}, nobody needs another bill to pay.",
       "uses": [
         {
           "move": "tie",
@@ -92630,7 +92630,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-is-enough-on-folks-plates-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that is enough on folks' plates already.",
+      "text": "When it comes to {context-name}, that is enough on folks' plates already.",
       "uses": [
         {
           "move": "tie",
@@ -92715,7 +92715,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-piling-more-on-makes-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, piling more on makes no sense.",
+      "text": "When it comes to {context-name}, piling more on makes no sense.",
       "uses": [
         {
           "move": "tie",
@@ -92885,7 +92885,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-let-s-not-make-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, let's not make it harder.",
+      "text": "When it comes to {context-name}, let's not make it harder.",
       "uses": [
         {
           "move": "tie",
@@ -92970,7 +92970,7 @@
       "key": "opening-speech.tie.polished-inaugural-years-of-that-is-reason-enough-to-change-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that is reason enough to change course.",
+      "text": "When it comes to {context-name}, that is reason enough to change course.",
       "uses": [
         {
           "move": "tie",
@@ -93055,7 +93055,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-the-old-way-has-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, the old way has had its chance.",
+      "text": "When it comes to {context-name}, the old way has had its chance.",
       "uses": [
         {
           "move": "tie",
@@ -93140,7 +93140,7 @@
       "key": "opening-speech.tie.polished-inaugural-years-of-that-should-teach-us-something-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that should teach us something.",
+      "text": "When it comes to {context-name}, that should teach us something.",
       "uses": [
         {
           "move": "tie",
@@ -93225,7 +93225,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-we-owe-people-a-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, we owe people a different answer.",
+      "text": "When it comes to {context-name}, we owe people a different answer.",
       "uses": [
         {
           "move": "tie",
@@ -93395,7 +93395,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-is-long-enough-to-know-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that has gone on long enough to know it isn't working.",
+      "text": "When it comes to {context-name}, that has gone on long enough to know it isn't working.",
       "uses": [
         {
           "move": "tie",
@@ -93480,7 +93480,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-folks-deserve-a-new-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, folks deserve a new approach.",
+      "text": "When it comes to {context-name}, folks deserve a new approach.",
       "uses": [
         {
           "move": "tie",
@@ -93650,7 +93650,7 @@
       "key": "opening-speech.tie.plain-inaugural-years-of-that-says-it-s-time-to-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, that says it's time to switch.",
+      "text": "When it comes to {context-name}, that says it's time to switch.",
       "uses": [
         {
           "move": "tie",
@@ -93735,7 +93735,7 @@
       "key": "opening-speech.tie.plain-inaugural-after-years-of-that-i-d-say-we-stance-against-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, I'd say we've seen enough.",
+      "text": "When it comes to {context-name}, I'd say we've seen enough.",
       "uses": [
         {
           "move": "tie",
@@ -96292,7 +96292,7 @@
       "key": "opening-speech.tie.polished-inaugural-after-years-of-that-we-should-not-undo-stance-for-law-in-force-figure-ties-context",
       "move": "tie",
       "kind": "spoken",
-      "text": "With {context-name} like this, we should not undo our own progress.",
+      "text": "When it comes to {context-name}, we should not undo our own progress.",
       "uses": [
         {
           "move": "tie",

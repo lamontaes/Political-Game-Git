@@ -2307,11 +2307,7 @@ export function planSpeech(
         theme ? subjectsOf(theme).flatMap(topicsOf) : [],
       );
       const goodTopic =
-        !crisis &&
-        !federal &&
-        ownRecord &&
-        addressKind !== "mourning" &&
-        situation.slide > P.zero
+        !crisis && !federal && ownRecord && addressKind !== "mourning"
           ? ([...TERM_AREAS, ...Object.keys(TOPIC_CLAIMS)]
               .filter(
                 (topic) =>
