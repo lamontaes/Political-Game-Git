@@ -29,7 +29,7 @@ checked: m3 2026-11-14
 
 **Rules.** No dice; no threshold; a small town shows its own count, never a rate.
 
-**Done when.** In three drawn places a month over usual prints the log with a body and a month under it prints the short log, and a month under 0.7 of usual is not printed.
+**Done when.** In the running game, in three drawn places, a second session opens News and reads the Briefs column: a month over the town's usual prints the police log with a body that says how many more and what rose most, a month under it prints the short log, and a month under 0.7 of usual is not printed.
 
 **Waits on.** Nothing.
 
