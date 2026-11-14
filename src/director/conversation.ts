@@ -4333,6 +4333,38 @@ function giveBack(
       learned: { "their-employer": own },
     };
   }
+  if (kind === "asked-mutual" && subject.aboutId) {
+    // When the asker last saw the person they asked about, from their own
+    // tie's last contact: the talk does not end on the player's "Not in a
+    // while." (played-talks, Nov 14). Said by the person's pronoun, from
+    // their record.
+    const aboutId = subject.aboutId as PersonId;
+    const gender = core.people.get(aboutId)?.looks?.gender;
+    const pronoun =
+      gender === "male"
+        ? "mutual-he"
+        : gender === "female"
+          ? "mutual-she"
+          : null;
+    if (!pronoun) return null;
+    const seen = lastContact(core, askerId, aboutId);
+    return {
+      facts: {
+        you,
+        [pronoun]: { text: "yes", sourceRecordIds: [aboutId] },
+        ...(seen
+          ? {
+              "their-when": {
+                text: spokenWhen(seen.date, core.date),
+                sourceRecordIds: [seen.tieId],
+              },
+            }
+          : {}),
+      },
+      stage: seen ? "saw" : "not",
+      learned: {},
+    };
+  }
   if (kind === "asked-kin" && subject.aboutId) {
     // From the relative's own facts the subject carries (their work, where
     // they live), less what the player already holds and what the question

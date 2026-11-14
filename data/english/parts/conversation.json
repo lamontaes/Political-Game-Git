@@ -18,6 +18,7 @@
     "my_since": "The month and year the player started, from their job record.",
     "when": "When something happened, from a dated record (a contact, a crime), as the director says it in passing.",
     "my_when": "When the player last saw that person, from a contact record, said the same way.",
+    "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact.",
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
     "topic": "What happened, from a news record the speaker heard.",
     "first": "The given name of someone both people know, from the person's record.",
@@ -45256,6 +45257,190 @@
       "origin": "authored",
       "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-saw-him-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I saw him {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-he", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-ran-into-him-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I ran into him {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-he", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-saw-her-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I saw her {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-she", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-ran-into-her-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I ran into her {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-she", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-haven-t-heard-from-him-in-a-while-myself",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I haven't heard from him in a while myself.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["not"],
+          "requiresFacts": ["mutual-he"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-haven-t-seen-him-in-a-while-myself",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I haven't seen him in a while myself.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["not"],
+          "requiresFacts": ["mutual-he"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-haven-t-heard-from-her-in-a-while-myself",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I haven't heard from her in a while myself.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["not"],
+          "requiresFacts": ["mutual-she"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-haven-t-seen-her-in-a-while-myself",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I haven't seen her in a while myself.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["not"],
+          "requiresFacts": ["mutual-she"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
     }
   ]
 }
