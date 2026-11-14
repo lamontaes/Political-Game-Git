@@ -1,0 +1,21 @@
+{
+  "artifacts": [
+    {
+      "derivation": "Copied unchanged from the McClatchy southeast newsroom's published file of the place summary level of the 2020 Census redistricting data (P.L. 94-171, table P2, race by Hispanic or Latino origin), North Carolina only. Counts of all residents, not adults. Found by a search of public GitHub repositories because the Census Bureau's own hosts are not reachable from the build containers. Replace with an all-places file of the same columns, or extend the exporter to read an ACS B03002 cut, when one is committed; each added state is one more file in raw/.",
+      "length": 60047,
+      "localPath": "data/source/place-race-origin/raw/nc_places_2020_rc_eth.csv",
+      "mediaType": "text/csv",
+      "sha256": "ebb402b3470be9a6f576cdd5aa623d9775d7231c24d9776105431c8d05c05cdd",
+      "table": "P2 Hispanic or Latino, and not Hispanic or Latino by race, place level, North Carolina",
+      "url": "https://raw.githubusercontent.com/mcclatchy-southeast/census2020/main/data/nc_places_2020_rc_eth.csv",
+      "vintage": "2020 Census redistricting data (P.L. 94-171)",
+      "publisher": "McClatchy southeast newsroom (derived from U.S. Census Bureau counts)",
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": null,
+        "status": "public-census-counts-republished-by-newsroom"
+      }
+    }
+  ],
+  "asOf": "2026-11-14"
+}
