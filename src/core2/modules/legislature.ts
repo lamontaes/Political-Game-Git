@@ -5099,6 +5099,18 @@ export function committeeRecords(
  * those voting passes it in each, and in the U.S. Senate only after three
  * fifths of its members vote to end debate. Every vote is on the record.
  */
+/** A member's own stance on a policy question: an official's record and causes, a town member's views today. */
+function memberStanceOn(
+  api: CoreAPI,
+  memberId: string,
+  question: string,
+): number {
+  const official = officialOf(api, memberId);
+  return official
+    ? ownStance(official.ideal, official.signature, question)
+    : viewOn(api, memberId, question, leanOf(api, memberId));
+}
+
 /**
  * The sections a member would add to a bill: the questions they care most
  * about that the bill doesn't touch and its body may answer, each in the
@@ -5124,12 +5136,7 @@ function ownSections(
   );
   // An official's own stance is their record and causes; a town member's,
   // where they stand today.
-  const official = officialOf(api, memberId);
-  const lean = leanOf(api, memberId);
-  const stanceOn = (q: string) =>
-    official
-      ? ownStance(official.ideal, official.signature, q)
-      : viewOn(api, memberId, q, lean);
+  const stanceOn = (q: string) => memberStanceOn(api, memberId, q);
   // A member asks for a section only where it would change their body's law:
   // not one that repeats the law in force or an act already passed, nor one
   // that cuts across an act waiting on its effective date.
@@ -6936,7 +6943,17 @@ function enact(
         estimate,
         // The bill itself, not only its number: numbers repeat across bodies
         // and sessions, and a recall or the record finds the bill by this.
-        terms: { ...(terms ?? {}), enactedByBill: bill.id },
+        terms: {
+          ...(terms ?? {}),
+          enactedByBill: bill.id,
+          // How strongly the sponsor holds the question (their own record or
+          // views), for a reader that needs the rate or size they would
+          // write: a flat tax that replaces a graduated one is read from it.
+          sponsorStance:
+            Math.round(
+              memberStanceOn(api, bill.sponsorId, provision.question) * 1000,
+            ) / 1000,
+        },
       });
     }
   }
