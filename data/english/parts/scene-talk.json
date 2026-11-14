@@ -125531,10 +125531,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.outlet-asked-you-to-sit-down-you-said-no",
+      "key": "scene-talk.state-ask.i-read-what-you-told-outlet-i-have-some-follow-ups",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "{outlet} asked you to sit down. You said no.",
+      "text": "I read what you told {outlet}. I have some follow-ups.",
       "uses": [
         {
           "subject": "scene",
@@ -125557,10 +125557,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.you-wouldn-t-talk-to-outlet-why-not",
+      "key": "scene-talk.state-ask.your-interview-with-outlet-ran-not-everybody-believed-it",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "You wouldn't talk to {outlet}. Why not?",
+      "text": "Your interview with {outlet} ran. Not everybody believed it.",
       "uses": [
         {
           "subject": "scene",
@@ -125571,6 +125571,57 @@
           "key": "routine",
           "requiresFacts": ["outlet"],
           "excludesFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-skipped-some-of-outlet-s-questions-i-d-like-to-ask-them-again",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You skipped some of {outlet}'s questions. I'd like to ask them again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["outlet", "skipped-some"],
+          "excludesFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.somebody-asked-you-for-bill-who",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Somebody asked you for {bill}. Who?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "braced",

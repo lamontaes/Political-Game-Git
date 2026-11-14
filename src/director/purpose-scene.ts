@@ -1107,6 +1107,14 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }
+  // A published interview the official answered only in part (press.ts
+  // publish: the record's `declined` counts the questions left unanswered): a
+  // reporter may ask the skipped ones again.
+  if (record?.kind === "interview-published" && Number(said.declined) > 0)
+    facts["skipped-some"] = {
+      text: said.declined,
+      sourceRecordIds: [moment.causeId],
+    };
   // The race's debate the two candidates just stood in (meetings.ts
   // holdDebate): the lines said leaving the stage need it, and the first
   // question the two answered on opposite sides is what the rival brings up.
