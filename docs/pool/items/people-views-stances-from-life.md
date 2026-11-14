@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hjvzia
-pr:
+pr: #9162
 after:
 blocked-on:
 lead: views
