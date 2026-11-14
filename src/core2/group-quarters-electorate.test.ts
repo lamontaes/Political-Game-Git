@@ -3,9 +3,9 @@
  * run and are not doors where the state bars people held in prison; they stay
  * voters where the law lets them vote from prison. Nursing-home rooms vote
  * but are not doors. Pinned places and seed (no draw): Avenal, California
- * (0603302, a prison town in a barring state), place 5048850 in a state
- * that lets people vote from prison, and 0643280 in California with a nursing
- * home.
+ * (0603302, a prison town in a barring state), Newport, Vermont (5048850,
+ * a state that lets people vote from prison) and Los Altos, California
+ * (0643280, with a nursing home).
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -73,7 +73,7 @@ function world(placeKey: string) {
 
 it("a prison town in a barring state leaves its correctional rooms out of the counted electorate and its doors", () => {
   const { api, all, voters, weight, doorsBefore, doorsAfter } =
-    world("0603302");
+    world("0603302"); /* Avenal, California */
   const cells = all.filter((v) => v.quarters === "adultCorrectional");
   expect(cells.length).toBeGreaterThan(0);
   expect(voters.some((v) => v.quarters === "adultCorrectional")).toBe(false);
@@ -87,7 +87,7 @@ it("a prison town in a barring state leaves its correctional rooms out of the co
 }, 300_000);
 
 it("a state that lets people vote from prison keeps its correctional rooms as voters", () => {
-  const { api, all, voters } = world("5048850");
+  const { api, all, voters } = world("5048850"); /* Newport, Vermont */
   const cells = all.filter((v) => v.quarters === "adultCorrectional");
   expect(cells.length).toBeGreaterThan(0);
   expect(voters.length).toBe(all.length);
@@ -95,7 +95,8 @@ it("a state that lets people vote from prison keeps its correctional rooms as vo
 }, 300_000);
 
 it("a town with a nursing home counts its nursing rooms as voters but not as doors", () => {
-  const { api, all, voters, doorsBefore, doorsAfter } = world("0643280");
+  const { api, all, voters, doorsBefore, doorsAfter } =
+    world("0643280"); /* Los Altos, California */
   const nursing = all.filter((v) => v.quarters === "nursing");
   expect(nursing.length).toBeGreaterThan(0);
   expect(voters.length).toBe(all.length);
@@ -103,8 +104,8 @@ it("a town with a nursing home counts its nursing rooms as voters but not as doo
   expect(townDoorCount(api)).toBe(doorsAfter);
 }, 300_000);
 
-it("both stopgaps are resolved", () => {
-  const status = (id: string) => gq.find((row) => row.id === id)?.status;
-  expect(status("SG-GQ-counted-prisoners-vote")).toBe("resolved");
-  expect(status("SG-GQ-campaign-doors")).toBe("resolved");
+it("both stopgap rows are gone from the register", () => {
+  const ids = gq.map((row) => row.id);
+  expect(ids).not.toContain("SG-GQ-counted-prisoners-vote");
+  expect(ids).not.toContain("SG-GQ-campaign-doors");
 });

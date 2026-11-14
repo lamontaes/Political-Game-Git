@@ -54,20 +54,6 @@
     "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
-    "id": "SG-GQ-counted-prisoners-vote",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/voting.ts",
-    "line": 3357,
-    "whatItFakes": "Counted residents of adult correctional facilities vote at the town's counted scale (src/core2/modules/voting.ts, countedScale and the counted voter loops) like any other counted adult, and may be drawn to run for a local seat (src/core2/modules/candidacy.ts, countedScreen). The state's barred share of the counted electorate still covers prisoners on average (src/core2/law-reach/group-a-voting.ts), but not concentrated in a prison town.",
-    "why": "Room records are counted households to the voting and candidacy engines, which read no group-quarters type; the governing lead owns the counted electorate.",
-    "addedBy": "claude/speed-group-quarters-population",
-    "addedAt": "2026-11-01",
-    "replacement": "Skip counted correctional residents in the counted voter loops unless the state's law lets incarcerated people vote (incarceratedMayVote, src/core2/justice-law.ts), take the prison part out of the state's barred share, and leave them out of the counted candidacy draw; governing lead's chain (pool item gov-group-quarters-electorate).",
-    "status": "resolved",
-    "resolvedAt": "2026-11-14",
-    "resolvedBy": "gov-group-quarters-electorate"
-  },
-  {
     "id": "SG-GQ-institution-costs",
     "kind": "faked-mechanic",
     "file": "src/core2/population.ts",
@@ -132,20 +118,6 @@
     "addedAt": "2026-11-01",
     "replacement": "The National Crime Victimization Survey's universe (households and noninstitutional residents) for exposure, with institutions' own incidents apart.",
     "status": "open"
-  },
-  {
-    "id": "SG-GQ-campaign-doors",
-    "kind": "faked-mechanic",
-    "file": "src/core2/campaign-day.ts",
-    "line": 232,
-    "whatItFakes": "Group-quarters room records are doors a campaign knocks on (src/core2/campaign-day.ts): a canvasser reaches a prison cell or a nursing-home room like a house.",
-    "why": "The campaign day reads counted households as doors and reads no group-quarters type; the governing lead owns it.",
-    "addedBy": "claude/speed-group-quarters-population",
-    "addedAt": "2026-11-01",
-    "replacement": "Skip institutional rooms as doors (a dormitory may stay one where a campus allows canvassing); governing lead (pool item gov-group-quarters-electorate).",
-    "status": "resolved",
-    "resolvedAt": "2026-11-14",
-    "resolvedBy": "gov-group-quarters-electorate"
   },
   {
     "id": "SG-GQ-juvenile-school",

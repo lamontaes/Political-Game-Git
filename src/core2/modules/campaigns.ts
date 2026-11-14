@@ -1098,8 +1098,7 @@ const addressCache = new WeakMap<
 
 /**
  * Whether a group-quarters room is an institution's (a cell, a nursing-home
- * room): no canvasser knocks there (`SG-GQ-campaign-doors`, resolved). A
- * dormitory or barracks is still a door.
+ * room): no canvasser knocks there. A dormitory or barracks is still a door.
  */
 const institution = (type: GroupQuartersType | undefined): boolean =>
   type !== undefined && groupQuartersProfileOf(type).institutional;
