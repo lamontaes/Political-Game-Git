@@ -734,8 +734,7 @@
     "kinds": ["home-new", "own-work-new", "asked-kin", "school"],
     "covers": {
       "about": "Lead, Nov 14, rule 53 (one fact, once): a give-back already said where the asker lives, so the player's own question about it (a raised `home`) is not answered a second time. The asked kind, then the raised kinds its give-back covers.",
-      "home-new": ["home"],
-      "own-work-new": ["their-work"]
+      "home-new": ["home"]
     }
   }
 }

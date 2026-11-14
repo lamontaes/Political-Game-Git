@@ -3689,6 +3689,7 @@ function canGiveBack(
   subject: Subject,
 ): boolean {
   const back = giveBack(core, playerId, otherId, kind, subject);
+  if (kind !== "school") return !!back;
   return (
     !!back &&
     !!composedLine(
