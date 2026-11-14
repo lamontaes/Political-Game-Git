@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { shareValue } from "../shares";
 import { lawApplied } from "../law-reach/applied";
 import { FAST_FORWARD_STRIDE, fastForward } from "../fast-forward";
 import { townOutsideOf } from "../opening-outside-market";
@@ -125,6 +126,7 @@ import {
 } from "./press";
 import { newsKey } from "./news";
 import {
+  atLargeGroup,
   ballot,
   ELECTIONS_MODULE_ID,
   petitionCirculating,
@@ -3879,7 +3881,11 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
     // The share of the place's adults on the candidate's side of the lean
     // order; a candidate with no party draws on half of them.
     const aligned =
-      side > 0 ? place.rightShare : side < 0 ? 1 - place.rightShare : 0.5;
+      side > 0
+        ? place.rightShare
+        : side < 0
+          ? 1 - place.rightShare
+          : shareValue("evenSplit");
     // Their reason to give is how much of the place stands with the candidate.
     const reason = aligned;
     const donors = Math.floor(
@@ -4142,7 +4148,8 @@ function postMoney(
  * Everyone a campaign can reach without canvassing a stranger, through the
  * records that link them: the candidate's family, the people they know and
  * have a relationship with, the members of their party in town, the people
- * the campaign has already reached, and its volunteers. In id order.
+ * the campaign has already reached, and its volunteers, never a rival on the
+ * same ballot. In id order.
  */
 export function reachablePeople(
   api: CoreAPI,
@@ -4168,6 +4175,25 @@ export function reachablePeople(
   ]) as unknown as ImpressionRow[])
     if (row.heardOf) ids.add(row.voterId);
   ids.delete(campaign.candidateId);
+  // Someone standing in the same race campaigns for themselves
+  // (`rivalFiling`), so no campaign's list reaches them, nor the people they
+  // live with, who back their run: not to ask for money, nor to enlist. The
+  // race is the contest and, for at-large seats up the same day (one race the
+  // voting engine counts together), its sibling seats; only standing filings
+  // count, and other offices on the same day's ballot are other races.
+  const contest = elections(api, "contests").get(campaign.contestId) as
+    ContestRow | undefined;
+  for (const seat of contest
+    ? atLargeGroup(api, contest)
+    : [{ id: campaign.contestId }])
+    for (const f of ballot(api, seat.id)) {
+      if (f.personId === campaign.candidateId) continue;
+      ids.delete(f.personId);
+      const home = api.state.people.get(f.personId)?.householdId;
+      if (home && home !== candidate?.householdId)
+        for (const member of api.state.households.get(home)?.memberIds ?? [])
+          ids.delete(member);
+    }
   return [...ids].sort();
 }
 

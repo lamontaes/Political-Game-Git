@@ -8,6 +8,10 @@
 // keeps that party, with no form; filing takes the afternoon off the clock.
 //   node src/bench/filing.browser.mjs            SEED=<seed> replays a world
 import assert from "node:assert/strict";
+
+/** Whether the page says the clerk will count no signatures at all. */
+const saysZeroSignatures = (text) =>
+  /signatures the clerk will count: 0\b/i.test(text);
 import { chromium } from "playwright";
 import parameters from "../core2/data/parameters.json" with { type: "json" };
 const browser = await chromium.launch({
@@ -292,6 +296,14 @@ try {
     assert.equal(held?.due, result.petition.due, "the board's deadline");
     console.log(
       `Petition ${held.id}: ${held.signed} of ${held.needed} by ${held.due}`,
+    );
+  } else {
+    // A race whose law asks no signatures shows no petition: no "will count:
+    // 0" at the counter (playtest, Nov 13).
+    await page.waitForTimeout(1000);
+    assert.ok(
+      !saysZeroSignatures(await page.evaluate(() => document.body.innerText)),
+      "a filing that needs no signatures shows a petition of 0",
     );
   }
   // The party on the filing is the resident's tie on record (joined now, or

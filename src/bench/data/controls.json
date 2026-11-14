@@ -493,6 +493,8 @@
     "leaveBlank": "Leave blank",
     "leave": "Leave",
     "forRace": "For {title}",
+    "forTicket": "For {title} and {ticket}",
+    "ticket": "{name} and {mate}",
     "know": "What I know about them"
   },
   "meeting": {
@@ -501,6 +503,8 @@
     "abstain": "Abstain",
     "own": "Decide for me",
     "adjourn": "Adjourn",
+    "leave": "Leave",
+    "adjournNote": "Adjourn now and you vote the side you have taken on each item still open. Where you have taken none, you abstain.",
     "for": "For",
     "against": "Against",
     "sign": "Signed",
@@ -591,6 +595,7 @@
     "aYear": "a year",
     "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
+    "adjourned": "Cast when you adjourned",
     "nameHeadPick": "Name to the post"
   },
   "floor": {
@@ -686,6 +691,8 @@
     "today": "Today",
     "upcoming": "Coming up",
     "advance": "Go to this day",
+    "attend": "Attend",
+    "attending": "Not going",
     "nothing": "Nothing is on this day.",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     "key": "What the calendar shows",
@@ -1033,6 +1040,8 @@
     "dates": "Dates",
     "electionDay": "Election day",
     "whoIsRunning": "Who's running",
+    "seats": "Seats",
+    "seatsToFill": "Seats to fill",
     "lastTime": "Last time",
     "share": "Share of the vote",
     "percent": "percent"
@@ -1124,11 +1133,15 @@
     "rent": "Typical monthly rent",
     "homeValue": "Typical home value",
     "evictions": "Evictions",
+    "evictionNotices": "Eviction notices so far this year",
     "benefits": "Help for the unemployed",
     "claims": "People claiming now",
     "budget": "The town's books",
     "revenue": "Coming in",
     "spending": "Going out",
+    "people": "People in town",
+    "households": "Households",
+    "homeless": "People without a home",
     "employed": "People at work",
     "seekers": "People looking for work",
     "openPositions": "Jobs open",
@@ -1138,6 +1151,7 @@
     "pay": "Average hourly pay",
     "mortgage": "30-year mortgage rate",
     "policyRate": "The central bank's rate",
+    "of": "of",
     "percent": "%",
     "lastYear": "Last year",
     "up": "up",
@@ -1286,6 +1300,22 @@
     "groupSpeak": "Speak",
     "debate": "Debate",
     "speech": "Give a speech"
+  },
+  "runningMate": {
+    "title": "Your running mate",
+    "choose": "Choose",
+    "own": "Choose for me",
+    "later": "You name your running mate after the primary.",
+    "nominee": "Your party's nominee for {ticket} joins your ticket after the primary.",
+    "row": "{name}, {work}, {place}",
+    "rowPlace": "{name}, {place}",
+    "rowWork": "{name}, {work}",
+    "former": "former {office}",
+    "roles": {
+      "party-officer": "party officer",
+      "former-candidate": "ran for office before",
+      "prominent": "well known in {place}"
+    }
   },
   "nominations": {
     "own": "Decided for me",

@@ -53,7 +53,6 @@ export function personName(core: CoreState, key: string): string {
 /** The bodies the person sits on (more than one seat), with their colleagues. */
 export function bodiesOf(core: CoreState, personId: string) {
   const api = coreAPI(core);
-  const offices = api.moduleState(OFFICES);
   const mine = (
     terms(core).query("byPerson", [personId]) as unknown as TermRow[]
   ).filter((row) => row.status === "serving");
@@ -80,44 +79,64 @@ export function bodiesOf(core: CoreState, personId: string) {
   });
   return [
     ...federal,
-    ...mine.flatMap((term) => {
-      const office = offices.table("offices").get(term.officeId) as
-        | {
-            id: string;
-            title: string;
-            seats: number;
-            level: string;
-            kind: string;
-          }
-        | undefined;
-      if (!office || office.seats < 2) return [];
-      const members = (
-        offices.table("seats").query("byOffice", [office.id]) as unknown as {
-          id: string;
-        }[]
-      ).flatMap(
-        (seat) =>
-          terms(core).query("bySeatStatus", [
-            seat.id,
-            "serving",
-          ]) as unknown as TermRow[],
-      );
-      return [
-        {
-          officeId: office.id,
-          title: office.title,
-          level: office.level,
-          kind: office.kind,
-          members: members.map((row) => ({
-            key: memberKey(row),
-            name: personName(core, memberKey(row)),
-            party: row.party,
-            you: row.personId === personId,
-          })),
-        },
-      ];
-    }),
+    ...mine.flatMap((term) => seatedBody(core, term.officeId, personId)),
   ];
+}
+
+/** A body of two seats or more by its office, with its serving members; `personId` marks which member is the viewer, if any. */
+function seatedBody(core: CoreState, officeId: string, personId: string) {
+  const offices = coreAPI(core).moduleState(OFFICES);
+  const office = offices.table("offices").get(officeId) as
+    | {
+        id: string;
+        title: string;
+        seats: number;
+        level: string;
+        kind: string;
+      }
+    | undefined;
+  if (!office || office.seats < 2) return [];
+  const members = (
+    offices.table("seats").query("byOffice", [office.id]) as unknown as {
+      id: string;
+    }[]
+  ).flatMap(
+    (seat) =>
+      terms(core).query("bySeatStatus", [
+        seat.id,
+        "serving",
+      ]) as unknown as TermRow[],
+  );
+  return [
+    {
+      officeId: office.id,
+      title: office.title,
+      level: office.level,
+      kind: office.kind,
+      members: members.map((row) => ({
+        key: memberKey(row),
+        name: personName(core, memberKey(row)),
+        party: row.party,
+        you: row.personId === personId,
+      })),
+    },
+  ];
+}
+
+/**
+ * The body whose room a person is in: one they sit on, or, for someone who came to
+ * watch its meeting (`watching`), the body itself with none of its members marked as them.
+ */
+function roomBody(
+  core: CoreState,
+  personId: string,
+  officeId: string,
+  watching: boolean,
+) {
+  return (
+    bodiesOf(core, personId).find((b) => b.officeId === officeId) ??
+    (watching ? seatedBody(core, officeId, personId)[0] : undefined)
+  );
 }
 
 /** The seats this person left on taking another, with the law that required it. */
@@ -596,8 +615,9 @@ export function bodyPicture(
   core: CoreState,
   personId: string,
   officeId: string,
+  watching = false,
 ): string | null {
-  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  const body = roomBody(core, personId, officeId, watching);
   if (!body) return null;
   const places = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
   const offices = coreAPI(core).moduleState(OFFICES).table("offices");
@@ -635,10 +655,11 @@ export function bodyScene(
   personId: string,
   officeId: string,
   minute: number,
+  watching = false,
 ) {
-  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  const body = roomBody(core, personId, officeId, watching);
   if (!body) throw new Error("You don't sit on that body.");
-  const place = bodyPicture(core, personId, officeId)!;
+  const place = bodyPicture(core, personId, officeId, watching)!;
   const cast = [
     ...body.members.filter((m) => m.you),
     ...body.members.filter((m) => !m.you),
@@ -665,8 +686,9 @@ export function bodyMembers(
   personId: string,
   officeId: string,
   place: string,
+  watching = false,
 ) {
-  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  const body = roomBody(core, personId, officeId, watching);
   return (body?.members ?? []).map((m) => ({
     key: m.key,
     name: m.name,

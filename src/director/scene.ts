@@ -41,7 +41,7 @@ export type { SceneLine };
 export interface Scene {
   momentId: string;
   typeKey: string;
-  setting: { kind: string; recordId: string };
+  setting: { kind: string; recordId: string; seat?: true };
   presentIds: PersonId[];
   /** Why each person present is there: the fill of the role that cast them. */
   presentReasons: Record<PersonId, string>;

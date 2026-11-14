@@ -47,9 +47,11 @@ import {
   staffCandidates,
 } from "../core2/modules/staff";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
-import type { CoreState } from "../core2/types";
+import type { CoreAPI, CoreState } from "../core2/types";
+import { campaignParameter } from "../core2/campaign-data";
 import {
   billOf,
+  bodyOf,
   learnedStakesOf,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -60,19 +62,26 @@ import {
 import { remarksOn } from "../core2/modules/meetings";
 import {
   adjourn,
+  attendMeeting,
   clearPrepared,
   decideDesk,
   deskWaiting,
   leaveDeskToCharacter,
+  leaveMeeting,
   meetingInProgress,
+  meetingOf,
   officeActsOf,
   officeHost,
   officeJobsOf,
   prepareAct,
   speakOnItem,
   takeUpItem,
-  upcomingMeeting,
+  type MeetingRow,
+  nextMeetingDate,
 } from "../core2/modules/office-day";
+import { dateWords } from "../english/plain-words.mjs";
+import { screenPick, screenWays } from "../english/screen-words";
+import { count } from "./printed-words";
 import { bodyMembers, bodyScene, personName } from "./legislature";
 import {
   headCandidates,
@@ -154,6 +163,56 @@ export function floorDecide(core: CoreState, billId: string, how: string) {
   voteOnFloor(api, person, billId, how);
 }
 
+/**
+ * Whether a resident's remark at this meeting reaches the members. A board larger than
+ * `committeeOfTheWholeMaximum` hears the public at its committee's day, before the meeting
+ * (legislature.ts `holdCommittee`, the same count of `members` against the same parameter),
+ * so a remark at the meeting itself is not heard there yet and the panel does not offer one.
+ * Pool item meetings-resident-remark-reaches-a-committee-board removes this when it lands.
+ */
+function residentIsHeard(api: CoreAPI, meeting: MeetingRow): boolean {
+  return (
+    members(api, meeting.officeId).length <=
+    campaignParameter("committeeOfTheWholeMaximum")
+  );
+}
+
+/**
+ * The one line a resident in the room reads under the meeting's title, in the English
+ * engine's words: that nothing is on the agenda, or, the first time they come to any
+ * meeting with an item before it (none such is on their record yet), what they can do here.
+ */
+function residentNote(
+  core: CoreState,
+  personId: string,
+  meeting: MeetingRow,
+  body: string,
+): string | null {
+  const request = { momentKey: meeting.id, sourceIds: [meeting.id] };
+  const pick = (key: string, facts: Record<string, string>) =>
+    screenPick("meeting", screenWays("meeting", key), facts, request)?.text ??
+    null;
+  const items = meeting.agenda.length;
+  if (!items)
+    return pick("meeting.empty-agenda.1", {
+      body,
+      date: dateWords(meeting.date, { year: false }),
+    });
+  // Said once: not again after a meeting they came to that had an item before it.
+  if (
+    officeActsOf(coreAPI(core), personId).some(
+      (act) => act.kind === "attend" && act.detail !== "0",
+    )
+  )
+    return null;
+  // Nothing is said about speaking where the panel does not offer it.
+  if (!residentIsHeard(coreAPI(core), meeting)) return null;
+  // Of two, "either"; of more, "any of the three" (Words lead, Nov 13).
+  if (items === 1) return pick("meeting.resident-can-speak-one.1", { body });
+  if (items === 2) return pick("meeting.resident-can-speak-two.1", { body });
+  return pick("meeting.resident-can-speak.1", { body, count: count(items) });
+}
+
 /** The meeting holding the player's clock: the room, the agenda, and what was taken up. */
 export function meetingSceneView(
   core: CoreState,
@@ -173,12 +232,36 @@ export function meetingSceneView(
       takenUp: meeting.takenUp.includes(billId),
     })),
     ...(() => {
-      const scene = bodyScene(core, personId, meeting.officeId, minute);
+      // A resident who came to speak is in the room and not at the table.
+      const watching = meeting.audience !== undefined;
+      const named = bodyOf(api, meeting.officeId);
+      const bodyName = named?.bodyName ?? named?.kind ?? "";
+      const scene = bodyScene(
+        core,
+        personId,
+        meeting.officeId,
+        minute,
+        watching,
+      );
       // The members, with their faces, for the panel's tally (the chamber's own
       // figures are drawn where the room has a mannequin plate for them).
       return {
         ...scene,
-        members: bodyMembers(core, personId, meeting.officeId, scene.place),
+        members: bodyMembers(
+          core,
+          personId,
+          meeting.officeId,
+          scene.place,
+          watching,
+        ),
+        // A resident has no vote and cannot adjourn.
+        seated: !watching,
+        // A member speaks at the table; a resident, where the body hears them.
+        speaks: !watching || residentIsHeard(api, meeting),
+        // A resident reads the body by its own name, as the Calendar says it
+        // (the seat's title names one member, not the body).
+        ...(watching ? { title: bodyName } : {}),
+        note: watching ? residentNote(core, personId, meeting, bodyName) : null,
       };
     })(),
   };
@@ -206,11 +289,29 @@ export function meetingSpeak(
   billId: string,
   position: string,
 ) {
-  speakOnItem(coreAPI(core), meetingId, billId, position === "for" ? 1 : -1);
+  const api = coreAPI(core);
+  const meeting = meetingOf(api, meetingId);
+  // The panel offers a resident no remark where the body would not hear it.
+  if (meeting?.audience !== undefined && !residentIsHeard(api, meeting)) return;
+  speakOnItem(api, meetingId, billId, position === "for" ? 1 : -1);
 }
 
+/** The chair's adjournment for a member; for a resident in the room, their leaving. */
 export function meetingAdjourn(core: CoreState, meetingId: string) {
-  adjourn(coreAPI(core), meetingId);
+  const api = coreAPI(core);
+  if (meetingOf(api, meetingId)?.audience !== undefined)
+    leaveMeeting(api, meetingId);
+  else adjourn(api, meetingId);
+}
+
+/** The player marks a body's posted meeting to attend as a resident, or takes the mark back. */
+export function meetingAttend(
+  core: CoreState,
+  officeId: string,
+  date: string,
+  attend: boolean,
+) {
+  attendMeeting(coreAPI(core), officeId, date, attend);
 }
 
 /** Bills waiting on the player's desk this morning. */
@@ -241,7 +342,8 @@ export function deskDecide(core: CoreState, billId: string, how: string) {
 export function leaveHoldsToCharacter(core: CoreState, holderId?: string) {
   const api = coreAPI(core);
   const meeting = meetingInProgress(api);
-  if (meeting) {
+  if (meeting?.audience !== undefined) leaveMeeting(api, meeting.id);
+  else if (meeting) {
     for (const billId of meeting.agenda)
       takeUpItem(api, meeting.id, billId, "own");
     adjourn(api, meeting.id);
@@ -264,7 +366,7 @@ export function officeView(core: CoreState, personId: string) {
       payer: core.organizations.get(j.payerId)?.name ?? j.payerId,
       lastPaid: j.lastPaid ?? null,
       citation: j.citation,
-      nextMeeting: upcomingMeeting(api, j.officeId)?.date ?? null,
+      nextMeeting: nextMeetingDate(api, j.officeId),
     })),
     // The town posts the official appoints that stand open, each with the people it could go to, best first by the official's own reasons.
     heads: [

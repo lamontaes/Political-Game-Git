@@ -12,6 +12,18 @@
     "status": "open"
   },
   {
+    "id": "SG-JUSTICE-federal-prison-cost-flat",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/federal-courts.ts",
+    "line": 205,
+    "whatItFakes": "The reduce-mandatory-minimums law shortens the sentences of each offense group's federal admissions and so lowers the federal prison stock (the newStock cohort in federal-courts.ts), but no engine pays the Bureau of Prisons for each person it holds, so a smaller stock saves the federal Treasury nothing and the law moves no dollar.",
+    "why": "The federal courts are kept as a national flow and stock with no ledger account; the federal budget pays its justice spending as a whole budget line, not per person held.",
+    "addedBy": "opus-5234 (wire-law-links-to-people-part-1-partly-wired-laws)",
+    "addedAt": "2026-11-11",
+    "replacement": "The Bureau of Prisons' yearly cost per person held (its published per-capita cost of incarceration), paid from the federal Treasury each month on the stock the federal courts engine keeps, so a law that shortens sentences lowers what the Treasury pays as the stock falls.",
+    "status": "open"
+  },
+  {
     "id": "SG-JUSTICE-visiting-access-record-only",
     "kind": "missing-engine",
     "file": "src/core2/modules/justice.ts",
