@@ -1948,7 +1948,13 @@ function graduatedTax(row: LawRowInput | null): boolean {
  * writes the deepest cut real conversions chose (the low end of the share's
  * spread) and one who barely holds it the shallowest (the high end), sliding
  * between by the strength of their own stance; a repeal that recorded no
- * sponsor's stance (a measure voters passed) takes the median share.
+ * sponsor's stance (a measure voters passed) takes the median share. The
+ * share's median and ends are measured from five real conversions (Mississippi
+ * 1.0, Georgia 0.955, Iowa 0.667, Louisiana 0.706, Ohio 0.786; Tax Foundation
+ * January 1 tables, data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json)
+ * and tagged ESTIMATED with that spread in `graduatedRepealFlatShareOfTopRate`;
+ * the linear slide with conviction is an estimate
+ * (pool item research-flat-tax-share-sponsor-conviction).
  */
 export function flatRateOf(
   topRate: number,
