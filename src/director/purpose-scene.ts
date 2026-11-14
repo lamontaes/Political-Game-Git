@@ -2129,7 +2129,7 @@ function doorLifeFacts(
   const person = core.people.get(residentId);
   if (!person) return null;
   const yearAgo = addDays(
-    core.date,
+    makeIsoDate(core.date),
     -Math.round(parameter("daysPerMeanYear", core.data.parameters)),
   );
   const since = yearAgo > core.startedAt ? yearAgo : core.startedAt;

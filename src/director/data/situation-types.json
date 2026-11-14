@@ -2002,11 +2002,7 @@
         "key": "routine",
         "endpoint": "political",
         "registers": ["conversation", "journal"]
-      },
-      "purpose": "poll-problem",
-      "asker": "workers",
-      "asked": "voter",
-      "stakes": ["place"]
+      }
     },
     {
       "key": "race-won",

@@ -41,4 +41,4 @@ checked: fable 2026-11-10
 
 **Files.** src/director/polling-place.ts, src/director/data/situation-types.json, src/core2/modules/voting.ts, docs/design/scenes/from-life/trouble-at-the-polling-place.md
 
-**Notes.** The engine side (a provisional ballot status, the office's review after election day, state ID rules) needs the voting engine; the packet's Gaps name it.
+**Notes.** The engine side (a provisional ballot status, the office's review after election day, state ID rules) needs the voting engine; the packet's Gaps name it. Nov 14 (door scenes thread, ruled by the account lead): waits on a voter registration record in the voting engine (registration that lags a move), given to the elections builder. Today the engine keeps no roll, no line, no machine state and no ID held, and the voter's precinct is read from their current household, so no problem at the polls has a cause on record. The poll-problem lines were deleted by #8911 and the dead purpose came out of the polling-place type and purpose-arcs.json in the door scenes batch 3 PR; the scene goes back to the door scenes thread when the record folds.
