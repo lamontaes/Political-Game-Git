@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -26,10 +27,7 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // debate is heard on the broadcast, so it never brings the candidate over. A
 // cause someone shared with them stages its invitation, which says the cause
 // by its record's topic; it composes too wherever the catalog names that topic.
-// Pinned (Nov 14, 2026): a drawn seed proves nothing, and this one reached the
-// campaign overdraw fixed in campaigns-purchases-spend-the-set-aside-funds.
-const seed =
-  process.env.GOLDEN_PATH_SEED ?? "ecd28aa5c524d71bea0b3b25208b3f7a3e316826";
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 // A place to replay first, as the golden-path runner binds one.
 const pinned = process.env.GOLDEN_PATH_PLACE_KEY;
 const MONTHS = 24;
