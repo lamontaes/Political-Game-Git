@@ -6,6 +6,7 @@ import {
   macroWorldOffsets,
   publishedMonths,
   shiftMonth,
+  worldMortgageRate,
   worldPublishedMonth,
 } from "./macro-model";
 import { parameter } from "./parameters";
@@ -59,6 +60,21 @@ describe("the economy's months before the start", () => {
       9,
     );
     expect(ratio).not.toBe(published);
+  });
+});
+
+describe("a past month's mortgage rate in this world", () => {
+  it("is the rate the opening months carry, and the published rate moved by the world's long-rate offset before them", () => {
+    const seed = "world-b";
+    const o = macroWorldOffsets(seed, p);
+    for (const month of historyMonths(START, seed, p))
+      expect(worldMortgageRate(month.month, START, seed, p), month.month).toBe(
+        month.mortgage30Pct,
+      );
+    expect(
+      worldMortgageRate("2008-06", START, seed, p) -
+        worldMortgageRate("2008-06", START, seed, noOffsets),
+    ).toBeCloseTo(o.longRatePoints, 9);
   });
 });
 

@@ -561,3 +561,27 @@ export function historicalMortgageRate(
   const first = ROWS[0]!.month;
   return mortgageAt(BY_MONTH, month < first ? first : month, p);
 }
+
+/**
+ * The 30-year fixed mortgage rate in a past month of this world: the
+ * published rate (`historicalMortgageRate`) moved by the world's long-rate
+ * offset, the rule `historyMonths` gives its mortgage rate. A pure read of the
+ * month, start date and seed, so a pass that runs before the economy's
+ * history (home values and mortgages made at generation) reads the same rate
+ * the history records.
+ */
+export function worldMortgageRate(
+  month: string,
+  startedAt: string,
+  seed: string,
+  p: MacroParameter,
+): number {
+  return (
+    moveByWorld(
+      { month, mortgage30Pct: historicalMortgageRate(month, p) },
+      openingMonth(startedAt, p),
+      macroWorldOffsets(seed, p),
+      p,
+    ).mortgage30Pct ?? historicalMortgageRate(month, p)
+  );
+}
