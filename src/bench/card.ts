@@ -27,6 +27,7 @@ import {
 import { townFacts } from "../core2/modules/laws";
 import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { jobLeaveBlock } from "../core2/modules/jobs";
 import { PAST_MODULE_ID, residenceOn } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
@@ -224,6 +225,9 @@ export function personCard(core: CoreState, personId: string) {
         : { title: jobTitleSaid(core, job), employer }),
       wageDailyMinor: job.wageDailyMinor,
       hoursDaily: job.hoursDaily,
+      // Whether this job can be left by the holder's own press, or why not
+      // (the jobs engine's read; the Jobs screen words it).
+      leave: jobLeaveBlock(coreAPI(core), person.id),
     },
     // Why a grown person holds no job, told to them on Who you are (path 10):
     // who in the home earns, from the household's members and their jobs'
