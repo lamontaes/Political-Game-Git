@@ -1,7 +1,7 @@
 ---
 id: tests-election-day-browser-check-files-before-a-race-is-open
 title: "The election-day browser check files on the first day of a new life, when no race is open for filing"
-area: tests
+area: elections
 kind: bug
 priority: 3
 size: S
