@@ -166,5 +166,101 @@
       "unit": "elasticity of poor-road share to highways spending",
       "citation": "Neutral prior with a factor-of-two spread either way; checked by the played-world proof's change in drivers' repair spending."
     }
+  },
+  "pricesReferencePersons": {
+    "value": 2.5,
+    "tag": "TUNABLE",
+    "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter). Average household size, US Census.",
+    "spread": {
+      "low": 2.3,
+      "high": 2.7,
+      "unit": "people per household",
+      "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter). Average household size, US Census."
+    },
+    "role": "level"
+  },
+  "pricesReferenceAdults": {
+    "value": 1.95,
+    "tag": "TUNABLE",
+    "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter).",
+    "spread": {
+      "low": 1.8,
+      "high": 2.1,
+      "unit": "adults per household",
+      "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter)."
+    },
+    "role": "level"
+  },
+  "pricesReferenceWorkers": {
+    "value": 1.2,
+    "tag": "TUNABLE",
+    "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter).",
+    "spread": {
+      "low": 1.0,
+      "high": 1.4,
+      "unit": "workers per household",
+      "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter)."
+    },
+    "role": "level"
+  },
+  "pricesCommuteMilesShare": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter). FHWA NHTS: commuting is about a quarter to a third of miles.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "share of household miles that follow its workers' commutes",
+      "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter). FHWA NHTS: commuting is about a quarter to a third of miles."
+    },
+    "role": "coefficient"
+  },
+  "pricesTransitWorkerShare": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter).",
+    "spread": {
+      "low": 0.3,
+      "high": 0.7,
+      "unit": "share of a household's transit trips that follow its workers",
+      "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter)."
+    },
+    "role": "coefficient"
+  },
+  "pricesBroadbandWorkerLift": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter).",
+    "spread": {
+      "low": 0.0,
+      "high": 0.3,
+      "unit": "change in take-up per extra worker against the reference",
+      "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter)."
+    },
+    "role": "coefficient"
+  },
+  "pricesTransitTripMiles": {
+    "value": 5,
+    "tag": "TUNABLE",
+    "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter).",
+    "spread": {
+      "low": 3,
+      "high": 8,
+      "unit": "driving miles one transit trip replaces",
+      "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter)."
+    },
+    "role": "level"
+  },
+  "pricesPowerPersonElasticity": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter). Household size economies of scale in home energy use.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.7,
+      "unit": "elasticity of power use to household size",
+      "citation": "Unverified estimate chosen to make an average household's factor one; a relationship, not a figure (owner, Nov 14: the relationship and effect are what matter). Household size economies of scale in home energy use."
+    }
   }
 }

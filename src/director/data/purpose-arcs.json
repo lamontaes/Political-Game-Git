@@ -3434,12 +3434,24 @@
       },
       "endings": [
         {
+          "id": "heard-out",
+          "label": "You heard the speaker out",
+          "keeps": "none",
+          "when": { "reply": ["leave"] }
+        },
+        {
           "id": "stood-with",
           "label": "You stood with the speaker",
           "keeps": "promise",
           "when": {
             "anyReply": ["agree"]
           }
+        },
+        {
+          "id": "held-against",
+          "label": "You held your ground",
+          "keeps": "relationship-strained",
+          "when": { "reply": ["disagree"], "asker": ["press"] }
         },
         {
           "id": "spoke-against",
@@ -3451,7 +3463,7 @@
         },
         {
           "id": "asked-to-yield",
-          "label": "You asked the speaker to yield",
+          "label": "You asked the speaker a question",
           "keeps": "none",
           "when": {
             "anyReply": ["ask"]
