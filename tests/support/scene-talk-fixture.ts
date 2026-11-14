@@ -69,6 +69,8 @@ const flags = [
   "winner-is-other",
   // The clerk's petition lines are worded for a first filing or a repeat one.
   "first-filing",
+  // A colleague's no to signing on says the reason its record holds.
+  "no-views",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
@@ -120,6 +122,7 @@ export const facts: Record<string, Fact> = {
   margin: fact("about 60 votes"),
   signatures: fact("1,250"),
   due: fact("March 5"),
+  "bill-purpose": fact("limits on how much rents can rise"),
 };
 // The engine is tested the way the grading page composes, with every part in,
 // even the ones the owner rejected; "plays every purpose in play" checks play.

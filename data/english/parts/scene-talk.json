@@ -6528,7 +6528,7 @@
           "move": "thank",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ],
       "bearing": "glad",
@@ -13390,7 +13390,7 @@
           "move": "thank",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ],
       "bearing": "glad",
@@ -186841,7 +186841,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "request",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "hopeful",
       "uses": [
@@ -186851,7 +186851,7 @@
           "move": "request",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["bill-purpose"]
         }
       ]
@@ -186866,7 +186866,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "request",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "steady",
       "uses": [
@@ -186876,7 +186876,7 @@
           "move": "request",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["bill-purpose"]
         }
       ]
@@ -186891,7 +186891,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "request",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "warm",
       "uses": [
@@ -186901,7 +186901,7 @@
           "move": "request",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["bill-purpose"]
         }
       ]
@@ -186916,7 +186916,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "agree",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "steady",
       "uses": [
@@ -186926,7 +186926,7 @@
           "move": "agree",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -186940,7 +186940,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "agree",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "warm",
       "uses": [
@@ -186950,7 +186950,7 @@
           "move": "agree",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -186964,7 +186964,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "agree",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "calm",
       "uses": [
@@ -186974,7 +186974,7 @@
           "move": "agree",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -186988,7 +186988,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "stall",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "guarded",
       "uses": [
@@ -186998,7 +186998,7 @@
           "move": "stall",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187012,7 +187012,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "stall",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "braced",
       "uses": [
@@ -187022,7 +187022,7 @@
           "move": "stall",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187036,7 +187036,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "stall",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "calm",
       "uses": [
@@ -187046,7 +187046,7 @@
           "move": "stall",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187060,7 +187060,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "refuse",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "steady",
       "uses": [
@@ -187070,7 +187070,7 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["asked-before"]
         }
       ]
@@ -187085,7 +187085,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "refuse",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "steady",
       "uses": [
@@ -187095,7 +187095,7 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["no-views"]
         }
       ]
@@ -187110,7 +187110,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "refuse",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "calm",
       "uses": [
@@ -187120,7 +187120,7 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["no-views"]
         }
       ]
@@ -187135,7 +187135,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "refuse",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "guarded",
       "uses": [
@@ -187145,7 +187145,7 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["no-constituents"]
         }
       ]
@@ -187160,7 +187160,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "refuse",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "braced",
       "uses": [
@@ -187170,7 +187170,7 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["no-constituents"]
         }
       ]
@@ -187185,7 +187185,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "refuse",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "guarded",
       "uses": [
@@ -187195,7 +187195,7 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["no-party"]
         }
       ]
@@ -187210,7 +187210,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "refuse",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "contrite",
       "uses": [
@@ -187220,7 +187220,7 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["no-party"]
         }
       ]
@@ -187235,7 +187235,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "refuse",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "steady",
       "uses": [
@@ -187245,7 +187245,7 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["no-consistency", "voted-against-before"]
         }
       ]
@@ -187260,7 +187260,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "refuse",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "braced",
       "uses": [
@@ -187270,7 +187270,7 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["no-consistency", "voted-against-before"]
         }
       ]
@@ -187285,7 +187285,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "relent",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "warm",
       "uses": [
@@ -187295,7 +187295,7 @@
           "move": "relent",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted",
+          "key": "bill-sign-on",
           "requiresFacts": ["tie-friend"]
         }
       ]
@@ -187310,7 +187310,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "relent",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "steady",
       "uses": [
@@ -187320,7 +187320,7 @@
           "move": "relent",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187334,7 +187334,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "plea",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "warm",
       "uses": [
@@ -187344,7 +187344,7 @@
           "move": "plea",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187358,7 +187358,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "plea",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "hopeful",
       "uses": [
@@ -187368,7 +187368,7 @@
           "move": "plea",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187382,7 +187382,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "plea",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "steady",
       "uses": [
@@ -187392,7 +187392,7 @@
           "move": "plea",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187406,7 +187406,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "press",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "steady",
       "uses": [
@@ -187416,7 +187416,7 @@
           "move": "press",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187430,7 +187430,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "press",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "braced",
       "uses": [
@@ -187440,7 +187440,7 @@
           "move": "press",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187454,7 +187454,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "accept",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "calm",
       "uses": [
@@ -187464,7 +187464,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187478,7 +187478,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "accept",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "warm",
       "uses": [
@@ -187488,7 +187488,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187502,7 +187502,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "accept",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "guarded",
       "uses": [
@@ -187512,7 +187512,7 @@
           "move": "accept",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     },
@@ -187526,7 +187526,7 @@
       "date": "2026-11-14",
       "tag": {
         "move": "accept",
-        "key": "vote-wanted"
+        "key": "bill-sign-on"
       },
       "bearing": "steady",
       "uses": [
@@ -187536,7 +187536,7 @@
           "move": "accept",
           "role": "asked",
           "purpose": "cosponsor-ask",
-          "key": "vote-wanted"
+          "key": "bill-sign-on"
         }
       ]
     }

@@ -5713,7 +5713,7 @@
         }
       ],
       "tag": {
-        "key": "vote-wanted",
+        "key": "bill-sign-on",
         "endpoint": "bill",
         "registers": ["scene-talk", "scene-words"]
       }
