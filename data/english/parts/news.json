@@ -14786,10 +14786,10 @@
       }
     },
     {
-      "key": "news.opening-staff.staff-people-work-there",
+      "key": "news.opening-staff.there-are-staff-people-on-staff-there",
       "move": "organization.opened",
       "kind": "written",
-      "text": "{staff} people work there.",
+      "text": "There are {staff} people on staff there.",
       "uses": [
         {
           "move": "organization.opened",
@@ -15118,10 +15118,10 @@
       }
     },
     {
-      "key": "news.retirement-years.years-years-in-the-job-are-behind-name",
+      "key": "news.retirement-years.behind-name-are-years-years-in-the-job",
       "move": "retirement",
       "kind": "written",
-      "text": "{years} years in the job are behind {name}.",
+      "text": "Behind {name} are {years} years in the job.",
       "uses": [
         {
           "move": "retirement",
