@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 standard: 2
 claimed-by: claude/project-thread-q8djlu
 pr:
@@ -29,9 +29,9 @@ branch: claude/project-thread-q8djlu
 
 **Time box.** 2 hours, done.
 
-**Rules.** Words are read from the records; the prescribed words in enacting-clauses.json are sourced and unchanged.
+**Rules.** Wire to the world: every heading and section is worded from the bill's own records, and the sourced words in enacting-clauses.json stay unchanged. One rule, all 56 places: no state is named in logic, and the test walks every body's words.
 
-**Done when.** A second session composes bills at three drawn places and reads that a repeal's heading says repeal and every section's first line is one sentence; src/english/bill-sections.test.ts walks all 56 bodies' enacting words, the federal form and the local form.
+**Done when.** Seen: a second session composes bills at three drawn places and reads that a repeal's heading says repeal and every section's first line is one sentence; src/english/bill-sections.test.ts walks all 56 bodies' enacting words, the federal form and the local form.
 
 **Waits on.** laws-bill-short-and-long-title-forms (#9184) folding into the train.
 
