@@ -118,6 +118,8 @@ function sittingExecutiveOf(
   api: CoreAPI,
   gov: Pick<GovernmentRow, "id" | "organizationId" | "jurisdictionId">,
 ): string | null {
+  // A world without the offices module has no one to name.
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
   const offices = api.moduleState(OFFICES_MODULE_ID);
   // The offices name a local government by its unit (the treasury's
   // government key), a state by its key and the nation as "US".
