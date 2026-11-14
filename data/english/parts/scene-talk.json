@@ -189748,56 +189748,6 @@
         "move": "request",
         "key": "vote-wanted"
       }
-    },
-    {
-      "key": "scene-talk.state-request.i-have-to-face-the-voters-on-this-one-can-i-count-on-you",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I have to face the voters on this one. Can I count on you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["own-amount", "own-reason-next-election"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (brief O, amount bills)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "request",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.the-people-this-helps-are-counting-on-me-can-i-count-on-you",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "The people this helps are counting on me. Can I count on you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["own-amount", "own-reason-group"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (brief O, amount bills)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "request",
-        "key": "vote-wanted"
-      }
     }
   ]
 }
