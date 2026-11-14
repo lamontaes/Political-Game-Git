@@ -4387,7 +4387,7 @@
           "via": "LAW.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "sample",
       "test": {
         "kind": "judged"
       },
@@ -4396,7 +4396,9 @@
         "moves": "^reply-",
         "text": "[.!?][\"')]*\\s+\\S"
       },
-      "note": "Judged as an exchange (words-machine part 3, Nov 14): only replies of two sentences or more have a second move; each is judged after each line it can answer, since whether its second move follows from its first can lean on what was asked. A \"no\" pair bars the reply after that line only."
+      "note": "Judged as an exchange (words-machine part 3, Nov 14): only replies of two sentences or more have a second move; each is judged after each line it can answer, since whether its second move follows from its first can lean on what was asked. A \"no\" pair bars the reply after that line only.",
+      "catches": ["I'm from Washington. Have you talked to Omar?"],
+      "spares": ["I'm from Washington. What about you?"]
     },
     {
       "id": "many-variants-of-the-same-meaning",

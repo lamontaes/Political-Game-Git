@@ -86,6 +86,9 @@
     "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running": [
       "no-stock-phrases"
     ],
+    "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end": [
+      "reply-second-move-follows-the-first"
+    ],
     "scene-talk.state-ask.you-settling-in-all-right": ["alright-in-dialogue"],
     "scene-talk.state-confront.you-can-t-win-this-you-know": ["no-filler"],
     "scene-talk.state-congratulate.well-look-at-you": ["no-filler"],
@@ -201,6 +204,7 @@
   "awaitingVerdict": {
     "commitment-names-who-what-why": 0,
     "player-never-says-unchosen (pairs)": 0,
+    "reply-second-move-follows-the-first (pairs)": 15400,
     "stake-is-named": 0
   }
 }
