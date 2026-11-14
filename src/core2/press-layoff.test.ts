@@ -5,6 +5,10 @@
  * names. Pinned to one place and seed so it never depends on the draw: the
  * place the pool item measured (seed survey-b), until three weeks after the
  * March 2025 cut of four jobs at a business of 14.
+ * Premise: at this place only that March cut reaches an outlet's readers (a
+ * named reader works there, or the counted workers are enough of the town's
+ * counted adults); the two-job cuts of Nov and Dec 2025 do not, and are not
+ * asserted here.
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
