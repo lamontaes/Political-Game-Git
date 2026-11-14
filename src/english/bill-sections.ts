@@ -35,7 +35,10 @@ interface AmountWords {
 }
 interface FormWords {
   title: string;
-  repealTitle: string;
+  /** A repeal's purpose in a heading, `{subject}` the law repealed. */
+  repealPurpose: string;
+  /** The first section when the enacting words are a whole sentence ("... do enact as follows"), not a lead-in to "That". */
+  firstWhole?: string;
   /** The federal and state form only: a local measure has no short title. */
   shortTitle?: string;
   first: string;
@@ -260,26 +263,49 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   }
   const allRepeal = words.every((w) => w.repeal);
   // Two sections on one law (a raise in dated steps) state its purpose once.
-  const purposes = joinWords(
-    [...new Set(words.map((w) => w.purpose))],
-    BILL_SECTIONS.joiners.purposes,
+  // A repeal is worded from the repeal, never from the purpose of the law it
+  // ends, and every repealed law shares the one repeal phrase.
+  const repealed = [
+    ...new Set(words.filter((w) => w.repeal).map((w) => w.subject)),
+  ];
+  const repealPhrase = fill(form.repealPurpose, {
+    subject: joinWords(repealed, BILL_SECTIONS.joiners.subjects),
+  });
+  const headings: string[] = [];
+  for (const w of words) {
+    const said = w.repeal ? repealPhrase : w.purpose;
+    if (!headings.includes(said)) headings.push(said);
+  }
+  // Each purpose after the first carries its own "to" ("to raise X, to raise Y
+  // and to repeal Z"), so a long heading never drops a verb's "to".
+  const title = fill(form.title, {
+    purpose: joinWords(
+      headings.map((h, i) =>
+        i > 0 && i < headings.length - 1 ? `to ${h}` : h,
+      ),
+      BILL_SECTIONS.joiners.purposes,
+    ),
+  });
+  // The enacting words end however the law prescribes them (a comma, a period,
+  // a colon, nothing); the section joins them to its text the one way its
+  // grammar allows: "Be it enacted by X, That the law ..." or, when the words
+  // are a whole sentence, "The people of X do enact as follows: The law ...".
+  const prescribed = properName(
+    input.form.enactingClause.replace(/[,.:;\s]+$/, ""),
   );
-  const title = allRepeal
-    ? fill(form.repealTitle, {
-        subject: joinWords(
-          [...new Set(words.map((w) => w.subject))],
-          BILL_SECTIONS.joiners.subjects,
-        ),
-      })
-    : fill(form.title, { purpose: purposes });
-  const enacting = properName(input.form.enactingClause.replace(/[,\s]+$/, ""));
+  const whole =
+    Boolean(form.firstWhole) && /\b(?:as follows|enacts?)$/i.test(prescribed);
+  const enacting = prescribed;
   const dates = new Set(input.provisions.map((p) => p.effectiveDate ?? null));
   const sections = words.map((w, i) => {
-    const text = fill(i === 0 ? form.first : form.further, {
-      number: i + 1,
-      enacting,
-      text: w.clause,
-    });
+    const text = fill(
+      i > 0 ? form.further : whole ? form.firstWhole! : form.first,
+      {
+        number: i + 1,
+        enacting,
+        text: whole && i === 0 ? upperFirst(w.clause) : w.clause,
+      },
+    );
     // A phase-in's steps each name their own day, so the paper never reads as
     // two changes made at once: the section says when it takes effect.
     const own = input.provisions[i]?.effectiveDate;
