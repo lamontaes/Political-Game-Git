@@ -507,6 +507,27 @@ export function bankYes(
 }
 
 /**
+ * What the town bank can lend on a new home loan today, by the same capital
+ * rule `lendMortgage` applies: undefined where the place has no town bank.
+ */
+export function mortgageRoom(
+  api: CoreAPI,
+): { bankId: string; roomMinor: number } | undefined {
+  const bank = bankOf(api);
+  if (!bank) return undefined;
+  const book = equity(api, bank.organizationId);
+  return {
+    bankId: bank.organizationId,
+    roomMinor: Math.max(
+      0,
+      book.equity * api.parameter("creditMaxLimitsPerEquity") -
+        book.limits -
+        book.loans,
+    ),
+  };
+}
+
+/**
  * A home loan from the town bank: the bank pays the seller the principal and
  * the household repays monthly like any loan. Zero when the bank has no room.
  */
@@ -522,15 +543,11 @@ export function lendMortgage(
   },
 ): number {
   const bank = bankOf(api);
-  if (!bank) return 0;
+  const room = mortgageRoom(api);
+  if (!bank || !room) return 0;
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const book = equity(api, bank.organizationId);
-  const room = Math.max(
-    0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
-  );
-  const amount = Math.min(input.principalMinor, room);
+  const amount = Math.min(input.principalMinor, room.roomMinor);
   if (amount <= 0) return 0;
   const id = `mortgage-loan:${input.householdId}:${c.date}`;
   const lent = transferCash(

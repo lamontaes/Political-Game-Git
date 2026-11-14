@@ -42,8 +42,9 @@ import { MACRO_PARAMETERS } from "./macro";
 import { formerHome } from "../housing-former-home";
 import type { ModuleRow } from "../module-data";
 import type { EntityId } from "../kernel/brands";
-import { bankYes, lendMortgage, monthlyIncome } from "./credit";
-import { chooseAct } from "../choice";
+import { lendMortgage, monthlyIncome } from "./credit";
+import { BUY_PULL, buyMarket, weighHome } from "../housing-buy";
+import { buyCountedHomes } from "../housing-counted-buy";
 import { CREDIT_PARAMETERS } from "./credit";
 import { DEFAULT_DATA } from "../data";
 import {
@@ -113,7 +114,6 @@ import {
   reviewHomeless,
 } from "../housing-homeless";
 import type {
-  ActOffer,
   CoreAPI,
   CoreInput,
   CoreState,
@@ -1376,8 +1376,6 @@ function landlordPayout(api: CoreAPI): void {
   }
 }
 
-const BUY_PULL = "housing:pull";
-
 /** The economy's consumer price level by month (history and simulated), for prices past the published data. */
 function macroPrices(api: CoreAPI): PriceLevel | undefined {
   if (!(api.state as CoreState).modules.has("macro")) return undefined;
@@ -1403,87 +1401,38 @@ function childrenAt(
   ).length;
 }
 
-/** 0 to 1: rises through the late twenties and fades after the late fifties, each a smooth step. */
-function buyingAgeShape(api: CoreAPI, age: number): number {
-  const step = (center: number) =>
-    1 / (1 + Math.exp(-(age - center) / api.parameter("housingBuyAgeScale")));
-  return (
-    step(api.parameter("housingBuyAgeRiseCenter")) *
-    (1 - step(api.parameter("housingBuyAgeFadeCenter")))
-  );
-}
-
-function buyOffer(
-  buy: boolean,
-  targetId: string,
-  reasons: Record<string, number>,
-): ActOffer {
-  const row = buy ? housingData.actions.buy : housingData.actions.rent;
-  return {
-    definition: {
-      id: row.id,
-      actKinds: row.actKinds,
-      goalKinds: [],
-      need: "money",
-      effortParameter: "zero",
-      effectParameter: "zero",
-      targetKind: "housing-option",
-      effect: "housing-choice",
-    },
-    targetId,
-    availableHours: 1,
-    effortHours: 0,
-    reasonBindings: Object.entries(reasons).map(([id, value]) => ({
-      id,
-      provider: BUY_PULL,
-      weightParameter: "one",
-      arguments: { value: String(value) },
-    })),
+/** Each town's typical rent, read once per review. */
+function typicalRentReader(api: CoreAPI): (placeId: string) => number {
+  const rents = new Map<string, number>();
+  return (placeId) => {
+    let rent = rents.get(placeId);
+    if (rent === undefined) {
+      rent = townRentMinor(api, placeId);
+      rents.set(placeId, rent);
+    }
+    return rent;
   };
 }
 
 /**
- * Why a renter household would buy, each reason sliding with the household's
- * own record and none a bar: owning's cost over the rent (the interest, the
- * rest of the payment being equity), the share of the down payment it is
- * short, children at home, the head's age, years in the lease, and savings
- * beyond the down payment. `baseline` is how far buying sits below renting
- * before these.
+ * The home a renter's rent stands for: the town's typical home (its price
+ * level, the web's factor on home values in it) times its rent over the
+ * town's typical rent, as rent scales with income. Undefined where the
+ * county has no published value.
  */
-export function homeBuyReasons(
-  p: (key: string) => number,
-  c: {
-    interestMinor: number;
-    rentMinor: number;
-    incomeMinor: number;
-    downMinor: number;
-    meansMinor: number;
-    children: number;
-    /** The age pull, 0 to 1 (`buyingAgeShape`). */
-    agePull: number;
-    leaseYears: number;
-  },
-): Record<string, number> {
-  return {
-    baseline: p("housingBuyBaseline"),
-    cost:
-      -p("housingBuyCostWeight") *
-      ((c.interestMinor - c.rentMinor) / c.incomeMinor),
-    // The share of the down payment the household is short, from none to all of it: a household with nine tenths of it is nearly as ready as one with all of it.
-    down:
-      -p("housingBuyDownWeight") * Math.max(0, 1 - c.meansMinor / c.downMinor),
-    children: (p("housingBuyChildWeight") * Math.min(c.children, 3)) / 3,
-    age: p("housingBuyAgeWeight") * c.agePull,
-    tenure:
-      p("housingBuyTenureWeight") *
-      Math.min(1, c.leaseYears / p("housingBuyTenureYears")),
-    savings:
-      p("housingBuySavingsWeight") *
-      Math.min(
-        1,
-        Math.max(0, Math.log((c.meansMinor + 1) / (c.downMinor + 1))),
-      ),
-  };
+function rentHomeValue(
+  api: CoreAPI,
+  placeId: string,
+  rentMinor: number,
+  typicalRent: (placeId: string) => number,
+): number | undefined {
+  const town = rentValueOf(housingPlace(api, placeId).county, api.state.seed);
+  if (!town?.[1]) return undefined;
+  const level = placePriceLevel(api, placeId);
+  const rentHere = typicalRent(placeId);
+  return level && rentHere > 0
+    ? level.now * (rentMinor / rentHere)
+    : town[1] * 100 * (rentMinor / ((town[0] ?? 1) * 100 || 1));
 }
 
 /**
@@ -1495,35 +1444,14 @@ export function homeBuyReasons(
  * serviced like any of the bank's loans.
  */
 function buyHomes(api: CoreAPI): void {
-  const c = core(api),
-    p = (key: string) => api.parameter(key);
-  if (!c.modules.has("credit") || !c.modules.has("macro")) return;
-  const latest = api.moduleState("macro").table("state").get("macro:state") as
-    { latestMonth: string } | undefined;
-  const month = latest
-    ? (api
-        .moduleState("macro")
-        .table("months")
-        .get(`macro-month:${latest.latestMonth}`) as
-        { mortgage30Pct: number } | undefined)
-    : undefined;
-  if (!month) return;
-  const rate = month.mortgage30Pct / p("macroHundred"),
-    term = p("housingMortgageTermYears") * p("macroMonthsPerYear"),
-    r = rate / p("macroMonthsPerYear");
-  const factor = (principal: number) =>
-    r > 0 ? (principal * r) / (1 - (1 + r) ** -term) : principal / term;
+  const c = core(api);
+  const market = buyMarket(api);
+  if (!market) return;
+  const rate = market.rate,
+    term = market.term;
   // Each town's typical rent, read once this review: a renter weighs the home
   // its rent stands for, at the town's price level.
-  const typicalRents = new Map<string, number>();
-  const typicalRent = (placeId: string) => {
-    let rent = typicalRents.get(placeId);
-    if (rent === undefined) {
-      rent = townRentMinor(api, placeId);
-      typicalRents.set(placeId, rent);
-    }
-    return rent;
-  };
+  const typicalRent = typicalRentReader(api);
   for (const [id, lease] of [...c.finance.contracts].sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {
@@ -1539,51 +1467,37 @@ function buyHomes(api: CoreAPI): void {
         a!.birthDate.localeCompare(b!.birthDate) || a!.id.localeCompare(b!.id),
     )[0];
     if (!household || !head) continue;
-    const location = housingPlace(api, household.placeId);
-    const town = rentValueOf(location.county, c.seed);
     const outside = townOutsideOf(c.organizations.values(), household.placeId);
-    if (!town?.[1] || !outside) continue;
+    const value = rentHomeValue(
+      api,
+      household.placeId,
+      lease.amountMinor,
+      typicalRent,
+    );
+    if (!value || !outside) continue;
     const income = monthlyIncome(api, household.memberIds);
     if (income <= 0) continue;
     const cash = members.reduce((n, row) => n + row!.liquidMinor, 0);
-    // The home the household's rent stands for: the town's typical home (its
-    // price level, the web's factor on home values in it) times its rent over
-    // the town's typical rent, as rent scales with income.
     const level = placePriceLevel(api, household.placeId);
-    const rentHere = typicalRent(household.placeId);
-    const value =
-      level && rentHere > 0
-        ? level.now * (lease.amountMinor / rentHere)
-        : town[1] * 100 * (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
-    const down = value * housingData.mortgage.downPayment.firstTime;
-    const payment = factor(value - down);
-    // What owning costs over renting is the interest: the rest of the payment is principal the household keeps as equity.
-    const interest = (value - down) * r;
     // What it can put down: cash, and the savings the bank holds for it.
     const savings = depositsHeld(c, household.id);
     const means = cash + savings;
-    const reasons = homeBuyReasons(p, {
-      interestMinor: interest,
+    const weighed = weighHome(api, market, {
+      headId: head!.id,
+      householdId: household.id,
+      valueMinor: value,
       rentMinor: lease.amountMinor,
       incomeMinor: income,
-      downMinor: down,
       meansMinor: means,
       children: childrenAt(api, members),
-      agePull: buyingAgeShape(api, ageOnDate(head!.birthDate, c.date)),
+      headAge: ageOnDate(head!.birthDate, c.date),
       leaseYears:
-        daysBetweenText(lease.firstDueAt, c.date) / p("daysPerMeanYear"),
+        daysBetweenText(lease.firstDueAt, c.date) /
+        api.parameter("daysPerMeanYear"),
     });
-    const result = chooseAct(c, head!.id, [
-      buyOffer(false, household.id, {}),
-      buyOffer(true, household.id, reasons),
-    ]);
-    if (result.selected!.definition.id !== housingData.actions.buy.id) continue;
-    if (means < down) continue;
-    // The bank finances its yes's share of the loan; the household buys what that and the down payment pay for.
-    const principal = Math.floor(
-      (value - down) * bankYes(api, payment, income),
-    );
-    if (principal <= 0) continue;
+    if (!weighed.buy) continue;
+    const { reasons, principalMinor: principal } = weighed,
+      down = weighed.downMinor;
     // A finished new house in town is bought from its builder; otherwise from a seller leaving the town.
     const seller =
       takeNewHome(
@@ -1714,6 +1628,11 @@ function review(api: CoreAPI): void {
   occupyCompletedRentals(api);
   landlordPayout(api);
   buyHomes(api);
+  // The counted renters whose lease turns a year older this month weigh buying by the same rule.
+  const typicalRent = typicalRentReader(api);
+  buyCountedHomes(api, (placeId, rentMinor) =>
+    rentHomeValue(api, placeId, rentMinor, typicalRent),
+  );
   // A household behind on rent weighs settling part of it from its spare cash before the landlord weighs the lease.
   for (const [id, row] of [...c.finance.contracts].sort((a, b) =>
     a[0].localeCompare(b[0]),

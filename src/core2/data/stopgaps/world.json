@@ -455,11 +455,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/housing-construction.ts",
     "line": 151,
-    "whatItFakes": "New houses sell only to full renter households; counted renters and households moving in never buy one, so unsold houses pile up.",
-    "why": "Counted households' money is pooled by place and arrivals are OPUS-CORE's population engine.",
+    "whatItFakes": "New houses sell only to renter households already in town (full ones, and counted ones on their lease's anniversary month); households moving in never buy one.",
+    "why": "Arrivals are OPUS-CORE's population engine; they rent or are placed when they arrive.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Counted renter households and arrivals buy new houses through the same choice and mortgage, once fill-in and arrivals land.",
+    "replacement": "Arriving households buy new houses through the same choice and mortgage, once arrivals land.",
     "status": "open"
   },
   {
@@ -1165,6 +1165,18 @@
     "addedBy": "Account lead T49",
     "addedAt": "2026-11-14",
     "replacement": "The town's residents' own earnings wherever they work (the world-metrics household earnings), once that is kept monthly.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-counted-savings-from-today",
+    "kind": "estimated-data",
+    "file": "src/core2/housing-counted-buy.ts",
+    "line": 88,
+    "whatItFakes": "A counted renter household's own savings, when it weighs buying a home, are what today's income leaves after today's rent and its members' living costs, times the months since its lease began: the months before today are read at today's pay, rent and costs.",
+    "why": "A counted household keeps no monthly record of its own income or spending; its money is pooled in its group's account (Account lead's ruling, Nov 14, 2026: its savings come from its own record, never a share of the pool).",
+    "addedBy": "Account lead T54",
+    "addedAt": "2026-11-14",
+    "replacement": "Each counted household's pay and spending kept month by month (or its savings kept as a running balance on its record), read at the months they happened.",
     "status": "open"
   }
 ]
