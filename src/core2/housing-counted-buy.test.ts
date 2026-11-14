@@ -21,7 +21,11 @@ import { countedMortgageFlowId } from "./housing-mortgages";
 import { ageInYears, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { bankYes, heldMortgages, mortgageRoom } from "./modules/credit";
-import { rentHomeValue, weighCountedBuyers } from "./modules/housing";
+import {
+  ownedHomes,
+  rentHomeValue,
+  weighCountedBuyers,
+} from "./modules/housing";
 import {
   departingCash,
   householdIncome,
@@ -157,6 +161,11 @@ it("counted renters on their lease month buy from their own savings, short ones 
     expect(rt.store.liveHousehold(row.householdId)?.tenure, row.id).toBe(
       "mortgage",
     );
+    // A new owner wherever owned homes are read (property tax, disasters).
+    expect(
+      ownedHomes(api).some((home) => home.householdId === row.householdId),
+      row.id,
+    ).toBe(true);
   }
   // Its share of its renter group's account covered the down payment for every household it stands for.
   for (const row of bought)
