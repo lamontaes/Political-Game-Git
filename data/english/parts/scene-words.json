@@ -213,9 +213,9 @@
       }
     },
     {
-      "key": "scene-words.setting-letter-letter.a-letter-has-come-from-who",
+      "key": "scene-words.setting-letter-letter.a-letter-came-from-who",
       "move": "setting-letter-letter",
-      "text": "A letter has come from {who}.",
+      "text": "A letter came from {who}.",
       "uses": [
         {
           "move": "setting-letter-letter",
@@ -614,9 +614,9 @@
       }
     },
     {
-      "key": "scene-words.cause-illness-other.other-has-fallen-seriously-ill",
+      "key": "scene-words.cause-illness-other.other-has-gotten-seriously-ill",
       "move": "cause-illness-other",
-      "text": "{other} has fallen seriously ill.",
+      "text": "{other} has gotten seriously ill.",
       "uses": [
         {
           "move": "cause-illness-other",
@@ -2598,10 +2598,10 @@
       }
     },
     {
-      "key": "scene-words.cause-circumstance:hallway-colleague-other.other-wants-a-word-before-the-vote",
+      "key": "scene-words.cause-circumstance:hallway-colleague-other.other-wants-to-talk-before-the-vote",
       "move": "cause-circumstance:hallway-colleague-other",
       "kind": "spoken",
-      "text": "{other} wants a word before the vote.",
+      "text": "{other} wants to talk before the vote.",
       "uses": [
         {
           "move": "cause-circumstance:hallway-colleague-other",
@@ -3253,10 +3253,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-manager-offer-other.other-has-come-to-talk-about-running-your-campaign",
+      "key": "scene-words.lead-manager-offer-other.other-wants-to-talk-about-running-your-campaign",
       "move": "lead-manager-offer-other",
       "kind": "spoken",
-      "text": "{other} has come to talk about running your campaign.",
+      "text": "{other} wants to talk about running your campaign.",
       "uses": [
         {
           "move": "lead-manager-offer-other",
@@ -5167,10 +5167,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-public-other.begins-name-walks-up-to-you-in-the-street",
+      "key": "scene-words.arrival-public-other.begins-name-walks-up-to-you-on-the-street",
       "move": "arrival-public-other",
       "kind": "spoken",
-      "text": "{begins}, {name} walks up to you in the street.",
+      "text": "{begins}, {name} walks up to you on the street.",
       "uses": [
         {
           "move": "arrival-public-other",
@@ -5827,10 +5827,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-public-other.begins-name-stops-you-in-the-street-about-what-happened-sinc",
+      "key": "scene-words.arrival-public-other.begins-name-stops-you-on-the-street-about-what-happened-since",
       "move": "arrival-public-other",
       "kind": "spoken",
-      "text": "{begins}, {name} stops you in the street about what happened {since}.",
+      "text": "{begins}, {name} stops you on the street about what happened {since}.",
       "uses": [
         {
           "move": "arrival-public-other",

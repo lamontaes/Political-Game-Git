@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -7,6 +6,11 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { LEGISLATURE_MODULE_ID, members } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
+import {
+  adjourn,
+  meetingInProgress,
+  takeUpItem,
+} from "../core2/modules/office-day";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
@@ -25,7 +29,10 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // speaker's words to the player, who sits in the body; the press tells who
 // spoke. Every scene stands on the floor-debate record, the speaker addresses
 // the chair, and the four replies are four moves in plain words.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// Pinned to a named seed so the test finishes in about a minute (the Train,
+// Nov 14: drawn fresh each run it took about 280 s and was skipped); the env
+// seed still overrides it. The year stops at the first floor debate staged.
+const seed = process.env.GOLDEN_PATH_SEED ?? "a7c13e";
 const ATTEMPTS = 4;
 const DAYS = 365;
 
@@ -69,6 +76,7 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
       tried.push(`${where}: no sitting member who is a full person`);
       continue;
     }
+    const startedAt = Date.now();
     core.focusPersonIds.add(personId);
     director.watch(core, personId);
     const book = director.ledger.people.get(personId)!;
@@ -80,7 +88,7 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
         minuteOfDay: P.zero,
       },
     });
-    while (packet.kind !== "complete") {
+    while (packet.kind !== "complete" && !found) {
       if (packet.kind === "stop") {
         for (const stop of packet.stop.modules) {
           const entry = book.schedule.find(
@@ -162,6 +170,19 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
               `FLOOR DEBATE ${here}\n  ${scene.talk.state.text}\n  ${told!.headline} / ${told!.lede}\n`,
             );
         }
+        // A held meeting keeps the player's clock until they act on it, so the
+        // test plays the night as a player who leaves each item to their own
+        // position and adjourns (the calls the meeting panel makes); resuming
+        // without it brings the same stop back forever.
+        const api = coreAPI(core);
+        for (let guard = 0; guard < 8; guard += 1) {
+          const meeting = meetingInProgress(api);
+          if (!meeting) break;
+          for (const billId of meeting.agenda)
+            if (!meeting.takenUp.includes(billId))
+              takeUpItem(api, meeting.id, billId, "own");
+          adjourn(api, meeting.id);
+        }
         packet = resumePlayerV1(core, {
           kind: "stop",
           pauseId: packet.pauseId,
@@ -174,7 +195,7 @@ it(`a member rises for or against a bill before the roll (seed ${seed})`, () => 
         });
     }
     process.stdout.write(
-      `FLOOR DEBATES ${where}: ${found} scenes in the year\n`,
+      `FLOOR DEBATES ${where}: ${found} scenes, ${Date.now() - startedAt} ms\n`,
     );
     if (found) return;
     tried.push(`${where}: no floor-debate scene in the year`);
