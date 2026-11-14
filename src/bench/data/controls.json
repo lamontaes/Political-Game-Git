@@ -1309,11 +1309,12 @@
     "nominee": "Your party's nominee for {ticket} joins your ticket after the primary.",
     "row": "{name}, {work}, {place}",
     "rowPlace": "{name}, {place}",
+    "rowWork": "{name}, {work}",
     "former": "former {office}",
     "roles": {
       "party-officer": "party officer",
       "former-candidate": "ran for office before",
-      "prominent": "well known in the state"
+      "prominent": "well known in {place}"
     }
   },
   "nominations": {

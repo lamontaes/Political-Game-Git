@@ -1873,7 +1873,9 @@ function ticketSection(filing, ticket) {
           ? words.row
           : c.place
             ? words.rowPlace
-            : "{name}"
+            : c.work
+              ? words.rowWork
+              : "{name}"
         )
           .replace("{name}", c.name)
           .replace("{work}", c.work ?? "")
