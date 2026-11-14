@@ -5090,12 +5090,29 @@ select.release-pick {
   color: var(--cream);
 }
 
-/* The campaign board: the trail column holds one button, so it takes that
-   button's width and the money column keeps room for its figures; a figure
-   such as "39 of 1, due October 24, 2025" stays on one line. */
+/* The campaign board: where the race stands, the money, and the trail button.
+   The money column keeps room for its figures, so a row such as "Signatures
+   0 of 21, due May 1, 2026" sits on one line, and the button keeps its words
+   on one line; when the sheet is narrow (the roster of several races beside
+   it, or a 1024-wide window) the button moves under the two columns instead
+   of squeezing them. */
 .strip-board.campaign-board .board-cols {
-  grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.6fr) auto;
+  display: flex;
+  flex-wrap: wrap;
 }
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(1) {
+  flex: 1 1 200px;
+  min-width: 200px;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(2) {
+  flex: 1.6 1 310px;
+  min-width: 310px;
+}
+.strip-board.campaign-board .board-cols > .mx3col:nth-child(3) {
+  flex: 0 0 auto;
+}
+.strip-board.campaign-board .board-cols button,
+.strip-board.campaign-board .dotlabel,
 .strip-board.campaign-board .dotvalue {
   white-space: nowrap;
 }
