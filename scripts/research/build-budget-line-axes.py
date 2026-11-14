@@ -5,6 +5,10 @@ and Pew 2019, by party with leaners) and writes
 src/core2/data/legislature/budget-line-axes.json: for each line, the
 Republican net share wanting more (increase minus decrease) minus the
 Democratic one, in [-1, 1]. Positive: the right wants more spent on it.
+And the national share wanting more spent on it among those who want a
+change (increase over increase plus decrease, the two parties weighed
+evenly), the same "among those with an opinion" share the policy questions'
+polled support uses: a calibration of totals, never an actor's choice.
 
 Run: python3 scripts/research/build-budget-line-axes.py
 """
@@ -22,15 +26,27 @@ for line, row in sorted(lines.items()):
     def net(party: str) -> float:
         return row[f"{party}Increase"] - (row.get(f"{party}Decrease") or 0)
 
+    def more(party: str) -> float:
+        return row[f"{party}Increase"]
+
+    def less(party: str) -> float:
+        return row.get(f"{party}Decrease") or 0
+
+    wanting = sum(more(p) + less(p) for p in ("democrats", "republicans"))
     axes[line] = {
         "axis": round(max(-1.0, min(1.0, net("republicans") - net("democrats"))), 3),
+        "support": round(
+            sum(more(p) for p in ("democrats", "republicans")) / wanting, 3
+        )
+        if wanting
+        else 0.5,
         "estimate": bool(row.get("estimate")),
         "source": row["source"],
     }
 OUT.write_text(
     json.dumps(
         {
-            "about": "Each budget line's left-right direction: the Republican net share wanting more spent on it minus the Democratic one (increase minus decrease, leaners included). Positive means the right wants more. Built by scripts/research/build-budget-line-axes.py from data/research/money/spending-preferences-by-party.json.",
+            "about": "Each budget line's left-right direction: the Republican net share wanting more spent on it minus the Democratic one (increase minus decrease, leaners included). Positive means the right wants more. support: the national share wanting more spent among those wanting a change, the two parties weighed evenly (calibration only). Built by scripts/research/build-budget-line-axes.py from data/research/money/spending-preferences-by-party.json.",
             "lines": axes,
         },
         indent=2,

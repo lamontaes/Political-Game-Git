@@ -17,7 +17,8 @@ import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { variantArc, variantFamilies } from "./arc-variant";
-import { partyOfficeholders } from "./circumstance";
+import { partyMentor } from "./circumstance";
+import { seasonedOfficeholders } from "../core2/modules/candidacy";
 import { purposeScene } from "./purpose-scene";
 import type { Director } from "./ledger";
 import { expectUpToFourDifferent } from "./reply-set-check";
@@ -25,8 +26,9 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // Two political scenes start from records the engines already write, each
 // proven in a played world: the day after the press carries a taken bribe,
 // someone close to the official asks whether it is true (`bribe-accused`), and
-// the day after a party asks the player to run, a seated officeholder of that
-// party weighs in (`mentor-weighs-in`).
+// the day after a party asks the player to run, the seated officeholder of that
+// party who took them under their wing when it asked weighs in
+// (`mentor-weighs-in`, read from the party's mentors record).
 
 type Core = CoreState;
 
@@ -77,18 +79,15 @@ function partyHasVeteran(core: CoreState): boolean {
       .moduleState(PARTIES_MODULE_ID)
       .table("parties")
       .rows() as unknown as { id: string; leaderId: string | null }[]
-  ).some(
-    (party) =>
-      !!party.leaderId &&
-      partyOfficeholders(
-        core,
-        {
-          personIds: [party.leaderId as PersonId],
-          facts: { partyId: party.id },
-        },
-        core.date,
-      ).length > 0,
-  );
+  ).some((party) => {
+    const leader = party.leaderId
+      ? core.people.get(party.leaderId as PersonId)
+      : undefined;
+    return (
+      !!leader &&
+      seasonedOfficeholders(coreAPI(core), party.id, leader.placeId).length > 0
+    );
+  });
 }
 
 describe("the political asks: a bribe in the press and a party that asks you to run", () => {
@@ -331,12 +330,12 @@ describe("the political asks: a bribe in the press and a party that asks you to 
           .find(
             ({ meId, row }) =>
               first.core.people.get(meId)?.alive === true &&
-              partyOfficeholders(first.core, row, row.date).length > 0,
+              partyMentor(first.core, row).length > 0,
           );
       }
       if (!asked) {
         tried.push(
-          `${where}: no asked member with a seated officeholder of the party in town`,
+          `${where}: no asked member taken under a seated officeholder's wing`,
         );
         continue;
       }
@@ -379,10 +378,8 @@ describe("the political asks: a bribe in the press and a party that asks you to 
           const ask = core.durableLog.get(moment.causeId)!;
           expect(ask?.kind, here).toBe("party-asked");
           expect(ask.personIds[P.zero], here).toBe(asked!.meId);
-          // The adviser is a seated officeholder of the party that asked.
-          expect(partyOfficeholders(core, ask, ask.date), here).toContain(
-            scene.askerId,
-          );
+          // The adviser is the officeholder the party's mentors record names.
+          expect(partyMentor(core, ask), here).toEqual([scene.askerId]);
           const root = scene.talk.tree.replies.map((reply) => reply.line);
           expectUpToFourDifferent(root, here);
           for (const row of root)
