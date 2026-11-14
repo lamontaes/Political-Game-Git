@@ -30,7 +30,7 @@ import { BenchPlayer } from "./player";
 import { buildBenchWorld, buildBenchWorldInStages } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
-import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
+import { openingArrivalMinute, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { nationStories } from "./nation-news";
 import {
@@ -67,6 +67,7 @@ import {
   isByRequest,
   seatAct,
   seatAsk,
+  seatAskOptions,
   seatView,
 } from "./legislature";
 import {
@@ -150,6 +151,8 @@ import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
 import {
   meetOverTalk,
+  noteHeard,
+  noteSceneHeard,
   openConversation,
   say,
   sayNothing,
@@ -254,7 +257,7 @@ function sceneNow(current: CoreState, id: string) {
           current,
           id,
           playing ? state.player!.packet : undefined,
-          openingDay ? OPENING_EVENING_MINUTE : undefined,
+          openingDay ? openingArrivalMinute(current, id) : undefined,
         );
   // Who has something to say: the director's own answer (a talk that opens with
   // no lines is no talk), read without writing anything. The room leaves the
@@ -489,7 +492,7 @@ const ROUTES: readonly Route[] = [
             staged.momentId,
             {
               date: makeIsoDate(world.core.date),
-              minuteOfDay: OPENING_EVENING_MINUTE,
+              minuteOfDay: openingArrivalMinute(world.core, entrant.personId),
             },
           );
         send(200, {
@@ -632,16 +635,17 @@ const ROUTES: readonly Route[] = [
       // A talk a scene opens is about the scene's moment.
       const occasionId = url.searchParams.get("momentId") ?? undefined;
       // The minute the talk is had at: the opening day is that evening at
-      // home, whatever the clock's own start of the day says (the opening's
-      // talks spend their minutes from the clock's morning); else the clock.
+      // home, when the household gets home (the opening's talks spend their
+      // minutes from the clock's morning); else the clock.
       const clockMinute = state.player.packet?.at.minuteOfDay;
-      const minuteOfDay =
+      const arrivalMinute =
         state.director?.ledger.opening?.date === requireCore().date
-          ? Math.max(
-              clockMinute ?? OPENING_EVENING_MINUTE,
-              OPENING_EVENING_MINUTE,
-            )
-          : clockMinute;
+          ? openingArrivalMinute(requireCore(), state.player.personId)
+          : undefined;
+      const minuteOfDay =
+        arrivalMinute === undefined
+          ? clockMinute
+          : Math.max(clockMinute ?? arrivalMinute, arrivalMinute);
       // The room is handed to the talk (the telling): who else is here hears
       // it, and nobody is asked after while they stand there.
       const openingDay =
@@ -681,6 +685,9 @@ const ROUTES: readonly Route[] = [
       // The player talked with them: the two have met (the encounters
       // engine's meeting, through the director's one entry for it).
       meetOverTalk(requireCore(), state.conversation);
+      // What they said is heard today by the player (the telling's "said
+      // today"): the next housemate says something else.
+      noteHeard(requireCore(), state.conversation);
       send(200, talkView(state.conversation));
       return;
     },
@@ -1688,6 +1695,26 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
+  // Who an executive may ask to carry the bill just drafted, the likeliest yes marked.
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/seat/ask-options",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const q = (key: string) => url.searchParams.get(key) ?? undefined;
+      send(
+        200,
+        seatAskOptions(requireCore(), state.player.personId, {
+          officeId: q("officeId"),
+          series: q("series"),
+          question: q("question"),
+          line: q("line"),
+          value: q("value") === undefined ? undefined : Number(q("value")),
+        }),
+      );
+      return;
+    },
+  },
   {
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/seat/act",
@@ -1703,6 +1730,7 @@ const ROUTES: readonly Route[] = [
             question: q("question"),
             line: q("line"),
             value: q("value") === undefined ? undefined : Number(q("value")),
+            memberId: q("memberId"),
           }),
         );
         return;
@@ -1813,7 +1841,7 @@ const ROUTES: readonly Route[] = [
           // The opening day's scene is that evening at home (as /api/scene).
           state.player.packet?.at.minuteOfDay ??
             (state.director.ledger.opening?.date === requireCore().date
-              ? OPENING_EVENING_MINUTE
+              ? openingArrivalMinute(requireCore(), state.player.personId)
               : 12 * 60),
           // ?held=1 on the play page: the grading view, held lines marked.
           { held: url.searchParams.get("held") === "1" },
@@ -1849,6 +1877,13 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       if (!state.player?.personId || !state.director)
         throw new Error("Choose a resident first.");
+      // The scene's story is heard for the day: talk does not tell it again.
+      noteSceneHeard(
+        requireCore(),
+        state.director,
+        state.player.personId,
+        url.searchParams.get("momentId") ?? "",
+      );
       send(
         200,
         storyReply(
@@ -2083,7 +2118,7 @@ const ROUTES: readonly Route[] = [
           date: current.date,
           minuteOfDay:
             state.director?.ledger.opening?.date === current.date
-              ? OPENING_EVENING_MINUTE
+              ? openingArrivalMinute(current, state.player?.personId ?? "")
               : 12 * 60,
         },
       );
@@ -2105,7 +2140,7 @@ const ROUTES: readonly Route[] = [
         date: current.date,
         minuteOfDay:
           state.director?.ledger.opening?.date === current.date
-            ? OPENING_EVENING_MINUTE
+            ? openingArrivalMinute(current, state.player.personId)
             : 12 * 60,
       };
       const opens = counterOpening(current, filedWith, now);
