@@ -68,8 +68,8 @@
     "why": "The mined choice-names bank (data/english/parts/choice-names.json) covers about half the core's acts; a raw action id is not something a player should read.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
-    "replacement": "Mined names for every act in OPUS-WORDS' bank, composed by OPUS-PEOPLE's English engine; then this table is removed.",
-    "status": "open"
+    "replacement": "Mined names for every act in OPUS-WORDS' bank, composed by OPUS-PEOPLE's English engine; then this table is removed. Resolved Nov 14, 2026 (play-stopgap-controls-text): every act's name is a piece in the choice-names bank (actionNames in src/bench/words.ts, served on /api/controls), and the controls table is deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-opening-economy-fallback",

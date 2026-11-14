@@ -4,9 +4,9 @@ title: "Stopgaps in controls (text): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/button-names
+pr: 9233
 after:
 blocked-on:
 standard: 2
@@ -45,3 +45,5 @@ Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `cla
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:05 UTC) on branch claude/pool-play-stopgap-controls-text.
 
 Released by next (2026-11-13): no push to claude/pool-play-stopgap-controls-text since 2026-11-11 06:05 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-play-stopgap-controls-text.
+
+Built on claude/button-names (Nov 14, cluster 24): 18 authored slot-free names added to the choice-names bank (the 14 missing acts plus a slot-free name for four acts that only had a name with a person, group or office in it), served as `actions` on /api/controls by actionNames in src/bench/words.ts; the controls.json table and the stopgap id line deleted; SG-PLAY-act-control-names resolved; src/bench/action-names.test.ts fails if the table returns. Names are authored (origin authored), not mined: the corpus is not in a cloud container.
