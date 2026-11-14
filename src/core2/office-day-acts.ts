@@ -21,7 +21,7 @@ import type {
 } from "./types";
 import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
-import { addDays, daysBetweenText, makeIsoDate } from "./kernel/dates";
+import { daysBetweenText } from "./kernel/dates";
 import { officeActKits, type OfficeActKit } from "./office-day-registry";
 import { reanswerLeaderRequest } from "./office-day-state";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
@@ -32,7 +32,6 @@ import {
 } from "./modules/constituent-cases";
 import {
   holdTownHall,
-  isLocalBill,
   MEETINGS_MODULE_ID,
   townHallId,
 } from "./modules/meetings";
@@ -214,19 +213,19 @@ const LOCAL_PARAMETERS = {
     estimatedFrom: "Checked against a played year's press coverage.",
     spread: [30, 180],
   },
-  addressCauseWeight: {
+  addressCustomWeight: {
     value: 1,
-    tag: "TUNABLE",
+    tag: "ESTIMATED",
     citation:
-      "Weight on an official's reason to give the yearly address: how much the year gave them to report (laws their town or county body made in the last year, one at most). The same weight as the town hall's cause (townHallCauseWeight, 1).",
-    estimatedFrom: "Set equal to townHallCauseWeight.",
-    spread: [0.5, 2],
+      "Weight on the custom of the yearly address for a mayor or county executive: the office gives it whether or not the year was busy. Estimated from the same custom as the season (stateOfCityLastMonth: published addresses of U.S. cities, the National League of Cities' annual review); no charter text was read, and no count of how many mayors skip it was found.",
+    estimatedFrom: "The custom the season's citation names.",
+    spread: [0.6, 1.4],
   },
   addressEffort: {
     value: 0.5,
     tag: "TUNABLE",
     citation:
-      "Unverified estimate (builder, Nov 14, 2026): the effort of giving the yearly address, against which the year's reasons are weighed; below a town hall's effort (0.8) because it is one prepared speech. Stands only on the played-year check that world mayors give it in most towns that made laws.",
+      "Unverified estimate (builder, Nov 14, 2026): the effort of giving the yearly address, against which the year's reasons are weighed; below a town hall's effort (0.8) because it is one prepared speech. Stands only on the played-year check that most world mayors give it, the reserved later in the season.",
     estimatedFrom: "Checked against a played year at three drawn places.",
     spread: [0.3, 0.8],
   },
@@ -503,55 +502,41 @@ const EXECUTIVE_KINDS = new Set(["mayor", "county-executive"]);
 /**
  * The world's own mayors and county executives, in the address's season: the
  * first of each month until the season ends, each one who has not given it
- * this year weighs it (what the year gave them to report, their temperament,
- * the effort), as the town hall decision does (`considerTownHalls`); the one
- * who says yes gives it by the same act the player's character gives, so the
- * speech, the record of it and the listeners' views are the one engine's. The
- * extraversion row of `meetings.hold-town-hall` stands in for the host's pull:
- * no study of officials giving an address was found.
+ * this year weighs it. The address is the office's custom, given whether or
+ * not the year was busy (what the year held shapes what is said: the speech
+ * argues the speaker's own strongest view); the custom's pull grows through
+ * the season, the effort stays, and their temperament moves the day (the
+ * outgoing give it in January, the reserved later) or, rarely, past the
+ * season's end. The one who says yes gives it by the same act the player's
+ * character gives, so the speech, the record of it and the listeners' views are
+ * the one engine's. The extraversion row of `meetings.hold-town-hall` stands
+ * in for the speaker's pull: no study of officials giving an address was found.
  */
 export function worldAddresses(host: OfficeActHost) {
   const give = officeActHandlers(host)["state-of-the-city"];
   return (api: CoreAPI): void => {
     const date = api.state.date;
     if (date.slice(8) !== "01") return;
-    if (Number(date.slice(5, 7)) > api.parameter("stateOfCityLastMonth"))
-      return;
+    const month = Number(date.slice(5, 7));
+    const last = api.parameter("stateOfCityLastMonth");
+    if (month > last) return;
     const player = controlled(api);
     const year = date.slice(0, 4);
-    const since = addDays(makeIsoDate(date), -365);
-    let enacted: number | null = null;
+    // The custom's pull: a share of its weight that grows to all of it by the season's last month.
+    const custom = api.parameter("addressCustomWeight") * (month / last);
     for (const row of townSeats(api)) {
       if (!EXECUTIVE_KINDS.has(row.office.kind)) continue;
       const id = row.holder?.personId;
       const person = id ? api.state.people.get(id) : undefined;
       if (!id || !person?.alive || id === player) continue;
       if (host.given(api, id, "state-of-the-city", year)) continue;
-      if (enacted === null)
-        enacted = api.state.modules.has(LEGISLATURE_MODULE_ID)
-          ? (
-              api
-                .moduleState(LEGISLATURE_MODULE_ID)
-                .table("bills")
-                .rows() as unknown as BillRow[]
-            ).filter(
-              (b) =>
-                isLocalBill(b) &&
-                b.introduced >= since &&
-                (b.status === "signed" ||
-                  b.status === "enacted" ||
-                  b.status === "overridden"),
-            ).length
-          : 0;
-      const cause =
-        api.parameter("addressCauseWeight") * (1 - 1 / (1 + enacted));
       const { yes } = leanedYesWithTerm(
         api.state,
         person,
         "meetings.hold-town-hall",
         "hold",
         "skip",
-        cause - api.parameter("addressEffort"),
+        custom - api.parameter("addressEffort"),
       );
       if (yes) give(api, id);
     }
