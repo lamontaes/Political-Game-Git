@@ -160,18 +160,25 @@ try {
     (await (await fetch("/api/title")).json()).life?.date.slice(0, 4),
   );
   const addStep = page.locator(".draft-card .draft-add-step");
-  const stepAmounts = [];
-  for (const [amount, year] of [
-    ["2", Number(start) + 1],
-    ["3", Number(start) + 2],
-  ]) {
+  // The amount typed is the first step; adding a step gives it its own day, then each
+  // added step has an amount and a day: three steps, three years.
+  await page.locator(".draft-card input[type=number]").first().fill("1");
+  const years = [1, 2, 3].map((n) => Number(start) + n);
+  for (const [amount] of [["2"], ["3"]]) {
     await addStep.click();
     const row = page.locator(".draft-step").last();
     await row.locator("input[type=number]").fill(amount);
-    await row.locator("input[type=date]").fill(`${year}-01-02`);
-    stepAmounts.push(amount);
+    await row
+      .locator("input[type=date]")
+      .fill(`${years[Number(amount) - 1]}-01-02`);
   }
-  assert.equal(await page.locator(".draft-step").count(), stepAmounts.length);
+  await page
+    .locator(".draft-step")
+    .first()
+    .locator("input[type=date]")
+    .fill(`${years[0]}-01-02`);
+  assert.equal(await page.locator(".draft-step").count(), 3);
+  assert.equal(await page.locator(".draft-step .draft-when").count(), 3);
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-steps.png` });
   await page
     .locator(".draft-card button", { hasText: /^Draft$/ })
@@ -184,15 +191,27 @@ try {
     .click();
   await page.waitForTimeout(1500);
   const paper = await page.locator("#sheet-body").innerText();
-  console.log("phase-in paper:", paper.replace(/\s+/g, " ").slice(0, 1800));
-  assert.match(paper, /2 percent/, "the first step's amount is on the paper");
-  assert.match(paper, /3 percent/, "the second step's amount is on the paper");
-  // The estimate names the day the shown step takes effect (the first section's).
-  assert.match(
-    paper,
-    new RegExp(`Takes effect on[^\\n]*${Number(start) + 1}`),
-    "the step's day is on its estimate",
-  );
+  console.log("phase-in paper:", paper.replace(/\s+/g, " ").slice(0, 2400));
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/phase-in-paper.png` });
+  // The estimate lists every step with its day, in order, and each section of the
+  // bill's text says when it takes effect.
+  for (const [at, year] of years.entries()) {
+    assert.match(
+      paper,
+      new RegExp(`${at + 1} percent`),
+      `step ${at + 1}'s amount`,
+    );
+    assert.match(
+      paper,
+      new RegExp(`Takes effect on[^\\n]*${year}`),
+      `step ${at + 1}'s day is on the estimate`,
+    );
+    assert.match(
+      paper,
+      new RegExp(`Section ${at + 1} takes effect on January 2, ${year}`),
+      `section ${at + 1} of the bill says when it takes effect`,
+    );
+  }
   assert.deepEqual(errors, [], "page errors");
   console.log(
     "ok: a phase-in of two dated steps is one bill with both sections",

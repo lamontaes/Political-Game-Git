@@ -2919,6 +2919,8 @@ function billEstimate(paper, section) {
     prose: shown.length || compare ? "" : (words.noFigure ?? ""),
     lines: shown,
     compare,
+    // A phase-in's step: the paper lists every step beside the others, in order.
+    dated: Boolean(est.effectiveDate),
   };
 }
 /**

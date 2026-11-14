@@ -3789,6 +3789,12 @@ details.entry[open] {
   font: 600 var(--t-read) var(--ui);
   color: var(--cream);
 }
+/* A phase-in's estimate: each step beside the others, a rule between. */
+.bill-step + .bill-step {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(242, 237, 228, 0.18);
+}
 /* A phase-in's rows: the amount with its unit, then when it takes effect. */
 .draft-step {
   display: flex;

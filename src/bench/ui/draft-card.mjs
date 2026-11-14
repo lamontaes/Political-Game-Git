@@ -26,21 +26,45 @@ export function draftCard({ groups, words, onDraft }) {
       textContent: words.draft,
     });
     draft.disabled = Boolean(item.blocked);
-    // A phase-in: each added step has its own amount and the day it takes
-    // effect; the engine refuses a bad date and the screen shows its reason.
+    // A phase-in: the amount typed is its first step and each added step has its own
+    // amount; every step names the day it takes effect. The engine refuses a bad date
+    // and the screen shows its reason. Only a law amount can be phased in.
     const steps = el("div", { className: "draft-steps" });
     const rows = [];
+    const when = el("span", {
+      className: "draft-when",
+      textContent: words.firstStep ?? "",
+    });
+    const firstRow = el(
+      "div",
+      { className: "draft-step" },
+      el(
+        "span",
+        { className: "draft-entry" },
+        ...(item.unit === "$" ? [unitOf(item), typed] : [typed, unitOf(item)]),
+      ),
+      when,
+    );
+    let firstDate = null;
+    const dateField = (name) =>
+      el("input", {
+        type: "date",
+        className: "draft-step-date",
+        ariaLabel: name,
+      });
     const addStep = makeButton({
       className: "action small draft-add-step",
       textContent: words.addStep ?? "",
     });
     addStep.addEventListener("click", () => {
+      // The first amount gets its own day the moment there is more than one.
+      if (!firstDate) {
+        firstDate = dateField(words.stepDate ?? "");
+        when.textContent = words.stepDate ?? "";
+        firstRow.append(firstDate);
+      }
       const amount = numberBox({ value: 0, label: words.newAmount });
-      const date = el("input", {
-        type: "date",
-        className: "draft-step-date",
-        ariaLabel: words.stepDate ?? "",
-      });
+      const date = dateField(words.stepDate ?? "");
       rows.push({ amount, date });
       // Every row reads the same way: the amount with its unit, then when it takes effect.
       steps.append(
@@ -66,7 +90,15 @@ export function draftCard({ groups, words, onDraft }) {
       onDraft(
         item,
         typed.value,
-        rows.map((row) => ({ amount: row.amount.value, date: row.date.value })),
+        firstDate
+          ? [
+              { amount: typed.value, date: firstDate.value },
+              ...rows.map((row) => ({
+                amount: row.amount.value,
+                date: row.date.value,
+              })),
+            ]
+          : [],
       ),
     );
     return [
@@ -82,20 +114,9 @@ export function draftCard({ groups, words, onDraft }) {
       stripSection(
         2,
         words.newAmount,
-        // A dollar sign leads the amount; any other unit follows it.
-        el(
-          "div",
-          { className: "draft-entry" },
-          ...(item.unit === "$"
-            ? [unitOf(item), typed]
-            : [typed, unitOf(item)]),
-          el("span", {
-            className: "draft-when",
-            textContent: words.firstStep ?? "",
-          }),
-        ),
+        firstRow,
         steps,
-        addStep,
+        ...(item.value.startsWith("series:") ? [addStep] : []),
         ...(item.note
           ? [el("p", { className: "draft-note", textContent: item.note })]
           : []),
