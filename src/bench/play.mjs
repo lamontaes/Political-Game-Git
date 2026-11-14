@@ -3234,6 +3234,7 @@ async function seatRows() {
         newAmount: seat.newAmount ?? "",
         draft: seat.draft ?? "",
         addStep: seat.addStep ?? "",
+        firstStep: seat.firstStep ?? "",
         stepDate: seat.stepDate ?? "",
         none: controls.bill?.none ?? "",
       },

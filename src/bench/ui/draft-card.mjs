@@ -42,11 +42,23 @@ export function draftCard({ groups, words, onDraft }) {
         ariaLabel: words.stepDate ?? "",
       });
       rows.push({ amount, date });
+      // Every row reads the same way: the amount with its unit, then when it takes effect.
       steps.append(
         el(
           "div",
           { className: "draft-step" },
-          el("span", { className: "draft-entry" }, amount, date),
+          el(
+            "span",
+            { className: "draft-entry" },
+            ...(item.unit === "$"
+              ? [unitOf(item), amount]
+              : [amount, unitOf(item)]),
+          ),
+          el("span", {
+            className: "draft-when",
+            textContent: words.stepDate ?? "",
+          }),
+          date,
         ),
       );
     });
@@ -77,6 +89,10 @@ export function draftCard({ groups, words, onDraft }) {
           ...(item.unit === "$"
             ? [unitOf(item), typed]
             : [typed, unitOf(item)]),
+          el("span", {
+            className: "draft-when",
+            textContent: words.firstStep ?? "",
+          }),
         ),
         steps,
         addStep,
