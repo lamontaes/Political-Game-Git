@@ -163749,10 +163749,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-answers-in-socks-job-listings-are-spread-across-the-table-inside",
+      "key": "scene-talk.narrate-narrate.name-opens-the-door",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} answers in socks. Job listings are spread across the table inside.",
+      "text": "{name} opens the door.",
       "uses": [
         {
           "subject": "scene",
@@ -163781,44 +163781,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-until-lately-name-worked-at-employer",
+      "key": "scene-talk.narrate-narrate.name-answers-the-knock",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} opens the door. Until lately, {name} worked at {employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-signature.lost-job",
-          "key": "door",
-          "requiresFacts": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-support.lost-job",
-          "key": "door",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-with-a-stack-of-job-printouts-in-one-hand",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} opens the door with a stack of job printouts in one hand.",
+      "text": "{name} answers the knock.",
       "uses": [
         {
           "subject": "scene",
@@ -163847,10 +163813,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-answers-fast-as-if-expecting-a-call-back-about-a-job",
+      "key": "scene-talk.narrate-narrate.name-comes-to-the-door",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} answers fast, as if expecting a call back about a job.",
+      "text": "{name} comes to the door.",
       "uses": [
         {
           "subject": "scene",
@@ -163879,10 +163845,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-opens-the-door-with-a-pen-behind-one-ear-and-a-job-application-half-filled",
+      "key": "scene-talk.narrate-narrate.name-opens-the-door-and-waits",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "{name} opens the door with a pen behind one ear and a job application half filled out on the table.",
+      "text": "{name} opens the door and waits.",
       "uses": [
         {
           "subject": "scene",
@@ -164243,10 +164209,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.if-you-ll-say-out-loud-what-employer-did-to-us-you-ve-got-my-vote",
+      "key": "scene-talk.reply-agree.if-you-ll-say-out-loud-what-employer-did-to-me-you-ve-got-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "If you'll say out loud what {employer} did to us, you've got my vote.",
+      "text": "If you'll say out loud what {employer} did to me, you've got my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -164396,10 +164362,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.employer-cut-me-loose-and-every-one-of-you-running-said-nothing-no",
+      "key": "scene-talk.reply-decline.employer-cut-me-loose-i-m-not-voting-on-anybody-s-word-self",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "{employer} cut me loose and every one of you running said nothing. No.",
+      "text": "{employer} cut me loose. I'm not voting on anybody's word, {self}.",
       "uses": [
         {
           "subject": "scene",
@@ -164498,10 +164464,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-would-you-have-done-when-employer-let-us-all-go-i-don-t-hear-an-answer-so-n",
+      "key": "scene-talk.reply-decline.employer-let-me-go-i-m-not-promising-anybody-anything-right-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What would you have done when {employer} let us all go? I don't hear an answer, so no.",
+      "text": "{employer} let me go. I'm not promising anybody anything right now.",
       "uses": [
         {
           "subject": "scene",
@@ -164617,10 +164583,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-remember-what-employer-did",
+      "key": "scene-talk.follow-thank.thank-you-i-won-t-forget-it-by-vote-day",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll remember what {employer} did.",
+      "text": "Thank you. I won't forget it by {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -164753,10 +164719,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-hope-employer-regrets-it",
+      "key": "scene-talk.follow-accept.best-of-luck",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I hope {employer} regrets it.",
+      "text": "Best of luck.",
       "uses": [
         {
           "subject": "scene",
@@ -164821,10 +164787,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.losing-a-job-at-employer-is-why-i-m-running",
+      "key": "scene-talk.follow-press.what-s-missing-then",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Losing a job at {employer} is why I'm running.",
+      "text": "What's missing, then?",
       "uses": [
         {
           "subject": "scene",
@@ -164845,7 +164811,7 @@
           "after": "decline"
         }
       ],
-      "bearing": "eager",
+      "bearing": "tender",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
@@ -164855,10 +164821,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.give-me-until-vote-day-to-earn-it",
+      "key": "scene-talk.follow-press.what-would-you-want-done-by-vote-day",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Give me until {vote-day} to earn it.",
+      "text": "What would you want done by {vote-day}?",
       "uses": [
         {
           "subject": "scene",
@@ -164889,46 +164855,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-m-asking-because-of-what-happened-at-employer-that-s-the-reason",
+      "key": "scene-talk.follow-press.what-would-change-your-mind-by-vote-day",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'm asking because of what happened at {employer}. That's the reason.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-signature.lost-job",
-          "key": "door",
-          "after": "decline",
-          "requiresFacts": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "ask-support.lost-job",
-          "key": "door",
-          "after": "decline",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-can-t-undo-what-employer-did-i-m-here-now",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I can't undo what {employer} did. I'm here now.",
+      "text": "What would change your mind by {vote-day}?",
       "uses": [
         {
           "subject": "scene",
@@ -164950,6 +164880,40 @@
         }
       ],
       "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.what-helps-then",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "What helps, then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
@@ -164993,10 +164957,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-look-into-what-happened-at-employer-you-ll-hear-from-me-either-way",
+      "key": "scene-talk.follow-promise.i-ll-look-into-it-before-vote-day-you-ll-hear-from-me-either-way",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll look into what happened at {employer}. You'll hear from me either way.",
+      "text": "I'll look into it before {vote-day}. You'll hear from me either way.",
       "uses": [
         {
           "subject": "scene",
@@ -165029,10 +164993,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-ask-the-workforce-office-what-they-have-for-people-from-employer-no-strings",
+      "key": "scene-talk.follow-promise.i-ll-ask-the-workforce-office-what-they-have-before-vote-day-no-strings",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll ask the workforce office what they have for people from {employer}. No strings.",
+      "text": "I'll ask the workforce office what they have, before {vote-day}. No strings.",
       "uses": [
         {
           "subject": "scene",
@@ -165097,10 +165061,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-no-self-that-didn-t-change-while-you-were-talking",
+      "key": "scene-talk.reply-decline.somebody-to-notice-self-that-would-be-a-start",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said no, {self}. That didn't change while you were talking.",
+      "text": "Somebody to notice, {self}. That would be a start.",
       "uses": [
         {
           "subject": "scene",
@@ -165110,148 +165074,7 @@
           "purpose": "ask-signature.lost-job",
           "key": "door",
           "after": "press"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.you-can-ask-three-ways-self-it-s-still-no",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "You can ask three ways, {self}. It's still no.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-signature.lost-job",
-          "key": "door",
-          "after": "press"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-know-you-mean-it-self-i-still-can-t",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I know you mean it, {self}. I still can't.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-signature.lost-job",
-          "key": "door",
-          "after": "press"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.maybe-after-i-m-working-again-self-not-now",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Maybe after I'm working again, {self}. Not now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-signature.lost-job",
-          "key": "door",
-          "after": "press"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.you-asked-self-i-answered",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "You asked, {self}. I answered.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-support.lost-job",
-          "key": "door",
-          "after": "press"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.show-me-something-self-then-ask-me-again",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Show me something, {self}, then ask me again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-support.lost-job",
-          "key": "door",
-          "after": "press"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-believe-you-self-i-still-don-t-know-who-i-m-voting-for",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I believe you, {self}. I still don't know who I'm voting for.",
-      "uses": [
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -165272,11 +165095,54 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-yet-self-come-back-when-the-work-comes-back",
+      "key": "scene-talk.reply-decline.a-job-self-anything-past-that-is-talk",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not yet, {self}. Come back when the work comes back.",
+      "text": "A job, {self}. Anything past that is talk.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.somebody-who-calls-back-self-that-s-all",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Somebody who calls back, {self}. That's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "press"
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -165288,6 +165154,40 @@
         }
       ],
       "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.work-self-ask-me-again-when-there-s-some",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Work, {self}. Ask me again when there's some.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "after": "press"
+        }
+      ],
+      "bearing": "braced",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
@@ -174749,10 +174649,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.how-are-you-holding-up-since-employer",
+      "key": "scene-talk.follow-ask.holding-up-okay",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "How are you holding up since {employer}?",
+      "text": "Holding up okay?",
       "uses": [
         {
           "subject": "scene",
@@ -174760,8 +174660,7 @@
           "move": "ask",
           "role": "asker",
           "purpose": "ask-signature.lost-job",
-          "key": "door",
-          "requiresFacts": ["employer"]
+          "key": "door"
         },
         {
           "subject": "scene",
@@ -174769,8 +174668,7 @@
           "move": "ask",
           "role": "asker",
           "purpose": "ask-support.lost-job",
-          "key": "door",
-          "requiresFacts": ["employer"]
+          "key": "door"
         }
       ],
       "bearing": "tender",
@@ -174783,10 +174681,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.how-s-the-search",
+      "key": "scene-talk.follow-ask.how-s-your-week",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "How's the search?",
+      "text": "How's your week?",
       "uses": [
         {
           "subject": "scene",
@@ -174815,10 +174713,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-would-make-the-next-few-weeks-easier-since-employer",
+      "key": "scene-talk.follow-ask.how-are-things",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What would make the next few weeks easier since {employer}?",
+      "text": "How are things?",
       "uses": [
         {
           "subject": "scene",
@@ -174847,10 +174745,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-happened-at-employer-if-you-don-t-mind-me-asking",
+      "key": "scene-talk.follow-ask.everything-alright",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What happened at {employer}, if you don't mind me asking?",
+      "text": "Everything alright?",
       "uses": [
         {
           "subject": "scene",
@@ -174858,8 +174756,7 @@
           "move": "ask",
           "role": "asker",
           "purpose": "ask-signature.lost-job",
-          "key": "door",
-          "requiresFacts": ["employer"]
+          "key": "door"
         },
         {
           "subject": "scene",
@@ -174867,8 +174764,7 @@
           "move": "ask",
           "role": "asker",
           "purpose": "ask-support.lost-job",
-          "key": "door",
-          "requiresFacts": ["employer"]
+          "key": "door"
         }
       ],
       "bearing": "calm",
@@ -176293,10 +176189,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-find-out-what-help-there-is-for-people-who-can-t-get-out-much-and-bring-it",
+      "key": "scene-talk.follow-promise.i-ll-come-by-again-before-vote-day-with-what-help-there-is",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll find out what help there is for people who can't get out much, and bring it by before {vote-day}.",
+      "text": "I'll come by again before {vote-day} with what help there is.",
       "uses": [
         {
           "subject": "scene",
@@ -176937,10 +176833,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-stop-by-again-to-see-how-you-and-relative-are-doing",
+      "key": "scene-talk.follow-promise.i-ll-ask-around-about-help-for-relative-and-let-you-know",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll stop by again to see how you and {relative} are doing.",
+      "text": "I'll ask around about help for {relative} and let you know.",
       "uses": [
         {
           "subject": "scene",

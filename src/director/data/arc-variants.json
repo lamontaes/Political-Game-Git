@@ -3584,7 +3584,7 @@
             "endings": [
               {
                 "id": "promised-to-look",
-                "label": "You said you would look into it",
+                "label": "You said you would come back",
                 "keeps": "promise",
                 "firmness": "vague",
                 "when": {
@@ -4250,7 +4250,7 @@
             "endings": [
               {
                 "id": "promised-to-look",
-                "label": "You said you would look into it",
+                "label": "You said you would come back",
                 "keeps": "promise",
                 "firmness": "vague",
                 "when": {
