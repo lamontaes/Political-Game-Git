@@ -998,9 +998,17 @@ function composeBinding(
   }
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
-  if (asked.familyIds.has(askerId))
+  // A partner is neither kin nor a stranger: they know each other (family
+  // life, Words lead's read of the move-in scene, Nov 14 2026).
+  const partners = [...core.familyLinks.values()].some(
+    (link) =>
+      link.kind === "partner" &&
+      link.personIds.includes(askerId) &&
+      link.personIds.includes(askedId),
+  );
+  if (asked.familyIds.has(askerId) && !partners)
     facts.kin = { text: asker.givenName, sourceRecordIds: [askerId, askedId] };
-  if (asked.knownIds.has(askerId))
+  if (asked.knownIds.has(askerId) || partners)
     facts.acquainted = {
       text: asker.givenName,
       sourceRecordIds: [askerId, askedId],

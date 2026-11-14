@@ -410,8 +410,7 @@
     "address:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:venue": ["public-meeting-room"],
-    "move-in:home": ["@home"],
-    "move-in:other-home": ["@home"]
+    "move-in:home": ["@home"]
   },
   "schoolPlacesByAge": [
     {

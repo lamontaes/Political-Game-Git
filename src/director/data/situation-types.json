@@ -1316,7 +1316,7 @@
           "bearing": "tender"
         }
       ],
-      "setting": ["home", "other-home"],
+      "setting": ["home"],
       "timing": "next-together",
       "stopsDay": true,
       "causes": [

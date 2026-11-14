@@ -3013,9 +3013,9 @@
         ],
         "playerReaches": "maybe",
         "lines": {
-          "all": 45,
+          "all": 34,
           "counted": 21,
-          "onlyHere": 45,
+          "onlyHere": 34,
           "onlyHereCounted": 21
         }
       }
@@ -3296,7 +3296,7 @@
       "why": "Stops the day; a dating couple that includes the player lives together only when the player says yes (family life question 2, Nov 14 2026).",
       "computed": {
         "purpose": "move-in-ask",
-        "setting": ["home", "other-home"],
+        "setting": ["home"],
         "timing": "next-together",
         "rowsInTypesFile": 1,
         "causes": [
@@ -3310,10 +3310,10 @@
         ],
         "playerReaches": "yes",
         "lines": {
-          "all": 0,
-          "counted": 0,
-          "onlyHere": 0,
-          "onlyHereCounted": 0
+          "all": 67,
+          "counted": 58,
+          "onlyHere": 67,
+          "onlyHereCounted": 58
         }
       }
     },

@@ -915,7 +915,9 @@ function reviewTown(api: CoreAPI): void {
     if (
       couple.progress >= p("one") &&
       next === "living-together" &&
-      withPlayer
+      withPlayer &&
+      // Asked only when one of them could move: the ask says who.
+      movingOrder(api, a, b, core.playerId) !== undefined
     ) {
       // Living together changes the player's home, so the partner asks and
       // the player's answer in the scene decides (coordinator's ruling under

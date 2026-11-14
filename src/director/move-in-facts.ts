@@ -1,9 +1,9 @@
 /**
  * What a partner's ask to live together may say, from the partnerships
- * engine's records: whether the one asking is the one who would move
- * (`asker-moves`, by the engine's own order: the one with less cash goes,
- * unless they cannot leave), and whether the one asked has a living relative
- * on record (`asked-has-family`). A fact with no record behind it is left out,
+ * engine's records: who would move (`asker-moves` or `asked-moves`, by the
+ * engine's own order: the one with less cash goes, unless they cannot leave),
+ * whether the one asked lives with family or has a place of their own, and
+ * whether they have a living relative on record (`asked-has-family`). A fact with no record behind it is left out,
  * so the lines that need it never play.
  */
 import {
@@ -42,6 +42,27 @@ export function moveInFacts(
     facts["asker-moves"] = {
       text: asker.givenName,
       sourceRecordIds: [causeId, askerId, askedId],
+    };
+  if (mover?.id === askedId)
+    facts["asked-moves"] = {
+      text: asked.givenName,
+      sourceRecordIds: [causeId, askerId, askedId],
+    };
+  // Whether the one asked lives with family, or has a place of their own
+  // (nobody of their family at home), so a no says what it would give up.
+  const atHome = core.households.get(asked.householdId)?.memberIds ?? [];
+  const family = [...atHome].filter(
+    (id) => id !== askedId && asked.familyIds.has(id) && id !== askerId,
+  );
+  if (family.length)
+    facts["asked-lives-with-family"] = {
+      text: asked.givenName,
+      sourceRecordIds: [asked.householdId, ...family],
+    };
+  else
+    facts["asked-has-own-place"] = {
+      text: asked.givenName,
+      sourceRecordIds: [asked.householdId],
     };
   const [relative] = [...asked.familyIds]
     .filter((id) => id !== askerId && core.people.get(id)?.alive)
