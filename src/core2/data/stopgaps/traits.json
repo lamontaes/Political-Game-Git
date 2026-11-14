@@ -14,18 +14,6 @@
     "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
-    "id": "SG-TRAITS-director-claims-reader",
-    "kind": "rule-copy",
-    "file": "src/core2/heard-claims.ts",
-    "line": 33,
-    "whatItFakes": "Two believing rules: a story or speech one resident passes to another goes through believesClaim (the stranger's pull believeStrangerPull, plus closeness to the teller and how well the claim fits the hearer's view, against the trait lean at its weight), while the player's own claim in a conversation is still read by the director's doubtsClaim (src/director/conversation.ts), the flat truthDefaultPull against the raw trait lean, with no closeness, fit or weight.",
-    "why": "src/director edits belong to the Words line (merger rule); the civic family may not change the director's reader on its own branch.",
-    "addedBy": "traits-civic",
-    "addedAt": "2026-10-25",
-    "replacement": "The Words line routes doubtsClaim through believesClaim, passing the player as the teller (pool item words-director-claims-shared-rule); truthDefaultPull is then removed.",
-    "status": "open"
-  },
-  {
     "id": "SG-TRAITS-counted-health-no-trait",
     "kind": "partial-model",
     "file": "src/core2/modules/health.ts",

@@ -84,9 +84,9 @@ describe("a bribe offer names what it wants", () => {
     const said = (key: string) =>
       scene.scene.facts.find((row) => row.key === key);
     expect(said("favor-contract"), where).toBeTruthy();
-    expect(said("contract")?.text, where).toBe("the highways contract");
+    expect(said("contract")?.text, where).toBe("the road contract");
     expect(said("contract")?.recordIds, where).toContain(subjectId);
-    expect(said("wanted")?.text, where).toBe("the highways contract");
+    expect(said("wanted")?.text, where).toBe("the road contract");
     expect(said("favor-vote"), where).toBeFalsy();
     process.stdout.write(
       `BRIBE WANTED ${where}: ${said("wanted")?.text}; ${scene.scene.talk.state.text}\n`,
