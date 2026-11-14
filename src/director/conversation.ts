@@ -6290,6 +6290,13 @@ function partingLine(
     facts["about-again"] = found
       ? topic[found]!
       : { text: "yes", sourceRecordIds: [conversation.playerId] };
+    // Goodbyes that speak to someone already known ("Always good to see
+    // you") are for people who met before this talk, never a first meeting.
+    if (!introduced)
+      facts["met-before"] = {
+        text: "yes",
+        sourceRecordIds: [conversation.playerId],
+      };
     facts["player-first"] = {
       text: player.givenName,
       sourceRecordIds: [player.id],

@@ -28353,7 +28353,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -28399,7 +28399,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -28422,7 +28422,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -28445,7 +28445,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "at-their-work"]
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "at-their-work",
+            "met-before"
+          ]
         }
       ],
       "origin": "authored",
@@ -28468,7 +28473,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -28491,7 +28496,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "at-their-work"]
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "at-their-work",
+            "met-before"
+          ]
         }
       ],
       "origin": "authored",
@@ -28514,7 +28524,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "at-their-work"]
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "at-their-work",
+            "met-before"
+          ]
         }
       ],
       "origin": "authored",
@@ -28583,7 +28598,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "at-their-work"]
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "at-their-work",
+            "met-before"
+          ]
         }
       ],
       "origin": "authored",
@@ -28606,7 +28626,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "not-housemate"]
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "not-housemate",
+            "met-before"
+          ]
         }
       ],
       "origin": "authored",
@@ -28629,7 +28654,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -30790,7 +30815,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -30813,7 +30838,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -30905,7 +30930,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -30928,7 +30953,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -30997,7 +31022,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "at-their-work"]
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "at-their-work",
+            "met-before"
+          ]
         }
       ],
       "origin": "authored",
@@ -31020,7 +31050,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "at-their-work"]
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "at-their-work",
+            "met-before"
+          ]
         }
       ],
       "origin": "authored",
@@ -31043,7 +31078,12 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "at-their-work"]
+          "requiresFacts": [
+            "about-again",
+            "player-first",
+            "at-their-work",
+            "met-before"
+          ]
         }
       ],
       "origin": "authored",
@@ -31112,7 +31152,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -31135,7 +31175,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -31204,7 +31244,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "met-before"]
         }
       ],
       "origin": "authored",
@@ -39463,7 +39503,7 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "requiresFacts": ["about-employer-mine"]
+          "requiresFacts": ["about-employer-mine", "met-before"]
         }
       ],
       "piece": {
