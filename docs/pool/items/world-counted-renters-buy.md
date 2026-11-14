@@ -3,7 +3,7 @@ id: world-counted-renters-buy
 title: "A counted renter household buys a new house through its group's accounts: rent part ends, mortgage part starts"
 area: world
 kind: feature
-priority: 3
+priority: 2
 size: M
 status: open
 standard: 2
@@ -48,3 +48,5 @@ Oct 25 audit: PR #5367 changes notes and a declaration only; the build is still 
 Deferred Oct 25: nothing on screen reads it yet.
 
 Nov 14, 2026 (Account lead T49): until counted renters buy, a town's home price level (world-home-prices-from-housing) counts counted owners' sales as homes offered but no counted purchases, so its buyers-against-homes-offered pressure leans down. Measured with `node --import tsx scripts/research/home-price-paths.ts --seed d4 --place 2132428 --years 30` (Gratz, Kentucky): no buyers in 30 years, 45 owned homes down to 9, the level flat in dollars over 30 years.
+
+Ruling, Nov 14, 2026 (Account lead, from the standing rules "one model, two tiers" and "no dice"; not put to the owner): a counted renter household's down payment comes from its own savings, worked out from its own record on the day it weighs buying (what its income left after rent and living costs since its lease began), paid from the place's pooled account; a household short of the down payment does not buy. Not an income share of the pool, and never a purchase with no savings check. Raised to P2 and built next with world-home-prices-from-housing (#9104), whose price level leans down until counted renters buy; the two fold together.
