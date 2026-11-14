@@ -133,7 +133,7 @@
     "about": "What a law not yet in force changes, by what it is (\"the Social Security payroll tax\"), from the law record's policy name.",
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
     "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
-    "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
+    "contract": "The contract award a bribe offer wants, by the work it pays for (\"the road contract\"), from the offer record.",
     "wanted": "What a bribe offer wants, the bill or the contract the offer record names."
   },
   "maxWords": 70,
@@ -73992,7 +73992,7 @@
       "key": "scene-talk.narrate-narrate.the-job-went-out-for-bids-and-name-bid-on-it-now-name-wants-a-word-wit",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The job went out for bids, and {name} bid on it. Now {name} wants a word with you alone.",
+      "text": "The bids are in on {contract}, and {name} put one in. Now {name} wants a word with you alone.",
       "uses": [
         {
           "subject": "scene",
@@ -74001,13 +74001,13 @@
           "role": "narrator",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
@@ -74017,13 +74017,13 @@
       "key": "scene-talk.narrate-narrate.name-asks-for-a-minute-in-private-it-s-about-the-contract-and-it-isn-t-about-the",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} asks for a minute in private. It's about the contract, and it isn't about the paperwork.",
+      "text": "{name} asks for a minute in private. It's about {contract}, and it isn't about the paperwork.",
       "uses": [
         {
           "key": "favor-asked",
           "move": "narrate",
           "purpose": "bribe-offer",
-          "requiresFacts": ["favor-contract"],
+          "requiresFacts": ["favor-contract", "contract"],
           "role": "narrator",
           "step": "narrate",
           "subject": "scene"
@@ -74031,8 +74031,8 @@
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
@@ -74042,13 +74042,13 @@
       "key": "scene-talk.narrate-narrate.name-is-waiting-outside-your-office-the-contract-is-all-name-has-talked-about-fo",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is waiting outside your office. The contract is all {name} has talked about for weeks.",
+      "text": "{name} is waiting outside your office. You can guess what it's about: {contract}.",
       "uses": [
         {
           "key": "favor-asked",
           "move": "narrate",
           "purpose": "bribe-offer",
-          "requiresFacts": ["favor-contract"],
+          "requiresFacts": ["favor-contract", "contract"],
           "role": "narrator",
           "step": "narrate",
           "subject": "scene"
@@ -74056,8 +74056,8 @@
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
@@ -74283,7 +74283,7 @@
       "key": "scene-talk.state-request.my-bid-is-the-best-one-in-the-stack-this-makes-sure-someone-reads-it-t",
       "move": "state-request",
       "kind": "spoken",
-      "text": "My bid is the best one in the stack. This makes sure someone reads it that way.",
+      "text": "My bid on {contract} is the best one in the stack. This makes sure someone reads it that way.",
       "uses": [
         {
           "subject": "scene",
@@ -74292,13 +74292,13 @@
           "role": "asker",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "request",
         "key": "favor-asked"
@@ -74308,7 +74308,7 @@
       "key": "scene-talk.state-request.i-need-that-contract-to-go-my-way-and-i-ll-make-it-worth-your-while",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I need that contract to go my way, and I'll make it worth your while.",
+      "text": "I need {contract} to go my way. I'll make it worth your while.",
       "uses": [
         {
           "subject": "scene",
@@ -74317,13 +74317,13 @@
           "role": "asker",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "request",
         "key": "favor-asked"
@@ -105444,7 +105444,7 @@
       "key": "scene-talk.state-threaten.that-contract-was-mine-think-about-who-you-want-against-you-in",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "That contract was mine. Think about who you want against you in {place}, {first}.",
+      "text": "{contract} was mine. Think about who you want against you around here.",
       "uses": [
         {
           "subject": "scene",
@@ -105453,38 +105453,13 @@
           "role": "asker",
           "purpose": "bribe-pressed",
           "key": "threat",
-          "requiresFacts": ["favor-contract", "place"]
+          "requiresFacts": ["favor-contract", "place", "contract"]
         }
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "threaten",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-threaten.i-ve-bid-on-this-town-s-work-for-years-first-don-t-make-me-remember-this",
-      "move": "state-threaten",
-      "kind": "spoken",
-      "text": "I've bid on {place}'s work for years, {first}. Don't make me remember this.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "threaten",
-          "purpose": "bribe-pressed",
-          "requiresFacts": ["favor-contract", "place"],
-          "role": "asker",
-          "step": "state",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "threaten",
         "key": "threat"
@@ -105494,13 +105469,13 @@
       "key": "scene-talk.state-threaten.that-contract-was-supposed-to-be-mine-first-people-who-cross-me-run-short-of-fri",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "That contract was supposed to be mine, {first}. People who cross me run short of friends.",
+      "text": "{contract} was supposed to be mine. People who cross me run short of friends.",
       "uses": [
         {
           "key": "threat",
           "move": "threaten",
           "purpose": "bribe-pressed",
-          "requiresFacts": ["favor-contract"],
+          "requiresFacts": ["favor-contract", "contract"],
           "role": "asker",
           "step": "state",
           "subject": "scene"
@@ -105508,8 +105483,8 @@
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "threaten",
         "key": "threat"
@@ -111745,7 +111720,7 @@
       "key": "scene-talk.state-offer.while-the-bids-are-being-read-i-wanted-you-to-have-a-small-thank-you-n",
       "move": "state-offer",
       "kind": "spoken",
-      "text": "While the bids are being read, I wanted you to have a small thank-you. No strings.",
+      "text": "The bids on {contract} are still being read. I wanted you to have a small thank-you. No strings.",
       "uses": [
         {
           "subject": "scene",
@@ -111754,13 +111729,13 @@
           "role": "asker",
           "purpose": "bribe-offer.small",
           "key": "favor-asked",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "offer",
         "key": "favor-asked"
@@ -112400,7 +112375,7 @@
       "key": "scene-talk.state-request.theres-real-money-in-this-envelope-all-i-need-is-for-the-contract-to-c",
       "move": "state-request",
       "kind": "spoken",
-      "text": "There's real money in this envelope. All I need is for the contract to come to me.",
+      "text": "All I need is for {contract} to come to me. There's real money in this envelope.",
       "uses": [
         {
           "subject": "scene",
@@ -112409,13 +112384,13 @@
           "role": "asker",
           "purpose": "bribe-offer.large",
           "key": "favor-asked",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "request",
         "key": "favor-asked"
@@ -112908,7 +112883,7 @@
       "key": "scene-talk.state-request.id-never-put-this-on-anyone-else-see-that-the-contract-comes-to-me-and",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'd never put this on anyone else. See that the contract comes to me, and take this for your trouble.",
+      "text": "I'd never put this on anyone else. See that {contract} comes to me. This is for your trouble.",
       "uses": [
         {
           "subject": "scene",
@@ -112917,13 +112892,13 @@
           "role": "asker",
           "purpose": "bribe-offer.friend",
           "key": "favor-asked",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "tender",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "request",
         "key": "favor-asked"
@@ -113513,7 +113488,7 @@
       "key": "scene-talk.state-press.the-bids-are-still-open-and-so-am-i-this-is-still-for-your-trouble",
       "move": "state-press",
       "kind": "spoken",
-      "text": "The bids are still open, and so am I. This is still for your trouble.",
+      "text": "The bids on {contract} are still open, and so is my offer. This is still for your trouble.",
       "uses": [
         {
           "subject": "scene",
@@ -113522,13 +113497,13 @@
           "role": "asker",
           "purpose": "bribe-offer.again",
           "key": "favor-asked",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "press",
         "key": "favor-asked"
@@ -114021,7 +113996,7 @@
       "key": "scene-talk.state-plea.everything-i-have-rides-on-that-contract-take-this-and-please-let-it-c",
       "move": "state-plea",
       "kind": "spoken",
-      "text": "Everything I have rides on that contract. Take this, and please, let it come to me.",
+      "text": "Everything I have rides on {contract}. Please let it come to me. Take this.",
       "uses": [
         {
           "subject": "scene",
@@ -114030,13 +114005,13 @@
           "role": "asker",
           "purpose": "bribe-offer.desperate",
           "key": "favor-asked",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "anxious",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "plea",
         "key": "favor-asked"
@@ -114554,7 +114529,7 @@
       "key": "scene-talk.state-warn.contracts-get-remembered-first-by-the-people-who-needed-them-most-just",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "Contracts get remembered, {first}, by the people who needed them most. Just so you know.",
+      "text": "People remember who got {contract}, {first}, and who needed it most. Just so you know.",
       "uses": [
         {
           "subject": "scene",
@@ -114563,13 +114538,13 @@
           "role": "asker",
           "purpose": "bribe-pressed.veiled",
           "key": "threat",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "warn",
         "key": "threat"
@@ -114966,7 +114941,7 @@
       "key": "scene-talk.state-threaten.that-contract-was-mine-first-ill-make-you-pay-for-losing-it",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "That contract was mine, {first}. I'll make you pay for losing it.",
+      "text": "{contract} was mine. I'll make you pay for losing it.",
       "uses": [
         {
           "subject": "scene",
@@ -114975,13 +114950,13 @@
           "role": "asker",
           "purpose": "bribe-pressed.open",
           "key": "threat",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "threaten",
         "key": "threat"
@@ -115427,7 +115402,7 @@
       "key": "scene-talk.state-plea.please-first-that-contract-is-the-difference-between-my-keeping-what-i",
       "move": "state-plea",
       "kind": "spoken",
-      "text": "Please, {first}. That contract is the difference between my keeping what I have and losing it.",
+      "text": "Please, {first}. Without {contract}, I lose what I have.",
       "uses": [
         {
           "subject": "scene",
@@ -115436,13 +115411,13 @@
           "role": "asker",
           "purpose": "bribe-pressed.begging",
           "key": "threat",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "anxious",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "plea",
         "key": "threat"
@@ -115814,7 +115789,7 @@
       "key": "scene-talk.state-press.that-contract-is-still-on-my-mind-first-and-so-are-you-every-time",
       "move": "state-press",
       "kind": "spoken",
-      "text": "That contract is still on my mind, {first}, and so are you. Every time.",
+      "text": "{contract} is still on my mind. So are you.",
       "uses": [
         {
           "subject": "scene",
@@ -115823,13 +115798,13 @@
           "role": "asker",
           "purpose": "bribe-pressed.again",
           "key": "threat",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words lead (desk thread, round 3, ruled Nov 14 2026)",
+      "date": "2026-11-14",
       "tag": {
         "move": "press",
         "key": "threat"

@@ -56,6 +56,7 @@ import {
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { withArticle } from "../english/journal-words";
+import { contractSaid } from "../english/contract-words";
 import {
   JOBS_MODULE_ID,
   JOB_OFFERED_EVENT,
@@ -1018,12 +1019,10 @@ function composeBinding(
       text: said.favor,
       sourceRecordIds: [moment.causeId],
     };
-    const work = (
-      lineNames.lines as Record<string, { readonly name: string } | undefined>
-    )[said.contractLine ?? ""]?.name;
-    if (said.favor === "contract" && work)
+    const contract = said.contractLine ? contractSaid(said.contractLine) : null;
+    if (said.favor === "contract" && contract)
       facts.contract = {
-        text: `the ${work.charAt(P.zero).toLowerCase()}${work.slice(P.one)} contract`,
+        text: contract,
         sourceRecordIds: [moment.causeId, said.contractId ?? moment.causeId],
       };
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
