@@ -6761,6 +6761,32 @@
       }
     },
     {
+      "key": "journal.office-line-took-office.my-bill-law-became-law-over-the-veto",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "My bill, {law}, became law over the veto.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:executive-action",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.office-line-took-office.law-name-became-law-without-my-signature",
       "move": "office-line-took-office",
       "kind": "spoken",

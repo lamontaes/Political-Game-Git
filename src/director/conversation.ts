@@ -1406,13 +1406,14 @@ export function wonRace(
   resultId: string,
   personId: string,
 ): boolean {
-  const seats = /^(.*:)\d+(:\d{4}-\d{2}-\d{2})$/.exec(resultId);
-  const ids = seats
-    ? Array.from(
-        { length: seatsOf(core, seats[1]!, seats[2]!) },
-        (_, seat) => `${seats[1]}${seat}${seats[2]}`,
-      )
-    : [resultId];
+  const [, head, tail] = /^(.*:)\d+(:\d{4}-\d{2}-\d{2})$/.exec(resultId) ?? [];
+  const ids =
+    head !== undefined && tail !== undefined
+      ? Array.from(
+          { length: seatsOf(core, head, tail) },
+          (_, seat) => `${head}${seat}${tail}`,
+        )
+      : [resultId];
   return [resultId, ...ids].some(
     (id) =>
       (
@@ -1423,8 +1424,8 @@ export function wonRace(
 }
 /** How many seat records of one race the log holds, counted up from seat 0. */
 function seatsOf(core: Readonly<CoreState>, head: string, tail: string) {
-  let count = 0;
-  while (core.durableLog.get(`${head}${count}${tail}` as never)) count += 1;
+  let count = zero;
+  while (core.durableLog.get(`${head}${count}${tail}` as never)) count += one;
   return count;
 }
 
