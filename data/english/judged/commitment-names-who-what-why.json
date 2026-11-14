@@ -2,19 +2,11 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 27,
+  "judged": 24,
   "no": {
     "00nxu254m0b": {
       "keys": ["scene-talk.follow-threaten.don-t-count-on-my-help-next-time"],
       "why": "Threat names no who, what or why; the owner flagged it as missing context."
-    },
-    "017p7s0la6x": {
-      "keys": ["scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it"],
-      "why": "Bare promise with no what or why."
-    },
-    "04ci7aa0nss": {
-      "keys": ["scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word"],
-      "why": "Bare promise with no what or why."
     },
     "07ia88elql4": {
       "keys": [
@@ -61,12 +53,6 @@
         "scene-talk.follow-threaten.youll-regret-it-first-everyone-does"
       ],
       "why": "Threat that names no who, what or why."
-    },
-    "20bdh3o0vo8": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word"
-      ],
-      "why": "Bare promise with no what or why."
     },
     "20cretbbd3j": {
       "keys": ["scene-talk.follow-threaten.you-know-how-this-works"],
