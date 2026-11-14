@@ -182,8 +182,9 @@ export function putOutputNumber(
  * dev mode's Trace. A year before the world's start is closed; the start
  * year's row is the one play folds its months into. Other engines' figures
  * already on the row are kept. The row names the figures the passes wrote
- * (`pastFields`): in a closed past year, any other figure is unknown, never
- * zero.
+ * (`pastFields`, on a closed past year only): there any other figure is
+ * unknown, never zero, because no pass ran it (eviction notices are not
+ * simulated before the start).
  */
 export function putPastYear(
   api: CoreAPI,
@@ -224,7 +225,13 @@ export function putPastYear(
     fields.add(number.kept.field);
     inputs[id] = { historyRecordId: past.recordId };
   }
-  table.put({ ...written, inputs, pastFields: [...fields] } as never);
+  // Only a year that closed before the start is a past year; the start
+  // year's row is a played year's once play folds into it.
+  table.put({
+    ...written,
+    inputs,
+    ...(past.closed ? { pastFields: [...fields] } : {}),
+  } as never);
 }
 
 /**
