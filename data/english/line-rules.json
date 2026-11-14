@@ -5407,8 +5407,8 @@
           "words": "they shouldn't just say the unemployment rate is 4.6, it should say like, times are tough, right? Like in normal life, people don't say, oh, the unemployment rate is 4.6%. Times are very hard."
         }
       ],
-      "status": "sample",
-      "note": "Rule 101 (Words lead, Nov 14). A sample: no line is pulled until the Words lead has read the caught list (words-machine/rule-101-caught.md). A slot that prints a figure is caught by name (percent, rate, index); the conversation engine's town_figure slot is felt wording, not a fault.",
+      "status": "enforced",
+      "note": "Rule 101 (Words lead, Nov 14). Enforced for talk: no bank line breaks it since the four rewordings. A slot that prints a figure is caught by name (percent, rate, index); the conversation engine's town_figure slot is felt wording, not a fault. Prepared speeches, the newscast and the paper are spared by `applies`.",
       "test": {
         "kind": "patterns",
         "patterns": [
