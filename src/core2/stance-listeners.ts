@@ -1,7 +1,8 @@
 /**
  * Engines that act on the day a stance moves (interest-group membership
  * follows the view) register here; the views engine calls each one after the
- * move is stored. The list lives in a file that imports no engine, so an
+ * move is stored: a heard case (a stance row), or a change in the person's
+ * own life that their view reads (no stance row; `tellLifeChange`). The list lives in a file that imports no engine, so an
  * engine that registers while it loads never meets the views engine half
  * loaded (the campaign engine and the views engine import each other).
  */
