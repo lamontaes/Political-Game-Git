@@ -369,12 +369,54 @@ function playRace(
   );
   if (pick) visit = chooseAtCounter(core, visit, pick.key);
   const file = visit.visit.choices.find((row) => row.action.kind === "file");
-  const platform = candidatePlatform(
+  // The player takes the stand a cause group of the town holds: the group of
+  // the most members that holds one the seat takes up (ties by id), at the
+  // position the group holds. A cause group endorses the platform that
+  // agrees with its stand, so this is the player's own filing choice that
+  // earns the endorsement clause (a) reads, not a record set by hand. (After
+  // the stakes data folded in, the town's natural-resources groups agreed
+  // with the incumbent's platform and no longer with the player's own.)
+  const townAt = (
+    api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("town")
+      .get("town") as unknown as {
+      townPlaceId: string;
+    }
+  ).townPlaceId;
+  const seatQuestions = new Set(contestPositions(api, contest));
+  const stand = organizedGroupsIn(api, townAt)
+    .filter(
+      (g) =>
+        g.kind === "cause-group" &&
+        g.memberIds.length > 1 &&
+        g.stance.some((s) => seatQuestions.has(s.question)),
+    )
+    .sort(
+      (a, b) =>
+        b.memberIds.length - a.memberIds.length ||
+        a.organizationId.localeCompare(b.organizationId),
+    )[0];
+  const ownPlatform = candidatePlatform(
     api,
     me,
     null,
     contestPositions(api, contest),
-  ).map((stance) => `${stance.question}=${stance.position}`);
+  );
+  const standStances = (stand?.stance ?? []).filter((s) =>
+    seatQuestions.has(s.question),
+  );
+  const platform = [
+    ...ownPlatform.filter(
+      (s) => !standStances.some((g) => g.question === s.question),
+    ),
+    ...standStances,
+  ].map((stance) => `${stance.question}=${stance.position}`);
+  notes.push(
+    stand
+      ? `the player takes the stand of ${stand.organizationId} (${stand.memberIds.length} members): ${standStances.map((s) => `${s.question}=${s.position}`).join(", ")}`
+      : "no cause group in town holds a stand the seat takes up",
+  );
   if (file) visit = chooseAtCounter(core, visit, file.key, { platform });
   const filing = governmentView(core, me).filings.find(
     (row) => row.contestId === contest.id,

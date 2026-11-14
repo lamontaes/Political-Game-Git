@@ -1294,6 +1294,7 @@ export { termReadPlaces } from "../term-read";
 export { countryTermRead } from "../term-read";
 export {
   areasAnswered,
+  jurisdictionTermRead,
   questionAnswersArea,
   topicsAnsweringArea,
 } from "../term-read";
