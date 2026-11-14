@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
 pr:

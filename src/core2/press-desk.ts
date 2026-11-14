@@ -32,6 +32,7 @@ import {
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./modules/views";
+import { jobChangeHeads } from "./modules/jobs";
 import { residentsRuntime } from "./modules/residents";
 import { onContestRoll, VOTING_MODULE_ID } from "./modules/voting";
 import { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./modules/elections";
@@ -836,6 +837,24 @@ export function runDesk(
       const named = followers.filter(roll).length;
       const share = followers.length ? named / followers.length : 1;
       return named + share * ctx.countedFollowers(outlet);
+    }
+    // A layoff is the town's business by the people it reaches: those who
+    // lost their jobs and the staff still working there (the record's own
+    // facts), not only the owner it names.
+    if (item.kind === "business.staff-reduced") {
+      let ids: unknown;
+      try {
+        ids = JSON.parse(item.facts?.jobChangeIds ?? "[]");
+      } catch {
+        ids = [];
+      }
+      const lost = Array.isArray(ids)
+        ? jobChangeHeads(api, ids.map(String))
+        : 0;
+      return (
+        (lost || Number(item.facts?.jobsLost ?? 0)) +
+        Number(item.facts?.staffAfter ?? 0)
+      );
     }
     // A month's move in the town's conditions reaches every follower in
     // proportion to its size (the largest relative move among its facts).

@@ -452,6 +452,24 @@ function noteLeaver(
     });
 }
 
+/**
+ * The jobs a set of recorded changes moved: the heads each change stands for
+ * (a counted job stands for many people, a full person for one), read from the
+ * change records themselves.
+ */
+export function jobChangeHeads(
+  api: CoreAPI,
+  changeIds: readonly string[],
+): number {
+  const changes = store(api).table("changes");
+  let heads = 0;
+  for (const id of changeIds) {
+    const row = changes.get(id) as { heads?: number } | undefined;
+    heads += row?.heads ?? 1;
+  }
+  return heads;
+}
+
 /** A job by id, a full person's or a counted worker's. */
 export function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
   return (
