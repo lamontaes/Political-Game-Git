@@ -189,6 +189,7 @@
     "\\b(?:after|end of) (?:a|the) long day\\b",
     "\\bhow did (?:work|school) go\\b"
   ],
+  "endOfDaySpared": ["\\b(?:yesterday|last night|last evening)\\b"],
   "askAfter": [
     "\\b(?:have you|did you) (?:talked?|spoken|heard from|seen|checked (?:in )?(?:on|with)|called)\\b[^.?!]*\\b{name}\\b[^.?!]*\\?",
     "\\bhow(?:'s| is| are| has| have)\\b[^.?!]*\\b{name}\\b[^.?!]*\\?",

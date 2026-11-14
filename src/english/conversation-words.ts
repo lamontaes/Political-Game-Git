@@ -442,6 +442,7 @@ export function composedConversationBank(
               }
             : {}),
           ...(use.closesTalk ? { closesTalk: true } : {}),
+          ...(use.setsFacts?.length ? { setsFacts: use.setsFacts } : {}),
           ...(piece.bearing ? { bearing: piece.bearing } : {}),
         });
   const bank: ComposedLineBank | null = parts.core?.length
