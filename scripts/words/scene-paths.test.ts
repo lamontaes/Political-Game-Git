@@ -158,7 +158,8 @@ describe("scene paths", () => {
   });
 
   it("leaves a set rule with no sets field to its own reader", () => {
-    const { sets: _, ...plain } = setRule("every");
+    const plain = { ...setRule("every") };
+    delete (plain as { sets?: unknown }).sets;
     expect(scenePaths(plain, PIECES, [talk("a")])).toEqual([]);
   });
 

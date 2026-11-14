@@ -347,7 +347,7 @@ export function plantedBatches(
     ...rule.from.map((from) => `- (${from.date}) ${from.words}`),
     "",
     ...(NOT_JUDGED[rule.id] ? [NOT_JUDGED[rule.id]!] : []),
-    "Judge each entry by this rule only. Words in braces like {name} are filled in during play and count as said.",
+    "Judge each entry by this rule only. Words in braces like {name} are filled in during play and count as said. Write your reasons in American English (canceling, not cancelling); they are kept in the game's files.",
     "",
   ].join("\n");
   const files = new Map<string, string>();
