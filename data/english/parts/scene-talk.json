@@ -182753,10 +182753,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-deflect.i-can-t-talk-right-now",
+      "key": "scene-talk.reply-deflect.i-can-t-stop-to-talk-right-now",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I can't talk right now.",
+      "text": "I can't stop to talk right now.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
