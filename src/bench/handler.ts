@@ -39,6 +39,7 @@ import {
   donationAsksView,
   campaignDay,
   campaignView,
+  runningMatePicked,
   playerRecord,
   debateAnswer,
   speechBegin,
@@ -1800,6 +1801,26 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/campaign",
     run: async ({ url, send }) => {
       send(200, campaignView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  // A player running for governor names their running mate: one of the people offered, or none
+  // for the world's own pick (Choose for me).
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/running-mate",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        runningMatePicked(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("filingId") ?? "",
+          url.searchParams.get("personId") || null,
+        ),
+      );
       return;
     },
   },

@@ -1703,7 +1703,7 @@
           "policies": [
             {
               "id": "law:state-contribution-limit-governor",
-              "name": "State campaign contribution limit: governor",
+              "name": "State campaign contribution limit: governor races",
               "kind": "law-amount",
               "series": "state-contribution-limit-governor",
               "unit": "USD/election",
@@ -1712,7 +1712,7 @@
             },
             {
               "id": "law:state-contribution-limit-state-senate",
-              "name": "State campaign contribution limit: state senate",
+              "name": "State campaign contribution limit: state senate races",
               "kind": "law-amount",
               "series": "state-contribution-limit-state-senate",
               "unit": "USD/election",
@@ -1721,7 +1721,7 @@
             },
             {
               "id": "law:state-contribution-limit-state-house",
-              "name": "State campaign contribution limit: state house",
+              "name": "State campaign contribution limit: state house races",
               "kind": "law-amount",
               "series": "state-contribution-limit-state-house",
               "unit": "USD/election",
@@ -1730,7 +1730,7 @@
             },
             {
               "id": "law:state-contribution-limit-local",
-              "name": "State campaign contribution limit: local",
+              "name": "State campaign contribution limit: local races",
               "kind": "law-amount",
               "series": "state-contribution-limit-local",
               "unit": "USD/election",

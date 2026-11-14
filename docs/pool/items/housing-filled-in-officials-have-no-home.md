@@ -36,3 +36,4 @@ source: Account lead T45, Nov 14 2026, red on the clean train 998ba95bf5 and on 
 **Files.** src/core2/state.ts, src/core2/modules/housing.ts, src/core2/housing-ready-at-opening.test.ts
 
 **Notes.** Filed by Account lead T45 on its branch at the Account lead's request.
+- Same fault, second path (T44, #9080, Nov 14): `offerNewcomer` in src/core2/modules/voting.ts fills in a newcomer offered as a governor's running mate through `fillInIdentity`, with a household at their drawn home town and no dwelling. One who is picked and wins holds office with no home. Fix both paths with the one housing rule. See also gov-officials-home-town-in-district.
