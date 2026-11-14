@@ -39,6 +39,7 @@ import {
   donationAsksView,
   campaignDay,
   campaignView,
+  runningMatePicked,
   playerRecord,
   debateAnswer,
   speechBegin,
@@ -100,6 +101,7 @@ import {
   chooseAtCounter,
   counterOpening,
   officePlace,
+  NothingAtCounter,
   openBenchFilingVisit,
   type BenchFilingVisit,
 } from "./filing";
@@ -1665,6 +1667,20 @@ const ROUTES: readonly Route[] = [
           question: q("question"),
           line: q("line"),
           value: q("value") === undefined ? undefined : Number(q("value")),
+          // A phase-in: each step's amount and the day it takes effect.
+          ...(q("steps")
+            ? {
+                steps: (
+                  JSON.parse(q("steps")!) as {
+                    value: number;
+                    effectiveDate: string;
+                  }[]
+                ).map((step) => ({
+                  value: Number(step.value),
+                  effectiveDate: String(step.effectiveDate),
+                })),
+              }
+            : {}),
         }),
       );
       return;
@@ -1811,6 +1827,26 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/campaign",
     run: async ({ url, send }) => {
       send(200, campaignView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  // A player running for governor names their running mate: one of the people offered, or none
+  // for the world's own pick (Choose for me).
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/running-mate",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        runningMatePicked(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("filingId") ?? "",
+          url.searchParams.get("personId") || null,
+        ),
+      );
       return;
     },
   },
@@ -2026,12 +2062,21 @@ const ROUTES: readonly Route[] = [
           return;
         }
       }
-      state.filingVisit = openBenchFilingVisit(
-        current,
-        state.player.personId,
-        filedWith,
-        state.player.packet?.at.minuteOfDay ?? 12 * 60,
-      );
+      try {
+        state.filingVisit = openBenchFilingVisit(
+          current,
+          state.player.personId,
+          filedWith,
+          state.player.packet?.at.minuteOfDay ?? 12 * 60,
+        );
+      } catch (error) {
+        // Nothing to file and no petition out: no scene at the counter
+        // (Fable A, Nov 13, rule 19).
+        if (!(error instanceof NothingAtCounter)) throw error;
+        state.filingVisit = undefined;
+        send(200, { nothing: true });
+        return;
+      }
       send(
         200,
         opens

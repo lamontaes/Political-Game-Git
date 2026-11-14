@@ -25,7 +25,8 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   sayAtCounter,
   counterNarration,
-  spokenOffice,
+  saidOffice,
+  counterFilingReplyId,
   filedAtCounter,
   openFilingVisit,
   pickContest,
@@ -114,6 +115,13 @@ function overlayFor(
   };
 }
 
+/** Nothing at this counter for the player: no race to file for and no petition out. */
+export class NothingAtCounter extends Error {
+  constructor() {
+    super("Nothing to file at this office.");
+  }
+}
+
 /** The player walks into the office that takes filings for these contests. */
 export function openBenchFilingVisit(
   core: CoreState,
@@ -122,8 +130,26 @@ export function openBenchFilingVisit(
   minuteOfDay: number,
 ): BenchFilingVisit {
   const api = coreAPI(core);
+  // A race the player has already filed in is not offered again (P1,
+  // Commack, New York: the clerk offered the race the player was in).
+  const mine = new Set(
+    (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byPerson", [playerId]) as unknown as {
+        contestId: string;
+        status: string;
+      }[]
+    )
+      .filter(
+        (row) => row.status === "petitioning" || row.status === "on-ballot",
+      )
+      .map((row) => row.contestId),
+  );
   const open = playerContests(api).filter(
-    (row) => filingOfficeFor(api, row.id).filedWith === filedWith,
+    (row) =>
+      !mine.has(row.id) && filingOfficeFor(api, row.id).filedWith === filedWith,
   );
   // A contest's title is its office, with its district where it has one. Races of the
   // same office are told apart in the choice menu by their seat, election day and
@@ -229,7 +255,40 @@ export function openBenchFilingVisit(
       ];
     }),
   );
-  if (!contests.length) throw new Error("No open contest files there.");
+  // With no race left to file for here there is no scene (Fable A, Nov 13,
+  // rule 19; owner, Nov 14: the clerk never says how many signatures are in,
+  // so a petition still gathering gives the counter nothing to say).
+  const mineHere = filedHere(core, playerId, filedWith);
+  // Back for another race with one already filed here: the clerk opens from
+  // that filing (Fable A, Nov 13, Miracle Valley, Arizona).
+  const filedRow =
+    contests.length && mineHere
+      ? (api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .get(mineHere.contestId) as unknown as
+          | { title: string; officeId: string; district?: string | null }
+          | undefined)
+      : undefined;
+  const filedOffice = filedRow
+    ? (offices.get(filedRow.officeId) as unknown as OfficeRecord | undefined)
+    : undefined;
+  const back =
+    mineHere && filedRow
+      ? {
+          filingId: mineHere.id,
+          seat: {
+            title: filedRow.title,
+            seats: filedOffice?.seats ?? 1,
+            bodyName:
+              (filedOffice?.seats ?? 1) > 1
+                ? (filedOffice?.bodyName ?? null)
+                : null,
+            district: filedRow.district ?? null,
+          },
+        }
+      : undefined;
+  if (!contests.length) throw new NothingAtCounter();
   // The clerk the contest's filing office records name (none for a state or federal counter).
   const clerkRow = filingClerkFor(api, contests[0]!.id);
   const clerk = clerkRow?.personId;
@@ -239,6 +298,7 @@ export function openBenchFilingVisit(
     contests,
     clerk ?? undefined,
     filedWith,
+    back,
   );
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;
@@ -262,9 +322,8 @@ export function openBenchFilingVisit(
     visit,
     filedWith,
     place,
-    // A first visit asks for the papers; a filing here still gathering
-    // signatures brings the petition back, and one already on the ballot
-    // comes back with nothing to bring, each by its record.
+    // A first visit asks for the papers; back for another race with one
+    // already filed here, the clerk opens from that filing.
     // The clerk's office is named one way, from the place's filing record
     // (Fable A, Nov 13, rule 8: "Town clerk" in a town, never "City Clerk"
     // beside it); the clerk's own title only where that record names a choice.
@@ -272,10 +331,13 @@ export function openBenchFilingVisit(
       ? counterNarration(
           core,
           visit,
-          / or /i.test(spokenOffice(filedWith))
-            ? clerkRow
-            : { ...clerkRow, title: spokenOffice(filedWith) },
-          filedHere(core, playerId, filedWith),
+          saidOffice(filedWith, contests)
+            ? { ...clerkRow, title: saidOffice(filedWith, contests)! }
+            : clerkRow,
+          // The visit is for a race left here to file for, never "back with
+          // your petition" (Miracle Valley, Arizona, seed w3-return-1); with
+          // a filing already here, it is a return.
+          back ? mineHere : null,
           minuteOfDay,
         )
       : [],
@@ -291,26 +353,32 @@ export function filedHere(
   core: CoreState,
   playerId: string,
   filedWith: string,
-): { id: string; status: string } | null {
+): { id: string; status: string; contestId: string } | null {
   const api = coreAPI(core);
   const filings = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
     .query("byPerson", [playerId]) as unknown as FilingRow[];
+  // The filing the player made at this counter comes first: a filing in
+  // their name they did not make here (a running mate's place on a ticket,
+  // Miracle Valley, Arizona, seed w3-return-1) is not what they came back
+  // about.
+  const here = filings.filter(
+    (row) =>
+      row.filedWith === filedWith &&
+      (row.status === "petitioning" || row.status === "on-ballot") &&
+      raceLive(api, row),
+  );
+  const made = (row: { id: string }) =>
+    core.durableLog.has(counterFilingReplyId(row.id));
   const held =
-    filings.find(
-      (row) =>
-        row.filedWith === filedWith &&
-        row.status === "petitioning" &&
-        raceLive(api, row),
-    ) ??
-    filings.find(
-      (row) =>
-        row.filedWith === filedWith &&
-        row.status === "on-ballot" &&
-        raceLive(api, row),
-    );
-  return held ? { id: held.id, status: held.status } : null;
+    here.find((row) => made(row) && row.status === "petitioning") ??
+    here.find((row) => made(row)) ??
+    here.find((row) => row.status === "petitioning") ??
+    here[0];
+  return held
+    ? { id: held.id, status: held.status, contestId: held.contestId }
+    : null;
 }
 
 /** The player's choice at the counter: name an office, file, or leave. */
