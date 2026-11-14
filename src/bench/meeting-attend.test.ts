@@ -240,9 +240,15 @@ it("at a board with a committee stage a resident is offered a remark, speaks, an
     const open = scene.items.filter(
       (row) => !row.takenUp && row.status === "drafted",
     ).length;
+    // One open among more on the agenda is named; a lone item is "the one item".
+    const only = scene.items.find(
+      (row) => !row.takenUp && row.status === "drafted",
+    );
     const counted =
       open === 1
-        ? /the one item/
+        ? scene.items.length > 1 && only?.title
+          ? new RegExp(only.title)
+          : /the one item/
         : open === 2
           ? /either of the two/
           : /any of the/;

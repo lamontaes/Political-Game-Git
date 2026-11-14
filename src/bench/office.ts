@@ -193,12 +193,23 @@ function residentNote(
   // The line counts the items a resident can speak on: not one already taken up, nor one
   // a committee already decided (those show only "Read the bill").
   const api = coreAPI(core);
-  const open = meeting.agenda.filter(
+  const openIds = meeting.agenda.filter(
     (id) =>
       !meeting.takenUp.includes(id) &&
       legislatureBillOf(api, id).status === "drafted",
-  ).length;
+  );
+  const open = openIds.length;
   if (!open) return null;
+  // One open among more on the agenda: named, so the reader need not hunt for which.
+  const [only] = openIds;
+  if (open === 1 && items > 1 && only) {
+    const title = billTitleOf(legislatureBillOf(api, only))?.title;
+    if (title)
+      return pick("meeting.resident-can-speak-one-named.1", {
+        body,
+        item: title,
+      });
+  }
   // Of two, "either"; of more, "any of the three" (Words lead, Nov 13).
   if (open === 1) return pick("meeting.resident-can-speak-one.1", { body });
   if (open === 2) return pick("meeting.resident-can-speak-two.1", { body });
