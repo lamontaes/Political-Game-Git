@@ -74,6 +74,14 @@ interface Ending {
 
 interface PurposeArc {
   state: string;
+  /**
+   * A statement said as several moves in order, one breath (the clerk tells
+   * the race: who is running, the term and dates, the work, the deadline):
+   * each move is worded from its own pieces and the lines join. The statement
+   * keeps the move `state` for what answers it. A move the records cannot word
+   * is left out; with none worded, the scene is skipped.
+   */
+  stateMoves?: string[];
   replies: string[];
   /** This purpose's own answers (reply move to candidates), before the shared ones. */
   follow?: Record<string, string | string[]>;
@@ -101,6 +109,18 @@ interface PurposeArc {
     thanks: string;
     /** The player's second ask after a "not yet" or a no, and what it weighs. */
     again: { move: string; carries: "favor" | "lean" | "none" }[];
+    /**
+     * A middle exchange about the one asked's own matter (Words lead, Nov 14,
+     * rulings 62 and 63: a scene has a middle, and one button is not a
+     * choice): offered beside the thanks or the second ask, the player asks
+     * after them (`ask`), they say what the player did not know (`tell`),
+     * and the player chooses among the `then` replies, which end differently.
+     */
+    middle?: {
+      ask: string;
+      tell: string;
+      then: { move: string; carries: "favor" | "lean" | "none" }[];
+    };
   };
 }
 
@@ -315,6 +335,12 @@ export interface SceneTalkOptions {
   includeHeld?: boolean;
   /** The "no" verdicts of the reply rule to read instead of the file's (tests). */
   replyFollows?: ReplyFollowsTable;
+  /**
+   * The screen has already told the setting (the filing counter narrates the
+   * clerk and the office as the player walks in): the scene says no
+   * narration of its own and is not skipped for want of one.
+   */
+  setupTold?: boolean;
 }
 
 export type SceneTalkResult =
@@ -453,6 +479,28 @@ interface Path {
   offered: ReadonlySet<string>;
   /** Reply lines offered at earlier nodes on this path: never offered again. */
   offeredPieces: ReadonlySet<string>;
+}
+
+/**
+ * The lines of a statement said as several moves, joined into one line of the
+ * statement's move: their words in order, their parts and records together.
+ */
+function joinedStatement(
+  lines: readonly (SceneTalkLine | null)[],
+  move: string,
+): SceneTalkLine | null {
+  const said = lines.filter((line): line is SceneTalkLine => line !== null);
+  const [first] = said;
+  if (!first) return null;
+  return {
+    ...first,
+    move,
+    text: said.map((line) => line.text).join(" "),
+    parts: said.flatMap((line) => line.parts),
+    slotRecordIds: [...new Set(said.flatMap((line) => line.slotRecordIds))],
+    asks: said.at(-one)!.asks,
+    invites: said.at(-one)!.invites,
+  };
 }
 
 /**
@@ -947,6 +995,98 @@ export function composeSceneTalk(
       }
       next.end = { outcome: outcomeOf(last?.move ?? first.move) };
     }
+    // The middle: asking after the one asked, who tells their own matter,
+    // and two or more replies to it that end apart.
+    const middleLed = new Map<TreeNode, TreeReply>();
+    if (ask.middle) {
+      const heardFirst = addParts(said, first);
+      const opener = mine(
+        {
+          step: "follow",
+          move: ask.middle.ask,
+          after: first.move,
+          ...(first.parts[zero] ? { afterPiece: first.parts[zero] } : {}),
+        },
+        `middle:${ask.middle.ask}`,
+        heardFirst,
+      );
+      const told = opener
+        ? theirs(
+            [ask.middle.tell],
+            opener,
+            "middle-tell",
+            addParts(heardFirst, opener),
+          )
+        : null;
+      if (opener && told) {
+        opener.round = two;
+        told.round = two;
+        const node: TreeNode = { lines: [told], replies: [] };
+        const heard = addParts(addParts(heardFirst, opener), told);
+        for (const then of ask.middle.then) {
+          const line = mine(
+            {
+              step: "follow",
+              move: then.move,
+              after: told.move,
+              ...(told.parts[zero] ? { afterPiece: told.parts[zero] } : {}),
+            },
+            `middle:${then.move}`,
+            heard,
+          );
+          if (!line) {
+            gap("follow", then.move, told.move);
+            continue;
+          }
+          line.round = three;
+          const next: TreeNode = { lines: [], replies: [] };
+          const carries =
+            then.carries === "favor"
+              ? carried
+              : then.carries === "lean"
+                ? standing.lean > zero
+                : undefined;
+          const last =
+            carries === undefined
+              ? null
+              : theirs(
+                  carries ? ask.relent : [ask.no],
+                  line,
+                  `middle-last:${then.move}`,
+                  addParts(heard, line),
+                );
+          if (last) {
+            last.round = three;
+            next.lines.push(last);
+          }
+          next.end = { outcome: outcomeOf(last?.move ?? first.move) };
+          node.replies.push({ line, next });
+        }
+        // Fewer than two replies to what they told is no choice: the scene
+        // ends on what they said (one with nothing to name says so, ruling
+        // 72), and the ending reads the first answer.
+        if (node.replies.length < two) {
+          node.replies = [];
+          node.end = { outcome: outcomeOf(first.move) };
+        }
+        root.replies.push({ line: opener, next: node });
+        count += one + node.replies.length;
+        const [ledThen] = [...node.replies].sort(
+          (a, b) =>
+            leanOf(core, b.line.move, askedTraits) -
+              leanOf(core, a.line.move, askedTraits) ||
+            stableHash(`${scene}:middle:${a.line.move}`).localeCompare(
+              stableHash(`${scene}:middle:${b.line.move}`),
+            ),
+        );
+        if (ledThen) {
+          ledThen.line.chosen = true;
+          middleLed.set(node, ledThen);
+        }
+      } else gap("follow", ask.middle.ask, first.move);
+    }
+    // One button is not a choice: a scene whose middle can be worded never
+    // leaves the player a single reply.
     if (!yes && root.replies.length < two)
       return {
         kind: "skipped",
@@ -970,28 +1110,33 @@ export function composeSceneTalk(
       statement: request,
       root,
       nodes: count,
-      ledChoices: new Map(led ? [[root, led]] : []),
+      ledChoices: new Map([
+        ...(led ? [[root, led] as const] : []),
+        ...middleLed,
+      ]),
       ledBranch: new Map(),
     });
   }
 
   // The setup: the narrator's paragraph for this purpose and key, with no
   // traits, so it reads the same for every profile.
-  const narrate = render(
-    { step: "narrate", move: "narrate", role: "narrator", ...base },
-    cast.askerId,
-    {},
-    "narrate",
-    none,
-  );
-  if (!narrate)
+  const narrate = options.setupTold
+    ? null
+    : render(
+        { step: "narrate", move: "narrate", role: "narrator", ...base },
+        cast.askerId,
+        {},
+        "narrate",
+        none,
+      );
+  if (!narrate && !options.setupTold)
     return {
       kind: "skipped",
       reason: unusedGap
         ? `piece gap: no unused narration for ${purpose}`
         : `no narration for ${purpose} can be worded from the records given`,
     };
-  let said = addParts(none, narrate);
+  let said = narrate ? addParts(none, narrate) : none;
   // The open's move: a purpose may open on a detail ("react") instead of a greeting.
   const openMove =
     sceneMovesWritten({
@@ -1083,13 +1228,28 @@ export function composeSceneTalk(
       } else gap("follow", "answer", `${openAuto.move} (after the open)`);
     } else gap("auto", openAuto.move, "open");
   }
-  const statement = render(
-    { step: "state", move: arc.state, role: "asker", ...base },
-    cast.askerId,
-    askerTraits,
-    "state",
-    said,
-  );
+  const statement = arc.stateMoves
+    ? joinedStatement(
+        arc.stateMoves.map((move) => {
+          const line = render(
+            { step: "state", move, role: "asker", ...base },
+            cast.askerId,
+            askerTraits,
+            "state",
+            said,
+          );
+          if (line) said = addParts(said, line);
+          return line;
+        }),
+        arc.state,
+      )
+    : render(
+        { step: "state", move: arc.state, role: "asker", ...base },
+        cast.askerId,
+        askerTraits,
+        "state",
+        said,
+      );
   if (!statement)
     return {
       kind: "skipped",

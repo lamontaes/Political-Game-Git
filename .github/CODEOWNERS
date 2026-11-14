@@ -16,6 +16,7 @@
 /src/core2/stopgaps.ts @lamontaes
 /src/core2/seeded.ts @lamontaes
 /src/core2/world-base-rates.ts @lamontaes
+/src/core2/shares.ts @lamontaes
 /src/core2/world-draw.ts @lamontaes
 /src/core2/union-rate.ts @lamontaes
 /src/core2/module-*.ts @lamontaes
@@ -280,6 +281,7 @@
 /src/core2/home-distance.ts @lamontaes
 /src/core2/sibling-names.ts @lamontaes
 /src/core2/modules/partnerships.ts @lamontaes
+/src/core2/modules/owed-talks.ts @lamontaes
 /src/core2/modules/kin-contact.ts @lamontaes
 /src/core2/modules/mentorship.ts @lamontaes
 /src/core2/modules/rescue.ts @lamontaes
@@ -301,6 +303,8 @@
 # The clock, the world and places (clock-places)
 /src/core2/modules/world.ts @lamontaes
 /src/core2/modules/world-metrics.ts @lamontaes
+/src/core2/output-numbers.ts @lamontaes
+/src/core2/output-number-readers.ts @lamontaes
 /src/core2/modules/disasters.ts @lamontaes
 /src/core2/life.ts @lamontaes
 /src/core2/calendar.ts @lamontaes
@@ -309,10 +313,11 @@
 /src/core2/place-map.ts @lamontaes
 /src/core2/place-lookup.ts @lamontaes
 /src/core2/coarse-place.ts @lamontaes
+/src/core2/community-events-table.ts @lamontaes
 /src/core2/world-settings.ts @lamontaes
 /src/core2/player-*.ts @lamontaes
 /src/core2/opening-*.ts @lamontaes
-/src/core2/fast-forward.ts @lamontaes
+/src/core2/place-race-origin.generated.ts @lamontaes
 /src/core2/modules/national-events.ts @lamontaes
 /src/core2/national-disaster-event.ts @lamontaes
 /src/core2/modules/climate.ts @lamontaes

@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
+status: done
 standard: 2
 claimed-by:
 pr: #6011
@@ -45,3 +45,5 @@ Sent back 2026-10-26 from PR #6011 (branch claude/laws-nine-links-housing-credit
 Laws-and-effects lead, Oct 27 20:55: rent stabilization's money stays partly, and it is right. Rerun on main's checker for 365 days in Prescott (9 leases reached), Uehling (20) and North Pownal (14), every lease the cap governed saved 0: the 7% cap (`rentIncreaseCap`) never binds in a calm year, since market rent follows regional pay and vacancy (`src/core2/housing-occupancy.ts`). The money link shows only where rents rise faster than the cap. Do not splice such reruns into the family files: the own-payment path would grade drift of a few cents as the law's money (`laws-checker-own-payment-counts-drift`).
 
 Nov 11 (cause finder for Fable B): regraded on main 3039a3fa1d in Hettinger, North Dakota (seed 3f77f7d1d2688e09629641c1c0fa3cc2) and read main's 25-place matrix. The loan cap is wired with a real change in a household's payments, so it no longer waits on the owner. Right to counsel is wired where a hearing happens (Prescott); Hettinger had none in 35 days. I propose the CTO closes the item.
+
+Closed as done Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: the matrix row for each of the six laws in `docs/reports/law-wiring-matrix.json` grades every link wired (inclusionary-requirement's web link is n/a), and `src/core2/modules/housing.ts` reads `RIGHT_TO_COUNSEL` through `lawInForce` and registers `SG-GOV-REACH-A-eviction-cases` (a depth row no player sees, owner Nov 10). `src/core2/consumer-credit-law.test.ts` passes (credit.ts reads the loan cap).
