@@ -137,6 +137,7 @@ describe("seatSaid", () => {
       ["Board of Aldermen", "alderman"],
       ["Board of Trustees", "trustee"],
       ["Board of Selectmen", "selectman"],
+      ["Board of Councillors", "councilor"],
     ] as const) {
       const seat = { title: "Board member", seats: 5, bodyName };
       expect(seatSaid(seat)).toBe(said);
