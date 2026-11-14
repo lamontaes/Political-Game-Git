@@ -1785,6 +1785,16 @@
             },
             "endings": [
               {
+                "id": "price-taken",
+                "label": "You took their price",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "reply": ["accept"],
+                  "asker": ["bargain"]
+                }
+              },
+              {
                 "id": "vote-given",
                 "opens": "meeting",
                 "label": "Vote given",
@@ -1885,6 +1895,16 @@
               "ask": ["answer", "refuse", "leave"]
             },
             "endings": [
+              {
+                "id": "price-taken",
+                "label": "You took their price",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "reply": ["accept"],
+                  "asker": ["bargain"]
+                }
+              },
               {
                 "id": "vote-given",
                 "opens": "meeting",
@@ -1991,6 +2011,16 @@
             },
             "endings": [
               {
+                "id": "price-taken",
+                "label": "You took their price",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "reply": ["accept"],
+                  "asker": ["bargain"]
+                }
+              },
+              {
                 "id": "vote-given",
                 "opens": "meeting",
                 "label": "Vote given",
@@ -2091,6 +2121,16 @@
               "ask": ["answer", "refuse", "leave"]
             },
             "endings": [
+              {
+                "id": "price-taken",
+                "label": "You took their price",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "reply": ["accept"],
+                  "asker": ["bargain"]
+                }
+              },
               {
                 "id": "vote-given",
                 "opens": "meeting",

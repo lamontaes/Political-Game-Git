@@ -35,7 +35,9 @@ import {
   LEADERSHIP_MODULE_ID,
   LEGISLATURE_MODULE_ID,
   billOf,
+  favorReturnedSince,
   provisionStance,
+  votesOn,
 } from "../core2/modules/legislature";
 import { partyTie } from "../core2/modules/elections";
 import { electorateSides, scandalStoriesOf } from "../core2/modules/voting";
@@ -301,15 +303,35 @@ export function favorsGiven(
 ): readonly { readonly voteId: string; readonly billId: string }[] {
   if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
   const api = coreAPI(core as CoreState);
+  // A favor is a yes the asker cast. The record's stance is the vote's side
+  // times the bill's own direction, so a no on a bill that repeals or cuts
+  // reads positive there: the roll call's own vote decides where it holds
+  // one, and the record's side only where it does not.
+  const castYes = (billId: string, position: number) => {
+    const cast = votesOn(api, billId).find(
+      (vote) =>
+        vote.memberId === askerId && !(vote as { override?: boolean }).override,
+    );
+    return cast ? cast.vote === "yes" : position > P.zero;
+  };
+  const seen = new Set<string>();
   return votesOf(api, askerId)
-    .filter(
-      (row) =>
-        row.date < before &&
-        row.billId !== exceptBillId &&
-        row.stance.position > P.zero &&
+    .filter((row) => {
+      if (
+        row.date >= before ||
+        row.billId === exceptBillId ||
+        seen.has(row.billId) ||
         (billOf(api, row.billId) as { sponsorId?: string } | undefined)
-          ?.sponsorId === askedId,
-    )
+          ?.sponsorId !== askedId ||
+        !castYes(row.billId, row.stance.position) ||
+        // Once the asked person gave a yes back, the two are square.
+        favorReturnedSince(api, askedId, askerId, row.date)
+      )
+        return false;
+      // A bill with several questions has a record row for each: one favor.
+      seen.add(row.billId);
+      return true;
+    })
     .reverse()
     .map((row) => ({ voteId: row.id, billId: row.billId }));
 }

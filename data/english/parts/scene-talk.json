@@ -132,7 +132,10 @@
     "effective": "The day a law enacted but not yet in force takes effect, as people say it (\"January 1, 2026\"), from the law record.",
     "about": "What a law not yet in force changes, by what it is (\"the Social Security payroll tax\"), from the law record's policy name.",
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
-    "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record."
+    "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
+    "their-bill": "A colleague's own bill waiting in the same body, by its title as a sentence says it, from the legislature record (askPrice).",
+    "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
+    "ask-day": "A day between the ask and the vote, as people say it, from the bill's calendar."
   },
   "maxWords": 70,
   "parts": [
@@ -3872,22 +3875,6 @@
       "uses": [
         {
           "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
           "purpose": "invite-debate",
           "key": "favor-asked",
           "step": "reply",
@@ -4774,30 +4761,6 @@
       "kind": "spoken",
       "text": "You've made your point. Count me in.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "section-bargain",
-          "key": "vote-wanted"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -7306,33 +7269,6 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "bargain"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "bargain"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "section-bargain",
-          "key": "vote-wanted",
-          "after": "bargain"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
           "after": "bargain"
@@ -7497,30 +7433,6 @@
           "step": "follow",
           "move": "bargain",
           "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "section-bargain",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked"
         },
@@ -7548,30 +7460,6 @@
       "kind": "spoken",
       "text": "Meet me halfway, and we have a deal.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "section-bargain",
-          "key": "vote-wanted"
-        },
         {
           "subject": "scene",
           "step": "follow",
@@ -9927,7 +9815,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["promised-on-bill"]
         },
         {
           "subject": "scene",
@@ -9935,7 +9824,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "confirm-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["promised-on-bill"]
         },
         {
           "subject": "scene",
@@ -9943,7 +9833,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "section-bargain",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["promised-on-bill"]
         },
         {
           "subject": "scene",
@@ -9951,7 +9842,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "carry-bill",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["promised-on-bill"]
         }
       ],
       "bearing": "anxious",
@@ -9975,7 +9867,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["primary-faced"]
         },
         {
           "subject": "scene",
@@ -9983,7 +9876,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "confirm-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["primary-faced"]
         },
         {
           "subject": "scene",
@@ -9991,7 +9885,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "section-bargain",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["primary-faced"]
         },
         {
           "subject": "scene",
@@ -9999,7 +9894,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "carry-bill",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["primary-faced"]
         }
       ],
       "bearing": "anxious",
@@ -10213,86 +10109,6 @@
         }
       ],
       "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "threaten",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-threaten.you-can-t-win-without-friends",
-      "move": "follow-threaten",
-      "kind": "spoken",
-      "text": "You can't win without friends.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "section-bargain",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "threaten",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-threaten.it-would-be-a-shame-if-your-next-bill-stalled",
-      "move": "follow-threaten",
-      "kind": "spoken",
-      "text": "It would be a shame if your next bill stalled.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "section-bargain",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -14960,40 +14776,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-bargain.i-ll-make-sure-your-district-comes-first-in-the-next-budget",
-      "move": "follow-bargain",
-      "kind": "spoken",
-      "text": "I'll make sure your district comes first in the next budget.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.what-s-in-it-for-my-district"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.reply-refuse.not-today",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -15640,33 +15422,6 @@
           "step": "reply",
           "move": "confess",
           "role": "asked",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "confront"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "confront"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
-          "purpose": "section-bargain",
-          "key": "vote-wanted",
-          "after": "confront"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
           "purpose": "carry-bill",
           "key": "favor-asked",
           "after": "confront"
@@ -16264,7 +16019,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["amendment-pending"]
         },
         {
           "subject": "scene",
@@ -16272,7 +16028,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "confirm-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["amendment-pending"]
         },
         {
           "subject": "scene",
@@ -16280,7 +16037,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "section-bargain",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["amendment-pending"]
         }
       ],
       "bearing": "guarded",
@@ -16296,7 +16054,7 @@
       "key": "scene-talk.reply-stall.ask-me-thursday",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Ask me Thursday.",
+      "text": "Ask me {ask-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -16304,7 +16062,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["ask-day"]
         },
         {
           "subject": "scene",
@@ -16312,7 +16071,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "confirm-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["ask-day"]
         },
         {
           "subject": "scene",
@@ -16320,7 +16080,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "section-bargain",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "requiresFacts": ["ask-day"]
         }
       ],
       "bearing": "guarded",
@@ -104643,31 +104404,6 @@
       }
     },
     {
-      "key": "scene-talk.state-warn.you-voted-for-bill-after-we-asked-you-not-to-that-has",
-      "move": "state-warn",
-      "kind": "spoken",
-      "text": "You voted for {bill} after we asked you not to. That has a cost, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "lobby-remembers",
-          "key": "threat",
-          "requiresFacts": ["bill", "voted-yes"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "warn",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.state-warn.you-voted-against-bill-first-we-were-counting-on-you-well-remember",
       "move": "state-warn",
       "kind": "spoken",
@@ -104709,31 +104445,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "warn",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-warn.you-voted-against-bill-after-we-asked-you-for-it-that-has",
-      "move": "state-warn",
-      "kind": "spoken",
-      "text": "You voted against {bill} after we asked you for it. That has a cost, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "lobby-remembers",
-          "key": "threat",
-          "requiresFacts": ["bill", "voted-no"]
-        }
-      ],
-      "bearing": "braced",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
       "date": "2026-11-08",
@@ -128788,54 +128499,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.what-does-leadership-give-me-for-it-i-ve-been-asking-for-a-hearing-on-my-own-bil",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "What does leadership give me for it? I've been asking for a hearing on my own bill since spring.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.i-ll-carry-it-if-my-committee-seat-stays-where-it-is",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "I'll carry it if my committee seat stays where it is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.reply-stall.don-t-write-me-down-yet-i-m-waiting-on-the-fiscal-note",
       "move": "reply-stall",
       "kind": "spoken",
@@ -129203,56 +128866,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-i-can-do-leadership-won-t-miss-one-hearing",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "That I can do. Leadership won't miss one hearing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "ask-vote.whip",
-          "key": "vote-wanted",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "accept",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-bargain.i-can-get-you-the-hearing-after-the-vote-not-before",
-      "move": "follow-bargain",
-      "kind": "spoken",
-      "text": "I can get you the hearing. After the vote, not before.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "ask-vote.whip",
-          "key": "vote-wanted",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.follow-refuse.leadership-doesn-t-trade-seats-for-votes-not-while-i-m-holding-the-pencil",
       "move": "follow-refuse",
       "kind": "spoken",
@@ -129474,31 +129087,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-taps-the-corner-of-your-desk-twice-the-way-name-did-when-earlier-came-up",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} taps the corner of your desk twice, the way {name} did when {earlier} came up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-vote.trade",
-          "key": "vote-wanted",
-          "requiresFacts": ["earlier"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "narrate",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.you-remember-earlier",
       "move": "open-greet",
       "kind": "spoken",
@@ -129598,31 +129186,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.you-had-my-vote-on-earlier-i-m-asking-for-yours-on-bill",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "You had my vote on {earlier}. I'm asking for yours on {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-vote.trade",
-          "key": "vote-wanted",
-          "requiresFacts": ["bill", "earlier"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.state-request.i-stood-up-for-earlier-stand-up-for-bill",
       "move": "state-request",
       "kind": "spoken",
@@ -129639,56 +129202,6 @@
         }
       ],
       "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.we-re-even-after-earlier-if-you-vote-yes-on-bill-not-before",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "We're even after {earlier} if you vote yes on {bill}. Not before.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-vote.trade",
-          "key": "vote-wanted",
-          "requiresFacts": ["bill", "earlier"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.last-time-you-needed-a-vote-it-was-earlier-this-time-it-s-bill-and-i-m-the-one-a",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Last time you needed a vote it was {earlier}. This time it's {bill}, and I'm the one asking.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-vote.trade",
-          "key": "vote-wanted",
-          "requiresFacts": ["bill", "earlier"]
-        }
-      ],
-      "bearing": "hopeful",
       "origin": "authored",
       "author": "Claude Sonnet (Story overnight, ask-vote variants)",
       "date": "2026-11-09",
@@ -130337,31 +129850,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "accept",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-bargain.i-ll-do-the-amendment-if-you-do-the-vote",
-      "move": "follow-bargain",
-      "kind": "spoken",
-      "text": "I'll do the amendment if you do the vote.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "ask-vote.trade",
-          "key": "vote-wanted",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "bargain",
         "key": "vote-wanted"
       }
     },
@@ -178565,6 +178053,967 @@
       "tag": {
         "move": "comfort",
         "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-m-still-hearing-from-people-at-home-on-this-one",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'm still hearing from people at home on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["reason-district"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.folks-back-home-have-been-calling-me-about-it-let-me-sit-with-it",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Folks back home have been calling me about it. Let me sit with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["reason-district"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-haven-t-talked-myself-into-it-yet",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I haven't talked myself into it yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["reason-own-view"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-m-not-there-i-m-not-saying-never",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'm not there. I'm not saying never.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["reason-own-view"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.you-know-their-bill-is-up-too",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "You know {their-bill} is up too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["their-bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-ve-got-their-bill-coming-up-myself",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I've got {their-bill} coming up myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["their-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.it-s-section-price-section-i-can-t-go-home-with-all-of-it",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "It's section {price-section}. I can't go home with all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["price-section"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-voted-the-other-way-the-last-time-this-came-around",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I voted the other way the last time this came around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "requiresFacts": ["reason-last-vote"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-don-t-believe-in-it-i-m-sorry",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I don't believe in it. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["reason-own-view"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.my-people-are-against-it-i-can-t-be-the-one-who-isn-t",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "My people are against it. I can't be the one who isn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["reason-party"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-heard-from-enough-people-on-this-i-can-t",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've heard from enough people on this. I can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["reason-group"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-have-to-run-on-this-vote-not-this-one",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I have to run on this vote. Not this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["reason-next-election"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.it-isn-t-the-bill-don-t-make-me-say-the-rest",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "It isn't the bill. Don't make me say the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["reason-sponsor"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-voted-against-this-before-i-m-not-turning-around-now",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I voted against this before. I'm not turning around now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "requiresFacts": ["reason-last-vote"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.i-ll-be-with-you-on-their-bill",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "I'll be with you on {their-bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "requiresFacts": ["their-bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.their-bill-has-my-vote-does-that-help-you",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "{their-bill} has my vote. Does that help you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "requiresFacts": ["their-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.what-if-section-price-section-came-down-by-half",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "What if section {price-section} came down by half?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "requiresFacts": ["price-section"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.i-ll-cut-section-price-section-in-half-that-s-as-far-as-i-go",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "I'll cut section {price-section} in half. That's as far as I go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "requiresFacts": ["price-section"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.all-right-you-ve-got-me-on-this-one",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right. You've got me on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "after": "bargain",
+          "requiresFacts": ["their-bill"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.put-me-down-i-ll-be-watching-the-board-on-mine",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Put me down. I'll be watching the board on mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "after": "bargain",
+          "requiresFacts": ["their-bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.half-of-it-then-i-m-with-you",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Half of it, then. I'm with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "after": "bargain",
+          "requiresFacts": ["price-section"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.fine-with-half-of-it-i-can-live-with-that",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Fine. With half of it, I can live with that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "after": "bargain",
+          "requiresFacts": ["price-section"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-request.if-you-can-t-vote-yes-can-you-be-out-of-the-room",
+      "move": "follow-request",
+      "kind": "spoken",
+      "text": "If you can't vote yes, can you be out of the room?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-request.then-don-t-vote-against-it-just-don-t-be-there",
+      "move": "follow-request",
+      "kind": "spoken",
+      "text": "Then don't vote against it. Just don't be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-request.i-m-not-asking-for-a-yes-i-m-asking-you-to-sit-this-one-out",
+      "move": "follow-request",
+      "kind": "spoken",
+      "text": "I'm not asking for a yes. I'm asking you to sit this one out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-won-t-vote-against-you-i-ll-find-somewhere-to-be",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I won't vote against you. I'll find somewhere to be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "request"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-do-that-much",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can do that much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "request"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-step-out-for-that-one-don-t-make-a-habit-of-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll step out for that one. Don't make a habit of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "request"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-i-have-to-be-on-the-record-on-this-one",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. I have to be on the record on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "request"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "bargain",
+          "requiresFacts": ["their-bill"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "bargain",
+          "requiresFacts": ["price-section"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-trade-on-this-one",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't trade on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "request"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "bargain",
+          "requiresFacts": ["their-bill"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "bargain",
+          "requiresFacts": ["price-section"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.if-i-m-not-there-they-ll-know-why-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "If I'm not there, they'll know why. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "request"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "bargain",
+          "requiresFacts": ["their-bill"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "bargain",
+          "requiresFacts": ["price-section"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-be-a-yes-i-d-rather-tell-people-myself-than-have-them-read-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll be a yes. I'd rather tell people myself than have them read it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["read-town-for-bill"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-have-me-folks-will-see-my-name-and-that-s-fine",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You have me. Folks will see my name, and that's fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["read-town-for-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.all-right-put-me-down-i-ll-answer-for-it-at-home",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "All right. Put me down. I'll answer for it at home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["read-town-for-bill"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.okay-i-ll-vote-for-it-they-can-call-my-office",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Okay. I'll vote for it. They can call my office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["read-town-for-bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.fine-i-ll-vote-for-it-and-i-ll-tell-them-why",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Fine. I'll vote for it, and I'll tell them why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["read-town-for-bill"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
       }
     }
   ]

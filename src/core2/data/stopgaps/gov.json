@@ -1916,7 +1916,9 @@
     "addedBy": "fixer, Merger 3's send-back of PR 6198",
     "addedAt": "2026-10-27",
     "replacement": "A waiting ask on Politics, Issues and Government, with Agree and Decline controls wired to answerCarryAsk, reading carryAsksAwaiting (pool item gov-carry-ask-player-decides).",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "brief O bargaining (words-bargain-price-from-the-record): the carry-bill scene's ending answers the held ask"
   },
   {
     "id": "SG-GOV-rent-help-population-share",
