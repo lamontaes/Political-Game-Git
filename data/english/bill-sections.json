@@ -28,6 +28,7 @@
     "act": {
       "title": "A bill for an act to {purpose}.",
       "repealTitle": "A bill for an act to repeal the law on {subject}.",
+      "shortTitle": "This Act may be cited as the {act}.",
       "first": "Section {number}. {enacting} That {text}.",
       "further": "Section {number}. And be it further enacted, That {text}.",
       "repeal": "the law now in force on {subject} is repealed",
