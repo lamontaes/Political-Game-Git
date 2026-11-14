@@ -1342,13 +1342,15 @@ function atThePolls(scene) {
           contests: scene.contests,
           labels: { ...labels, blank: controls.polling?.leaveBlank },
           onMark: async (contestId, candidateId) => {
+            // The visit may already be over (voted, or the polls closed): the ballot closes
+            // with it and goes on, never a live button on a ballot nobody is standing at.
             const result = await post(
               `/api/polling-place/mark?${new URLSearchParams({
                 contestId,
                 candidateId: candidateId ?? "",
               })}`,
-            );
-            if (result.pollingPlace) draw(result.pollingPlace);
+            ).catch(() => null);
+            if (result?.pollingPlace) draw(result.pollingPlace);
             else finish();
           },
           know: (personId) =>
@@ -1362,7 +1364,7 @@ function atThePolls(scene) {
               }))
               .catch(() => null),
           onLeave: async () => {
-            await post("/api/polling-place/leave");
+            await post("/api/polling-place/leave").catch(() => null);
             finish();
           },
         }),
@@ -1370,6 +1372,9 @@ function atThePolls(scene) {
     };
     const finish = () => {
       show("ballot", false);
+      // The paper goes with the visit: a ballot left in the page keeps live race buttons that
+      // would post a mark to polls that are no longer open.
+      $("ballot").replaceChildren();
       resolve();
     };
     draw(scene);
@@ -2251,7 +2256,8 @@ async function campaignParts() {
           nodes: [
             debateCard({
               words: controls.debate,
-              debate,
+              // The day in words ("October 20, 2026"), never the record's digits.
+              debate: { ...debate, date: dateWords(debate.date) },
               questionLabel: policyLabel,
               onAnswer: async (answers) => {
                 await post(
@@ -3515,8 +3521,8 @@ async function seatRows() {
       : "";
     seatResult = r.asked
       ? askedWord
-      : r.number
-        ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
+      : r.spoken
+        ? `${r.spoken} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
             r.authority?.some((a) => !a.allowed)
               ? ` · ${r.authority
                   .filter((a) => !a.allowed)
@@ -3638,7 +3644,7 @@ async function seatRows() {
   const labels = controls.officeScreen ?? {};
   // Your bills, each with its standing, the day it is taken up, how the vote came out and
   // the paper that opens to read it (the mock's "On my desk").
-  const desk = v.bills.map(({ bill, votes, tally, floorDate }) => {
+  const desk = v.bills.map(({ bill, spoken, votes, tally, floorDate }) => {
     const open = makeButton({
       className: "action",
       textContent: controls.bill?.open ?? "",
@@ -3651,7 +3657,7 @@ async function seatRows() {
       ),
     );
     return deskBill(
-      deskTitle(`${bill.number} · ${floor.status[bill.status] ?? ""}`),
+      deskTitle(`${spoken} · ${floor.status[bill.status] ?? ""}`),
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
         : []),
@@ -3667,7 +3673,7 @@ async function seatRows() {
     );
   });
   const left = (v.incompatibilities ?? []).map((l) =>
-    line(`${l.date} · ${l.left} → ${l.took} · ${l.law}`),
+    line(`${dateWords(l.date)} · ${l.left} → ${l.took} · ${l.law}`),
   );
   const result = seatResult
     ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]

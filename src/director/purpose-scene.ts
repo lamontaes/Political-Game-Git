@@ -254,14 +254,10 @@ export function purposeScene(
   );
   let skipped: PurposeSceneResult | null = null;
   for (const { unit, moment: about, binding } of chosen) {
-    const result = composeBinding(
-      core,
-      director,
-      personId,
-      about,
-      binding,
-      options,
-    );
+    const result = composeBinding(core, director, personId, about, binding, {
+      ...options,
+      stopMinute: entry.stop?.at.minuteOfDay,
+    });
     if (result.kind === "composed")
       return { kind: "composed", scene: { ...result.scene, unit } };
     skipped ??= result;
@@ -526,7 +522,7 @@ function composeBinding(
   personId: PersonId,
   moment: Moment,
   binding: ScheduleEntry["bindings"][number],
-  options: { includeHeld?: boolean },
+  options: { includeHeld?: boolean; stopMinute?: number },
 ): PurposeSceneResult {
   const type = typeForCause(
     TYPES.get(binding.typeKey) as PurposeType,
@@ -1481,7 +1477,14 @@ function composeBinding(
   // "Morning." is said before noon, "this afternoon" is still ahead only in
   // the daytime, and "tonight" is true of the present only in the evening:
   // the hour is the player's clock as the scene plays.
-  for (const mark of dayParts(sceneMinute(core, personId)))
+  // The scene's narration opens at the same hour (scene.ts): the player's
+  // clock, else the hour of the stop, else the start of the player's day, so
+  // a line that fits only the evening never plays under "First thing on...".
+  for (const mark of dayParts(
+    sceneMinute(core, personId) ??
+      options.stopMinute ??
+      core.data.parameters.playerDayStartMinute!.value,
+  ))
     facts[mark] = { text: "yes", sourceRecordIds: [moment.causeId] };
 
   const wording = options.includeHeld ? { includeHeld: true } : {};
