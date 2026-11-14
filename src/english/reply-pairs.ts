@@ -65,6 +65,12 @@ export interface ReplyFlow {
     beforeStep: string,
     beforeMove: string,
   ): ReadonlySet<string> | undefined;
+  /**
+   * The facts of which at most one holds in one talk of this scene (the
+   * visitor is for the bill or against it): a line that needs one of them
+   * never meets a line that needs another.
+   */
+  apart?(scene: ReplyScene): readonly (readonly string[])[];
 }
 
 export interface ReplyPair {
@@ -187,6 +193,23 @@ export function replyPairs(
           list.push(row);
           byStep.set(use.step, list);
         }
+    // A reply meets the line before it only where the facts both need can
+    // hold at once: never a reply that rules out a fact the line before
+    // needs (or the other way round), and never two facts the arc keeps
+    // apart. Such a pair can never be said in play.
+    const apart = options.flow?.apart?.(scene) ?? [];
+    const meets = (before: Row, row: Row): boolean => {
+      const holds = before.use.requiresFacts ?? [];
+      const needs = row.use.requiresFacts ?? [];
+      if (row.use.excludesFacts?.some((name) => holds.includes(name)))
+        return false;
+      if (before.use.excludesFacts?.some((name) => needs.includes(name)))
+        return false;
+      const all = new Set([...holds, ...needs]);
+      return !apart.some(
+        (names) => names.filter((name) => all.has(name)).length > 1,
+      );
+    };
     // The replies the picker chooses among, for each step set: by move, role and whether they draw on the player's own life.
     const groups = new Map<string, Map<string, Row[]>>();
     const groupsOf = (steps: readonly string[]) => {
@@ -223,7 +246,7 @@ export function replyPairs(
           )
             continue;
           const candidates = rows.filter(
-            (row) => row.part.key !== before.part.key,
+            (row) => row.part.key !== before.part.key && meets(before, row),
           );
           if (!candidates.length) continue;
           const outcomes = close ? (["open"] as const) : [undefined];

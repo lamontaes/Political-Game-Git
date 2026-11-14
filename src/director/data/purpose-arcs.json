@@ -926,6 +926,13 @@
       ]
     },
     "desk-visit": {
+      "apart": [
+        ["for", "against"],
+        ["opposed", "unopposed"],
+        ["unopposed", "veto-proof", "short-of-override"],
+        ["budget-cost", "no-cost"],
+        ["opposed-voters", "opposed-groups", "opposed-party", "opposed-views"]
+      ],
       "state": "request",
       "replies": ["agree", "refuse", "bargain", "ask"],
       "follow": {
