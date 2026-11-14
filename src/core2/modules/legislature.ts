@@ -6889,13 +6889,52 @@ export function votesOn(
   position: MemberPosition;
   /** The trades the member took on the bill, which the vote cites. */
   traded?: readonly { kind: string; terms: string; stage?: string }[];
+  /** The reason the member gave for the vote (`giveReason`), when they gave one. */
+  reasonGiven?: GivenReason;
 }[] {
   return table(api, "votes").query("byBill", [billId]) as unknown as {
     memberId: string;
     vote: string;
     position: MemberPosition;
     traded?: readonly { kind: string; terms: string; stage?: string }[];
+    reasonGiven?: GivenReason;
   }[];
+}
+
+/** The reasons a member gives for a vote out loud: their views, the town, a deal, their last vote, sponsoring it. */
+export const GIVEN_REASONS = [
+  "views",
+  "town",
+  "deal",
+  "record",
+  "sponsor",
+] as const;
+export type GivenReason = (typeof GIVEN_REASONS)[number];
+
+/**
+ * The reason a member gave for how they voted, kept on their vote row with the
+ * reply that said it (`replyId`). Only the reason the player pressed is kept
+ * here; a member the player does not control leaves it empty. A vote not yet
+ * rolled, or a reason already given, changes nothing: the first reason said
+ * about a vote is the one on record. Returns whether it was written.
+ */
+export function giveReason(
+  api: CoreAPI,
+  billId: string,
+  memberId: string,
+  reason: GivenReason,
+  replyId: string,
+): boolean {
+  const row = table(api, "votes").get(
+    `vote:${billId}:${memberId}`,
+  ) as unknown as (ModuleRow & { reasonGiven?: GivenReason }) | undefined;
+  if (!row || row.reasonGiven) return false;
+  table(api, "votes").put({
+    ...row,
+    reasonGiven: reason,
+    reasonReplyId: replyId,
+  } as unknown as ModuleRow);
+  return true;
 }
 
 /**
