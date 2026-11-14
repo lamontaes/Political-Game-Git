@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9146
 blocked-on:
 source: found by fixer F6 while carrying #8815 (Nov 14)
 after:
