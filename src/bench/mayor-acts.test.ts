@@ -1,4 +1,5 @@
 // @vitest-environment node
+import { appendFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -12,12 +13,13 @@ import { buildBenchWorld } from "./world";
 
 // A sitting mayor the player does not steer spends free days on the office,
 // not only on rest (pool item gov-mayor-never-gives-yearly-address-or-town-hall).
-// Pinned to two small towns that failed before the fix: rest won 133 of 141
+// Pinned to three small towns that failed before the fix: rest won 133 of 141
 // free days at both, and the acts table held no town hall, interview or
 // department-head meeting.
 const PINNED = [
   { at: "mayor-acts-1:1", name: "Edmore, North Dakota" },
   { at: "mayor-acts-1:2", name: "Matawan, New Jersey" },
+  { at: "mayor-acts-1:3", name: "Odessa, Washington" },
 ];
 
 describe.each(PINNED)("a mayor's free days ($name)", ({ at, name }) => {
@@ -61,6 +63,7 @@ describe.each(PINNED)("a mayor's free days ($name)", ({ at, name }) => {
       kinds.set(row.kind, (kinds.get(row.kind) ?? 0) + 1);
     const total = [...kinds.values()].reduce((a, b) => a + b, 0);
     const note = `${place.name}: ${JSON.stringify([...kinds])}`;
+    if (process.env.ACTS_OUT) appendFileSync(process.env.ACTS_OUT, `${note}\n`);
     expect(kinds.get("office-hours") ?? 0, note).toBeGreaterThan(0);
     expect(kinds.get("meet-department-head") ?? 0, note).toBeGreaterThan(0);
     expect(kinds.size, note).toBeGreaterThanOrEqual(4);

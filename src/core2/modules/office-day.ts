@@ -262,9 +262,13 @@ export const officeHost: OfficeActHost = {
   clearPrepared: (api, personId, actId) =>
     table(api, "prepared").remove(`${personId}|${actId}`),
   given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
-  lastGiven: (api, personId, kind) =>
+  lastGiven: (api, personId, kind, recordId) =>
     officeActsOf(api, personId)
-      .filter((row) => row.kind === kind)
+      .filter(
+        (row) =>
+          row.kind === kind &&
+          (recordId === undefined || row.recordId === recordId),
+      )
       .map((row) => row.date)
       .sort()
       .at(-1),

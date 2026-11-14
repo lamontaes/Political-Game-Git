@@ -179,18 +179,19 @@ const LOCAL_PARAMETERS = {
     spread: [67, 191],
   },
   officeDutyDueWeight: {
-    value: 1.2,
+    value: 1,
     tag: "TUNABLE",
     citation:
-      "How strongly an office act that has come due pulls on its holder against resting in the same slot: set so a sitting mayor's recorded acts follow the intervals below instead of rest winning every free day (measured at Edmore, North Dakota and Matawan, New Jersey, where rest won 133 of 141 free days).",
-    estimatedFrom: "Checked against the intervals below in a played year.",
-    spread: [0.6, 2],
+      "Unverified estimate (builder, Nov 14, 2026): how strongly an office act that has come due pulls on its holder against resting in the same slot. Set equal to the other reasons' weights (needWeight, causeGivenWeight and griefPullWeight are each 1) so a due act ranks on the same scale as the reasons a person already weighs, not a number picked for the act to win; the played-year check (Edmore, Matawan and Odessa) is the only evidence it spreads acts instead of crowding one out.",
+    estimatedFrom:
+      "Checked against a played year's recorded acts at three drawn places.",
+    spread: [0.5, 2],
   },
   officeHoursIntervalDays: {
     value: 30,
     tag: "TUNABLE",
     citation:
-      "Days over which holding office hours comes fully due again for a local official; no published count exists for councils, so it is checked against the played year's acts at Edmore, North Dakota and Matawan, New Jersey (about one block every two to three weeks of free days).",
+      "Unverified estimate (builder, Nov 14, 2026): days over which holding office hours comes fully due again for a local official. No published count was fetched or found for councils or mayors; it stands only on the played-year check at three drawn places.",
     estimatedFrom: "Checked against a played year's recorded acts.",
     spread: [14, 45],
   },
@@ -198,7 +199,7 @@ const LOCAL_PARAMETERS = {
     value: 45,
     tag: "TUNABLE",
     citation:
-      "Days over which a meeting with a department head comes fully due again; no published count exists, so it is checked against the played year's acts at the same two places.",
+      "Unverified estimate (builder, Nov 14, 2026): days over which a meeting with a department head comes fully due again. No published count was fetched or found; it stands only on the played-year check at three drawn places.",
     estimatedFrom: "Checked against a played year's recorded acts.",
     spread: [14, 90],
   },
@@ -206,7 +207,7 @@ const LOCAL_PARAMETERS = {
     value: 91,
     tag: "TUNABLE",
     citation:
-      "How often a local official sits for a press interview: no count exists for councils and boards.",
+      "Unverified estimate (builder, Nov 14, 2026): days over which a press interview comes fully due again for a local official (a quarter). No count exists for councils and boards; it stands only on the played-year check at three drawn places.",
     estimatedFrom: "Checked against a played year's press coverage.",
     spread: [30, 180],
   },
@@ -312,7 +313,12 @@ export interface OfficeActHost {
   /** Whether the person already took this act in the year given. */
   given(api: CoreAPI, personId: string, kind: string, year: string): boolean;
   /** The date of the person's latest act of this kind, if any. */
-  lastGiven(api: CoreAPI, personId: string, kind: string): string | undefined;
+  lastGiven(
+    api: CoreAPI,
+    personId: string,
+    kind: string,
+    recordId?: string,
+  ): string | undefined;
 }
 
 export interface Prepared {
@@ -359,12 +365,18 @@ export function officeActReasons(host: OfficeActHost) {
     "office-duty-due": (
       api: CoreAPI,
       actor: Readonly<PersonState>,
-      _offer: ActOffer,
+      offer: ActOffer,
       binding: { readonly arguments?: Readonly<Record<string, string>> },
     ) => {
       const kind = binding.arguments?.act ?? "";
       const interval = DUE_INTERVALS[kind];
-      const last = host.lastGiven(api, actor.id, kind);
+      // A meeting is with someone: each head comes due on their own.
+      const last = host.lastGiven(
+        api,
+        actor.id,
+        kind,
+        kind === "meet-department-head" ? offer.targetId : undefined,
+      );
       const due =
         !interval || !last
           ? 1
@@ -620,7 +632,7 @@ export function officeActHandlers(host: OfficeActHost) {
         personId: actorId,
         kind: "office-hours",
         how: prepared ? "did" : "own-choice",
-        recordId: actorId,
+        recordId: `${actorId}:${api.state.date}`,
         position: null,
         detail: "held office hours",
       });
