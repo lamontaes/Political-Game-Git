@@ -68,7 +68,7 @@ import {
   housingWorldOffset,
   type PriceLevel,
 } from "../housing-prices";
-import { economyMonthBefore, pastPriceRatio } from "../housing-price-path";
+import { economyMonthBefore } from "../housing-price-path";
 import {
   countBuyer,
   homeValueToday,
@@ -724,16 +724,10 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
     oldest: row.oldest,
     liquidMinor: row.liquidMinor,
     valueMinor: Math.round(
-      medianValue *
-        100 *
-        // ACS values are dated mid-2022; this world's price level moves them to the start.
-        pastPriceRatio(
-          input,
-          valueDateOf(town.county),
-          input.startedAt,
-          housingMacroParameter,
-        ) *
-        (incomeScale(row.income) / ownerMedianScale),
+      // The census median is the typical home's value on day one (the
+      // calibration point, as the census rent is the rents'); this world's
+      // price level walks the past back from it.
+      medianValue * 100 * (incomeScale(row.income) / ownerMedianScale),
     ),
   }));
   for (const row of ownerRows) dwellings.push([row.id, "own", row.valueMinor]);
@@ -2848,12 +2842,11 @@ export function openHousing(api: CoreAPI): void {
       town.rentMinor,
       macroPrices(api)?.(api.state.date) ?? 1,
     );
-    // The place's home price level on day one: this world's path, scaled so
-    // its level at the census date is the census median.
+    // The place's home price level on day one: the census median, with this
+    // world's path walking the past back from it.
     const county = housingPlace(api, landlord.placeId).county;
     openPriceLevel(api, landlord.placeId, {
       medianValueMinor: (rentValueOf(county, api.state.seed)[1] ?? 0) * 100,
-      valueDate: valueDateOf(county),
       townPayMinor: town.monthlyPayMinor,
     });
   }

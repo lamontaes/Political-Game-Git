@@ -39,7 +39,7 @@ export interface PriceLevelFields {
   priceLogLevel: number;
   /** The last 13 months' log levels, oldest first (momentum reads the year's change). */
   priceRecent: number[];
-  /** Money per unit of relative level: set once so the level at the ACS value date is the ACS median. */
+  /** Money per unit of relative level: set once so day one's level is the census median. */
   priceScaleMinor: number;
   /** The typical home's value today: scale times the level times the web's factor. */
   priceLevelMinor: number;
@@ -59,16 +59,16 @@ export interface PriceLevelFields {
 type StockWithPrice = Partial<PriceLevelFields> & { id: string };
 
 /**
- * Sets a place's level on day one: the world's path to day one, scaled so the
- * level at the census's value date is the census median there.
+ * Sets a place's level on day one: the census median is day one's typical
+ * value (the calibration point), and the world's path to day one walks the
+ * past back from it.
  */
 export function openPriceLevel(
   api: CoreAPI,
   placeId: string,
   input: {
-    /** The census median home value, in cents, and the date it stands at. */
+    /** The census median home value, in cents: day one's typical value. */
     readonly medianValueMinor: number;
-    readonly valueDate: string;
     /** The town's median monthly pay on day one (0 where it has no jobs). */
     readonly townPayMinor: number;
   },
@@ -81,8 +81,7 @@ export function openPriceLevel(
     p,
   );
   const log = pastLogLevel(path, api.state.date);
-  const scale =
-    input.medianValueMinor / Math.exp(pastLogLevel(path, input.valueDate));
+  const scale = input.medianValueMinor / Math.exp(log);
   const level = Math.round(scale * Math.exp(log));
   stock(api).put({
     ...row,
