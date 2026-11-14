@@ -98,7 +98,6 @@ export function savingWeight(
   h: { readonly id: string; saving?: number },
 ): number {
   if (h.saving === undefined) {
-    // stopgapId: SG-CORE-counted-savings-spread-national
     const sigma = countedParameter("countedSavingsSpreadLog");
     const uniform = (key: string) =>
       (Number.parseInt(stableHash(key).slice(0, 12), 16) + 0.5) / 16 ** 12;
