@@ -39,6 +39,7 @@ import {
   orderQuestionOf,
   pendingGovernorOrders,
 } from "../core2/modules/executive";
+import controls from "./data/controls.json" with { type: "json" };
 import { policyNames } from "./words";
 import {
   hireReasons,
@@ -394,13 +395,29 @@ function seatSwitches(api: ReturnType<typeof coreAPI>, personId: string) {
   });
   const federal = federalSeatOf(api, personId);
   const has: Record<(typeof STOP_SWITCHES)[number]["key"], boolean> = {
-    meetings: officeJobsOf(api, personId).length > 0,
+    meetings: officeJobsOf(api, personId).some((j) => bodyOf(api, j.officeId)),
     floor:
       stateOfficeOf(api, personId)?.role === "legislator" ||
       (federal !== null && votesOnPassage(federal.kind)),
     desk: executive,
   };
   return STOP_SWITCHES.filter((row) => has[row.key]);
+}
+
+/**
+ * The meetings switch's label in the body's own short word, read from the first body the player sits
+ * on by the rules in controls.json (a body whose name has no word there reads plain "Meetings").
+ */
+function bodyWord(api: ReturnType<typeof coreAPI>, officeIds: string[]) {
+  for (const officeId of officeIds) {
+    const name = bodyOf(api, officeId)?.bodyName?.toLowerCase();
+    if (!name) continue;
+    const rule = controls.officeStops.bodySwitches.find((r) =>
+      r.has.every((word) => name.includes(word)),
+    );
+    if (rule) return rule.label;
+  }
+  return null;
 }
 
 /** The player switches one kind of stop off or on; the view comes back with it. */
@@ -439,11 +456,11 @@ export function officeView(core: CoreState, personId: string) {
       citation: j.citation,
       nextMeeting: nextMeetingDate(api, j.officeId),
     })),
-    // The body's own name for the meetings switch ("City Council"), as the Calendar says it; none for a seat with no body.
-    stopsBody:
-      jobs
-        .map((j) => bodyOf(api, j.officeId)?.bodyName)
-        .find((name) => !!name) ?? null,
+    // The body's short said word for the meetings switch ("Council meetings"), from the body's own name; none when no word fits.
+    stopsBody: bodyWord(
+      api,
+      jobs.map((j) => j.officeId),
+    ),
     stops: seatSwitches(api, personId).map((row) => ({
       key: row.key,
       on: row.kinds.every((k) => stopsOf(api, personId)[k] !== false),

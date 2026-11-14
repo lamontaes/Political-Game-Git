@@ -589,9 +589,20 @@
       "no": "No",
       "abstain": "Abstained"
     },
+    "bodySwitches": [
+      { "has": ["council"], "label": "Council meetings" },
+      { "has": ["police jury"], "label": "Police Jury meetings" },
+      { "has": ["town meeting"], "label": "Town Meeting" },
+      { "has": ["governing body"], "label": "Governing Body meetings" },
+      { "has": ["board"], "label": "Board meetings" },
+      { "has": ["commission"], "label": "Commission meetings" },
+      { "has": ["committee"], "label": "Committee meetings" },
+      { "has": ["assembly"], "label": "Assembly meetings" },
+      { "has": ["legislature"], "label": "Legislature sessions" },
+      { "has": ["aldermen"], "label": "Aldermen meetings" }
+    ],
     "switches": {
       "meetings": "Meetings",
-      "meetingsOf": "{body} meetings",
       "floor": "Floor votes",
       "desk": "Bills on my desk"
     },

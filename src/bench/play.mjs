@@ -2736,10 +2736,7 @@ async function officeParts() {
           ...v.stops.map((stop) =>
             settingRow(
               stop.key === "meetings" && v.stopsBody
-                ? (words.switches?.meetingsOf ?? "").replace(
-                    "{body}",
-                    v.stopsBody,
-                  )
+                ? v.stopsBody
                 : (words.switches?.[stop.key] ?? ""),
               onOffToggle({
                 attr: "stop",
