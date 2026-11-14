@@ -41,6 +41,6 @@ describe.each(PINNED)(
           `${place.name} ${w.core.date} mayors ${mayors.length} given ${JSON.stringify(given.map((g) => [g.date, g.detail]))}\n`,
         );
       expect(given.length, place.name).toBeGreaterThan(0);
-    }, 120_000);
+    }, 60_000);
   },
 );
