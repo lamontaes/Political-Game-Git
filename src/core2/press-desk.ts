@@ -45,6 +45,22 @@ const COUNTED_HOUSEHOLD = "counted-household";
 const COUNTED_SUBJECTS = "counted-subjects";
 
 /** The record kinds a local outlet prints in its briefs column. */
+/**
+ * A race's gifts and endorsements: a paper tells a race's money and backing
+ * as one story a week, not one for each donor or endorser (a town's gifts were
+ * 94 of its 142 front-page stories in the weeks after filings opened,
+ * Williamstown, Kentucky, seed survey-b), and only a local outlet carries
+ * them: they are a town's donors' records, not the nation's news.
+ */
+const RACE_KINDS: ReadonlySet<string> = new Set([
+  "campaign-gift",
+  "campaign-endorsed",
+]);
+const raceTold = (item: WireItem): string | null =>
+  RACE_KINDS.has(item.kind) && item.facts?.contestId
+    ? `${item.kind}:${item.facts.contestId}`
+    : null;
+
 const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
 /** The briefs about the whole town, which name no one: they involve every follower. */
 const TOWN_WIDE_BRIEFS: ReadonlySet<string> = new Set(briefs.townWide);
@@ -656,7 +672,10 @@ export function runDesk(
   const p = ctx.parameter;
   const since = addDays(makeIsoDate(api.state.date), -p("storyFreshDays"));
   const open = wire.filter(
-    (item) => item.date >= since && !ctx.printed(item.id, outlet.id),
+    (item) =>
+      item.date >= since &&
+      !ctx.printed(item.id, outlet.id) &&
+      !(outlet.tier === "national" && RACE_KINDS.has(item.kind)),
   );
   if (!open.length || !outlet.reporterIds.length) return [];
   // A body's sitting is news for what it did, not that it sat (CTO, Nov 1,
@@ -850,6 +869,8 @@ export function runDesk(
   // reporter takes another of its seats (Kewanna, Indiana, seed
   // 3c91e07a5d2f8b14:agree:0, printed council seats 0 and 2 of one race).
   const bills = new Set<string>();
+  // The races whose money or backing this outlet has told this week.
+  const racesTold = new Set<string>();
   const out: PrintedStory[] = [];
   for (const reporterId of outlet.reporterIds) {
     if (!api.state.people.get(reporterId)?.alive) continue;
@@ -872,7 +893,17 @@ export function runDesk(
               p("storyDriveWeight") * drive),
         };
       })
-      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
+      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item))
+      // One gift story and one endorsement story a race, the best of its
+      // week's records, before any slot is spent on the rest.
+      .filter((row, at, all) => {
+        const race = raceTold(row.item);
+        return (
+          !race ||
+          (!racesTold.has(race) &&
+            all.findIndex((other) => raceTold(other.item) === race) === at)
+        );
+      });
     const count = Math.min(
       p(
         outlet.tier === "national"
@@ -907,6 +938,8 @@ export function runDesk(
           : [row];
       for (const one of sitting) {
         taken.add(one.item.id);
+        const race = raceTold(one.item);
+        if (race) racesTold.add(race);
         // One story a bill: a failed bill's vote and its failure are one.
         // One story a race: the seats of a race that fills several at once
         // are one count, told once (Words lead, Nov 13, rule 30).
