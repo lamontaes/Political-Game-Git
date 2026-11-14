@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/offices.ts, src/core2/data/offices/, src/bench/government-bodies.ts, src/bench/play.mjs, src/core2/data/stopgaps/play.json
 
 **Notes.** Filed by the CTO, Oct 29, while building the Government screen to the mock. Read: OWNER-DECISIONS Oct 29 22:10 (the four Government answers) and Oct 10 (courts after early access); searched src/core2 for judge and judicial offices (none).
+
+Nov 14 (Account lead builder, cluster 23): looked at and not built here. The data this needs and the repo lacks: (1) a per-state row for how each of the 56 places picks its county, state and appellate judges (elected, appointed, retained, term length), sourced; (2) judge offices and seat counts per level in src/core2/data/offices/ (no judgeship row exists today); (3) the federal bench's size and who sits on it. The offices engine can seat them once those rows exist; the work is the data first, so it stays an Opus item.
