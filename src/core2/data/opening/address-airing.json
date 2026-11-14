@@ -2,6 +2,7 @@
   "about": "When the President's opening address airs, as a clock time in one named zone; the opening day shifts it to the player's own place clock. Read by src/director/address-airing.ts.",
   "airsAtMinute": {
     "id": "openingAddressAirsEasternMinute",
+    "role": "opening",
     "value": 1260,
     "unit": "minute of the day, Eastern clock (21:00)",
     "timeZone": "America/New_York",
