@@ -1694,27 +1694,33 @@ export function signPetition(
 }
 
 /**
- * Add signatures gathered among one place's counted voters outside the town
+ * Add signatures gathered among the counted voters of places outside the town
  * to a circulating petition (the campaign's paid circulators,
- * `circulatorShift`): counted by place, as a counted voter is one rule
- * times their count. Returns how many were added.
+ * `circulatorShift`), in one write for the shift: counted by place, as a
+ * counted voter is one rule times their count. Returns how many were added.
  */
 export function signOutside(
   api: CoreAPI,
   filingId: string,
-  placeId: string,
-  count: number,
+  counts: readonly (readonly [placeId: string, count: number])[],
 ): number {
-  const n = Math.floor(count);
-  if (n <= 0 || !petitionCirculating(api, filingId)) return 0;
+  if (!petitionCirculating(api, filingId)) return 0;
   const petition = petitionOf(api, filingId)!;
-  const held = petition.outsideSigned ?? {};
+  const outsideSigned = { ...(petition.outsideSigned ?? {}) };
+  let added = 0;
+  for (const [placeId, count] of counts) {
+    const n = Math.floor(count);
+    if (n <= 0) continue;
+    outsideSigned[placeId] = (outsideSigned[placeId] ?? 0) + n;
+    added += n;
+  }
+  if (added <= 0) return 0;
   table(api, "petitions").put({
     ...petition,
-    signed: petition.signed + n,
-    outsideSigned: { ...held, [placeId]: (held[placeId] ?? 0) + n },
+    signed: petition.signed + added,
+    outsideSigned,
   } as unknown as ModuleRow);
-  return n;
+  return added;
 }
 
 /** Who has signed a filing's petition, by id. */

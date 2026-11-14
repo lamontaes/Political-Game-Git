@@ -3348,15 +3348,34 @@ export function askToSign(
  * petition's circulators: the town's voters set apart (`wideElectorate`).
  */
 function petitionReach(api: CoreAPI, contestId: string) {
+  const held = reaches.get(api.state) ?? new Map();
+  reaches.set(api.state, held);
+  const kept = held.get(contestId);
+  if (kept && daysBetween(kept.asOf, api.state.date) < 90) return kept.reach;
   const contest = elections(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
-  return contest
+  const reach = contest
     ? wideElectorate(api, contest, {
         voters: townElectorate(api),
         population: Number(api.state.placeMetadata.referencePopulation) || 0,
       })
     : null;
+  held.set(contestId, { asOf: api.state.date, reach });
+  return reach;
 }
+// A race's places, read again a quarter after they were last read, as
+// `townShareOfRace` does: counting the town's adults walks every person, and
+// the circulators read the reach on every race turn of every wider filing.
+const reaches = new WeakMap<
+  object,
+  Map<
+    string,
+    {
+      readonly asOf: string;
+      readonly reach: ReturnType<typeof wideElectorate>;
+    }
+  >
+>();
 
 /** Whether a filing's petition circulates for a race that reaches past the town, so circulators can be hired for it. */
 export function circulatorsCanWork(api: CoreAPI, filingId: string): boolean {
@@ -3491,7 +3510,7 @@ export function circulatorShift(api: CoreAPI, filingId: string): number {
     amountMinor: total * price,
     citation: `${total} petition signatures at the campaign-unit-prices petition-signature row`,
   });
-  for (const [placeId, n] of got) signOutside(api, filingId, placeId, n);
+  signOutside(api, filingId, got);
   want = total;
   save(api, {
     ...campaignFor(api, filingId),
