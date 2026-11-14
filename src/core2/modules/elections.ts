@@ -43,6 +43,7 @@ import type { ModuleRow } from "../module-data";
 import {
   corePlaceByJurisdictionId,
   corePlaceByKey,
+  placeNameWithinState,
   coreStateName,
 } from "../place-lookup";
 import {
@@ -1136,6 +1137,15 @@ function birthdayOn(birthDate: string, years: number): string {
   return `${year}-${monthDay === "02-29" && !leap ? "03-01" : monthDay}`;
 }
 
+/**
+ * The town's own name, as its clerk says it: "Rienzi", never the state beside
+ * it (a clerk at the town's own counter does not say the state).
+ */
+function townName(api: CoreAPI): string | null {
+  const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
+  return place ? placeNameWithinState(place) : null;
+}
+
 /** Every rule for one person filing in one contest, checked today. */
 export function checkEligibility(
   api: CoreAPI,
@@ -1223,8 +1233,7 @@ export function checkEligibility(
           ? (stateNameOf(api) ??
             rules.residency ??
             "lives in the area the office serves")
-          : (corePlaceByKey(api.state.placeMetadata.placeKey ?? "")
-              ?.displayName ??
+          : (townName(api) ??
             rules.residency ??
             "lives in the area the office serves"),
       actual: resident

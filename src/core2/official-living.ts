@@ -6,8 +6,13 @@
  *
  * The cost is the BLS Consumer Expenditure Survey basket for one person in
  * the official's region plus the HUD fair market rent of a studio in their
- * state, as the opening gives every household. The cash is what the Survey of
- * Consumer Finances says a family at their pay keeps in checking and savings.
+ * state, as the opening gives every household, or what the Survey says a
+ * household at their pay spends when that is more: the basket leaves housing,
+ * vehicles and insurance to other writers, and an official has none, so a
+ * well-paid one would otherwise save most of their pay (a year of the played
+ * world grew the median away-home owner's cash tenfold). The cash is what the
+ * Survey of Consumer Finances says a family at their pay keeps in checking
+ * and savings.
  */
 import { householdDailyCostMinor } from "./household-cost";
 import { hudStateRentRow } from "./hud-rents";
@@ -36,6 +41,7 @@ export function officialHousehold(
       stateKey,
       size: p("one"),
       rent: hudStateRentRow(stateKey, api.state.seed),
+      annualPayMinor,
       parameter: p,
     }),
     savingsMinor: Math.round(
