@@ -137,6 +137,8 @@ function questionArea(question: string): "work" | "money" | null {
 export function strongestQuestion(
   api: CoreAPI,
   personId: PersonId,
+  /** Only questions this keeps (a door's office's own powers); all when absent. */
+  among?: (question: string) => boolean,
 ): {
   question: string;
   about: string;
@@ -151,6 +153,7 @@ export function strongestQuestion(
   const strongest = (questions: readonly string[]) => {
     let found: { question: string; about: string; view: number } | null = null;
     for (const question of [...new Set(questions)].sort()) {
+      if (among && !among(question)) continue;
       const about = questionAbout(question);
       if (!about) continue;
       const view = viewOn(api, personId, question, lean);
