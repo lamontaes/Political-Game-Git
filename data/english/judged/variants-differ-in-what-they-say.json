@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1348,
+  "judged": 1342,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -4948,13 +4948,6 @@
       ],
       "why": "Most of the lines are an offer to tell the whole story in other words."
     },
-    "250uzdc4nvo": {
-      "keys": [
-        "scene-talk.close-warn.see-you-on-election-day",
-        "scene-talk.close-warn.this-isn-t-over"
-      ],
-      "why": "Both lines are the same parting threat."
-    },
     "252beo7hc1b": {
       "keys": [
         "scene-talk.reply-lie.i-m-leaning-your-way",
@@ -5097,14 +5090,6 @@
         "scene-talk.state-ask.what-s-the-town-s-plan-for-issue-give-me-a-straight-answer"
       ],
       "why": "Two of the three ask what the town's plan is for {issue} in other words, and only one is tied to the host agreeing."
-    },
-    "27879364pp4": {
-      "keys": [
-        "scene-talk.reply-confront.say-that-on-the-debate-stage",
-        "scene-talk.reply-confront.you-came-all-the-way-over-here-to-tell-me-that",
-        "scene-talk.reply-confront.you-could-have-said-that-on-stage"
-      ],
-      "why": "Two of the three lines say the opponent should have said it on the debate stage, one of them without even needing a debate, so most reword the same retort."
     },
     "278mtyady5z": {
       "keys": [
@@ -5747,5 +5732,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "00yvi5cndux"
+  "yesHash": "1fej2j2osuc"
 }

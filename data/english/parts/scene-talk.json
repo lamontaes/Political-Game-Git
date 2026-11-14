@@ -1990,7 +1990,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -2014,7 +2015,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -6341,7 +6343,8 @@
           "move": "disagree",
           "role": "asked",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -6365,7 +6368,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "guarded",
@@ -6413,7 +6417,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -6437,7 +6442,8 @@
           "move": "boast",
           "role": "asked",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "proud",
@@ -6461,7 +6467,8 @@
           "move": "boast",
           "role": "asked",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "proud",
@@ -8750,7 +8757,8 @@
           "move": "boast",
           "role": "asker",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "proud",
@@ -12359,7 +12367,8 @@
           "role": "asked",
           "purpose": "rally-opponent",
           "key": "threat",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["debate"]
         },
         {
           "subject": "scene",
@@ -17599,7 +17608,8 @@
           "move": "disagree",
           "role": "asked",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -20850,7 +20860,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "calm",
@@ -20876,7 +20887,8 @@
           "purpose": "rally-opponent",
           "key": "threat",
           "after": "leave",
-          "outcome": "open"
+          "outcome": "open",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -21000,7 +21012,8 @@
           "move": "confront",
           "role": "asker",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -21024,7 +21037,8 @@
           "move": "confront",
           "role": "asker",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "braced",
@@ -21048,7 +21062,8 @@
           "move": "confront",
           "role": "asker",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "guarded",
@@ -21096,7 +21111,8 @@
           "move": "boast",
           "role": "asker",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "proud",
@@ -21120,7 +21136,8 @@
           "move": "boast",
           "role": "asker",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
         }
       ],
       "bearing": "proud",
@@ -185890,6 +185907,412 @@
       "tag": {
         "move": "agree",
         "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.you-and-i-split-on-issue-up-there-i-ll-take-that-to-every-door",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You and I split on {issue} up there. I'll take that to every door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["said-none"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.we-answered-issue-differently-people-saw-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "We answered {issue} differently. People saw it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["said-none"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.you-ducked-the-one-on-issue-people-noticed",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You ducked the one on {issue}. People noticed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue", "said-none"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.you-skipped-issue-tonight-i-wouldn-t-have",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You skipped {issue} tonight. I wouldn't have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue", "said-none"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.we-agreed-on-more-than-i-expected-tonight",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "We agreed on more than I expected tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"],
+          "excludesFacts": ["issue"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.nothing-to-fight-about-tonight-we-ll-find-something",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Nothing to fight about tonight. We'll find something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"],
+          "excludesFacts": ["issue"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.that-s-where-i-am-and-i-m-staying-there",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "That's where I am, and I'm staying there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["said-none"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "disagree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-had-the-same-microphone-i-did",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You had the same microphone I did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["said-none"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-a-day-to-get-to",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have a day to get to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.some-questions-need-more-than-a-minute-i-ll-answer-it-at-your-door-or-mine",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Some questions need more than a minute. I'll answer it at your door or mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue", "said-none"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-answered-most-of-them-you-can-ask-me-that-one-now",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I answered most of them. You can ask me that one now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue", "said-none"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.think-what-you-like",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Think what you like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-we-ll-let-them-choose",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then we'll let them choose.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-that-s-what-people-ask-for",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair. That's what people ask for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-town-heard-both-of-us-tonight-now-it-decides",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The town heard both of us tonight. Now it decides.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.whoever-wins-we-both-said-it-out-loud",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Whoever wins, we both said it out loud.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
       }
     }
   ]
