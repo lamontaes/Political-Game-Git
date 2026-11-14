@@ -373,7 +373,8 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
   it(
     "applies each law to people, groups and treasuries, moves money, and ends on repeal",
     // Each draw builds a town; only the first with a subject for every law
-    // runs its 170 days.
+    // runs its 170 days. Dennis, Massachusetts takes about 156 s, and the time
+    // is the game's own: the estate case plays the 270 days probate waits.
     { timeout: 320_000 },
     () => {
       setBookkeeping(false);
@@ -998,7 +999,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
   it(
     "keeps a corporation's unpaid profit tax owed to each treasury, through a zero-profit quarter and a repealed state rate",
     // Each attempt builds a town and runs to October 1 (three quarter days).
-    { timeout: 260_000 },
+    { timeout: 110_000 },
     () => {
       setBookkeeping(false);
       const testSource: Source = {
@@ -1008,11 +1009,14 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
       };
       try {
         const tried: string[] = [];
-        // The pinned seed's third draw (University at Buffalo, New York) is
-        // the first with a corporation location that stays open through July 1:
-        // Grace, Mississippi's one location closed that day, and Bethel,
-        // Vermont has no state corporate rate. An env seed starts at its first.
-        for (let i = process.env.GOLDEN_PATH_SEED ? 0 : 2; i < TRIES; i++) {
+        // The pinned seed's draw 6 is Newport, Delaware: a small place with a
+        // federal and a state corporate rate and eight corporation locations,
+        // all open through July 1 (33 s to that day). The draws before it are
+        // not used: Grace, Mississippi's one location closes July 1, Bethel,
+        // Vermont has no state corporate rate, and University at Buffalo, New
+        // York is a large town (about 130 s for the same three quarter days).
+        // An env seed starts at its first draw.
+        for (let i = process.env.GOLDEN_PATH_SEED ? 0 : 6; i < TRIES; i++) {
           const drawn = drawPlace(seed, `law-wiring-taxes-arrears:${i}`);
           const where = `${drawn.name} (${drawn.key}), seed ${seed}`;
           const core = buildBenchWorld(drawn.seed, gameStartDate(), {
