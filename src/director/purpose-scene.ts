@@ -1019,10 +1019,9 @@ function composeBinding(
       text: said.favor,
       sourceRecordIds: [moment.causeId],
     };
-    const contract = said.contractLine ? contractSaid(said.contractLine) : null;
-    if (said.favor === "contract" && contract)
+    if (said.favor === "contract")
       facts.contract = {
-        text: contract,
+        text: contractSaid(said.contractLine ?? ""),
         sourceRecordIds: [moment.causeId, said.contractId ?? moment.causeId],
       };
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
