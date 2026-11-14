@@ -104,8 +104,8 @@
     "grade": "The winner's grade that school year, as a word, from their birth date and the school year.",
     "kin": "What the winner is to their parents (daughter, son or child), from the family records.",
     "parents": "The winner's parents, by name, from the family records.",
-    "this-month": "A flag: the regional bee is held in the month the paper is printed.",
-    "a-grade": "The winner's grade with its article ('a seventh', 'an eighth'), for 'a seventh grader'."
+    "a-grade": "The winner's grade with its article ('a seventh', 'an eighth'), for 'a seventh grader'.",
+    "soon": "'later this month', when the regional bee is held in the month the paper is printed."
   },
   "maxWords": 14,
   "mining": {
@@ -4572,27 +4572,6 @@
       "move": "organization-opened",
       "kind": "written",
       "text": "{subject} opened in {year}.",
-      "uses": [
-        {
-          "move": "organization-opened",
-          "subject": "news",
-          "role": "organization.opened",
-          "choice": "lede"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.organization-opened.subject-is-open-for-business",
-      "move": "organization-opened",
-      "kind": "written",
-      "text": "{subject} is open for business.",
       "uses": [
         {
           "move": "organization-opened",
@@ -14485,7 +14464,7 @@
           "role": "honor-next",
           "choice": "context",
           "requiresFacts": ["bee-local", "month"],
-          "excludesFacts": ["this-month"]
+          "excludesFacts": ["soon"]
         }
       ],
       "origin": "authored",
@@ -14508,7 +14487,7 @@
           "role": "honor-next",
           "choice": "context",
           "requiresFacts": ["bee-local", "month"],
-          "excludesFacts": ["this-month"]
+          "excludesFacts": ["soon"]
         }
       ],
       "origin": "authored",
@@ -14531,7 +14510,7 @@
           "role": "honor-next",
           "choice": "context",
           "requiresFacts": ["bee-local", "month"],
-          "excludesFacts": ["this-month"]
+          "excludesFacts": ["soon"]
         }
       ],
       "origin": "authored",
@@ -14631,17 +14610,17 @@
       }
     },
     {
-      "key": "news.honor-next-soon.the-winner-goes-on-to-the-regional-bee-later-this-month",
-      "move": "honor",
+      "key": "news.opening-owner.owner-is-the-owner",
+      "move": "organization.opened",
       "kind": "written",
-      "text": "The winner goes on to the regional bee later this month.",
+      "text": "{owner} is the owner.",
       "uses": [
         {
-          "move": "honor",
+          "move": "organization.opened",
           "subject": "news",
-          "role": "honor-next-soon",
+          "role": "opening-owner",
           "choice": "context",
-          "requiresFacts": ["bee-local", "this-month"]
+          "requiresFacts": ["owner"]
         }
       ],
       "origin": "authored",
@@ -14653,17 +14632,17 @@
       }
     },
     {
-      "key": "news.honor-next-soon.the-regional-bee-follows-later-this-month",
-      "move": "honor",
+      "key": "news.opening-owner.owner-started-the-business",
+      "move": "organization.opened",
       "kind": "written",
-      "text": "The regional bee follows later this month.",
+      "text": "{owner} started the business.",
       "uses": [
         {
-          "move": "honor",
+          "move": "organization.opened",
           "subject": "news",
-          "role": "honor-next-soon",
+          "role": "opening-owner",
           "choice": "context",
-          "requiresFacts": ["bee-local", "this-month"]
+          "requiresFacts": ["owner"]
         }
       ],
       "origin": "authored",
@@ -14675,17 +14654,592 @@
       }
     },
     {
-      "key": "news.honor-next-soon.next-comes-the-regional-bee-later-this-month",
+      "key": "news.opening-owner.owner-is-the-one-who-opened-it",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{owner} is the one who opened it.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "opening-owner",
+          "choice": "context",
+          "requiresFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.opening-what.it-does-business-in-industry-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "It does business in {industry}, in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "opening-what",
+          "choice": "context",
+          "requiresFacts": ["industry", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.opening-what.the-business-works-in-industry",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "The business works in {industry}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "opening-what",
+          "choice": "context",
+          "requiresFacts": ["industry", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.opening-what.its-line-is-industry-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "Its line is {industry}, in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "opening-what",
+          "choice": "context",
+          "requiresFacts": ["industry", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.opening-what.it-is-in-industry-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "It is in {industry}, in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "opening-what",
+          "choice": "context",
+          "requiresFacts": ["industry", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.opening-staff.it-has-staff-people-on-staff",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "It has {staff} people on staff.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "opening-staff",
+          "choice": "context",
+          "requiresFacts": ["staff"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.opening-staff.staff-people-work-there",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{staff} people work there.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "opening-staff",
+          "choice": "context",
+          "requiresFacts": ["staff"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.opening-staff.it-took-on-staff-people",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "It took on {staff} people.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "opening-staff",
+          "choice": "context",
+          "requiresFacts": ["staff"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.opening-staff.staff-numbers-staff",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "Staff numbers {staff}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "opening-staff",
+          "choice": "context",
+          "requiresFacts": ["staff"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-service.name-put-in-years-years-at-employer",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} put in {years} years at {employer}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-service",
+          "choice": "context",
+          "requiresFacts": ["employer", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-service.it-was-years-years-of-work-at-employer",
+      "move": "retirement",
+      "kind": "written",
+      "text": "It was {years} years of work at {employer}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-service",
+          "choice": "context",
+          "requiresFacts": ["employer", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-service.employer-had-been-name-s-workplace-for-years-years",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{employer} had been {name}'s workplace for {years} years.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-service",
+          "choice": "context",
+          "requiresFacts": ["employer", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-service.name-worked-at-employer-for-years-years",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} worked at {employer} for {years} years.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-service",
+          "choice": "context",
+          "requiresFacts": ["employer", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-service-gov.name-put-in-years-years-with-government",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} put in {years} years with {government}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-service-gov",
+          "choice": "context",
+          "requiresFacts": ["government", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-service-gov.it-was-years-years-of-work-for-government",
+      "move": "retirement",
+      "kind": "written",
+      "text": "It was {years} years of work for {government}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-service-gov",
+          "choice": "context",
+          "requiresFacts": ["government", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-service-gov.name-worked-for-government-for-years-years",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} worked for {government} for {years} years.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-service-gov",
+          "choice": "context",
+          "requiresFacts": ["government", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-place.name-lives-in-place",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} lives in {place}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-place",
+          "choice": "context",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-place.place-is-where-name-lives",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{place} is where {name} lives.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-place",
+          "choice": "context",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-place.name-is-a-resident-of-place",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} is a resident of {place}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-place",
+          "choice": "context",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-years.it-came-after-years-years-of-work",
+      "move": "retirement",
+      "kind": "written",
+      "text": "It came after {years} years of work.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-years",
+          "choice": "context",
+          "requiresFacts": ["years"],
+          "excludesFacts": ["employer", "government"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-years.name-had-worked-for-years-years",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} had worked for {years} years.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-years",
+          "choice": "context",
+          "requiresFacts": ["years"],
+          "excludesFacts": ["employer", "government"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement-years.years-years-of-work-are-behind-name",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{years} years of work are behind {name}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement-years",
+          "choice": "context",
+          "requiresFacts": ["years"],
+          "excludesFacts": ["employer", "government"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization-opened.owner-has-opened-subject-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{owner} has opened {subject} in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["owner", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization-opened.subject-opened-its-doors-in-place",
+      "move": "organization.opened",
+      "kind": "written",
+      "text": "{subject} opened its doors in {place}.",
+      "uses": [
+        {
+          "move": "organization.opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.honor-next-soon.the-winner-goes-on-to-the-regional-bee-soon",
       "move": "honor",
       "kind": "written",
-      "text": "Next comes the regional bee, later this month.",
+      "text": "The winner goes on to the regional bee {soon}.",
       "uses": [
         {
           "move": "honor",
           "subject": "news",
           "role": "honor-next-soon",
           "choice": "context",
-          "requiresFacts": ["bee-local", "this-month"]
+          "requiresFacts": ["bee-local", "soon"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.honor-next-soon.the-regional-bee-follows-soon",
+      "move": "honor",
+      "kind": "written",
+      "text": "The regional bee follows {soon}.",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "news",
+          "role": "honor-next-soon",
+          "choice": "context",
+          "requiresFacts": ["bee-local", "soon"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (M3, brief M)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.honor-next-soon.next-comes-the-regional-bee-soon",
+      "move": "honor",
+      "kind": "written",
+      "text": "Next comes the regional bee, {soon}.",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "news",
+          "role": "honor-next-soon",
+          "choice": "context",
+          "requiresFacts": ["bee-local", "soon"]
         }
       ],
       "origin": "authored",

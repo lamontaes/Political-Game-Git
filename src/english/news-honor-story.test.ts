@@ -83,8 +83,11 @@ describe("a spelling bee told as a story", () => {
     const { month, ...rest } = ALL;
     void month;
     const body =
-      composeNewsStory(packet({ ...rest, "this-month": "yes" }), "honor", 0)
-        .paragraphs ?? [];
+      composeNewsStory(
+        packet({ ...rest, soon: "later this month" }),
+        "honor",
+        0,
+      ).paragraphs ?? [];
     expect(body.join(" ")).toContain("later this month");
     expect(body.join(" ")).not.toContain("in March");
   });

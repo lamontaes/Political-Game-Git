@@ -2507,12 +2507,18 @@ function businessExtras(
     if (owner) extras.owner = read.fact(owner, id);
   }
   if (kind === "opening") {
-    const staff = read.row<{ staff: number }>(
+    const founding = read.row<{ staff: number; founderId?: string }>(
       BUSINESS_MODULE_ID,
       "foundings",
       id,
-    )?.staff;
+    );
+    const staff = founding?.staff;
     if (staff && staff > 1) extras.staff = read.fact(count(staff), id);
+    // Who started it, when the founder is a person the records name.
+    const founder = read.name(founding?.founderId);
+    if (founder) extras.owner = read.fact(founder, founding!.founderId!);
+    const where = read.place();
+    if (where) extras.place = read.fact(where);
   }
   return extras;
 }
@@ -3347,7 +3353,7 @@ const honor: Builder = (read, f) => {
           }
         : {}),
       ...(flag === "bee-local" && thisMonth
-        ? { "this-month": read.yes() }
+        ? { soon: read.fact("later this month", f.record ?? "") }
         : {}),
       ...(flag === "bee-local" && nextMonth && !thisMonth
         ? { month: read.fact(MONTHS[Number(nextMonth) - 1]!, f.record ?? "") }

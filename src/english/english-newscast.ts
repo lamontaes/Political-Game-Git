@@ -78,6 +78,8 @@ export const STORY_KINDS = {
     only: /\{\{subject\}\} (?:is opening|opened|is hiring|plans|is expanding)/,
     headline: ["organization.opened"],
     lede: ["organization.opened"],
+    // Who started it, what it is and where, and how many it took on.
+    context: ["opening-owner", "opening-what", "opening-staff"],
     brief: true,
   },
   "jobs-report": {
@@ -300,6 +302,13 @@ export const STORY_KINDS = {
   retirement: {
     headline: ["retirement"],
     lede: ["retirement"],
+    // The years of work, then where they live.
+    context: [
+      "retirement-service",
+      "retirement-years",
+      "retirement-service-gov",
+      "retirement-place",
+    ],
     brief: true,
   },
   // A reader's letter to the editor, from the press's weekly letters step.
