@@ -583,6 +583,29 @@ function scheduleContest(
       source,
       sourceRecordIds: [contest.id],
     });
+  // The town's clerk posts one notice of election for each election day, some
+  // days ahead, naming every office on that ballot (`postElectionNotice`).
+  const noticeOn = addDays(
+    makeIsoDate(contest.electionDate),
+    -api.parameter("electionNoticeLeadDays"),
+  );
+  if (
+    noticeOn > date &&
+    !calendar.get(`election-notice:${contest.electionDate}`)
+  )
+    calendar.schedule({
+      key: `election-notice:${contest.electionDate}`,
+      date: noticeOn,
+      kind: "election-notice",
+      source: {
+        tag: "ESTIMATED",
+        citation: "electionNoticeLeadDays",
+        asOf: date,
+        estimatedFrom:
+          "Places post the notice of election weeks ahead; the lead is a tagged parameter (electionNoticeLeadDays)",
+      },
+      sourceRecordIds: [contest.electionDate],
+    });
   calendar.schedule({
     key: `election:${contest.id}`,
     date: contest.electionDate,
@@ -901,6 +924,40 @@ export function openNextCycle(api: CoreAPI, seatId: string): void {
   if (next) scheduleContest(api, next);
 }
 
+/**
+ * The notice of election: a public record the town's paper prints, naming the
+ * election day and every office the town votes on that day. Its offices are
+ * read from the contests when the paper prints it (the record keeps their ids).
+ */
+function postElectionNotice(api: CoreAPI, electionDate: string): void {
+  const contests = contestsOnDate(api, electionDate).filter(
+    (c) => c.electionDate === electionDate,
+  );
+  if (!contests.length) return;
+  const { townPlaceId } = town(api);
+  api.emit({
+    id: `election-notice:${townPlaceId}:${electionDate}`,
+    date: api.state.date,
+    kind: "election-notice",
+    personIds: [],
+    placeId: townPlaceId,
+    topic: `election-notice:${electionDate}`,
+    source: {
+      tag: "ESTIMATED",
+      citation: "electionNoticeLeadDays",
+      asOf: api.state.date,
+      estimatedFrom:
+        "The lead before election day is a tagged parameter (electionNoticeLeadDays)",
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      electionDate,
+      contestIds: JSON.stringify(contests.map((c) => c.id).sort()),
+    },
+  });
+}
+
 function votingCalendarWork(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
@@ -913,6 +970,8 @@ function votingCalendarWork(
   // A ticket office's count is the governor race's (`decideTicket`).
   if (work.kind === "election-day" && !decidedWithGovernor(api, work))
     holdElection(api, work.sourceRecordIds[0]!);
+  if (work.kind === "election-notice")
+    postElectionNotice(api, work.sourceRecordIds[0]!);
   if (work.kind === "take-office") takeOffice(api, work.sourceRecordIds[0]!);
   if (work.kind === "recount-ends") endRecount(api, work.sourceRecordIds[0]!);
   if (work.kind === "empty-term")

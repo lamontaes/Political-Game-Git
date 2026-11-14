@@ -55,6 +55,13 @@ export const STORY_KINDS = {
     headline: ["candidate-filed"],
     lede: ["candidate-filed"],
   },
+  // The clerk's notice of an election, a brief: the place, the day and every
+  // office on the ballot.
+  "election-notice": {
+    headline: ["election-notice"],
+    lede: ["election-notice"],
+    brief: true,
+  },
   "vote-or-law": {
     story: "vote-or-law",
     headline: ["council", "law-took-effect"],

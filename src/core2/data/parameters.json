@@ -8448,6 +8448,19 @@
       "citation": "One year (an annual address on the same day) to three (a race decided and contested); checked against the records proof of a two-year Montpelier run."
     }
   },
+  "electionNoticeLeadDays": {
+    "value": 21,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "No place's notice-of-election period is read yet (pool item research-election-notice-days-per-place). Statutes set how many days before an election the notice is published, and they differ by place and by kind of election; 21 days sits inside the span they commonly use. It is not taken from one place's law.",
+    "estimatedFrom": "How many days before an election day the clerk or board of elections posts the notice and the paper prints it (voting.ts postElectionNotice). One flat lead for every place until each place's own period is read from its law.",
+    "spread": {
+      "low": 7,
+      "high": 90,
+      "unit": "days",
+      "citation": "From a week to about three months, the span statutory notice periods commonly cover; not a measured distribution."
+    }
+  },
   "countedBallotRetentionDays": {
     "value": 60,
     "tag": "TUNABLE",

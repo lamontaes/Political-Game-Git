@@ -1748,6 +1748,38 @@ const filing: Builder = (read, f) => {
   );
 };
 
+/**
+ * The notice of election the town's clerk posts before an election day: the
+ * place, the day and every office on that ballot, read from the contests the
+ * record names (never a copy kept with the notice).
+ */
+const electionNotice: Builder = (read, f) => {
+  let ids: string[] = [];
+  try {
+    ids = JSON.parse(f.contestIds ?? "[]") as string[];
+  } catch {
+    ids = [];
+  }
+  const offices = [
+    ...new Set(
+      ids
+        .map((id) => read.contestTitle(id))
+        .filter((title): title is string => !!title),
+    ),
+  ];
+  const place = read.place();
+  if (!f.electionDate || !offices.length || !place) return null;
+  return story(
+    "election-notice",
+    {
+      place: read.fact(place),
+      date: read.fact(spokenDate(f.electionDate), ...ids),
+      office: read.fact(joinList(offices, "and"), ...ids),
+    },
+    ["place", "date", "office"],
+  );
+};
+
 /** A race's result: the winner and, when one is named, who they beat. */
 const electionResult: Builder = (read, f) => {
   let totals: Record<string, number> = {};
@@ -3936,6 +3968,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "claim-checked": claimCheck,
   debate,
   "candidate-filed": filing,
+  "election-notice": electionNotice,
   "election-result": electionResult,
   "primary-result": primary,
   "took-office": tookOffice,
