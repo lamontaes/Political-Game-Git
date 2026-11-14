@@ -18,9 +18,9 @@ effort: medium
 root: none
 ---
 
-**What.** `src/english/mined/journal-bank.test.ts` "names no feeling anywhere in the bank" fails on the pushed train head (6738bf84, seed words-journal, Chefornak, Alaska): the part `journal.scene-line-view-promise.i-promised-other-i-d-look-hard-at-about` in data/english/parts/journal.json reads "I promised {other} I'd look hard at {about}.", and the test's feeling list holds the word "hard". Seen: the journal line written after the player promised someone to look into a question.
+**What.** `src/english/mined/journal-bank.test.ts` "names no feeling anywhere in the bank" fails on the pushed train head (6738bf84, seed words-journal, Chefornak, Alaska): the part `journal.scene-line-view-promise.i-promised-other-i-d-look-hard-at-about` in data/english/parts/journal.json reads "I promised {other} I'd look hard at {about}.", and the test's feeling list holds the word "hard". The line is a journal entry the game writes after the player promised someone to look into a question. Seen: the player's journal after such a promise.
 
-**Cause.** Found in code: the line uses "hard" as an adverb ("look hard at"), and the test (line 91) matches the whole-word list happy, sad, glad, proud, angry, afraid, scared, lonely, loved, hated, missed, grief, joy, upset, worried, excited, difficult, hard, tough, terrible, wonderful, relieved, relief, rough, nervous, anxious, lucky, painful, awful, heartbreaking, overwhelmed against every part's text. It is not a feeling, but the rule is a program the Words lead owns, so the line is reworded, not the test.
+**Cause.** Found in code: data/english/parts/journal.json holds the line, which uses "hard" as an adverb ("look hard at"), and the test (line 91) matches the whole-word list happy, sad, glad, proud, angry, afraid, scared, lonely, loved, hated, missed, grief, joy, upset, worried, excited, difficult, hard, tough, terrible, wonderful, relieved, relief, rough, nervous, anxious, lucky, painful, awful, heartbreaking, overwhelmed against every part's text. It is not a feeling, but the rule is a program the Words lead owns, so the line is reworded, not the test.
 
 **Fix.** Reword the line without "hard", for example "I promised {other} I'd take a close look at {about}.", under the Story session's ownership of lines; keep the key's meaning and rerun `npm run words:rules` twice.
 
