@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by:
-pr: #PRNUM
+pr: #9339
 blocked-on:
 source: "found by the Account lead's group B case check at other seeds, Nov 14"
 claimed-at:
