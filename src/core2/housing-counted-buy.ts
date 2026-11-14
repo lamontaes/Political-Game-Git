@@ -2,20 +2,23 @@
  * A counted renter household buys a home (pool item world-counted-renters-buy):
  * the same decision a full renter makes (housing-buy.ts), weighed once a year
  * on its lease's anniversary month, with the money moved through its group's
- * accounts. Its means are its own savings, worked out from its own record on
- * the day it weighs buying: what its income left after its rent and its
- * members' living costs since its lease began (Account lead's ruling, Nov 14,
- * 2026, from "one model, two tiers" and "no dice"). Short of the down payment,
- * it does not buy.
+ * accounts. Its means are its own savings: its share of its group's account,
+ * the money that goes with it when it changes groups (`departingCash`), which
+ * its savings weight spreads among households alike in income, age and tenure
+ * (`savingWeight` in counted-money.ts). Short of the down payment for every
+ * household the record stands for, it does not buy (Account lead's rulings,
+ * Nov 14, 2026, from "one model, two tiers" and "no dice").
  *
- * A purchase: the down payment is paid from the household's group account to
+ * A purchase: the household joins its owners' group first, taking its share
+ * with it, and the down payment is paid from there (the renters it leaves
+ * behind pay none of it) to
  * the seller (a builder's finished new house in town, else a seller leaving
  * the town, which the outside market stands for), times the households the
  * record stands for; the town bank lends the rest where its capital has room,
  * else a holder outside the town does, as at the opening; the rent flow ends;
  * a `mortgage:<household>` part joins the place's counted mortgage flow for
  * that holder; the household's home, mortgage and purchase are housing's
- * records like any owner's; it joins its owners' group; and the place's price
+ * records like any owner's; and the place's price
  * level counts it as a buyer by its weight.
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
@@ -64,42 +67,6 @@ export function countedLeaseStart(
   if (row?.tenure !== "rent") return undefined;
   if (row.basis !== "opening" && row.since) return row.since;
   return h.since ?? (api.state as CoreState).startedAt;
-}
-
-/**
- * A counted household's own savings on the day it weighs buying: each month
- * since its lease began, what one household's income left after its rent and
- * its members' living costs, never below nothing, over at most
- * `housingCountedSavingsMonths`. Today's pay, rent and costs stand for the
- * months before (a counted household keeps no monthly record).
- */
-export function countedOwnSavings(
-  api: CoreAPI,
-  rt: Runtime,
-  h: CountedHousehold,
-  leaseStart: string,
-): { savingsMinor: number; monthlyLeftMinor: number; months: number } {
-  const c = api.state as CoreState;
-  // stopgapId: SG-WORLD-housing-counted-savings-from-today
-  api.stopgap("SG-WORLD-housing-counted-savings-from-today");
-  const p = (key: string) => api.parameter(key);
-  const perMonth = p("daysPerMeanYear") / p("macroMonthsPerYear");
-  const rent = rt.flows.get(`rent:${h.id}`)?.amountMinor ?? 0;
-  const living = rt.store
-    .countedMembers(h)
-    .reduce((n, m) => n + rt.store.living[m]!, 0);
-  const monthlyLeft =
-    householdIncome(rt, h) / p("macroMonthsPerYear") - rent - living * perMonth;
-  // At most the months the household's own record can stand for at today's pay.
-  const months = Math.min(
-    p("housingCountedSavingsMonths"),
-    Math.max(0, daysBetweenText(leaseStart, c.date) / perMonth),
-  );
-  return {
-    savingsMinor: Math.max(0, Math.floor(monthlyLeft * months)),
-    monthlyLeftMinor: Math.round(monthlyLeft),
-    months,
-  };
 }
 
 /**
@@ -213,14 +180,16 @@ export function buyCountedHomes(api: CoreAPI, world: CountedBuyWorld): void {
     const value = world.valueOf(h.placeId, rent.amountMinor);
     const outside = world.outsideOf(h.placeId);
     if (!value || !outside) continue;
-    const own = countedOwnSavings(api, rt, h, start);
+    const weight = rt.store.weightOf(h);
+    // What it could put down: its own share of its group's account, for one household of the record.
+    const share = departingCash(rt, h);
     const weighed = weighHome(api, market, world.bankYes, {
       headId: head.id,
       householdId: h.id,
       valueMinor: value,
       rentMinor: rent.amountMinor,
       incomeMinor: income,
-      meansMinor: own.savingsMinor,
+      meansMinor: Math.floor(share / weight),
       children: facts.filter(
         (row) => ageInYears(row.birthDate, today) < p("housingOwnerMinimumAge"),
       ).length,
@@ -228,10 +197,9 @@ export function buyCountedHomes(api: CoreAPI, world: CountedBuyWorld): void {
       leaseYears: daysBetweenText(start, c.date) / p("daysPerMeanYear"),
     });
     if (!weighed.buy) continue;
-    const weight = rt.store.weightOf(h);
     const down = Math.round(weighed.downMinor);
-    // Its money is its share of its group's account (what moves with it when it changes groups): that share must cover the down payment for every household the record stands for, so the renters it leaves behind pay none of it.
-    if (departingCash(rt, h) < down * weight) continue;
+    // Its share must cover the down payment for every household the record stands for, so the renters it leaves behind pay none of it.
+    if (share < down * weight) continue;
     buy(
       api,
       rt,
@@ -244,7 +212,10 @@ export function buyCountedHomes(api: CoreAPI, world: CountedBuyWorld): void {
         term: market.term,
         rentMinor: rent.amountMinor,
         incomeMinor: income,
-        savings: own,
+        shareMinor: Math.floor(share / weight),
+        leaseMonths:
+          daysBetweenText(start, c.date) /
+          (p("daysPerMeanYear") / p("macroMonthsPerYear")),
         reasons: weighed.reasons,
         outsideId: outside,
         market,
@@ -266,7 +237,9 @@ function buy(
     term: number;
     rentMinor: number;
     incomeMinor: number;
-    savings: ReturnType<typeof countedOwnSavings>;
+    /** One household's share of its group's account when it weighed buying. */
+    shareMinor: number;
+    leaseMonths: number;
     reasons: Record<string, number>;
     outsideId: string;
     market: NonNullable<ReturnType<typeof buyMarket>>;
@@ -280,7 +253,7 @@ function buy(
     tag: "ESTIMATED",
     asOf: c.date,
     citation: housingData.mortgage.source,
-    estimatedFrom: `A counted household (standing for ${weight}) bought a home for ${Math.round((deal.principal + deal.down) / 100)} dollars each with ${Math.round(deal.down / 100)} down at ${(deal.rate * 100).toFixed(2)}%, from ${Math.round(deal.savings.savingsMinor / 100)} dollars of its own savings (${Math.round(deal.savings.monthlyLeftMinor / 100)} a month over ${deal.savings.months.toFixed(0)} months of its lease).`,
+    estimatedFrom: `A counted household (standing for ${weight}) bought a home for ${Math.round((deal.principal + deal.down) / 100)} dollars each with ${Math.round(deal.down / 100)} down at ${(deal.rate * 100).toFixed(2)}%, from ${Math.round(deal.shareMinor / 100)} dollars of its own savings, its share of its group's account, after ${deal.leaseMonths.toFixed(0)} months of its lease.`,
   };
   // It joins the town's owners first, taking its share of the renters' account with it; the down payment then comes out of that money, not the renters' left behind.
   h.tenure = "mortgage";
@@ -389,9 +362,8 @@ function buy(
     rate: deal.rate,
     rentBeforeMinor: deal.rentMinor,
     monthlyIncomeMinor: Math.round(deal.incomeMinor),
-    savingsMinor: deal.savings.savingsMinor,
-    monthlyLeftMinor: deal.savings.monthlyLeftMinor,
-    leaseMonths: Math.round(deal.savings.months),
+    savingsMinor: deal.shareMinor,
+    leaseMonths: Math.round(deal.leaseMonths),
     // What decided it: each reason's contribution to the buy option.
     reasons: deal.reasons,
   } as never);

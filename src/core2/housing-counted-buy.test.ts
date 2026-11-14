@@ -2,9 +2,10 @@
  * A counted renter household buys a home by the full renters' rule (pool item
  * world-counted-renters-buy): its own savings, from its own record, against
  * the down payment. Pinned to Bastrop, Louisiana (place 2204685, the seed
- * home-price-paths draws from "c3"), on its first month: the counted renters
- * whose lease began in that month weigh buying; those that buy had the down
- * payment in their own savings, those short of it do not, and every dollar
+ * home-price-paths draws from "c3"), on the first of July of its first year:
+ * the counted renters whose lease began in July weigh buying; those that buy
+ * had the down payment in their own savings (their share of their group's
+ * account), those short of it do not, and every dollar
  * moved (the group accounts, the bank, the sellers) balances. The same means
  * test applies to a full renter household's head and a counted one's.
  */
@@ -14,7 +15,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import housingData from "./data/housing/housing.json" with { type: "json" };
-import { countedLeaseStart, countedOwnSavings } from "./housing-counted-buy";
+import { countedLeaseStart } from "./housing-counted-buy";
 import { buyMarket, weighHome } from "./housing-buy";
 import { countedMortgageFlowId } from "./housing-mortgages";
 import { addDays, ageInYears, makeIsoDate } from "./kernel/dates";
@@ -26,7 +27,7 @@ import {
   householdIncome,
   residentsRuntime,
 } from "./modules/residents";
-import { fundBalance, peopleInGroup } from "./counted-money";
+import { claimsInGroup, fundBalance } from "./counted-money";
 import { coreAPI } from "./state";
 
 const PLACE = "2204685";
@@ -39,8 +40,8 @@ it("counted renters on their lease month buy from their own savings, short ones 
     placeKey: PLACE,
   });
   const api = coreAPI(core);
-  // A day in, so the economy has its month and the group accounts are funded.
-  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  // To the first of July, before the month's housing review: the groups have saved since the opening, and July's renters weigh buying.
+  advanceCore(core, makeIsoDate(`${core.date.slice(0, 4)}-07-01`));
   const rt = residentsRuntime(core)!;
   const town = core.placeMetadata!.housingTown!;
   const market = buyMarket(api)!;
@@ -61,8 +62,9 @@ it("counted renters on their lease month buy from their own savings, short ones 
     return [
       {
         id: h.id,
-        down: value * share,
-        savings: countedOwnSavings(api, rt, h, start).savingsMinor,
+        // Its own savings: its share of its group's account, for every household the record stands for.
+        savings: departingCash(rt, h),
+        down: value * share * rt.store.weightOf(h),
       },
     ];
   });
@@ -101,8 +103,9 @@ it("counted renters on their lease month buy from their own savings, short ones 
       return [row.id, { group: h.group, cash: departingCash(rt, h) }];
     }),
   );
+  // Each household's claim is its people at its savings weight: the money per claim is what every household's share reads.
   const perPerson = (group: number) =>
-    fundBalance(api, rt, group) / peopleInGroup(rt, group);
+    fundBalance(api, rt, group) / claimsInGroup(rt, group);
   const perPersonBefore = new Map(
     [...shareBefore.values()].map((row) => [row.group, perPerson(row.group)]),
   );
@@ -161,12 +164,12 @@ it("counted renters on their lease month buy from their own savings, short ones 
       shareBefore.get(row.householdId)!.cash,
       `${detail}: ${row.id}`,
     ).toBeGreaterThanOrEqual(row.downMinor * row.weight);
-  // The renters left behind paid none of it: each renter group a buyer left holds the same money per person (to the cent each move rounds).
+  // The renters left behind paid none of it: each renter group a buyer left holds the same money per claim (to the cent each move rounds), so every household left keeps its share.
   const left = new Set(
     bought.map((row) => shareBefore.get(row.householdId)!.group),
   );
   for (const group of left) {
-    if (peopleInGroup(rt, group) <= 0) continue;
+    if (claimsInGroup(rt, group) <= 0) continue;
     expect(
       Math.abs(perPerson(group) - perPersonBefore.get(group)!),
       `${detail}: group ${group}`,

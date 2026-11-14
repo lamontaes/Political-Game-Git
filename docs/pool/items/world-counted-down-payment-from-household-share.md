@@ -5,10 +5,10 @@ area: world
 kind: stopgap
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: Account lead T54 (claude/project-thread-w31iec)
+pr: 9117
 after: world-counted-renters-buy
 blocked-on:
 lead: money
@@ -36,3 +36,4 @@ source: Account lead T54 building world-counted-renters-buy (#9117, Nov 14, 2026
 **Files.** src/core2/housing-counted-buy.ts, src/core2/modules/residents.ts, src/core2/data/housing/parameters.json, src/core2/data/stopgaps/world.json
 
 **Notes.**
+Nov 14, 2026 (Account lead T54): built inside #9117 on the Account lead's rulings of 08:13Z and 11:16Z. The 60-month window, its parameter and SG-WORLD-housing-counted-savings-from-today are deleted; a counted renter's means are its share of its group's account (`departingCash`), spread among households by a seeded savings weight (`savingWeight`, src/core2/counted-money.ts); the buyer joins its owners' group before paying. With both the window and the share required, no counted renter bought in Bastrop's year 1; with the share alone, 26 did.
