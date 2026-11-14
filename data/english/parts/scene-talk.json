@@ -11403,6 +11403,72 @@
       }
     },
     {
+      "key": "scene-talk.reply-lie.sure-i-ll-be-there",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Sure. I'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.of-course-put-me-down",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Of course. Put me down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.reply-lie.i-m-leaning-your-way",
       "move": "reply-lie",
       "kind": "spoken",
@@ -19782,10 +19848,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.give-me-some-time-i-ll-find-you-later",
+      "key": "scene-talk.reply-leave.give-me-some-time",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Give me some time. I'll find you later.",
+      "text": "Give me some time.",
       "uses": [
         {
           "key": "news-received",
@@ -21839,10 +21905,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.go-on-i-ll-find-you-later",
+      "key": "scene-talk.close-accept.go-on",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Go on. I'll find you later.",
+      "text": "Go on.",
       "uses": [
         {
           "subject": "scene",
@@ -62231,10 +62297,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.forty-names-is-already-a-lot-of-names",
+      "key": "scene-talk.reply-deflect.that-s-already-a-lot-of-names",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Forty names is already a lot of names.",
+      "text": "That's already a lot of names.",
       "uses": [
         {
           "subject": "scene",
@@ -62281,10 +62347,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.one-street-saturday",
+      "key": "scene-talk.reply-agree.one-street-with-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "One street. Saturday.",
+      "text": "One street, with me.",
       "uses": [
         {
           "subject": "scene",
@@ -62531,10 +62597,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.forty-names-they-ve-never-heard-of-they-d-know-yours",
+      "key": "scene-talk.follow-press.they-ve-never-heard-of-most-of-those-names-they-d-know-yours",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Forty names they've never heard of. They'd know yours.",
+      "text": "They've never heard of most of those names. They'd know yours.",
       "uses": [
         {
           "subject": "scene",
@@ -62581,10 +62647,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.eight-thirty-at-the-corner-by-the-school",
+      "key": "scene-talk.follow-thank.i-ll-tell-you-where-to-meet",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Eight-thirty, at the corner by the school.",
+      "text": "I'll tell you where to meet.",
       "uses": [
         {
           "subject": "scene",
@@ -62606,10 +62672,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-get-that-we-go-out-every-week-if-one-opens-up",
+      "key": "scene-talk.follow-accept.i-get-that-we-go-out-whenever-one-opens-up",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I get that. We go out every week if one opens up.",
+      "text": "I get that. We go out whenever one opens up.",
       "uses": [
         {
           "subject": "scene",
@@ -62806,10 +62872,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.let-me-sit-with-it-a-day",
+      "key": "scene-talk.reply-leave.i-m-not-ready-to-say-yes",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let me sit with it a day.",
+      "text": "I'm not ready to say yes.",
       "uses": [
         {
           "subject": "scene",
@@ -62881,10 +62947,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.leave-me-a-copy-and-i-ll-decide-by-friday",
+      "key": "scene-talk.reply-leave.leave-me-a-copy-no-promises",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Leave me a copy and I'll decide by Friday.",
+      "text": "Leave me a copy. No promises.",
       "uses": [
         {
           "subject": "scene",
@@ -62906,10 +62972,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-can-do-that-count-me-in-for-saturday",
+      "key": "scene-talk.reply-agree.i-can-do-that-count-me-in",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I can do that. Count me in for Saturday.",
+      "text": "I can do that. Count me in.",
       "uses": [
         {
           "subject": "scene",
@@ -63025,6 +63091,31 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.it-s-just-not-something-i-do",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "It's just not something I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.nobody-is-at-first-you-d-walk-with-me"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
       "tag": {
         "move": "decline",
         "key": "favor-asked"
@@ -73091,6 +73182,76 @@
       }
     },
     {
+      "key": "scene-talk.reply-thank.thank-you-i-mean-that",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you. I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.that-means-more-than-you-know",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "That means more than you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-i-ll-take-it",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      },
+      "bearing": "guarded"
+    },
+    {
       "key": "scene-talk.state-congratulate.good-now-don-t-waste-it",
       "move": "state-congratulate",
       "kind": "spoken",
@@ -73329,6 +73490,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.good-that-settles-it-for-me",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. That settles it for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.count-how-tell-me-one-thing",
       "move": "follow-press",
       "kind": "spoken",
@@ -73429,6 +73615,129 @@
       }
     },
     {
+      "key": "scene-talk.follow-promise.you-know-i-m-behind-you",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "You know I'm behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.whatever-you-decide-i-m-with-you",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Whatever you decide, I'm with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.okay-okay-i-had-help",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Okay, okay. I had help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "apologize",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.you-re-right-i-had-a-lot-of-people-behind-me",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. I had a lot of people behind me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "apologize",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.tell-me-when-you-know-i-ll-help-if-i-can",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Tell me when you know. I'll help if I can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "tell"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
       "key": "scene-talk.follow-promise.whatever-it-is-i-ll-back-you",
       "move": "follow-promise",
       "kind": "spoken",
@@ -73450,6 +73759,130 @@
       "date": "2026-10-27",
       "tag": {
         "move": "promise",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-know-i-wasn-t-easy-thank-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I know I wasn't easy. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-m-glad",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'm glad.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.nobody-gets-there-by-themselves-go-on",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Nobody gets there by themselves. Go on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-how-it-works-go-enjoy-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's how it works. Go enjoy it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.okay-good",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Okay. Good.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
         "key": "diploma"
       }
     },
@@ -142732,6 +143165,79 @@
       }
     },
     {
+      "key": "scene-talk.reply-decline.i-understand-it-s-still-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I understand. It's still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-and-asking-again-won-t-change-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't, and asking again won't change it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-wish-i-could-i-can-t",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I wish I could. I can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      },
+      "bearing": "tender"
+    },
+    {
       "key": "scene-talk.reply-ask.why-are-you-asking-me-and-why-now",
       "move": "reply-ask",
       "kind": "spoken",
@@ -142825,6 +143331,201 @@
       }
     },
     {
+      "key": "scene-talk.reply-agree.okay-you-talked-me-into-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Okay. You talked me into it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-will-you-have-my-word-just-not-today",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I will. You have my word. Just not today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-promise-give-me-today",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I promise. Give me today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-said-i-d-do-it-let-me-have-the-day",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I said I'd do it. Let me have the day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-m-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-here-not-in-front-of-everyone",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not here. Not in front of everyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-not-doing-this-with-people-watching",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not doing this with people watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      },
+      "bearing": "guarded"
+    },
+    {
       "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-enjoy-the-day-first",
       "move": "reply-promise",
       "kind": "spoken",
@@ -142849,10 +143550,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-don-t-want-to-argue-about-it-in-front-of-everyone-i-ll-find-you-later",
+      "key": "scene-talk.reply-leave.i-don-t-want-to-argue-about-it-in-front-of-everyone",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I don't want to argue about it in front of everyone. I'll find you later.",
+      "text": "I don't want to argue about it in front of everyone.",
       "uses": [
         {
           "subject": "scene",
@@ -142869,6 +143570,81 @@
       "date": "2026-11-09",
       "tag": {
         "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-hear-you-what-s-stopping-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I hear you. What's stopping you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.help-me-understand-what-s-in-the-way",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Help me understand what's in the way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-not-a-reason-what-is-it-really",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not a reason. What is it really?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
         "key": "honor"
       }
     },
@@ -142921,6 +143697,150 @@
       }
     },
     {
+      "key": "scene-talk.close-thank.it-meant-a-lot-having-you-here",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "It meant a lot, having you here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-you-came",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad you came.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-they-re-waiting-for-you",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. They're waiting for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ve-kept-you-long-enough",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I've kept you long enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-be-with-your-people",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go be with your people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.today-was-better-with-you-in-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Today was better with you in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.thank-you-first-that-means-a-lot-to-me",
       "move": "follow-thank",
       "kind": "spoken",
@@ -142940,6 +143860,56 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, celebration and gathering purposes)",
       "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-appreciate-it-really",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I appreciate it. Really.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.okay-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Okay. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
       "tag": {
         "move": "thank",
         "key": "honor"
@@ -142967,6 +143937,81 @@
       "date": "2026-11-09",
       "tag": {
         "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.is-that-a-yes-i-can-plan-on",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is that a yes I can plan on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.people-say-that-do-you-mean-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People say that. Do you mean it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-need-to-hear-you-mean-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I need to hear you mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead (second lines, one-line spots), built by M1",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "press",
         "key": "honor"
       }
     },
