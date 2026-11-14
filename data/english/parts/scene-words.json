@@ -213,9 +213,9 @@
       }
     },
     {
-      "key": "scene-words.setting-letter-letter.a-letter-has-come-from-who",
+      "key": "scene-words.setting-letter-letter.a-letter-came-from-who",
       "move": "setting-letter-letter",
-      "text": "A letter has come from {who}.",
+      "text": "A letter came from {who}.",
       "uses": [
         {
           "move": "setting-letter-letter",
@@ -614,9 +614,9 @@
       }
     },
     {
-      "key": "scene-words.cause-illness-other.other-has-fallen-seriously-ill",
+      "key": "scene-words.cause-illness-other.other-has-gotten-seriously-ill",
       "move": "cause-illness-other",
-      "text": "{other} has fallen seriously ill.",
+      "text": "{other} has gotten seriously ill.",
       "uses": [
         {
           "move": "cause-illness-other",
@@ -2598,10 +2598,10 @@
       }
     },
     {
-      "key": "scene-words.cause-circumstance:hallway-colleague-other.other-wants-a-word-before-the-vote",
+      "key": "scene-words.cause-circumstance:hallway-colleague-other.other-wants-to-talk-before-the-vote",
       "move": "cause-circumstance:hallway-colleague-other",
       "kind": "spoken",
-      "text": "{other} wants a word before the vote.",
+      "text": "{other} wants to talk before the vote.",
       "uses": [
         {
           "move": "cause-circumstance:hallway-colleague-other",
@@ -3253,10 +3253,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-manager-offer-other.other-has-come-to-talk-about-running-your-campaign",
+      "key": "scene-words.lead-manager-offer-other.other-wants-to-talk-about-running-your-campaign",
       "move": "lead-manager-offer-other",
       "kind": "spoken",
-      "text": "{other} has come to talk about running your campaign.",
+      "text": "{other} wants to talk about running your campaign.",
       "uses": [
         {
           "move": "lead-manager-offer-other",
@@ -5167,10 +5167,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-public-other.begins-name-walks-up-to-you-in-the-street",
+      "key": "scene-words.arrival-public-other.begins-name-walks-up-to-you-on-the-street",
       "move": "arrival-public-other",
       "kind": "spoken",
-      "text": "{begins}, {name} walks up to you in the street.",
+      "text": "{begins}, {name} walks up to you on the street.",
       "uses": [
         {
           "move": "arrival-public-other",
@@ -5827,10 +5827,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-public-other.begins-name-stops-you-in-the-street-about-what-happened-sinc",
+      "key": "scene-words.arrival-public-other.begins-name-stops-you-on-the-street-about-what-happened-since",
       "move": "arrival-public-other",
       "kind": "spoken",
-      "text": "{begins}, {name} stops you in the street about what happened {since}.",
+      "text": "{begins}, {name} stops you on the street about what happened {since}.",
       "uses": [
         {
           "move": "arrival-public-other",
@@ -6022,6 +6022,86 @@
       "origin": "authored",
       "author": "Claude (Opus words builder, speech staging), civic-prose",
       "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-other.other-is-waiting-to-welcome-you-to-the-party",
+      "move": "lead-party-welcome-other",
+      "kind": "spoken",
+      "text": "{other} is waiting to welcome you to the {party}.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-other",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-other.other-has-been-expecting-you-since-you-signed-up",
+      "move": "lead-party-welcome-other",
+      "kind": "spoken",
+      "text": "{other} has been expecting you since you signed up.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-other",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-alone.you-go-to-the-party-office-to-see-who-runs-it",
+      "move": "lead-party-welcome-alone",
+      "kind": "spoken",
+      "text": "You go to the {party} office to see who runs it.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-alone",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-alone.the-party-office-is-open-and-someone-is-expecting-you",
+      "move": "lead-party-welcome-alone",
+      "kind": "spoken",
+      "text": "The {party} office is open, and someone is expecting you.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-alone",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
       "tag": {
         "move": "narrate"
       }

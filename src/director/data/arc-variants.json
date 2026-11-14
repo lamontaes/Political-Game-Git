@@ -1785,6 +1785,16 @@
             },
             "endings": [
               {
+                "id": "price-taken",
+                "label": "You took their price",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "reply": ["accept"],
+                  "asker": ["bargain"]
+                }
+              },
+              {
                 "id": "vote-given",
                 "opens": "meeting",
                 "label": "Vote given",
@@ -1885,6 +1895,16 @@
               "ask": ["answer", "refuse", "leave"]
             },
             "endings": [
+              {
+                "id": "price-taken",
+                "label": "You took their price",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "reply": ["accept"],
+                  "asker": ["bargain"]
+                }
+              },
               {
                 "id": "vote-given",
                 "opens": "meeting",
@@ -1991,6 +2011,16 @@
             },
             "endings": [
               {
+                "id": "price-taken",
+                "label": "You took their price",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "reply": ["accept"],
+                  "asker": ["bargain"]
+                }
+              },
+              {
                 "id": "vote-given",
                 "opens": "meeting",
                 "label": "Vote given",
@@ -2091,6 +2121,16 @@
               "ask": ["answer", "refuse", "leave"]
             },
             "endings": [
+              {
+                "id": "price-taken",
+                "label": "You took their price",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "reply": ["accept"],
+                  "asker": ["bargain"]
+                }
+              },
               {
                 "id": "vote-given",
                 "opens": "meeting",
@@ -2859,6 +2899,7 @@
             "endings": [
               {
                 "id": "will-call",
+                "settles": "help",
                 "opens": "office",
                 "label": "You'll make the call",
                 "keeps": "promise",
@@ -2868,6 +2909,7 @@
               },
               {
                 "id": "caseworker",
+                "settles": "help",
                 "opens": "office",
                 "label": "Handed to a caseworker",
                 "keeps": "meeting-set",
@@ -2877,6 +2919,7 @@
               },
               {
                 "id": "cant-help",
+                "settles": "decline",
                 "label": "Can't help",
                 "keeps": "relationship-strained",
                 "when": {
@@ -2953,6 +2996,7 @@
             "endings": [
               {
                 "id": "will-call",
+                "settles": "help",
                 "opens": "office",
                 "label": "You'll make the call",
                 "keeps": "promise",
@@ -2962,6 +3006,7 @@
               },
               {
                 "id": "caseworker",
+                "settles": "help",
                 "opens": "office",
                 "label": "Handed to a caseworker",
                 "keeps": "meeting-set",
@@ -2971,6 +3016,7 @@
               },
               {
                 "id": "cant-help",
+                "settles": "decline",
                 "label": "Can't help",
                 "keeps": "relationship-strained",
                 "when": {
@@ -3047,6 +3093,7 @@
             "endings": [
               {
                 "id": "will-call",
+                "settles": "help",
                 "opens": "office",
                 "label": "You'll make the call",
                 "keeps": "promise",
@@ -3056,6 +3103,7 @@
               },
               {
                 "id": "caseworker",
+                "settles": "help",
                 "opens": "office",
                 "label": "Handed to a caseworker",
                 "keeps": "meeting-set",
@@ -3065,6 +3113,7 @@
               },
               {
                 "id": "cant-help",
+                "settles": "decline",
                 "label": "Can't help",
                 "keeps": "relationship-strained",
                 "when": {
@@ -3141,6 +3190,7 @@
             "endings": [
               {
                 "id": "will-call",
+                "settles": "help",
                 "opens": "office",
                 "label": "You'll make the call",
                 "keeps": "promise",
@@ -3150,6 +3200,7 @@
               },
               {
                 "id": "caseworker",
+                "settles": "help",
                 "opens": "office",
                 "label": "Handed to a caseworker",
                 "keeps": "meeting-set",
@@ -3159,6 +3210,7 @@
               },
               {
                 "id": "cant-help",
+                "settles": "decline",
                 "label": "Can't help",
                 "keeps": "relationship-strained",
                 "when": {
@@ -3237,6 +3289,22 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "defer",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -3345,6 +3413,18 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -3457,6 +3537,18 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -3800,6 +3892,18 @@
                     "carries": "none"
                   }
                 ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
+                    "carries": "none"
+                  }
+                ]
               }
             },
             "replies": ["ask", "agree", "decline", "deflect"],
@@ -3903,6 +4007,22 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "defer",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -4011,6 +4131,18 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -4123,6 +4255,18 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]
@@ -4466,6 +4610,18 @@
                     "carries": "none"
                   }
                 ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
+                    "carries": "none"
+                  }
+                ]
               }
             },
             "replies": ["ask", "agree", "decline", "deflect"],
@@ -4571,6 +4727,18 @@
                   },
                   {
                     "move": "comfort",
+                    "carries": "none"
+                  }
+                ]
+              },
+              "after": {
+                "press": [
+                  {
+                    "move": "accept",
+                    "carries": "none"
+                  },
+                  {
+                    "move": "promise",
                     "carries": "none"
                   }
                 ]

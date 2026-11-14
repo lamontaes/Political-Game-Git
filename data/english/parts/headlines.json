@@ -2143,10 +2143,10 @@
       }
     },
     {
-      "key": "headlines.law.law-now-in-force-in-place",
+      "key": "headlines.law.law-now-in-effect-in-place",
       "move": "law",
       "kind": "written",
-      "text": "{law} now in force in {place}",
+      "text": "{law} now in effect in {place}",
       "uses": [
         {
           "move": "law",
@@ -8068,10 +8068,10 @@
       }
     },
     {
-      "key": "headlines.public-action.neighbors-in-place-turn-out-glad-of-how-area-has",
+      "key": "headlines.public-action.neighbors-in-place-turn-out-happy-with-how-area-has-gone",
       "move": "public-action",
       "kind": "written",
-      "text": "Neighbors in {place} turn out, glad of how {area} has gone",
+      "text": "Neighbors in {place} turn out, happy with how {area} has gone",
       "uses": [
         {
           "move": "public-action",
@@ -9056,6 +9056,31 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.election-notice.notice-of-election",
+      "move": "election-notice",
+      "kind": "written",
+      "text": "Notice of election",
+      "uses": [
+        {
+          "move": "election-notice",
+          "subject": "headline",
+          "role": "election-notice",
+          "choice": "headline"
+        }
+      ],
+      "source": {
+        "document": "Notice of Election, General Municipal Election",
+        "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf",
+        "date": "2026-07-01"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      },
+      "restoredFrom": "notice.election.notice-of-election",
+      "restoredOn": "2026-11-08"
     }
   ]
 }

@@ -21,6 +21,9 @@
  * in the director builds one from the world).
  */
 import data from "../../data/english/said-as.json" with { type: "json" };
+
+/** The said-as table itself, for readers outside the English engine (the director's talk). */
+export const SAID_AS_DATA = data;
 import { pronounWords, pronounSetOfGender } from "./pronoun-words";
 import {
   employerSaid,
@@ -186,6 +189,54 @@ export function employerSaidAs(employer: SaidEmployer): string | null {
   return employerSaid(employer.name, employer);
 }
 
+/**
+ * What a person who heads an agency does, as running text says it ("head of
+ * the Pennsylvania Department of State"): the agency is the slot; a record
+ * hands over the agency, never the phrase.
+ */
+export function agencyHeadSaid(agency: string): string {
+  const name = agencyNameSaid(agency);
+  return isOfficeName(name)
+    ? name
+    : data.agencyHead.said.replace("{agency}", name);
+}
+
+/**
+ * An agency's name as people say it: a form's parenthesis dropped, and where the
+ * filing row names two bodies as an original and its duplicate ("State Election
+ * Commission (original) and Coordinator of Elections (duplicate)") the one that
+ * takes the original, since a person heads one body and the player walks into one.
+ */
+function agencyNameSaid(agency: string): string {
+  const { kept, dropped } = data.agencyHead.copies;
+  const copies = new RegExp(
+    `^(.*?)\\s*\\(${kept}\\)\\s+and\\s+.*\\(${dropped}\\)$`,
+    "i",
+  ).exec(agency);
+  return (copies?.[1] ?? agency)
+    .replace(/\s*\([^)]*\)/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** A name that is itself an office ("Ohio Secretary of State"), not an agency with a head. */
+function isOfficeName(name: string): boolean {
+  return data.agencyHead.namedAsOffice.some((office) => name.endsWith(office));
+}
+
+/**
+ * The place a counter line sends the player: "the town clerk's office", or the
+ * agency itself when the person heads a state agency. The one reader for the
+ * possessive; a line says it as one slot, never "the {post}'s office".
+ */
+export function counterSaid(post: string, agency?: string): string {
+  if (!agency) return data.clerkOffice.said.replace("{post}", post);
+  const name = agencyNameSaid(agency);
+  return (
+    isOfficeName(name) ? data.agencyHead.ownOffice : data.agencyHead.office
+  ).replace("{agency}", name);
+}
+
 /** A job as people say it. */
 export type JobSaid =
   /** A job with the outside market: "works outside the town" / "a job out of town". */
@@ -225,4 +276,135 @@ export function sentenceStarts(text: string): string {
     /(^|[.!?]["”]?\s+)(\p{Ll})/gu,
     (_, before: string, letter: string) => before + letter.toUpperCase(),
   );
+}
+
+/**
+ * A person slot left for the said-as reader to word once the whole text is
+ * composed: the slot's own case (`{president}`, `{president-object}`,
+ * `{president-possessive}`) travels with it, so a slot is never guessed from
+ * the word after it.
+ */
+export function personSlot(personId: string, kase: SaidCase): string {
+  return `\u27e6${personId}|${kase}\u27e7`;
+}
+
+const THEY = {
+  subject: capital(data.they.lower),
+  lower: data.they.lower,
+  object: data.they.object,
+  reflexive: data.they.object,
+  possessive: data.they.possessive,
+} as const;
+const THEY_AFTER = data.they.after as Readonly<Record<string, string>>;
+const THEY_BEFORE = data.they.before as Readonly<Record<string, string>>;
+const matchCase = (like: string, word: string) =>
+  /^[A-Z]/.test(like) ? capital(word) : word;
+
+const SLOT = /\u27e6([^|\u27e7]+)\|(subject|object|possessive)\u27e7/g;
+
+/**
+ * Words every person slot in a composed text, in order, by the slot's case:
+ * the role (with "'s" for a possessive) the first time the text names them,
+ * by a slot or by the role's own words already in the text, then the
+ * pronoun. `mentioned` says an earlier text on the same screen already named
+ * them. Someone with no he or she on record is "they", with plural verbs.
+ */
+export function wordPersonSlots(
+  text: string,
+  people: ReadonlyMap<
+    string,
+    { role: string; person: Pick<SaidPerson, "pronouns" | "gender"> }
+  >,
+  mentioned: ReadonlySet<string> = new Set(),
+): string {
+  const named = new Set(mentioned);
+  let out = "";
+  let at = 0;
+  for (const match of text.matchAll(SLOT)) {
+    const [whole, id, kase] = match;
+    const before = text.slice(at, match.index);
+    out += before;
+    at = match.index! + whole.length;
+    const who = people.get(id!);
+    if (!who) continue;
+    const roleBare = who.role.replace(/^the\s+/i, "");
+    if (new RegExp(`\\b${roleBare}\\b`, "i").test(out)) named.add(id!);
+    // No he or she on record: they, with the verbs around it made plural.
+    const words =
+      pronounWords(
+        who.person.pronouns ?? pronounSetOfGender(who.person.gender),
+      ) ?? THEY;
+    const start = /(^|[.!?]\s*)$/.test(out);
+    let said: string;
+    if (!named.has(id!)) {
+      said = kase === "possessive" ? possessive(who.role) : who.role;
+      named.add(id!);
+    } else
+      said =
+        kase === "object"
+          ? words.object
+          : kase === "possessive"
+            ? words.possessive
+            : words.lower;
+    if (words === THEY && kase === "subject") {
+      out = out.replace(/(\S+)(\s+)$/, (whole, word: string, gap: string) =>
+        THEY_BEFORE[word.toLowerCase()]
+          ? `${matchCase(word, THEY_BEFORE[word.toLowerCase()]!)}${gap}`
+          : whole,
+      );
+      const rest = text.slice(at);
+      const next = /^('s|\s+[a-z']+)/.exec(rest)?.[1];
+      const plural = next ? THEY_AFTER[next.trim()] : undefined;
+      if (plural) {
+        out +=
+          (start ? capital(said) : said) +
+          (next!.startsWith("'") ? "" : " ") +
+          plural;
+        at += next!.length;
+        continue;
+      }
+    }
+    out += start ? capital(said) : said;
+  }
+  return out + text.slice(at);
+}
+
+/**
+ * The place a person goes by their tie to it, as they say it (said-as.json
+ * ownPlace): a student's own school is "school", a worker's employer after
+ * its first naming in a talk is "work".
+ */
+export function ownPlaceSaid(tie: "student" | "worker"): string {
+  return data.ownPlace[tie];
+}
+
+/**
+ * An organization named once in a text, then said by the tie (`ownPlaceSaid`):
+ * every later whole-word mention in these texts, in order, becomes the word
+ * for it ("a day off from work", "Work wears me out."). `named` says whether
+ * an earlier text already named it; it returns the texts and whether the name
+ * has now been said.
+ */
+export function nameOnceThen(
+  texts: readonly string[],
+  name: string,
+  tie: "student" | "worker",
+  named: boolean,
+): { texts: string[]; named: boolean } {
+  const word = ownPlaceSaid(tie);
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "g");
+  let said = named;
+  const out = texts.map((text) =>
+    sentenceStarts(
+      text.replace(pattern, (match) => {
+        if (!said) {
+          said = true;
+          return match;
+        }
+        return word;
+      }),
+    ),
+  );
+  return { texts: out, named: said };
 }

@@ -31,6 +31,7 @@ import {
 import { dayOpening } from "../english/day-words";
 import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
+import { agencyHeadSaid, counterSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 
 const zero = P.zero;
@@ -148,7 +149,7 @@ export function openFilingVisit(
   const greet = back
     ? visitLine(core, visit, "clerk", "greet-back", {
         "filed-office": {
-          text: seatSaid(back.seat),
+          text: seatSaid(back.seat, { asMember: true }),
           sourceRecordIds: [back.filingId],
         },
         ...clerkFact(core, clerkId),
@@ -177,7 +178,9 @@ export function openFilingVisit(
       "pick-office",
       {
         office: {
-          text: seatSaid(contest.seat ?? { title: contest.title }),
+          text: seatSaid(contest.seat ?? { title: contest.title }, {
+            asMember: true,
+          }),
           sourceRecordIds: [contest.id],
         },
       },
@@ -282,7 +285,9 @@ export function pickContest(
   });
   const ids = [contest.id, ...contest.sourceIds];
   const facts: Record<string, Fact> = {
-    ...placeFact(core, visit.playerId),
+    // "In {place}" is the town only for a town's seat filed at another
+    // government's counter (Words lead, Nov 14: "for the senate in Edgar").
+    ...seatPlaceFact(core, visit.playerId, contest),
     ...clerkFact(core, visit.clerkId),
     ...raceFacts(core, contest, ids),
     deadline: {
@@ -320,7 +325,11 @@ export function pickContest(
     const line = visitLine(core, visit, "clerk", `rule-${check.rule}`, {
       ...facts,
       required: { text: required, sourceRecordIds: ids },
-      actual: { text: actual, sourceRecordIds: [visit.playerId] },
+      // Where the records put them is never said as a place: the player never
+      // lives in another town (nothing moves them), so the clerk says "somewhere else".
+      ...(check.rule === "residency"
+        ? { "no-actual": { text: "yes", sourceRecordIds: [visit.playerId] } }
+        : { actual: { text: actual, sourceRecordIds: [visit.playerId] } }),
     });
     if (line) visit.lines.push({ speaker: "clerk", ...line });
   }
@@ -545,6 +554,27 @@ function placeFact(
     : {};
 }
 
+/**
+ * The "in {seat-place}" of a filing line's closer says the town only where a
+ * town's seat is filed at another government's counter (a county or the
+ * state); at the town's own counter, and for any seat above the town, no
+ * place is said (Words lead, Nov 14, rule 100: "Your name's in for mayor.",
+ * "for governor"). The town itself stays `place` for the lines that talk
+ * about the town.
+ */
+function seatPlaceFact(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contest: FilingContest,
+): Record<string, Fact> {
+  const level = contest.seat?.level;
+  const townsOwn = !level || level === "city" || level === "township";
+  const town = placeFact(core, playerId);
+  return townsOwn && !contest.kind?.startsWith("municipalOffice") && town.place
+    ? { ...town, "seat-place": town.place }
+    : town;
+}
+
 /** The clerk by name, where the filing office's records name one. */
 function clerkFact(
   core: Readonly<CoreState>,
@@ -631,8 +661,8 @@ function raceFacts(
   // "the council"); never the form's title with its parenthesis.
   const record = contest.seat ?? { title: contest.title };
   const facts: Record<string, Fact> = {
-    office: fact(seatSaid(record)),
-    seat: fact(seatSaid(record, { first: false })),
+    office: fact(seatSaid(record, { asMember: true })),
+    seat: fact(seatSaid(record, { first: false, asMember: true })),
   };
   if (contest.electionDate)
     facts.general = fact(spokenDate(contest.electionDate, core.date));
@@ -685,7 +715,7 @@ function raceFacts(
 export function counterNarration(
   core: Readonly<CoreState>,
   visit: FilingVisit,
-  clerk: { title: string; recordId: string },
+  clerk: { title: string; recordId: string; heads?: string },
   /**
    * The player's filing at this counter, when there is one: they are back
    * for another race. Without one, this is their first visit, to ask for the
@@ -727,7 +757,14 @@ export function counterNarration(
     // A title the record capitalizes only at its start ("County clerk") is said
     // in running text as a common noun; one with proper names stays as written.
     post: {
-      text: titleInSentence(clerk.title),
+      text: clerk.heads
+        ? agencyHeadSaid(clerk.heads)
+        : titleInSentence(clerk.title),
+      sourceRecordIds: [clerk.recordId],
+    },
+    // Where the player goes: the clerk's office, or the agency itself.
+    counter: {
+      text: counterSaid(titleInSentence(clerk.title), clerk.heads),
       sourceRecordIds: [clerk.recordId],
     },
   };
@@ -735,6 +772,7 @@ export function counterNarration(
     facts.office = {
       text: seatSaid(
         visit.contests[zero]!.seat ?? { title: visit.contests[zero]!.title },
+        { asMember: true },
       ),
       sourceRecordIds: [visit.contests[zero]!.id],
     };

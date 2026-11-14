@@ -12,9 +12,15 @@
     "housing.purchase",
     "person.milestone-birthday",
     "organization.anniversary",
-    "person.retired"
+    "person.retired",
+    "election-notice"
   ],
-  "townWide": ["crime.month", "school.graduation", "school.tests"],
+  "townWide": [
+    "crime.month",
+    "school.graduation",
+    "school.tests",
+    "election-notice"
+  ],
   "milestones": {
     "description": "The round birthdays and business anniversaries a local paper prints as briefs (src/core2/modules/press.ts, milestones): a resident reaching one of birthdayAges in the week, and a business in town reaching one of businessYears since it was founded.",
     "tag": "ESTIMATED",

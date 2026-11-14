@@ -1,6 +1,8 @@
 import { readdirSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
+import conversationRules from "../../../src/director/data/conversation-rules.json" with { type: "json" };
+import situationTypes from "../../../src/director/data/situation-types.json" with { type: "json" };
 import baseline from "./line-inserts-baseline.json";
 
 /**
@@ -24,7 +26,24 @@ import baseline from "./line-inserts-baseline.json";
  *    to, `part` which part of it this is (an opener, a core, a reason), and
  *    `required` whether every such sentence has that part. The pieces of a
  *    sentence are excused when one of its required parts carries an insert
- *    in every wording, since then no joined sentence can lack one.
+ *    in every wording, since then no joined sentence can lack one;
+ *  - a line the world places (owner, Nov 14, 2026, 06:38Z, a card in the
+ *    project chat: "Lines keep saying the listener's name ('Thanks, Alice.'
+ *    'Not yet, Eva.') only to pass a rule. Should the rule change?" He chose
+ *    "Yes, change the rule": "A line counts as tied to the world when the
+ *    moment it plays in was chosen by a fact about the world. The padded
+ *    names come out."). The Words lead ruled how
+ *    a fact chooses the moment (same day): a `bearing` alone does not, since
+ *    nearly every part has one. A place a part is said (`uses`) is placed
+ *    when it carries a non-empty `requiresFacts`, `onlyWhen` or
+ *    `excludesFacts` (naming a fact the packet does not set in every world,
+ *    ALWAYS_TRUE_FACTS), or its scene `purpose` belongs to situation types
+ *    that each name a cause record (src/director/data/situation-types.json;
+ *    none awaiting a producer), or its conversation `subject` is raised only
+ *    from a record (RECORD_RAISED_SUBJECTS, read from conversation-rules.json,
+ *    never greetings, goodbyes or filler small talk). A part is `placed` when
+ *    every place it is said is. A line with no condition at all is counted as
+ *    before.
  *
  * What is read: every part of every bank under data/english/parts. Every
  * other line with no insert is counted by bank in
@@ -43,6 +62,45 @@ const SHORT_WORDS = 3;
 /** The banks that hold the names of actions the player picks. */
 const ACTION_NAME_BANKS: readonly string[] = ["choice-names"];
 
+/**
+ * Facts that only say a name or a place is there to be spoken. Where a packet
+ * builder has the person or place, it sets them (and where it has none, the
+ * line cannot be worded at all), so a condition on one of them places nothing:
+ * it is the old name-padding moved from the text into `requiresFacts` (Words
+ * lead, Nov 14, 2026). Hyphens and underscores are one spelling.
+ *  - `name`: the person or thing the line is about, set whenever the subject
+ *    has its person: src/director/conversation.ts (the subject builders for
+ *    mutual, family, kin and news talk, the address point `facts.name =
+ *    calledBy(...)`) and src/director/purpose-scene.ts (the scene's `facts`
+ *    object, `name:` of the asker).
+ *  - `first`: the listener's given name: conversation.ts (mutual `first:`,
+ *    `facts.first = calledBy(...)`) and purpose-scene.ts (`first:` of the
+ *    asked).
+ *  - `self`: the asked person's given name in a door scene (purpose-scene.ts,
+ *    `facts.self`).
+ *  - `player-first`, `their-first`: the player's and the other person's given
+ *    names in a talk (conversation.ts, `facts["player-first"]`, `"their-first"`).
+ *  - `place`, `my-place`: where the person lives, set from their record
+ *    (conversation.ts `place:` in the subject builders, `facts.place`;
+ *    purpose-scene.ts `facts.place`).
+ * `excludesFacts` is not given the same treatment: excluding a fact the
+ * packet never sets cannot be computed from the banks, so it still counts.
+ */
+export const ALWAYS_TRUE_FACTS: ReadonlySet<string> = new Set([
+  "name",
+  "first",
+  "self",
+  "player-first",
+  "their-first",
+  "place",
+  "my-place",
+]);
+
+/** A fact as a bank spells it, with underscores read as hyphens. */
+function factKey(fact: string): string {
+  return fact.replace(/_/g, "-");
+}
+
 /** Whether a line's text carries at least one insert. */
 export function hasInsert(text: string): boolean {
   return INSERT.test(text);
@@ -53,9 +111,24 @@ export function wordsIn(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length;
 }
 
+export interface BankPartUse {
+  readonly requiresFacts?: readonly string[];
+  readonly excludesFacts?: readonly string[];
+  /** A second fact list (#9130): filters like requiresFacts, adds no rank. */
+  readonly onlyWhen?: readonly string[];
+  /** The scene purpose the part is said under. */
+  readonly purpose?: string;
+  /** The conversation subject the part is said about. */
+  readonly subject?: string;
+}
+
 export interface BankPart {
   readonly key?: string;
   readonly text?: string;
+  /** The speaker's bearing; it places nothing. */
+  readonly bearing?: string;
+  /** Where the part is said, and the facts each place needs or rules out. */
+  readonly uses?: readonly BankPartUse[];
   /** A piece the engine joins into a sentence with others. */
   readonly piece?: {
     readonly of: string;
@@ -86,15 +159,112 @@ export function sentencesWithAnInsert(
   return out;
 }
 
+/** Whether a cause names the record that makes its scene (not a producer still to come). */
+function namesARecord(cause: {
+  awaitingProducer?: unknown;
+  causeRecord?: string;
+  match?: { label?: string; labelPrefix?: string };
+}): boolean {
+  return (
+    !cause.awaitingProducer &&
+    !!(cause.causeRecord ?? cause.match?.label ?? cause.match?.labelPrefix)
+  );
+}
+
+/** The scene purposes whose every situation type names a cause record. */
+export function causedPurposes(
+  types: readonly {
+    purpose?: string;
+    causes?: readonly Parameters<typeof namesARecord>[0][];
+  }[],
+): ReadonlySet<string> {
+  const caused = new Map<string, boolean>();
+  for (const type of types) {
+    if (!type.purpose) continue;
+    const every = (type.causes ?? []).every(namesARecord);
+    caused.set(type.purpose, (caused.get(type.purpose) ?? true) && every);
+  }
+  return new Set([...caused].filter(([, yes]) => yes).map(([name]) => name));
+}
+
+/**
+ * The conversation subjects raised only from a record: a moment's own topic
+ * (`topicOfLabel`), a subject another's line raises (`otherRaises`, but never
+ * the filler `quiet`), and what a person tells (`tells`).
+ */
+export function recordRaisedSubjects(rules: {
+  topicOfLabel?: Record<string, unknown>;
+  otherRaises?: Record<string, unknown>;
+  tells?: Record<string, Record<string, string>>;
+}): ReadonlySet<string> {
+  const out = new Set<string>();
+  for (const [key, value] of Object.entries(rules.topicOfLabel ?? {}))
+    if (key !== "about" && typeof value === "string") out.add(value);
+  for (const key of Object.keys(rules.otherRaises ?? {}))
+    if (key !== "quiet") out.add(key);
+  for (const [key, row] of Object.entries(rules.tells ?? {}))
+    if (key !== "about" && typeof row === "object")
+      for (const subject of Object.values(row)) out.add(subject);
+  return out;
+}
+
+/** What decides whether a record chose the moment a part plays in. */
+export interface Placement {
+  readonly alwaysTrue: ReadonlySet<string>;
+  readonly causedPurposes: ReadonlySet<string>;
+  readonly raisedSubjects: ReadonlySet<string>;
+}
+
+export const PLACEMENT: Placement = {
+  alwaysTrue: ALWAYS_TRUE_FACTS,
+  causedPurposes: causedPurposes(
+    (situationTypes as { types: Parameters<typeof causedPurposes>[0] }).types,
+  ),
+  raisedSubjects: recordRaisedSubjects(
+    conversationRules as Parameters<typeof recordRaisedSubjects>[0],
+  ),
+};
+
+/**
+ * Whether a record chose the moment this part plays in: every place it is
+ * said is conditioned on a fact that is not true in every world, or sits
+ * under a caused purpose or a record-raised subject. One place with none of
+ * these lets it play anywhere. A bearing alone places nothing.
+ */
+export function isPlaced(
+  part: BankPart,
+  placement: Partial<Placement> = PLACEMENT,
+): boolean {
+  const alwaysTrue = placement.alwaysTrue ?? PLACEMENT.alwaysTrue;
+  const caused = placement.causedPurposes ?? PLACEMENT.causedPurposes;
+  const raised = placement.raisedSubjects ?? PLACEMENT.raisedSubjects;
+  const uses = part.uses ?? [];
+  return (
+    uses.length > 0 &&
+    uses.every(
+      (use) =>
+        (use.requiresFacts ?? []).some(
+          (fact) => !alwaysTrue.has(factKey(fact)),
+        ) ||
+        (use.onlyWhen ?? []).some((fact) => !alwaysTrue.has(factKey(fact))) ||
+        (use.excludesFacts ?? []).length > 0 ||
+        (use.purpose !== undefined && caused.has(use.purpose.split(".")[0]!)) ||
+        (use.subject !== undefined && raised.has(use.subject)),
+    )
+  );
+}
+
 /** Why a line with no insert may stay fixed under the owner's ruling, or null when it may not. */
 export function excusedAs(
   bank: string,
   part: BankPart,
   composed: ReadonlySet<string>,
-): "short" | "action-name" | "joined" | null {
+  placement: Partial<Placement> = PLACEMENT,
+): "short" | "action-name" | "joined" | "placed" | null {
   if (ACTION_NAME_BANKS.includes(bank)) return "action-name";
   if (wordsIn(part.text ?? "") <= SHORT_WORDS) return "short";
   if (part.piece && composed.has(part.piece.of)) return "joined";
+  if (isPlaced(part, placement)) return "placed";
   return null;
 }
 
@@ -211,5 +381,143 @@ describe("every bank line carries an insert from the world's records", () => {
     expect(
       excusedAs("conversation", optional[0]!, sentencesWithAnInsert(optional)),
     ).toBeNull();
+  });
+
+  it("excuses a line the world places, and not one with no condition or an always-true one", () => {
+    const none = new Set<string>();
+    const text = "I've heard those promises too many times.";
+    // A condition on a fact places the line.
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ requiresFacts: ["acquainted"] }] },
+        none,
+      ),
+    ).toBe("placed");
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ excludesFacts: ["stranger"] }] },
+        none,
+      ),
+    ).toBe("placed");
+    // A bearing alone places nothing: it is still counted.
+    expect(
+      excusedAs(
+        "conversation",
+        { text, bearing: "guarded", uses: [{ subject: "greet" }] },
+        none,
+      ),
+    ).toBeNull();
+    // A scene under a caused purpose is placed; one under no cause is not.
+    const placement = {
+      alwaysTrue: new Set<string>(),
+      causedPurposes: new Set(["housemate-arrives"]),
+      raisedSubjects: new Set(["job-lost"]),
+    };
+    expect(
+      excusedAs(
+        "scene-talk",
+        {
+          text,
+          uses: [{ purpose: "housemate-arrives.ask", subject: "scene" }],
+        },
+        none,
+        placement,
+      ),
+    ).toBe("placed");
+    expect(
+      excusedAs(
+        "scene-talk",
+        { text, uses: [{ purpose: "filing-clerk", subject: "scene" }] },
+        none,
+        placement,
+      ),
+    ).toBeNull();
+    // A conversation subject raised only from a record is placed; a greeting is not.
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ subject: "job-lost" }] },
+        none,
+        placement,
+      ),
+    ).toBe("placed");
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ subject: "greet" }] },
+        none,
+        placement,
+      ),
+    ).toBeNull();
+    // The real tables: a move-in scene is caused, a greeting is not raised by a record.
+    expect(PLACEMENT.causedPurposes.has("housemate-arrives")).toBe(true);
+    expect(PLACEMENT.raisedSubjects.has("greet")).toBe(false);
+    expect(PLACEMENT.raisedSubjects.has("quiet")).toBe(false);
+    expect(PLACEMENT.raisedSubjects.has("job-lost")).toBe(true);
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ onlyWhen: ["acquainted"] }] },
+        none,
+      ),
+    ).toBe("placed");
+    // No condition at all is counted, as is a part said anywhere in one of its places.
+    expect(excusedAs("conversation", { text }, none)).toBeNull();
+    expect(excusedAs("conversation", { text, uses: [] }, none)).toBeNull();
+    expect(
+      excusedAs(
+        "conversation",
+        {
+          text,
+          uses: [{ requiresFacts: ["acquainted"] }, {}],
+        },
+        none,
+      ),
+    ).toBeNull();
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ requiresFacts: [] }, { excludesFacts: [] }] },
+        none,
+      ),
+    ).toBeNull();
+    // A condition on a fact every packet sets places nothing.
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ requiresFacts: ["always"] }] },
+        none,
+        { alwaysTrue: new Set(["always"]) },
+      ),
+    ).toBeNull();
+    // A use conditioned only on a name or place being there places nothing.
+    for (const fact of [
+      "name",
+      "first",
+      "player-first",
+      "their_first",
+      "place",
+      "my_place",
+    ])
+      expect(
+        excusedAs(
+          "conversation",
+          { text, uses: [{ requiresFacts: [fact] }] },
+          none,
+        ),
+      ).toBeNull();
+    expect(
+      excusedAs(
+        "conversation",
+        { text, uses: [{ requiresFacts: ["name", "stranger"] }] },
+        none,
+      ),
+    ).toBe("placed");
+    // A fixed line of one to three words stays "short", before "placed" is asked.
+    expect(
+      excusedAs("conversation", { text: "Not yet.", bearing: "calm" }, none),
+    ).toBe("short");
   });
 });
