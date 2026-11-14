@@ -36,7 +36,10 @@ describe("a local body is named the way people write it", () => {
     );
     expect(
       boardBodyName("COUNTY OF EXAMPLE", "Board of County Commissioners"),
-    ).toBe("Board of County Commissioners of Example County");
+    ).toBe("Example County Board of Commissioners");
+    expect(
+      boardBodyName("TOWNSHIP OF EXAMPLE", "Board of Township Trustees"),
+    ).toBe("Example Township Board of Trustees");
   });
 
   it("says a town's, township's or municipio's board the way people say it", () => {
@@ -64,6 +67,13 @@ describe("a local body is named the way people write it", () => {
         // No listing in capitals, no kind of government said twice.
         expect(office.bodyName, where).not.toMatch(/[A-Z]{3,}/);
         expect(office.bodyName, where).not.toMatch(/\b(\w+) \1\b/i);
+        // The place's kind is said once (Words lead, Nov 14): never the
+        // "Auglaize Township Board of Township Trustees".
+        for (const kind of ["County", "Township", "Parish", "Borough"])
+          expect(
+            office.bodyName.split(" ").filter((word) => word === kind).length,
+            where,
+          ).toBeLessThanOrEqual(1);
       }
     }
     expect(checked).toBeGreaterThan(0);
