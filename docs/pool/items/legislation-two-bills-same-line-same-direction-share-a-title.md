@@ -20,7 +20,7 @@ checked:
 claimed-at:
 ---
 
-**What.** At Klamath Falls OR (draw meet-a1:2) two bills, 2025-5 and 2025-6, both raise the police line and both print "Police Funding Increase Ordinance". The numbers differ, but a floor agenda, a news story or a debate scene naming "the Police Funding Increase Ordinance" cannot say which. Whether they sit in one body or two was not read for each row (the numbers that repeat across the list are the two bodies' own numbering).
+**What.** At Klamath Falls OR (draw meet-a1:2) two bills, 2025-5 and 2025-6, both raise the police line and both print "Police Funding Increase Ordinance". The numbers differ, but a floor agenda, a news story or a debate scene naming "the Police Funding Increase Ordinance" cannot say which. Whether they sit in one body or two was not read for each row (the numbers that repeat across the list are the two bodies' own numbering). Seen: the meeting agenda, the news and a floor-debate scene naming the bill.
 
 **Cause.** Needs cause. The title comes from the line and direction alone (`billNameFor("budget:<line>")`); whether two bills that read alike should be told apart by the sponsor, by the amount or by a later one reading as an amendment is a wording call for the Words lead, and the same question applies to every authored policy name.
 
