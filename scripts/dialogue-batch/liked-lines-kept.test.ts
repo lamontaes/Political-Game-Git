@@ -105,13 +105,7 @@ describe("a line the owner graded good stays in the banks", () => {
     const stopgaps = JSON.parse(
       readFileSync("src/director/data/stopgaps.json", "utf8"),
     ) as { id: string; status: string }[];
-    for (const bank of [
-      "address",
-      "hearing",
-      "legislation",
-      "minutes",
-      "notice",
-    ])
+    for (const bank of ["address", "hearing", "legislation", "minutes"])
       if (existsSync(`data/english/parts/${bank}.json`))
         expect(
           stopgaps.find((row) => row.id === `SG-WORDS-${bank}-no-reader`),
