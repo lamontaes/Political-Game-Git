@@ -7,7 +7,6 @@
  * A drawn place and seed each run, named in every message (METRICS_SEED replays one). A place
  * where no notice is served in the months played is passed over, by name, for the next draw.
  */
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import controls from "./data/controls.json" with { type: "json" };
 import { budgetView } from "./budget";
@@ -17,6 +16,7 @@ import { gameStartDate } from "../core2/game-start";
 import { governmentProperName } from "../core2/government-proper-name";
 import { advanceCore } from "../core2/life";
 import { budgetsOf, governments } from "../core2/modules/budgets";
+import { townGovernment } from "../core2/output-number-readers";
 import { engineMeasure } from "../core2/outcome-web-model";
 import {
   METRICS_SECTIONS,
@@ -29,13 +29,32 @@ import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 
 const DRAWS = 3;
+/**
+ * Time in these tests is the game's own played days: a year of a town runs
+ * 75 to 200 seconds on this machine (Everett, Georgia the least), and the
+ * finish line needs fourteen months of one place, so the first test cannot
+ * run in a minute without playing fewer days than it asserts.
+ */
 /** The game opens in January 2025; fourteen months on is the item's finish line. */
 const AFTER_FOURTEEN_MONTHS = "2026-03-25";
 /** The small-town check plays only three months. */
 const THREE_MONTHS = "2025-04-25";
 const ONE_MORE_MONTH = "2026-04-25";
 
-const first = process.env.METRICS_SEED ?? randomBytes(8).toString("hex");
+/**
+ * The second place, pinned (never drawn): Everett, Georgia, the smallest town measured. A place that
+ * serves no eviction notice in the months played is passed over, by name, for
+ * the next of these.
+ */
+const first = process.env.METRICS_SEED ?? "7a5e19c2b3d84f60";
+/** Places tried, in this order, when one serves no notice in the months played. */
+const NEXT_PLACES = ["4b0fc31dba594d0c", "599e6f66e9c1d25a"];
+/**
+ * Fananganan, Northern Mariana Islands: a territory whose places have no town
+ * government in the game (owner, Nov 14: territories get local government after
+ * early access, with a notice), so Metrics has no budget section there.
+ */
+const TERRITORY_SEED = "9ca49eb7074e5581";
 /**
  * A named replay beside the draw: Washington, Kansas serves notices in the
  * start year, where a pre-start pass's mark on the start year's row once read
@@ -136,7 +155,7 @@ describe("Metrics reads the registry in a played world", () => {
     it(`shows the town's own kept figures with last year, counts notices on the day, and survives a save, from seed ${start}`, () => {
       const passedOver: string[] = [];
       for (let draw = 0; draw < DRAWS; draw += 1) {
-        const seed = draw === 0 ? start : randomBytes(8).toString("hex");
+        const seed = draw === 0 ? start : NEXT_PLACES[draw - 1]!;
         const build = () =>
           buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
         const world = build();
@@ -333,6 +352,22 @@ describe("Metrics reads the registry in a played world", () => {
         `No drawn place served an eviction notice: ${passedOver.join("; ")}`,
       );
     }, 900_000);
+
+  it("a territory's town has no government of its own, so Metrics has no budget section", () => {
+    const world = buildBenchWorld(TERRITORY_SEED, gameStartDate(), {
+      twoLevel: true,
+    });
+    const where = `${world.place.displayName} (seed ${TERRITORY_SEED})`;
+    // Three months are enough: the budget section reads the town's own books.
+    advanceCore(world.core, THREE_MONTHS as never);
+    const api = coreAPI(world.core);
+    expect(townGovernment(api, world.placeId), where).toBeUndefined();
+    const view = metricsView(world.core, world.placeId);
+    expect(
+      view.sections.find((section) => section.key === "budget"),
+      where,
+    ).toBeUndefined();
+  }, 120_000);
 
   /** A drawn small town (seed fixed so the town stays a few hundred people at most). */
   it("shows a small town's own count, and an empty figure as a zero from the engine's record", () => {

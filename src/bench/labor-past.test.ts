@@ -5,6 +5,9 @@
  * wrote, out of the same labor force; and after a played year the state's
  * figures keep the month a year back. Pinned to Washington, Kansas (seed
  * 599e6f66e9c1d25a), a place that serves eviction notices and has a jobs row.
+ * The time is the game's own played days: it plays fourteen months of that
+ * place (a played year there runs about 150 seconds), because the state's
+ * year-back figures are only there from the second year.
  */
 import { describe, expect, it } from "vitest";
 import { metricsView } from "./metrics";
