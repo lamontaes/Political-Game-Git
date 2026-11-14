@@ -185,11 +185,19 @@ export function daysSaid(days: number): string {
   );
 }
 
-/** A length of time in months as people say it: "a month", "eight months", "a year", "three years". */
-export function lengthSaid(months: number): string {
+/**
+ * A length of time in months as people say it: "a month", "eight months", "a
+ * year", "three years". A line that opens on the length asks for it in words
+ * ("thirteen months"), as far as countSaid goes.
+ */
+export function lengthSaid(months: number, inWords = false): string {
   const count = Math.max(1, Math.round(months));
   const said = (n: number) =>
-    n <= HOURS_ON_A_CLOCK ? data.clock.numbers[n]! : String(n);
+    inWords
+      ? countSaid(n, Infinity)
+      : n <= HOURS_ON_A_CLOCK
+        ? data.clock.numbers[n]!
+        : String(n);
   const term = data.length as Readonly<Record<string, string>>;
   if (count % MONTHS_PER_YEAR === 0) {
     const years = count / MONTHS_PER_YEAR;
