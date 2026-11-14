@@ -179376,7 +179376,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "ask-signature",
-          "key": "door"
+          "key": "door",
+          "requiresFacts": ["due"]
         }
       ],
       "bearing": "curious",
@@ -179400,7 +179401,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "ask-signature",
-          "key": "door"
+          "key": "door",
+          "requiresFacts": ["due"]
         }
       ],
       "bearing": "guarded",
@@ -179425,7 +179427,8 @@
           "role": "asker",
           "purpose": "ask-signature",
           "key": "door",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["due"]
         }
       ],
       "bearing": "calm",
@@ -179450,7 +179453,8 @@
           "role": "asker",
           "purpose": "ask-signature",
           "key": "door",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["due"]
         }
       ],
       "bearing": "hopeful",
