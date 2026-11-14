@@ -26,6 +26,7 @@ import {
   proposalRight,
   publicDeclineReason,
   declinedAsks,
+  likelyCarriers,
   proposeAsExecutive,
   votesOn,
   whipCount,
@@ -295,6 +296,8 @@ export function seatView(core: CoreState, personId: string) {
       const votes = votesOn(api, bill.id);
       return {
         bill,
+        // The bill said with its form's word ("Ordinance 2025-8"), never bare.
+        spoken: spokenDesignation(bill.number, bill.form.kind),
         ...floorOf(core, bill),
         votes: votes.map((row) => ({
           ...row,
@@ -450,6 +453,8 @@ export function seatAct(
   const floor = floorOf(core, bill);
   return {
     ...bill,
+    // The bill said with its form's word ("Ordinance 2025-8"), never bare.
+    spoken: spokenDesignation(bill.number, bill.form.kind),
     text,
     ...(floor.agendaDate ? { agendaDate: floor.agendaDate } : {}),
     floorDate: floor.floorDate,
@@ -649,7 +654,10 @@ export function billPaper(core: CoreState, billId: string) {
     id: bill.id,
     number: bill.number,
     spoken: spokenDesignation(bill.number, bill.form.kind),
-    title: composed?.title ?? titled?.title ?? bill.number,
+    title:
+      composed?.title ??
+      titled?.title ??
+      spokenDesignation(bill.number, bill.form.kind),
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
     bodyOfficeId: bill.bodyOfficeId,
@@ -848,9 +856,10 @@ export function isByRequest(
  * answers from their own position and tie to the executive. Returns who was asked, what
  * they said and the bill when they carried it; a refusal files nothing.
  */
-export function seatAsk(
-  core: CoreState,
-  personId: string,
+/** The one provision an executive's ask names, from the menu item and amount the player picked. */
+function askProvision(
+  api: ReturnType<typeof coreAPI>,
+  body: { level: string },
   input: {
     officeId?: string;
     series?: string;
@@ -858,13 +867,8 @@ export function seatAsk(
     line?: string;
     value?: number;
   },
-) {
-  const api = coreAPI(core);
-  const body = bodiesOf(core, personId).find(
-    (b) => b.officeId === input.officeId && "byRequest" in b && b.byRequest,
-  );
-  if (!body) throw new Error("You can't send a bill to that body.");
-  const provision: Provision = input.line
+): Provision {
+  return input.line
     ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
     : input.series
       ? {
@@ -881,9 +885,65 @@ export function seatAsk(
           question: input.question ?? "",
           value: input.value ?? 1,
         };
+}
+
+/**
+ * The members an executive may ask to carry this bill, with the one the engine would ask marked as
+ * the likely yes (`likelyCarriers`, the ranking the ask itself reads).
+ */
+export function seatAskOptions(
+  core: CoreState,
+  personId: string,
+  input: {
+    officeId?: string;
+    series?: string;
+    question?: string;
+    line?: string;
+    value?: number;
+  },
+) {
+  const api = coreAPI(core);
+  const body = bodiesOf(core, personId).find(
+    (b) => b.officeId === input.officeId && "byRequest" in b && b.byRequest,
+  );
+  if (!body) throw new Error("You can't send a bill to that body.");
+  const ranked = likelyCarriers(api, input.officeId!, [
+    askProvision(api, body, input),
+  ]);
+  return {
+    members: ranked.map((row, index) => ({
+      key: row.key,
+      name: personName(core, row.key),
+      party: body.members.find((m) => m.key === row.key)?.party ?? null,
+      likely: index === 0,
+    })),
+  };
+}
+
+export function seatAsk(
+  core: CoreState,
+  personId: string,
+  input: {
+    officeId?: string;
+    series?: string;
+    question?: string;
+    line?: string;
+    value?: number;
+    /** The member the executive chose to ask; none asks the likeliest yes. */
+    memberId?: string;
+  },
+) {
+  const api = coreAPI(core);
+  const body = bodiesOf(core, personId).find(
+    (b) => b.officeId === input.officeId && "byRequest" in b && b.byRequest,
+  );
+  if (!body) throw new Error("You can't send a bill to that body.");
+  const provision = askProvision(api, body, input);
   const asked = proposeAsExecutive(api, {
     bodyOfficeId: input.officeId!,
     provisions: [provision],
+    byPlayer: true,
+    ...(input.memberId ? { memberId: input.memberId } : {}),
   });
   if (!asked)
     throw new Error("No member of that body can be asked to carry it.");
