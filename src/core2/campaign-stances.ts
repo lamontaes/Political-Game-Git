@@ -391,6 +391,36 @@ export function platformScores(
 }
 
 /**
+ * Each question of a platform's share of what the campaign says: the
+ * platform rule's own score (conviction times exp(slope times the percent of
+ * the electorate on the candidate's side), `platformScores`) over the sum of
+ * the platform's, so the shares follow the town the way the platform did and
+ * a stated platform (whose positions carry their conviction) reads the same
+ * as a chosen one. Only questions the candidate takes a side on; the shares
+ * add to one.
+ */
+export function platformShares(
+  api: CoreAPI,
+  platform: readonly { readonly question: string; readonly position: number }[],
+): Readonly<Record<string, number>> {
+  const slope = campaignParameter("platformSupportSlope");
+  const scores: [string, number][] = [];
+  for (const { question, position } of platform) {
+    if (position === 0) continue;
+    const sides = electorateSides(api, question);
+    const support = 100 * (position > 0 ? sides.yes : sides.no);
+    scores.push([question, Math.abs(position) * Math.exp(slope * support)]);
+  }
+  const total = scores.reduce((t, [, score]) => t + score, 0);
+  return Object.fromEntries(
+    scores.map(([question, score]) => [
+      question,
+      total > 0 ? score / total : 0,
+    ]),
+  );
+}
+
+/**
  * A candidate's platform: the seat's questions with the highest scores by
  * the platform rule (`platformScores`), ties by question, each at the
  * candidate's own position. Empty for a candidate with neither a view nor a

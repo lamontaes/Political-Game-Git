@@ -2205,8 +2205,10 @@
     "why": "The research's emphasis share gives each platform question its score's share of the space in speeches, flyers, ads and news quotes (docs/research/platform-emphasis-2026-10-30.md, section 1), and no campaign engine yet takes its acts' topics in turn over the platform.",
     "addedBy": "governing lead",
     "addedAt": "2026-10-30",
-    "replacement": "Each act's topic taken in turn over the platform, the question furthest behind its score's share of what the campaign has said so far (no roll), so a candidate's messages and speeches follow the score shares; C1 then measured from those records.",
-    "status": "open"
+    "replacement": "Replaced Nov 14, 2026: each act's topic is taken in turn over the platform, the question furthest behind its platform-score share of what the campaign has said so far (nextTopic in src/core2/modules/campaigns.ts; shares from platformShares in src/core2/campaign-stances.ts; no roll). Was: each act's topic taken in turn over the platform, the question furthest behind its score's share of what the campaign has said so far (no roll), so a candidate's messages and speeches follow the score shares; C1 then measured from those records.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-14",
+    "resolvedBy": "rival issues thread"
   },
   {
     "id": "SG-GOV-counted-lean-spread",

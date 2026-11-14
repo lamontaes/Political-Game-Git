@@ -73,11 +73,11 @@ import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
   campaignParameter,
   PLATFORM_QUESTIONS,
-  platformLead,
   type Stance,
 } from "../campaign-data";
 import {
   candidatePlatform,
+  platformShares,
   partyLean,
   partyPosition,
 } from "../campaign-stances";
@@ -159,6 +159,12 @@ export interface CampaignRow {
   readonly contestId: string;
   readonly candidateId: string;
   readonly platform: readonly Stance[];
+  /**
+   * Each platform question's share of what the campaign says, one in all
+   * (`platformShares`: the platform rule's own scores over their sum), read
+   * once when the campaign opens. A row without it shares equally.
+   */
+  readonly platformShares?: Readonly<Record<string, number>>;
   readonly organizationId: string;
   readonly volunteerIds: readonly string[];
   readonly staffIds: readonly string[];
@@ -512,6 +518,8 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       /** Folded causes a voter's known fact still names as its source, kept for the trace. */
       foldedCauses: {},
       promises: { indexes: { byCandidate: { fields: ["candidateId"] } } },
+      /** What a campaign has said so far, a count per platform question, one row a filing (`nextTopic`); kept while its race is open (`closeRace`). */
+      emphasis: {},
       /**
        * Each resident's "yes" at a campaign's door, one row a voter and
        * candidate in a contest, kept while the contest is open: a closed
@@ -771,8 +779,12 @@ export function campaignFor(api: CoreAPI, filingId: string): CampaignRow {
     raisedMinor: 0,
     spentMinor: 0,
   };
-  table(api, "campaigns").put(row as unknown as ModuleRow);
-  return row;
+  const opened: CampaignRow = {
+    ...row,
+    platformShares: platformShares(api, row.platform),
+  };
+  table(api, "campaigns").put(opened as unknown as ModuleRow);
+  return opened;
 }
 
 function save(api: CoreAPI, row: CampaignRow) {
@@ -4455,6 +4467,68 @@ export interface DonorMeetingResult {
   readonly raisedMinor: number;
 }
 
+/** What a campaign has said so far, one row a filing (`nextTopic`): every act's question counted, and each kind of act's own. */
+interface EmphasisRow {
+  readonly id: string;
+  readonly counts: Readonly<Record<string, number>>;
+  readonly byKind: Readonly<Record<string, Readonly<Record<string, number>>>>;
+}
+
+/**
+ * The question a campaign's next act is about (SG-GOV-platform-emphasis-lead-only
+ * replaced): the platform question furthest behind its share of what the
+ * campaign has said so far, this act counted, taking its place in the whole
+ * and in its own kind of act (an ad, a mailer, a night of doors, an event or
+ * donor meeting's speech), so an evening of doors is not always about the
+ * question the ads never reach. Each question's share is its platform score's
+ * (`platformShares`), so the question the town backs most at the candidate's
+ * conviction is spoken of most, and the others in their turns; ties go to the
+ * platform's order. No roll: the same record gives the same question. The
+ * count is the filing's `emphasis` row, kept for an act that is taken and not
+ * for one that reached nobody. Undefined for a platform that takes no side.
+ */
+function nextTopic(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  kind: string,
+): Stance | undefined {
+  const sides = campaign.platform.filter((s) => s.position !== 0);
+  if (!sides.length) return undefined;
+  const emphasis = table(api, "emphasis");
+  const row = emphasis.get(campaign.filingId) as unknown as
+    EmphasisRow | undefined;
+  const all = row?.counts ?? {};
+  const own = row?.byKind[kind] ?? {};
+  const sum = (c: Readonly<Record<string, number>>) =>
+    Object.values(c).reduce((t, n) => t + n, 0) + 1;
+  const allTotal = sum(all);
+  const ownTotal = sum(own);
+  const equal = 1 / sides.length;
+  let pick = sides[0]!;
+  let behind = -Infinity;
+  for (const stance of sides) {
+    const share = campaign.platformShares?.[stance.question] ?? equal;
+    const gap =
+      share * allTotal -
+      (all[stance.question] ?? 0) +
+      (share * ownTotal - (own[stance.question] ?? 0));
+    if (gap > behind) {
+      behind = gap;
+      pick = stance;
+    }
+  }
+  const bump = (c: Readonly<Record<string, number>>) => ({
+    ...c,
+    [pick.question]: (c[pick.question] ?? 0) + 1,
+  });
+  emphasis.put({
+    id: campaign.filingId,
+    counts: bump(all),
+    byKind: { ...(row?.byKind ?? {}), [kind]: bump(own) },
+  } as unknown as ModuleRow);
+  return pick;
+}
+
 /**
  * A donor meeting: a house party at a supporter's home. The host
  * (`donorMeetingHost`) gives their evening and invites their own circle and
@@ -4463,7 +4537,7 @@ export interface DonorMeetingResult {
  * invitation's pull (`donorMeetingHostTieWeight`), and the campaign's
  * volunteers come. The candidate meets everyone there they did not know (the
  * encounter engine's meeting, at the host's home), speaks to the room on
- * the question the campaign leads with (`platformLead`: a face-to-face
+ * the question it is next behind on (`nextTopic`: a face-to-face
  * speech, heard and retold as one), and the evening ends by asking each person there, the
  * host first, through `donationAnswer`: the gift rows, the journal and the
  * public `campaign-gift` record follow from it. No venue is paid; the host's
@@ -4519,12 +4593,12 @@ export function holdDonorMeeting(
         cause: ENCOUNTERS.causes.metOnVisit,
         hours: hours / room.length,
       });
-  const lead = platformLead(campaign.platform);
+  const topic = nextTopic(api, campaign, "speech");
   const venue = `home:${host.householdId}`;
   const causes = makeStatements(api, {
     filingId,
     venue,
-    statements: lead ? [lead] : [],
+    statements: topic ? [topic] : [],
     audienceIds: room,
     act: "speech",
     weight: campaignParameter("speechWeight"),
@@ -4579,7 +4653,7 @@ export function holdDonorMeeting(
       gave: String(donorIds.length),
       raisedMinor: String(raisedMinor),
       donorIds: donorIds.join(","),
-      ...(lead
+      ...(topic
         ? {
             speechId: statementSpeechId(campaign.candidateId, date, {
               act: "speech",
@@ -4958,7 +5032,7 @@ export function runAd(
 
 /**
  * A campaign's message, kept as a `messages` row (its kind, the question
- * the campaign leads with as its topic, `platformLead`, and who it reached) that word of a rival
+ * it is next behind on as its topic, `nextTopic`, and who it reached) that word of a rival
  * passes on from (`rivalWordPassedOn`). A paid message (an ad, a mailer) is
  * also an event its audience learns: it carries that topic and the change
  * the candidate wants, and the candidate's lean on the views engine's scale,
@@ -4977,11 +5051,12 @@ function emitMessage(
     readonly witnessIds: readonly string[];
   },
 ): void {
-  const lead = platformLead(campaign.platform);
   const witnessIds = [...new Set(input.witnessIds)].filter(
     (id) => id !== campaign.candidateId && api.state.people.has(id),
   );
-  if (!lead || lead.position === 0 || !witnessIds.length) return;
+  if (!witnessIds.length) return;
+  const lead = nextTopic(api, campaign, input.kind);
+  if (!lead) return;
   const messages = table(api, "messages");
   const kept = keptMessageDates(api);
   messages.put({
@@ -6224,21 +6299,21 @@ export function rentVenue(
 
 /**
  * An event: the campaign rents an evening at a venue in town and the
- * candidate speaks on the question the campaign leads with (`platformLead`)
+ * candidate speaks on the question it is next behind on (`nextTopic`)
  * to whoever chooses to come (`whoComes`). Only a candidate who is a full person speaks in a
  * room.
  */
 export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
   const campaign = campaignFor(api, filingId);
   if (!api.state.people.get(campaign.candidateId)?.alive) return [];
-  const lead = platformLead(campaign.platform);
-  if (!lead) return [];
+  const topic = nextTopic(api, campaign, "speech");
+  if (!topic) return [];
   const venue = rentVenue(api, filingId, "event").sellerId;
   const audienceIds = whoComes(api, campaign);
   const causes = makeStatements(api, {
     filingId,
     venue,
-    statements: [lead],
+    statements: [topic],
     audienceIds,
     act: "speech",
     weight: campaignParameter("speechWeight"),
@@ -7109,9 +7184,12 @@ export function closeRace(api: CoreAPI, contestId: string): void {
     contestId,
   ]) as unknown as { id: string; personId: string }[];
   const doors = table(api, "doors");
-  for (const filing of filings)
+  const emphasis = table(api, "emphasis");
+  for (const filing of filings) {
     for (const row of doors.query("byCampaign", [filing.id]))
       doors.remove(row.id);
+    emphasis.remove(filing.id);
+  }
   const playerId = (api.state as CoreState).playerId;
   if (filings.some((f) => f.personId === playerId)) return;
   const pledges = table(api, "pledges");
