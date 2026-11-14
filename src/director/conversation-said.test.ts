@@ -59,7 +59,7 @@ const SAID_VALUES = Object.values(NAMES).flatMap((row) =>
 it(`the lines the said field changed read as played in ${DRAWS.length} pinned places`, () => {
   const played: string[] = [];
   const shapes = new Set<string>();
-  for (const [seed, key] of DRAWS) {
+  for (const [seed] of DRAWS) {
     setBookkeeping(false);
     const place = drawPlace(seed, "talk-replies");
     process.stdout.write(`SAID ${place.name} (${place.key}), seed ${seed}\n`);
