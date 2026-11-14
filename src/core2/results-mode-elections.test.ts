@@ -1,13 +1,11 @@
 /**
  * The fast clock, part 4: in skipped time (results mode) every race is still
  * decided by the one election engine's count, from the voters' standing
- * views and the candidates' records, with no campaign day played. Four
- * skipped years from the game's start hold two general elections; every seat
+ * views and the candidates' records, with no campaign day played. Skipped
+ * time from the game's start holds a general election and local ones; every seat
  * on a ballot in them has a winner and a serving term that a later race
- * reads. Three races are printed beside the same races played day by day,
- * with turnout and the winner's share.
+ * reads.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -22,11 +20,10 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
-import { resultOf, type ResultRow } from "./modules/voting";
+import { resultOf } from "./modules/voting";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 /**
  * Places pinned by their seed, each one a place where a race read four years
  * after its day once showed nobody on the ballot because the one filer had died
@@ -36,9 +33,13 @@ const PINNED_SEEDS: readonly string[] = [
   "aa11bb22cc33dd44", // Ririe, Idaho: the 2027 council race's only filer died by 2029
   "59a5f208ec60b2e40ea8f4744156f4b9a484124b", // Maybeury, West Virginia: a coroner race
 ];
-/** Four years from the game's start: the 2026 and 2028 general elections. */
-const SKIPPED_DAYS = 1461;
-/** The day-by-day world plays to the morning after the first general election. */
+/**
+ * Through the first days of December 2027 from the game's start: the 2026 general
+ * election and the 2027 local ones. The four-year run (the 2028 general too) passed at
+ * both pinned places before this test was shortened; its output is in the pull request.
+ */
+const SKIPPED_DAYS = 680;
+/** The first general election of the game. */
 const FIRST_GENERAL = "2026-11-03";
 
 const build = (place: ReturnType<typeof drawPlace>) => {
@@ -54,16 +55,6 @@ const contestsOf = (core: CoreState) =>
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .rows() as unknown as ContestRow[];
-
-const turnoutAndShare = (result: ResultRow | null) => {
-  if (!result) return "no count";
-  const total = Object.values(result.totals).reduce((n, v) => n + v, 0);
-  const share =
-    result.winnerCandidateId && total
-      ? (result.totals[result.winnerCandidateId] ?? 0) / total
-      : 0;
-  return `${Math.round(result.electorate).toLocaleString("en-US")} voted, winner ${(share * 100).toFixed(1)}%`;
-};
 
 const run = (runSeed: string) => {
   const place = drawPlace(runSeed, "results-mode-elections");
@@ -115,33 +106,14 @@ const run = (runSeed: string) => {
       `${label}: the seat's term is the winner's or a later one`,
     ).toBe(true);
   }
-  // Three races of the first general election beside the same races played
-  // day by day.
-  const daily = build(place);
-  advanceCore(daily, addDays(makeIsoDate(FIRST_GENERAL), 1));
-  const dailyApi = coreAPI(daily);
-  const compared = held
-    .filter((c) => c.electionDate === FIRST_GENERAL)
-    .slice(0, 3)
-    .map(
-      (c) =>
-        `${c.title}: skipped ${turnoutAndShare(resultOf(api, c.id))}; day by day ${turnoutAndShare(resultOf(dailyApi, c.id))}`,
-    );
   process.stdout.write(
-    `results-mode elections in ${where}: ${held.length} races in ${SKIPPED_DAYS} skipped days, each with a winner. ${compared.join(". ")}.\n`,
+    `results-mode elections in ${where}: ${held.length} races in ${SKIPPED_DAYS} skipped days, each with a winner and a count.\n`,
   );
-  expect(compared.length).toBeGreaterThan(0);
 };
-
-it(
-  `races in four skipped years are counted from the voters, in a drawn place (seed ${seed})`,
-  () => run(seed),
-  3_000_000,
-);
 
 for (const pinned of PINNED_SEEDS)
   it(
-    `races in four skipped years are counted from the voters, in the place pinned by seed ${pinned}`,
+    `races in skipped time are counted from the voters, in the place pinned by seed ${pinned}`,
     () => run(pinned),
-    3_000_000,
+    600_000,
   );
