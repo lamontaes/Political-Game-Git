@@ -43250,7 +43250,11 @@
           "role": "core",
           "requiresFacts": ["layoff"],
           "excludesFacts": ["years"],
-          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
+          "setsFacts": [
+            "outlook-plain",
+            "outlook-not-sure",
+            "outlook-not-unsure"
+          ]
         }
       ],
       "piece": {
@@ -43275,7 +43279,11 @@
           "role": "core",
           "requiresFacts": ["closure"],
           "excludesFacts": ["years"],
-          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
+          "setsFacts": [
+            "outlook-plain",
+            "outlook-not-sure",
+            "outlook-not-unsure"
+          ]
         }
       ],
       "piece": {
@@ -43299,7 +43307,11 @@
           "subject": "job-lost-say",
           "role": "core",
           "excludesFacts": ["layoff", "closure"],
-          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
+          "setsFacts": [
+            "outlook-plain",
+            "outlook-not-sure",
+            "outlook-not-unsure"
+          ]
         }
       ],
       "piece": {
@@ -43454,7 +43466,11 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["closure"],
-          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
+          "setsFacts": [
+            "outlook-plain",
+            "outlook-not-sure",
+            "outlook-not-unsure"
+          ]
         }
       ],
       "piece": {
@@ -43478,7 +43494,11 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["closure"],
-          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
+          "setsFacts": [
+            "outlook-plain",
+            "outlook-not-sure",
+            "outlook-not-unsure"
+          ]
         }
       ],
       "piece": {
@@ -43502,7 +43522,7 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["closure"],
-          "setsFacts": ["chances-unsure", "chances-not-sure"]
+          "setsFacts": ["outlook-unsure", "outlook-not-sure"]
         }
       ],
       "piece": {
@@ -43526,7 +43546,7 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["closure"],
-          "setsFacts": ["chances-sure", "chances-not-unsure"]
+          "setsFacts": ["outlook-sure", "outlook-not-unsure"]
         }
       ],
       "piece": {
@@ -43550,7 +43570,7 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["closure"],
-          "setsFacts": ["chances-unsure", "chances-not-sure"]
+          "setsFacts": ["outlook-unsure", "outlook-not-sure"]
         }
       ],
       "piece": {
@@ -43574,7 +43594,11 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["layoff"],
-          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
+          "setsFacts": [
+            "outlook-plain",
+            "outlook-not-sure",
+            "outlook-not-unsure"
+          ]
         }
       ],
       "piece": {
@@ -43598,7 +43622,11 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["layoff"],
-          "setsFacts": ["chances-not-sure", "chances-not-unsure"]
+          "setsFacts": [
+            "outlook-plain",
+            "outlook-not-sure",
+            "outlook-not-unsure"
+          ]
         }
       ],
       "piece": {
@@ -43622,7 +43650,7 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["layoff"],
-          "setsFacts": ["chances-unsure", "chances-not-sure"]
+          "setsFacts": ["outlook-unsure", "outlook-not-sure"]
         }
       ],
       "piece": {
@@ -43646,7 +43674,7 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["layoff"],
-          "setsFacts": ["chances-sure", "chances-not-unsure"]
+          "setsFacts": ["outlook-sure", "outlook-not-unsure"]
         }
       ],
       "piece": {
@@ -43670,7 +43698,7 @@
           "subject": "job-lost-say",
           "role": "core",
           "requiresFacts": ["layoff"],
-          "setsFacts": ["chances-unsure", "chances-not-sure"]
+          "setsFacts": ["outlook-unsure", "outlook-not-sure"]
         }
       ],
       "piece": {
@@ -44505,8 +44533,8 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-bad", "chances-not-sure"],
-          "setsFacts": ["work-scarce"]
+          "requiresFacts": ["town-bad", "outlook-not-sure"],
+          "setsFacts": ["outlook-bleak"]
         }
       ],
       "piece": {
@@ -44528,8 +44556,8 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-bad", "chances-not-sure"],
-          "setsFacts": ["work-scarce"]
+          "requiresFacts": ["town-bad", "outlook-not-sure"],
+          "setsFacts": ["outlook-bleak"]
         }
       ],
       "piece": {
@@ -44551,8 +44579,8 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-middling", "chances-not-sure"],
-          "setsFacts": ["chances-sure"]
+          "requiresFacts": ["town-middling", "outlook-plain"],
+          "setsFacts": ["outlook-sure"]
         }
       ],
       "piece": {
@@ -44574,8 +44602,8 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-good", "chances-not-unsure"],
-          "setsFacts": ["work-plenty"]
+          "requiresFacts": ["town-good", "outlook-not-unsure"],
+          "setsFacts": ["outlook-bright"]
         }
       ],
       "piece": {
@@ -44597,8 +44625,8 @@
           "move": "job-lost-say-reason",
           "subject": "job-lost-say",
           "role": "reason",
-          "requiresFacts": ["town-good", "chances-not-unsure"],
-          "setsFacts": ["work-plenty"]
+          "requiresFacts": ["town-good", "outlook-not-unsure"],
+          "setsFacts": ["outlook-bright"]
         }
       ],
       "piece": {
@@ -44708,7 +44736,7 @@
           "role": "core",
           "stages": ["where"],
           "requiresFacts": ["seeking"],
-          "excludesFacts": ["work-scarce", "work-plenty"]
+          "excludesFacts": ["outlook-bleak", "outlook-bright"]
         }
       ],
       "origin": "authored",
@@ -44732,7 +44760,8 @@
           "subject": "job-lost-back-back",
           "role": "core",
           "stages": ["find"],
-          "requiresFacts": ["seeking"]
+          "requiresFacts": ["seeking"],
+          "excludesFacts": ["outlook-sure", "outlook-bright"]
         }
       ],
       "origin": "authored",
@@ -44757,7 +44786,7 @@
           "role": "core",
           "stages": ["find"],
           "requiresFacts": ["seeking"],
-          "excludesFacts": ["chances-sure"]
+          "excludesFacts": ["outlook-sure", "outlook-bright"]
         }
       ],
       "origin": "authored",
@@ -44781,8 +44810,8 @@
           "subject": "job-lost-back-back",
           "role": "core",
           "stages": ["find"],
-          "requiresFacts": ["seeking", "chances-not-unsure"],
-          "excludesFacts": ["work-scarce"]
+          "requiresFacts": ["seeking", "outlook-not-unsure"],
+          "excludesFacts": ["outlook-bleak"]
         }
       ],
       "origin": "authored",

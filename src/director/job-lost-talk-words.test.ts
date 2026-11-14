@@ -131,6 +131,11 @@ describe("a lost job told through the composer", () => {
             expect(SURE.test(opener) && sentences.length > 2, line!.text).toBe(
               false,
             );
+          if (level === "middling")
+            expect(
+              UNSURE.test(opener) && /It may take a while\.$/.test(line!.text),
+              line!.text,
+            ).toBe(false);
           if (level === "good")
             expect(
               UNSURE.test(opener) && sentences.length > 2,
@@ -192,19 +197,26 @@ describe("a lost job told through the composer", () => {
       return [...texts];
     };
     // Said nobody is hiring: never "it's just a matter of when".
-    expect(answers(["chances-not-sure", "work-scarce"])).not.toContain(
+    expect(answers(["outlook-not-sure", "outlook-bleak"])).not.toContain(
       "I will. It's just a matter of when.",
     );
     // Said "I'll find something": never scoffs at the same words.
-    expect(answers(["chances-sure", "chances-not-unsure"])).not.toContain(
+    expect(answers(["outlook-sure", "outlook-not-unsure"])).not.toContain(
       "Easy to say.",
     );
     // Unsure of their chances: never "I will".
-    expect(answers(["chances-unsure", "chances-not-sure"])).not.toContain(
+    expect(answers(["outlook-unsure", "outlook-not-sure"])).not.toContain(
       "I will. It's just a matter of when.",
     );
+    // Said "I won't be out long.": never scoffs at "You'll find something."
+    expect(answers(["outlook-bright", "outlook-not-unsure"])).not.toContain(
+      "Easy to say.",
+    );
+    expect(answers(["outlook-sure", "outlook-not-unsure"])).not.toContain(
+      "I hope so.",
+    );
     // A teller who is not unsure and has not said it is bleak may.
-    expect(answers(["chances-not-sure", "chances-not-unsure"])).toContain(
+    expect(answers(["outlook-not-sure", "outlook-not-unsure"])).toContain(
       "I will. It's just a matter of when.",
     );
   });
