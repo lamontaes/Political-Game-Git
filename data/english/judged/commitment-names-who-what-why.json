@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 709,
+  "judged": 707,
   "no": {
     "01s3uojo7ih": {
       "keys": [
@@ -2741,5 +2741,5 @@
       "why": "The scandal interview never names its subject or the vote the player says yes to; the documentation question refers to an unnamed matter."
     }
   },
-  "yesHash": "1yt906xi23i"
+  "yesHash": "1j6qefi3ip1"
 }

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 1934,
+  "judged": 5271,
   "no": {
     "01ci5tbdc2u": {
       "keys": [
@@ -17,6 +17,13 @@
         "scene-talk.reply-lie.nobody-told-me-what-to-do-i-haven-t-heard-a-complaint"
       ],
       "why": "Denies being told what to do, then switches to not having heard a complaint, a separate point; listener feels the jump."
+    },
+    "07os4i854mu": {
+      "keys": [
+        "scene-talk.follow-press.please-one-line",
+        "scene-talk.reply-decline.you-really-are-running-self-goodbye"
+      ],
+      "why": "An abrupt goodbye does not follow from noticing that the player really is running."
     },
     "0bbis4lv0yb": {
       "keys": [
@@ -46,6 +53,13 @@
       ],
       "why": "After 'It was. Most of it.' the speaker jumps to 'grab the other end' with nothing linking the two, and 'It was' does not fit the line it answers."
     },
+    "21ep9s72dd5": {
+      "keys": [
+        "scene-talk.follow-press.i-m-not-asking-for-your-vote-today-just-a-chance-to-run",
+        "scene-talk.reply-decline.you-really-are-running-self-goodbye"
+      ],
+      "why": "Noting that he really is running doesn't lead to a sudden goodbye."
+    },
     "2775y7lz5aj": {
       "keys": [
         "scene-talk.follow-answer.every-meeting-every-fish-fry-every-funeral-people-vote-for-the-face-th",
@@ -68,5 +82,5 @@
       "why": "Two unrelated denials (no one directed me / no complaints) that don't form one thought."
     }
   },
-  "yesHash": "0dz7lozbhko"
+  "yesHash": "17of6zw1mjs"
 }
