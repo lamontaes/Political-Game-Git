@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9255
 blocked-on:
 source: found by fixer F6 while pinning the housing family test (Nov 14)
 after:
