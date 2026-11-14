@@ -3436,6 +3436,8 @@ export function askToCarry(
     readonly memberId: string;
     readonly bodyOfficeId: string;
     readonly provisions: readonly Provision[];
+    /** The asker is the person playing: the ask is kept for them even when the world's player id is not theirs (an Advanced start steps into an office holder). */
+    readonly byPlayer?: boolean;
   },
 ): CarryRequest {
   requireSection(input.provisions);
@@ -3513,7 +3515,10 @@ export function askToCarry(
     // stopgapId: SG-GOV-carry-ask-no-screen (the held ask has no bench screen yet)
     api.stopgap("SG-GOV-carry-ask-no-screen");
     table(api, "carryAsks").put(row as unknown as ModuleRow);
-  } else if (input.askerId === (api.state as CoreState).playerId) {
+  } else if (
+    input.byPlayer ||
+    input.askerId === (api.state as CoreState).playerId
+  ) {
     // The player's own ask is kept with its answer, position and date, so a no can be read
     // back with its reason and the player can ask again later (`declinedAsks`).
     table(api, "carryAsks").put(row as unknown as ModuleRow);
@@ -3704,40 +3709,63 @@ export function proposeAsExecutive(
   input: {
     readonly bodyOfficeId: string;
     readonly provisions: readonly Provision[];
+    /** The member the executive chooses to ask; none asks the likeliest yes (`likelyCarriers`). */
+    readonly memberId?: string;
+    /** The executive is the person playing (see `askToCarry`). */
+    readonly byPlayer?: boolean;
   },
 ): CarryRequest | null {
   const { office, term } = executiveOf(api, input.bodyOfficeId);
   if (!office || !term) return null;
   if (proposalRight(api, office.kind).mode !== "by-request") return null;
   const executiveId = memberKey(term);
+  const ranked = likelyCarriers(api, input.bodyOfficeId, input.provisions);
+  const pick = input.memberId
+    ? ranked.find((row) => row.key === input.memberId)
+    : ranked[0];
+  if (!pick) return null;
+  return askToCarry(api, {
+    askerId: executiveId,
+    memberId: pick.key,
+    bodyOfficeId: input.bodyOfficeId,
+    provisions: input.provisions,
+    ...(input.byPlayer ? { byPlayer: true } : {}),
+  });
+}
+
+/**
+ * The members an executive may ask to carry a bill, the member likeliest to say yes first (the
+ * highest position total, ties by key): the one ranking the engine asks from and a screen marks.
+ */
+export function likelyCarriers(
+  api: CoreAPI,
+  bodyOfficeId: string,
+  provisions: readonly Provision[],
+): readonly { readonly key: string; readonly total: number }[] {
+  const { term } = executiveOf(api, bodyOfficeId);
+  if (!term) return [];
+  const executiveId = memberKey(term);
   const trial = {
-    id: `propose:${input.bodyOfficeId}:${api.state.date}:${executiveId}`,
+    id: `propose:${bodyOfficeId}:${api.state.date}:${executiveId}`,
     number: "",
     form: TRIAL_FORM,
-    bodyOfficeId: input.bodyOfficeId,
+    bodyOfficeId,
     sponsorId: executiveId,
     introduced: api.state.date,
-    provisions: input.provisions,
+    provisions,
     costEstimate: { workersRaised: 0, annualPayMinor: 0, note: "" },
     authority: [],
     status: "drafted",
     deals: [],
   } as unknown as BillRow;
-  let best: { key: string; total: number } | null = null;
-  for (const member of members(api, input.bodyOfficeId)) {
-    const key = memberKey(member);
-    if (key === executiveId) continue;
-    const total = positionOn(api, trial, key).total;
-    if (!best || total > best.total || (total === best.total && key < best.key))
-      best = { key, total };
-  }
-  if (!best) return null;
-  return askToCarry(api, {
-    askerId: executiveId,
-    memberId: best.key,
-    bodyOfficeId: input.bodyOfficeId,
-    provisions: input.provisions,
-  });
+  return members(api, bodyOfficeId)
+    .map((member) => memberKey(member))
+    .filter((key) => key !== executiveId)
+    .map((key) => ({ key, total: positionOn(api, trial, key).total }))
+    .sort(
+      (a, b) =>
+        b.total - a.total || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0),
+    );
 }
 
 /**
