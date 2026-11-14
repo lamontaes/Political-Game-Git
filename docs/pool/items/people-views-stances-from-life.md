@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hjvzia
-pr: #9162
+pr: #9224
 after:
 blocked-on:
 root: design-one-model-two-tiers
