@@ -3044,6 +3044,16 @@ function mainTopic(
       conversation.used.includes(`${otherId}>${subject.id}`)
     )
       return;
+    // A scene's talk does not turn to the day's news the occasion is not
+    // about: bring-it-up, which says what the news is, is skipped in a
+    // scene, so "What do you think?" would ask about nothing (a death
+    // told at home, a letter, a friend met on the street).
+    if (
+      occasion &&
+      subject.kind === "news" &&
+      !isAbout(subject, occasion, data)
+    )
+      return;
     // A scene's moment with the other person in it (a reunion) is about the
     // two of them: what they share stands for it when no subject is about
     // its cause, ahead of any other recorded event.
