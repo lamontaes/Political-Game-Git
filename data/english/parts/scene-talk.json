@@ -107229,36 +107229,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.i-m-voting-yes-it-s-what-i-ve-always-believed-on-issue",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I'm voting yes. It's what I've always believed on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-own-view",
-            "body-small",
-            "issue"
-          ]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.state-tell.i-m-a-yes-and-i-m-not-shy-about-it",
       "move": "state-tell",
       "kind": "spoken",
@@ -107284,40 +107254,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.folks-keep-asking-me-about-issue-i-m-with-them-on-this-one",
+      "key": "scene-talk.state-tell.the-people-i-represent-want-this-i-m-voting-with-them",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "Folks keep asking me about {issue}. I'm with them on this one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-people",
-            "body-small",
-            "issue"
-          ]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.the-people-i-hear-from-want-this-i-m-voting-with-them",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "The people I hear from want this. I'm voting with them.",
+      "text": "The people I represent want this. I'm voting with them.",
       "uses": [
         {
           "subject": "scene",
@@ -107574,40 +107514,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.i-m-against-this-it-goes-against-what-i-ve-always-believed-on",
+      "key": "scene-talk.state-tell.the-people-i-represent-don-t-want-this-i-can-t-go-against-them",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I'm against this. It goes against what I've always believed on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-against",
-            "reason-own-view",
-            "body-small",
-            "issue"
-          ]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.the-people-i-talk-to-don-t-want-this-i-can-t-go-against-them",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "The people I talk to don't want this. I can't go against them.",
+      "text": "The people I represent don't want this. I can't go against them.",
       "uses": [
         {
           "subject": "scene",
@@ -107620,36 +107530,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-ve-heard-from-folks-about-issue-and-they-re-not-for-this-i-m",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I've heard from folks about {issue}, and they're not for this. I'm not either.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-against",
-            "reason-people",
-            "body-small",
-            "issue"
-          ]
-        }
-      ],
-      "bearing": "braced",
       "origin": "authored",
       "author": "Words builder N (floor debate, Words lead's second ruling)",
       "date": "2026-11-14",
@@ -107714,40 +107594,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.i-ve-heard-from-people-in-town-about-issue-i-m-supporting-this",
+      "key": "scene-talk.state-tell.the-people-i-represent-want-this-i-m-supporting-it-for-them",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I've heard from people in town about {issue}. I'm supporting this for them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-for",
-            "reason-people",
-            "body-council",
-            "issue"
-          ]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-ve-heard-from-people-in-town-i-m-supporting-this-for-them",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I've heard from people in town. I'm supporting this for them.",
+      "text": "The people I represent want this. I'm supporting it for them.",
       "uses": [
         {
           "subject": "scene",
@@ -107885,10 +107735,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.the-people-i-hear-from-don-t-want-this-i-ll-be-voting-no",
+      "key": "scene-talk.state-tell.the-people-i-represent-don-t-want-this-i-ll-be-voting-no",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "The people I hear from don't want this. I'll be voting no.",
+      "text": "The people I represent don't want this. I'll be voting no.",
       "uses": [
         {
           "subject": "scene",
@@ -107898,36 +107748,6 @@
           "purpose": "floor-debate",
           "key": "honor",
           "requiresFacts": ["speaks-against", "reason-people", "body-council"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder N (floor debate, Words lead's second ruling)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-ve-heard-from-people-in-town-about-issue-and-they-don-t-want",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I've heard from people in town about {issue}, and they don't want this. I'll be voting no.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "floor-debate",
-          "key": "honor",
-          "requiresFacts": [
-            "speaks-against",
-            "reason-people",
-            "body-council",
-            "issue"
-          ]
         }
       ],
       "bearing": "guarded",
@@ -108928,10 +108748,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.it-s-bill-purpose-and-i-don-t-think-that-s-worth-doing",
+      "key": "scene-talk.follow-answer.it-s-bill-purpose-and-i-can-t-vote-for-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's {bill-purpose}, and I don't think that's worth doing.",
+      "text": "It's {bill-purpose}, and I can't vote for it.",
       "uses": [
         {
           "subject": "scene",
@@ -109114,10 +108934,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.then-tell-me-what-s-wrong-with-it-i-d-like-to-hear-it",
+      "key": "scene-talk.follow-press.i-d-like-you-with-me-on-this-think-it-over-once-more",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Then tell me what's wrong with it. I'd like to hear it.",
+      "text": "I'd like you with me on this. Think it over once more.",
       "uses": [
         {
           "subject": "scene",
