@@ -6,7 +6,7 @@ kind: stopgap
 priority: 3
 status: in-pr
 claimed-by: claude/button-names
-pr: PRNUM
+pr: 9233
 after:
 blocked-on:
 standard: 2
