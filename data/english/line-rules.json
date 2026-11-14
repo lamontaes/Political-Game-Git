@@ -4308,11 +4308,33 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "note": "Awaits a tag: it needs what the player was told before the narration (why they came, what they carry), which no tag on a use holds.",
-      "status": "awaiting-test",
+      "note": "A sample (Nov 14): judged on 421 narration lines of scene-talk (the door asks and press-comment are skipped; they are being rewritten). A reviewer sorted each as claiming nothing about the player's reason, feeling, choice or past (yes), or claiming one the scene's use does not require (no). 40 no lines are listed for the Words lead; nothing is pulled.",
+      "status": "sample",
       "test": {
         "kind": "judged"
-      }
+      },
+      "applies": [
+        {
+          "banks": ["scene-talk"],
+          "moves": "^narrate-",
+          "uses": {
+            "lacks": {
+              "purpose": "^(?:ask-signature|ask-support|press-comment|ask-to-serve)$"
+            }
+          }
+        },
+        {
+          "banks": ["scene-talk"],
+          "kinds": ["written"],
+          "uses": {
+            "lacks": {
+              "purpose": "^(?:ask-signature|ask-support|press-comment|ask-to-serve)$"
+            }
+          }
+        }
+      ],
+      "catches": ["You've come to ask about running for {office}."],
+      "spares": ["{name} looks up from the counter."]
     },
     {
       "id": "traits-read-as-plain-sentences",
