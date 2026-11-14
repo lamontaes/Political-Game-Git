@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** A campaign for a seat whose last term slid on pay, jobs or prices spends more of its acts on the questions that answer that area: a challenger leans toward what the term hurt, the incumbent toward what it helped. Before, a campaign's platform shares came from the filer's own stands and the audience alone, so a town whose pay fell had a race about everything else.
+**What.** A campaign for a seat whose last term slid on pay, jobs or prices spends more of its acts on the questions that answer that area: a challenger leans toward what the term hurt, the incumbent toward what it helped. Before, a campaign's platform shares came from the filer's own stands and the audience alone, so a town whose pay fell had a race about everything else. Seen: a challenger's platform shares at Bee Cave TX, Kingsbury NV and Medford MA (seed a7c13e) move toward pay and prices after a term where those slid.
 
 **Cause.** Found in code: `platformShares` in src/core2/modules/campaigns.ts scores the filer's stands and nothing of the place's own record, and `nextTopic` spends acts against those shares; the term read (src/core2/term-read.ts) kept the record per area, but only the speeches read it.
 
@@ -27,3 +27,11 @@ root: none
 **Time box.** 4 hours for an Opus session.
 
 **Rules.** One engine per mechanic: the speeches and the campaigns read one map and one reader. No dice: the tilt is a weight on score shares and picks no actor's outcome.
+
+**Done when.** A second session sees, in a race at a place drawn from all 56 (name the place and seed) after a term where pay or prices slid, a challenger's platform shares lean toward the questions that answer it, with a flat term leaving them as before.
+
+**Waits on.** director-term-read-areas-answered-by-one-map (folded).
+
+**Files.** src/core2/modules/campaigns.ts, src/core2/term-read.ts, src/director/local-address.ts, src/core2/data/campaigns/parameters.json, src/core2/campaign-record-tilt.test.ts (new).
+
+**Notes.** Filed Nov 14 with the PR; year 1 time and records equal with and without at three places.
