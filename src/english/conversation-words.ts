@@ -78,7 +78,11 @@ export function pieceServes(key: string, subject: string): boolean {
     (part) =>
       part.key === key &&
       part.uses.some(
-        (use) => use.subject === subject || use.subject === `${subject}-reply`,
+        (use) =>
+          use.subject === subject ||
+          use.subject === `${subject}-reply` ||
+          // A subject told in composed words (`<subject>-say`).
+          use.subject === `${subject}-say`,
       ),
   );
 }

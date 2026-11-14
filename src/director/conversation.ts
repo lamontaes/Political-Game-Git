@@ -133,7 +133,14 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { kinAddress, relationPhrase } from "../english/journal-words";
+import { jobSaid, kinAddress, relationPhrase } from "../english/journal-words";
+import { OFFICES_MODULE_ID, servingTermsOf } from "../core2/modules/offices";
+import {
+  JUSTICE_MODULE_ID,
+  bribeRefusedBy,
+  bribeRoleOf,
+} from "../core2/modules/justice";
+import { dollars } from "../english/bill-sections";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { answerInTalk } from "./scene-talk";
 import {
@@ -166,6 +173,7 @@ import { budgetPurposeSaid } from "../english/bill-names";
 import {
   properName,
   spoken,
+  spokenDate,
   spokenWhen,
   spokenWhenRow,
   stateInSentence,
@@ -921,6 +929,26 @@ function relativeNewsFacts(
 
 const RELATIVE_NEWS = RELATIVE_NEWS_WORDS;
 
+/**
+ * What a bribery case was for, as the defendant's side of it says it: taking
+ * bribes when they are the official who took one, paying or offering a bribe
+ * when they are the one who offered (the corruption engine's crime record:
+ * its offerer, its official and whether it was taken). A case's first crime
+ * decides; none when the case or its crime is not on record.
+ */
+function offenseSaid(
+  core: Readonly<CoreState>,
+  caseId: string,
+  personId: PersonId,
+): Fact | undefined {
+  if (!core.modules.has(JUSTICE_MODULE_ID)) return undefined;
+  const role = bribeRoleOf(coreAPI(core as CoreState), caseId, personId);
+  const text = role
+    ? RELATIVE_NEWS.offenses[`bribe-${role === "took" ? "taken" : role}`]
+    : undefined;
+  return text ? { text, sourceRecordIds: [caseId] } : undefined;
+}
+
 /** The news a household member tells of a relative, by the label of the listener's moment. */
 const NEWS_KINDS: Readonly<Record<string, string>> = {
   "feeling:event:life.death": "death-news",
@@ -1175,6 +1203,105 @@ function victimizationSubjects(
   ];
 }
 
+/** An official as someone outside government says them: "someone on the Starr County Board of Commissioners", "the mayor". */
+function officialSaid(
+  core: Readonly<CoreState>,
+  personId: string,
+): { text: string; ids: string[] } | undefined {
+  if (!core.modules.has(OFFICES_MODULE_ID)) return undefined;
+  const api = coreAPI(core as CoreState);
+  const term = servingTermsOf(api, personId)[zero];
+  if (!term) return undefined;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(term.officeId) as
+    { title?: string; seats?: number; bodyName?: string } | undefined;
+  if (!office?.title) return undefined;
+  const body = office.bodyName?.trim().replace(/^the\s+/i, "");
+  const text =
+    (office.seats ?? one) > one && body
+      ? RELATIVE_NEWS.officials.onBody.replace("{body}", properName(body))
+      : RELATIVE_NEWS.officials.sole.replace(
+          "{office}",
+          jobSaid(office.title.replace(/\s*\([^)]*\)/g, "").trim()),
+        );
+  return { text, ids: [term.id, term.officeId] };
+}
+
+/**
+ * What a court case is, from the justice engine's records (words composer):
+ * the offense as people say it, the trial day or a guilty plea, held before
+ * trial or out on bail and its amount, and for a conviction the sentence:
+ * its prison term, probation and fine. Each cites the case or its sentence.
+ */
+function caseFacts(
+  core: Readonly<CoreState>,
+  caseId: string,
+  eventId: string,
+): Facts {
+  if (!core.modules.has(JUSTICE_MODULE_ID)) return {};
+  const api = coreAPI(core as CoreState).moduleState(JUSTICE_MODULE_ID);
+  const row = api.table("cases").get(caseId) as
+    | {
+        id: string;
+        defendantId: PersonId;
+        plea?: boolean;
+        trialDate?: string | null;
+        sentenceId?: string | null;
+      }
+    | undefined;
+  if (!row) return {};
+  const cites = [row.id, eventId];
+  const fact = (text: string, ids: readonly string[] = cites): Fact => ({
+    text,
+    sourceRecordIds: [...ids],
+  });
+  const facts: Facts = {};
+  // The defendant's side of it: taking bribes, paying or offering one.
+  const offense = offenseSaid(core, row.id, row.defendantId);
+  if (offense) facts.offense = { ...offense, sourceRecordIds: cites };
+  // Whom they offered it to, when the official turned it down and reported it.
+  // Said by the office, not a name the listener has never heard (W1's
+  // strict review, Nov 13: "who's Kathryn Hansen?").
+  const refusedBy = bribeRefusedBy(coreAPI(core as CoreState), row.id);
+  const official = refusedBy ? officialSaid(core, refusedBy) : undefined;
+  if (official && refusedBy !== row.defendantId)
+    facts.official = fact(official.text, [row.id, ...official.ids]);
+  if (row.plea) facts.plea = fact("yes");
+  else if (row.trialDate && row.trialDate > core.date)
+    facts.trial = fact(spokenDate(row.trialDate, core.date));
+  const pretrial = core.durableLog.get(
+    `justice.pretrial:${row.id}` as never,
+  ) as { facts?: Readonly<Record<string, string>> } | undefined;
+  if (pretrial?.facts?.decision === "held") facts.held = fact("yes");
+  else if (Number(pretrial?.facts?.bailMinor) > zero)
+    // Their own bail and fine are said exactly: they know the figure.
+    facts.bail = fact(dollars(Number(pretrial!.facts!.bailMinor)));
+  const sentence = row.sentenceId
+    ? (api.table("sentences").get(row.sentenceId) as
+        | {
+            id: string;
+            custodyMonths?: number;
+            probationMonths?: number;
+            fineMinor?: number;
+          }
+        | undefined)
+    : undefined;
+  if (sentence) {
+    const ids = [sentence.id, ...cites];
+    // Convicted at a trial they fought: they had said they didn't do it.
+    if (!row.plea) facts.contested = fact("yes", ids);
+    if ((sentence.custodyMonths ?? zero) > zero)
+      facts.term = fact(lengthSaid(sentence.custodyMonths!), ids);
+    if ((sentence.probationMonths ?? zero) > zero)
+      facts.probation = fact(lengthSaid(sentence.probationMonths!), ids);
+    if ((sentence.fineMinor ?? zero) > zero)
+      facts.fine = fact(dollars(sentence.fineMinor!), ids);
+  }
+  return facts;
+}
+
 /**
  * The justice engine's events a person can talk about, by the ledger label
  * of the moment they made and the subject each is told as.
@@ -1217,6 +1344,7 @@ function justiceSubjects(
       aboutId: moment.causeId,
       facts: {
         case: { text: "", sourceRecordIds: [moment.causeId, caseId] },
+        ...caseFacts(core, caseId, moment.causeId),
       },
     });
   }
@@ -4727,6 +4855,8 @@ const DAY_TALK = (
       rentCoveredMonths: { value: number };
       evictionJobLostDays: { value: number };
       backOmitsTold: readonly string[];
+      /** Kinds that may still be asked about, whose telling is answered back. */
+      answersBack: readonly string[];
       toldFigures: readonly string[];
     };
   }
@@ -5888,6 +6018,17 @@ function offerChoices(
     // Their workplace once it has been named, as people say it: "there"
     // (round 11, rule 74: never "worked at work?").
     there: { text: "there", sourceRecordIds: [otherId] },
+    // News of their own life: each fact the telling just said is marked
+    // `told-<fact>`, so a reply that would ask it again ("How?" after "It
+    // was a car crash.") is held back (`excludesFacts`; W1's strict review).
+    ...(DAY_TALK.backOmitsTold.includes(last.kind)
+      ? Object.fromEntries(
+          (conversation.lines.at(-one)?.wording?.facts ?? []).map((key) => [
+            `told-${key}`,
+            { text: "yes", sourceRecordIds: [otherId] },
+          ]),
+        )
+      : {}),
   };
   const stage = own.stage ?? last.stage;
   const turn = conversation.lines.length;
@@ -7048,9 +7189,13 @@ function sayNow(
             )?.wording?.facts ?? [],
         )
       : new Set<string>();
+    const omitted = (key: string) =>
+      told.has(key) && DAY_TALK.toldFigures.includes(key);
+    // What was left out is marked told, so an answer can lean on it ("I go
+    // in soon.") without saying it again.
     const backFacts = Object.fromEntries(
-      Object.entries(last.facts).filter(
-        ([key]) => !told.has(key) || !DAY_TALK.toldFigures.includes(key),
+      Object.entries(last.facts).flatMap(([key, value]) =>
+        omitted(key) ? [[`told-${key}`, value]] : [[key, value]],
       ),
     );
     const back = composedLine(
@@ -7305,7 +7450,8 @@ const POINT_INSTEAD = "instead";
 /** Whether a line's kind is a day's own subject whose replies are answered in composed words (`<kind>-back`). */
 function dayBack(kind: string): boolean {
   return (
-    DAY_TALK.kinds.includes(kind) && !!composedConversationBank(`${kind}-back`)
+    (DAY_TALK.kinds.includes(kind) || DAY_TALK.answersBack.includes(kind)) &&
+    !!composedConversationBank(`${kind}-back`)
   );
 }
 
