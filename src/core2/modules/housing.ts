@@ -42,7 +42,7 @@ import { MACRO_PARAMETERS } from "./macro";
 import { formerHome } from "../housing-former-home";
 import type { ModuleRow } from "../module-data";
 import type { EntityId } from "../kernel/brands";
-import { lendMortgage, monthlyIncome } from "./credit";
+import { bankYes, lendMortgage, monthlyIncome, mortgageRoom } from "./credit";
 import { BUY_PULL, buyMarket, weighHome } from "../housing-buy";
 import { buyCountedHomes } from "../housing-counted-buy";
 import { CREDIT_PARAMETERS } from "./credit";
@@ -1482,19 +1482,24 @@ function buyHomes(api: CoreAPI): void {
     // What it can put down: cash, and the savings the bank holds for it.
     const savings = depositsHeld(c, household.id);
     const means = cash + savings;
-    const weighed = weighHome(api, market, {
-      headId: head!.id,
-      householdId: household.id,
-      valueMinor: value,
-      rentMinor: lease.amountMinor,
-      incomeMinor: income,
-      meansMinor: means,
-      children: childrenAt(api, members),
-      headAge: ageOnDate(head!.birthDate, c.date),
-      leaseYears:
-        daysBetweenText(lease.firstDueAt, c.date) /
-        api.parameter("daysPerMeanYear"),
-    });
+    const weighed = weighHome(
+      api,
+      market,
+      (payment, income) => bankYes(api, payment, income),
+      {
+        headId: head!.id,
+        householdId: household.id,
+        valueMinor: value,
+        rentMinor: lease.amountMinor,
+        incomeMinor: income,
+        meansMinor: means,
+        children: childrenAt(api, members),
+        headAge: ageOnDate(head!.birthDate, c.date),
+        leaseYears:
+          daysBetweenText(lease.firstDueAt, c.date) /
+          api.parameter("daysPerMeanYear"),
+      },
+    );
     if (!weighed.buy) continue;
     const { reasons, principalMinor: principal } = weighed,
       down = weighed.downMinor;
@@ -1608,9 +1613,17 @@ function buyHomes(api: CoreAPI): void {
 /** The counted renters whose lease turns a year older this month weigh buying the home their rent stands for, by the full renters' rule. */
 export function weighCountedBuyers(api: CoreAPI): void {
   const typicalRent = typicalRentReader(api);
-  buyCountedHomes(api, (placeId, rentMinor) =>
-    rentHomeValue(api, placeId, rentMinor, typicalRent),
-  );
+  const c = core(api);
+  buyCountedHomes(api, {
+    valueOf: (placeId, rentMinor) =>
+      rentHomeValue(api, placeId, rentMinor, typicalRent),
+    bankYes: (payment, income) => bankYes(api, payment, income),
+    mortgageRoom: () => mortgageRoom(api),
+    outsideOf: (placeId) =>
+      townOutsideOf(c.organizations.values(), placeId)?.id,
+    transferCash: (id, from, to, amount, source) =>
+      transferCash(api, id, from, to, amount, source),
+  });
 }
 
 function review(api: CoreAPI): void {

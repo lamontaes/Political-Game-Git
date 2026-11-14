@@ -19,6 +19,7 @@ import { buyMarket, weighHome } from "./housing-buy";
 import { countedMortgageFlowId } from "./housing-mortgages";
 import { addDays, ageInYears, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { bankYes } from "./modules/credit";
 import { rentHomeValue, weighCountedBuyers } from "./modules/housing";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
@@ -154,7 +155,7 @@ it("counted renters on their lease month buy from their own savings, short ones 
   const rentMinor = rentIds.get(h.id)!.amountMinor;
   const valueMinor = rentHomeValue(api, h.placeId, rentMinor)!;
   const weigh = (headId: string, householdId: string, meansMinor: number) =>
-    weighHome(api, market, {
+    weighHome(api, market, (payment, income) => bankYes(api, payment, income), {
       headId,
       householdId,
       valueMinor,

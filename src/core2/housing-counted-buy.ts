@@ -19,7 +19,6 @@
  * level counts it as a buyer by its weight.
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
-import { townOutsideOf } from "./opening-outside-market";
 import { buyMarket, monthlyPayment, weighHome } from "./housing-buy";
 import { takeNewHome } from "./housing-construction";
 import { countedMortgageFlowId, MORTGAGE_PREFIX } from "./housing-mortgages";
@@ -31,7 +30,6 @@ import {
 } from "./counted-money";
 import type { CountedHousehold } from "./counted-groups";
 import { ageInYears, daysBetweenText, makeIsoDate } from "./kernel/dates";
-import { mortgageRoom } from "./modules/credit";
 import {
   householdIncome,
   regroupHousehold,
@@ -42,7 +40,6 @@ import {
   addResidentFlow,
   endResidentFlow,
 } from "./residents-economy";
-import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 const HOUSING = "housing";
@@ -162,13 +159,26 @@ function sellersOf(
 /**
  * This month's counted renters weigh buying; those that choose to, with the
  * down payment in their own savings and a loan the bank says yes to, buy.
- * `valueOf` is the home a renter's rent stands for in its place (the housing
- * engine's rule, the same a full renter weighs).
+ * The housing engine hands in what it reads from the other families: the
+ * home a renter's rent stands for (the same a full renter weighs), the bank's
+ * yes and room, the town's outside market and the ledger's transfer.
  */
-export function buyCountedHomes(
-  api: CoreAPI,
-  valueOf: (placeId: string, rentMinor: number) => number | undefined,
-): void {
+export interface CountedBuyWorld {
+  readonly valueOf: (placeId: string, rentMinor: number) => number | undefined;
+  readonly bankYes: (paymentMinor: number, incomeMinor: number) => number;
+  readonly mortgageRoom: () =>
+    { bankId: string; roomMinor: number } | undefined;
+  readonly outsideOf: (placeId: string) => string | undefined;
+  readonly transferCash: (
+    id: string,
+    fromOwnerId: string,
+    toOwnerId: string,
+    amountMinor: number,
+    source: Source,
+  ) => number;
+}
+
+export function buyCountedHomes(api: CoreAPI, world: CountedBuyWorld): void {
   const c = api.state as CoreState;
   const rt = residentsRuntime(c);
   const market = buyMarket(api);
@@ -198,11 +208,11 @@ export function buyCountedHomes(
     if (!head) continue;
     const income = householdIncome(rt, h) / p("macroMonthsPerYear");
     if (income <= 0) continue;
-    const value = valueOf(h.placeId, rent.amountMinor);
-    const outside = townOutsideOf(c.organizations.values(), h.placeId);
+    const value = world.valueOf(h.placeId, rent.amountMinor);
+    const outside = world.outsideOf(h.placeId);
     if (!value || !outside) continue;
     const own = countedOwnSavings(api, rt, h, start);
-    const weighed = weighHome(api, market, {
+    const weighed = weighHome(api, market, world.bankYes, {
       headId: head.id,
       householdId: h.id,
       valueMinor: value,
@@ -220,19 +230,25 @@ export function buyCountedHomes(
     const down = Math.round(weighed.downMinor);
     // The group's account holds the record's savings with its group's: it must hold the down payment for every household the record stands for.
     if (fundBalance(api, rt, h.group) < down * weight) continue;
-    buy(api, rt, h, {
-      weight,
-      down,
-      principal: weighed.principalMinor,
-      rate: market.rate,
-      term: market.term,
-      rentMinor: rent.amountMinor,
-      incomeMinor: income,
-      savings: own,
-      reasons: weighed.reasons,
-      outsideId: outside.id,
-      market,
-    });
+    buy(
+      api,
+      rt,
+      h,
+      {
+        weight,
+        down,
+        principal: weighed.principalMinor,
+        rate: market.rate,
+        term: market.term,
+        rentMinor: rent.amountMinor,
+        incomeMinor: income,
+        savings: own,
+        reasons: weighed.reasons,
+        outsideId: outside,
+        market,
+      },
+      world,
+    );
   }
 }
 
@@ -253,6 +269,7 @@ function buy(
     outsideId: string;
     market: NonNullable<ReturnType<typeof buyMarket>>;
   },
+  world: CountedBuyWorld,
 ): void {
   const c = api.state as CoreState;
   const { weight } = deal;
@@ -285,7 +302,7 @@ function buy(
     Math.floor((downPaid * (1 - share)) / share),
   );
   // The town bank holds it where its capital has room; otherwise a holder outside the town, as at the opening.
-  const room = mortgageRoom(api);
+  const room = world.mortgageRoom();
   const holderId =
     room && loanWanted <= room.roomMinor ? room.bankId : deal.outsideId;
   let lent = 0;
@@ -295,8 +312,7 @@ function buy(
     lent +=
       holderId === seller.id
         ? amount
-        : transferCash(
-            api,
+        : world.transferCash(
             `mortgage-loan:${stamp}:${seller.id}`,
             holderId,
             seller.id,

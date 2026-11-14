@@ -9,7 +9,6 @@
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { chooseAct } from "./choice";
-import { bankYes } from "./modules/credit";
 import type { ActOffer, CoreAPI, CoreState } from "./types";
 
 export const BUY_PULL = "housing:pull";
@@ -159,6 +158,8 @@ export interface HomeWeighed {
 export function weighHome(
   api: CoreAPI,
   market: BuyMarket,
+  /** The town bank's yes to a payment against income (credit's `bankYes`). */
+  bankYes: (paymentMinor: number, incomeMinor: number) => number,
   input: {
     readonly headId: string;
     readonly householdId: string;
@@ -205,7 +206,7 @@ export function weighHome(
     return { ...weighed, buy: false, principalMinor: 0 };
   // The bank finances its yes's share of the loan; the household buys what that and the down payment pay for.
   const principal = Math.floor(
-    (value - down) * bankYes(api, payment, input.incomeMinor),
+    (value - down) * bankYes(payment, input.incomeMinor),
   );
   return { ...weighed, buy: principal > 0, principalMinor: principal };
 }
