@@ -12,7 +12,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/project-thread-sltsoz
-pr:
+pr: #9314
 after:
 blocked-on:
 source: Account lead, stopgap cluster 9 (owner, Nov 14)
