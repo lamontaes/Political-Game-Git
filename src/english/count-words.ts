@@ -94,6 +94,17 @@ export function hoursSaid(minutes: number): string {
   );
 }
 
+/** A whole count up to ninety-nine as people say it aloud ("five", "thirteen", "forty-two"); a larger one stays a figure. */
+export function countSaid(count: number): string {
+  const { ones, tens } = data.count;
+  if (!Number.isInteger(count) || count < 1 || count > 99) return String(count);
+  if (count < ones.length) return ones[count]!;
+  const rest = count % 10;
+  return rest
+    ? `${tens[Math.floor(count / 10)]}-${ones[rest]}`
+    : tens[Math.floor(count / 10)]!;
+}
+
 /** A term of office in years as people say it: "four years". */
 export function termSaid(years: number): string {
   const count = Math.max(1, Math.round(years));

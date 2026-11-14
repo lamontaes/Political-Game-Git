@@ -1,17 +1,20 @@
 /**
- * Eviction told through the words composer, proved in played worlds
- * (Words builder W1, Nov 12, 2026). Development tooling; nothing here words
- * anything, and shipped play never imports it.
+ * News of a person's own life told through the words composer, proved in
+ * played worlds (Words builder W1, Nov 12, 2026). Development tooling;
+ * nothing here words anything, and shipped play never imports it.
  *
- *   node --import tsx scripts/words/eviction-talk-proof.ts --seed <seed> [--days 365] [--draws 3]
+ *   node --import tsx scripts/words/told-talk-proof.ts --kind eviction|job-lost --seed <seed> [--days 365] [--draws 3] [--from 0] [--talks 2]
  *
  * Each draw takes a place from all 56 by the seed and plays the bench's world
- * (`buildBenchWorld`, two-level) day by day. The day a full household is put
- * out of its home (the housing engine's case reaches `removed`), the player
- * talks with an adult of it through the engine (`openConversation`, `say`):
- * the line it tells, the replies offered and each answer back, one talk per
- * reply. Prints the place, seed, case id and every line as played, and the
- * facts each line was composed from, so the words can be checked against the
+ * (`buildBenchWorld`, two-level) day by day, the player's household watched
+ * by the story director as the bench watches it. On the day the news happens
+ * (eviction: a full household's case reaches `removed`, and an adult of it
+ * talks with the player; job-lost: a watched person's ledger holds the money
+ * moment of a job ending), the player talks with them through the engine
+ * (`openConversation`, `say`): the line they tell, the replies offered and
+ * each answer back, every reply said on its own copy of the opened talk.
+ * Prints the place, seed, record ids and every line as played, and the facts
+ * each line was composed from, so the words can be checked against the
  * records they cite.
  */
 import { buildBenchWorld } from "../../src/bench/world";
@@ -21,7 +24,6 @@ import { coreAPI } from "../../src/core2/state";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import { openConversation, say } from "../../src/director/conversation";
-import { familyFactsOf } from "../../src/core2/modules/people";
 import { drawPlace } from "../core2-year/place";
 import { gameStartDate } from "../../src/core2/game-start";
 
@@ -29,9 +31,11 @@ const option = (name: string, fallback: string) => {
   const at = process.argv.indexOf(`--${name}`);
   return at >= 0 ? (process.argv[at + 1] ?? fallback) : fallback;
 };
-const seed = option("seed", "eviction-talk");
+const kind = option("kind", "eviction");
+const seed = option("seed", "told-talk");
 const days = Number(option("days", "365"));
 const draws = Number(option("draws", "1"));
+const from = Number(option("from", "0"));
 const wanted = Number(option("talks", "2"));
 // Only households of two or more living members (the "we" tellings).
 const manyOnly = option("many", "0") === "1";
@@ -44,8 +48,8 @@ const nameOf = (core: CoreState, id: string) => {
 };
 
 setBookkeeping(false);
-for (let draw = 0; draw < draws; draw += 1) {
-  const place = drawPlace(`${seed}:${draw}`, "eviction-talk");
+for (let draw = from; draw < from + draws; draw += 1) {
+  const place = drawPlace(`${seed}:${draw}`, "told-talk");
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -56,36 +60,75 @@ for (let draw = 0; draw < draws; draw += 1) {
     `\n## ${place.name} (draw ${seed}:${draw}, place seed ${place.seed}), player ${nameOf(core, playerId)}`,
   );
   const told = new Set<string>();
+  // Watched as the bench watches the player's household.
+  // For a job lost, the player's relatives are watched too (a lost job in
+  // one household in a year is rare; the player hears a relative's).
+  const player = core.people.get(playerId)!;
+  const watched = [
+    ...new Set([
+      ...(core.households.get(player.householdId)?.memberIds ?? [playerId]),
+      ...(kind === "job-lost" ? [...player.familyIds] : []),
+    ]),
+  ].filter((id) => core.people.has(id as PersonId)) as PersonId[];
+  for (const id of watched)
+    if (core.people.get(id)?.alive) director.watch(core, id);
   let talks = 0;
   for (let day = 0; day < days && talks < wanted; day += 1) {
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const cases = coreAPI(core).moduleState("housing").table("cases");
-    for (const row of cases.rows() as unknown as {
-      id: string;
-      stage?: string;
-      householdId: string;
-      removedAt?: string;
-      owedAtRemovalMinor?: number;
-    }[]) {
-      if (row.stage !== "removed" || told.has(row.id)) continue;
-      const household = core.households.get(row.householdId);
-      if (!household) continue;
-      told.add(row.id);
-      if (
-        manyOnly &&
-        household.memberIds.filter((id) => core.people.get(id)?.alive).length <
-          2
-      )
-        continue;
-      const adult = household.memberIds.find((id) => {
-        const person = core.people.get(id);
-        return (
-          person?.alive &&
-          id !== playerId &&
-          ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) >= 18
-        );
-      });
-      if (!adult) continue;
+    const tellers: { id: PersonId; about: string }[] = [];
+    if (kind === "eviction") {
+      const cases = coreAPI(core).moduleState("housing").table("cases");
+      for (const row of cases.rows() as unknown as {
+        id: string;
+        stage?: string;
+        householdId: string;
+        removedAt?: string;
+        owedAtRemovalMinor?: number;
+      }[]) {
+        if (row.stage !== "removed" || told.has(row.id)) continue;
+        const household = core.households.get(row.householdId);
+        if (!household) continue;
+        told.add(row.id);
+        if (
+          manyOnly &&
+          household.memberIds.filter((id) => core.people.get(id)?.alive)
+            .length < 2
+        )
+          continue;
+        const adult = household.memberIds.find((id) => {
+          const person = core.people.get(id);
+          return (
+            person?.alive &&
+            id !== playerId &&
+            ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) >=
+              18
+          );
+        });
+        const status = coreAPI(core)
+          .moduleState("housing")
+          .table("statuses")
+          .get(row.householdId) as { status?: string } | undefined;
+        if (adult)
+          tellers.push({
+            id: adult,
+            about: `case ${row.id}, removed ${row.removedAt}, owed ${row.owedAtRemovalMinor} cents, status ${status?.status ?? "none"}`,
+          });
+      }
+    } else
+      for (const id of watched) {
+        const moment = director.ledger.people
+          .get(id)
+          ?.moments.find(
+            (row) =>
+              row.label === "money:job-ended" &&
+              row.date === core.date &&
+              !row.counterpartIds.length,
+          );
+        if (!moment || told.has(moment.causeId) || id === playerId) continue;
+        told.add(moment.causeId);
+        tellers.push({ id, about: `job ended, ${moment.causeId}` });
+      }
+    for (const { id: adult, about } of tellers) {
       talks += 1;
       if (acquaint) {
         const person = core.people.get(adult)! as unknown as {
@@ -101,18 +144,14 @@ for (let draw = 0; draw < draws; draw += 1) {
           "  (staged: made an acquaintance of the player, an edge case)",
         );
       }
-      const status = coreAPI(core)
-        .moduleState("housing")
-        .table("statuses")
-        .get(row.householdId) as { status?: string } | undefined;
       console.log(
-        `\n### ${core.date}: case ${row.id}, removed ${row.removedAt}, owed ${row.owedAtRemovalMinor} cents, status ${status?.status ?? "none"}; ${nameOf(core, adult)} (${adult}) talks with the player (to the player: ${familyFactsOf(core.people.get(playerId)!).get(adult)?.relation ?? "not family"}; knows the player: ${core.people.get(adult)?.knownIds.has(playerId) ? "yes" : "no"})`,
+        `\n### ${core.date}: ${about}; ${nameOf(core, adult)} (${adult}) talks with the player (knows the player: ${core.people.get(adult)?.knownIds.has(playerId) ? "yes" : "no"})`,
       );
       const first = openConversation(core, playerId, adult, { director });
-      const evicted = first.lines.find((line) => line.kind === "eviction");
+      const evicted = first.lines.find((line) => line.kind === kind);
       if (!evicted) {
         console.log(
-          `  no eviction line; the talk opened: ${first.lines.map((line) => line.text).join(" / ") || "(nothing)"}`,
+          `  no ${kind} line; the talk opened: ${first.lines.map((line) => line.text).join(" / ") || "(nothing)"}`,
         );
         continue;
       }
@@ -154,5 +193,5 @@ for (let draw = 0; draw < draws; draw += 1) {
       }
     }
   }
-  if (!talks) console.log(`  no full household put out in ${days} days`);
+  if (!talks) console.log(`  no ${kind} news in ${days} days`);
 }
