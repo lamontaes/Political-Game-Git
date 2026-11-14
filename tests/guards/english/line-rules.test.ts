@@ -262,3 +262,54 @@ describe("line rules: the saved verdicts", () => {
     expect(row.report!.judged).toBe(file.judged);
   });
 });
+
+/**
+ * Nov 14, 2026: two merges dropped `sets` and `applies` from three set rules in
+ * data/english/line-rules.json. With no reply sets to read, `npm run
+ * words:verdicts` found nothing the rules judged and dropped every good
+ * verdict (928, 716 and 196), and nothing failed because a store with only
+ * bad verdicts is a valid store. These two checks fail where that shows first.
+ */
+describe("line rules: a rule keeps what its verdicts were about", () => {
+  const stored = run.rules
+    .filter(storeRule)
+    .map((rule) => ({ rule, name: storeName(rule) }))
+    .filter(({ name }) =>
+      existsSync(path.join(ROOT, JUDGED_DIR, `${name}.json`)),
+    )
+    .map(({ rule, name }) => ({
+      rule,
+      name,
+      file: JSON.parse(
+        readFileSync(path.join(ROOT, JUDGED_DIR, `${name}.json`), "utf8"),
+      ) as JudgedFile,
+    }))
+    .filter(({ file }) => file.judged > 0);
+
+  it("a set rule with saved verdicts still says which reply sets it reads and where", () => {
+    const lost = stored
+      .filter(({ rule }) => rule.judges === "set")
+      .filter(({ rule }) => !rule.sets || !rule.applies)
+      .map(
+        ({ rule }) =>
+          `${rule.id} has saved verdicts but no ${rule.sets ? "applies" : "sets"} in data/english/line-rules.json: a merge may have dropped it, and the next npm run words:verdicts would drop every good verdict`,
+      );
+    expect(lost).toEqual([]);
+  });
+
+  it("a judged rule with saved verdicts has some judged good", () => {
+    const none = stored
+      .filter(({ name }) => {
+        const yes = path.join(ROOT, JUDGED_DIR, `${name}.yes.txt`);
+        return (
+          !existsSync(yes) ||
+          readFileSync(yes, "utf8").split("\n").filter(Boolean).length === 0
+        );
+      })
+      .map(
+        ({ rule, file }) =>
+          `${rule.id}: ${file.judged} verdicts saved and none judged good; did a fold drop the good ones?`,
+      );
+    expect(none).toEqual([]);
+  });
+});

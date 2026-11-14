@@ -343,12 +343,36 @@ export function publicOffset(
   return Math.abs(axis) * (2 * share - 1);
 }
 
+const popularityBySeed = new Map<string, Map<string, number>>();
+
+/**
+ * How popular a question's "yes" is across this world's country, on the
+ * views scale (`publicOffset` on the question's own axis): part of every
+ * person's stance, so a voter in a race, on a ballot measure and in a poll
+ * holds one view. Kept per world and question; it never changes in play.
+ */
+export function popularity(question: string, seed: string): number {
+  let byQuestion = popularityBySeed.get(seed);
+  if (!byQuestion) {
+    byQuestion = new Map();
+    popularityBySeed.set(seed, byQuestion);
+  }
+  let value = byQuestion.get(question);
+  if (value === undefined) {
+    value = publicOffset(question, seed);
+    byQuestion.set(question, value);
+  }
+  return value;
+}
+
 /** How far a person's faith (0 to 1) and four-year degree (1 or 0) sit from the average of their age band in their state; absent for a child. */
 export interface StanceProfile {
   readonly faithFromAverage?: number;
   readonly collegeFromAverage?: number;
   /** Their circumstances and how much they weigh their own stake (`src/core2/life-stakes.ts`), read again as their records change. */
   readonly life?: LifeStake;
+  /** The world whose country's view of each question (`popularity`) their stance carries, as every person's does. */
+  readonly seed?: string;
 }
 
 /** The survey's faith and degree loadings by question, read here and by the views engine's opening record. */
@@ -381,7 +405,8 @@ export function loadingShift(
 
 /**
  * A person's or counted group's own stance on a question, in [-1, 1]: their
- * lean along the question's axis, what their faith and degree add and what
+ * lean along the question's axis, how popular the question is across their
+ * world's country (`popularity`), what their faith and degree add and what
  * their own circumstances add (`stakeShift`). A full person's current view is
  * the views engine's `viewOn`, the same rule with what they have heard since.
  */
@@ -395,6 +420,7 @@ export function groupStance(
     Math.min(
       1,
       personStance(lean, question) +
+        (profile?.seed === undefined ? 0 : popularity(question, profile.seed)) +
         loadingShift(profile, question) +
         stakeShift(profile?.life, question),
     ),

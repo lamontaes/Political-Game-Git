@@ -14,6 +14,7 @@
 import type { CoreAPI, CoreState } from "./types";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
 import areaData from "./data/term-read/areas.json" with { type: "json" };
+import { placeStateKey } from "./place-map";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 
 /** The web's month row, as far as the read needs it. */
@@ -251,4 +252,38 @@ export function overallSlide(reads: readonly AreaRead[]): number {
   return reads.length
     ? reads.reduce((sum, row) => sum + row.slide, 0) / reads.length
     : 0;
+}
+
+/**
+ * The term read of a jurisdiction an office serves, from a date: the country
+ * ("US"), a state ("US-NJ", the mean over the places the web keeps inside it)
+ * or one town's own place. One reader for every address and campaign that
+ * speaks of how a place's term went.
+ */
+export function jurisdictionTermRead(
+  api: CoreAPI,
+  jurisdiction: string,
+  sinceDate: string,
+): AreaRead[] {
+  if (jurisdiction === "US") return countryTermRead(api, sinceDate);
+  if (!jurisdiction.startsWith("US-"))
+    return placeTermRead(api, jurisdiction, sinceDate);
+  const reads = termReadPlaces(api)
+    .filter((place) => placeStateKey(place) === jurisdiction)
+    .flatMap((place) => placeTermRead(api, place, sinceDate));
+  return TERM_AREAS.flatMap((area): AreaRead[] => {
+    const rows = reads.filter((row) => row.area === area);
+    return rows.length
+      ? [
+          {
+            area,
+            slide: rows.reduce((sum, row) => sum + row.slide, 0) / rows.length,
+            measures: rows.flatMap((row) => row.measures),
+            sourceRecordIds: [
+              ...new Set(rows.flatMap((row) => row.sourceRecordIds)),
+            ],
+          },
+        ]
+      : [];
+  });
 }

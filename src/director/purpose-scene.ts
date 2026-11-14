@@ -98,7 +98,7 @@ import {
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { knockFacts, petitionAtDoor } from "./doors";
-import { officeSaid } from "./cause-facts";
+import { officeSaid, raceMemberTitle } from "./cause-facts";
 import { officeInSentence } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
@@ -1427,7 +1427,10 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: titleInSentence(said.office),
+      // Where the body is named for its members the race is for that member
+      // ("alderman"); else the record's title in a sentence.
+      text:
+        raceMemberTitle(core, said.contestId) ?? titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
@@ -1963,8 +1966,9 @@ function composeBinding(
         };
   // A constituent's own records, worded: the job they lost, the notice on
   // their rent, the pay under the floor, the relative who is ill. A resident
-  // at their door speaks from the same records.
-  if (variant && (type.purpose === "constituent-help" || door))
+  // at their door speaks from the same records. Office hours always carries
+  // the case's own facts, whether or not a variant was chosen.
+  if (type.purpose === "constituent-help" || (variant && door))
     Object.assign(
       facts,
       constituentFacts(
