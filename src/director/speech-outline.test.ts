@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import OUTLINES from "./data/speech-outlines.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
@@ -35,7 +34,11 @@ import {
 // all 56 on a seed nobody chose; in each, the President's opening address and
 // the governor's and mayor's addresses go through the one planner, and the
 // composed text is read the way the owner read it on Nov 12.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// Pinned to the seed that went red when it was a fresh draw each run (20 of 39
+// points opened on a figure; the shapes' pulls were not centered, so one
+// shape led for most speakers); the env seed still overrides it for a fresh
+// draw.
+const seed = process.env.GOLDEN_PATH_SEED ?? "ecd58aa1425040e9";
 const DRAWS = 10;
 setBookkeeping(false);
 

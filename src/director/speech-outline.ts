@@ -194,6 +194,7 @@ const OUTLINES = outlineData as unknown as {
       Record<
         string,
         {
+          readonly typical: { readonly value: number };
           readonly moves: readonly string[];
           readonly pull: readonly string[];
         }
@@ -950,11 +951,16 @@ export interface PlannedPoint {
  * The shapes a speaker's points take, in the order their traits pull
  * hardest (speech-outlines.json `pointShapes`): the first point takes the
  * first, the next the next, so no two points of a speech share a shape.
- * Ties go by the shape's name.
+ * A shape's pull is read against what its facets sum to in a typical
+ * person (`typical`), so a shape whose facets run high in everyone does not
+ * lead for half of all speakers. Ties go by the shape's name.
  */
 function shapeOrder(person: PersonState): string[] {
   return Object.entries(OUTLINES.pointShapes.shapes)
-    .map(([name, row]) => ({ name, pull: traitSum(person, row.pull) }))
+    .map(([name, row]) => ({
+      name,
+      pull: traitSum(person, row.pull) - row.typical.value,
+    }))
     .sort((a, b) => b.pull - a.pull || a.name.localeCompare(b.name))
     .map((row) => row.name);
 }
