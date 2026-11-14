@@ -214,6 +214,9 @@ it("a learned law's record gives the scene its law and that it is in force", () 
     reader.id,
   );
   expect(facts.law?.text, `${where}: the law is named`).toBeTruthy();
+  // Said as the law's name, never the bare action ("Allow retail electric
+  // choice took effect").
+  expect(facts.law!.text, where).toMatch(/^the ".+" law$/);
   expect(
     facts["in-force"],
     `${where}: it is in force where they live`,

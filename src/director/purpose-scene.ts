@@ -43,6 +43,7 @@ import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import {
+  lawAsNamed,
   questionName,
   storyTopicName,
   topicInSentence,
@@ -439,7 +440,7 @@ export function lawFactsOfCause(
     : null;
   const series = said.series ?? lawRowOfSaid?.series;
   if (said.lawId && series) {
-    const name = lawName(series);
+    const name = lawAsNamed(series);
     if (name)
       facts.law = {
         text: name,
