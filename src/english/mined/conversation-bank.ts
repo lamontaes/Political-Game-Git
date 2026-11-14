@@ -100,6 +100,9 @@ function directorMove(key: string, part: MinedPart, use: MinedUse): Move {
     ...(use.requiresFacts
       ? { requiresFacts: use.requiresFacts.map((f) => f.replace(/_/g, "-")) }
       : {}),
+    ...(use.excludesFacts?.length
+      ? { excludesFacts: use.excludesFacts.map((f) => f.replace(/_/g, "-")) }
+      : {}),
     ...(pronoun ? { pronoun } : {}),
     ...(part.bearing ? { bearing: part.bearing } : {}),
   };

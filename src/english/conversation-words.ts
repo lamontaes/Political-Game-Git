@@ -39,6 +39,8 @@ export interface Move {
   stages?: string[];
   raises?: string;
   requiresFacts?: string[];
+  /** Facts whose presence holds the wording back. */
+  excludesFacts?: string[];
   /** Whom the sentence speaks of, when it opens with a pronoun. */
   pronoun?: "he" | "she" | "they";
   /** A bare question turned back ("And you?"), said after the plain answer. */
@@ -257,6 +259,7 @@ function linePartVariant(row: Move): LinePartVariant {
     ...(row.part ? { pieceKey: row.part } : {}),
     ...(row.stages ? { stages: row.stages } : {}),
     ...(row.requiresFacts ? { requiresFacts: row.requiresFacts } : {}),
+    ...(row.excludesFacts ? { excludesFacts: row.excludesFacts } : {}),
     ...(row.bearing ? { bearing: row.bearing } : {}),
   };
 }
@@ -271,10 +274,15 @@ function composedMove(
   bankKey: string,
   version: string,
   stage: string,
-  usable: readonly Move[],
-  reasons: readonly Move[],
+  allUsable: readonly Move[],
+  allReasons: readonly Move[],
 ): Said | null {
   const facts = request.facts;
+  // A wording a present fact holds back is not offered (`excludesFacts`).
+  const heldBack = (row: Move) =>
+    !!row.excludesFacts?.some((key) => facts[key]);
+  const usable = allUsable.filter((row) => !heldBack(row));
+  const reasons = allReasons.filter((row) => !heldBack(row));
   const compose = (cores: readonly Move[], withReasons: readonly Move[]) =>
     composeGroundedLine(
       conversationPacket({
