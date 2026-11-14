@@ -14,6 +14,8 @@ import { residentsRuntime } from "./residents";
 import { povertyByPlace } from "../world-poverty";
 import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
 import { foldMonthIntoYear } from "../output-numbers";
+import { laborYearBefore } from "../labor-past";
+import { townJobsPanel } from "./world-panels";
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
 
@@ -230,6 +232,11 @@ export function townMetrics(api: CoreAPI) {
       );
     }
   const poverty = povertyByPlace(c);
+  const jobsHere = new Map(
+    hasJobs
+      ? [...places.keys()].map((id) => [id, townJobsPanel(api, id)] as const)
+      : [],
+  );
   const people = peopleAndHomes(c, rt);
   const stock = c.modules.has(HOUSING_MODULE_ID)
     ? api.moduleState(HOUSING_MODULE_ID).table("stock")
@@ -301,6 +308,18 @@ export function townMetrics(api: CoreAPI) {
             }
           : {}),
         ...(noHome ? { peopleWithoutHome: noHome.homeless } : {}),
+        // The town's labor market by one counting rule (townJobsPanel): a
+        // counted resident stands for the household's weight.
+        ...(jobsHere.get(placeId)
+          ? {
+              residentsAtWork: jobsHere.get(placeId)!.employed,
+              residentsLooking: jobsHere.get(placeId)!.seekers,
+              laborForce:
+                jobsHere.get(placeId)!.employed +
+                jobsHere.get(placeId)!.seekers,
+              openPositions: jobsHere.get(placeId)!.openPositions,
+            }
+          : {}),
         ...(hasJobs
           ? { unemploymentClaimsOpen: claimsOpen.get(placeId) ?? 0 }
           : {}),
@@ -367,7 +386,37 @@ export const WORLD_METRICS_MODULE: CoreModule = {
     // figure is on screen before the first monthly row (owner, Nov 5: the
     // Metrics tab is never blank). No year before it is written: nothing
     // kept one.
-    for (const row of townMetrics(api)) foldMonthIntoYear(api, row);
+    const opening = townMetrics(api);
+    for (const row of opening) {
+      // The first reading is a month row too, so a figure's trace inputs
+      // (the labor force a count is out of) are on screen from day one.
+      const id = `metrics:${row.placeId}:${row.date}`;
+      api
+        .moduleState(WORLD_METRICS_MODULE_ID)
+        .table("months")
+        .put({ id, ...row });
+      foldMonthIntoYear(api, row, id);
+    }
+    // A year before the start, from the economy pass's months
+    // (src/core2/labor-past.ts), so last year is beside the first reading.
+    laborYearBefore(
+      api,
+      opening.flatMap((row) =>
+        row.residentsAtWork === undefined ||
+        row.residentsLooking === undefined ||
+        row.openPositions === undefined
+          ? []
+          : [
+              {
+                placeId: row.placeId,
+                residentsAtWork: row.residentsAtWork,
+                residentsLooking: row.residentsLooking,
+                openPositions: row.openPositions,
+                unemploymentRate: row.unemploymentRate,
+              },
+            ],
+      ),
+    );
     schedule(api);
   },
 };
