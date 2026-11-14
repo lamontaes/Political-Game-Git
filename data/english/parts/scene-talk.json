@@ -91504,7 +91504,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -91529,7 +91530,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -91554,7 +91556,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -91579,7 +91582,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
