@@ -117,6 +117,10 @@ try {
       })),
     );
     await page.locator(".draft-card input").fill("150");
+    say(
+      "Under the box as 150 is typed:",
+      await page.locator(".draft-live").innerText(),
+    );
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-fee.png` });
     await page
       .locator(".draft-card button", { hasText: /^Draft$/ })

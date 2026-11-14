@@ -35,3 +35,5 @@ root: none
 **Files.** src/core2/budgets-charges-payers.test.ts, src/core2/budgets-treasury.ts
 
 **Notes.** Found while building PR #9308 (fee levels by bill). Red on the clean train head 8bb1ff9d as well as on that PR.
+
+Evidence added Nov 14 (PR #9308 rework): clean train e24cb825897639f1a40b62751ed5290008dd3284, Redstone Arsenal, Alabama (0163912), seed 67d332190ca87c8bef39f019603429fb87cd817df67efd71d3ad8e59cb48ec93, row treasury-charges:chargesAndFees:service-users:county:01089:2025-02-01: expected 6202739794 to be 6111531429 (about 1.5 percent over). On the PR's head (train 6e304e09 merged in), Colonia, New Jersey (3414380), seed 1ec9880a95c0585e075c97ddb24a4873c2f82a524610b441730ae72ac245d0ef: expected 78971550418 to be 77065208799 (about 2.5 percent over). The same failure text on both, at different draws, so the drift is the engine's and not the fee levels.

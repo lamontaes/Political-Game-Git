@@ -38,6 +38,11 @@ import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
 import { townSeats, type TermRow } from "../core2/modules/offices";
 import { appointmentsIn } from "../core2/modules/executive";
 import { billCatalog } from "../core2/bill-catalog";
+import {
+  chargedServicesOf,
+  governmentOfJurisdiction,
+} from "../core2/modules/budgets";
+import { FEE_LEVEL_SERVICES } from "../core2/fee-levels";
 import type { CoreState } from "../core2/types";
 import { backdropFor, faceOf, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
@@ -590,6 +595,15 @@ export function billPaper(core: CoreState, billId: string) {
   });
   const titled = billTitleOf({ form: bill.form, provisions: bill.provisions });
   const names = { ...policyNames(), ...budgetLineNames() };
+  // A fee's section cites what the government's charge is today: the records the draft card reads.
+  const billBody = bodyOf(api, bill.bodyOfficeId);
+  const billGovernment = governmentOfJurisdiction(
+    api,
+    bodyRow(billBody?.kind ?? "")?.jurisdiction ?? billBody?.jurisdiction ?? "",
+  );
+  const billCharges = billGovernment
+    ? chargedServicesOf(api, billGovernment.id)
+    : [];
   const sections = bill.provisions.map((provision, index) => {
     const subject = bill.title?.subjects[index] ?? null;
     const purpose =
@@ -635,6 +649,7 @@ export function billPaper(core: CoreState, billId: string) {
         lawId: section?.before.lawId ?? null,
         beforeValue: section?.before.value ?? null,
         beforeUnit: section?.before.unit ?? null,
+        ...feeCharge(provision.series, section, billCharges),
         afterValue: section?.after.value ?? null,
         afterUnit: section?.after.unit ?? null,
         // The date this section names for itself (a phase-in's step), or
@@ -866,6 +881,38 @@ export function isByRequest(
  * level is a percent of today's fee, so above 100 raises and below lowers),
  * which is what the bill's title is made from.
  */
+/** A fee section's charge: what it brings in a year, the home's monthly figure, and the home's figure at the level the bill sets. */
+function feeCharge(
+  series: string | undefined,
+  section: {
+    before: { value: number | null };
+    after: { value: number | null };
+  } | null,
+  charges: readonly {
+    service: string;
+    yearlyMinor: number | bigint;
+    perHomeMonthMinor?: number | bigint | null;
+  }[],
+) {
+  const service =
+    series && isFeeLevelSeries(series) ? FEE_LEVEL_SERVICES[series] : undefined;
+  const row = service ? charges.find((c) => c.service === service) : undefined;
+  if (!row) return {};
+  const before = section?.before.value ?? FEE_LEVEL_BASELINE;
+  const after = section?.after.value;
+  return {
+    charge: {
+      yearlyMinor: String(row.yearlyMinor),
+      perHomeMonthMinor:
+        row.perHomeMonthMinor == null ? null : String(row.perHomeMonthMinor),
+      newPerHomeMonthMinor:
+        row.perHomeMonthMinor != null && typeof after === "number" && before
+          ? String(Math.round((Number(row.perHomeMonthMinor) * after) / before))
+          : null,
+    },
+  };
+}
+
 function feeNaming(
   series: string,
   value: number | undefined,

@@ -599,7 +599,7 @@ const feeToday = (charge) =>
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour; a plain amount is rounded.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
-  // A fee is said against today's: "half again today's fee", never a bare 150%.
+  // A fee is said against today's: "one and a half times today's fee", never a bare 150%.
   if (unit === FEE_UNIT)
     return (
       controls.fees?.levels?.[String(Math.round(Number(value)))] ??
@@ -3172,7 +3172,22 @@ function billEstimate(paper, section) {
       : null;
   // Today's amount beside the new one, as two cells: the law in force, and what the bill makes it.
   let compare = null;
-  if (before && after)
+  if (before && after && est.charge)
+    // A fee's paper cites the record's own figure, and the new home figure where the record holds one.
+    compare = {
+      todayLabel: words.today ?? "",
+      today: feeToday(est.charge),
+      newLabel: words.proposed ?? "",
+      proposed: est.charge.newPerHomeMonthMinor
+        ? (controls.fees?.newHome ?? "")
+            .replace("{level}", after)
+            .replace(
+              "{home}",
+              moneyWords(Number(est.charge.newPerHomeMonthMinor)),
+            )
+        : after,
+    };
+  else if (before && after)
     compare = {
       todayLabel: words.today ?? "",
       today: before,
@@ -3637,6 +3652,8 @@ async function seatRows() {
               )
             : undefined,
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
+          // As the player types a fee's level, the words the paper will print.
+          say: item.charge ? (typed) => amount(typed, item.unit) : undefined,
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
           note:
