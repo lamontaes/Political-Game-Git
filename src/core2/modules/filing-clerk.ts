@@ -39,6 +39,11 @@ const CLERK_TITLE = /clerk/i;
 export interface FilingClerk {
   readonly personId: string;
   readonly title: string;
+  /**
+   * The agency they head, where the title is the agency's name and not a job (the head of a state's
+   * election agency): the narration says what they do from this fact, never the agency as a job.
+   */
+  readonly heads?: string;
   /** How the records name them: an elected seat, a town appointment or county staff. */
   readonly basis:
     | "elected-seat"
@@ -109,6 +114,7 @@ function stateElectionChief(api: CoreAPI): FilingClerk | null {
     ? {
         personId: chief.holderId,
         title: chief.title,
+        heads: chief.title,
         basis: "state-appointment",
         recordId: chief.id,
       }

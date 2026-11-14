@@ -186,6 +186,15 @@ export function employerSaidAs(employer: SaidEmployer): string | null {
   return employerSaid(employer.name, employer);
 }
 
+/**
+ * What a person who heads an agency does, as running text says it ("head of
+ * the Pennsylvania Department of State"): the agency is the slot; a record
+ * hands over the agency, never the phrase.
+ */
+export function agencyHeadSaid(agency: string): string {
+  return data.agencyHead.said.replace("{agency}", agency);
+}
+
 /** A job as people say it. */
 export type JobSaid =
   /** A job with the outside market: "works outside the town" / "a job out of town". */

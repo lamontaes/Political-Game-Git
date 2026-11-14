@@ -81,5 +81,9 @@
     "title": "Works outside the town",
     "does": "works outside the town",
     "job": "a job out of town"
+  },
+  "agencyHead": {
+    "about": "A person who heads a state agency is said by what they do, never by the agency's name as a job (#8520, third reader): \"head of the {agency}\".",
+    "said": "head of the {agency}"
   }
 }
