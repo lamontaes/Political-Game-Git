@@ -163478,106 +163478,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-hasn-t-gone-home-tonight-there-s-a-bag-by-the-door",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} hasn't gone home tonight. There's a bag by the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["evening"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-is-quiet-through-dinner-then-stays-at-the-table-after-the-plates",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is quiet through dinner, then stays at the table after the plates are cleared.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["evening"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.it-s-late-and-name-still-hasn-t-left",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "It's late, and {name} still hasn't left.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["evening"]
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-turns-the-tv-off-in-the-middle-of-the-show-and-sits-back-down-fac",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} turns the TV off in the middle of the show and sits back down facing you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["evening"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.can-i-ask-you-something-don-t-laugh",
       "move": "open-greet",
       "kind": "spoken",
@@ -163650,10 +163550,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-keep-not-wanting-to-leave-you-noticed-that-right",
+      "key": "scene-talk.open-greet.i-didn-t-want-to-ask-this-over-the-phone",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I keep not wanting to leave. You noticed that, right?",
+      "text": "I didn't want to ask this over the phone.",
       "uses": [
         {
           "subject": "scene",
@@ -164545,10 +164445,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-i-ll-grab-my-bag",
+      "key": "scene-talk.close-accept.alright-i-ll-go",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. I'll grab my bag.",
+      "text": "Alright. I'll go.",
       "uses": [
         {
           "subject": "scene",
