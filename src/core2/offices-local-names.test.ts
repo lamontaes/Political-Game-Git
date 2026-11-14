@@ -36,7 +36,10 @@ describe("a local body is named the way people write it", () => {
     );
     expect(
       boardBodyName("COUNTY OF EXAMPLE", "Board of County Commissioners"),
-    ).toBe("Board of County Commissioners of Example County");
+    ).toBe("Example County Board of Commissioners");
+    expect(
+      boardBodyName("TOWNSHIP OF EXAMPLE", "Board of Township Trustees"),
+    ).toBe("Example Township Board of Trustees");
   });
 
   it("says a town's, township's or municipio's board the way people say it", () => {
@@ -51,6 +54,29 @@ describe("a local body is named the way people write it", () => {
     expect(boardBodyName("EXAMPLE MUNICIPIO", "Municipal Legislature")).toBe(
       "Example Municipal Legislature",
     );
+  });
+
+  it("says the place's kind once in a played place's board name", () => {
+    // Pinned places that exercise the rule (Words lead, Nov 14): a township
+    // board whose own name holds "Township", a county board whose own name
+    // holds "County", and a township committee whose name begins with it.
+    const boards = (key: string) =>
+      localOfficesForPlace(key)
+        .filter((office) => office.kind.endsWith("-board"))
+        .map((office) => office.bodyName);
+    // Westminster, Ohio: Auglaize Township and Allen County.
+    expect(boards("3983930")).toEqual(
+      expect.arrayContaining([
+        "Auglaize Township Board of Trustees",
+        "Allen County Board of Commissioners",
+      ]),
+    );
+    // Vale, Oregon: Malheur County.
+    expect(boards("4176600")).toContain(
+      "Malheur County Board of Commissioners",
+    );
+    // Ocean Acres, New Jersey: Stafford Township.
+    expect(boards("3454315")).toContain("Stafford Township Committee");
   });
 
   it(`names every body of places drawn from all 56 from its own record (seed ${seed})`, () => {

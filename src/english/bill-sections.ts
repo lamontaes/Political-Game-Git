@@ -40,7 +40,11 @@ interface FormWords {
   further: string;
   repeal: string;
   effective: Record<
-    "on-enactment" | "days-after-adoption" | "state-rule" | "date",
+    | "on-enactment"
+    | "days-after-adoption"
+    | "state-rule"
+    | "date"
+    | "section-date",
     string
   >;
 }
@@ -265,15 +269,21 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
       })
     : fill(form.title, { purpose: purposes });
   const enacting = properName(input.form.enactingClause.replace(/[,\s]+$/, ""));
-  const sections = words.map((w, i) =>
-    fill(i === 0 ? form.first : form.further, {
+  const dates = new Set(input.provisions.map((p) => p.effectiveDate ?? null));
+  const sections = words.map((w, i) => {
+    const text = fill(i === 0 ? form.first : form.further, {
       number: i + 1,
       enacting,
       text: w.clause,
-    }),
-  );
+    });
+    // A phase-in's steps each name their own day, so the paper never reads as
+    // two changes made at once: the section says when it takes effect.
+    const own = input.provisions[i]?.effectiveDate;
+    return dates.size > 1 && own
+      ? `${text} ${fill(form.effective["section-date"], { number: i + 1, date: spokenDate(own) })}`
+      : text;
+  });
   const eff = input.effective;
-  const dates = new Set(input.provisions.map((p) => p.effectiveDate ?? null));
   const date = eff?.date ?? (dates.size === 1 ? [...dates][0]! : null);
   const effective = eff
     ? fill(form.effective[date ? "date" : eff.kind], {

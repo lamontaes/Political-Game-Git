@@ -5,7 +5,7 @@
 // no field name, status code, ISO date or developer button.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { finishTalk, leaveTalk, playOpening } from "./start-life.mjs";
 import { devModeOff, devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -58,7 +58,10 @@ const words = new Set([
   "cost-of-living",
   "on-site",
   "non-profit",
+  "single-family",
 ]);
+/** A broadcast call sign with its band ("WAGH-TV"), which stays in capitals (47 CFR 73.3550). */
+const CALL_SIGN = /^[KW][A-Z]{2,3}-(?:TV|FM|AM|DT|LP|CD)$/;
 async function read(screen, selector) {
   // Each visible text node by itself, so neighboring buttons never run together.
   const text = await page.evaluate((s) => {
@@ -66,7 +69,13 @@ async function read(screen, selector) {
     for (const root of document.querySelectorAll(s)) {
       const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
       for (let node = walk.nextNode(); node; node = walk.nextNode())
-        if (node.parentElement?.checkVisibility() && node.textContent.trim())
+        // Dev mode's own controls (Mark gap, its panels) are not the player's
+        // screen: this check turns dev mode on only to run the world.
+        if (
+          node.parentElement?.checkVisibility() &&
+          !node.parentElement.closest("#talk-gap, .dev-only") &&
+          node.textContent.trim()
+        )
           lines.push(node.textContent.trim());
     }
     return lines.join("\n");
@@ -74,9 +83,11 @@ async function read(screen, selector) {
   for (const line of text.split("\n"))
     for (const [what, pattern] of tells) {
       const match = line.match(pattern);
-      // A station's call sign (KCJN-TV) is a name, not a code.
-      const callSign = /^[KW][A-Z]{2,3}-(?:TV|FM|AM)$/.test(match?.[0] ?? "");
-      if (match && !callSign && !words.has(match[0].toLowerCase()))
+      if (
+        match &&
+        !words.has(match[0].toLowerCase()) &&
+        !CALL_SIGN.test(match[0])
+      )
         found.push(`${screen}: ${what} "${match[0]}" in "${line.trim()}"`);
     }
   if (shots)
@@ -111,6 +122,14 @@ if (placeKey || seedWanted)
       url.searchParams.set("seed", seedWanted);
     return route.continue({ url: url.toString() });
   });
+let filingWaited = false;
+page.on("response", async (response) => {
+  if (!new URL(response.url()).pathname.startsWith("/api/filing/")) return;
+  const body = await response.json().catch(() => null);
+  // Something that came up on the way is lived first; the counter waits.
+  if (new URL(response.url()).pathname === "/api/filing/open")
+    filingWaited = Boolean(body?.waiting);
+});
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto("http://localhost:3000/play");
@@ -156,10 +175,12 @@ try {
   // The filing counter: the first office in Travel that takes filings. The
   // clerk's races each carry their seat line (`.reply-facts`, play.mjs
   // renderFiling); a talk at the counter without them is another scene, which
-  // is left as a player would before the tile is opened again.
-  const counter = async (who) => {
+  // is left as a player would before the tile is opened again. A story that
+  // came up on the way (filingWaited) is lived first and the office visited again.
+  const counter = async (who, tries = 3) => {
     const race = page.locator("#talk-choices button:has(.reply-facts)");
     for (let visit = 0; visit < 4; visit += 1) {
+      await finishTalk(page);
       await sheet("travel");
       const go = page.locator(".travel-tile[data-filing]");
       await go.first().waitFor();
@@ -182,6 +203,10 @@ try {
           .catch(() => false);
       }
       assert.ok(opened, "no place in Travel takes filings");
+      if (filingWaited && tries > 1) {
+        await finishTalk(page);
+        return counter(who, tries - 1);
+      }
       await read(`Talk box (${who})`, "#talk");
       // The clerk's scene leads in before the race choices: Continue until they are offered.
       const choice = page.locator("#talk-choices button").first();
@@ -201,22 +226,9 @@ try {
       console.log(
         `At the counter (${who}): another scene, left before the clerk: ${(await page.locator("#talk-choices").innerText()).replace(/\s+/g, " ")}`,
       );
-      await leaveTalk();
+      await leaveTalk(page);
     }
     assert.fail(`the clerk offered no race in four visits (${who})`);
-  };
-  // The clerk's talk ends on a reply (I see.) or a Leave: answered as a player would.
-  const leaveTalk = async () => {
-    for (let turn = 0; turn < 8; turn += 1) {
-      if (await page.locator("#talk[hidden]").count()) return;
-      if (await page.locator("#talk-leave").isVisible())
-        return page.locator("#talk-leave").click();
-      const reply = page.locator("#talk-choices button");
-      if (await reply.count()) await reply.first().click();
-      else if (await page.locator("#talk-next").isVisible())
-        await page.locator("#talk-next").click();
-      await page.waitForTimeout(400);
-    }
   };
   // Escape closes the top open thing and opens Options only when nothing is
   // open, so a sheet left open (Travel, after the filing counter) is closed first.
@@ -232,7 +244,8 @@ try {
   // The screens are read as a player sees them: dev mode off.
   await devModeOff(page);
   await counter("seventeen");
-  await leaveTalk();
+  // Leave the counter, or play the talk to its end where Leave is not offered.
+  await leaveTalk(page);
   // A grown resident of the same world files, so the clerk's reply and
   // Campaigns are read too.
   const person = JSON.stringify({
@@ -283,7 +296,7 @@ try {
   assert.ok(filedSeen, "the filing was never made");
   await page.waitForTimeout(800);
   await read("After filing", "#talk");
-  await leaveTalk();
+  await leaveTalk(page);
   await sheet("politics");
   await page
     .locator("#sheet-tabs")
@@ -318,17 +331,21 @@ try {
     await page.locator("#week").click();
     await moved;
     await page.waitForTimeout(1000);
-    // Anything that stops the week is answered as a player would.
+    // Anything that stops the week is answered as a player would: a talk is
+    // played through, a stop's Continue pressed.
     for (let stop = 0; stop < 20; stop++) {
-      if (await page.locator("#talk-leave").isVisible())
-        await page.locator("#talk-leave").click();
+      await finishTalk(page);
       if (!(await page.locator("#continue").isVisible())) break;
       const resumed = page.waitForResponse(
         (r) => new URL(r.url()).pathname === "/api/resume",
         { timeout: 600000 },
       );
-      await page.locator("#continue").click();
-      await resumed;
+      resumed.catch(() => {});
+      await page
+        .locator("#continue")
+        .click({ timeout: 5000 })
+        .catch(() => {});
+      await resumed.catch(() => {});
       await page.waitForTimeout(1000);
     }
   }
