@@ -1360,7 +1360,11 @@ function caseFacts(
     if ((sentence.custodyMonths ?? zero) > zero)
       facts.term = fact(lengthSaid(sentence.custodyMonths!), ids);
     if ((sentence.probationMonths ?? zero) > zero)
-      facts.probation = fact(lengthSaid(sentence.probationMonths!), ids);
+      facts.probation = fact(
+        // A telling opens a sentence on it ("Thirteen months of probation").
+        lengthSaid(sentence.probationMonths!, true),
+        ids,
+      );
     if ((sentence.fineMinor ?? zero) > zero)
       facts.fine = fact(moneySaid(sentence.fineMinor!), ids);
   }
