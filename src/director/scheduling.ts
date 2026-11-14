@@ -173,9 +173,10 @@ export interface SituationType {
    */
   arrivesBy?: "day";
   /**
-   * A scene that is an event in itself (a swearing-in, owner Oct 29): it
-   * stops the day however strongly the moment was felt, for the one whose
-   * record it is.
+   * A scene that is an event in itself (a swearing-in, owner Oct 29; a
+   * person's own first date, the proposal they are asked, the birth of their
+   * child, family life report 1, Nov 14): it stops the day however strongly
+   * the moment was felt, for the one whose record it is.
    */
   stopsDay?: boolean;
   /**
@@ -1095,8 +1096,13 @@ export function scheduleMoment(
   const metHere = (library.scheduling.metWhereYouAre ?? []).some((prefix) =>
     moment.label.startsWith(prefix),
   );
+  // The one whose record it is: named by the moment, or by the cause record
+  // itself (a birth names its parents, though its moment is about the child).
+  const ownRecord =
+    moment.selfNamed === true ||
+    !!core.durableLog.get(moment.causeId)?.personIds.includes(moment.personId);
   const stopsDay =
-    moment.selfNamed === true &&
+    ownRecord &&
     bindings.some(
       (row) => library.types.find((type) => type.key === row.typeKey)?.stopsDay,
     );

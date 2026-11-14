@@ -1359,6 +1359,35 @@ export class DevMode {
   }
 
   /**
+   * Who falls ill to bring a type about: the player, unless the type's illness cause is about someone
+   * else (its match names a counterpart, as a care visit does), then the first of the player's
+   * household at home.
+   */
+  private illFor(
+    typeKey: string,
+    player: ReturnType<CoreState["people"]["get"]>,
+  ) {
+    if (!player) return undefined;
+    const aboutOther = SITUATION_LIBRARY.types
+      .find((row) => row.key === typeKey)
+      ?.causes?.some(
+        (cause) =>
+          cause.match?.label === "feeling:event:health.serious-illness" &&
+          cause.match?.counterpart === "some",
+      );
+    if (!aboutOther) return player.id;
+    const home = this.core.households.get(player.householdId);
+    return (
+      [...(home?.memberIds ?? [])].find(
+        (id) =>
+          id !== player.id &&
+          this.core.people.get(id)?.alive &&
+          this.core.people.get(id)?.placeId === player.placeId,
+      ) ?? player.id
+    );
+  }
+
+  /**
    * Brings about the cause of a situation type through the game's own code, so the director stages
    * it as it would any moment: today, a death a person in the player's circle will hear of (the
    * health module's illness, then Run until they die and Run until a scene fires). Where the type
@@ -1433,7 +1462,7 @@ export class DevMode {
             (id) => id && this.core.people.get(id)?.jobId,
           )
         : scene.recipe === "illness"
-          ? player?.id
+          ? this.illFor(input.typeKey, player)
           : circle[0]);
     if (!personId)
       throw new Error("No one in the player's circle to bring it about for.");
@@ -1452,7 +1481,8 @@ export class DevMode {
       scene.recipe === "layoff"
         ? this.forceLayoff(personId)
         : this.forceIllness(personId);
-    // An illness is the player's own where the type is about them, so the scene follows from it.
+    // An illness is the player's own where the type is about them, or one at home's where the type is
+    // about the one who comes to them (a care visit), so the scene follows from it.
     return {
       ...out,
       recipe: scene.recipe,
