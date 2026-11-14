@@ -76,6 +76,11 @@ import { outsideGovernment } from "../outside-governments";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 import { recordIncomeTaxApplied } from "../tax-applied";
 import {
+  ADOPT_INCOME_TAX_QUESTION,
+  GRADUATED_INCOME_TAX_QUESTION,
+  notifyTaxWithheld,
+} from "../tax-listeners";
+import {
   applySocialSecurityLevel,
   closeTreasuries,
   treasuryMonthsOf,
@@ -1963,6 +1968,26 @@ export function withholdPay(
     yearToDateMinor: ytd,
     lines,
   });
+  // A tax an act enacted that took pay: the person may tie it to its law once
+  // they have heard a story about it (the price engine's reader). Only laws
+  // the town voted (`enactedBy`) are read, never a starting law or a
+  // federal deduction.
+  if (posted)
+    for (const line of lines) {
+      if (line.minor <= 0 || line.tax !== "income" || !line.enactedBy) continue;
+      notifyTaxWithheld(api, {
+        id: pay.id,
+        personId: pay.personId,
+        lawId: line.lawId,
+        key: line.graduated
+          ? GRADUATED_INCOME_TAX_QUESTION
+          : ADOPT_INCOME_TAX_QUESTION,
+        taxMinor: line.minor,
+        monthlyEarningsMinor: Math.round(
+          (paid * 365) / periodDays / treasuryMonthsPerYear(),
+        ),
+      });
+    }
   // The year's pay counts once the paycheck is withheld, or had nothing to withhold.
   if (posted || !lines.some((l) => l.minor > 0))
     table(api, "yearToDate").put({
