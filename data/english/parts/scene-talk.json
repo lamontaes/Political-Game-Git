@@ -125355,10 +125355,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.readers-keep-asking-why-you-voted-that-way-on-bill",
+      "key": "scene-talk.state-ask.people-keep-asking-why-you-voted-that-way-on-bill",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "Readers keep asking why you voted that way on {bill}.",
+      "text": "People keep asking why you voted that way on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -125449,6 +125449,106 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story overnight, press-comment variants)",
       "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.outlet-is-running-a-story-about-you-is-it-true",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "{outlet} is running a story about you. Is it true?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "requiresFacts": ["read-scandal", "outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.outlet-is-printing-this-either-way-your-side",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{outlet} is printing this either way. Your side?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-ll-be-blunt-why-bill-and-why-now",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'll be blunt. Why {bill}, and why now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-have-questions-about-bill-you-may-not-like-them",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I have questions about {bill}. You may not like them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), part 2 ruling",
+      "date": "2026-11-14",
       "tag": {
         "move": "ask",
         "key": "routine"
