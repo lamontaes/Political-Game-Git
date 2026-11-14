@@ -2,97 +2,13 @@
   "schema": "english-judged/2",
   "rule": "narration-assumes-no-reason",
   "rubric": "Narration never gives the player a reason or a history they were not given (why they came, what forms they carry).",
-  "judged": 421,
+  "judged": 406,
   "no": {
-    "02coot95tqm": {
-      "keys": [
-        "scene-talk.narrate-vote-away.your-name-is-still-on-the-ballot-but-you-moved-so-you-can-t-vote-in-this-race"
-      ],
-      "why": "States the player moved and cannot vote as fact with no required fact in the use."
-    },
     "04nu70cpu2j": {
       "keys": [
         "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off"
       ],
       "why": "States the player put off the earlier ask without a fact recording it."
-    },
-    "04oieuc5efq": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-come-in-to-file-for-office-name-the-post-looks-up-from-the-counter"
-      ],
-      "why": "States the player came in to file, a purpose never chosen."
-    },
-    "09fgtfw1ff0": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no"
-      ],
-      "why": "Claims the player cannot refuse, a feeling/decision."
-    },
-    "09ob9m4nd76": {
-      "keys": [
-        "scene-talk.narrate-narrate.when-you-fell-seriously-ill-your-partner-name-called-for-help-afterward-they-sit-you-down-to-ask-you-something"
-      ],
-      "why": "States a past serious illness of the player as fact; scene requires only a partner."
-    },
-    "0ab303lkkf3": {
-      "keys": [
-        "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-ask-about-running-name"
-      ],
-      "why": "Says the player heads to the office to ask about running, a reason and choice not given."
-    },
-    "0aijxobtmcg": {
-      "keys": [
-        "scene-talk.narrate-narrate.the-race-for-office-opens-monday-and-you-re-the-first-one-at-name-s-co"
-      ],
-      "why": "Assumes the player came to file as the first one at the counter."
-    },
-    "0gci2g4yngq": {
-      "keys": [
-        "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-and-speak-to-name-to"
-      ],
-      "why": "States the player went to ask what running takes, a reason never chosen."
-    },
-    "0hs8sm2rewo": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-"
-      ],
-      "why": "Tells the player why they asked for coffee and that they are undecided."
-    },
-    "0nmhe561vsi": {
-      "keys": [
-        "scene-talk.narrate-narrate.repeat.you-and-name-have-quarreled-over-money-before-and-the-missed-payment-has-opened-it-up-again"
-      ],
-      "why": "Asserts a past quarrel over money between player and other as history."
-    },
-    "0ouk65sgwr2": {
-      "keys": [
-        "scene-talk.narrate-narrate.the-vote-on-bill-is-today-and-you-don-t-have-the-votes-yet-you-go-looking-for-first"
-      ],
-      "why": "Says the player goes looking for a member, a decision not made."
-    },
-    "0oythe0752e": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-have-both-been-careful-with-each-other-for-a-long-time-now-name-se"
-      ],
-      "why": "Asserts a long guarded history between player and partner."
-    },
-    "0p30zlv05yz": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-stops-you-on-the-courthouse-steps-you-haven-t-spoken-since-the-sp"
-      ],
-      "why": "States as history that the player has not spoken with them since a split."
-    },
-    "0pwxe4fbnrt": {
-      "keys": [
-        "scene-talk.narrate-narrate.a-birthday-at-home-went-by-with-a-relative-missing-from-it-and-name-wants-to-talk-to-you-about-it"
-      ],
-      "why": "States a past birthday with a missing relative as fact with no required fact."
-    },
-    "0rexe00e6ws": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-says-your-name-once-quietly-the-way-people-do-when-something-has-"
-      ],
-      "why": "Narrates the player putting down what they carried, an act and prior state not chosen."
     },
     "0uqf037g5xw": {
       "keys": [
@@ -100,148 +16,12 @@
       ],
       "why": "States as fact that the player offered this person money."
     },
-    "0yb6r6ero7s": {
-      "keys": [
-        "scene-talk.narrate-stayed-home.you-don-t-go-to-the-polls-today"
-      ],
-      "why": "States a choice not to vote."
-    },
-    "0yed39d8v7c": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-today-and-first-is-still-on-your-list"
-      ],
-      "why": "Claims player counted votes and has a list."
-    },
-    "10k9y8qs0zp": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-filed-for-office-and-you-haven-t-worked-out-how-the-money-lasts-remaining"
-      ],
-      "why": "Claims the player worry about money."
-    },
-    "12g1jx0dwzv": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-is-the-newest-person-in-your-household-and-it-s-up-to-you-to-sett"
-      ],
-      "why": "Tells the player it is up to them to settle what this means, a decision framing not given."
-    },
-    "13ezwz46dbk": {
-      "keys": [
-        "scene-talk.narrate-vote-away.you-don-t-live-in-town-anymore-so-there-s-no-ballot-for-you-today"
-      ],
-      "why": "States as fact that the player no longer lives in town; only same-day is required."
-    },
-    "16l4k0ji9er": {
-      "keys": [
-        "scene-talk.narrate-canvassed.there-were-no-doors-left-to-knock-on"
-      ],
-      "why": "States as fact that the player canvassed every door; the required fact is only \"none\"."
-    },
-    "18ijc6keqgp": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-tomorrow-and-first-is-still-on-your-list"
-      ],
-      "why": "Claims the player counted the votes twice and keeps a list, which they were never shown doing."
-    },
     "1a2dx297a58": {
       "keys": [
         "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over"
       ],
       "why": "Claims the player has things to settle with this person, an intent not given."
-    },
-    "1am1jxnv245": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-ve-come-to-ask-about-running-for-office-name-the-post-comes-over-to-the-coun"
-      ],
-      "why": "Tells the player why they came."
-    },
-    "1chtrigpna2": {
-      "keys": [
-        "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-pick-up-the-papers"
-      ],
-      "why": "Says the player heads to the office to pick up papers, a reason and choice not given."
-    },
-    "1hdiq5iglwn": {
-      "keys": ["scene-talk.narrate-polls.you-vote-in-precinct-precinct"],
-      "why": "States that the player votes, an action they did not choose."
-    },
-    "1j0edr6xl6i": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-hold-the-office-of-office-and-you-re-here-to-ask-for-it-again-name"
-      ],
-      "why": "Says the player is here to ask for the office again, an intent the scene does not require."
-    },
-    "1kvkdc1snbm": {
-      "keys": [
-        "scene-talk.narrate-stayed-home.you-stay-home-your-ballot-goes-uncast"
-      ],
-      "why": "States the player stayed home and skipped voting."
-    },
-    "1lvm6u5qf9e": {
-      "keys": [
-        "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-and-you-don-t-have-the-votes-yet-you-go-looking-for-first"
-      ],
-      "why": "Claims the player goes looking for someone, a choice."
-    },
-    "1ncanjhor5s": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-ve-come-to-ask-about-running-for-office-name-the-post-comes-over-to-the-coun-2"
-      ],
-      "why": "Says the player has come to ask about running, a reason not given."
-    },
-    "1nsmg6cu9f4": {
-      "keys": [
-        "scene-talk.narrate-narrate.when-you-fell-seriously-ill-name-was-the-one-who-called-for-help-now-they-want-to-ask-you-something"
-      ],
-      "why": "States the player fell seriously ill and was helped, with no required fact."
-    },
-    "1pjk1z6azuv": {
-      "keys": [
-        "scene-talk.narrate-narrate.begins-you-walk-in-to-ask-for-the-papers-to-run-and"
-      ],
-      "why": "Says the player walked in to ask for the papers to run, a purpose never given."
-    },
-    "1shlq3omc9c": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-re-here-to-pick-up-the-papers-to-run-for-office-name-the-post-pulls-them-fro"
-      ],
-      "why": "Tells the player they are here to pick up papers to run, a reason never given."
-    },
-    "1theioak58f": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-split-a-plate-of-fries-because-neither-of-you-wanted-to-order-firs"
-      ],
-      "why": "Narrates the player splitting fries and not ordering, an action never chosen."
-    },
-    "1w6ed4jd5kt": {
-      "keys": [
-        "scene-talk.narrate-canvassed.you-knocked-on-one-door-and-nobody-answered"
-      ],
-      "why": "States the player canvassed and got no answer as past fact; not clearly required."
-    },
-    "1yzz19bppqi": {
-      "keys": [
-        "scene-talk.narrate-narrate.other-people-in-the-house-saw-you-fall-seriously-ill-and-name-was-the-one-who-called-for-help-now-they-pull-you-aside-with-a-question"
-      ],
-      "why": "States the player fell seriously ill as fact; required fact only says others were there."
-    },
-    "22snscgf8e7": {
-      "keys": [
-        "scene-talk.narrate-vote-none.there-s-no-ballot-for-you-to-cast-today"
-      ],
-      "why": "States the player has no ballot as fact; eligibility not required."
-    },
-    "2a4979xpy7g": {
-      "keys": [
-        "scene-talk.narrate-narrate.you-walk-slowly-a-little-apart-until-your-hands-end-up-closer-than-eit"
-      ],
-      "why": "Narrates the player walking close and hands touching, a choice and feeling not given."
-    },
-    "2ev31rgb8t0": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-catches-you-outside-the-hardware-store-you-ve-known-each-other-a-"
-      ],
-      "why": "Asserts a long shared history with the person without a required fact."
     }
   },
-  "yesHash": "1n493u5wmzd"
+  "yesHash": "2ex34pxuc00"
 }

@@ -1472,7 +1472,7 @@
       "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-and-you-don-t-have-the-votes-yet-you-go-looking-for-first",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The vote on {bill} is tomorrow, and you don't have the votes yet. You go looking for {first}.",
+      "text": "The vote on {bill} is tomorrow. You go looking for {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -1497,7 +1497,7 @@
       "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-today-and-you-don-t-have-the-votes-yet-you-go-looking-for-first",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The vote on {bill} is today, and you don't have the votes yet. You go looking for {first}.",
+      "text": "The vote on {bill} is today. You go looking for {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -1547,7 +1547,7 @@
       "key": "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-tomorrow-and-first-is-still-on-your-list",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You've counted the votes on {bill} twice. It comes to the floor tomorrow, and {first} is still on your list.",
+      "text": "{bill} comes to the floor tomorrow. {first} hasn't said yes.",
       "uses": [
         {
           "subject": "scene",
@@ -1572,7 +1572,7 @@
       "key": "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-today-and-first-is-still-on-your-list",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You've counted the votes on {bill} twice. It comes to the floor today, and {first} is still on your list.",
+      "text": "{bill} comes to the floor today. {first} hasn't said yes.",
       "uses": [
         {
           "subject": "scene",
@@ -24575,7 +24575,7 @@
       "key": "scene-talk.narrate-narrate.name-stops-you-on-the-courthouse-steps-you-haven-t-spoken-since-the-sp",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} stops you on the courthouse steps. You haven't spoken since the split.",
+      "text": "{name} stops you. You haven't spoken since the split.",
       "uses": [
         {
           "subject": "scene",
@@ -25953,7 +25953,7 @@
       "key": "scene-talk.narrate-narrate.name-catches-you-outside-the-hardware-store-you-ve-known-each-other-a-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} catches you outside the hardware store. You've known each other a long time.",
+      "text": "{name} catches you on the street.",
       "uses": [
         {
           "subject": "scene",
@@ -35724,7 +35724,7 @@
       "key": "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has held office for years. You asked for coffee because you can't decide whether to run for {office} this year.",
+      "text": "{name} has held office for years, and has something to say about running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -60246,7 +60246,7 @@
       "key": "scene-talk.narrate-narrate.the-race-for-office-opens-monday-and-you-re-the-first-one-at-name-s-co",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The race for {office} opens Monday, and you're the first one at {name}'s counter.",
+      "text": "Filing for {office} has opened. {name} looks up from the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -86606,7 +86606,7 @@
       "key": "scene-talk.narrate-narrate.name-is-the-newest-person-in-your-household-and-it-s-up-to-you-to-sett",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is the newest person in your household, and it's up to you to settle what that means.",
+      "text": "{name} is the newest person in your household.",
       "uses": [
         {
           "subject": "scene",
@@ -107585,7 +107585,7 @@
       "key": "scene-talk.narrate-narrate.you-split-a-plate-of-fries-because-neither-of-you-wanted-to-order-firs",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You split a plate of fries because neither of you wanted to order first. {name} keeps nudging the ketchup toward your side.",
+      "text": "{name} keeps nudging the ketchup toward your side of the table.",
       "uses": [
         {
           "subject": "scene",
@@ -107609,7 +107609,7 @@
       "key": "scene-talk.narrate-narrate.you-walk-slowly-a-little-apart-until-your-hands-end-up-closer-than-eit",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You walk slowly, a little apart, until your hands end up closer than either of you planned. {name} watches the sidewalk ahead and smiles at it.",
+      "text": "{name} walks beside you, watches the sidewalk ahead and smiles at it.",
       "uses": [
         {
           "subject": "scene",
@@ -110086,7 +110086,7 @@
       "key": "scene-talk.narrate-narrate.you-have-both-been-careful-with-each-other-for-a-long-time-now-name-se",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You have both been careful with each other for a long time. Now {name} sets the phone face down and turns to look at you.",
+      "text": "{name} sets the phone face down and turns to look at you.",
       "uses": [
         {
           "subject": "scene",
@@ -110110,7 +110110,7 @@
       "key": "scene-talk.narrate-narrate.name-says-your-name-once-quietly-the-way-people-do-when-something-has-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} says your name once, quietly, the way people do when something has already been decided. You put down what you were carrying.",
+      "text": "{name} says your name once, quietly, the way people do when something has already been decided.",
       "uses": [
         {
           "subject": "scene",
@@ -112476,7 +112476,7 @@
       "key": "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} asks to talk, and you have known them too long to say no.",
+      "text": "{name} asks to talk.",
       "uses": [
         {
           "subject": "scene",
@@ -142956,7 +142956,7 @@
       "key": "scene-talk.narrate-narrate.a-birthday-at-home-went-by-with-a-relative-missing-from-it-and-name-wants-to-talk-to-you-about-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A birthday at home went by with a relative missing from it, and {name} wants to talk to you about it.",
+      "text": "A gathering at home went by with a relative missing, and {name} wants to talk about it.",
       "uses": [
         {
           "subject": "scene",
@@ -146456,7 +146456,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology.repeat",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["quarreled-before"]
         }
       ],
       "origin": "authored",

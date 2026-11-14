@@ -40,124 +40,13 @@
       "no-stock-phrases"
     ],
     "scene-talk.follow-thank.i-m-holding-you-to-that-you-know": ["no-filler"],
-    "scene-talk.narrate-canvassed.there-were-no-doors-left-to-knock-on": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-canvassed.you-knocked-on-one-door-and-nobody-answered": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.a-birthday-at-home-went-by-with-a-relative-missing-from-it-and-name-wants-to-talk-to-you-about-it": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-and-speak-to-name-to": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-ask-about-running-name": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-pick-up-the-papers": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.begins-you-walk-in-to-ask-for-the-papers-to-run-and": [
-      "narration-assumes-no-reason"
-    ],
     "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.name-catches-you-outside-the-hardware-store-you-ve-known-each-other-a-": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-": [
       "narration-assumes-no-reason"
     ],
     "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off": [
       "narration-assumes-no-reason"
     ],
-    "scene-talk.narrate-narrate.name-is-the-newest-person-in-your-household-and-it-s-up-to-you-to-sett": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.name-says-your-name-once-quietly-the-way-people-do-when-something-has-": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.name-stops-you-on-the-courthouse-steps-you-haven-t-spoken-since-the-sp": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.other-people-in-the-house-saw-you-fall-seriously-ill-and-name-was-the-one-who-called-for-help-now-they-pull-you-aside-with-a-question": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.repeat.you-and-name-have-quarreled-over-money-before-and-the-missed-payment-has-opened-it-up-again": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.the-race-for-office-opens-monday-and-you-re-the-first-one-at-name-s-co": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.the-vote-on-bill-is-today-and-you-don-t-have-the-votes-yet-you-go-looking-for-first": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-and-you-don-t-have-the-votes-yet-you-go-looking-for-first": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.when-you-fell-seriously-ill-name-was-the-one-who-called-for-help-now-they-want-to-ask-you-something": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.when-you-fell-seriously-ill-your-partner-name-called-for-help-afterward-they-sit-you-down-to-ask-you-something": [
-      "narration-assumes-no-reason"
-    ],
     "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-come-in-to-file-for-office-name-the-post-looks-up-from-the-counter": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-filed-for-office-and-you-haven-t-worked-out-how-the-money-lasts-remaining": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-have-both-been-careful-with-each-other-for-a-long-time-now-name-se": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-hold-the-office-of-office-and-you-re-here-to-ask-for-it-again-name": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-re-here-to-pick-up-the-papers-to-run-for-office-name-the-post-pulls-them-fro": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-split-a-plate-of-fries-because-neither-of-you-wanted-to-order-firs": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-ve-come-to-ask-about-running-for-office-name-the-post-comes-over-to-the-coun": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-ve-come-to-ask-about-running-for-office-name-the-post-comes-over-to-the-coun-2": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-today-and-first-is-still-on-your-list": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-ve-counted-the-votes-on-bill-twice-it-comes-to-the-floor-tomorrow-and-first-is-still-on-your-list": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-narrate.you-walk-slowly-a-little-apart-until-your-hands-end-up-closer-than-eit": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-polls.you-vote-in-precinct-precinct": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-stayed-home.you-don-t-go-to-the-polls-today": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-stayed-home.you-stay-home-your-ballot-goes-uncast": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-vote-away.you-don-t-live-in-town-anymore-so-there-s-no-ballot-for-you-today": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-vote-away.your-name-is-still-on-the-ballot-but-you-moved-so-you-can-t-vote-in-this-race": [
-      "narration-assumes-no-reason"
-    ],
-    "scene-talk.narrate-vote-none.there-s-no-ballot-for-you-to-cast-today": [
       "narration-assumes-no-reason"
     ],
     "scene-talk.open-greet.deceased-talked-about-you-you-know": ["no-filler"],
