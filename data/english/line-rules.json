@@ -1175,7 +1175,7 @@
     {
       "id": "commitment-names-who-what-why",
       "says": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-      "judges": "line",
+      "judges": "path",
       "from": [
         {
           "date": "2026-10-15",
@@ -1208,16 +1208,16 @@
       },
       "applies": {
         "banks": ["scene-talk"],
-        "moves": "^state-.*(?:promise|refuse|threaten)"
+        "moves": "^(?:state|reply|follow|continue)-.*(?:promise|refuse|threaten)"
       },
       "catches": ["I really need this one."],
       "spares": ["I wish I could, but I can't."],
-      "note": "A sample (Nov 14): only lines that open a commitment are judged. A reply or follow that promises answers an ask whose what is in the line before; that is an exchange check (words-machine part 3). Nothing is narrowed or pulled for the threat lines until the owner's exact words on them are quoted."
+      "note": "A sample judged on scene paths (words machine part 3, Words lead's ruling of Nov 14): when a promise, refusal or threat is made, has the scene so far named what is promised, to whom and why? A reply that promises is judged with the ask before it. A \"no\" is a gap for the Words lead to write, never a bar or a pull."
     },
     {
       "id": "stake-is-named",
       "says": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-      "judges": "line",
+      "judges": "path",
       "from": [
         {
           "date": "2026-10-15",
@@ -1323,7 +1323,7 @@
         "I could lose my primary over this",
         "this is a two-way street"
       ],
-      "note": "A sample (Nov 14): a stake can be a figure, a favor or a name in any words. Only the line that opens a plea or a bargain, and any line that makes an offer, is judged; a reply or follow leans on the stake named in the line before (Words lead, Nov 14)."
+      "note": "A sample judged on scene paths (words machine part 3, Words lead's ruling of Nov 14): by the time the scene makes its plea, bargain or offer, has the scene so far (narration, open, the request itself) said what is at stake, concretely? A plea or a press after a refusal leans on that and is never judged alone. A \"no\" is a gap for the Words lead to write, never a bar or a pull."
     },
     {
       "id": "reply-follows-the-line-before",
@@ -4409,7 +4409,7 @@
           "via": "LAW.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "sample",
       "test": {
         "kind": "judged"
       },
@@ -4418,7 +4418,9 @@
         "moves": "^reply-",
         "text": "[.!?][\"')]*\\s+\\S"
       },
-      "note": "Judged as an exchange (words-machine part 3, Nov 14): only replies of two sentences or more have a second move; each is judged after each line it can answer, since whether its second move follows from its first can lean on what was asked. A \"no\" pair bars the reply after that line only."
+      "note": "Judged as an exchange (words-machine part 3, Nov 14): only replies of two sentences or more have a second move; each is judged after each line it can answer, since whether its second move follows from its first can lean on what was asked. A \"no\" pair bars the reply after that line only.",
+      "catches": ["I'm from Washington. Have you talked to Omar?"],
+      "spares": ["I'm from Washington. What about you?"]
     },
     {
       "id": "many-variants-of-the-same-meaning",

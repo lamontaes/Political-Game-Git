@@ -3241,6 +3241,61 @@ export function removeCountedPerson(
 }
 
 /**
+ * A counted person died in `share` of the households their record stands for,
+ * fewer than all (an illness in part of them): one model, two tiers, so what
+ * a whole death does to the record, this does to that share of it. The
+ * record stands for `share` fewer households and the people who lived with
+ * the dead there go to the group's other households (`dieInPart`), their
+ * jobs stand for `share` fewer heads at their employers (a job left with
+ * none ends), and the cash and retirement award of those households leave
+ * with the record's weight. The estate is read before the death, for the
+ * caller to settle for the same share. Returns it, with who outlives them.
+ */
+export function countedPartDeath(
+  core: CoreState,
+  personId: PersonId,
+  share: number,
+):
+  | {
+      readonly estate: NonNullable<ReturnType<typeof countedEstateOf>>;
+      readonly survivors: readonly PersonId[];
+    }
+  | undefined {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(personId);
+  if (!rt || m === undefined || !(share > 0)) return undefined;
+  const store = rt.store;
+  const h = store.households[store.household[m]!]!;
+  if (share >= store.weightOf(h)) return undefined;
+  const estate = countedEstateOf(core, personId)!;
+  const survivors = store
+    .countedMembers(h)
+    .filter((member) => member !== m)
+    .map((member) => store.ids[member]! as PersonId);
+  // Their jobs stand for `share` fewer heads; one left with none ends.
+  const ended = new Set<string>();
+  const left: { id: string; heads: number }[] = [];
+  for (const job of h.jobs)
+    if (job.personId === personId && job.endsAt === undefined) {
+      const heads = store.headsOfJob(h, job.id) - share;
+      if (heads > HEADS_EPSILON) left.push({ id: job.id, heads });
+      else ended.add(job.id);
+    }
+  dropCountedJobs(rt, ended);
+  h.jobs = h.jobs.filter((row) => !ended.has(row.id));
+  h.workCommitments = h.workCommitments.filter((row) => !ended.has(row.jobId));
+  // The heads are set against the weight the record stood for, then the
+  // record's weight falls by the share (so the default heads fall with it).
+  store.dieInPart(h, share);
+  for (const row of left) {
+    const job = h.jobs.find((candidate) => candidate.id === row.id)!;
+    store.setJobHeads(job, row.heads);
+  }
+  store.touch(h);
+  return { estate, survivors };
+}
+
+/**
  * A counted household whose last member died sells the home it owned: the
  * outside market pays its value times the households the record stands for,
  * the lender is paid first, and the surplus goes to the counted residents of

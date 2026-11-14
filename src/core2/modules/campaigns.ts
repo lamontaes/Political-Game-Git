@@ -63,7 +63,7 @@ import {
 } from "../kernel/dates";
 import { townDistrict } from "../offices-state";
 import { worldLevel } from "../world-draw";
-import { basePlaces } from "../race-places";
+import { basePlaces, wideElectorate } from "../race-places";
 import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
@@ -133,6 +133,7 @@ import {
   ELECTIONS_MODULE_ID,
   petitionCirculating,
   petitionOf,
+  signOutside,
   signPetition,
   standing,
   type ContestRow,
@@ -215,6 +216,10 @@ export interface CampaignRow {
   /** Money set aside toward an event's venue and a poll, not yet paid. */
   readonly eventFundMinor?: number;
   readonly pollFundMinor?: number;
+  /** Money set aside for paid petition circulators outside the town, not yet paid (`hireCirculators`). */
+  readonly circulatorFundMinor?: number;
+  /** The day the circulators last turned in signatures (or were hired). */
+  readonly circulatorShiftOn?: string;
   /** How much of the like-minded adults outside the town its lists have reached, 0 to 1. */
   readonly outsideReached?: number;
   /** What it bought, by kind, in minor units. */
@@ -322,6 +327,8 @@ export interface CauseRow {
   readonly weight: number;
   /** The record items an attack ad showed this voter: the rival's votes and broken promises, by id. */
   readonly shownIds?: readonly string[];
+  /** The record that made the touch, where one did (a scene's reply). */
+  readonly sourceId?: string;
 }
 
 /**
@@ -1028,6 +1035,8 @@ export function touchImpression(
     readonly target: number;
     readonly weight: number;
     readonly rapport: number;
+    /** The record that made the touch (a scene's reply), cited on the cause. */
+    readonly sourceId?: string;
   },
 ): CauseRow | null {
   const voter = api.state.people.get(input.voterId);
@@ -1050,6 +1059,7 @@ export function touchImpression(
     agreement: null,
     rapport: input.rapport,
     weight: input.weight,
+    ...(input.sourceId ? { sourceId: input.sourceId } : {}),
   };
   keepCause(api, cause);
   table(api, "impressions").put({
@@ -3358,6 +3368,215 @@ export function askToSign(
 }
 
 /**
+ * A race's electorate where it reaches past the town, read for its
+ * petition's circulators: the town's voters set apart (`wideElectorate`).
+ */
+function petitionReach(
+  api: CoreAPI,
+  contestId: string,
+): ReturnType<typeof wideElectorate> {
+  const held: NonNullable<ReturnType<typeof reaches.get>> =
+    reaches.get(api.state) ?? new Map();
+  reaches.set(api.state, held);
+  const kept = held.get(contestId);
+  if (kept && daysBetween(kept.asOf, api.state.date) < 90) return kept.reach;
+  const contest = elections(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+  const reach = contest
+    ? wideElectorate(api, contest, {
+        voters: townElectorate(api),
+        population: Number(api.state.placeMetadata.referencePopulation) || 0,
+      })
+    : null;
+  held.set(contestId, { asOf: api.state.date, reach });
+  return reach;
+}
+// A race's places, read again a quarter after they were last read, as
+// `townShareOfRace` does: counting the town's adults walks every person, and
+// the circulators read the reach on every race turn of every wider filing.
+const reaches = new WeakMap<
+  object,
+  Map<
+    string,
+    {
+      readonly asOf: string;
+      readonly reach: ReturnType<typeof wideElectorate>;
+    }
+  >
+>();
+
+/** Whether a filing's petition circulates for a race that reaches past the town, so circulators can be hired for it. */
+export function circulatorsCanWork(api: CoreAPI, filingId: string): boolean {
+  return (
+    petitionCirculating(api, filingId) &&
+    !!petitionReach(api, campaignFor(api, filingId).contestId)?.outside.length
+  );
+}
+
+/** What a campaign holds and has not set aside: raised less spent, less its funds for an event, a poll and circulators. */
+function freeMinor(campaign: CampaignRow): number {
+  return Math.max(
+    0,
+    campaign.raisedMinor -
+      campaign.spentMinor -
+      (campaign.eventFundMinor ?? 0) -
+      (campaign.pollFundMinor ?? 0) -
+      (campaign.circulatorFundMinor ?? 0),
+  );
+}
+
+/**
+ * The campaign hires paid petition circulators to gather signatures among
+ * its race's voters outside the town (a county, district, state or federal
+ * race: the town holds only part of the electorate the law counts). The
+ * amount is set aside from what the campaign holds, never more; the
+ * circulators work until the petition is due and are paid as their
+ * signatures come in (`circulatorShift`). Returns what was set aside.
+ */
+export function hireCirculators(
+  api: CoreAPI,
+  filingId: string,
+  amountMinor: number,
+): number {
+  if (!petitionCirculating(api, filingId)) return 0;
+  const campaign = campaignFor(api, filingId);
+  if (!petitionReach(api, campaign.contestId)?.outside.length) return 0;
+  const hasAccount = (api.state as CoreState).cashJournal.accounts.get(
+    `cash:${campaign.organizationId}:residual`,
+  );
+  const set = Math.min(
+    Math.max(0, Math.floor(amountMinor)),
+    hasAccount ? freeMinor(campaign) : 0,
+  );
+  if (set <= 0) return 0;
+  save(api, {
+    ...campaign,
+    circulatorFundMinor: (campaign.circulatorFundMinor ?? 0) + set,
+    circulatorShiftOn: campaign.circulatorFundMinor
+      ? campaign.circulatorShiftOn
+      : api.state.date,
+  });
+  return set;
+}
+
+/** Who a campaign pays for circulators: a political consulting firm in town, else the firms outside it (the outside account). */
+function circulatorSeller(api: CoreAPI): string | null {
+  const core = api.state as CoreState;
+  const town = townRow(api).townPlaceId;
+  const employers = core.organizationsByPlaceKind.get(`${town}:employer`);
+  const local = [...(employers ?? [])]
+    .sort()
+    .find(
+      (id) =>
+        core.organizations.get(id)?.classification ===
+        "enterprise:political-consulting",
+    );
+  return local ?? townOutsideOf(core.organizations.values(), town)?.id ?? null;
+}
+
+/**
+ * The circulators' work since their last turn: the fund is spent at an even
+ * pace to the petition's last day, so the signatures arrive over the days
+ * the petition circulates, never at once. Each place of the race outside the
+ * town gives signatures in proportion to its voters, up to the voters there
+ * who would sign: those on the candidate's side of the lean order, and of the
+ * rest the share signing's low bar reaches (`petitionSignOpenness`), less
+ * what the place has already given. Paid at the per-signature price, on the
+ * journal, to the consulting seller. The money left when the petition is
+ * handed in goes back to the campaign. Returns the signatures added.
+ */
+export function circulatorShift(api: CoreAPI, filingId: string): number {
+  const campaign = campaignFor(api, filingId);
+  const fund = campaign.circulatorFundMinor ?? 0;
+  if (fund <= 0) return 0;
+  const petition = petitionOf(api, filingId);
+  const reach = petitionReach(api, campaign.contestId);
+  if (!petition || !petitionCirculating(api, filingId) || !reach) {
+    save(api, { ...campaign, circulatorFundMinor: 0 });
+    return 0;
+  }
+  const since = campaign.circulatorShiftOn ?? petition.opened;
+  const elapsed = Math.max(0, daysBetween(since, api.state.date));
+  const remaining = Math.max(0, daysBetween(api.state.date, petition.due));
+  if (elapsed <= 0 && remaining > 0) return 0;
+  const share = remaining <= 0 ? 1 : elapsed / (elapsed + remaining);
+  const price = unitPrice(api, "petition-signature");
+  let want = Math.floor((fund * share) / price);
+  const sellerId = circulatorSeller(api);
+  if (want <= 0 || !sellerId) return 0;
+  const filing = filingOf(api, filingId);
+  const side = partySide(filing?.party ?? null);
+  const openness = Math.min(1, campaignParameter("petitionSignOpenness"));
+  const outsideEligible = reach.outside.reduce((n, p) => n + p.eligible, 0);
+  const held = petition.outsideSigned ?? {};
+  const got: [string, number][] = [];
+  let total = 0;
+  for (const place of reach.outside) {
+    const aligned =
+      side > 0
+        ? place.rightShare
+        : side < 0
+          ? 1 - place.rightShare
+          : shareValue("evenSplit");
+    const willing = Math.floor(
+      place.eligible * (1 - (1 - aligned) * (1 - openness)) -
+        (held[place.id] ?? 0),
+    );
+    const n = Math.min(
+      Math.max(0, willing),
+      Math.floor((want * place.eligible) / outsideEligible),
+    );
+    if (n > 0) {
+      got.push([place.id, n]);
+      total += n;
+    }
+  }
+  if (total <= 0) return 0;
+  spend(api, filingId, {
+    kind: "circulators",
+    sellerId,
+    amountMinor: total * price,
+    citation: `${total} petition signatures at the campaign-unit-prices petition-signature row`,
+  });
+  signOutside(api, filingId, got);
+  want = total;
+  save(api, {
+    ...campaignFor(api, filingId),
+    circulatorFundMinor: Math.max(0, fund - want * price),
+    circulatorShiftOn: api.state.date,
+  });
+  return total;
+}
+
+/**
+ * A world candidate whose race reaches past the town hires circulators for
+ * the part of the signatures still lacking that the town cannot give: the
+ * share of the race's voters outside it, at the per-signature price, from
+ * what the campaign holds. A campaign with no money hires none and may not
+ * qualify.
+ */
+function hireCirculatorsForNeed(api: CoreAPI, filingId: string): number {
+  const petition = petitionOf(api, filingId);
+  if (!petition || !petitionCirculating(api, filingId)) return 0;
+  const campaign = campaignFor(api, filingId);
+  const reach = petitionReach(api, campaign.contestId);
+  if (!reach?.outside.length) return 0;
+  const price = unitPrice(api, "petition-signature");
+  const lacking =
+    signaturesToGather(petition.needed) -
+    petition.signed -
+    Math.floor((campaign.circulatorFundMinor ?? 0) / price);
+  if (lacking <= 0) return 0;
+  const outsideShare =
+    reach.outside.reduce((n, p) => n + p.eligible, 0) / reach.eligible;
+  return hireCirculators(
+    api,
+    filingId,
+    Math.ceil(lacking * outsideShare) * price,
+  );
+}
+
+/**
  * While the petition circulates, the candidate asks the people closest to
  * them to sign, once a day, a few at a time, the closest first, each once:
  * their family, the people they know and anyone they keep a relationship
@@ -4040,7 +4259,7 @@ function spend(
   api: CoreAPI,
   filingId: string,
   input: {
-    readonly kind: "ad" | Purchase;
+    readonly kind: "ad" | Purchase | "circulators";
     readonly sellerId: string;
     readonly amountMinor: number;
     readonly citation: string;
@@ -7065,8 +7284,11 @@ export function campaignTurn(
         86_400_000,
     ),
   );
-  const held = (campaign.eventFundMinor ?? 0) + (campaign.pollFundMinor ?? 0);
-  const free = Math.max(0, campaign.raisedMinor - campaign.spentMinor - held);
+  // Signatures come first while the petition circulates: the circulators
+  // for the part of the race outside the town are paid for before the rest.
+  hireCirculatorsForNeed(api, filingId);
+  campaign = campaignFor(api, filingId);
+  const free = freeMinor(campaign);
   const budget = Math.floor(
     free * Math.min(1, turnDays / Math.max(turnDays, daysLeft)),
   );
@@ -7266,6 +7488,7 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     for (const filing of ballot(api, race.id)) {
       if (filing.filedOn > date) continue;
       volunteerShifts(api, filing.id, walked);
+      circulatorShift(api, filing.id);
       if (filing.personId !== playerId)
         campaignTurn(api, filing.id, race.electionDate);
     }

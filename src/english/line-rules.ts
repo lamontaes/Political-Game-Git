@@ -68,13 +68,15 @@ export type RuleTest =
  * close together) or `piece-in-context` (a line with the record or screen it
  * sits on, such as a journal line's subject).
  */
-export type RuleJudges = "line" | "set" | "exchange" | "piece-in-context";
+export type RuleJudges =
+  "line" | "set" | "exchange" | "piece-in-context" | "path";
 
 export const RULE_JUDGES: readonly RuleJudges[] = [
   "line",
   "set",
   "exchange",
   "piece-in-context",
+  "path",
 ];
 
 /**
@@ -324,6 +326,17 @@ export function lineSubjects(
  */
 export const judgesExchanges = (rule: LineRule): boolean =>
   rule.test.kind === "judged" && rule.judges === "exchange";
+
+/**
+ * Whether a `judged` rule judges a path through a composed scene (words
+ * machine part 3, Words lead's ruling of Nov 14): the scene from its first
+ * line up to and including each line the rule applies to (the ask, the
+ * promise), judged as one subject by `scenePaths` (scripts/words/scene-paths.ts).
+ * A "no" is a gap in the scene for the Words lead to write, never a bar or a
+ * pull: the run judges no line by it.
+ */
+export const judgesPaths = (rule: LineRule): boolean =>
+  rule.test.kind === "judged" && rule.judges === "path";
 
 /** The suffix on an exchange rule's name in `awaitingVerdict`: its waiting subjects are pairs. */
 export const PAIRS_COUNTED = " (pairs)";
