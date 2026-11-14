@@ -13,6 +13,7 @@
  * unless a name says a year's. The law is passed in, so this file knows no statute.
  */
 import type { MacroParameter } from "./macro-model";
+import type { CoreAPI } from "./types";
 
 export const COUNTRY_SECTORS = [
   "construction",
@@ -381,6 +382,8 @@ export interface CountryLaw {
   wageFloorYear(state: CountryState): number;
   /** What an insured person out of work is paid, dollars a year, by what they earned. */
   joblessBenefitYear(state: CountryState, payYear: number): number;
+  /** How many more people come from abroad than the opening's rate under the law in force (a federal law to admit more immigrants); one when none applies. */
+  abroadFactor?(state: CountryState): number;
 }
 
 export interface CountryStateOpening {
@@ -822,6 +825,54 @@ function flowsOf(
   return { arrivals, parts };
 }
 
+/** One state's movers this month by the tier's own rule: the share of each age band that leaves for another state, and where they go. */
+export interface CountryFlow {
+  /** The month's share of each adult age band (`COUNTRY_AGE_BANDS` order) leaving for another state. */
+  leavingByBand: number[];
+  /** The share of its leavers each state takes, in the tier's state order (none for itself). */
+  toShare: number[];
+}
+
+/**
+ * Who leaves each state this month and where they go, read without moving
+ * anyone: the same weights `moves` applies (counted-moves reads them for the
+ * played town's own leavers and arrivals, so the tier is the one holder of
+ * every state's people).
+ */
+export function countryFlows(
+  tier: CountryTier,
+  law: CountryLaw,
+  rules: CountryRules,
+): CountryFlow[] {
+  const { parts } = flowsOf(tier, offersOf(tier, law), rules, false);
+  return tier.states.map((home, h) => {
+    const { weights, total, leaving } = parts[h]!;
+    const leavingByBand = COUNTRY_AGE_BANDS.map(() => 0);
+    home.cells.forEach((cell, index) => {
+      leavingByBand[cell.band] = leaving[index]!;
+    });
+    return {
+      leavingByBand,
+      toShare: weights.map((w) => (total > 0 ? w / total : 0)),
+    };
+  });
+}
+
+/** Every state's people and this month's movers, as the economy engine reads them (`macro.ts` registers it). */
+export type CountryFlowsReader = (api: CoreAPI) => {
+  readonly states: readonly CountryState[];
+  readonly flows: readonly CountryFlow[];
+};
+let flowsReader: CountryFlowsReader | null = null;
+/** The economy engine names its reader of the tier's flows (it reads modules the movers' engine cannot import). */
+export function registerCountryFlowsReader(reader: CountryFlowsReader): void {
+  flowsReader = reader;
+}
+/** The tier's states and flows now; empty before the economy opens or where it does not run. */
+export function countryFlowsIn(api: CoreAPI): ReturnType<CountryFlowsReader> {
+  return flowsReader?.(api) ?? { states: [], flows: [] };
+}
+
 const CELL_COUNTS = ["people", "workers", "seekers", "cash"] as const;
 
 /** People move between states, with their cash; a mover who worked arrives looking for work. */
@@ -878,6 +929,7 @@ function moves(
 function people(
   tier: CountryTier,
   rules: CountryRules,
+  law?: CountryLaw,
 ): { births: number; deaths: number; arrived: number; fromAbroad: number[] } {
   const months = rules.monthsPerYear;
   let births = 0,
@@ -922,7 +974,11 @@ function people(
     const grown = state.children / rules.yearsAsChild / months;
     // People from abroad come from no state's leavers: the state grows by them. The adults
     // arrive looking for work at their age's rate, in every income fifth alike.
-    const abroad = (countryPeople(state) * state.abroadYear) / months;
+    const abroad =
+      (countryPeople(state) *
+        state.abroadYear *
+        (law?.abroadFactor?.(state) ?? 1)) /
+      months;
     state.children += born - grown + abroad * rules.abroadChildShare;
     births += born;
     arrived += abroad;
@@ -1496,7 +1552,7 @@ export function stepCountry(
   );
   // The month opens with who moved, was born, aged and died; then the economy's month.
   const moved = moves(tier, law, rules);
-  const lives = people(tier, rules);
+  const lives = people(tier, rules, law);
   const outsideDemand =
     tier.outsideDemand * (1 + rules.outsideGrowthYear / months);
   const outsidePrices =
