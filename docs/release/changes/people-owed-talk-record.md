@@ -3,4 +3,4 @@ id: people-owed-talk-record
 impact: none
 ---
 
-A reply that puts a talk off to a day now leaves an owed-talk record (who, about what, which day) that closes, moves or comes due; no scene reads it yet.
+A reply that puts a talk off to a day now leaves an owed-talk record (who, about what, which day) that leaves the table when settled and reads due when not kept; no scene reads it yet.

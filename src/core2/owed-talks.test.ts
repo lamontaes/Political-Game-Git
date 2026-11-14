@@ -65,10 +65,11 @@ describe.each(["owed-talk-a", "owed-talk-b"])("an owed talk (%s)", (salt) => {
     // No recorded time together since the reply reads due; time together reads closed.
     const met = core.relationships.get(pairKey(a.id, b.id));
     const talked = !!met && String(met.lastContactDate) > String(reply0Date);
-    expect(owedTalks(api)[0]?.state, where).toBe(talked ? "closed" : "due");
+    // Time together settles it and the row is gone; none reads due.
+    expect(owedTalks(api)[0]?.state, where).toBe(talked ? undefined : "due");
   });
 
-  it(`closes when they talk again, and moves when a new day is named (${where})`, () => {
+  it(`leaves the table when they talk again, and a new day named is a new row (${where})`, () => {
     const closed = setup();
     closed.reply("reply-1", {
       owedWith: closed.b.id,
@@ -76,10 +77,7 @@ describe.each(["owed-talk-a", "owed-talk-b"])("an owed talk (%s)", (salt) => {
       owedDueOn: closed.dueOn,
     });
     closed.reply("reply-2", { move: "reply-agree" });
-    expect(owedTalks(closed.api)[0], where).toMatchObject({
-      state: "closed",
-      settledBy: "reply-2",
-    });
+    expect(owedTalks(closed.api), where).toEqual([]);
 
     const moved = setup();
     moved.reply("reply-1", {
@@ -92,9 +90,29 @@ describe.each(["owed-talk-a", "owed-talk-b"])("an owed talk (%s)", (salt) => {
       owedTopic: "money",
       owedDueOn: addDays(moved.dueOn, 4),
     });
-    const states = owedTalks(moved.api)
-      .map((row) => row.state)
-      .sort();
-    expect(states, where).toEqual(["moved", "open"]);
+    expect(
+      owedTalks(moved.api).map((row) => [row.id, row.state, row.dueOn]),
+      where,
+    ).toEqual([["owed-talk:reply-2", "open", addDays(moved.dueOn, 4)]]);
+  });
+
+  it(`holds only talks still owed after ninety days of put-off talks, one per pair (${where})`, () => {
+    const { core, api, b, reply } = setup();
+    // A talk put off every ten days for ninety days between the same two people, each
+    // new one settling the last, and one more that is never answered.
+    for (let month = 0; month < 9; month += 1) {
+      reply(`reply-${month}`, {
+        owedWith: b.id,
+        owedTopic: month % 2 ? "money" : "work",
+        owedDueOn: addDays(makeIsoDate(core.date), 6),
+      });
+      advanceCore(core, addDays(makeIsoDate(core.date), 10));
+    }
+    const held = owedTalks(api);
+    expect(
+      held.every((row) => row.state === "open" || row.state === "due"),
+      where,
+    ).toBe(true);
+    expect(held.length, where).toBeLessThanOrEqual(1);
   });
 });

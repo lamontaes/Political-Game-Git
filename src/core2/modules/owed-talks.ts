@@ -2,9 +2,12 @@
  * Owed talks (people, Nov 11, 2026): a reply that puts a talk off to a day
  * (the director writes `owedWith`, `owedTopic` and `owedDueOn` on the
  * `scene.reply`) leaves a record here: who owes whom, about what, for which
- * day. It closes when the two next talk or have time together, moves when a
- * new day is named for the same matter, and on the due day reads "due" when
- * they have not met since. Whether the day passes unkept follows recorded
+ * day. The row leaves the table when the two next talk or have time
+ * together, and when a new day is named for the same matter the new row
+ * replaces it; on the due day it reads "due" when they have not met since.
+ * Only talks still owed are kept: any reply between the same two settles what
+ * they owed, so the table holds at most one row per pair, bounded by the ties
+ * between people, and nothing reads a settled talk. Whether the day passes unkept follows recorded
  * time together (the tie's last contact date), never a chance.
  */
 import { pairKey } from "../kernel/ids";
@@ -26,9 +29,7 @@ export interface OwedTalkRow {
   topic: string;
   madeOn: IsoDate;
   dueOn: IsoDate;
-  state: "open" | "due" | "closed" | "moved";
-  /** The record that closed it, or the row it moved to. */
-  settledBy?: string;
+  state: "open" | "due";
 }
 
 function rows(api: CoreAPI): OwedTalkRow[] {
@@ -48,28 +49,20 @@ export function noteReply(api: CoreAPI, event: CoreEventInput): void {
   const facts = event.facts ?? {};
   const dueOn = facts.owedDueOn as IsoDate | undefined;
   const owedTo = facts.owedWith as string | undefined;
-  const open = rows(api).filter(
-    (row) => row.state === "open" || row.state === "due",
-  );
+  const open = rows(api);
   const table = api.moduleState(owedModuleId).table(OWED_TALK_TABLE);
   const owedBy = owedTo
     ? event.personIds.find((id) => id !== owedTo)
     : undefined;
   const id = `owed-talk:${event.id}`;
-  // The two talking again settles what they owed each other: moved when this
-  // reply names a new day for the same matter, closed otherwise.
+  // The two talking again settles what they owed each other: the row leaves,
+  // and a new day named in this reply is a new row.
   for (const row of open) {
     const samePair =
       event.personIds.includes(row.owedBy) &&
       event.personIds.includes(row.owedTo);
     if (!samePair || row.replyId === event.id) continue;
-    const moved =
-      !!dueOn && owedTo === row.owedTo && facts.owedTopic === row.topic;
-    table.put({
-      ...row,
-      state: moved ? "moved" : "closed",
-      settledBy: moved ? id : event.id,
-    } as never);
+    table.remove(row.id);
   }
   if (!dueOn || !owedTo || !owedBy) return;
   table.put({
@@ -103,9 +96,6 @@ export function owedTalkComesDue(api: CoreAPI, recordId: string): void {
   const core = api.state as CoreState;
   const met = core.relationships.get(pairKey(row.owedBy, row.owedTo));
   const talked = !!met && String(met.lastContactDate) > String(row.madeOn);
-  table.put({
-    ...row,
-    state: talked ? "closed" : "due",
-    ...(talked ? { settledBy: `contact:${met.lastContactDate}` } : {}),
-  } as never);
+  if (talked) table.remove(row.id);
+  else table.put({ ...row, state: "due" } as never);
 }
