@@ -49,7 +49,7 @@
     ],
     "scene-talk.open-greet.well-look-who-it-is": ["no-filler"],
     "scene-talk.open-greet.well-that-s-the-year": ["no-filler"],
-    "scene-talk.reply-accept.all-right-you-ve-got-me-on-bill": [
+    "scene-talk.reply-accept.all-right-you-ve-got-me-on-this-one": [
       "alright-in-dialogue"
     ],
     "scene-talk.reply-accept.i-hear-you-i-wish-it-had-gone-another-way-we-did-try-and-i-want-to-rem": [
@@ -83,7 +83,7 @@
     "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no": [
       "no-stock-phrases"
     ],
-    "scene-talk.reply-relent.all-right-put-me-down-on-bill-i-ll-answer-for-it-at-home": [
+    "scene-talk.reply-relent.all-right-put-me-down-i-ll-answer-for-it-at-home": [
       "alright-in-dialogue"
     ],
     "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running": [

@@ -177542,10 +177542,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-m-still-hearing-from-people-at-home-on-bill",
+      "key": "scene-talk.reply-stall.i-m-still-hearing-from-people-at-home-on-this-one",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I'm still hearing from people at home on {bill}.",
+      "text": "I'm still hearing from people at home on this one.",
       "uses": [
         {
           "subject": "scene",
@@ -177567,10 +177567,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.folks-back-home-have-been-calling-me-about-bill-let-me-sit-with-it",
+      "key": "scene-talk.reply-stall.folks-back-home-have-been-calling-me-about-it-let-me-sit-with-it",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Folks back home have been calling me about {bill}. Let me sit with it.",
+      "text": "Folks back home have been calling me about it. Let me sit with it.",
       "uses": [
         {
           "subject": "scene",
@@ -177592,10 +177592,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-haven-t-talked-myself-into-bill-yet",
+      "key": "scene-talk.reply-stall.i-haven-t-talked-myself-into-it-yet",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I haven't talked myself into {bill} yet.",
+      "text": "I haven't talked myself into it yet.",
       "uses": [
         {
           "subject": "scene",
@@ -177617,10 +177617,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-m-not-there-on-bill-i-m-not-saying-never",
+      "key": "scene-talk.reply-stall.i-m-not-there-i-m-not-saying-never",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I'm not there on {bill}. I'm not saying never.",
+      "text": "I'm not there. I'm not saying never.",
       "uses": [
         {
           "subject": "scene",
@@ -177717,10 +177717,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-voted-the-other-way-the-last-time-this-came-around-i-can-t-flip-on-bill",
+      "key": "scene-talk.reply-stall.i-voted-the-other-way-the-last-time-this-came-around",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I voted the other way the last time this came around. I can't flip on {bill}.",
+      "text": "I voted the other way the last time this came around.",
       "uses": [
         {
           "subject": "scene",
@@ -177742,10 +177742,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-don-t-believe-in-bill-i-m-sorry",
+      "key": "scene-talk.reply-refuse.i-don-t-believe-in-it-i-m-sorry",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I don't believe in {bill}. I'm sorry.",
+      "text": "I don't believe in it. I'm sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -177767,10 +177767,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.my-people-are-against-bill-i-can-t-be-the-one-who-isn-t",
+      "key": "scene-talk.reply-refuse.my-people-are-against-it-i-can-t-be-the-one-who-isn-t",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "My people are against {bill}. I can't be the one who isn't.",
+      "text": "My people are against it. I can't be the one who isn't.",
       "uses": [
         {
           "subject": "scene",
@@ -177792,10 +177792,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-ve-heard-from-enough-people-on-bill-i-can-t",
+      "key": "scene-talk.reply-refuse.i-ve-heard-from-enough-people-on-this-i-can-t",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I've heard from enough people on {bill}. I can't.",
+      "text": "I've heard from enough people on this. I can't.",
       "uses": [
         {
           "subject": "scene",
@@ -177817,10 +177817,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-have-to-run-on-my-vote-on-bill-i-can-t",
+      "key": "scene-talk.reply-refuse.i-have-to-run-on-this-vote-not-this-one",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I have to run on my vote on {bill}. I can't.",
+      "text": "I have to run on this vote. Not this one.",
       "uses": [
         {
           "subject": "scene",
@@ -177842,10 +177842,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.it-isn-t-bill-don-t-make-me-say-the-rest",
+      "key": "scene-talk.reply-refuse.it-isn-t-the-bill-don-t-make-me-say-the-rest",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "It isn't {bill}. Don't make me say the rest.",
+      "text": "It isn't the bill. Don't make me say the rest.",
       "uses": [
         {
           "subject": "scene",
@@ -177867,10 +177867,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-voted-against-this-before-i-m-not-turning-around-on-bill",
+      "key": "scene-talk.reply-refuse.i-voted-against-this-before-i-m-not-turning-around-now",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I voted against this before. I'm not turning around on {bill}.",
+      "text": "I voted against this before. I'm not turning around now.",
       "uses": [
         {
           "subject": "scene",
@@ -177992,10 +177992,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.all-right-you-ve-got-me-on-bill",
+      "key": "scene-talk.reply-accept.all-right-you-ve-got-me-on-this-one",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. You've got me on {bill}.",
+      "text": "All right. You've got me on this one.",
       "uses": [
         {
           "subject": "scene",
@@ -178018,10 +178018,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.put-me-down-for-bill-i-ll-be-watching-the-board-on-mine",
+      "key": "scene-talk.reply-accept.put-me-down-i-ll-be-watching-the-board-on-mine",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Put me down for {bill}. I'll be watching the board on mine.",
+      "text": "Put me down. I'll be watching the board on mine.",
       "uses": [
         {
           "subject": "scene",
@@ -178044,10 +178044,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.half-of-section-price-section-then-i-m-with-you",
+      "key": "scene-talk.reply-accept.half-of-it-then-i-m-with-you",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Half of section {price-section}, then. I'm with you.",
+      "text": "Half of it, then. I'm with you.",
       "uses": [
         {
           "subject": "scene",
@@ -178070,10 +178070,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.fine-half-of-section-price-section-i-can-live-with",
+      "key": "scene-talk.reply-accept.fine-with-half-of-it-i-can-live-with-that",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Fine. Half of section {price-section}, I can live with.",
+      "text": "Fine. With half of it, I can live with that.",
       "uses": [
         {
           "subject": "scene",
@@ -178096,10 +178096,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-request.if-you-can-t-vote-yes-on-bill-can-you-be-out-of-the-room",
+      "key": "scene-talk.follow-request.if-you-can-t-vote-yes-can-you-be-out-of-the-room",
       "move": "follow-request",
       "kind": "spoken",
-      "text": "If you can't vote yes on {bill}, can you be out of the room?",
+      "text": "If you can't vote yes, can you be out of the room?",
       "uses": [
         {
           "subject": "scene",
@@ -178120,10 +178120,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-request.then-don-t-vote-against-bill-just-don-t-be-there",
+      "key": "scene-talk.follow-request.then-don-t-vote-against-it-just-don-t-be-there",
       "move": "follow-request",
       "kind": "spoken",
-      "text": "Then don't vote against {bill}. Just don't be there.",
+      "text": "Then don't vote against it. Just don't be there.",
       "uses": [
         {
           "subject": "scene",
@@ -178144,10 +178144,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-request.i-m-not-asking-for-a-yes-i-m-asking-you-to-sit-out-bill",
+      "key": "scene-talk.follow-request.i-m-not-asking-for-a-yes-i-m-asking-you-to-sit-this-one-out",
       "move": "follow-request",
       "kind": "spoken",
-      "text": "I'm not asking for a yes. I'm asking you to sit out {bill}.",
+      "text": "I'm not asking for a yes. I'm asking you to sit this one out.",
       "uses": [
         {
           "subject": "scene",
@@ -178168,10 +178168,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-won-t-vote-against-you-on-bill-i-ll-find-somewhere-to-be",
+      "key": "scene-talk.reply-decline.i-won-t-vote-against-you-i-ll-find-somewhere-to-be",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I won't vote against you on {bill}. I'll find somewhere to be.",
+      "text": "I won't vote against you. I'll find somewhere to be.",
       "uses": [
         {
           "subject": "scene",
@@ -178193,10 +178193,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.for-bill-i-can-do-that-much",
+      "key": "scene-talk.reply-decline.i-can-do-that-much",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "For {bill}, I can do that much.",
+      "text": "I can do that much.",
       "uses": [
         {
           "subject": "scene",
@@ -178218,10 +178218,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-step-out-for-bill-don-t-make-a-habit-of-it",
+      "key": "scene-talk.reply-decline.i-ll-step-out-for-that-one-don-t-make-a-habit-of-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'll step out for {bill}. Don't make a habit of it.",
+      "text": "I'll step out for that one. Don't make a habit of it.",
       "uses": [
         {
           "subject": "scene",
@@ -178243,10 +178243,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.no-i-have-to-be-on-the-record-on-bill",
+      "key": "scene-talk.reply-refuse.no-i-have-to-be-on-the-record-on-this-one",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "No. I have to be on the record on {bill}.",
+      "text": "No. I have to be on the record on this one.",
       "uses": [
         {
           "subject": "scene",
@@ -178288,10 +178288,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-can-t-trade-on-bill",
+      "key": "scene-talk.reply-refuse.i-can-t-trade-on-this-one",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I can't trade on {bill}.",
+      "text": "I can't trade on this one.",
       "uses": [
         {
           "subject": "scene",
@@ -178333,10 +178333,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.if-i-m-not-there-for-bill-they-ll-know-why-no",
+      "key": "scene-talk.reply-refuse.if-i-m-not-there-they-ll-know-why-no",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "If I'm not there for {bill}, they'll know why. No.",
+      "text": "If I'm not there, they'll know why. No.",
       "uses": [
         {
           "subject": "scene",
@@ -178378,10 +178378,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-be-a-yes-on-bill-i-d-rather-tell-people-myself-than-have-them-read-it",
+      "key": "scene-talk.reply-agree.i-ll-be-a-yes-i-d-rather-tell-people-myself-than-have-them-read-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll be a yes on {bill}. I'd rather tell people myself than have them read it.",
+      "text": "I'll be a yes. I'd rather tell people myself than have them read it.",
       "uses": [
         {
           "subject": "scene",
@@ -178403,10 +178403,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-have-me-on-bill-folks-will-see-my-name-and-that-s-fine",
+      "key": "scene-talk.reply-agree.you-have-me-folks-will-see-my-name-and-that-s-fine",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You have me on {bill}. Folks will see my name, and that's fine.",
+      "text": "You have me. Folks will see my name, and that's fine.",
       "uses": [
         {
           "subject": "scene",
@@ -178428,10 +178428,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-relent.all-right-put-me-down-on-bill-i-ll-answer-for-it-at-home",
+      "key": "scene-talk.reply-relent.all-right-put-me-down-i-ll-answer-for-it-at-home",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "All right. Put me down on {bill}. I'll answer for it at home.",
+      "text": "All right. Put me down. I'll answer for it at home.",
       "uses": [
         {
           "subject": "scene",
@@ -178453,10 +178453,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-relent.okay-i-ll-vote-for-bill-they-can-call-my-office",
+      "key": "scene-talk.reply-relent.okay-i-ll-vote-for-it-they-can-call-my-office",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "Okay. I'll vote for {bill}. They can call my office.",
+      "text": "Okay. I'll vote for it. They can call my office.",
       "uses": [
         {
           "subject": "scene",
@@ -178478,10 +178478,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-relent.fine-i-ll-vote-for-bill-and-i-ll-tell-them-why",
+      "key": "scene-talk.reply-relent.fine-i-ll-vote-for-it-and-i-ll-tell-them-why",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "Fine. I'll vote for {bill}, and I'll tell them why.",
+      "text": "Fine. I'll vote for it, and I'll tell them why.",
       "uses": [
         {
           "subject": "scene",

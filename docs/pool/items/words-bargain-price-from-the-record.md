@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: Account lead (bargaining thread)
-pr:
+pr: 9167
 after:
 blocked-on:
 source: brief O (Words lead, Nov 14 2026); owner's card Nov 14 06:43Z "What the game can do now"
