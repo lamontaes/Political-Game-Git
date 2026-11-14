@@ -8,7 +8,7 @@ size: M
 status: in-pr
 claimed-by: claude/play-player-picks-the-member-to-ask
 branch: claude/play-player-picks-the-member-to-ask
-pr: 0
+pr: #9216
 standard: 2
 after: play-bill-ask-no-is-kept-with-its-reason-and-date
 blocked-on:
