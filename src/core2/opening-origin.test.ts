@@ -85,12 +85,15 @@ it(`every household shares one origin and kin take a relative's (seed ${seed})`,
   expect(checked, where).toBeGreaterThan(0);
 }, 120_000);
 
-// Pinned places (from the committed 2020 place rows): Ahoskie NC, where most
-// residents are Black while the state's adults are mostly white; Charlotte NC;
-// a Vermont town with no row; a territory with no row.
+// Pinned places (from the committed 2020 place rows, all 50 states, DC and
+// Puerto Rico): Ahoskie NC, where most residents are Black while the state's
+// adults are mostly white; Charlotte NC; Laredo TX, mostly Hispanic in a state
+// where they are not; Kahului HI, mostly Asian or mixed. A key with no row (or
+// a territory the set lacks) falls back.
 const AHOSKIE = "3700500";
 const CHARLOTTE = "3712000";
-const NO_ROW = "5000400";
+const LAREDO = "4841464";
+const NO_ROW = "no-such-place";
 
 it("a town with a row draws from its own residents; one without falls back, and says so", () => {
   const rowOf = (geoid: string) =>
@@ -99,10 +102,13 @@ it("a town with a row draws from its own residents; one without falls back, and 
       .split(":")[1]!
       .split(",")
       .map(Number);
-  for (const geoid of [AHOSKIE, CHARLOTTE]) {
+  for (const geoid of [AHOSKIE, CHARLOTTE, LAREDO]) {
     const counts = rowOf(geoid);
     const total = counts.reduce((n, v) => n + v, 0);
-    const own = originSharesWithBasis("US-NC", geoid);
+    const own = originSharesWithBasis(
+      geoid.startsWith("48") ? "US-TX" : "US-NC",
+      geoid,
+    );
     expect(own.basis).toBe("place");
     expect(own.shares.reduce((n, [, s]) => n + s, 0)).toBeCloseTo(1, 9);
     const byOrigin = new Map(own.shares);
@@ -114,6 +120,11 @@ it("a town with a row draws from its own residents; one without falls back, and 
   const town = new Map(originSharesWithBasis("US-NC", AHOSKIE).shares);
   expect(town.get("black")!).toBeGreaterThan(state.get("black")! + 0.3);
   expect(originAt("US-NC", 0.5, AHOSKIE)).toBe("black");
+  const texas = new Map(originSharesWithBasis("US-TX").shares);
+  const laredo = new Map(originSharesWithBasis("US-TX", LAREDO).shares);
+  expect(laredo.get("hispanic")!).toBeGreaterThan(
+    texas.get("hispanic")! + 0.25,
+  );
   expect(originSharesWithBasis("US-VT", NO_ROW).basis).toBe("state");
   // The survey has no row for Guam, so its fallback is the nation's, said so.
   expect(originSharesWithBasis("US-GU", "territory:none").basis).toBe(
@@ -122,28 +133,31 @@ it("a town with a row draws from its own residents; one without falls back, and 
   expect(originShares("US-VT", NO_ROW)).toEqual(originShares("US-VT"));
 });
 
-it("households in a pinned town follow the town's own mix, not the state's", () => {
-  setBookkeeping(false);
-  const own = new Map(originSharesWithBasis("US-NC", AHOSKIE).shares);
-  const { core } = buildBenchWorld("origin-town-pin-a", gameStartDate(), {
-    twoLevel: true,
-    placeKey: AHOSKIE,
-  });
-  const counts = new Map<string, number>();
-  let homes = 0;
-  for (const home of core.households.values()) {
-    const origin = core.people.get(home.memberIds[0]!)?.looks?.origin;
-    if (!origin) continue;
-    homes += 1;
-    counts.set(origin, (counts.get(origin) ?? 0) + 1);
-  }
-  expect(homes).toBeGreaterThan(20);
-  const black = (counts.get("black") ?? 0) / homes;
-  // Within sampling of the town's own share (a binomial's three sigmas), and
-  // far above the state's.
-  const sigma = Math.sqrt(
-    (own.get("black")! * (1 - own.get("black")!)) / homes,
-  );
-  expect(Math.abs(black - own.get("black")!)).toBeLessThan(3 * sigma + 0.02);
-  expect(black).toBeGreaterThan(0.45);
-}, 120_000);
+for (const [geoid, state, group, floor, seedName] of [
+  [AHOSKIE, "US-NC", "black", 0.45, "origin-town-pin-a"],
+  [LAREDO, "US-TX", "hispanic", 0.7, "origin-town-pin-b"],
+] as const)
+  it(`households in a pinned town follow the town's own ${group} share, not the state's (${geoid})`, () => {
+    setBookkeeping(false);
+    const own = new Map(originSharesWithBasis(state, geoid).shares);
+    const { core } = buildBenchWorld(seedName, gameStartDate(), {
+      twoLevel: true,
+      placeKey: geoid,
+    });
+    const counts = new Map<string, number>();
+    let homes = 0;
+    for (const home of core.households.values()) {
+      const origin = core.people.get(home.memberIds[0]!)?.looks?.origin;
+      if (!origin) continue;
+      homes += 1;
+      counts.set(origin, (counts.get(origin) ?? 0) + 1);
+    }
+    expect(homes).toBeGreaterThan(20);
+    const share = (counts.get(group) ?? 0) / homes;
+    const target = own.get(group)!;
+    // Within sampling of the town's own share (three sigma), and well above
+    // the state's.
+    const sigma = Math.sqrt((target * (1 - target)) / homes);
+    expect(Math.abs(share - target)).toBeLessThan(3 * sigma + 0.02);
+    expect(share).toBeGreaterThan(floor);
+  }, 120_000);

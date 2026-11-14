@@ -164,11 +164,11 @@
     "kind": "partial-model",
     "file": "src/core2/opening-origin.ts",
     "line": 127,
-    "whatItFakes": "A household's origin (white, Hispanic, Black, Asian, other) is drawn from the town's own 2020 Census counts only for places with a committed row (North Carolina so far); every other place is drawn from its state's adult shares (CPS 2024, table 4b), and every member of a household, a couple included, shares one origin; kin take a resident relative's.",
-    "why": "No all-places file of race by Hispanic origin could be fetched from the build containers (Census hosts are blocked; the search is in /mnt/project-files/protected-traits/data-hunt.md), so only North Carolina's places are committed; mixed couples need a joint distribution.",
+    "whatItFakes": "A household's origin (white, Hispanic, Black, Asian, other) is drawn from the town's own 2020 Census counts (everyone who lives there, not only adults) for the 50 states, DC and Puerto Rico; an island-area village (Guam, the Virgin Islands, American Samoa, the Northern Marianas) has no row and takes the nation's adult shares (CPS 2024, table 4b). Every member of a household, a couple included, shares one origin; kin take a resident relative's.",
+    "why": "The republished 2020 redistricting files hold no island-area places and no table of mixed couples, so a village falls back to the nation and a couple shares one origin.",
     "addedBy": "Tiers (Nov 8)",
     "addedAt": "2026-11-08",
-    "replacement": "Add each remaining state's place file to data/source/place-race-origin/raw (or one all-places ACS B03002 cut) and run npm run export:place-race-origin; mixed-origin couples from the ACS joint table.",
+    "replacement": "The island areas' own 2020 counts when a source for them is committed to data/source/place-race-origin/raw, and mixed-origin couples from the ACS joint table.",
     "status": "open"
   },
   {

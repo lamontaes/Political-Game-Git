@@ -67,7 +67,7 @@ export function renderPlaceRaceOriginModule(): string {
   entries.sort();
   const meta = {
     source:
-      "U.S. Census Bureau 2020 Census redistricting data (P.L. 94-171) table P2, place level, as republished by the McClatchy southeast newsroom; residents of every age.",
+      "U.S. Census Bureau 2020 Census redistricting data (P.L. 94-171) table P2, place level for the 50 states, DC and Puerto Rico, as republished by henrydavidge/redistricting-data-2020; residents of every age.",
     lockedSha256: lock.artifacts.map((artifact) => artifact.sha256),
     asOf: lock.asOf,
     places: entries.length,
