@@ -9,6 +9,7 @@ import { coreAPI } from "../core2/state";
 import seriesPowers from "../core2/data/legislature/series-powers.json" with { type: "json" };
 import federalQuestions from "../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 import bankData from "../../data/english/bill-sections.json" with { type: "json" };
+import { billTitleOf } from "./bill-names";
 import { storyTopicName } from "./policy-names";
 import {
   amountWords,
@@ -114,7 +115,7 @@ describe("a section reads the record's numbers", () => {
       })!.sections[0],
     ).toMatch(/to \$11 an hour, amending § 25-7-41\.$/);
   });
-  it("an act opens with a short title and a long title from its own name and purposes, and a local ordinance has neither", () => {
+  it("an act names itself with a short title read from the same record as every other screen, and a local ordinance has none", () => {
     const question = "us-policy-positions:labor-workforce.raise-minimum-wage";
     const bill = (kind: string) => ({
       id: "bill:fixture-title",
@@ -128,13 +129,14 @@ describe("a section reads the record's numbers", () => {
     expect(act.shortTitle, act.title).toMatch(
       /^This Act may be cited as the \u201C[^\u201D]+\u201D\.$/,
     );
-    expect(act.longTitle, act.title).toMatch(
-      /^To provide for .+, and for other purposes\.$/,
+    const bill1 = bill("act");
+    expect(act.shortTitle).toContain(
+      billTitleOf({ form: bill1.form, provisions: bill1.provisions })!.title,
     );
-    expect(act.text.slice(1, 3)).toEqual([act.longTitle, act.shortTitle]);
+    expect(act.text[1]).toBe(act.shortTitle);
+    expect(act.text.join(" ")).not.toMatch(/and for other purposes/);
     const local = composeBill(bill("ordinance"))!;
     expect(local.shortTitle).toBeNull();
-    expect(local.longTitle).toBeNull();
     expect(local.text.join(" ")).not.toMatch(/may be cited as/);
   });
   it("edge fixture: two steps on one law state its purpose once", () => {
