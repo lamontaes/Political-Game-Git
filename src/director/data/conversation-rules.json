@@ -59,15 +59,7 @@
       "stage": "default"
     },
     "eviction": {
-      "kind": "eviction-reply",
-      "stage": "default"
-    },
-    "eviction-cause": {
-      "kind": "eviction-cause-reply",
-      "stage": "default"
-    },
-    "eviction-where": {
-      "kind": "eviction-where-reply",
+      "kind": "eviction",
       "stage": "default"
     },
     "job-new": {
@@ -180,8 +172,7 @@
     "news": ["own-view", "address"],
     "address": ["news"],
     "address-point": ["news", "own-view"],
-    "job-lost": ["job-hope"],
-    "eviction": ["eviction-where"]
+    "job-lost": ["job-hope"]
   },
   "topicOfLabel": {
     "about": "A recorded moment of the speaker's own (no one else in it) is talked about as this subject, by the moment's label: a new job is their work, a move is their home.",
@@ -220,13 +211,6 @@
     },
     "job-cause-reply": {
       "ask": "job-hope"
-    },
-    "eviction-reply": {
-      "ask": "eviction-cause",
-      "where": "eviction-where"
-    },
-    "eviction-cause-reply": {
-      "where": "eviction-where"
     },
     "address": {
       "agree": "address-point",
@@ -341,6 +325,12 @@
     "government-news": {
       "for": "agree",
       "against": "disagree"
+    },
+    "eviction": {
+      "ask": "request",
+      "where": "request",
+      "help": "answer",
+      "comfort": "answer"
     }
   },
   "addressPoint": {
@@ -475,7 +465,7 @@
     }
   },
   "dayTalk": {
-    "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift: the day ahead or a day off for work-day, the shift just worked for work-done): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day. The rent coming due (rent-due) is told by a payer on the household's lease in the days before it is due, once for each due date, and answered from the household's cash against it. A school day missed (school-missed) is read the next morning from the school engine's closed day: a school day with no attendance row; a day they went is the usual day and no news. A morning shift is told only when it differs from the job's usual day (its hours by unusualShiftMinutes); a usual day or a day off is no news. A story in the paper that names the speaker's own employer or someone they know (news-touch) is told once, by the story's own record.",
+    "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift: the day ahead or a day off for work-day, the shift just worked for work-done): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day. The rent coming due (rent-due) is told by a payer on the household's lease in the days before it is due, once for each due date, and answered from the household's cash against it. A school day missed (school-missed) is read the next morning from the school engine's closed day: a school day with no attendance row; a day they went is the usual day and no news. A morning shift is told only when it differs from the job's usual day (its hours by unusualShiftMinutes); a usual day or a day off is no news. A story in the paper that names the speaker's own employer or someone they know (news-touch) is told once, by the story's own record. A household put out of its home (eviction) is told once by an adult of it, from the housing engine's case and status: when, what was owed and how many months of rent that was, a job the teller lost before it, and where they went (a relative's, a shelter bed, nowhere); answered back by the reply's move from the same records. For the kinds in backOmitsTold, the answer back leaves out the figures (toldFigures) the telling just said, so it says what comes next, never the same figure again.",
     "kinds": [
       "here",
       "player-day",
@@ -485,7 +475,8 @@
       "rent-due",
       "news-touch",
       "player-news",
-      "government-news"
+      "government-news",
+      "eviction"
     ],
     "againAfterDays": {
       "value": 3,
@@ -524,7 +515,15 @@
       "tag": "TUNABLE",
       "spread": [14, 56],
       "checkedAgainst": "Lead, Nov 12 (Brett states his hourly wage in three of four talks): a person's own pay, rent or hours figure is said to the same listener once, then not again for this many days (four weeks) unless it changed. A month is about how often a household's money comes up again (a rent or pay cycle; BLS: most workers are paid weekly or biweekly, rent monthly)."
-    }
+    },
+    "evictionJobLostDays": {
+      "value": 365,
+      "tag": "TUNABLE",
+      "spread": [180, 730],
+      "checkedAgainst": "A job lost within the year before an eviction is told as why the rent fell behind: most evicted renters fall behind after a loss of income in the months before (Desmond and Gershenson 2016, 'Housing and Employment Insecurity among the Working Poor'; Census Household Pulse Survey, renters behind by recent loss of employment income)."
+    },
+    "backOmitsTold": ["eviction", "job-lost"],
+    "toldFigures": ["owed", "behind", "wage", "years", "when"]
   },
   "stands": {
     "about": "Owner, Nov 12, via the coordinator: children do not take stands on the President's address. A person younger than this takes no stand in talk: no point of an address, no stand of their own, no policy story told with a side; a child talks about school, friends and home.",

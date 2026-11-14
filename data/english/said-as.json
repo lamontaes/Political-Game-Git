@@ -151,9 +151,10 @@
     "city": "the council"
   },
   "ownPlace": {
-    "about": "Owner via the coordinator, Nov 12: a district's or employer's name is never spoken as the place someone goes. A student says their own school as 'school'; a worker names the employer once in a talk and then says 'work'. By the tie between the person and the organization.",
+    "about": "Owner via the coordinator, Nov 12: a district's or employer's name is never spoken as the place someone goes. A student says their own school as 'school'; a worker names the employer once in a talk and then says 'work'. By the tie between the person and the organization. A resident says the town both people live in as 'town' (\"the shelter in town\"), never its name (owner, Nov 12: \"we'll watch what it does to Wofford Heights\").",
     "student": "school",
-    "worker": "work"
+    "worker": "work",
+    "resident": "town"
   },
   "questionAgain": {
     "about": "Lead, Nov 12 (\"say no to raising the debt limit only with spending cuts to match\" right after the opener named it in full): once a line has named a question, its act is said again in a short form, by the slot it fills. Lead, Nov 13: while it is the only question on the table, a later mention of its name in the talk is `it`. Words only; the composer reads them.",
