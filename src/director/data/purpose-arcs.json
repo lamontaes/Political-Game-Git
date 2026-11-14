@@ -4023,16 +4023,13 @@
     },
     "party-welcome": {
       "state": "request",
-      "replies": ["agree", "promise", "ask", "deflect"],
+      "replies": ["agree", "deflect"],
       "follow": {
-        "agree": ["thank", "accept"],
-        "promise": ["thank", "press"],
-        "ask": ["answer"],
+        "agree": ["thank"],
         "deflect": ["press", "accept"]
       },
       "again": {
-        "press": ["agree", "promise", "leave"],
-        "answer": ["agree", "promise", "deflect"]
+        "press": ["agree", "leave"]
       },
       "endings": [
         {
@@ -4040,7 +4037,7 @@
           "label": "You said you would pitch in",
           "keeps": "promise",
           "when": {
-            "anyReply": ["agree", "promise"]
+            "anyReply": ["agree"]
           }
         },
         {

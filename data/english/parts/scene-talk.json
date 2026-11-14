@@ -164262,10 +164262,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-the-party-office-open-and-has-set-out-a-chair-for-you",
+      "key": "scene-talk.narrate-narrate.name-has-the-party-party-office-open-and-has-set-out-a-chair-for-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has the {party} office open and has set out a chair for you.",
+      "text": "{name} has the {party} Party office open and has set out a chair for you.",
       "uses": [
         {
           "subject": "scene",
@@ -164286,10 +164286,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-step-into-the-party-office-and-name-looks-up-from-the-desk-with-a-smile",
+      "key": "scene-talk.narrate-narrate.you-step-into-the-party-party-office-and-name-looks-up-from-the-desk",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You step into the {party} office, and {name} looks up from the desk with a smile.",
+      "text": "You step into the {party} Party office, and {name} looks up from the desk.",
       "uses": [
         {
           "subject": "scene",
@@ -164310,10 +164310,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.come-in-come-in-welcome-to-the-party-party",
+      "key": "scene-talk.open-greet.come-in-come-in",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Come in, come in. Welcome to the {party} Party.",
+      "text": "Come in, come in.",
       "uses": [
         {
           "subject": "scene",
@@ -164334,10 +164334,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.there-you-are-sit-down-and-welcome-to-the-party-party",
+      "key": "scene-talk.open-greet.there-you-are-sit-down",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "There you are. Sit down, and welcome to the {party} Party.",
+      "text": "There you are. Sit down.",
       "uses": [
         {
           "subject": "scene",
@@ -164358,10 +164358,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.welcome-to-the-party-party-most-people-sign-up-and-we-never-see-them-again-can-we-count-on-you-to-pitch-in-now-and-then",
+      "key": "scene-talk.state-request.welcome-most-people-sign-up-and-we-never-see-them-again-can-we-count-on-you-to-pitch-in-now-and-then",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Welcome to the {party} Party. Most people sign up and we never see them again. Can we count on you to pitch in now and then?",
+      "text": "Welcome. Most people sign up and we never see them again. Can we count on you to pitch in now and then?",
       "uses": [
         {
           "subject": "scene",
@@ -164382,10 +164382,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-m-glad-you-came-by-would-you-lend-the-party-party-a-hand-when-we-need-one",
+      "key": "scene-talk.state-request.i-m-glad-you-came-by-would-you-lend-a-hand-when-we-need-one",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm glad you came by. Would you lend the {party} Party a hand when we need one?",
+      "text": "I'm glad you came by. Would you lend a hand when we need one?",
       "uses": [
         {
           "subject": "scene",
@@ -164406,10 +164406,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-put-me-down-for-the-party-party",
+      "key": "scene-talk.reply-agree.yes-put-me-down-for-that",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes, put me down for the {party} Party.",
+      "text": "Yes, put me down for that.",
       "uses": [
         {
           "subject": "scene",
@@ -164430,130 +164430,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.sure-where-do-i-start-with-the-party-party",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Sure. Where do I start with the {party} Party?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "party-welcome",
-          "key": "welcomed",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "agree",
-        "key": "welcomed"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-help-the-party-party-where-i-can-you-have-my-word",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll help the {party} Party where I can. You have my word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "party-welcome",
-          "key": "welcomed",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "promise",
-        "key": "welcomed"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.you-can-count-on-me-when-it-matters-i-m-with-the-party-party-now",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "You can count on me when it matters. I'm with the {party} Party now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "party-welcome",
-          "key": "welcomed",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "promise",
-        "key": "welcomed"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-does-the-party-party-actually-do-around-here",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What does the {party} Party actually do around here?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "party-welcome",
-          "key": "welcomed",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "ask",
-        "key": "welcomed"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-would-the-party-party-need-from-me",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What would the {party} Party need from me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "party-welcome",
-          "key": "welcomed",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "ask",
-        "key": "welcomed"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.let-me-see-how-the-party-party-goes-first",
+      "key": "scene-talk.reply-deflect.let-me-see-how-it-goes-first",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Let me see how the {party} Party goes first.",
+      "text": "Let me see how it goes first.",
       "uses": [
         {
           "subject": "scene",
@@ -164574,34 +164454,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-only-just-signed-up-with-the-party-party-give-me-a-little-time",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I only just signed up with the {party} Party. Give me a little time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "party-welcome",
-          "key": "welcomed",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deflect",
-        "key": "welcomed"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-should-get-going-thanks-for-the-welcome-to-the-party-party",
+      "key": "scene-talk.reply-leave.i-should-get-going-thanks-for-the-welcome",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I should get going. Thanks for the welcome to the {party} Party.",
+      "text": "I should get going. Thanks for the welcome.",
       "uses": [
         {
           "subject": "scene",
@@ -164622,10 +164478,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-only-wanted-to-say-hello-to-the-party-party",
+      "key": "scene-talk.reply-leave.i-only-wanted-to-say-hello",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I only wanted to say hello to the {party} Party.",
+      "text": "I only wanted to say hello.",
       "uses": [
         {
           "subject": "scene",
@@ -164646,58 +164502,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.mostly-the-party-party-knocks-on-doors-holds-meetings-and-finds-people-to-run-whatever-time-you-have-helps",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Mostly the {party} Party knocks on doors, holds meetings and finds people to run. Whatever time you have helps.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "party-welcome",
-          "key": "welcomed",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "welcomed"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-party-party-gets-names-on-the-ballot-and-people-out-to-vote-it-takes-everybody",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The {party} Party gets names on the ballot and people out to vote. It takes everybody.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "party-welcome",
-          "key": "welcomed",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "welcomed"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.good-it-means-a-lot-to-have-you-with-the-party-party",
+      "key": "scene-talk.follow-thank.good-it-means-a-lot-to-have-you-with-us",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. It means a lot to have you with the {party} Party.",
+      "text": "Good. It means a lot to have you with us.",
       "uses": [
         {
           "subject": "scene",
@@ -164718,10 +164526,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-s-what-i-like-to-hear-welcome-aboard-the-party-party",
+      "key": "scene-talk.follow-thank.that-s-what-i-like-to-hear-welcome-aboard",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That's what I like to hear. Welcome aboard the {party} Party.",
+      "text": "That's what I like to hear. Welcome aboard.",
       "uses": [
         {
           "subject": "scene",
@@ -164742,10 +164550,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.even-one-evening-before-the-election-would-help-the-party-party-can-i-count-on-that-much",
+      "key": "scene-talk.follow-press.even-one-evening-before-the-election-would-help-can-i-count-on-that-much",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Even one evening before the election would help the {party} Party. Can I count on that much?",
+      "text": "Even one evening before the election would help. Can I count on that much?",
       "uses": [
         {
           "subject": "scene",
@@ -164766,10 +164574,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.the-party-party-runs-on-people-who-show-up-can-i-count-on-you-for-one-thing",
+      "key": "scene-talk.follow-press.we-run-on-people-who-show-up-can-i-count-on-you-for-one-thing",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "The {party} Party runs on people who show up. Can I count on you for one thing?",
+      "text": "We run on people who show up. Can I count on you for one thing?",
       "uses": [
         {
           "subject": "scene",
@@ -164790,10 +164598,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-the-party-party-door-s-open-when-you-re-ready",
+      "key": "scene-talk.follow-accept.fair-enough-the-door-s-open-when-you-re-ready",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. The {party} Party door's open when you're ready.",
+      "text": "Fair enough. The door's open when you're ready.",
       "uses": [
         {
           "subject": "scene",
@@ -164814,10 +164622,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.no-pressure-come-by-the-party-office-when-you-can",
+      "key": "scene-talk.follow-accept.no-pressure-come-by-when-you-can",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "No pressure. Come by the {party} office when you can.",
+      "text": "No pressure. Come by when you can.",
       "uses": [
         {
           "subject": "scene",
@@ -164838,10 +164646,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-ll-call-you-when-something-comes-up-good-to-have-you-in-the-party-party",
+      "key": "scene-talk.close-thank.i-ll-call-you-when-something-comes-up-good-to-have-you",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'll call you when something comes up. Good to have you in the {party} Party.",
+      "text": "I'll call you when something comes up. Good to have you.",
       "uses": [
         {
           "subject": "scene",
@@ -164863,10 +164671,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-ll-put-your-name-on-the-party-party-list-we-re-glad-you-re-here",
+      "key": "scene-talk.close-thank.i-ll-put-your-name-on-the-list-we-re-glad-you-re-here",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'll put your name on the {party} Party list. We're glad you're here.",
+      "text": "I'll put your name on the list. We're glad you're here.",
       "uses": [
         {
           "subject": "scene",
@@ -164888,35 +164696,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.the-party-party-will-look-after-you-too",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "The {party} Party will look after you, too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "party-welcome",
-          "key": "welcomed",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "promise",
-        "key": "welcomed"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.no-hard-feelings-the-party-party-door-stays-open",
+      "key": "scene-talk.close-accept.no-hard-feelings-the-door-stays-open",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "No hard feelings. The {party} Party door stays open.",
+      "text": "No hard feelings. The door stays open.",
       "uses": [
         {
           "subject": "scene",
@@ -164938,10 +164721,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.the-party-party-could-use-you-i-hoped-you-d-say-yes",
+      "key": "scene-talk.close-warn.we-could-use-you-i-hoped-you-d-say-yes",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "The {party} Party could use you. I hoped you'd say yes.",
+      "text": "We could use you. I hoped you'd say yes.",
       "uses": [
         {
           "subject": "scene",
@@ -164963,10 +164746,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-about-it-the-party-party-will-need-people-soon",
+      "key": "scene-talk.close-press.think-about-it-we-ll-need-people-soon",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Think about it. The {party} Party will need people soon.",
+      "text": "Think about it. We'll need people soon.",
       "uses": [
         {
           "subject": "scene",
@@ -164988,10 +164771,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.don-t-wait-too-long-there-s-plenty-for-the-party-party-to-do",
+      "key": "scene-talk.close-warn.don-t-wait-too-long-there-s-plenty-to-do",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Don't wait too long. There's plenty for the {party} Party to do.",
+      "text": "Don't wait too long. There's plenty to do.",
       "uses": [
         {
           "subject": "scene",
@@ -165038,10 +164821,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.of-course-come-by-the-party-office-whenever-you-like",
+      "key": "scene-talk.close-accept.of-course-come-by-whenever-you-like",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Of course. Come by the {party} office whenever you like.",
+      "text": "Of course. Come by whenever you like.",
       "uses": [
         {
           "subject": "scene",
