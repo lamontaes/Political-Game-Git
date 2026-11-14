@@ -91,10 +91,7 @@ import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
-import {
-  CASES_MODULE_ID,
-  handleCase,
-} from "../core2/modules/constituent-cases";
+import { CASES_MODULE_ID, handleCase } from "../core2/modules/offices";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
