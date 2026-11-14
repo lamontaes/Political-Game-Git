@@ -13,7 +13,11 @@
  */
 import { writeFileSync, readFileSync } from "node:fs";
 import { buildTalks } from "../../tests/support/scene-talk-fixture";
-import type { SceneTalk, SceneTalkLine, TreeNode } from "../../src/director/scene-talk";
+import {
+  answerableAsks,
+  type AskFail,
+  type FactPart,
+} from "../../src/english/answerable-asks";
 import bank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 
 const out = (() => {
@@ -21,112 +25,38 @@ const out = (() => {
   return at >= 0 ? process.argv[at + 1]! : "";
 })();
 
-interface Part {
-  key: string;
-  requiresFacts?: string[];
-  onlyWhen?: string[];
-  uses?: { requiresFacts?: string[]; onlyWhen?: string[] }[];
-}
-const parts = new Map<string, Part>();
+const parts = new Map<string, FactPart>();
 const walk = (o: unknown): void => {
   if (Array.isArray(o)) o.forEach(walk);
   else if (o && typeof o === "object") {
-    const row = o as Part & { text?: string };
-    if (typeof row.key === "string" && typeof row.text === "string") parts.set(row.key, row);
+    const row = o as FactPart & { text?: string };
+    if (typeof row.key === "string" && typeof row.text === "string")
+      parts.set(row.key, row);
     Object.values(o).forEach(walk);
   }
 };
 walk(bank);
-const factsOf = (line: SceneTalkLine): string[] =>
-  line.parts.flatMap((key) => {
-    const part = parts.get(key);
-    if (!part) return [];
-    return [
-      ...(part.requiresFacts ?? []),
-      ...(part.onlyWhen ?? []),
-      ...(part.uses ?? []).flatMap((use) => [...(use.requiresFacts ?? []), ...(use.onlyWhen ?? [])]),
-    ];
-  });
-
-const COURTESY =
-  /^(?:have you got a (?:few )?minutes?|is now a bad time|hey\. have you got|how are you|you okay|are you okay|are you all right|how'?s it going|how have you been|what'?s up|how are things|got a minute|do you have a (?:minute|moment))/i;
-const CHALLENGE =
-  /^(?:are you (?:threatening|serious|kidding|saying)|who else|did it ever|do you (?:really )?think i|why would i|what do you want me to|so (?:that'?s|you)|is that (?:a|supposed)|are you (?:trying|here to)|what'?s that supposed)/i;
-const INFO =
-  /^(?:what|where|when|who|whom|whose|which|why|how|is |are |does |did |do you (?:know|remember|see|have)|has |have |was |were |would i|will i|could i|can i )/i;
-
-type Klass = 1 | 2 | 3 | 4;
-const firstQuestion = (text: string): string =>
-  text.split(/(?<=[.!?])\s+/).find((sentence) => sentence.endsWith("?")) ?? text;
-const classOf = (text: string): Klass => {
-  const q = firstQuestion(text).trim();
-  if (COURTESY.test(text.trim()) || COURTESY.test(q)) return 1;
-  if (CHALLENGE.test(q)) return 3;
-  if (INFO.test(q)) return 4;
-  return 2;
-};
-
-interface Fail {
-  klass: Klass;
-  purpose: string;
-  line: SceneTalkLine;
-  why: string;
-}
-const fails: Fail[] = [];
-let seen = 0;
-
-function check(talk: SceneTalk, line: SceneTalkLine, rest: SceneTalkLine[], node: TreeNode): void {
-  seen += 1;
-  const klass = classOf(line.text);
-  if (klass === 1) return;
-  const next = rest[0];
-  const endsHere = !next && node.replies.length === 0 && !node.branches;
-  const playerNext = !next && node.replies.length > 0;
-  if (klass === 2) {
-    if (endsHere) fails.push({ klass, purpose: talk.purpose, line, why: "the scene ends on the question" });
-    return;
-  }
-  if (klass === 3) {
-    if (endsHere) fails.push({ klass, purpose: talk.purpose, line, why: "the scene ends on the challenge" });
-    return;
-  }
-  // Class 4: an answer line from the other person, guarded on a record fact.
-  if (endsHere) {
-    fails.push({ klass, purpose: talk.purpose, line, why: "the scene ends on the question" });
-    return;
-  }
-  if (playerNext) return; // the player answers from their own life: the choices carry it
-  if (next && next.role !== line.role) {
-    const answering = /answer|tell/.test(next.move) || next.after === line.move;
-    if (!answering) fails.push({ klass, purpose: talk.purpose, line, why: `next line is ${next.move}, not an answer` });
-    else if (factsOf(next).length === 0)
-      fails.push({ klass, purpose: talk.purpose, line, why: `the answer (${next.move}) carries no record fact` });
-    return;
-  }
-  fails.push({ klass, purpose: talk.purpose, line, why: "no answer line follows it" });
-}
-
-function visit(talk: SceneTalk, node: TreeNode): void {
-  node.lines.forEach((line, index) => {
-    if (line.role !== "narrator" && line.asks) check(talk, line, node.lines.slice(index + 1), node);
-  });
-  for (const reply of node.replies) {
-    if (reply.line.asks) check(talk, reply.line, reply.next?.lines.slice(0, 1) ?? [], reply.next ?? { lines: [], replies: [] });
-    if (reply.next) visit(talk, reply.next);
-  }
-  for (const branch of node.branches ?? []) visit(talk, branch.node);
-}
-
 const talks = buildTalks();
-for (const talk of talks) {
-  for (const line of [talk.open, talk.state, ...talk.intro].filter((l): l is SceneTalkLine => !!l)) {
-    if (line.asks && line.role !== "narrator") {
-      const first = talk.tree.lines[0];
-      const probe: TreeNode = talk.tree;
-      check(talk, line, first && line !== talk.state ? [] : talk.tree.lines.slice(0, 1), probe);
-    }
-  }
-  visit(talk, talk.tree);
+const { fails, seen } = answerableAsks(talks, parts);
+
+if (process.argv.includes("--write-baseline")) {
+  const keys = [
+    ...new Set(
+      fails.map((f) => `${f.line.parts[0] ?? f.line.text} | ${f.why}`),
+    ),
+  ].sort();
+  writeFileSync(
+    "tests/english-answerable-asks-baseline.json",
+    JSON.stringify(
+      {
+        about:
+          "Rule 108: each asking line of a composed scene talk that has no answer from a record, as `part key | why`. The list may only shrink: tests/english-answerable-asks.test.ts fails on a line not here. Rewrite it with `node --import tsx scripts/words/answerable-asks.ts --write-baseline` after a change that removes lines.",
+        failing: keys,
+      },
+      null,
+      2,
+    ) + "\n",
+  );
 }
 
 // Play counts from the ranked runs, when a key is on them.
@@ -137,7 +67,9 @@ for (const file of [
 ]) {
   try {
     for (const row of readFileSync(file, "utf8").split("\n")) {
-      const m = /^\|\s*\d+\s*\|\s*(\d+)\s*\|[^|]*\|[^|]*\|\s*`([^`]+)`/.exec(row);
+      const m = /^\|\s*\d+\s*\|\s*(\d+)\s*\|[^|]*\|[^|]*\|\s*`([^`]+)`/.exec(
+        row,
+      );
       if (m) plays.set(m[2]!, Math.max(plays.get(m[2]!) ?? 0, Number(m[1])));
     }
   } catch {
@@ -145,7 +77,7 @@ for (const file of [
   }
 }
 
-const byKey = new Map<string, Fail & { count: number }>();
+const byKey = new Map<string, AskFail & { count: number }>();
 for (const fail of fails) {
   const key = `${fail.line.parts[0] ?? fail.line.text}\u0000${fail.why}`;
   const row = byKey.get(key);
@@ -153,7 +85,9 @@ for (const fail of fails) {
   else byKey.set(key, { ...fail, count: 1 });
 }
 const rows = [...byKey.values()].sort(
-  (a, b) => (plays.get(b.line.parts[0] ?? "") ?? 0) - (plays.get(a.line.parts[0] ?? "") ?? 0) || b.count - a.count,
+  (a, b) =>
+    (plays.get(b.line.parts[0] ?? "") ?? 0) -
+      (plays.get(a.line.parts[0] ?? "") ?? 0) || b.count - a.count,
 );
 const lines = [
   "# Rule 108: failures by class, by path (M1)\n",

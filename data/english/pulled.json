@@ -1,7 +1,42 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {},
-  "waiting": {},
+  "pulled": {
+    "scene-talk.reply-ask.how-would-you-pay-for-it": [
+      "question-offered-only-when-a-record-answers"
+    ],
+    "scene-talk.reply-ask.what-would-you-like-me-to-say-to-them": [
+      "question-offered-only-when-a-record-answers"
+    ],
+    "scene-talk.reply-bargain.then-let-s-call-it-a-trade-what-do-i-get-on-bill-that-i-didn-t-get-last-time": [
+      "question-offered-only-when-a-record-answers"
+    ],
+    "scene-talk.reply-bargain.what-s-in-it-for-my-district": [
+      "question-offered-only-when-a-record-answers"
+    ],
+    "scene-talk.reply-leave.can-we-talk-later": [
+      "question-offered-only-when-a-record-answers"
+    ],
+    "scene-talk.reply-leave.i-can-t-talk-now-later": [
+      "question-offered-only-when-a-record-answers"
+    ],
+    "scene-talk.reply-stall.i-want-to-check-one-number-first-can-i-call-you-back-before-you-file": [
+      "question-offered-only-when-a-record-answers"
+    ],
+    "scene-talk.reply-stall.when-do-you-need-an-answer": [
+      "question-offered-only-when-a-record-answers"
+    ]
+  },
+  "waiting": {
+    "scene-talk.follow-thank.seven-the-back-room-at-the-church-bring-a-friend": [
+      "question-offered-only-when-a-record-answers"
+    ],
+    "scene-talk.reply-agree.thursday-works-what-time": [
+      "question-offered-only-when-a-record-answers"
+    ],
+    "scene-talk.reply-stall.can-i-have-a-few-days-with-this": [
+      "question-offered-only-when-a-record-answers"
+    ]
+  },
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"

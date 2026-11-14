@@ -5420,6 +5420,45 @@
         "check": ["note-stands-alone"],
         "applies": ["journal:note", "news:toast"]
       }
+    },
+    {
+      "id": "question-offered-only-when-a-record-answers",
+      "says": "A question is offered only when the scene can answer it from a record in the same talk; one nothing in the game holds an answer to is not offered.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-11-14",
+          "words": "Whenever a line asks something, in any voice, the scene must be able to say the answer from a record, in that same talk. If it cannot, the question is not offered or said.",
+          "via": "Words lead, rule 108"
+        }
+      ],
+      "note": "Rule 108, first slice: the questions the Words lead ruled have no record today (how to pay for it, what to say to them, the put-offs, the hour of an outing, what is in it for my district and the trade line). Each comes back when its record exists and its answer line carries the fact. The rest of rule 108 is the composed check. The answer that invents an hour and a room for the outing goes with its question.",
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": [
+          "^How would you pay for it\\?$",
+          "^What would you like me to say to them\\?$",
+          "^Can I have a few days with this\\?$",
+          "^When do you need an answer\\?$",
+          "Can I call you back before you file\\?$",
+          "^Can we talk later\\?$",
+          "^I can't talk now\\. Later\\?$",
+          "^Thursday works\\. What time\\?$",
+          "^What's in it for my district\\?$",
+          "^Then let's call it a trade\\. What do I get on \\{bill\\} that I didn't get last time\\?$",
+          "^Seven\\. The back room at the church\\. Bring a friend\\.$"
+        ],
+        "applies": {
+          "banks": ["scene-talk"]
+        }
+      },
+      "catches": [
+        "How would you pay for it?",
+        "Can we talk later?",
+        "What's in it for my district?"
+      ]
     }
   ]
 }
