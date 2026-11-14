@@ -39,8 +39,6 @@
           "legislature"
         ],
         "bodyWordsNote": "A body is said by the first of these words its recorded name holds ('County of Maui Board of Commissioners' is 'the board', 'Clark Fork City Council' is 'the council'), else its name's last word.",
-        "realmForms": ["County", "Parish", "Borough", "Township"],
-        "realmFormsNote": "A government listed as '<form> of <name>' is said '<name> <form>' for these forms ('County of Maui' is 'Maui County'); a town, city or village is said by its name alone.",
         "tag": "TUNABLE",
         "spread": "a county executive before a city's mayor where the place is unincorporated; else as listed"
       }
