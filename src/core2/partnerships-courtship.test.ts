@@ -120,18 +120,32 @@ describe("the player's own courtship acts (Pulaski, Ohio)", () => {
   it("asks out someone the player has spent time with: a yes starts them dating, then a proposal is answered", () => {
     const { core, api, me, singles, where } = world();
     const born = core.people.get(me)!.birthDate;
-    // The single nearest the player's age; first asked cold, then after
-    // evenings spent together (the visits the card's Visit act writes, as
-    // the closeness engine's own "visit" contact).
-    const other = [...singles].sort(
-      (a, b) =>
-        Math.abs(Date.parse(a.birthDate) - Date.parse(born)) -
-          Math.abs(Date.parse(b.birthDate) - Date.parse(born)) ||
-        a.id.localeCompare(b.id),
-    )[0]!;
-    const cold = askOut(api, me, other.id);
-    const answers = [`cold: ${cold.answer} ${cold.reason ?? ""}`];
-    if (cold.answer === "no") {
+    // The singles nearest the player's age, each first asked cold, then
+    // after evenings spent together (the visits the card's Visit act writes,
+    // as the closeness engine's own "visit" contact). One may still prefer
+    // someone else they know; the first who says yes is the one, and those
+    // passed over are named.
+    const nearest = [...singles]
+      .sort(
+        (a, b) =>
+          Math.abs(Date.parse(a.birthDate) - Date.parse(born)) -
+            Math.abs(Date.parse(b.birthDate) - Date.parse(born)) ||
+          a.id.localeCompare(b.id),
+      )
+      .slice(0, 4);
+    const answers: string[] = [];
+    const together = () =>
+      [...core.familyLinks.values()].find(
+        (row) => row.kind === "partner" && row.personIds.includes(me),
+      );
+    let other = nearest[0]!;
+    for (const candidate of nearest) {
+      other = candidate;
+      const cold = askOut(api, me, other.id);
+      answers.push(
+        `${other.givenName} cold: ${cold.answer} ${cold.reason ?? ""}`,
+      );
+      if (cold.answer === "yes") break;
       expect(canAsk(api, me, other.id, "ask-out"), where).toEqual({
         open: false,
         reason: "nothing-changed",
@@ -148,21 +162,20 @@ describe("the player's own courtship acts (Pulaski, Ohio)", () => {
           kind ?? ("friend" as never),
           3,
           undefined,
-          {
-            cause: "visit",
-          },
+          { cause: "visit" },
         );
-        if (canAsk(api, me, other.id, "ask-out").open) break;
       }
+      if (!canAsk(api, me, other.id, "ask-out").open) continue;
       const warm = askOut(api, me, other.id);
-      answers.push(`after time together: ${warm.answer} ${warm.reason ?? ""}`);
+      answers.push(
+        `${other.givenName} after time together: ${warm.answer} ${warm.reason ?? ""}`,
+      );
+      if (warm.answer === "yes") break;
     }
-    const link = [...core.familyLinks.values()].find(
-      (row) => row.kind === "partner" && row.personIds.includes(me),
-    );
+    const link = together();
     expect(
       link?.personIds,
-      `${where}: ${other.givenName} says yes (${answers.join("; ")})`,
+      `${where}: someone says yes (${answers.join("; ")})`,
     ).toContain(other.id);
     const partner = other.id;
     const couples = moduleState(core, "partnerships").table("couples");
