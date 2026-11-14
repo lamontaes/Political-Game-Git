@@ -1,17 +1,5 @@
 [
   {
-    "id": "SG-WORDS-favor-promise-keeps-unread",
-    "kind": "missing-hook",
-    "file": "src/director/purpose-scene.ts",
-    "line": 1,
-    "whatItFakes": "A scene ending that keeps a promise or a favor is kept by the director and settled only where data/promise-kinds.json names its kind and the record that settles it: a member's vote (the roll), paying on time after a money quarrel (the payments), showing a new coworker around (a talk). Every other ending that keeps a promise (a campaign pledge said at a scene, a constituent's call, a fix promised at the desk, a visit promised at a goodbye, and the rest) or a favor is kept as a fact and moves the tie by the talk's time only; nothing settles it.",
-    "why": "Each kind needs the record that settles it named; some have one in another engine (a filing, a hire, a vote by question in record.ts) and some have no player act yet (reaching a relative or friend, going to a doctor: design-player-reaches-a-relative-or-friend, design-player-goes-to-a-doctor).",
-    "addedBy": "Words and director session",
-    "addedAt": "2026-10-28",
-    "replacement": "One row per ending in data/promise-kinds.json, each with the record that settles it, read by src/director/promises.ts; a favor-owed ending is a view of the legislature's obligations row.",
-    "status": "open"
-  },
-  {
     "id": "SG-P13-param-directorMomentFloor",
     "kind": "estimated-parameter",
     "file": "src/director/data/director.json",
@@ -24,30 +12,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T3"
-  },
-  {
-    "id": "SG-P13-param-directorInterruptImpact",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "The impact at which a moment takes over the screen.",
-    "why": "A pacing choice by the owner, which no study measures (Oct 16, 2026 research); the marriage anchor is 50 units on both the 1967 scale and its 2021 replication, so the line holds if the scale is updated. Stays TUNABLE against play.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P13-param-directorScaleHealth",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How much the watched person's own death counts.",
-    "why": "The watched person's own death is a design weight at the top of the scale; no stress scale rates one's own death (Oct 16, 2026 research). Stays TUNABLE against play.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
   },
   {
     "id": "SG-P13-param-directorWeightTieSociability",
@@ -92,18 +56,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-P13-param-directorTies",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "Standing ties for family and a shared home, the partner tie, and the fading discount.",
-    "why": "The partner tie is now scaled from the spouse-to-close-family ratio on the 1967 scale (0.79; 0.57 on the 2021 replication). No source ranks sibling, grandparent, grandchild or shared-home ties or measures the fading discount; they stay the October 8, 2026 design weights until the replay calibration.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "A calibration of thread importance against recorded closeness in replayed lives.",
-    "status": "open"
-  },
-  {
     "id": "SG-P13-param-directorHalfLives",
     "kind": "estimated-parameter",
     "file": "src/director/data/director.json",
@@ -114,42 +66,6 @@
     "addedAt": "2026-10-09",
     "replacement": "A half-life calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
     "status": "resolved"
-  },
-  {
-    "id": "SG-P13-appraisal-recompute",
-    "kind": "missing-hook",
-    "file": "src/director/ledger.ts",
-    "line": 1,
-    "whatItFakes": "The director recomputes each event's feeling with the core's exported appraisal function instead of reading the appraisal the core applied.",
-    "why": "The core keeps only the resulting mood and stress (src/core2/modules/life.ts:319); hook requested from SOL-1258.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "Read the appraisal receipt the core passes with each event.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P13-tie-day-order",
-    "kind": "missing-hook",
-    "file": "src/director/ledger.ts",
-    "line": 970,
-    "whatItFakes": "The director reads each watched person's tie changes once at the end of the day, so their order within the day is lost, although the core now sends a notice for each change.",
-    "why": "Relationship changes emit no event (src/core2/state.ts:561); hook requested from SOL-1258.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "A relationship change notice from the core.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P13-param-directorAnniversaryHalfDays",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How fast an anniversary's weight falls away from the date.",
-    "why": "The owner's answer 7. The only measured window is one week and no study calibrates the half-life (Oct 16, 2026 research).",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "A calibration against when people recall shared events.",
-    "status": "open"
   },
   {
     "id": "SG-P13-past-fact-estimates",
@@ -164,18 +80,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T3"
-  },
-  {
-    "id": "SG-P15-memory-forgetting",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How long a watched person keeps every moment in full, and how many older moments they keep one by one.",
-    "why": "No study sets either; chosen so memory stays about the same size across a year while the recent season stays whole.",
-    "addedBy": "OPUS-PEOPLE",
-    "addedAt": "2026-10-12",
-    "replacement": "A calibration against what people bring up in play (M4-05) and the owner's grading of the journal.",
-    "status": "open"
   },
   {
     "id": "SG-P15-journal-banks",
@@ -300,30 +204,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-WORDS-param-directorTalkRecentDays",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How long ago a recorded event still makes something two people talk about, and lets someone not in the room be asked after.",
-    "why": "The owner ruled what a talk opens on (Oct 14, 2026, night), not how long news stays news; one season is a guess checked against played talks.",
-    "addedBy": "OPUS-WORDS",
-    "addedAt": "2026-10-14",
-    "replacement": "A tested calibration against played talks, or an owner answer.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-param-directorTalkSeenLittleDays",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How many days since two people last spent time together before one may say they have not seen much of the other.",
-    "why": "A reading of the line in play (Amanave, American Samoa, Oct 29, 2026: \"since yesterday\"), not a measured quantity; a week is a guess checked against played household talks.",
-    "addedBy": "OPUS-WORDS",
-    "addedAt": "2026-10-29",
-    "replacement": "A tested calibration against played household talks, or an owner answer.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-param-directorTalkAddressImpact",
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/director.json",
@@ -403,18 +283,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-DIRECTOR-circumstance-weights",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "How often a scene from circumstance may come (the days between two), how strongly it orders the journal, and how the cast is weighed (named, witnessed, the player's tie, sociability).",
-    "why": "A pacing choice under the owner's Wildermyth ruling (Oct 26) with no study behind it; set so a played year in a drawn place carries scenes from circumstance about weekly while a quiet stretch carries none.",
-    "addedBy": "director",
-    "addedAt": "2026-10-27",
-    "replacement": "A calibration against the owner's playtests: scenes from circumstance per played month and how many he skips.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-family-limit-unread",
     "kind": "missing-hook",
     "file": "src/director/purpose-scene.ts",
@@ -437,6 +305,18 @@
     "addedAt": "2026-10-28",
     "replacement": "The clerk's tell-signatures line reads the elections engine's petition record (signatures required, by place) and the signature scenes read its count as the candidate campaigns.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-WORDS-favor-promise-keeps-unread",
+    "kind": "missing-hook",
+    "file": "src/director/purpose-scene.ts",
+    "line": 1,
+    "whatItFakes": "A scene ending that keeps a promise or a favor is kept by the director and settled only where data/promise-kinds.json names its kind and the record that settles it: a member's vote (the roll), paying on time after a money quarrel (the payments), showing a new coworker around (a talk). Every other ending that keeps a promise (a campaign pledge said at a scene, a constituent's call, a fix promised at the desk, a visit promised at a goodbye, and the rest) or a favor is kept as a fact and moves the tie by the talk's time only; nothing settles it.",
+    "why": "Each kind needs the record that settles it named; some have one in another engine (a filing, a hire, a vote by question in record.ts) and some have no player act yet (reaching a relative or friend, going to a doctor: design-player-reaches-a-relative-or-friend, design-player-goes-to-a-doctor).",
+    "addedBy": "Words and director session",
+    "addedAt": "2026-10-28",
+    "replacement": "One row per ending in data/promise-kinds.json, each with the record that settles it, read by src/director/promises.ts; a favor-owed ending is a view of the legislature's obligations row.",
+    "status": "open"
   },
   {
     "id": "SG-WORDS-recall-promise-record",

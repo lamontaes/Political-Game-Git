@@ -557,7 +557,8 @@
         {
           "move": "greet-opener",
           "subject": "greet",
-          "role": "opener"
+          "role": "opener",
+          "requiresFacts": ["name"]
         }
       ],
       "transcriptsUsing": 213,
@@ -700,7 +701,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "requiresFacts": ["name"]
         }
       ],
       "transcriptsUsing": 3,
@@ -731,7 +733,8 @@
           "move": "greet-open-hello",
           "subject": "greet",
           "role": "open",
-          "choice": "hello"
+          "choice": "hello",
+          "requiresFacts": ["name"]
         }
       ],
       "transcriptsUsing": 2,
@@ -13447,7 +13450,7 @@
           "subject": "charge-reply-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["bail"]
+          "requiresFacts": ["bailPosted"]
         }
       ],
       "piece": {

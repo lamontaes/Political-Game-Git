@@ -1338,14 +1338,22 @@ function caseFacts(
   const pretrial = core.durableLog.get(
     `justice.pretrial:${row.id}` as never,
   ) as { facts?: Readonly<Record<string, string>> } | undefined;
-  if (pretrial?.facts?.decision === "held") facts.held = fact("yes");
-  else if (Number(pretrial?.facts?.bailMinor) > zero) {
-    const bailMinor = Number(pretrial!.facts!.bailMinor);
-    facts.bail = fact(moneySaid(bailMinor));
-    // Said first as what it means to them (the person's own cash against it);
-    // the sum is said only when asked (Words lead, rule 104, Nov 14).
-    const cash = core.people.get(row.defendantId)?.liquidMinor ?? zero;
-    facts[cash >= bailMinor ? "bailCovered" : "bailOver"] = fact("yes");
+  // Read from the pretrial decision, never from the cash on hand now: posting
+  // bail moves the money out of the accused's hands, so their cash afterward
+  // always reads short of it.
+  const decision = pretrial?.facts?.decision;
+  if (decision === "held") facts.held = fact("yes");
+  if (
+    (decision === "held" || decision === "posted") &&
+    Number(pretrial?.facts?.bailMinor) > zero
+  ) {
+    facts.bail = fact(moneySaid(Number(pretrial!.facts!.bailMinor)));
+    // Said first as what it means to them; the sum is said only when asked
+    // (Words lead, rule 104, Nov 14). Held means they could not cover it.
+    if (decision === "posted") {
+      facts.bailCovered = fact("yes");
+      facts.bailPosted = fact("yes");
+    } else facts.bailOver = fact("yes");
   }
   const sentence = row.sentenceId
     ? (api.table("sentences").get(row.sentenceId) as
@@ -1364,7 +1372,11 @@ function caseFacts(
     if ((sentence.custodyMonths ?? zero) > zero)
       facts.term = fact(lengthSaid(sentence.custodyMonths!), ids);
     if ((sentence.probationMonths ?? zero) > zero)
-      facts.probation = fact(lengthSaid(sentence.probationMonths!), ids);
+      facts.probation = fact(
+        // A telling opens a sentence on it ("Thirteen months of probation").
+        lengthSaid(sentence.probationMonths!),
+        ids,
+      );
     if ((sentence.fineMinor ?? zero) > zero)
       facts.fine = fact(moneySaid(sentence.fineMinor!), ids);
   }
