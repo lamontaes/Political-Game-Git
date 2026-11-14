@@ -14,6 +14,8 @@ const NAMES = data.names as Readonly<
     string,
     {
       readonly about: string;
+      /** The subject alone, as a person names it after "on" or "about" ("drug prices"); no side taken. */
+      readonly said?: string;
       readonly to: string;
       readonly for?: string;
       readonly against?: string;
@@ -104,6 +106,18 @@ export function questionSide(
   side: "for" | "against" | "repeal" | "keep",
 ): string | null {
   return NAMES[question]?.[side] ?? null;
+}
+
+/**
+ * The question as a person names its subject in talk, after "on" or "about":
+ * "On drug prices, you and I are too far apart." It names the subject and
+ * takes no side (the side is said as what it does to the speaker). A
+ * question with no such name falls back to `questionAbout`. The one reader
+ * of the `said` field: every spoken use (doors, asking someone to serve,
+ * bargaining, debates, home talk) calls it.
+ */
+export function questionSaid(question: string): string | null {
+  return NAMES[question]?.said ?? NAMES[question]?.about ?? null;
 }
 
 /** The question as a noun phrase: "the bill is about {a higher minimum wage}". */

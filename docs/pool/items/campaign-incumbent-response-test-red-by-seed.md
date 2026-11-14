@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 lead: governing
 model: opus

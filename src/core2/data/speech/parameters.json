@@ -3,13 +3,23 @@
     "value": 0.3,
     "tag": "TUNABLE",
     "citation": "The appraised impulse of hearing a speech in person, on the core's life-change scale. Political persuasion effects from a single message are small on average (Coppock 2023, Persuasion in Parallel, University of Chicago Press), so a speech weighs less than a life event. Spread 0.1 to 0.5.",
-    "stopgapId": "SG-P15-speech-reception"
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "life-change scale",
+      "citation": "A single message's persuasion effect is small on average (Coppock 2023, Persuasion in Parallel, University of Chicago Press; Coppock, Hill and Vavreck 2020, Science Advances 6(36):eabc4046, 0.049 points on a 5-point scale per advertisement), so a speech weighs well under a life event: from a third to a fifth of one."
+    }
   },
   "speechRetellWeight": {
     "value": 6,
     "tag": "TUNABLE",
     "citation": "Weight on how far the speech moved the listener's stance when deciding whether to retell it; people talk about what affected them (Berger 2014, Journal of Consumer Psychology 24(4):586-607, on word of mouth). Spread 3 to 10.",
-    "stopgapId": "SG-P15-speech-reception"
+    "spread": {
+      "low": 3,
+      "high": 10,
+      "unit": "weight per unit of stance moved",
+      "citation": "Case sets that match the ANES 2020 talk-at-home rates (see speechKeepPull) about as well run from this weight at half to a little over one and a half times its value; the fit pins the ratios to the engagement weights and the keep pull, not this scale."
+    }
   },
   "speechRetellEngagementWeight": {
     "value": 0.3,
@@ -54,5 +64,17 @@
       "unit": "days",
       "citation": "From the longest open scene (7 days) to a season."
     }
+  },
+  "speechRetellTies": {
+    "value": 3,
+    "tag": "ESTIMATED",
+    "citation": "How many of the people a listener is closest to outside their own household a retold speech reaches: people talk over what moved them with a few others, not with everyone they know, so the game takes the closest few by closeness (nothing is drawn). The figure is the game's own estimate, a few people past the household; its source is still to be found (pool item research-speech-retell-ties-source).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "people outside the household",
+      "citation": "From the nearest one person to about twice the estimate; the source item replaces this with a sourced range."
+    },
+    "role": "coefficient"
   }
 }
