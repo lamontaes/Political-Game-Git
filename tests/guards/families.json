@@ -41,7 +41,8 @@
     "src/core2/gov-rules/names-data.ts",
     "src/core2/gov-rules/given-name-cohorts.ts",
     "src/core2/gov-rules/person-identity.ts",
-    "src/core2/government-level.ts"
+    "src/core2/government-level.ts",
+    "src/core2/fee-levels.ts"
   ],
   "families": [
     {

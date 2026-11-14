@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** src/core2/budgets-charges-payers.test.ts fails by draw on the clean train: the installment of a government's service-user charges row is not the twelfth the test expects, so the row the treasury shows for what other service users owe differs from what the test says it should.
+**What.** src/core2/budgets-charges-payers.test.ts fails by draw on the clean train: the installment of a government's service-user charges row is not the twelfth the test expects, so the row the treasury shows for what other service users owe differs from what the test says it should. Guards: the charges the town's treasury page shows for what other service users pay, so the page and the engine agree.
 
 **Cause.** Measured: on the clean train 8bb1ff9d, Mountain View, North Carolina (3744770), seed d346536e297211ab4479baa8d8128082e9b0c44dc60fc8655d9e05988f0d6385, row treasury-charges:chargesAndFees:service-users:county:37035:2025-02-01: expected 2310424296 to be 2250794127 (about 2.6 percent over). Also red on PR #9308 at Ridgefield, Connecticut (0963900), seed ec8137afc0317e6c9b1699d874e3619b50852cc49ea2cede1917b987fd15f90b, row ...:place:0963900:2025-02-01: expected 24299102 to be 23708834. Not yet traced to a line.
 
@@ -28,7 +28,7 @@ root: none
 
 **Rules.** No dice. Pinned places and fixed seeds in the test; never loosen an assertion to get green.
 
-**Done when.** A second session runs the test at the named places and seeds above and at two others it did not choose, sees it pass for the reason the fix names, and the player sees the same charges the test reads (the town's treasury page for charges).
+**Done when.** A second session runs the test at the named places and seeds above and in a drawn place and seed it did not choose, sees it pass for the reason the fix names, and the player sees the same charges the test reads (the town's treasury page for charges).
 
 **Waits on.** Nothing.
 

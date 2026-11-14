@@ -6,8 +6,8 @@ kind: feature
 priority: 3
 size: M
 status: in-pr
-claimed-by:
-pr:
+claimed-by: claude/project-thread-xy4wd4
+pr: #9308
 blocked-on:
 source: added with npm run pool -- add
 after:
