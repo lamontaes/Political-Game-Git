@@ -82,6 +82,8 @@ export interface CaseRow {
   readonly handledBy: "official" | "office" | "staff" | null;
   readonly stafferId?: string | null;
   readonly outcome: string | null;
+  /** The scene reply that settled the case, where the player said it at office hours. */
+  readonly replyId?: string;
 }
 
 export const CASES_MODULE: CoreModule = {
@@ -659,10 +661,12 @@ export function handleCase(
   decision: "help" | "decline",
   /** The official's own sense of duty, where their character decided it. */
   duty: number | null = null,
+  /** The scene reply that settled the case, where the player said it at office hours. */
+  replyId?: string,
 ): CaseRow | null {
   const row = table(api).get(caseId) as unknown as CaseRow | undefined;
   if (!row || row.status !== "open") return row ?? null;
-  return resolve(api, row, decision, "official", null, duty);
+  return resolve(api, row, decision, "official", null, duty, replyId);
 }
 
 function resolve(
@@ -672,6 +676,7 @@ function resolve(
   by: "official" | "office" | "staff",
   stafferId: string | null = null,
   duty: number | null = null,
+  replyId?: string,
 ): CaseRow {
   let outcome: string;
   if (decision === "help" && row.problem === "paid-under-minimum-wage") {
@@ -708,6 +713,7 @@ function resolve(
     stafferId,
     duty,
     outcome,
+    ...(replyId ? { replyId } : {}),
   };
   table(api).put(done as unknown as ModuleRow);
   caseImpression(api, done);
@@ -766,6 +772,7 @@ function caseImpression(api: CoreAPI, row: Readonly<CaseRow>): void {
         : -campaignParameter("caseHelpedWarmth"),
     weight: row.severity * campaignParameter("caseWeight"),
     rapport: 0,
+    ...(row.replyId ? { sourceId: row.replyId } : {}),
   });
 }
 
