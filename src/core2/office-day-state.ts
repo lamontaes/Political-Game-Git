@@ -1378,6 +1378,13 @@ function holdForFloorVotes(api: CoreAPI): void {
   if (office?.role !== "legislator") return;
   if (!stopsOf(api, playerId)["state-floor-vote"]) return;
   const tomorrow = addDays(makeIsoDate(api.state.date), 1);
+  // The floor is heard a day ahead of the roll, so the scene plays on the day
+  // before and never after the vote (Words lead, Nov 14): the debate is
+  // recorded the evening before the day before.
+  for (const bill of floorAgendaOn(api, addDays(tomorrow, 1)))
+    for (const chamber of chambersOf(api, bill))
+      if (members(api, chamber).some((term) => memberKey(term) === playerId))
+        holdFloorDebate(api, bill.id, chamber);
   const choices = api.moduleState(LEGISLATURE_MODULE_ID).table("choices");
   for (const bill of floorAgendaOn(api, tomorrow)) {
     const sits = chambersOf(api, bill).some((chamber) =>

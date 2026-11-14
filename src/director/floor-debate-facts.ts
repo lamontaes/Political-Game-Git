@@ -22,7 +22,10 @@ import {
 import rules from "./data/scene-talk-rules.json" with { type: "json" };
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { billNameOf, billTitleSaid } from "../english/bill-names";
 import { questionAbout } from "../english/question-names";
+import { officeWords } from "../english/said-as";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import type { Fact } from "../english/scene-talk-words";
 
 type Reason = "own-view" | "people" | "own-bill";
@@ -95,6 +98,26 @@ export function floorDebateFacts(
   facts[`reason-${reason}`] = {
     text: "yes",
     sourceRecordIds: [...cited, speakerId],
+  };
+  // What the bill does, said as people say it: its short name and the one thing
+  // it does, from the bill's own sections (the number stays in narration).
+  const named = billNameOf(bill as never);
+  if (named) {
+    facts["bill-name"] = {
+      text: billTitleSaid(named.title),
+      sourceRecordIds: cited,
+    };
+    facts["bill-purpose"] = { text: named.purpose, sourceRecordIds: cited };
+  }
+  // The presiding officer's title, from the body's own row; "Chair" where none.
+  const office = (
+    api.moduleState(OFFICES_MODULE_ID).table("offices").get(bill.bodyOfficeId) as
+      | { readonly kind: string }
+      | undefined
+  )?.kind;
+  facts.presiding = {
+    text: officeWords(`${office}:presiding`)?.before ?? "Chair",
+    sourceRecordIds: cited,
   };
   facts[bodyRegister(api, said.chamber)] = {
     text: "yes",

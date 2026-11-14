@@ -22,6 +22,7 @@ import {
 import { P } from "../../src/core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../../src/core2/player-v1";
 import { coreAPI, fillInPerson } from "../../src/core2/state";
+import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 import type { PersonId } from "../../src/core2/types";
 import {
   adjourn,
@@ -45,6 +46,8 @@ const days = Number(option("days", "183"));
 const out = option("out", "");
 const want = option("want", "small");
 const firstIndex = Number(option("from", "0"));
+// A pinned place by its display name (the draw is then over that one place).
+const only = option("name", "");
 const WANT = new Set(
   option(
     "types",
@@ -61,7 +64,16 @@ const tally: Record<string, number> = {};
 const perPlace: string[] = [];
 setBookkeeping(false);
 for (let i = firstIndex; i < firstIndex + places; i += 1) {
-  const place = drawPlace(`${seed}:${i}`, "meetings-floor");
+  const place = drawPlace(
+    `${seed}:${i}`,
+    "meetings-floor",
+    only
+      ? (key) =>
+          [...placeStateKeys()]
+            .flatMap((state) => [...placeLocalities(state)])
+            .some((row) => row.key === key && row.displayName === only)
+      : undefined,
+  );
   const where = `${place.name} (${place.key}), seed ${seed}:${i}`;
   const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,

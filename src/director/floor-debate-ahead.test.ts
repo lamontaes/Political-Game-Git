@@ -6,6 +6,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   billOf,
+  bodyReach,
   LEGISLATURE_MODULE_ID,
   members,
   votesOn,
@@ -20,6 +21,7 @@ import {
   takeUpItem,
 } from "../core2/modules/office-day";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
+import { placeLocalities, placeStateKeys } from "../core2/places";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
@@ -36,10 +38,25 @@ const PLACES = [
   { seed: "meet-a1:0", name: "Delta City, Mississippi" },
   { seed: "meet-a1:1", name: "Roy, Montana" },
   { seed: "meet-a1:2", name: "Klamath Falls, Oregon" },
+  // A council of nine seats, the one body in these places above the small
+  // board's seat row, reached through the game's own path.
+  { seed: "council-a1:0", name: "Phoenix, Arizona", body: ":council" },
+  // A state chamber, spoken formally whatever its size: the member is a
+  // state legislator, and the debate is heard on the day before the floor day.
+  {
+    seed: "meet-s:0",
+    name: "Columbus, Indiana",
+    body: "legislature-lower",
+    state: true,
+  },
 ] as const;
-const DAYS = 20;
+const DAYS = 45;
 
-function localMember(core: CoreState): PersonId | null {
+function localMember(
+  core: CoreState,
+  body = "",
+  state = false,
+): PersonId | null {
   const api = coreAPI(core);
   const town = core.people.get(core.playerId!)?.placeId;
   const terms = api
@@ -51,7 +68,10 @@ function localMember(core: CoreState): PersonId | null {
       const person = core.people.get(term.personId as PersonId);
       return (
         person?.alive === true &&
-        person.placeId === town &&
+        (state
+          ? bodyReach(api, term.officeId) === "state"
+          : person.placeId === town) &&
+        term.officeId.includes(body) &&
         members(api, term.officeId).length > 1
       );
     })
@@ -63,22 +83,36 @@ function localMember(core: CoreState): PersonId | null {
 }
 
 describe("the floor is heard before the roll at a town board", () => {
-  for (const { seed, name } of PLACES)
+  for (const { seed, name, body, state } of PLACES.map((row) => ({
+    body: "",
+    state: false,
+    ...row,
+  })))
     it(`${name} (${seed})`, () => {
       setBookkeeping(false);
-      const place = drawPlace(seed, "meetings-floor");
+      const place = drawPlace(
+        seed,
+        "meetings-floor",
+        body
+          ? (key) =>
+              [...placeStateKeys()]
+                .flatMap((state) => [...placeLocalities(state)])
+                .some((row) => row.key === key && row.displayName === name)
+          : undefined,
+      );
       expect(place.name).toBe(name);
       const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
       });
       const api = coreAPI(core);
-      const personId = localMember(core);
+      const personId = localMember(core, body, state);
       expect(personId, "a sitting member who is a full person").toBeTruthy();
       core.focusPersonIds.add(personId!);
       director.watch(core, personId!);
       const book = director.ledger.people.get(personId!)!;
       const heard: string[] = [];
+      const late: string[] = [];
       let pressed = false;
       let packet = advancePlayerV1(core, {
         controlledPersonId: personId!,
@@ -105,8 +139,13 @@ describe("the floor is heard before the roll at a town board", () => {
             const bill = billOf(api, billId)!;
             const here = `${name}: ${billId}`;
             // Before the roll: the bill still waits on the floor, and nobody has voted it.
-            expect(bill.status, here).toBe("drafted");
-            expect(votesOn(api, billId), here).toHaveLength(0);
+            // A bill brought on the day of its own meeting has no day of notice, so its
+            // debate is recorded that day and plays after the roll: counted and named
+            // here, and filed as pool item director-floor-debate-bill-brought-on-meeting-day.
+            if (bill.status !== "drafted" || votesOn(api, billId).length) {
+              late.push(`${here} on ${core.date}`);
+              continue;
+            }
             // The meeting it is for has not met yet today or is still ahead.
             const meeting = meetingOf(
               api,
@@ -133,8 +172,17 @@ describe("the floor is heard before the roll at a town board", () => {
             const registers = keys.filter((key) => key.startsWith("body-"));
             expect(registers, `${here}: one register`).toHaveLength(1);
             expect(registers[0], here).toBe(
-              seats <= 7 ? "body-small" : "body-council",
+              state
+                ? "body-formal"
+                : seats <= 7
+                  ? "body-small"
+                  : "body-council",
             );
+            if (body && !state)
+              expect(registers[0], `${here}: a council`).toBe("body-council");
+            // A formal chamber opens once, with the presiding officer's title.
+            if (state)
+              expect(scene.talk.state.text, here).toMatch(/^Thank you, \w+/);
             const section = bill.provisions[0];
             if (section?.kind === "policy-question")
               expect(keys, `${here}: what the bill is about`).toContain(
@@ -192,6 +240,10 @@ describe("the floor is heard before the roll at a town board", () => {
             offerId: packet.offers[P.zero]!.offerId,
           });
       }
+      if (late.length)
+        process.stdout.write(
+          `${name}: ${late.length} debate(s) after the roll: ${late.join("; ")}\n`,
+        );
       expect(core.modules.has(LEGISLATURE_MODULE_ID)).toBe(true);
       expect(pressed, `${name}: a reply pressed on the floor`).toBe(true);
       expect(

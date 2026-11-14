@@ -265,6 +265,9 @@ function bodyOfRecord(
 ): string | undefined {
   if (record.facts.officeId && !record.facts.billId)
     return record.facts.officeId;
+  // A debate on the floor is the chamber it was heard in: a House member does
+  // not hear the Senate's floor.
+  if (record.facts.chamber) return record.facts.chamber;
   const billId = record.facts.billId;
   if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
   const bill = coreAPI(core as CoreState)
