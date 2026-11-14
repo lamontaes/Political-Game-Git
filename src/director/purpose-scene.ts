@@ -56,7 +56,7 @@ import {
 } from "../core2/modules/news";
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
-import { withArticle } from "../english/journal-words";
+import { seatSaid, withArticle } from "../english/journal-words";
 import {
   JOBS_MODULE_ID,
   JOB_OFFERED_EVENT,
@@ -106,6 +106,20 @@ const LOCAL_GOVERNMENTS: ReadonlySet<string> = new Set([
   "township",
   "county",
 ]);
+
+/**
+ * A seat as the party's chair says it: a seat on a body ("a seat on the
+ * council"), or a single office ("the mayor's office"), from the one place
+ * that words seats.
+ */
+function seatPhrase(office: {
+  readonly title: string;
+  readonly seats?: number;
+  readonly bodyName?: string;
+}): string {
+  const said = seatSaid(office);
+  return said.startsWith("the ") ? `a seat on ${said}` : `the ${said}'s office`;
+}
 
 /** The public-action engine's record of a rally forming (`civic.rally`). */
 const RALLY_EVENT = "civic.rally";
@@ -1457,7 +1471,7 @@ function composeBinding(
     );
     if (held)
       facts["office-held"] = {
-        text: held.office.title.toLowerCase(),
+        text: seatPhrase(held.office),
         sourceRecordIds: [held.holder!.id],
       };
     if (race)

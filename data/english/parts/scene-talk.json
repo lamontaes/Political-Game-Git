@@ -134,7 +134,10 @@
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
     "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
     "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
-    "wanted": "What a bribe offer wants, the bill or the contract the offer record names."
+    "wanted": "What a bribe offer wants, the bill or the contract the offer record names.",
+    "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
+    "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
+    "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer)."
   },
   "maxWords": 70,
   "parts": [
@@ -178859,10 +178862,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.even-one-evening-before-the-election-would-help-can-i-count-on-that-much",
+      "key": "scene-talk.follow-press.even-one-evening-before-the-election-would-help",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Even one evening before the election would help. Can I count on that much?",
+      "text": "Even one evening before the election would help.",
       "uses": [
         {
           "subject": "scene",
@@ -178883,10 +178886,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.we-run-on-people-who-show-up-can-i-count-on-you-for-one-thing",
+      "key": "scene-talk.follow-press.we-run-on-people-who-show-up-one-evening-would-mean-a-lot",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "We run on people who show up. Can I count on you for one thing?",
+      "text": "We run on people who show up. One evening would mean a lot.",
       "uses": [
         {
           "subject": "scene",
@@ -179105,31 +179108,6 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.take-your-time",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Take your time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "party-welcome",
-          "key": "welcomed",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "accept",
-        "key": "welcomed"
-      }
-    },
-    {
       "key": "scene-talk.close-accept.of-course-come-by-whenever-you-like",
       "move": "close-accept",
       "kind": "spoken",
@@ -179202,10 +179180,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.we-hold-the-office-held-seat-and-we-mean-to-keep-it-mostly-that-s-knocking-on-doors-an-evening-of-yours-helps-more-than-you-d-think",
+      "key": "scene-talk.follow-answer.we-hold-office-held-and-we-mean-to-keep-it-mostly-that-s-knocking-on-doors-an-evening-of-yours-helps-more-than-you-d-think",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "We hold the {office-held} seat, and we mean to keep it. Mostly that's knocking on doors. An evening of yours helps more than you'd think.",
+      "text": "We hold {office-held}, and we mean to keep it. Mostly that's knocking on doors. An evening of yours helps more than you'd think.",
       "uses": [
         {
           "subject": "scene",
@@ -179227,10 +179205,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.our-office-held-seat-is-the-one-we-ve-got-so-we-take-care-of-it-come-knock-doors-with-us-when-it-s-time-or-chip-in-what-you-can",
+      "key": "scene-talk.follow-answer.that-s-all-we-ve-got-here-office-held-and-we-work-to-keep-it-come-knock-doors-with-us-when-it-s-time-or-chip-in-what-you-can",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Our {office-held} seat is the one we've got, so we take care of it. Come knock doors with us when it's time, or chip in what you can.",
+      "text": "That's all we've got here, {office-held}, and we work to keep it. Come knock doors with us when it's time, or chip in what you can.",
       "uses": [
         {
           "subject": "scene",

@@ -6067,10 +6067,10 @@
       }
     },
     {
-      "key": "scene-words.lead-party-welcome-alone.you-go-down-to-the-party-office-to-see-who-runs-it",
+      "key": "scene-words.lead-party-welcome-alone.you-go-to-the-party-office-to-see-who-runs-it",
       "move": "lead-party-welcome-alone",
       "kind": "spoken",
-      "text": "You go down to the {party} office to see who runs it.",
+      "text": "You go to the {party} office to see who runs it.",
       "uses": [
         {
           "move": "lead-party-welcome-alone",

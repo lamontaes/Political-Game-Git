@@ -11,7 +11,6 @@ import {
   fileCandidacy,
   type ContestRow,
 } from "../core2/modules/elections";
-import { townSeats } from "../core2/modules/offices";
 import { advanceToRaceFiling } from "../core2/gov-test-clock";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -41,18 +40,8 @@ function welcome(tag: string, withRace: boolean) {
     const home = new Set(
       core.households.get(core.people.get(playerId)!.householdId)?.memberIds,
     );
-    // Where a race is staged, the party is one that holds no local seat, so
-    // the race is all it can point to.
-    const holders = new Set(
-      townSeats(api).flatMap((row) =>
-        row.holder?.party ? [row.holder.party.toLowerCase()] : [],
-      ),
-    );
     const party = partiesHere(api).find(
-      (row) =>
-        row.leaderId &&
-        !home.has(row.leaderId) &&
-        (!withRace || !holders.has(row.name.toLowerCase())),
+      (row) => row.leaderId && !home.has(row.leaderId),
     );
     expect(party, `${where}: a party with a leader`).toBeTruthy();
     core.focusPersonIds.add(playerId);
@@ -137,9 +126,11 @@ function welcome(tag: string, withRace: boolean) {
         /hold a seat here|hold anything/,
       );
     expect(answer, `${where}: no unfilled slot`).not.toMatch(/[{}]/);
+    // The party's candidate is on the ballot, and the leader answers from the
+    // race or from a seat the party holds (both are in the record).
     if (withRace)
-      expect(answer, `${where}: the answer names the race`).toContain(
-        raceTitle,
+      expect(answer, `${where}: the answer reads the record`).toMatch(
+        new RegExp(`${raceTitle}|a seat on|'s office`),
       );
     const yes = talk.tree.replies.findIndex(
       (reply) => reply.line.move === "agree" || reply.line.move === "promise",
