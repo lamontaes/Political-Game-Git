@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { shareValue } from "../shares";
 import { lawApplied } from "../law-reach/applied";
 import { FAST_FORWARD_STRIDE, fastForward } from "../fast-forward";
 import { townOutsideOf } from "../opening-outside-market";
@@ -3880,7 +3881,11 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
     // The share of the place's adults on the candidate's side of the lean
     // order; a candidate with no party draws on half of them.
     const aligned =
-      side > 0 ? place.rightShare : side < 0 ? 1 - place.rightShare : 0.5;
+      side > 0
+        ? place.rightShare
+        : side < 0
+          ? 1 - place.rightShare
+          : shareValue("evenSplit");
     // Their reason to give is how much of the place stands with the candidate.
     const reason = aligned;
     const donors = Math.floor(
