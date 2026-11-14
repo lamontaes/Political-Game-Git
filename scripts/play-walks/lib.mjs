@@ -163,7 +163,12 @@ export async function pressDay(walk) {
     if (await shown(page, "talk")) await playTalk(walk, "scene");
     else if (await shown(page, "continue")) {
       walk.say(`    (a stop at [${await clockOf(page)}]: Continue)`);
-      await page.locator("#continue").click();
+      // A scene's panel may open over the stop between the look and the click;
+      // then the loop's next turn plays the scene.
+      await page
+        .locator("#continue")
+        .click({ timeout: 3000 })
+        .catch(() => {});
     } else if (await free()) break;
   }
   if (!(await free()))

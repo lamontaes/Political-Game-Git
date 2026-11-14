@@ -71,7 +71,7 @@ import {
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
-import type { RACE_MARGINS } from "../english/mined/journal-bank";
+import { raceMargin } from "./race-margin";
 import { properName, spokenDate, stateInSentence } from "./words";
 import { graduationResults, schoolResult } from "./school";
 import {
@@ -210,44 +210,6 @@ export function lawTopic(
     .get(lawId) as unknown as LawRowInput | undefined;
   const text = law ? topicInSentence(law.series) : null;
   return text ? { text, recordIds: [lawId] } : undefined;
-}
-
-/**
- * How a race was decided, from its result record's totals: "alone" when one
- * candidate stood, "close" or "wide" by the winner's lead over the runner-up
- * as a share of the votes cast, and "middle" between them or when the totals
- * are not on record, so no line claims a margin the record does not show.
- */
-function raceMargin(
-  core: Readonly<CoreState>,
-  resultId: string,
-): (typeof RACE_MARGINS)[number] {
-  let votes: number[] = [];
-  try {
-    votes = Object.values(
-      JSON.parse(String(core.durableLog.get(resultId)?.facts?.totals ?? "{}")),
-    )
-      .map(Number)
-      .filter(Number.isFinite)
-      .sort((a, b) => b - a);
-  } catch {
-    votes = [];
-  }
-  if (votes.length === one) return "alone";
-  const cast = votes.reduce((sum, count) => sum + count, zero);
-  if (votes.length < P.two || !(cast > zero)) return "middle";
-  const lead = (votes[zero]! - votes[one]!) / cast;
-  const {
-    journalRaceHandfulMargin,
-    journalRaceCloseMargin,
-    journalRaceWideMargin,
-    journalRaceLandslideMargin,
-  } = DEFAULT_DIRECTOR_DATA.parameters;
-  if (lead <= journalRaceHandfulMargin!.value) return "handful";
-  if (lead <= journalRaceCloseMargin!.value) return "close";
-  if (lead >= journalRaceLandslideMargin!.value) return "landslide";
-  if (lead >= journalRaceWideMargin!.value) return "wide";
-  return "middle";
 }
 
 /**
@@ -2617,6 +2579,8 @@ export function composeJournal(
     until?: IsoDate,
     /** What the stretch has named already: a place said is not said again. */
     alreadySaid?: Set<string>,
+    /** The whole working life, for weighing a short spell against it. */
+    life?: { days: number; laterKinds: ReadonlySet<string> },
   ): JournalWorded[] | null => {
     const employers = new Map<string, string>();
     for (const unit of told)
@@ -2631,20 +2595,6 @@ export function composeJournal(
     const endedOut =
       lastUnit.moment.causeKind.startsWith("job-ended") && !lastUnit.facts.next;
     const ended = lastUnit.facts.next ?? lastUnit.facts.employer;
-    // A spell under a season, with the working years told in a later stretch,
-    // is folded into them, never told alone ("For one month, I worked
-    // around McConnell AFB, Kansas."; Words lead, rule 87).
-    if (
-      !lastPart &&
-      daysBetween(
-        makeIsoDate(first.moment.date),
-        makeIsoDate(
-          endedOut ? lastUnit.moment.date : (until ?? core.startedAt),
-        ),
-      ) <
-        core.data.parameters.yearSpanDays!.value / (P.two * P.two)
-    )
-      return [];
     const lostIds = told
       .filter((unit) => unit.moment.causeKind === "job-ended:let-go")
       .map((unit) => unit.moment.causeId);
@@ -2661,6 +2611,29 @@ export function composeJournal(
       row.n += one;
       row.ids.push(orgId);
       kinds.set(word, row);
+    }
+    // A spell is told by how much it changed (Words lead, rule 87): a short
+    // spell of the same work the later years hold, with no layoff, is folded
+    // into them; the share of the working life it covers, doubled when it was
+    // another kind of work, and a layoff weigh against the tuned weight.
+    // Nothing flips at a length.
+    if (!lastPart && life && life.days > zero) {
+      const spellDays = daysBetween(
+        makeIsoDate(first.moment.date),
+        makeIsoDate(
+          endedOut ? lastUnit.moment.date : (until ?? core.startedAt),
+        ),
+      );
+      const newKinds =
+        [...kinds.keys()].filter((word) => !life.laterKinds.has(word)).length /
+        Math.max(one, kinds.size);
+      const letGoWeight = lostIds.length ? one : zero;
+      const weight =
+        Math.min(one, spellDays / life.days) * (one + newKinds) + letGoWeight;
+      if (
+        weight < DEFAULT_DIRECTOR_DATA.parameters.journalSpellTellWeight!.value
+      )
+        return [];
     }
     const said = [...kinds]
       .sort(([a, x], [b, y]) => y.n - x.n || a.localeCompare(b))
@@ -3277,6 +3250,37 @@ export function composeJournal(
       (last, row, at) => (row.some(isWork) ? at : last),
       -one,
     );
+    // The whole working life, to weigh a short spell against: its days, and
+    // the kinds of work the later stretches hold.
+    const kindWords = JOURNAL_OUTLINE.workWords as Record<string, string>;
+    const kindsHeld = (units: readonly Unit[]) =>
+      new Set(
+        units.flatMap((unit) =>
+          [unit.facts.employer, unit.facts.next].flatMap((fact) => {
+            const org = fact
+              ? core.organizations.get(String(fact.sourceRecordIds.at(-one)))
+              : undefined;
+            const word =
+              kindWords[(org?.classification ?? "").split(":").at(-one)!];
+            return word ? [word] : [];
+          }),
+        ),
+      );
+    const allWork = stretches.flat().filter(isWork);
+    const workLife = (at: number) => ({
+      days: allWork.length
+        ? daysBetween(
+            makeIsoDate(allWork[zero]!.moment.date),
+            makeIsoDate(core.startedAt),
+          )
+        : zero,
+      laterKinds: kindsHeld(
+        stretches
+          .slice(at + one)
+          .flat()
+          .filter(isWork),
+      ),
+    });
     const viewsTold = new Set<string>();
     stretches.forEach((row, at) => {
       const until = (stretches[at + one]?.[zero]?.moment.date ??
@@ -3309,7 +3313,7 @@ export function composeJournal(
           ),
         ]);
         const told =
-          tellWork(work, at === lastWork, until, placesLater) ??
+          tellWork(work, at === lastWork, until, placesLater, workLife(at)) ??
           tellParagraph(work, "work", said);
         // The places and employers the work sentence named, said once.
         for (const unit of work)
