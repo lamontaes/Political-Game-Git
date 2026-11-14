@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import controls from "../bench/data/controls.json" with { type: "json" };
 import { searchCorePlaces } from "./place-lookup";
-import { personCard } from "../bench/card";
+import { knownCard, personCard } from "../bench/card";
+import { employerIsGovernment } from "../english/journal-words";
 import { jobTitleByKind, jobTitleSaid } from "./person-work";
 
 /**
@@ -90,6 +91,35 @@ describe("a job title says its employer's own kind of place", () => {
       ).toBeGreaterThan(0);
     });
   }
+
+  it("says a person works for a government, never at it (Ranchester WY, seed title-kind:1)", () => {
+    const place = searchCorePlaces("Ranchester", 3, {
+      stateJurisdictionKey: "US-WY",
+    })[0]!;
+    const world = buildBenchWorld("title-kind:1", "2026-10-12", {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const people = [...world.core.people.values()];
+    const viewer = people[0]!;
+    const byJob = new Map(people.map((row) => [row.jobId, row]));
+    let checked = 0;
+    for (const job of world.core.jobs.values()) {
+      const employer = world.core.organizations.get(job.organizationId);
+      const person = byJob.get(job.id);
+      if (!employer || !person || person.id === viewer.id) continue;
+      if (checked >= 12) break;
+      if (!employerIsGovernment(employer)) continue;
+      const said = (
+        knownCard(world.core, viewer.id, person.id).summary ?? []
+      ).join(" ");
+      if (!/^Works as /.test(said)) continue;
+      expect(said, person.id).toMatch(/ for the /);
+      expect(said, person.id).not.toMatch(/ at the /);
+      checked += 1;
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
 
   it("words a vote on the office screen's list of acts", () => {
     expect(controls.officeStops.voteCast).toEqual({

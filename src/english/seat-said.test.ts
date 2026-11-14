@@ -132,4 +132,22 @@ describe("seatSaid", () => {
       ),
     ).toBe("commissioner in District 1");
   });
+  it("says a seat on a body named for its members as one member, no article", () => {
+    for (const [bodyName, said] of [
+      ["Board of Aldermen", "alderman"],
+      ["Board of Trustees", "trustee"],
+      ["Board of Selectmen", "selectman"],
+    ] as const) {
+      const seat = { title: "Board member", seats: 5, bodyName };
+      expect(seatSaid(seat)).toBe(said);
+      expect(seatSaid(seat, { first: false })).toBe(said);
+    }
+    // A body named as a body keeps its name.
+    expect(
+      seatSaid(
+        { title: "Council member", seats: 5, bodyName: "Town Council" },
+        { first: false },
+      ),
+    ).toBe("the council");
+  });
 });

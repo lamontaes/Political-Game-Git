@@ -38,6 +38,7 @@ import {
 } from "../english/screen-words";
 import {
   articleFor,
+  employerIsGovernment,
   employerSaid,
   framedByAge,
   withArticle,
@@ -89,6 +90,15 @@ function employerName(
   return organization && organization.outsideFlow === undefined
     ? (employerSaid(organizationName(organization), organization) ?? undefined)
     : undefined;
+}
+
+/** Whether a job's employer is a government (a person works for it, never at it). */
+function employerIsGovernmentOf(
+  core: CoreState,
+  organizationId: string,
+): boolean {
+  const organization = core.organizations.get(organizationId);
+  return !!organization && employerIsGovernment(organization);
 }
 
 export function personCard(core: CoreState, personId: string) {
@@ -1301,6 +1311,8 @@ function summaryOf(
     readonly work?: {
       title: string | null;
       employer: string | null;
+      /** Whether the employer is a government: a person works for it, not at it. */
+      government?: boolean;
       /** The town they live in, when their work is outside it. */
       outside?: string | null;
     } | null;
@@ -1333,12 +1345,14 @@ function summaryOf(
     ? line("work.outside", { place: now.work.outside })
     : now.work?.employer
       ? now.work.title
-        ? line("work.title", {
+        ? line(now.work.government ? "work.title.for" : "work.title", {
             // One person's job, with its article: "an aide", "a carpenter".
             title: withArticle(now.work.title),
             employer: now.work.employer,
           })
-        : line("work.employer", { employer: now.work.employer })
+        : line(now.work.government ? "work.employer.for" : "work.employer", {
+            employer: now.work.employer,
+          })
       : null;
   const role =
     office || work
@@ -1617,7 +1631,9 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     alive: true,
     placeName: government,
     school: null,
-    work: office?.title ? { title: office.title, employer: government } : null,
+    work: office?.title
+      ? { title: office.title, employer: government, government: true }
+      : null,
     tie: null,
     known: false,
     shared: [],
@@ -1794,6 +1810,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         : {
             title: jobTitleSaid(core, job),
             employer: employerName(core, job.organizationId) ?? null,
+            government: employerIsGovernmentOf(core, job.organizationId),
           }
       : null,
     school: school?.name ?? null,
@@ -1860,8 +1877,9 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     work:
       (family || housemate || coworker) && job
         ? {
-            title: job.title,
+            title: jobTitleSaid(core, job),
             employer: employerName(core, job.organizationId) ?? null,
+            government: employerIsGovernmentOf(core, job.organizationId),
           }
         : null,
     tie: tie

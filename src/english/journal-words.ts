@@ -699,6 +699,11 @@ export function seatSaid(
     if (level === "state") return chamber();
     if (level === "county") return seatWords.body.replace("{body}", named);
     const last = body.split(/\s+/).at(-one) ?? body;
+    // A body named for its members is one member after the first mention.
+    const member = (seatWords.memberBodies as Readonly<Record<string, string>>)[
+      last.toLowerCase()
+    ];
+    if (member) return member;
     return seatWords.body.replace("{body}", first ? named : jobSaid(last));
   }
   return jobSaid(title);
@@ -726,6 +731,24 @@ export interface EmployerRecord {
   readonly kind: string;
   readonly classification?: string;
   readonly governmentFacts?: Readonly<Record<string, unknown>>;
+}
+
+/**
+ * Whether the employer is a government or one of its offices (a treasury, an
+ * outside government, a government's own record): a person works for it,
+ * never at it. A business or a school system is not.
+ */
+export function employerIsGovernment(record: EmployerRecord): boolean {
+  if (
+    record.kind === "government-outside" ||
+    record.kind === "government-treasury"
+  )
+    return true;
+  const business = !!record.classification?.startsWith("enterprise:");
+  const government =
+    !!record.governmentFacts?.governmentKind ||
+    !!record.governmentFacts?.governmentKey;
+  return government && !business && record.classification !== "service:school";
 }
 
 /**

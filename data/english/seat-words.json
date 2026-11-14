@@ -1,5 +1,5 @@
 {
-  "about": "How a seat is said inside a sentence (Fable B's ruling, Nov 11, on #8750): a seat on a body by the body (\"run for the Mutual Village Council\", then \"the council\"), a single office by its title in lower case (\"run for mayor\"), a district's seat with its district. Read by seatSaid in src/english/journal-words.ts. Above the town (Words lead, Nov 14, rule 100): a district's seat in Congress is \"Congress in the 3rd District\", a state chamber's \"the state Senate in the 17th District\", the U.S. Senate \"the U.S. Senate\"; a county's or town's district seat stays \"commissioner in District 1\".",
+  "about": "How a seat is said inside a sentence (Fable B's ruling, Nov 11, on #8750): a seat on a body by the body (\"run for the Mutual Village Council\", then \"the council\"), a single office by its title in lower case (\"run for mayor\"), a district's seat with its district. Read by seatSaid in src/english/journal-words.ts. Above the town (Words lead, Nov 14, rule 100): a district's seat in Congress is \"Congress in the 3rd District\", a state chamber's \"the state Senate in the 17th District\", the U.S. Senate \"the U.S. Senate\"; a county's or town's district seat stays \"commissioner in District 1\". A body named for its members is said by one member after the first mention, with no article: \"alderman\" for the Board of Aldermen (Words lead, Nov 14); a body named as a body keeps its name (\"the board\").",
   "body": "the {body}",
   "district": "{office} in District {n}",
   "districtAgain": "the seat",
@@ -16,5 +16,20 @@
       "match": "^(?:state )?house of representatives$",
       "said": "the state House"
     }
-  ]
+  ],
+  "memberBodies": {
+    "aldermen": "alderman",
+    "trustees": "trustee",
+    "selectmen": "selectman",
+    "commissioners": "commissioner",
+    "supervisors": "supervisor",
+    "councilmen": "councilman",
+    "councilors": "councilor",
+    "councillors": "councillor",
+    "burgesses": "burgess",
+    "jurors": "juror",
+    "freeholders": "freeholder",
+    "directors": "director",
+    "assessors": "assessor"
+  }
 }

@@ -162854,7 +162854,7 @@
       "key": "scene-talk.follow-accept.i-ve-got-you-on-the-list-for-seat-with-filed",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I've got you on the list for {seat} with {filed}.",
+      "text": "I've got you on the list for {seat}. That's you and {filed} so far.",
       "uses": [
         {
           "subject": "scene",
