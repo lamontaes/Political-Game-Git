@@ -48,7 +48,12 @@ import {
 import { openOfficials } from "./modules/officials";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI } from "./types";
-import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { personWorkOf } from "./person-work";
+import {
+  corePlaceByJurisdictionId,
+  corePlaceStateIdentities,
+  searchCorePlaces,
+} from "./place-lookup";
 import stateOffices from "../../data/research/offices/state-offices.json" with { type: "json" };
 
 const START = "2026-01-05";
@@ -298,4 +303,67 @@ describe("governor running mates", () => {
           );
         },
       );
+
+  // The player's pick is weighable (Account lead, Nov 14): everyone offered
+  // is a person with a record, an officeholder (now or before), someone with
+  // standing, or a newcomer filled in when offered with a home town and the
+  // work that town's counts show. Two named places: one whose list includes
+  // newcomers, one whose list is officeholders.
+  for (const [what, state, key] of [
+    ["a newcomer", "US-GU", "territory:GU:yona"],
+    ["an officeholder", "US-AS", "territory:AS:maloata"],
+  ] as const)
+    it(
+      `every running mate offered has a record to weigh (${what}: ${key}, seed 8d04db587cd640d7)`,
+      { timeout: 120_000 },
+      () => {
+        const { api, playerId } = world(state, {
+          key,
+          seed: "8d04db587cd640d7",
+        });
+        const where = `${state} ${key}, seed 8d04db587cd640d7`;
+        const governor = governorContest(api)!;
+        const party = ballot(api, governor.id)[0]?.party ?? "Democratic";
+        const own: FilingRow = {
+          id: `filing:${governor.id}:${playerId}`,
+          contestId: governor.id,
+          personId: playerId,
+          filedOn: api.state.date,
+          filedWith: "the state's filing officer",
+          platform: [],
+          party,
+          status: "on-ballot",
+        };
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .put(own as unknown as ModuleRow);
+        const choices = runningMateChoice(api, own.id)!.choices;
+        expect(choices.length, where).toBeGreaterThanOrEqual(3);
+        let newcomers = 0;
+        for (const c of choices) {
+          const person = api.state.people.get(c.id);
+          expect(person, `${where}: ${c.id}`).toBeDefined();
+          const held = personWorkOf(api.state as never, c.id);
+          if (c.seatId || c.roles.length || held.offices.length) continue;
+          // Not an officeholder or someone with standing: a home town and work.
+          const work =
+            held.job?.title ??
+            person!.pastFacts?.find((f) => f.kind === "identity:work")?.summary;
+          expect(work, `${where}: ${c.name} has work`).toBeTruthy();
+          expect(
+            corePlaceByJurisdictionId(person!.placeId as never)?.displayName,
+            `${where}: ${c.name} has a home town`,
+          ).toBeTruthy();
+          if (c.id.startsWith("official:candidate:")) newcomers += 1;
+        }
+        if (what === "a newcomer")
+          expect(newcomers, `${where}: a newcomer offered`).toBeGreaterThan(0);
+        else
+          expect(
+            choices.filter((c) => c.seatId).length,
+            `${where}: an officeholder offered`,
+          ).toBeGreaterThan(0);
+      },
+    );
 });

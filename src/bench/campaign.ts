@@ -56,10 +56,14 @@ import { spokenDate as dateSaid } from "../director/words";
 import { seatSaid } from "../english/journal-words";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf } from "../core2/person-work";
-import { corePlaceStateIdentities } from "../core2/place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  corePlaceStateIdentities,
+} from "../core2/place-lookup";
 import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
 import { chooseRunningMate, runningMateChoice } from "../core2/modules/voting";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import controls from "./data/controls.json" with { type: "json" };
 
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
 const POLL_SAMPLE = campaignParameter("pollSampleSize");
@@ -269,23 +273,54 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
     // Each person as their record has them: the seat they hold or their
     // work (`personWorkOf`, the one reader the card uses), and where they
     // live; someone not yet filled in has only a name and their state.
+    // Each person as their record has them: the seat they hold or their
+    // work (`personWorkOf`, the one reader the card uses; else the work a
+    // newcomer was filled in with), and their home town, else their state.
     choices: ticket.choices.map((c) => {
-      // The ticket is the town's own state's.
-      const townState = (
-        api.moduleState(ELECTIONS).table("town").get("town") as unknown as
-          { stateKey: string } | undefined
-      )?.stateKey;
+      const offices = api.moduleState(OFFICES_MODULE_ID);
+      const words = controls.runningMate;
+      const person = core.people.get(c.id as PersonId);
       const work = personWorkOf(core, c.id);
+      const filledWork = person?.pastFacts?.find(
+        (f) => f.kind === "identity:work",
+      )?.summary;
+      // A seat their record names that they no longer hold: held before.
+      const seatOffice = c.seatId
+        ? (offices
+            .table("offices")
+            .get(
+              (
+                offices.table("seats").get(c.seatId) as unknown as
+                  { officeId: string } | undefined
+              )?.officeId ?? "",
+            ) as unknown as { title: string } | undefined)
+        : undefined;
       const said = work.offices[0]
         ? officeInSentence(work.offices[0].title)
-        : (work.job?.title ?? null);
-      const home = core.people.get(c.id as PersonId)?.placeId;
-      const state =
-        corePlaceStateIdentities().find(
-          (s) =>
-            s.jurisdictionKey === (home?.startsWith("US-") ? home : townState),
-        )?.name ?? null;
-      return { id: c.id, name: c.name, work: said, place: state };
+        : work.job?.title
+          ? officeInSentence(work.job.title)
+          : filledWork
+            ? officeInSentence(filledWork)
+            : seatOffice
+              ? words.former.replace(
+                  "{office}",
+                  officeInSentence(seatOffice.title),
+                )
+              : c.roles[0]
+                ? ((words.roles as Record<string, string>)[c.roles[0]] ?? null)
+                : null;
+      const town = person?.placeId
+        ? corePlaceByJurisdictionId(person.placeId as never)
+        : null;
+      const state = corePlaceStateIdentities().find(
+        (s) => s.jurisdictionKey === person?.placeId,
+      )?.name;
+      return {
+        id: c.id,
+        name: c.name,
+        work: said,
+        place: town?.displayName ?? state ?? null,
+      };
     }),
   };
 }

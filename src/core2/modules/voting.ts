@@ -74,7 +74,17 @@ import {
   stakesOf,
   type TurnoutParts,
 } from "../turnout";
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInIdentity, registerModule } from "../state";
+import {
+  ambitionOf,
+  partyOf,
+  raceScope,
+  standingPool,
+} from "../candidate-pool";
+import { coarsePlace, metResident } from "../coarse-place";
+import { placeReferencePopulation } from "../gov-rules/place-population";
+import { searchCorePlaces } from "../place-lookup";
+import { stableHash } from "../kernel/ids";
 import { closenessBetween } from "../closeness";
 import {
   decisionLean,
@@ -83,7 +93,14 @@ import {
   leanedYes,
   reportOutcome,
 } from "../trait-decisions";
-import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PersonState,
+  PlaceId,
+} from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { groupStance, personLean, type StanceProfile } from "../campaign-views";
@@ -143,6 +160,7 @@ import {
 } from "./offices";
 import {
   INDEPENDENT,
+  type WeighedPerson,
   candidateChoices,
   holderOf,
   officialCandidate,
@@ -6401,7 +6419,10 @@ export function runningMateChoice(
   readonly choices: readonly {
     readonly id: string;
     readonly name: string;
+    /** The seat their officials' record names: held now, or held before. */
     readonly seatId: string | null;
+    /** Their standing in the state beyond a seat (`standingPool`): party officer, former candidate, prominent. */
+    readonly roles: readonly string[];
   }[];
 } | null {
   const elections = api.moduleState(ELECTIONS_MODULE_ID);
@@ -6426,12 +6447,155 @@ export function runningMateChoice(
             ticketOf(filing, ticket),
             filing.party ?? INDEPENDENT,
             RUNNING_MATE_CHOICES,
-          ).map((c) => ({
-            id: c.id,
-            name: `${c.givenName} ${c.familyName}`,
-            seatId: c.fromSeatId,
-          })),
+            weighableFor(api, filing, ticket),
+          ).map((c) => {
+            // A newcomer offered is filled in now (two-level rule: a person
+            // is filled in when the player meets them), with a home town and
+            // work, so the choice can be weighed.
+            if (c.newcomer)
+              offerNewcomer(api, c.id, c.newcomer, filing.party ?? null);
+            return {
+              id: c.id,
+              name: `${c.givenName} ${c.familyName}`,
+              seatId: c.fromSeatId,
+              roles:
+                standingPool(api, raceScope(api, ticket))
+                  .find((m) => m.personId === c.id)
+                  ?.roles.filter((r) => r !== "officeholder") ?? [],
+            };
+          }),
   };
+}
+
+/**
+ * Who a ticket's pick may be weighed among beyond the officeholders: the
+ * people with standing in the state (party officers, former candidates,
+ * prominent people: `standingPool`) and, for the player's own ticket, the
+ * people they know, each of the candidate's party, old enough and living in
+ * the state for the office (`checkEligibility`), with their ambition and
+ * lean from their own record. Anyone already on that day's ballot is out.
+ */
+function weighableFor(
+  api: CoreAPI,
+  filing: FilingRow,
+  ticket: ContestRow,
+): {
+  readonly people: readonly WeighedPerson[];
+  readonly exclude: ReadonlySet<string>;
+} {
+  const party = filing.party ?? null;
+  const exclude = new Set<string>([filing.personId]);
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  for (const contest of contestsOnDate(api, ticket.electionDate))
+    for (const f of elections
+      .table("filings")
+      .query("byContest", [contest.id]) as unknown as FilingRow[])
+      if (f.status !== "withdrawn") exclude.add(f.personId);
+  const playerId = (api.state as CoreState).playerId;
+  const ids = new Set<string>(
+    standingPool(api, raceScope(api, ticket)).map((m) => m.personId),
+  );
+  if (filing.personId === playerId)
+    for (const id of api.state.people.get(playerId)?.knownIds ?? [])
+      ids.add(id);
+  const people: WeighedPerson[] = [];
+  for (const id of [...ids].sort()) {
+    if (exclude.has(id)) continue;
+    const person = api.state.people.get(id);
+    if (!person || person.alive === false) continue;
+    if ((partyOf(api, id as PersonId) ?? null) !== party) continue;
+    if (
+      checkEligibility(api, id, ticket.id, party).some(
+        (c) => !c.met && (c.rule === "minimum-age" || c.rule === "residency"),
+      )
+    )
+      continue;
+    people.push({
+      id,
+      ambition: ambitionOf(person),
+      lean: voterLean(api, person),
+    });
+  }
+  return { people, exclude };
+}
+
+/** How many towns a newcomer's home is drawn among, weighed by who lives there. */
+const NEWCOMER_TOWNS = 12;
+
+/**
+ * A newcomer offered as a running mate, filled in: their name, birthday and
+ * temperament as the officials engine drew them, a home town in the state
+ * drawn from the world's seed among its towns by how many people live in
+ * each, and the work that town's counts show (`metResident`, as a person
+ * met on a trip is filled in). Seeded, so the same person comes back.
+ */
+function offerNewcomer(
+  api: CoreAPI,
+  id: string,
+  newcomer: NonNullable<
+    ReturnType<typeof candidateChoices>[number]["newcomer"]
+  >,
+  party: string | null,
+): void {
+  if (api.state.people.has(id)) return;
+  const seed = (api.state as CoreState).seed;
+  const towns = [
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+      stateJurisdictionKey: newcomer.stateKey,
+      scope: "locality",
+    }),
+  ]
+    .map((place) => ({
+      place,
+      order: stableHash(`${seed}:${id}:${place.key}`),
+    }))
+    .sort((a, b) => a.order.localeCompare(b.order))
+    .slice(0, NEWCOMER_TOWNS)
+    .map(({ place }) => ({
+      place,
+      people: place.sourceGeoid
+        ? (placeReferencePopulation(place.sourceGeoid, seed)?.value ?? 0)
+        : 0,
+    }));
+  const total = towns.reduce((sum, t) => sum + t.people, 0);
+  let at =
+    (parseInt(stableHash(`${seed}:${id}:home`).slice(0, 8), 16) / 0x100000000) *
+    total;
+  const home =
+    towns.find((t) => (at -= t.people) < 0)?.place ?? towns[0]?.place;
+  const coarse = home ? coarsePlace(home.key, seed) : null;
+  const met = coarse
+    ? metResident(coarse, seed, `running-mate:${id}`)
+    : undefined;
+  fillInIdentity(api.state as CoreState, {
+    id: id as PersonId,
+    givenName: newcomer.identity.givenName,
+    familyName: newcomer.identity.familyName,
+    birthDate: makeIsoDate(newcomer.identity.birthDate),
+    placeId: (home?.context.jurisdiction.id ?? newcomer.stateKey) as PlaceId,
+    gender: newcomer.identity.gender,
+    ...(party ? { party } : {}),
+    traits: newcomer.traits,
+    tier: "monthly",
+    ...(met
+      ? {
+          work: {
+            workplace: met.job.workplace,
+            title: met.job.title,
+            occupation: met.job.occupation,
+            hourlyMinor: met.job.hourlyMinor,
+            weeklyHours: met.job.weeklyHours,
+          },
+        }
+      : {}),
+    source: {
+      tag: "ESTIMATED",
+      citation: `offered as a running mate on ${api.state.date}`,
+      asOf: makeIsoDate(api.state.date),
+      estimatedFrom:
+        "world seed and the home town's counts (officials-identity)",
+    },
+  });
 }
 
 /**
@@ -6502,6 +6666,7 @@ export function nameRunningMate(
     governorFiling.party ?? INDEPENDENT,
     chosenId,
     true,
+    chosenId ? weighableFor(api, governorFiling, ticketContest) : undefined,
   );
   // Where the officials engine isn't installed: a named official not yet
   // filled in, as a party's nominee is (`fileStandingCandidates`).
