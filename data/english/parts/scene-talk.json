@@ -144013,7 +144013,8 @@
           "role": "asker",
           "purpose": "gathering-ask",
           "key": "loss",
-          "after": "ask"
+          "after": "ask",
+          "requiresFacts": ["absent"]
         }
       ],
       "bearing": "tender",

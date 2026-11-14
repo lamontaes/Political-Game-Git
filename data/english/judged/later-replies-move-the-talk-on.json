@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1321,
+  "judged": 1319,
   "no": {
     "0012mo3zvry": {
       "keys": [
@@ -2283,19 +2283,6 @@
         "scene-talk.reply-leave.i-m-tired-and-i-can-t-keep-talking-about-my-illness-today-i-ll-come-to-you-when-i-m-ready"
       ],
       "why": "\"I'll do it,\" \"I promise\" and \"I'm tired\" restate the first yes, promise and refusal to promise."
-    },
-    "0xcb159bexw": {
-      "keys": [
-        "scene-talk.follow-answer.whatever-you-can-manage-first-a-kind-word-from-you-would-go-a-long-way",
-        "scene-talk.reply-agree.yes-of-course-i-ll-get-in-touch-with-them",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-make-sure-they-hear-from-me",
-        "scene-talk.reply-ask.why-are-you-asking-me-about-this-and-why-now",
-        "scene-talk.reply-decline.i-m-sorry-but-i-m-not-the-right-person-to-do-that",
-        "scene-talk.reply-agree.that-helps-count-me-in",
-        "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-        "scene-talk.reply-decline.thank-you-for-asking-but-i-can-t-do-it-i-m-sorry"
-      ],
-      "why": "The three replies restate the first yes, word-given promise and not-the-right-person refusal."
     },
     "0xqfb7l14zs": {
       "keys": [
@@ -5097,5 +5084,5 @@
       "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "1m4i35s193y"
+  "yesHash": "049e6jh6sfe"
 }

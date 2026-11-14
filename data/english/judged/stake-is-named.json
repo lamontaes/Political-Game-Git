@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "stake-is-named",
   "rubric": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-  "judged": 76,
+  "judged": 62,
   "no": {
     "050jxoy5cvo": {
       "keys": [
@@ -96,5 +96,5 @@
       "why": "'I have a question and I'd like a straight answer' names no subject or consequence."
     }
   },
-  "yesHash": "1g9tflhjeth"
+  "yesHash": "1td99ur9gfo"
 }
