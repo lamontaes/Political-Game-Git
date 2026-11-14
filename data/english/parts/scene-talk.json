@@ -2826,6 +2826,16 @@
           "role": "asked",
           "purpose": "family-absence",
           "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "thank",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
         }
       ],
       "bearing": "tender",
@@ -97147,7 +97157,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "after": "thank",
+          "after": "scene-talk.reply-thank.good-i-m-really-glad",
           "purpose": "ask-out-answer",
           "key": "favor-asked"
         },
@@ -97156,7 +97166,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "after": "thank",
+          "after": "scene-talk.reply-thank.good-i-m-really-glad",
           "purpose": "proposal-answer",
           "key": "favor-asked"
         }
@@ -183930,10 +183940,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.i-love-you-i-m-not-ready-yet-ask-me-again-someday",
+      "key": "scene-talk.state-tell.i-m-not-ready-yet-ask-me-again-someday",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I love you. I'm not ready yet. Ask me again someday.",
+      "text": "I'm not ready yet. Ask me again someday.",
       "uses": [
         {
           "subject": "scene",
@@ -183998,6 +184008,31 @@
       "bearing": "solemn",
       "origin": "authored",
       "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-can-t-say-yes-i-m-sorry",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I can't say yes. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-not-sure-yet"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; second words reader's read, Nov 14 16:45Z)",
       "date": "2026-11-14",
       "tag": {
         "move": "tell",
@@ -184119,7 +184154,8 @@
           "role": "asked",
           "purpose": "ask-out-answer",
           "key": "favor-asked",
-          "requiresFacts": ["said-no"]
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.that-s-sweet-i-just-don-t-see-us-that-way"
         },
         {
           "subject": "scene",
@@ -184128,7 +184164,18 @@
           "role": "asked",
           "purpose": "proposal-answer",
           "key": "favor-asked",
-          "requiresFacts": ["said-no"]
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.not-yet-i-m-not-saying-never"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.i-can-t-say-yes-i-m-sorry"
         }
       ],
       "bearing": "curious",
@@ -184154,7 +184201,23 @@
           "purpose": "ask-out-answer",
           "key": "favor-asked",
           "requiresFacts": ["said-no"]
-        },
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "withdraw",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-withdraw.okay-let-s-leave-it-there",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "Okay. Let's leave it there.",
+      "uses": [
         {
           "subject": "scene",
           "step": "reply",
@@ -184167,7 +184230,7 @@
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "author": "Claude Opus 5.5 (family life builder; second words reader's read, Nov 14 16:45Z)",
       "date": "2026-11-14",
       "tag": {
         "move": "withdraw",
@@ -184264,58 +184327,6 @@
       "date": "2026-11-14",
       "tag": {
         "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.we-ve-barely-talked-that-s-all",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "We've barely talked. That's all.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "purpose": "ask-out-answer",
-          "key": "favor-asked",
-          "requiresFacts": ["reason-barely-know"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-m-with-someone-it-wouldn-t-be-fair",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I'm with someone. It wouldn't be fair.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "purpose": "ask-out-answer",
-          "key": "favor-asked",
-          "requiresFacts": ["reason-with-someone"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
         "key": "favor-asked"
       }
     },

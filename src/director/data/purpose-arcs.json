@@ -4114,7 +4114,7 @@
         },
         {
           "id": "waved-off",
-          "label": "You told them to forget you asked",
+          "label": "You let it drop",
           "keeps": "relationship-cooled",
           "when": {
             "anyReply": ["withdraw"]

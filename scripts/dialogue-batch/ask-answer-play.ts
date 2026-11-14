@@ -238,7 +238,7 @@ for (let draw = 0; draw < draws; draw += 1) {
       FAMILY_PROPOSAL_ANSWERED,
       "proposal-answered",
       other.id,
-      "Propose: after living together a while",
+      "Propose: after living together (staged: the couple set to living together, well along, the next day)",
     );
   }
 }
