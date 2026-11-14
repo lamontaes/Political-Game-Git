@@ -29,6 +29,8 @@ checked:
 
 **Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; a builder never judges its own lines, so only M5's verdicts are folded and no no is ever turned into a yes.
 
-**Done when.** `npm run words:rules` shows the counts above. A second session on main runs `npm run words:verdicts` and sees them unchanged.
+**Done when.** `npm run words:rules` shows the counts above. In three drawn places (name each place and seed), the reply sets the sheet maker finds for these rules are all judged. A second session on main runs `npm run words:verdicts` and sees them unchanged.
+
+**Waits on.** Pull request #9322 folding into the train.
 
 **Files.** data/english/judged/later-replies-move-the-talk-on.json, data/english/judged/replies-may-be-long-and-substantive.json, data/english/judged/escalation-can-be-answered-in-kind.json
