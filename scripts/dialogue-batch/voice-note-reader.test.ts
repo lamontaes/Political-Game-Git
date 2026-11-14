@@ -401,4 +401,25 @@ describe("a note on the click-through page's batch", () => {
     // The remarks grade nothing.
     expect(grades).toHaveLength(1);
   });
+
+  it("keeps lines that have no bank key apart, one row each", () => {
+    const keyless: BatchMoment[] = [
+      {
+        moment: 1,
+        description: "A text scene",
+        lines: [
+          { id: "1.1.1", key: "", line: "That one isn't ours." },
+          { id: "1.1.2", key: "", line: "Nothing in Nashville changed today." },
+        ],
+      },
+    ];
+    const { grades } = readVoiceNote(
+      "1.1.1, that doesn't make sense. 1.1.2, I like that a lot.",
+      keyless,
+    );
+    expect(grades.map((grade) => [grade.id, grade.key])).toEqual([
+      ["1.1.1", ""],
+      ["1.1.2", ""],
+    ]);
+  });
 });

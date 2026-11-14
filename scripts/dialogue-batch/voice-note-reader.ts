@@ -433,10 +433,11 @@ export function readVoiceNote(
   const entry = (line: BatchLine) => {
     // One row per bank piece: a line the same in two wordings of a scene is
     // one piece, and a piece is counted once.
-    let row = notes.get(line.key);
+    const slot = line.key || line.id;
+    let row = notes.get(slot);
     if (!row) {
       row = { line, spans: [], words: [], rewrites: [] };
-      notes.set(line.key, row);
+      notes.set(slot, row);
     }
     return row;
   };
@@ -527,6 +528,7 @@ export function readVoiceNote(
       continue;
     }
     const place = placeSaid(sentence);
+    const titled = place ? undefined : titleSaid(sentence, moments);
     if (place) {
       moment = byMoment.get(place.moment) ?? moment;
       wording = undefined;
@@ -544,7 +546,6 @@ export function readVoiceNote(
       }
       part = undefined;
     } else {
-      const titled = titleSaid(sentence, moments);
       if (titled && wordsOf(sentence).length <= 14) {
         moment = titled;
         wording = undefined;
@@ -670,7 +671,7 @@ export function readVoiceNote(
         strengthOf(sentence) !== undefined ||
         rating !== undefined ||
         (place === undefined &&
-          titleSaid(sentence, moments) === undefined &&
+          titled === undefined &&
           !FILLER.test(sentence) &&
           wordsOf(sentence).length >= 4)
       )
@@ -691,7 +692,10 @@ export function readVoiceNote(
     if (judged === undefined) {
       // A sentence that is neither a judgment, a rating, a place nor filler
       // is him reading something else: the line he was on is done.
-      const named = place !== undefined || ordinalSaid(sentence) !== undefined;
+      const named =
+        place !== undefined ||
+        titled !== undefined ||
+        ordinalSaid(sentence) !== undefined;
       const remark =
         !named && !FILLER.test(sentence) && wordsOf(sentence).length >= 4;
       if (remark && since > 2) {
