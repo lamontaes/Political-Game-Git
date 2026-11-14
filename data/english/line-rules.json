@@ -3220,6 +3220,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "sets": "variants",
+      "applies": {
+        "banks": ["scene-talk"]
       }
     },
     {
