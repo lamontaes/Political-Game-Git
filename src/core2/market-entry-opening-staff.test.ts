@@ -8,28 +8,32 @@ import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
-interface Seen {
-  id: string;
-  /** Outside buyers' spending a month after the founding, before its first staffing review. */
-  won: number;
-  /** Months it was still hiring its opening staff (no staff yet, an opening posted), with its outside buyers' spending then. */
-  hiring: { at: string; outsideMinor: number }[];
-  /** Openings it had posted or filled by its second month. */
-  posted?: number;
+interface Month {
+  at: string;
+  /** Its staff at its last staffing review. */
+  staff: number;
+  /** What its outside buyers pay it a month now. */
+  outsideMinor: number;
 }
 
-const outsideOf = (core: CoreState, id: string) =>
-  [...(residentsRuntime(core)?.flows.values() ?? [])]
-    .filter(
-      (flow) =>
-        flow.kind === "outside-sales" && flow.payeeId === id && !flow.endedAt,
-    )
-    .reduce((n, flow) => n + flow.amountMinor, 0);
+interface Seen {
+  id: string;
+  /** Openings it had posted or filled by its second month. */
+  posted?: number;
+  months: Month[];
+}
+
+/** A founded business's outside buyers' flows, or none where it won no outside buyers. */
+const outsideFlows = (core: CoreState, id: string) =>
+  [...(residentsRuntime(core)?.flows.values() ?? [])].filter(
+    (flow) =>
+      flow.kind === "outside-sales" && flow.payeeId === id && !flow.endedAt,
+  );
 
 /**
- * Plays a world month by month and follows every business founded in it: what
- * its outside buyers pay while it is still hiring its opening staff, and the
- * openings it posted.
+ * Plays a world month by month and follows every business founded in it that
+ * won outside buyers: its staff, what those buyers pay it, and the openings
+ * it posted.
  */
 function followFoundings(seed: string, placeKey: string, days: number) {
   setBookkeeping(false);
@@ -37,69 +41,87 @@ function followFoundings(seed: string, placeKey: string, days: number) {
     twoLevel: true,
     placeKey,
   });
-  const api = coreAPI(core);
-  const jobs = api.moduleState("jobs");
+  const jobs = coreAPI(core).moduleState("jobs");
   const seen = new Map<string, Seen>();
   for (let day = 0; day < days; day += 30) {
     advanceCore(core, addDays(makeIsoDate(core.date), 30));
     for (const id of core.organizations.keys()) {
       if (!id.startsWith("organization:founded:")) continue;
       if (core.finance.businesses.get(id)?.closedAt) continue;
-      const outside = outsideOf(core, id);
+      const flows = outsideFlows(core, id);
+      if (!flows.length) continue;
       let row = seen.get(id);
-      if (!row) seen.set(id, (row = { id, won: outside, hiring: [] }));
-      if (!(row.won > 0)) continue;
+      if (!row) seen.set(id, (row = { id, months: [] }));
       const employer = jobs.table("employers").get(id) as
         { staffing?: { staff: number } } | undefined;
-      const open = jobs
-        .table("positions")
-        .query("byEmployerStatus", [id, "open"]).length;
-      const filled = jobs
-        .table("positions")
-        .query("byEmployerStatus", [id, "filled"]).length;
+      const count = (status: string) =>
+        jobs.table("positions").query("byEmployerStatus", [id, status]).length;
       const age = (Date.parse(core.date) - Date.parse(id.slice(-10))) / 864e5;
       if (employer?.staffing && row.posted === undefined && age >= 45)
-        row.posted = open + filled;
-      if (employer?.staffing && !(employer.staffing.staff > 0) && open > 0)
-        row.hiring.push({ at: core.date, outsideMinor: outside });
+        row.posted = count("open") + count("filled");
+      row.months.push({
+        at: core.date,
+        staff: employer?.staffing?.staff ?? 0,
+        outsideMinor: flows.reduce((n, flow) => n + flow.amountMinor, 0),
+      });
     }
   }
-  return [...seen.values()].filter((row) => row.won > 0);
+  return [...seen.values()];
 }
 
-function expectHeld(where: string, rows: Seen[]) {
+/**
+ * Each founding posts its openings by its second month; its outside buyers pay
+ * it nothing before its first hire; and a month after its first hire, still
+ * staffed, they pay it.
+ */
+function expectPaidFromFirstHire(where: string, rows: Seen[]) {
   for (const row of rows) {
     if (row.posted !== undefined)
       expect(
         row.posted,
         `${where}: ${row.id} posted no opening by its second month`,
       ).toBeGreaterThan(0);
-    for (const month of row.hiring)
+    const hired = row.months.findIndex((month) => month.staff > 0);
+    for (const month of hired < 0 ? row.months : row.months.slice(0, hired))
       expect(
         month.outsideMinor,
-        `${where}: ${row.id} won outside buyers paying ${row.won} a month but they paid it ${month.outsideMinor} on ${month.at} while it was still hiring its opening staff`,
+        `${where}: ${row.id}'s outside buyers paid it ${month.outsideMinor} a month on ${month.at}, before it had hired anyone`,
+      ).toBe(0);
+    const after = hired < 0 ? undefined : row.months[hired + 1];
+    if (after && after.staff > 0)
+      expect(
+        after.outsideMinor,
+        `${where}: ${row.id} hired by ${row.months[hired]!.at} but its outside buyers paid it nothing on ${after.at}`,
       ).toBeGreaterThan(0);
   }
 }
 
-describe("a founded business keeps the outside buyers it won while it hires its opening staff", () => {
-  it("in Skagway, Alaska (0270760, seed 8f3ccb88...), every founding posts its openings and its outside buyers keep paying until its first hire", () => {
+const summary = (rows: Seen[]) =>
+  rows
+    .map((row) => {
+      const hired = row.months.find((month) => month.staff > 0);
+      return `${row.id}: ${hired ? `first hire seen ${hired.at}` : "not yet hired"}, ${row.months.at(-1)!.outsideMinor} a month at the end`;
+    })
+    .join("; ");
+
+describe("a founded business is paid by the outside buyers it won from its first hire", () => {
+  it("in Skagway, Alaska (0270760, seed 8f3ccb88...), every founding posts its openings, is paid nothing before its first hire and is paid after it", () => {
     const seed =
       "8f3ccb88950177eb7865cdf9e9309e08981110a90485863070461caa82dfce65";
     const where = `Skagway, Alaska (0270760), seed ${seed}`;
-    const rows = followFoundings(seed, "0270760", 210);
+    const rows = followFoundings(seed, "0270760", 300);
     // The world founds inns, a building-services firm and factories in its first seven months.
     expect(
       rows.length,
       `${where}: no founding won outside buyers`,
     ).toBeGreaterThan(2);
     expect(
-      rows.some((row) => row.hiring.length > 0),
-      `${where}: no founding was seen hiring its opening staff`,
+      rows.some((row) => row.months.some((month) => month.staff > 0)),
+      `${where}: no founding hired within the run`,
     ).toBe(true);
-    expectHeld(where, rows);
+    expectPaidFromFirstHire(where, rows);
     process.stdout.write(
-      `founded outside buyers: ${where}: ${rows.map((row) => `${row.id} won ${row.won}, ${row.hiring.length} months hiring, ${row.posted ?? "?"} openings`).join("; ")}\n`,
+      `founded outside buyers: ${where}: ${summary(rows)}\n`,
     );
   }, 900_000);
 
@@ -107,14 +129,14 @@ describe("a founded business keeps the outside buyers it won while it hires its 
     const seed =
       "7267935d62c897ff6a2b675177b96c7de73b8bb5cd851a0a2c431c61eacde194";
     const where = `Teaticket, Massachusetts (2569205), seed ${seed}`;
-    const rows = followFoundings(seed, "2569205", 240);
+    const rows = followFoundings(seed, "2569205", 300);
     expect(
-      rows.some((row) => row.hiring.length > 0),
-      `${where}: no founding was seen hiring its opening staff`,
+      rows.some((row) => row.months.some((month) => month.staff > 0)),
+      `${where}: no founding hired within the run`,
     ).toBe(true);
-    expectHeld(where, rows);
+    expectPaidFromFirstHire(where, rows);
     process.stdout.write(
-      `founded outside buyers: ${where}: ${rows.length} foundings checked\n`,
+      `founded outside buyers: ${where}: ${summary(rows)}\n`,
     );
   }, 900_000);
 });
