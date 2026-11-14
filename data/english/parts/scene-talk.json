@@ -184414,10 +184414,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.i-m-sorry-i-m-late-thanks-again",
+      "key": "scene-talk.reply-leave.i-m-sorry-i-have-to-go-thank-you-for-talking-to-me",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'm sorry, I'm late. Thanks again.",
+      "text": "I'm sorry, I have to go. Thank you for talking to me.",
       "origin": "authored",
       "author": "Bill stages (Claude Code), from register/floor-and-hearing.md",
       "date": "2026-11-14",
