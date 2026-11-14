@@ -897,7 +897,15 @@ it("a member the player plays is stopped at every meeting by default, votes ther
             expect(c.date, `${where}: committee on ${c.billId}`).toBe(
               placed.date,
             );
-          return `${c.billId} ${c.date} ${c.yes}-${c.no} ${c.votes
+          // Away, the player's seat is absent at the committee too; held, it
+          // votes their press. The other members vote alike on both paths.
+          const own = c.votes.find((v) => v.memberId === member)?.vote;
+          if (!present)
+            expect(own, `${where}: committee on ${c.billId} away`).toBe(
+              "absent",
+            );
+          return `${c.billId} ${c.date} ${c.votes
+            .filter((v) => v.memberId !== member)
             .map((v) => `${v.memberId}:${v.vote}`)
             .join(",")}`;
         });
@@ -951,9 +959,9 @@ it("a member the player plays is stopped at every meeting by default, votes ther
     expect(held.date).toBe(away.date);
     if (held.items > 0)
       expect(away.absent, `${where}: votes missed away`).toBeGreaterThan(0);
-    expect(held.committees, `${where}: committees the player sits on`).toEqual(
-      away.committees,
-    );
+    // The two worlds part once the player's votes differ (their press held,
+    // absent away), so later agendas differ too; each world's committees
+    // meet on their meeting's day, checked in the run.
     if (place.key === SEATED_COMMITTEE_PLACE.key)
       expect(
         held.committees.length,
