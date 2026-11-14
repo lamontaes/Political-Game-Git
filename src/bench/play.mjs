@@ -1007,7 +1007,15 @@ function atNominations() {
                       { value: "", label: words.own ?? "" },
                       ...entry.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: (value) => {
@@ -1069,7 +1077,15 @@ function atOrders() {
                       { value: "", label: words["post-own"] ?? "" },
                       ...item.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: (value) => {
@@ -1834,7 +1850,11 @@ function ticketSection(filing, ticket) {
     return stripSection(
       1,
       title,
-      introText(ticket.joinsAfterPrimary ? words.nominee : words.later),
+      introText(
+        ticket.joinsAfterPrimary
+          ? words.nominee.replace("{ticket}", ticket.officeSaid)
+          : words.later,
+      ),
     );
   let picked = ticket.choices[0].id;
   const choose = async (personId) => {
@@ -1849,7 +1869,15 @@ function ticketSection(filing, ticket) {
     select({
       options: ticket.choices.map((c) => ({
         value: c.id,
-        label: c.job ? `${c.name} · ${c.job}` : c.name,
+        label: (c.work && c.place
+          ? words.row
+          : c.place
+            ? words.rowPlace
+            : "{name}"
+        )
+          .replace("{name}", c.name)
+          .replace("{work}", c.work ?? "")
+          .replace("{place}", c.place ?? ""),
       })),
       onChange: (value) => {
         picked = value;
@@ -2741,7 +2769,15 @@ async function officeParts() {
                       { value: "", label: words.ownChoice ?? "" },
                       ...head.candidates.map((c) => ({
                         value: c.id,
-                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                        label: (c.work && c.place
+                          ? words.row
+                          : c.place
+                            ? words.rowPlace
+                            : "{name}"
+                        )
+                          .replace("{name}", c.name)
+                          .replace("{work}", c.work ?? "")
+                          .replace("{place}", c.place ?? ""),
                       })),
                     ],
                     onChange: async (nomineeId) => {

@@ -1305,8 +1305,10 @@
     "title": "Your running mate",
     "choose": "Choose",
     "own": "Choose for me",
-    "later": "You name your running mate after the primary",
-    "nominee": "Your party's nominee joins your ticket after the primary"
+    "later": "You name your running mate after the primary.",
+    "nominee": "Your party's nominee for {ticket} joins your ticket after the primary.",
+    "row": "{name}, {work}, {place}",
+    "rowPlace": "{name}, {place}"
   },
   "nominations": {
     "own": "Decided for me",

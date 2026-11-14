@@ -55,6 +55,8 @@ import { campaignAnswer } from "../director/campaign-answer";
 import { spokenDate as dateSaid } from "../director/words";
 import { seatSaid } from "../english/journal-words";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { officeInSentence, personWorkOf } from "../core2/person-work";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
 import { chooseRunningMate, runningMateChoice } from "../core2/modules/voting";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -247,20 +249,9 @@ export function runningMatePicked(
 function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
   const ticket = runningMateChoice(api, filingId);
   if (!ticket) return null;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   const nameOf = (id: string) => {
     const person = core.people.get(id as PersonId);
     return person ? `${person.givenName} ${person.familyName}` : null;
-  };
-  const jobOf = (seatId: string | null) => {
-    if (!seatId) return null;
-    const seat = offices.table("seats").get(seatId) as unknown as
-      { officeId: string; district: string | null } | undefined;
-    const office = seat
-      ? (offices.table("offices").get(seat.officeId) as unknown as
-          { title: string } | undefined)
-      : undefined;
-    return office ? raceTitle(office.title, seat!.district) : null;
   };
   const contest = api
     .moduleState(ELECTIONS)
@@ -269,15 +260,33 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
   const mateName = ticket.mateId ? nameOf(ticket.mateId) : null;
   return {
     office: ticket.office,
+    // The office as a sentence says it ("lieutenant governor").
+    officeSaid: officeInSentence(ticket.office),
     mate: ticket.mateId ? { id: ticket.mateId, name: mateName } : null,
     // Where the state's law has the office win a primary of its own, its
     // party's nominee joins the ticket; otherwise the candidate names one.
     joinsAfterPrimary: ticketStageOf(api, contest) === "separate-primary",
-    choices: ticket.choices.map((c) => ({
-      id: c.id,
-      name: c.name,
-      job: jobOf(c.seatId),
-    })),
+    // Each person as their record has them: the seat they hold or their
+    // work (`personWorkOf`, the one reader the card uses), and where they
+    // live; someone not yet filled in has only a name and their state.
+    choices: ticket.choices.map((c) => {
+      // The ticket is the town's own state's.
+      const townState = (
+        api.moduleState(ELECTIONS).table("town").get("town") as unknown as
+          { stateKey: string } | undefined
+      )?.stateKey;
+      const work = personWorkOf(core, c.id);
+      const said = work.offices[0]
+        ? officeInSentence(work.offices[0].title)
+        : (work.job?.title ?? null);
+      const home = core.people.get(c.id as PersonId)?.placeId;
+      const state =
+        corePlaceStateIdentities().find(
+          (s) =>
+            s.jurisdictionKey === (home?.startsWith("US-") ? home : townState),
+        )?.name ?? null;
+      return { id: c.id, name: c.name, work: said, place: state };
+    }),
   };
 }
 

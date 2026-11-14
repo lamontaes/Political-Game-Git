@@ -69,16 +69,17 @@ const STAGES: readonly GovernorTicketStage[] = [
   "separate-primary",
 ];
 
-function world(state: string) {
+function world(state: string, pinned?: { key: string; seed: string }) {
   const places = [
     ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
   ].sort((a, b) => a.key.localeCompare(b.key));
-  const key = pick(places, `place:${state}`).key;
+  const key = pinned?.key ?? pick(places, `place:${state}`).key;
+  const worldSeed = pinned?.seed ?? seed;
   const full = buildPopulation({
-    seed,
+    seed: worldSeed,
     placeKey: key,
     startedAt: START,
     minimumPeople: 120,
@@ -92,13 +93,13 @@ function world(state: string) {
     collapseToTwoLevels({ ...full, playerId: player.id }),
   );
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, worldSeed);
   openOfficials(core);
   openElections(core);
   openCampaigns(core);
   openParties(core);
   openVoting(core);
-  return { api: coreAPI(core), key, playerId: player.id };
+  return { api: coreAPI(core), key, playerId: player.id, worldSeed };
 }
 
 function governorContest(api: CoreAPI): ContestRow | null {
@@ -151,120 +152,150 @@ describe("governor running mates", () => {
     });
   });
 
+  // One drawn place per rule, and the three places the bench walks played
+  // (/mnt/project-files/words-lead/running-mates/), named with their seeds.
+  const PINNED: Record<
+    GovernorTicketStage,
+    { state: string; key: string; seed: string }
+  > = {
+    "at-filing": {
+      state: "US-GU",
+      key: "territory:GU:santa-rita",
+      seed: "8d04db587cd640d7",
+    },
+    "after-primary": {
+      state: "US-IN",
+      key: "1807714",
+      seed: "5b1e0c2a7d93f4e8",
+    },
+    "separate-primary": {
+      state: "US-WI",
+      key: "5567475",
+      seed: "e8d54e9dcc2306e7",
+    },
+  };
   for (const stage of STAGES)
-    it(
-      `a governor's ticket files, counts and wins together (${stage})`,
-      { timeout: 120_000 },
-      () => {
-        const state = pick(
-          states.filter(
-            (s) => governorTicketStage(s, "lieutenant-governor") === stage,
-          ),
-          `state:${stage}`,
-        );
-        const { api, key, playerId } = world(state);
-        const where = `${stage}: ${state} ${key}, seed ${seed}`;
-        const governor = governorContest(api);
-        expect(governor, where).not.toBeNull();
-        const ticket = ticketOfficeContest(api, governor!);
-        expect(ticket, where).not.toBeNull();
-        expect(ticketStageOf(api, ticket!)).toBe(stage);
-        expect(filledByTickets(api, ticket!)).toBe(
-          stage !== "separate-primary",
-        );
-        const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
-        // The player files for governor under a major party (a fixture: the
-        // clerk's own rules are the filing engine's tests).
-        const party = ballot(api, governor!.id)[0]?.party ?? "Democratic";
-        const own: FilingRow = {
-          id: `filing:${governor!.id}:${playerId}`,
-          contestId: governor!.id,
-          personId: playerId,
-          filedOn: api.state.date,
-          filedWith: "the state's filing officer",
-          platform: [],
-          party,
-          status: "on-ballot",
-        };
-        filings.put(own as unknown as ModuleRow);
-        announce(api, own, governor!);
-        fileStandingCandidates(api, governor!.id);
-        fileStandingCandidates(api, ticket!.id);
-        const mates = () =>
-          ballot(api, governor!.id).map(
-            (f) => [f, runningMateOf(api, f, ticket!)] as const,
+    for (const pinned of [null, PINNED[stage]])
+      it(
+        `a governor's ticket files, counts and wins together (${stage}, ${pinned ? `${pinned.key} seed ${pinned.seed}` : "drawn"})`,
+        { timeout: 120_000 },
+        () => {
+          const state =
+            pinned?.state ??
+            pick(
+              states.filter(
+                (s) => governorTicketStage(s, "lieutenant-governor") === stage,
+              ),
+              `state:${stage}`,
+            );
+          expect(governorTicketStage(state, "lieutenant-governor")).toBe(stage);
+          const { api, key, playerId, worldSeed } = world(
+            state,
+            pinned ?? undefined,
           );
-        // The player names their own running mate: never named for them at
-        // filing (where the office wins a primary of its own, the party's one
-        // nominee joins the party's one governor candidate).
-        if (stage !== "separate-primary")
-          expect(runningMateOf(api, own, ticket!), where).toBeNull();
-        const choice = runningMateChoice(api, own.id)!;
-        expect(choice.ticketContestId).toBe(ticket!.id);
-        if (stage === "at-filing") {
-          // Each other candidate filed with a running mate of their party.
+          const where = `${stage}: ${state} ${key}, seed ${worldSeed}`;
+          const governor = governorContest(api);
+          expect(governor, where).not.toBeNull();
+          const ticket = ticketOfficeContest(api, governor!);
+          expect(ticket, where).not.toBeNull();
+          expect(ticketStageOf(api, ticket!)).toBe(stage);
+          expect(filledByTickets(api, ticket!)).toBe(
+            stage !== "separate-primary",
+          );
+          const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+          // The player files for governor under a major party (a fixture: the
+          // clerk's own rules are the filing engine's tests).
+          const party = ballot(api, governor!.id)[0]?.party ?? "Democratic";
+          const own: FilingRow = {
+            id: `filing:${governor!.id}:${playerId}`,
+            contestId: governor!.id,
+            personId: playerId,
+            filedOn: api.state.date,
+            filedWith: "the state's filing officer",
+            platform: [],
+            party,
+            status: "on-ballot",
+          };
+          filings.put(own as unknown as ModuleRow);
+          announce(api, own, governor!);
+          fileStandingCandidates(api, governor!.id);
+          fileStandingCandidates(api, ticket!.id);
+          const mates = () =>
+            ballot(api, governor!.id).map(
+              (f) => [f, runningMateOf(api, f, ticket!)] as const,
+            );
+          // The player names their own running mate: never named for them at
+          // filing (where the office wins a primary of its own, the party's one
+          // nominee joins the party's one governor candidate).
+          if (stage !== "separate-primary")
+            expect(runningMateOf(api, own, ticket!), where).toBeNull();
+          const choice = runningMateChoice(api, own.id)!;
+          expect(choice.ticketContestId).toBe(ticket!.id);
+          if (stage === "at-filing") {
+            // Each other candidate filed with a running mate of their party.
+            for (const [f, mate] of mates())
+              if (f.personId !== playerId) {
+                expect(mate, `${where}: ${f.id}`).not.toBeNull();
+                expect(mate!.party).toBe(f.party ?? null);
+              }
+            expect(choice.choices.length, where).toBeGreaterThanOrEqual(3);
+            expect(choice.choices.length).toBeLessThanOrEqual(4);
+            const picked = choice.choices.at(-1)!;
+            const named = chooseRunningMate(api, own.id, picked.id);
+            expect(named.personId).toBe(picked.id);
+            expect(api.state.people.has(picked.id), where).toBe(true);
+          } else {
+            // Not the candidate's to name yet: after the primary, or the
+            // office's own primary nominee joins.
+            expect(choice.choices, where).toEqual([]);
+            expect(() => chooseRunningMate(api, own.id, null)).toThrow();
+          }
+          // Nobody filed for the office alone where the tickets fill it.
+          if (stage !== "separate-primary")
+            for (const f of ballot(api, ticket!.id))
+              expect(f.ticketWith, `${where}: ${f.id}`).toBeTruthy();
+          if (governor!.primaryDate) {
+            holdPrimary(api, governor!.id);
+            holdPrimary(api, ticket!.id);
+          }
+          // Once the nominations are made the ballot is final: every other
+          // candidate's ticket is whole before anyone votes, each running mate
+          // a person in the world, whatever their party.
           for (const [f, mate] of mates())
             if (f.personId !== playerId) {
-              expect(mate, `${where}: ${f.id}`).not.toBeNull();
-              expect(mate!.party).toBe(f.party ?? null);
+              expect(mate, `${where}: ${f.id} (${f.party})`).not.toBeNull();
+              expect(api.state.people.has(mate!.personId), mate!.personId).toBe(
+                true,
+              );
             }
-          expect(choice.choices.length, where).toBeGreaterThanOrEqual(3);
-          expect(choice.choices.length).toBeLessThanOrEqual(4);
-          const picked = choice.choices.at(-1)!;
-          const named = chooseRunningMate(api, own.id, picked.id);
-          expect(named.personId).toBe(picked.id);
-          expect(api.state.people.has(picked.id), where).toBe(true);
-        } else {
-          // Not the candidate's to name yet: after the primary, or the
-          // office's own primary nominee joins.
-          expect(choice.choices, where).toEqual([]);
-          expect(() => chooseRunningMate(api, own.id, null)).toThrow();
-        }
-        // Nobody filed for the office alone where the tickets fill it.
-        if (stage !== "separate-primary")
-          for (const f of ballot(api, ticket!.id))
-            expect(f.ticketWith, `${where}: ${f.id}`).toBeTruthy();
-        if (governor!.primaryDate) {
-          holdPrimary(api, governor!.id);
-          holdPrimary(api, ticket!.id);
-        }
-        // Once the nominations are made the ballot is final: every other
-        // candidate's ticket is whole before anyone votes, each running mate
-        // a person in the world, whatever their party.
-        for (const [f, mate] of mates())
-          if (f.personId !== playerId) {
-            expect(mate, `${where}: ${f.id} (${f.party})`).not.toBeNull();
-            expect(api.state.people.has(mate!.personId), mate!.personId).toBe(
-              true,
-            );
+          formTickets(api, governor!, "election");
+          // Every governor candidate on the ballot runs with exactly one running mate.
+          for (const [f, mate] of mates()) {
+            expect(mate, `${where}: ${f.id}`).not.toBeNull();
+            expect(
+              ballot(api, ticket!.id).filter((m) => m.ticketWith === f.id)
+                .length,
+            ).toBe(1);
           }
-        formTickets(api, governor!, "election");
-        // Every governor candidate on the ballot runs with exactly one running mate.
-        for (const [f, mate] of mates()) {
-          expect(mate, `${where}: ${f.id}`).not.toBeNull();
-          expect(
-            ballot(api, ticket!.id).filter((m) => m.ticketWith === f.id).length,
-          ).toBe(1);
-        }
-        expect(ballot(api, ticket!.id).length).toBe(
-          ballot(api, governor!.id).length,
-        );
-        const counted = holdElection(api, governor!.id);
-        const decided = resultOf(api, ticket!.id);
-        expect(decided, where).not.toBeNull();
-        const mateOf = new Map(
-          mates().map(([f, mate]) => [f.personId, mate!.personId]),
-        );
-        // One vote counts both: each ticket's votes, and the winner's running mate seated.
-        for (const [governorId, mateId] of mateOf)
-          expect(decided!.totals[mateId], `${where}: ${mateId}`).toBe(
-            counted.totals[governorId],
+          expect(ballot(api, ticket!.id).length).toBe(
+            ballot(api, governor!.id).length,
           );
-        expect(decided!.winnerCandidateId ?? null).toBe(
-          counted.winnerCandidateId
-            ? mateOf.get(counted.winnerCandidateId)
-            : null,
-        );
-      },
-    );
+          const counted = holdElection(api, governor!.id);
+          const decided = resultOf(api, ticket!.id);
+          expect(decided, where).not.toBeNull();
+          const mateOf = new Map(
+            mates().map(([f, mate]) => [f.personId, mate!.personId]),
+          );
+          // One vote counts both: each ticket's votes, and the winner's running mate seated.
+          for (const [governorId, mateId] of mateOf)
+            expect(decided!.totals[mateId], `${where}: ${mateId}`).toBe(
+              counted.totals[governorId],
+            );
+          expect(decided!.winnerCandidateId ?? null).toBe(
+            counted.winnerCandidateId
+              ? mateOf.get(counted.winnerCandidateId)
+              : null,
+          );
+        },
+      );
 });
