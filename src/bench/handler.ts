@@ -9,11 +9,22 @@ import { bustPath } from "./bust";
 import { frontPng } from "./mannequin-plates";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
-import { personOrFillIn } from "../core2/state";
+import { fillInCount, personOrFillIn } from "../core2/state";
+import {
+  registerCommand,
+  replaySave,
+  saveGame,
+  type Game,
+  type SaveCommand,
+  type SaveV1,
+} from "../core2/saves";
 import { parameter } from "../core2/parameters";
 import { SITUATION_LIBRARY } from "../director/scheduling";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
+import { writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld, buildBenchWorldInStages } from "./world";
@@ -70,6 +81,7 @@ import {
   ordersView,
   deskView,
   meetingAdjourn,
+  meetingAttend,
   meetingItem,
   meetingSpeak,
   meetingSceneView,
@@ -88,6 +100,7 @@ import {
   chooseAtCounter,
   counterOpening,
   officePlace,
+  NothingAtCounter,
   openBenchFilingVisit,
   type BenchFilingVisit,
 } from "./filing";
@@ -185,6 +198,8 @@ interface ServerState {
   opening: ReturnType<typeof openingFrames> | null | undefined;
   /** The dev-mode record writer for the current town, which holds the gap marks. */
   marker: DevMode | undefined;
+  /** The life as a save (saves.ts): the recipe and every request the player made. */
+  life: Game | undefined;
 }
 const state: ServerState = {
   core: undefined,
@@ -204,7 +219,10 @@ const state: ServerState = {
   buildProgress: { stage: "done", done: 0, total: 0 },
   opening: undefined,
   marker: undefined,
+  life: undefined,
 };
+/** What the server holds before any life, for a replay to start from. */
+const EMPTY_STATE: ServerState = { ...state };
 /** The scene a person is in now, as the screen shows it: the player's opening day ends at home that evening, where the news is. */
 function sceneNow(current: CoreState, id: string) {
   const playing = state.player?.personId === id;
@@ -1429,6 +1447,25 @@ const ROUTES: readonly Route[] = [
     },
   },
   {
+    // A resident marks a body's posted meeting to attend, or takes the mark back (Calendar).
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/meeting/attend",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      meetingAttend(
+        requireCore(),
+        url.searchParams.get("officeId") ?? "",
+        url.searchParams.get("date") ?? "",
+        url.searchParams.get("attend") === "true",
+      );
+      send(200, {
+        date: requireCore().date,
+        items: calendarItems(requireCore(), state.player.personId),
+      });
+      return;
+    },
+  },
+  {
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/meeting/adjourn",
     run: async ({ url, send }) => {
@@ -1978,12 +2015,21 @@ const ROUTES: readonly Route[] = [
           return;
         }
       }
-      state.filingVisit = openBenchFilingVisit(
-        current,
-        state.player.personId,
-        filedWith,
-        state.player.packet?.at.minuteOfDay ?? 12 * 60,
-      );
+      try {
+        state.filingVisit = openBenchFilingVisit(
+          current,
+          state.player.personId,
+          filedWith,
+          state.player.packet?.at.minuteOfDay ?? 12 * 60,
+        );
+      } catch (error) {
+        // Nothing to file and no petition out: no scene at the counter
+        // (Fable A, Nov 13, rule 19).
+        if (!(error instanceof NothingAtCounter)) throw error;
+        state.filingVisit = undefined;
+        send(200, { nothing: true });
+        return;
+      }
       send(
         200,
         opens
@@ -2566,7 +2612,105 @@ const ROUTES: readonly Route[] = [
  * neutral: the dev listener (server.ts) and the desktop shell's app protocol
  * both call it, so there is one set of routes.
  */
+/** A request the save records: the method and the path with its query, which carries every input. */
+const BENCH_REQUEST = "bench.request";
+// A recorded request replays through the bench itself (`replayLife`), not
+// through the core: the kind is registered so saves.ts knows it.
+registerCommand<{ method: string; url: string }>(BENCH_REQUEST, () => {
+  throw new Error("A bench request replays through the bench (replayLife).");
+});
+/** Requests that write files, not the world: never recorded. */
+const UNRECORDED = new Set(["/api/grade", "/api/gap"]);
+
+/** Where the life's save is written: OCD_SAVE_PATH, else the system's temporary folder (part 3 picks the folder). */
+export function lifeSavePath(): string {
+  return process.env.OCD_SAVE_PATH ?? join(tmpdir(), "ocd-bench-life.json");
+}
+
+/** Writes the life's save (the recipe and its requests, no snapshot) through saves.ts. */
+export function saveLifeNow(): SaveV1 | undefined {
+  if (!state.life || !state.core) return undefined;
+  const save = saveGame(state.life, { snapshot: false });
+  writeFileSync(lifeSavePath(), JSON.stringify(save));
+  return save;
+}
+
+/**
+ * Replays a saved life into this server: the bench starts empty and runs
+ * each recorded request again, so the same world is rebuilt (the bench world
+ * is the same from the same seed) and the save is recorded afresh.
+ */
+export async function replayLife(
+  save: SaveV1,
+  options: BenchRequestOptions = { developer: true },
+): Promise<Pick<Game, "skipped" | "upgradedFrom">> {
+  Object.assign(state, {
+    ...EMPTY_STATE,
+    nightsWatched: new Set<string>(),
+    canvassedOn: new Set<string>(),
+    life: undefined,
+  });
+  return replaySave(save, async (command) => {
+    const { method, url } = command.payload as { method: string; url: string };
+    const reply = await benchRequest(
+      method,
+      new URL(url, "http://bench"),
+      options,
+    );
+    if (reply.status >= 400)
+      throw new Error(`${method} ${url} answered ${reply.status}`);
+  });
+}
+
 export async function benchRequest(
+  method: string,
+  url: URL,
+  options: BenchRequestOptions,
+): Promise<BenchReply> {
+  // What the request may change: the date it ran on and who is full yet.
+  const was = state.core;
+  const date = state.core?.date;
+  const filled = state.core ? fillInCount(state.core) : 0;
+  const reply = await answerRequest(method, url, options);
+  // Every request the player makes that can change the world is recorded:
+  // every POST under /api/ but the two that write files, and a read that
+  // filled someone in (a person card of someone in the counts).
+  const posted =
+    method === "POST" &&
+    url.pathname.startsWith("/api/") &&
+    !UNRECORDED.has(url.pathname);
+  const filledIn =
+    method === "GET" &&
+    state.core !== undefined &&
+    state.core === was &&
+    fillInCount(state.core) > filled;
+  if ((posted || filledIn) && state.core) {
+    const command: SaveCommand = {
+      date: (date ?? state.core.date) as SaveCommand["date"],
+      kind: BENCH_REQUEST,
+      payload: { method, url: `${url.pathname}${url.search}` },
+    };
+    if (url.pathname === "/api/newlife" && state.core !== was)
+      state.life = {
+        core: state.core,
+        recipe: {
+          place: {
+            seed: url.searchParams.get("seed") ?? "",
+            key: url.searchParams.get("placeKey") ?? state.placeId,
+          },
+          twoLevel: true,
+        },
+        commands: [command],
+        skipped: [],
+      };
+    else if (state.life?.core === state.core) state.life.commands.push(command);
+    // Written after every request that moved the date (and a new life).
+    if (state.core.date !== date || state.core !== was) saveLifeNow();
+  }
+  return reply;
+}
+
+async function answerRequest(
   method: string,
   url: URL,
   options: BenchRequestOptions,

@@ -25,6 +25,7 @@ The old art pipeline was deleted at the owner's word, Nov 5; there is no art val
 2. Keep source master, derived tier, candidate and released runtime asset distinct.
    - An external upscale must declare its parent. Repository tooling never enlarges a raster.
 3. Environments: a backdrop enters `art/backdrops/` through `scripts/backdrops/` and its manifest row.
+   - A new backdrop also gets one row in `art/backdrops/categories.json` (its group, the settings, office kinds and scene types it serves); the `scene-pictures` guard fails a painted place without one. Scenes are mapped to pictures in `situationPlaces` (skill `scene-pictures`).
    - Geometry starts unresolved. Room staging waits while busts are coming (owner, Nov 10): do not file or reopen full-body staging defects (who stands where, people blocking each other); how busts are shown is his call.
    - Never infer a world label or access grant from a filename, family or tag.
    - Anything the simulation owns (names, seals, headlines, dates) goes in a dynamic slot, never in the picture.

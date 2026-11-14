@@ -18,7 +18,10 @@ import ageUnemployment from "../data/jobs/age-unemployment.json" with { type: "j
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import vacancyDuration from "../data/jobs/vacancy-duration.json" with { type: "json" };
-import type { Parameter } from "../parameters";
+import openingsRate from "../data/jobs/openings-rate.json" with { type: "json" };
+import { parameter, type Parameter } from "../parameters";
+import { townWorkplaceWeights } from "../town-employment-mix";
+import { TOWN_WORKPLACES } from "../town-workplaces";
 import { stopgap } from "../stopgaps";
 import {
   decisionLean,
@@ -222,6 +225,15 @@ interface EmployerRow {
   };
   /** A new business's template for its first roles. */
   templateFromId?: string;
+  /**
+   * A new business still hiring its opening staff: while the openings it
+   * posted at its first review stand and nobody is hired yet, it serves no
+   * one (its service level is zero, so its outside buyers buy from its
+   * rivals and it is paid nothing for them), but it plans its staff from the
+   * demand its founding won, not from the sales it cannot yet make, so its
+   * openings stand. Its first hire, or its openings lapsing, ends it.
+   */
+  hiring?: true;
   /** The staff mix at the opening: each role's head count and a job to copy for it. */
   mix?: Record<string, { count: number; templateJobId: string }>;
   /** Fraction of a posting's withdrawal carried to the next review. */
@@ -1097,6 +1109,7 @@ function unemploymentGap(api: CoreAPI, placeId: string): number {
 
 function open(api: CoreAPI): void {
   const c = core(api);
+  const posted = postStandingOpenings(api);
   for (const [id, book] of c.finance.businesses) {
     if (book.closedAt) continue;
     const jobs = currentJobs(api, id);
@@ -1107,7 +1120,8 @@ function open(api: CoreAPI): void {
       .put({
         id,
         isEmployer: true,
-        openingStaff: heads,
+        // Its staff and the jobs it has standing open: the work its books call for.
+        openingStaff: heads + (posted.get(id) ?? 0),
         ...(scale !== 1 ? { openingScale: scale } : {}),
         need: 0,
         mix: roleMix(jobs, fullJobs(api, id), (job) => headsOf(c, job)),
@@ -1121,6 +1135,212 @@ function open(api: CoreAPI): void {
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
   scheduleReview(api);
   scheduleWeek(api);
+}
+
+/** A role of the county's work, merged across the kinds of workplace that list it. */
+export interface CommuterRole {
+  readonly title: string;
+  readonly occupation: string;
+  readonly share: number;
+  readonly minAge: number;
+}
+const commuterRolesByPlace = new WeakMap<
+  CoreState,
+  Map<string, readonly CommuterRole[]>
+>();
+
+/** Every role of the place's county mix, with its share of the county's jobs. */
+function commuterRoles(
+  core: CoreState,
+  placeId: string,
+): readonly CommuterRole[] {
+  let byPlace = commuterRolesByPlace.get(core);
+  if (!byPlace) commuterRolesByPlace.set(core, (byPlace = new Map()));
+  const known = byPlace.get(placeId);
+  if (known) return known;
+  const weights = townWorkplaceWeights(placeId as EntityId, core.seed);
+  const total = [...weights.values()].reduce(
+    (sum, value) => sum + Math.max(0, value),
+    0,
+  );
+  const roles = new Map<string, CommuterRole>();
+  for (const workplace of TOWN_WORKPLACES) {
+    const weight = Math.max(0, weights.get(workplace.key) ?? 0);
+    const roleTotal = workplace.roles.reduce((sum, row) => sum + row.weight, 0);
+    if (weight <= 0 || total <= 0 || roleTotal <= 0) continue;
+    for (const row of workplace.roles) {
+      if (row.weight <= 0) continue;
+      const key = `${row.title}|${row.occupation}`;
+      const share = ((weight / total) * row.weight) / roleTotal;
+      const prior = roles.get(key);
+      roles.set(key, {
+        title: row.title,
+        occupation: row.occupation,
+        share: (prior?.share ?? 0) + share,
+        minAge: Math.max(
+          prior?.minAge ?? 0,
+          row.minAge ?? parameter("childUpperAge"),
+        ),
+      });
+    }
+  }
+  const list = [...roles.values()].sort((a, b) =>
+    a.title.localeCompare(b.title),
+  );
+  byPlace.set(placeId, list);
+  return list;
+}
+
+/**
+ * The work a resident who commutes out of the town does: of the county's
+ * roles they are old enough for, the one furthest below its share of the
+ * county's jobs among the place's commuters today, then by title. Nothing is
+ * drawn: the place's commuters together follow the county's mix of work
+ * (nurses, teachers, plant workers and drivers, not only clerks), and the
+ * same person filled in again takes the same place in it. Null where the
+ * place has no sourced mix.
+ */
+export function commuterRole(
+  core: CoreState,
+  placeId: string,
+  employerId: string,
+  age: number,
+): CommuterRole | null {
+  const roles = commuterRoles(core, placeId).filter((row) => age >= row.minAge);
+  if (!roles.length) return null;
+  const held = new Map<string, number>();
+  let commuters = 0;
+  for (const job of core.jobs.values()) {
+    if (job.endsAt !== undefined || job.organizationId !== employerId) continue;
+    if (!job.id.startsWith("job:commuter:")) continue;
+    const key = `${job.title}|${job.occupationClassification ?? ""}`;
+    held.set(key, (held.get(key) ?? 0) + 1);
+    commuters += 1;
+  }
+  const shareTotal = roles.reduce((sum, row) => sum + row.share, 0);
+  const short = (row: CommuterRole) =>
+    (row.share / shareTotal) * (commuters + 1) -
+    (held.get(`${row.title}|${row.occupation}`) ?? 0);
+  return [...roles].sort(
+    (a, b) => short(b) - short(a) || a.title.localeCompare(b.title),
+  )[0]!;
+}
+
+/** The share of an employer's work that stands open on any day: its industry's JOLTS openings rate. */
+function openingsShare(api: CoreAPI, kindId: string | undefined): number {
+  const series = (vacancyDuration.kinds as Record<string, string>)[
+    kindId ?? ""
+  ];
+  const rows = openingsRate.series as Record<
+    string,
+    { percent: { value: number } }
+  >;
+  const percent = (rows[series ?? "total-private"] ?? rows["total-private"]!)
+    .percent.value;
+  return percent / (api.parameter("percent") - percent);
+}
+
+/**
+ * Every employer opens the world with the openings a real one carries on any
+ * day (owner, Nov 12: a jobless player "can never be offered a job" when the
+ * books start empty): its staff times its industry's JOLTS openings rate
+ * (src/core2/data/jobs/openings-rate.json), each opening standing for the
+ * employer's typical counted worker's weight. A place's openings are made
+ * whole by largest remainder across its employers, so nothing is drawn; each
+ * is a role furthest below the employer's staff mix, copied from a job of
+ * that role, and opened on a day spread back across its industry's wait
+ * (`vacancyDays`), so they come due to be filled one after another from the
+ * first weeks on. Returns the jobs posted, by employer.
+ */
+function postStandingOpenings(api: CoreAPI): Map<string, number> {
+  const c = core(api);
+  interface Want {
+    id: string;
+    placeId: string;
+    jobs: JobInput[];
+    stands: number;
+    exact: number;
+    count: number;
+  }
+  const byPlace = new Map<string, Want[]>();
+  for (const [id, book] of c.finance.businesses) {
+    if (book.closedAt) continue;
+    const placeId = c.organizations.get(id)?.placeId;
+    const jobs = currentJobs(api, id);
+    if (!placeId || !jobs.length) continue;
+    const counted = jobs.filter((job) => !c.jobs.has(job.id));
+    const stands = counted.length
+      ? staffHeads(c, counted) / counted.length
+      : api.parameter("one");
+    const exact =
+      (staffHeads(c, jobs) * openingsShare(api, book.kindId)) / stands;
+    const list = byPlace.get(placeId) ?? [];
+    list.push({ id, placeId, jobs, stands, exact, count: Math.floor(exact) });
+    byPlace.set(placeId, list);
+  }
+  const posted = new Map<string, number>();
+  const date = makeIsoDate(c.date);
+  for (const wants of byPlace.values()) {
+    wants.sort((a, b) => a.id.localeCompare(b.id));
+    const whole = Math.round(wants.reduce((sum, row) => sum + row.exact, 0));
+    let left = whole - wants.reduce((sum, row) => sum + row.count, 0);
+    for (const row of [...wants].sort(
+      (a, b) =>
+        b.exact - b.count - (a.exact - a.count) || a.id.localeCompare(b.id),
+    )) {
+      if (left <= 0) break;
+      row.count += 1;
+      left -= 1;
+    }
+    let at = 0;
+    for (const row of wants) {
+      const mix = roleMix(row.jobs, fullJobs(api, row.id), (job) =>
+        headsOf(c, job),
+      );
+      const have: Record<string, number> = {};
+      for (const job of row.jobs)
+        have[roleOf(job)] = (have[roleOf(job)] ?? 0) + headsOf(c, job);
+      for (let n = 0; n < row.count; n += 1, at += 1) {
+        const role = rolesByDeficit(mix, have, row.stands)[0];
+        if (!role) break;
+        const ofRole = row.jobs
+          .filter((job) => roleOf(job) === role)
+          .sort(
+            (a, b) =>
+              Number(c.jobs.has(b.id)) - Number(c.jobs.has(a.id)) ||
+              a.id.localeCompare(b.id),
+          );
+        const template = ofRole[n % ofRole.length]!;
+        have[role] = (have[role] ?? 0) + row.stands;
+        const position: PositionRow = {
+          id: `position:${row.id}:${date}:standing:${n}`,
+          organizationId: row.id,
+          placeId: row.placeId,
+          templateJobId: template.id,
+          title: template.title,
+          occupation: roleOf(template),
+          hourlyMinor: payFor(api, row.id, template),
+          openedAt: date,
+          status: "open",
+          reasonKey: jobsData.reasons.opening,
+          ...(row.stands === 1 ? {} : { heads: row.stands }),
+        };
+        // Opened on a day spread back across the wait, the place's openings in turn.
+        const back = Math.floor(
+          (vacancyDays(api, position) * (at + api.parameter("half"))) /
+            Math.max(
+              1,
+              wants.reduce((sum, w) => sum + w.count, 0),
+            ),
+        );
+        store(api)
+          .table("positions")
+          .put({ ...position, openedAt: addDays(date, -back) });
+        posted.set(row.id, (posted.get(row.id) ?? 0) + row.stands);
+      }
+    }
+  }
+  return posted;
 }
 
 function scheduleReview(api: CoreAPI): void {
@@ -1262,10 +1482,17 @@ export function raiseUnfilledPay(
     if (position.status !== "open" || position.offeredTo) continue;
     const hours = jobById(api, position.templateJobId)?.hoursDaily ?? 0;
     if (hours <= 0) continue;
-    const since = position.raisedOn ?? position.openedAt;
+    // An opening stands unfilled for its pay only once it could be filled: from the day it came due after its industry's vacancy wait (`vacancyDays`), never while nobody could yet take it.
+    const since =
+      position.raisedOn ??
+      addDays(
+        makeIsoDate(position.openedAt),
+        Math.ceil(vacancyDays(api, position)),
+      );
     const waited =
       (Date.parse(`${c.date}T00:00:00Z`) - Date.parse(`${since}T00:00:00Z`)) /
       86_400_000;
+    if (waited <= 0) continue;
     // What the seat has cost standing empty since it was last priced.
     const lost = (waited * carriesMonthly) / monthDays;
     const paysMonthly = position.hourlyMinor * hours * monthDays;
@@ -1369,7 +1596,12 @@ function reviewEmployers(api: CoreAPI): void {
     const book = c.finance.businesses.get(row.id);
     if (!book || book.closedAt) continue;
     const jobs = currentJobs(api, row.id),
-      positions = [...openPositions(api, row.id)];
+      // A position held for the player's answer goes first, so it is the last withdrawn: never while they decide.
+      positions = [...openPositions(api, row.id)].sort(
+        (a, b) => Number(!!b.offeredTo) - Number(!!a.offeredTo),
+      );
+    const withdrawable = () =>
+      positions.length > 0 && !positions[positions.length - 1]!.offeredTo;
     // Staff and postings in jobs: a counted worker's record stands for its household's weight.
     const staff = staffHeads(c, jobs);
     recordEmployerBound(
@@ -1389,8 +1621,9 @@ function reviewEmployers(api: CoreAPI): void {
       seasonalStaffing(book.kindId, c.date, opened, c.seed);
     const trading = businessTradingMonth(api, row.id);
     raiseUnfilledPay(api, row.id, positions, trading, staff);
+    // A new business still hiring has made no sales of its own to read: it plans from its books' demand.
     const observedStaff =
-      trading && trading.days > 0 && book.capacityMinor > 0
+      !row.hiring && trading && trading.days > 0 && book.capacityMinor > 0
         ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
           (trading.days *
             (book.price / book.anchorPrice || 1) *
@@ -1438,7 +1671,7 @@ function reviewEmployers(api: CoreAPI): void {
       excess > 0
         ? (row.withdrawCarry ?? 0) + p("jobsWithdrawActedPerMonth") * excess
         : 0;
-    while (carry >= 1 && positions.length) {
+    while (carry >= 1 && withdrawable()) {
       const position = positions.pop()!;
       store(api)
         .table("positions")
@@ -1563,7 +1796,7 @@ function reviewEmployers(api: CoreAPI): void {
     }
     const jobChangeIds: string[] = [];
     for (;;) {
-      if (positions.length) {
+      if (withdrawable()) {
         const position = positions[positions.length - 1]!;
         if (need > -positionHeads(position)) break;
         positions.pop();
@@ -1642,11 +1875,16 @@ function reviewEmployers(api: CoreAPI): void {
         ),
       });
     }
+    // A new business is hiring while its opening postings stand; its first hire, or the postings lapsing, ends it.
+    const { hiring, ...kept } = row;
+    const stillHiring =
+      hiring && !(staff > 0) && (!row.staffing || positions.length > 0);
     // Leavers not refilled this month wait while staff is below target; above it, attrition does the shrinking.
     store(api)
       .table("employers")
       .put({
-        ...row,
+        ...kept,
+        ...(stillHiring ? { hiring: true as const } : {}),
         need,
         salesStaff,
         hoursFactor,
@@ -1678,7 +1916,8 @@ export interface FirmStaffing {
 /**
  * The one read the business engine takes of a firm's staffing (owner, Nov 9:
  * firms diverge by service level): the employer's last review, or none for a
- * firm the jobs engine does not run or has not yet reviewed. The service level
+ * firm the jobs engine does not run or has not yet reviewed (a new business
+ * still hiring reads as serving no one). The service level
  * is staff over target, one where the firm is fully staffed.
  */
 export function firmStaffing(
@@ -1689,6 +1928,16 @@ export function firmStaffing(
   const row = store(api).table("employers").get(organizationId) as
     EmployerRow | undefined;
   const read = row?.staffing;
+  // A new business not yet reviewed has nobody working: it serves no one until its first hire.
+  if (!read && row?.hiring)
+    return {
+      staff: api.parameter("zero"),
+      target: row.openingStaff,
+      projected: row.openingStaff,
+      observedStaff: api.parameter("zero"),
+      serviceLevel: api.parameter("zero"),
+      at: api.state.date,
+    };
   if (!read) return undefined;
   return {
     ...read,
@@ -2578,7 +2827,18 @@ function hireRegional(
         }),
       ]).selected!.definition.id === jobsData.actions.accept.id;
   if (!accepts) return;
-  const jobId = startRegionalWork(c, seeker.personId, hourlyMinor);
+  // The work is the role it was priced from.
+  const jobId = startRegionalWork(
+    c,
+    seeker.personId,
+    hourlyMinor,
+    template?.occupationClassification
+      ? {
+          title: template.title,
+          occupation: template.occupationClassification,
+        }
+      : undefined,
+  );
   if (!jobId) return;
   if (counted)
     store(api)
@@ -3057,7 +3317,7 @@ function walkRanking(
 }
 
 /** The openings that can be filled today: each has waited its industry's vacancy duration (posting, applications, interviews, a start date) and none is held for the player's answer. */
-function fillableOpenings(api: CoreAPI): PositionRow[] {
+export function fillableOpenings(api: CoreAPI): PositionRow[] {
   const c = core(api);
   return (
     store(api)
@@ -5234,7 +5494,9 @@ export function registerEmployer(
       isEmployer: true,
       openingStaff,
       ...(scale !== undefined ? { openingScale: scale } : {}),
-      need: 0,
+      // It posts its opening staff at its first review, as a new business hires before it opens.
+      need: openingStaff,
+      hiring: true,
       // An employer registered after the opening keeps the roles its staff is
       // made of, so a role it loses is refilled as that role even when its
       // last holder leaves (a reporter at an outlet with only an editor left).

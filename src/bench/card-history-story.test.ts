@@ -58,30 +58,38 @@ it("tells an official, a resident and the player as stories, with the header's s
       `${where} ${role} ${card.name}: ${(card.summary ?? []).join(" / ")} || ${card.history.map((line) => `${line.date.slice(0, 4)} ${line.text}`).join(" | ")}\n`,
     );
 
-  // The legislator with the most terms in one seat, opened from the term
-  // they serve now.
-  const terms = coreAPI(core)
-    .moduleState("core2-offices-v1")
-    .table("terms")
-    .rows() as unknown as TermRow[];
-  const runs = new Map<string, TermRow[]>();
-  for (const term of terms) {
-    if (!term.identity || term.personId || !/:(lower|upper):/.test(term.seatId))
-      continue;
-    const key = `${term.identity.givenName}|${term.identity.familyName}|${term.identity.birthDate}|${term.seatId}`;
-    runs.set(key, [...(runs.get(key) ?? []), term]);
-  }
-  const longest = [...runs.values()].sort(
-    (a, b) => b.length - a.length || a[0]!.id.localeCompare(b[0]!.id),
-  )[0];
+  // The longest-serving legislator, opened from the term they serve now: a
+  // holder from another place has their earlier terms of the seat written
+  // the first time their card opens (offices.ts openPastTerms).
+  const offices = coreAPI(core).moduleState("core2-offices-v1").table("terms");
+  const legislators = (offices.rows() as unknown as TermRow[])
+    .filter(
+      (term) =>
+        term.status === "serving" &&
+        term.identity &&
+        !term.personId &&
+        /:(lower|upper):/.test(term.seatId),
+    )
+    .sort(
+      (a, b) =>
+        (a.serviceStart ?? a.startDate).localeCompare(
+          b.serviceStart ?? b.startDate,
+        ) || a.id.localeCompare(b.id),
+    );
+  const serving = legislators[0]!;
+  const official = knownCard(core, me, `official:${serving.id}`);
+  const key = (term: TermRow) =>
+    `${term.identity!.givenName}|${term.identity!.familyName}|${term.identity!.birthDate}|${term.seatId}`;
+  const longest = (offices.rows() as unknown as TermRow[]).filter(
+    (term) => term.identity && key(term) === key(serving),
+  );
   expect(
-    longest?.length,
+    longest.length,
     `${where}: a legislator with three terms or more`,
   ).toBeGreaterThanOrEqual(3);
-  const byStart = [...longest!].sort((a, b) =>
+  const byStart = [...longest].sort((a, b) =>
     a.startDate.localeCompare(b.startDate),
   );
-  const official = knownCard(core, me, `official:${byStart.at(-1)!.id}`);
   show("official", official);
   const name = `${byStart[0]!.identity!.givenName} ${byStart[0]!.identity!.familyName}`;
   expectSentences(`${where} official`, official.history);

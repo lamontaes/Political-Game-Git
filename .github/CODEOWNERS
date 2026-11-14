@@ -16,6 +16,7 @@
 /src/core2/stopgaps.ts @lamontaes
 /src/core2/seeded.ts @lamontaes
 /src/core2/world-base-rates.ts @lamontaes
+/src/core2/shares.ts @lamontaes
 /src/core2/world-draw.ts @lamontaes
 /src/core2/union-rate.ts @lamontaes
 /src/core2/module-*.ts @lamontaes
@@ -311,6 +312,7 @@
 /src/core2/place-map.ts @lamontaes
 /src/core2/place-lookup.ts @lamontaes
 /src/core2/coarse-place.ts @lamontaes
+/src/core2/community-events-table.ts @lamontaes
 /src/core2/world-settings.ts @lamontaes
 /src/core2/player-*.ts @lamontaes
 /src/core2/opening-*.ts @lamontaes
