@@ -542,6 +542,23 @@ export function pieceSpotSubjects(
   return [...seen.values()];
 }
 
+/**
+ * The verdict on one line in one spot: the spot's own, else the line's. A rule
+ * judged line by line before it judged spots (narration-assumes-no-reason's
+ * sample of Nov 14) keeps those verdicts: a reviewer who judged the line
+ * judged it in every spot it was said then, so the line verdict stands for
+ * each spot until one is judged on its own.
+ */
+export function spotVerdict(
+  store: JudgedStore | undefined,
+  subject: Pick<SpotSubject, "id" | "piece">,
+): "no" | "yes" | undefined {
+  return (
+    verdictOf(store, subject.id) ??
+    verdictOf(store, pieceVerdictId(subject.piece))
+  );
+}
+
 /** Every line-in-spot a spot rule judges now: the grades do not hold the line. */
 export function spotSubjects(
   rule: LineRule,
@@ -564,7 +581,7 @@ export function spotsJudgedNo(
   const store = stores?.get(rule.id);
   if (!store) return [];
   return pieceSpotSubjects(rule, piece)
-    .filter((subject) => verdictOf(store, subject.id) === "no")
+    .filter((subject) => spotVerdict(store, subject) === "no")
     .map((subject) => subject.spot);
 }
 
@@ -790,13 +807,17 @@ export function runRules(
   for (const rule of rules.filter(judgesLines)) {
     const store = stores.get(rule.id);
     // A spot rule judges each line in each spot it is said; another, each line.
-    const judging = judgesSpots(rule)
-      ? spotSubjects(rule, pieces, ledger).map((subject) => subject.id)
-      : lineSubjects(rule, pieces, ledger).map(pieceVerdictId);
+    const judging: (() => "no" | "yes" | undefined)[] = judgesSpots(rule)
+      ? spotSubjects(rule, pieces, ledger).map(
+          (subject) => () => spotVerdict(store, subject),
+        )
+      : lineSubjects(rule, pieces, ledger).map(
+          (piece) => () => verdictOf(store, pieceVerdictId(piece)),
+        );
     let judged = 0;
     let bad = 0;
-    for (const id of judging) {
-      const verdict = verdictOf(store, id);
+    for (const read of judging) {
+      const verdict = read();
       if (verdict) judged += 1;
       if (verdict === "no") bad += 1;
     }

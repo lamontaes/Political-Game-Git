@@ -59,6 +59,7 @@ import {
   lineSubjects,
   pieceVerdictId,
   spotSubjects,
+  spotVerdict,
   type LineRule,
 } from "../../src/english/line-rules";
 import { talkReplyFlow, talkScenes } from "../../src/director/scene-talk";
@@ -199,7 +200,7 @@ export function lineSheets(
   // in, with who says it to whom and where (the use's tags).
   const lines: SheetLine[] = judgesSpots(rule)
     ? spotSubjects(rule, pieces, ledger)
-        .filter((subject) => verdictOf(store, subject.id) === undefined)
+        .filter((subject) => spotVerdict(store, subject) === undefined)
         .map((subject) => ({
           id: subject.id,
           key: subject.piece.key,

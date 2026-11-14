@@ -3,6 +3,7 @@ import { withoutPulledUses } from "./bank-parts";
 import type { PartGradeLedger } from "./english-grades";
 import type { JudgedStores } from "./judged";
 import {
+  pieceVerdictId,
   pulledFileOf,
   ruleFlags,
   runRules,
@@ -314,5 +315,44 @@ describe("a verdict on a line in its spot", () => {
       stores,
     );
     expect(result.awaitingVerdict).toEqual({ fits: 2 });
+  });
+
+  it("a verdict on the whole line, from before the rule judged spots, stands for each spot", () => {
+    const byLine = (verdict: "no" | "yes"): JudgedStores =>
+      new Map([
+        [
+          "fits",
+          {
+            no: new Map(
+              verdict === "no"
+                ? [
+                    [
+                      pieceVerdictId(drive),
+                      { keys: [drive.key], why: "creepy" },
+                    ],
+                  ]
+                : [],
+            ),
+            yes: new Set(verdict === "yes" ? [pieceVerdictId(other)] : []),
+          },
+        ],
+      ]);
+    const waiting = runRules(
+      [spotRule("sample")],
+      [drive, other],
+      NO_GRADES,
+      {},
+      byLine("yes"),
+    );
+    expect(waiting.awaitingVerdict).toEqual({ fits: 2 });
+    const pulled = runRules(
+      [spotRule("enforced")],
+      [drive, other, auntOther],
+      NO_GRADES,
+      {},
+      byLine("no"),
+    );
+    expect(pulled.pulled).toEqual({ "k.drive": ["fits"] });
+    expect(pulled.pulledUses).toEqual({});
   });
 });
