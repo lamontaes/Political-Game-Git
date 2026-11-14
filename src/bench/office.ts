@@ -190,10 +190,19 @@ function residentNote(
     )
   )
     return null;
+  // The line counts the items a resident can speak on: not one already taken up, nor one
+  // a committee already decided (those show only "Read the bill").
+  const api = coreAPI(core);
+  const open = meeting.agenda.filter(
+    (id) =>
+      !meeting.takenUp.includes(id) &&
+      legislatureBillOf(api, id).status === "drafted",
+  ).length;
+  if (!open) return null;
   // Of two, "either"; of more, "any of the three" (Words lead, Nov 13).
-  if (items === 1) return pick("meeting.resident-can-speak-one.1", { body });
-  if (items === 2) return pick("meeting.resident-can-speak-two.1", { body });
-  return pick("meeting.resident-can-speak.1", { body, count: count(items) });
+  if (open === 1) return pick("meeting.resident-can-speak-one.1", { body });
+  if (open === 2) return pick("meeting.resident-can-speak-two.1", { body });
+  return pick("meeting.resident-can-speak.1", { body, count: count(open) });
 }
 
 /** The meeting holding the player's clock: the room, the agenda, and what was taken up. */

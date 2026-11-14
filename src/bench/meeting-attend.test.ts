@@ -236,9 +236,17 @@ it("at a board with a committee stage a resident is offered a remark, speaks, an
       continue;
     }
     expect(scene.seated, `${where}: not seated`).toBe(false);
-    expect(scene.note, `${where}: the resident's line`).toMatch(
-      /speak for or against/,
-    );
+    // The line counts the items they can speak on, not the whole agenda.
+    const open = scene.items.filter(
+      (row) => !row.takenUp && row.status === "drafted",
+    ).length;
+    const counted =
+      open === 1
+        ? /the one item/
+        : open === 2
+          ? /either of the two/
+          : /any of the/;
+    expect(scene.note, `${where}: the resident's line`).toMatch(counted);
     meetingSpeak(core, scene.id, item.billId, "for");
     expect(
       remarksOn(api, item.billId).some(
